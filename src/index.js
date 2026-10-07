@@ -1,4 +1,5 @@
-import { appendFile } from 'node:fs/promises';
+import { appendFile, mkdir, readFile, writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import { createHash } from 'node:crypto';
 import { loadConfig } from './config.js';
 import { createContext, log } from './context.js';
@@ -21,6 +22,8 @@ const SOURCES = [
 const KEY_VERSION = 'v2';
 const STATE_SAVE_EVERY_MS = 5 * 60 * 1000;
 const QUOTA_CHECK_EVERY = 25;
+// Only documents reach Drive. HTML is printed to PDF; CSV, TXT and legacy Office files are converted.
+const UPLOAD_TYPES = new Set(['pdf', 'xlsx', 'xlsm', 'docx', 'pptx']);
 
 function truthy(value) {
   return /^(1|true|yes|on)$/i.test(String(value || '').trim());
@@ -71,8 +74,9 @@ async function writeStepSummary(report, dryRun, shardLabel) {
 }
 
 class Run {
-  constructor({ settings, store, existingKeys, dryRun, anonymizer }) {
+  constructor({ settings, store, existingKeys, dryRun, anonymizer, ctx }) {
     this.settings = settings;
+    this.ctx = ctx;
     this.store = store;
     this.existingKeys = existingKeys;
     this.dryRun = dryRun;
@@ -153,16 +157,31 @@ class Run {
       }
     }
 
+    if (ext === 'htm' || ext === 'html') {
+      try {
+        buffer = await this.ctx.htmlToPdf(buffer);
+        ext = 'pdf';
+        contentType = 'application/pdf';
+      } catch (err) {
+        report.errors.push(`${company.ticker}: not uploaded, PDF conversion failed: ${err.message} (${item.sourceUrl})`);
+        log.error(`${company.ticker}: PDF conversion failed: ${err.message}`);
+        return false;
+      }
+    }
+    if (!UPLOAD_TYPES.has(ext)) {
+      report.skipped.push(`${company.ticker}: .${ext} is not a document type that is uploaded (${item.sourceUrl})`);
+      return true;
+    }
+
     if (!(await this.roomFor(buffer.length))) return false;
 
-    const convertToGoogleDoc = settings.convertHtmlToGoogleDocs && (ext === 'htm' || ext === 'html');
     const name = smartFileName({
       code: company.code,
       periodLabel: period,
       docType: item.docType,
       date: item.date,
       hint: settings.anonymize.enabled ? scrubHint(item.hint, company) : item.hint,
-      ext: convertToGoogleDoc ? '' : ext
+      ext
     });
 
     try {
@@ -174,7 +193,7 @@ class Run {
         buffer,
         mimeType: contentType && contentType !== 'application/octet-stream' ? contentType : mimeForExtension(ext),
         sourceKey: key,
-        convertToGoogleDoc
+        convertToGoogleDoc: false
       });
       this.existingKeys.add(key);
       this.freeBytes -= buffer.length;
@@ -224,14 +243,18 @@ async function main() {
   ctx.stats = { filingsSkipped: 0 };
   let store = null;
   let existingKeys = new Set();
-  let privateFolder = null;
-  const stateName = `state-shard-${shardIndex + 1}-of-${shardCount}.json`;
-  ctx.state = {};
+  // Run state lives on the runner and is carried between runs by the Actions cache,
+  // so no bookkeeping files end up in Drive.
+  const stateDir = process.env.STATE_DIR || '.state';
+  const statePath = join(stateDir, `shard-${shardIndex + 1}-of-${shardCount}.json`);
+  try {
+    ctx.state = JSON.parse(await readFile(statePath, 'utf8'));
+  } catch {
+    ctx.state = {};
+  }
   if (!dryRun || hasDriveCredentials()) {
     store = await createDriveStore(settings);
     existingKeys = await store.loadExistingSourceKeys();
-    privateFolder = await store.ensureFolder('root', settings.drivePrivateFolderName);
-    ctx.state = (await store.readPrivateJson(privateFolder, stateName)) || {};
     log.info(`Drive ready; ${existingKeys.size} file(s) already collected`);
   } else {
     log.info('Dry run without Drive credentials: everything found will be listed as new');
@@ -243,7 +266,8 @@ async function main() {
     ctx.state.doneFilings = [...ctx.doneFilings];
     ctx.state.savedAt = new Date().toISOString();
     try {
-      await store.writePrivateFile(privateFolder, stateName, JSON.stringify(ctx.state), 'application/json');
+      await mkdir(stateDir, { recursive: true });
+      await writeFile(statePath, JSON.stringify(ctx.state));
     } catch (err) {
       log.warn(`Could not save run state: ${err.message}`);
     }
@@ -252,8 +276,9 @@ async function main() {
   if (store && !dryRun && settings.anonymize.enabled && shardIndex === 0) {
     const csv = ['code,ticker,name,cik', ...companies.map((c) => [c.code, c.ticker, `"${c.name.replace(/"/g, '""')}"`, c.ciks.join(' ')].join(','))].join('\n');
     const hash = createHash('sha1').update(csv).digest('hex');
-    if (await store.writePrivateFile(privateFolder, 'company-key.csv', `${csv}\n`, 'text/csv', hash)) {
-      log.info(`Company code key written to "${settings.drivePrivateFolderName}/company-key.csv"`);
+    const privateFolder = await store.ensureFolder('root', settings.drivePrivateFolderName);
+    if (await store.writeKeySheet(privateFolder, 'company-key', `${csv}\n`, hash)) {
+      log.info(`Company code key written to the Google Sheet "${settings.drivePrivateFolderName}/company-key"`);
     }
   }
 
@@ -268,7 +293,7 @@ async function main() {
       : null;
   if (anonymizer) await anonymizer.start();
 
-  const run = new Run({ settings, store, existingKeys, dryRun, anonymizer });
+  const run = new Run({ settings, store, existingKeys, dryRun, anonymizer, ctx });
   let sourceRuns = 0;
   let sourceFailures = 0;
   let lastSave = Date.now();

@@ -39,7 +39,8 @@ WORD_TICKERS = {"LOW", "CAT", "COST", "DIS", "ALL", "PEP", "HON", "AMP", "KEY", 
 NER_MAX_CHARS = 3_000_000
 NER_CHUNK = 100_000
 OOXML_TEXT_PARTS = re.compile(r"^(word/.*\.xml|ppt/.*\.xml|xl/sharedStrings\.xml|xl/worksheets/sheet\d+\.xml|xl/comments\d*\.xml|xl/charts/.*\.xml|xl/drawings/.*\.xml|docProps/.*\.xml)$")
-LEGACY = {"xls": "xlsx", "doc": "docx", "ppt": "pptx"}
+# Formats converted with LibreOffice before anonymising, so only documents reach Drive.
+LEGACY = {"xls": "xlsx", "doc": "docx", "ppt": "pptx", "csv": "xlsx", "txt": "docx"}
 
 nlp = None
 

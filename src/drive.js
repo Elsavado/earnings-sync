@@ -144,29 +144,43 @@ export class DriveStore {
     return res.data.files?.[0] || null;
   }
 
-  async readPrivateJson(folderId, name) {
-    const file = await this.findPrivateFile(folderId, name);
-    if (!file) return null;
-    const res = await this.drive.files.get({ fileId: file.id, alt: 'media', supportsAllDrives: true }, { responseType: 'text' });
-    try {
-      return typeof res.data === 'string' ? JSON.parse(res.data) : res.data;
-    } catch {
-      return null;
-    }
+  // The code -> company key, stored as a Google Sheet (no Drive storage used). Replaced
+  // only when its content changes. Returns false when unchanged.
+  async writeKeySheet(folderId, name, csv, contentHash) {
+    const existing = await this.findPrivateFile(folderId, name);
+    if (existing && existing.appProperties?.irHash === contentHash) return false;
+    await this.drive.files.create({
+      requestBody: { name, parents: [folderId], mimeType: 'application/vnd.google-apps.spreadsheet', appProperties: { irPrivate: '1', irHash: contentHash } },
+      media: { mimeType: 'text/csv', body: Readable.from(Buffer.from(csv, 'utf8')) },
+      fields: 'id',
+      supportsAllDrives: true
+    });
+    if (existing) await this.drive.files.delete({ fileId: existing.id, supportsAllDrives: true });
+    return true;
   }
 
-  // Creates or replaces a small private file (state, company key). Returns false when unchanged.
-  async writePrivateFile(folderId, name, text, mimeType, contentHash) {
-    const existing = await this.findPrivateFile(folderId, name);
-    if (existing && contentHash && existing.appProperties?.irHash === contentHash) return false;
-    const media = { mimeType, body: Readable.from(Buffer.from(text, 'utf8')) };
-    const appProperties = { irPrivate: '1', ...(contentHash ? { irHash: contentHash } : {}) };
-    if (existing) {
-      await this.drive.files.update({ fileId: existing.id, media, requestBody: { appProperties }, supportsAllDrives: true });
-    } else {
-      await this.drive.files.create({ requestBody: { name, parents: [folderId], appProperties }, media, fields: 'id', supportsAllDrives: true });
-    }
-    return true;
+  // Every file this app created, for the one-off cleanup.
+  async listAppFiles() {
+    const files = [];
+    let pageToken;
+    do {
+      const res = await this.drive.files.list({
+        q: 'trashed = false',
+        fields: 'nextPageToken, files(id, name, mimeType, size, parents, appProperties)',
+        pageSize: 1000,
+        pageToken,
+        supportsAllDrives: true,
+        includeItemsFromAllDrives: true,
+        corpora: 'allDrives'
+      });
+      files.push(...(res.data.files || []));
+      pageToken = res.data.nextPageToken;
+    } while (pageToken);
+    return files;
+  }
+
+  async deleteFile(fileId) {
+    await this.drive.files.delete({ fileId, supportsAllDrives: true });
   }
 
   async upload({ folderId, name, buffer, mimeType, sourceKey, convertToGoogleDoc }) {

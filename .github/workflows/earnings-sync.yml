@@ -15,12 +15,39 @@ on:
         type: boolean
         required: false
         default: false
+      cleanup:
+        description: 'Instead of syncing, delete non-document files (htm, csv, json, txt) this app put in Drive'
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: read
 
 jobs:
+  cleanup:
+    if: ${{ github.event.inputs.cleanup == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Remove non-document files from Drive
+        run: node src/cleanup.js
+        env:
+          DRY_RUN: ${{ github.event.inputs.dry_run }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          DRIVE_ROOT_FOLDER_ID: ${{ secrets.DRIVE_ROOT_FOLDER_ID }}
+
   sync:
+    if: ${{ github.event.inputs.cleanup != 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 58
     strategy:
@@ -60,11 +87,17 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq --no-install-recommends libreoffice-calc-nogui libreoffice-writer-nogui libreoffice-impress-nogui > /dev/null
 
-      - name: Install Chromium when a page needs rendering
-        run: |
-          if node src/needs-browser.js; then
-            npx playwright install --with-deps chromium
-          fi
+      - name: Install Chromium (renders IR pages, prints SEC HTML to PDF)
+        run: npx playwright install --with-deps chromium
+
+      # Run state (finished filings, cached SEC archive pages) is kept in the Actions
+      # cache rather than in Drive. Each run restores the newest copy for its shard.
+      - name: Restore run state
+        uses: actions/cache/restore@v4
+        with:
+          path: .state
+          key: sync-state-${{ matrix.shard }}-${{ github.run_id }}
+          restore-keys: sync-state-${{ matrix.shard }}-
 
       - name: Run sync
         run: node src/index.js
@@ -82,3 +115,10 @@ jobs:
           GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
           DRIVE_ROOT_FOLDER_ID: ${{ secrets.DRIVE_ROOT_FOLDER_ID }}
+
+      - name: Save run state
+        if: ${{ always() && github.event.inputs.dry_run != 'true' }}
+        uses: actions/cache/save@v4
+        with:
+          path: .state
+          key: sync-state-${{ matrix.shard }}-${{ github.run_id }}
