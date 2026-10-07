@@ -39,8 +39,9 @@ Every file is pseudonymised **before** upload by `anonymizer/worker.py`: identif
 | E-mails and phone numbers | `investor.relations@<name>.example`, `(555) 555-01xx` (reserved for fiction) |
 | Document metadata (author, title, company) | Removed or fictional |
 | Header and footer logos in PDFs | Removed |
+| Pictures of people (any image with a face, OpenCV) | Blanked: the area is left empty in PDFs; Office files get a white image of the same size |
 
-Names of the other listed companies get their own fictional names too. In PDFs the real words are removed from the page and the fictional text is written in their place. Everything is derived from the `ANON_KEY` secret, and the key Google Sheet `Earnings Sync - private/company-key` maps codes and fictional names back to the real companies.
+Names are matched in any capitalisation and with any separator or punctuation ("LOWES COMPANIES INC", "JPMorganChase"), also when split across HTML tags or Word runs; an all-lowercase single word ("visa", "gap") is left alone. Names of the other listed companies get their own fictional names too, as does any known ticker after an exchange name. After redaction each PDF page is checked again, and a page that still shows a real name is covered and redrawn as an image. In PDFs the real words are removed from the page and the fictional text is written in their place. Everything is derived from the `ANON_KEY` secret, and the key Google Sheet `Earnings Sync - private/company-key` maps codes and fictional names back to the real companies.
 
 Only documents are uploaded: SEC HTML is printed to PDF after pseudonymising, CSV and TXT become XLSX and DOCX, and legacy `.xls`, `.doc`, `.ppt` are converted with LibreOffice. Every file name ends with a short ID from its source, so names are unique.
 

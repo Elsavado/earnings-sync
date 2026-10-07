@@ -17,6 +17,7 @@ following line is one job, and each job is answered with one JSON line on stdout
 PDFs: the real words are removed from the page (true redaction) and the fictional
 text is written in their place.
 """
+import bisect
 import hashlib
 import html
 import io
@@ -47,7 +48,7 @@ EXCHANGES = r"(?:NYSE|NASDAQ|Nasdaq|NasdaqGS|Nasdaq Global Select Market|New Yor
 WORD_TICKERS = {"LOW", "CAT", "COST", "DIS", "ALL", "PEP", "HON", "AMP", "KEY", "NOW", "ON", "IT", "ARE", "SO", "DE", "MO", "EL", "CL", "MA", "MS", "GS", "PM", "BA", "GE", "HD", "DG", "KO", "VZ"}
 NER_MAX_CHARS = 3_000_000
 NER_CHUNK = 100_000
-OOXML_TEXT_PARTS = re.compile(r"^(word/.*\.xml|ppt/.*\.xml|xl/sharedStrings\.xml|xl/worksheets/sheet\d+\.xml|xl/comments\d*\.xml|xl/charts/.*\.xml|xl/drawings/.*\.xml|docProps/.*\.xml)$")
+OOXML_TEXT_PARTS = re.compile(r"^(word/.*\.xml|ppt/.*\.xml|xl/sharedStrings\.xml|xl/worksheets/sheet\d+\.xml|xl/comments\d*\.xml|xl/charts/.*\.xml|xl/drawings/.*\.xml|xl/workbook\.xml|xl/externalLinks/.*\.xml|docProps/.*\.xml)$")
 # Formats converted with LibreOffice before anonymising, so only documents reach Drive.
 LEGACY = {"xls": "xlsx", "doc": "docx", "ppt": "pptx", "csv": "xlsx", "txt": "docx"}
 LEGAL_SUFFIX = re.compile(r"(?:,?\s+(?:Inc\.?|Incorporated|Corporation|Corp\.?|Company|Co\.|& Co\.?|& Company|plc|PLC|Limited|Ltd\.?|LLC|L\.L\.C\.|N\.A\.|National Association))+$")
@@ -59,6 +60,60 @@ BRAND_HEADS = ["Vel", "Zor", "Quin", "Bra", "Tor", "Lum", "Kav", "Nex", "Sol", "
 BRAND_TAILS = ["ora", "ix", "ent", "ara", "ion", "yx", "ella", "ova", "ius", "eon", "ani", "ero", "aro", "una", "ell"]
 
 nlp = None
+face_detectors = None
+MEDIA_IMAGE = re.compile(r"^(word|ppt|xl)/media/[^/]+\.(png|jpe?g|gif|bmp|tiff?)$", re.I)
+
+
+def load_face_detectors():
+    global face_detectors
+    if face_detectors is None:
+        try:
+            import cv2
+
+            face_detectors = [
+                cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml"),
+                cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_profileface.xml"),
+            ]
+        except Exception as err:  # noqa: BLE001
+            sys.stderr.write(f"OpenCV unavailable, pictures of people will not be removed: {err}\n")
+            face_detectors = []
+    return face_detectors
+
+
+def has_face(image_bytes):
+    """True when an image contains a human face (photos of executives, staff, customers)."""
+    detectors = load_face_detectors()
+    if not detectors:
+        return False
+    import cv2
+    import numpy as np
+
+    img = cv2.imdecode(np.frombuffer(image_bytes, np.uint8), cv2.IMREAD_GRAYSCALE)
+    if img is None or min(img.shape[:2]) < 48:
+        return False
+    if max(img.shape[:2]) > 1600:  # detection does not need full resolution
+        scale = 1600 / max(img.shape[:2])
+        img = cv2.resize(img, None, fx=scale, fy=scale)
+    img = cv2.equalizeHist(img)
+    side = max(24, min(img.shape[:2]) // 14)
+    for detector in detectors:
+        if len(detector.detectMultiScale(img, scaleFactor=1.1, minNeighbors=6, minSize=(side, side))):
+            return True
+    return False
+
+
+def blank_image(image_bytes, ext):
+    """A plain white image of the same size and format, so document layout is unchanged."""
+    import cv2
+    import numpy as np
+
+    img = cv2.imdecode(np.frombuffer(image_bytes, np.uint8), cv2.IMREAD_UNCHANGED)
+    if img is None:
+        return image_bytes
+    white = np.full(img.shape, 255, dtype=img.dtype)
+    fmt = "." + ("jpg" if ext.lower() in ("jpg", "jpeg") else ext.lower() if ext.lower() in ("png", "bmp", "tif", "tiff") else "png")
+    ok, buf = cv2.imencode(fmt, white)
+    return buf.tobytes() if ok else image_bytes
 
 
 def load_nlp():
@@ -83,6 +138,29 @@ def flex(term):
 
 def squash(text):
     return re.sub(r"[\s ]+", "", text)
+
+
+def loose_key(text):
+    return re.sub(r"[\s .,'’\-]+", "", text).lower()
+
+
+def loose_pattern(term):
+    """Regex for a name as documents actually write it: any separator between words
+    ("JPMorganChase", "1-800-FLOWERS.COM"), optional apostrophes, commas and dots
+    ("LOWES COMPANIES INC" for "Lowe's Companies, Inc.")."""
+    out = []
+    for ch in term:
+        if ch == " ":
+            out.append(r"[\s .,\-]*")
+        elif ch in "'’":
+            out.append(r"['’]?")
+        elif ch in ".,":
+            out.append(re.escape(ch) + "?")
+        elif ch == "-":
+            out.append(r"[\-\s]?")
+        else:
+            out.append(re.escape(ch))
+    return "".join(out)
 
 
 def bounded(body):
@@ -170,11 +248,20 @@ class Rules:
                 # of names in one pattern would make every document slow to process.
                 if self._strong(alias) and not c.get("auto"):
                     strong.append(alias)
-                    self.alias_map.setdefault(squash(alias), repl)
-        self.all_strong = self._union(strong)
+                    self.alias_map.setdefault(loose_key(alias), repl)
+        # Other companies' names: any capitalisation and separator, like the company's own.
+        if strong:
+            terms = sorted(set(strong), key=len, reverse=True)
+            loose = "|".join(loose_pattern(t) for t in terms)
+            self.all_strong = re.compile(rf"(?<![A-Za-z0-9])(?:{loose})(?-i:(?![a-z]))", re.I)
+        else:
+            self.all_strong = None
         self.per_company = {}
         self.markup = {}
         self.own_regex = {}
+        # Any known ticker after an exchange name ("NASDAQ: NVDA") gets its fictional ticker.
+        tickers = sorted(self.companies, key=len, reverse=True)
+        self.exchange_ticker = re.compile(rf"({EXCHANGES}\s*:\s*)(" + "|".join(re.escape(t) for t in tickers) + r")(?![\w.])")
 
     def _alias_pairs(self, c):
         """(real alias, fictional replacement) for every spelling of a company's names and brands."""
@@ -236,17 +323,26 @@ class Rules:
         fake = c["fake"]
         own_map = self.own_map[ticker]
         subs = []
-        if c.get("auto"):
-            # Names taken from SEC data ("1 800 Flowers COM") must still match the way
-            # documents write them ("1-800-FLOWERS.COM"): any case, any separator.
-            terms = sorted({a for a, _ in self._alias_pairs(c)}, key=len, reverse=True)
-            loose = "|".join(r"[\s .\-]*".join(re.escape(p) for p in t.split(" ")) for t in terms)
-            own = re.compile(rf"(?<![A-Za-z0-9])(?:{loose})(?![A-Za-z])", re.I) if terms else None
-        else:
-            own = self._union([a for a, _ in self._alias_pairs(c)])
+        # Every known name of the company matches in any capitalisation ("INTEL",
+        # "JPMORGAN CHASE") and with any separator ("1-800-FLOWERS.COM", "JPMorganChase").
+        # A following capital or digit is allowed ("MicrosoftCloudMember", "Intel1").
+        # All-lowercase single words ("visa", "gap") are left alone in Job._own_ok().
+        pairs = self._alias_pairs(c)
+        terms = sorted({a for a, _ in pairs}, key=len, reverse=True)
+        loose = "|".join(loose_pattern(t) for t in terms)
+        own = re.compile(rf"(?<![A-Za-z0-9])(?:{loose})(?-i:(?![a-z]))", re.I) if terms else None
+        own_lower = {}
+        for a, r in pairs:
+            own_lower.setdefault(loose_key(a), r)
         self.own_regex[ticker] = own
+
+        def own_repl(m):
+            text = m.group(0)
+            repl = own_lower.get(loose_key(text), fake["name"])
+            return repl.upper() if text.isupper() and len(text) > 3 else repl
+
         if own:
-            subs.append((own, lambda m: own_map.get(squash(m.group(0)), fake["name"])))
+            subs.append((own, own_repl))
         t = re.escape(ticker)
         ft, fl = fake["ticker"], fake["ticker"].lower()
         subs.append((re.compile(rf"({EXCHANGES}\s*:\s*){t}(?![\w])"), rf"\g<1>{ft}"))
@@ -288,22 +384,18 @@ class Job:
         self.fake = rules.fake
         self.ticker = ticker
         self.company = rules.companies[ticker]
-        self.stats = {"company": 0, "email": 0, "phone": 0, "person": 0, "ids": 0, "metadata": 0}
+        self.stats = {"company": 0, "email": 0, "phone": 0, "person": 0, "ids": 0, "metadata": 0, "faces": 0}
+        self.face_cache = {}
         self.names_re = None
         self.skip = set()
 
     def prepare(self, text):
-        """For bulk-added companies, a one-word name that the document also uses as an
-        ordinary lowercase word ("gap", "target") is left alone in that document."""
-        if not self.company.get("auto") or not text:
-            return
-        lower = set(re.findall(r"(?<![A-Za-z])[a-z]+(?![A-Za-z])", text))
-        for alias in self.rules.own_map[self.ticker]:
-            if alias.isalpha() and alias.lower() in lower:
-                self.skip.add(alias.lower())
+        """Hook for per-document preparation (kept for the format handlers)."""
 
     def _own_ok(self, rx, m):
-        return not (self.skip and rx is self.rules.own_regex.get(self.ticker) and squash(m.group(0)).lower() in self.skip)
+        # A one-word name written all in lowercase is an ordinary word ("visa", "gap").
+        text = m.group(0)
+        return not (rx is self.rules.own_regex.get(self.ticker) and text.islower() and text.isalpha())
 
     # --- text rules -------------------------------------------------------
     def _sub(self, regex, repl, text, key):
@@ -332,12 +424,20 @@ class Job:
             # E-mails first, while their domains are still recognisable.
             text = self._sub(EMAIL_RE, self._email, text, "email")
         if r.do_company:
+            text = self._sub(r.exchange_ticker, lambda m: m.group(1) + r.companies[m.group(2)]["fake"]["ticker"], text, "company")
             for regex, repl in r.company(self.ticker):
-                if callable(repl) and self.skip:
+                if callable(repl) and regex is r.own_regex.get(self.ticker):
                     repl = (lambda rx, fn: lambda m: fn(m) if self._own_ok(rx, m) else m.group(0))(regex, repl)
                 text = self._sub(regex, repl, text, "company")
             if r.all_strong:
-                text, n = r.all_strong.subn(lambda m: r.alias_map.get(squash(m.group(0)), self.company["fake"]["name"]), text)
+                def other(m):
+                    t = m.group(0)
+                    if t.islower():  # "home depot" in running text is not a name
+                        return t
+                    repl = r.alias_map.get(loose_key(t), self.company["fake"]["name"])
+                    return repl.upper() if t.isupper() and len(t) > 3 else repl
+
+                text, n = r.all_strong.subn(other, text)
                 self.stats["company"] += n
             text = self._sub(EIN_RE, lambda m: self.fake.digits_like(m.group(0), "ein"), text, "ids")
             text = self._sub(FILE_NO_RE, lambda m: self.fake.digits_like(m.group(0), "fileno"), text, "ids")
@@ -350,23 +450,27 @@ class Job:
                 text = self._sub(self.names_re, lambda m: self.fake.person(m.group(0)), text, "person")
         return text
 
-    def spans(self, text):
-        """Character spans that scrub() would change, for PDF redaction."""
+    def spans(self, text, identity_only=False):
+        """Character spans that scrub() would change, for PDF redaction. With
+        identity_only, only real names and company identifiers count: the fictional
+        phones, addresses and numbers just inserted look like the generic patterns."""
         r = self.rules
         regexes = []
         if r.do_company:
-            regexes += [rx for rx, _ in r.company(self.ticker)]
+            regexes += [rx for rx, _ in r.company(self.ticker)] + [r.exchange_ticker]
             if r.all_strong:
                 regexes.append(r.all_strong)
-            regexes += [EIN_RE, FILE_NO_RE, STREET_RE, CITY_ZIP_RE, DATELINE_RE]
+            if not identity_only:
+                regexes += [EIN_RE, FILE_NO_RE, STREET_RE, CITY_ZIP_RE, DATELINE_RE]
         if r.do_personal:
-            regexes += [EMAIL_RE, PHONE_RE]
+            if not identity_only:
+                regexes += [EMAIL_RE, PHONE_RE]
             if self.names_re:
                 regexes.append(self.names_re)
         out = []
         for rx in regexes:
             for m in rx.finditer(text):
-                if not self._own_ok(rx, m):
+                if not self._own_ok(rx, m) or (rx is r.all_strong and m.group(0).islower()):
                     continue
                 start, end = m.span()
                 if rx.groups and m.lastindex and rx.pattern.startswith("(") and m.group(1) is not None and m.start(1) == start:
@@ -422,6 +526,40 @@ class Job:
         pattern = "|".join(flex(n) for n in alts)
         self.names_re = re.compile(rf"(?:(?:Mr|Ms|Mrs|Dr|Messrs)\.?[\s ]+)?" + bounded("(?:" + pattern + ")"))
 
+    def join_split(self, texts):
+        """Replace names that are split across several text pieces, such as
+        <span>Wells</span> <span>Fargo</span> or Word runs, which a piece-by-piece pass
+        would miss. The replacement goes in the first piece; the rest of the name is
+        removed from the following pieces. Returns the new list of pieces."""
+        if len(texts) < 2:
+            return texts
+        starts, pos = [], 0
+        for t in texts:
+            starts.append(pos)
+            pos += len(t)
+        joined = "".join(texts)
+        merged = []
+        for s, e in sorted(self.spans(joined)):
+            if merged and s < merged[-1][1]:
+                merged[-1] = (merged[-1][0], max(e, merged[-1][1]))
+            else:
+                merged.append((s, e))
+        out = list(texts)
+        for s, e in reversed(merged):
+            i = bisect.bisect_right(starts, s) - 1
+            j = bisect.bisect_right(starts, e - 1) - 1
+            if i == j:
+                continue  # inside one piece: the normal pass handles it
+            original = joined[s:e]
+            new = self.scrub(original)
+            if new == original:
+                continue
+            out[j] = out[j][e - starts[j]:]
+            for k in range(i + 1, j):
+                out[k] = ""
+            out[i] = out[i][: s - starts[i]] + new
+        return out
+
     # --- formats ----------------------------------------------------------
     def text_file(self, data, is_html):
         text = decode(data)
@@ -431,13 +569,13 @@ class Job:
             self.prepare(visible)
             self.learn_names(visible)
             parts = re.split(r"(<[^>]+>)", text)
+            text_idx = [i for i, p in enumerate(parts) if p and not p.startswith("<")]
+            fixed = self.join_split([html.unescape(parts[i]) for i in text_idx])
+            for i, new in zip(text_idx, fixed):
+                parts[i] = html.escape(self.scrub(new), quote=False)
             for i, part in enumerate(parts):
-                if not part:
-                    continue
-                if part.startswith("<"):
+                if part and part.startswith("<"):
                     parts[i] = self.scrub_markup(part)
-                else:
-                    parts[i] = html.escape(self.scrub(html.unescape(part)), quote=False)
             text = "".join(parts)
         else:
             self.prepare(text)
@@ -518,11 +656,61 @@ class Job:
             for link in page.get_links():
                 if link.get("uri"):
                     page.delete_link(link)
-            if runs or logos:
+            # Pictures of people: blank every placement of an image that contains a face.
+            faces = 0
+            for img in page.get_images(full=True):
+                xref = img[0]
+                if xref not in self.face_cache:
+                    try:
+                        self.face_cache[xref] = has_face(doc.extract_image(xref)["image"])
+                    except Exception:  # noqa: BLE001
+                        self.face_cache[xref] = False
+                if self.face_cache[xref]:
+                    for rect in page.get_image_rects(xref):
+                        page.add_redact_annot(rect & page.rect, fill=(1, 1, 1))
+                        faces += 1
+            self.stats["faces"] += faces
+            if runs or logos or faces:
                 self.stats["company"] += len(runs) + logos
                 page.apply_redactions(images=fitz.PDF_REDACT_IMAGE_PIXELS, graphics=fitz.PDF_REDACT_LINE_ART_NONE)
                 for point, text_new, size in inserts:
                     page.insert_text(point, text_new, fontsize=size, fontname="helv", color=(0, 0, 0))
+        # Re-check every page. Text the redaction cannot reach (for example slide footers
+        # stored as reusable sub-objects) is covered, and that page is redrawn as an image.
+        leaking = {}
+        for i, page in enumerate(doc):
+            words = page.get_text("words")
+            if not words:
+                continue
+            parts, offsets, pos = [], [], 0
+            for idx, w in enumerate(words):
+                offsets.append((pos, pos + len(w[4]), idx))
+                parts.append(w[4])
+                pos += len(w[4]) + 1
+            bad = set()
+            for start, end in self.spans(" ".join(parts), identity_only=True):
+                for s0, e0, idx in offsets:
+                    if s0 < end and e0 > start:
+                        bad.add(idx)
+            if bad:
+                leaking[i] = [(fitz.Rect(words[idx][:4]), self.scrub(words[idx][4])) for idx in sorted(bad)]
+        if leaking:
+            out_doc = fitz.open()
+            for i, page in enumerate(doc):
+                if i not in leaking:
+                    out_doc.insert_pdf(doc, from_page=i, to_page=i)
+                    continue
+                for rect, new in leaking[i]:
+                    page.draw_rect(rect, color=None, fill=(1, 1, 1), overlay=True)
+                    if new:
+                        page.insert_text(fitz.Point(rect.x0, rect.y1 - rect.height * 0.24), new, fontsize=max(rect.height * 0.7, 3), fontname="helv")
+                pix = page.get_pixmap(dpi=150)
+                new_page = out_doc.new_page(width=page.rect.width, height=page.rect.height)
+                new_page.insert_image(new_page.rect, pixmap=pix)
+            self.stats["company"] += sum(len(v) for v in leaking.values())
+            self.stats["rasterised_pages"] = len(leaking)
+            doc.close()
+            doc = out_doc
         doc.set_metadata({})
         doc.del_xml_metadata()
         doc.set_toc([])
@@ -549,6 +737,9 @@ class Job:
                     raw = self.strip_props(raw.decode("utf-8", "replace")).encode("utf-8")
                 elif OOXML_TEXT_PARTS.match(name):
                     raw = self.ooxml_part(raw.decode("utf-8", "replace")).encode("utf-8")
+                elif MEDIA_IMAGE.match(name) and has_face(raw):
+                    raw = blank_image(raw, name.rsplit(".", 1)[-1])
+                    self.stats["faces"] += 1
                 elif name.endswith(".rels"):
                     raw = re.sub(r'(Target=")([^"]*)(")', lambda m: m.group(1) + html.escape(self.scrub(html.unescape(m.group(2))), quote=True) + m.group(3), raw.decode("utf-8", "replace")).encode("utf-8")
                 dst.writestr(info, raw)
@@ -557,8 +748,11 @@ class Job:
     def ooxml_part(self, xml):
         fake_ticker = self.company["fake"]["ticker"]
 
-        def text_node(m):
-            raw = html.unescape(m.group(1))
+        nodes = list(re.finditer(r">([^<]+)<", xml))
+        # Word and PowerPoint split text into runs; names can span several of them.
+        fixed = self.join_split([html.unescape(m.group(1)) for m in nodes])
+
+        def text_node(raw):
             if raw.strip() == self.ticker:  # spreadsheet cover cells such as "Trading Symbol | T"
                 self.stats["company"] += 1
                 new = raw.replace(self.ticker, fake_ticker)
@@ -571,7 +765,13 @@ class Job:
             value = m.group(2)
             return f'{m.group(1)}="{html.escape(self.fake.person(value) if re.search(r"[A-Za-z]{2}", value) else value, quote=True)}"'
 
-        xml = re.sub(r">([^<]+)<", text_node, xml)
+        pieces, last = [], 0
+        for m, raw in zip(nodes, fixed):
+            pieces.append(xml[last : m.start()])
+            pieces.append(text_node(raw))
+            last = m.end()
+        pieces.append(xml[last:])
+        xml = "".join(pieces)
         return re.sub(r'\b((?:w:)?author|w:initials|initials|userId|displayName)="([^"]*)"', author, xml)
 
     def strip_props(self, xml):
