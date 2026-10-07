@@ -129,6 +129,7 @@ jobs:
         with:
           name: more-work-${{ matrix.shard }}
           path: .signal/
+          include-hidden-files: true
           retention-days: 1
 
   # While the backfill is unfinished, start the next run as soon as this one ends
