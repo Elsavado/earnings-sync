@@ -1,116 +1,71 @@
 # Earnings Sync
 
-Runs on GitHub Actions twice a day. For every company in `companies.json` it collects new earnings material and files it in Google Drive:
+Runs on GitHub Actions every hour. For every company in `companies.json` it collects earnings and financial-analysis documents from fiscal 2020 onward, **anonymises them**, gives them consistent names and files them in Google Drive:
 
 ```
 Earnings Calls/
-  AAPL/
-    FY2026-Q4/
-      AAPL_FY2026-Q4_transcript_fmp.txt
-      AAPL_FY2026-Q4_press-release_ex-99-1-0000320193-26-000071   (Google Doc)
-      AAPL_FY2026-Q4_presentation_q4-fy26-slides.pdf
+  CO-3FA21C/                      (company code, not the ticker)
+    FY2026-Q2/
+      CO-3FA21C_FY2026-Q2_earnings-release_2026-07-14_ex991.htm
+      CO-3FA21C_FY2026-Q2_financial-supplement_2026-07-14_ex992.htm
+      CO-3FA21C_FY2026-Q2_quarterly-report-10q_2026-08-01.htm
+      CO-3FA21C_FY2026-Q2_financial-statements-10q_2026-08-01.xlsx
+      CO-3FA21C_FY2026-Q2_investor-presentation_earnings.pdf
+Earnings Sync - private/
+  company-key.csv                 (code -> ticker; keep this private)
+  state-shard-N-of-4.json         (run bookkeeping)
 ```
 
-| Source | What it gets | Needs |
-|---|---|---|
-| SEC EDGAR | Exhibit 99.x of every 8-K filed under Item 2.02 (earnings release, often slides or supplements) | `SEC_USER_AGENT` secret |
-| Financial Modeling Prep | Full call transcripts | `FMP_API_KEY` secret (transcripts require a paid FMP plan) |
-| Company IR pages | PDFs, slides, audio and spreadsheets linked from the pages you list | URLs in `companies.json` |
+| Source | What it gets |
+|---|---|
+| SEC EDGAR | Every 8-K under Item 2.02 (earnings release, supplements, slides as Exhibit 99.x), every 10-Q and 10-K, and the SEC's `Financial_Report.xlsx` workbook where the SEC has generated one. Older archive pages are followed, so history reaches back to 2020 even for heavy filers. |
+| Company IR pages | PDF, XLS/XLSX/XLSM, CSV, DOC/DOCX, PPT/PPTX and TXT files linked from the page in `companies.json`. If that page is gone (404) the IR home page is searched for its results page. Most IR pages only list recent quarters; some block automated visitors. |
+| Financial Modeling Prep | Call transcripts, only with an `FMP_API_KEY` on a paid plan. |
 
-Each file is tagged in Drive with a hash of where it came from, so nothing is downloaded twice. Delete a file from Drive (and empty the trash) to make it download again.
+Quarters are **fiscal**, using each company's `fiscalYearEndMonth` (taken from SEC data). 52/53-week years are handled: a period ending in the first week of a month counts as the previous month.
 
-Quarters are **fiscal**, using each company's `fiscalYearEndMonth`. Apple's December quarter therefore lands in `FY2026-Q1`.
+## Anonymisation
 
----
+Every file is anonymised **before** upload by `anonymizer/worker.py`. If a file cannot be anonymised it is not uploaded.
 
-## Setup (browser only, about 20 minutes)
+- **Company identity**: the company's names, brands and aliases (`aliases` in `companies.json`), its ticker in safe forms (`NYSE: XYZ`, XBRL prefixes, file names), web domains, SEC CIK, commission file number and EIN become the company code or a tag. Names of the other listed companies become their codes too.
+- **Personal data**: e-mail addresses and phone numbers, people's names found by spaCy named-entity recognition, and author/creator metadata.
+- **PDFs are redacted properly**: matching words are removed from the page, not just covered, and document metadata, links and outlines are stripped.
+- **Legacy `.xls`, `.doc`, `.ppt`** are converted to `.xlsx`, `.docx`, `.pptx` with LibreOffice first.
 
-### 1. Put the code in a GitHub repository
+Codes are `CO-` plus six hex characters of an HMAC of the ticker with the `ANON_KEY` secret, so the public ticker list does not reveal which code is which. The mapping is written to `Earnings Sync - private/company-key.csv` in your Drive.
 
-1. On GitHub, create a new **private** repository, for example `earnings-sync`.
-2. Click **Add file > Upload files**, drag in everything from this folder **except** the `.github` folder, and commit.
-3. Click **Add file > Create new file**, type the name `.github/workflows/earnings-sync.yml`, paste the contents of that file, and commit. (Uploading hidden folders through the browser is unreliable, so create this one by hand.)
+Limits worth knowing: logos and other images are not changed; product names that are not in `aliases` stay; figures, segment names and context can still let a knowledgeable reader guess a company; name detection is statistical and will miss some names and catch some non-names.
 
-### 2. Create Google credentials
+## Running
 
-1. Go to <https://console.cloud.google.com/>, create a project, then open **APIs & Services > Library**, search **Google Drive API** and click **Enable**.
-2. **APIs & Services > OAuth consent screen**: choose **External**, fill in the app name and your email, and save. Add your own Gmail address as a test user, then click **Publish app** so it moves to **In production**. (Apps left in Testing issue tokens that expire after 7 days, which would break the nightly run. You'll see an "unverified app" warning when you sign in; that's expected for a personal tool.)
-3. **APIs & Services > Credentials > Create credentials > OAuth client ID**: type **Web application**, and under **Authorized redirect URIs** add `https://developers.google.com/oauthplayground`. Create it and copy the **Client ID** and **Client secret**.
+- **Schedule**: hourly at :07, split into 4 parallel shards. Each run works for up to 45 minutes and the next run continues where it stopped, so the backfill takes several hours.
+- **Rate limits**: SEC requests are spaced so the four shards together stay under the SEC's 10 requests per second; IR sites get one request per second.
+- **Drive space**: uploads stop when Drive is within `driveReserveMB` (default 1 GB) of full.
+- **Re-runs**: each file is tagged with a hash of where it came from, and finished filings are remembered, so nothing is collected twice.
 
-### 3. Get a refresh token (OAuth Playground)
+Manual run: **Actions > Earnings sync > Run workflow**, optionally with tickers and **dry run** (lists what would be collected, no downloads).
 
-1. Open <https://developers.google.com/oauthplayground>.
-2. Click the gear icon (top right), tick **Use your own OAuth credentials**, and paste your Client ID and Client secret.
-3. In the box under the API list on the left, type `https://www.googleapis.com/auth/drive.file` and click **Authorize APIs**. Sign in with the Google account whose Drive should receive the files and allow access.
-4. Click **Exchange authorization code for tokens** and copy the **Refresh token**.
-
-`drive.file` only lets this tool see files it created itself. It creates the `Earnings Calls` folder in your My Drive on the first run; leave `DRIVE_ROOT_FOLDER_ID` unset in this mode.
-
-### 4. Add repository secrets
-
-In the repository: **Settings > Secrets and variables > Actions > New repository secret**.
+## Secrets
 
 | Secret | Value |
 |---|---|
-| `GOOGLE_CLIENT_ID` | From step 2 |
-| `GOOGLE_CLIENT_SECRET` | From step 2 |
-| `GOOGLE_REFRESH_TOKEN` | From step 3 |
-| `SEC_USER_AGENT` | Your name and email, e.g. `Salvaa Ops salvaa@example.com`. The SEC blocks requests without one. |
-| `FMP_API_KEY` | From <https://site.financialmodelingprep.com/developer/docs> (optional) |
+| `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | OAuth client (Desktop app) from Google Cloud |
+| `GOOGLE_REFRESH_TOKEN` | From a local OAuth sign-in with the `drive.file` scope. In "Testing" publishing status Google expires it after 7 days. |
+| `SEC_USER_AGENT` | Your name and e-mail, e.g. `Jane Doe jane@example.com`. The SEC blocks requests without one. |
+| `ANON_KEY` | Long random string. Changing it changes every company code. |
+| `FMP_API_KEY` | Optional |
 
-**Shared Drive instead (Google Workspace):** create a service account in the same Cloud project, download its JSON key, add the service account as a Content manager on a Shared Drive folder, then set `GOOGLE_SERVICE_ACCOUNT_JSON` (the whole key file) and `DRIVE_ROOT_FOLDER_ID` (the folder ID from its URL) instead of the three OAuth secrets. Service accounts can't use a personal My Drive because they have no storage quota.
-
-### 5. Test it
-
-1. **Actions** tab > **Earnings sync** > **Run workflow**. Tick **dry run**, enter `JPM` as the ticker, and run.
-2. Open the finished run: the summary lists everything it would download.
-3. Run again without dry run. Files appear in Drive under `Earnings Calls/JPM/`.
-4. Run with no ticker to process the whole list. After that, the schedule takes over.
-
-GitHub emails you if a run fails.
-
----
-
-## Editing `companies.json`
-
-Edit it in the GitHub web editor (pencil icon); the next run picks it up.
-
-```json
-{
-  "ticker": "NVDA",
-  "name": "NVIDIA",
-  "fiscalYearEndMonth": 1,
-  "irPages": [
-    { "url": "https://investor.nvidia.com/financial-info/quarterly-results/default.aspx", "render": true }
-  ]
-}
-```
+## `companies.json`
 
 | Field | Meaning |
 |---|---|
-| `ticker` | Required. Used for folders and EDGAR lookup. |
-| `fiscalYearEndMonth` | 1-12, month the fiscal year ends (Apple 9, Microsoft 6, NVIDIA 1). Default 12. |
-| `cik` | SEC CIK, only if the ticker lookup fails (foreign or renamed companies). |
-| `fmpSymbol` | Symbol FMP uses, if different from `ticker`. |
-| `sources` | Turn sources off per company, e.g. `{ "ir": false }`. |
-| `irPages[].url` | Page that links to the quarterly materials. The quarterly-results page is usually better than the IR home page. |
-| `irPages[].render` | `true` for sites that build their links with JavaScript (most Q4 and Notified IR sites). Installs a headless Chromium on the run. |
-| `irPages[].include` | Words a link (text, URL or surrounding text) must contain. Defaults cover transcript, earnings, results, presentation, webcast, supplement, Q1-Q4. |
-| `irPages[].exclude` | Words that rule a link out (default: proxy, 10-K, 10-Q, ESG, governance and similar). |
-| `irPages[].fileTypes` | Extensions to download. Default: pdf, mp3, m4a, mp4, xlsx, xls, pptx, docx, txt, csv. |
+| `ticker` | Required. |
+| `name`, `aliases` | Names to anonymise, case-sensitive. Avoid plain English words ("Target", "Southern"). |
+| `domains` | Company web domains to anonymise. |
+| `cik` | SEC CIK, or a list when the company changed CIK (ExxonMobil). |
+| `fiscalYearEndMonth` | 1-12. |
+| `irPages[].url`, `render` | Results page; `render: true` loads it in headless Chromium. |
+| `sources` | e.g. `{ "ir": false }` |
 
-Global `settings`:
-
-| Setting | Meaning |
-|---|---|
-| `sinceYear` | Ignore fiscal years before this. Keep it recent so the first run isn't huge. |
-| `maxFileSizeMB` | Larger files (often webcast video) are skipped. |
-| `convertHtmlToGoogleDocs` | EDGAR exhibits are HTML; this stores them as Google Docs. |
-| `respectRobotsTxt` | Skips IR pages and files a site's robots.txt disallows. |
-| `*.maxFilingsPerCompany`, `maxTranscriptsPerCompany`, `maxFilesPerPage` | Per-run caps per company. |
-
-## Notes
-
-- IR sites differ a lot. If a company's files land in `Unsorted`, the link text and URL didn't name the quarter; the file is still saved. If nothing is found, try the quarterly-results page URL and `"render": true`.
-- Aggregator sites (Seeking Alpha, Motley Fool and similar) are deliberately not supported: their terms forbid scraping and their transcripts are copyrighted. FMP is the licensed route for transcripts.
-- Some IR sites block automated traffic. Those pages show as errors in the run summary; EDGAR and FMP still cover the company.
+Settings: `sinceYear`, `maxFileSizeMB`, `runBudgetMinutes`, `driveReserveMB`, `anonymize`, `edgar.forms`, `edgar.financialReportXlsx`, and per-run caps (`0` = no cap).

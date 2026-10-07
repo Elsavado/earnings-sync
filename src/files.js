@@ -25,7 +25,9 @@ EXT_BY_MIME['audio/mp3'] = 'mp3';
 EXT_BY_MIME['audio/x-m4a'] = 'm4a';
 
 const DOC_TYPE_RULES = [
-  ['transcript', /transcript|prepared remarks|call remarks|scripted remarks/],
+  ['transcript', /transcript/],
+  ['prepared-remarks', /prepared remarks|call remarks|scripted remarks|cfo commentary|management commentary/],
+  ['shareholder-letter', /letter to (share|stock)holders|(share|stock)holder letter/],
   ['presentation', /presentation|slides|slide deck|investor deck/],
   ['webcast', /webcast|replay|audio|\.mp3|\.m4a|\.mp4/],
   ['supplement', /supplement|financial data|data sheet|fact sheet|metrics|financial tables/],
@@ -80,4 +82,37 @@ export function buildFileName({ ticker, periodLabel, docType, hint, ext }) {
 
 export function sourceKey(source, sourceId) {
   return createHash('sha1').update(`${source}|${sourceId}`).digest('hex');
+}
+
+const FRIENDLY_TYPES = {
+  'press-release': 'earnings-release',
+  supplement: 'financial-supplement',
+  presentation: 'investor-presentation',
+  transcript: 'earnings-call-transcript',
+  webcast: 'webcast'
+};
+
+const NOISE_WORDS = new Set(['pdf', 'xlsx', 'xls', 'doc', 'docx', 'ppt', 'pptx', 'csv', 'download', 'opens', 'in', 'new', 'window', 'link', 'file', 'the', 'of', 'and', 'kb', 'mb']);
+
+// Short, readable slug for the part of the name that tells files of the same type apart.
+export function descriptor(hint, { docType, periodLabel } = {}) {
+  let text = String(hint || '')
+    .replace(/\b(19|20)\d{2}\b/g, ' ')
+    .replace(/\b(f?q[1-4]|fy\s?\d{2}|first|second|third|fourth|quarter|fiscal)\b/gi, ' ')
+    .replace(/\bCO-[0-9A-F]{6}\b/gi, ' ')
+    .replace(/\b\d+(\.\d+)?\s*(kb|mb)\b/gi, ' ');
+  const words = slugify(text, 80)
+    .split('-')
+    .filter((w) => w && !NOISE_WORDS.has(w));
+  const typeWords = new Set(String(docType || '').split('-'));
+  const slug = words.filter((w) => !typeWords.has(w)).slice(0, 6).join('-');
+  if (!slug || slug === slugify(periodLabel)) return '';
+  return slug.slice(0, 40).replace(/-+$/g, '');
+}
+
+// CODE_FY2026-Q2_earnings-release_2026-07-14_ex991.htm
+export function smartFileName({ code, periodLabel, docType, date, hint, ext }) {
+  const type = FRIENDLY_TYPES[docType] || docType || 'document';
+  const parts = [code, periodLabel, type, date || '', descriptor(hint, { docType: type, periodLabel })].filter(Boolean);
+  return ext ? `${parts.join('_')}.${ext}` : parts.join('_');
 }

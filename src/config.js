@@ -14,14 +14,28 @@ export const DEFAULT_INCLUDE = [
   'q1',
   'q2',
   'q3',
-  'q4'
+  'q4',
+  'financial',
+  'fact sheet',
+  'factbook',
+  'fact book',
+  'statistical',
+  'investor day',
+  'guidance',
+  'outlook',
+  'metrics',
+  'kpi',
+  'shareholder letter',
+  'letter to shareholders',
+  'annual report',
+  'quarterly report',
+  'remarks',
+  'commentary'
 ];
 
 export const DEFAULT_EXCLUDE = [
   'proxy',
   'annual meeting',
-  '10-k',
-  '10-q',
   'esg',
   'sustainability',
   'governance',
@@ -31,7 +45,8 @@ export const DEFAULT_EXCLUDE = [
   'cookie'
 ];
 
-export const DEFAULT_FILE_TYPES = ['pdf', 'mp3', 'm4a', 'mp4', 'xlsx', 'xls', 'pptx', 'docx', 'txt', 'csv'];
+// Analysis documents only: every type here has an anonymiser (see anonymizer/worker.py).
+export const DEFAULT_FILE_TYPES = ['pdf', 'xlsx', 'xlsm', 'xls', 'csv', 'docx', 'doc', 'pptx', 'ppt', 'txt'];
 
 export const DEFAULT_DOWNLOAD_HINTS = ['static-files/', '/download', 'getfile', 'doc_financials', 'doc_downloads'];
 
@@ -70,13 +85,17 @@ function normalizeCompany(company, index) {
   if (!Number.isInteger(fyEnd) || fyEnd < 1 || fyEnd > 12) {
     throw new Error(`${ticker}: fiscalYearEndMonth must be an integer from 1 to 12`);
   }
-  const cik = company.cik === undefined || company.cik === null ? null : String(company.cik).replace(/\D/g, '');
+  const rawCiks = company.cik === undefined || company.cik === null ? [] : Array.isArray(company.cik) ? company.cik : [company.cik];
+  const ciks = rawCiks.map((c) => String(c).replace(/\D/g, '').replace(/^0+/, '')).filter(Boolean);
   const sources = company.sources || {};
   return {
     ticker,
     name: company.name || ticker,
     fiscalYearEndMonth: fyEnd,
-    cik: cik || null,
+    cik: ciks[0] || null,
+    ciks,
+    aliases: (company.aliases || []).map(String).filter(Boolean),
+    domains: (company.domains || []).map((d) => String(d).toLowerCase()).filter(Boolean),
     fmpSymbol: company.fmpSymbol ? String(company.fmpSymbol).toUpperCase() : ticker,
     sources: {
       edgar: sources.edgar !== false,
@@ -104,11 +123,23 @@ export function normalizeConfig(raw) {
     sinceYear,
     maxFileBytes: Math.round(maxFileSizeMB * 1024 * 1024),
     driveRootFolderName: s.driveRootFolderName || 'Earnings Calls',
-    convertHtmlToGoogleDocs: s.convertHtmlToGoogleDocs !== false,
+    drivePrivateFolderName: s.drivePrivateFolderName || 'Earnings Sync - private',
+    driveReserveMB: Number(s.driveReserveMB ?? 1024),
+    runBudgetMinutes: Number(process.env.RUN_BUDGET_MINUTES || s.runBudgetMinutes || 0),
+    convertHtmlToGoogleDocs: s.convertHtmlToGoogleDocs === true,
     respectRobotsTxt: s.respectRobotsTxt !== false,
+    anonymize: {
+      enabled: s.anonymize?.enabled !== false,
+      companyIdentity: s.anonymize?.companyIdentity !== false,
+      personalInfo: s.anonymize?.personalInfo !== false
+    },
     edgar: {
       enabled: s.edgar?.enabled !== false,
-      maxFilingsPerCompany: Number(s.edgar?.maxFilingsPerCompany ?? 8)
+      // 0 means no cap.
+      maxFilingsPerCompany: Number(s.edgar?.maxFilingsPerCompany ?? 0),
+      forms: Array.isArray(s.edgar?.forms) ? s.edgar.forms.map(String) : ['8-K', '10-Q', '10-K'],
+      financialReportXlsx: s.edgar?.financialReportXlsx !== false,
+      minIntervalMs: Number(process.env.SEC_MIN_INTERVAL_MS || s.edgar?.minIntervalMs || 150)
     },
     fmp: {
       enabled: s.fmp?.enabled !== false,
@@ -116,7 +147,7 @@ export function normalizeConfig(raw) {
     },
     ir: {
       enabled: s.ir?.enabled !== false,
-      maxFilesPerPage: Number(s.ir?.maxFilesPerPage ?? 40),
+      maxFilesPerPage: Number(s.ir?.maxFilesPerPage ?? 0),
       minIntervalMs: Number(s.ir?.minIntervalMs ?? 1000)
     }
   };

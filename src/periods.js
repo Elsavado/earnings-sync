@@ -10,6 +10,32 @@ export function fiscalPeriodForQuarterEnd(year, month, fyEndMonth) {
   return { fiscalYear, quarter };
 }
 
+// Companies on 52/53-week years end periods a few days into the next month
+// (J&J's year ends around 3 January, Deere's around 1 November). A period that
+// ends in the first week of a month really belongs to the previous month.
+export function effectiveMonth(dateStr) {
+  const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(dateStr || ''));
+  if (!match) return null;
+  let year = Number(match[1]);
+  let month = Number(match[2]);
+  if (Number(match[3]) <= 7) {
+    month -= 1;
+    if (month === 0) {
+      month = 12;
+      year -= 1;
+    }
+  }
+  return { year, month };
+}
+
+// Fiscal period covered by a 10-Q or 10-K, from its period-of-report date.
+export function periodFromReportDate(dateStr, fyEndMonth, form) {
+  const eff = effectiveMonth(dateStr);
+  if (!eff) return null;
+  const period = fiscalPeriodForQuarterEnd(eff.year, eff.month, fyEndMonth);
+  return /^10-K/.test(form) ? { fiscalYear: period.fiscalYear, quarter: 4 } : period;
+}
+
 // Earnings releases follow the quarter they report on, so the reported quarter is
 // the most recent fiscal quarter end strictly before the release month.
 export function reportedPeriodFromReleaseDate(dateStr, fyEndMonth) {

@@ -72,6 +72,58 @@ export function extractCandidateLinks(html, pageUrl, page) {
   return out;
 }
 
+const RESULTS_LINK = /quarterly (results|earnings|reports?)|financial results|earnings (releases?|materials|reports?)|results (&|and) (presentations?|reports?)|financial (information|reports?)/i;
+
+// When a configured page is gone (404), look for the results page from the IR home page.
+export function findResultsLink(html, pageUrl) {
+  const $ = cheerio.load(html);
+  const host = new URL(pageUrl).host;
+  let best = null;
+  $('a[href]').each((_, el) => {
+    const text = normalizeSpace($(el).text());
+    if (!text || text.length > 60 || !RESULTS_LINK.test(text)) return;
+    let abs;
+    try {
+      abs = new URL($(el).attr('href'), pageUrl);
+    } catch {
+      return;
+    }
+    if (abs.host !== host || !/^https?:$/.test(abs.protocol)) return;
+    const score = /quarterly/i.test(text) ? 2 : 1;
+    if (!best || score > best.score) best = { url: abs.toString(), score };
+  });
+  return best?.url || null;
+}
+
+async function loadPage(url, page, settings, ctx) {
+  return page.render
+    ? ctx.renderPage(url)
+    : getText(url, {
+        headers: { 'User-Agent': ctx.scraperUserAgent, Accept: 'text/html,application/xhtml+xml' },
+        minIntervalMs: settings.ir.minIntervalMs
+      });
+}
+
+async function loadWithFallback(company, page, settings, ctx) {
+  try {
+    return { html: await loadPage(page.url, page, settings, ctx), url: page.url };
+  } catch (err) {
+    if (!/HTTP 404/.test(err.message)) throw err;
+    const home = `${new URL(page.url).origin}/`;
+    ctx.log.warn(`${company.ticker}: ${page.url} is gone (404); looking for the results page from ${home}`);
+    const homeHtml = await loadPage(home, page, settings, ctx);
+    const found = findResultsLink(homeHtml, home);
+    if (found && found !== page.url) {
+      try {
+        return { html: await loadPage(found, page, settings, ctx), url: found };
+      } catch {
+        // Fall through to the home page itself.
+      }
+    }
+    return { html: homeHtml, url: home };
+  }
+}
+
 export async function irItems(company, settings, ctx) {
   const items = [];
   for (const page of company.irPages) {
@@ -79,39 +131,34 @@ export async function irItems(company, settings, ctx) {
       ctx.log.warn(`${company.ticker}: robots.txt disallows ${page.url}; skipping this page`);
       continue;
     }
-    let html;
+    let loaded;
     try {
-      html = page.render
-        ? await ctx.renderPage(page.url)
-        : await getText(page.url, {
-            headers: { 'User-Agent': ctx.scraperUserAgent, Accept: 'text/html,application/xhtml+xml' },
-            minIntervalMs: settings.ir.minIntervalMs
-          });
+      loaded = await loadWithFallback(company, page, settings, ctx);
     } catch (err) {
       throw new Error(`${company.ticker}: could not load IR page ${page.url}: ${err.message}`);
     }
+    const { html, url: pageUrl } = loaded;
 
-    const links = extractCandidateLinks(html, page.url, page)
-      .filter((link) => !link.period || link.period.fiscalYear >= settings.sinceYear)
-      .slice(0, settings.ir.maxFilesPerPage);
+    let links = extractCandidateLinks(html, pageUrl, page).filter((link) => !link.period || link.period.fiscalYear >= settings.sinceYear);
+    if (settings.ir.maxFilesPerPage) links = links.slice(0, settings.ir.maxFilesPerPage);
 
-    ctx.log.info(`${company.ticker}: ${links.length} candidate file(s) on ${page.url}`);
+    ctx.log.info(`${company.ticker}: ${links.length} candidate file(s) on ${pageUrl}`);
 
     for (const link of links) {
-      const fileNameHint = decodeSafe(new URL(link.url).pathname.split('/').pop() || '').replace(/\.[a-z0-9]{1,5}$/i, '');
       items.push({
         source: 'ir',
         sourceId: link.url,
         sourceUrl: link.url,
         period: link.period,
-        docType: classifyDocType(`${link.text} ${link.url}`),
-        hint: fileNameHint.length >= 4 ? fileNameHint : link.text,
+        date: '',
+        docType: classifyDocType(`${link.text} ${link.url}`, link.ext === 'xlsx' || link.ext === 'xls' || link.ext === 'csv' ? 'data-workbook' : 'document'),
+        hint: link.text || decodeSafe(new URL(link.url).pathname.split('/').pop() || '').replace(/\.[a-z0-9]{1,5}$/i, ''),
         async fetch() {
           if (settings.respectRobotsTxt && !(await isAllowedByRobots(link.url, ctx.scraperUserAgent))) {
             throw new SkipError(`robots.txt disallows ${link.url}`);
           }
           const file = await downloadBuffer(link.url, {
-            headers: { 'User-Agent': ctx.scraperUserAgent, Referer: page.url },
+            headers: { 'User-Agent': ctx.scraperUserAgent, Referer: pageUrl },
             maxBytes: settings.maxFileBytes,
             minIntervalMs: settings.ir.minIntervalMs
           });

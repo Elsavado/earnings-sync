@@ -41,7 +41,9 @@ export function createContext() {
       const browser = await browserPromise;
       const page = await browser.newPage({ userAgent: scraperUserAgent });
       try {
-        await page.goto(url, { waitUntil: 'load', timeout: 60000 });
+        const response = await page.goto(url, { waitUntil: 'load', timeout: 60000 });
+        const status = response ? response.status() : 0;
+        if (status >= 400) throw new Error(`HTTP ${status} for ${url}`);
         await page.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => {});
         return await page.content();
       } finally {

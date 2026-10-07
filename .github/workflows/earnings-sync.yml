@@ -2,9 +2,8 @@ name: Earnings sync
 
 on:
   schedule:
-    # 04:17 UTC (07:17 Nairobi) catches US after-close releases; 16:17 UTC catches morning releases and next-day transcripts.
-    - cron: '17 4 * * *'
-    - cron: '17 16 * * *'
+    # Every hour at :07 (cron is UTC; hourly runs land at hh:07 in Nairobi too).
+    - cron: '7 * * * *'
   workflow_dispatch:
     inputs:
       tickers:
@@ -20,14 +19,19 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: earnings-sync
-  cancel-in-progress: false
-
 jobs:
   sync:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 58
+    strategy:
+      fail-fast: false
+      matrix:
+        # Companies are split across shards by a hash of the ticker. Four shards at
+        # 450 ms between SEC requests stay under the SEC's 10 requests per second.
+        shard: [0, 1, 2, 3]
+    concurrency:
+      group: earnings-sync-shard-${{ matrix.shard }}
+      cancel-in-progress: false
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -36,9 +40,25 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: npm
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: anonymizer/requirements.txt
 
       - name: Install dependencies
-        run: npm install --no-audit --no-fund
+        run: |
+          npm ci --no-audit --no-fund
+          pip install -r anonymizer/requirements.txt
+
+      - name: Install LibreOffice (converts legacy .xls/.doc/.ppt before anonymising)
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq --no-install-recommends libreoffice-calc-nogui libreoffice-writer-nogui libreoffice-impress-nogui > /dev/null
 
       - name: Install Chromium when a page needs rendering
         run: |
@@ -49,8 +69,12 @@ jobs:
       - name: Run sync
         run: node src/index.js
         env:
+          SHARD_INDEX: ${{ matrix.shard }}
+          SHARD_COUNT: 4
+          SEC_MIN_INTERVAL_MS: 450
           TICKERS: ${{ github.event.inputs.tickers }}
           DRY_RUN: ${{ github.event.inputs.dry_run }}
+          ANON_KEY: ${{ secrets.ANON_KEY }}
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
           FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}

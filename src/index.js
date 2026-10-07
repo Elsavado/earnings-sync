@@ -1,10 +1,12 @@
 import { appendFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import { loadConfig } from './config.js';
 import { createContext, log } from './context.js';
 import { createDriveStore, hasDriveCredentials } from './drive.js';
 import { SkipError } from './http.js';
 import { periodLabel } from './periods.js';
-import { buildFileName, mimeForExtension, resolveExtension, sourceKey } from './files.js';
+import { mimeForExtension, resolveExtension, smartFileName, sourceKey } from './files.js';
+import { Anonymizer, assignCodes, scrubHint } from './anonymize.js';
 import { edgarItems } from './sources/edgar.js';
 import { fmpItems } from './sources/fmp.js';
 import { irItems } from './sources/ir.js';
@@ -15,6 +17,11 @@ const SOURCES = [
   { name: 'ir', label: 'IR pages', collect: irItems }
 ];
 
+// Bump when the naming or anonymisation of stored files changes, so files are collected again.
+const KEY_VERSION = 'v2';
+const STATE_SAVE_EVERY_MS = 5 * 60 * 1000;
+const QUOTA_CHECK_EVERY = 25;
+
 function truthy(value) {
   return /^(1|true|yes|on)$/i.test(String(value || '').trim());
 }
@@ -23,106 +30,167 @@ function escapeCell(value) {
   return String(value).replace(/\|/g, '\\|').replace(/\n/g, ' ');
 }
 
-async function writeStepSummary(report, dryRun) {
+function shardOf(ticker, count) {
+  return createHash('sha1').update(ticker).digest().readUInt32BE(0) % count;
+}
+
+function formatBytes(n) {
+  return n >= 1073741824 ? `${(n / 1073741824).toFixed(2)} GB` : `${(n / 1048576).toFixed(1)} MB`;
+}
+
+async function writeStepSummary(report, dryRun, shardLabel) {
   const path = process.env.GITHUB_STEP_SUMMARY;
   if (!path) return;
-  const lines = [`## Earnings sync ${dryRun ? '(dry run)' : ''}`, ''];
+  const lines = [`## Earnings sync ${shardLabel}${dryRun ? ' (dry run)' : ''}`, ''];
   lines.push(
-    `Uploaded: **${report.uploaded.length}** | Already in Drive: **${report.alreadyStored}** | Skipped: **${report.skipped.length}** | Errors: **${report.errors.length}**`,
+    `Uploaded: **${report.uploaded.length}** (${formatBytes(report.bytes)}) | Already in Drive: **${report.alreadyStored}** | Skipped: **${report.skipped.length}** | Errors: **${report.errors.length}**`,
     ''
   );
+  if (report.stopReason) lines.push(`**Stopped early:** ${report.stopReason}`, '');
   const rows = dryRun ? report.planned : report.uploaded;
   if (rows.length) {
     lines.push(dryRun ? '### Would upload' : '### Uploaded', '', '| Ticker | Period | Type | Source | File |', '|---|---|---|---|---|');
-    for (const r of rows) {
+    for (const r of rows.slice(0, 500)) {
       const file = r.link ? `[${escapeCell(r.name)}](${r.link})` : escapeCell(r.name);
       lines.push(`| ${r.ticker} | ${r.period} | ${r.docType} | ${r.source} | ${file} |`);
     }
+    if (rows.length > 500) lines.push('', `...and ${rows.length - 500} more`);
     lines.push('');
   }
   if (report.skipped.length) {
     lines.push('### Skipped', '');
-    for (const s of report.skipped) lines.push(`- ${escapeCell(s)}`);
+    for (const s of report.skipped.slice(0, 200)) lines.push(`- ${escapeCell(s)}`);
     lines.push('');
   }
   if (report.errors.length) {
     lines.push('### Errors', '');
-    for (const e of report.errors) lines.push(`- ${escapeCell(e)}`);
+    for (const e of report.errors.slice(0, 200)) lines.push(`- ${escapeCell(e)}`);
     lines.push('');
   }
   await appendFile(path, `${lines.join('\n')}\n`);
 }
 
-async function processItem({ item, company, settings, store, existingKeys, report, dryRun }) {
-  const key = sourceKey(item.source, item.sourceId);
-  if (existingKeys.has(key)) {
-    report.alreadyStored++;
-    return;
-  }
-  existingKeys.add(key);
-  const period = periodLabel(item.period);
-
-  if (dryRun) {
-    report.planned.push({
-      ticker: company.ticker,
-      period,
-      docType: item.docType,
-      source: item.source,
-      name: item.sourceUrl
-    });
-    return;
+class Run {
+  constructor({ settings, store, existingKeys, dryRun, anonymizer }) {
+    this.settings = settings;
+    this.store = store;
+    this.existingKeys = existingKeys;
+    this.dryRun = dryRun;
+    this.anonymizer = anonymizer;
+    this.hideCodes = settings.anonymize.enabled;
+    this.report = { uploaded: [], planned: [], skipped: [], errors: [], alreadyStored: 0, bytes: 0, stopReason: null };
+    this.deadline = settings.runBudgetMinutes ? Date.now() + settings.runBudgetMinutes * 60000 : Infinity;
+    this.freeBytes = null;
+    this.uploadsSinceQuotaCheck = QUOTA_CHECK_EVERY;
   }
 
-  let file;
-  try {
-    file = await item.fetch();
-  } catch (err) {
-    existingKeys.delete(key);
-    if (err instanceof SkipError) {
-      report.skipped.push(`${company.ticker}: ${err.message}`);
-      log.info(`${company.ticker}: skipped - ${err.message}`);
-    } else {
+  get stopped() {
+    if (this.report.stopReason) return true;
+    if (Date.now() > this.deadline) {
+      this.report.stopReason = `time budget of ${this.settings.runBudgetMinutes} min reached; the next run continues`;
+      log.info(this.report.stopReason);
+      return true;
+    }
+    return false;
+  }
+
+  async roomFor(bytes) {
+    if (this.uploadsSinceQuotaCheck >= QUOTA_CHECK_EVERY || this.freeBytes === null) {
+      this.freeBytes = await this.store.freeBytes(this.settings.driveReserveMB * 1048576);
+      this.uploadsSinceQuotaCheck = 0;
+      if (this.freeBytes === null) this.freeBytes = Infinity;
+    }
+    if (this.freeBytes < bytes) {
+      this.report.stopReason = `Google Drive is within ${this.settings.driveReserveMB} MB of full; uploads stopped`;
+      log.error(this.report.stopReason);
+      return false;
+    }
+    return true;
+  }
+
+  // Returns true when the item ended in a state that should not be retried
+  // (stored, already stored, or skipped on purpose); false when it should be retried.
+  async processItem(item, company) {
+    const { report, settings } = this;
+    const key = sourceKey(`${KEY_VERSION}|${item.source}`, item.sourceId);
+    if (this.existingKeys.has(key)) {
+      report.alreadyStored++;
+      return true;
+    }
+    const period = periodLabel(item.period);
+
+    if (this.dryRun) {
+      this.existingKeys.add(key);
+      report.planned.push({ ticker: company.ticker, period, docType: item.docType, source: item.source, name: item.sourceUrl });
+      return true;
+    }
+
+    let file;
+    try {
+      file = await item.fetch();
+    } catch (err) {
+      if (err instanceof SkipError) {
+        report.skipped.push(`${company.ticker}: ${err.message}`);
+        return true;
+      }
       report.errors.push(`${company.ticker} (${item.source}): ${err.message}`);
       log.error(`${company.ticker} (${item.source}): ${err.message}`);
+      return false;
     }
-    return;
-  }
 
-  const ext = resolveExtension({ url: file.url, dispositionName: file.dispositionName, contentType: file.contentType });
-  const convertToGoogleDoc = settings.convertHtmlToGoogleDocs && (ext === 'htm' || ext === 'html');
-  const name = buildFileName({
-    ticker: company.ticker,
-    periodLabel: period,
-    docType: item.docType,
-    hint: item.hint,
-    ext: convertToGoogleDoc ? '' : ext
-  });
+    let ext = resolveExtension({ url: file.url, dispositionName: file.dispositionName, contentType: file.contentType });
+    let buffer = file.buffer;
+    let contentType = file.contentType;
+    if (this.anonymizer) {
+      try {
+        const clean = await this.anonymizer.process(buffer, ext, company.ticker);
+        if (clean.ext !== ext) contentType = '';
+        ({ buffer, ext } = clean);
+      } catch (err) {
+        report.errors.push(`${company.ticker}: not uploaded, ${err.message} (${item.sourceUrl})`);
+        log.error(`${company.ticker}: not uploaded, ${err.message}`);
+        return /no anonymiser for/.test(err.message);
+      }
+    }
 
-  try {
-    const tickerFolder = await store.ensureFolder(store.rootFolderId, company.ticker);
-    const periodFolder = await store.ensureFolder(tickerFolder, period);
-    const uploaded = await store.upload({
-      folderId: periodFolder,
-      name,
-      buffer: file.buffer,
-      mimeType: file.contentType && file.contentType !== 'application/octet-stream' ? file.contentType : mimeForExtension(ext),
-      sourceKey: key,
-      sourceUrl: item.sourceUrl,
-      convertToGoogleDoc
-    });
-    report.uploaded.push({
-      ticker: company.ticker,
-      period,
+    if (!(await this.roomFor(buffer.length))) return false;
+
+    const convertToGoogleDoc = settings.convertHtmlToGoogleDocs && (ext === 'htm' || ext === 'html');
+    const name = smartFileName({
+      code: company.code,
+      periodLabel: period,
       docType: item.docType,
-      source: item.source,
-      name: uploaded.name,
-      link: uploaded.webViewLink
+      date: item.date,
+      hint: settings.anonymize.enabled ? scrubHint(item.hint, company) : item.hint,
+      ext: convertToGoogleDoc ? '' : ext
     });
-    log.info(`${company.ticker}: uploaded ${company.ticker}/${period}/${uploaded.name}`);
-  } catch (err) {
-    existingKeys.delete(key);
-    report.errors.push(`${company.ticker}: Drive upload failed for ${name}: ${err.message}`);
-    log.error(`${company.ticker}: Drive upload failed for ${name}: ${err.message}`);
+
+    try {
+      const tickerFolder = await this.store.ensureFolder(this.store.rootFolderId, company.code);
+      const periodFolder = await this.store.ensureFolder(tickerFolder, period);
+      const uploaded = await this.store.upload({
+        folderId: periodFolder,
+        name,
+        buffer,
+        mimeType: contentType && contentType !== 'application/octet-stream' ? contentType : mimeForExtension(ext),
+        sourceKey: key,
+        convertToGoogleDoc
+      });
+      this.existingKeys.add(key);
+      this.freeBytes -= buffer.length;
+      this.uploadsSinceQuotaCheck++;
+      report.bytes += buffer.length;
+      // Actions logs are public: never print a code next to its ticker.
+      const shown = this.hideCodes ? `${period} ${item.docType} .${ext}` : `${company.code}/${period}/${uploaded.name}`;
+      report.uploaded.push({ ticker: company.ticker, period, docType: item.docType, source: item.source, name: this.hideCodes ? `.${ext}` : uploaded.name, link: this.hideCodes ? null : uploaded.webViewLink });
+      log.info(`${company.ticker}: uploaded ${shown} (${formatBytes(buffer.length)})`);
+      return true;
+    } catch (err) {
+      const shown = this.hideCodes ? `${period} ${item.docType}` : name;
+      report.errors.push(`${company.ticker}: Drive upload failed for ${shown}: ${err.message}`);
+      log.error(`${company.ticker}: Drive upload failed for ${shown}: ${err.message}`);
+      return false;
+    }
   }
 }
 
@@ -130,56 +198,123 @@ async function main() {
   const configPath = process.env.CONFIG_PATH || 'companies.json';
   const { settings, companies } = await loadConfig(configPath);
   const dryRun = truthy(process.env.DRY_RUN);
+  const shardCount = Math.max(1, Number(process.env.SHARD_COUNT || 1));
+  const shardIndex = Number(process.env.SHARD_INDEX || 0);
+  const shardLabel = shardCount > 1 ? `shard ${shardIndex + 1}/${shardCount}` : '';
+
+  const anonKey = process.env.ANON_KEY || '';
+  if (settings.anonymize.enabled && !anonKey && !dryRun) {
+    throw new Error('ANON_KEY is not set. Anonymisation needs it to turn tickers into private company codes');
+  }
+  assignCodes(companies, anonKey || 'dry-run');
+
   const tickerFilter = String(process.env.TICKERS || '')
     .split(/[\s,]+/)
     .filter(Boolean)
     .map((t) => t.toUpperCase());
-  const selected = tickerFilter.length ? companies.filter((c) => tickerFilter.includes(c.ticker)) : companies;
-  if (selected.length === 0) throw new Error(`None of the requested tickers (${tickerFilter.join(', ')}) are in ${configPath}`);
+  const selected = (tickerFilter.length ? companies.filter((c) => tickerFilter.includes(c.ticker)) : companies).filter(
+    (c) => shardOf(c.ticker, shardCount) === shardIndex
+  );
+  if (tickerFilter.length && !companies.some((c) => tickerFilter.includes(c.ticker))) {
+    throw new Error(`None of the requested tickers (${tickerFilter.join(', ')}) are in ${configPath}`);
+  }
+  log.info(`${shardLabel || 'Run'}: ${selected.length} compan${selected.length === 1 ? 'y' : 'ies'}: ${selected.map((c) => c.ticker).join(', ')}`);
 
   const ctx = createContext();
+  ctx.stats = { filingsSkipped: 0 };
   let store = null;
   let existingKeys = new Set();
+  let privateFolder = null;
+  const stateName = `state-shard-${shardIndex + 1}-of-${shardCount}.json`;
+  ctx.state = {};
   if (!dryRun || hasDriveCredentials()) {
     store = await createDriveStore(settings);
     existingKeys = await store.loadExistingSourceKeys();
+    privateFolder = await store.ensureFolder('root', settings.drivePrivateFolderName);
+    ctx.state = (await store.readPrivateJson(privateFolder, stateName)) || {};
     log.info(`Drive ready; ${existingKeys.size} file(s) already collected`);
   } else {
     log.info('Dry run without Drive credentials: everything found will be listed as new');
   }
+  ctx.doneFilings = new Set(ctx.state.doneFilings || []);
 
-  const report = { uploaded: [], planned: [], skipped: [], errors: [], alreadyStored: 0 };
+  const saveState = async () => {
+    if (!store || dryRun) return;
+    ctx.state.doneFilings = [...ctx.doneFilings];
+    ctx.state.savedAt = new Date().toISOString();
+    try {
+      await store.writePrivateFile(privateFolder, stateName, JSON.stringify(ctx.state), 'application/json');
+    } catch (err) {
+      log.warn(`Could not save run state: ${err.message}`);
+    }
+  };
+
+  if (store && !dryRun && settings.anonymize.enabled && shardIndex === 0) {
+    const csv = ['code,ticker,name,cik', ...companies.map((c) => [c.code, c.ticker, `"${c.name.replace(/"/g, '""')}"`, c.ciks.join(' ')].join(','))].join('\n');
+    const hash = createHash('sha1').update(csv).digest('hex');
+    if (await store.writePrivateFile(privateFolder, 'company-key.csv', `${csv}\n`, 'text/csv', hash)) {
+      log.info(`Company code key written to "${settings.drivePrivateFolderName}/company-key.csv"`);
+    }
+  }
+
+  const anonymizer =
+    settings.anonymize.enabled && !dryRun
+      ? new Anonymizer({
+          companies,
+          companyIdentity: settings.anonymize.companyIdentity,
+          personalInfo: settings.anonymize.personalInfo,
+          log
+        })
+      : null;
+  if (anonymizer) await anonymizer.start();
+
+  const run = new Run({ settings, store, existingKeys, dryRun, anonymizer });
   let sourceRuns = 0;
   let sourceFailures = 0;
+  let lastSave = Date.now();
 
   try {
-    for (const company of selected) {
+    outer: for (const company of selected) {
       log.info(`--- ${company.ticker} (${company.name}) ---`);
       for (const source of SOURCES) {
+        if (run.stopped) break outer;
         if (!settings[source.name].enabled || !company.sources[source.name]) continue;
         if (source.name === 'ir' && company.irPages.length === 0) continue;
         sourceRuns++;
-        let items;
+        let groupOk = true;
         try {
-          items = await source.collect(company, settings, ctx);
+          const items = await source.collect(company, settings, ctx);
+          for await (const item of items) {
+            if (item.groupDone) {
+              if (groupOk && !dryRun) ctx.doneFilings.add(item.groupDone);
+              groupOk = true;
+              if (Date.now() - lastSave > STATE_SAVE_EVERY_MS) {
+                lastSave = Date.now();
+                await saveState();
+              }
+              continue;
+            }
+            if (run.stopped) break outer;
+            const ok = await run.processItem(item, company);
+            if (!ok) groupOk = false;
+          }
         } catch (err) {
           sourceFailures++;
-          report.errors.push(`${company.ticker} (${source.label}): ${err.message}`);
+          run.report.errors.push(`${company.ticker} (${source.label}): ${err.message}`);
           log.error(`${company.ticker} (${source.label}): ${err.message}`);
-          continue;
-        }
-        for (const item of items) {
-          await processItem({ item, company, settings, store, existingKeys, report, dryRun });
         }
       }
     }
   } finally {
     await ctx.close();
+    await anonymizer?.close();
+    await saveState();
   }
 
-  await writeStepSummary(report, dryRun);
+  const { report } = run;
+  await writeStepSummary(report, dryRun, shardLabel);
   log.info(
-    `Done. ${dryRun ? `Would upload ${report.planned.length}` : `Uploaded ${report.uploaded.length}`}, already in Drive ${report.alreadyStored}, skipped ${report.skipped.length}, errors ${report.errors.length}`
+    `Done. ${dryRun ? `Would upload ${report.planned.length}` : `Uploaded ${report.uploaded.length} (${formatBytes(report.bytes)})`}, already in Drive ${report.alreadyStored}, filings already complete ${ctx.stats.filingsSkipped}, skipped ${report.skipped.length}, errors ${report.errors.length}`
   );
   if (sourceRuns > 0 && sourceFailures === sourceRuns) {
     log.error('Every source failed for every company; check credentials and URLs');

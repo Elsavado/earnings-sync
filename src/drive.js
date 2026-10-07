@@ -124,11 +124,56 @@ export class DriveStore {
     return keys;
   }
 
-  async upload({ folderId, name, buffer, mimeType, sourceKey, sourceUrl, convertToGoogleDoc }) {
+  // Bytes still free before the reserve is reached; null when the account has no limit.
+  async freeBytes(reserveBytes) {
+    const res = await this.drive.about.get({ fields: 'storageQuota(limit, usage)' });
+    const { limit, usage } = res.data.storageQuota || {};
+    if (!limit) return null;
+    return Number(limit) - Number(usage) - reserveBytes;
+  }
+
+  async findPrivateFile(folderId, name) {
+    const res = await this.drive.files.list({
+      q: `name = '${escapeQuery(name)}' and '${escapeQuery(folderId)}' in parents and trashed = false`,
+      fields: 'files(id, appProperties)',
+      pageSize: 1,
+      supportsAllDrives: true,
+      includeItemsFromAllDrives: true,
+      corpora: 'allDrives'
+    });
+    return res.data.files?.[0] || null;
+  }
+
+  async readPrivateJson(folderId, name) {
+    const file = await this.findPrivateFile(folderId, name);
+    if (!file) return null;
+    const res = await this.drive.files.get({ fileId: file.id, alt: 'media', supportsAllDrives: true }, { responseType: 'text' });
+    try {
+      return typeof res.data === 'string' ? JSON.parse(res.data) : res.data;
+    } catch {
+      return null;
+    }
+  }
+
+  // Creates or replaces a small private file (state, company key). Returns false when unchanged.
+  async writePrivateFile(folderId, name, text, mimeType, contentHash) {
+    const existing = await this.findPrivateFile(folderId, name);
+    if (existing && contentHash && existing.appProperties?.irHash === contentHash) return false;
+    const media = { mimeType, body: Readable.from(Buffer.from(text, 'utf8')) };
+    const appProperties = { irPrivate: '1', ...(contentHash ? { irHash: contentHash } : {}) };
+    if (existing) {
+      await this.drive.files.update({ fileId: existing.id, media, requestBody: { appProperties }, supportsAllDrives: true });
+    } else {
+      await this.drive.files.create({ requestBody: { name, parents: [folderId], appProperties }, media, fields: 'id', supportsAllDrives: true });
+    }
+    return true;
+  }
+
+  async upload({ folderId, name, buffer, mimeType, sourceKey, convertToGoogleDoc }) {
     const requestBody = {
       name,
       parents: [folderId],
-      description: `Source: ${sourceUrl}`,
+      description: 'Collected and anonymised by earnings-sync',
       appProperties: { [APP_KEY]: APP_VALUE, [SOURCE_KEY]: sourceKey }
     };
     if (convertToGoogleDoc) requestBody.mimeType = GOOGLE_DOC_MIME;
