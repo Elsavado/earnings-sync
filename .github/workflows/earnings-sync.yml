@@ -53,9 +53,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # Companies are split across shards by a hash of the ticker. Four shards at
-        # 450 ms between SEC requests stay under the SEC's 10 requests per second.
-        shard: [0, 1, 2, 3]
+        # Companies are split across shards by a hash of the ticker. Ten shards at
+        # 1.1 s between SEC requests stay under the SEC's 10 requests per second.
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     concurrency:
       group: earnings-sync-shard-${{ matrix.shard }}
       cancel-in-progress: false
@@ -103,8 +103,8 @@ jobs:
         run: node src/index.js
         env:
           SHARD_INDEX: ${{ matrix.shard }}
-          SHARD_COUNT: 4
-          SEC_MIN_INTERVAL_MS: 450
+          SHARD_COUNT: 10
+          SEC_MIN_INTERVAL_MS: 1100
           TICKERS: ${{ github.event.inputs.tickers }}
           DRY_RUN: ${{ github.event.inputs.dry_run }}
           ANON_KEY: ${{ secrets.ANON_KEY }}

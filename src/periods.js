@@ -28,12 +28,18 @@ export function effectiveMonth(dateStr) {
   return { year, month };
 }
 
-// Fiscal period covered by a 10-Q or 10-K, from its period-of-report date.
+// Fiscal year-end month from the SEC's "MMDD" fiscalYearEnd ("0103" -> 12).
+export function fiscalMonthFromSec(mmdd) {
+  if (!/^\d{4}$/.test(String(mmdd || ''))) return 12;
+  return effectiveMonth(`2000-${mmdd.slice(0, 2)}-${mmdd.slice(2)}`).month;
+}
+
+// Fiscal period covered by a 10-Q, 10-K, 20-F or 40-F, from its period-of-report date.
 export function periodFromReportDate(dateStr, fyEndMonth, form) {
   const eff = effectiveMonth(dateStr);
   if (!eff) return null;
   const period = fiscalPeriodForQuarterEnd(eff.year, eff.month, fyEndMonth);
-  return /^10-K/.test(form) ? { fiscalYear: period.fiscalYear, quarter: 4 } : period;
+  return /^(10-K|20-F|40-F)/.test(form) ? { fiscalYear: period.fiscalYear, quarter: 4 } : period;
 }
 
 // Earnings releases follow the quarter they report on, so the reported quarter is

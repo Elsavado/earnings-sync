@@ -1,6 +1,6 @@
 # Earnings Sync
 
-Runs on GitHub Actions every hour. For every company in `companies.json` it collects earnings and financial-analysis documents from fiscal 2020 onward, **anonymises them**, gives them consistent names and files them in Google Drive:
+Runs on GitHub Actions every hour (and back to back while a backfill is unfinished). For every company in `companies.json` it collects earnings and financial-analysis documents for every year EDGAR has, **anonymises them**, gives them consistent names and files them in Google Drive:
 
 ```
 Earnings Calls/
@@ -64,6 +64,9 @@ Manual run: **Actions > Earnings sync > Run workflow**, optionally with tickers 
 | `FMP_API_KEY` | Optional |
 
 ## `companies.json`
+
+The list has two tiers. The first 116 companies are curated (aliases, brands, domains, IR pages) and are processed first. They are followed by about 3,900 companies matched from the SEC's Official List of Section 13(f) Securities (Q1 2026) against the SEC's own ticker data (`"auto": true`: SEC filings only, names from SEC data, fiscal year from SEC data). Companies with listed options come first. Foreign filers are included through 20-F/40-F annual reports and 6-K exhibits whose text reads like a results release.
+
 
 | Field | Meaning |
 |---|---|

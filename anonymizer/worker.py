@@ -166,12 +166,15 @@ class Rules:
             pairs = self._alias_pairs(c)
             self.own_map[c["ticker"]] = {squash(a): r for a, r in pairs}
             for alias, repl in pairs:
-                if self._strong(alias):
+                # Bulk-added companies are only replaced in their own documents: thousands
+                # of names in one pattern would make every document slow to process.
+                if self._strong(alias) and not c.get("auto"):
                     strong.append(alias)
                     self.alias_map.setdefault(squash(alias), repl)
         self.all_strong = self._union(strong)
         self.per_company = {}
         self.markup = {}
+        self.own_regex = {}
 
     def _alias_pairs(self, c):
         """(real alias, fictional replacement) for every spelling of a company's names and brands."""
@@ -233,7 +236,15 @@ class Rules:
         fake = c["fake"]
         own_map = self.own_map[ticker]
         subs = []
-        own = self._union([a for a, _ in self._alias_pairs(c)])
+        if c.get("auto"):
+            # Names taken from SEC data ("1 800 Flowers COM") must still match the way
+            # documents write them ("1-800-FLOWERS.COM"): any case, any separator.
+            terms = sorted({a for a, _ in self._alias_pairs(c)}, key=len, reverse=True)
+            loose = "|".join(r"[\s .\-]*".join(re.escape(p) for p in t.split(" ")) for t in terms)
+            own = re.compile(rf"(?<![A-Za-z0-9])(?:{loose})(?![A-Za-z])", re.I) if terms else None
+        else:
+            own = self._union([a for a, _ in self._alias_pairs(c)])
+        self.own_regex[ticker] = own
         if own:
             subs.append((own, lambda m: own_map.get(squash(m.group(0)), fake["name"])))
         t = re.escape(ticker)
@@ -279,6 +290,20 @@ class Job:
         self.company = rules.companies[ticker]
         self.stats = {"company": 0, "email": 0, "phone": 0, "person": 0, "ids": 0, "metadata": 0}
         self.names_re = None
+        self.skip = set()
+
+    def prepare(self, text):
+        """For bulk-added companies, a one-word name that the document also uses as an
+        ordinary lowercase word ("gap", "target") is left alone in that document."""
+        if not self.company.get("auto") or not text:
+            return
+        lower = set(re.findall(r"(?<![A-Za-z])[a-z]+(?![A-Za-z])", text))
+        for alias in self.rules.own_map[self.ticker]:
+            if alias.isalpha() and alias.lower() in lower:
+                self.skip.add(alias.lower())
+
+    def _own_ok(self, rx, m):
+        return not (self.skip and rx is self.rules.own_regex.get(self.ticker) and squash(m.group(0)).lower() in self.skip)
 
     # --- text rules -------------------------------------------------------
     def _sub(self, regex, repl, text, key):
@@ -308,6 +333,8 @@ class Job:
             text = self._sub(EMAIL_RE, self._email, text, "email")
         if r.do_company:
             for regex, repl in r.company(self.ticker):
+                if callable(repl) and self.skip:
+                    repl = (lambda rx, fn: lambda m: fn(m) if self._own_ok(rx, m) else m.group(0))(regex, repl)
                 text = self._sub(regex, repl, text, "company")
             if r.all_strong:
                 text, n = r.all_strong.subn(lambda m: r.alias_map.get(squash(m.group(0)), self.company["fake"]["name"]), text)
@@ -339,6 +366,8 @@ class Job:
         out = []
         for rx in regexes:
             for m in rx.finditer(text):
+                if not self._own_ok(rx, m):
+                    continue
                 start, end = m.span()
                 if rx.groups and m.lastindex and rx.pattern.startswith("(") and m.group(1) is not None and m.start(1) == start:
                     start = m.end(1)  # keep the "NYSE:" / "CIK" prefix as it is
@@ -399,6 +428,7 @@ class Job:
         if is_html:
             visible = re.sub(r"(?is)<(script|style)\b.*?</\1>", " ", text)
             visible = html.unescape(re.sub(r"<[^>]+>", " ", visible))
+            self.prepare(visible)
             self.learn_names(visible)
             parts = re.split(r"(<[^>]+>)", text)
             for i, part in enumerate(parts):
@@ -410,6 +440,7 @@ class Job:
                     parts[i] = html.escape(self.scrub(html.unescape(part)), quote=False)
             text = "".join(parts)
         else:
+            self.prepare(text)
             self.learn_names(text)
             text = self.scrub(text)
         return text.encode("utf-8")
@@ -431,7 +462,9 @@ class Job:
         if doc.needs_pass:
             raise ValueError("PDF is password protected")
         pages_words = [page.get_text("words") for page in doc]
-        self.learn_names("\n".join(" ".join(w[4] for w in words) for words in pages_words))
+        all_text = "\n".join(" ".join(w[4] for w in words) for words in pages_words)
+        self.prepare(all_text)
+        self.learn_names(all_text)
         for page, words in zip(doc, pages_words):
             if not words:
                 continue
@@ -505,6 +538,7 @@ class Job:
             if OOXML_TEXT_PARTS.match(info.filename):
                 xml = src.read(info.filename).decode("utf-8", "replace")
                 texts.append(" ".join(html.unescape(t) for t in re.findall(r">([^<]+)<", xml)))
+        self.prepare("\n".join(texts))
         self.learn_names("\n".join(texts))
         buf = io.BytesIO()
         with zipfile.ZipFile(buf, "w") as dst:

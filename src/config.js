@@ -81,8 +81,10 @@ function normalizeCompany(company, index) {
     throw new Error(`companies[${index}] is missing "ticker"`);
   }
   const ticker = company.ticker.trim().toUpperCase();
-  const fyEnd = Number(company.fiscalYearEndMonth ?? 12);
-  if (!Number.isInteger(fyEnd) || fyEnd < 1 || fyEnd > 12) {
+  // "auto" (or missing on an auto-added company) means: take it from SEC data at run time.
+  const autoFy = company.fiscalYearEndMonth === 'auto' || (company.auto === true && company.fiscalYearEndMonth === undefined);
+  const fyEnd = autoFy ? null : Number(company.fiscalYearEndMonth ?? 12);
+  if (!autoFy && (!Number.isInteger(fyEnd) || fyEnd < 1 || fyEnd > 12)) {
     throw new Error(`${ticker}: fiscalYearEndMonth must be an integer from 1 to 12`);
   }
   const rawCiks = company.cik === undefined || company.cik === null ? [] : Array.isArray(company.cik) ? company.cik : [company.cik];
@@ -92,6 +94,8 @@ function normalizeCompany(company, index) {
     ticker,
     name: company.name || ticker,
     fiscalYearEndMonth: fyEnd,
+    // Added in bulk from a list rather than curated: aliases come from the SEC name only.
+    auto: company.auto === true,
     cik: ciks[0] || null,
     ciks,
     aliases: (company.aliases || []).map(String).filter(Boolean),
