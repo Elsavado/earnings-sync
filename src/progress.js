@@ -51,19 +51,25 @@ const csv = [HEADER.join(','), row.join(','), ...previousRows.slice(0, 5000)].jo
 
 // Replace the sheet's content in place (Drive converts the CSV); create it the first time.
 const media = { mimeType: 'text/csv', body: Readable.from(Buffer.from(`${csv}\n`, 'utf8')) };
+let sheet;
 if (existing) {
-  await store.drive.files.update({ fileId: existing.id, media, supportsAllDrives: true });
+  sheet = (await store.drive.files.update({ fileId: existing.id, media, fields: 'id, webViewLink', supportsAllDrives: true })).data;
 } else {
-  await store.drive.files.create({
-    requestBody: { name: SHEET, parents: [folder], mimeType: 'application/vnd.google-apps.spreadsheet', appProperties: { irPrivate: '1' } },
-    media,
-    fields: 'id',
-    supportsAllDrives: true
-  });
+  sheet = (
+    await store.drive.files.create({
+      requestBody: { name: SHEET, parents: [folder], mimeType: 'application/vnd.google-apps.spreadsheet', appProperties: { irPrivate: '1' } },
+      media,
+      fields: 'id, webViewLink',
+      supportsAllDrives: true
+    })
+  ).data;
 }
+// The link only opens for the Drive owner, so it is safe in the public log.
+const where = `Google Drive > My Drive > ${settings.drivePrivateFolderName} > ${SHEET} (${sheet.webViewLink})`;
 
 const line = `${files.length} files, ${row[2]} GB, ${codes.size} companies (PDF ${byExt.pdf}, Excel ${byExt.xlsx}, Word ${byExt.docx}, PowerPoint ${byExt.pptx}); +${row[8]} since the previous count`;
 log.info(`Progress: ${line}`);
+log.info(`Progress sheet: ${where}`);
 if (process.env.GITHUB_STEP_SUMMARY) {
   await appendFile(process.env.GITHUB_STEP_SUMMARY, `## Files in Drive\n\n${line}\n`);
 }
