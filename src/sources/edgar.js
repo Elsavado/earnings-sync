@@ -155,8 +155,9 @@ function download(url, name, ctx, settings) {
         minIntervalMs: settings.edgar.minIntervalMs
       });
     } catch (err) {
-      // Older or non-XBRL filings have no Financial_Report.xlsx.
-      if (/HTTP 404/.test(err.message) && /\.xlsx$/i.test(name)) throw new SkipError(`${url} has no financial report workbook`);
+      // Older or non-XBRL filings have no Financial_Report.xlsx, and some old exhibits
+      // listed in filing indexes no longer exist: both are permanent, so skip them.
+      if (/HTTP 404/.test(err.message)) throw new SkipError(/\.xlsx$/i.test(name) ? `${url} has no financial report workbook` : `${url} no longer exists on EDGAR`);
       throw err;
     }
     if (file.contentType === 'text/html' && /\.xlsx$/i.test(name)) throw new SkipError(`${url} has no financial report workbook`);
