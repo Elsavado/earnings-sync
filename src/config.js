@@ -30,7 +30,22 @@ export const DEFAULT_INCLUDE = [
   'annual report',
   'quarterly report',
   'remarks',
-  'commentary'
+  'commentary',
+  'interim',
+  'investor update',
+  'business update',
+  'analyst day',
+  'capital markets day',
+  'investor presentation',
+  'workbook',
+  'databook',
+  'data book',
+  'financial statements',
+  'financial report',
+  'conference call',
+  'strategy',
+  'half year',
+  'half-year'
 ];
 
 export const DEFAULT_EXCLUDE = [
@@ -55,7 +70,7 @@ function lowerList(value, fallback) {
   return value.map((v) => String(v).toLowerCase().trim()).filter(Boolean);
 }
 
-function normalizeIrPage(page, ticker, index) {
+export function normalizeIrPage(page, ticker, index) {
   const entry = typeof page === 'string' ? { url: page } : page;
   if (!entry || typeof entry.url !== 'string') {
     throw new Error(`${ticker}: irPages[${index}] needs a "url"`);
@@ -152,6 +167,7 @@ export function normalizeConfig(raw) {
     ir: {
       enabled: s.ir?.enabled !== false,
       maxFilesPerPage: Number(s.ir?.maxFilesPerPage ?? 0),
+      maxSubpages: Number(s.ir?.maxSubpages ?? 6),
       minIntervalMs: Number(s.ir?.minIntervalMs ?? 1000)
     }
   };

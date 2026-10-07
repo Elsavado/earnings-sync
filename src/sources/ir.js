@@ -95,6 +95,31 @@ export function findResultsLink(html, pageUrl) {
   return best?.url || null;
 }
 
+const SECTION_LINK = /annual\s+reports?|financial\s+reports?|quarterly\s+(results|earnings|reports?)|financial\s+results|presentations?|events?\s*(&|and)\s*presentations|investor\s+day|analyst\s+day|capital\s+markets\s+day|webcasts?|transcripts?|interim\s+reports?|financial\s+information|reports?\s*(&|and)\s*(filings|presentations)|fact\s*(sheet|book)/i;
+
+// Same-host links to IR sections worth visiting from the results page.
+export function findSectionLinks(html, pageUrl) {
+  const $ = cheerio.load(html);
+  const host = new URL(pageUrl).host;
+  const out = [];
+  $('a[href]').each((_, el) => {
+    const text = normalizeSpace($(el).text());
+    if (!text || text.length > 50 || !SECTION_LINK.test(text)) return;
+    let abs;
+    try {
+      abs = new URL($(el).attr('href'), pageUrl);
+    } catch {
+      return;
+    }
+    abs.hash = '';
+    const url = abs.toString();
+    if (abs.host !== host || !/^https?:$/.test(abs.protocol) || url === pageUrl || out.includes(url)) return;
+    if (/\.(pdf|xlsx?|pptx?|docx?|csv|zip|mp[34])$/i.test(abs.pathname)) return;
+    out.push(url);
+  });
+  return out;
+}
+
 async function loadPage(url, page, settings, ctx) {
   return page.render
     ? ctx.renderPage(url)
@@ -139,10 +164,29 @@ export async function irItems(company, settings, ctx) {
     }
     const { html, url: pageUrl } = loaded;
 
-    let links = extractCandidateLinks(html, pageUrl, page).filter((link) => !link.period || link.period.fiscalYear >= settings.sinceYear);
+    // The results page rarely holds everything: also visit the IR site's sections for
+    // annual reports, presentations, events and investor days (same host only).
+    const pages = [{ html, url: pageUrl }];
+    for (const sub of findSectionLinks(html, pageUrl).slice(0, settings.ir.maxSubpages)) {
+      if (settings.respectRobotsTxt && !(await isAllowedByRobots(sub, ctx.scraperUserAgent))) continue;
+      try {
+        pages.push({ html: await loadPage(sub, page, settings, ctx), url: sub });
+      } catch (err) {
+        ctx.log.warn(`${company.ticker}: could not load IR section ${sub}: ${err.message}`);
+      }
+    }
+    const seenLinks = new Set();
+    let links = [];
+    for (const p of pages) {
+      for (const link of extractCandidateLinks(p.html, p.url, page)) {
+        if (seenLinks.has(link.url) || (link.period && link.period.fiscalYear < settings.sinceYear)) continue;
+        seenLinks.add(link.url);
+        links.push({ ...link, pageUrl: p.url });
+      }
+    }
     if (settings.ir.maxFilesPerPage) links = links.slice(0, settings.ir.maxFilesPerPage);
 
-    ctx.log.info(`${company.ticker}: ${links.length} candidate file(s) on ${pageUrl}`);
+    ctx.log.info(`${company.ticker}: ${links.length} candidate file(s) on ${pages.length} IR page(s) from ${pageUrl}`);
 
     for (const link of links) {
       items.push({
@@ -158,7 +202,7 @@ export async function irItems(company, settings, ctx) {
             throw new SkipError(`robots.txt disallows ${link.url}`);
           }
           const file = await downloadBuffer(link.url, {
-            headers: { 'User-Agent': ctx.scraperUserAgent, Referer: pageUrl },
+            headers: { 'User-Agent': ctx.scraperUserAgent, Referer: link.pageUrl || pageUrl },
             maxBytes: settings.maxFileBytes,
             minIntervalMs: settings.ir.minIntervalMs
           });

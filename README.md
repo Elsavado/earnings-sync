@@ -17,11 +17,13 @@ Earnings Sync - private/
 
 | Source | What it gets |
 |---|---|
-| SEC EDGAR | Every 8-K under Item 2.02 (earnings release, supplements, slides as Exhibit 99.x), every 10-Q and 10-K, and the SEC's `Financial_Report.xlsx` workbook where the SEC has generated one. Older archive pages are followed, so history reaches back to 2020 even for heavy filers. |
-| Company IR pages | PDF, XLS/XLSX/XLSM, CSV, DOC/DOCX, PPT/PPTX and TXT files linked from the page in `companies.json`. If that page is gone (404) the IR home page is searched for its results page. Most IR pages only list recent quarters; some block automated visitors. |
+| SEC EDGAR | Earnings 8-Ks (Item 2.02) and their exhibits; investor presentations, business updates and investor-day material filed under 8-K Items 7.01/8.01 (kept only when the text reads like investor material); every 10-Q, 10-K and its Exhibit 13 annual report to shareholders; the SEC's `Financial_Report.xlsx` workbook where generated; foreign filers' 20-F/40-F and results 6-Ks; final IPO prospectuses (424B4); merger proxies (DEFM14A, with the bankers' fairness-opinion analyses); and the financial advisers' presentations filed with going-private transactions (SC 13E3 exhibits (c)). All years EDGAR has. |
+| Company IR pages | PDF, XLS/XLSX/XLSM, CSV, DOC/DOCX, PPT/PPTX and TXT files: earnings materials, transcripts the company posts, annual and interim reports, presentations, workbooks, investor and business updates. Besides the configured page, up to 6 same-site sections (annual reports, presentations, events, investor day, financial reports) are crawled. If the page is gone (404) the IR home page is searched for its results page. Bulk-added companies use the investor website the SEC has on file, when there is one. Some sites block automated visitors. |
 | Financial Modeling Prep | Call transcripts, only with an `FMP_API_KEY` on a paid plan. |
 
 Quarters are **fiscal**, using each company's `fiscalYearEndMonth` (taken from SEC data). 52/53-week years are handled: a period ending in the first week of a month counts as the previous month.
+
+Broker equity research, paid market research, private due-diligence reports and internal documents such as SOPs are not collected: they are licensed or confidential, not public.
 
 ## Anonymisation
 

@@ -2,6 +2,7 @@ import * as cheerio from 'cheerio';
 import { downloadBuffer, getJson, getText, SkipError } from '../http.js';
 import { fiscalMonthFromSec, periodFromReportDate, reportedPeriodFromReleaseDate } from '../periods.js';
 import { classifyDocType } from '../files.js';
+import { normalizeIrPage } from '../config.js';
 
 let tickerMapPromise = null;
 
@@ -60,13 +61,20 @@ export function relevantRows(block, forms) {
     const base = form.replace(/\/A$/, '');
     const isAmendment = form.endsWith('/A');
     let kind = null;
-    if (want8k && base === '8-K') {
+    if (base === '8-K') {
       const items = String(block.items?.[i] || '').split(',').map((s) => s.trim());
-      if (items.includes('2.02')) kind = '8-K';
+      if (want8k && items.includes('2.02')) kind = '8-K';
+      // Regulation FD / other events: investor presentations, business updates, investor days.
+      else if (forms.includes('8-K-IR') && (items.includes('7.01') || items.includes('8.01'))) kind = '8-K-IR';
     } else if (!isAmendment) {
       // 10-K405 and 10-KT are older/transition variants of the annual report;
       // foreign filers use 20-F or 40-F (annual) and 6-K (interim and results releases).
-      const map = { '10-Q': '10-Q', '10-K': '10-K', '10-K405': '10-K', '10-KT': '10-K', '20-F': '20-F', '40-F': '20-F', '6-K': '6-K' };
+      // 424B4 is the final IPO prospectus, DEFM14A a merger proxy (with the bankers'
+      // fairness analyses) and SC 13E3 a going-private filing (with banker presentations).
+      const map = {
+        '10-Q': '10-Q', '10-K': '10-K', '10-K405': '10-K', '10-KT': '10-K', '20-F': '20-F', '40-F': '20-F', '6-K': '6-K',
+        '424B4': 'prospectus', DEFM14A: 'merger-proxy', 'SC 13E3': 'going-private'
+      };
       if (map[base] && forms.includes(map[base])) kind = map[base];
     }
     if (!kind) continue;
@@ -103,23 +111,39 @@ async function listFilings(cik, settings, ctx) {
   const sorted = rows
     .filter((r) => r.filingDate >= cutoff && !seen.has(r.accession) && seen.add(r.accession))
     .sort((a, b) => b.filingDate.localeCompare(a.filingDate));
-  return { rows: sorted, fiscalYearEnd: submissions?.fiscalYearEnd };
+  return {
+    rows: sorted,
+    fiscalYearEnd: submissions?.fiscalYearEnd,
+    website: submissions?.investorWebsite || submissions?.website || ''
+  };
 }
 
 function periodFor(row, company) {
-  if (row.kind === '8-K' || row.kind === '6-K') return reportedPeriodFromReleaseDate(row.reportDate || row.filingDate, company.fiscalYearEndMonth);
-  return periodFromReportDate(row.reportDate, company.fiscalYearEndMonth, row.kind);
+  if (['10-Q', '10-K', '20-F'].includes(row.kind)) return periodFromReportDate(row.reportDate, company.fiscalYearEndMonth, row.kind);
+  return reportedPeriodFromReleaseDate(row.reportDate || row.filingDate, company.fiscalYearEndMonth);
+}
+
+// 8-K items 7.01/8.01 cover anything from investor decks to routine notices; exhibits
+// are kept only when their text reads like investor or analytical material.
+const INVESTOR_RE = /investor\s+(day|presentation|update|conference|meeting)|analyst\s+day|capital\s+markets\s+day|business\s+update|corporate\s+(presentation|overview|update)|strategic\s+(update|plan|review)|(conference|earnings)\s+call|transcript|fireside|financial\s+outlook|guidance|(first|second|third|fourth)[-\s]+quarter|preliminary\s+(results|financial)|operating\s+(metrics|statistics|update)|supplemental\s+(information|data)/i;
+
+function looksLike(file, re) {
+  const head = file.buffer.subarray(0, 60000).toString('latin1').replace(/<[^>]+>/g, ' ').replace(/&nbsp;|&#160;/g, ' ');
+  return file.contentType === 'application/pdf' || /\.pdf$/i.test(file.url) || re.test(head);
+}
+
+function checked(fetcher, re, what, url) {
+  return async () => {
+    const file = await fetcher();
+    if (!looksLike(file, re)) throw new SkipError(`exhibit is not ${what} (${url})`);
+    return file;
+  };
 }
 
 // 6-Ks carry everything from results to routine notices; keep the results material.
 // 6-K exhibits are labelled generically ("EX-99.1 ex99-1.htm"), so they are judged by
 // their opening text: kept when it reads like results, skipped otherwise.
 const RESULTS_6K = /(first|second|third|fourth|1st|2nd|3rd|4th)[-\s]+quarter|quarterly\s+results|(three|six|nine|twelve)\s+months\s+ended|half[-\s]+year|semi[-\s]?annual|interim\s+(?:(?:unaudited|condensed|consolidated)\s+)*(financial|results|report)|earnings\s+release|financial\s+(results|statements)|results\s+of\s+operations|trading\s+update|annual\s+results/i;
-
-function looksLikeResults(file) {
-  const head = file.buffer.subarray(0, 60000).toString('latin1').replace(/<[^>]+>/g, ' ').replace(/&nbsp;|&#160;/g, ' ');
-  return file.contentType === 'application/pdf' || /\.pdf$/i.test(file.url) || RESULTS_6K.test(head);
-}
 
 function download(url, name, ctx, settings) {
   return async () => {
@@ -143,31 +167,38 @@ function download(url, name, ctx, settings) {
 async function filingDocs(row, cik, company, settings, ctx) {
   const folder = `https://www.sec.gov/Archives/edgar/data/${cik}/${row.accession.replace(/-/g, '')}/`;
   const base = { source: 'edgar', period: periodFor(row, company), date: row.filingDate, form: row.kind };
-  if (row.kind === '8-K' || row.kind === '6-K') {
-    const indexUrl = `${folder}${row.accession}-index.htm`;
-    const docs = parseFilingIndex(await getText(indexUrl, { headers: secHeaders(ctx), minIntervalMs: settings.edgar.minIntervalMs }), 'https://www.sec.gov');
-    const wanted =
-      row.kind === '8-K'
-        ? (d) => /^EX-99/i.test(d.type)
-        : (d) => /^EX-99/i.test(d.type) && /\.(htm|html|pdf|txt)$/i.test(d.name);
-    return docs
-      .filter(wanted)
-      .map((doc) => ({
-        ...base,
-        sourceId: doc.url,
-        sourceUrl: doc.url,
-        docType: classifyDocType(`${doc.description} ${doc.name}`, row.kind === '6-K' ? 'results-release' : /^EX-99\.1$/i.test(doc.type) ? 'press-release' : 'exhibit'),
-        hint: doc.type.toLowerCase().replace(/[^a-z0-9]+/g, ''),
-        fetch:
-          row.kind === '6-K'
-            ? async () => {
-                const file = await download(doc.url, doc.name, ctx, settings)();
-                if (!looksLikeResults(file)) throw new SkipError(`6-K exhibit is not a results release (${doc.url})`);
-                return file;
-              }
-            : download(doc.url, doc.name, ctx, settings)
-      }));
+  const readIndex = async () =>
+    parseFilingIndex(
+      await getText(`${folder}${row.accession}-index.htm`, { headers: secHeaders(ctx), minIntervalMs: settings.edgar.minIntervalMs }),
+      'https://www.sec.gov'
+    );
+  const exhibit = (doc, docType, fetch) => ({
+    ...base,
+    sourceId: doc.url,
+    sourceUrl: doc.url,
+    docType,
+    hint: doc.type.toLowerCase().replace(/[^a-z0-9]+/g, ''),
+    fetch: fetch || download(doc.url, doc.name, ctx, settings)
+  });
+  const docFile = (d) => /\.(htm|html|pdf|txt)$/i.test(d.name);
+
+  if (row.kind === '8-K' || row.kind === '6-K' || row.kind === '8-K-IR') {
+    const docs = (await readIndex()).filter((d) => /^EX-99/i.test(d.type) && (row.kind === '8-K' || docFile(d)));
+    return docs.map((doc) => {
+      const label = `${doc.description} ${doc.name}`;
+      if (row.kind === '8-K') return exhibit(doc, classifyDocType(label, /^EX-99\.1$/i.test(doc.type) ? 'press-release' : 'exhibit'));
+      if (row.kind === '6-K') {
+        return exhibit(doc, classifyDocType(label, 'results-release'), checked(download(doc.url, doc.name, ctx, settings), RESULTS_6K, 'a results release', doc.url));
+      }
+      return exhibit(doc, classifyDocType(label, 'investor-update'), checked(download(doc.url, doc.name, ctx, settings), INVESTOR_RE, 'investor material', doc.url));
+    });
   }
+  if (row.kind === 'going-private') {
+    // Exhibits (c)(n) are the financial advisers' presentations and fairness analyses.
+    const docs = (await readIndex()).filter((d) => /^EX-99\.?\(?C/i.test(d.type) && docFile(d));
+    return docs.map((doc) => exhibit(doc, 'fairness-analysis'));
+  }
+
   const items = [];
   if (row.primaryDocument) {
     const url = `${folder}${row.primaryDocument}`;
@@ -175,10 +206,27 @@ async function filingDocs(row, cik, company, settings, ctx) {
       ...base,
       sourceId: url,
       sourceUrl: url,
-      docType: { '10-K': 'annual-report-10k', '10-Q': 'quarterly-report-10q', '20-F': 'annual-report-20f' }[row.kind],
+      docType: {
+        '10-K': 'annual-report-10k',
+        '10-Q': 'quarterly-report-10q',
+        '20-F': 'annual-report-20f',
+        prospectus: 'ipo-prospectus',
+        'merger-proxy': 'merger-proxy-fairness-opinions'
+      }[row.kind],
       hint: '',
       fetch: download(url, row.primaryDocument, ctx, settings)
     });
+  }
+  if (row.kind === 'prospectus' || row.kind === 'merger-proxy') return items;
+  if (row.kind === '10-K') {
+    // The glossy annual report to shareholders is often attached as Exhibit 13.
+    try {
+      for (const doc of (await readIndex()).filter((d) => /^EX-13/i.test(d.type) && docFile(d))) {
+        items.push(exhibit(doc, 'annual-report-to-shareholders'));
+      }
+    } catch (err) {
+      ctx.log.warn(`${company.ticker}: could not read the 10-K index ${row.accession}: ${err.message}`);
+    }
   }
   if (settings.edgar.financialReportXlsx) {
     const url = `${folder}Financial_Report.xlsx`;
@@ -209,8 +257,13 @@ export async function* edgarItems(company, settings, ctx) {
   const done = ctx.doneFilings;
   let count = 0;
   for (const cik of ciks) {
-    const { rows, fiscalYearEnd } = await listFilings(cik, settings, ctx);
+    const { rows, fiscalYearEnd, website } = await listFilings(cik, settings, ctx);
     if (company.fiscalYearEndMonth === null) company.fiscalYearEndMonth = fiscalMonthFromSec(fiscalYearEnd);
+    // Bulk-added companies have no curated IR page; use the investor site the SEC has on file.
+    if (company.auto && !company.irPages.length && /^https?:\/\/|^www\./i.test(website)) {
+      company.irPages = [normalizeIrPage({ url: /^https?:/i.test(website) ? website : `https://${website}`, render: true }, company.ticker, 0)];
+      company.sources.ir = true;
+    }
     for (const row of rows) {
       const period = periodFor(row, company);
       if (period && period.fiscalYear < settings.sinceYear) continue;

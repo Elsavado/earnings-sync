@@ -21,7 +21,11 @@
         "10-Q",
         "10-K",
         "20-F",
-        "6-K"
+        "6-K",
+        "8-K-IR",
+        "prospectus",
+        "merger-proxy",
+        "going-private"
       ],
       "financialReportXlsx": true
     },
@@ -32,7 +36,8 @@
     "ir": {
       "enabled": true,
       "maxFilesPerPage": 0,
-      "minIntervalMs": 1000
+      "minIntervalMs": 1000,
+      "maxSubpages": 6
     }
   },
   "companies": [
