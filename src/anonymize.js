@@ -14,6 +14,61 @@ export function companyCode(ticker, key) {
   return `CO-${createHmac('sha256', key).update(ticker).digest('hex').slice(0, 6).toUpperCase()}`;
 }
 
+// Invented one-word names of every length from 4 to 12 letters, so each company can get
+// a name about as long as its real one (replacements then fit in place inside PDFs).
+const NAME_WORDS = `
+  Arlo Brio Cova Delo Elva Fyra Kael Lumo Mova Nira Orla Pava Sora Tavo Vyra Zeno
+  Aveta Brivo Calyx Doria Elmar Fenra Galvo Halor Ivora Kelso Lumar Morva Nexor Orvia Pyron Ravel Solva Torin Velin Wyndo Zarel
+  Aldren Bravia Corvex Dravia Elmora Farell Galden Halvex Ivoran Kestra Lumora Marvon Norvik Orlana Pellar Quinar Ravena Solmar Torvex Velara Wexley Zorana
+  Alderan Brennan Calvora Dorivan Elmsley Falcora Galvane Halcyra Ivernet Lumaris Marlowe Norland Pellion Quintar Ravenor Solvane Torland Velmont Westmar Zephora
+  Alderwyn Caldoria Dravonis Elmscott Fernmont Galvaris Halvoran Ivermont Kingsley Lumivore Marlwood Orlevant Quinmore Ravenhal Solveran Torridon Velantis Westholm Zephyral
+  Ashbourne Brookmere Calverton Dunsworth Elmsworth Fernhaven Glenmoray Hartfield Ivorstone Kingsmere Marlstone Northgate Pembridge Quarrydon Ravenwood Silverend Thornbury Valebrook Wyndhaven
+  Amberfield Blackthorn Brightwell Caldermont Driftmoore Emberstone Glenhallow Harrowgate Ironbridge Kestrelton Larchmount Maplecrest Northbrook Oakenshire Pinehollow Ravensdale Silverline Wintermere
+  Amberbridge Brightwater Cinderfield Falconridge Granitefall Hollowbrook Juniperdale Kingsbridge Lanternhill Marblestone Nettlefield Quarryfield Stonebridge Willowmeade
+  Brightmeadow Thornborough Silverbrooke Ravensbourne
+`.trim().split(/\s+/);
+const NAME_SECOND = ['Dynamics', 'Industries', 'Systems', 'Holdings', 'Group', 'Works', 'Enterprises', 'Partners', 'Global', 'Ventures', 'Collective', 'Alliance'];
+const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+function digest(key, label) {
+  return createHmac('sha256', key).update(label).digest();
+}
+
+// Imaginary identity used inside documents: "Northwind Dynamics", ticker "NWDQ",
+// northwinddynamics.example. Derived from ANON_KEY, unique within the list.
+export function assignPseudonyms(companies, key) {
+  const realTickers = new Set(companies.map((c) => c.ticker));
+  const names = new Set();
+  const tickers = new Set();
+  for (const c of companies) {
+    const core = c.name.replace(/^The\s+/, '').split(/[\s,]+/)[0].replace(/[^A-Za-z0-9]/g, '');
+    const target = Math.min(12, Math.max(4, core.length));
+    let n = 0;
+    let name;
+    let ticker;
+    let word;
+    do {
+      const d = digest(key, `company|${c.ticker}|${n++}`);
+      const slack = 1 + Math.floor(n / 25);
+      const pool = NAME_WORDS.filter((w) => Math.abs(w.length - target) <= slack);
+      word = pool[d.readUInt16BE(0) % pool.length];
+      name = `${word} ${NAME_SECOND[d[2] % NAME_SECOND.length]}`;
+      ticker = Array.from({ length: 4 }, (_, i) => LETTERS[d[3 + i] % 26]).join('');
+      // The one-word short form ("Kestra") must be unique as well as the full name.
+    } while (names.has(word) || tickers.has(ticker) || realTickers.has(ticker));
+    names.add(word);
+    tickers.add(ticker);
+    const d = digest(key, `ids|${c.ticker}`);
+    c.fake = {
+      name,
+      ticker,
+      domain: `${name.toLowerCase().replace(/[^a-z]/g, '')}.example`,
+      cik: String(1000000 + (d.readUInt32BE(0) % 8999999)),
+      seed: digest(key, 'pseudonyms').toString('hex')
+    };
+  }
+}
+
 export function assignCodes(companies, key) {
   const seen = new Map();
   for (const c of companies) {
@@ -21,6 +76,7 @@ export function assignCodes(companies, key) {
     if (seen.has(c.code)) throw new Error(`Company codes collide for ${seen.get(c.code)} and ${c.ticker}; change ANON_KEY`);
     seen.set(c.code, c.ticker);
   }
+  assignPseudonyms(companies, key);
 }
 
 function escapeRegex(s) {
@@ -50,8 +106,10 @@ export class Anonymizer {
         name: c.name,
         aliases: c.aliases,
         domains: c.domains,
-        ciks: c.ciks
-      }))
+        ciks: c.ciks,
+        fake: c.fake
+      })),
+      seed: companies[0]?.fake?.seed || ''
     };
     this.log = log;
     this.proc = null;

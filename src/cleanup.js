@@ -4,7 +4,7 @@
 // the app created itself (drive.file scope). Logs show counts, never file names.
 import { loadConfig } from './config.js';
 import { log } from './context.js';
-import { createDriveStore } from './drive.js';
+import { createDriveStore, DATA_VERSION } from './drive.js';
 
 const FOLDER = 'application/vnd.google-apps.folder';
 const GOOGLE_DOC = 'application/vnd.google-apps.document';
@@ -13,6 +13,8 @@ const UNWANTED_EXT = /\.(htm|html|csv|json|txt)$/i;
 function unwanted(file) {
   if (file.mimeType === FOLDER) return false;
   if (file.appProperties?.irPrivate === '1' && file.mimeType === 'application/vnd.google-apps.spreadsheet') return false;
+  // Documents from an older naming/anonymisation version are collected again in the current one.
+  if (file.appProperties?.irApp === 'earnings-sync' && file.appProperties?.irVersion !== DATA_VERSION) return true;
   return UNWANTED_EXT.test(file.name) || file.mimeType === GOOGLE_DOC || file.mimeType === 'text/html' || file.mimeType === 'text/csv' || file.mimeType === 'application/json';
 }
 
@@ -25,7 +27,8 @@ const doomed = files.filter(unwanted);
 const byType = {};
 let bytes = 0;
 for (const f of doomed) {
-  const type = f.mimeType === GOOGLE_DOC ? 'google-doc' : (f.name.match(UNWANTED_EXT)?.[1] || f.mimeType).toLowerCase();
+  const old = f.appProperties?.irApp === 'earnings-sync' && f.appProperties?.irVersion !== DATA_VERSION;
+  const type = old ? 'older-version' : f.mimeType === GOOGLE_DOC ? 'google-doc' : (f.name.match(UNWANTED_EXT)?.[1] || f.mimeType).toLowerCase();
   byType[type] = (byType[type] || 0) + 1;
   bytes += Number(f.size || 0);
 }

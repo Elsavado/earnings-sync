@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { createHash } from 'node:crypto';
 import { loadConfig } from './config.js';
 import { createContext, log } from './context.js';
-import { createDriveStore, hasDriveCredentials } from './drive.js';
+import { createDriveStore, DATA_VERSION, hasDriveCredentials } from './drive.js';
 import { SkipError } from './http.js';
 import { periodLabel } from './periods.js';
 import { mimeForExtension, resolveExtension, smartFileName, sourceKey } from './files.js';
@@ -18,8 +18,6 @@ const SOURCES = [
   { name: 'ir', label: 'IR pages', collect: irItems }
 ];
 
-// Bump when the naming or anonymisation of stored files changes, so files are collected again.
-const KEY_VERSION = 'v2';
 const STATE_SAVE_EVERY_MS = 5 * 60 * 1000;
 const QUOTA_CHECK_EVERY = 25;
 // Only documents reach Drive. HTML is printed to PDF; CSV, TXT and legacy Office files are converted.
@@ -116,7 +114,7 @@ class Run {
   // (stored, already stored, or skipped on purpose); false when it should be retried.
   async processItem(item, company) {
     const { report, settings } = this;
-    const key = sourceKey(`${KEY_VERSION}|${item.source}`, item.sourceId);
+    const key = sourceKey(`${DATA_VERSION}|${item.source}`, item.sourceId);
     if (this.existingKeys.has(key)) {
       report.alreadyStored++;
       return true;
@@ -181,6 +179,7 @@ class Run {
       docType: item.docType,
       date: item.date,
       hint: settings.anonymize.enabled ? scrubHint(item.hint, company) : item.hint,
+      uid: key.slice(0, 6),
       ext
     });
 
@@ -274,7 +273,10 @@ async function main() {
   };
 
   if (store && !dryRun && settings.anonymize.enabled && shardIndex === 0) {
-    const csv = ['code,ticker,name,cik', ...companies.map((c) => [c.code, c.ticker, `"${c.name.replace(/"/g, '""')}"`, c.ciks.join(' ')].join(','))].join('\n');
+    const csv = [
+      'code,ticker,name,cik,fictional_name,fictional_ticker',
+      ...companies.map((c) => [c.code, c.ticker, `"${c.name.replace(/"/g, '""')}"`, c.ciks.join(' '), c.fake.name, c.fake.ticker].join(','))
+    ].join('\n');
     const hash = createHash('sha1').update(csv).digest('hex');
     const privateFolder = await store.ensureFolder('root', settings.drivePrivateFolderName);
     if (await store.writeKeySheet(privateFolder, 'company-key', `${csv}\n`, hash)) {

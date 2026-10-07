@@ -63,8 +63,9 @@ test('file names carry the code, never the company', () => {
     docType: 'presentation',
     date: '',
     hint: scrubHint('NVIDIA Q2 FY27 CFO Commentary slides (PDF 1.2 MB)', c),
+    uid: 'a3f9c2',
     ext: 'pdf'
   });
-  assert.equal(name, 'CO-ABC123_FY2027-Q2_investor-presentation_cfo-commentary-slides.pdf');
+  assert.equal(name, 'CO-ABC123_FY2027-Q2_investor-presentation_cfo-commentary-slides_a3f9c2.pdf');
   assert.doesNotMatch(name, /nvidia|nvda/i);
 });

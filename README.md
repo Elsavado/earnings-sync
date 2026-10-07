@@ -6,14 +6,13 @@ Runs on GitHub Actions every hour. For every company in `companies.json` it coll
 Earnings Calls/
   CO-3FA21C/                      (company code, not the ticker)
     FY2026-Q2/
-      CO-3FA21C_FY2026-Q2_earnings-release_2026-07-14_ex991.htm
-      CO-3FA21C_FY2026-Q2_financial-supplement_2026-07-14_ex992.htm
-      CO-3FA21C_FY2026-Q2_quarterly-report-10q_2026-08-01.htm
-      CO-3FA21C_FY2026-Q2_financial-statements-10q_2026-08-01.xlsx
-      CO-3FA21C_FY2026-Q2_investor-presentation_earnings.pdf
+      CO-3FA21C_FY2026-Q2_earnings-release_2026-07-14_ex991_a3f9c2.pdf
+      CO-3FA21C_FY2026-Q2_financial-supplement_2026-07-14_ex992_07be41.pdf
+      CO-3FA21C_FY2026-Q2_quarterly-report-10q_2026-08-01_5d20aa.pdf
+      CO-3FA21C_FY2026-Q2_financial-statements-10q_2026-08-01_c81f09.xlsx
+      CO-3FA21C_FY2026-Q2_investor-presentation_earnings_9e3b77.pdf
 Earnings Sync - private/
-  company-key.csv                 (code -> ticker; keep this private)
-  state-shard-N-of-4.json         (run bookkeeping)
+  company-key                     (Google Sheet: code -> company -> fictional name)
 ```
 
 | Source | What it gets |
@@ -26,16 +25,24 @@ Quarters are **fiscal**, using each company's `fiscalYearEndMonth` (taken from S
 
 ## Anonymisation
 
-Every file is anonymised **before** upload by `anonymizer/worker.py`. If a file cannot be anonymised it is not uploaded.
+Every file is pseudonymised **before** upload by `anonymizer/worker.py`: identifying details are replaced with consistent, imaginary ones rather than blanked out. If a file cannot be processed it is not uploaded.
 
-- **Company identity**: the company's names, brands and aliases (`aliases` in `companies.json`), its ticker in safe forms (`NYSE: XYZ`, XBRL prefixes, file names), web domains, SEC CIK, commission file number and EIN become the company code or a tag. Names of the other listed companies become their codes too.
-- **Personal data**: e-mail addresses and phone numbers, people's names found by spaCy named-entity recognition, and author/creator metadata.
-- **PDFs are redacted properly**: matching words are removed from the page, not just covered, and document metadata, links and outlines are stripped.
-- **Legacy `.xls`, `.doc`, `.ppt`** are converted to `.xlsx`, `.docx`, `.pptx` with LibreOffice first.
+| Real | Becomes |
+|---|---|
+| Company names and legal names | A fictional company of similar length ("Intel Corporation" -> "Calyx Corporation"); the same everywhere |
+| Brands and subsidiaries listed in `aliases` | Invented brand names |
+| Ticker, web domains, SEC CIK, EIN, commission file number | Fake ticker, `<name>.example`, fake numbers of the same shape |
+| HQ street address, city/state/ZIP, press-release dateline | Fictional address and city |
+| People (spaCy named-entity recognition) | Fictional people; first name and surname are mapped separately, so "Mr. Dimon" and "Jamie Dimon" stay consistent |
+| E-mails and phone numbers | `investor.relations@<name>.example`, `(555) 555-01xx` (reserved for fiction) |
+| Document metadata (author, title, company) | Removed or fictional |
+| Header and footer logos in PDFs | Removed |
 
-Codes are `CO-` plus six hex characters of an HMAC of the ticker with the `ANON_KEY` secret, so the public ticker list does not reveal which code is which. The mapping is written to `Earnings Sync - private/company-key.csv` in your Drive.
+Names of the other listed companies get their own fictional names too. In PDFs the real words are removed from the page and the fictional text is written in their place. Everything is derived from the `ANON_KEY` secret, and the key Google Sheet `Earnings Sync - private/company-key` maps codes and fictional names back to the real companies.
 
-Limits worth knowing: logos and other images are not changed; product names that are not in `aliases` stay; figures, segment names and context can still let a knowledgeable reader guess a company; name detection is statistical and will miss some names and catch some non-names.
+Only documents are uploaded: SEC HTML is printed to PDF after pseudonymising, CSV and TXT become XLSX and DOCX, and legacy `.xls`, `.doc`, `.ppt` are converted with LibreOffice. Every file name ends with a short ID from its source, so names are unique.
+
+Limits worth knowing: product names not in `aliases`, images inside the page body, figures and context can still let a knowledgeable reader guess a company; name detection is statistical and will miss some names.
 
 ## Running
 

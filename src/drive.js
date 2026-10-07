@@ -6,6 +6,8 @@ const GOOGLE_DOC_MIME = 'application/vnd.google-apps.document';
 const APP_KEY = 'irApp';
 const APP_VALUE = 'earnings-sync';
 const SOURCE_KEY = 'irSourceKey';
+// Bump when naming or anonymisation changes; the cleanup job replaces older files.
+export const DATA_VERSION = 'v3';
 
 function escapeQuery(value) {
   return String(value).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
@@ -188,7 +190,7 @@ export class DriveStore {
       name,
       parents: [folderId],
       description: 'Collected and anonymised by earnings-sync',
-      appProperties: { [APP_KEY]: APP_VALUE, [SOURCE_KEY]: sourceKey }
+      appProperties: { [APP_KEY]: APP_VALUE, [SOURCE_KEY]: sourceKey, irVersion: DATA_VERSION }
     };
     if (convertToGoogleDoc) requestBody.mimeType = GOOGLE_DOC_MIME;
     const res = await this.drive.files.create({

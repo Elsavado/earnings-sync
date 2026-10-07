@@ -110,9 +110,10 @@ export function descriptor(hint, { docType, periodLabel } = {}) {
   return slug.slice(0, 40).replace(/-+$/g, '');
 }
 
-// CODE_FY2026-Q2_earnings-release_2026-07-14_ex991.htm
-export function smartFileName({ code, periodLabel, docType, date, hint, ext }) {
+// CODE_FY2026-Q2_earnings-release_2026-07-14_ex991_a3f9c2.pdf. The last part comes from
+// the source document's key, so every file has its own name.
+export function smartFileName({ code, periodLabel, docType, date, hint, uid, ext }) {
   const type = FRIENDLY_TYPES[docType] || docType || 'document';
-  const parts = [code, periodLabel, type, date || '', descriptor(hint, { docType: type, periodLabel })].filter(Boolean);
+  const parts = [code, periodLabel, type, date || '', descriptor(hint, { docType: type, periodLabel }), uid || ''].filter(Boolean);
   return ext ? `${parts.join('_')}.${ext}` : parts.join('_');
 }
