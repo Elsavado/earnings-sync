@@ -178,15 +178,29 @@ class Fake:
     def n(self, label):
         return int.from_bytes(hashlib.sha256(f"{self.seed}|{label}".encode()).digest()[:8], "big")
 
+    def _pick(self, pool, label, real):
+        """Deterministic choice from pool that never has as many letters as the real word."""
+        v = self.n(label)
+        for k in range(len(pool)):
+            cand = pool[(v + k) % len(pool)]
+            if len(cand) != len(real):
+                return cand
+        return pool[v % len(pool)]
+
     def first(self, real):
-        return FIRST_NAMES[self.n("first|" + real.lower()) % len(FIRST_NAMES)]
+        return self._pick(FIRST_NAMES, "first|" + real.lower(), real)
 
     def last(self, real):
-        return LAST_NAMES[self.n("last|" + real.lower()) % len(LAST_NAMES)]
+        return self._pick(LAST_NAMES, "last|" + real.lower(), real)
 
-    def brand(self, real):
+    def brand(self, real, replaced=None):
+        replaced = real if replaced is None else replaced
         v = self.n("brand|" + real.lower())
-        return BRAND_HEADS[v % len(BRAND_HEADS)] + BRAND_TAILS[(v // 97) % len(BRAND_TAILS)]
+        for k in range(len(BRAND_HEADS) * len(BRAND_TAILS)):
+            w = BRAND_HEADS[(v + k) % len(BRAND_HEADS)] + BRAND_TAILS[((v // 97) + k // len(BRAND_HEADS)) % len(BRAND_TAILS)]
+            if len(w) != len(replaced):
+                return w
+        return w
 
     def digits_like(self, real, label):
         v = self.n(f"{label}|{real}")
@@ -288,10 +302,14 @@ class Rules:
                 # "Intel Corporation" -> "Northwind Corporation"), which also fits in PDFs.
                 base = fake_name.split(" ")[0] if " " not in core.strip() else fake_name
                 repl = f"{the}{base}{extra}{suffix}"
+                if len(repl) == len(alias):  # never as many letters as the real name
+                    other = fake_name if base != fake_name else fake_name.split(" ")[0]
+                    repl = f"{the}{other}{extra}{suffix}"
             else:
                 words = core.split(" ")
                 tail = f" {words[-1]}" if len(words) > 1 and words[-1] in GENERIC_TAIL else ""
-                repl = f"{the}{self.fake.brand(core)}{tail}{suffix}"
+                replaced = core[: len(core) - len(tail)] if tail else core
+                repl = f"{the}{self.fake.brand(core, replaced)}{tail}{suffix}"
             variants = {alias: repl}
             if len(alias) >= 6 and " " in alias:
                 variants[alias.upper()] = repl.upper()

@@ -14,8 +14,8 @@ export function companyCode(ticker, key, length = 6) {
   return `CO-${createHmac('sha256', key).update(ticker).digest('hex').slice(0, length).toUpperCase()}`;
 }
 
-// Invented one-word names of every length from 4 to 12 letters, so each company can get
-// a name about as long as its real one (replacements then fit in place inside PDFs).
+// Invented one-word names of 4 to 12 letters. A company's fictional name never has the
+// same number of letters as its real one, so the length gives nothing away.
 const NAME_WORDS = `
   Arlo Brio Cova Delo Elva Fyra Kael Lumo Mova Nira Orla Pava Sora Tavo Vyra Zeno
   Aveta Brivo Calyx Doria Elmar Fenra Galvo Halor Ivora Kelso Lumar Morva Nexor Orvia Pyron Ravel Solva Torin Velin Wyndo Zarel
@@ -34,13 +34,12 @@ const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const PARTS_A = ['Alder', 'Amber', 'Ash', 'Birch', 'Bright', 'Cedar', 'Cobalt', 'Copper', 'Crest', 'Dune', 'Elm', 'Ember', 'Fair', 'Falcon', 'Fern', 'Glen', 'Granite', 'Harbor', 'Hazel', 'Iron', 'Juniper', 'Lark', 'Laurel', 'Maple', 'Marble', 'Meadow', 'Moss', 'North', 'Oak', 'Opal', 'Pine', 'Quarry', 'Raven', 'Rowan', 'Sable', 'Silver', 'Stone', 'Summit', 'Thorn', 'Vale', 'West', 'Willow', 'Wren', 'Briar', 'Clover', 'Dover', 'Easton', 'Fox', 'Gold', 'Heron'];
 const PARTS_B = ['brook', 'field', 'gate', 'haven', 'ridge', 'stone', 'wood', 'worth', 'mont', 'vale', 'crest', 'ford', 'ton', 'well', 'more', 'dale', 'hurst', 'mere', 'wick', 'shire', 'port', 'point', 'bridge', 'view', 'land', 'holm', 'stead', 'combe', 'ley', 'bury', 'cliff', 'fall', 'moor', 'rock', 'side', 'star', 'bay', 'run', 'field', 'grove'];
 
-function inventWord(d, target) {
-  let best = null;
-  for (let i = 0; i < 12; i++) {
-    const w = PARTS_A[d[i * 2] % PARTS_A.length] + PARTS_B[d[i * 2 + 1] % PARTS_B.length];
-    if (!best || Math.abs(w.length - target) < Math.abs(best.length - target)) best = w;
-  }
-  return best;
+function inventWord(d) {
+  return PARTS_A[d[0] % PARTS_A.length] + PARTS_B[d[1] % PARTS_B.length];
+}
+
+function coreWord(name) {
+  return name.replace(/^The\s+/i, '').split(/[\s,]+/)[0].replace(/[^A-Za-z0-9]/g, '');
 }
 
 function digest(key, label) {
@@ -50,8 +49,7 @@ function digest(key, label) {
 // Imaginary identity used inside documents: "Northwind Dynamics", ticker "NWDQ",
 // northwinddynamics.example. Derived from ANON_KEY, unique within the list.
 export function assignPseudonyms(companies, key) {
-  // Curated companies are assigned exactly as before bulk additions existed, so their
-  // fictional names never change; bulk-added companies come after and avoid them.
+  // Curated companies are assigned first; bulk-added companies come after and avoid them.
   const curated = companies.filter((c) => !c.auto);
   const realTickers = new Set(curated.map((c) => c.ticker));
   const allRealTickers = new Set(companies.map((c) => c.ticker));
@@ -60,21 +58,20 @@ export function assignPseudonyms(companies, key) {
   const seed = digest(key, 'pseudonyms').toString('hex');
   for (const c of companies.filter((x) => x.auto)) c.fake = null;
   for (const c of curated) {
-    const core = c.name.replace(/^The\s+/, '').split(/[\s,]+/)[0].replace(/[^A-Za-z0-9]/g, '');
-    const target = Math.min(12, Math.max(4, core.length));
+    const core = coreWord(c.name);
+    const pool = NAME_WORDS.filter((w) => w.length !== core.length);
     let n = 0;
     let name;
     let ticker;
     let word;
     do {
-      const d = digest(key, `company|${c.ticker}|${n++}`);
-      const slack = 1 + Math.floor(n / 25);
-      const pool = NAME_WORDS.filter((w) => Math.abs(w.length - target) <= slack);
+      const d = digest(key, `company-v2|${c.ticker}|${n++}`);
       word = pool[d.readUInt16BE(0) % pool.length];
       name = `${word} ${NAME_SECOND[d[2] % NAME_SECOND.length]}`;
       ticker = Array.from({ length: 4 }, (_, i) => LETTERS[d[3 + i] % 26]).join('');
-      // The one-word short form ("Kestra") must be unique as well as the full name.
-    } while (names.has(word) || tickers.has(ticker) || realTickers.has(ticker));
+      // The one-word short form ("Kestra") must be unique as well as the full name, and
+      // neither may have as many letters as the real name.
+    } while (names.has(word) || name.length === c.name.length || tickers.has(ticker) || realTickers.has(ticker));
     names.add(word);
     tickers.add(ticker);
     const d = digest(key, `ids|${c.ticker}`);
@@ -90,18 +87,20 @@ export function assignPseudonyms(companies, key) {
   // unique and the short word must not clash with a curated company's.
   const fullNames = new Set();
   for (const c of companies.filter((x) => x.auto)) {
-    const core = c.name.replace(/^The\s+/i, '').split(/[\s,]+/)[0].replace(/[^A-Za-z0-9]/g, '');
-    const target = Math.min(12, Math.max(6, core.length));
+    const core = coreWord(c.name);
     let n = 0;
     let word;
     let ticker;
     let name;
     do {
-      const d = digest(key, `auto|${c.ticker}|${n++}`);
-      word = inventWord(d, target);
+      const d = digest(key, `auto-v2|${c.ticker}|${n++}`);
+      word = inventWord(d);
       name = `${word} ${NAME_SECOND[d[30] % NAME_SECOND.length]}`;
       ticker = Array.from({ length: 4 }, (_, i) => LETTERS[d[24 + i] % 26]).join('');
-    } while ((names.has(word) || fullNames.has(name) || tickers.has(ticker) || allRealTickers.has(ticker)) && n < 1000);
+    } while (
+      (names.has(word) || fullNames.has(name) || word.length === core.length || name.length === c.name.length || tickers.has(ticker) || allRealTickers.has(ticker)) &&
+      n < 2000
+    );
     if (fullNames.has(name)) throw new Error(`Could not find a unique fictional name for ${c.ticker}`);
     fullNames.add(name);
     tickers.add(ticker);
