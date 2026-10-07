@@ -81,7 +81,10 @@ class Run {
     this.anonymizer = anonymizer;
     this.hideCodes = settings.anonymize.enabled;
     this.report = { uploaded: [], planned: [], skipped: [], errors: [], alreadyStored: 0, bytes: 0, stopReason: null };
-    this.deadline = settings.runBudgetMinutes ? Date.now() + settings.runBudgetMinutes * 60000 : Infinity;
+    // Counted from the start of the job (JOB_STARTED, epoch seconds) when the workflow
+    // provides it, so slow setup steps cannot push a run past the job's time limit.
+    const started = Number(process.env.JOB_STARTED) * 1000 || Date.now();
+    this.deadline = settings.runBudgetMinutes ? started + settings.runBudgetMinutes * 60000 : Infinity;
     this.freeBytes = null;
     this.uploadsSinceQuotaCheck = QUOTA_CHECK_EVERY;
   }

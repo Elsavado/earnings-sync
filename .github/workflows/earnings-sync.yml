@@ -60,6 +60,9 @@ jobs:
       group: earnings-sync-shard-${{ matrix.shard }}
       cancel-in-progress: false
     steps:
+      - name: Note the job start time (the sync's time budget counts from here)
+        run: echo "JOB_STARTED=$(date +%s)" >> "$GITHUB_ENV"
+
       - name: Check out repository
         uses: actions/checkout@v4
 

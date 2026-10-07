@@ -1,0 +1,43 @@
+name: Continue backfill
+
+# Backup for the "continue" job inside Earnings sync: if a run ends without a clean
+# finish (for example a GitHub internal error stops that job) while shards reported
+# remaining work, start the next run so the backfill does not stall.
+on:
+  workflow_run:
+    workflows: ['Earnings sync']
+    types: [completed]
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  restart:
+    if: ${{ github.event.workflow_run.conclusion != 'success' && github.event.workflow_run.event != 'schedule' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the finished run for remaining work
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          pattern: more-work-*
+          path: signals
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+
+      - name: Start the next run if needed
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          running=$(gh run list --repo "$REPO" --workflow earnings-sync.yml --status in_progress --json databaseId --jq length)
+          queued=$(gh run list --repo "$REPO" --workflow earnings-sync.yml --status queued --json databaseId --jq length)
+          if [ -z "$(ls -A signals 2>/dev/null)" ]; then
+            echo "No remaining work reported; nothing to do"
+          elif [ "$running" != "0" ] || [ "$queued" != "0" ]; then
+            echo "A sync run is already running or queued; nothing to do"
+          else
+            gh workflow run earnings-sync.yml --repo "$REPO"
+            echo "Started the next sync run"
+          fi
