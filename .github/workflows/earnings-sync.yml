@@ -20,6 +20,11 @@ on:
         type: boolean
         required: false
         default: false
+      audit:
+        description: 'Instead of syncing, check a random sample of uploaded files for real names that survived anonymisation'
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: read
@@ -46,8 +51,34 @@ jobs:
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
           DRIVE_ROOT_FOLDER_ID: ${{ secrets.DRIVE_ROOT_FOLDER_ID }}
 
+  audit:
+    if: ${{ github.event.inputs.audit == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          npm ci --no-audit --no-fund
+          pip install pymupdf
+      - name: Audit a sample of uploaded files
+        run: node src/audit.js
+        env:
+          ANON_KEY: ${{ secrets.ANON_KEY }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          DRIVE_ROOT_FOLDER_ID: ${{ secrets.DRIVE_ROOT_FOLDER_ID }}
+
   sync:
-    if: ${{ github.event.inputs.cleanup != 'true' }}
+    if: ${{ github.event.inputs.cleanup != 'true' && github.event.inputs.audit != 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 58
     strategy:
@@ -139,7 +170,7 @@ jobs:
   # instead of waiting for the hourly schedule. Stops once no shard has work left.
   continue:
     needs: sync
-    if: ${{ always() && github.event.inputs.dry_run != 'true' && github.event.inputs.cleanup != 'true' }}
+    if: ${{ always() && github.event.inputs.dry_run != 'true' && github.event.inputs.cleanup != 'true' && github.event.inputs.audit != 'true' }}
     runs-on: ubuntu-latest
     permissions:
       actions: write
