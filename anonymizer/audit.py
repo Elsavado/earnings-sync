@@ -33,6 +33,7 @@ def main():
     by_type = collections.defaultdict(lambda: {"files": 0, "with_leaks": 0, "no_text_pdfs": 0})
     leaked_terms = collections.Counter()
     placeholders = collections.Counter()
+    snippets = []
     errors = 0
     for f in manifest["files"]:
         c = companies.get(f["code"])
@@ -53,10 +54,13 @@ def main():
         terms += c.get("domains") or []
         hits = 0
         for t in set(terms):
-            n = len(re.findall(rf"(?<![A-Za-z0-9]){re.escape(t)}(?![a-z])", text))
-            if n:
-                hits += n
-                leaked_terms[t] += n
+            found = list(re.finditer(rf"(?<![A-Za-z0-9]){re.escape(t)}(?![a-z])", text))
+            if found:
+                hits += len(found)
+                leaked_terms[t] += len(found)
+                if len(snippets) < 40:
+                    m = found[0]
+                    snippets.append({"type": f["docType"], "ext": f["ext"], "context": re.sub(r"\s+", " ", text[max(0, m.start() - 70) : m.end() + 50])})
         for tag in ("[PERSON]", "[PHONE]", "[EMAIL]", "[DOMAIN]", "[CIK]", "[REDACTED]"):
             placeholders[tag] += text.count(tag)
         if hits:
@@ -67,6 +71,7 @@ def main():
         "by_type": dict(sorted(by_type.items())),
         "leaked_terms": leaked_terms.most_common(40),
         "old_placeholders": {k: v for k, v in placeholders.items() if v},
+        "snippets": snippets,
     }))
 
 

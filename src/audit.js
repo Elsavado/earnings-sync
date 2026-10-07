@@ -55,6 +55,7 @@ try {
     const lines = ['## Anonymisation audit', '', `Files checked: **${result.checked}** (unreadable: ${result.unreadable})`, '', '| Document type | Files | With leaks | PDFs without text |', '|---|---|---|---|'];
     for (const [type, s] of Object.entries(result.by_type)) lines.push(`| ${type.replace(/^file:/, '')} | ${s.files} | ${s.with_leaks} | ${s.no_text_pdfs} |`);
     lines.push('', '### Leaked terms', '', ...(result.leaked_terms.length ? result.leaked_terms.map(([t, n]) => `- ${t}: ${n}`) : ['None found']));
+    if (result.snippets?.length) lines.push('', '### Leak contexts', '', ...result.snippets.map((x) => `- ${x.type} (.${x.ext}): …${x.context.replace(/|/g, '/')}…`));
     if (Object.keys(result.old_placeholders).length) lines.push('', `Old placeholder tags still present: ${JSON.stringify(result.old_placeholders)}`);
     await appendFile(summary, `${lines.join('\n')}\n`);
   }
