@@ -1,0 +1,60 @@
+name: Earnings sync
+
+on:
+  schedule:
+    # 04:17 UTC (07:17 Nairobi) catches US after-close releases; 16:17 UTC catches morning releases and next-day transcripts.
+    - cron: '17 4 * * *'
+    - cron: '17 16 * * *'
+  workflow_dispatch:
+    inputs:
+      tickers:
+        description: 'Only these tickers, comma separated (blank = all)'
+        required: false
+        default: ''
+      dry_run:
+        description: 'List what would be downloaded without uploading'
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: earnings-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Install Chromium when a page needs rendering
+        run: |
+          if node src/needs-browser.js; then
+            npx playwright install --with-deps chromium
+          fi
+
+      - name: Run sync
+        run: node src/index.js
+        env:
+          TICKERS: ${{ github.event.inputs.tickers }}
+          DRY_RUN: ${{ github.event.inputs.dry_run }}
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+          FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          DRIVE_ROOT_FOLDER_ID: ${{ secrets.DRIVE_ROOT_FOLDER_ID }}

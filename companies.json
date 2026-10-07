@@ -1,0 +1,36 @@
+{
+  "settings": {
+    "sinceYear": 2025,
+    "maxFileSizeMB": 200,
+    "driveRootFolderName": "Earnings Calls",
+    "convertHtmlToGoogleDocs": true,
+    "respectRobotsTxt": true,
+    "edgar": { "enabled": true, "maxFilingsPerCompany": 8 },
+    "fmp": { "enabled": true, "maxTranscriptsPerCompany": 4 },
+    "ir": { "enabled": true, "maxFilesPerPage": 40, "minIntervalMs": 1000 }
+  },
+  "companies": [
+    {
+      "ticker": "AAPL",
+      "name": "Apple Inc.",
+      "fiscalYearEndMonth": 9,
+      "irPages": [
+        { "url": "https://investor.apple.com/investor-relations/default.aspx", "render": true }
+      ]
+    },
+    {
+      "ticker": "MSFT",
+      "name": "Microsoft Corporation",
+      "fiscalYearEndMonth": 6,
+      "irPages": [
+        { "url": "https://www.microsoft.com/en-us/investor", "render": true }
+      ]
+    },
+    {
+      "ticker": "JPM",
+      "name": "JPMorgan Chase & Co.",
+      "fiscalYearEndMonth": 12,
+      "sources": { "ir": false }
+    }
+  ]
+}

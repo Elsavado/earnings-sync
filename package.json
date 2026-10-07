@@ -1,0 +1,22 @@
+{
+  "name": "earnings-sync",
+  "version": "1.0.0",
+  "description": "Collects earnings call materials from company IR pages, SEC EDGAR and Financial Modeling Prep, and files them in Google Drive.",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dry-run": "DRY_RUN=true node src/index.js",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "googleapis": "^144.0.0"
+  },
+  "optionalDependencies": {
+    "playwright": "^1.48.0"
+  }
+}
