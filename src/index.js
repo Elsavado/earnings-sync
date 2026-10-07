@@ -343,6 +343,12 @@ async function main() {
   log.info(
     `Done. ${dryRun ? `Would upload ${report.planned.length}` : `Uploaded ${report.uploaded.length} (${formatBytes(report.bytes)})`}, already in Drive ${report.alreadyStored}, filings already complete ${ctx.stats.filingsSkipped}, skipped ${report.skipped.length}, errors ${report.errors.length}`
   );
+  // Tells the workflow to start another run straight away: this shard stopped at its
+  // time budget with work left and is making progress (so a stuck shard cannot loop).
+  if (!dryRun && /time budget/.test(report.stopReason || '') && report.uploaded.length + report.skipped.length > 0) {
+    await mkdir('.signal', { recursive: true });
+    await writeFile(join('.signal', `more-work-${shardIndex}`), '1');
+  }
   if (sourceRuns > 0 && sourceFailures === sourceRuns) {
     log.error('Every source failed for every company; check credentials and URLs');
     process.exitCode = 1;

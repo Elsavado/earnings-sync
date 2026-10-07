@@ -122,3 +122,38 @@ jobs:
         with:
           path: .state
           key: sync-state-${{ matrix.shard }}-${{ github.run_id }}
+
+      - name: Flag remaining work
+        if: ${{ hashFiles('.signal/*') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: more-work-${{ matrix.shard }}
+          path: .signal/
+          retention-days: 1
+
+  # While the backfill is unfinished, start the next run as soon as this one ends
+  # instead of waiting for the hourly schedule. Stops once no shard has work left.
+  continue:
+    needs: sync
+    if: ${{ always() && github.event.inputs.dry_run != 'true' && github.event.inputs.cleanup != 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Check for remaining work
+        id: check
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          pattern: more-work-*
+          path: signals
+      - name: Start the next run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -n "$(ls -A signals 2>/dev/null)" ]; then
+            gh workflow run earnings-sync.yml --repo "${{ github.repository }}" --ref "${{ github.ref_name }}" -f tickers="${{ github.event.inputs.tickers }}"
+            echo "Backfill continues: next run started" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "No shard reported remaining work; waiting for the schedule" >> "$GITHUB_STEP_SUMMARY"
+          fi
