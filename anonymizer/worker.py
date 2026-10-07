@@ -468,6 +468,27 @@ class Job:
                 text = self._sub(self.names_re, lambda m: self.fake.person(m.group(0)), text, "person")
         return text
 
+    def name_spans(self, text):
+        """Spans of company and person names only. Used across text pieces, where joining
+        pieces can glue unrelated tokens together ("JPM" + "www.example.com")."""
+        r = self.rules
+        regexes = []
+        if r.do_company:
+            regexes.append(r.own_regex.get(self.ticker) or r.company(self.ticker) and r.own_regex.get(self.ticker))
+            if r.all_strong:
+                regexes.append(r.all_strong)
+        if r.do_personal and self.names_re:
+            regexes.append(self.names_re)
+        out = []
+        for rx in regexes:
+            if rx is None:
+                continue
+            for m in rx.finditer(text):
+                if not self._own_ok(rx, m) or (rx is r.all_strong and m.group(0).islower()):
+                    continue
+                out.append(m.span())
+        return out
+
     def spans(self, text, identity_only=False):
         """Character spans that scrub() would change, for PDF redaction. With
         identity_only, only real names and company identifiers count: the fictional
@@ -557,7 +578,7 @@ class Job:
             pos += len(t)
         joined = "".join(texts)
         merged = []
-        for s, e in sorted(self.spans(joined)):
+        for s, e in sorted(self.name_spans(joined)):
             if merged and s < merged[-1][1]:
                 merged[-1] = (merged[-1][0], max(e, merged[-1][1]))
             else:

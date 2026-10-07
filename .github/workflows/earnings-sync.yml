@@ -15,6 +15,11 @@ on:
         type: boolean
         required: false
         default: false
+      count_only:
+        description: 'Only count the files in Drive and update the progress sheet'
+        type: boolean
+        required: false
+        default: false
       cleanup:
         description: 'Instead of syncing, delete non-document files (htm, csv, json, txt) this app put in Drive'
         type: boolean
@@ -78,7 +83,7 @@ jobs:
           DRIVE_ROOT_FOLDER_ID: ${{ secrets.DRIVE_ROOT_FOLDER_ID }}
 
   sync:
-    if: ${{ github.event.inputs.cleanup != 'true' && github.event.inputs.audit != 'true' }}
+    if: ${{ github.event.inputs.cleanup != 'true' && github.event.inputs.audit != 'true' && github.event.inputs.count_only != 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 58
     strategy:
@@ -170,7 +175,7 @@ jobs:
   # instead of waiting for the hourly schedule. Stops once no shard has work left.
   continue:
     needs: sync
-    if: ${{ always() && github.event.inputs.dry_run != 'true' && github.event.inputs.cleanup != 'true' && github.event.inputs.audit != 'true' }}
+    if: ${{ always() && github.event.inputs.count_only != 'true' && github.event.inputs.dry_run != 'true' && github.event.inputs.cleanup != 'true' && github.event.inputs.audit != 'true' }}
     runs-on: ubuntu-latest
     permissions:
       actions: write
@@ -192,3 +197,26 @@ jobs:
           else
             echo "No shard reported remaining work; waiting for the schedule" >> "$GITHUB_STEP_SUMMARY"
           fi
+
+  # Counts the documents in Drive after each run and adds a row to the "progress" Google
+  # Sheet in the private folder. Separate from "continue" so it can never stop the backfill.
+  progress:
+    needs: sync
+    if: ${{ always() && github.event.inputs.dry_run != 'true' && github.event.inputs.cleanup != 'true' && github.event.inputs.audit != 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Count files in Drive
+        run: node src/progress.js
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          DRIVE_ROOT_FOLDER_ID: ${{ secrets.DRIVE_ROOT_FOLDER_ID }}
