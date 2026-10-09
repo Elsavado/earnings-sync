@@ -329,7 +329,8 @@
           "MIMIC-III demo (de-identified, 100 patients)"
         ]
       }
-    ]
+    ],
+    "discover": true
   },
   "github": {
     "enabled": true,
@@ -852,6 +853,2030 @@
         "license": "Public domain (NCBI ClinVar data are freely available)",
         "attribution": "Landrum MJ et al., ClinVar, NCBI",
         "landing": "https://www.ncbi.nlm.nih.gov/clinvar/"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 2)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2008",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_beneficiary_summary_file_sample_2.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 2)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2009",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2009_beneficiary_summary_file_sample_2.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 2)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2010_beneficiary_summary_file_sample_2.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 2)",
+          "Inpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "inpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_inpatient_claims_sample_2.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 2)",
+          "Outpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "outpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_outpatient_claims_sample_2.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 2)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part A",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_2A.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 2)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part B",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_2B.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 2)",
+          "Pharmacy (prescription drug events)"
+        ],
+        "prefix": "synpuf",
+        "title": "prescription drug events 2008-2010",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Prescription_Drug_Events_Sample_2.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 3)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2008",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_beneficiary_summary_file_sample_3.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 3)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2009",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2009_beneficiary_summary_file_sample_3.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 3)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2010_beneficiary_summary_file_sample_3.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 3)",
+          "Inpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "inpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_inpatient_claims_sample_3.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 3)",
+          "Outpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "outpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_outpatient_claims_sample_3.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 3)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part A",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_3A.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 3)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part B",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_3B.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 3)",
+          "Pharmacy (prescription drug events)"
+        ],
+        "prefix": "synpuf",
+        "title": "prescription drug events 2008-2010",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Prescription_Drug_Events_Sample_3.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 4)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2008",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_beneficiary_summary_file_sample_4.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 4)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2009",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2009_beneficiary_summary_file_sample_4.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 4)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2010_beneficiary_summary_file_sample_4.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 4)",
+          "Inpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "inpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_inpatient_claims_sample_4.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 4)",
+          "Outpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "outpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_outpatient_claims_sample_4.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 4)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part A",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_4A.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 4)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part B",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_4B.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 4)",
+          "Pharmacy (prescription drug events)"
+        ],
+        "prefix": "synpuf",
+        "title": "prescription drug events 2008-2010",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Prescription_Drug_Events_Sample_4.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 5)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2008",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_beneficiary_summary_file_sample_5.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 5)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2009",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2009_beneficiary_summary_file_sample_5.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 5)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2010_beneficiary_summary_file_sample_5.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 5)",
+          "Inpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "inpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_inpatient_claims_sample_5.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 5)",
+          "Outpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "outpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_outpatient_claims_sample_5.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 5)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part A",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_5A.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 5)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part B",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_5B.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 5)",
+          "Pharmacy (prescription drug events)"
+        ],
+        "prefix": "synpuf",
+        "title": "prescription drug events 2008-2010",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Prescription_Drug_Events_Sample_5.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 6)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2008",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_beneficiary_summary_file_sample_6.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 6)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2009",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2009_beneficiary_summary_file_sample_6.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 6)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2010_beneficiary_summary_file_sample_6.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 6)",
+          "Inpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "inpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_inpatient_claims_sample_6.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 6)",
+          "Outpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "outpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_outpatient_claims_sample_6.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 6)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part A",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_6A.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 6)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part B",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_6B.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 6)",
+          "Pharmacy (prescription drug events)"
+        ],
+        "prefix": "synpuf",
+        "title": "prescription drug events 2008-2010",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Prescription_Drug_Events_Sample_6.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 7)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2008",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_beneficiary_summary_file_sample_7.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 7)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2009",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2009_beneficiary_summary_file_sample_7.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 7)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2010_beneficiary_summary_file_sample_7.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 7)",
+          "Inpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "inpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_inpatient_claims_sample_7.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 7)",
+          "Outpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "outpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_outpatient_claims_sample_7.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 7)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part A",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_7A.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 7)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part B",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_7B.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 7)",
+          "Pharmacy (prescription drug events)"
+        ],
+        "prefix": "synpuf",
+        "title": "prescription drug events 2008-2010",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Prescription_Drug_Events_Sample_7.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 8)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2008",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_beneficiary_summary_file_sample_8.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 8)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2009",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2009_beneficiary_summary_file_sample_8.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 8)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2010_beneficiary_summary_file_sample_8.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 8)",
+          "Inpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "inpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_inpatient_claims_sample_8.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 8)",
+          "Outpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "outpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_outpatient_claims_sample_8.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 8)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part A",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_8A.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 8)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part B",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_8B.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 8)",
+          "Pharmacy (prescription drug events)"
+        ],
+        "prefix": "synpuf",
+        "title": "prescription drug events 2008-2010",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Prescription_Drug_Events_Sample_8.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 9)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2008",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_beneficiary_summary_file_sample_9.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 9)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2009",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2009_beneficiary_summary_file_sample_9.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 9)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2010_beneficiary_summary_file_sample_9.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 9)",
+          "Inpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "inpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_inpatient_claims_sample_9.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 9)",
+          "Outpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "outpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_outpatient_claims_sample_9.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 9)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part A",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_9A.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 9)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part B",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_9B.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 9)",
+          "Pharmacy (prescription drug events)"
+        ],
+        "prefix": "synpuf",
+        "title": "prescription drug events 2008-2010",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Prescription_Drug_Events_Sample_9.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 10)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2008",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_beneficiary_summary_file_sample_10.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 10)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2009",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2009_beneficiary_summary_file_sample_10.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 10)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2010_beneficiary_summary_file_sample_10.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 10)",
+          "Inpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "inpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_inpatient_claims_sample_10.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 10)",
+          "Outpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "outpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_outpatient_claims_sample_10.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 10)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part A",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_10A.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 10)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part B",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_10B.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 10)",
+          "Pharmacy (prescription drug events)"
+        ],
+        "prefix": "synpuf",
+        "title": "prescription drug events 2008-2010",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Prescription_Drug_Events_Sample_10.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 11)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2008",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_beneficiary_summary_file_sample_11.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 11)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2009",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2009_beneficiary_summary_file_sample_11.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 11)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2010_beneficiary_summary_file_sample_11.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 11)",
+          "Inpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "inpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_inpatient_claims_sample_11.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 11)",
+          "Outpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "outpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_outpatient_claims_sample_11.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 11)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part A",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_11A.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 11)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part B",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_11B.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 11)",
+          "Pharmacy (prescription drug events)"
+        ],
+        "prefix": "synpuf",
+        "title": "prescription drug events 2008-2010",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Prescription_Drug_Events_Sample_11.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 12)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2008",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_beneficiary_summary_file_sample_12.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 12)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2009",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2009_beneficiary_summary_file_sample_12.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 12)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2010_beneficiary_summary_file_sample_12.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 12)",
+          "Inpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "inpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_inpatient_claims_sample_12.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 12)",
+          "Outpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "outpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_outpatient_claims_sample_12.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 12)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part A",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_12A.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 12)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part B",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_12B.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 12)",
+          "Pharmacy (prescription drug events)"
+        ],
+        "prefix": "synpuf",
+        "title": "prescription drug events 2008-2010",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Prescription_Drug_Events_Sample_12.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 13)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2008",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_beneficiary_summary_file_sample_13.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 13)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2009",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2009_beneficiary_summary_file_sample_13.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 13)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2010_beneficiary_summary_file_sample_13.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 13)",
+          "Inpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "inpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_inpatient_claims_sample_13.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 13)",
+          "Outpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "outpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_outpatient_claims_sample_13.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 13)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part A",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_13A.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 13)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part B",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_13B.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 13)",
+          "Pharmacy (prescription drug events)"
+        ],
+        "prefix": "synpuf",
+        "title": "prescription drug events 2008-2010",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Prescription_Drug_Events_Sample_13.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 14)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2008",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_beneficiary_summary_file_sample_14.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 14)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2009",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2009_beneficiary_summary_file_sample_14.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 14)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2010_beneficiary_summary_file_sample_14.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 14)",
+          "Inpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "inpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_inpatient_claims_sample_14.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 14)",
+          "Outpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "outpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_outpatient_claims_sample_14.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 14)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part A",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_14A.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 14)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part B",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_14B.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 14)",
+          "Pharmacy (prescription drug events)"
+        ],
+        "prefix": "synpuf",
+        "title": "prescription drug events 2008-2010",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Prescription_Drug_Events_Sample_14.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 15)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2008",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_beneficiary_summary_file_sample_15.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 15)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2009",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2009_beneficiary_summary_file_sample_15.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 15)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2010_beneficiary_summary_file_sample_15.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 15)",
+          "Inpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "inpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_inpatient_claims_sample_15.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 15)",
+          "Outpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "outpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_outpatient_claims_sample_15.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 15)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part A",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_15A.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 15)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part B",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_15B.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 15)",
+          "Pharmacy (prescription drug events)"
+        ],
+        "prefix": "synpuf",
+        "title": "prescription drug events 2008-2010",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Prescription_Drug_Events_Sample_15.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 16)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2008",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_beneficiary_summary_file_sample_16.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 16)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2009",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2009_beneficiary_summary_file_sample_16.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 16)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2010_beneficiary_summary_file_sample_16.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 16)",
+          "Inpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "inpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_inpatient_claims_sample_16.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 16)",
+          "Outpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "outpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_outpatient_claims_sample_16.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 16)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part A",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_16A.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 16)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part B",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_16B.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 16)",
+          "Pharmacy (prescription drug events)"
+        ],
+        "prefix": "synpuf",
+        "title": "prescription drug events 2008-2010",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Prescription_Drug_Events_Sample_16.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 17)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2008",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_beneficiary_summary_file_sample_17.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 17)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2009",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2009_beneficiary_summary_file_sample_17.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 17)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2010_beneficiary_summary_file_sample_17.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 17)",
+          "Inpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "inpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_inpatient_claims_sample_17.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 17)",
+          "Outpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "outpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_outpatient_claims_sample_17.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 17)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part A",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_17A.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 17)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part B",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_17B.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 17)",
+          "Pharmacy (prescription drug events)"
+        ],
+        "prefix": "synpuf",
+        "title": "prescription drug events 2008-2010",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Prescription_Drug_Events_Sample_17.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 18)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2008",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_beneficiary_summary_file_sample_18.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 18)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2009",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2009_beneficiary_summary_file_sample_18.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 18)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2010_beneficiary_summary_file_sample_18.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 18)",
+          "Inpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "inpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_inpatient_claims_sample_18.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 18)",
+          "Outpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "outpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_outpatient_claims_sample_18.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 18)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part A",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_18A.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 18)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part B",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_18B.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 18)",
+          "Pharmacy (prescription drug events)"
+        ],
+        "prefix": "synpuf",
+        "title": "prescription drug events 2008-2010",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Prescription_Drug_Events_Sample_18.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 19)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2008",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_beneficiary_summary_file_sample_19.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 19)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2009",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2009_beneficiary_summary_file_sample_19.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 19)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2010_beneficiary_summary_file_sample_19.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 19)",
+          "Inpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "inpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_inpatient_claims_sample_19.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 19)",
+          "Outpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "outpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_outpatient_claims_sample_19.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 19)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part A",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_19A.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 19)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part B",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_19B.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 19)",
+          "Pharmacy (prescription drug events)"
+        ],
+        "prefix": "synpuf",
+        "title": "prescription drug events 2008-2010",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Prescription_Drug_Events_Sample_19.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 20)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2008",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_beneficiary_summary_file_sample_20.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 20)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2009",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2009_beneficiary_summary_file_sample_20.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 20)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2010_beneficiary_summary_file_sample_20.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 20)",
+          "Inpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "inpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_inpatient_claims_sample_20.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 20)",
+          "Outpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "outpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_outpatient_claims_sample_20.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 20)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part A",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_20A.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 20)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part B",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_20B.zip"
+      },
+      {
+        "category": "claims",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 20)",
+          "Pharmacy (prescription drug events)"
+        ],
+        "prefix": "synpuf",
+        "title": "prescription drug events 2008-2010",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Prescription_Drug_Events_Sample_20.zip"
+      }
+    ]
+  },
+  "buckets": {
+    "enabled": true,
+    "minIntervalMs": 200,
+    "maxFileSizeMB": 4096,
+    "datasets": [
+      {
+        "category": "pathology",
+        "license": "CC0 1.0",
+        "landing": "https://camelyon17.grand-challenge.org/",
+        "base": "https://camelyon-dataset.s3.amazonaws.com",
+        "name": "camelyon16",
+        "prefix": "CAMELYON16/",
+        "include": "^CAMELYON16/(images|annotations|masks)/",
+        "groupBy": "(normal|tumor|test)_\\d+",
+        "folder": [
+          "Whole-slide images",
+          "Hematopathology (blood, bone marrow, lymph node)",
+          "CAMELYON16 (breast cancer lymph node metastases)"
+        ],
+        "attribution": "CAMELYON16 challenge, Ehteshami Bejnordi et al., JAMA 2017 (CC0)",
+        "maxPerRun": 60
+      },
+      {
+        "category": "pathology",
+        "license": "CC0 1.0",
+        "landing": "https://camelyon17.grand-challenge.org/",
+        "base": "https://camelyon-dataset.s3.amazonaws.com",
+        "name": "camelyon17",
+        "prefix": "CAMELYON17/",
+        "include": "^CAMELYON17/((images|annotations|masks)/|[^/]+\\.csv$)",
+        "groupBy": "patient_\\d+",
+        "folder": [
+          "Whole-slide images",
+          "Hematopathology (blood, bone marrow, lymph node)",
+          "CAMELYON17 (breast cancer lymph node metastases)"
+        ],
+        "attribution": "CAMELYON17 challenge, Bandi et al., IEEE TMI 2019 (CC0)",
+        "maxPerRun": 60
+      },
+      {
+        "name": "openneuro",
+        "kind": "openneuro",
+        "base": "https://s3.amazonaws.com/openneuro.org",
+        "licensePattern": "^(CC0|CC-?BY|PDDL|Public ?Domain)",
+        "maxDatasetsPerRun": 10
       }
     ]
   },

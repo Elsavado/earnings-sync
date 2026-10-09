@@ -233,3 +233,26 @@ test('ISIC skin images: notes in the name, grouped by patient and lesion when kn
   const linked = isicPlacement(image({ diagnosis_1: 'Benign', diagnosis_3: 'Nevus', patient_id: 'IP_123', lesion_id: 'IL_456' }));
   assert.deepEqual(linked.path, ['Dermatology', 'Dermoscopy', 'ISIC', 'Patient IP_123', 'Lesion IL_456 - Nevus']);
 });
+
+test('discovered PhysioNet projects are sorted into the eight types', async () => {
+  const { placeProject } = await import('../src/sources/physionet.js');
+  const place = (title, topics = []) => placeProject({ title, topics: topics.map((description) => ({ description })) });
+  assert.deepEqual(place('PTB Diagnostic ECG Database'), { category: 'wearables', folder: ['ECG & Holter monitors', 'PhysioNet'] });
+  assert.equal(place('CirCor DigiScope Phonocardiogram Dataset').category, 'audio');
+  assert.equal(place('eICU Collaborative Research Database Demo', ['critical care']).category, 'ehr');
+  assert.equal(place('Siena Scalp EEG Database').folder[0], 'EEG & brain signals');
+  assert.equal(place('A Multi-Modal Satellite Imagery Dataset for Public Health Analysis in Colombia'), null);
+});
+
+test('cloud buckets: listings, slide grouping and OpenNeuro data types', async () => {
+  const { parseListing, mirrorPath, openneuroKind } = await import('../src/sources/buckets.js');
+  const page = parseListing('<ListBucketResult><Contents><Key>CAMELYON16/images/tumor_001.tif</Key><Size>42</Size></Contents><CommonPrefixes><Prefix>ds000001/</Prefix></CommonPrefixes><NextContinuationToken>abc&amp;1</NextContinuationToken></ListBucketResult>');
+  assert.deepEqual(page, { files: [{ key: 'CAMELYON16/images/tumor_001.tif', size: 42 }], folders: ['ds000001/'], next: 'abc&1' });
+  const set = { prefix: 'CAMELYON16/', groupBy: String.raw`(normal|tumor|test)_\d+`, folder: ['Whole-slide images', 'CAMELYON16'] };
+  for (const key of ['CAMELYON16/images/tumor_001.tif', 'CAMELYON16/annotations/tumor_001.xml', 'CAMELYON16/masks/tumor_001_mask.tif']) {
+    assert.deepEqual(mirrorPath(set, key).path, ['Whole-slide images', 'CAMELYON16', 'tumor_001']);
+  }
+  assert.equal(openneuroKind(['ds1/sub-01/anat/T1w.nii.gz', 'ds1/sub-01/func/bold.nii.gz']), 'imaging');
+  assert.equal(openneuroKind(['ds2/sub-01/eeg/x.edf']), 'signals');
+  assert.equal(openneuroKind(['ds3/README']), null);
+});

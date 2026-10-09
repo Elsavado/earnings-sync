@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { CATEGORIES } from './files.js';
 
-const SOURCE_SECTIONS = ['europepmc', 'ctgov', 'tcia', 'isic', 'gdc', 'physionet', 'github', 'files', 'leads', 'websites'];
+const SOURCE_SECTIONS = ['europepmc', 'ctgov', 'tcia', 'isic', 'gdc', 'physionet', 'github', 'files', 'buckets', 'leads', 'websites'];
 
 function checkCategory(category, where) {
   if (!CATEGORIES[category]) {
@@ -31,6 +31,7 @@ export function normalizeConfig(raw) {
   settings.physionet.projects.forEach((p, i) => checkCategory(p.category, `physionet.projects[${i}]`));
   settings.github.datasets.forEach((d, i) => checkCategory(d.category, `github.datasets[${i}]`));
   settings.files.items.forEach((f, i) => checkCategory(f.category, `files.items[${i}]`));
+  settings.buckets.datasets.filter((d) => d.category).forEach((d, i) => checkCategory(d.category, `buckets.datasets[${i}]`));
   for (const category of Object.keys(settings.leads.phrases || {})) checkCategory(category, 'leads.phrases');
   return settings;
 }

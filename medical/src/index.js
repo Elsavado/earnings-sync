@@ -16,6 +16,7 @@ import { gdcItems } from './sources/gdc.js';
 import { physionetItems } from './sources/physionet.js';
 import { githubItems } from './sources/github.js';
 import { fileListItems } from './sources/files.js';
+import { bucketItems } from './sources/buckets.js';
 import { websiteItems } from './sources/websites.js';
 
 const SOURCES = {
@@ -27,6 +28,7 @@ const SOURCES = {
   physionet: physionetItems,
   github: githubItems,
   files: fileListItems,
+  buckets: bucketItems,
   websites: websiteItems
 };
 

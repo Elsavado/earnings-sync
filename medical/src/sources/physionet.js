@@ -2,7 +2,7 @@
 // monitors) and "EHR" (the de-identified MIMIC-IV and eICU demo databases). Each project's
 // published ZIP is unpacked into a folder, after checking on the project page that access is
 // open (no credentialing) and the licence is in the allowed list.
-import { getText } from '../http.js';
+import { getJson, getText } from '../http.js';
 
 const BASE = 'https://physionet.org';
 
@@ -27,11 +27,57 @@ export function parseProjectPage(html, finalUrl) {
   return { version, openAccess, license, zip: zip ? `${BASE}${zip}` : null, size, title: title ? pageText(title).trim() : null };
 }
 
+// Where a discovered project belongs among the eight types, from its title and topics.
+const PLACES = [
+  [/heart sound|lung sound|phonocardiogra|stethoscop|\bsounds?\b|voice|speech|cough|audio|auditory|acoustic/, 'audio', 'Body sounds & voice recordings'],
+  [/\behr\b|electronic health|mimic|eicu|critical care|intensive care|\bicu\b|clinical database|clinical data\b|sepsis|medication|vitaldb|emergency department|hospital/, 'ehr', 'Clinical databases (ICU & hospital)'],
+  [/x-ray|radiograph|\bct\b|\bmri?\b|ultrasound|echocardiogra|imaging|\bimages?\b|retina|fundus/, 'imaging', null],
+  [/glucose|\bcgm\b/, 'wearables', 'Continuous glucose monitors (Dexcom, Libre)'],
+  [/fetal|maternal|pregnan|uterine|electrohysterogra|labou?r\b/, 'wearables', 'Fetal & maternal monitoring'],
+  [/sleep|polysomno|apnea/, 'wearables', 'Sleep & polysomnography'],
+  [/\beeg\b|electroencephalogra|neuroelectric|brain|seizure|\bemg\b|electromyogra/, 'wearables', 'EEG & brain signals'],
+  [/gait|accelerom|actigraph|movement|posture|parkinson|fall|walking/, 'wearables', 'Gait, movement & accelerometry'],
+  [/\becgs?\b|ekg|electrocardio|holter|arrhythmi|atrial|interbeat|rr interval|qt\b|ischemi|myocard|mit-bih|\bst (change|database)|long[- ]term st|sinus rhythm|ventricular|ectopy|heart failure|\bpaf\b|cardiac|ec13|waveforms?/, 'wearables', 'ECG & Holter monitors'],
+  [/\bppg\b|photopleth|heart rate|blood pressure|pulse|wearable|oxygen|spo2/, 'wearables', 'Heart rate, blood pressure & PPG'],
+  [/respirat|breath|ventilat|multiparameter|physiolog|vital signs?/, 'wearables', 'Other physiological signals']
+];
+
+export function placeProject(project) {
+  const text = `${project.title} ${(project.topics || []).map((t) => t.description || t).join(' ')}`.toLowerCase();
+  for (const [re, category, subtype] of PLACES) {
+    if (!re.test(text)) continue;
+    if (category === 'imaging') return { category, folder: ['Physiology & other imaging', 'PhysioNet'] };
+    return { category, folder: [subtype, 'PhysioNet'] };
+  }
+  return null;
+}
+
+// Every open-access PhysioNet database and challenge (latest version) under a data licence,
+// besides the projects listed in the config.
+async function discoverProjects(cfg, known) {
+  const all = await getJson(`${BASE}/api/v1/project/published/`, { minIntervalMs: cfg.minIntervalMs, timeoutMs: 180000 });
+  const licenseRe = new RegExp(cfg.licensePattern, 'i');
+  const denyRe = new RegExp(cfg.licenseDenyPattern, 'i');
+  const found = [];
+  for (const p of all) {
+    if (p.access_policy !== 'Open' || !p.is_latest_version || known.has(p.slug)) continue;
+    if (!['Database', 'Challenge'].includes(p.resource_type)) continue;
+    const license = p.license?.name || '';
+    if (!licenseRe.test(license) || denyRe.test(license)) continue;
+    const place = placeProject(p);
+    if (!place) continue;
+    found.push({ slug: p.slug, ...place, discovered: true });
+  }
+  return found.sort((a, b) => a.slug.localeCompare(b.slug));
+}
+
 export async function* physionetItems(settings, ctx) {
   const cfg = settings.physionet;
   const licenseRe = new RegExp(cfg.licensePattern, 'i');
   const denyRe = new RegExp(cfg.licenseDenyPattern, 'i');
-  for (const project of cfg.projects) {
+  const projects = [...cfg.projects];
+  if (cfg.discover) projects.push(...(await discoverProjects(cfg, new Set(projects.map((x) => x.slug)))));
+  for (const project of projects) {
     const { text, finalUrl } = await getText(`${BASE}/content/${project.slug}/`, {
       minIntervalMs: cfg.minIntervalMs,
       headers: { 'User-Agent': ctx.scraperUserAgent }
@@ -61,6 +107,7 @@ export async function* physionetItems(settings, ctx) {
       path: project.folder,
       prefix: `${project.slug}-v${p.version}`,
       title: p.title || project.slug,
+      folderName: project.discovered ? `${(p.title || project.slug).replace(/[\/\:*?"<>|]+/g, '-').slice(0, 110)} (v${p.version})` : undefined,
       ext: 'zip',
       unzip: true,
       size: p.size,
