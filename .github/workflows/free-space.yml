@@ -1,0 +1,43 @@
+name: Free Drive space
+
+# Manual only: permanently deletes the newest medical-sync uploads until enough is freed.
+on:
+  workflow_dispatch:
+    inputs:
+      gb:
+        description: 'GB to free (newest uploads first)'
+        required: false
+        default: '5'
+      dry_run:
+        description: 'Only list what would be deleted'
+        type: boolean
+        required: false
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  free:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    defaults:
+      run:
+        working-directory: medical
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: medical/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - run: node src/freespace.js
+        env:
+          FREE_GB: ${{ github.event.inputs.gb }}
+          DRY_RUN: ${{ github.event.inputs.dry_run }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          DRIVE_ROOT_FOLDER_ID: ${{ secrets.DRIVE_ROOT_FOLDER_ID }}
