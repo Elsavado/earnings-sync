@@ -11,6 +11,7 @@ import { buildLeads, leadsCsv, leadSitesFromCsv } from './leads.js';
 import { europepmcItems } from './sources/europepmc.js';
 import { ctgovItems } from './sources/ctgov.js';
 import { tciaItems } from './sources/tcia.js';
+import { isicItems } from './sources/isic.js';
 import { gdcItems } from './sources/gdc.js';
 import { physionetItems } from './sources/physionet.js';
 import { githubItems } from './sources/github.js';
@@ -21,6 +22,7 @@ const SOURCES = {
   europepmc: europepmcItems,
   ctgov: ctgovItems,
   tcia: tciaItems,
+  isic: isicItems,
   gdc: gdcItems,
   physionet: physionetItems,
   github: githubItems,

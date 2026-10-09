@@ -223,3 +223,13 @@ test('a TCIA collection is one folder with its clinical data and annotations, no
   assert.deepEqual(collectionPlace('LUNG-PET-CT', [s('CT', 'CHEST'), s('PT', 'CHEST'), s('CT', 'CHEST'), s('SEG', 'CHEST')]), { specialty: 'Pulmonology', modality: 'CT' });
   assert.deepEqual(collectionPlace('ONLY-SEG', [s('SEG', 'CHEST')]).modality, null);
 });
+
+test('ISIC skin images: notes in the name, grouped by patient and lesion when known', async () => {
+  const { isicPlacement } = await import('../src/sources/isic.js');
+  const image = (clinical) => ({ isic_id: 'ISIC_0000004', metadata: { acquisition: { image_type: 'dermoscopic' }, clinical } });
+  const plain = isicPlacement(image({ diagnosis_1: 'Malignant', diagnosis_3: 'Melanoma, NOS', anatom_site_2: 'Posterior trunk', sex: 'male', age_approx: 80 }));
+  assert.equal(plain.name, 'ISIC_0000004 - Melanoma, NOS - Posterior trunk - male, 80y');
+  assert.deepEqual(plain.path, ['Dermatology', 'Dermoscopy', 'ISIC', 'By diagnosis', 'Melanoma, NOS']);
+  const linked = isicPlacement(image({ diagnosis_1: 'Benign', diagnosis_3: 'Nevus', patient_id: 'IP_123', lesion_id: 'IL_456' }));
+  assert.deepEqual(linked.path, ['Dermatology', 'Dermoscopy', 'ISIC', 'Patient IP_123', 'Lesion IL_456 - Nevus']);
+});

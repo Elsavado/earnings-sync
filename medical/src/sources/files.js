@@ -10,6 +10,9 @@ export async function* fileListItems(settings) {
       path: f.folder,
       prefix: f.prefix,
       title: f.title,
+      // An entry can name its file outright, e.g. "Chromosome 1 - genotypes of 2,504 people.vcf.gz".
+      fileName: f.fileName,
+      keepName: Boolean(f.fileName),
       url: f.url,
       unzip: /\.zip$/i.test(f.url),
       license: f.license,

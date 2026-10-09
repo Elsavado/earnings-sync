@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { CATEGORIES } from './files.js';
 
-const SOURCE_SECTIONS = ['europepmc', 'ctgov', 'tcia', 'gdc', 'physionet', 'github', 'files', 'leads', 'websites'];
+const SOURCE_SECTIONS = ['europepmc', 'ctgov', 'tcia', 'isic', 'gdc', 'physionet', 'github', 'files', 'leads', 'websites'];
 
 function checkCategory(category, where) {
   if (!CATEGORIES[category]) {

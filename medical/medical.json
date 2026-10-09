@@ -164,6 +164,12 @@
     "maxSeriesSizeMB": 1024,
     "minIntervalMs": 500
   },
+  "isic": {
+    "enabled": true,
+    "licensePattern": "^CC-0$|^CC-BY$|^CC-BY-NC$",
+    "minIntervalMs": 250,
+    "maxPerRun": 3000
+  },
   "gdc": {
     "enabled": true,
     "minIntervalMs": 300,
@@ -314,6 +320,14 @@
           "Critical Care",
           "eICU demo (de-identified)"
         ]
+      },
+      {
+        "slug": "mimiciii-demo",
+        "category": "ehr",
+        "folder": [
+          "Critical Care & Emergency",
+          "MIMIC-III demo (de-identified, 100 patients)"
+        ]
       }
     ]
   },
@@ -460,6 +474,384 @@
         "license": "CMS public use file (synthetic, public domain)",
         "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
         "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files"
+      },
+      {
+        "category": "genomics",
+        "folder": [
+          "Population genomes",
+          "1000 Genomes phase 3 (2,504 people, 26 populations)"
+        ],
+        "prefix": "1000genomes",
+        "license": "1000 Genomes Project data, free to use without restriction (IGSR data reuse policy)",
+        "attribution": "The 1000 Genomes Project Consortium, A global reference for human genetic variation, Nature 526, 68-74 (2015)",
+        "landing": "https://www.internationalgenome.org/data-portal/data-collection/phase-3",
+        "title": "samples",
+        "fileName": "Samples - population, super-population and sex of each person.tsv",
+        "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/integrated_call_samples_v3.20130502.ALL.panel"
+      },
+      {
+        "category": "genomics",
+        "folder": [
+          "Population genomes",
+          "1000 Genomes phase 3 (2,504 people, 26 populations)"
+        ],
+        "prefix": "1000genomes",
+        "license": "1000 Genomes Project data, free to use without restriction (IGSR data reuse policy)",
+        "attribution": "The 1000 Genomes Project Consortium, A global reference for human genetic variation, Nature 526, 68-74 (2015)",
+        "landing": "https://www.internationalgenome.org/data-portal/data-collection/phase-3",
+        "title": "chr1",
+        "fileName": "Chromosome 1 - genotypes of 2,504 people.vcf.gz",
+        "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr1.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz"
+      },
+      {
+        "category": "genomics",
+        "folder": [
+          "Population genomes",
+          "1000 Genomes phase 3 (2,504 people, 26 populations)"
+        ],
+        "prefix": "1000genomes",
+        "license": "1000 Genomes Project data, free to use without restriction (IGSR data reuse policy)",
+        "attribution": "The 1000 Genomes Project Consortium, A global reference for human genetic variation, Nature 526, 68-74 (2015)",
+        "landing": "https://www.internationalgenome.org/data-portal/data-collection/phase-3",
+        "title": "chr2",
+        "fileName": "Chromosome 2 - genotypes of 2,504 people.vcf.gz",
+        "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr2.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz"
+      },
+      {
+        "category": "genomics",
+        "folder": [
+          "Population genomes",
+          "1000 Genomes phase 3 (2,504 people, 26 populations)"
+        ],
+        "prefix": "1000genomes",
+        "license": "1000 Genomes Project data, free to use without restriction (IGSR data reuse policy)",
+        "attribution": "The 1000 Genomes Project Consortium, A global reference for human genetic variation, Nature 526, 68-74 (2015)",
+        "landing": "https://www.internationalgenome.org/data-portal/data-collection/phase-3",
+        "title": "chr3",
+        "fileName": "Chromosome 3 - genotypes of 2,504 people.vcf.gz",
+        "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr3.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz"
+      },
+      {
+        "category": "genomics",
+        "folder": [
+          "Population genomes",
+          "1000 Genomes phase 3 (2,504 people, 26 populations)"
+        ],
+        "prefix": "1000genomes",
+        "license": "1000 Genomes Project data, free to use without restriction (IGSR data reuse policy)",
+        "attribution": "The 1000 Genomes Project Consortium, A global reference for human genetic variation, Nature 526, 68-74 (2015)",
+        "landing": "https://www.internationalgenome.org/data-portal/data-collection/phase-3",
+        "title": "chr4",
+        "fileName": "Chromosome 4 - genotypes of 2,504 people.vcf.gz",
+        "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr4.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz"
+      },
+      {
+        "category": "genomics",
+        "folder": [
+          "Population genomes",
+          "1000 Genomes phase 3 (2,504 people, 26 populations)"
+        ],
+        "prefix": "1000genomes",
+        "license": "1000 Genomes Project data, free to use without restriction (IGSR data reuse policy)",
+        "attribution": "The 1000 Genomes Project Consortium, A global reference for human genetic variation, Nature 526, 68-74 (2015)",
+        "landing": "https://www.internationalgenome.org/data-portal/data-collection/phase-3",
+        "title": "chr5",
+        "fileName": "Chromosome 5 - genotypes of 2,504 people.vcf.gz",
+        "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr5.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz"
+      },
+      {
+        "category": "genomics",
+        "folder": [
+          "Population genomes",
+          "1000 Genomes phase 3 (2,504 people, 26 populations)"
+        ],
+        "prefix": "1000genomes",
+        "license": "1000 Genomes Project data, free to use without restriction (IGSR data reuse policy)",
+        "attribution": "The 1000 Genomes Project Consortium, A global reference for human genetic variation, Nature 526, 68-74 (2015)",
+        "landing": "https://www.internationalgenome.org/data-portal/data-collection/phase-3",
+        "title": "chr6",
+        "fileName": "Chromosome 6 - genotypes of 2,504 people.vcf.gz",
+        "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr6.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz"
+      },
+      {
+        "category": "genomics",
+        "folder": [
+          "Population genomes",
+          "1000 Genomes phase 3 (2,504 people, 26 populations)"
+        ],
+        "prefix": "1000genomes",
+        "license": "1000 Genomes Project data, free to use without restriction (IGSR data reuse policy)",
+        "attribution": "The 1000 Genomes Project Consortium, A global reference for human genetic variation, Nature 526, 68-74 (2015)",
+        "landing": "https://www.internationalgenome.org/data-portal/data-collection/phase-3",
+        "title": "chr7",
+        "fileName": "Chromosome 7 - genotypes of 2,504 people.vcf.gz",
+        "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr7.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz"
+      },
+      {
+        "category": "genomics",
+        "folder": [
+          "Population genomes",
+          "1000 Genomes phase 3 (2,504 people, 26 populations)"
+        ],
+        "prefix": "1000genomes",
+        "license": "1000 Genomes Project data, free to use without restriction (IGSR data reuse policy)",
+        "attribution": "The 1000 Genomes Project Consortium, A global reference for human genetic variation, Nature 526, 68-74 (2015)",
+        "landing": "https://www.internationalgenome.org/data-portal/data-collection/phase-3",
+        "title": "chr8",
+        "fileName": "Chromosome 8 - genotypes of 2,504 people.vcf.gz",
+        "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr8.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz"
+      },
+      {
+        "category": "genomics",
+        "folder": [
+          "Population genomes",
+          "1000 Genomes phase 3 (2,504 people, 26 populations)"
+        ],
+        "prefix": "1000genomes",
+        "license": "1000 Genomes Project data, free to use without restriction (IGSR data reuse policy)",
+        "attribution": "The 1000 Genomes Project Consortium, A global reference for human genetic variation, Nature 526, 68-74 (2015)",
+        "landing": "https://www.internationalgenome.org/data-portal/data-collection/phase-3",
+        "title": "chr9",
+        "fileName": "Chromosome 9 - genotypes of 2,504 people.vcf.gz",
+        "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr9.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz"
+      },
+      {
+        "category": "genomics",
+        "folder": [
+          "Population genomes",
+          "1000 Genomes phase 3 (2,504 people, 26 populations)"
+        ],
+        "prefix": "1000genomes",
+        "license": "1000 Genomes Project data, free to use without restriction (IGSR data reuse policy)",
+        "attribution": "The 1000 Genomes Project Consortium, A global reference for human genetic variation, Nature 526, 68-74 (2015)",
+        "landing": "https://www.internationalgenome.org/data-portal/data-collection/phase-3",
+        "title": "chr10",
+        "fileName": "Chromosome 10 - genotypes of 2,504 people.vcf.gz",
+        "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr10.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz"
+      },
+      {
+        "category": "genomics",
+        "folder": [
+          "Population genomes",
+          "1000 Genomes phase 3 (2,504 people, 26 populations)"
+        ],
+        "prefix": "1000genomes",
+        "license": "1000 Genomes Project data, free to use without restriction (IGSR data reuse policy)",
+        "attribution": "The 1000 Genomes Project Consortium, A global reference for human genetic variation, Nature 526, 68-74 (2015)",
+        "landing": "https://www.internationalgenome.org/data-portal/data-collection/phase-3",
+        "title": "chr11",
+        "fileName": "Chromosome 11 - genotypes of 2,504 people.vcf.gz",
+        "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr11.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz"
+      },
+      {
+        "category": "genomics",
+        "folder": [
+          "Population genomes",
+          "1000 Genomes phase 3 (2,504 people, 26 populations)"
+        ],
+        "prefix": "1000genomes",
+        "license": "1000 Genomes Project data, free to use without restriction (IGSR data reuse policy)",
+        "attribution": "The 1000 Genomes Project Consortium, A global reference for human genetic variation, Nature 526, 68-74 (2015)",
+        "landing": "https://www.internationalgenome.org/data-portal/data-collection/phase-3",
+        "title": "chr12",
+        "fileName": "Chromosome 12 - genotypes of 2,504 people.vcf.gz",
+        "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr12.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz"
+      },
+      {
+        "category": "genomics",
+        "folder": [
+          "Population genomes",
+          "1000 Genomes phase 3 (2,504 people, 26 populations)"
+        ],
+        "prefix": "1000genomes",
+        "license": "1000 Genomes Project data, free to use without restriction (IGSR data reuse policy)",
+        "attribution": "The 1000 Genomes Project Consortium, A global reference for human genetic variation, Nature 526, 68-74 (2015)",
+        "landing": "https://www.internationalgenome.org/data-portal/data-collection/phase-3",
+        "title": "chr13",
+        "fileName": "Chromosome 13 - genotypes of 2,504 people.vcf.gz",
+        "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr13.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz"
+      },
+      {
+        "category": "genomics",
+        "folder": [
+          "Population genomes",
+          "1000 Genomes phase 3 (2,504 people, 26 populations)"
+        ],
+        "prefix": "1000genomes",
+        "license": "1000 Genomes Project data, free to use without restriction (IGSR data reuse policy)",
+        "attribution": "The 1000 Genomes Project Consortium, A global reference for human genetic variation, Nature 526, 68-74 (2015)",
+        "landing": "https://www.internationalgenome.org/data-portal/data-collection/phase-3",
+        "title": "chr14",
+        "fileName": "Chromosome 14 - genotypes of 2,504 people.vcf.gz",
+        "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr14.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz"
+      },
+      {
+        "category": "genomics",
+        "folder": [
+          "Population genomes",
+          "1000 Genomes phase 3 (2,504 people, 26 populations)"
+        ],
+        "prefix": "1000genomes",
+        "license": "1000 Genomes Project data, free to use without restriction (IGSR data reuse policy)",
+        "attribution": "The 1000 Genomes Project Consortium, A global reference for human genetic variation, Nature 526, 68-74 (2015)",
+        "landing": "https://www.internationalgenome.org/data-portal/data-collection/phase-3",
+        "title": "chr15",
+        "fileName": "Chromosome 15 - genotypes of 2,504 people.vcf.gz",
+        "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr15.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz"
+      },
+      {
+        "category": "genomics",
+        "folder": [
+          "Population genomes",
+          "1000 Genomes phase 3 (2,504 people, 26 populations)"
+        ],
+        "prefix": "1000genomes",
+        "license": "1000 Genomes Project data, free to use without restriction (IGSR data reuse policy)",
+        "attribution": "The 1000 Genomes Project Consortium, A global reference for human genetic variation, Nature 526, 68-74 (2015)",
+        "landing": "https://www.internationalgenome.org/data-portal/data-collection/phase-3",
+        "title": "chr16",
+        "fileName": "Chromosome 16 - genotypes of 2,504 people.vcf.gz",
+        "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr16.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz"
+      },
+      {
+        "category": "genomics",
+        "folder": [
+          "Population genomes",
+          "1000 Genomes phase 3 (2,504 people, 26 populations)"
+        ],
+        "prefix": "1000genomes",
+        "license": "1000 Genomes Project data, free to use without restriction (IGSR data reuse policy)",
+        "attribution": "The 1000 Genomes Project Consortium, A global reference for human genetic variation, Nature 526, 68-74 (2015)",
+        "landing": "https://www.internationalgenome.org/data-portal/data-collection/phase-3",
+        "title": "chr17",
+        "fileName": "Chromosome 17 - genotypes of 2,504 people.vcf.gz",
+        "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr17.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz"
+      },
+      {
+        "category": "genomics",
+        "folder": [
+          "Population genomes",
+          "1000 Genomes phase 3 (2,504 people, 26 populations)"
+        ],
+        "prefix": "1000genomes",
+        "license": "1000 Genomes Project data, free to use without restriction (IGSR data reuse policy)",
+        "attribution": "The 1000 Genomes Project Consortium, A global reference for human genetic variation, Nature 526, 68-74 (2015)",
+        "landing": "https://www.internationalgenome.org/data-portal/data-collection/phase-3",
+        "title": "chr18",
+        "fileName": "Chromosome 18 - genotypes of 2,504 people.vcf.gz",
+        "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr18.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz"
+      },
+      {
+        "category": "genomics",
+        "folder": [
+          "Population genomes",
+          "1000 Genomes phase 3 (2,504 people, 26 populations)"
+        ],
+        "prefix": "1000genomes",
+        "license": "1000 Genomes Project data, free to use without restriction (IGSR data reuse policy)",
+        "attribution": "The 1000 Genomes Project Consortium, A global reference for human genetic variation, Nature 526, 68-74 (2015)",
+        "landing": "https://www.internationalgenome.org/data-portal/data-collection/phase-3",
+        "title": "chr19",
+        "fileName": "Chromosome 19 - genotypes of 2,504 people.vcf.gz",
+        "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr19.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz"
+      },
+      {
+        "category": "genomics",
+        "folder": [
+          "Population genomes",
+          "1000 Genomes phase 3 (2,504 people, 26 populations)"
+        ],
+        "prefix": "1000genomes",
+        "license": "1000 Genomes Project data, free to use without restriction (IGSR data reuse policy)",
+        "attribution": "The 1000 Genomes Project Consortium, A global reference for human genetic variation, Nature 526, 68-74 (2015)",
+        "landing": "https://www.internationalgenome.org/data-portal/data-collection/phase-3",
+        "title": "chr20",
+        "fileName": "Chromosome 20 - genotypes of 2,504 people.vcf.gz",
+        "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr20.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz"
+      },
+      {
+        "category": "genomics",
+        "folder": [
+          "Population genomes",
+          "1000 Genomes phase 3 (2,504 people, 26 populations)"
+        ],
+        "prefix": "1000genomes",
+        "license": "1000 Genomes Project data, free to use without restriction (IGSR data reuse policy)",
+        "attribution": "The 1000 Genomes Project Consortium, A global reference for human genetic variation, Nature 526, 68-74 (2015)",
+        "landing": "https://www.internationalgenome.org/data-portal/data-collection/phase-3",
+        "title": "chr21",
+        "fileName": "Chromosome 21 - genotypes of 2,504 people.vcf.gz",
+        "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr21.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz"
+      },
+      {
+        "category": "genomics",
+        "folder": [
+          "Population genomes",
+          "1000 Genomes phase 3 (2,504 people, 26 populations)"
+        ],
+        "prefix": "1000genomes",
+        "license": "1000 Genomes Project data, free to use without restriction (IGSR data reuse policy)",
+        "attribution": "The 1000 Genomes Project Consortium, A global reference for human genetic variation, Nature 526, 68-74 (2015)",
+        "landing": "https://www.internationalgenome.org/data-portal/data-collection/phase-3",
+        "title": "chr22",
+        "fileName": "Chromosome 22 - genotypes of 2,504 people.vcf.gz",
+        "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr22.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz"
+      },
+      {
+        "category": "genomics",
+        "folder": [
+          "Population genomes",
+          "1000 Genomes phase 3 (2,504 people, 26 populations)"
+        ],
+        "prefix": "1000genomes",
+        "license": "1000 Genomes Project data, free to use without restriction (IGSR data reuse policy)",
+        "attribution": "The 1000 Genomes Project Consortium, A global reference for human genetic variation, Nature 526, 68-74 (2015)",
+        "landing": "https://www.internationalgenome.org/data-portal/data-collection/phase-3",
+        "title": "chrX",
+        "fileName": "Chromosome X - genotypes of 2,504 people.vcf.gz",
+        "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chrX.phase3_shapeit2_mvncall_integrated_v1c.20130502.genotypes.vcf.gz"
+      },
+      {
+        "category": "genomics",
+        "folder": [
+          "Population genomes",
+          "1000 Genomes phase 3 (2,504 people, 26 populations)"
+        ],
+        "prefix": "1000genomes",
+        "license": "1000 Genomes Project data, free to use without restriction (IGSR data reuse policy)",
+        "attribution": "The 1000 Genomes Project Consortium, A global reference for human genetic variation, Nature 526, 68-74 (2015)",
+        "landing": "https://www.internationalgenome.org/data-portal/data-collection/phase-3",
+        "title": "chrY",
+        "fileName": "Chromosome Y - genotypes of 2,504 people.vcf.gz",
+        "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chrY.phase3_integrated_v2b.20130502.genotypes.vcf.gz"
+      },
+      {
+        "category": "genomics",
+        "folder": [
+          "Population genomes",
+          "1000 Genomes phase 3 (2,504 people, 26 populations)"
+        ],
+        "prefix": "1000genomes",
+        "license": "1000 Genomes Project data, free to use without restriction (IGSR data reuse policy)",
+        "attribution": "The 1000 Genomes Project Consortium, A global reference for human genetic variation, Nature 526, 68-74 (2015)",
+        "landing": "https://www.internationalgenome.org/data-portal/data-collection/phase-3",
+        "title": "chrMT",
+        "fileName": "Mitochondrial DNA - genotypes of 2,504 people.vcf.gz",
+        "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chrMT.phase3_callmom-v0_4.20130502.genotypes.vcf.gz"
+      },
+      {
+        "category": "genomics",
+        "folder": [
+          "Clinical variant interpretations",
+          "ClinVar (NCBI)"
+        ],
+        "prefix": "clinvar",
+        "title": "variant summary",
+        "fileName": "ClinVar - variant summary (every variant with its clinical significance).txt.gz",
+        "url": "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/tab_delimited/variant_summary.txt.gz",
+        "license": "Public domain (NCBI ClinVar data are freely available)",
+        "attribution": "Landrum MJ et al., ClinVar, NCBI",
+        "landing": "https://www.ncbi.nlm.nih.gov/clinvar/"
       }
     ]
   },
