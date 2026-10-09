@@ -20,7 +20,8 @@ test('imaging: modality and specialty folders', () => {
   assert.equal(imagingModality('DX'), 'X-ray');
   assert.equal(imagingModality('MG'), 'X-ray');
   assert.equal(imagingModality('US'), 'Ultrasound');
-  assert.equal(imagingModality('PT'), null);
+  assert.equal(imagingModality('PT'), 'PET');
+  assert.equal(imagingModality('NM'), 'Nuclear medicine');
   assert.equal(imagingModality('SEG'), null);
   assert.equal(imagingSpecialty('LIDC-IDRI', 'CHEST'), 'Pulmonology');
   assert.equal(imagingSpecialty('AREN0534', 'ABDOMEN'), 'Pediatrics');
@@ -190,7 +191,8 @@ test('data sits with its notes: per consultation, per case, per patient', async 
   assert.equal(relocation({ name: 'a.svs', description: gdc }, 'TCGA-A1-A0SB', 'Breast'), null);
   const tcia = 'Attribution: The Cancer Imaging Archive, collection 4D-Lung (https://doi.org/x)';
   assert.deepEqual(relocation({ name: '1-01.dcm', description: tcia }, '100_HM10395_ct-lung-series-507_ab12cd', '4D-Lung'), { move: 'tcia', collection: '4D-Lung', uid6: 'ab12cd' });
-  assert.equal(relocation({ name: '1-01.dcm', description: tcia }, 'Series 507 - P4 P100 S113 I0, Gated, 70.0% (CT, 50 images)', '1997-10-03 - p4'), null);
+  assert.deepEqual(relocation({ name: '1-01.dcm', description: tcia }, 'Series 507 - P4 P100 S113 I0, Gated, 70.0% (CT, 50 images)', '1997-10-03 - p4'), { move: 'tcia', collection: '4D-Lung', uid6: null });
+  assert.equal(relocation({ name: 'x_Clinical_Data.tsv', description: tcia }, 'Clinical data', '4D-Lung'), null);
 });
 
 test('every image series gets its own well-named folder under patient and scan session', async () => {
@@ -202,4 +204,22 @@ test('every image series gets its own well-named folder under patient and scan s
   assert.equal(layout.get('3').name, 'Series 1 - Scout (CT, 50 images) (copy 1 of 2)');
   assert.equal(layout.get('4').name, 'Series 1 - Scout (CT, 50 images) (copy 2 of 2)');
   assert.equal(layout.get('5').study, '1997-10-10 - p4');
+});
+
+test('a TCIA collection is one folder with its clinical data and annotations, no licence files', async () => {
+  const { collectionNoteFiles, collectionPlace } = await import('../src/sources/tcia.js');
+  const d = (title, file, type, extra = {}) => ({ id: title.length, title: { rendered: title }, download_title: title, download_type: type, data_license: 'CC BY 4.0', download_access: 'Public', file_type: [file.split('.').pop().toUpperCase()], download_file: { guid: `https://www.cancerimagingarchive.net/wp-content/uploads/${file}` }, ...extra });
+  const notes = collectionNoteFiles([
+    d('UCSD-BMETS-DA-CLINICAL', 'UCSD_Clinical_Data.tsv', 'Clinical Data'),
+    d('UCSD-BMETS-DA-OTHER1', 'UCSD_MRImetadata_Dictionary.tsv', 'Other'),
+    d('UCSD-BMETS-DA-OTHER2', 'UCSD_License.pdf', 'Other'),
+    d('UCSD-BMETS-DA-SEG', 'UCSD_Seg.tcia', 'Image Annotations'),
+    d('UCSD-BMETS-DA-RESTRICTED', 'UCSD_extra.csv', 'Clinical Data', { data_license: 'TCIA Restricted', download_access: 'Limited' }),
+    d('UCSD-BMETS-DA-PATH', 'slides.svs', 'Pathology Images', { download_file: null, download_url: 'https://faspex.cancerimagingarchive.net/aspera/x' })
+  ]);
+  assert.deepEqual(notes.get('UCSD-BMETS').map((f) => `${f.folder}/${f.fileName}`), ['Clinical data/UCSD_Clinical_Data.tsv', 'Annotations/UCSD_MRImetadata_Dictionary.tsv']);
+
+  const s = (Modality, BodyPartExamined) => ({ Modality, BodyPartExamined });
+  assert.deepEqual(collectionPlace('LUNG-PET-CT', [s('CT', 'CHEST'), s('PT', 'CHEST'), s('CT', 'CHEST'), s('SEG', 'CHEST')]), { specialty: 'Pulmonology', modality: 'CT' });
+  assert.deepEqual(collectionPlace('ONLY-SEG', [s('SEG', 'CHEST')]).modality, null);
 });

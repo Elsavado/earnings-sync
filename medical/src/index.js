@@ -197,7 +197,8 @@ class Run {
         return;
       }
       const ext = extensionFromName(item.fileName) || resolveExtension({ ext: item.ext, dispositionName: file.dispositionName, url: file.finalUrl, contentType: file.contentType });
-      const name = fileName({ prefix: item.prefix, title: item.title, uid, ext });
+      // Files whose own name already says what they are (e.g. a collection's clinical table) keep it.
+      const name = item.keepName && item.fileName ? item.fileName : fileName({ prefix: item.prefix, title: item.title, uid, ext });
       if (item.unzip && ext === 'zip') {
         await this.putArchive(item, key, tmp, [top, ...item.path, item.folderName || name.replace(/\.zip$/, '')]);
         return;

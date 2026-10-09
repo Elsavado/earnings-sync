@@ -2,9 +2,16 @@
 // what a file really is: The Cancer Genome Atlas slides are mostly surgical resections, so a
 // prostate slide goes under "Prostate", not under "Prostate core biopsies".
 
-// --- DICOM / Imaging: <specialty>/<CT | MRI | X-ray | Ultrasound> ---
+// --- DICOM / Imaging: <specialty>/<CT | MRI | X-ray | Ultrasound | PET | Nuclear medicine> ---
 
-const MODALITY = { CT: 'CT', MR: 'MRI', CR: 'X-ray', DX: 'X-ray', DR: 'X-ray', MG: 'X-ray', RF: 'X-ray', XA: 'X-ray', US: 'Ultrasound' };
+const MODALITY = { CT: 'CT', MR: 'MRI', CR: 'X-ray', DX: 'X-ray', DR: 'X-ray', MG: 'X-ray', RF: 'X-ray', XA: 'X-ray', US: 'Ultrasound', PT: 'PET', NM: 'Nuclear medicine' };
+
+// Series that are notes on other images: segmentations, RT structure sets, structured reports.
+const NOTE_MODALITY = new Set(['SEG', 'RTSTRUCT', 'SR']);
+
+export function isImageNoteModality(code) {
+  return NOTE_MODALITY.has(String(code || '').toUpperCase());
+}
 
 export function imagingModality(code) {
   return MODALITY[String(code || '').toUpperCase()] || null;

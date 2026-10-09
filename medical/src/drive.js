@@ -140,7 +140,7 @@ export class DriveStore {
   }
 
   async getFile(fileId) {
-    return (await this.drive.files.get({ fileId, fields: 'id, name, parents, mimeType', supportsAllDrives: true })).data;
+    return (await this.drive.files.get({ fileId, fields: 'id, name, parents, mimeType, appProperties', supportsAllDrives: true })).data;
   }
 
   async move(fileId, fromFolderId, toFolderId) {
