@@ -1,0 +1,535 @@
+{
+  "settings": {
+    "driveRootFolderName": "Medical Data",
+    "drivePrivateFolderName": "Medical Sync - private",
+    "driveReserveMB": 2048,
+    "maxFileSizeMB": 4096,
+    "runBudgetMinutes": 45,
+    "rescanDays": 30
+  },
+  "europepmc": {
+    "enabled": true,
+    "licenses": [
+      "cc by",
+      "cc by-sa",
+      "cc0",
+      "cc by-nc",
+      "cc by-nc-sa",
+      "cc by-nd",
+      "cc by-nc-nd"
+    ],
+    "minIntervalMs": 300,
+    "maxPerQueryPerRun": 300,
+    "queries": [
+      {
+        "name": "case-pathology",
+        "folder": [
+          "Patient case reports",
+          "Pathology"
+        ],
+        "query": "PUB_TYPE:\"Case Reports\" AND (histopathology OR biopsy OR cytology OR \"bone marrow\" OR curettage)"
+      },
+      {
+        "name": "case-imaging",
+        "folder": [
+          "Patient case reports",
+          "Imaging"
+        ],
+        "query": "PUB_TYPE:\"Case Reports\" AND (\"computed tomography\" OR MRI OR radiograph OR ultrasound)"
+      },
+      {
+        "name": "case-cardiology",
+        "folder": [
+          "Patient case reports",
+          "Cardiology"
+        ],
+        "query": "PUB_TYPE:\"Case Reports\" AND (cardiology OR cardiac OR myocardial OR arrhythmia)"
+      },
+      {
+        "name": "case-pulmonology",
+        "folder": [
+          "Patient case reports",
+          "Pulmonology"
+        ],
+        "query": "PUB_TYPE:\"Case Reports\" AND (pulmonary OR lung OR respiratory)"
+      },
+      {
+        "name": "case-neurology",
+        "folder": [
+          "Patient case reports",
+          "Neurology"
+        ],
+        "query": "PUB_TYPE:\"Case Reports\" AND (neurology OR neurological OR seizure OR stroke)"
+      },
+      {
+        "name": "case-oncology",
+        "folder": [
+          "Patient case reports",
+          "Oncology"
+        ],
+        "query": "PUB_TYPE:\"Case Reports\" AND (carcinoma OR tumor OR lymphoma OR oncology)"
+      },
+      {
+        "name": "case-gastro",
+        "folder": [
+          "Patient case reports",
+          "Gastroenterology"
+        ],
+        "query": "PUB_TYPE:\"Case Reports\" AND (gastrointestinal OR colon OR gastric OR hepatic OR pancreatic)"
+      },
+      {
+        "name": "case-endocrine",
+        "folder": [
+          "Patient case reports",
+          "Endocrinology"
+        ],
+        "query": "PUB_TYPE:\"Case Reports\" AND (diabetes OR thyroid OR endocrine OR adrenal)"
+      },
+      {
+        "name": "case-nephrology",
+        "folder": [
+          "Patient case reports",
+          "Nephrology"
+        ],
+        "query": "PUB_TYPE:\"Case Reports\" AND (renal OR kidney OR nephrotic OR dialysis)"
+      },
+      {
+        "name": "case-pediatrics",
+        "folder": [
+          "Patient case reports",
+          "Pediatrics"
+        ],
+        "query": "PUB_TYPE:\"Case Reports\" AND (infant OR child OR pediatric OR neonatal)"
+      },
+      {
+        "name": "case-emergency",
+        "folder": [
+          "Patient case reports",
+          "Emergency & Critical Care"
+        ],
+        "query": "PUB_TYPE:\"Case Reports\" AND (\"emergency department\" OR \"intensive care\" OR trauma OR sepsis)"
+      },
+      {
+        "name": "case-psychiatry",
+        "folder": [
+          "Patient case reports",
+          "Psychiatry & Behavioral Health"
+        ],
+        "query": "PUB_TYPE:\"Case Reports\" AND (psychiatric OR depression OR schizophrenia OR bipolar)"
+      },
+      {
+        "name": "education",
+        "folder": [
+          "Medical education cases"
+        ],
+        "query": "(\"teaching case\" OR \"educational case\" OR \"clinical vignette\" OR \"case-based learning\" OR \"clinical challenge\")"
+      }
+    ]
+  },
+  "ctgov": {
+    "enabled": true,
+    "requireDocuments": true,
+    "minIntervalMs": 400,
+    "maxStudiesPerQueryPerRun": 300,
+    "queries": [
+      {
+        "name": "new",
+        "folder": [
+          "Studies",
+          "New studies"
+        ],
+        "statuses": [
+          "NOT_YET_RECRUITING",
+          "RECRUITING"
+        ]
+      },
+      {
+        "name": "ongoing",
+        "folder": [
+          "Studies",
+          "Ongoing studies"
+        ],
+        "statuses": [
+          "ACTIVE_NOT_RECRUITING",
+          "ENROLLING_BY_INVITATION"
+        ]
+      }
+    ]
+  },
+  "tcia": {
+    "enabled": true,
+    "collections": [],
+    "licensePattern": "creativecommons\\.org/(licenses|publicdomain)/",
+    "maxSeriesPerCollection": 0,
+    "maxSeriesSizeMB": 1024,
+    "minIntervalMs": 500
+  },
+  "gdc": {
+    "enabled": true,
+    "minIntervalMs": 300,
+    "maxPerGroupPerRun": 400,
+    "groups": [
+      {
+        "name": "slides",
+        "category": "pathology",
+        "folder": [
+          "Whole-slide images"
+        ],
+        "dataTypes": [
+          "Slide Image"
+        ],
+        "maxFileSizeMB": 4096
+      },
+      {
+        "name": "reports",
+        "category": "pathology",
+        "folder": [
+          "Pathology reports"
+        ],
+        "dataTypes": [
+          "Pathology Report"
+        ]
+      },
+      {
+        "name": "mutations",
+        "category": "genomics",
+        "dataTypes": [
+          "Masked Somatic Mutation"
+        ]
+      },
+      {
+        "name": "protein",
+        "category": "genomics",
+        "dataTypes": [
+          "Protein Expression Quantification"
+        ]
+      },
+      {
+        "name": "expression",
+        "category": "genomics",
+        "dataTypes": [
+          "Gene Expression Quantification"
+        ]
+      },
+      {
+        "name": "copy-number",
+        "category": "genomics",
+        "dataTypes": [
+          "Copy Number Segment",
+          "Gene Level Copy Number"
+        ]
+      },
+      {
+        "name": "methylation",
+        "category": "genomics",
+        "dataTypes": [
+          "Methylation Beta Value"
+        ]
+      }
+    ]
+  },
+  "physionet": {
+    "enabled": true,
+    "licensePattern": "Creative Commons Attribution|Open Data Commons|CC0|Public Domain",
+    "licenseDenyPattern": "$^",
+    "maxZipSizeMB": 8192,
+    "minIntervalMs": 1000,
+    "projects": [
+      {
+        "slug": "big-ideas-glycemic-wearable",
+        "category": "wearables",
+        "folder": [
+          "Continuous glucose monitors (Dexcom, Libre)",
+          "Dexcom G6 + Empatica wristband"
+        ]
+      },
+      {
+        "slug": "cgmacros",
+        "category": "wearables",
+        "folder": [
+          "Continuous glucose monitors (Dexcom, Libre)",
+          "Libre + Fitbit (CGMacros)"
+        ]
+      },
+      {
+        "slug": "sleep-accel",
+        "category": "wearables",
+        "folder": [
+          "Apple Watch",
+          "Motion and heart rate during sleep"
+        ]
+      },
+      {
+        "slug": "wearable-exam-stress",
+        "category": "wearables",
+        "folder": [
+          "Wrist sensors (Empatica E4)",
+          "Exam stress"
+        ]
+      },
+      {
+        "slug": "wearable-device-dataset",
+        "category": "wearables",
+        "folder": [
+          "Wrist sensors (Empatica E4)",
+          "Wearable device dataset"
+        ]
+      },
+      {
+        "slug": "mmash",
+        "category": "wearables",
+        "folder": [
+          "Heart rate monitors & actigraphy",
+          "Activity and sleep (MMASH)"
+        ]
+      },
+      {
+        "slug": "accelerometry-walk-climb-drive",
+        "category": "wearables",
+        "folder": [
+          "Activity trackers",
+          "Walking, stair climbing, driving"
+        ]
+      },
+      {
+        "slug": "mimic-iv-demo",
+        "category": "ehr",
+        "folder": [
+          "Critical Care & Emergency",
+          "MIMIC-IV demo (de-identified, 100 patients)"
+        ]
+      },
+      {
+        "slug": "mimic-iv-ed-demo",
+        "category": "ehr",
+        "folder": [
+          "Emergency",
+          "MIMIC-IV-ED demo (de-identified)"
+        ]
+      },
+      {
+        "slug": "eicu-crd-demo",
+        "category": "ehr",
+        "folder": [
+          "Critical Care",
+          "eICU demo (de-identified)"
+        ]
+      }
+    ]
+  },
+  "github": {
+    "enabled": true,
+    "minIntervalMs": 200,
+    "datasets": [
+      {
+        "repo": "babylonhealth/primock57",
+        "branch": "main",
+        "dirs": [
+          "audio",
+          "transcripts",
+          "notes"
+        ],
+        "category": "audio",
+        "folder": [
+          "Primary care visits",
+          "PriMock57 mock consultations"
+        ],
+        "prefix": "primock57",
+        "license": "CC BY 4.0",
+        "attribution": "Papadopoulos Korfiatis et al., PriMock57: A Dataset Of Primary Care Mock Consultations (Babylon Health), CC BY 4.0. Role-played consultations, not real patients."
+      }
+    ]
+  },
+  "files": {
+    "enabled": true,
+    "items": [
+      {
+        "category": "ehr",
+        "folder": [
+          "Synthetic patient records (Synthea)",
+          "CSV"
+        ],
+        "prefix": "synthea",
+        "title": "sample data csv",
+        "url": "https://synthetichealth.github.io/synthea-sample-data/downloads/latest/synthea_sample_data_csv_latest.zip",
+        "license": "Apache-2.0 (synthetic data, no real patients)",
+        "attribution": "Synthea, The MITRE Corporation",
+        "landing": "https://synthea.mitre.org/downloads"
+      },
+      {
+        "category": "ehr",
+        "folder": [
+          "Synthetic patient records (Synthea)",
+          "FHIR"
+        ],
+        "prefix": "synthea",
+        "title": "sample data fhir",
+        "url": "https://synthetichealth.github.io/synthea-sample-data/downloads/latest/synthea_sample_data_fhir_latest.zip",
+        "license": "Apache-2.0 (synthetic data, no real patients)",
+        "attribution": "Synthea, The MITRE Corporation",
+        "landing": "https://synthea.mitre.org/downloads"
+      },
+      {
+        "category": "claims",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 1)",
+          "Inpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "inpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_inpatient_claims_sample_1.zip",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files"
+      },
+      {
+        "category": "claims",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 1)",
+          "Outpatient"
+        ],
+        "prefix": "synpuf",
+        "title": "outpatient claims 2008-2010",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_to_2010_outpatient_claims_sample_1.zip",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files"
+      },
+      {
+        "category": "claims",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 1)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part A",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_1A.zip",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files"
+      },
+      {
+        "category": "claims",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 1)",
+          "Professional (carrier)"
+        ],
+        "prefix": "synpuf",
+        "title": "carrier claims 2008-2010 part B",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Carrier_Claims_Sample_1B.zip",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files"
+      },
+      {
+        "category": "claims",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 1)",
+          "Pharmacy (prescription drug events)"
+        ],
+        "prefix": "synpuf",
+        "title": "prescription drug events 2008-2010",
+        "url": "https://downloads.cms.gov/files/DE1_0_2008_to_2010_Prescription_Drug_Events_Sample_1.zip",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files"
+      },
+      {
+        "category": "claims",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 1)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2008",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2008_beneficiary_summary_file_sample_1.zip",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files"
+      },
+      {
+        "category": "claims",
+        "folder": [
+          "Medicare synthetic claims (DE-SynPUF sample 1)",
+          "Beneficiary summary"
+        ],
+        "prefix": "synpuf",
+        "title": "beneficiary summary 2009",
+        "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/synpufs/downloads/de1_0_2009_beneficiary_summary_file_sample_1.zip",
+        "license": "CMS public use file (synthetic, public domain)",
+        "attribution": "CMS 2008-2010 Data Entrepreneurs' Synthetic Public Use File (DE-SynPUF)",
+        "landing": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files"
+      }
+    ]
+  },
+  "leads": {
+    "enabled": true,
+    "forms": [
+      "10-K",
+      "10-Q",
+      "8-K",
+      "S-1",
+      "20-F"
+    ],
+    "lookbackDays": 730,
+    "maxPagesPerPhrase": 3,
+    "secMinIntervalMs": 150,
+    "nasdaqMinIntervalMs": 600,
+    "earningsDaysAhead": 90,
+    "lookupWebsites": true,
+    "phrases": {
+      "imaging": [
+        "DICOM",
+        "de-identified imaging data",
+        "medical imaging data",
+        "radiology images"
+      ],
+      "ehr": [
+        "electronic health record data",
+        "de-identified patient data",
+        "de-identified clinical data",
+        "real-world data"
+      ],
+      "claims": [
+        "claims data",
+        "de-identified claims",
+        "pharmacy claims data",
+        "medical claims data"
+      ],
+      "wearables": [
+        "continuous glucose monitoring data",
+        "wearable data",
+        "remote patient monitoring data",
+        "wearable sensor data"
+      ],
+      "audio": [
+        "ambient clinical documentation",
+        "clinical dictation",
+        "ambient listening",
+        "medical speech recognition"
+      ],
+      "genomics": [
+        "genomic data",
+        "whole exome sequencing",
+        "whole genome sequencing",
+        "sequencing data"
+      ],
+      "pathology": [
+        "whole slide images",
+        "whole-slide images",
+        "digital pathology",
+        "pathology images"
+      ]
+    }
+  },
+  "websites": {
+    "enabled": true,
+    "fromLeads": true,
+    "maxLeadSites": 150,
+    "respectRobotsTxt": true,
+    "maxDepth": 2,
+    "maxPagesPerSite": 40,
+    "minIntervalMs": 1500,
+    "sites": []
+  }
+}

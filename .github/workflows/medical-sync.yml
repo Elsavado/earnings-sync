@@ -1,0 +1,172 @@
+name: Medical sync
+
+on:
+  schedule:
+    # Collection: every hour at :17 (cron is UTC).
+    - cron: '17 * * * *'
+    # Company leads (SEC filings + earnings calendar): once a day.
+    - cron: '40 2 * * *'
+  workflow_dispatch:
+    inputs:
+      source:
+        description: 'Only this source (leads, europepmc, ctgov, tcia, gdc, physionet, github, files, websites); blank = all'
+        required: false
+        default: ''
+      dry_run:
+        description: 'List what would be collected without uploading'
+        type: boolean
+        required: false
+        default: false
+      count_only:
+        description: 'Only update the data counter'
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: medical
+
+jobs:
+  sync:
+    if: ${{ github.event.inputs.count_only != 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 58
+    strategy:
+      fail-fast: false
+      matrix:
+        source: [leads, europepmc, ctgov, tcia, gdc, physionet, github, files, websites]
+    concurrency:
+      group: medical-sync-${{ matrix.source }}
+      cancel-in-progress: false
+    steps:
+      - name: Decide whether this source runs now
+        id: gate
+        working-directory: .
+        env:
+          HAS_DRIVE: ${{ secrets.GOOGLE_REFRESH_TOKEN != '' || secrets.GOOGLE_SERVICE_ACCOUNT_JSON != '' }}
+        run: |
+          want="${{ github.event.inputs.source }}"
+          src="${{ matrix.source }}"
+          sched="${{ github.event.schedule }}"
+          run=true
+          if [ -n "$want" ] && [ "$want" != "$src" ]; then run=false; fi
+          # Leads run on the daily schedule (or by hand); the rest on the hourly one.
+          if [ "$sched" = "17 * * * *" ] && [ "$src" = "leads" ]; then run=false; fi
+          if [ "$sched" = "40 2 * * *" ] && [ "$src" != "leads" ]; then run=false; fi
+          # Until the Google Drive secrets are added, only dry runs do anything.
+          if [ "$HAS_DRIVE" != "true" ] && [ "${{ github.event.inputs.dry_run }}" != "true" ]; then
+            run=false
+            echo "::notice::Google Drive secrets are not set; skipping $src"
+          fi
+          echo "run=$run" >> "$GITHUB_OUTPUT"
+          echo "JOB_STARTED=$(date +%s)" >> "$GITHUB_ENV"
+
+      - uses: actions/checkout@v4
+        if: steps.gate.outputs.run == 'true'
+
+      - uses: actions/setup-node@v4
+        if: steps.gate.outputs.run == 'true'
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: medical/package-lock.json
+
+      - name: Install dependencies
+        if: steps.gate.outputs.run == 'true'
+        run: npm ci --no-audit --no-fund
+
+      - name: Restore run state
+        if: steps.gate.outputs.run == 'true'
+        uses: actions/cache/restore@v4
+        with:
+          path: medical/.state
+          key: state-${{ matrix.source }}-${{ github.run_id }}
+          restore-keys: state-${{ matrix.source }}-
+
+      - name: Collect
+        if: steps.gate.outputs.run == 'true'
+        run: node src/index.js
+        env:
+          SOURCE: ${{ matrix.source }}
+          DRY_RUN: ${{ github.event.inputs.dry_run }}
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+          GITHUB_TOKEN: ${{ github.token }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          DRIVE_ROOT_FOLDER_ID: ${{ secrets.DRIVE_ROOT_FOLDER_ID }}
+
+      - name: Save run state
+        if: ${{ always() && steps.gate.outputs.run == 'true' && github.event.inputs.dry_run != 'true' }}
+        uses: actions/cache/save@v4
+        with:
+          path: medical/.state
+          key: state-${{ matrix.source }}-${{ github.run_id }}
+
+      - name: Flag remaining work
+        if: ${{ steps.gate.outputs.run == 'true' && hashFiles('medical/.signal/*') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: more-work-${{ matrix.source }}
+          path: medical/.signal/
+          include-hidden-files: true
+          retention-days: 1
+
+  # While sources still have work, start the next run straight away instead of waiting
+  # for the next hour.
+  continue:
+    needs: sync
+    if: ${{ always() && github.event.inputs.dry_run != 'true' && github.event.inputs.count_only != 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          pattern: more-work-*
+          path: signals
+      - name: Start the next run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -n "$(ls -A signals 2>/dev/null)" ]; then
+            gh workflow run medical-sync.yml --repo "${{ github.repository }}" --ref "${{ github.ref_name }}" -f source="${{ github.event.inputs.source }}"
+            echo "More work left: next run started" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "No source reported remaining work" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+  # The data counter: files and storage per data type and sub-type.
+  counter:
+    needs: sync
+    if: ${{ always() && github.event.inputs.dry_run != 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: medical/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - name: Count data in Drive
+        run: |
+          if [ "$HAS_DRIVE" != "true" ]; then echo "::notice::Google Drive secrets are not set; nothing to count"; exit 0; fi
+          node src/progress.js
+        env:
+          HAS_DRIVE: ${{ secrets.GOOGLE_REFRESH_TOKEN != '' || secrets.GOOGLE_SERVICE_ACCOUNT_JSON != '' }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          DRIVE_ROOT_FOLDER_ID: ${{ secrets.DRIVE_ROOT_FOLDER_ID }}
