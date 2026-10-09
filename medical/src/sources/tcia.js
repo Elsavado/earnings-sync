@@ -115,7 +115,7 @@ async function loadDownloads(cfg) {
   for (let page = 1; page <= 50; page++) {
     let batch;
     try {
-      batch = await getJson(`${WP}?per_page=100&page=${page}&_fields=${WP_FIELDS}`, { minIntervalMs: cfg.minIntervalMs, timeoutMs: 120000 });
+      batch = await getJson(`${WP}?per_page=100&page=${page}&_fields=${WP_FIELDS}`, { minIntervalMs: cfg.minIntervalMs, timeoutMs: 120000, retries: 6 });
     } catch (err) {
       if (/\b400\b/.test(err.message)) break; // past the last page
       throw err;
@@ -136,7 +136,7 @@ export async function* tciaItems(settings, ctx) {
   const done = new Set(state.done);
   let collections = cfg.collections;
   if (!collections.length) {
-    const all = await getJson(`${API}/getCollectionValues?format=json`, { minIntervalMs: cfg.minIntervalMs });
+    const all = await getJson(`${API}/getCollectionValues?format=json`, { minIntervalMs: cfg.minIntervalMs, retries: 6 });
     collections = all.map((c) => c.Collection).sort();
   }
   let notes = null;
@@ -144,7 +144,8 @@ export async function* tciaItems(settings, ctx) {
     if (done.has(collection)) continue;
     const all = await getJson(`${API}/getSeries?Collection=${encodeURIComponent(collection)}&format=json`, {
       minIntervalMs: cfg.minIntervalMs,
-      timeoutMs: 180000
+      timeoutMs: 180000,
+      retries: 6
     });
     const series = all.filter((s) => licenseRe.test(s.LicenseURI || '') && (imagingModality(s.Modality) || isImageNoteModality(s.Modality)));
     ctx.stats.licenseSkipped += all.filter((s) => !licenseRe.test(s.LicenseURI || '')).length;

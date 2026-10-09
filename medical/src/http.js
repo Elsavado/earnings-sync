@@ -52,7 +52,7 @@ export async function request(url, { method = 'GET', body, headers = {}, minInte
       clearTimeout(timer);
       return res;
     } catch (err) {
-      lastError = new Error(`Request failed for ${redactUrl(url)}: ${err.name === 'AbortError' ? 'timed out' : err.message}`);
+      lastError = new Error(`Request failed for ${redactUrl(url)}: ${err.name === 'AbortError' ? 'timed out' : `${err.message}${err.cause?.code ? ` (${err.cause.code})` : ''}`}`);
       if (attempt < retries) await sleep(backoff(attempt));
     } finally {
       clearTimeout(timer);

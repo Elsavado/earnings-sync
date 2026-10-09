@@ -21,7 +21,17 @@ export async function* ctgovItems(settings, ctx) {
       if (cfg.requireDocuments) params.set('filter.advanced', 'AREA[LargeDocHasProtocol]true OR AREA[LargeDocHasICF]true OR AREA[LargeDocHasSAP]true');
       if (q.condition) params.set('query.cond', q.condition);
       if (qs.pageToken) params.set('pageToken', qs.pageToken);
-      const data = await getJson(`${API}?${params}`, { minIntervalMs: cfg.minIntervalMs });
+      let data;
+      try {
+        data = await getJson(`${API}?${params}`, { minIntervalMs: cfg.minIntervalMs });
+      } catch (err) {
+        // Page tokens expire between runs; start the query again (stored studies are skipped).
+        if (qs.pageToken && /HTTP 400/.test(err.message)) {
+          qs.pageToken = null;
+          continue;
+        }
+        throw err;
+      }
       for (const study of data.studies || []) {
         const ps = study.protocolSection || {};
         const nctId = ps.identificationModule?.nctId;
