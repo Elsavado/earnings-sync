@@ -199,7 +199,7 @@ class Run {
       const ext = extensionFromName(item.fileName) || resolveExtension({ ext: item.ext, dispositionName: file.dispositionName, url: file.finalUrl, contentType: file.contentType });
       const name = fileName({ prefix: item.prefix, title: item.title, uid, ext });
       if (item.unzip && ext === 'zip') {
-        await this.putArchive(item, key, tmp, [top, ...item.path, name.replace(/\.zip$/, '')]);
+        await this.putArchive(item, key, tmp, [top, ...item.path, item.folderName || name.replace(/\.zip$/, '')]);
         return;
       }
       if (!(await this.roomFor(file.bytes))) return;

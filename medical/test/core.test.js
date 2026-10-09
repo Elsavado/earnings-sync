@@ -189,6 +189,17 @@ test('data sits with its notes: per consultation, per case, per patient', async 
   assert.deepEqual(relocation({ name: 'a.svs', description: gdc }, 'Breast', 'Whole-slide images'), { move: 'file', under: 'parent', into: 'TCGA-A1-A0SB' });
   assert.equal(relocation({ name: 'a.svs', description: gdc }, 'TCGA-A1-A0SB', 'Breast'), null);
   const tcia = 'Attribution: The Cancer Imaging Archive, collection 4D-Lung (https://doi.org/x)';
-  assert.deepEqual(relocation({ name: '1-01.dcm', description: tcia }, '100_HM10395_ct-lung-series-507_ab12cd', '4D-Lung'), { move: 'parent', into: '100_HM10395' });
-  assert.equal(relocation({ name: '1-01.dcm', description: tcia }, '100_HM10395_ct-lung-series-507_ab12cd', '100_HM10395'), null);
+  assert.deepEqual(relocation({ name: '1-01.dcm', description: tcia }, '100_HM10395_ct-lung-series-507_ab12cd', '4D-Lung'), { move: 'tcia', collection: '4D-Lung', uid6: 'ab12cd' });
+  assert.equal(relocation({ name: '1-01.dcm', description: tcia }, 'Series 507 - P4 P100 S113 I0, Gated, 70.0% (CT, 50 images)', '1997-10-03 - p4'), null);
+});
+
+test('every image series gets its own well-named folder under patient and scan session', async () => {
+  const { seriesLayout } = await import('../src/sources/tcia.js');
+  const s = (uid, study, num, desc, date = '1997-10-03 00:00:00.0') => ({ SeriesInstanceUID: uid, StudyInstanceUID: study, PatientID: '100_HM10395', StudyDate: date, StudyDesc: 'p4', SeriesNumber: num, SeriesDescription: desc, Modality: 'CT', ImageCount: 50 });
+  const layout = seriesLayout([s('1', 'A', 507, 'P4^P100^S113^I0, Gated, 70.0%'), s('2', 'B', 507, 'P4^P100^S114^I0, Gated, 70.0%'), s('3', 'A', 1, 'Scout'), s('4', 'A', 1, 'Scout'), s('5', 'C', 2, 'Axial', '1997-10-10')]);
+  assert.deepEqual(layout.get('1'), { patient: '100_HM10395', study: '1997-10-03 - p4 (scan 1 of 2)', name: 'Series 507 - P4 P100 S113 I0, Gated, 70.0% (CT, 50 images)' });
+  assert.equal(layout.get('2').study, '1997-10-03 - p4 (scan 2 of 2)');
+  assert.equal(layout.get('3').name, 'Series 1 - Scout (CT, 50 images) (copy 1 of 2)');
+  assert.equal(layout.get('4').name, 'Series 1 - Scout (CT, 50 images) (copy 2 of 2)');
+  assert.equal(layout.get('5').study, '1997-10-10 - p4');
 });

@@ -1,11 +1,62 @@
 // "DICOM - Imaging": public collections of The Cancer Imaging Archive. Every series carries
 // its licence; only series whose licence URI matches settings.tcia.licensePattern are taken.
-// Each series is unpacked from the archive's zip and stored as a folder of DICOM files:
-// <specialty>/<CT | MRI | X-ray | Ultrasound>/<collection>/<patient>/<series>/.
+// Each series is unpacked from the archive's zip and kept whole in one folder of DICOM files,
+// grouped by patient and scan session:
+// <specialty>/<CT | MRI | X-ray | Ultrasound>/<collection>/<patient>/<study date - study>/
+//   Series 507 - <series description> (CT, 50 images)/
 import { getJson } from '../http.js';
 import { imagingModality, imagingSpecialty } from '../taxonomy.js';
 
-const API = 'https://services.cancerimagingarchive.net/nbia-api/services/v1';
+export const API = 'https://services.cancerimagingarchive.net/nbia-api/services/v1';
+
+function clean(text) {
+  return String(text || '').replace(/\^/g, ' ').replace(/[\/\:*?"<>|]+/g, '-').replace(/\s+/g, ' ').trim();
+}
+
+function day(date) {
+  return String(date || '').slice(0, 10);
+}
+
+// Gives names that would clash a "(<word> i of n)" label, in a fixed order.
+function numbered(items, baseOf, word) {
+  const groups = new Map();
+  for (const it of items) {
+    const base = baseOf(it);
+    groups.set(base, [...(groups.get(base) || []), it]);
+  }
+  const names = new Map();
+  for (const [base, list] of groups) {
+    list.forEach((it, i) => names.set(it, list.length > 1 ? `${base} (${word} ${i + 1} of ${list.length})` : base));
+  }
+  return names;
+}
+
+// Readable, unique folder names for every series of a collection: the patient, the scan
+// session (study) and the series. Sessions or series that would share a name are numbered
+// "(scan 1 of 2)", "(scan 2 of 2)" in a fixed order, so a series always gets the same folder.
+export function seriesLayout(series) {
+  const layout = new Map();
+  const byPatient = new Map();
+  for (const s of series) byPatient.set(s.PatientID, [...(byPatient.get(s.PatientID) || []), s]);
+  const byUid = (a, b) => String(a).localeCompare(String(b));
+  for (const [patientId, list] of byPatient) {
+    const patient = clean(patientId) || 'Unknown patient';
+    const studies = [...new Set(list.map((s) => s.StudyInstanceUID))].sort(byUid);
+    const first = (uid) => list.find((x) => x.StudyInstanceUID === uid);
+    const studyNames = numbered(studies, (uid) => [day(first(uid).StudyDate || first(uid).SeriesDate), clean(first(uid).StudyDesc)].filter(Boolean).join(' - ') || 'Study', 'scan');
+    const sorted = [...list].sort((a, b) => byUid(a.SeriesInstanceUID, b.SeriesInstanceUID));
+    const seriesBase = (s) => {
+      const desc = clean(s.SeriesDescription || s.ProtocolName);
+      const images = s.ImageCount ? `${s.ImageCount} image${s.ImageCount === 1 ? '' : 's'}` : '';
+      return `${studyNames.get(s.StudyInstanceUID)}|Series ${s.SeriesNumber ?? '?'}${desc ? ` - ${desc}` : ''} (${[s.Modality, images].filter(Boolean).join(', ')})`.slice(0, 220);
+    };
+    const seriesNames = numbered(sorted, seriesBase, 'copy');
+    for (const s of sorted) {
+      layout.set(s.SeriesInstanceUID, { patient, study: studyNames.get(s.StudyInstanceUID), name: seriesNames.get(s).split('|')[1] });
+    }
+  }
+  return layout;
+}
 
 export async function* tciaItems(settings, ctx) {
   const cfg = settings.tcia;
@@ -23,6 +74,7 @@ export async function* tciaItems(settings, ctx) {
       minIntervalMs: cfg.minIntervalMs,
       timeoutMs: 180000
     });
+    const layout = seriesLayout(series);
     let taken = 0;
     for (const s of series) {
       if (cfg.maxSeriesPerCollection && taken >= cfg.maxSeriesPerCollection) break;
@@ -43,8 +95,8 @@ export async function* tciaItems(settings, ctx) {
         source: 'tcia',
         id: s.SeriesInstanceUID,
         category: 'imaging',
-        // All of a patient's series sit together: .../<collection>/<patient>/<series>/.
-        path: [imagingSpecialty(collection, s.BodyPartExamined), modality, collection, s.PatientID || 'Unknown patient'],
+        path: [imagingSpecialty(collection, s.BodyPartExamined), modality, collection, layout.get(s.SeriesInstanceUID).patient, layout.get(s.SeriesInstanceUID).study],
+        folderName: layout.get(s.SeriesInstanceUID).name,
         prefix: s.PatientID,
         title: `${s.Modality || ''} ${s.BodyPartExamined || ''} series ${s.SeriesNumber ?? ''}`,
         unzip: true,

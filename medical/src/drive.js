@@ -147,6 +147,10 @@ export class DriveStore {
     await this.drive.files.update({ fileId, addParents: toFolderId, removeParents: fromFolderId, supportsAllDrives: true });
   }
 
+  async rename(fileId, name) {
+    await this.drive.files.update({ fileId, requestBody: { name }, supportsAllDrives: true });
+  }
+
   async isEmptyFolder(folderId) {
     const res = await this.drive.files.list({
       q: `'${escapeQuery(folderId)}' in parents and trashed = false`,

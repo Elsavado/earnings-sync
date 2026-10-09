@@ -9,7 +9,9 @@ import { fileURLToPath } from 'node:url';
 import { loadConfig } from './config.js';
 import { log } from './context.js';
 import { createDriveStore } from './drive.js';
-import { isArchiveClutter } from './files.js';
+import { isArchiveClutter, sourceKey } from './files.js';
+import { getJson } from './http.js';
+import { API as TCIA_API, seriesLayout } from './sources/tcia.js';
 
 const FOLDER_MIME = 'application/vnd.google-apps.folder';
 
@@ -26,7 +28,8 @@ export function isNotData(name) {
 // Where a file stored in the older layout belongs now, or null when it is already in place.
 // `move: 'file'` puts the file into folder `into` under its parent (`under: 'parent'`) or
 // grandparent (`under: 'grandparent'`); `move: 'parent'` moves the file's whole parent folder
-// (an unpacked TCIA series) into folder `into` under the grandparent.
+// (an unpacked TCIA series) into folder `into` under the grandparent; `move: 'tcia'` moves a
+// series folder to <collection>/<patient>/<study>/ and renames it (see tciaTarget).
 export function relocation({ name, description = '' }, parentName, grandName) {
   if (grandName === 'PriMock57 mock consultations' && ['audio', 'transcripts', 'notes'].includes(parentName)) {
     const consultation = name.match(/day\d+_consultation\d+/i)?.[0];
@@ -37,9 +40,10 @@ export function relocation({ name, description = '' }, parentName, grandName) {
     return kase && kase !== 'n/a' && parentName !== kase ? { move: 'file', under: 'parent', into: kase } : null;
   }
   if (description.includes('The Cancer Imaging Archive')) {
+    // A series folder from an older layout ends in the first 6 characters of its source key.
     const collection = description.match(/collection (.+?) \(/)?.[1];
-    const patient = parentName.replace(/_[a-z0-9-]+_[0-9a-f]{6}$/, '');
-    return collection && grandName === collection && patient && patient !== parentName ? { move: 'parent', into: patient } : null;
+    const uid6 = parentName.match(/_([0-9a-f]{6})$/)?.[1];
+    return collection && uid6 ? { move: 'tcia', collection, uid6 } : null;
   }
   return null;
 }
@@ -66,6 +70,23 @@ async function main() {
   log.info(`Cleanup: ${trashed} non-data file(s) moved to the Drive trash; ${moved} item(s) moved next to their notes`);
 }
 
+// The new folder of an older-layout TCIA series, found by matching the 6-character key
+// suffix against the collection's series list.
+async function tciaTarget({ collection, uid6 }, cache) {
+  if (!cache.has(collection)) {
+    const series = await getJson(`${TCIA_API}/getSeries?Collection=${encodeURIComponent(collection)}&format=json`, { timeoutMs: 180000 });
+    const layout = seriesLayout(series);
+    const byUid6 = new Map();
+    for (const s of series) {
+      const k = sourceKey('tcia', s.SeriesInstanceUID).slice(0, 6);
+      // Two series sharing a suffix cannot be told apart; such a folder is left where it is.
+      byUid6.set(k, byUid6.has(k) ? null : layout.get(s.SeriesInstanceUID));
+    }
+    cache.set(collection, byUid6);
+  }
+  return cache.get(collection).get(uid6) || null;
+}
+
 async function relink(store) {
   const folders = new Map();
   const folder = async (id) => {
@@ -73,6 +94,7 @@ async function relink(store) {
     return folders.get(id);
   };
   const emptied = new Set();
+  const tcia = new Map();
   const movedFolders = new Set();
   let moved = 0;
   for (const f of await store.listAppFiles()) {
@@ -82,7 +104,18 @@ async function relink(store) {
     const grand = await folder(parent.parents[0]);
     const r = relocation(f, parent.name, grand.name);
     if (!r) continue;
-    if (r.move === 'parent') {
+    if (r.move === 'tcia') {
+      const target = await tciaTarget(r, tcia);
+      if (!target) continue;
+      // The collection folder is the grandparent (oldest layout) or the one above it.
+      const collectionFolder = grand.name === r.collection ? grand : await folder(grand.parents?.[0]);
+      if (!collectionFolder || collectionFolder.name !== r.collection) continue;
+      const studyFolder = await store.ensureFolder(await store.ensureFolder(collectionFolder.id, target.patient), target.study);
+      await store.move(parent.id, grand.id, studyFolder);
+      await store.rename(parent.id, target.name);
+      movedFolders.add(parent.id);
+      if (grand.id !== collectionFolder.id) emptied.add(grand.id);
+    } else if (r.move === 'parent') {
       await store.move(parent.id, grand.id, await store.ensureFolder(grand.id, r.into));
       movedFolders.add(parent.id);
     } else {
