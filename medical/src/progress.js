@@ -21,8 +21,8 @@ export function tally(files) {
   for (const f of files) {
     const t = types[f.appProperties?.mdCategory];
     if (!t) continue;
-    // Each unpacked archive's _SOURCE.txt is bookkeeping, not data.
-    if (f.name === '_SOURCE.txt') continue;
+    // Archive folders tagged as finished, and _SOURCE.txt files from older runs, are not data.
+    if (f.mimeType === 'application/vnd.google-apps.folder' || f.name === '_SOURCE.txt') continue;
     const size = Number(f.size || 0);
     const subName = f.appProperties?.mdSubtype || '(none)';
     const sub = t.subtypes.get(subName) || { files: 0, bytes: 0 };

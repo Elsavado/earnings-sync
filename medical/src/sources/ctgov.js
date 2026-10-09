@@ -38,13 +38,7 @@ export async function* ctgovItems(settings, ctx) {
           attribution: `ClinicalTrials.gov ${nctId}: ${title}`,
           landing: `https://clinicaltrials.gov/study/${nctId}`
         };
-        yield {
-          ...common,
-          id: `${nctId}/record/${ps.statusModule?.lastUpdatePostDateStruct?.date || ''}`,
-          title: `study record ${title}`,
-          ext: 'json',
-          content: Buffer.from(JSON.stringify(study, null, 2), 'utf8')
-        };
+        // Only the study's own documents (protocol, statistical analysis plan, consent form) are kept.
         for (const doc of study.documentSection?.largeDocumentModule?.largeDocs || []) {
           if (!doc.filename) continue;
           yield {

@@ -5,9 +5,9 @@ import { loadConfig } from './config.js';
 import { createContext, log } from './context.js';
 import { createDriveStore, hasDriveCredentials } from './drive.js';
 import { downloadToFile, SkipError } from './http.js';
-import { CATEGORIES, extensionFromName, fileName, mimeForExtension, resolveExtension, sourceKey } from './files.js';
+import { CATEGORIES, extensionFromName, fileName, isArchiveClutter, mimeForExtension, resolveExtension, sourceKey } from './files.js';
 import { forEachZipEntry, listZipFiles, stripCommonRoot } from './unzip.js';
-import { buildLeads, leadsCsv } from './leads.js';
+import { buildLeads, leadsCsv, leadSitesFromCsv } from './leads.js';
 import { europepmcItems } from './sources/europepmc.js';
 import { ctgovItems } from './sources/ctgov.js';
 import { tciaItems } from './sources/tcia.js';
@@ -29,7 +29,6 @@ const SOURCES = {
 };
 
 const QUOTA_CHECK_EVERY = 25;
-const LEADS_FILE = 'leads.json';
 
 function truthy(value) {
   return /^(1|true|yes|on)$/i.test(String(value || '').trim());
@@ -108,10 +107,11 @@ class Run {
   }
 
   // Unpacks a downloaded archive into <path>/<item folder>/..., one Drive file per entry.
-  // A small _SOURCE.txt carrying the item's key is written last: its presence marks the
-  // whole archive as done, so a later run skips it without downloading it again.
+  // Checksum lists, licence copies and OS leftovers are not data and are left out. Once every
+  // entry is stored, the folder itself is tagged with the item's key, so a later run skips
+  // the archive without downloading it again.
   async putArchive(item, key, zipPath, basePath) {
-    const names = await listZipFiles(zipPath);
+    const names = (await listZipFiles(zipPath)).filter((n) => !isArchiveClutter(n));
     const root = stripCommonRoot(names);
     let stored = 0;
     let complete = true;
@@ -120,6 +120,7 @@ class Run {
         complete = false;
         return false;
       }
+      if (isArchiveClutter(entry.fileName)) return true;
       const entryKey = sourceKey(item.source, `${item.id}#${entry.fileName}`);
       if (this.existingKeys.has(entryKey)) return true;
       if (!(await this.roomFor(entry.uncompressedSize))) {
@@ -140,8 +141,8 @@ class Run {
       return true;
     });
     if (complete) {
-      const text = `${describe(item)}\nFiles: ${names.length}\n`;
-      await this.put({ path: basePath, name: '_SOURCE.txt', buffer: Buffer.from(text, 'utf8'), ext: 'txt', key, item, bytes: text.length });
+      await this.store.markFolderDone(await this.store.ensurePath(basePath), key);
+      this.existingKeys.add(key);
     }
     log.info(`${item.source}: ${basePath.join(' / ')}: ${stored} file(s) stored${complete ? '' : ', archive not finished; the next run continues'}`);
     return complete;
@@ -244,15 +245,6 @@ async function runLeads(settings, store, ctx, dryRun) {
   }
   const folder = await store.ensureFolder('root', settings.drivePrivateFolderName);
   const sheet = await store.writeSheet(folder, 'company-leads', leadsCsv(rows));
-  const sites = rows.filter((r) => r.website).map((r) => ({ name: r.ticker || r.name, startUrls: [r.website] }));
-  // Company websites for the crawler, read back by leadSites() in later runs.
-  const existing = await store.findFile(folder, LEADS_FILE);
-  if (existing) await store.drive.files.delete({ fileId: existing.id, supportsAllDrives: true });
-  await store.drive.files.create({
-    requestBody: { name: LEADS_FILE, parents: [folder] },
-    media: { mimeType: 'application/json', body: JSON.stringify(sites) },
-    supportsAllDrives: true
-  });
   log.info(`Company leads written to Google Drive > ${settings.drivePrivateFolderName} > company-leads (${sheet.webViewLink})`);
   if (process.env.GITHUB_STEP_SUMMARY) {
     await appendFile(process.env.GITHUB_STEP_SUMMARY, `## Company leads\n\n${rows.length} companies; sheet: ${settings.drivePrivateFolderName}/company-leads\n`);
@@ -262,10 +254,9 @@ async function runLeads(settings, store, ctx, dryRun) {
 async function leadSites(settings, store) {
   if (!store || !settings.websites.fromLeads) return [];
   const folder = await store.ensureFolder('root', settings.drivePrivateFolderName);
-  const file = await store.findFile(folder, LEADS_FILE);
-  if (!file) return [];
-  const res = await store.drive.files.get({ fileId: file.id, alt: 'media' }, { responseType: 'text' });
-  return JSON.parse(String(res.data)).slice(0, settings.websites.maxLeadSites);
+  // The company websites are read straight from the company-leads sheet.
+  const csv = await store.readSheetCsv(folder, 'company-leads');
+  return csv ? leadSitesFromCsv(csv).slice(0, settings.websites.maxLeadSites) : [];
 }
 
 async function main() {

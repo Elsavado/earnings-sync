@@ -152,3 +152,21 @@ test('shipped config is valid and covers exactly the eight types', async () => {
   assert.deepEqual(Object.keys(settings.leads.phrases).sort(), ['audio', 'claims', 'ehr', 'genomics', 'imaging', 'pathology', 'wearables']);
   assert.throws(() => normalizeConfig({ ...JSON.parse(JSON.stringify({ settings: {} })) }), /missing/);
 });
+
+test('only data is kept: archive clutter, licences and bookkeeping files are dropped', async () => {
+  const { isArchiveClutter } = await import('../src/files.js');
+  const { isNotData } = await import('../src/cleanup.js');
+  for (const n of ['p/LICENSE.txt', 'p/License-CC-BY.pdf', 'COPYING', 'p/SHA256SUMS.txt', '__MACOSX/p/._a.dcm', 'p/.DS_Store', 'p/sub/']) assert.ok(isArchiveClutter(n), n);
+  for (const n of ['p/hosp/admissions.csv.gz', 'p/RECORDS', 'p/licensed_data.csv', 'p/s01.dat']) assert.ok(!isArchiveClutter(n), n);
+  for (const n of ['_SOURCE.txt', 'NCT01234567_study-record-a-trial_ab12cd.json', '._a.dcm']) assert.ok(isNotData(n), n);
+  for (const n of ['NCT01234567_protocol-2020_ab12cd.pdf', 'PMC1_case_ab12cd.pdf']) assert.ok(!isNotData(n), n);
+});
+
+test('lead websites are read back from the company-leads sheet', async () => {
+  const { leadSitesFromCsv } = await import('../src/leads.js');
+  const csv = 'ticker,company,website\r\nDGX,"Quest Diagnostics, Inc.",https://www.questdiagnostics.com\r\n,"Acme ""Labs""",https://acme.example\r\nX,No Site,\r\n';
+  assert.deepEqual(leadSitesFromCsv(csv), [
+    { name: 'DGX', startUrls: ['https://www.questdiagnostics.com'] },
+    { name: 'Acme "Labs"', startUrls: ['https://acme.example'] }
+  ]);
+});

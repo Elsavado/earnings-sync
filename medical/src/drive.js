@@ -107,7 +107,7 @@ export class DriveStore {
     do {
       const res = await this.drive.files.list({
         q: `appProperties has { key='${APP_KEY}' and value='${APP_VALUE}' } and trashed = false`,
-        fields: 'nextPageToken, files(id, name, size, appProperties)',
+        fields: 'nextPageToken, files(id, name, size, mimeType, parents, appProperties)',
         pageSize: 1000,
         pageToken,
         supportsAllDrives: true,
@@ -127,6 +127,27 @@ export class DriveStore {
       if (key) keys.add(key);
     }
     return keys;
+  }
+
+  // Marks an unpacked archive's folder as finished by tagging the folder itself, so no
+  // bookkeeping file has to sit next to the data.
+  async markFolderDone(folderId, sourceKey) {
+    await this.drive.files.update({
+      fileId: folderId,
+      requestBody: { appProperties: { [APP_KEY]: APP_VALUE, [SOURCE_KEY]: sourceKey } },
+      supportsAllDrives: true
+    });
+  }
+
+  async trash(fileId) {
+    await this.drive.files.update({ fileId, requestBody: { trashed: true }, supportsAllDrives: true });
+  }
+
+  async readSheetCsv(folderId, name) {
+    const file = await this.findFile(folderId, name);
+    if (!file) return null;
+    const res = await this.drive.files.export({ fileId: file.id, mimeType: 'text/csv' }, { responseType: 'text' });
+    return String(res.data);
   }
 
   // Bytes still free before the reserve is reached; null when the account has no limit.

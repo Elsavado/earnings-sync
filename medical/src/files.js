@@ -101,3 +101,11 @@ export function categorize(text) {
   for (const [category, re] of CATEGORY_KEYWORDS) if (re.test(s)) return category;
   return null;
 }
+
+// Archive entries that are not data: checksum lists, licence copies, and folders and files
+// left behind by macOS and Windows.
+const ARCHIVE_CLUTTER = /(^|\/)(__MACOSX\/|\.DS_Store$|Thumbs\.db$|desktop\.ini$|(SHA256|SHA1|MD5)SUMS(\.txt)?$|(LICEN[CS]E|COPYING)([-_. ][^/]*)?$)/i;
+
+export function isArchiveClutter(name) {
+  return ARCHIVE_CLUTTER.test(name) || name.endsWith('/');
+}

@@ -15,6 +15,8 @@ function sameSite(a, b) {
   return strip(new URL(a).hostname) === strip(new URL(b).hostname);
 }
 
+const NOT_DATA = /licen[cs]e|terms[-_ ]+(of|and|&)|terms[-_ ]?conditions|privacy|cookie|legal[-_ ]notice|disclaimer/i;
+
 export function extractLinks(html, baseUrl) {
   const $ = cheerio.load(html);
   const links = [];
@@ -61,7 +63,10 @@ export async function* websiteItems(settings, ctx) {
         if (DOC_EXTS.has(ext)) {
           if (seenDocs.has(link.url)) continue;
           seenDocs.add(link.url);
-          const category = categorize(`${link.text} ${decodeURIComponent(new URL(link.url).pathname)}`);
+          const described = `${link.text} ${decodeURIComponent(new URL(link.url).pathname)}`;
+          // Licences, terms, privacy and cookie notices are not data.
+          if (NOT_DATA.test(described)) continue;
+          const category = categorize(described);
           if (!category) continue;
           if (cfg.respectRobotsTxt && !(await isAllowedByRobots(link.url, ctx.scraperUserAgent))) continue;
           yield {
