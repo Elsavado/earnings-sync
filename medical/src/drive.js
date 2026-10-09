@@ -107,7 +107,7 @@ export class DriveStore {
     do {
       const res = await this.drive.files.list({
         q: `appProperties has { key='${APP_KEY}' and value='${APP_VALUE}' } and trashed = false`,
-        fields: 'nextPageToken, files(id, name, size, mimeType, parents, appProperties)',
+        fields: 'nextPageToken, files(id, name, size, mimeType, parents, description, appProperties)',
         pageSize: 1000,
         pageToken,
         supportsAllDrives: true,
@@ -137,6 +137,26 @@ export class DriveStore {
       requestBody: { appProperties: { [APP_KEY]: APP_VALUE, [SOURCE_KEY]: sourceKey } },
       supportsAllDrives: true
     });
+  }
+
+  async getFile(fileId) {
+    return (await this.drive.files.get({ fileId, fields: 'id, name, parents, mimeType', supportsAllDrives: true })).data;
+  }
+
+  async move(fileId, fromFolderId, toFolderId) {
+    await this.drive.files.update({ fileId, addParents: toFolderId, removeParents: fromFolderId, supportsAllDrives: true });
+  }
+
+  async isEmptyFolder(folderId) {
+    const res = await this.drive.files.list({
+      q: `'${escapeQuery(folderId)}' in parents and trashed = false`,
+      fields: 'files(id)',
+      pageSize: 1,
+      supportsAllDrives: true,
+      includeItemsFromAllDrives: true,
+      corpora: 'allDrives'
+    });
+    return !res.data.files?.length;
   }
 
   async trash(fileId) {

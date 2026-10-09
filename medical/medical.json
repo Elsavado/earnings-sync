@@ -336,7 +336,8 @@
         ],
         "prefix": "primock57",
         "license": "CC BY 4.0",
-        "attribution": "Papadopoulos Korfiatis et al., PriMock57: A Dataset Of Primary Care Mock Consultations (Babylon Health), CC BY 4.0. Role-played consultations, not real patients."
+        "attribution": "Papadopoulos Korfiatis et al., PriMock57: A Dataset Of Primary Care Mock Consultations (Babylon Health), CC BY 4.0. Role-played consultations, not real patients.",
+        "groupBy": "day\\d+_consultation\\d+"
       }
     ]
   },

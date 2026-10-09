@@ -1,7 +1,7 @@
 // "DICOM - Imaging": public collections of The Cancer Imaging Archive. Every series carries
 // its licence; only series whose licence URI matches settings.tcia.licensePattern are taken.
 // Each series is unpacked from the archive's zip and stored as a folder of DICOM files:
-// <specialty>/<CT | MRI | X-ray | Ultrasound>/<collection>/<series>/.
+// <specialty>/<CT | MRI | X-ray | Ultrasound>/<collection>/<patient>/<series>/.
 import { getJson } from '../http.js';
 import { imagingModality, imagingSpecialty } from '../taxonomy.js';
 
@@ -43,7 +43,8 @@ export async function* tciaItems(settings, ctx) {
         source: 'tcia',
         id: s.SeriesInstanceUID,
         category: 'imaging',
-        path: [imagingSpecialty(collection, s.BodyPartExamined), modality, collection],
+        // All of a patient's series sit together: .../<collection>/<patient>/<series>/.
+        path: [imagingSpecialty(collection, s.BodyPartExamined), modality, collection, s.PatientID || 'Unknown patient'],
         prefix: s.PatientID,
         title: `${s.Modality || ''} ${s.BodyPartExamined || ''} series ${s.SeriesNumber ?? ''}`,
         unzip: true,

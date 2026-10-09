@@ -30,6 +30,13 @@ export function downloadUrlFor(repo, branch, entry) {
   return entry.download_url;
 }
 
+// Files that belong together (e.g. one consultation's audio, transcripts and clinical note)
+// share a folder named by the part of the file name that set.groupBy matches.
+export function groupFolder(set, name) {
+  if (!set.groupBy) return null;
+  return name.match(new RegExp(set.groupBy, 'i'))?.[0] || null;
+}
+
 export async function* githubItems(settings, ctx) {
   const cfg = settings.github;
   for (const set of cfg.datasets) {
@@ -37,11 +44,13 @@ export async function* githubItems(settings, ctx) {
     for (const dir of set.dirs) {
       for await (const entry of walk(set.repo, branch, dir, cfg)) {
         if (set.extensions?.length && !set.extensions.some((x) => entry.name.toLowerCase().endsWith(`.${x}`))) continue;
+        // Format descriptions are not data.
+        if (/^readme(\.|$)/i.test(entry.name)) continue;
         yield {
           source: 'github',
           id: `${set.repo}/${entry.path}@${entry.sha}`,
           category: set.category,
-          path: [...set.folder, dir],
+          path: [...set.folder, groupFolder(set, entry.name) || dir],
           prefix: set.prefix,
           title: entry.name.replace(/\.[^.]+$/, ''),
           fileName: entry.name,

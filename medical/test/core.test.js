@@ -170,3 +170,25 @@ test('lead websites are read back from the company-leads sheet', async () => {
     { name: 'Acme "Labs"', startUrls: ['https://acme.example'] }
   ]);
 });
+
+test('data sits with its notes: per consultation, per case, per patient', async () => {
+  const { groupFolder } = await import('../src/sources/github.js');
+  const { gdcPath } = await import('../src/sources/gdc.js');
+  const { relocation } = await import('../src/cleanup.js');
+  const set = { groupBy: String.raw`day\d+_consultation\d+` };
+  for (const n of ['day1_consultation03_doctor.wav', 'day1_consultation03_patient.TextGrid', 'day1_consultation03.json']) assert.equal(groupFolder(set, n), 'day1_consultation03');
+
+  const slide = { data_type: 'Slide Image', cases: [{ submitter_id: 'TCGA-A1-A0SB', primary_site: 'Breast' }] };
+  assert.equal(gdcPath({ category: 'pathology', folder: ['Whole-slide images'] }, slide).at(-1), 'TCGA-A1-A0SB');
+  const report = { ...slide, data_type: 'Pathology Report' };
+  assert.equal(gdcPath({ category: 'pathology', folder: ['Pathology reports'] }, report, { reportWithSlides: true })[0], 'Whole-slide images');
+  assert.equal(gdcPath({ category: 'pathology', folder: ['Pathology reports'] }, report)[0], 'Pathology reports');
+
+  assert.deepEqual(relocation({ name: 'primock57_day1_consultation03_doctor_ab12cd.wav' }, 'audio', 'PriMock57 mock consultations'), { move: 'file', under: 'grandparent', into: 'day1_consultation03' });
+  const gdc = 'Attribution: NCI Genomic Data Commons, project TCGA-BRCA, case TCGA-A1-A0SB, file abc';
+  assert.deepEqual(relocation({ name: 'a.svs', description: gdc }, 'Breast', 'Whole-slide images'), { move: 'file', under: 'parent', into: 'TCGA-A1-A0SB' });
+  assert.equal(relocation({ name: 'a.svs', description: gdc }, 'TCGA-A1-A0SB', 'Breast'), null);
+  const tcia = 'Attribution: The Cancer Imaging Archive, collection 4D-Lung (https://doi.org/x)';
+  assert.deepEqual(relocation({ name: '1-01.dcm', description: tcia }, '100_HM10395_ct-lung-series-507_ab12cd', '4D-Lung'), { move: 'parent', into: '100_HM10395' });
+  assert.equal(relocation({ name: '1-01.dcm', description: tcia }, '100_HM10395_ct-lung-series-507_ab12cd', '100_HM10395'), null);
+});
