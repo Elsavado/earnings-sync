@@ -548,9 +548,10 @@
       "Deutsche Bank Healthcare Summit",
       "RBC Capital Markets Global Healthcare Conference",
       "Truist Securities MedTech Conference",
-      "Lake Street Capital Markets",
+      "Lake Street Best Ideas Growth Conference",
       "Craig-Hallum Alpha Select Conference"
-    ]
+    ],
+    "maxPagesPerConference": 10
   },
   "websites": {
     "enabled": true,

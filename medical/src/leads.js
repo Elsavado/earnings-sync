@@ -30,11 +30,11 @@ export function filingUrl(cik, id) {
   return `https://www.sec.gov/Archives/edgar/data/${cik}/${adsh.replace(/-/g, '')}/${file}`;
 }
 
-async function searchPhrase(phrase, cfg, userAgent) {
+async function searchPhrase(phrase, cfg, userAgent, maxPages = cfg.maxPagesPerPhrase) {
   const end = new Date().toISOString().slice(0, 10);
   const start = new Date(Date.now() - cfg.lookbackDays * 86400000).toISOString().slice(0, 10);
   const hits = [];
-  for (let page = 0; page < cfg.maxPagesPerPhrase; page++) {
+  for (let page = 0; page < maxPages; page++) {
     const params = new URLSearchParams({ q: `"${phrase}"`, forms: cfg.forms.join(','), dateRange: 'custom', startdt: start, enddt: end, from: String(page * 100) });
     const data = await getJson(`${EFTS}?${params}`, { headers: { 'User-Agent': userAgent }, minIntervalMs: cfg.secMinIntervalMs });
     const batch = data.hits?.hits || [];
@@ -110,7 +110,7 @@ export async function buildLeads(settings, ctx) {
   for (const conference of cfg.conferences || []) {
     let hits;
     try {
-      hits = await searchPhrase(conference, cfg, ua);
+      hits = await searchPhrase(conference, cfg, ua, cfg.maxPagesPerConference || cfg.maxPagesPerPhrase);
     } catch (err) {
       ctx.report.errors.push(`SEC search "${conference}": ${err.message}`);
       continue;
