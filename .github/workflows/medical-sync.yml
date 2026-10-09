@@ -38,7 +38,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        source: [leads, europepmc, ctgov, tcia, isic, gdc, physionet, github, files, websites]
+        source: [leads, tcia, gdc, physionet, github, files, websites]
     concurrency:
       group: medical-sync-${{ matrix.source }}
       cancel-in-progress: false

@@ -8,7 +8,7 @@
     "rescanDays": 30
   },
   "europepmc": {
-    "enabled": true,
+    "enabled": false,
     "licenses": [
       "cc by",
       "cc by-sa",
@@ -127,7 +127,7 @@
     ]
   },
   "ctgov": {
-    "enabled": true,
+    "enabled": false,
     "requireDocuments": true,
     "minIntervalMs": 400,
     "maxStudiesPerQueryPerRun": 300,
@@ -165,7 +165,7 @@
     "minIntervalMs": 500
   },
   "isic": {
-    "enabled": true,
+    "enabled": false,
     "licensePattern": "^CC-0$|^CC-BY$|^CC-BY-NC$",
     "minIntervalMs": 250,
     "maxPerRun": 3000
