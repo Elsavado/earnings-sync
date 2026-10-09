@@ -239,7 +239,7 @@ async function runLeads(settings, store, ctx, dryRun) {
   const rows = await buildLeads(settings, ctx);
   log.info(`Company leads: ${rows.length} healthcare companies mention one or more of the data types`);
   if (!store || dryRun) {
-    for (const r of rows.slice(0, 40)) log.info(`  ${r.ticker || '-'} ${r.name}: ${r.categories.join(', ')}; next call ${r.nextCall || 'n/a'}`);
+    for (const r of rows.slice(0, 40)) log.info(`  ${r.ticker || '-'} ${r.name}: ${[...r.categories, ...r.conferences].join(', ')}; next call ${r.nextCall || 'n/a'}`);
     return;
   }
   const folder = await store.ensureFolder('root', settings.drivePrivateFolderName);

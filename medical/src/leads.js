@@ -14,6 +14,11 @@ const NASDAQ = 'https://api.nasdaq.com/api/calendar/earnings';
 // when a filing uses one of the specific phrases below).
 const HEALTH_SIC = /^(283[3-6]|3826|384[1-5]|3851|5047|5122|6324|80\d\d|8731|737[0-4])$/;
 
+// Companies that present at investment-bank healthcare conferences are kept when they are in
+// diagnostics, lab instruments, devices, labs and health services, research, or health data
+// and software; drug makers and insurers are left out.
+const CONFERENCE_SIC = /^(2835|3826|384[1-5]|3851|5047|80\d\d|8731|737[0-4])$/;
+
 export function parseDisplayName(display) {
   const m = String(display || '').match(/^(.*?)\s*(?:\(([^)]+)\))?\s*\(CIK (\d+)\)\s*$/);
   if (!m) return { name: String(display || '').trim(), ticker: '', cik: '' };
@@ -65,6 +70,10 @@ async function companyWebsite(cik, userAgent, minIntervalMs) {
   }
 }
 
+function newCompany(cik, name, ticker, sic) {
+  return { cik, name, ticker, sic, categories: new Set(), phrases: new Set(), conferences: new Set(), filings: 0, latest: null };
+}
+
 export async function buildLeads(settings, ctx) {
   const cfg = settings.leads;
   const ua = ctx.secUserAgent;
@@ -85,7 +94,7 @@ export async function buildLeads(settings, ctx) {
         if (!HEALTH_SIC.test(sic)) continue;
         const { name, ticker, cik } = parseDisplayName(s.display_names?.[0]);
         if (!cik) continue;
-        const c = companies.get(cik) || { cik, name, ticker, sic, categories: new Set(), phrases: new Set(), filings: 0, latest: null };
+        const c = companies.get(cik) || newCompany(cik, name, ticker, sic);
         c.categories.add(category);
         c.phrases.add(phrase);
         c.filings++;
@@ -96,14 +105,41 @@ export async function buildLeads(settings, ctx) {
     }
   }
 
+  // Presenters at investment-bank healthcare conferences (J.P. Morgan, Morgan Stanley, Citi, ...),
+  // found through the 8-Ks and reports in which they announce or file their presentations.
+  for (const conference of cfg.conferences || []) {
+    let hits;
+    try {
+      hits = await searchPhrase(conference, cfg, ua);
+    } catch (err) {
+      ctx.report.errors.push(`SEC search "${conference}": ${err.message}`);
+      continue;
+    }
+    let found = 0;
+    for (const h of hits) {
+      const s = h._source || {};
+      const sic = String(s.sics?.[0] || '');
+      if (!CONFERENCE_SIC.test(sic)) continue;
+      const { name, ticker, cik } = parseDisplayName(s.display_names?.[0]);
+      if (!cik) continue;
+      const c = companies.get(cik) || newCompany(cik, name, ticker, sic);
+      if (!c.conferences.has(conference)) found++;
+      c.conferences.add(conference);
+      c.filings++;
+      if (!c.latest || s.file_date > c.latest.date) c.latest = { date: s.file_date, form: s.form, url: filingUrl(cik, h._id) };
+      companies.set(cik, c);
+    }
+    log.info(`SEC "${conference}": ${hits.length} filing(s), ${found} company(ies); ${companies.size} companies so far`);
+  }
+
   const calendar = await earningsCalendar(cfg.earningsDaysAhead, cfg.nasdaqMinIntervalMs);
   const rows = [];
   for (const c of companies.values()) {
     const call = c.ticker ? calendar.get(c.ticker) : null;
     const website = cfg.lookupWebsites ? await companyWebsite(c.cik, ua, cfg.secMinIntervalMs) : '';
-    rows.push({ ...c, categories: [...c.categories], phrases: [...c.phrases], nextCall: call?.date || '', callTime: call?.time || '', website });
+    rows.push({ ...c, categories: [...c.categories], phrases: [...c.phrases], conferences: [...c.conferences], nextCall: call?.date || '', callTime: call?.time || '', website });
   }
-  rows.sort((a, b) => b.categories.length - a.categories.length || b.filings - a.filings);
+  rows.sort((a, b) => b.categories.length - a.categories.length || b.conferences.length - a.conferences.length || b.filings - a.filings);
   return rows;
 }
 
@@ -113,9 +149,9 @@ function cell(v) {
 }
 
 export function leadsCsv(rows) {
-  const header = ['ticker', 'company', 'cik', 'sic', 'data_types', 'phrases_found', 'filings_mentioning', 'latest_filing_date', 'latest_filing_form', 'latest_filing_url', 'next_earnings_call', 'call_time', 'website'];
+  const header = ['ticker', 'company', 'cik', 'sic', 'data_types', 'phrases_found', 'conferences', 'filings_mentioning', 'latest_filing_date', 'latest_filing_form', 'latest_filing_url', 'next_earnings_call', 'call_time', 'website'];
   const lines = rows.map((r) =>
-    [r.ticker, r.name, r.cik, r.sic, r.categories.join('; '), r.phrases.join('; '), r.filings, r.latest?.date, r.latest?.form, r.latest?.url, r.nextCall, r.callTime, r.website].map(cell).join(',')
+    [r.ticker, r.name, r.cik, r.sic, r.categories.join('; '), r.phrases.join('; '), (r.conferences || []).join('; '), r.filings, r.latest?.date, r.latest?.form, r.latest?.url, r.nextCall, r.callTime, r.website].map(cell).join(',')
   );
   return `${[header.join(','), ...lines].join('\n')}\n`;
 }

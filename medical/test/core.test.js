@@ -142,8 +142,8 @@ test('counter: files and storage per data type and sub-type', () => {
 });
 
 test('leads CSV', () => {
-  const csv = leadsCsv([{ ticker: 'AKYA', name: 'Akoya, Inc.', cik: '1', sic: '3826', categories: ['pathology'], phrases: ['whole-slide images'], filings: 2, latest: { date: '2025-03-17', form: '10-K', url: 'u' }, nextCall: '2026-11-05', callTime: 'post-market', website: '' }]);
-  assert.match(csv, /AKYA,"Akoya, Inc\.",1,3826,pathology,whole-slide images,2,2025-03-17,10-K,u,2026-11-05,post-market,/);
+  const csv = leadsCsv([{ ticker: 'AKYA', name: 'Akoya, Inc.', cik: '1', sic: '3826', categories: ['pathology'], phrases: ['whole-slide images'], conferences: ['J.P. Morgan Healthcare Conference'], filings: 2, latest: { date: '2025-03-17', form: '10-K', url: 'u' }, nextCall: '2026-11-05', callTime: 'post-market', website: '' }]);
+  assert.match(csv, /AKYA,"Akoya, Inc\.",1,3826,pathology,whole-slide images,J.P. Morgan Healthcare Conference,2,2025-03-17,10-K,u,2026-11-05,post-market,/);
 });
 
 test('shipped config is valid and covers exactly the eight types', async () => {
