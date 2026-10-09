@@ -530,6 +530,211 @@
     "maxDepth": 2,
     "maxPagesPerSite": 40,
     "minIntervalMs": 1500,
-    "sites": []
+    "sites": [
+      {
+        "name": "Quest Diagnostics",
+        "startUrls": [
+          "https://www.questdiagnostics.com/"
+        ]
+      },
+      {
+        "name": "Labcorp",
+        "startUrls": [
+          "https://www.labcorp.com/"
+        ]
+      },
+      {
+        "name": "Exact Sciences",
+        "startUrls": [
+          "https://www.exactsciences.com/"
+        ]
+      },
+      {
+        "name": "Guardant Health",
+        "startUrls": [
+          "https://guardanthealth.com/"
+        ]
+      },
+      {
+        "name": "Natera",
+        "startUrls": [
+          "https://www.natera.com/"
+        ]
+      },
+      {
+        "name": "Tempus",
+        "startUrls": [
+          "https://www.tempus.com/"
+        ]
+      },
+      {
+        "name": "Myriad Genetics",
+        "startUrls": [
+          "https://myriad.com/"
+        ]
+      },
+      {
+        "name": "Veracyte",
+        "startUrls": [
+          "https://www.veracyte.com/"
+        ]
+      },
+      {
+        "name": "NeoGenomics",
+        "startUrls": [
+          "https://neogenomics.com/"
+        ]
+      },
+      {
+        "name": "CareDx",
+        "startUrls": [
+          "https://caredx.com/"
+        ]
+      },
+      {
+        "name": "Foundation Medicine",
+        "startUrls": [
+          "https://www.foundationmedicine.com/"
+        ]
+      },
+      {
+        "name": "GRAIL",
+        "startUrls": [
+          "https://grail.com/"
+        ]
+      },
+      {
+        "name": "Castle Biosciences",
+        "startUrls": [
+          "https://castlebiosciences.com/"
+        ]
+      },
+      {
+        "name": "Caris Life Sciences",
+        "startUrls": [
+          "https://www.carislifesciences.com/"
+        ]
+      },
+      {
+        "name": "Personalis",
+        "startUrls": [
+          "https://www.personalis.com/"
+        ]
+      },
+      {
+        "name": "Illumina",
+        "startUrls": [
+          "https://www.illumina.com/"
+        ]
+      },
+      {
+        "name": "Qiagen",
+        "startUrls": [
+          "https://www.qiagen.com/"
+        ]
+      },
+      {
+        "name": "Hologic",
+        "startUrls": [
+          "https://www.hologic.com/"
+        ]
+      },
+      {
+        "name": "bioMerieux",
+        "startUrls": [
+          "https://www.biomerieux.com/"
+        ]
+      },
+      {
+        "name": "Bio-Rad",
+        "startUrls": [
+          "https://www.bio-rad.com/"
+        ]
+      },
+      {
+        "name": "Roche Diagnostics",
+        "startUrls": [
+          "https://diagnostics.roche.com/"
+        ]
+      },
+      {
+        "name": "Sophia Genetics",
+        "startUrls": [
+          "https://www.sophiagenetics.com/"
+        ]
+      },
+      {
+        "name": "Paige",
+        "startUrls": [
+          "https://paige.ai/"
+        ]
+      },
+      {
+        "name": "PathAI",
+        "startUrls": [
+          "https://www.pathai.com/"
+        ]
+      },
+      {
+        "name": "Proscia",
+        "startUrls": [
+          "https://proscia.com/"
+        ]
+      },
+      {
+        "name": "Ibex Medical Analytics",
+        "startUrls": [
+          "https://ibex-ai.com/"
+        ]
+      },
+      {
+        "name": "Lunit",
+        "startUrls": [
+          "https://www.lunit.io/"
+        ]
+      },
+      {
+        "name": "Aidoc",
+        "startUrls": [
+          "https://www.aidoc.com/"
+        ]
+      },
+      {
+        "name": "RadNet",
+        "startUrls": [
+          "https://www.radnet.com/"
+        ]
+      },
+      {
+        "name": "iRhythm",
+        "startUrls": [
+          "https://www.irhythmtech.com/"
+        ]
+      },
+      {
+        "name": "Dexcom",
+        "startUrls": [
+          "https://www.dexcom.com/"
+        ]
+      },
+      {
+        "name": "Butterfly Network",
+        "startUrls": [
+          "https://www.butterflynetwork.com/"
+        ]
+      },
+      {
+        "name": "GE HealthCare",
+        "startUrls": [
+          "https://www.gehealthcare.com/"
+        ]
+      },
+      {
+        "name": "Siemens Healthineers",
+        "startUrls": [
+          "https://www.siemens-healthineers.com/"
+        ]
+      }
+    ]
   }
 }

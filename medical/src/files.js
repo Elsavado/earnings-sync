@@ -88,7 +88,7 @@ export function fileName({ prefix, title, uid, ext }) {
 export const CATEGORY_KEYWORDS = [
   ['pathology', /\b(patholog|histopatholog|cytolog|biops|whole[- ]slide|digital pathology|immunohisto|ihc\b|frozen section)/],
   ['genomics', /\b(genom|sequencing|\bngs\b|\bwgs\b|\bwes\b|exome|gene panel|molecular diagnost|variant|oncology panel|pharmacogen)/],
-  ['imaging', /\b(dicom|radiolog|\bmri\b|\bct\b|computed tomograph|x-ray|ultrasound|echocardiogra|mammogra|\bpet\b|imaging)/],
+  ['imaging', /\b(dicom|radiolog|\bmri\b|\bct (scan|imaging|angiogra|colonograph)|computed tomograph|x-ray|ultrasound|echocardiogra|mammogra|\bpet\b|imaging)/],
   ['wearables', /\b(wearable|continuous glucose|\bcgm\b|remote (patient )?monitoring|holter|actigraph|smartwatch|biosensor)/],
   ['audio', /\b(dictation|speech recogni|clinical audio|ambient (clinical )?(documentation|listening)|voice)/],
   ['ehr', /\b(electronic health record|\behr\b|\bemr\b|medical record|fhir|hl7)/],
