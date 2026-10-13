@@ -133,6 +133,8 @@ class Anonymizer:
     # --- package --------------------------------------------------------
     def package(self, pkg):
         """Anonymises the package in place. Returns {old sheet name: new sheet name}."""
+        from . import images
+        self.images_removed = images.strip(pkg)  # logos and every other embedded picture
         def sub_t(part, people=False, tag='t'):
             if part not in pkg.parts:
                 return
