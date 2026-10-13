@@ -57,7 +57,7 @@ def clean(pkg):
     # Defined names: external ones are deleted, #REF! ones rejected if any formula uses them.
     wb = pkg.text('xl/workbook.xml')
     all_formulas = ' '.join(unescape(f) for p in [p for _, p in pkg.sheets]
-                            for f in re.findall(r'<f(?:\s[^>]*)?>(.*?)</f>', pkg.text(p), re.S))
+                            for f in re.findall(r'<f(?:\s[^>]*?)?(?<!/)>(.*?)</f>', pkg.text(p), re.S))
     if '#REF!' in all_formulas:
         raise Reject('#REF! in formulas')
 
@@ -95,7 +95,7 @@ def clean(pkg):
         # Shared-formula groups whose master points outside the workbook lose every member.
         text = pkg.text(part)
         bad_si = set()
-        for m in re.finditer(r'<f\b([^>]*)>(.*?)</f>', text, re.S):
+        for m in re.finditer(r'<f\b([^>]*?)(?<!/)>(.*?)</f>', text, re.S):
             if EXT_REF.search(unescape(m.group(2))):
                 si = re.search(r'\bsi="(\d+)"', m.group(1))
                 if si and 't="shared"' in m.group(1):
@@ -146,7 +146,7 @@ def has_external(pkg):
         if p.endswith('.rels') and b'TargetMode="External"' in data:
             return True
     for _, part in pkg.sheets:
-        for f in re.findall(r'<f(?:\s[^>]*)?>(.*?)</f>', pkg.text(part), re.S):
+        for f in re.findall(r'<f(?:\s[^>]*?)?(?<!/)>(.*?)</f>', pkg.text(part), re.S):
             if EXT_REF.search(unescape(f)):
                 return True
     return False

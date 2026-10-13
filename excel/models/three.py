@@ -20,7 +20,7 @@ DATA_ROWS = [
     ('debt', 'Long-term debt'), ('liabilities', 'Total liabilities'), ('equity', "Shareholders' equity"),
     ('da', 'Depreciation & amortisation'), ('cfo', 'Cash from operations'), ('cfi', 'Cash from investing'),
     ('cff', 'Cash from financing'), ('capex', 'Capital expenditure'), ('dividends', 'Dividends paid'),
-    ('buybacks', 'Share repurchases'),
+    ('buybacks', 'Share repurchases'), ('st_debt', 'Short-term borrowings'),
 ]
 REIT_ROWS = [('re_da', 'Real estate depreciation & amortisation'), ('gain_re', 'Gains on sale of real estate')]
 
@@ -34,7 +34,7 @@ def prepare(facts):
     n = len(ends)
     for i in range(n):
         for k in ('cogs', 'interest', 'ar', 'inventory', 'ppe', 'ap', 'debt', 'da', 'capex', 'dividends', 'tax',
-                  'buybacks', 'cfi', 'cff', 're_da', 'gain_re'):
+                  'buybacks', 'cfi', 'cff', 're_da', 'gain_re', 'st_debt'):
             if d[k][i] is None:
                 d[k][i] = 0.0
         if d['pretax'][i] is None:
@@ -102,7 +102,7 @@ def build(facts, sector, is_reit=False):
                                   ('onca', 'Other non-current assets', False, None), ('ta', 'Total assets', True, None),
                                   ('ap', 'Accounts payable', False, 'Liabilities & equity'),
                                   ('ocl', 'Other current liabilities', False, None), ('tcl', 'Total current liabilities', True, None),
-                                  ('revolver', 'Revolving credit facility', False, None), ('debt', 'Long-term debt', False, None),
+                                  ('revolver', 'Revolver / short-term borrowings', False, None), ('debt', 'Long-term debt', False, None),
                                   ('oncl', 'Other non-current liabilities', False, None), ('tl', 'Total liabilities', True, None),
                                   ('equity', "Shareholders' equity", False, None),
                                   ('nci', 'Non-controlling interest & other equity', False, None),
@@ -208,7 +208,8 @@ def build(facts, sector, is_reit=False):
             bs.set('ppe', j, f'={D("ppe", j)}')
             bs.set('onca', j, f'={D("assets", j)}-{B("tca", j)}-{B("ppe", j)}')
             bs.set('ap', j, f'={D("ap", j)}')
-            bs.set('ocl', j, f'={D("liabilities_current", j)}-{B("ap", j)}')
+            bs.set('ocl', j, f'={D("liabilities_current", j)}-{B("ap", j)}-{B("revolver", j)}')
+            bs.set('revolver', j, f'={D("st_debt", j)}')
             bs.set('debt', j, f'={D("debt", j)}')
             bs.set('oncl', j, f'={D("liabilities", j)}-{B("tcl", j)}-{B("debt", j)}-{B("revolver", j)}')
             bs.set('equity', j, f'={D("equity", j)}')
@@ -229,7 +230,7 @@ def build(facts, sector, is_reit=False):
             bs.set('nci', j, f'={B("nci", p)}')
         bs.set('tca', j, f'=SUM({col(j)}{bs.rows["cash"]}:{col(j)}{bs.rows["oca"]})', bold=True)
         bs.set('ta', j, f'={B("tca", j)}+{B("ppe", j)}+{B("onca", j)}', bold=True)
-        bs.set('tcl', j, f'={B("ap", j)}+{B("ocl", j)}', bold=True)
+        bs.set('tcl', j, f'={B("ap", j)}+{B("ocl", j)}', bold=True)  # revolver shown separately below
         bs.set('tl', j, f'={B("tcl", j)}+{B("revolver", j)}+{B("debt", j)}+{B("oncl", j)}', bold=True)
         bs.set('te', j, f'={B("equity", j)}+{B("nci", j)}', bold=True)
         bs.set('tle', j, f'={B("tl", j)}+{B("te", j)}', bold=True)
@@ -244,7 +245,13 @@ def build(facts, sector, is_reit=False):
             cf.set('oinv', j, f'={D("cfi", j)}-{C("capex", j)}')
             cf.set('div', j, f'=-{D("dividends", j)}')
             cf.set('buyback', j, f'=-{D("buybacks", j)}')
-            cf.set('ofin', j, f'={D("cff", j)}-{C("div", j)}-{C("buyback", j)}')
+            if j:
+                cf.set('draw', j, f'={B("revolver", j)}-{B("revolver", p)}')
+                cf.set('avail', j, f'={B("cash", p)}+{C("cfo", j)}+{C("cfi", j)}+{C("div", j)}+{C("ofin", j)}')
+                cf.set('pre', j, f'={C("avail", j)}+{C("buyback", j)}')
+                cf.set('ofin', j, f'={D("cff", j)}-{C("div", j)}-{C("buyback", j)}-{C("draw", j)}')
+            else:
+                cf.set('ofin', j, f'={D("cff", j)}-{C("div", j)}-{C("buyback", j)}')
         else:
             cf.set('da', j, f'={I("revenue", j)}*{A("dep_rate")}' if da_on_rev else f'={B("ppe", p)}*{A("dep_rate")}')
             cf.set('wc', j, f'=-({B("ar", j)}-{B("ar", p)})-({B("inventory", j)}-{B("inventory", p)})-({B("oca", j)}-{B("oca", p)})'

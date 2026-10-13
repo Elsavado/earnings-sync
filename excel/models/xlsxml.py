@@ -149,6 +149,19 @@ class Package:
             self.put(sheet_part, new)
         return changed[0]
 
+    def broken_parts(self):
+        """XML parts that do not parse (a file with any is never delivered)."""
+        bad = []
+        for name, data in self.parts.items():
+            if name.endswith('.xml') or name.endswith('.rels') or name.endswith('.vml'):
+                if name.endswith('.vml'):
+                    continue  # legacy VML is not well-formed XML by design
+                try:
+                    ET.fromstring(data)
+                except ET.ParseError:
+                    bad.append(name)
+        return bad
+
     def save(self, path):
         with zipfile.ZipFile(path, 'w', zipfile.ZIP_DEFLATED) as z:
             for name in self.order:

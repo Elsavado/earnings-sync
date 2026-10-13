@@ -91,6 +91,29 @@ class Store:
         _retry(lambda: self.drive.files().create(body=body, media_body=media, fields='id').execute())
         return name
 
+    def reset(self, log=print):
+        """Permanently deletes every uploaded model, the numbered folders and the run state."""
+        n = 0
+        for q in (f"appProperties has {{ key='xmApp' and value='{APP}' }}",
+                  f"'{self.root}' in parents and mimeType = '{FOLDER}'",
+                  f"'{self.private}' in parents"):
+            token = None
+            while True:
+                res = _retry(lambda: self.drive.files().list(q=q, fields='nextPageToken, files(id, name)', pageSize=1000,
+                                                             pageToken=token).execute())
+                for f in res.get('files', []):
+                    try:
+                        _retry(lambda: self.drive.files().delete(fileId=f['id']).execute())
+                        n += 1
+                    except HttpError as err:
+                        if err.resp.status != 404:
+                            raise
+                token = res.get('nextPageToken')
+                if not token:
+                    break
+        self.state_id = None
+        log(f'reset: deleted {n} item(s); numbering restarts at 1')
+
     # --- state ------------------------------------------------------------
     def load_state(self):
         q = f"name = 'state.json.gz' and '{self.private}' in parents and trashed = false"

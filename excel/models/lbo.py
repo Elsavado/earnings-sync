@@ -16,7 +16,8 @@ YEARS = 5
 DATA_ROWS = [('revenue', 'Revenue'), ('ebit', 'Operating income'), ('da', 'Depreciation & amortisation'),
              ('capex', 'Capital expenditure'), ('ar', 'Accounts receivable'), ('inventory', 'Inventory'),
              ('ap', 'Accounts payable'), ('cash', 'Cash and equivalents'), ('debt', 'Long-term debt'),
-             ('debt_current', 'Current portion of debt'), ('tax', 'Income tax expense'), ('pretax', 'Pre-tax income')]
+             ('debt_current', 'Current portion of debt'), ('tax', 'Income tax expense'), ('pretax', 'Pre-tax income'),
+             ('interest', 'Interest expense')]
 
 
 def build(facts, sector, market, sic=None):
@@ -154,6 +155,19 @@ def build(facts, sector, market, sic=None):
         op.set('capex', j, f'=-{D("capex", j)}' if h else f'=-{O("revenue", j)}*{A("capex_pct")}')
         op.set('nwc', j, f'={D("ar", j)}+{D("inventory", j)}-{D("ap", j)}' if h else f'={O("revenue", j)}*{A("nwc_pct")}')
         if h:
+            op.set('interest', j, f'={D("interest", j)}')
+            op.set('pretax', j, f'={D("pretax", j)}', bold=True)
+            op.set('taxes', j, f'=-{D("tax", j)}')
+            op.set('ni', j, f'={O("pretax", j)}+{O("taxes", j)}', bold=True)
+            if j:
+                op.set('dnwc', j, f'=-({O("nwc", j)}-{O("nwc", p)})')
+                op.set('fcf', j, f'={O("ni", j)}+{O("da", j)}+{O("capex", j)}+{O("dnwc", j)}', bold=True)
+            db.set('cash', j, f'={D("cash", j)}', bold=True)
+            db.set('total', j, f'={D("debt", j)}+{D("debt_current", j)}', bold=True)
+            db.set('net', j, f'={B("total", j)}-{B("cash", j)}')
+            db.set('lev', j, f'=IFERROR({B("total", j)}/{O("ebitda", j)},0)', MULT)
+            db.set('net_lev', j, f'=IFERROR({B("net", j)}/{O("ebitda", j)},0)', MULT)
+            db.set('cov', j, f'=IFERROR({O("ebitda", j)}/{O("interest", j)},0)', MULT)
             continue
         op.set('interest', j, f'={B("tl_int", j)}+{B("sn_int", j)}+{B("rev_int", j)}')
         op.set('pretax', j, f'={O("ebit", j)}-{O("interest", j)}', bold=True)

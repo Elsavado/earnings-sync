@@ -12,6 +12,11 @@ on:
         type: boolean
         required: false
         default: false
+      reset:
+        description: 'Delete all uploaded models and restart numbering at 1 before running'
+        type: boolean
+        required: false
+        default: false
       minutes:
         description: 'Run budget in minutes'
         required: false
@@ -55,6 +60,7 @@ jobs:
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
           GITHUB_TOKEN: ${{ github.token }}
           DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+          RESET: ${{ github.event.inputs.reset || 'false' }}
           RUN_MINUTES: ${{ github.event.inputs.minutes || '50' }}
           LOCAL_COPY_DIR: first100
         run: python -m models.main

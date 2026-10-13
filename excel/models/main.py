@@ -196,7 +196,14 @@ class Run:
         links.clean(pkg)
         if links.has_external(pkg):
             return None, 'external link could not be removed'
+        if pkg.broken_parts():
+            return None, f'invalid XML in {pkg.broken_parts()[0]}'
         pkg.save(out)
+        from openpyxl import load_workbook
+        try:
+            load_workbook(out).close()
+        except Exception as err:  # noqa: BLE001
+            return None, f'file does not open ({type(err).__name__})'
         return out, None
 
     def sec(self, until):
@@ -325,6 +332,8 @@ class Run:
 if __name__ == '__main__':
     code = 0
     try:
+        if os.environ.get('RESET', '').lower() == 'true':
+            Store().reset(log)
         Run().go()
     except Exception:  # noqa: BLE001
         traceback.print_exc()

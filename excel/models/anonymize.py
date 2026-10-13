@@ -214,7 +214,7 @@ class Anonymizer:
 
         for part in sheet_parts:
             text = pkg.text(part)
-            new = re.sub(r'(<f(?:\s[^>]*)?>)(.*?)(</f>)', lambda m: m.group(1) + fix_formula(m.group(2)) + m.group(3), text, flags=re.S)
+            new = re.sub(r'(<f(?:\s[^>]*?)?(?<!/)>)(.*?)(</f>)', lambda m: m.group(1) + fix_formula(m.group(2)) + m.group(3), text, flags=re.S)
             new = re.sub(r'(<is>.*?</is>)', lambda m: re.sub(r'(<t(?:\s[^>]*)?>)(.*?)(</t>)',
                                                              lambda n: n.group(1) + escape(self.text(unescape(n.group(2)))) + n.group(3),
                                                              m.group(1), flags=re.S), new, flags=re.S)

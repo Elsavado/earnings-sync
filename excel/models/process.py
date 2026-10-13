@@ -11,7 +11,7 @@ import zipfile
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from . import classify, infer, links, lo
+from . import classify, infer, links, lo, sheets
 from .xl import REDACTED
 from .xlsxml import Package
 
@@ -119,6 +119,8 @@ def process(src, filename, workdir, anonymizer):
         link_stats = links.clean(pkg)
     except links.Reject as err:
         return Result(False, f'broken or external references: {err}')
+    # Every delivered tab must have content: blank and title-only placeholder tabs are removed.
+    dropped = sheets.drop_empty(pkg)
 
     texts = pkg.texts()
     category, scores = classify.classify(Path(filename).stem, [n for n, _ in pkg.sheets], texts)
@@ -127,15 +129,24 @@ def process(src, filename, workdir, anonymizer):
 
     added, n_formulas, n_constants = infer.infer(pkg)
     share = n_formulas / max(1, n_formulas + n_constants)
-    stats = {'formulas': n_formulas, 'constants': n_constants, 'inferred': added, 'formula_share': round(share, 3), **link_stats}
+    stats = {'formulas': n_formulas, 'constants': n_constants, 'inferred': added, 'formula_share': round(share, 3),
+             'empty_tabs_removed': dropped, **link_stats}
     if n_formulas < MIN_FORMULAS or (share < MIN_FORMULA_SHARE and n_formulas < LARGE_MODEL_FORMULAS):
         return Result(False, f'mostly hard-coded ({n_formulas} formulas, {share:.0%} of numbers)', stats=stats)
 
     anonymizer.package(pkg)
     if links.has_external(pkg):
         return Result(False, 'external references remain', stats=stats)
+    broken = pkg.broken_parts()
+    if broken:
+        return Result(False, f'internal error: invalid XML in {broken[0]}', stats=stats)
     out = workdir / f'clean.{ext}'
     pkg.save(out)
+    try:
+        from openpyxl import load_workbook
+        load_workbook(out, read_only=False, keep_vba=ext == 'xlsm').close()
+    except Exception as err:  # noqa: BLE001
+        return Result(False, f'cleaned file does not open ({type(err).__name__})', stats=stats)
 
     recalc = lo.convert([out], workdir / 'recalc', 'xlsx', timeout=120).get(str(out))
     if not recalc:

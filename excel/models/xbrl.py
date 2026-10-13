@@ -56,6 +56,7 @@ INSTANT_TAGS = {
     'debt': ['LongTermDebtNoncurrent', 'LongTermDebt', 'LongTermDebtAndCapitalLeaseObligations',
              'DebtInstrumentCarryingAmount', 'UnsecuredDebt', 'SeniorNotes', 'LongTermNotesPayable', 'NotesPayable'],
     'debt_current': ['LongTermDebtCurrent', 'DebtCurrent'],
+    'st_debt': ['ShortTermBorrowings', 'LinesOfCreditCurrent', 'CommercialPaper'],
     'liabilities': ['Liabilities'],
     'equity': ['StockholdersEquity'],
     'equity_total': ['StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest'],
