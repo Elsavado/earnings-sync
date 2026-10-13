@@ -9,7 +9,10 @@ import gzip
 import io
 import json
 import os
+import ssl
 import time
+
+import httplib2
 
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
@@ -29,11 +32,18 @@ def folder_name(n):
 
 
 def _retry(fn, tries=6):
+    """Retries Drive calls on rate limits, server errors and dropped connections (a connection
+    left idle while sources are crawled can be closed by the far end: SSLEOFError, resets)."""
     for i in range(tries):
         try:
             return fn()
         except HttpError as err:
             if err.resp.status in (403, 429, 500, 502, 503, 504) and i < tries - 1:
+                time.sleep(2 ** i)
+                continue
+            raise
+        except (ssl.SSLError, ConnectionError, TimeoutError, OSError, httplib2.HttpLib2Error):
+            if i < tries - 1:
                 time.sleep(2 ** i)
                 continue
             raise

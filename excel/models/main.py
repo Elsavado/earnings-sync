@@ -96,7 +96,11 @@ class Run:
 
     def save(self, force=False):
         if self.store and (force or time.time() - self.last_save > 300):
-            self.store.save_state(self.state)
+            try:
+                self.store.save_state(self.state)
+            except Exception as err:  # noqa: BLE001  (progress is saved again later; never stop the run for it)
+                log(f'state save failed, will retry: {type(err).__name__}: {err}')
+                return
             self.last_save = time.time()
 
     def publish(self, path, label, ext, key, category, source):
