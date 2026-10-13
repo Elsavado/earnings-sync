@@ -1,0 +1,65 @@
+name: Excel models
+
+# Collects financial Excel models (SEC-built and open-source), verifies and anonymises them,
+# and uploads them to Google Drive as "Excel Models/Folder N (Models a-b)/<n> - <type>.xlsx".
+on:
+  schedule:
+    - cron: '23 * * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Build and verify without uploading'
+        type: boolean
+        required: false
+        default: false
+      minutes:
+        description: 'Run budget in minutes'
+        required: false
+        default: '50'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: excel-models
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 58
+    defaults:
+      run:
+        working-directory: excel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: excel/requirements.txt
+      - name: Install LibreOffice
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq --no-install-recommends libreoffice-calc > /dev/null
+          soffice --version
+      - name: Install Python packages
+        run: pip install -q -r requirements.txt
+      - name: Collect, verify and upload
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+          GITHUB_TOKEN: ${{ github.token }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+          RUN_MINUTES: ${{ github.event.inputs.minutes || '50' }}
+          LOCAL_COPY_DIR: first100
+        run: python -m models.main
+      - name: Keep models 1-100 for download
+        if: always() && hashFiles('excel/first100/**') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: models-1-100-${{ github.run_id }}
+          path: excel/first100
+          retention-days: 30

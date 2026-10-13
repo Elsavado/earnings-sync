@@ -3,3 +3,5 @@ node_modules/
 *.log
 .state/
 .signal/
+__pycache__/
+excel/first100/
