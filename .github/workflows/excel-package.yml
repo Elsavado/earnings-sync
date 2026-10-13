@@ -45,3 +45,4 @@ jobs:
           name: excel-folder-${{ github.event.inputs.folder }}
           path: excel/out
           retention-days: 30
+          if-no-files-found: ignore

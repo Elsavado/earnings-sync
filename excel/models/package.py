@@ -2,7 +2,7 @@
 workflow can hand them back. Usage:
   python -m models.package <k> <out dir> [--repair]            one folder
   python -m models.package <k>+ <out dir> [--complete]         every folder from k on (complete ones only)
-Exit code 3 when there is nothing (complete) to fetch yet."""
+When nothing is complete yet it exits normally and returns no files."""
 import sys
 from pathlib import Path
 
@@ -57,15 +57,14 @@ def main(arg, out):
                 break
             fetch(store, k, out, repair)
             k, got = k + 1, got + 1
+        # Nothing complete yet is a normal answer, not a failure (failures email the owner).
         print(f'fetched {got} complete folder(s); next folder {k}')
-        if not got:
-            raise SystemExit(3)
         return
     k = int(arg)
     name, files = _files(store, k)
     if files is None or (complete and len(files) < PER_FOLDER):
         print(f'{name}: not complete yet')
-        raise SystemExit(3)
+        return
     fetch(store, k, out, repair)
 
 
