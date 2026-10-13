@@ -7,6 +7,7 @@ DRY_RUN=true (build and verify, no uploads), LOCAL_COPY_DIR (copies of models 1-
 """
 import hashlib
 import json
+import multiprocessing
 import os
 import re
 import shutil
@@ -35,6 +36,35 @@ SEC_UA = os.environ.get('SEC_USER_AGENT') or 'ExcelModels research contact@examp
 BANK_SIC = set(range(6020, 6037)) | {6111, 6141, 6153, 6159, 6162, 6172, 6199}
 TYPE_LABEL = {'three': 'Three-statement model', 'reit': 'Industry-specific model - REIT', 'bank': 'Industry-specific model - Bank',
               'dcf': 'DCF valuation model', 'lbo': 'LBO model', 'fpa': 'Operating & FP&A model'}
+
+
+FILE_SECONDS = 180  # hard limit for processing one downloaded spreadsheet
+ANON = None  # set before the worker pool forks, so workers inherit the loaded name lists
+
+
+def _process_one(args):
+    src, name, work = args
+    res = process(src, name, work, ANON)
+    return res.__dict__
+
+
+class Worker:
+    """Runs process() in a child process so a pathological file can be killed."""
+
+    def __init__(self):
+        self.pool = multiprocessing.get_context('fork').Pool(1)
+
+    def run(self, args):
+        try:
+            return self.pool.apply_async(_process_one, (args,)).get(timeout=FILE_SECONDS)
+        except multiprocessing.TimeoutError:
+            self.pool.terminate()
+            os.system('pkill -9 -f soffice >/dev/null 2>&1')
+            self.pool = multiprocessing.get_context('fork').Pool(1)
+            return {'ok': False, 'reason': f'processing took longer than {FILE_SECONDS}s'}
+
+    def close(self):
+        self.pool.terminate()
 
 
 def log(msg):
@@ -97,6 +127,7 @@ class Run:
         s = sources.session()
         q = self.state['queue']
         done = 0
+        worker = Worker()
         while q and time.time() < until:
             cand = q.pop(0)
             self.state['queued'].pop(cand['key'], None)
@@ -111,30 +142,33 @@ class Run:
                     continue
                 src = work / 'download.bin'
                 size = 0
+                t0 = time.time()
                 with open(src, 'wb') as f:
                     for chunk in r.iter_content(1 << 16):
                         size += len(chunk)
-                        if size > 40 * 1024 * 1024:
+                        if size > 40 * 1024 * 1024 or time.time() - t0 > 90:
                             break
                         f.write(chunk)
+                r.close()
                 raw_hash = hashlib.sha256(src.read_bytes()).hexdigest()
                 if f'raw:{raw_hash}' in self.state['seen']:
                     self.state['seen'][cand['key']] = 'rej:duplicate download'
                     continue
                 self.state['seen'][f'raw:{raw_hash}'] = 1
-                res = process(src, cand['name'], work, self.anonymizer)
-                if not res.ok:
-                    self.state['seen'][cand['key']] = f'rej:{res.reason}'[:120]
-                    log(f'  - {cand["source"]}: {cand["name"][:60]}: {res.reason}')
+                res = worker.run((str(src), cand['name'], str(work)))
+                if not res.get('ok'):
+                    self.state['seen'][cand['key']] = f'rej:{res.get("reason")}'[:120]
+                    log(f'  - {cand["source"]}: {cand["name"][:60]}: {res.get("reason")}')
                     continue
-                self.publish(res.path, f'{res.category} - {res.title}' if res.title != res.category else res.category,
-                             res.ext, cand['key'], res.category, cand['source'])
+                title, cat = res['title'], res['category']
+                self.publish(res['path'], f'{cat} - {title}' if title != cat else cat, res['ext'], cand['key'], cat, cand['source'])
             except Exception as err:  # noqa: BLE001
                 self.state['seen'][cand['key']] = f'rej:error {type(err).__name__}'
                 log(f'  ! {cand["name"][:60]}: {type(err).__name__}: {err}')
             finally:
                 shutil.rmtree(work, ignore_errors=True)
                 done += 1
+        worker.close()
         log(f'scraped: processed {done}, {len(q)} still queued')
 
     # --- SEC company models ------------------------------------------------------------
@@ -255,7 +289,8 @@ class Run:
             nlp = spacy.load('en_core_web_sm', exclude=['parser', 'lemmatizer', 'attribute_ruler', 'tagger', 'senter'])
         except Exception:  # noqa: BLE001
             nlp = None
-        self.anonymizer = Anonymizer(names, [v['title'] for v in list(tickers.values())[:1500]], nlp)
+        global ANON
+        self.anonymizer = ANON = Anonymizer(names, [v['title'] for v in list(tickers.values())[:1500]], nlp)
         log(f'anonymizer: {len(self.anonymizer.multi)} multi-word and {len(self.anonymizer.single)} one-word company names')
 
         s = sources.session()
@@ -288,8 +323,11 @@ class Run:
 
 
 if __name__ == '__main__':
+    code = 0
     try:
         Run().go()
     except Exception:  # noqa: BLE001
         traceback.print_exc()
-        sys.exit(1)
+        code = 1
+    sys.stdout.flush()
+    os._exit(code)  # do not wait for website-crawler threads still finishing a request

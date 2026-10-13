@@ -14,7 +14,7 @@ import re
 import time
 import urllib.parse
 import urllib.robotparser
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor, wait
 
 import requests
 
@@ -249,10 +249,14 @@ def _crawl_domain(domain, deadline):
         seen_maps.add(sm)
         budget -= 1
         try:
-            r = s.get(sm, timeout=30)
+            r = s.get(sm, timeout=30, stream=True)
             if not r.ok:
                 continue
-            body = r.content
+            body = b''
+            for chunk in r.iter_content(1 << 16):
+                body += chunk
+                if len(body) > 20 * 1024 * 1024 or time.time() > deadline:
+                    break
             if sm.endswith('.gz') or body[:2] == b'\x1f\x8b':
                 body = gzip.decompress(body)
             text = body.decode('utf-8', 'replace')
@@ -294,14 +298,17 @@ def websites(state, s, log, companies_json=None, max_domains=250, minutes=12):
     todo = st['domains'][st['i']:st['i'] + max_domains]
     deadline = time.time() + minutes * 60
     n = 0
-    with ThreadPoolExecutor(max_workers=16) as pool:
-        futs = {pool.submit(_crawl_domain, d, deadline): d for d in todo}
-        for fut in as_completed(futs):
-            try:
-                for url in fut.result():
-                    n += _add(state, f'url:{url}', url, urllib.parse.unquote(urllib.parse.urlparse(url).path.rsplit('/', 1)[-1]), 'website')
-            except Exception:  # noqa: BLE001
-                pass
+    pool = ThreadPoolExecutor(max_workers=16)
+    futs = [pool.submit(_crawl_domain, d, deadline) for d in todo]
+    # Stop at the deadline: sites still being crawled are dropped for this run.
+    finished, _ = wait(futs, timeout=max(1, deadline - time.time() + 20))
+    pool.shutdown(wait=False, cancel_futures=True)
+    for fut in finished:
+        try:
+            for url in fut.result():
+                n += _add(state, f'url:{url}', url, urllib.parse.unquote(urllib.parse.urlparse(url).path.rsplit('/', 1)[-1]), 'website')
+        except Exception:  # noqa: BLE001
+            pass
     st['i'] += len(todo)
     log(f'websites: {n} new candidates from {len(todo)} company sites ({st["i"]}/{len(st["domains"])} done)')
     return n

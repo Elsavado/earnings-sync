@@ -70,6 +70,9 @@ def sniff(path):
 
 
 def nice_title(stem, anonymizer, category):
+    # A file named after a ticker ('$META', 'AAPL', '£BOKU') would identify the company.
+    if re.fullmatch(r'[$£€]?[A-Za-z]{1,6}([._\- ]?[A-Za-z]{1,3})?', stem.strip()) or re.match(r'^[$£€]', stem.strip()):
+        return category
     t = re.sub(r'[_\-.]+', ' ', stem)
     t = re.sub(r'\b(v|ver|version|rev)\s?\d+(\s?\d+)*\b|\b(final|copy|draft|new|old)\b|\(\d+\)', ' ', t, flags=re.I)
     t = re.sub(r'\b(19|20)\d{2}[01]\d[0-3]\d\b', ' ', t)
@@ -94,7 +97,7 @@ def process(src, filename, workdir, anonymizer):
     ext = 'xlsm' if macros else 'xlsx'
     path = Path(src)
     if fmt in ('xls', 'xlsb', 'template'):
-        conv = lo.convert([path], workdir / 'conv', ext).get(str(path))
+        conv = lo.convert([path], workdir / 'conv', ext, timeout=120).get(str(path))
         if not conv:
             return Result(False, f'{fmt} conversion failed')
         path = Path(conv)
@@ -102,7 +105,7 @@ def process(src, filename, workdir, anonymizer):
             with zipfile.ZipFile(path) as z:
                 if 'xl/vbaProject.bin' not in z.namelist():
                     ext = 'xlsx'  # macros could not be carried over; save as a plain workbook
-                    conv = lo.convert([path], workdir / 'conv2', 'xlsx').get(str(path))
+                    conv = lo.convert([path], workdir / 'conv2', 'xlsx', timeout=120).get(str(path))
                     if not conv:
                         return Result(False, 'conversion failed')
                     path = Path(conv)
@@ -134,7 +137,7 @@ def process(src, filename, workdir, anonymizer):
     out = workdir / f'clean.{ext}'
     pkg.save(out)
 
-    recalc = lo.convert([out], workdir / 'recalc', 'xlsx').get(str(out))
+    recalc = lo.convert([out], workdir / 'recalc', 'xlsx', timeout=120).get(str(out))
     if not recalc:
         return Result(False, 'LibreOffice could not open the cleaned file', stats=stats)
     errors, formulas_after, _ = lo.recalculated_errors(recalc)
