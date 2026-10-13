@@ -19,6 +19,9 @@ def main(k, out, repair=False):
         raise SystemExit(f'{name} not found in Drive')
     files = _retry(lambda: store.drive.files().list(q=f"'{found[0]['id']}' in parents and trashed = false",
                                                     fields='files(id, name)', pageSize=100).execute())['files']
+    if '--complete' in sys.argv and len(files) < 20:
+        print(f'{name}: only {len(files)} of 20 so far')
+        raise SystemExit(3)
     dest = Path(out) / name
     dest.mkdir(parents=True, exist_ok=True)
     for f in files:

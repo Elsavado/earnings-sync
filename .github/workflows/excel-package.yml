@@ -8,6 +8,11 @@ on:
         description: 'Folder number (1 = Models 1-20)'
         required: true
         default: '1'
+      complete:
+        description: 'Fail unless the folder already holds all 20 models'
+        type: boolean
+        required: false
+        default: false
       repair:
         description: 'Also remove tabs left empty and update the files in Drive'
         type: boolean
@@ -30,7 +35,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install -q google-api-python-client google-auth openpyxl
-      - run: python -m models.package ${{ github.event.inputs.folder }} out ${{ github.event.inputs.repair == 'true' && '--repair' || '' }}
+      - run: python -m models.package ${{ github.event.inputs.folder }} out ${{ github.event.inputs.repair == 'true' && '--repair' || '' }} ${{ github.event.inputs.complete == 'true' && '--complete' || '' }}
         env:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
