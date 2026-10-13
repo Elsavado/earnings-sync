@@ -3,7 +3,7 @@
 # soon as it is full. Runs until stopped; the next folder to fetch is remembered in a file.
 cd /c/Users/sekwa/Downloads/earnings-sync
 DEST="/c/Users/sekwa/Excel Models"
-TMP="${TMPDIR:-/tmp}/excel-models-fetch"
+WORK="${TMPDIR:-/tmp}/excel-models-fetch"  # not TMP: gh keeps its temporary zip in $TMP
 NEXT="$DEST/.next_folder"
 mkdir -p "$DEST"
 [ -f "$NEXT" ] || echo 2 > "$NEXT"
@@ -18,9 +18,9 @@ while true; do
   # Poll (gh run watch needs a terminal and returns at once in the background).
   until [ "$(gh run view "$id" --json status -q .status 2>/dev/null)" = completed ]; do sleep 15; done
   if [ "$(gh run view "$id" --json conclusion -q .conclusion)" = success ]; then
-    rm -rf "$TMP"; gh run download "$id" -D "$TMP" >/dev/null 2>&1
+    rm -rf "$WORK"; gh run download "$id" -D "$WORK" >/dev/null || echo "$(date -u +%H:%M) download of run $id failed"
     copied=0
-    for d in "$TMP"/*/Folder*; do
+    for d in "$WORK"/*/Folder*; do
       [ -d "$d" ] || continue
       n=$(ls "$d" | wc -l)
       [ "$n" -eq 20 ] || continue
