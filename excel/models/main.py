@@ -304,8 +304,12 @@ class Run:
         self.anonymizer = ANON = Anonymizer(names, [v['title'] for v in list(tickers.values())[:1500]], nlp)
         log(f'anonymizer: {len(self.anonymizer.multi)} multi-word and {len(self.anonymizer.single)} one-word company names')
 
+        # Uploads start straight away: SEC company models first (fast, almost all pass), then
+        # source collection and scraped files in the last part of the run.
+        self.sec(time.time() + 0.75 * left())
+        self.save(force=True)
         s = sources.session()
-        refresh_until = time.time() + min(0.15 * left(), 7 * 60)
+        refresh_until = time.time() + min(0.25 * left(), 5 * 60)
         for name, fn in [('github', lambda: sources.github(self.state, s, log)),
                          ('damodaran', lambda: sources.damodaran(self.state, s, log)),
                          ('zenodo', lambda: sources.zenodo(self.state, s, log, max_pages=6)),
@@ -318,10 +322,7 @@ class Run:
             except Exception as err:  # noqa: BLE001
                 log(f'{name}: failed ({type(err).__name__}: {err})')
         self.save(force=True)
-        # Split the rest of the run between scraped files and SEC models.
-        self.scraped(time.time() + 0.2 * left())  # scraped files are slow and mostly rejected; SEC models are fast
-        self.save(force=True)
-        self.sec(time.time() + left() - 60)
+        self.scraped(time.time() + left() - 60)
         self.save(force=True)
         c = self.state['counts']
         log(f'done: {self.made} models this run; next number {self.state["next"]}; totals {json.dumps(c, sort_keys=True)}')
