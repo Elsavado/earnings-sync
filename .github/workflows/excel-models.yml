@@ -24,6 +24,7 @@ on:
 
 permissions:
   contents: read
+  actions: write
 
 concurrency:
   group: excel-models
@@ -64,6 +65,14 @@ jobs:
           RUN_MINUTES: ${{ github.event.inputs.minutes || '50' }}
           LOCAL_COPY_DIR: first100
         run: python -m models.main
+      - name: Start the next run
+        # Runs chain back-to-back instead of waiting for the hourly schedule, which GitHub
+        # does not always fire. Dry runs and a paused collector (EXCEL_MODELS_LIVE != true) stop the chain.
+        if: always() && github.event.inputs.dry_run != 'true' && vars.EXCEL_MODELS_LIVE == 'true'
+        working-directory: .
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run excel-models.yml --ref main -f dry_run=false -f minutes=50
       - name: Keep models 1-100 for download
         if: always() && hashFiles('excel/first100/**') != ''
         uses: actions/upload-artifact@v4

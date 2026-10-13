@@ -15,7 +15,8 @@ while true; do
   # Only the run this loop just started (created at or after the dispatch time).
   id=$(gh run list --workflow excel-package.yml -L 5 --json databaseId,createdAt        -q "[.[] | select(.createdAt >= \"$started\")] | last | .databaseId")
   [ -n "$id" ] || { sleep 30; continue; }
-  gh run watch "$id" >/dev/null 2>&1
+  # Poll (gh run watch needs a terminal and returns at once in the background).
+  until [ "$(gh run view "$id" --json status -q .status 2>/dev/null)" = completed ]; do sleep 15; done
   if [ "$(gh run view "$id" --json conclusion -q .conclusion)" = success ]; then
     rm -rf "$TMP"; gh run download "$id" -D "$TMP" >/dev/null 2>&1
     copied=0
