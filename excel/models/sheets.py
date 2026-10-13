@@ -5,6 +5,7 @@ formula or defined name refers to it. Removal edits the workbook part list, rela
 content types, defined-name sheet indices and the active-tab setting together, so the file
 stays valid.
 """
+import os
 import re
 
 from .xlsxml import unescape
@@ -22,10 +23,24 @@ def _referenced(pkg, name):
     return False
 
 
+def _drawing_has_content(pkg, part):
+    """True if the sheet's drawing still holds a chart, shape or picture."""
+    from .images import ANCHOR
+    rp, rels = pkg.rels(part)
+    for typ, target, mode in rels.values():
+        if typ.endswith('/drawing'):
+            d = os.path.normpath(os.path.join(os.path.dirname(part), target)).replace('\\', '/')
+            if d in pkg.parts and ANCHOR.search(pkg.text(d)):
+                return True
+    return False
+
+
 def is_empty(pkg, part, max_cells=3):
-    """No drawing and at most max_cells filled cells (a blank or title-only placeholder tab)."""
+    """At most max_cells filled cells and nothing drawn (a blank or title-only placeholder tab)."""
     x = pkg.text(part)
-    if re.search(r'<(drawing|legacyDrawing|picture|oleObjects|controls)\b', x):
+    if re.search(r'<(legacyDrawing|picture|oleObjects|controls)\b', x):
+        return False
+    if re.search(r'<drawing\b', x) and _drawing_has_content(pkg, part):
         return False
     filled = 0
     for kind, val, formula in pkg.grid(part).values():

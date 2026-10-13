@@ -3,10 +3,14 @@ workflow can hand it back as a zip. Usage: python -m models.package <folder numb
 import sys
 from pathlib import Path
 
-from .store import FOLDER, Store, _retry, folder_name
+from googleapiclient.http import MediaFileUpload
+
+from . import images, sheets
+from .store import FOLDER, MIME, Store, _retry, folder_name
+from .xlsxml import Package
 
 
-def main(k, out):
+def main(k, out, repair=False):
     store = Store()
     name = folder_name((k - 1) * 20 + 1)
     q = f"name = '{name}' and mimeType = '{FOLDER}' and '{store.root}' in parents and trashed = false"
@@ -19,9 +23,19 @@ def main(k, out):
     dest.mkdir(parents=True, exist_ok=True)
     for f in files:
         data = _retry(lambda: store.drive.files().get_media(fileId=f['id']).execute())
-        (dest / f['name']).write_bytes(data)
+        path = dest / f['name']
+        path.write_bytes(data)
+        if repair:
+            pkg = Package(path)
+            images.strip(pkg)
+            dropped = sheets.drop_empty(pkg)
+            if dropped and not pkg.broken_parts():
+                pkg.save(path)
+                ext = path.suffix.lstrip('.')
+                _retry(lambda: store.drive.files().update(fileId=f['id'], media_body=MediaFileUpload(str(path), mimetype=MIME[ext])).execute())
+                print(f'  repaired {f["name"]}: removed empty tab(s) {dropped}')
     print(f'{name}: {len(files)} file(s)')
 
 
 if __name__ == '__main__':
-    main(int(sys.argv[1]), sys.argv[2])
+    main(int(sys.argv[1]), sys.argv[2], repair='--repair' in sys.argv)

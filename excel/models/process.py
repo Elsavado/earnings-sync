@@ -119,7 +119,9 @@ def process(src, filename, workdir, anonymizer):
         link_stats = links.clean(pkg)
     except links.Reject as err:
         return Result(False, f'broken or external references: {err}')
-    # Every delivered tab must have content: blank and title-only placeholder tabs are removed.
+    # Pictures (logos, chart screenshots) go first, then every tab left blank or title-only.
+    from . import images
+    images.strip(pkg)
     dropped = sheets.drop_empty(pkg)
 
     texts = pkg.texts()
