@@ -9,9 +9,12 @@ mkdir -p "$DEST"
 [ -f "$NEXT" ] || echo 2 > "$NEXT"
 while true; do
   k=$(cat "$NEXT")
+  started=$(date -u +%Y-%m-%dT%H:%M:%SZ)
   gh workflow run excel-package.yml -f folder="${k}+" -f complete=true >/dev/null 2>&1
   sleep 12
-  id=$(gh run list --workflow excel-package.yml -L 1 --json databaseId -q '.[0].databaseId')
+  # Only the run this loop just started (created at or after the dispatch time).
+  id=$(gh run list --workflow excel-package.yml -L 5 --json databaseId,createdAt        -q "[.[] | select(.createdAt >= \"$started\")] | last | .databaseId")
+  [ -n "$id" ] || { sleep 30; continue; }
   gh run watch "$id" >/dev/null 2>&1
   if [ "$(gh run view "$id" --json conclusion -q .conclusion)" = success ]; then
     rm -rf "$TMP"; gh run download "$id" -D "$TMP" >/dev/null 2>&1
