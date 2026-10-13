@@ -17,6 +17,7 @@ from .xlsxml import Package
 
 MIN_FORMULAS = 30
 MIN_FORMULA_SHARE = 0.40
+LARGE_MODEL_FORMULAS = 150  # full models with big input/data tables pass on formula count
 MAX_ERROR_SHARE = 0.03
 MAX_BYTES = 40 * 1024 * 1024
 
@@ -124,7 +125,7 @@ def process(src, filename, workdir, anonymizer):
     added, n_formulas, n_constants = infer.infer(pkg)
     share = n_formulas / max(1, n_formulas + n_constants)
     stats = {'formulas': n_formulas, 'constants': n_constants, 'inferred': added, 'formula_share': round(share, 3), **link_stats}
-    if n_formulas < MIN_FORMULAS or share < MIN_FORMULA_SHARE:
+    if n_formulas < MIN_FORMULAS or (share < MIN_FORMULA_SHARE and n_formulas < LARGE_MODEL_FORMULAS):
         return Result(False, f'mostly hard-coded ({n_formulas} formulas, {share:.0%} of numbers)', stats=stats)
 
     anonymizer.package(pkg)

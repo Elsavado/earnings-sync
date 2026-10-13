@@ -21,6 +21,11 @@ DATA_ROWS = [('revenue', 'Revenue'), ('cogs', 'Cost of revenue'), ('ebit', 'Oper
 
 
 def build(facts, sector, market, sic=None):
+    try:
+        if 6000 <= int(sic or 0) <= 6499:
+            return None  # banks, brokers and insurers are valued on equity, not unlevered free cash flow
+    except ValueError:
+        pass
     got = prepare(facts)
     if not got:
         return None
@@ -52,6 +57,8 @@ def build(facts, sector, market, sic=None):
     mi.add('spread', 'Minimum credit spread over risk-free', 0.015, PCT, 'Floor for the pre-tax cost of debt')
     mi.section('Terminal value and conventions')
     mi.add('g', 'Terminal growth rate', 0.025, PCT, 'Long-run nominal growth; must stay below WACC')
+    mi.add('cap', 'Maximum starting revenue growth', 0.25, PCT, 'Caps exceptional historical growth')
+    mi.add('floor', 'Minimum starting revenue growth', -0.10, PCT, 'Floors steep historical declines')
     mi.add('mid', 'Mid-year discounting (1 = on, 0 = off)', 1, '0', 'Cash flows assumed to arrive mid-year')
     mi.section('Equity bridge')
     mi.add('shares', 'Shares outstanding (millions)', round(shares / 1e6, 3) if shares else 0, NUM,
@@ -77,7 +84,8 @@ def build(facts, sector, market, sic=None):
     P = pj.ref
     hi = nh - 1
     drivers = [
-        ('g0', 'Starting revenue growth (median of historical years)', f'IFERROR(MEDIAN({pj.span("growth", 1, hi)}),0)'),
+        ('g0', 'Starting revenue growth (historical median, within limits)',
+         f'MAX({M("floor")},MIN({M("cap")},IFERROR(MEDIAN({pj.span("growth", 1, hi)}),0)))'),
         ('margin', 'EBIT margin (historical average)', f'IFERROR(SUM({pj.span("ebit", 0, hi)})/SUM({pj.span("revenue", 0, hi)}),0)'),
         ('da_pct', 'D&A % revenue', f'IFERROR(SUM({pj.span("da", 0, hi)})/SUM({pj.span("revenue", 0, hi)}),0)'),
         ('capex_pct', 'Capital expenditure % revenue', f'IFERROR(-SUM({pj.span("capex", 0, hi)})/SUM({pj.span("revenue", 0, hi)}),0)'),

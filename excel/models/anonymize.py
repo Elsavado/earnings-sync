@@ -16,7 +16,8 @@ from .xlsxml import escape, unescape
 
 LEGAL = {'inc', 'incorporated', 'corp', 'corporation', 'co', 'company', 'ltd', 'limited', 'plc', 'llc', 'lp', 'llp',
          'sa', 'ag', 'nv', 'se', 'gmbh', 'bv', 'spa', 'ab', 'asa', 'oyj', 'kk', 'com', 'the', 'de', 'cos'}
-SUFFIX_RE = r'(?:,?\s+(?:Inc\.?|Incorporated|Corp\.?|Corporation|Co\.?|Company|Ltd\.?|Limited|plc|PLC|LLC|L\.L\.C\.|LP|L\.P\.|S\.A\.|SA|AG|N\.V\.|NV|SE|GmbH|Holdings?|Group))'
+SUFFIX_RE = (r'(?:,?\s+(?:&\s*Co\.?|&\s*Company|Incorporated|Inc\.?|Corporation|Corp\.?|Company|Co\.?|Limited|Ltd\.?|plc|PLC|LLC|L\.L\.C\.|LP|L\.P\.|'
+             r'S\.A\.|SA|AG|N\.V\.|NV|SE|GmbH|Holdings?|Group)(?![A-Za-z]))')
 GENERIC = set('''target visa gap shell block square snap match booking progressive general first energy american national
 united global international capital financial group holdings value growth summit pioneer southern dominion apex
 alliance premier eagle liberty patriot frontier heritage legacy pinnacle vista horizon crown keystone landmark
@@ -29,16 +30,17 @@ EMAIL_RE = re.compile(r'[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}')
 URL_RE = re.compile(r'(?:https?://|www\.)[^\s"<>]+', re.I)
 PHONE_RE = re.compile(r'(?<![\w.])(?:\+?\d{1,3}[\s.\-])?\(?\d{3}\)?[\s.\-]\d{3}[\s.\-]\d{4}(?![\w.])')
 AUTHOR_CONTEXT = re.compile(r'\b(prepared|created|modified|author|analyst|by|contact|model by|built by|reviewed)\b', re.I)
-TOKEN_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9&'’\-]*\.?")
+TOKEN_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9&'’]*\.?")
 
 
 def _norm(tok):
-    return tok.lower().strip(".,'’").replace('’', "'")
+    t = tok.lower().strip(".,'’").replace('’', "'")
+    return t[:-2] if t.endswith("'s") else t
 
 
 def core_tokens(name):
     toks = [_norm(t) for t in TOKEN_RE.findall(name.replace('/', ' '))]
-    while toks and toks[-1] in LEGAL:
+    while toks and (toks[-1] in LEGAL or (len(toks) > 1 and toks[-1] in ('holdings', 'holding', 'group'))):
         toks.pop()
     while toks and toks[0] == 'the':
         toks.pop(0)
@@ -62,6 +64,8 @@ class Anonymizer:
                 w = core[0]
                 if len(w) >= 4 and w not in GENERIC and not w.isdigit() and (zipf_frequency(w, 'en') < 3.6 or core in top):
                     self.single.add(w)
+        # The same names written without spaces ('ExxonMobil', 'JPMorganChase').
+        self.squashed = {''.join(c) for c in self.multi if len(''.join(c)) >= 6} | {w for w in self.single if len(w) >= 6}
         self.max_len = max((len(c) for c in self.multi), default=1)
         self.nlp = nlp
         self.count = 0
@@ -91,14 +95,17 @@ class Anonymizer:
                 key = tuple(_norm(t[2]) for t in seg)
                 if not seg[0][2][0].isupper():
                     break
-                # Tokens must be contiguous words (only spaces, '&', ',' or '.' between them).
-                if any(not re.fullmatch(r'[\s&,.]*', s[a[1]:b[0]]) for a, b in zip(seg, seg[1:])):
+                # Tokens must be contiguous words (only spaces, '&', ',', '.' or '-' between them).
+                if any(not re.fullmatch(r'[\s&,.\-]*', s[a[1]:b[0]]) for a, b in zip(seg, seg[1:])):
                     continue
-                if (L > 1 and key in self.multi) or (L == 1 and key[0] in self.single):
+                if (L > 1 and key in self.multi) or (L == 1 and key[0] in self.single) or ''.join(key) in self.squashed:
                     hit = L
                     break
             if hit:
                 start, end = toks[i][0], toks[i + hit - 1][1]
+                last = toks[i + hit - 1][2].rstrip('.')
+                if last.lower().endswith(("'s", "’s")):
+                    end = toks[i + hit - 1][0] + len(last) - 2  # keep the possessive
                 m = re.match(SUFFIX_RE + r'+', s[end:])
                 if m:
                     end += m.end()
@@ -108,7 +115,8 @@ class Anonymizer:
                 i += 1
         for start, end in reversed(spans):
             s = s[:start] + REDACTED + s[end:]
-        return s
+        # A ticker in brackets right after a name: 'Redacted Company Name Inc (MSFT)'.
+        return re.sub(rf"({REDACTED}(?:'s|’s)?\s*)\(([A-Z][A-Z.]{{0,5}})\)", r"\1(REDACTED)", s)
 
     def _ner(self, s, people):
         try:
@@ -139,8 +147,15 @@ class Anonymizer:
             if re.match(r'xl/(drawings|charts)/[^/]+\.xml$', part):
                 sub_t(part)
             elif re.match(r'xl/comments\d*\.xml$', part):
+                text = pkg.text(part)
+                # Excel starts each comment with a bold 'Author Name:' run; drop those, then the authors.
+                for author in set(re.findall(r'<author>(.*?)</author>', text, re.S)):
+                    a = re.escape(author.strip())
+                    if a:
+                        text = re.sub(rf'(<t(?:\s[^>]*)?>)\s*{a}\s*:\s*', r'\1', text)
+                text = re.sub(r'<author>.*?</author>', '<author>Redacted</author>', text, flags=re.S)
+                pkg.put(part, text)
                 sub_t(part)
-                sub_t(part, people=True, tag='author')
             elif re.match(r'xl/threadedComments/.*\.xml$', part):
                 sub_t(part, tag='text')
             elif re.match(r'xl/persons/.*\.xml$', part):

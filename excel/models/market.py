@@ -71,7 +71,7 @@ def industry_for(sic):
 
 
 def _fred(series):
-    r = requests.get(f'https://fred.stlouisfed.org/graph/fredgraph.csv?id={series}', headers=UA, timeout=60)
+    r = requests.get(f'https://fred.stlouisfed.org/graph/fredgraph.csv?id={series}', headers=UA, timeout=20)
     r.raise_for_status()
     rows = [row for row in csv.reader(io.StringIO(r.text))][1:]
     for d, v in reversed(rows):
@@ -80,6 +80,26 @@ def _fred(series):
         except ValueError:
             continue
     raise ValueError(f'no value in FRED {series}')
+
+
+def _treasury_10y():
+    import datetime
+    year = datetime.date.today().year
+    for y in (year, year - 1):
+        url = ('https://home.treasury.gov/resource-center/data-chart-center/interest-rates/daily-treasury-rates.csv/'
+               f'{y}/all?type=daily_treasury_yield_curve&field_tdr_date_value={y}&page&_format=csv')
+        r = requests.get(url, headers=UA, timeout=60)
+        rows = list(csv.reader(io.StringIO(r.text)))
+        if len(rows) > 1 and '10 Yr' in rows[0]:
+            k = rows[0].index('10 Yr')
+            return float(rows[1][k]) / 100, rows[1][0]
+    raise ValueError('no Treasury yield')
+
+
+def _nyfed_sofr():
+    r = requests.get('https://markets.newyorkfed.org/api/rates/secured/sofr/last/1.json', headers=UA, timeout=60)
+    rate = r.json()['refRates'][0]
+    return rate['percentRate'] / 100, rate['effectiveDate']
 
 
 def _xls(name):
@@ -94,18 +114,26 @@ class Market:
 
     def __init__(self, log=print):
         self.notes = {}
-        try:
-            self.rf, d = _fred('DGS10')
-            self.notes['rf'] = f'US 10-year Treasury constant-maturity yield, FRED DGS10, {d}'
-        except Exception as err:  # noqa: BLE001
-            self.rf, self.notes['rf'] = 0.0425, 'Fallback value (FRED unavailable); update to the current 10-year Treasury yield'
-            log(f'market: risk-free fallback ({err})')
-        try:
-            self.sofr, d = _fred('SOFR')
-            self.notes['sofr'] = f'Secured Overnight Financing Rate, FRED SOFR, {d}'
-        except Exception as err:  # noqa: BLE001
-            self.sofr, self.notes['sofr'] = 0.04, 'Fallback value (FRED unavailable); update to current SOFR'
-            log(f'market: SOFR fallback ({err})')
+        for fn, note in ((_treasury_10y, 'US 10-year Treasury par yield, U.S. Treasury daily yield curve, {}'),
+                         (lambda: _fred('DGS10'), 'US 10-year Treasury constant-maturity yield, FRED DGS10, {}')):
+            try:
+                self.rf, d = fn()
+                self.notes['rf'] = note.format(d)
+                break
+            except Exception as err:  # noqa: BLE001
+                log(f'market: risk-free source failed ({err})')
+        else:
+            self.rf, self.notes['rf'] = 0.0425, 'Fallback value (rate feeds unavailable); update to the current 10-year Treasury yield'
+        for fn, note in ((_nyfed_sofr, 'Secured Overnight Financing Rate, Federal Reserve Bank of New York, {}'),
+                         (lambda: _fred('SOFR'), 'Secured Overnight Financing Rate, FRED SOFR, {}')):
+            try:
+                self.sofr, d = fn()
+                self.notes['sofr'] = note.format(d)
+                break
+            except Exception as err:  # noqa: BLE001
+                log(f'market: SOFR source failed ({err})')
+        else:
+            self.sofr, self.notes['sofr'] = 0.04, 'Fallback value (rate feeds unavailable); update to current SOFR'
         try:
             sh = _xls('histimpl.xls').sheets()[0]
             year, erp, cidx = None, None, None

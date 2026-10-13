@@ -72,8 +72,12 @@ def build(facts, sector, market, sic=None):
     ti.add('sn_x', 'Senior notes (x LTM EBITDA)', notes_x, MULT, 'Unsecured, fixed coupon, bullet at maturity')
     ti.add('sn_rate', 'Senior notes coupon', round(market.rf + 0.035, 4), PCT, 'Risk-free rate plus 350 bp at pricing')
     ti.add('fin_fee', 'Financing fees % of debt raised', 0.025, PCT)
+    ti.add('rev_spread', 'Revolving credit facility spread over SOFR', 0.03, PCT, 'Undrawn at close; funds any cash shortfall')
     ti.section('Operations and exit')
     ti.add('tax', 'Cash tax rate', 0.25, PCT)
+    ti.add('lt', 'Long-term revenue growth', 0.03, PCT, 'Growth reached by the exit year')
+    ti.add('cap', 'Maximum starting revenue growth', 0.20, PCT, 'Caps exceptional historical growth')
+    ti.add('floor', 'Minimum starting revenue growth', -0.10, PCT, 'Floors steep historical declines')
     ti.add('exit', 'Exit EV / EBITDA', entry, MULT, 'Set equal to entry (no multiple expansion)')
     ti.add('hold', 'Holding period (years)', YEARS, '0', 'Exit at the end of the final forecast year')
     ti.add('step', 'Sensitivity step (x EBITDA)', 1.0, MULT)
@@ -82,7 +86,7 @@ def build(facts, sector, market, sic=None):
     asm = Sheet(wb, 'Assumptions', head('Operating drivers (derived from the historical years)'), ['Driver'])
     op = Sheet(wb, 'Operating Model', head('Operating projection and free cash flow'), periods, nh)
     for key, label, bold, sec in [
-        ('revenue', 'Revenue', True, 'Income statement'), ('growth', '  growth %', False, None), ('ebitda', 'EBITDA', True, None),
+        ('yr', 'Forecast year', False, 'Timing'), ('revenue', 'Revenue', True, 'Income statement'), ('growth', '  growth %', False, None), ('ebitda', 'EBITDA', True, None),
         ('margin', '  EBITDA margin', False, None), ('da', 'Depreciation & amortisation', False, None), ('ebit', 'EBIT', True, None),
         ('interest', 'Interest expense', False, None), ('pretax', 'Pre-tax income', True, None), ('taxes', 'Cash taxes', False, None),
         ('ni', 'Net income', True, None), ('capex', 'Capital expenditure', False, 'Free cash flow'), ('nwc', 'Net working capital', False, None),
@@ -90,7 +94,8 @@ def build(facts, sector, market, sic=None):
         op.row(key, label, bold, section=sec)
     O = op.ref
     for key, label, f in [
-        ('growth', 'Revenue growth (median of historical years)', f'IFERROR(MEDIAN({op.span("growth", 1, hi)}),0)'),
+        ('growth', 'Starting revenue growth (historical median, within limits)',
+         f'MAX({T("floor")},MIN({T("cap")},IFERROR(MEDIAN({op.span("growth", 1, hi)}),0)))'),
         ('margin', 'EBITDA margin (historical average)', f'IFERROR(SUM({op.span("ebitda", 0, hi)})/SUM({op.span("revenue", 0, hi)}),0)'),
         ('da_pct', 'D&A % revenue', f'IFERROR(SUM({op.span("da", 0, hi)})/SUM({op.span("revenue", 0, hi)}),0)'),
         ('capex_pct', 'Capital expenditure % revenue', f'IFERROR(-SUM({op.span("capex", 0, hi)})/SUM({op.span("revenue", 0, hi)}),0)'),
@@ -120,8 +125,11 @@ def build(facts, sector, market, sic=None):
     db = Sheet(wb, 'Debt Schedule', head('Debt schedule and cash'), periods, nh)
     for key, label, bold, sec in [
         ('cash_open', 'Opening cash', False, 'Cash'), ('fcf', 'Free cash flow', False, None), ('mand', 'Less: mandatory amortisation', False, None),
+        ('pre', 'Cash after mandatory debt service', False, None), ('draw', 'Revolver draw / (repayment)', False, None),
         ('avail', 'Cash available for sweep (above minimum)', False, None), ('sweep', 'Less: optional prepayment (sweep)', False, None),
         ('cash', 'Closing cash', True, None),
+        ('rev_open', 'Opening balance', False, 'Revolving credit facility'), ('rev', 'Closing balance', True, None),
+        ('rev_int', 'Interest expense', False, None),
         ('tl_open', 'Opening balance', False, 'Term loan B'), ('tl_mand', 'Mandatory amortisation', False, None),
         ('tl_sweep', 'Optional prepayment', False, None), ('tl', 'Closing balance', True, None), ('tl_rate', 'Interest rate', False, None),
         ('tl_int', 'Interest expense', False, None),
@@ -133,9 +141,12 @@ def build(facts, sector, market, sic=None):
 
     for j in range(n):
         p, h = j - 1, j < nh
-        op.set('revenue', j, f'={D("revenue", j)}' if h else f'={O("revenue", p)}*(1+{A("growth")})', bold=True)
+        if not h:
+            op.set('yr', j, f'=N({O("yr", p)})+1', '0')
+        op.set('revenue', j, f'={D("revenue", j)}' if h else f'={O("revenue", p)}*(1+{O("growth", j)})', bold=True)
         if j:
-            op.set('growth', j, f'=IFERROR({O("revenue", j)}/{O("revenue", p)}-1,0)', PCT)
+            op.set('growth', j, f'=IFERROR({O("revenue", j)}/{O("revenue", p)}-1,0)' if h else
+                   f'={A("growth")}+({T("lt")}-{A("growth")})*{O("yr", j)}/{YEARS}', PCT)
         op.set('ebitda', j, f'={D("ebit", j)}+{D("da", j)}' if h else f'={O("revenue", j)}*{A("margin")}', bold=True)
         op.set('margin', j, f'=IFERROR({O("ebitda", j)}/{O("revenue", j)},0)', PCT)
         op.set('da', j, f'={D("da", j)}' if h else f'={O("revenue", j)}*{A("da_pct")}')
@@ -144,7 +155,7 @@ def build(facts, sector, market, sic=None):
         op.set('nwc', j, f'={D("ar", j)}+{D("inventory", j)}-{D("ap", j)}' if h else f'={O("revenue", j)}*{A("nwc_pct")}')
         if h:
             continue
-        op.set('interest', j, f'={B("tl_int", j)}+{B("sn_int", j)}')
+        op.set('interest', j, f'={B("tl_int", j)}+{B("sn_int", j)}+{B("rev_int", j)}')
         op.set('pretax', j, f'={O("ebit", j)}-{O("interest", j)}', bold=True)
         op.set('taxes', j, f'=-MAX(0,{O("pretax", j)})*{T("tax")}')
         op.set('ni', j, f'={O("pretax", j)}+{O("taxes", j)}', bold=True)
@@ -155,9 +166,14 @@ def build(facts, sector, market, sic=None):
         db.set('cash_open', j, f'={su.ref("cash_bs")}' if first else f'={B("cash", p)}')
         db.set('fcf', j, f'={O("fcf", j)}')
         db.set('mand', j, f'=-{B("tl_mand", j)}')
-        db.set('avail', j, f'=MAX(0,{B("cash_open", j)}+{B("fcf", j)}+{B("mand", j)}-{O("revenue", j)}*{T("min_cash")})')
+        db.set('pre', j, f'={B("cash_open", j)}+{B("fcf", j)}+{B("mand", j)}')
+        db.set('draw', j, f'=MAX(-{B("rev_open", j)},{O("revenue", j)}*{T("min_cash")}-{B("pre", j)})')
+        db.set('avail', j, f'=MAX(0,{B("pre", j)}+{B("draw", j)}-{O("revenue", j)}*{T("min_cash")})')
         db.set('sweep', j, f'=-{B("tl_sweep", j)}')
-        db.set('cash', j, f'={B("cash_open", j)}+{B("fcf", j)}+{B("mand", j)}+{B("sweep", j)}', bold=True)
+        db.set('cash', j, f'={B("pre", j)}+{B("draw", j)}+{B("sweep", j)}', bold=True)
+        db.set('rev_open', j, f'=N({B("rev", p)})')
+        db.set('rev', j, f'={B("rev_open", j)}+{B("draw", j)}', bold=True)
+        db.set('rev_int', j, f'={B("rev_open", j)}*({T("sofr")}+{T("rev_spread")})')
         db.set('tl_open', j, f'={su.ref("tl")}' if first else f'={B("tl", p)}')
         db.set('tl_mand', j, f'=MIN({B("tl_open", j)},{su.ref("tl")}*{T("tl_amort")})')
         db.set('tl_sweep', j, f'=MIN({B("tl_open", j)}-{B("tl_mand", j)},{B("avail", j)}*{T("sweep")})')
@@ -167,7 +183,7 @@ def build(facts, sector, market, sic=None):
         db.set('sn_open', j, f'={su.ref("sn")}' if first else f'={B("sn", p)}')
         db.set('sn', j, f'={B("sn_open", j)}', bold=True)
         db.set('sn_int', j, f'={B("sn_open", j)}*{T("sn_rate")}')
-        db.set('total', j, f'={B("tl", j)}+{B("sn", j)}', bold=True)
+        db.set('total', j, f'={B("rev", j)}+{B("tl", j)}+{B("sn", j)}', bold=True)
         db.set('net', j, f'={B("total", j)}-{B("cash", j)}')
         db.set('lev', j, f'=IFERROR({B("total", j)}/{O("ebitda", j)},0)', MULT)
         db.set('net_lev', j, f'=IFERROR({B("net", j)}/{O("ebitda", j)},0)', MULT)
@@ -236,7 +252,7 @@ def build(facts, sector, market, sic=None):
            ('Assumptions', 'Operating drivers calculated from history'),
            ('Sources & Uses', 'Funding of the purchase at close'),
            ('Operating Model', 'Revenue to free cash flow available for debt service'),
-           ('Debt Schedule', 'Term loan, senior notes, cash sweep and credit statistics'),
+           ('Debt Schedule', 'Revolver, term loan, senior notes, cash sweep and credit statistics'),
            ('Returns', 'Exit value, MOIC and IRR'),
            ('Sensitivity', 'IRR across entry and exit multiples'),
            ('Checks', 'Integrity checks')])

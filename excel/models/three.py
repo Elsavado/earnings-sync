@@ -7,7 +7,7 @@ Reported figures sit only on 'Historical Data'. Historical statement lines read 
 forecast line runs off 'Assumptions', whose drivers are formulas over the historical years.
 """
 from . import xbrl
-from .xl import (BOLD, NOTE, NUM, PCT, REDACTED, Sheet, checks, col, cover, data_sheet, new_workbook)
+from .xl import (BOLD, NOTE, NUM, PCT, REDACTED, Sheet, checks, col, cover, data_sheet, new_workbook, scenario_inputs)
 
 FORECAST_YEARS = 5
 
@@ -78,6 +78,7 @@ def build(facts, sector, is_reit=False):
     ds = data_sheet(wb, heading('Reported figures (Form 10-K)'), [e for e in ends], rows, data)
     D = lambda k, j: ds.ref(k, j)  # noqa: E731
 
+    si = scenario_inputs(wb, heading('Scenario inputs'))
     asm = Sheet(wb, 'Assumptions', heading('Forecast drivers (derived from the historical years)'), ['Driver'])
     is_ = Sheet(wb, 'Income Statement', heading('Income Statement'), periods, nh)
     bs = Sheet(wb, 'Balance Sheet', heading('Balance Sheet'), periods, nh)
@@ -91,7 +92,8 @@ def build(facts, sector, is_reit=False):
                              ('tax', 'Income tax expense', False), ('ato', 'Discontinued ops, minority interest & other', False),
                              ('net_income', 'Net income', True)]:
         is_.row(key, label, bold)
-    is_.row('da', 'Memo: depreciation & amortisation', gap_before=True)
+    is_.row('yr', 'Memo: forecast year', gap_before=True)
+    is_.row('da', 'Memo: depreciation & amortisation')
     is_.row('ebitda', 'Memo: EBITDA', bold=True)
 
     for key, label, bold, sec in [('cash', 'Cash and equivalents', False, 'Assets'), ('ar', 'Accounts receivable', False, None),
@@ -141,7 +143,8 @@ def build(facts, sector, is_reit=False):
     Ch = lambda k, j0=0: cf.span(k, j0, hi)  # noqa: E731
 
     drivers = [
-        ('growth', 'Revenue growth (median of historical years)', f'IFERROR(MEDIAN({Ih("growth", 1)}),0)'),
+        ('growth', 'Starting revenue growth (historical median, within the scenario limits)',
+         f'MAX({si.ref("floor")},MIN({si.ref("cap")},IFERROR(MEDIAN({Ih("growth", 1)}),0)))'),
         ('cogs_pct', 'Cost of revenue % revenue', f'IFERROR(SUM({Ih("cogs")})/SUM({Ih("revenue")}),0)'),
         ('opex_pct', 'Operating expenses % revenue', f'IFERROR(SUM({Ih("opex")})/SUM({Ih("revenue")}),0)'),
         ('other_pct', 'Other income % revenue', f'IFERROR(SUM({Ih("other")})/SUM({Ih("revenue")}),0)'),
@@ -173,9 +176,12 @@ def build(facts, sector, is_reit=False):
     for j in range(n):
         p, h = j - 1, j < nh
         # Income statement
-        is_.set('revenue', j, f'={D("revenue", j)}' if h else f'={I("revenue", p)}*(1+{A("growth")})', bold=True)
+        if not h:
+            is_.set('yr', j, f'=N({I("yr", p)})+1', '0')
+        is_.set('revenue', j, f'={D("revenue", j)}' if h else f'={I("revenue", p)}*(1+{I("growth", j)})', bold=True)
         if j:
-            is_.set('growth', j, f'=IFERROR({I("revenue", j)}/{I("revenue", p)}-1,0)', PCT)
+            is_.set('growth', j, f'=IFERROR({I("revenue", j)}/{I("revenue", p)}-1,0)' if h else
+                    f'={A("growth")}+({si.ref("lt")}-{A("growth")})*{I("yr", j)}/{FORECAST_YEARS}', PCT)
         is_.set('cogs', j, f'={D("cogs", j)}' if h else f'={I("revenue", j)}*{A("cogs_pct")}')
         is_.set('gross', j, f'={I("revenue", j)}-{I("cogs", j)}', bold=True)
         is_.set('opex', j, f'={I("gross", j)}-{D("ebit", j)}' if h else f'={I("revenue", j)}*{A("opex_pct")}')
@@ -275,7 +281,8 @@ def build(facts, sector, is_reit=False):
         rt.set('fcf', j, f'={C("cfo", j)}+{C("capex", j)}', NUM)
         rt.set('fcf_m', j, f'=IFERROR({R("fcf", j)}/{I("revenue", j)},0)', PCT)
 
-    sections = [('Historical Data', 'Reported annual figures from Form 10-K XBRL (USD millions) - the only hard-coded numbers'),
+    sections = [('Historical Data', 'Reported annual figures from Form 10-K XBRL (USD millions) - hard-coded source data'),
+                ('Scenario Inputs', 'Long-term growth and limits on starting growth (inputs)'),
                 ('Assumptions', 'Forecast drivers, each calculated from the historical years'),
                 ('Income Statement', 'Historical and forecast income statement'),
                 ('Balance Sheet', 'Historical and forecast balance sheet with revolver'),

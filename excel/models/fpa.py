@@ -5,7 +5,7 @@ and year-over-year analysis, seasonality profile, an eight-quarter rolling forec
 budget-versus-actual variance analysis for the latest fiscal year, and a KPI summary.
 """
 from . import xbrl
-from .xl import (NUM, PCT, REDACTED, Inputs, Sheet, checks, col, cover, data_sheet, new_workbook)
+from .xl import (NUM, PCT, REDACTED, Inputs, Sheet, checks, col, cover, data_sheet, new_workbook, scenario_inputs)
 
 CONCEPTS = [('revenue', 'Revenue'), ('cogs', 'Cost of revenue'), ('ebit', 'Operating income'), ('net_income', 'Net income')]
 
@@ -37,6 +37,7 @@ def build(facts, sector, **_):
     ds = data_sheet(wb, head('Reported quarterly and annual figures'), [f'FY ended {e}' for e in ends], rows, values)
     D = ds.ref
 
+    si = scenario_inputs(wb, head('Scenario inputs'))
     quarters = [f'Q{k + 1} {fy}' for fy in fy_labels for k in range(4)]
     nq = len(quarters)
     qa = Sheet(wb, 'Quarterly Actuals', head('Quarterly actuals (Q4 = full year less Q1-Q3)'), quarters)
@@ -100,6 +101,8 @@ def build(facts, sector, **_):
         se.set(key, av, f'=AVERAGE({se.span(key, 0, ny - 1)})', PCT, bold=True)
     se.set('share_sum', av, f'=SUM({col(av)}{se.rows["share0"]}:{col(av)}{se.rows["share3"]})', PCT, bold=True)
     se.set('growth', av, f'=IFERROR(MEDIAN({se.span("growth", 1, ny - 1)}),0)', PCT, bold=True)
+    se.ws.cell(row=se.rows['growth'] + 2, column=1, value='Forecast year 1 grows at the median annual growth within the scenario limits; '
+               'year 2 at the midpoint between that and the long-term rate.')
 
     # Rolling forecast: next two fiscal years by quarter.
     last = int(ends[-1][:4])
@@ -111,11 +114,12 @@ def build(facts, sector, **_):
                              ('ni', 'Net income', True), ('om', 'Operating margin', False), ('yoy', 'Revenue growth vs same quarter last year', False)]:
         rf.row(key, label, bold)
     R = rf.ref
-    G = S('growth', av)
+    G = f'MAX({si.ref("floor")},MIN({si.ref("cap")},{S("growth", av)}))'
+    G2 = f'AVERAGE({G},{si.ref("lt")})'
     last_fy_rev = f'SUM({qa.span("revenue", nq - 4, nq - 1)})'
     for j in range(8):
         y, k = divmod(j, 4)
-        rf.set('fy_rev', j, f'={last_fy_rev}*(1+{G})' if y == 0 else f'={last_fy_rev}*(1+{G})^2')
+        rf.set('fy_rev', j, f'={last_fy_rev}*(1+{G})' if y == 0 else f'={last_fy_rev}*(1+{G})*(1+{G2})')
         rf.set('revenue', j, f'={R("fy_rev", j)}*{se.ref(f"share{k}", av, absolute=True)}', bold=True)
         rf.set('cogs', j, f'={R("revenue", j)}*(1-{se.ref(f"gm{k}", av, absolute=True)})')
         rf.set('gross', j, f'={R("revenue", j)}-{R("cogs", j)}', bold=True)
@@ -183,6 +187,7 @@ def build(facts, sector, **_):
           'figures, LTM and year-over-year trends, a seasonality profile, an eight-quarter rolling forecast, a budget-versus-'
           'actual variance analysis for the latest fiscal year and a KPI summary.',
           [('Historical Data', 'Reported quarterly (10-Q) and annual (10-K) figures - hard-coded source data'),
+           ('Scenario Inputs', 'Long-term growth and limits on forecast growth (inputs)'),
            ('Quarterly Actuals', 'Quarterly P&L, margins, growth and LTM'),
            ('Seasonality', 'Quarterly revenue shares, margins and cost ratios'),
            ('Rolling Forecast', 'Next eight quarters'),

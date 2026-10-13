@@ -58,6 +58,6 @@ def classify(filename, sheet_names, texts):
     if statements == 3 or scores['Three-statement model'] >= 5:
         return 'Three-statement model', scores
     best = max(ORDER, key=lambda k: (scores[k], -ORDER.index(k)))
-    if scores[best] >= 3:
+    if scores[best] >= 2:
         return best, scores
     return None, scores

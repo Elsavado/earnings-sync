@@ -19,12 +19,13 @@ from pathlib import Path
 import requests
 from openpyxl.workbook import Workbook  # noqa: F401  (import check)
 
-from . import bank, dcf, fpa, lbo, lo, sources, three
+from . import bank, dcf, fpa, lbo, links, lo, sources, three
 from .anonymize import Anonymizer
 from .market import Market
 from .process import process
 from .store import Store, folder_name
 from .xl import INPUT_SHEETS
+from .xlsxml import Package
 
 START = time.time()
 BUDGET = float(os.environ.get('RUN_MINUTES', '50')) * 60
@@ -47,7 +48,7 @@ def left():
 def clean_label(s, limit=90):
     s = re.sub(r'[\\/:*?"<>|]+', ' ', s)
     s = re.sub(r'\s+', ' ', s).strip()
-    return s[:limit].strip()
+    return s[:limit].strip().rstrip('.').strip()
 
 
 class Run:
@@ -156,6 +157,12 @@ class Run:
             return None, 'checks not computed'
         if abs(total) > 0.01:
             return None, f'checks fail ({total})'
+        # Safety net: nothing in a delivered model may point outside the workbook.
+        pkg = Package(out)
+        links.clean(pkg)
+        if links.has_external(pkg):
+            return None, 'external link could not be removed'
+        pkg.save(out)
         return out, None
 
     def sec(self, until):
@@ -253,10 +260,9 @@ class Run:
 
         s = sources.session()
         refresh_until = time.time() + min(0.3 * left(), 16 * 60)
-        for name, fn in [('damodaran', lambda: sources.damodaran(self.state, s, log)),
-                         ('zenodo', lambda: sources.zenodo(self.state, s, log)),
-                         ('figshare', lambda: sources.figshare(self.state, s, log)),
-                         ('github', lambda: sources.github(self.state, s, log)),
+        for name, fn in [('github', lambda: sources.github(self.state, s, log)),
+                         ('damodaran', lambda: sources.damodaran(self.state, s, log)),
+                         ('zenodo', lambda: sources.zenodo(self.state, s, log, max_pages=6)),
                          ('websites', lambda: sources.websites(self.state, s, log, companies_json,
                                                                minutes=max(1, (refresh_until - time.time()) / 60)))]:
             if time.time() > refresh_until:

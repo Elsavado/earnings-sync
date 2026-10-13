@@ -49,6 +49,8 @@ def build(facts, sector, market, sic=None):
     mi.add('beta', 'Equity beta (industry)', round(max(bu, 0.5) * 1.6, 3), '0.00',
            f'{beta_note}; relevered at a typical bank equity/assets of about 10%')
     mi.add('g', 'Long-term growth of tangible book value', 0.03, PCT)
+    mi.add('cap', 'Maximum starting loan growth', 0.15, PCT, 'Caps exceptional historical growth')
+    mi.add('floor', 'Minimum starting loan growth', -0.05, PCT, 'Floors steep historical declines')
     mi.add('mcap', 'Market value of equity (USD millions)', round(float_ / 1e6, 3) if float_ else 0, NUM,
            'Public float from the 10-K cover page (excludes insider holdings)')
     M = mi.ref
@@ -69,7 +71,7 @@ def build(facts, sector, market, sic=None):
                              ('ol', 'Borrowings & other liabilities', False), ('liab', 'Total liabilities', True),
                              ('eq', "Shareholders' equity", True), ('tle', 'Total liabilities & equity', True),
                              ('check', 'Balance check', False), ('gw', 'Memo: goodwill & intangibles', False),
-                             ('tbv', 'Memo: tangible book value', True)]:
+                             ('tbv', 'Memo: tangible book value', True), ('yr', 'Memo: forecast year', False)]:
         bs.row(key, label, bold, gap_before=key in ('dep', 'check'))
     for key, label in [('nim', 'Net interest income % opening assets'), ('yield', 'Interest income % opening assets'),
                        ('cost', 'Interest expense % opening deposits & borrowings'), ('eff', 'Efficiency ratio'),
@@ -84,7 +86,8 @@ def build(facts, sector, market, sic=None):
     C = cr.ref
 
     drivers = [
-        ('loan_g', 'Loan growth (median of historical years)', f'IFERROR(MEDIAN({cr.span("loan_g", 1, hi)}),0)'),
+        ('loan_g', 'Starting loan growth (historical median, within limits)',
+         f'MAX({M("floor")},MIN({M("cap")},IFERROR(MEDIAN({cr.span("loan_g", 1, hi)}),0)))'),
         ('loan_a', 'Loans % total assets', f'IFERROR(SUM({bs.span("loans", 0, hi)})/SUM({bs.span("assets", 0, hi)}),0)'),
         ('dep_a', 'Deposits % total assets', f'IFERROR(SUM({bs.span("dep", 0, hi)})/SUM({bs.span("assets", 0, hi)}),0)'),
         ('yield', 'Interest income % opening assets', f'IFERROR(AVERAGE({cr.span("yield", 1, hi)}),0)'),
@@ -131,7 +134,8 @@ def build(facts, sector, market, sic=None):
             is_.set('ni', j, f'={I("pretax", j)}-{I("tax", j)}', bold=True)
             is_.set('div', j, f'=-MAX(0,{I("ni", j)})*{A("div")}')
             is_.set('bb', j, f'=-MAX(0,{I("ni", j)})*{A("bb")}')
-            bs.set('loans', j, f'={B("loans", p)}*(1+{A("loan_g")})')
+            bs.set('yr', j, f'=N({B("yr", p)})+1', '0')
+            bs.set('loans', j, f'={B("loans", p)}*(1+{A("loan_g")}+({M("g")}-{A("loan_g")})*{B("yr", j)}/{YEARS})')
             bs.set('assets', j, f'=IFERROR({B("loans", j)}/{A("loan_a")},{B("assets", p)})', bold=True)
             bs.set('dep', j, f'={B("assets", j)}*{A("dep_a")}')
             bs.set('eq', j, f'={B("eq", p)}+{I("ni", j)}+{I("div", j)}+{I("bb", j)}', bold=True)

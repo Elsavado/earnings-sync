@@ -7,6 +7,7 @@ transaction assumptions); every other number is a formula.
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
+from openpyxl.worksheet.hyperlink import Hyperlink
 
 REDACTED = 'Redacted Company Name Inc'
 
@@ -27,6 +28,16 @@ MULT = '0.0"x"'
 PRICE = '$#,##0.00'
 
 INPUT_SHEETS = {'Historical Data', 'Market Inputs', 'Transaction Inputs', 'Scenario Inputs'}
+
+
+def scenario_inputs(wb, heading, index=None):
+    """Growth guard-rails every forecast uses: starting growth is capped and floored, then fades
+    in a straight line to the long-term rate by the final forecast year."""
+    si = Inputs(wb, 'Scenario Inputs', heading, index)
+    si.add('lt', 'Long-term growth rate', 0.03, PCT, 'Growth reached by the final forecast year')
+    si.add('cap', 'Maximum starting growth', 0.25, PCT, 'Caps exceptional historical growth')
+    si.add('floor', 'Minimum starting growth', -0.10, PCT, 'Floors steep historical declines')
+    return si
 
 
 def col(j, first=2):
@@ -173,7 +184,7 @@ def cover(wb, title, sector, description, sections):
     for name, what in sections:
         r += 1
         c = ws.cell(row=r, column=2, value=name)
-        c.hyperlink = f"#'{name}'!A1"
+        c.hyperlink = Hyperlink(ref=c.coordinate, location=f"'{name}'!A1", display=name)
         c.font = Font(color='0563C1', underline='single')
         ws.cell(row=r, column=3, value=what)
     r += 2
