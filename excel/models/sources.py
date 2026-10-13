@@ -82,7 +82,7 @@ GH_QUERIES = ['dcf model', 'discounted cash flow', 'dcf valuation excel', 'lbo m
               'topic:investment-banking', 'topic:private-equity', 'topic:real-estate-finance', 'topic:fpa']
 
 
-def github(state, s, log, max_calls=700):
+def github(state, s, log, max_calls=350):
     st = state.setdefault('github', {'qi': 0, 'page': 1, 'repos': [], 'done_repos': {}})
     token = os.environ.get('GITHUB_TOKEN') or os.environ.get('GH_TOKEN')
     h = {'Accept': 'application/vnd.github+json'}

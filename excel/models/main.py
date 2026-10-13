@@ -301,7 +301,7 @@ class Run:
         log(f'anonymizer: {len(self.anonymizer.multi)} multi-word and {len(self.anonymizer.single)} one-word company names')
 
         s = sources.session()
-        refresh_until = time.time() + min(0.3 * left(), 16 * 60)
+        refresh_until = time.time() + min(0.15 * left(), 7 * 60)
         for name, fn in [('github', lambda: sources.github(self.state, s, log)),
                          ('damodaran', lambda: sources.damodaran(self.state, s, log)),
                          ('zenodo', lambda: sources.zenodo(self.state, s, log, max_pages=6)),
@@ -315,7 +315,7 @@ class Run:
                 log(f'{name}: failed ({type(err).__name__}: {err})')
         self.save(force=True)
         # Split the rest of the run between scraped files and SEC models.
-        self.scraped(time.time() + 0.45 * left())
+        self.scraped(time.time() + 0.2 * left())  # scraped files are slow and mostly rejected; SEC models are fast
         self.save(force=True)
         self.sec(time.time() + left() - 60)
         self.save(force=True)
