@@ -26,6 +26,8 @@ concurrency:
 
 jobs:
   collect:
+    # Scheduled runs only once the repository variable EXCEL_MODELS_LIVE is 'true'.
+    if: github.event_name == 'workflow_dispatch' || vars.EXCEL_MODELS_LIVE == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 58
     defaults:
