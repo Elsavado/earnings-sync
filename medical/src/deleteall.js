@@ -82,20 +82,38 @@ async function main() {
     return;
   }
 
-  for (const r of roots) {
-    await drive.files.delete({ fileId: r.id });
-    log.info(`Deleted folder "${r.name}" and its contents`);
-  }
-  let leftovers = 0;
-  for (const f of tagged) {
+  // Delete one item at a time, files before folders and deepest folders first, because the
+  // app may not be allowed to delete a folder whole when it lacks access to some children.
+  const blocked = [];
+  const tryDelete = async (f) => {
     try {
       await drive.files.delete({ fileId: f.id });
-      leftovers++;
+      return true;
     } catch (err) {
-      if (err.code !== 404) throw err; // already gone with its folder
+      if (err.code === 404) return true;
+      blocked.push(`${f.name} (${f.id}): ${err.message}`);
+      return false;
     }
+  };
+  let deletedFiles = 0;
+  let deletedFolders = 0;
+  for (const r of roots) {
+    const folders = [];
+    const pending = [r];
+    while (pending.length) {
+      const dir = pending.pop();
+      folders.push(dir);
+      for (const f of await listAll(drive, `'${dir.id}' in parents and trashed = false`)) {
+        if (f.mimeType === FOLDER_MIME) pending.push(f);
+        else if (await tryDelete(f)) deletedFiles++;
+      }
+    }
+    for (const dir of folders.reverse()) if (await tryDelete(dir)) deletedFolders++;
+    log.info(`"${r.name}" (${r.id}): done`);
   }
-  log.info(`Deleted ${leftovers} tagged item(s) outside those folders or in the trash`);
+  for (const f of tagged) if (await tryDelete(f)) deletedFiles++;
+  log.info(`Deleted ${deletedFiles} file(s) and ${deletedFolders} folder(s); ${blocked.length} item(s) could not be deleted`);
+  for (const b of blocked.slice(0, 100)) log.warn(`  not deleted: ${b}`);
   log.info(`After: ${await quota(drive)}`);
 }
 
