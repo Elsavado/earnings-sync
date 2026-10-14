@@ -2,6 +2,7 @@
 workflow can hand them back. Usage:
   python -m models.package <k> <out dir> [--repair]            one folder
   python -m models.package <k>+ <out dir> [--complete]         every folder from k on (complete ones only)
+  python -m models.package <a>-<b> <out dir>                    folders a to b
 When nothing is complete yet it exits normally and returns no files."""
 import sys
 from pathlib import Path
@@ -59,6 +60,15 @@ def main(arg, out):
             k, got = k + 1, got + 1
         # Nothing complete yet is a normal answer, not a failure (failures email the owner).
         print(f'fetched {got} complete folder(s); next folder {k}')
+        return
+    if '-' in arg:  # a range of folders, e.g. 11-35 = models 201-700
+        a, b = (int(x) for x in arg.split('-', 1))
+        for k in range(a, b + 1):
+            name, files = _files(store, k)
+            if files is None:
+                print(f'{name}: missing')
+                continue
+            fetch(store, k, out, repair)
         return
     k = int(arg)
     name, files = _files(store, k)

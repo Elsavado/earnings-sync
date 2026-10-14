@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       folder:
-        description: 'Folder number (1 = Models 1-20), or N+ for every complete folder from N on'
+        description: 'Folder number (1 = Models 1-20), N+ for every complete folder from N on, or A-B for a range'
         required: true
         default: '1'
       complete:
