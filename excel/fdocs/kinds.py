@@ -67,6 +67,7 @@ TABULAR = {'transactions', 'payroll'}
 LABEL = {
     'cim': 'Diligence report', 'research': 'Industry research', 'equity': 'Equity research', 'letters': 'Investor letter',
     'memos': 'Investment memo', 'deals': 'Deal document', 'transcripts': 'Earnings call transcript', 'notebooks': 'Notebook',
+    'contracts': 'Contract', 'transactions': 'Transactions', 'payroll': 'Payroll',
 }
 
 # Finer labels from the document's own heading (never its title, which may name the company).

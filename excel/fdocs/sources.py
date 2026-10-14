@@ -361,6 +361,6 @@ def zenodo(state, kind, s, log, pages=2):
 
 DISCOVER = {
     'cim': [sec], 'deals': [sec], 'letters': [sec], 'transcripts': [sec], 'contracts': [sec],
-    'memos': [sec, worldbank], 'research': [worldbank, openalex], 'equity': [openalex],
+    'memos': [worldbank, sec], 'research': [worldbank, openalex], 'equity': [openalex],
     'notebooks': [github], 'transactions': [socrata, zenodo, github], 'payroll': [socrata, zenodo, github],
 }

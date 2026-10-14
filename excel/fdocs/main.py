@@ -77,6 +77,8 @@ def ooxml_text(path):
     return '\n'.join(paras)
 
 
+BOT_CHECK = re.compile(rb"not a bot|are you a robot|verify you are human|checking your browser|captcha|"
+                       rb"cf-challenge|Just a moment\.\.\.|access denied", re.I)
 NOTEBOOK_WORDS = re.compile(r'portfolio|returns?|valuation|dcf|discount|option|black.?scholes|volatility|sharpe|backtest|'
                             r'stock|equity|bond|yield|interest rate|credit|risk|var\b|cash flow|wacc|ebitda|revenue|'
                             r'financial|price|trading|hedg', re.I)
@@ -100,6 +102,8 @@ def process(cand, kind, work):
             f.write(chunk)
     data = raw.read_bytes()
     digest = hashlib.sha256(data).hexdigest()
+    if data[:5] != b'%PDF-' and BOT_CHECK.search(data[:6000]):  # a site that challenges automated visitors: respect it and skip the site
+        return {'ok': False, 'reason': 'site blocks automated downloads', 'blocked': True}
     ext = cand['ext']
     if data[:5] == b'%PDF-':
         ext = 'pdf'
@@ -303,6 +307,10 @@ class Run:
             self.state['queued'].pop(cand['key'], None)
             if cand['key'] in self.state['seen']:
                 continue
+            host = re.sub(r'^https?://([^/]+).*$', r'\1', cand['url'])
+            if host in self.state.setdefault('blocked', {}):
+                self.state['seen'][cand['key']] = 'rej:site blocks automated downloads'
+                continue
             work = self.tmp / f'{kind}{done}'
             work.mkdir()
             try:
@@ -312,6 +320,9 @@ class Run:
                         self.state['seen'][cand['key']] = 'rej:duplicate download'
                         continue
                     self.state['seen'][f'raw:{res["raw"]}'] = 1
+                if res.get('blocked') and not re.search(r'(^|\.)(sec\.gov|github\.com|githubusercontent\.com)$', host):
+                    self.state['blocked'][host] = 1
+                    log(f'  {host} blocks automated downloads; skipping that site from now on')
                 if not res.get('ok'):
                     self.state['seen'][cand['key']] = f'rej:{res.get("reason")}'[:120]
                     log(f'  - {kind} {cand["source"]}: {str(res.get("reason"))[:90]}')

@@ -45,6 +45,29 @@ LIBOR SOFR OTC ETF REIT MLP BDC SPAC NAV AUM LPA LOI NDA CIM QOE TAM SAM SOM KPI
 FED ECB BOE IMF OECD NATO YTD MTD QTD TBD TBA NOI FFO AFFO DSCR LTV MOIC DPI TVPI RVPI PIK OID ABL TLA TLB RCF SOX
 FCPA AML KYC CFPB FINRA FASB PCAOB IRS NAIC OCC FDIC CFTC SBA USDA DOE EPA NASA NIH CDC WHO WTO OPEC LNG CNG BEV
 ICE HVAC ERP CRM SKU FYE PPE SBC DTA DTL NOL'''.split())
+
+# Finance terms that look like people's names.
+NOT_PERSON_PHRASES = {'monte carlo', 'black scholes', 'black-scholes', 'dow jones', 'box jenkins', 'nelson siegel',
+                      'gordon growth', 'holt winters', 'fama french', 'markov chain', 'sharpe ratio', 'treynor ratio',
+                      'jensen alpha', 'kelly criterion', 'brownian motion', 'geometric brownian', 'ornstein uhlenbeck',
+                      'black litterman', 'cox ingersoll', 'vasicek model', 'hull white', 'heath jarrow', 'merton model',
+                      'altman z', 'du pont', 'dupont analysis', 'porter five', 'pareto front', 'gaussian copula'}
+NOT_NAMES |= {'growth', 'model', 'ratio', 'method', 'formula', 'index', 'chain', 'process', 'simulation', 'analysis',
+              'equation', 'theorem', 'test', 'distribution', 'criterion', 'portfolio', 'fund', 'capital', 'partners',
+              'chief', 'executive', 'officer', 'director', 'vice', 'managing', 'partner', 'general', 'counsel',
+              'secretary', 'treasurer', 'founder', 'senior', 'head', 'manager', 'title', 'date', 'name', 'by', 'its'}
+_NAME = r"[A-Z][a-zA-Z'’\-]+(?:\s+[A-Z]\.)?(?:\s+[A-Z][a-zA-Z'’\-]+){1,2}"
+CONTEXT_PERSON = re.compile(
+    rf"/s/\s*({_NAME})"                                                        # signature blocks
+    rf"|\b(?:By|Name|Attn|Attention|Signed)\s*:\s*({_NAME})"
+    rf"|\b(?:question (?:is )?(?:coming )?from|questions? comes? from|line of|turn (?:it|the call)? ?over to|"
+    rf"hand (?:it )?over to|joined (?:today )?by|introduce)\s+({_NAME})")
+FIRM_WORDS = {'capital', 'securities', 'partners', 'advisors', 'advisers', 'research', 'markets', 'management',
+              'investments', 'asset', 'equity', 'ventures', 'bank', 'financial', 'group', 'associates', 'holdings'}
+FIRM_END = re.compile(r"^[A-Z][\w&'’.\-]*(?:\s+[A-Z&][\w&'’.\-]*){0,4}\s+(?:Capital|Securities|Partners|Advisors|Advisers|"
+                      r"Research|Markets|Management|Investments|Ventures|Bank|Financial|Associates)$")
+CONTEXT_ORG = re.compile(r"\b(?:with|from|at|Analyst,)\s+((?:[A-Z][\w&'’\-]*\s+){0,3}(?:Capital|Securities|Partners|"
+                         r"Advisors|Advisers|Research|Markets|Management|Investments|Ventures|Financial))\b")
 _FIRST = None
 
 
@@ -80,10 +103,11 @@ class DocAnon:
     # --- learning ----------------------------------------------------------
     def learn(self, text, orgs=()):
         """Learns this document's people and organisations. orgs: known names (SEC filer names,
-        e.g. 'Brand Engagement Network Inc.  (BNAI, BNAIW)  (CIK 0001838163)')."""
-        from wordfreq import zipf_frequency
+        e.g. 'Brand Engagement Network Inc.  (BNAI, BNAIW)  (CIK 0001838163)').
+
+        Two passes: names spaCy finds in the original, then names it finds once the first ones
+        are replaced (a crowded line often hides a name the first time)."""
         self.reset()
-        firsts = first_names()
         people, surnames, org_names = set(), set(), set()
         for o in orgs:
             for group in re.findall(r'\(([A-Z0-9.\-, ]{1,40})\)', o):
@@ -91,40 +115,69 @@ class DocAnon:
             o = re.sub(r'\s*\((?:CIK [^)]*|[A-Z0-9.\-, ]{1,40})\)', '', o).strip()
             if len(o) >= 3:
                 org_names.add(o)
+        text = text[:800000]
+        self._collect(text, people, surnames, org_names)
+        self._build(people, surnames, org_names)
         if self.nlp:
-            text = text[:800000]
-            for i in range(0, len(text), 100000):
-                chunk = text[i:i + 100000]
-                try:
-                    doc = self.nlp(chunk)
-                except Exception:  # noqa: BLE001
-                    continue
-                for ent in doc.ents:
-                    t = re.sub(POSSESSIVE, '', ent.text.strip()).strip(' ,.;:')
+            again = self.scrub(text[:300000])
+            self._collect(again, people, surnames, org_names)
+            self._build(people, surnames, org_names)
+
+    def _person(self, t, titled, people, surnames):
+        from wordfreq import zipf_frequency
+        t = re.sub(POSSESSIVE, '', t.strip()).strip(' ,.;:')
+        t = re.sub(rf'^{TITLES}\s+', '', t)
+        toks = t.split()
+        # Context patterns can run into the next word ('Lee Lee Chief', 'Michael Everett We').
+        while len(toks) > 2 and (toks[-1].lower().strip('.') in NOT_NAMES or zipf_frequency(toks[-1].lower(), 'en') >= 5.0):
+            toks.pop()
+        t = ' '.join(toks)
+        if not (2 <= len(toks) <= 4 and all(re.fullmatch(r"[A-Z][A-Za-z'’\-]+\.?|[A-Z]\.", w) for w in toks)
+                and not any(w.lower().strip('.') in NOT_NAMES for w in toks)
+                and t.lower() not in NOT_PERSON_PHRASES and 'Redacted' not in t and TICKER not in t):
+            return
+        given = next((w.strip('.') for w in toks if len(w.strip('.')) > 1), '')
+        # A person needs a known first name, a title such as 'Mr.' (or a signature/call context),
+        # or (written in mixed case) no everyday English word in it: slide headings like
+        # 'Exit Multiple' or 'DISCUSSION MATERIALS' are not people, 'Sonal Shah' is.
+        uncommon = not t.isupper() and all(zipf_frequency(w.lower().strip('.'), 'en') < 4.0 for w in toks)
+        if given.lower() not in first_names() and not titled and not uncommon:
+            return
+        name = ' '.join(toks)
+        people |= {name, name.title(), name.upper()}
+        last = toks[-1].strip('.')
+        if len(last) >= 3:
+            rare = zipf_frequency(last.lower(), 'en') < 3.3
+            surnames |= {(last, rare), (last.title(), rare), (last.upper(), rare)}
+        if len(given) >= 2 and given.lower() not in WORDLIKE and zipf_frequency(given.lower(), 'en') < 5.0:
+            surnames |= {(given, True), (given.title(), True)}  # 'Anthony' on its own; not 'Mark'
+
+    def _collect(self, text, people, surnames, org_names):
+        # Context patterns spaCy often misses: signatures and earnings-call hand-overs.
+        for m in CONTEXT_PERSON.finditer(text):
+            self._person(next(g for g in m.groups() if g), True, people, surnames)
+        for m in CONTEXT_ORG.finditer(text):
+            org_names.add(next(g for g in m.groups() if g).strip(' ,.'))
+        if not self.nlp:
+            return
+        for i in range(0, len(text), 100000):
+            chunk = text[i:i + 100000]
+            try:
+                doc = self.nlp(chunk)
+            except Exception:  # noqa: BLE001
+                continue
+            for ent in doc.ents:
+                t = ent.text.strip()
+                if ent.label_ == 'PERSON':
                     titled = bool(re.search(rf'\b{TITLES}\s*$', chunk[max(0, ent.start_char - 6):ent.start_char]))
-                    t = re.sub(rf'^{TITLES}\s+', '', t)
-                    if ent.label_ == 'PERSON':
-                        toks = t.split()
-                        if not (2 <= len(toks) <= 4 and all(re.fullmatch(r"[A-Z][A-Za-z'’\-]+\.?|[A-Z]\.", w) for w in toks)
-                                and not any(w.lower().strip('.') in NOT_NAMES for w in toks)):
-                            continue
-                        given = next((w.strip('.') for w in toks if len(w.strip('.')) > 1), '')
-                        # A person needs a known first name, a title such as 'Mr.', or (written in mixed
-                        # case) no everyday English word in it: slide headings like 'Exit Multiple' or
-                        # 'DISCUSSION MATERIALS' are not people, 'Sonal Shah' is.
-                        uncommon = not t.isupper() and all(zipf_frequency(w.lower().strip('.'), 'en') < 4.0 for w in toks)
-                        if given.lower() not in firsts and not titled and not uncommon:
-                            continue
-                        name = ' '.join(toks)
-                        people |= {name, name.title(), name.upper()}
-                        last = toks[-1].strip('.')
-                        if len(last) >= 3:
-                            rare = zipf_frequency(last.lower(), 'en') < 3.3
-                            surnames |= {(last, rare), (last.title(), rare), (last.upper(), rare)}
-                        if len(given) >= 3 and given.lower() not in WORDLIKE and zipf_frequency(given.lower(), 'en') < 5.0:
-                            surnames |= {(given, True), (given.title(), True)}  # 'Anthony' on its own; not 'Mark'
-                    elif ent.label_ == 'ORG' and re.search(SUFFIX_RE + r'\.?$', t, re.I) and len(t) <= 80:
+                    self._person(t, titled, people, surnames)
+                elif ent.label_ == 'ORG' and len(t) <= 80 and 'Redacted' not in t:
+                    t = re.sub(POSSESSIVE, '', t).strip(' ,.;:')
+                    if re.search(SUFFIX_RE + r'\.?$', t, re.I) or FIRM_END.search(t):
                         org_names.add(t)
+
+    def _build(self, people, surnames, org_names):
+        from wordfreq import zipf_frequency
 
         def alt(names):
             names = sorted({n for n in names if n}, key=len, reverse=True)
@@ -133,11 +186,14 @@ class DocAnon:
         # Organisations first: a word of a company name is never treated as a person's name.
         cores = set()
         for o in org_names:
-            core = re.sub(rf'(?:{SUFFIX_RE})+\.?$', '', o, flags=re.I).strip(' ,')
+            if FIRM_END.search(o):
+                core = o  # 'Ascendiant Capital': the firm word is part of the name
+            else:
+                core = re.sub(rf'(?:{SUFFIX_RE})+\.?$', '', o, flags=re.I).strip(' ,')
             core = re.sub(r'^the\s+', '', core, flags=re.I)
             if len(core) >= 3 and (len(core.split()) > 1 or zipf_frequency(core.lower(), 'en') < 3.6):
                 cores |= {core, core.title(), core.upper()}  # SEC filer names are often in capitals
-        org_words = {w.lower() for c in cores for w in c.split()}
+        org_words = {w.lower() for c in cores for w in c.split()} - FIRM_WORDS
         people = {p for p in people if not any(w.lower().strip('.') in org_words for w in p.split())}
         surnames = {(n, r) for n, r in surnames if n.lower() not in org_words}
         if cores:
