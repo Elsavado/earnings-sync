@@ -5,3 +5,4 @@ node_modules/
 .signal/
 __pycache__/
 excel/first100/
+excel/samples/

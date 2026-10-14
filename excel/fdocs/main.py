@@ -275,11 +275,16 @@ class Run:
         c[kind] = c.get(kind, 0) + 1
         c[f'source:{cand["source"]}'] = c.get(f'source:{cand["source"]}', 0) + 1
         self.made[kind] = self.made.get(kind, 0) + 1
+        if DRY and self.made[kind] <= 3:  # dry runs keep a few outputs per type for inspection
+            d = Path('samples') / kind
+            d.mkdir(parents=True, exist_ok=True)
+            shutil.copy(res['path'], d / name)
         log(f'  {K.KINDS[kind]["folder"]}: #{n} {name}')
         self.save()
 
     def discover(self, kind, s, until):
         q = self.state['queue'].setdefault(kind, [])
+        sources.DEADLINE = until
         for fn in sources.DISCOVER[kind]:
             if len(q) >= 60 or time.time() > until:
                 break
@@ -309,6 +314,7 @@ class Run:
                     self.state['seen'][f'raw:{res["raw"]}'] = 1
                 if not res.get('ok'):
                     self.state['seen'][cand['key']] = f'rej:{res.get("reason")}'[:120]
+                    log(f'  - {kind} {cand["source"]}: {str(res.get("reason"))[:90]}')
                     continue
                 self.publish(kind, res, cand)
             finally:

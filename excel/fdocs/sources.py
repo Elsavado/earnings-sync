@@ -16,6 +16,11 @@ import requests
 SEC_UA = os.environ.get('SEC_USER_AGENT') or 'FinDocs research contact@example.com'
 DOC_EXT = ('.pdf', '.htm', '.html', '.txt', '.doc', '.docx', '.ppt', '.pptx')
 THIS_YEAR = time.gmtime().tm_year
+DEADLINE = None  # set by the run: discovery stops when it is reached
+
+
+def late():
+    return DEADLINE is not None and time.time() > DEADLINE
 
 EX10 = r'EX-10'
 EX99 = r'EX-99'
@@ -95,17 +100,24 @@ def sec(state, kind, s, log, pages=10):
             continue
         ft = re.compile(rf'^(?:{ftypes})', re.I) if ftypes else None
         for _ in range(pages):
+            if late():
+                return added
             if cur['year'] < 2001:
                 cur['done'] = True
                 break
             params = {'q': q, 'dateRange': 'custom', 'startdt': f'{cur["year"]}-01-01', 'enddt': f'{cur["year"]}-12-31',
                       'from': cur['from']}
-            try:
-                r = s.get('https://efts.sec.gov/LATEST/search-index', params=params, timeout=60)
-                time.sleep(0.15)
-                hits = r.json()['hits'] if r.ok else None
-            except (requests.RequestException, ValueError, KeyError):
-                hits = None
+            hits = None
+            for attempt in range(2):
+                try:
+                    r = s.get('https://efts.sec.gov/LATEST/search-index', params=params, timeout=60)
+                    time.sleep(0.15)
+                    hits = r.json()['hits'] if r.ok else None
+                except (requests.RequestException, ValueError, KeyError):
+                    hits = None
+                if hits is not None:
+                    break
+                time.sleep(3)
             if hits is None:
                 log(f'  sec {kind} {q} {cur["year"]}: search failed')
                 break
@@ -138,6 +150,8 @@ def openalex(state, kind, s, log, pages=3):
             continue
         filt = f'title.search:{q},is_oa:true,has_fulltext:true' + (f',type:{typ}' if typ else '')
         for _ in range(pages):
+            if late():
+                return added
             try:
                 r = s.get('https://api.openalex.org/works', params={'filter': filt, 'per-page': 200, 'cursor': cur['cursor'],
                                                                     'select': 'id,best_oa_location,language'}, timeout=60)
@@ -171,6 +185,8 @@ def worldbank(state, kind, s, log, pages=3):
         if cur.get('done'):
             continue
         for _ in range(pages):
+            if late():
+                return added
             params = {'format': 'json', 'qterm': q, 'rows': 100, 'os': cur['os'], 'fl': 'pdfurl,docty,lang', 'lang_exact': 'English'}
             if docty:
                 params['docty_exact'] = docty
@@ -203,6 +219,8 @@ def socrata(state, kind, s, log, pages=2):
         if cur.get('done'):
             continue
         for _ in range(pages):
+            if late():
+                return added
             try:
                 r = s.get('https://api.us.socrata.com/api/catalog/v1', params={'q': q, 'only': 'datasets', 'limit': 100,
                                                                               'offset': cur['offset']}, timeout=60)
@@ -258,6 +276,8 @@ def github(state, kind, s, log, pages=2):
             if cur.get('done'):
                 continue
             for _ in range(pages):
+                if late():
+                    return added
                 lang = ' language:"Jupyter Notebook"' if kind == 'notebooks' else ''
                 try:
                     r = s.get('https://api.github.com/search/repositories', headers=_gh(s), timeout=60,
@@ -272,6 +292,8 @@ def github(state, kind, s, log, pages=2):
                     break
                 time.sleep(2)  # search API: 30 requests a minute
                 for repo in items:
+                    if late():
+                        return added
                     full, branch = repo['full_name'], repo.get('default_branch') or 'main'
                     if f'ghrepo:{kind}:{full}' in state['seen']:
                         continue
@@ -309,6 +331,8 @@ def zenodo(state, kind, s, log, pages=2):
         if cur.get('done'):
             continue
         for _ in range(pages):
+            if late():
+                return added
             try:
                 r = s.get('https://zenodo.org/api/records', timeout=60,
                           params={'q': f'"{q}"', 'type': 'dataset', 'size': 50, 'page': cur['page']})
