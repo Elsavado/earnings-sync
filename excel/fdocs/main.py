@@ -103,7 +103,8 @@ def process(cand, kind, work):
     data = raw.read_bytes()
     digest = hashlib.sha256(data).hexdigest()
     if data[:5] != b'%PDF-' and BOT_CHECK.search(data[:6000]):  # a site that challenges automated visitors: respect it and skip the site
-        return {'ok': False, 'reason': 'site blocks automated downloads', 'blocked': True}
+        return {'ok': False, 'reason': 'site blocks automated downloads',
+                'blocked': re.sub(r'^https?://([^/]+).*$', r'\1', r.url)}
     ext = cand['ext']
     if data[:5] == b'%PDF-':
         ext = 'pdf'
@@ -320,9 +321,10 @@ class Run:
                         self.state['seen'][cand['key']] = 'rej:duplicate download'
                         continue
                     self.state['seen'][f'raw:{res["raw"]}'] = 1
-                if res.get('blocked') and not re.search(r'(^|\.)(sec\.gov|github\.com|githubusercontent\.com)$', host):
-                    self.state['blocked'][host] = 1
-                    log(f'  {host} blocks automated downloads; skipping that site from now on')
+                blocked = res.get('blocked')  # the site that challenged us, after any redirects
+                if blocked and not re.search(r'(^|\.)(sec\.gov|github\.com|githubusercontent\.com|handle\.net|doi\.org)$', blocked):
+                    self.state['blocked'][blocked] = 1
+                    log(f'  {blocked} blocks automated downloads; skipping that site from now on')
                 if not res.get('ok'):
                     self.state['seen'][cand['key']] = f'rej:{res.get("reason")}'[:120]
                     log(f'  - {kind} {cand["source"]}: {str(res.get("reason"))[:90]}')

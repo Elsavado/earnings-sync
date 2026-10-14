@@ -15,9 +15,15 @@ from models.xl import REDACTED
 
 from .anon import PERSON, TICKER  # noqa: F401  (TICKER: same markers everywhere)
 
-PERSON_COL = re.compile(r'(^|[\s_\-])(name|employee|first|last|middle|full_?name|payee|cardholder|card_?holder|'
-                        r'customer|client|recipient|beneficiary|sender|receiver|owner|approver|requester|'
-                        r'nameorig|namedest|emp_?name|worker|staff)([\s_\-]|$)', re.I)
+# A column of people: 'name', 'first_name', 'employee', 'payee_name'... but not 'object_name' or 'fund_name'.
+PERSON_COL = re.compile(r'^(?:(?:full|first|last|middle|given|family|sur|employee|emp|payee|cardholder|card_holder|'
+                        r'customer|client|recipient|beneficiary|sender|receiver|owner|approver|requester|worker|'
+                        r'staff|person|official|elected_official)_?)?(?:name|init|initial)?$|^nameorig$|^namedest$', re.I)
+# Public officials named by title in any text cell: 'Commissioner Arrington' → 'Commissioner Redacted Name'.
+OFFICIAL = re.compile(r"\b(Commissioner|Council ?member|Councilwoman|Councilman|Mayor|Judge|Justice|Senator|Supervisor|"
+                      r"Alderman|Alderwoman|Alder|Representative|Rep\.|Sen\.|Sheriff|Clerk|Treasurer|Assessor|Comptroller|"
+                      r"Director|Chief|Chairman|Chairwoman|Chair|Trustee|Dr\.?|Mr\.?|Mrs\.?|Ms\.?)\s+"
+                      r"(?:[A-Z]\.\s+)?[A-Z][a-z'’\-]+(?:\s+[A-Z][a-z'’\-]+)?(?![a-z])")
 ORG_COL = re.compile(r'vendor|supplier|merchant|company|organi[sz]ation|business|counterparty|employer|bank_?name|'
                      r'contractor|payee_?business|issuer|institution', re.I)
 SECRET_COL = re.compile(r'ssn|social|tax_?id|\btin\b|ein|account_?(no|num)|acct|iban|swift|routing|card_?(no|num)|'
@@ -31,6 +37,18 @@ TXN_COL = re.compile(r'amount|debit|credit|payment|transaction|txn|vendor|mercha
 ORG_WORDS = re.compile(r'\b(inc|llc|ltd|corp|co|company|corporation|services|group|associates|bank|city of|county|'
                        r'department|university|hospital|systems|solutions|partners|holdings|trust|foundation|'
                        r'authority|district|school|church|lp|llp|plc|gmbh)\b\.?', re.I)
+
+
+def _official(m):
+    """'Commissioner Arrington' → 'Commissioner Redacted Name'; 'Chief Financial Officer' stays."""
+    from wordfreq import zipf_frequency
+    from .anon import first_names
+    words = m.group(0)[len(m.group(1)):].split()
+    if words[0].strip('.').lower() in first_names() and len(words) > 1:
+        return f'{m.group(1)} {PERSON}'  # 'Mayor Jane Smith'
+    if any(zipf_frequency(w.strip('.').lower(), 'en') >= 4.5 for w in words if len(w.strip('.')) > 1):
+        return m.group(0)
+    return f'{m.group(1)} {PERSON}'
 
 
 def gate(kind, header, rows):
@@ -54,8 +72,8 @@ def _role(col):
         return 'secret'
     if ORG_COL.search(col):
         return 'org'
-    if PERSON_COL.search(col) and not re.search(r'type|code|category|count|id$|_id|number|title|dept|department|office|bureau|'
-                                                r'agency|unit|fund|account|job|position|program|project|division|location', col, re.I):
+    norm = re.sub(r'[\s\-.]+', '_', col.strip()).strip('_')
+    if norm and PERSON_COL.match(norm):
         return 'person'
     return 'text'
 
@@ -76,10 +94,13 @@ class Table:
             return REDACTED if ORG_WORDS.search(v) else PERSON
         if re.fullmatch(r'[\d.,\-+$€£% ()/:]+', v):
             return v
+        if ' ' not in v.strip() and any(ch.isdigit() for ch in v) and '@' not in v:
+            return v  # a code or reference number (check, invoice, document id): not text to anonymise
         if v not in self.cache:
             if len(self.cache) > 200000:
                 self.cache.clear()
-            self.cache[v] = self.anon.scrub(v)
+            out = OFFICIAL.sub(_official, v)
+            self.cache[v] = self.anon.scrub(out)
         return self.cache[v]
 
     # --- CSV ---------------------------------------------------------------
