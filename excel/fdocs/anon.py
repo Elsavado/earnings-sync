@@ -226,16 +226,38 @@ class DocAnon:
         out = self.base.text(out)
         out = re.sub(r'\bREDACTED\b', TICKER, out)  # tickers the base anonymiser found in context ('NYSE: X')
         return re.sub(r'(?<![A-Za-z0-9])\$?([A-Z][A-Z0-9]{0,5}(?:[.\-][A-Z]{1,2})?)(?![A-Za-z0-9])',
-                      lambda m: TICKER if m.group(1) in self.own_tickers or m.group(1) in self.tickers
-                      or m.group(1) in self.page_tickers else m.group(0), out)
+                      lambda m: TICKER if m.group(1) in self.own_tickers or m.group(1) in self.page_tickers
+                      or (m.group(0).startswith('$') and m.group(1) in self.all_tickers) else m.group(0), out)
 
-    def _ticker_table(self, tokens):
+    def _ticker_table(self, words):
         """On a page that lists several known tickers (a peer or comparables table), the other short
-        capitalised labels next to them are tickers too, including delisted ones and word-like ones ('ROCK')."""
-        toks = [t.strip('(),;:*$') for t in tokens]
-        caps = {t for t in toks if re.fullmatch(r'[A-Z]{2,5}(?:\.[A-Z])?', t) and t not in ACRONYMS and t != TICKER}
-        known = {t for t in caps if t in self.all_tickers or t in self.own_tickers}
-        return caps if len(known) >= 2 and len(caps) >= 4 else set()
+        capitalised labels next to them are tickers too, including delisted ones and word-like ones ('ROCK').
+        A page of acronyms ('IDA', 'PDO', 'FSM' for Micronesia) is not a ticker table even if a few of them
+        happen to be listed somewhere: it needs most labels to be real tickers, or (chart axes, table
+        columns) at least three real tickers among labels that stand alone rather than inside sentences.
+        words: PyMuPDF word tuples (with block and line numbers) or plain strings."""
+        words = list(words)
+        heads = ' '.join((w if isinstance(w, str) else w[4]) for w in words[:80]).lower()
+        if 'acronym' in heads or 'abbreviation' in heads:
+            return set()  # a list of abbreviations is laid out like a table but holds no tickers
+        if words and isinstance(words[0], str):
+            words = [(0, 0, 0, 0, w, 0, i) for i, w in enumerate(words)]  # no layout: every word is 'in a sentence'
+            line_len = {}
+        else:
+            line_len = {}
+            for w in words:
+                line_len[(w[5], w[6])] = line_len.get((w[5], w[6]), 0) + 1
+        caps, alone = [], 0
+        for w in words:
+            t = w[4].strip('(),;:*$.')
+            if re.fullmatch(r'[A-Z]{2,5}(?:\.[A-Z])?', t) and t not in ACRONYMS and t != TICKER:
+                caps.append(t)
+                alone += line_len.get((w[5], w[6]), 99) <= 2
+        distinct = set(caps)
+        known = {t for t in distinct if t in self.all_tickers or t in self.own_tickers}
+        if (len(known) >= 4 and len(known) >= 0.5 * len(distinct)) or (len(known) >= 3 and len(known) >= 0.3 * len(distinct) and alone >= 0.7 * len(caps)):
+            return distinct
+        return set()
 
     def leaks(self, text):
         """Words in text that scrub() would still change (empty when the text is clean)."""
@@ -272,7 +294,7 @@ class DocAnon:
             lines = {}
             for w in words:
                 lines.setdefault((w[5], w[6]), []).append(w)
-            self.page_tickers = self._ticker_table(w[4] for w in words)
+            self.page_tickers = self._ticker_table(words)
             inserts = []
             for ws in lines.values():
                 toks = [w[4] for w in ws]
@@ -306,7 +328,7 @@ class DocAnon:
                 page.delete_widget(widget)
         # Names split over two lines: find them across the page and cover them.
         for page in doc:
-            self.page_tickers = self._ticker_table(page.get_text('text').split())
+            self.page_tickers = self._ticker_table(page.get_text('words'))
             left = self.leaks(page.get_text('text'))
             if not left:
                 continue

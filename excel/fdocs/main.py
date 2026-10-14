@@ -65,6 +65,73 @@ def convert(src, outdir, target):
     return str(out) if out.exists() and out.stat().st_size > 0 else None
 
 
+def html_to_pdf(src, outdir):
+    """HTML → PDF. Chrome lays out SEC exhibits (slide-like pages, tables) as a browser shows them;
+    LibreOffice is the fallback."""
+    chrome = next((c for c in ('google-chrome', 'google-chrome-stable', 'chromium', 'chromium-browser') if shutil.which(c)), None)
+    if chrome:
+        out = Path(outdir) / (Path(src).stem + '.pdf')
+        try:
+            subprocess.run([chrome, '--headless=new', '--disable-gpu', '--no-sandbox', '--no-pdf-header-footer',
+                            f'--user-data-dir={Path(outdir) / "chrome"}', f'--print-to-pdf={out}', Path(src).resolve().as_uri()],
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=120, check=False)
+        except subprocess.TimeoutExpired:
+            subprocess.run(['pkill', '-9', '-f', 'chrome'], check=False)
+        if out.exists() and out.stat().st_size > 0:
+            return str(out)
+    return convert(src, outdir, 'pdf')
+
+
+def readable(pdf):
+    """None when the PDF shows its text; otherwise why not. SEC slide exhibits are often pictures with an
+    invisible copy of the text (white or 1-point) for search: with the pictures removed they look empty."""
+    import pymupdf
+    total = shown = 0
+    full_pages = 0
+    with pymupdf.open(pdf) as doc:
+        for page in doc:
+            vis = 0
+            for b in page.get_text('dict', flags=0)['blocks']:
+                for line in b.get('lines', []):
+                    for sp in line['spans']:
+                        n = len(sp['text'].split())
+                        total += n
+                        c = sp.get('color', 0)
+                        white = all(((c >> s) & 255) > 235 for s in (16, 8, 0))
+                        if sp.get('size', 0) >= 4 and not white and sp.get('alpha', 255) > 40:
+                            vis += n
+            shown += vis
+            full_pages += vis >= 25
+        pages = doc.page_count
+    if not total or shown < 0.6 * total:
+        return 'text is hidden (slides are pictures)'
+    if full_pages < 0.5 * pages:
+        return f'mostly empty pages ({full_pages} of {pages} have text)'
+    return None
+
+
+_SECTORS = {}
+
+
+def describe(label, cand):
+    """'Fairness opinion presentation' → 'Fairness opinion presentation - Semiconductors - 2024' (SEC filings:
+    the filer's industry and the filing year; never a name)."""
+    parts = [label]
+    cik = cand.get('cik') or next(iter(re.findall(r'CIK 0*(\d+)', ' '.join(cand.get('orgs') or []))), '')
+    if cik:
+        if cik not in _SECTORS:
+            try:
+                r = sources.session().get(f'https://data.sec.gov/submissions/CIK{int(cik):010d}.json', timeout=30)
+                _SECTORS[cik] = (r.json().get('sicDescription') or '').strip().title() if r.ok else ''
+            except (requests.RequestException, ValueError):
+                _SECTORS[cik] = ''
+        if _SECTORS[cik]:
+            parts.append(re.sub(r'\s+', ' ', _SECTORS[cik])[:50])
+    if re.match(r'\d{4}', cand.get('date') or ''):
+        parts.append(cand['date'][:4])
+    return ' - '.join(parts)
+
+
 def ooxml_text(path):
     with zipfile.ZipFile(path) as z:
         names = [n for n in z.namelist() if re.match(r'(word/document|ppt/slides/slide\d+)\.xml$', n)]
@@ -159,7 +226,7 @@ def process(cand, kind, work):
     if ext in ('htm', 'html', 'txt'):
         src = work / 'doc.html'
         src.write_text(html_clean(data), encoding='utf-8')
-        pdf = convert(src, work, 'pdf')
+        pdf = html_to_pdf(src, work)
         if not pdf:
             return {'ok': False, 'reason': 'HTML conversion failed', 'raw': digest}
         ext, src = 'pdf', Path(pdf)
@@ -183,6 +250,9 @@ def process(cand, kind, work):
             return {'ok': False, 'reason': f'unreadable PDF ({type(err).__name__})', 'raw': digest}
         if len(text.split()) < 40 * max(1, pages) * 0.5:
             return {'ok': False, 'reason': 'scanned or image-only', 'raw': digest}
+        why = readable(src)
+        if why:
+            return {'ok': False, 'reason': why, 'raw': digest}
     else:
         try:
             text = ooxml_text(src)
@@ -206,9 +276,11 @@ def process(cand, kind, work):
                 left_over = A.leaks(A.pdf_text(check)[0])
                 if left_over:
                     why = f'names left ({left_over[:3]})'
+    if not why and ext == 'pdf':
+        why = readable(dst)  # the delivered file itself must show its text
     if why:
         return {'ok': False, 'reason': why, 'raw': digest}
-    return {'ok': True, 'path': str(dst), 'ext': ext, 'label': label, 'raw': digest}
+    return {'ok': True, 'path': str(dst), 'ext': ext, 'label': describe(label, cand), 'raw': digest}
 
 
 def _process_one(args):

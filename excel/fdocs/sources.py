@@ -27,8 +27,11 @@ EX99 = r'EX-99'
 EX99C = r'EX-99\.?\(?C\)?'
 EX99D = r'EX-99\.?\(?D\)?'
 SEC_QUERIES = {
+    # Banker decks filed with going-private transactions, and third-party due diligence reports on
+    # loan pools (Clayton, Clarifii, AMC...) filed with ABS-15G: the narrative and executive summary parts.
     'cim': [('"discussion materials"', EX99C), ('"presentation to the special committee"', EX99C),
-            ('"preliminary discussion materials"', EX99C), ('"due diligence report"', EX99),
+            ('"preliminary discussion materials"', EX99C), ('"fairness opinion"', EX99C),
+            ('"due diligence"', EX99, 'ABS-15G,ABS-15G/A', r'narrative|executive summary|due diligence report|summary report'),
             ('"quality of earnings"', EX99C + '|' + EX99)],
     'deals': [('"letter of intent"', EX10 + '|' + EX99), ('"term sheet"', EX10 + '|' + EX99D + '|' + EX99),
               ('"non-disclosure agreement"', EX10 + '|' + EX99D), ('"confidentiality agreement"', EX99D + '|' + EX10),
@@ -94,11 +97,13 @@ def _add(state, kind, cand):
 def sec(state, kind, s, log, pages=10):
     """Full-text search, one year at a time (the API stops at 10,000 hits per query)."""
     added = 0
-    for q, ftypes in SEC_QUERIES.get(kind, []):
-        cur = state['cursors'].setdefault(f'sec:{kind}:{q}', {'year': THIS_YEAR, 'from': 0})
+    for q, ftypes, *more in SEC_QUERIES.get(kind, []):
+        forms, desc = (more + [None, None])[:2]  # optional: filing forms to search, exhibit description filter
+        cur = state['cursors'].setdefault(f'sec:{kind}:{q}:{forms}', {'year': THIS_YEAR, 'from': 0})
         if cur.get('done'):
             continue
         ft = re.compile(rf'^(?:{ftypes})', re.I) if ftypes else None
+        dre = re.compile(desc, re.I) if desc else None
         for _ in range(pages):
             if late():
                 return added
@@ -107,6 +112,8 @@ def sec(state, kind, s, log, pages=10):
                 break
             params = {'q': q, 'dateRange': 'custom', 'startdt': f'{cur["year"]}-01-01', 'enddt': f'{cur["year"]}-12-31',
                       'from': cur['from']}
+            if forms:
+                params['forms'] = forms
             hits = None
             for attempt in range(2):
                 try:
@@ -128,10 +135,13 @@ def sec(state, kind, s, log, pages=10):
                     continue
                 if ft and not ft.match(src.get('file_type') or ''):
                     continue
+                if dre and not dre.search(src.get('file_description') or ''):
+                    continue
                 cik = (src.get('ciks') or ['0'])[0].lstrip('0') or '0'
                 url = f'https://www.sec.gov/Archives/edgar/data/{cik}/{adsh.replace("-", "")}/{fn}'
                 if _add(state, kind, {'key': f'sec:{adsh}:{fn}', 'url': url, 'ext': fn.rsplit('.', 1)[-1].lower(),
-                                      'orgs': src.get('display_names') or [], 'source': 'sec'}):
+                                      'orgs': src.get('display_names') or [], 'source': 'sec', 'cik': cik,
+                                      'date': src.get('file_date') or '', 'desc': (src.get('file_description') or '')[:80]}):
                     added += 1
             total = min(hits['total']['value'], 10000)
             cur['from'] += 100

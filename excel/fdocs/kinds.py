@@ -72,11 +72,17 @@ LABEL = {
 
 # Finer labels from the document's own heading (never its title, which may name the company).
 SUBLABEL = [
-    ('cim', r'discussion materials|presentation to the (?:special committee|board)', 'Banker discussion materials'),
-    ('cim', r'fairness opinion', 'Fairness opinion analysis'),
+    ('cim', r'due diligence narrative|narrative report', 'Due diligence narrative report'),
+    ('cim', r'executive summary.{0,400}due diligence|due diligence.{0,400}executive summary', 'Due diligence executive summary'),
     ('cim', r'quality of earnings', 'Quality of earnings report'),
-    ('cim', r'agreed-upon procedures|due diligence', 'Due diligence report'),
     ('cim', r'confidential information memorandum', 'Confidential information memorandum'),
+    ('cim', r'fairness opinion|fairness analysis', 'Fairness opinion presentation'),
+    ('cim', r'preliminary (?:discussion materials|valuation)', 'Preliminary valuation discussion materials'),
+    ('cim', r'special committee', 'Special committee presentation'),
+    ('cim', r'board of directors|presentation to the board', 'Board presentation'),
+    ('cim', r'valuation analys[ie]s', 'Valuation analysis'),
+    ('cim', r'discussion materials', 'Banker discussion materials'),
+    ('cim', r'agreed-upon procedures|due diligence', 'Due diligence report'),
     ('deals', r'letter of intent', 'Letter of intent'),
     ('deals', r'term sheet|summary of terms', 'Term sheet'),
     ('deals', r'non-?disclosure|confidentiality agreement', 'NDA'),
@@ -116,7 +122,7 @@ def gate(kind, text):
 def label(kind, text):
     head = text[:KINDS[kind]['head'] or 3000].lower()
     for k, pat, name in SUBLABEL:
-        if k == kind and re.search(pat, head):
+        if k == kind and re.search(pat, head, re.S):
             return name
     return LABEL[kind]
 
