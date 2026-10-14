@@ -59,9 +59,12 @@ WORLDBANK = {
     'memos': [('investment', 'Project Appraisal Document'), ('financing', 'Project Appraisal Document')],
 }
 SOCRATA = {
-    'payroll': ['employee payroll', 'employee salaries', 'payroll', 'employee compensation', 'salary'],
+    'payroll': ['employee payroll', 'employee salaries', 'payroll', 'employee compensation', 'salary', 'salaries',
+                'wages', 'employee earnings', 'overtime', 'pay rates', 'state employee', 'city employees', 'staff salaries'],
     'transactions': ['vendor payments', 'checkbook', 'expenditures', 'purchase card transactions', 'payments ledger',
-                     'general ledger', 'accounts payable'],
+                     'general ledger', 'accounts payable', 'spending', 'disbursements', 'procurement card', 'p-card',
+                     'purchase orders', 'warrants', 'claims paid', 'payments', 'expenses', 'revenue', 'receipts',
+                     'budget transactions', 'contract payments', 'grant payments', 'credit card transactions'],
 }
 GITHUB_DATA = {
     'transactions': ['quickbooks sample data', 'quickbooks transactions', 'stripe transactions dataset',
@@ -222,7 +225,7 @@ def worldbank(state, kind, s, log, pages=3):
 
 
 # --- Socrata government open data (payroll, vendor payments, checkbooks) ---------------
-def socrata(state, kind, s, log, pages=2):
+def socrata(state, kind, s, log, pages=5):
     added = 0
     for q in SOCRATA.get(kind, []):
         cur = state['cursors'].setdefault(f'socrata:{kind}:{q}', {'offset': 0})
@@ -247,7 +250,7 @@ def socrata(state, kind, s, log, pages=2):
                     continue
                 if not lic and not re.search(r'\.gov$|\.gov/|\.us$', meta.get('domain', '')):
                     continue
-                url = f'https://{meta["domain"]}/resource/{res["id"]}.csv?$limit=50000'
+                url = f'https://{meta["domain"]}/api/views/{res["id"]}/rows.csv?accessType=DOWNLOAD'  # the whole dataset
                 if _add(state, kind, {'key': f'socrata:{meta["domain"]}:{res["id"]}', 'url': url, 'ext': 'csv',
                                       'orgs': [], 'source': 'socrata'}):
                     added += 1

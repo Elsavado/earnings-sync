@@ -7,6 +7,7 @@ numbers, e-mails, phones and street addresses are removed. Other text cells go t
 document anonymiser (names, links, tickers).
 """
 import csv
+import itertools
 import io
 import json
 import re
@@ -105,31 +106,44 @@ class Table:
 
     # --- CSV ---------------------------------------------------------------
     def csv(self, src, dst, kind):
-        raw = open(src, 'rb').read()
-        for enc in ('utf-8-sig', 'cp1252', 'latin-1'):
+        """Streams the file row by row, so datasets of a gigabyte or more never sit in memory."""
+        head = open(src, 'rb').read(2 * 2**20)
+        enc = 'latin-1'
+        for e in ('utf-8-sig', 'cp1252'):
             try:
-                text = raw.decode(enc)
+                head.decode(e)
+                enc = e
                 break
-            except UnicodeDecodeError:
-                continue
+            except UnicodeDecodeError as err:
+                if err.start > len(head) - 4:  # a character cut at the sample's end
+                    enc = e
+                    break
         try:
-            dialect = csv.Sniffer().sniff(text[:20000], delimiters=',;\t|')
+            dialect = csv.Sniffer().sniff(head[:20000].decode(enc, 'replace'), delimiters=',;\t|')
         except csv.Error:
             dialect = csv.excel
-        rows = list(csv.reader(io.StringIO(text), dialect))
-        if not rows:
-            return 'empty'
-        header, body = rows[0], [r for r in rows[1:] if any(c.strip() for c in r)]
-        why = gate(kind, header, body)
-        if why:
-            return why
-        roles = [_role(c) for c in header]
-        out = io.StringIO()
-        w = csv.writer(out, lineterminator='\n')
-        w.writerow([self.anon.scrub(c) for c in header])
-        for r in body:
-            w.writerow([self.cell(roles[i] if i < len(roles) else 'text', v) for i, v in enumerate(r)])
-        open(dst, 'w', encoding='utf-8', newline='').write(out.getvalue())
+        csv.field_size_limit(16 * 2**20)
+        with open(src, encoding=enc, errors='replace', newline='') as f:
+            reader = csv.reader(f, dialect)
+            header = next(reader, None)
+            if not header:
+                return 'empty'
+            sample = []
+            for r in reader:
+                if any(c.strip() for c in r):
+                    sample.append(r)
+                if len(sample) >= 100:
+                    break
+            why = gate(kind, header, sample)
+            if why:
+                return why
+            roles = [_role(c) for c in header]
+            with open(dst, 'w', encoding='utf-8', newline='') as out:
+                w = csv.writer(out, lineterminator='\n')
+                w.writerow([self.anon.scrub(c) for c in header])
+                for r in itertools.chain(sample, reader):
+                    if any(c.strip() for c in r):
+                        w.writerow([self.cell(roles[i] if i < len(roles) else 'text', v) for i, v in enumerate(r)])
         return None
 
     # --- XLSX --------------------------------------------------------------

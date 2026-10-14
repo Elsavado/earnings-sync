@@ -27,9 +27,40 @@ def folder_name(n):
 
 
 class Store(_Base):
-    def __init__(self, dry_run=False):
+    def __init__(self, dry_run=False, state_name='state.json.gz'):
         super().__init__('Financial Documents', 'Financial Documents - private', dry_run=dry_run)
         self.kind_roots = {}
+        self.state_name = state_name  # one state file per parallel job ('state-payroll.json.gz')
+
+    def free_bytes(self):
+        used, limit = self.quota()
+        return (limit - used) if limit else float('inf')
+
+    def load_state(self):
+        import gzip
+        import json
+        q = f"name = '{self.state_name}' and '{self.private}' in parents and trashed = false"
+        found = _retry(lambda: self.drive.files().list(q=q, fields='files(id)').execute())['files']
+        if not found:
+            return {}
+        self.state_id = found[0]['id']
+        data = _retry(lambda: self.drive.files().get_media(fileId=self.state_id).execute())
+        return json.loads(gzip.decompress(data))
+
+    def save_state(self, state):
+        import gzip
+        import io
+        import json
+        from googleapiclient.http import MediaIoBaseUpload
+        if self.dry_run:
+            return
+        raw = gzip.compress(json.dumps(state, separators=(',', ':')).encode())
+        media = MediaIoBaseUpload(io.BytesIO(raw), mimetype='application/gzip', resumable=False)
+        if self.state_id:
+            _retry(lambda: self.drive.files().update(fileId=self.state_id, media_body=media).execute())
+        else:
+            self.state_id = _retry(lambda: self.drive.files().create(
+                body={'name': self.state_name, 'parents': [self.private]}, media_body=media, fields='id').execute())['id']
 
     def max_numbers(self):
         """{kind: highest number uploaded}."""
@@ -59,8 +90,19 @@ class Store(_Base):
             self.folders[fname] = self._folder(self.kind_roots[kind], fname[1])
         body = {'name': name, 'parents': [self.folders[fname]],
                 'appProperties': {'fdApp': APP, 'fdKind': kind, 'fdNum': str(n), 'fdKey': key[:100]}}
-        media = MediaFileUpload(path, mimetype=MIME[ext], resumable=False)
-        _retry(lambda: self.drive.files().create(body=body, media_body=media, fields='id').execute())
+        import os
+        big = os.path.getsize(path) > 5 * 2**20  # simple uploads stop at 5 MB; larger files go up in chunks
+        media = MediaFileUpload(path, mimetype=MIME[ext], resumable=big, chunksize=32 * 2**20 if big else -1)
+
+        def send():
+            req = self.drive.files().create(body=body, media_body=media, fields='id')
+            if not big:
+                return req.execute()
+            resp = None
+            while resp is None:
+                _, resp = req.next_chunk(num_retries=5)
+            return resp
+        _retry(send)
         return name
 
     def reset(self, log=print):

@@ -34,8 +34,16 @@ START = time.time()
 BUDGET = float(os.environ.get('RUN_MINUTES', '50')) * 60
 DRY = os.environ.get('DRY_RUN', '').lower() == 'true'
 ONLY = [k for k in os.environ.get('KINDS', '').split(',') if k.strip()]
-FILE_SECONDS = 240
-MAX_BYTES = 60 * 2**20
+# Documents are small; transaction and payroll datasets are downloaded whole (up to 1.5 GB).
+FILE_SECONDS = {'doc': 240, 'data': 1800}
+MAX_BYTES = {'doc': 60 * 2**20, 'data': 1536 * 2**20}
+DOWNLOAD_SECONDS = {'doc': 120, 'data': 900}
+FLOOR = float(os.environ.get('DRIVE_FLOOR_GB', '10')) * 2**30  # stop when Drive has less free space than this
+STATE_NAME = f'state-{ONLY[0]}.json.gz' if len(ONLY) == 1 else 'state.json.gz'
+
+
+def size_class(kind):
+    return 'data' if kind in K.TABULAR else 'doc'
 ANON = None  # set before the worker pool forks
 
 
@@ -164,12 +172,12 @@ def process(cand, kind, work):
     with open(raw, 'wb') as f:
         for chunk in r.iter_content(1 << 16):
             size += len(chunk)
-            if size > MAX_BYTES or time.time() - t0 > 120:
+            if size > MAX_BYTES[size_class(kind)] or time.time() - t0 > DOWNLOAD_SECONDS[size_class(kind)]:
                 return {'ok': False, 'reason': 'too large or too slow'}
             f.write(chunk)
-    data = raw.read_bytes()
-    digest = hashlib.sha256(data).hexdigest()
-    if data[:5] != b'%PDF-' and BOT_CHECK.search(data[:6000]):  # a site that challenges automated visitors: respect it and skip the site
+    data = raw.read_bytes() if kind not in K.TABULAR else open(raw, 'rb').read(65536)  # datasets: only the start
+    digest = file_hash(raw)
+    if data[:5] != b'%PDF-' and (kind not in K.TABULAR or data.lstrip()[:1] == b'<') and BOT_CHECK.search(data[:6000]):  # a site that challenges automated visitors: respect it and skip the site
         return {'ok': False, 'reason': 'site blocks automated downloads',
                 'blocked': re.sub(r'^https?://([^/]+).*$', r'\1', r.url)}
     ext = cand['ext']
@@ -295,27 +303,35 @@ def _process_one(args):
 
 
 class Worker:
-    """Runs process() in a child process so a pathological file can be killed."""
+    """Runs process() in child processes (several files at once) so a pathological file can be killed."""
 
-    def __init__(self):
-        self.pool = multiprocessing.get_context('fork').Pool(1)
+    def __init__(self, n):
+        self.n = n
+        self.pool = multiprocessing.get_context('fork').Pool(n)
 
-    def run(self, args):
-        try:
-            return self.pool.apply_async(_process_one, (args,)).get(timeout=FILE_SECONDS)
-        except multiprocessing.TimeoutError:
-            self.pool.terminate()
-            os.system('pkill -9 -f soffice >/dev/null 2>&1')
-            self.pool = multiprocessing.get_context('fork').Pool(1)
-            return {'ok': False, 'reason': f'processing took longer than {FILE_SECONDS}s'}
+    def start(self, args):
+        return self.pool.apply_async(_process_one, (args,))
+
+    def reset(self):
+        self.pool.terminate()
+        os.system('pkill -9 -f soffice >/dev/null 2>&1; pkill -9 -f chrome >/dev/null 2>&1')
+        self.pool = multiprocessing.get_context('fork').Pool(self.n)
 
     def close(self):
         self.pool.terminate()
 
 
+def file_hash(path):
+    h = hashlib.sha256()
+    with open(path, 'rb') as f:
+        for chunk in iter(lambda: f.read(1 << 20), b''):
+            h.update(chunk)
+    return h.hexdigest()
+
+
 class Run:
     def __init__(self):
-        self.store = None if DRY and not os.environ.get('GOOGLE_REFRESH_TOKEN') else Store(dry_run=DRY)
+        self.store = None if DRY and not os.environ.get('GOOGLE_REFRESH_TOKEN') else Store(dry_run=DRY, state_name=STATE_NAME)
         self.state = (self.store.load_state() if self.store else {}) or {}
         st = self.state
         for k, v in {'next': {}, 'seen': {}, 'queued': {}, 'queue': {}, 'cursors': {}, 'hashes': {}, 'counts': {}}.items():
@@ -326,6 +342,8 @@ class Run:
                     st['next'][kind] = max(st['next'].get(kind, 1), n + 1)
         self.tmp = Path(tempfile.mkdtemp(prefix='fd_'))
         self.made = {}
+        self.uploaded_bytes = self.checked_at = 0
+        self.full = False
         self.last_save = time.time()
 
     def save(self, force=False):
@@ -338,7 +356,7 @@ class Run:
             self.last_save = time.time()
 
     def publish(self, kind, res, cand):
-        digest = hashlib.sha256(Path(res['path']).read_bytes()).hexdigest()
+        digest = file_hash(res['path'])
         if digest in self.state['hashes']:
             self.state['seen'][cand['key']] = 'rej:duplicate'
             return
@@ -358,6 +376,12 @@ class Run:
             shutil.copy(res['path'], d / name)
         log(f'  {K.KINDS[kind]["folder"]}: #{n} {name}')
         self.save()
+        self.uploaded_bytes += Path(res['path']).stat().st_size
+        if self.store and not DRY and (self.uploaded_bytes - self.checked_at > 2 * 2**30 or self.made[kind] % 50 == 0):
+            self.checked_at = self.uploaded_bytes
+            if self.store.free_bytes() < FLOOR:
+                log(f'Drive has less than {FLOOR / 2**30:.0f} GB free; stopping')
+                self.full = True
 
     def discover(self, kind, s, until):
         q = self.state['queue'].setdefault(kind, [])
@@ -373,39 +397,59 @@ class Run:
                 log(f'  {kind}: {fn.__name__} failed ({type(err).__name__}: {err})')
 
     def work(self, kind, until, worker):
+        """Processes the queue several files at a time; results are numbered and uploaded one by one."""
         q = self.state['queue'].setdefault(kind, [])
         done = 0
-        while q and time.time() < until:
-            cand = q.pop(0)
-            self.state['queued'].pop(cand['key'], None)
-            if cand['key'] in self.state['seen']:
-                continue
-            host = re.sub(r'^https?://([^/]+).*$', r'\1', cand['url'])
-            if host in self.state.setdefault('blocked', {}):
-                self.state['seen'][cand['key']] = 'rej:site blocks automated downloads'
-                continue
-            work = self.tmp / f'{kind}{done}'
-            work.mkdir()
-            try:
-                res = worker.run((cand, kind, str(work)))
-                if res.get('raw'):
-                    if f'raw:{res["raw"]}' in self.state['seen']:
-                        self.state['seen'][cand['key']] = 'rej:duplicate download'
-                        continue
-                    self.state['seen'][f'raw:{res["raw"]}'] = 1
-                blocked = res.get('blocked')  # the site that challenged us, after any redirects
-                if blocked and not re.search(r'(^|\.)(sec\.gov|github\.com|githubusercontent\.com|handle\.net|doi\.org)$', blocked):
-                    self.state['blocked'][blocked] = 1
-                    log(f'  {blocked} blocks automated downloads; skipping that site from now on')
-                if not res.get('ok'):
-                    self.state['seen'][cand['key']] = f'rej:{res.get("reason")}'[:120]
-                    log(f'  - {kind} {cand["source"]}: {str(res.get("reason"))[:90]}')
+        pending = []  # (cand, work dir, async result, deadline)
+        limit = FILE_SECONDS[size_class(kind)]
+        while (q or pending) and not self.full:
+            while q and len(pending) < worker.n and time.time() < until:
+                cand = q.pop(0)
+                self.state['queued'].pop(cand['key'], None)
+                if cand['key'] in self.state['seen']:
                     continue
-                self.publish(kind, res, cand)
+                host = re.sub(r'^https?://([^/]+).*$', r'\1', cand['url'])
+                if host in self.state.setdefault('blocked', {}):
+                    self.state['seen'][cand['key']] = 'rej:site blocks automated downloads'
+                    continue
+                work = self.tmp / f'{kind}{done}_{len(pending)}_{int(time.time() * 1000)}'
+                work.mkdir()
+                pending.append((cand, work, worker.start((cand, kind, str(work))), time.time() + limit))
+            if not pending:
+                break
+            cand, work, ar, deadline = pending.pop(0)
+            try:
+                res = ar.get(timeout=max(1, deadline - time.time()))
+            except multiprocessing.TimeoutError:
+                res = {'ok': False, 'reason': f'processing took longer than {limit}s'}
+                worker.reset()  # kills the other files in progress too: put them back in the queue
+                for c, w, _, _ in pending:
+                    q.insert(0, c)
+                    self.state['queued'][c['key']] = 1
+                    shutil.rmtree(w, ignore_errors=True)
+                pending = []
+            try:
+                self.handle(kind, cand, res)
             finally:
                 shutil.rmtree(work, ignore_errors=True)
                 done += 1
         return done
+
+    def handle(self, kind, cand, res):
+        if res.get('raw'):
+            if f'raw:{res["raw"]}' in self.state['seen']:
+                self.state['seen'][cand['key']] = 'rej:duplicate download'
+                return
+            self.state['seen'][f'raw:{res["raw"]}'] = 1
+        blocked = res.get('blocked')  # the site that challenged us, after any redirects
+        if blocked and not re.search(r'(^|\.)(sec\.gov|github\.com|githubusercontent\.com|handle\.net|doi\.org)$', blocked):
+            self.state.setdefault('blocked', {})[blocked] = 1
+            log(f'  {blocked} blocks automated downloads; skipping that site from now on')
+        if not res.get('ok'):
+            self.state['seen'][cand['key']] = f'rej:{res.get("reason")}'[:120]
+            log(f'  - {kind} {cand["source"]}: {str(res.get("reason"))[:90]}')
+            return
+        self.publish(kind, res, cand)
 
     def go(self):
         nexts = {k: self.state['next'].get(k, 1) for k in K.KINDS}
@@ -413,8 +457,8 @@ class Run:
         if self.store:
             used, limit = self.store.quota()
             log(f'Drive: {used / 2**30:.1f} GB used of {limit / 2**30:.1f} GB')
-            if limit and limit - used < 2 * 2**30:
-                log('Drive has less than 2 GB free; stopping')
+            if limit and limit - used < FLOOR:
+                log(f"Drive has less than {FLOOR / 2**30:.0f} GB free; stopping")
                 return
         s = sources.session()
         tickers = s.get('https://www.sec.gov/files/company_tickers.json', timeout=60).json()
@@ -435,9 +479,9 @@ class Run:
             f'{len(ANON["doc"].tickers)} tickers, spaCy {"on" if nlp else "OFF"}')
 
         order = [k for k in K.KINDS if not ONLY or k in ONLY]
-        worker = Worker()
+        worker = Worker(int(os.environ.get('WORKERS') or (3 if all(k in K.TABULAR for k in order) else 2)))
         rounds = 0
-        while left() > 90:
+        while left() > 90 and not self.full:
             rounds += 1
             slice_s = max(60, (left() - 60) / len(order))
             for kind in order:

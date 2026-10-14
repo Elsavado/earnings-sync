@@ -4,6 +4,8 @@ name: Financial documents
 # letters, investment memos, term sheets/LOIs/NDAs, earnings call transcripts, contracts,
 # notebooks, transaction and payroll data), anonymises them and uploads them to Google Drive as
 # "Financial Documents/<Type>/Folder N (Documents a-b)/<n> - <label>.<ext>".
+# One job per type runs in parallel; each keeps its own state file. Runs chain back-to-back while
+# the repository variable FIN_DOCS_LIVE is 'true' and Drive has more than DRIVE_FLOOR_GB free.
 on:
   workflow_dispatch:
     inputs:
@@ -25,6 +27,11 @@ on:
         description: 'Only these types (comma list, e.g. transcripts,cim); empty = all'
         required: false
         default: ''
+      chained:
+        description: 'Started by the previous run (internal)'
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: read
@@ -34,10 +41,65 @@ concurrency:
   group: fin-docs
   cancel-in-progress: false
 
+env:
+  DRIVE_FLOOR_GB: '10'
+
 jobs:
+  prepare:
+    # A chained run re-checks FIN_DOCS_LIVE when it starts, so pausing always stops the chain.
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      go: ${{ steps.check.outputs.go }}
+      kinds: ${{ steps.check.outputs.kinds }}
+    defaults:
+      run:
+        working-directory: excel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -q google-api-python-client google-auth openpyxl requests
+      - id: check
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+          LIVE: ${{ vars.FIN_DOCS_LIVE }}
+          CHAINED: ${{ github.event.inputs.chained || 'false' }}
+          DRY: ${{ github.event.inputs.dry_run || 'false' }}
+          RESET: ${{ github.event.inputs.reset || 'false' }}
+          KINDS: ${{ github.event.inputs.kinds || '' }}
+        run: |
+          python - <<'EOF'
+          import json, os
+          from fdocs.kinds import KINDS
+          from fdocs.store import Store
+          go = not (os.environ['CHAINED'] == 'true' and os.environ['LIVE'] != 'true')
+          if go and os.environ['DRY'] != 'true':
+              store = Store()
+              if os.environ['RESET'] == 'true':
+                  store.reset()
+              free = store.free_bytes()
+              print(f'Drive free: {free / 2**30:.1f} GB')
+              if free < float(os.environ['DRIVE_FLOOR_GB']) * 2**30:
+                  print('below the floor: not collecting'); go = False
+          kinds = [k for k in os.environ['KINDS'].split(',') if k.strip()] or list(KINDS)
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write(f"go={'true' if go else 'false'}\nkinds={json.dumps(kinds)}\n")
+          print('go' if go else 'stop', kinds)
+          EOF
+
   collect:
+    needs: prepare
+    if: needs.prepare.outputs.go == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 58
+    strategy:
+      fail-fast: false
+      matrix:
+        kind: ${{ fromJSON(needs.prepare.outputs.kinds) }}
     defaults:
       run:
         working-directory: excel
@@ -49,6 +111,7 @@ jobs:
           cache: pip
           cache-dependency-path: excel/requirements.txt
       - name: Install LibreOffice
+        if: matrix.kind != 'transactions' && matrix.kind != 'payroll' && matrix.kind != 'notebooks'
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq --no-install-recommends libreoffice-writer libreoffice-impress > /dev/null
@@ -63,21 +126,23 @@ jobs:
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
           GITHUB_TOKEN: ${{ github.token }}
           DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
-          RESET: ${{ github.event.inputs.reset || 'false' }}
           RUN_MINUTES: ${{ github.event.inputs.minutes || '50' }}
-          KINDS: ${{ github.event.inputs.kinds || '' }}
+          KINDS: ${{ matrix.kind }}
         run: python -m fdocs.main
-      - name: Start the next run
-        # Runs chain back-to-back. Dry runs and a paused collector (FIN_DOCS_LIVE != true) stop the chain.
-        if: always() && github.event.inputs.dry_run != 'true' && vars.FIN_DOCS_LIVE == 'true'
-        working-directory: .
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh workflow run fin-docs.yml --ref main -f dry_run=false -f minutes=50
       - name: Keep dry-run samples
         if: always() && github.event.inputs.dry_run == 'true' && hashFiles('excel/samples/**') != ''
         uses: actions/upload-artifact@v4
         with:
-          name: fin-docs-samples-${{ github.run_id }}
+          name: fin-docs-samples-${{ matrix.kind }}-${{ github.run_id }}
           path: excel/samples
           retention-days: 7
+
+  next:
+    # Runs chain back-to-back. Dry runs, a paused collector and a full Drive stop the chain.
+    needs: [prepare, collect]
+    if: always() && needs.prepare.outputs.go == 'true' && github.event.inputs.dry_run != 'true' && vars.FIN_DOCS_LIVE == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run fin-docs.yml -R ${{ github.repository }} --ref main -f dry_run=false -f minutes=50 -f chained=true
