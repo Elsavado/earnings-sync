@@ -9,7 +9,7 @@ Sources are openly licensed only:
 - figma: GitHub repositories that commit a real Figma file (.fig, not a Git LFS pointer) next to an HTML/CSS
   implementation. The package is one zip: figma/design-N.fig plus web/<the HTML, CSS and their assets>.
 
-Anonymisation follows the other types: people's names become 'Redacted Name', e-mails and personal links are
+Anonymisation follows the other types, except that people's names become 'John Doe' (user, 2026-10-19); e-mails and personal links are
 removed, the repository owner's login and home-directory user names are replaced. The science, the code, the
 charts it draws and the designs themselves are kept.
 """
@@ -23,6 +23,8 @@ from pathlib import Path
 from urllib.parse import quote
 
 import requests
+
+from models.xl import REDACTED
 
 from . import anon as _anon
 from . import sources
@@ -88,7 +90,11 @@ laplace legendre lemaitre lennard levenberg lewy lomb lorentz lorenz lotka lyapu
 maxwell mead meier menten metropolis michaelis monte morse navarro navier nelder nernst newton nicolson nyquist ohm
 oppenheimer pauli pearson planck poisson rabi raman raphson rayleigh riemann robertson runge rutherford savitzky
 scargle schmidt schrodinger schrödinger schwarzschild shannon sham shanno slater snell spearman stark stokes student
-taylor tukey turing verlet volterra voronoi walker wallis weibull weinberg welch whitney wiener wilcoxon yukawa zeeman'''.split())
+taylor tukey turing verlet volterra voronoi walker wallis weibull weinberg welch whitney wiener wilcoxon yukawa zeeman
+collaboration consortium team survey mission telescope observatory gaia tess euclid webb chandra spitzer herschel galex
+wise sloan rubin vera ligo virgo kagra swift juno cassini rosetta hipparcos lamost desi roman grace atlas alice lhcb cms
+icecube planck magellan keck subaru alma lofar meerkat ska apollo artemis voyager galileo copernicus sentinel landsat
+modis aqua terra aura argo jason ensemble pandas jupyter python julia'''.split())
 
 
 def _license_ok(repo):
@@ -203,12 +209,93 @@ def sci_zenodo(state, kind, s, log, pages=2):
     return added
 
 
+# Start of a word in JSON text: no letter or digit before it, except the 'n'/'t'/'r' of an escaped
+# line break or tab ('\nStefania').
+START = r'(?:(?<![A-Za-z0-9])|(?<=\\[ntr]))'
+
+
 def _owner_scrub(text, owner):
     """The repository owner's login and home-directory user names ('/home/jsmith/', 'C:\\Users\\jsmith')."""
     text = re.sub(r'((?:/home/|/Users/|[A-Za-z]:\\\\Users\\\\|[A-Za-z]:\\Users\\)(?!user\b))[^/\\\s"\']+', r'\1user', text)
     if owner and len(owner) >= 4:
-        text = re.sub(rf'(?<![A-Za-z0-9]){re.escape(owner)}(?![A-Za-z0-9])', 'redacted', text, flags=re.I)
+        text = re.sub(rf'{START}{re.escape(owner)}(?![A-Za-z0-9])', 'redacted', text, flags=re.I)
     return text
+
+
+OBF_EMAIL = re.compile(r'[\w.+\-]+\s?(?:@|\[at\]|\(at\)|\{at\})\s?[\w\-]+(?:(?:\.|\s?\[dot\]\s?|\s?\(dot\)\s?)[\w\-]+)+', re.I)
+AFFILIATION = re.compile(r'universi|institu|istituto|faculty|facult[ée]|department|\bdept\b|laborator|\blab\b|college|'
+                         r'school of|centre|center for|academy|hospital|observator|osservatorio|observatoire|\bcnrs\b|'
+                         r'\binaf\b|\binfn\b|\bcsic\b|\binria\b|\binserm\b|\bmax planck\b|\bnasa\b|\bcern\b|\besa\b|\beso\b',
+                         re.I)
+NAME_TOKEN = r"(?:[A-Z][a-zà-ÿ'’\-]+|[A-Z]\.(?:\s?[A-Z]\.)?)"
+NAME_LINE = re.compile(rf'{NAME_TOKEN}(?:\s+{NAME_TOKEN}){{1,3}}')
+AUTHOR_LABEL = re.compile(r'^\s*[#>*\-\s]*(?:@?authors?|written by|created by|prepared by|contact|maintainer|by)\s*[:\-]?\s*(.+)$',
+                          re.I | re.M)
+
+
+def _namelike(p):
+    """'Thomas Boch', 'Katharina A. Lutz': no eponym ('Monte Carlo') and no everyday word ('Data Presentation')."""
+    from wordfreq import zipf_frequency
+    words = [w.strip('.') for w in p.split() if len(w.strip('.')) > 1]
+    first = words[0].lower() if words else ''
+    return bool(words) and not any(w.lower() in EPONYMS for w in words) and \
+        (first in _anon.first_names() or all(zipf_frequency(w.lower(), 'en') < 4.3 for w in words))
+
+
+def _author_block(nb):
+    """The title block research notebooks open with: author lines, e-mails, affiliations and addresses.
+    Rewrites them in the first markdown cells and returns the people's names found (to replace everywhere)."""
+    names = set()
+    cells = [c for c in nb.get('cells', []) if c.get('cell_type') == 'markdown'][:3]
+    for c in cells:
+        lines = _anon._src(c).split('\n')
+        flag = [bool(OBF_EMAIL.search(ln) or AFFILIATION.search(ln) or re.search(r'orcid|\bphd\b|doctoral|supervisor', ln, re.I))
+                for ln in lines]
+        for i, ln in enumerate(lines):
+            body = re.sub(r'^[\s#>*\-]+|[\s*_]+$', '', ln)
+            m = AUTHOR_LABEL.match(ln)
+            near = any(flag[max(0, i - 3):i + 4])
+            if m:
+                for part in re.split(r',|;|\band\b|&', m.group(1)):
+                    part = re.sub(r'[*_`\[\]()]|\d', '', part).strip()
+                    if NAME_LINE.fullmatch(part):
+                        names.add(part)
+            elif body and len(body) <= 400:
+                # Affiliation markers ('Amodeo¹,', 'Matsumoto (1) Kohji', 'Lutz^2', '†') separate names too.
+                flat = re.sub(r'\(\s*\d+(?:\s*,\s*\d+)*\s*\)|[¹²³⁴⁵⁶⁷⁸⁹⁰]+|\^\{?[\d,]+\}?|<sup>.*?</sup>|[*†‡§]|\$\^\{?[\w,]+\}?\$|\d+',
+                              ',', body)
+                flat = re.sub(r'\b([A-Z]\.)(?=[A-Z][a-z])', r'\1 ', re.sub(r'[_`]', '', flat))  # 'G.Sorce'
+                parts = [p.strip(' .:') for p in re.split(r',|;|\band\b|&', flat) if p.strip(' .:')]
+                listed = len(parts) >= 2 and sum(len(p.split()) >= 2 for p in parts) >= 2
+                if parts and (near or listed) and all(NAME_LINE.fullmatch(p) and _namelike(p) for p in parts) \
+                        and not DOMAIN.search(body):
+                    names |= set(parts)
+            if OBF_EMAIL.search(ln):
+                lines[i] = OBF_EMAIL.sub('redacted@example.com', ln)
+            elif AFFILIATION.search(body) and len(body) <= 160:
+                lines[i] = re.sub(re.escape(body), 'Redacted Institution', ln) if body else ln
+            elif near and re.search(r'\d', body) and body.count(',') >= 2:  # a postal address
+                lines[i] = ''
+        c['source'] = '\n'.join(lines)
+    return {n for n in names if len(n) >= 5 and 'Redacted' not in n and _anon.PERSON not in n}
+
+
+def _names_scrub(text, names):
+    """Replaces the author names (full, and a rare surname alone) in the notebook's JSON text."""
+    from wordfreq import zipf_frequency
+    pats = set()
+    for n in names:
+        pats.add(r'\s+'.join(re.escape(w) for w in n.split()))
+        last = n.split()[-1].strip('.')
+        if len(last) >= 4 and zipf_frequency(last.lower(), 'en') < 3.0:
+            pats.add(re.escape(last))
+    for p in sorted(pats, key=len, reverse=True):
+        text = re.sub(rf'{START}{p}(?![A-Za-z])', _anon.PERSON, text)
+    # The general pass may already have replaced a surname: 'Yosuke John Doe' → 'John Doe'.
+    for first in {n.split()[0] for n in names if len(n.split()[0]) > 2}:
+        text = re.sub(rf'{START}{re.escape(first)}\s+(?:[A-Z]\.\s*)*{_anon.PERSON}', _anon.PERSON, text)
+    # A first name that is also a company's name ('Massimo') was replaced as a company before the person was known.
+    return re.sub(rf'{re.escape(REDACTED)}\s+{_anon.PERSON}', _anon.PERSON, text)
 
 
 def notebook(cand, raw, work, out, A):
@@ -235,14 +322,17 @@ def notebook(cand, raw, work, out, A):
     letters = [ch for ch in md_src if ch.isalpha()]
     if letters and sum(ch.isascii() for ch in letters) / len(letters) < 0.9:
         return {'ok': False, 'reason': 'not English'}
+    authors = _author_block(nb)
     src = work / 'nb.ipynb'
-    src.write_bytes(raw.read_bytes())
+    src.write_text(json.dumps(nb, ensure_ascii=False), encoding='utf-8')
     dst = out / 'nb.ipynb'
     _anon.NOT_NAMES |= EPONYMS  # this worker only handles research notebooks
+    _anon.STRICT_PERSON = True
     why = A.ipynb(src, dst, keep_plots=True)
     if why:
         return {'ok': False, 'reason': why}
-    text = _owner_scrub(dst.read_text(encoding='utf-8'), cand.get('owner'))
+    text = _names_scrub(_owner_scrub(dst.read_text(encoding='utf-8'), cand.get('owner')), authors)
+    text = OBF_EMAIL.sub('redacted@example.com', text) if '[at]' in text or '(at)' in text else text
     try:
         json.loads(text)
     except ValueError:
@@ -508,6 +598,7 @@ def figma(cand, raw, work, out, A, budget=100 * 2**20):
 
 
 def process(cand, kind, raw, work, A):
+    _anon.PERSON = 'John Doe'  # this collector's placeholder for people (user, 2026-10-19); its workers run nothing else
     out = Path(work) / 'out'
     out.mkdir(exist_ok=True)
     return notebook(cand, raw, Path(work), out, A) if kind == 'scinotebooks' else figma(cand, raw, Path(work), out, A)

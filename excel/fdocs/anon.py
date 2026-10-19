@@ -21,6 +21,7 @@ from models.anonymize import SUFFIX_RE
 from models.xl import REDACTED
 
 PERSON = 'Redacted Name'
+STRICT_PERSON = False  # research notebooks set this (see _person)
 TICKER = 'TICKER'
 TITLES = r'(?:Mr|Mrs|Ms|Miss|Dr|Prof|Sir|Dame|Lord|Hon)\.?'
 POSSESSIVE = "(?:['’�]s)$"
@@ -134,13 +135,15 @@ class DocAnon:
         t = ' '.join(toks)
         if not (2 <= len(toks) <= 4 and all(re.fullmatch(r"[A-Z][A-Za-z'’\-]+\.?|[A-Z]\.", w) for w in toks)
                 and not any(w.lower().strip('.') in NOT_NAMES for w in toks)
-                and t.lower() not in NOT_PERSON_PHRASES and 'Redacted' not in t and TICKER not in t):
+                and t.lower() not in NOT_PERSON_PHRASES and 'Redacted' not in t and PERSON not in t and TICKER not in t):
             return
         given = next((w.strip('.') for w in toks if len(w.strip('.')) > 1), '')
         # A person needs a known first name, a title such as 'Mr.' (or a signature/call context),
         # or (written in mixed case) no everyday English word in it: slide headings like
         # 'Exit Multiple' or 'DISCUSSION MATERIALS' are not people, 'Sonal Shah' is.
-        uncommon = not t.isupper() and all(zipf_frequency(w.lower().strip('.'), 'en') < 4.0 for w in toks)
+        # Scientific text is full of rare capitalised terms ('Colorimetric Microscopy'): there (STRICT_PERSON)
+        # a person needs a known first name or a title.
+        uncommon = not STRICT_PERSON and not t.isupper() and all(zipf_frequency(w.lower().strip('.'), 'en') < 4.0 for w in toks)
         if given.lower() not in first_names() and not titled and not uncommon:
             return
         name = ' '.join(toks)

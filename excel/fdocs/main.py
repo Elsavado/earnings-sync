@@ -502,7 +502,8 @@ class Run:
                 log(f'{kind}: processed {n}, {len(self.state["queue"].get(kind, []))} queued, '
                     f'{self.made.get(kind, 0)} made this run')
                 self.save(force=True)
-            if all(not self.state['queue'].get(k) for k in order) and rounds > 1:
+            # Research kinds keep searching for the whole run (their sources are slow, paced APIs).
+            if all(not self.state['queue'].get(k) for k in order) and rounds > 1 and not set(order) & set(research.KINDS):
                 break
         worker.close()
         self.save(force=True)
