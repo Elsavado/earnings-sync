@@ -5,6 +5,8 @@ Layout:  Financial Documents/Earnings Call Transcripts/Folder 1 (Documents 1-20)
 Every upload carries appProperties fdApp, fdKind, fdNum and fdKey, so numbering can be
 recovered from Drive itself.
 """
+import os
+
 from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaFileUpload
 
@@ -12,13 +14,13 @@ from models.store import FOLDER, Store as _Base, _retry
 
 from .kinds import KINDS
 
-APP = 'fin-docs'
+APP = os.environ.get('FD_APP', 'fin-docs')  # the Workspace collector tags its files differently from the transferred ones
 PER_FOLDER = 20
 MIME = {'pdf': 'application/pdf',
         'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         'pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
         'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        'ipynb': 'application/x-ipynb+json', 'csv': 'text/csv', 'json': 'application/json'}
+        'ipynb': 'application/x-ipynb+json', 'csv': 'text/csv', 'json': 'application/json', 'zip': 'application/zip'}
 
 
 def folder_name(n):
@@ -28,7 +30,9 @@ def folder_name(n):
 
 class Store(_Base):
     def __init__(self, dry_run=False, state_name='state.json.gz'):
-        super().__init__('Financial Documents', 'Financial Documents - private', dry_run=dry_run)
+        # FD_ROOT='' (with SHARED_DRIVE_ID) puts the type folders at the top of the Shared Drive.
+        root = os.environ.get('FD_ROOT', 'Financial Documents')
+        super().__init__(root or None, os.environ.get('FD_PRIVATE', 'Financial Documents - private'), dry_run=dry_run)
         self.kind_roots = {}
         self.state_name = state_name  # one state file per parallel job ('state-payroll.json.gz')
 
@@ -108,9 +112,11 @@ class Store(_Base):
     def reset(self, log=print):
         """Permanently deletes every uploaded document, the type folders and the run state."""
         n = 0
-        for q in (f"appProperties has {{ key='fdApp' and value='{APP}' }}",
-                  f"'{self.root}' in parents and mimeType = '{FOLDER}'",
-                  f"'{self.private}' in parents"):
+        folders = f"'{self.root}' in parents and mimeType = '{FOLDER}'"
+        if self.root == self.shared:  # top of a Shared Drive that holds other data: only this collector's type folders
+            names = ' or '.join(f"name = '{k['folder']}'" for k in KINDS.values() if k.get('workspace'))
+            folders += f' and ({names})'
+        for q in (f"appProperties has {{ key='fdApp' and value='{APP}' }}", folders, f"'{self.private}' in parents"):
             token = None
             while True:
                 res = _retry(lambda: self.drive.files().list(q=q, fields='nextPageToken, files(id)', pageSize=1000,

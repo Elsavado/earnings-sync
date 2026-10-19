@@ -58,6 +58,10 @@ KINDS = {
         'phrases': ['agreement', 'contract'],
         'head': 3000, 'min_words': 800,
     },
+    # Workspace kinds (research.py): research notebooks from STEM papers and theses; Figma designs with the
+    # HTML/CSS built from them. Gated by research.py, not on text.
+    'scinotebooks': {'folder': 'Jupyter Notebooks (STEM)', 'phrases': [], 'head': 0, 'min_words': 0, 'workspace': True},
+    'figma': {'folder': 'Figma Designs', 'phrases': [], 'head': 0, 'min_words': 0, 'workspace': True},
     # Tabular kinds: gated on column headers by tab.py, not on text.
     'transactions': {'folder': 'Financial Transactions', 'phrases': [], 'head': 0, 'min_words': 0},
     'payroll': {'folder': 'Employee Payroll & Payments', 'phrases': [], 'head': 0, 'min_words': 0},
@@ -68,7 +72,9 @@ LABEL = {
     'cim': 'Diligence report', 'research': 'Industry research', 'equity': 'Equity research', 'letters': 'Investor letter',
     'memos': 'Investment memo', 'deals': 'Deal document', 'transcripts': 'Earnings call transcript', 'notebooks': 'Notebook',
     'contracts': 'Contract', 'transactions': 'Transactions', 'payroll': 'Payroll',
+    'scinotebooks': 'Research notebook', 'figma': 'Figma design and HTML-CSS',
 }
+FIN_KINDS = [k for k, v in KINDS.items() if not v.get('workspace')]  # the Financial documents workflow's types
 
 # Finer labels from the document's own heading (never its title, which may name the company).
 SUBLABEL = [

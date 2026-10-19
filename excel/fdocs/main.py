@@ -25,6 +25,7 @@ import requests
 from models.anonymize import Anonymizer
 
 from . import kinds as K
+from . import research
 from . import sources
 from .anon import DocAnon, html_clean
 from .store import Store
@@ -42,8 +43,11 @@ FLOOR = float(os.environ.get('DRIVE_FLOOR_GB', '10')) * 2**30  # stop when Drive
 STATE_NAME = f'state-{ONLY[0]}.json.gz' if len(ONLY) == 1 else 'state.json.gz'
 
 
+sources.DISCOVER.update(research.DISCOVER)
+
+
 def size_class(kind):
-    return 'data' if kind in K.TABULAR else 'doc'
+    return 'data' if kind in K.TABULAR or kind == 'figma' else 'doc'  # a Figma package downloads many files
 ANON = None  # set before the worker pool forks
 
 
@@ -175,8 +179,12 @@ def process(cand, kind, work):
             if size > MAX_BYTES[size_class(kind)] or time.time() - t0 > DOWNLOAD_SECONDS[size_class(kind)]:
                 return {'ok': False, 'reason': 'too large or too slow'}
             f.write(chunk)
-    data = raw.read_bytes() if kind not in K.TABULAR else open(raw, 'rb').read(65536)  # datasets: only the start
     digest = file_hash(raw)
+    if kind in research.KINDS:
+        res = research.process(cand, kind, raw, work, A)
+        res.setdefault('raw', digest)
+        return res
+    data = raw.read_bytes() if kind not in K.TABULAR else open(raw, 'rb').read(65536)  # datasets: only the start
     if data[:5] != b'%PDF-' and (kind not in K.TABULAR or data.lstrip()[:1] == b'<') and BOT_CHECK.search(data[:6000]):  # a site that challenges automated visitors: respect it and skip the site
         return {'ok': False, 'reason': 'site blocks automated downloads',
                 'blocked': re.sub(r'^https?://([^/]+).*$', r'\1', r.url)}
@@ -331,7 +339,8 @@ def file_hash(path):
 
 class Run:
     def __init__(self):
-        self.store = None if DRY and not os.environ.get('GOOGLE_REFRESH_TOKEN') else Store(dry_run=DRY, state_name=STATE_NAME)
+        signed_in = os.environ.get('GOOGLE_REFRESH_TOKEN') or os.environ.get('GOOGLE_SA_JSON')
+        self.store = None if DRY and not signed_in else Store(dry_run=DRY, state_name=STATE_NAME)
         self.state = (self.store.load_state() if self.store else {}) or {}
         st = self.state
         for k, v in {'next': {}, 'seen': {}, 'queued': {}, 'queue': {}, 'cursors': {}, 'hashes': {}, 'counts': {}}.items():
@@ -478,7 +487,7 @@ class Run:
         log(f'anonymizer: {len(base.multi)} multi-word and {len(base.single)} one-word company names, '
             f'{len(ANON["doc"].tickers)} tickers, spaCy {"on" if nlp else "OFF"}')
 
-        order = [k for k in K.KINDS if not ONLY or k in ONLY]
+        order = [k for k in K.KINDS if k in ONLY] if ONLY else list(K.FIN_KINDS)
         worker = Worker(int(os.environ.get('WORKERS') or (3 if all(k in K.TABULAR for k in order) else 2)))
         rounds = 0
         while left() > 90 and not self.full:
@@ -502,8 +511,9 @@ class Run:
         summary = os.environ.get('GITHUB_STEP_SUMMARY')
         if summary:
             with open(summary, 'a', encoding='utf-8') as f:
-                f.write(f'## Financial documents\n\n{sum(self.made.values())} documents this run.\n\n| Type | This run | Total |\n|---|---|---|\n')
-                for k in K.KINDS:
+                title = os.environ.get('COLLECTOR_TITLE', 'Financial documents')
+                f.write(f'## {title}\n\n{sum(self.made.values())} documents this run.\n\n| Type | This run | Total |\n|---|---|---|\n')
+                for k in order:
                     f.write(f'| {K.KINDS[k]["folder"]} | {self.made.get(k, 0)} | {c.get(k, 0)} |\n')
 
 

@@ -74,7 +74,7 @@ jobs:
         run: |
           python - <<'EOF'
           import json, os
-          from fdocs.kinds import KINDS
+          from fdocs.kinds import FIN_KINDS
           from fdocs.store import Store
           go = not (os.environ['CHAINED'] == 'true' and os.environ['LIVE'] != 'true')
           if go and os.environ['DRY'] != 'true':
@@ -85,7 +85,7 @@ jobs:
               print(f'Drive free: {free / 2**30:.1f} GB')
               if free < float(os.environ['DRIVE_FLOOR_GB']) * 2**30:
                   print('below the floor: not collecting'); go = False
-          kinds = [k for k in os.environ['KINDS'].split(',') if k.strip()] or list(KINDS)
+          kinds = [k for k in os.environ['KINDS'].split(',') if k.strip()] or list(FIN_KINDS)
           with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
               f.write(f"go={'true' if go else 'false'}\nkinds={json.dumps(kinds)}\n")
           print('go' if go else 'stop', kinds)

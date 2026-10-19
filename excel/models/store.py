@@ -49,15 +49,56 @@ def _retry(fn, tries=6):
             raise
 
 
+class _SharedFiles:
+    """files() of a Shared Drive: every call names the drive (supportsAllDrives, and lists search only that drive)."""
+
+    def __init__(self, files, drive_id):
+        self.files, self.drive_id = files, drive_id
+
+    def list(self, **kw):
+        return self.files.list(supportsAllDrives=True, includeItemsFromAllDrives=True, corpora='drive',
+                               driveId=self.drive_id, **kw)
+
+    def __getattr__(self, name):
+        fn = getattr(self.files, name)
+        return lambda **kw: fn(supportsAllDrives=True, **kw)
+
+
+class _SharedDrive:
+    def __init__(self, service, drive_id):
+        self.service, self.drive_id = service, drive_id
+
+    def files(self):
+        return _SharedFiles(self.service.files(), self.drive_id)
+
+    def about(self):
+        return self.service.about()
+
+
+def credentials():
+    """A service account (GOOGLE_SA_JSON, e.g. for a Workspace Shared Drive) or a user's refresh token."""
+    if os.environ.get('GOOGLE_SA_JSON'):
+        from google.oauth2 import service_account
+        return service_account.Credentials.from_service_account_info(
+            json.loads(os.environ['GOOGLE_SA_JSON']), scopes=['https://www.googleapis.com/auth/drive'])
+    return Credentials(None, refresh_token=os.environ['GOOGLE_REFRESH_TOKEN'],
+                       client_id=os.environ['GOOGLE_CLIENT_ID'], client_secret=os.environ['GOOGLE_CLIENT_SECRET'],
+                       token_uri='https://oauth2.googleapis.com/token')
+
+
 class Store:
     def __init__(self, root_name='Excel Models', private_name='Excel Models - private', dry_run=False):
+        """With SHARED_DRIVE_ID set, everything lives in that Shared Drive; root_name None puts the type
+        folders at the top of the drive."""
         self.dry_run = dry_run
-        creds = Credentials(None, refresh_token=os.environ['GOOGLE_REFRESH_TOKEN'],
-                            client_id=os.environ['GOOGLE_CLIENT_ID'], client_secret=os.environ['GOOGLE_CLIENT_SECRET'],
-                            token_uri='https://oauth2.googleapis.com/token')
-        self.drive = build('drive', 'v3', credentials=creds, cache_discovery=False)
-        self.root = self._folder('root', root_name)
-        self.private = self._folder('root', private_name)
+        self.drive = build('drive', 'v3', credentials=credentials(), cache_discovery=False)
+        top = 'root'
+        self.shared = os.environ.get('SHARED_DRIVE_ID')
+        if self.shared:
+            self.drive = _SharedDrive(self.drive, self.shared)
+            top = self.shared
+        self.root = self._folder(top, root_name) if root_name else top
+        self.private = self._folder(top, private_name)
         self.folders = {}
         self.state_id = None
 
@@ -70,6 +111,8 @@ class Store:
                                                         fields='id').execute())['id']
 
     def quota(self):
+        if self.shared:
+            return 0, 0  # Shared Drive files use the organisation's pooled storage, not this account's quota
         q = self.drive.about().get(fields='storageQuota').execute()['storageQuota']
         return int(q.get('usage', 0)), int(q.get('limit', 0) or 0)
 

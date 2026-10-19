@@ -348,7 +348,7 @@ def zenodo(state, kind, s, log, pages=2):
                 return added
             try:
                 r = s.get('https://zenodo.org/api/records', timeout=60,
-                          params={'q': f'"{q}"', 'type': 'dataset', 'size': 50, 'page': cur['page']})
+                          params={'q': f'"{q}"', 'type': 'dataset', 'size': 25, 'page': cur['page']})  # Zenodo: at most 25 per page
                 hits = r.json()['hits']['hits'] if r.ok else None
             except (requests.RequestException, ValueError, KeyError):
                 hits = None
@@ -366,7 +366,7 @@ def zenodo(state, kind, s, log, pages=2):
                                                       'orgs': [], 'source': 'zenodo'}):
                             added += 1
             cur['page'] += 1
-            if len(hits) < 50:
+            if len(hits) < 25:
                 cur['done'] = True
                 break
     return added

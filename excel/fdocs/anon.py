@@ -448,7 +448,8 @@ class DocAnon:
         return pat.sub(put, para)
 
     # --- Jupyter -----------------------------------------------------------------
-    def ipynb(self, src, dst):
+    def ipynb(self, src, dst, keep_plots=False):
+        """keep_plots: keep PNG/JPEG outputs (charts drawn by the code itself; research notebooks)."""
         nb = json.loads(open(src, encoding='utf-8').read())
         if not isinstance(nb, dict) or 'cells' not in nb:
             return 'not a notebook'
@@ -471,8 +472,11 @@ class DocAnon:
                         outs.append(o)
                     elif t in ('execute_result', 'display_data'):
                         data = o.get('data', {})
+                        keep = {k: data[k] for k in ('image/png', 'image/jpeg') if keep_plots and k in data}
                         if 'text/plain' in data:
-                            o['data'] = {'text/plain': self.scrub(_join(data['text/plain']))}
+                            keep['text/plain'] = self.scrub(_join(data['text/plain']))
+                        if keep:
+                            o['data'] = keep
                             o['metadata'] = {}
                             outs.append(o)
                 c['outputs'] = outs

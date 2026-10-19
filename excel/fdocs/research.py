@@ -1,0 +1,527 @@
+"""Workspace kinds: research notebooks from STEM papers and theses ('scinotebooks') and Figma designs
+together with the HTML/CSS built from them ('figma').
+
+Sources are openly licensed only:
+- scinotebooks: GitHub repositories in the Jupyter language whose README points to a paper, a thesis or an
+  arXiv/DOI record, and Zenodo research records (their .ipynb files and the GitHub repository they archive).
+  Course work (homework, assignments, labs) is rejected; a notebook must be scientific (a science library or
+  several domain terms), explained (markdown cells) and substantial (code cells).
+- figma: GitHub repositories that commit a real Figma file (.fig, not a Git LFS pointer) next to an HTML/CSS
+  implementation. The package is one zip: figma/design-N.fig plus web/<the HTML, CSS and their assets>.
+
+Anonymisation follows the other types: people's names become 'Redacted Name', e-mails and personal links are
+removed, the repository owner's login and home-directory user names are replaced. The science, the code, the
+charts it draws and the designs themselves are kept.
+"""
+import hashlib
+import io
+import json
+import re
+import time
+import zipfile
+from pathlib import Path
+from urllib.parse import quote
+
+import requests
+
+from . import anon as _anon
+from . import sources
+from .sources import _add, _gh, late
+
+KINDS = ('scinotebooks', 'figma')
+OPEN = {'mit', 'apache-2.0', 'bsd-3-clause', 'bsd-2-clause', 'gpl-3.0', 'gpl-2.0', 'lgpl-3.0', 'agpl-3.0', 'cc0-1.0',
+        'unlicense', 'cc-by-4.0', 'cc-by-sa-4.0', 'mpl-2.0', 'isc', 'bsl-1.0', 'zlib', 'epl-2.0', 'wtfpl', 'ofl-1.1'}
+ZIP_DATE = (2026, 1, 1, 0, 0, 0)  # fixed dates: the same content always gives the same zip (duplicate check)
+
+# --- research notebooks -------------------------------------------------------------------------
+TOPICS = ['physics', 'quantum', 'astronomy', 'astrophysics', 'cosmology', 'particle physics', 'condensed matter',
+          'chemistry', 'computational chemistry', 'molecular dynamics', 'materials science', 'crystallography',
+          'bioinformatics', 'genomics', 'single-cell', 'protein', 'computational biology', 'systems biology',
+          'neuroscience', 'ecology', 'epidemiology', 'climate', 'oceanography', 'geophysics', 'seismology',
+          'fluid dynamics', 'plasma', 'spectroscopy', 'numerical methods', 'mathematical biology', 'remote sensing',
+          'hydrology', 'robotics', 'signal processing', 'finite element', 'optics', 'thermodynamics']
+MARKERS = ['arxiv', 'doi', 'thesis', 'paper', 'dissertation', 'publication']
+SCIENCE_LIBS = re.compile(
+    r'^\s*(?:import|from)\s+(scipy|astropy|healpy|sympy|Bio|rdkit|pymatgen|ase|pyscf|psi4|openmm|mdtraj|MDAnalysis|'
+    r'qiskit|cirq|pennylane|qutip|mne|nilearn|nibabel|neo|brian2|xarray|netCDF4|cartopy|obspy|metpy|scanpy|anndata|'
+    r'pysam|pyrosetta|fenics|dolfin|firedrake|pyvista|yt|sunpy|lightkurve|galpy|emcee|corner|camb|classy|lmfit|uproot|'
+    r'ROOT|coffea|skimage|cv2|SimpleITK|pydicom|geopandas|rasterio|gdal|osgeo|pint|uncertainties|numba|jax|sklearn|'
+    r'statsmodels|pymc|pymc3|arviz|torch|tensorflow|networkx|control|pyomo|casadi)\b', re.M)
+DOMAIN = re.compile(
+    r'hamiltonian|eigen(?:value|state|vector)|wave ?function|schr[oö]dinger|quantum|lattice|spin|boson|fermion|'
+    r'galax|redshift|stellar|exoplanet|telescope|spectr|photometr|cosmolog|dark matter|molecul|reaction|catalys|'
+    r'orbital|density functional|\bdft\b|crystal|alloy|band ?gap|protein|enzyme|genom|transcript|gene expression|'
+    r'sequenc|\brna\b|\bdna\b|single.cell|neuron|spike|\beeg\b|fmri|cortex|species|population dynamics|'
+    r'epidemi|infection|climate|precipitation|ocean|atmospher|seismic|earthquake|geophys|aquifer|hydrolog|'
+    r'navier|turbulen|reynolds|fluid|plasma|thermodynam|entropy|differential equation|\bpde\b|\bode\b|'
+    r'finite element|monte carlo|markov chain|bayesian|posterior|likelihood|simulation|experiment|measurement|'
+    r'hypothesis|wavelength|frequency|magnetic|electric field|laser|optic|diffusion|kinetic|equilibrium|'
+    r'stress|strain|signal|sensor|robot|trajectory', re.I)
+COURSEWORK = re.compile(r'\b(?:homework|assignments?|problem set|exercises?(?: \d)?|lab \d|quiz|midterm|final exam|'
+                        r'coursera|udemy|bootcamp|kaggle competition|tutorial \d)\b', re.I)
+FIELDS = [
+    ('Physics-informed machine learning', r'physics.informed|\bpinns?\b'),
+    ('Quantum computing', r'qiskit|cirq|pennylane|qutip|qubit'),
+    ('Astronomy and astrophysics', r'astropy|healpy|galax|redshift|stellar|exoplanet|telescope|cosmolog|lightkurve|sunpy'),
+    ('Particle physics', r'uproot|coffea|\bROOT\b|hadron|collider|lhc\b|jet\b.{0,40}(?:pt|eta)'),
+    ('Chemistry', r'rdkit|pyscf|psi4|molecul|reaction|catalys|density functional|\bdft\b'),
+    ('Materials science', r'pymatgen|\base\b|crystal|alloy|band ?gap|materials'),
+    ('Molecular dynamics', r'openmm|mdtraj|MDAnalysis|molecular dynamics'),
+    ('Genomics and bioinformatics', r'\bBio\b|biopython|scanpy|anndata|pysam|genom|sequenc|\brna\b|\bdna\b|single.cell'),
+    ('Neuroscience', r'\bmne\b|nilearn|nibabel|brian2|neuroscien|spike train|spiking|\beeg\b|fmri|cortex|synap'),
+    ('Biology', r'protein|enzyme|cell (?:line|type|biolog)|species|ecolog|biolog'),
+    ('Epidemiology', r'epidemi|infection|outbreak|sir model|incidence'),
+    ('Earth and climate science', r'xarray|netCDF4|cartopy|metpy|obspy|climate|ocean|precipitation|atmospher|seismic|geophys|hydrolog'),
+    ('Fluid dynamics', r'navier|turbulen|reynolds|fluid'),
+    ('Engineering', r'fenics|dolfin|firedrake|finite element|control|robot|signal processing|sensor'),
+    ('Physics', r'hamiltonian|quantum|lattice|spin|plasma|optic|laser|thermodynam|magnetic'),
+    ('Mathematics', r'sympy|theorem|eigenvalue|differential equation|\bpde\b|numerical'),
+]
+# Scientific eponyms are not people to redact ('Navier-Stokes', 'Runge-Kutta', 'Hartree-Fock', 'Bessel').
+EPONYMS = set('''abel airy ampere arrhenius avogadro bayes bernoulli bessel biot black blackman bloch bohr boltzmann born
+bose bragg broyden brown butterworth carlo cauchy chandrasekhar chebyshev cholesky clausius compton coulomb courant
+cox crank debye delaunay dijkstra dirac dirichlet doppler einstein euler faraday fermi feynman fick fisher fletcher
+fock fokker fourier fresnel friedmann friedrichs frenk galerkin gauss gaussian gibbs goldfarb golay gram green hamilton
+hamming hann hartree hastings heaviside heisenberg helmholtz hermite higgs hilbert hodgkin hooke hopf hubble huxley
+ising jacobi jones kalman kaplan kepler kirchhoff kohn kolmogorov kruskal kutta lagrange laguerre lanczos langevin
+laplace legendre lemaitre lennard levenberg lewy lomb lorentz lorenz lotka lyapunov mandelbrot markov marquardt
+maxwell mead meier menten metropolis michaelis monte morse navarro navier nelder nernst newton nicolson nyquist ohm
+oppenheimer pauli pearson planck poisson rabi raman raphson rayleigh riemann robertson runge rutherford savitzky
+scargle schmidt schrodinger schrödinger schwarzschild shannon sham shanno slater snell spearman stark stokes student
+taylor tukey turing verlet volterra voronoi walker wallis weibull weinberg welch whitney wiener wilcoxon yukawa zeeman'''.split())
+
+
+def _license_ok(repo):
+    return ((repo.get('license') or {}).get('key') or '').lower() in OPEN
+
+
+def _notebook_files(s, full, branch, limit=12):
+    return sources._repo_files(s, full, branch, lambda p: p.endswith('.ipynb') and '.ipynb_checkpoints' not in p
+                               and not re.search(r'(?:^|/)(?:test|tests|docs?/_build|site-packages)/', p),
+                               8 * 2**20, limit)
+
+
+def _queue_repo_notebooks(state, kind, s, full, branch, source, extra=None):
+    added = 0
+    if f'ghrepo:{kind}:{full}' in state['seen']:
+        return 0
+    state['seen'][f'ghrepo:{kind}:{full}'] = 1
+    for f in _notebook_files(s, full, branch):
+        url = f'https://raw.githubusercontent.com/{full}/{quote(branch)}/{quote(f["path"])}'
+        cand = {'key': f'gh:{full}:{f["path"]}'[:300], 'url': url, 'ext': 'ipynb', 'orgs': [], 'source': source,
+                'owner': full.split('/')[0]}
+        cand.update(extra or {})
+        added += _add(state, kind, cand)
+    return added
+
+
+def sci_github(state, kind, s, log, pages=2):
+    """Jupyter repositories whose README cites a paper, thesis, arXiv or DOI record, one topic at a time."""
+    added = 0
+    for topic in TOPICS:
+        for marker in MARKERS:
+            cur = state['cursors'].setdefault(f'sci:gh:{topic}:{marker}', {'page': 1})
+            if cur.get('done'):
+                continue
+            for _ in range(pages):
+                if late():
+                    return added
+                try:
+                    r = s.get('https://api.github.com/search/repositories', headers=_gh(s), timeout=60,
+                              params={'q': f'{topic} {marker} in:readme language:"Jupyter Notebook" fork:false',
+                                      'per_page': 50, 'page': cur['page'], 'sort': 'stars'})
+                    if r.status_code == 403:
+                        time.sleep(30)
+                        break
+                    items = r.json().get('items', []) if r.ok else None
+                except (requests.RequestException, ValueError):
+                    items = None
+                if items is None:
+                    break
+                time.sleep(2)  # search API: 30 requests a minute
+                for repo in items:
+                    if late():
+                        return added
+                    if _license_ok(repo) and repo.get('size', 0) < 2_000_000:
+                        added += _queue_repo_notebooks(state, kind, s, repo['full_name'], repo.get('default_branch') or 'main',
+                                                       'github', {'topic': topic})
+                cur['page'] += 1
+                if len(items) < 50 or cur['page'] > 20:
+                    cur['done'] = True
+                    break
+    return added
+
+
+ZENODO_LIC = re.compile(r'^(?:cc-by|cc0|mit|apache|bsd|gpl|lgpl|agpl|mpl|isc|unlicense|cc-zero)', re.I)
+GH_REPO = re.compile(r'github\.com/([A-Za-z0-9_.\-]+)/([A-Za-z0-9_.\-]+?)(?:\.git)?(?:/tree/([^/?#]+))?(?:[/?#]|$)')
+
+
+def sci_zenodo(state, kind, s, log, pages=2):
+    """Zenodo research records: their own .ipynb files and the GitHub repository they archive."""
+    added = 0
+    for topic in TOPICS:
+        cur = state['cursors'].setdefault(f'sci:zenodo:{topic}', {'page': 1})
+        if cur.get('done'):
+            continue
+        for _ in range(pages):
+            if late():
+                return added
+            try:
+                r = s.get('https://zenodo.org/api/records', timeout=60,
+                          params={'q': f'(jupyter OR ipynb OR notebook) AND "{topic}"', 'size': 25, 'page': cur['page']})
+                if r.status_code == 429:  # 30 requests a minute
+                    time.sleep(60)
+                    return added
+                hits = r.json()['hits']['hits'] if r.ok else None
+            except (requests.RequestException, ValueError, KeyError):
+                hits = None
+            if hits is None:
+                break
+            time.sleep(2.5)
+            for h in hits:
+                if late():
+                    return added
+                md = h.get('metadata') or {}
+                if not ZENODO_LIC.match((md.get('license') or {}).get('id', '') or ''):
+                    continue
+                for f in h.get('files', [])[:40]:
+                    key = f.get('key', '')
+                    url = (f.get('links') or {}).get('self')
+                    if key.lower().endswith('.ipynb') and url and 0 < f.get('size', 0) <= 8 * 2**20:
+                        added += _add(state, kind, {'key': f'zenodo:{h["id"]}:{key}'[:300], 'url': url, 'ext': 'ipynb',
+                                                    'orgs': [], 'source': 'zenodo', 'topic': topic})
+                for rel in md.get('related_identifiers') or []:
+                    m = GH_REPO.search(rel.get('identifier') or '')
+                    if m:
+                        added += _queue_repo_notebooks(state, kind, s, f'{m[1]}/{m[2]}', m[3] or 'HEAD', 'zenodo',
+                                                       {'topic': topic})
+                        break
+            cur['page'] += 1
+            if len(hits) < 25 or cur['page'] > 40:
+                cur['done'] = True
+                break
+    return added
+
+
+def _owner_scrub(text, owner):
+    """The repository owner's login and home-directory user names ('/home/jsmith/', 'C:\\Users\\jsmith')."""
+    text = re.sub(r'((?:/home/|/Users/|[A-Za-z]:\\\\Users\\\\|[A-Za-z]:\\Users\\)(?!user\b))[^/\\\s"\']+', r'\1user', text)
+    if owner and len(owner) >= 4:
+        text = re.sub(rf'(?<![A-Za-z0-9]){re.escape(owner)}(?![A-Za-z0-9])', 'redacted', text, flags=re.I)
+    return text
+
+
+def notebook(cand, raw, work, out, A):
+    try:
+        nb = json.loads(raw.read_bytes().decode('utf-8'))
+    except (UnicodeDecodeError, ValueError):
+        return {'ok': False, 'reason': 'not JSON'}
+    cells = nb.get('cells', []) if isinstance(nb, dict) else []
+    code = [c for c in cells if c.get('cell_type') == 'code']
+    md = [c for c in cells if c.get('cell_type') == 'markdown']
+    code_src = '\n'.join(_anon._src(c) for c in code)
+    md_src = '\n'.join(_anon._src(c) for c in md)
+    if len(code) < 6:
+        return {'ok': False, 'reason': f'only {len(code)} code cells'}
+    if len(md) < 2 or len(md_src.split()) < 60:
+        return {'ok': False, 'reason': 'no explanation (markdown)'}
+    if COURSEWORK.search(md_src[:20000]) or COURSEWORK.search(cand['url']):
+        return {'ok': False, 'reason': 'course work'}
+    libs = {m.group(1) for m in SCIENCE_LIBS.finditer(code_src)}
+    terms = {m.group(0).lower() for m in DOMAIN.finditer(md_src + '\n' + code_src)}
+    strong = libs - {'sklearn', 'torch', 'tensorflow', 'statsmodels', 'networkx', 'numba', 'jax', 'cv2', 'skimage'}
+    if not (strong and len(terms) >= 2) and len(terms) < 5:
+        return {'ok': False, 'reason': 'not a scientific notebook'}
+    letters = [ch for ch in md_src if ch.isalpha()]
+    if letters and sum(ch.isascii() for ch in letters) / len(letters) < 0.9:
+        return {'ok': False, 'reason': 'not English'}
+    src = work / 'nb.ipynb'
+    src.write_bytes(raw.read_bytes())
+    dst = out / 'nb.ipynb'
+    _anon.NOT_NAMES |= EPONYMS  # this worker only handles research notebooks
+    why = A.ipynb(src, dst, keep_plots=True)
+    if why:
+        return {'ok': False, 'reason': why}
+    text = _owner_scrub(dst.read_text(encoding='utf-8'), cand.get('owner'))
+    try:
+        json.loads(text)
+    except ValueError:
+        return {'ok': False, 'reason': 'notebook broken by anonymising'}
+    dst.write_text(text, encoding='utf-8')
+    hay = '\n'.join(libs) + '\n' + md_src[:30000] + '\n' + cand.get('topic', '')
+    field = next((name for name, pat in FIELDS if re.search(pat, hay, re.I)), 'Science')
+    return {'ok': True, 'path': str(dst), 'ext': 'ipynb', 'label': f'Research notebook - {field}'}
+
+
+# --- Figma designs with HTML/CSS ----------------------------------------------------------------
+FIG_CODE_QUERIES = ['figma ".fig" extension:md', '"design.fig"', 'figma ".fig file"', 'figma "fig file" extension:md',
+                    '".fig" figma html css extension:md', 'figma design file ".fig" extension:md']
+FIG_REPO_QUERIES = ['figma in:readme language:HTML', 'figma in:readme language:CSS', 'figma in:readme language:SCSS',
+                    'figma design html css', 'figma to html', 'figma landing page', 'figma ui kit', 'figma template html',
+                    'figma mockup html', 'figma prototype html', 'figma website', 'figma portfolio', 'figma frontend',
+                    'figma responsive', 'figma design system css']
+FIXTURE = re.compile(r'(?:^|/)(?:tests?|__tests__|fixtures?|spec|testdata|samples?)/', re.I)
+WEB = re.compile(r'\.(?:html?|css|scss|sass|less|svg|png|jpe?g|gif|webp|avif|ico|woff2?|ttf|otf|eot)$', re.I)
+SKIP_DIR = re.compile(r'(?:^|/)(?:node_modules|vendor|bower_components|\.git|\.github|\.vscode|\.idea|__MACOSX)/', re.I)
+CATEGORY = [('Landing page', r'landing'), ('Portfolio', r'portfolio|resume|\bcv\b'),
+            ('E-commerce', r'e-?commerce|\bshop|store\b|\bcart\b|product'), ('Dashboard', r'dashboard|admin panel|analytics'),
+            ('Mobile app', r'mobile app|\bios\b|android'), ('Blog', r'\bblog'), ('Restaurant and food', r'restaurant|food|recipe|cafe'),
+            ('Travel', r'travel|hotel|booking|tour'), ('Education', r'education|course|school|learning'),
+            ('Finance', r'bank|finance|crypto|wallet|payment'), ('Health', r'health|medical|fitness|clinic'),
+            ('Real estate', r'real estate|property|apartment'), ('Agency', r'agency|startup|saas|business')]
+
+
+def _fig_ok(data):
+    """A real Figma file: 'fig-kiwi' binary, or the newer zip holding canvas.fig (never a Git LFS pointer)."""
+    if len(data) < 2048:
+        return False
+    if data[:8] == b'fig-kiwi':
+        return True
+    if data[:2] == b'PK':
+        try:
+            with zipfile.ZipFile(io.BytesIO(data)) as z:
+                return any(n.endswith('canvas.fig') for n in z.namelist())
+        except zipfile.BadZipFile:
+            return False
+    return False
+
+
+def _figma_repo(state, kind, s, repo):
+    """Queues a repository when it holds a Figma file and an HTML/CSS implementation."""
+    full = repo['full_name']
+    if f'ghrepo:{kind}:{full}' in state['seen']:
+        return 0
+    state['seen'][f'ghrepo:{kind}:{full}'] = 1
+    if not _license_ok(repo) or repo.get('size', 0) > 400_000 or repo.get('fork'):
+        return 0
+    if COURSEWORK.search(full.replace('-', ' ').replace('_', ' ')) or COURSEWORK.search(repo.get('description') or ''):
+        return 0
+    branch = repo.get('default_branch') or 'main'
+    try:
+        r = s.get(f'https://api.github.com/repos/{full}/git/trees/{quote(branch)}?recursive=1', headers=_gh(s), timeout=60)
+        tree = r.json().get('tree', []) if r.ok else []
+    except (requests.RequestException, ValueError):
+        return 0
+    blobs = [t for t in tree if t.get('type') == 'blob' and not SKIP_DIR.search(t['path'])]
+    # Test fixtures of Figma-parsing libraries are not designs.
+    figs = [t['path'] for t in blobs if t['path'].lower().endswith('.fig') and 2048 <= t.get('size', 0) <= 150 * 2**20
+            and not FIXTURE.search(t['path'])][:5]
+    web = [t for t in blobs if WEB.search(t['path']) and t.get('size', 0) <= 5 * 2**20]
+    if not figs or not any(re.search(r'\.html?$', t['path'], re.I) for t in web) \
+            or not any(re.search(r'\.(?:css|scss|sass|less)$', t['path'], re.I) for t in web):
+        return 0
+    web.sort(key=lambda t: (not re.search(r'\.(?:html?|css|scss|sass|less)$', t['path'], re.I), t['path']))
+    readme = next((t['path'] for t in blobs if re.fullmatch(r'readme(?:\.md|\.txt)?', t['path'], re.I)), None)
+    base = f'https://raw.githubusercontent.com/{full}/{quote(branch)}/'
+    return int(_add(state, kind, {'key': f'figma:{full}', 'url': base + quote(figs[0]), 'ext': 'fig', 'orgs': [],
+                                  'source': 'github', 'owner': full.split('/')[0], 'base': base, 'figs': figs,
+                                  'web': [t['path'] for t in web[:300]], 'readme': readme,
+                                  'about': (repo.get('description') or '')[:300]}))
+
+
+def figma_github(state, kind, s, log, pages=2):
+    added = 0
+    for q in FIG_CODE_QUERIES:  # READMEs that mention a .fig file: the likeliest repositories
+        cur = state['cursors'].setdefault(f'figma:code:{q}', {'page': 1})
+        if cur.get('done'):
+            continue
+        for _ in range(pages):
+            if late():
+                return added
+            try:
+                r = s.get('https://api.github.com/search/code', headers=_gh(s), timeout=60,
+                          params={'q': q, 'per_page': 100, 'page': cur['page']})
+                if r.status_code == 403:
+                    time.sleep(60)
+                    break
+                items = r.json().get('items', []) if r.ok else None
+            except (requests.RequestException, ValueError):
+                items = None
+            if items is None:
+                break
+            time.sleep(7)  # code search: 10 requests a minute
+            for full in dict.fromkeys(i['repository']['full_name'] for i in items):
+                if late():
+                    return added
+                if f'ghrepo:{kind}:{full}' in state['seen']:
+                    continue
+                try:
+                    rr = s.get(f'https://api.github.com/repos/{full}', headers=_gh(s), timeout=30)
+                    repo = rr.json() if rr.ok else None
+                except (requests.RequestException, ValueError):
+                    repo = None
+                if repo:
+                    added += _figma_repo(state, kind, s, repo)
+            cur['page'] += 1
+            if len(items) < 100 or cur['page'] > 10:
+                cur['done'] = True
+                break
+    for q in FIG_REPO_QUERIES:
+        cur = state['cursors'].setdefault(f'figma:repo:{q}', {'page': 1})
+        if cur.get('done'):
+            continue
+        for _ in range(pages):
+            if late():
+                return added
+            try:
+                r = s.get('https://api.github.com/search/repositories', headers=_gh(s), timeout=60,
+                          params={'q': f'{q} fork:false', 'per_page': 50, 'page': cur['page']})
+                if r.status_code == 403:
+                    time.sleep(30)
+                    break
+                items = r.json().get('items', []) if r.ok else None
+            except (requests.RequestException, ValueError):
+                items = None
+            if items is None:
+                break
+            time.sleep(2)
+            for repo in items:
+                if late():
+                    return added
+                added += _figma_repo(state, kind, s, repo)
+            cur['page'] += 1
+            if len(items) < 50 or cur['page'] > 20:
+                cur['done'] = True
+                break
+    return added
+
+
+SOCIAL = re.compile(r'(?:mailto:|tel:|https?://(?:www\.)?(?:linkedin\.com|twitter\.com|x\.com|facebook\.com|instagram\.com|'
+                    r't\.me|wa\.me|github\.com|dribbble\.com|behance\.net))[^"\'\s>]*', re.I)
+
+
+def _scrub_html(A, html, owner):
+    def text(m):
+        return '>' + A.scrub(m.group(1)) + '<'
+
+    parts = re.split(r'(<(?:script|style)\b.*?</(?:script|style)\s*>)', html, flags=re.S | re.I)
+    for i in range(0, len(parts), 2):  # outside <script>/<style>: visible text, comments and labelling attributes
+        p = parts[i]
+        p = re.sub(r'<meta\s+[^>]*name=["\']?(?:author|creator|publisher)["\']?[^>]*>', '', p, flags=re.I)
+        p = re.sub(r'<!--(.*?)-->', lambda m: '<!--' + A.scrub(m.group(1)) + '-->', p, flags=re.S)
+        p = re.sub(r'>([^<]+)<', text, p)
+        p = re.sub(r'\b(alt|title|placeholder|aria-label|content)=(["\'])(.*?)\2',
+                   lambda m: f'{m.group(1)}={m.group(2)}{A.scrub(m.group(3))}{m.group(2)}', p, flags=re.S | re.I)
+        parts[i] = SOCIAL.sub('#', p)
+    for i in range(1, len(parts), 2):  # inline styles: only their comments
+        parts[i] = re.sub(r'/\*(.*?)\*/', lambda m: '/*' + A.scrub(m.group(1)) + '*/', parts[i], flags=re.S)
+    return _owner_scrub(''.join(parts), owner)
+
+
+def _scrub_css(A, css, owner):
+    css = re.sub(r'/\*(.*?)\*/', lambda m: '/*' + A.scrub(m.group(1)) + '*/', css, flags=re.S)  # comments only: url() stays
+    return _owner_scrub(css, owner)
+
+
+def _scrub_fig(A, data):
+    """Newer .fig files are zips with meta.json (file name, client data): scrub its strings. The design canvas
+    itself (canvas.fig, a compressed binary) is kept as drawn."""
+    if data[:2] != b'PK':
+        return data
+    src = zipfile.ZipFile(io.BytesIO(data))
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, 'w', zipfile.ZIP_DEFLATED) as dst:
+        for info in src.infolist():
+            raw = src.read(info)
+            if info.filename == 'meta.json':
+                try:
+                    meta = json.loads(raw)
+
+                    def walk(o):
+                        if isinstance(o, dict):
+                            return {k: walk(v) for k, v in o.items()}
+                        if isinstance(o, list):
+                            return [walk(v) for v in o]
+                        return A.scrub(o) if isinstance(o, str) else o
+                    raw = json.dumps(walk(meta)).encode()
+                except ValueError:
+                    pass
+            dst.writestr(zipfile.ZipInfo(info.filename, ZIP_DATE), raw,
+                         zipfile.ZIP_STORED if info.filename.endswith(('.png', '.jpg')) else zipfile.ZIP_DEFLATED)
+    return buf.getvalue()
+
+
+def figma(cand, raw, work, out, A, budget=100 * 2**20):
+    s = sources.session()
+    first = raw.read_bytes()
+    if not _fig_ok(first):
+        return {'ok': False, 'reason': 'not a Figma file (or a Git LFS pointer)'}
+    figs, total = [first], len(first)
+    for p in cand['figs'][1:]:
+        try:
+            r = s.get(cand['base'] + quote(p), timeout=120)
+        except requests.RequestException:
+            continue
+        if r.ok and _fig_ok(r.content) and total + len(r.content) < budget:
+            figs.append(r.content)
+            total += len(r.content)
+    web, failed = {}, 0
+    for p in cand['web']:
+        if total > budget or failed > 20:
+            break
+        try:
+            r = s.get(cand['base'] + quote(p), timeout=60)
+        except requests.RequestException:
+            failed += 1
+            continue
+        if not r.ok:
+            failed += 1
+            continue
+        web[p] = r.content
+        total += len(r.content)
+    pages = [p for p in web if re.search(r'\.html?$', p, re.I)]
+    styles = [p for p in web if re.search(r'\.(?:css|scss|sass|less)$', p, re.I)]
+    if not pages or not styles:
+        return {'ok': False, 'reason': 'HTML/CSS could not be downloaded'}
+    readme = ''
+    if cand.get('readme'):
+        try:
+            r = s.get(cand['base'] + quote(cand['readme']), timeout=60)
+            readme = r.text if r.ok else ''
+        except requests.RequestException:
+            pass
+    visible = '\n'.join(re.sub(r'<[^>]+>', ' ', re.sub(r'<(script|style)\b.*?</\1\s*>', ' ', web[p].decode('utf-8', 'replace'),
+                                                                  flags=re.S | re.I)) for p in pages)
+    if COURSEWORK.search(readme[:5000]):
+        return {'ok': False, 'reason': 'course work'}
+    A.learn(readme[:200000] + '\n' + visible[:600000])
+    owner = cand.get('owner')
+    dst = out / 'pack.zip'
+    with zipfile.ZipFile(dst, 'w', zipfile.ZIP_DEFLATED) as z:
+        for i, data in enumerate(figs, 1):
+            z.writestr(zipfile.ZipInfo(f'figma/design-{i}.fig', ZIP_DATE), _scrub_fig(A, data), zipfile.ZIP_STORED)
+        for p, data in sorted(web.items()):
+            name = 'web/' + _owner_scrub(p, owner)
+            if re.search(r'\.html?$', p, re.I):
+                data = _scrub_html(A, data.decode('utf-8', 'replace'), owner).encode('utf-8')
+            elif re.search(r'\.(?:css|scss|sass|less)$', p, re.I):
+                data = _scrub_css(A, data.decode('utf-8', 'replace'), owner).encode('utf-8')
+            elif p.lower().endswith('.svg'):
+                svg = data.decode('utf-8', 'replace')
+                svg = re.sub(r'<metadata\b.*?</metadata>', '', svg, flags=re.S | re.I)
+                data = _owner_scrub(svg, owner).encode('utf-8')
+            z.writestr(zipfile.ZipInfo(name, ZIP_DATE), data)
+    hay = ' '.join([cand.get('about', ''), readme[:5000], visible[:20000]])
+    cat = next((name for name, pat in CATEGORY if re.search(pat, hay, re.I)), 'Website')
+    raw = hashlib.sha256(b''.join(hashlib.sha256(f).digest() for f in sorted(figs))).hexdigest()  # same designs = duplicate
+    return {'ok': True, 'path': str(dst), 'ext': 'zip', 'label': f'Figma design and HTML-CSS - {cat}', 'raw': raw}
+
+
+def process(cand, kind, raw, work, A):
+    out = Path(work) / 'out'
+    out.mkdir(exist_ok=True)
+    return notebook(cand, raw, Path(work), out, A) if kind == 'scinotebooks' else figma(cand, raw, Path(work), out, A)
+
+
+def sci_sources(state, kind, s, log):
+    """Zenodo and GitHub take turns going first, so neither fills the queue alone."""
+    turn = state['cursors'].setdefault('sci:turn', {'n': 0})
+    turn['n'] += 1
+    added = 0
+    for fn in ((sci_zenodo, sci_github) if turn['n'] % 2 else (sci_github, sci_zenodo)):
+        if not late():
+            added += fn(state, kind, s, log, pages=1)
+    return added
+
+
+DISCOVER = {'scinotebooks': [sci_sources], 'figma': [figma_github]}
