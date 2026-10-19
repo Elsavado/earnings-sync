@@ -104,7 +104,8 @@ class Store:
 
     def _folder(self, parent, name):
         q = f"name = '{name}' and mimeType = '{FOLDER}' and '{parent}' in parents and trashed = false"
-        found = _retry(lambda: self.drive.files().list(q=q, fields='files(id)', pageSize=5).execute())['files']
+        # Oldest first: parallel jobs can create a folder twice at the same moment; all of them then use the first.
+        found = _retry(lambda: self.drive.files().list(q=q, fields='files(id)', pageSize=5, orderBy='createdTime').execute())['files']
         if found:
             return found[0]['id']
         return _retry(lambda: self.drive.files().create(body={'name': name, 'mimeType': FOLDER, 'parents': [parent]},
