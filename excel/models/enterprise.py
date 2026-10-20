@@ -1037,7 +1037,7 @@ NEUTRAL = [(re.compile(r'Reported figures \(Form 10-K\)'), 'Historical figures')
             'Historical annual figures (USD millions) - hard-coded inputs'),
            (re.compile(r'USD millions \(as reported, SEC XBRL\)'), 'USD millions'),
            (re.compile(r"company's reported 10-K figures"), "company's historical financial statements")]
-SOURCE_WORDS = re.compile(r'10-K|10-Q|\bSEC\b|XBRL|EDGAR|\bFRED\b|Damodaran|public float|cover page|\bdei:|public data|'
+SOURCE_WORDS = re.compile(r'10-K|10-Q|\bSEC\b|XBRL|EDGAR(?! County)|\bFRED\b|Damodaran|public float|cover page|\bdei:|public data|'
                           r'publicly available|sec\.gov|filing|World Bank|\bIBRD\b|Census Bureau|census\.gov|worldbank', re.I)
 
 
