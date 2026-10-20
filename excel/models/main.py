@@ -119,6 +119,9 @@ class Run:
             st.setdefault(k, v)
         if self.store and not DRY:
             st['next'] = max(st['next'], self.store.max_number() + 1)
+            if ENT_KIND:
+                for k in self.store.uploaded_keys():
+                    st['seen'].setdefault(k, 'ok:already on Drive')
         self.tmp = Path(tempfile.mkdtemp(prefix='xm_'))
         self.made = 0
         self.last_save = time.time()
@@ -378,8 +381,8 @@ class Run:
         s = sources.session()
         if len(self.state['queue']) < 400:
             try:
-                sources.websites(self.state, s, log, companies_json, max_domains=400,
-                                 minutes=max(2, min(18, 0.35 * left() / 60)))
+                sources.websites(self.state, s, log, companies_json, max_domains=300, ir_hosts=True,
+                                 minutes=max(2, min(20, 0.4 * left() / 60)))
             except Exception as err:  # noqa: BLE001
                 log(f'websites: failed ({type(err).__name__}: {err})')
             self.save(force=True)
@@ -570,7 +573,14 @@ if __name__ == '__main__':
     try:
         if os.environ.get('RESET', '').lower() == 'true':
             Store().reset(log)
-        Run().go()
+        if os.environ.get('ENT_SETUP'):
+            # One job creates every group and type folder before the parallel jobs start (no duplicate folders).
+            for kind in os.environ['ENT_SETUP'].split(','):
+                Store(f'{ENT_ROOT}/{enterprise.group_of(kind)}/{enterprise.label_of(kind)}', 'Enterprise Wide Models - private',
+                      app=f'ent-{kind}', state_name=f'state-{kind}.json.gz')
+                log(f'folders ready: {enterprise.group_of(kind)}/{enterprise.label_of(kind)}')
+        else:
+            Run().go()
     except Exception:  # noqa: BLE001
         traceback.print_exc()
         code = 1

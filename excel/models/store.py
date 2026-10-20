@@ -137,6 +137,19 @@ class Store:
             if not token:
                 return best
 
+    def uploaded_keys(self):
+        """xmKey of every file this collector has uploaded (so an interrupted run never uploads one twice)."""
+        keys, token = set(), None
+        while True:
+            res = _retry(lambda: self.drive.files().list(
+                q=f"appProperties has {{ key='xmApp' and value='{self.app}' }} and trashed = false",
+                fields='nextPageToken, files(appProperties)', pageSize=1000, pageToken=token).execute())
+            keys.update(f.get('appProperties', {}).get('xmKey') for f in res.get('files', []))
+            token = res.get('nextPageToken')
+            if not token:
+                keys.discard(None)
+                return keys
+
     def upload(self, path, n, label, ext, key, category):
         name = f'{n} - {label}.{ext}'
         if self.dry_run:

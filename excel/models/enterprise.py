@@ -904,7 +904,7 @@ def finish(wb):
         for row in ws.iter_rows():
             for cell in row:
                 v = cell.value
-                if isinstance(v, str):
+                if isinstance(v, str) and not v.startswith('='):  # formulas such as =K10-K12 are not source wording
                     for rx, new in NEUTRAL:
                         v = rx.sub(new, v)
                     if v != cell.value:

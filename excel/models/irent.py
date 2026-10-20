@@ -51,7 +51,7 @@ def parse_period(v):
     if not isinstance(v, str):
         return None
     s = v.strip()
-    if len(s) > 24 or re.search(r'\b(E|est|estimate|budget|plan|forecast|guidance|target)\b', s, re.I):
+    if len(s) > 60 or re.search(r'\b(E|est|estimate|budget|plan|forecast|guidance|target)\b', s, re.I):
         return None
     m = re.fullmatch(r"(?:FY|CY|F)?\s*'?((?:19|20)\d{2})\s*(?:A|Actual|\(A\))?", s, re.I)
     if m:
@@ -67,7 +67,29 @@ def parse_period(v):
     m = re.fullmatch(r"(?:FY|CY)?\s*((?:19|20)\d{2})\s*[-/ ]?\s*Q([1-4])", s, re.I)
     if m:
         return (int(m.group(1)), int(m.group(2)))
+    # Period-end dates written out: "Dec 31, 2024", "December 31, 2024", "Mar-24", "31-Mar-2024", "Sep 2023".
+    m = re.search(r"\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?[\s\-']*(?:\d{1,2}(?:st|nd|rd|th)?,?[\s\-']*)?"
+                  r"'?((?:19|20)\d{2}|\d{2})\b", s, re.I) or \
+        re.search(r"\b\d{1,2}[\s\-](jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*[\s\-,]*((?:19|20)\d{2}|\d{2})\b", s, re.I)
+    if m and not re.search(r'\b(nine|six) months\b', s, re.I):  # year-to-date columns are not single periods
+        month = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'].index(m.group(1).lower()[:3]) + 1
+        y = int(m.group(2))
+        return ('m', y + 2000 if y < 100 else y, month)
     return None
+
+
+def _normalise(found):
+    """Month-dated headers: one month throughout = annual columns, otherwise quarters."""
+    months = {p[2] for _, p in found if p[0] == 'm'}
+    out = []
+    for c, p in found:
+        if p[0] != 'm':
+            out.append((c, p))
+        elif len(months) == 1:
+            out.append((c, (p[1], 0)))
+        else:
+            out.append((c, (p[1], (p[2] - 1) // 3 + 1)))
+    return out
 
 
 def _order(p):
@@ -86,7 +108,7 @@ def find_block(ws):
                 grid[(c.row, c.column)] = c.value
     for r in range(1, rows + 1):
         found = [(cidx, parse_period(grid.get((r, cidx)))) for cidx in range(1, cols + 1)]
-        found = [(cidx, p) for cidx, p in found if p]
+        found = _normalise([(cidx, p) for cidx, p in found if p])
         if len(found) < 3:
             continue
         freq = {bool(p[1]) for _, p in found}
@@ -100,7 +122,7 @@ def find_block(ws):
         first_col = min(cidx for cidx, _ in found)
         series = []
         for rr in range(r + 1, rows + 1):
-            if any(parse_period(grid.get((rr, cidx))) for cidx, _ in found[:3]):
+            if sum(bool(parse_period(grid.get((rr, cidx)))) for cidx, _ in found[:3]) >= 2:
                 break  # next header row
             label = next((grid[(rr, cc)] for cc in range(1, first_col) if isinstance(grid.get((rr, cc)), str)
                           and grid[(rr, cc)].strip()), None)
@@ -191,8 +213,8 @@ def enhance(wb, category, title):
             blocks.append((ws, b))
     blocks.sort(key=lambda x: -len(x[1][2]) * len(x[1][1]))
     blocks = blocks[:MAX_SHEETS]
-    if sum(len(b[2]) for _, b in blocks) < 8:
-        return None, 'fewer than 8 time series'
+    if sum(len(b[2]) for _, b in blocks) < 5:
+        return None, 'fewer than 5 time series'
     si = Inputs(wb, 'Scenario Inputs', 'Forecast settings and scenarios')
     si.add('cap', 'Maximum starting growth per year', 0.30, PCT)
     si.add('floor', 'Minimum starting growth per year', -0.20, PCT)

@@ -289,7 +289,8 @@ def _crawl_domain(domain, deadline):
     return found
 
 
-def websites(state, s, log, companies_json=None, max_domains=250, minutes=12):
+def websites(state, s, log, companies_json=None, max_domains=250, minutes=12, ir_hosts=False):
+    """ir_hosts: also crawl the investor-relations hosts (investors.<domain>, investor.<domain>, ir.<domain>)."""
     st = state.setdefault('web', {'domains': [], 'i': 0, 'listed_at': 0})
     if not st['domains'] or st['listed_at'] < time.time() - 30 * 86400 and st['i'] >= len(st['domains']):
         st['domains'] = company_domains(s, companies_json)
@@ -298,8 +299,9 @@ def websites(state, s, log, companies_json=None, max_domains=250, minutes=12):
     todo = st['domains'][st['i']:st['i'] + max_domains]
     deadline = time.time() + minutes * 60
     n = 0
-    pool = ThreadPoolExecutor(max_workers=16)
-    futs = [pool.submit(_crawl_domain, d, deadline) for d in todo]
+    hosts = [h for d in todo for h in ([d] + ([f'{p}.{d}' for p in ('investors', 'investor', 'ir')] if ir_hosts else []))]
+    pool = ThreadPoolExecutor(max_workers=48 if ir_hosts else 16)
+    futs = [pool.submit(_crawl_domain, d, deadline) for d in hosts]
     # Stop at the deadline: sites still being crawled are dropped for this run.
     finished, _ = wait(futs, timeout=max(1, deadline - time.time() + 20))
     pool.shutdown(wait=False, cancel_futures=True)

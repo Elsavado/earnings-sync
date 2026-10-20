@@ -33,7 +33,7 @@ permissions:
   actions: write
 
 concurrency:
-  group: research-collect
+  group: research-collect-${{ github.event.inputs.dry_run || 'false' }}
   cancel-in-progress: false
 
 env:
