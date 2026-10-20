@@ -30,7 +30,7 @@ from . import anon as _anon
 from . import sources
 from .sources import _add, _gh, late
 
-KINDS = ('scinotebooks', 'figma')
+KINDS = ('scinotebooks', 'figma', 'styleguides')
 OPEN = {'mit', 'apache-2.0', 'bsd-3-clause', 'bsd-2-clause', 'gpl-3.0', 'gpl-2.0', 'lgpl-3.0', 'agpl-3.0', 'cc0-1.0',
         'unlicense', 'cc-by-4.0', 'cc-by-sa-4.0', 'mpl-2.0', 'isc', 'bsl-1.0', 'zlib', 'epl-2.0', 'wtfpl', 'ofl-1.1'}
 ZIP_DATE = (2026, 1, 1, 0, 0, 0)  # fixed dates: the same content always gives the same zip (duplicate check)
@@ -597,10 +597,146 @@ def figma(cand, raw, work, out, A, budget=100 * 2**20):
     return {'ok': True, 'path': str(dst), 'ext': 'zip', 'label': f'Figma design and HTML-CSS - {cat}', 'raw': raw}
 
 
+# --- style guides and guidelines ------------------------------------------------------------------------------------
+STYLE_REPO_QUERIES = ['topic:style-guide', 'topic:styleguide', 'topic:design-system', 'topic:brand-guidelines',
+                      'topic:coding-standards', 'topic:coding-style', 'topic:writing-style-guide', 'topic:content-design',
+                      'topic:design-guidelines', 'topic:accessibility-guidelines', 'topic:api-guidelines', 'topic:design-tokens',
+                      '"style guide" in:name,description', '"brand guidelines" in:name,description',
+                      '"design guidelines" in:name,description', '"coding standards" in:name,description',
+                      '"API guidelines" in:name,description', '"content style guide" in:name,description',
+                      '"design system" in:name,description']
+STYLE_DOC = re.compile(r'\.(?:md|mdx|markdown|rst|txt|adoc|pdf)$', re.I)
+STYLE_PATH = re.compile(r'(?:^|/)(?:docs?|guide|guides|guidelines?|style[-_ ]?guide|handbook|standards?|principles|'
+                        r'foundations|components|patterns|content|writing|brand|tokens|accessibility|rules)(?:/|$)|'
+                        r'(?:^|/)[^/]*(?:style|guide|guideline|standard|convention|principle|readme)[^/]*$', re.I)
+STYLE_SKIP = re.compile(r'(?:^|/)(?:changelog|history|license|licence|code_of_conduct|security|funding|authors|'
+                        r'contributors|codeowners|node_modules|vendor|test|tests|__tests__|fixtures?|examples?/.+/node_modules)',
+                        re.I)
+STYLE_CATEGORY = [('Brand guidelines', r'\bbrand|logo usage|visual identity'),
+                  ('Accessibility guidelines', r'accessib|\bwcag\b|\ba11y\b'),
+                  ('API design guidelines', r'\bapi\b.*(?:guideline|design|standard)|rest(?:ful)? api'),
+                  ('Writing and content style guide', r'writing|content style|tone of voice|voice and tone|editorial'),
+                  ('Design system', r'design system|design tokens|component library|ui kit'),
+                  ('Coding style guide', r'coding|code style|lint|naming convention|javascript|python|java\b|css|sql|go\b|rust'),
+                  ('Project guidelines', r'.')]
+
+
+def _style_repo(state, kind, s, repo):
+    """Queues a repository whose documents form a real style guide or set of guidelines."""
+    full = repo['full_name']
+    if f'ghrepo:{kind}:{full}' in state['seen']:
+        return 0
+    state['seen'][f'ghrepo:{kind}:{full}'] = 1
+    name = full.replace('-', ' ').replace('_', ' ')
+    if not _license_ok(repo) or repo.get('fork') or repo.get('archived') and repo.get('stargazers_count', 0) < 20 \
+            or repo.get('stargazers_count', 0) < 3 or re.search(r'\bawesome\b', name, re.I) \
+            or COURSEWORK.search(name) or COURSEWORK.search(repo.get('description') or ''):
+        return 0
+    branch = repo.get('default_branch') or 'main'
+    docs = sources._repo_files(s, full, branch, lambda p: bool(STYLE_DOC.search(p) and STYLE_PATH.search(p)
+                                                                and not STYLE_SKIP.search(p) and not SKIP_DIR.search(p)),
+                               15 * 2**20, 400)
+    docs = sorted(docs, key=lambda t: (t['path'].count('/'), t['path']))[:150]
+    if len(docs) < 3 or sum(t.get('size', 0) for t in docs) < 12_000:
+        return 0
+    base = f'https://raw.githubusercontent.com/{full}/{quote(branch)}/'
+    return int(_add(state, kind, {'key': f'style:{full}', 'url': base + quote(docs[0]['path']), 'ext': 'zip', 'orgs': [],
+                                  'source': 'github', 'owner': full.split('/')[0], 'base': base,
+                                  'docs': [t['path'] for t in docs], 'about': (repo.get('description') or '')[:300],
+                                  'topics': ' '.join(repo.get('topics') or [])[:300]}))
+
+
+def style_github(state, kind, s, log, pages=2):
+    added = 0
+    for q in STYLE_REPO_QUERIES:
+        cur = state['cursors'].setdefault(f'style:repo:{q}', {'page': 1})
+        if cur.get('done'):
+            continue
+        for _ in range(pages):
+            if late():
+                return added
+            try:
+                r = s.get('https://api.github.com/search/repositories', headers=_gh(s), timeout=60,
+                          params={'q': f'{q} fork:false', 'sort': 'stars', 'per_page': 50, 'page': cur['page']})
+                if r.status_code == 403:
+                    time.sleep(30)
+                    break
+                items = r.json().get('items', []) if r.ok else None
+            except (requests.RequestException, ValueError):
+                items = None
+            if items is None:
+                break
+            time.sleep(2)
+            for repo in items:
+                if late():
+                    return added
+                added += _style_repo(state, kind, s, repo)
+            cur['page'] += 1
+            if len(items) < 50 or cur['page'] > 20:
+                cur['done'] = True
+                break
+    return added
+
+
+def _md_title(path, text):
+    m = re.search(r'^\s*#\s+(.+)$', text, re.M)
+    return (m.group(1).strip() if m else Path(path).stem.replace('-', ' ').replace('_', ' ').strip().capitalize())[:120]
+
+
+def styleguide(cand, raw, work, out, A, budget=60 * 2**20):
+    """A zip of the guide's documents (anonymised) plus one combined STYLE-GUIDE.md in reading order."""
+    s = sources.session()
+    files, total, failed = {}, 0, 0
+    for p in cand['docs']:
+        if total > budget or failed > 15:
+            break
+        try:
+            r = s.get(cand['base'] + quote(p), timeout=60)
+        except requests.RequestException:
+            failed += 1
+            continue
+        if not r.ok:
+            failed += 1
+            continue
+        files[p] = r.content
+        total += len(r.content)
+    texts = {p: d.decode('utf-8', 'replace') for p, d in files.items() if not p.lower().endswith('.pdf')}
+    words = sum(len(t.split()) for t in texts.values())
+    if len(files) < 3 or words < 1500:
+        return {'ok': False, 'reason': f'too little guidance ({words} words)'}
+    if COURSEWORK.search(' '.join(list(texts.values())[:3])[:5000]):
+        return {'ok': False, 'reason': 'course work'}
+    A.learn('\n'.join(texts.values())[:800000])
+    owner = cand.get('owner')
+    dst = out / 'guide.zip'
+    combined = []
+    with zipfile.ZipFile(dst, 'w', zipfile.ZIP_DEFLATED) as z:
+        for p, data in sorted(files.items(), key=lambda kv: (kv[0].count('/'), kv[0])):
+            name = 'guide/' + _owner_scrub(p, owner)
+            if p in texts:
+                body = _owner_scrub(A.scrub(texts[p]), owner)
+                body = SOCIAL.sub('#', body)
+                z.writestr(zipfile.ZipInfo(name, ZIP_DATE), body.encode('utf-8'))
+                combined.append(f'\n\n---\n\n<!-- {name} -->\n\n# {_md_title(p, body)}\n\n' +
+                                re.sub(r'^\s*#\s+.+$', '', body, count=1, flags=re.M).strip())
+            else:
+                z.writestr(zipfile.ZipInfo(name, ZIP_DATE), data)
+        hay = ' '.join([cand.get('about', ''), cand.get('topics', ''), ' '.join(list(texts.values())[:2])[:4000]])
+        cat = next(n for n, pat in STYLE_CATEGORY if re.search(pat, hay, re.I))
+        head = f'# {cat}\n\nCombined edition of {len(texts)} guidance documents in reading order.\n'
+        z.writestr(zipfile.ZipInfo('STYLE-GUIDE.md', ZIP_DATE), (head + ''.join(combined)).encode('utf-8'))
+    raw_hash = hashlib.sha256(b''.join(hashlib.sha256(files[p]).digest() for p in sorted(files))).hexdigest()
+    return {'ok': True, 'path': str(dst), 'ext': 'zip', 'label': f'Style guide - {cat}', 'raw': raw_hash}
+
+
 def process(cand, kind, raw, work, A):
-    _anon.PERSON = 'John Doe'  # this collector's placeholder for people (user, 2026-10-19); its workers run nothing else
+    # Placeholders for people: John Doe for notebooks and Figma (user, 2026-10-19), Salvador Sekwa for style guides
+    # (user, 2026-10-20). This collector's workers run nothing else.
+    _anon.PERSON = 'Salvador Sekwa' if kind == 'styleguides' else 'John Doe'
     out = Path(work) / 'out'
     out.mkdir(exist_ok=True)
+    if kind == 'styleguides':
+        return styleguide(cand, raw, Path(work), out, A)
     return notebook(cand, raw, Path(work), out, A) if kind == 'scinotebooks' else figma(cand, raw, Path(work), out, A)
 
 
@@ -615,4 +751,4 @@ def sci_sources(state, kind, s, log):
     return added
 
 
-DISCOVER = {'scinotebooks': [sci_sources], 'figma': [figma_github]}
+DISCOVER = {'scinotebooks': [sci_sources], 'figma': [figma_github], 'styleguides': [style_github]}

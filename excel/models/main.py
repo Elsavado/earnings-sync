@@ -20,7 +20,7 @@ from pathlib import Path
 import requests
 from openpyxl.workbook import Workbook  # noqa: F401  (import check)
 
-from . import bank, bankent, dcf, enterprise, fpa, govent, lbo, links, lo, sources, three
+from . import bank, bankent, dcf, enterprise, fpa, govent, irent, lbo, links, lo, sources, three
 from .anonymize import Anonymizer
 from .market import Market
 from .process import process
@@ -36,7 +36,7 @@ SEC_UA = os.environ.get('SEC_USER_AGENT') or 'ExcelModels research contact@examp
 BANK_SIC = set(range(6020, 6037)) | {6111, 6141, 6153, 6159, 6162, 6172, 6199}
 # Enterprise-wide models (enterprise.py): one model type per job, each with its own folder and numbering.
 ENT_KIND = os.environ.get('ENT_KIND', '')
-ENT_ROOT = 'Enterprise Wide Models'
+ENT_ROOT = os.environ.get('ENT_ROOT', '')  # '' when the Shared Drive itself is 'Enterprise Wide Models'
 NAME_KEY = (os.environ.get('ENT_NAME_KEY') or os.urandom(32).hex()).encode()
 
 
@@ -52,6 +52,18 @@ FILE_SECONDS = 180  # hard limit for processing one downloaded spreadsheet
 ANON = None  # set before the worker pool forks, so workers inherit the loaded name lists
 
 
+def _ir_one(args):
+    """IR-enhanced model from one downloaded workbook (runs in the killable worker)."""
+    src, name, work = args
+    got, why = irent.make(src, name, work, ANON)
+    if not got:
+        return {'ok': False, 'reason': why}
+    wb, category, title, originals = got
+    path = str(Path(work) / 'model.xlsx')
+    wb.save(path)
+    return {'ok': True, 'path': path, 'category': category, 'title': title, 'originals': sorted(originals), 'asof': wb.asof}
+
+
 def _process_one(args):
     src, name, work = args
     res = process(src, name, work, ANON)
@@ -64,9 +76,9 @@ class Worker:
     def __init__(self):
         self.pool = multiprocessing.get_context('fork').Pool(1)
 
-    def run(self, args):
+    def run(self, args, fn=None):
         try:
-            return self.pool.apply_async(_process_one, (args,)).get(timeout=FILE_SECONDS)
+            return self.pool.apply_async(fn or _process_one, (args,)).get(timeout=FILE_SECONDS)
         except multiprocessing.TimeoutError:
             self.pool.terminate()
             os.system('pkill -9 -f soffice >/dev/null 2>&1')
@@ -97,7 +109,7 @@ class Run:
             self.store = None
         elif ENT_KIND:
             group = enterprise.group_of(ENT_KIND)
-            self.store = Store(f'{ENT_ROOT}/{group}/{enterprise.label_of(ENT_KIND)}', f'{ENT_ROOT} - private', dry_run=DRY,
+            self.store = Store(f'{ENT_ROOT}/{group}/{enterprise.label_of(ENT_KIND)}', 'Enterprise Wide Models - private', dry_run=DRY,
                                app=f'ent-{ENT_KIND}', state_name=f'state-{ENT_KIND}.json.gz')
         else:
             self.store = Store(dry_run=DRY)
@@ -193,9 +205,10 @@ class Run:
         log(f'scraped: processed {done}, {len(q)} still queued')
 
     # --- SEC company models ------------------------------------------------------------
-    def verify(self, wb, path):
-        """Saves, recalculates in LibreOffice and checks a generated model. Returns the recalculated file or None."""
-        hard = [(ws.title, c.coordinate) for ws in wb.worksheets if ws.title not in INPUT_SHEETS
+    def verify(self, wb, path, allowed=()):
+        """Saves, recalculates in LibreOffice and checks a generated model. Returns the recalculated file or None.
+        allowed: further sheets that may hold hard-coded figures (a company's own data sheets)."""
+        hard = [(ws.title, c.coordinate) for ws in wb.worksheets if ws.title not in INPUT_SHEETS and ws.title not in allowed
                 for row in ws.iter_rows() for c in row if isinstance(c.value, (int, float)) and not isinstance(c.value, bool)]
         if hard:
             return None, f'hard-coded numbers outside inputs: {hard[:3]}'
@@ -360,6 +373,71 @@ class Run:
                     shutil.rmtree(work, ignore_errors=True)
         log(f'enterprise {ENT_KIND}: company {st["i"]}/{len(st["companies"])}')
 
+    def ir(self, companies_json):
+        """IR-enhanced models: crawl company investor-relations sites for workbooks, then turn each into a model."""
+        s = sources.session()
+        if len(self.state['queue']) < 400:
+            try:
+                sources.websites(self.state, s, log, companies_json, max_domains=400,
+                                 minutes=max(2, min(18, 0.35 * left() / 60)))
+            except Exception as err:  # noqa: BLE001
+                log(f'websites: failed ({type(err).__name__}: {err})')
+            self.save(force=True)
+        q = self.state['queue']
+        until = time.time() + left() - 120
+        worker = Worker()
+        done = 0
+        while q and time.time() < until:
+            cand = q.pop(0)
+            self.state['queued'].pop(cand['key'], None)
+            key = 'ir:' + model_code(cand['url'])
+            if key in self.state['seen']:
+                continue
+            work = self.tmp / f'ir{done}'
+            work.mkdir()
+            try:
+                r = s.get(cand['url'], timeout=90, stream=True)
+                if not r.ok:
+                    self.state['seen'][key] = f'rej:http {r.status_code}'
+                    continue
+                src = work / 'download.bin'
+                size, t0 = 0, time.time()
+                with open(src, 'wb') as f:
+                    for chunk in r.iter_content(1 << 16):
+                        size += len(chunk)
+                        if size > 40 * 1024 * 1024 or time.time() - t0 > 90:
+                            break
+                        f.write(chunk)
+                r.close()
+                raw = 'raw:' + hashlib.sha256(src.read_bytes()).hexdigest()
+                if raw in self.state['seen']:
+                    self.state['seen'][key] = 'rej:duplicate download'
+                    continue
+                self.state['seen'][raw] = 1
+                res = worker.run((str(src), cand['name'], str(work)), _ir_one)
+                if not res.get('ok'):
+                    self.state['seen'][key] = f'rej:{res.get("reason")}'[:120]
+                    log(f'  - {key[3:]}: {res.get("reason")}')
+                    continue
+                from openpyxl import load_workbook
+                wb = load_workbook(res['path'])
+                out, why = self.verify(wb, Path(res['path']).parent / 'final.xlsx', allowed=set(res['originals']))
+                if not out:
+                    self.state['seen'][key] = f'rej:{why}'[:160]
+                    log(f'  - {key[3:]}: {why}')
+                    continue
+                code = model_code(cand['url'])
+                self.publish(out, f'Enterprise wide model - {irent.LABEL} - {res["category"]} - {res["title"]} - FY{res["asof"]} - {code}',
+                             'xlsx', key, res['category'], 'website')
+            except Exception as err:  # noqa: BLE001
+                self.state['seen'][key] = f'rej:error {type(err).__name__}'
+                log(f'  ! {key[3:]}: {type(err).__name__}: {err}')
+            finally:
+                shutil.rmtree(work, ignore_errors=True)
+                done += 1
+        worker.close()
+        log(f'ir: processed {done}, {len(q)} still queued')
+
     def gov(self, until):
         """Government models of one type: every county, state, country or project with complete statistics."""
         s = requests.Session()
@@ -405,6 +483,8 @@ class Run:
             self.market = Market(log)
             if ENT_KIND in govent.KINDS:
                 self.gov(time.time() + left() - 120)
+            elif ENT_KIND == irent.KIND:
+                self.ir(self.setup_anonymizer())
             else:
                 self.enterprise(time.time() + left() - 120)
             self.save(force=True)
@@ -431,6 +511,13 @@ class Run:
                 return
         self.market = Market(log)
         log(f'market: rf {self.market.rf:.2%}, ERP {self.market.erp:.2%}, SOFR {self.market.sofr:.2%}, {len(self.market.betas)} industry betas')
+        companies_json = self.setup_anonymizer()
+
+        # Uploads start straight away: SEC company models first (fast, almost all pass), then
+        # source collection and scraped files in the last part of the run.
+        self.old_collector(companies_json)
+
+    def setup_anonymizer(self):
         tickers = requests.get('https://www.sec.gov/files/company_tickers.json', headers={'User-Agent': SEC_UA}, timeout=60).json()
         names = [v['title'] for v in tickers.values()]
         companies_json = None
@@ -447,9 +534,9 @@ class Run:
         global ANON
         self.anonymizer = ANON = Anonymizer(names, [v['title'] for v in list(tickers.values())[:1500]], nlp)
         log(f'anonymizer: {len(self.anonymizer.multi)} multi-word and {len(self.anonymizer.single)} one-word company names')
+        return companies_json
 
-        # Uploads start straight away: SEC company models first (fast, almost all pass), then
-        # source collection and scraped files in the last part of the run.
+    def old_collector(self, companies_json):
         self.sec(time.time() + 0.75 * left())
         self.save(force=True)
         s = sources.session()

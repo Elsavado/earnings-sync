@@ -19,7 +19,7 @@ on:
         required: false
         default: '50'
       kinds:
-        description: 'Only these types (comma list: scinotebooks,figma)'
+        description: 'Only these types (comma list: scinotebooks,figma,styleguides)'
         required: false
         default: 'scinotebooks,figma'
       chained:
@@ -61,7 +61,7 @@ jobs:
           python3 - <<'EOF'
           import json, os
           go = not (os.environ['CHAINED'] == 'true' and os.environ['LIVE'] != 'true')
-          kinds = [k.strip() for k in os.environ['KINDS'].split(',') if k.strip() in ('scinotebooks', 'figma')]
+          kinds = [k.strip() for k in os.environ['KINDS'].split(',') if k.strip() in ('scinotebooks', 'figma', 'styleguides')]
           with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
               f.write(f"go={'true' if go and kinds else 'false'}\nkinds={json.dumps(kinds)}\n")
           print('go' if go else 'stop', kinds)

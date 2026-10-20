@@ -47,7 +47,7 @@ sources.DISCOVER.update(research.DISCOVER)
 
 
 def size_class(kind):
-    return 'data' if kind in K.TABULAR or kind == 'figma' else 'doc'  # a Figma package downloads many files
+    return 'data' if kind in K.TABULAR or kind in ('figma', 'styleguides') else 'doc'  # these download many files
 ANON = None  # set before the worker pool forks
 
 

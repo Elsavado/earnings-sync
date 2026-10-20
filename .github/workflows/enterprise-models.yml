@@ -33,7 +33,7 @@ permissions:
   actions: write
 
 concurrency:
-  group: enterprise-models
+  group: enterprise-models-${{ github.event.inputs.dry_run || 'false' }}
   cancel-in-progress: false
 
 env:
@@ -56,7 +56,7 @@ jobs:
         run: |
           python3 - <<'EOF'
           import json, os, re
-          src = ''.join(open(f'excel/models/{m}.py').read() for m in ('enterprise', 'bankent', 'govent') if os.path.exists(f'excel/models/{m}.py'))
+          src = ''.join(open(f'excel/models/{m}.py').read() for m in ('enterprise', 'bankent', 'govent', 'irent') if os.path.exists(f'excel/models/{m}.py'))
           known = re.findall(r"^\s+'([a-z_]+)': '[^']+',\s*$", src, re.M)
           want = known if os.environ['KINDS'] == 'all' else [k.strip() for k in os.environ['KINDS'].split(',')]
           kinds = [k for k in want if k in known]
@@ -119,4 +119,4 @@ jobs:
     steps:
       - env:
           GH_TOKEN: ${{ github.token }}
-        run: gh workflow run enterprise-models.yml -R ${{ github.repository }} --ref main -f dry_run=false -f minutes=50 -f chained=true
+        run: gh workflow run enterprise-models.yml -R ${{ github.repository }} --ref main -f dry_run=false -f minutes=50 -f chained=true -f kinds="${{ github.event.inputs.kinds || 'all' }}"
