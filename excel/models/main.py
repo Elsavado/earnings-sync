@@ -20,7 +20,7 @@ from pathlib import Path
 import requests
 from openpyxl.workbook import Workbook  # noqa: F401  (import check)
 
-from . import bank, dcf, enterprise, fpa, lbo, links, lo, sources, three
+from . import bank, bankent, dcf, enterprise, fpa, govent, lbo, links, lo, sources, three
 from .anonymize import Anonymizer
 from .market import Market
 from .process import process
@@ -37,6 +37,13 @@ BANK_SIC = set(range(6020, 6037)) | {6111, 6141, 6153, 6159, 6162, 6172, 6199}
 # Enterprise-wide models (enterprise.py): one model type per job, each with its own folder and numbering.
 ENT_KIND = os.environ.get('ENT_KIND', '')
 ENT_ROOT = 'Enterprise Wide Models'
+NAME_KEY = (os.environ.get('ENT_NAME_KEY') or os.urandom(32).hex()).encode()
+
+
+def model_code(key):
+    """Unique code for a file name that does not reveal the company (keyed hash; the key is a repository secret)."""
+    import hmac
+    return 'EW-' + hmac.new(NAME_KEY, key.encode(), hashlib.sha256).hexdigest()[:8].upper()
 TYPE_LABEL = {'three': 'Three-statement model', 'reit': 'Industry-specific model - REIT', 'bank': 'Industry-specific model - Bank',
               'dcf': 'DCF valuation model', 'lbo': 'LBO model', 'fpa': 'Operating & FP&A model'}
 
@@ -78,7 +85,7 @@ def left():
     return BUDGET - (time.time() - START)
 
 
-def clean_label(s, limit=90):
+def clean_label(s, limit=150):
     s = re.sub(r'[\\/:*?"<>|]+', ' ', s)
     s = re.sub(r'\s+', ' ', s).strip()
     return s[:limit].strip().rstrip('.').strip()
@@ -304,7 +311,8 @@ class Run:
         while st['i'] < len(st['companies']) and time.time() < until:
             cik = st['companies'][st['i']]
             st['i'] += 1
-            todo = [t for t in enterprise.TRIMS if f'ent:{cik}:{ENT_KIND}:{t}' not in self.state['seen']]
+            keys = {t: 'ent:' + model_code(f'{cik}:{ENT_KIND}:{t}') for t in enterprise.TRIMS}
+            todo = [t for t in enterprise.TRIMS if keys[t] not in self.state['seen']]
             if not todo:
                 continue
             try:
@@ -316,7 +324,7 @@ class Run:
                 sic = sub.get('sic') or ''
                 if not enterprise.applies(ENT_KIND, sic):
                     for t in todo:
-                        self.state['seen'][f'ent:{cik}:{ENT_KIND}:{t}'] = 'rej:not this industry'
+                        self.state['seen'][keys[t]] = 'rej:not this industry'
                     continue
                 facts = s.get(f'https://data.sec.gov/api/xbrl/companyfacts/CIK{cik:010d}.json', timeout=120)
                 time.sleep(0.12)
@@ -327,11 +335,12 @@ class Run:
                 continue
             sector = (sub.get('sicDescription') or 'Diversified').title()
             for trim in todo:
-                key = f'ent:{cik}:{ENT_KIND}:{trim}'
+                key = keys[trim]
                 try:
-                    wb = enterprise.build(facts, sector, self.market, sic, ENT_KIND, trim)
+                    make = bankent.build if ENT_KIND in bankent.KINDS else enterprise.build
+                    wb = make(facts, sector, self.market, sic, ENT_KIND, trim)
                 except Exception as err:  # noqa: BLE001
-                    log(f'  ! CIK {cik} {ENT_KIND} {trim}: {type(err).__name__}: {err}')
+                    log(f'  ! {key[4:]}: {type(err).__name__}: {err}')
                     self.state['seen'][key] = f'rej:{type(err).__name__}'
                     continue
                 if wb is None:
@@ -343,18 +352,61 @@ class Run:
                     out, why = self.verify(wb, work / 'model.xlsx')
                     if not out:
                         self.state['seen'][key] = f'rej:{why}'[:160]
-                        log(f'  - CIK {cik} {ENT_KIND} {trim}: {why}')
+                        log(f'  - {key[4:]}: {why}')
                         continue
-                    self.publish(out, f'Enterprise wide model - {label} - {sector} - FY{wb.asof}', 'xlsx', key, sector, 'sec')
+                    self.publish(out, f'Enterprise wide model - {label} - {sector} - FY{wb.asof} - {key[4:]}', 'xlsx',
+                                 key, sector, 'sec')
                 finally:
                     shutil.rmtree(work, ignore_errors=True)
         log(f'enterprise {ENT_KIND}: company {st["i"]}/{len(st["companies"])}')
+
+    def gov(self, until):
+        """Government models of one type: every county, state, country or project with complete statistics."""
+        s = requests.Session()
+        s.headers['User-Agent'] = SEC_UA
+        entities = govent.load(ENT_KIND, s, log)
+        st = self.state.setdefault('gov', {})
+        done = 0
+        for eid, e in entities:
+            if time.time() > until:
+                break
+            key = 'gov:' + model_code(f'{eid}:{ENT_KIND}')
+            if key in self.state['seen']:
+                done += 1
+                continue
+            try:
+                wb = govent.build(ENT_KIND, e, self.market)
+            except Exception as err:  # noqa: BLE001
+                log(f'  ! {key[4:]}: {type(err).__name__}: {err}')
+                self.state['seen'][key] = f'rej:{type(err).__name__}'
+                continue
+            if wb is None:
+                self.state['seen'][key] = 'rej:not applicable'
+                continue
+            work = self.tmp / f'gov_{done}'
+            work.mkdir(exist_ok=True)
+            try:
+                out, why = self.verify(wb, work / 'model.xlsx')
+                if not out:
+                    self.state['seen'][key] = f'rej:{why}'[:160]
+                    log(f'  - {key[4:]}: {why}')
+                    continue
+                cat = e.get('sector') if ENT_KIND == 'gov_project' else ('United States' if e.get('kind') == 'us' else 'Countries')
+                self.publish(out, f'{govent.file_label(ENT_KIND, e, wb)} - {key[4:]}', 'xlsx', key, cat or 'Other', 'gov')
+            finally:
+                shutil.rmtree(work, ignore_errors=True)
+            done += 1
+        st['done'], st['total'] = done, len(entities)
+        log(f'government {ENT_KIND}: {done}/{len(entities)} done')
 
     def go(self):
         log(f'start: next model number {self.state["next"]}, {len(self.state["queue"])} candidates queued')
         if ENT_KIND:
             self.market = Market(log)
-            self.enterprise(time.time() + left() - 120)
+            if ENT_KIND in govent.KINDS:
+                self.gov(time.time() + left() - 120)
+            else:
+                self.enterprise(time.time() + left() - 120)
             self.save(force=True)
             c = self.state['counts']
             log(f'done: {self.made} models this run; next number {self.state["next"]}')
@@ -362,8 +414,11 @@ class Run:
             if summary:
                 with open(summary, 'a', encoding='utf-8') as f:
                     f.write(f'## Enterprise wide models - {enterprise.label_of(ENT_KIND)}\n\n{self.made} models this run, '
-                            f'{self.state["next"] - 1} in total, company {self.state["sec"]["i"]} of '
-                            f'{len(self.state["sec"].get("companies", []))}.\n\n| Industry | Models |\n|---|---|\n')
+                            f'{self.state["next"] - 1} in total, ' +
+                            (f'{self.state.get("gov", {}).get("done", 0)} of {self.state.get("gov", {}).get("total", 0)} done'
+                             if ENT_KIND in govent.KINDS else
+                             f'company {self.state["sec"]["i"]} of {len(self.state["sec"].get("companies", []))}') +
+                            '.\n\n| Group | Models |\n|---|---|\n')
                     for k in sorted(c, key=lambda k: -c[k]):
                         if not k.startswith('source:'):
                             f.write(f'| {k} | {c[k]} |\n')

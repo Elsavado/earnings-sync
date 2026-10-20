@@ -42,6 +42,9 @@ FLOW_TAGS = {
     'gain_re': ['GainLossOnSaleOfRealEstateInvestmentProperty', 'GainsLossesOnSalesOfInvestmentRealEstate',
                 'GainLossOnDispositionOfAssets1'],
     're_da': ['DepreciationAndAmortizationRealEstate', 'RealEstateDepreciationAndAmortization'],
+    # Banks: net charge-offs
+    'nco': ['FinancingReceivableAllowanceForCreditLossesWriteOffsNetOfRecoveries',
+            'AllowanceForLoanAndLeaseLossesWriteOffsNetOfRecoveries', 'FinancingReceivableAllowanceForCreditLossesWriteOffsNet'],
 }
 INSTANT_TAGS = {
     'cash': ['CashAndCashEquivalentsAtCarryingValue',
@@ -69,6 +72,13 @@ INSTANT_TAGS = {
     'intangibles': ['IntangibleAssetsNetExcludingGoodwill', 'FiniteLivedIntangibleAssetsNet'],
     # REITs
     're_net': ['RealEstateInvestmentPropertyNet'],
+    # Banks: allowance, securities and deposit mix
+    'acl': ['FinancingReceivableAllowanceForCreditLossExcludingAccruedInterest', 'FinancingReceivableAllowanceForCreditLosses',
+            'AllowanceForLoanAndLeaseLosses', 'LoansAndLeasesReceivableAllowance'],
+    'afs': ['AvailableForSaleSecuritiesDebtSecurities', 'AvailableForSaleSecurities'],
+    'htm': ['HeldToMaturitySecurities', 'HeldToMaturitySecuritiesAmortizedCostAfterAllowanceForCreditLoss',
+            'DebtSecuritiesHeldToMaturityAmortizedCostAfterAllowanceForCreditLoss'],
+    'nib_dep': ['NoninterestBearingDepositLiabilities', 'NoninterestBearingDepositLiabilitiesDomestic'],
 }
 ANNUAL_REQUIRED = ['revenue', 'net_income', 'assets', 'equity', 'cash', 'cfo']
 

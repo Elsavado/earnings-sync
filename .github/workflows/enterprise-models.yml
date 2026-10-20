@@ -56,7 +56,7 @@ jobs:
         run: |
           python3 - <<'EOF'
           import json, os, re
-          src = open('excel/models/enterprise.py').read() + open('excel/models/bankent.py').read() if os.path.exists('excel/models/bankent.py') else open('excel/models/enterprise.py').read()
+          src = ''.join(open(f'excel/models/{m}.py').read() for m in ('enterprise', 'bankent', 'govent') if os.path.exists(f'excel/models/{m}.py'))
           known = re.findall(r"^\s+'([a-z_]+)': '[^']+',\s*$", src, re.M)
           want = known if os.environ['KINDS'] == 'all' else [k.strip() for k in os.environ['KINDS'].split(',')]
           kinds = [k for k in want if k in known]
@@ -101,6 +101,7 @@ jobs:
           DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
           RUN_MINUTES: ${{ github.event.inputs.minutes || '50' }}
           ENT_KIND: ${{ matrix.kind }}
+          ENT_NAME_KEY: ${{ secrets.ENT_NAME_KEY }}
           LOCAL_COPY_DIR: ${{ github.event.inputs.dry_run == 'true' && 'samples' || '' }}
         run: python -m models.main
       - name: Keep dry-run samples

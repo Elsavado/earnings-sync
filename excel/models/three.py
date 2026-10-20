@@ -25,9 +25,9 @@ DATA_ROWS = [
 REIT_ROWS = [('re_da', 'Real estate depreciation & amortisation'), ('gain_re', 'Gains on sale of real estate')]
 
 
-def prepare(facts):
+def prepare(facts, max_years=6):
     """Annual data with derivable gaps filled, or None when the filings are too thin."""
-    got = xbrl.annual(facts)
+    got = xbrl.annual(facts, max_years=max_years)
     if not got:
         return None
     ends, d = got
@@ -55,10 +55,11 @@ def prepare(facts):
     return ends, d
 
 
-def build(facts, sector, is_reit=False, years=FORECAST_YEARS, trim=0, extend=None, title=None, description=None):
+def build(facts, sector, is_reit=False, years=FORECAST_YEARS, trim=0, extend=None, title=None, description=None, deep=False):
     """years: forecast length; trim: drop the latest reported years (an earlier as-of date);
-    extend(wb, ctx) -> (sections, check items) adds modules that build on the three statements."""
-    got = prepare(facts)
+    extend(wb, ctx) -> (sections, check items) adds modules that build on the three statements.
+    deep: keep every consecutive reported year (drivers still use the latest five)."""
+    got = prepare(facts, 40 if deep else 6)
     if not got:
         return None
     ends, data = got
@@ -147,13 +148,15 @@ def build(facts, sector, is_reit=False, years=FORECAST_YEARS, trim=0, extend=Non
     C = lambda k, j: cf.ref(k, j)  # noqa: E731
     R = lambda k, j: rt.ref(k, j)  # noqa: E731
     hi = nh - 1
-    Ih = lambda k, j0=0: is_.span(k, j0, hi)  # noqa: E731
-    Bh = lambda k, j0=0: bs.span(k, j0, hi)  # noqa: E731
-    Ch = lambda k, j0=0: cf.span(k, j0, hi)  # noqa: E731
+    w0 = max(0, nh - 5)  # drivers come from the latest five reported years; older years are shown for context
+    w1 = max(1, w0)
+    Ih = lambda k, j0=w0: is_.span(k, j0, hi)  # noqa: E731
+    Bh = lambda k, j0=w0: bs.span(k, j0, hi)  # noqa: E731
+    Ch = lambda k, j0=w0: cf.span(k, j0, hi)  # noqa: E731
 
     drivers = [
         ('growth', 'Starting revenue growth (historical median, within the scenario limits)',
-         f'MAX({si.ref("floor")},MIN({si.ref("cap")},IFERROR(MEDIAN({Ih("growth", 1)}),0)))'),
+         f'MAX({si.ref("floor")},MIN({si.ref("cap")},IFERROR(MEDIAN({Ih("growth", w1)}),0)))'),
         ('cogs_pct', 'Cost of revenue % revenue', f'IFERROR(SUM({Ih("cogs")})/SUM({Ih("revenue")}),0)'),
         ('opex_pct', 'Operating expenses % revenue', f'IFERROR(SUM({Ih("opex")})/SUM({Ih("revenue")}),0)'),
         ('other_pct', 'Other income % revenue', f'IFERROR(SUM({Ih("other")})/SUM({Ih("revenue")}),0)'),
@@ -168,7 +171,7 @@ def build(facts, sector, is_reit=False, years=FORECAST_YEARS, trim=0, extend=Non
         ('ocl_pct', 'Other current liabilities % revenue', f'IFERROR(SUM({Bh("ocl")})/SUM({Ih("revenue")}),0)'),
         ('capex_pct', 'Capital expenditure % revenue', f'IFERROR(-SUM({Ch("capex")})/SUM({Ih("revenue")}),0)'),
         ('dep_rate', 'D&A % revenue', f'IFERROR(SUM({Ch("da")})/SUM({Ih("revenue")}),0)') if da_on_rev else
-        ('dep_rate', 'D&A % opening PP&E', f"IFERROR(SUM({Ch('da', 1)})/SUM({bs.span('ppe', 0, hi - 1)}),0)"),
+        ('dep_rate', 'D&A % opening PP&E', f"IFERROR(SUM({Ch('da', w1)})/SUM({bs.span('ppe', w1 - 1, hi - 1)}),0)"),
         ('payout', 'Dividend payout % net income', f'MAX(0,MIN(1,IFERROR(-SUM({Ch("div")})/SUM({Ih("net_income")}),0)))'),
         ('buyback', 'Share repurchases % net income', f'MAX(0,MIN(1,IFERROR(-SUM({Ch("buyback")})/SUM({Ih("net_income")}),0)))'),
         ('min_cash', 'Minimum cash % revenue (lowest historical level)', f'MAX(0,MIN({rt.span("cash_pct", 0, hi)}))'),

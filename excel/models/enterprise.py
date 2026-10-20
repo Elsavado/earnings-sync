@@ -33,18 +33,19 @@ KINDS = {
     'strategic': 'Strategic 10-year plan',
 }
 BANK_KINDS = {}  # filled in by bankent.py
-GROUPS = {'corporate': 'Corporate & Industry Models', 'bank': 'Bank Models'}
+GOV_KINDS = {}  # filled in by govent.py
+GROUPS = {'corporate': 'Corporate & Industry Models', 'bank': 'Bank Models', 'gov': 'Government Models'}
 TRIMS = (0, 1)  # as of the latest year end, and as of the year before
 FIN = range(6000, 6800)  # banks, insurers, brokers, REITs: no unlevered DCF, LBO or corporate credit module
 BANK_SIC = set(range(6020, 6037)) | {6111, 6141, 6153, 6159, 6162, 6172, 6199}
 
 
 def group_of(kind):
-    return GROUPS['bank' if kind in BANK_KINDS else 'corporate']
+    return GROUPS['bank' if kind in BANK_KINDS else 'gov' if kind in GOV_KINDS else 'corporate']
 
 
 def label_of(kind):
-    return BANK_KINDS.get(kind) or KINDS[kind]
+    return BANK_KINDS.get(kind) or GOV_KINDS.get(kind) or KINDS[kind]
 
 
 def applies(kind, sic):
@@ -840,7 +841,7 @@ def build(facts, sector, market, sic, kind, trim=0):
             'margins, capital intensity and working capital across every statement and module. Supporting schedules, '
             'a KPI dashboard and integrity checks are included; all figures outside the input sheets are formulas.')
     try:
-        wb = three.build(facts, sector, is_reit=s == 6798, years=years, trim=trim, extend=extend,
+        wb = three.build(facts, sector, is_reit=s == 6798, years=years, trim=trim, extend=extend, deep=True,
                          title=f'Enterprise wide model - {label}', description=desc)
     except _Skip:
         return None
@@ -855,11 +856,44 @@ NEUTRAL = [(re.compile(r'Reported figures \(Form 10-K\)'), 'Historical figures')
            (re.compile(r'USD millions \(as reported, SEC XBRL\)'), 'USD millions'),
            (re.compile(r"company's reported 10-K figures"), "company's historical financial statements")]
 SOURCE_WORDS = re.compile(r'10-K|10-Q|\bSEC\b|XBRL|EDGAR|\bFRED\b|Damodaran|public float|cover page|\bdei:|public data|'
-                          r'publicly available|sec\.gov|filing', re.I)
+                          r'publicly available|sec\.gov|filing|World Bank|IBRD|Census Bureau|census\.gov|worldbank', re.I)
 
 
 class SourceMention(Exception):
     pass
+
+
+class BrokenReference(Exception):
+    pass
+
+
+SHEET_REF = re.compile(r"'((?:[^']|'')+)'!|(?<![A-Za-z0-9_.'])([A-Za-z_][A-Za-z0-9_.]*)!")
+
+
+def references_ok(wb):
+    """Every sheet a formula points at exists, and no formula carries #REF! (user rule: no broken references)."""
+    names = set(wb.sheetnames)
+    for ws in wb.worksheets:
+        for row in ws.iter_rows():
+            for cell in row:
+                v = cell.value
+                if not (isinstance(v, str) and v.startswith('=')):
+                    continue
+                if '#REF!' in v.upper():
+                    raise BrokenReference(f'{ws.title}!{cell.coordinate}: #REF!')
+                body = re.sub(r'"[^"]*"', '""', v)  # ignore text inside string literals
+                for quoted, bare in SHEET_REF.findall(body):
+                    target = quoted.replace("''", "'") if quoted else bare
+                    if target not in names:
+                        raise BrokenReference(f'{ws.title}!{cell.coordinate}: sheet {target!r} does not exist')
+    for chart_ws in wb.worksheets:
+        for chart in getattr(chart_ws, '_charts', []):
+            for s in chart.series:
+                for ref in (s.val, s.cat, s.tx):
+                    f = getattr(getattr(ref, 'numRef', None) or getattr(ref, 'strRef', None), 'f', None)
+                    m = f and re.match(r"'?((?:[^'!]|'')+)'?!", f)
+                    if m and m.group(1).replace("''", "'") not in names:
+                        raise BrokenReference(f'chart on {chart_ws.title}: sheet {m.group(1)!r} does not exist')
 
 
 def finish(wb):
@@ -877,6 +911,7 @@ def finish(wb):
                         cell.value = v
                     if SOURCE_WORDS.search(v):
                         raise SourceMention(f'{ws.title}!{cell.coordinate}: {v[:80]}')
+    references_ok(wb)
     wb.properties.creator = PERSON
     wb.properties.lastModifiedBy = PERSON
     for field in ('title', 'subject', 'description', 'keywords'):
