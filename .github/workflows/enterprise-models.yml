@@ -1,0 +1,121 @@
+name: Enterprise wide models
+
+# Builds enterprise-wide Excel models (excel/models/enterprise.py) for every company, verifies each one with a full
+# LibreOffice recalculation, and uploads it to the Google Workspace Shared Drive as
+# "Enterprise Wide Models/<group>/<model type>/Folder N (Models a-b)/<n> - Enterprise wide model - <type> - <industry> - FY<year>.xlsx".
+# One job per model type runs in parallel; each keeps its own numbering and state file in "Enterprise Wide Models - private".
+# Runs chain back-to-back while the repository variable ENTERPRISE_LIVE is 'true'.
+# Sign-in: joseph@irtranscripts.com's Google refresh token (WS_GOOGLE_* secrets).
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Build and verify without uploading'
+        type: boolean
+        required: false
+        default: false
+      minutes:
+        description: 'Run budget in minutes'
+        required: false
+        default: '50'
+      kinds:
+        description: 'Only these model types (comma list)'
+        required: false
+        default: 'all'
+      chained:
+        description: 'Started by the previous run (internal)'
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: enterprise-models
+  cancel-in-progress: false
+
+env:
+  SHARED_DRIVE_ID: ${{ vars.ENTERPRISE_DRIVE_ID || '0AM6PzKRbJBK-Uk9PVA' }}
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      go: ${{ steps.check.outputs.go }}
+      kinds: ${{ steps.check.outputs.kinds }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: check
+        env:
+          LIVE: ${{ vars.ENTERPRISE_LIVE }}
+          CHAINED: ${{ github.event.inputs.chained || 'false' }}
+          KINDS: ${{ github.event.inputs.kinds || 'all' }}
+        run: |
+          python3 - <<'EOF'
+          import json, os, re
+          src = open('excel/models/enterprise.py').read() + open('excel/models/bankent.py').read() if os.path.exists('excel/models/bankent.py') else open('excel/models/enterprise.py').read()
+          known = re.findall(r"^\s+'([a-z_]+)': '[^']+',\s*$", src, re.M)
+          want = known if os.environ['KINDS'] == 'all' else [k.strip() for k in os.environ['KINDS'].split(',')]
+          kinds = [k for k in want if k in known]
+          go = not (os.environ['CHAINED'] == 'true' and os.environ['LIVE'] != 'true')
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write(f"go={'true' if go and kinds else 'false'}\nkinds={json.dumps(kinds)}\n")
+          print('go' if go else 'stop', kinds)
+          EOF
+
+  build:
+    needs: prepare
+    if: needs.prepare.outputs.go == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 58
+    strategy:
+      fail-fast: false
+      matrix:
+        kind: ${{ fromJSON(needs.prepare.outputs.kinds) }}
+    defaults:
+      run:
+        working-directory: excel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: excel/requirements.txt
+      - name: Install LibreOffice
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq --no-install-recommends libreoffice-calc > /dev/null
+          soffice --version
+      - name: Install Python packages
+        run: pip install -q -r requirements.txt
+      - name: Build, verify and upload
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.WS_GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ github.event.inputs.dry_run != 'true' && secrets.WS_GOOGLE_REFRESH_TOKEN || '' }}
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+          RUN_MINUTES: ${{ github.event.inputs.minutes || '50' }}
+          ENT_KIND: ${{ matrix.kind }}
+          LOCAL_COPY_DIR: ${{ github.event.inputs.dry_run == 'true' && 'samples' || '' }}
+        run: python -m models.main
+      - name: Keep dry-run samples
+        if: always() && github.event.inputs.dry_run == 'true' && hashFiles('excel/samples/**') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: enterprise-samples-${{ matrix.kind }}-${{ github.run_id }}
+          path: excel/samples
+          retention-days: 7
+
+  next:
+    needs: [prepare, build]
+    if: always() && needs.prepare.outputs.go == 'true' && github.event.inputs.dry_run != 'true' && vars.ENTERPRISE_LIVE == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run enterprise-models.yml -R ${{ github.repository }} --ref main -f dry_run=false -f minutes=50 -f chained=true

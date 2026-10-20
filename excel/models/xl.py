@@ -27,7 +27,7 @@ PCT = '0.0%_);(0.0%);"–"_)'
 MULT = '0.0"x"'
 PRICE = '$#,##0.00'
 
-INPUT_SHEETS = {'Historical Data', 'Market Inputs', 'Transaction Inputs', 'Scenario Inputs'}
+INPUT_SHEETS = {'Historical Data', 'Market Inputs', 'Transaction Inputs', 'Scenario Inputs', 'Budget Inputs', 'Credit Inputs'}
 
 
 def scenario_inputs(wb, heading, index=None):

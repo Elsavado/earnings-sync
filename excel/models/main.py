@@ -20,7 +20,7 @@ from pathlib import Path
 import requests
 from openpyxl.workbook import Workbook  # noqa: F401  (import check)
 
-from . import bank, dcf, fpa, lbo, links, lo, sources, three
+from . import bank, dcf, enterprise, fpa, lbo, links, lo, sources, three
 from .anonymize import Anonymizer
 from .market import Market
 from .process import process
@@ -34,6 +34,9 @@ DRY = os.environ.get('DRY_RUN', '').lower() == 'true'
 LOCAL = os.environ.get('LOCAL_COPY_DIR', 'first100')
 SEC_UA = os.environ.get('SEC_USER_AGENT') or 'ExcelModels research contact@example.com'
 BANK_SIC = set(range(6020, 6037)) | {6111, 6141, 6153, 6159, 6162, 6172, 6199}
+# Enterprise-wide models (enterprise.py): one model type per job, each with its own folder and numbering.
+ENT_KIND = os.environ.get('ENT_KIND', '')
+ENT_ROOT = 'Enterprise Wide Models'
 TYPE_LABEL = {'three': 'Three-statement model', 'reit': 'Industry-specific model - REIT', 'bank': 'Industry-specific model - Bank',
               'dcf': 'DCF valuation model', 'lbo': 'LBO model', 'fpa': 'Operating & FP&A model'}
 
@@ -83,7 +86,14 @@ def clean_label(s, limit=90):
 
 class Run:
     def __init__(self):
-        self.store = None if DRY and not os.environ.get('GOOGLE_REFRESH_TOKEN') else Store(dry_run=DRY)
+        if DRY and not os.environ.get('GOOGLE_REFRESH_TOKEN'):
+            self.store = None
+        elif ENT_KIND:
+            group = enterprise.group_of(ENT_KIND)
+            self.store = Store(f'{ENT_ROOT}/{group}/{enterprise.label_of(ENT_KIND)}', f'{ENT_ROOT} - private', dry_run=DRY,
+                               app=f'ent-{ENT_KIND}', state_name=f'state-{ENT_KIND}.json.gz')
+        else:
+            self.store = Store(dry_run=DRY)
         self.state = (self.store.load_state() if self.store else {}) or {}
         st = self.state
         for k, v in {'next': 1, 'seen': {}, 'queued': {}, 'queue': [], 'hashes': {}, 'sec': {'i': 0, 'done': {}}, 'counts': {}}.items():
@@ -118,7 +128,7 @@ class Run:
         c[category] = c.get(category, 0) + 1
         c[f'source:{source}'] = c.get(f'source:{source}', 0) + 1
         self.made += 1
-        if n <= 100:
+        if n <= 100 and LOCAL:
             dest = Path(LOCAL) / folder_name(n)
             dest.mkdir(parents=True, exist_ok=True)
             shutil.copy(path, dest / name)
@@ -277,8 +287,87 @@ class Run:
             st['done'][str(cik)] = sorted(done)
         log(f'sec: company {st["i"]}/{len(st["companies"])}')
 
+    def enterprise(self, until):
+        """Enterprise-wide models of one type (ENT_KIND) for every company, at the latest and the previous year end."""
+        s = requests.Session()
+        s.headers['User-Agent'] = SEC_UA
+        st = self.state['sec']
+        if 'companies' not in st or st.get('listed_at', 0) < time.time() - 7 * 86400 and st['i'] >= len(st['companies']):
+            data = s.get('https://www.sec.gov/files/company_tickers.json', timeout=60).json()
+            ciks, seen = [], set()
+            for v in data.values():
+                if v['cik_str'] not in seen:
+                    seen.add(v['cik_str'])
+                    ciks.append(v['cik_str'])
+            st['companies'], st['i'], st['listed_at'] = ciks, 0, time.time()
+        label = enterprise.label_of(ENT_KIND)
+        while st['i'] < len(st['companies']) and time.time() < until:
+            cik = st['companies'][st['i']]
+            st['i'] += 1
+            todo = [t for t in enterprise.TRIMS if f'ent:{cik}:{ENT_KIND}:{t}' not in self.state['seen']]
+            if not todo:
+                continue
+            try:
+                sub = s.get(f'https://data.sec.gov/submissions/CIK{cik:010d}.json', timeout=60)
+                time.sleep(0.12)
+                if not sub.ok:
+                    continue
+                sub = sub.json()
+                sic = sub.get('sic') or ''
+                if not enterprise.applies(ENT_KIND, sic):
+                    for t in todo:
+                        self.state['seen'][f'ent:{cik}:{ENT_KIND}:{t}'] = 'rej:not this industry'
+                    continue
+                facts = s.get(f'https://data.sec.gov/api/xbrl/companyfacts/CIK{cik:010d}.json', timeout=120)
+                time.sleep(0.12)
+                if not facts.ok:
+                    continue
+                facts = facts.json()
+            except (requests.RequestException, ValueError):
+                continue
+            sector = (sub.get('sicDescription') or 'Diversified').title()
+            for trim in todo:
+                key = f'ent:{cik}:{ENT_KIND}:{trim}'
+                try:
+                    wb = enterprise.build(facts, sector, self.market, sic, ENT_KIND, trim)
+                except Exception as err:  # noqa: BLE001
+                    log(f'  ! CIK {cik} {ENT_KIND} {trim}: {type(err).__name__}: {err}')
+                    self.state['seen'][key] = f'rej:{type(err).__name__}'
+                    continue
+                if wb is None:
+                    self.state['seen'][key] = 'rej:not applicable'
+                    continue
+                work = self.tmp / f'ent_{cik}_{trim}'
+                work.mkdir()
+                try:
+                    out, why = self.verify(wb, work / 'model.xlsx')
+                    if not out:
+                        self.state['seen'][key] = f'rej:{why}'[:160]
+                        log(f'  - CIK {cik} {ENT_KIND} {trim}: {why}')
+                        continue
+                    self.publish(out, f'Enterprise wide model - {label} - {sector} - FY{wb.asof}', 'xlsx', key, sector, 'sec')
+                finally:
+                    shutil.rmtree(work, ignore_errors=True)
+        log(f'enterprise {ENT_KIND}: company {st["i"]}/{len(st["companies"])}')
+
     def go(self):
         log(f'start: next model number {self.state["next"]}, {len(self.state["queue"])} candidates queued')
+        if ENT_KIND:
+            self.market = Market(log)
+            self.enterprise(time.time() + left() - 120)
+            self.save(force=True)
+            c = self.state['counts']
+            log(f'done: {self.made} models this run; next number {self.state["next"]}')
+            summary = os.environ.get('GITHUB_STEP_SUMMARY')
+            if summary:
+                with open(summary, 'a', encoding='utf-8') as f:
+                    f.write(f'## Enterprise wide models - {enterprise.label_of(ENT_KIND)}\n\n{self.made} models this run, '
+                            f'{self.state["next"] - 1} in total, company {self.state["sec"]["i"]} of '
+                            f'{len(self.state["sec"].get("companies", []))}.\n\n| Industry | Models |\n|---|---|\n')
+                    for k in sorted(c, key=lambda k: -c[k]):
+                        if not k.startswith('source:'):
+                            f.write(f'| {k} | {c[k]} |\n')
+            return
         if self.store:
             used, limit = self.store.quota()
             log(f'Drive: {used / 2**30:.1f} GB used of {limit / 2**30:.1f} GB')

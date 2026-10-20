@@ -87,17 +87,22 @@ def credentials():
 
 
 class Store:
-    def __init__(self, root_name='Excel Models', private_name='Excel Models - private', dry_run=False):
+    def __init__(self, root_name='Excel Models', private_name='Excel Models - private', dry_run=False, app=APP,
+                 state_name='state.json.gz'):
         """With SHARED_DRIVE_ID set, everything lives in that Shared Drive; root_name None puts the type
-        folders at the top of the drive."""
+        folders at the top of the drive, and 'A/B/C' nests folders. app tags (and numbers) this collector's files."""
         self.dry_run = dry_run
+        self.app, self.state_name = app, state_name
         self.drive = build('drive', 'v3', credentials=credentials(), cache_discovery=False)
         top = 'root'
         self.shared = os.environ.get('SHARED_DRIVE_ID')
         if self.shared:
             self.drive = _SharedDrive(self.drive, self.shared)
             top = self.shared
-        self.root = self._folder(top, root_name) if root_name else top
+        self.root = top
+        for part in (root_name or '').split('/'):
+            if part:
+                self.root = self._folder(self.root, part)
         self.private = self._folder(top, private_name)
         self.folders = {}
         self.state_id = None
@@ -121,7 +126,7 @@ class Store:
         best, token = 0, None
         while True:
             res = _retry(lambda: self.drive.files().list(
-                q=f"appProperties has {{ key='xmApp' and value='{APP}' }} and trashed = false",
+                q=f"appProperties has {{ key='xmApp' and value='{self.app}' }} and trashed = false",
                 fields='nextPageToken, files(appProperties)', pageSize=1000, pageToken=token).execute())
             for f in res.get('files', []):
                 try:
@@ -140,7 +145,7 @@ class Store:
         if fname not in self.folders:
             self.folders[fname] = self._folder(self.root, fname)
         body = {'name': name, 'parents': [self.folders[fname]],
-                'appProperties': {'xmApp': APP, 'xmNum': str(n), 'xmKey': key[:110], 'xmCat': category[:100]}}
+                'appProperties': {'xmApp': self.app, 'xmNum': str(n), 'xmKey': key[:110], 'xmCat': category[:100]}}
         media = MediaFileUpload(path, mimetype=MIME[ext], resumable=False)
         _retry(lambda: self.drive.files().create(body=body, media_body=media, fields='id').execute())
         return name
@@ -148,7 +153,7 @@ class Store:
     def reset(self, log=print):
         """Permanently deletes every uploaded model, the numbered folders and the run state."""
         n = 0
-        for q in (f"appProperties has {{ key='xmApp' and value='{APP}' }}",
+        for q in (f"appProperties has {{ key='xmApp' and value='{self.app}' }}",
                   f"'{self.root}' in parents and mimeType = '{FOLDER}'",
                   f"'{self.private}' in parents"):
             token = None
@@ -170,7 +175,7 @@ class Store:
 
     # --- state ------------------------------------------------------------
     def load_state(self):
-        q = f"name = 'state.json.gz' and '{self.private}' in parents and trashed = false"
+        q = f"name = '{self.state_name}' and '{self.private}' in parents and trashed = false"
         found = _retry(lambda: self.drive.files().list(q=q, fields='files(id)').execute())['files']
         if not found:
             return {}
@@ -187,4 +192,4 @@ class Store:
             _retry(lambda: self.drive.files().update(fileId=self.state_id, media_body=media).execute())
         else:
             self.state_id = _retry(lambda: self.drive.files().create(
-                body={'name': 'state.json.gz', 'parents': [self.private]}, media_body=media, fields='id').execute())['id']
+                body={'name': self.state_name, 'parents': [self.private]}, media_body=media, fields='id').execute())['id']

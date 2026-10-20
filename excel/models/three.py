@@ -55,11 +55,20 @@ def prepare(facts):
     return ends, d
 
 
-def build(facts, sector, is_reit=False):
+def build(facts, sector, is_reit=False, years=FORECAST_YEARS, trim=0, extend=None, title=None, description=None):
+    """years: forecast length; trim: drop the latest reported years (an earlier as-of date);
+    extend(wb, ctx) -> (sections, check items) adds modules that build on the three statements."""
     got = prepare(facts)
     if not got:
         return None
     ends, data = got
+    if trim:
+        if len(ends) - trim < 3:
+            return None
+        ends, data = ends[:-trim], {k: v[:-trim] for k, v in data.items()}
+        if any(v is None or v <= 0 for v in data['revenue']) or data['assets'][-1] <= 0:
+            return None
+    FORECAST_YEARS = years  # noqa: N806
     nh = len(ends)
     last = int(ends[-1][:4])
     # Bases for two drivers, chosen here so the workbook needs no threshold constants: when the
@@ -317,10 +326,16 @@ def build(facts, sector, is_reit=False):
             ff.set('payout', j, f'=IFERROR(-{C("div", j)}/{ff.ref("affo", j)},0)', PCT)
         sections.append(('FFO & AFFO', 'REIT funds from operations and adjusted FFO, with dividend cover'))
 
+    if extend:
+        more_sections, more_checks = extend(wb, dict(
+            ds=ds, si=si, asm=asm, is_=is_, bs=bs, cf=cf, rt=rt, periods=periods, ends=ends, data=data, nh=nh, n=n,
+            years=FORECAST_YEARS, heading=heading, A=A, D=D, debt_wide=debt_wide, da_on_rev=da_on_rev, is_reit=is_reit))
+        sections += more_sections
+        check_items += more_checks
     sections.append(('Checks', 'Balance and cash checks for every year'))
     checks(wb, check_items)
-    kind = 'REIT three-statement model with FFO/AFFO' if is_reit else 'Three-statement financial model'
-    cover(wb, kind, sector,
+    kind = title or ('REIT three-statement model with FFO/AFFO' if is_reit else 'Three-statement financial model')
+    cover(wb, kind, sector, description or
           'Integrated income statement, balance sheet and cash flow built from the company\'s reported 10-K figures, '
           f'with a {FORECAST_YEARS}-year forecast driven by historical ratios. The balance sheet balances in every year, '
           'the revolver keeps cash at its historical minimum, and all checks are summarised on the Checks sheet.',
