@@ -52,7 +52,8 @@ jobs:
         env:
           LIVE: ${{ vars.ENTERPRISE_LIVE }}
           CHAINED: ${{ github.event.inputs.chained || 'false' }}
-          KINDS: ${{ github.event.inputs.kinds || 'all' }}
+          # A chained run takes the types from the ENTERPRISE_KINDS variable when it is set (types change without a restart).
+          KINDS: ${{ (github.event.inputs.chained == 'true' && vars.ENTERPRISE_KINDS) || github.event.inputs.kinds || 'all' }}
         run: |
           python3 - <<'EOF'
           import json, os, re

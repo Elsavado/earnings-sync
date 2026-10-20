@@ -678,6 +678,47 @@ def style_github(state, kind, s, log, pages=2):
     return added
 
 
+CODE = re.compile(r'(```.*?```|~~~.*?~~~|`[^`\n]+`|<pre\b.*?</pre>|<code\b.*?</code>)', re.S | re.I)
+HANDLE = re.compile(r'(?<![\w.@/])@([A-Za-z0-9](?:[A-Za-z0-9-]{0,38}))\b(?![.\w-]*\.[a-z]{2,})')
+EN_WORDS = set('the and of to a in is for that it on with as are be this you use should not or by an if when your can '
+               'do from at we have will more than'.split())
+
+
+def _prose(text):
+    return CODE.sub(' ', text)
+
+
+def _english(text):
+    words = re.findall(r"[A-Za-z']+|[^\x00-\x7f\s]+", text.lower())
+    return len(words) < 40 or sum(w in EN_WORDS for w in words) / len(words) >= 0.15
+
+
+def _scrub_guide(A, text):
+    """Names, e-mails and @handles in the prose; code blocks and inline code are left exactly as written."""
+    parts = CODE.split(text)
+    for i in range(0, len(parts), 2):
+        p = A.scrub(parts[i])
+        p = HANDLE.sub('@salvador-sekwa', p)
+        firsts = _anon.first_names()
+
+        def collapse(m):  # "Nicholas C. Salvador Sekwa" / "Salvador Salvador Sekwa" -> "Salvador Sekwa"
+            toks = m.group(1).split()
+            if all(len(t.rstrip('.')) == 1 or t.rstrip('.').lower() in firsts or t == 'Salvador' for t in toks):
+                return _anon.PERSON
+            return m.group(0)
+        from wordfreq import zipf_frequency
+
+        def first_last(m):  # "John Resig": a known first name and an uncommon capitalised word
+            first, last = m.group(1), m.group(2)
+            if first.lower() in firsts and first != 'Salvador' and zipf_frequency(last.lower(), 'en') < 3.2:
+                return _anon.PERSON
+            return m.group(0)
+        p = re.sub(r"\b([A-Z][a-z]+)\s+(?:[A-Z]\.\s+)?([A-Z][a-z]+(?:-[A-Z][a-z]+)?)\b", first_last, p)
+        p = re.sub(rf"\b((?:[A-Z][a-z]*\.?\s+){{1,3}}){re.escape(_anon.PERSON)}", collapse, p)
+        parts[i] = p
+    return ''.join(parts)
+
+
 def _md_title(path, text):
     m = re.search(r'^\s*#\s+(.+)$', text, re.M)
     return (m.group(1).strip() if m else Path(path).stem.replace('-', ' ').replace('_', ' ').strip().capitalize())[:120]
@@ -701,6 +742,9 @@ def styleguide(cand, raw, work, out, A, budget=60 * 2**20):
         files[p] = r.content
         total += len(r.content)
     texts = {p: d.decode('utf-8', 'replace') for p, d in files.items() if not p.lower().endswith('.pdf')}
+    # English documents only (translations of a guide are left out); the PDFs stay as they are.
+    texts = {p: t for p, t in texts.items() if _english(_prose(t))}
+    files = {p: d for p, d in files.items() if p in texts or p.lower().endswith('.pdf')}
     words = sum(len(t.split()) for t in texts.values())
     if len(files) < 3 or words < 1500:
         return {'ok': False, 'reason': f'too little guidance ({words} words)'}
@@ -714,8 +758,7 @@ def styleguide(cand, raw, work, out, A, budget=60 * 2**20):
         for p, data in sorted(files.items(), key=lambda kv: (kv[0].count('/'), kv[0])):
             name = 'guide/' + _owner_scrub(p, owner)
             if p in texts:
-                body = _owner_scrub(A.scrub(texts[p]), owner)
-                body = SOCIAL.sub('#', body)
+                body = SOCIAL.sub('#', _owner_scrub(_scrub_guide(A, texts[p]), owner))
                 z.writestr(zipfile.ZipInfo(name, ZIP_DATE), body.encode('utf-8'))
                 combined.append(f'\n\n---\n\n<!-- {name} -->\n\n# {_md_title(p, body)}\n\n' +
                                 re.sub(r'^\s*#\s+.+$', '', body, count=1, flags=re.M).strip())
@@ -733,6 +776,8 @@ def process(cand, kind, raw, work, A):
     # Placeholders for people: John Doe for notebooks and Figma (user, 2026-10-19), Salvador Sekwa for style guides
     # (user, 2026-10-20). This collector's workers run nothing else.
     _anon.PERSON = 'Salvador Sekwa' if kind == 'styleguides' else 'John Doe'
+    if kind == 'styleguides':
+        _anon.STRICT_PERSON = True  # technical terms ('Webpack') are rare words, not names
     out = Path(work) / 'out'
     out.mkdir(exist_ok=True)
     if kind == 'styleguides':
