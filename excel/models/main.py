@@ -20,7 +20,7 @@ from pathlib import Path
 import requests
 from openpyxl.workbook import Workbook  # noqa: F401  (import check)
 
-from . import bank, bankent, dcf, enterprise, fpa, govent, irent, lbo, links, lo, sources, three
+from . import bank, bankent, dcf, enterprise, fpa, govent, irent, lbo, links, lo, sources, three, unique
 from .anonymize import Anonymizer
 from .market import Market
 from .process import process
@@ -38,6 +38,30 @@ BANK_SIC = set(range(6020, 6037)) | {6111, 6141, 6153, 6159, 6162, 6172, 6199}
 ENT_KIND = os.environ.get('ENT_KIND', '')
 ENT_ROOT = os.environ.get('ENT_ROOT', '')  # '' when the Shared Drive itself is 'Enterprise Wide Models'
 NAME_KEY = (os.environ.get('ENT_NAME_KEY') or os.urandom(32).hex()).encode()
+
+
+SHORT = {'integrated': 'Integrated Plan', 'valuation': 'DCF Valuation', 'buyout': 'LBO', 'budget': 'Budget & FP&A',
+         'credit': 'Credit Analysis', 'strategic': '10Y Strategic Plan', 'bank_integrated': 'Bank Plan',
+         'bank_capital': 'Bank Capital & Stress', 'bank_alm': 'Bank ALM', 'bank_valuation': 'Bank Valuation',
+         'bank_strategic': 'Bank 10Y Plan', 'gov_population': 'Population Plan', 'gov_fiscal': 'Fiscal DSA',
+         'gov_economy': 'Macro Framework', 'gov_project': 'Project Appraisal', 'ir_enhanced': 'IR Operating Model'}
+
+
+def short_name(text, limit=24):
+    """'Services-Prepackaged Software' -> 'Prepackaged Software'; cut at a word boundary."""
+    t = re.sub(r'^(?:Services|Retail|Wholesale)-', '', text or '').replace('&amp;', '&')
+    t = re.sub(r'\s*\(.*?\)', '', t).replace(',', ' ')
+    t = re.sub(r'\s+', ' ', re.sub(r'\b(?:And|Of|The|For)\b', lambda m: m.group(0).lower(), t.title())).strip(' -')
+    if len(t) > limit:
+        t = t[:limit].rsplit(' ', 1)[0]
+    return t.strip(' -&,') or 'General'
+
+
+def finish_unique(wb, key, extra_inputs=()):
+    """The model's own look (unique.py), then the reference check; returns the sheets allowed to hold figures."""
+    mapping = unique.apply(wb, wb.profile if getattr(wb, 'profile', None) else unique.Profile(key))
+    enterprise.references_ok(wb)
+    return {mapping.get(n, n) for n in set(INPUT_SHEETS) | set(extra_inputs)}
 
 
 def model_code(key):
@@ -354,7 +378,11 @@ class Run:
                 key = keys[trim]
                 try:
                     make = bankent.build if ENT_KIND in bankent.KINDS else enterprise.build
-                    wb = make(facts, sector, self.market, sic, ENT_KIND, trim)
+                    prof = unique.Profile(key)
+                    wb = make(facts, sector, self.market, sic, ENT_KIND, trim, profile=prof)
+                    if wb is not None:
+                        wb.profile = prof
+                        allowed = finish_unique(wb, key)
                 except Exception as err:  # noqa: BLE001
                     log(f'  ! {key[4:]}: {type(err).__name__}: {err}')
                     self.state['seen'][key] = f'rej:{type(err).__name__}'
@@ -365,12 +393,12 @@ class Run:
                 work = self.tmp / f'ent_{cik}_{trim}'
                 work.mkdir()
                 try:
-                    out, why = self.verify(wb, work / 'model.xlsx')
+                    out, why = self.verify(wb, work / 'model.xlsx', allowed=allowed)
                     if not out:
                         self.state['seen'][key] = f'rej:{why}'[:160]
                         log(f'  - {key[4:]}: {why}')
                         continue
-                    self.publish(out, f'Enterprise wide model - {label} - {sector} - FY{wb.asof} - {key[4:]}', 'xlsx',
+                    self.publish(out, f'{SHORT[ENT_KIND]} - {short_name(sector)} FY{str(wb.asof)[-2:]} - {key[7:13]}', 'xlsx',
                                  key, sector, 'sec')
                 finally:
                     shutil.rmtree(work, ignore_errors=True)
@@ -424,13 +452,14 @@ class Run:
                     continue
                 from openpyxl import load_workbook
                 wb = load_workbook(res['path'])
-                out, why = self.verify(wb, Path(res['path']).parent / 'final.xlsx', allowed=set(res['originals']))
+                allowed = finish_unique(wb, key, res['originals'])
+                out, why = self.verify(wb, Path(res['path']).parent / 'final.xlsx', allowed=allowed)
                 if not out:
                     self.state['seen'][key] = f'rej:{why}'[:160]
                     log(f'  - {key[3:]}: {why}')
                     continue
                 code = model_code(cand['url'])
-                self.publish(out, f'Enterprise wide model - {irent.LABEL} - {res["category"]} - {res["title"]} - FY{res["asof"]} - {code}',
+                self.publish(out, f'{SHORT[ENT_KIND]} - {short_name(res["title"], 26)} FY{str(res["asof"])[-2:]} - {code[3:9]}',
                              'xlsx', key, res['category'], 'website')
             except Exception as err:  # noqa: BLE001
                 self.state['seen'][key] = f'rej:error {type(err).__name__}'
@@ -456,7 +485,11 @@ class Run:
                 done += 1
                 continue
             try:
-                wb = govent.build(ENT_KIND, e, self.market)
+                prof = unique.Profile(key)
+                wb = govent.build(ENT_KIND, e, self.market, profile=prof)
+                if wb is not None:
+                    wb.profile = prof
+                    allowed = finish_unique(wb, key)
             except Exception as err:  # noqa: BLE001
                 log(f'  ! {key[4:]}: {type(err).__name__}: {err}')
                 self.state['seen'][key] = f'rej:{type(err).__name__}'
@@ -467,13 +500,15 @@ class Run:
             work = self.tmp / f'gov_{done}'
             work.mkdir(exist_ok=True)
             try:
-                out, why = self.verify(wb, work / 'model.xlsx')
+                out, why = self.verify(wb, work / 'model.xlsx', allowed=allowed)
                 if not out:
                     self.state['seen'][key] = f'rej:{why}'[:160]
                     log(f'  - {key[4:]}: {why}')
                     continue
                 cat = e.get('sector') if ENT_KIND == 'gov_project' else ('United States' if e.get('kind') == 'us' else 'Countries')
-                self.publish(out, f'{govent.file_label(ENT_KIND, e, wb)} - {key[4:]}', 'xlsx', key, cat or 'Other', 'gov')
+                place = short_name(e.get('country') or e.get('name'), 22)
+                what = f'{place} {short_name(e.get("sector"), 18)}' if ENT_KIND == 'gov_project' else f'{place} {wb.asof}'
+                self.publish(out, f'{SHORT[ENT_KIND]} - {what} - {key[7:13]}', 'xlsx', key, cat or 'Other', 'gov')
             finally:
                 shutil.rmtree(work, ignore_errors=True)
             done += 1

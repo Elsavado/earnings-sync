@@ -87,6 +87,180 @@ SCEN = [('growth', 'Revenue growth adjustment (added to starting growth)', 0.0, 
         ('wc', 'Working capital multiplier (x receivables and inventory ratios)', 1.0, 0.95, 1.10, '0.00"x"')]
 
 
+def _clamp(x, lo, hi):
+    return max(lo, min(hi, x))
+
+
+def _sized(c):
+    """Scenario cases sized by the company's own history: volatile companies get wider cases."""
+    import statistics
+    d = c['data']
+    rev = [x for x in d['revenue'] if x]
+    g = [b / a - 1 for a, b in zip(rev, rev[1:]) if a > 0][-6:]
+    sd = statistics.pstdev(g) if len(g) >= 2 else 0.05
+    gm = [(r - (k or 0)) / r for r, k in zip(d['revenue'], d['cogs']) if r][-6:]
+    sd_gm = statistics.pstdev(gm) if len(gm) >= 2 else 0.01
+    cx = [(x or 0) / r for x, r in zip(d['capex'], d['revenue']) if r][-6:]
+    cv_cx = statistics.pstdev(cx) / max(1e-9, statistics.mean(cx)) if len(cx) >= 2 and statistics.mean(cx) > 0 else 0.1
+    j = c.get('profile').rng.uniform(0.9, 1.1) if c.get('profile') else 1.0
+    up_g, dn_g = round(_clamp(0.5 * sd * j, 0.01, 0.06), 4), -round(_clamp(0.8 * sd * j, 0.015, 0.10), 4)
+    up_m, dn_m = round(_clamp(sd_gm * j, 0.003, 0.03), 4), -round(_clamp(1.5 * sd_gm * j, 0.005, 0.045), 4)
+    cx_d = round(_clamp(0.5 * cv_cx * j, 0.03, 0.2), 3)
+    return [('growth', 'Revenue growth adjustment (added to starting growth)', 0.0, up_g, dn_g, PCT),
+            ('gm', 'Gross margin adjustment (cost of revenue % revenue reduced by)', 0.0, up_m, dn_m, PCT),
+            ('opex', 'Operating expense efficiency (opex % revenue reduced by)', 0.0, round(up_m / 2, 4), round(dn_m / 2, 4), PCT),
+            ('capex', 'Capital intensity multiplier (x capex % revenue)', 1.0, round(1 - cx_d, 3), round(1 + cx_d, 3), '0.00"x"'),
+            ('wc', 'Working capital multiplier (x receivables and inventory ratios)', 1.0, round(1 - cx_d / 2, 3),
+             round(1 + cx_d / 1.5, 3), '0.00"x"')]
+
+
+# --- company-specific content ----------------------------------------------------------------------------------------
+def _gaap(facts):
+    return (facts.get('facts', facts) or {}).get('us-gaap', {})
+
+
+def company_lines(wb, c, facts, base=None, base_label='revenue'):
+    """The company's own further reported line items (beyond the standard statements), forecast with revenue."""
+    from . import xbrl as X
+    used = {t for tags in list(X.FLOW_TAGS.values()) + list(X.INSTANT_TAGS.values()) for t in tags}
+    ends, nh, n = c['ends'], c['nh'], c['n']
+    hi = nh - 1
+    base = base or (lambda j: c['is_'].ref('revenue', j))
+    rev_last = (c['data']['revenue'][hi] if 'revenue' in c['data'] else c['base_last']) or 1
+    known = {round(v, 1) for k, vals in c['data'].items() for v in [vals[hi]] if isinstance(v, (int, float))}
+    cands = []
+    for tag, body in _gaap(facts).items():
+        if tag in used or not (body.get('units') or {}).get('USD'):
+            continue
+        fl = {e: v for (s0, e), v in X.flows(facts, [tag], 330, 400).items()}
+        series, kind = (fl, 'flow') if fl else (X.instants(facts, [tag]), 'stock')
+        vals = [series.get(e) for e in ends]
+        if vals[-1] in (None, 0) or sum(v is not None for v in vals[-3:]) < min(3, nh):
+            continue
+        vals = [None if v is None else round(v / 1e6, 3) for v in vals]
+        if abs(vals[-1]) < 0.002 * abs(rev_last) or round(vals[-1], 1) in known:
+            continue
+        label = re.sub(r'\s+', ' ', body.get('label') or re.sub(r'(?<!^)(?=[A-Z])', ' ', tag)).strip()[:70]
+        if SOURCE_WORDS.search(label):
+            continue
+        cands.append((abs(vals[-1]), tag, label, vals, kind))
+    cands.sort(reverse=True)
+    prof = c.get('profile')
+    take = prof.pick([8, 10, 12, 14, 16]) if prof else 10
+    picked, labels = [], set()
+    for _, tag, label, vals, kind in cands:
+        if label.lower() in labels:
+            continue
+        labels.add(label.lower())
+        picked.append((tag, label, vals, kind))
+        if len(picked) >= take:
+            break
+    if len(picked) < 3:
+        return [], []
+    ds = c['ds']
+    from .xl import INPUT as _IN
+    for i, (tag, label, vals, kind) in enumerate(picked):
+        ds.row(f'cx{i}', label)
+        for j, v in enumerate(vals):
+            if v is not None:
+                ds.set(f'cx{i}', j, v, font=_IN)
+    sh = Sheet(wb, 'Company Detail', c['heading']('Company-specific line items (forecast with revenue)'), c['periods'], nh)
+    for kind_name, sec in (('flow', 'Income and cash-flow items'), ('stock', 'Balance sheet items')):
+        first = True
+        for i, (tag, label, vals, kind) in enumerate(picked):
+            if kind != kind_name:
+                continue
+            sh.row(f'v{i}', label, section=sec if first else None)
+            sh.row(f'r{i}', f'  % of {base_label}')
+            first = False
+    w0 = max(0, nh - 3)
+    for i, (tag, label, vals, kind) in enumerate(picked):
+        for j in range(n):
+            if j < nh:
+                if vals[j] is not None:
+                    sh.set(f'v{i}', j, f'={ds.ref(f"cx{i}", j)}')
+            else:
+                sh.set(f'v{i}', j, f'={base(j)}*IFERROR(AVERAGE({sh.span(f"r{i}", w0, hi)}),0)')
+            sh.set(f'r{i}', j, f'=IFERROR({sh.ref(f"v{i}", j)}/{base(j)},0)', PCT)
+    c.setdefault('dash_extra', []).append(('cx_n', 'Company-specific line items modelled',
+                                           f"=COUNTIF('Company Detail'!$A$4:$A${sh.next_row},\"  % of {base_label}\")", '0'))
+    return [('Company Detail', f'{len(picked)} further line items this company reports, each forecast as a share of {base_label}')], []
+
+
+def rnd(wb, c, facts):
+    """R&D analysis with capitalised R&D, when the company reports research and development spending."""
+    from . import xbrl as X
+    fl = {e: v for (s0, e), v in X.flows(facts, ['ResearchAndDevelopmentExpense',
+                                                  'ResearchAndDevelopmentExpenseExcludingAcquiredInProcessCost', 'ResearchDevelopmentAndRelatedExpenses', 'ResearchAndDevelopmentExpenseSoftwareExcludingAcquiredInProcessCost'], 330, 400).items()}
+    ends, nh, n = c['ends'], c['nh'], c['n']
+    vals = [None if fl.get(e) is None else round(fl[e] / 1e6, 3) for e in ends]
+    if sum(v is not None and v > 0 for v in vals[-3:]) < 3:
+        return [], []
+    hi = nh - 1
+    ds, I, si = c['ds'], c['is_'].ref, c['si']
+    from .xl import INPUT as _IN
+    ds.row('rd', 'Research and development expense')
+    for j, v in enumerate(vals):
+        if v is not None:
+            ds.set('rd', j, v, font=_IN)
+    life = c['profile'].pick([3, 4, 5]) if c.get('profile') else 5
+    si.next_row += 1
+    si.add('rd_life', 'R&D amortisation life (years, capitalised R&D)', life, '0', 'Typical useful life of research spending')
+    L = si.ref('rd_life')
+    sh = Sheet(wb, 'R&D Analysis', c['heading']('Research and development: spending, capitalisation and adjusted returns'), c['periods'], nh)
+    for key, label, bold, sec in [('rd', 'R&D expense', True, 'Spending'), ('pct', '  % of revenue', False, None),
+                                  ('amort', 'Amortisation of capitalised R&D', False, 'Capitalised R&D'),
+                                  ('asset', 'Research asset (unamortised R&D)', True, None),
+                                  ('ebit', 'Reported EBIT', False, 'Adjusted operating income'),
+                                  ('adj', 'EBIT with R&D capitalised', True, None), ('m', 'Adjusted EBIT margin', False, None)]:
+        sh.row(key, label, bold, section=sec)
+    S = sh.ref
+    w0 = max(0, nh - 3)
+    for j in range(n):
+        if j < nh:
+            sh.set('rd', j, f'=N({ds.ref("rd", j)})', bold=True)
+        else:
+            sh.set('rd', j, f'={I("revenue", j)}*AVERAGE({sh.span("pct", w0, hi)})', bold=True)
+        sh.set('pct', j, f'=IFERROR({S("rd", j)}/{I("revenue", j)},0)', PCT)
+        terms = '+'.join(f'IF({k}<{L},{S("rd", j - k)},0)' for k in range(0, min(j, 7) + 1))
+        sh.set('amort', j, f'=({terms})/{L}')
+        unam = '+'.join(f'IF({k}<{L},{S("rd", j - k)}*({L}-{k}-1)/{L},0)' for k in range(0, min(j, 7) + 1))
+        sh.set('asset', j, f'={unam}', bold=True)
+        sh.set('ebit', j, f'={I("ebit", j)}')
+        sh.set('adj', j, f'={S("ebit", j)}+{S("rd", j)}-{S("amort", j)}', bold=True)
+        sh.set('m', j, f'=IFERROR({S("adj", j)}/{I("revenue", j)},0)', PCT)
+    return [('R&D Analysis', 'R&D intensity, capitalised R&D and R&D-adjusted operating income')], []
+
+
+def sbc(wb, c):
+    """Share-based pay against EBITDA, when the company reports it."""
+    d, nh, n = c['data'], c['nh'], c['n']
+    vals = d.get('sbc') or []
+    if sum(v is not None and v > 0 for v in vals[-3:]) < 3:
+        return [], []
+    hi = nh - 1
+    ds, I = c['ds'], c['is_'].ref
+    from .xl import INPUT as _IN
+    ds.row('sbc_x', 'Share-based compensation')
+    for j, v in enumerate(vals):
+        if v is not None:
+            ds.set('sbc_x', j, v, font=_IN)
+    sh = Sheet(wb, 'Share-Based Pay', c['heading']('Share-based compensation and cash-adjusted earnings'), c['periods'], nh)
+    for key, label, bold in [('sbc', 'Share-based compensation', True), ('pct', '  % of revenue', False),
+                             ('ebitda', 'EBITDA', False), ('adj', 'EBITDA after share-based pay', True),
+                             ('share', 'Share-based pay % EBITDA', False)]:
+        sh.row(key, label, bold)
+    S = sh.ref
+    w0 = max(0, nh - 3)
+    for j in range(n):
+        sh.set('sbc', j, f'=N({ds.ref("sbc_x", j)})' if j < nh else f'={I("revenue", j)}*AVERAGE({sh.span("pct", w0, hi)})', bold=True)
+        sh.set('pct', j, f'=IFERROR({S("sbc", j)}/{I("revenue", j)},0)', PCT)
+        sh.set('ebitda', j, f'={I("ebitda", j)}')
+        sh.set('adj', j, f'={S("ebitda", j)}-{S("sbc", j)}', bold=True)
+        sh.set('share', j, f'=IFERROR({S("sbc", j)}/{S("ebitda", j)},0)', PCT)
+    return [('Share-Based Pay', 'Share-based compensation intensity and EBITDA after share-based pay')], []
+
+
 def scenarios(wb, c):
     si, asm = c['si'], c['asm']
     ws = si.ws
@@ -111,7 +285,7 @@ def scenarios(wb, c):
     for letter in 'DE':
         ws.column_dimensions[letter].width = 16
     live = {}
-    for key, label, base, up, down, fmt in SCEN:
+    for key, label, base, up, down, fmt in _sized(c):
         r += 1
         ws.cell(row=r, column=1, value=label)
         for k, v in enumerate((base, up, down)):
@@ -798,12 +972,16 @@ def seasonality(facts):
     return w
 
 
-def build(facts, sector, market, sic, kind, trim=0):
+HORIZONS = {'integrated': [5, 6, 7], 'valuation': [7, 8, 10], 'buyout': [5, 6, 7], 'budget': [5, 6], 'credit': [5, 6, 7],
+            'strategic': [10, 12, 15]}
+
+
+def build(facts, sector, market, sic, kind, trim=0, profile=None):
     s = _sic(sic)
     fin = s in FIN
     if kind in ('valuation', 'buyout', 'credit') and fin:
         return None
-    years = 10 if kind == 'strategic' else 5
+    years = profile.pick(HORIZONS[kind]) if profile else (10 if kind == 'strategic' else 5)
     mods = {'integrated': [], 'valuation': ['valuation'], 'buyout': ['buyout'], 'budget': ['budget'],
             'credit': ['credit'], 'strategic': ([] if fin else ['valuation', 'credit']) + ['budget']}[kind]
 
@@ -816,9 +994,13 @@ def build(facts, sector, market, sic, kind, trim=0):
                 raise _Skip('EBITDA too thin for a buyout')
         if 'valuation' in mods and (sum(d['ebit']) <= 0 or d['ebit'][hi] <= 0):
             raise _Skip('loss-making history: no cash-flow DCF')
+        c['profile'] = profile
         sections, items = [], []
-        for fn in [scenarios, schedules]:
-            a, b = fn(wb, c)
+        steps = [lambda: scenarios(wb, c), lambda: schedules(wb, c), lambda: company_lines(wb, c, facts)]
+        if not fin:
+            steps += [lambda: rnd(wb, c, facts), lambda: sbc(wb, c)]
+        for fn in steps:
+            a, b = fn()
             sections += a
             items += b
         for m in mods:
@@ -856,7 +1038,7 @@ NEUTRAL = [(re.compile(r'Reported figures \(Form 10-K\)'), 'Historical figures')
            (re.compile(r'USD millions \(as reported, SEC XBRL\)'), 'USD millions'),
            (re.compile(r"company's reported 10-K figures"), "company's historical financial statements")]
 SOURCE_WORDS = re.compile(r'10-K|10-Q|\bSEC\b|XBRL|EDGAR|\bFRED\b|Damodaran|public float|cover page|\bdei:|public data|'
-                          r'publicly available|sec\.gov|filing|World Bank|IBRD|Census Bureau|census\.gov|worldbank', re.I)
+                          r'publicly available|sec\.gov|filing|World Bank|\bIBRD\b|Census Bureau|census\.gov|worldbank', re.I)
 
 
 class SourceMention(Exception):

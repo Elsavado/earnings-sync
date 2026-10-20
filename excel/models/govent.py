@@ -270,9 +270,9 @@ def _finish(wb, title, place, desc, sections, items, asof):
 
 
 # --- population -----------------------------------------------------------------------------------------------------
-def population(e):
+def population(e, profile=None):
     yrs, nh = e['years'], len(e['years'])
-    horizon = 20
+    horizon = profile.pick([15, 20, 25, 30]) if profile else 20
     periods = [str(y) for y in yrs] + [str(yrs[-1] + k) for k in range(1, horizon + 1)]
     n, hi, F0, FN = len(periods), nh - 1, nh, nh + horizon - 1
     wb = new_workbook()
@@ -447,9 +447,9 @@ def population(e):
 
 
 # --- fiscal & debt sustainability ----------------------------------------------------------------------------------
-def fiscal(e):
+def fiscal(e, profile=None):
     yrs, nh = e['years'], len(e['years'])
-    horizon = 10
+    horizon = profile.pick([8, 10, 12]) if profile else 10
     periods = [str(y) for y in yrs] + [f'{yrs[-1] + k}F' for k in range(1, horizon + 1)]
     n, hi, F0, FN = len(periods), nh - 1, nh, nh + horizon - 1
     wb = new_workbook()
@@ -613,9 +613,9 @@ def fiscal(e):
 
 
 # --- macroeconomic framework ----------------------------------------------------------------------------------------
-def economy(e):
+def economy(e, profile=None):
     yrs, nh = e['years'], len(e['years'])
-    horizon = 10
+    horizon = profile.pick([8, 10, 12]) if profile else 10
     periods = [str(y) for y in yrs] + [f'{yrs[-1] + k}F' for k in range(1, horizon + 1)]
     n, hi, F0, FN = len(periods), nh - 1, nh, nh + horizon - 1
     wb = new_workbook()
@@ -743,10 +743,10 @@ BENEFIT = [(r'transport|road|rail|port|airport', 0.15), (r'energy|power|electric
            (r'health|nutrition|education|social|protection', 0.11), (r'urban|municipal|housing|digital|ict', 0.13)]
 
 
-def project(e, market):
+def project(e, market, profile=None):
     a, cl = date.fromisoformat(e['approved']), date.fromisoformat(e['closing'])
     build_years = max(2, min(10, round((cl - a).days / 365.25)))
-    life = 25
+    life = profile.pick([20, 25, 30]) if profile else 25
     horizon = build_years + life
     first = a.year
     periods = [str(first + k) for k in range(horizon + 1)]
@@ -883,14 +883,14 @@ def project(e, market):
     return wbk
 
 
-def build(kind, entity, market):
+def build(kind, entity, market, profile=None):
     if kind == 'gov_population':
-        return population(entity)
+        return population(entity, profile)
     if kind == 'gov_fiscal':
-        return fiscal(entity)
+        return fiscal(entity, profile)
     if kind == 'gov_economy':
-        return economy(entity)
-    return project(entity, market)
+        return economy(entity, profile)
+    return project(entity, market, profile)
 
 
 def file_label(kind, entity, wb):

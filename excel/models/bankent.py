@@ -77,13 +77,17 @@ def prepare(facts, trim):
     return ends, d
 
 
-def build(facts, sector, market, sic, kind, trim=0):
+BANK_HORIZONS = {'bank_integrated': [5, 6, 7], 'bank_capital': [5, 6], 'bank_alm': [5, 6], 'bank_valuation': [7, 8, 10],
+                 'bank_strategic': [10, 12]}
+
+
+def build(facts, sector, market, sic, kind, trim=0, profile=None):
     got = prepare(facts, trim)
     if not got:
         return None
     ends, d = got
     mods = MODULES[kind]
-    years = 10 if kind == 'bank_strategic' else 5
+    years = profile.pick(BANK_HORIZONS[kind]) if profile else (10 if kind == 'bank_strategic' else 5)
     nh, hi = len(ends), len(ends) - 1
     last = int(ends[-1][:4])
     periods = [f'FY{e[:4]}A' for e in ends] + [f'FY{last + k}E' for k in range(1, years + 1)]
@@ -400,6 +404,9 @@ def build(facts, sector, market, sic, kind, trim=0):
     extra = []
     c = dict(wb=wb, head=head, periods=periods, nh=nh, n=n, F0=F0, FN=FN, years=years, I=I, B=B, K=K, Q=Q, M=M, B_=B_,
              is_=is_, bs=bs, cp=cp, nb=nb)
+    c.update(ends=ends, data=d, ds=ds, heading=head, profile=profile, base_last=d['assets'][hi])
+    a, b = enterprise.company_lines(wb, c, facts, base=lambda j: B('assets', j), base_label='total assets')
+    sections, items = sections + a, items + b
     if 'stress' in mods:
         a, b, e = stress(c)
         sections, items, extra = sections + a, items + b, extra + e
