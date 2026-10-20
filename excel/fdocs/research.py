@@ -693,11 +693,26 @@ def _english(text):
     return len(words) < 40 or sum(w in EN_WORDS for w in words) / len(words) >= 0.15
 
 
+NAMEISH = r"[A-Z][\w'.-]+(?: [A-Z][\w'.-]+){1,3}"
+PROFILE = re.compile(r"\[(?:" + NAMEISH + r"|@?[\w-]{2,39})\]\((https?://(?:www\.)?(?:github\.com|gitlab\.com|twitter\.com|x\.com|linkedin\.com/in)/[\w.-]+/?)\)")
+CREDIT_LINE = re.compile(r'(?i)\b(?:courtesy of|thanks to|translated by|translation by|maintained by|created by|written by|authored by|contributed by)\b')
+CREDIT_LINK = re.compile(r'\[' + NAMEISH + r'\]\(')
+CONTRIB_ANCHOR = re.compile(r'(href="#[A-Za-z0-9]+-)[^"]+"')
+
+
+def _credits(p):
+    """Credit lists before the general scrub: profile links, 'Courtesy of [A] [B]' lines and all-contributors anchors."""
+    p = PROFILE.sub(lambda m: f'[{_anon.PERSON}]({m.group(1)})', p)
+    p = '\n'.join(CREDIT_LINK.sub(f'[{_anon.PERSON}](', ln) if CREDIT_LINE.search(ln) else ln for ln in p.split('\n'))
+    return CONTRIB_ANCHOR.sub(r'\1salvador-sekwa"', p)
+
+
 def _scrub_guide(A, text):
     """Names, e-mails and @handles in the prose; code blocks and inline code are left exactly as written."""
     parts = CODE.split(text)
     for i in range(0, len(parts), 2):
-        p = A.scrub(parts[i])
+        p = _credits(parts[i])
+        p = A.scrub(p)
         p = HANDLE.sub('@salvador-sekwa', p)
         firsts = _anon.first_names()
 
