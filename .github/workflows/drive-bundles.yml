@@ -1,0 +1,115 @@
+name: Drive bundles by file type
+
+# Zips the files of the Workspace Shared Drive "IR Transcripts" into 400-500 MB bundles grouped by file type:
+# "Bundles by File Type/<TYPE>/<n> 500 MB.zip" (excel/bundles.py). The originals are never moved or changed;
+# everything runs on GitHub's machines (nothing is stored anywhere else). The plan (which file goes in which
+# bundle) lives in "Bundles by File Type - private". Runs chain until every bundle is uploaded.
+# Sign-in: joseph@irtranscripts.com's Google refresh token (WS_GOOGLE_* secrets).
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Plan and make 2 bundles per job without uploading anything'
+        type: boolean
+        required: false
+        default: false
+      replan:
+        description: 'List the drive again and add new files to new bundles'
+        type: boolean
+        required: false
+        default: true
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: drive-bundles-${{ github.event.inputs.dry_run || 'false' }}
+  cancel-in-progress: false
+
+env:
+  SHARED_DRIVE_ID: ${{ vars.BUNDLES_DRIVE_ID || '0AM6PzKRbJBK-Uk9PVA' }}
+  GOOGLE_CLIENT_ID: ${{ secrets.WS_GOOGLE_CLIENT_ID }}
+  GOOGLE_CLIENT_SECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
+  GOOGLE_REFRESH_TOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
+  DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+
+jobs:
+  plan:
+    if: github.event.inputs.replan == 'true' && github.event.inputs.dry_run != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    defaults:
+      run:
+        working-directory: excel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: excel/requirements.txt
+      - run: pip install -q -r requirements.txt
+      - name: List the drive and assign files to bundles
+        run: python -m bundles plan
+
+  build:
+    needs: plan
+    if: always() && needs.plan.result != 'failure' && needs.plan.result != 'cancelled'
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7]
+    defaults:
+      run:
+        working-directory: excel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: excel/requirements.txt
+      - run: pip install -q -r requirements.txt
+      - name: Make and upload bundles
+        id: make
+        env:
+          RUN_MINUTES: '330'
+          WORKERS: '12'
+        run: python -m bundles build ${{ matrix.shard }} 8
+
+  next:
+    # Another run while bundles are left; a dry run never chains. Re-listing is skipped (the plan is kept).
+    needs: build
+    if: always() && github.event.inputs.dry_run != 'true' && vars.BUNDLES_LIVE == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: excel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: excel/requirements.txt
+      - run: pip install -q -r requirements.txt
+      - name: Count bundles still missing
+        id: left
+        run: |
+          python - <<'EOF'
+          import os
+          from bundles import Bundler
+          b = Bundler()
+          plan = b.store.load_state()
+          done = b.done()
+          left = sum(1 for x in plan['bundles'] if f"{x['type']}#{x['n']}" not in done)
+          print(left, 'bundles left')
+          open(os.environ['GITHUB_OUTPUT'], 'a').write(f'left={left}\n')
+          EOF
+      - if: steps.left.outputs.left != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run drive-bundles.yml -R ${{ github.repository }} --ref main -f dry_run=false -f replan=false
