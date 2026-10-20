@@ -59,7 +59,7 @@ def pieces(f):
     if f['size'] <= MAX:
         return [f]
     n = -(-f['size'] // PIECE)
-    chunk = -(-f['size'] // n)
+    chunk = PIECE  # full parts plus a smaller last one, which packs together with other files
     lines = f['type'] in LINES
     stem, dot, ext = f['path'].rpartition('.')
     out = []
@@ -69,6 +69,25 @@ def pieces(f):
         out.append({'id': f'{f["id"]}#{k + 1}', 'src': f['id'], 'path': path, 'size': end - start, 'md5': None,
                     'start': start, 'end': end, 'total': f['size'], 'split': 'lines' if lines else 'bytes', 'type': f['type']})
     return out
+
+
+def pack(fs):
+    """Best fit, largest first: bundles fill close to MAX. Each bundle lists its files by path; bundles are
+    numbered in the order of their first path, so neighbouring folders tend to sit in neighbouring bundles."""
+    import bisect
+    bins, free = [], []  # free: sorted (space left, bin index)
+    for f in sorted(fs, key=lambda f: (-f['size'], f['path'].lower())):
+        k = bisect.bisect_left(free, (f['size'], -1))
+        if k < len(free):
+            room, b = free.pop(k)
+        else:
+            room, b = MAX, len(bins)
+            bins.append([])
+        bins[b].append(f)
+        bisect.insort(free, (room - f['size'], b))
+    for g in bins:
+        g.sort(key=lambda f: f['path'].lower())
+    return sorted(bins, key=lambda g: g[0]['path'].lower())
 
 
 def label(size):
@@ -149,29 +168,7 @@ class Bundler:
         for b in plan['bundles']:
             top[b['type']] = max(top.get(b['type'], 0), b['n'])
         for t, fs in sorted(by_type.items()):
-            fs.sort(key=lambda f: f['path'].lower())
-            groups, cur, size, carry = [], [], 0, []
-            for f in fs:
-                if f['size'] > MAX:
-                    groups.append([f])
-                    continue
-                if size + f['size'] <= MAX:
-                    cur.append(f)
-                    size += f['size']
-                    continue
-                if size >= MIN:
-                    groups.append(cur)
-                    cur, size = [f], f['size']
-                else:
-                    carry.append(f)  # keeps filling this bundle with the files that follow; placed at the end
-            for f in carry:
-                if size + f['size'] > MAX:
-                    groups.append(cur)
-                    cur, size = [], 0
-                cur.append(f)
-                size += f['size']
-            if cur:
-                groups.append(cur)
+            groups = pack(fs)
             n = top.get(t, 0)
             for g in groups:
                 n += 1
