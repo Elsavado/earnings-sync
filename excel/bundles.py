@@ -34,6 +34,9 @@ PRIVATE = 'Bundles by File Type - private'
 APP = 'irt-bundles'
 MAX = 495_000_000   # bytes of files per bundle (the zip's own headers stay well under the 500 MB mark)
 MIN = 400_000_000
+PIECE = 480_000_000  # a file over MAX is split into parts of at most this size
+LINES = {'CSV', 'TSV', 'TXT', 'JSONL', 'NDJSON', 'LOG', 'DAT', 'PSV'}  # split at line ends (a CSV part repeats the header)
+URL = 'https://www.googleapis.com/drive/v3/files/'
 GOOGLE = 'application/vnd.google-apps.'
 KNOWN_NOEXT = {'application/pdf': 'PDF', 'text/plain': 'TXT', 'text/html': 'HTML', 'application/json': 'JSON',
                'application/zip': 'ZIP', 'text/csv': 'CSV'}
@@ -49,6 +52,23 @@ def file_type(name, mime):
     if dot and stem and 1 <= len(ext) <= 6 and ext.isalnum():
         return ext
     return KNOWN_NOEXT.get(mime, 'Other')
+
+
+def pieces(f):
+    """A file over MAX becomes parts: 'data.part01-of07.csv' (whole lines) or 'video.webm.001' (bytes; 7-Zip joins them)."""
+    if f['size'] <= MAX:
+        return [f]
+    n = -(-f['size'] // PIECE)
+    chunk = -(-f['size'] // n)
+    lines = f['type'] in LINES
+    stem, dot, ext = f['path'].rpartition('.')
+    out = []
+    for k in range(n):
+        start, end = k * chunk, min(f['size'], (k + 1) * chunk)
+        path = f'{stem}.part{k + 1:02d}-of{n:02d}.{ext}' if lines and dot else f'{f["path"]}.{k + 1:03d}'
+        out.append({'id': f'{f["id"]}#{k + 1}', 'src': f['id'], 'path': path, 'size': end - start, 'md5': None,
+                    'start': start, 'end': end, 'total': f['size'], 'split': 'lines' if lines else 'bytes', 'type': f['type']})
+    return out
 
 
 def label(size):
@@ -124,7 +144,7 @@ class Bundler:
         new = [f for f in self.list_drive() if f['id'] not in have]
         by_type = {}
         for f in new:
-            by_type.setdefault(f['type'], []).append(f)
+            by_type.setdefault(f['type'], []).extend(pieces(f))
         top = {}
         for b in plan['bundles']:
             top[b['type']] = max(top.get(b['type'], 0), b['n'])
@@ -157,7 +177,9 @@ class Bundler:
                 n += 1
                 plan['bundles'].append({'type': t, 'n': n, 'size': sum(f['size'] for f in g), 'files': [f['id'] for f in g]})
                 for f in g:
-                    have[f['id']] = {k: f[k] for k in ('path', 'size', 'md5')}
+                    have[f['id']] = {k: v for k, v in f.items() if k not in ('id', 'type')}
+                    if 'src' in f:
+                        have[f['src']] = {'path': f['path'], 'size': f['total'], 'split': True}
         if not self.dry_run:
             self.save(plan)
         self.summary(plan, len(new))
@@ -184,6 +206,9 @@ class Bundler:
             p[1] += len(b['files'])
             p[2] += b['size']
         log(f'{new} new files assigned; {len(plan["bundles"])} bundles in all, {sum(v[2] for v in per.values()) / 1e9:.1f} GB')
+        sizes = [x['size'] for x in plan['bundles']]
+        log(f'bundle sizes: {sum(MIN <= z <= MAX for z in sizes)} at 400-500 MB, {sum(z < MIN for z in sizes)} smaller '
+            f'(the last of a type), {sum(z > MAX for z in sizes)} over; {sum(1 for v in plan["files"].values() if v.get("split") is True)} large files split into parts')
         for t, (nb, nf, sz) in sorted(per.items(), key=lambda kv: -kv[1][2]):
             log(f'  {t:8} {nb:5} bundles {nf:8} files {sz / 1e9:8.2f} GB')
         q = _retry(lambda: self.store.drive.about().get(fields='storageQuota').execute())['storageQuota']
@@ -266,6 +291,59 @@ class Bundler:
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
 
+    @staticmethod
+    def fetch(s, fid, a, b, dst):
+        """Bytes a..b-1 of a Drive file."""
+        n = 0
+        with s.get(URL + fid, params={'alt': 'media', 'supportsAllDrives': 'true'}, headers={'Range': f'bytes={a}-{b - 1}'},
+                   stream=True, timeout=300) as r:
+            if r.status_code in (403, 429) or r.status_code >= 500:
+                raise IOError(f'HTTP {r.status_code}')
+            r.raise_for_status()
+            with open(dst, 'wb') as out:
+                for chunk in r.iter_content(4 * 2**20):
+                    out.write(chunk)
+                    n += len(chunk)
+        if n != b - a:
+            raise IOError(f'range {a}-{b}: got {n} bytes')
+
+    def piece(self, s, info, dst):
+        """One part of a large file, read as a byte range. Line parts start after the first line end at or after
+        their start offset and stop after the first line end at or after their end offset, so parts join back exactly."""
+        src, start, end, total = info['src'], info['start'], info['end'], info['total']
+        if info['split'] == 'bytes':
+            self.fetch(s, src, start, end, dst)
+            return
+        import mmap
+        raw = dst.with_suffix('.raw')
+        margin = 4 * 2**20
+        while True:
+            a, b = max(0, start - 1), min(total, end + margin)
+            self.fetch(s, src, a, b, raw)
+            with open(raw, 'rb') as fh, mmap.mmap(fh.fileno(), 0, access=mmap.ACCESS_READ) as mm:
+                s_off = 0 if start == 0 else mm.find(b'\n') + 1
+                if end >= total:
+                    e_off = len(mm)
+                else:
+                    i = mm.find(b'\n', end - 1 - a)
+                    if i < 0:
+                        margin *= 8
+                        continue
+                    e_off = i + 1
+                head = b''
+                if start > 0 and info['path'].lower().endswith('.csv'):
+                    hdr = dst.with_suffix('.hdr')
+                    self.fetch(s, src, 0, min(total, 2**20), hdr)
+                    first = hdr.read_bytes()
+                    head = first[:first.find(b'\n') + 1] if b'\n' in first else b''
+                    hdr.unlink()
+                with open(dst, 'wb') as out:
+                    out.write(head)
+                    for k in range(s_off, max(s_off, e_off), 16 * 2**20):
+                        out.write(mm[k:min(e_off, k + 16 * 2**20)])
+            raw.unlink()
+            return
+
     def download(self, ids, files, tmp):
         """Parallel downloads, each checked against Drive's md5. A file gone from the drive is left out."""
         local, lock = {}, threading.Lock()
@@ -278,6 +356,11 @@ class Bundler:
             dst = tmp / f'{i}.bin'
             for attempt in range(6):
                 try:
+                    if 'src' in files[fid]:
+                        self.piece(s, files[fid], dst)
+                        with lock:
+                            local[fid] = dst
+                        return
                     with s.get(f'https://www.googleapis.com/drive/v3/files/{fid}', params={'alt': 'media', 'supportsAllDrives': 'true'},
                                stream=True, timeout=300) as r:
                         if r.status_code == 404:
