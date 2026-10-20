@@ -37,7 +37,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  SHARED_DRIVE_ID: '0AM6PzKRbJBK-Uk9PVA'
+  SHARED_DRIVE_ID: ${{ vars.RESEARCH_DRIVE_ID || '0AM6PzKRbJBK-Uk9PVA' }}
   FD_ROOT: ''
   FD_PRIVATE: 'Research Collector - private'
   FD_APP: 'irt-research'
