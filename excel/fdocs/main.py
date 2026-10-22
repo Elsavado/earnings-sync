@@ -25,6 +25,7 @@ import requests
 from models.anonymize import Anonymizer
 
 from . import kinds as K
+from . import office
 from . import research
 from . import sources
 from .anon import DocAnon, html_clean
@@ -44,6 +45,7 @@ STATE_NAME = f'state-{ONLY[0]}.json.gz' if len(ONLY) == 1 else 'state.json.gz'
 
 
 sources.DISCOVER.update(research.DISCOVER)
+sources.DISCOVER.update(office.DISCOVER)
 
 
 def size_class(kind):
@@ -166,6 +168,8 @@ NOTEBOOK_WORDS = re.compile(r'portfolio|returns?|valuation|dcf|discount|option|b
 def process(cand, kind, work):
     """Downloads and anonymises one candidate. Returns {'ok', 'path', 'ext', 'label'} or {'ok': False, 'reason'}."""
     A = ANON['doc']
+    if kind in office.KINDS:
+        office.setup(kind)
     work = Path(work)
     s = sources.session()
     r = s.get(cand['url'], timeout=90, stream=True)
@@ -213,7 +217,8 @@ def process(cand, kind, work):
             why = f'unreadable ({type(err).__name__})'
         if why:
             return {'ok': False, 'reason': why, 'raw': digest}
-        return {'ok': True, 'path': str(dst), 'ext': ext, 'label': K.LABEL[kind], 'raw': digest}
+        lab = office.label(kind, cand) if kind in office.KINDS else K.LABEL[kind]
+        return {'ok': True, 'path': str(dst), 'ext': ext, 'label': lab, 'raw': digest}
 
     if kind == 'notebooks':
         src = work / 'nb.ipynb'
@@ -296,6 +301,17 @@ def process(cand, kind, work):
         why = readable(dst)  # the delivered file itself must show its text
     if why:
         return {'ok': False, 'reason': why, 'raw': digest}
+    if kind in office.KINDS:
+        want = {'gdocs': 'docx', 'slides': 'pptx', 'presentations': 'pdf'}[kind]
+        if ext != want:
+            return {'ok': False, 'reason': f'{ext}, not {want}', 'raw': digest}
+        if kind == 'slides' and office.slide_count(dst) < 5:
+            return {'ok': False, 'reason': 'fewer than 5 slides', 'raw': digest}
+        if kind == 'presentations':
+            pages, wide = office.landscape_share(dst)
+            if pages < 5 or wide < 0.6:
+                return {'ok': False, 'reason': 'not a slide presentation', 'raw': digest}
+        label = office.label(kind, cand)
     return {'ok': True, 'path': str(dst), 'ext': ext, 'label': describe(label, cand), 'raw': digest}
 
 

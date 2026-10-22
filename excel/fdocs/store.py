@@ -84,7 +84,9 @@ class Store(_Base):
                 return best
 
     def upload_doc(self, path, kind, n, label, ext, key):
-        name = f'{n} - {label}.{ext}'
+        from .office import GOOGLE
+        google = GOOGLE.get(kind) if ext in ('xlsx', 'docx', 'pptx') else None  # Drive converts the file to its Google type
+        name = f'{n} - {label}' if google else f'{n} - {label}.{ext}'
         if self.dry_run:
             return name
         if kind not in self.kind_roots:
@@ -94,6 +96,8 @@ class Store(_Base):
             self.folders[fname] = self._folder(self.kind_roots[kind], fname[1])
         body = {'name': name, 'parents': [self.folders[fname]],
                 'appProperties': {'fdApp': APP, 'fdKind': kind, 'fdNum': str(n), 'fdKey': key[:100]}}
+        if google:
+            body['mimeType'] = google
         import os
         big = os.path.getsize(path) > 5 * 2**20  # simple uploads stop at 5 MB; larger files go up in chunks
         media = MediaFileUpload(path, mimetype=MIME[ext], resumable=big, chunksize=32 * 2**20 if big else -1)

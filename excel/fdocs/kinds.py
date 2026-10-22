@@ -63,16 +63,24 @@ KINDS = {
     'scinotebooks': {'folder': 'Jupyter Notebooks (STEM)', 'phrases': [], 'head': 0, 'min_words': 0, 'workspace': True},
     'figma': {'folder': 'Figma Designs', 'phrases': [], 'head': 0, 'min_words': 0, 'workspace': True},
     'styleguides': {'folder': 'Style Guides & Guidelines', 'phrases': [], 'head': 0, 'min_words': 0, 'workspace': True},
+    # Office kinds (office.py): uploaded as Google Sheets / Docs / Slides, PDF presentations and bookkeeping tables.
+    'gsheets': {'folder': 'Google Sheets', 'phrases': [], 'head': 0, 'min_words': 0, 'workspace': True},
+    'gdocs': {'folder': 'Google Docs', 'phrases': [], 'head': 3000, 'min_words': 300, 'workspace': True},
+    'slides': {'folder': 'Google Slides', 'phrases': [], 'head': 3000, 'min_words': 80, 'workspace': True},
+    'presentations': {'folder': 'Presentations', 'phrases': [], 'head': 3000, 'min_words': 150, 'workspace': True},
+    'bookkeeping': {'folder': 'Bookkeeping Records', 'phrases': [], 'head': 0, 'min_words': 0, 'workspace': True},
     # Tabular kinds: gated on column headers by tab.py, not on text.
     'transactions': {'folder': 'Financial Transactions', 'phrases': [], 'head': 0, 'min_words': 0},
     'payroll': {'folder': 'Employee Payroll & Payments', 'phrases': [], 'head': 0, 'min_words': 0},
 }
-TABULAR = {'transactions', 'payroll'}
+TABULAR = {'transactions', 'payroll', 'gsheets', 'bookkeeping'}
 
 LABEL = {
     'cim': 'Diligence report', 'research': 'Industry research', 'equity': 'Equity research', 'letters': 'Investor letter',
     'memos': 'Investment memo', 'deals': 'Deal document', 'transcripts': 'Earnings call transcript', 'notebooks': 'Notebook',
     'contracts': 'Contract', 'transactions': 'Transactions', 'payroll': 'Payroll',
+    'gsheets': 'Spreadsheet', 'gdocs': 'Document', 'slides': 'Slide deck', 'presentations': 'Presentation',
+    'bookkeeping': 'Bookkeeping records',
     'scinotebooks': 'Research notebook', 'figma': 'Figma design and HTML-CSS', 'styleguides': 'Style guide',
 }
 FIN_KINDS = [k for k, v in KINDS.items() if not v.get('workspace')]  # the Financial documents workflow's types
