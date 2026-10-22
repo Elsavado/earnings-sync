@@ -52,6 +52,17 @@ def _official(m):
     return f'{m.group(1)} {PERSON}'
 
 
+def _looks_personal(v):
+    """'STEINDOERFER, GEORGE', 'Greg Bykowski', 'BYKOWSKI GREG' → True; 'STAPLES ADVANTAGE' → False."""
+    from .anon import first_names
+    if ORG_WORDS.search(v):
+        return False
+    words = [w.strip('.,').lower() for w in re.split(r'[\s,]+', v) if w.strip('.,')]
+    if re.fullmatch(r"[A-Za-z'’\-]+,\s*[A-Za-z'’\-]+(?:\s+[A-Za-z]\.?)?", v.strip()):
+        return True  # 'SURNAME, FIRST [M]'
+    return 2 <= len(words) <= 4 and any(w in first_names() for w in words)
+
+
 def gate(kind, header, rows):
     """None when the table belongs to kind, otherwise the reason it does not."""
     if len(rows) < 100:
@@ -68,14 +79,25 @@ def gate(kind, header, rows):
     return None
 
 
+# A column naming whoever was paid (a person or a business): 'Payee', 'Explanation Alpha Name', 'Paid To', 'Vendor Name'.
+PAYEE_COL = re.compile(r'payee|alpha_?\s?name|paid_?\s?to|pay_?\s?to|remit|\bname\b', re.I)
+NOT_PAYEE_COL = re.compile(r'object|fund|account|department|dept|program|project|category|class|type|item|division|'
+                           r'cost|center|centre|budget|unit|agency|file|sheet|job|section|ledger|document|tax', re.I)
+CODE_COL = re.compile(r'(?:code|id|number|no|num|#)\.?$', re.I)
+
+
 def _role(col):
     if SECRET_COL.search(col):
         return 'secret'
-    if ORG_COL.search(col):
-        return 'org'
+    if CODE_COL.search(col.strip()):
+        return 'text'  # 'Vendor Code', 'Supplier ID': codes stay (cell() keeps single-token references)
     norm = re.sub(r'[\s\-.]+', '_', col.strip()).strip('_')
     if norm and PERSON_COL.match(norm):
         return 'person'
+    if PAYEE_COL.search(col) and not NOT_PAYEE_COL.search(col):
+        return 'payee'
+    if ORG_COL.search(col):
+        return 'org'
     return 'text'
 
 
@@ -93,6 +115,11 @@ class Table:
             return REDACTED
         if role == 'person':
             return REDACTED if ORG_WORDS.search(v) else PERSON
+        if role == 'payee':
+            if _looks_personal(v):
+                return PERSON
+            if ORG_WORDS.search(v) or v.isupper():
+                return REDACTED  # a business ('STAPLES ADVANTAGE'); descriptions ('Payroll Labor Distribution') go on below
         if re.fullmatch(r'[\d.,\-+$€£% ()/:]+', v):
             return v
         if ' ' not in v.strip() and any(ch.isdigit() for ch in v) and '@' not in v:
