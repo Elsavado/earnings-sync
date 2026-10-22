@@ -212,12 +212,18 @@ def process(cand, kind, work):
         shutil.copy(raw, src)
         dst = out / f'data.{ext}'
         try:
+            if kind in office.KINDS and ext != 'json':
+                A.learn(office.table_text(src, ext))  # the sheet's own people, as documents do
             why = getattr(tab, ext)(src, dst, kind)
+            if not why and kind in office.KINDS and ext != 'json':
+                left_over = A.leaks(office.table_text(dst, ext))
+                if left_over:
+                    why = f'names left ({left_over[:3]})'
         except Exception as err:  # noqa: BLE001
             why = f'unreadable ({type(err).__name__})'
         if why:
             return {'ok': False, 'reason': why, 'raw': digest}
-        lab = office.label(kind, cand) if kind in office.KINDS else K.LABEL[kind]
+        lab = office.label(kind, cand, A) if kind in office.KINDS else K.LABEL[kind]
         return {'ok': True, 'path': str(dst), 'ext': ext, 'label': lab, 'raw': digest}
 
     if kind == 'notebooks':
@@ -311,7 +317,7 @@ def process(cand, kind, work):
             pages, wide = office.landscape_share(dst)
             if pages < 5 or wide < 0.6:
                 return {'ok': False, 'reason': 'not a slide presentation', 'raw': digest}
-        label = office.label(kind, cand)
+        label = office.label(kind, cand, A)
     return {'ok': True, 'path': str(dst), 'ext': ext, 'label': describe(label, cand), 'raw': digest}
 
 

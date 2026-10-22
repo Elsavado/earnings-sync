@@ -74,7 +74,8 @@ def zenodo_files(state, kind, s, log, pages=2):
                     url = (f.get('links') or {}).get('self')
                     if key.lower().endswith('.' + ext) and url and 0 < f.get('size', 0) <= 40 * 2**20:
                         added += _add(state, kind, {'key': f'zenodo:{h["id"]}:{key}'[:300], 'url': url, 'ext': ext,
-                                                    'orgs': [], 'source': 'zenodo', 'topic': topic.strip('"')})
+                                                    'orgs': [], 'source': 'zenodo', 'topic': topic.strip('"'),
+                                                    'title': (md.get('title') or '')[:200]})
             cur['page'] += 1
             if len(hits) < 25 or cur['page'] > 400:  # Zenodo serves at most 10,000 results per search
                 cur['done'] = True
@@ -126,9 +127,39 @@ _ORIG_GATE = _tab.gate
 _tab.gate = _gate
 
 
-def label(kind, cand):
-    t = (cand.get('topic') or '').strip()
-    return f'{LABEL[kind]} - {t.title()}' if t else LABEL[kind]
+def label(kind, cand, A=None):
+    """'Document - <the record's own title>' (anonymised, short, safe as a file name); the search topic if no title."""
+    t = re.sub(r'<[^>]+>', ' ', cand.get('title') or '')
+    if t and A is not None:
+        t = A.scrub(t)
+    t = re.sub(r'[\\/:*?"<>|\s]+', ' ', t).strip(' .-')
+    if len(t) > 70:
+        t = t[:70].rsplit(' ', 1)[0].rstrip(' ,;:-')
+    if not t:
+        t = (cand.get('topic') or '').strip().title()
+    return f'{LABEL[kind]} - {t}' if t else LABEL[kind]
+
+
+def table_text(path, ext, limit=800000):
+    """Every text cell of a spreadsheet or CSV (up to limit characters): learnt before anonymising, checked after."""
+    out, n = [], 0
+    if ext == 'xlsx':
+        from openpyxl import load_workbook
+        wb = load_workbook(path, read_only=True)
+        for ws in wb.worksheets:
+            out.append(ws.title)
+            for row in ws.iter_rows(values_only=True):
+                for v in row:
+                    if isinstance(v, str) and not v.startswith('='):
+                        out.append(v)
+                        n += len(v) + 1
+                if n > limit:
+                    break
+        wb.close()
+    else:
+        with open(path, encoding='utf-8', errors='replace') as f:
+            out.append(f.read(limit))
+    return '\n'.join(out)[:limit]
 
 
 def setup(kind):

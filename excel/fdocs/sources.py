@@ -252,7 +252,7 @@ def socrata(state, kind, s, log, pages=5):
                     continue
                 url = f'https://{meta["domain"]}/api/views/{res["id"]}/rows.csv?accessType=DOWNLOAD'  # the whole dataset
                 if _add(state, kind, {'key': f'socrata:{meta["domain"]}:{res["id"]}', 'url': url, 'ext': 'csv',
-                                      'orgs': [], 'source': 'socrata'}):
+                                      'orgs': [], 'source': 'socrata', 'title': (res.get('name') or '')[:200]}):
                     added += 1
             cur['offset'] += 100
             if cur['offset'] >= data.get('resultSetSize', 0):
