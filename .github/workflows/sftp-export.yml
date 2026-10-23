@@ -111,8 +111,9 @@ jobs:
             --non-interactive > /dev/null
       - name: Copy
         run: |
-          src="ws:${{ inputs.folder }}/${{ matrix.part }}"
-          dst="sftp:/$DEST/${{ matrix.part }}"
+          part="${{ matrix.part }}"; sub=""; [ "$part" != "." ] && sub="/$part"
+          src="ws:${{ inputs.folder }}$sub"
+          dst="sftp:/$DEST$sub"
           filt=(); [ -n "$INCLUDE" ] && filt=(--include "$INCLUDE")
           rclone copy "$src" "$dst" "${filt[@]}" --size-only --transfers 16 --checkers 16 --fast-list \
             --retries 5 --low-level-retries 20 --max-duration 5h40m --cutoff-mode soft \
@@ -124,6 +125,7 @@ jobs:
         if: ${{ !inputs.dry_run }}
         run: |
           filt=(); [ -n "$INCLUDE" ] && filt=(--include "$INCLUDE")
-          rclone check "ws:${{ inputs.folder }}/${{ matrix.part }}" "sftp:/$DEST/${{ matrix.part }}" "${filt[@]}" \
+          part="${{ matrix.part }}"; sub=""; [ "$part" != "." ] && sub="/$part"
+          rclone check "ws:${{ inputs.folder }}$sub" "sftp:/$DEST$sub" "${filt[@]}" \
             --size-only --one-way --fast-list --missing-on-dst missing.txt || true
           echo "### ${{ matrix.part }}: $(wc -l < missing.txt) still missing on the server" >> "$GITHUB_STEP_SUMMARY"
