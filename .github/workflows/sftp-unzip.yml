@@ -1,0 +1,79 @@
+name: SFTP unzip
+
+# Unpacks zips uploaded to "<folder>/_zips" on the IR Transcripts SFTP server:
+# each "<name>.zip" becomes the folder "<folder>/<name>/" with the same files.
+# A zip is deleted only after the folder holds every file at the right size.
+on:
+  workflow_dispatch:
+    inputs:
+      folder:
+        description: Server folder holding the _zips subfolder
+        default: Valuation (DCF)
+      shards:
+        description: Parallel jobs
+        default: '8'
+
+permissions:
+  contents: read
+
+env:
+  SFTP_HOST: s-a44b57dae4364306a.server.transfer.us-east-1.amazonaws.com
+  SFTP_USER: ir-transcripts
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      shards: ${{ steps.s.outputs.shards }}
+    steps:
+      - id: s
+        run: echo "shards=$(seq 0 $(( ${{ inputs.shards }} - 1 )) | jq -cs .)" >> "$GITHUB_OUTPUT"
+
+  unzip:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJson(needs.plan.outputs.shards) }}
+    steps:
+      - name: Install rclone
+        run: curl -fsSL https://rclone.org/install.sh | sudo bash > /dev/null
+      - name: Configure server
+        env:
+          SFTP_KEY: ${{ secrets.SFTP_KEY }}
+        run: |
+          install -m 600 /dev/null "$HOME/sftp_key" && printf '%s\n' "$SFTP_KEY" > "$HOME/sftp_key"
+          rclone config create sftp sftp host="$SFTP_HOST" user="$SFTP_USER" key_file="$HOME/sftp_key" \
+            shell_type=none md5sum_command=none sha1sum_command=none set_modtime=false disable_hashcheck=true \
+            --non-interactive > /dev/null
+      - name: Unzip
+        env:
+          BASE: ${{ inputs.folder }}
+          SHARD: ${{ matrix.shard }}
+          SHARDS: ${{ inputs.shards }}
+        run: |
+          set -uo pipefail
+          ok=0; bad=0
+          rclone lsf "sftp:/$BASE/_zips" --files-only --include "*.zip" | sort -n | awk -v s="$SHARD" -v n="$SHARDS" 'NR % n == s' > mine.txt
+          echo "zips for this shard: $(wc -l < mine.txt)"
+          while IFS= read -r z; do
+            name="${z%.zip}"
+            rm -rf work && mkdir -p work/out
+            if ! rclone copyto "sftp:/$BASE/_zips/$z" "work/$z" --retries 5 \
+               || ! unzip -q "work/$z" -d work/out; then
+              echo "::error::$z could not be fetched or unpacked"; bad=$((bad+1)); continue
+            fi
+            want=$(find work/out -type f | wc -l)
+            rclone copy work/out "sftp:/$BASE/$name" --size-only --transfers 32 --checkers 16 \
+              --retries 5 --low-level-retries 20 --log-level ERROR
+            if rclone check work/out "sftp:/$BASE/$name" --size-only --one-way --log-level ERROR; then
+              rclone deletefile "sftp:/$BASE/_zips/$z"
+              echo "$name: $want files"; ok=$((ok+1))
+            else
+              echo "::error::$name incomplete on the server, zip kept"; bad=$((bad+1))
+            fi
+          done < mine.txt
+          echo "### shard $SHARD: $ok unpacked, $bad failed" >> "$GITHUB_STEP_SUMMARY"
+          [ "$bad" -eq 0 ]
