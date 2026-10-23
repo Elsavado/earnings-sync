@@ -178,6 +178,8 @@ def classify(path):
         return refile_model(coll, name) if top == M else coll
     if top == "_speedtest" or ext == ".partial":
         return "DELETE"
+    if top == "Repo Import" and len(parts) == 2:   # repository zips staged by sftp-export
+        parts = parts[1:]
     if len(parts) == 1:                  # loose files at the root
         base = re.sub(r"\.zip$", "", re.sub(r"^(Elsavado|LittleGamesIncorporated) - ", "", name))
         if base in TOPICS:
