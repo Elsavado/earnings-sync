@@ -1,0 +1,40 @@
+name: SFTP inventory
+
+# Read-only full listing of the IR Transcripts SFTP server (path, size), saved as an artifact.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  SFTP_HOST: s-a44b57dae4364306a.server.transfer.us-east-1.amazonaws.com
+  SFTP_USER: ir-transcripts
+
+jobs:
+  list:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - name: Install rclone
+        run: curl -fsSL https://rclone.org/install.sh | sudo bash > /dev/null
+      - name: Configure server
+        env:
+          SFTP_KEY: ${{ secrets.SFTP_KEY }}
+        run: |
+          install -m 600 /dev/null "$HOME/sftp_key" && printf '%s\n' "$SFTP_KEY" > "$HOME/sftp_key"
+          rclone config create sftp sftp host="$SFTP_HOST" user="$SFTP_USER" key_file="$HOME/sftp_key" \
+            shell_type=none md5sum_command=none sha1sum_command=none set_modtime=false disable_hashcheck=true \
+            --non-interactive > /dev/null
+      - name: List
+        run: |
+          rclone lsf -R sftp:/ --format "sp" --separator $'\t' --checkers 32 > inventory.tsv
+          rclone lsf -R sftp:/ --dirs-only --checkers 32 > dirs.txt
+          echo "files $(wc -l < inventory.tsv)  dirs $(wc -l < dirs.txt)" | tee -a "$GITHUB_STEP_SUMMARY"
+          gzip -9 inventory.tsv dirs.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sftp-inventory
+          path: |
+            inventory.tsv.gz
+            dirs.txt.gz
