@@ -15,35 +15,36 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 TOPICS = {n: t for t, ns in json.load(open(os.path.join(HERE, "repo_topics.json"), encoding="utf-8")).items() for n in ns}
 
 M, CF, DEALS = "01 Financial Models", "02 Company Filings", "04 Deals & Transactions"
+EW, CM = f"{M}/Enterprise Wide Models", f"{M}/Corporate Models"
 NB, HR, BK, ARC = "09 Jupyter Notebooks", "08 Payroll & HR", "07 Bookkeeping & Accounting", "99 Archive"
 SECTIONS = ["01 Financial Models", "02 Company Filings", "03 Earnings Call Transcripts", DEALS, "05 Research",
             "06 Investor Relations", BK, HR, NB, "10 Design Assets", "11 Software Repositories", ARC]
 
 ENTERPRISE = {
-    "Valuation (DCF)": f"{M}/Corporate/DCF Valuation",
-    "Leveraged buyout": f"{M}/Corporate/LBO",
-    "Integrated financial plan": f"{M}/Corporate/Integrated Financial Plans",
-    "Budget & FP&A": f"{M}/Corporate/Budget & FP&A",
-    "Credit & liquidity": f"{M}/Corporate/Credit & Liquidity",
-    "Strategic 10-year plan": f"{M}/Corporate/Strategic 10-Year Plans",
-    "IR-enhanced operating model": f"{M}/Corporate/IR Operating Models",
-    "Bank ALM & interest rate risk": f"{M}/Banking/ALM & Interest Rate Risk",
-    "Bank capital planning & stress test": f"{M}/Banking/Capital Planning & Stress Testing",
-    "Bank valuation": f"{M}/Banking/Bank Valuation",
-    "Integrated bank plan": f"{M}/Banking/Integrated Bank Plans",
-    "Strategic 10-year bank plan": f"{M}/Banking/Strategic 10-Year Bank Plans",
-    "Public investment project appraisal": f"{M}/Public Sector/Public Investment Appraisal",
-    "Population projection & service planning": f"{M}/Public Sector/Population & Service Planning",
-    "Macroeconomic framework": f"{M}/Public Sector/Macroeconomic Frameworks",
-    "Fiscal & debt sustainability": f"{M}/Public Sector/Fiscal & Debt Sustainability",
+    "Valuation (DCF)": f"{EW}/Corporate & Industry Models/DCF Valuation",
+    "Leveraged buyout": f"{EW}/Corporate & Industry Models/LBO",
+    "Integrated financial plan": f"{EW}/Corporate & Industry Models/Integrated Financial Plans",
+    "Budget & FP&A": f"{EW}/Corporate & Industry Models/Budget & FP&A",
+    "Credit & liquidity": f"{EW}/Corporate & Industry Models/Credit & Liquidity",
+    "Strategic 10-year plan": f"{EW}/Corporate & Industry Models/Strategic 10-Year Plans",
+    "IR-enhanced operating model": f"{EW}/IR-Enhanced Operating Models",
+    "Bank ALM & interest rate risk": f"{EW}/Bank Models/ALM & Interest Rate Risk",
+    "Bank capital planning & stress test": f"{EW}/Bank Models/Capital Planning & Stress Testing",
+    "Bank valuation": f"{EW}/Bank Models/Bank Valuation",
+    "Integrated bank plan": f"{EW}/Bank Models/Integrated Bank Plans",
+    "Strategic 10-year bank plan": f"{EW}/Bank Models/Strategic 10-Year Bank Plans",
+    "Public investment project appraisal": f"{EW}/Government Models/Public Investment Appraisal",
+    "Population projection & service planning": f"{EW}/Government Models/Population & Service Planning",
+    "Macroeconomic framework": f"{EW}/Government Models/Macroeconomic Frameworks",
+    "Fiscal & debt sustainability": f"{EW}/Government Models/Fiscal & Debt Sustainability",
 }
 UMBRELLAS = {"Corporate & Industry Models", "Bank Models", "Government Models"}
 MODEL_NAMES = [
-    ("three-statement model", f"{M}/Corporate/Three-Statement Models"),
-    ("dcf valuation model", f"{M}/Corporate/DCF Valuation"),
-    ("lbo model", f"{M}/Corporate/LBO"),
-    ("operating & fp&a model", f"{M}/Corporate/Operating & FP&A"),
-    ("industry-specific model", f"{M}/Corporate/Industry-Specific Models"),
+    ("three-statement model", f"{CM}/Three-Statement Models"),
+    ("dcf valuation model", f"{CM}/DCF Valuation"),
+    ("lbo model", f"{CM}/LBO"),
+    ("operating & fp&a model", f"{CM}/Operating & FP&A"),
+    ("industry-specific model", f"{CM}/Industry-Specific Models"),
 ]
 FIN_DOCS = {
     "Earnings Call Transcripts": "03 Earnings Call Transcripts",
@@ -126,7 +127,7 @@ def spreadsheet_dir(name):
         return f"{ARC}/Takeout Documents"
     if low.startswith("untitled"):
         return f"{ARC}/Miscellaneous"
-    return f"{M}/Other Models"
+    return f"{CM}/Other Models"
 
 
 def docx_dir(name):
@@ -145,13 +146,36 @@ def docx_dir(name):
     return f"{ARC}/Miscellaneous"
 
 
+BATCH_DIR = re.compile(r"\d{5}-\d{5}")
+ENT_CODE = re.compile(r" - [0-9A-F]{6}(?: \(\d+\))?\.xls[xm]$")
+OLD_GROUPS = {"Banking": "Bank Models", "Public Sector": "Government Models"}
+
+
+def refile_model(coll, name):
+    """Second-layout move: enterprise models (coded names) into Enterprise Wide Models, others into Corporate Models."""
+    parts = coll.split("/")
+    if parts[1:] == ["Other Models"]:
+        return f"{CM}/Other Models"
+    if len(parts) < 3 or parts[1] in ("Enterprise Wide Models", "Corporate Models"):
+        return coll
+    group, kind = parts[1], parts[2]
+    if group in OLD_GROUPS:
+        return f"{EW}/{OLD_GROUPS[group]}/{kind}"
+    if kind == "IR Operating Models":
+        return f"{EW}/IR-Enhanced Operating Models"
+    if ENT_CODE.search(name):
+        return f"{EW}/Corporate & Industry Models/{kind}"
+    return f"{CM}/{kind}"
+
+
 def classify(path):
     """Library folder for a server path, 'DELETE' for junk, None to leave it where it is."""
     parts = path.split("/")
     name, top = parts[-1], parts[0]
     ext = os.path.splitext(name)[1].lower()
-    if top in SECTIONS:
-        return None                      # already arranged
+    if top in SECTIONS:                  # already arranged: re-file models, keep the rest in place
+        coll = "/".join(p for p in parts[:-1] if not BATCH_DIR.fullmatch(p))
+        return refile_model(coll, name) if top == M else coll
     if top == "_speedtest" or ext == ".partial":
         return "DELETE"
     if len(parts) == 1:                  # loose files at the root
