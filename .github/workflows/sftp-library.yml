@@ -1,0 +1,66 @@
+name: SFTP library
+
+# Arranges the IR Transcripts SFTP server as a finance library (excel/library/library.py).
+# plan: list the server and report what would move. apply: also do it. Then lists the result.
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: Move and delete on the server (otherwise plan only)
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sftp-library
+
+env:
+  SFTP_HOST: s-a44b57dae4364306a.server.transfer.us-east-1.amazonaws.com
+  SFTP_USER: ir-transcripts
+  SFTP_KEY_FILE: /home/runner/sftp_key
+
+jobs:
+  library:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    defaults:
+      run:
+        working-directory: excel/library
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -q "paramiko>=3.4"
+      - name: Install rclone
+        run: curl -fsSL https://rclone.org/install.sh | sudo bash > /dev/null
+      - name: Configure server
+        env:
+          SFTP_KEY: ${{ secrets.SFTP_KEY }}
+        run: |
+          install -m 600 /dev/null "$SFTP_KEY_FILE" && printf '%s\n' "$SFTP_KEY" > "$SFTP_KEY_FILE"
+          rclone config create sftp sftp host="$SFTP_HOST" user="$SFTP_USER" key_file="$SFTP_KEY_FILE" \
+            shell_type=none md5sum_command=none sha1sum_command=none set_modtime=false disable_hashcheck=true \
+            --non-interactive > /dev/null
+      - name: List server
+        run: |
+          rclone lsf -R sftp:/ --format "sp" --separator $'\t' --checkers 32 > inventory.tsv
+          echo "entries $(wc -l < inventory.tsv)"
+      - name: Plan
+        run: python library.py plan inventory.tsv plan.json | tee plan.txt
+      - name: Apply
+        if: ${{ inputs.apply }}
+        run: python library.py apply plan.json
+      - name: List result
+        if: ${{ inputs.apply }}
+        run: rclone lsf -R sftp:/ --format "sp" --separator $'\t' --files-only --checkers 32 > after.tsv
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sftp-library-${{ inputs.apply && 'apply' || 'plan' }}
+          path: |
+            excel/library/plan.txt
+            excel/library/errors.json
+            excel/library/after.tsv
