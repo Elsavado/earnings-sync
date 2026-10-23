@@ -36,13 +36,21 @@ jobs:
           GOOGLE_CLIENT_SECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
           GOOGLE_REFRESH_TOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
         run: |
-          rclone config create ws drive client_id="$GOOGLE_CLIENT_ID" client_secret="$GOOGLE_CLIENT_SECRET" \
-            scope=drive.readonly team_drive="$DRIVE_ID" \
-            token="{\"refresh_token\":\"$GOOGLE_REFRESH_TOKEN\",\"token_type\":\"Bearer\",\"expiry\":\"2000-01-01T00:00:00Z\"}" \
-            --non-interactive > /dev/null
+          mkdir -p ~/.config/rclone
+          cat >> ~/.config/rclone/rclone.conf <<CONF
+          [ws]
+          type = drive
+          client_id = $GOOGLE_CLIENT_ID
+          client_secret = $GOOGLE_CLIENT_SECRET
+          scope = drive.readonly
+          team_drive = $DRIVE_ID
+          token = {"refresh_token":"$GOOGLE_REFRESH_TOKEN","token_type":"Bearer","expiry":"2000-01-01T00:00:00Z"}
+          CONF
+          sed -i 's/^ *//' ~/.config/rclone/rclone.conf
       - id: parts
         run: |
           parts=$(rclone lsf "ws:${{ inputs.folder }}" --dirs-only | sed 's#/$##' | jq -R . | jq -cs .)
+          [ "$parts" != "[]" ] || { echo "no subfolders found"; exit 1; }
           echo "parts=$parts" >> "$GITHUB_OUTPUT"
           echo "$parts"
 
@@ -64,10 +72,17 @@ jobs:
           GOOGLE_REFRESH_TOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
           SFTP_KEY: ${{ secrets.SFTP_KEY }}
         run: |
-          rclone config create ws drive client_id="$GOOGLE_CLIENT_ID" client_secret="$GOOGLE_CLIENT_SECRET" \
-            scope=drive.readonly team_drive="$DRIVE_ID" \
-            token="{\"refresh_token\":\"$GOOGLE_REFRESH_TOKEN\",\"token_type\":\"Bearer\",\"expiry\":\"2000-01-01T00:00:00Z\"}" \
-            --non-interactive > /dev/null
+          mkdir -p ~/.config/rclone
+          cat >> ~/.config/rclone/rclone.conf <<CONF
+          [ws]
+          type = drive
+          client_id = $GOOGLE_CLIENT_ID
+          client_secret = $GOOGLE_CLIENT_SECRET
+          scope = drive.readonly
+          team_drive = $DRIVE_ID
+          token = {"refresh_token":"$GOOGLE_REFRESH_TOKEN","token_type":"Bearer","expiry":"2000-01-01T00:00:00Z"}
+          CONF
+          sed -i 's/^ *//' ~/.config/rclone/rclone.conf
           install -m 600 /dev/null "$HOME/sftp_key" && printf '%s\n' "$SFTP_KEY" > "$HOME/sftp_key"
           rclone config create sftp sftp host="$SFTP_HOST" user="$SFTP_USER" key_file="$HOME/sftp_key" \
             shell_type=none md5sum_command=none sha1sum_command=none set_modtime=false disable_hashcheck=true \
