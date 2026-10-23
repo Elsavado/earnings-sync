@@ -170,6 +170,37 @@ def refile_model(coll, name):
     return f"{CM}/{kind}"
 
 
+def filing_dir(name):
+    """Company filings and releases (PDF or Word) by their document kind."""
+    low = name.lower()
+    if "transcript" in low:
+        return "03 Earnings Call Transcripts"
+    for k, d in FILING_KINDS:
+        if k in low:
+            return f"{CF}/{d}"
+    return f"{CF}/Other Filings"
+
+
+def ops_dir(inner, name, ext):
+    """Library folder for a file from the operations drive, by its folder there and its name."""
+    head = inner[0] if inner else ""
+    if head == "Earnings Calls":
+        return filing_dir(name)
+    if head == "Financial Documents" and len(inner) > 1 and inner[1] in FIN_DOCS:
+        return contract_dir(name) if inner[1] == "Contracts" else FIN_DOCS[inner[1]]
+    if head.endswith(" - private"):
+        return f"{ARC}/Admin"
+    if ext in (".xlsx", ".xlsm", ".xls"):
+        return spreadsheet_dir(name)
+    if ext == ".ipynb":
+        return notebook_dir(name)
+    if ext == ".docx":
+        return docx_dir(name)
+    if ext == ".pdf":
+        return by_label(name) or (filing_dir(name) if CO.search(name) else f"{ARC}/Unsorted Documents")
+    return f"{ARC}/Unsorted"
+
+
 def classify(path):
     """Library folder for a server path, 'DELETE' for junk, None to leave it where it is."""
     parts = path.split("/")
@@ -184,6 +215,9 @@ def classify(path):
         return refile_model(coll, name) if top == M else coll
     if top == "_speedtest" or ext == ".partial":
         return "DELETE"
+    if top == "Ops Import":              # files staged from the operations drive
+        inner = [x for x in parts[1:-1] if x not in ("Ops Import", "Copy of TRANSFER", "TRANSFER")]
+        return ops_dir(inner, name, ext)
     if top == "Repo Import" and len(parts) == 2:   # repository zips staged by sftp-export
         parts = parts[1:]
     if len(parts) == 1:                  # loose files at the root

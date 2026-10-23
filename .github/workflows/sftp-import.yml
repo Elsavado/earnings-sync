@@ -1,0 +1,84 @@
+name: SFTP import
+
+# Copies a list of files from the IR Transcripts Shared Drive to "/Ops Import" on the SFTP server,
+# keeping their Drive paths; the library workflow then files them. The list lives on the Drive
+# ("Ops Import - private/<list>"), not in this public repository. Logs carry counts only.
+on:
+  workflow_dispatch:
+    inputs:
+      list:
+        description: List file in "Ops Import - private" (one Drive path per line)
+        default: import_list.txt
+      shards:
+        description: Parallel jobs
+        default: '16'
+
+permissions:
+  contents: read
+
+env:
+  DRIVE_ID: 0AM6PzKRbJBK-Uk9PVA
+  SFTP_HOST: s-a44b57dae4364306a.server.transfer.us-east-1.amazonaws.com
+  SFTP_USER: ir-transcripts
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      shards: ${{ steps.s.outputs.shards }}
+    steps:
+      - id: s
+        run: echo "shards=$(seq 0 $(( ${{ inputs.shards }} - 1 )) | jq -cs .)" >> "$GITHUB_OUTPUT"
+
+  copy:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJson(needs.plan.outputs.shards) }}
+    steps:
+      - name: Install rclone
+        run: curl -fsSL https://rclone.org/install.sh | sudo bash > /dev/null
+      - name: Configure remotes
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.WS_GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
+          SFTP_KEY: ${{ secrets.SFTP_KEY }}
+        run: |
+          RT=$(printf '%s' "$GOOGLE_REFRESH_TOKEN" | tr -d '\r\n ')
+          resp=$(curl -s https://oauth2.googleapis.com/token -d client_id="$GOOGLE_CLIENT_ID" -d client_secret="$GOOGLE_CLIENT_SECRET" -d refresh_token="$RT" -d grant_type=refresh_token)
+          AT=$(jq -r '.access_token // empty' <<<"$resp")
+          [ -n "$AT" ] || { echo "Google token refresh failed: $(jq -c '{error,error_description}' <<<"$resp")"; exit 1; }
+          EXP=$(date -u -d '+50 min' +%Y-%m-%dT%H:%M:%SZ)
+          mkdir -p ~/.config/rclone
+          cat >> ~/.config/rclone/rclone.conf <<CONF
+          [ws]
+          type = drive
+          client_id = $GOOGLE_CLIENT_ID
+          client_secret = $GOOGLE_CLIENT_SECRET
+          scope = drive.readonly
+          team_drive = $DRIVE_ID
+          token = {"access_token":"$AT","refresh_token":"$RT","token_type":"Bearer","expiry":"$EXP"}
+          CONF
+          sed -i 's/^ *//' ~/.config/rclone/rclone.conf
+          install -m 600 /dev/null "$HOME/sftp_key" && printf '%s\n' "$SFTP_KEY" > "$HOME/sftp_key"
+          rclone config create sftp sftp host="$SFTP_HOST" user="$SFTP_USER" key_file="$HOME/sftp_key" \
+            shell_type=none md5sum_command=none sha1sum_command=none set_modtime=false disable_hashcheck=true \
+            --non-interactive > /dev/null
+      - name: Copy
+        run: |
+          rclone copyto "ws:Ops Import - private/${{ inputs.list }}" all.txt
+          awk -v s="${{ matrix.shard }}" -v n="${{ inputs.shards }}" '(NR-1) % n == s' all.txt > mine.txt
+          echo "files for this shard: $(wc -l < mine.txt) of $(wc -l < all.txt)"
+          rclone copy ws: "sftp:/Ops Import" --files-from-raw mine.txt --no-traverse --size-only \
+            --transfers 24 --checkers 24 --retries 5 --low-level-retries 20 --max-duration 5h40m --cutoff-mode soft \
+            --log-level ERROR --log-file copy.log || true
+          echo "errors logged: $(grep -c ERROR copy.log || true)"
+      - name: Check
+        run: |
+          rclone check ws: "sftp:/Ops Import" --files-from-raw mine.txt --size-only --one-way \
+            --missing-on-dst missing.txt --differ differ.txt --log-level ERROR > /dev/null 2>&1 || true
+          echo "### shard ${{ matrix.shard }}: $(wc -l < mine.txt) files, $(wc -l < missing.txt) missing, $(wc -l < differ.txt) different" | tee -a "$GITHUB_STEP_SUMMARY"
