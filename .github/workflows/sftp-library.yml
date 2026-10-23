@@ -60,6 +60,7 @@ jobs:
         if: always()
         with:
           name: sftp-library-${{ inputs.apply && 'apply' || 'plan' }}
+          retention-days: 1
           path: |
             excel/library/plan.txt
             excel/library/errors.json

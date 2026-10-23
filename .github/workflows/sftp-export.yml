@@ -110,7 +110,10 @@ jobs:
           dst="sftp:/$DEST/${{ matrix.part }}"
           rclone copy "$src" "$dst" --size-only --transfers 16 --checkers 16 --fast-list \
             --retries 5 --low-level-retries 20 --max-duration 5h40m --cutoff-mode soft \
-            --stats 2m --stats-one-line --log-level NOTICE ${{ inputs.dry_run && '--dry-run' || '' }}
+            --stats 2m --stats-one-line --log-level NOTICE --log-file copy.log ${{ inputs.dry_run && '--dry-run' || '' }}
+          # file names stay out of the (public) log; only counts are shown
+          echo "would copy / copied: $(grep -c 'Skipped copy as --dry-run\|Copied' copy.log || true) files"
+          grep -E 'ERROR|Transferred:' copy.log | sed -E 's/: [^:]+\.[A-Za-z0-9]{2,5}: /: <file>: /' | tail -5 || true
       - name: Check
         if: ${{ !inputs.dry_run }}
         run: |
