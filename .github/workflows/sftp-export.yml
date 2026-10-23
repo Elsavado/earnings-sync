@@ -1,0 +1,87 @@
+name: SFTP export
+
+# Copies a folder of the IR Transcripts Shared Drive to the IR Transcripts SFTP server
+# (AWS Transfer). One job per subfolder, so each type uploads on its own runner.
+# Only files missing on the server (or with a different size) are sent.
+on:
+  workflow_dispatch:
+    inputs:
+      folder:
+        description: Drive folder to export (top level of the IR Transcripts drive)
+        default: Financial Documents
+      dry_run:
+        description: List what would be copied, send nothing
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+env:
+  DRIVE_ID: 0AM6PzKRbJBK-Uk9PVA
+  SFTP_HOST: s-a44b57dae4364306a.server.transfer.us-east-1.amazonaws.com
+  SFTP_USER: ir-transcripts
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      parts: ${{ steps.parts.outputs.parts }}
+    steps:
+      - name: Install rclone
+        run: curl -fsSL https://rclone.org/install.sh | sudo bash > /dev/null
+      - name: Configure remotes
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.WS_GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
+        run: |
+          rclone config create ws drive client_id="$GOOGLE_CLIENT_ID" client_secret="$GOOGLE_CLIENT_SECRET" \
+            scope=drive.readonly team_drive="$DRIVE_ID" \
+            token="{\"refresh_token\":\"$GOOGLE_REFRESH_TOKEN\",\"token_type\":\"Bearer\",\"expiry\":\"2000-01-01T00:00:00Z\"}" \
+            --non-interactive > /dev/null
+      - id: parts
+        run: |
+          parts=$(rclone lsf "ws:${{ inputs.folder }}" --dirs-only | sed 's#/$##' | jq -R . | jq -cs .)
+          echo "parts=$parts" >> "$GITHUB_OUTPUT"
+          echo "$parts"
+
+  copy:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      matrix:
+        part: ${{ fromJson(needs.plan.outputs.parts) }}
+    steps:
+      - name: Install rclone
+        run: curl -fsSL https://rclone.org/install.sh | sudo bash > /dev/null
+      - name: Configure remotes
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.WS_GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
+          SFTP_KEY: ${{ secrets.SFTP_KEY }}
+        run: |
+          rclone config create ws drive client_id="$GOOGLE_CLIENT_ID" client_secret="$GOOGLE_CLIENT_SECRET" \
+            scope=drive.readonly team_drive="$DRIVE_ID" \
+            token="{\"refresh_token\":\"$GOOGLE_REFRESH_TOKEN\",\"token_type\":\"Bearer\",\"expiry\":\"2000-01-01T00:00:00Z\"}" \
+            --non-interactive > /dev/null
+          install -m 600 /dev/null "$HOME/sftp_key" && printf '%s\n' "$SFTP_KEY" > "$HOME/sftp_key"
+          rclone config create sftp sftp host="$SFTP_HOST" user="$SFTP_USER" key_file="$HOME/sftp_key" \
+            shell_type=none md5sum_command=none sha1sum_command=none set_modtime=false disable_hashcheck=true \
+            --non-interactive > /dev/null
+      - name: Copy
+        run: |
+          src="ws:${{ inputs.folder }}/${{ matrix.part }}"
+          dst="sftp:/${{ inputs.folder }}/${{ matrix.part }}"
+          rclone copy "$src" "$dst" --size-only --transfers 16 --checkers 16 --fast-list \
+            --retries 5 --low-level-retries 20 --max-duration 5h40m --cutoff-mode soft \
+            --stats 2m --stats-one-line --log-level NOTICE ${{ inputs.dry_run && '--dry-run' || '' }}
+      - name: Check
+        if: ${{ !inputs.dry_run }}
+        run: |
+          rclone check "ws:${{ inputs.folder }}/${{ matrix.part }}" "sftp:/${{ inputs.folder }}/${{ matrix.part }}" \
+            --size-only --one-way --fast-list --missing-on-dst missing.txt || true
+          echo "### ${{ matrix.part }}: $(wc -l < missing.txt) still missing on the server" >> "$GITHUB_STEP_SUMMARY"
