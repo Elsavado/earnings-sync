@@ -9,6 +9,12 @@ on:
       folder:
         description: Drive folder to export (top level of the IR Transcripts drive)
         default: Financial Documents
+      drive_id:
+        description: Shared Drive id (default IR Transcripts)
+        default: 0AM6PzKRbJBK-Uk9PVA
+      dest:
+        description: Server folder to copy into (default = same name as the Drive folder)
+        default: ''
       dry_run:
         description: List what would be copied, send nothing
         type: boolean
@@ -18,7 +24,8 @@ permissions:
   contents: read
 
 env:
-  DRIVE_ID: 0AM6PzKRbJBK-Uk9PVA
+  DRIVE_ID: ${{ inputs.drive_id }}
+  DEST: ${{ inputs.dest || inputs.folder }}
   SFTP_HOST: s-a44b57dae4364306a.server.transfer.us-east-1.amazonaws.com
   SFTP_USER: ir-transcripts
 
@@ -100,13 +107,13 @@ jobs:
       - name: Copy
         run: |
           src="ws:${{ inputs.folder }}/${{ matrix.part }}"
-          dst="sftp:/${{ inputs.folder }}/${{ matrix.part }}"
+          dst="sftp:/$DEST/${{ matrix.part }}"
           rclone copy "$src" "$dst" --size-only --transfers 16 --checkers 16 --fast-list \
             --retries 5 --low-level-retries 20 --max-duration 5h40m --cutoff-mode soft \
             --stats 2m --stats-one-line --log-level NOTICE ${{ inputs.dry_run && '--dry-run' || '' }}
       - name: Check
         if: ${{ !inputs.dry_run }}
         run: |
-          rclone check "ws:${{ inputs.folder }}/${{ matrix.part }}" "sftp:/${{ inputs.folder }}/${{ matrix.part }}" \
+          rclone check "ws:${{ inputs.folder }}/${{ matrix.part }}" "sftp:/$DEST/${{ matrix.part }}" \
             --size-only --one-way --fast-list --missing-on-dst missing.txt || true
           echo "### ${{ matrix.part }}: $(wc -l < missing.txt) still missing on the server" >> "$GITHUB_STEP_SUMMARY"
