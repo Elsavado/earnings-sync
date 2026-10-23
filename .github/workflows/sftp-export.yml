@@ -36,6 +36,11 @@ jobs:
           GOOGLE_CLIENT_SECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
           GOOGLE_REFRESH_TOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
         run: |
+          RT=$(printf '%s' "$GOOGLE_REFRESH_TOKEN" | tr -d '\r\n ')
+          resp=$(curl -s https://oauth2.googleapis.com/token -d client_id="$GOOGLE_CLIENT_ID" -d client_secret="$GOOGLE_CLIENT_SECRET" -d refresh_token="$RT" -d grant_type=refresh_token)
+          AT=$(jq -r '.access_token // empty' <<<"$resp")
+          [ -n "$AT" ] || { echo "Google token refresh failed: $(jq -c '{error,error_description}' <<<"$resp")"; exit 1; }
+          EXP=$(date -u -d '+50 min' +%Y-%m-%dT%H:%M:%SZ)
           mkdir -p ~/.config/rclone
           cat >> ~/.config/rclone/rclone.conf <<CONF
           [ws]
@@ -44,7 +49,7 @@ jobs:
           client_secret = $GOOGLE_CLIENT_SECRET
           scope = drive.readonly
           team_drive = $DRIVE_ID
-          token = {"refresh_token":"$GOOGLE_REFRESH_TOKEN","token_type":"Bearer","expiry":"2000-01-01T00:00:00Z"}
+          token = {"access_token":"$AT","refresh_token":"$RT","token_type":"Bearer","expiry":"$EXP"}
           CONF
           sed -i 's/^ *//' ~/.config/rclone/rclone.conf
       - id: parts
@@ -72,6 +77,11 @@ jobs:
           GOOGLE_REFRESH_TOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
           SFTP_KEY: ${{ secrets.SFTP_KEY }}
         run: |
+          RT=$(printf '%s' "$GOOGLE_REFRESH_TOKEN" | tr -d '\r\n ')
+          resp=$(curl -s https://oauth2.googleapis.com/token -d client_id="$GOOGLE_CLIENT_ID" -d client_secret="$GOOGLE_CLIENT_SECRET" -d refresh_token="$RT" -d grant_type=refresh_token)
+          AT=$(jq -r '.access_token // empty' <<<"$resp")
+          [ -n "$AT" ] || { echo "Google token refresh failed: $(jq -c '{error,error_description}' <<<"$resp")"; exit 1; }
+          EXP=$(date -u -d '+50 min' +%Y-%m-%dT%H:%M:%SZ)
           mkdir -p ~/.config/rclone
           cat >> ~/.config/rclone/rclone.conf <<CONF
           [ws]
@@ -80,7 +90,7 @@ jobs:
           client_secret = $GOOGLE_CLIENT_SECRET
           scope = drive.readonly
           team_drive = $DRIVE_ID
-          token = {"refresh_token":"$GOOGLE_REFRESH_TOKEN","token_type":"Bearer","expiry":"2000-01-01T00:00:00Z"}
+          token = {"access_token":"$AT","refresh_token":"$RT","token_type":"Bearer","expiry":"$EXP"}
           CONF
           sed -i 's/^ *//' ~/.config/rclone/rclone.conf
           install -m 600 /dev/null "$HOME/sftp_key" && printf '%s\n' "$SFTP_KEY" > "$HOME/sftp_key"
