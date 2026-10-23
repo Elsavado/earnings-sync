@@ -16,9 +16,10 @@ TOPICS = {n: t for t, ns in json.load(open(os.path.join(HERE, "repo_topics.json"
 
 M, CF, DEALS = "01 Financial Models", "02 Company Filings", "04 Deals & Transactions"
 EW, CM = f"{M}/Enterprise Wide Models", f"{M}/Corporate Models"
+GIT = "11 Git Mirror"   # user, 2026-10-23: repositories live in the Git mirror
 NB, HR, BK, ARC = "09 Jupyter Notebooks", "08 Payroll & HR", "07 Bookkeeping & Accounting", "99 Archive"
 SECTIONS = ["01 Financial Models", "02 Company Filings", "03 Earnings Call Transcripts", DEALS, "05 Research",
-            "06 Investor Relations", BK, HR, NB, "10 Design Assets", "11 Software Repositories", ARC]
+            "06 Investor Relations", BK, HR, NB, "10 Design Assets", GIT, ARC]
 
 ENTERPRISE = {
     "Valuation (DCF)": f"{EW}/Corporate & Industry Models/DCF Valuation",
@@ -146,6 +147,7 @@ def docx_dir(name):
     return f"{ARC}/Miscellaneous"
 
 
+KNOWN_BAD = {("12 - DCF Valuation - Computer Programming FY24 - AE1EB2.xlsx", 65536)}
 BATCH_DIR = re.compile(r"\d{5}-\d{5}")
 ENT_CODE = re.compile(r" - [0-9A-F]{6}(?: \(\d+\))?\.xls[xm]$")
 OLD_GROUPS = {"Banking": "Bank Models", "Public Sector": "Government Models"}
@@ -173,8 +175,12 @@ def classify(path):
     parts = path.split("/")
     name, top = parts[-1], parts[0]
     ext = os.path.splitext(name)[1].lower()
+    if top == "11 Software Repositories":   # renamed section
+        return "/".join([GIT] + [p for p in parts[1:-1] if not BATCH_DIR.fullmatch(p)])
     if top in SECTIONS:                  # already arranged: re-file models, keep the rest in place
         coll = "/".join(p for p in parts[:-1] if not BATCH_DIR.fullmatch(p))
+        if coll == f"{HR}/Onboarding Guides/Drive":
+            return f"{HR}/Onboarding Guides"
         return refile_model(coll, name) if top == M else coll
     if top == "_speedtest" or ext == ".partial":
         return "DELETE"
@@ -183,7 +189,7 @@ def classify(path):
     if len(parts) == 1:                  # loose files at the root
         base = re.sub(r"\.zip$", "", re.sub(r"^(Elsavado|LittleGamesIncorporated) - ", "", name))
         if base in TOPICS:
-            return f"11 Software Repositories/{TOPICS[base]}"
+            return f"{GIT}/{TOPICS[base]}"
         return f"{ARC}/Bundles & Exports"
     sub = parts[1] if len(parts) > 2 else ""
     if top == "Valuation (DCF)":
@@ -243,6 +249,9 @@ def plan(inv_path, out_path):
                 and (m.group(2), size) in excel_models):
             deletes.append(path); report["deleted (Workspace copy of an Excel Models file)"] += 1
             continue
+        if (name, size) in KNOWN_BAD:
+            deletes.append(path); report["deleted (truncated upload)"] += 1
+            continue
         if dest is None:
             report["left in place"] += 1
             continue
@@ -254,6 +263,9 @@ def plan(inv_path, out_path):
             deletes.append(path); report["deleted (exact duplicate)"] += 1
             continue
         seen[key] = path
+        fixed = re.sub(r" \(2\)(\.\w+)$", r"\1", name)
+        if fixed != name and any(fixed == bad for bad, _ in KNOWN_BAD):
+            name = fixed                 # the full copy takes the name of the truncated one
         kept[dest].append((name, size, path))
     for dest, items in kept.items():
         items.sort(key=lambda i: num_key(i[0]))
