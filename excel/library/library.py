@@ -365,8 +365,8 @@ def apply(plan_path, workers=24):
     def delete(sftp, path):
         sftp.remove("/" + path)
 
+    run(p["deletes"], delete, "deleted")   # first, so a file can take the name of a removed copy
     run(p["moves"], move, "moved")
-    run(p["deletes"], delete, "deleted")
     # remove folders left empty, deepest first
     sftp = connect()
     for d in sorted(p["dirs"], key=lambda d: d.count("/"), reverse=True):
