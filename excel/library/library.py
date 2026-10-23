@@ -226,9 +226,21 @@ def plan(inv_path, out_path):
             size, path = line.rstrip("\n").split("\t", 1)
             (dirs if path.endswith("/") else files).append((path, int(size or 0)))
     seen, moves, deletes, kept, report = {}, [], [], collections.defaultdict(list), collections.Counter()
+    # The Workspace copy of "Excel Models" (renumbered 25666-34689, "<n> <label>") repeats the
+    # IR Transcripts Excel Models ("<n> - <label>"); drop a copy only when label AND size match.
+    excel_models = set()
+    for path, size in files:
+        m = re.match(r"^\d+ - (.+)$", posixpath.basename(path))
+        if path.startswith(M + "/") and m and not ENT_CODE.search(m.group(1)):
+            excel_models.add((m.group(1), size))
     for path, size in sorted(files, key=lambda f: (classify(f[0]) or "~", f[0])):
         dest = classify(path)
         name = posixpath.basename(path)
+        m = re.match(r"^(\d+) (?!- )(.+)$", name)
+        if (dest and path.startswith(M + "/") and m and 25666 <= int(m.group(1)) <= 34689
+                and (m.group(2), size) in excel_models):
+            deletes.append(path); report["deleted (Workspace copy of an Excel Models file)"] += 1
+            continue
         if dest is None:
             report["left in place"] += 1
             continue

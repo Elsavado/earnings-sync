@@ -15,6 +15,9 @@ on:
       dest:
         description: Server folder to copy into (default = same name as the Drive folder)
         default: ''
+      include:
+        description: Only files whose name matches this rclone pattern (optional)
+        default: ''
       dry_run:
         description: List what would be copied, send nothing
         type: boolean
@@ -26,6 +29,7 @@ permissions:
 env:
   DRIVE_ID: ${{ inputs.drive_id }}
   DEST: ${{ inputs.dest || inputs.folder }}
+  INCLUDE: ${{ inputs.include }}
   SFTP_HOST: s-a44b57dae4364306a.server.transfer.us-east-1.amazonaws.com
   SFTP_USER: ir-transcripts
 
@@ -108,7 +112,8 @@ jobs:
         run: |
           src="ws:${{ inputs.folder }}/${{ matrix.part }}"
           dst="sftp:/$DEST/${{ matrix.part }}"
-          rclone copy "$src" "$dst" --size-only --transfers 16 --checkers 16 --fast-list \
+          filt=(); [ -n "$INCLUDE" ] && filt=(--include "$INCLUDE")
+          rclone copy "$src" "$dst" "${filt[@]}" --size-only --transfers 16 --checkers 16 --fast-list \
             --retries 5 --low-level-retries 20 --max-duration 5h40m --cutoff-mode soft \
             --stats 2m --stats-one-line --log-level NOTICE --log-file copy.log ${{ inputs.dry_run && '--dry-run' || '' }}
           # file names stay out of the (public) log; only counts are shown
@@ -117,6 +122,7 @@ jobs:
       - name: Check
         if: ${{ !inputs.dry_run }}
         run: |
-          rclone check "ws:${{ inputs.folder }}/${{ matrix.part }}" "sftp:/$DEST/${{ matrix.part }}" \
+          filt=(); [ -n "$INCLUDE" ] && filt=(--include "$INCLUDE")
+          rclone check "ws:${{ inputs.folder }}/${{ matrix.part }}" "sftp:/$DEST/${{ matrix.part }}" "${filt[@]}" \
             --size-only --one-way --fast-list --missing-on-dst missing.txt || true
           echo "### ${{ matrix.part }}: $(wc -l < missing.txt) still missing on the server" >> "$GITHUB_STEP_SUMMARY"
