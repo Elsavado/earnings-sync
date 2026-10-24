@@ -80,17 +80,30 @@ def make(kind, facts, sector, sic, key):
     if kind == 'three':
         wb = three_x.build(facts, sector, key, is_reit=str(sic) == '6798')
         return wb, getattr(wb, 'variant', None)
-    from . import enterprise
+    from . import bankent, enterprise
     prof = unique.Profile(key)
-    wb = enterprise.build(facts, sector, market(), sic, kind, 0, profile=prof)
+    if kind in bankent.KINDS:
+        wb = bankent.build(facts, sector, market(), sic, kind, 0, profile=prof)
+    else:
+        wb = enterprise.build(facts, sector, market(), sic, kind, 0, profile=prof)
     if wb is not None:
         wb.profile = prof
     return wb, getattr(wb, 'variant', None)
 
 
-def company(s, cik):
+def is_bank(sic):
+    try:
+        return 6020 <= int(sic or 0) <= 6199
+    except ValueError:
+        return False
+
+
+def company(s, cik, want=None):
+    """want(sic) -> bool skips companies of other industries before their financial data is fetched."""
     sub = s.get(f'https://data.sec.gov/submissions/CIK{cik:010d}.json', timeout=60)
     time.sleep(0.12)
+    if want and sub.ok and not want(sub.json().get('sic')):
+        return None
     facts = s.get(f'https://data.sec.gov/api/xbrl/companyfacts/CIK{cik:010d}.json', timeout=120)
     time.sleep(0.12)
     if not (sub.ok and facts.ok):
@@ -99,7 +112,52 @@ def company(s, cik):
     return facts.json(), (sub.get('sicDescription') or 'Unclassified').title(), sub.get('sic') or ''
 
 
+def test_gov(kind, size):
+    """Government models: random entities of the type (countries, US states and counties, projects)."""
+    from . import govent
+    s = requests.Session()
+    s.headers['User-Agent'] = SEC_UA
+    ents = govent.load(kind, s, lambda *a: None)
+    random.Random(int(os.environ.get('SEED', '7'))).shuffle(ents)
+    tally, methods, tmp = collections.Counter(), collections.Counter(), Path(tempfile.mkdtemp())
+    keep = Path(os.environ.get('SAMPLES', 'samples'))
+    keep.mkdir(exist_ok=True)
+    for eid, ent in ents[:size]:
+        key = f'gov:{eid}:{kind}'
+        try:
+            prof = unique.Profile(key)
+            wb = govent.build(kind, ent, market(), profile=prof)
+            wb.profile = prof
+        except Exception as err:  # noqa: BLE001
+            tally[f'build error {type(err).__name__}'] += 1
+            print('BUILD', type(err).__name__, str(err)[:160], flush=True)
+            continue
+        tally['built'] += 1
+        variant = wb.variant
+        for b, m in variant.methods.items():
+            methods[f'{b}={m}'] += 1
+        work = tmp / f'm{tally["built"]}'
+        work.mkdir()
+        try:
+            out, why = verify(wb, work / 'model.xlsx', finish(wb, key))
+        except Exception as err:  # noqa: BLE001
+            out, why = None, f'finish error {type(err).__name__}: {err}'[:120]
+        if out:
+            tally['PASSED'] += 1
+            if tally['PASSED'] <= 3:
+                shutil.copy(out, keep / f'sample_{tally["PASSED"]}.xlsx')
+        else:
+            tally[f'failed: {why}'] += 1
+            print('FAIL', why, '|', ' '.join(f'{k}={v}' for k, v in variant.methods.items()), flush=True)
+        shutil.rmtree(work, ignore_errors=True)
+    print(chr(10).join(f'{k}: {v}' for k, v in sorted(tally.items())))
+    print('methods used:', dict(sorted(methods.items())))
+    return 0 if tally['PASSED'] == tally['built'] else 1
+
+
 def test(kind, size):
+    if kind.startswith('gov_'):
+        return test_gov(kind, size)
     s = requests.Session()
     s.headers['User-Agent'] = SEC_UA
     tickers = s.get('https://www.sec.gov/files/company_tickers.json', timeout=60).json()
@@ -111,7 +169,7 @@ def test(kind, size):
     for cik in ciks:
         if tally['built'] >= size:
             break
-        got = company(s, cik)
+        got = company(s, cik, is_bank if kind.startswith('bank_') else None)
         if not got:
             continue
         facts, sector, sic = got

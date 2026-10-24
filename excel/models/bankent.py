@@ -16,7 +16,7 @@ from openpyxl.chart import BarChart, LineChart, Reference
 from openpyxl.styles import Font
 from openpyxl.worksheet.datavalidation import DataValidation
 
-from . import enterprise, xbrl
+from . import enterprise, variants, xbrl
 from .xl import (BOLD, INPUT, INPUT_FILL, MULT, NAVY, NOTE, NUM, PCT, PRICE, REDACTED, Inputs, Sheet, checks, col,
                  cover, data_sheet, new_workbook)
 
@@ -77,6 +77,68 @@ def prepare(facts, trim):
     return ends, d
 
 
+# Each bank model draws its own methods (variants.Variant, from the model key), so two models of one type differ in logic.
+BANK = {
+    'loan_growth': ['fade', 'decay', 'deposit_funded'],
+    'deposit_pricing': ['flat', 'beta_to_rates', 'mix_shift'],
+    'credit_cost': ['through_cycle', 'normalising', 'latest'],
+    'capital_policy': ['historical_payout', 'cet1_target', 'fixed_payout'],
+    'fees': ['ii_linked', 'asset_linked', 'fade_growth'],
+    'stress_severity': ['adverse', 'severe', 'extreme'],
+    'stress_shape': ['flat', 'front_loaded', 'u_shaped'],
+    'stress_dividends': ['maintained', 'cut'],
+    'curve_shock': ['parallel', 'steepener', 'flattener'],
+    'deposit_beta': ['symmetric', 'asymmetric'],
+    'valuation_weights': ['equal', 'rim_led', 'ddm_led', 'ptbv_led'],
+    'ri_terminal': ['perpetuity', 'fading'],
+    'cost_of_equity': ['capm', 'capm_premium'],
+}
+CORE_BLOCKS = ('loan_growth', 'deposit_pricing', 'credit_cost', 'capital_policy', 'fees')
+MODULE_BLOCKS = {'stress': ('stress_severity', 'stress_shape', 'stress_dividends'), 'alm': ('curve_shock', 'deposit_beta'),
+                 'valuation': ('valuation_weights', 'ri_terminal', 'cost_of_equity')}
+BANK_MODULES = ['returns_tree', 'ppnr_bridge', 'deposit_franchise', 'capital_walk']
+SEVERITY = {'adverse': (2.0, 0.08, 0.12), 'severe': (3.0, 0.12, 0.20), 'extreme': (4.0, 0.18, 0.30)}
+CURVE = {'parallel': (1.0, 1.0), 'steepener': (0.5, 1.0), 'flattener': (1.0, 0.5)}
+WEIGHTS = {'equal': (1 / 3, 1 / 3, 1 / 3), 'rim_led': (0.25, 0.5, 0.25), 'ddm_led': (0.5, 0.25, 0.25), 'ptbv_led': (0.25, 0.25, 0.5)}
+BANK_WHY = {
+    'fade': 'loan growth starts at its historical median and fades in a straight line to the long-term rate',
+    'decay': 'excess loan growth decays geometrically, so the slowdown comes early',
+    'deposit_funded': 'loans grow with deposits: balance-sheet growth is limited by the funding the bank can gather',
+    'flat': 'asset yields and funding costs stay at their recent averages',
+    'beta_to_rates': 'yields and deposit costs follow an expected rate path through their repricing betas',
+    'mix_shift': 'non-interest-bearing deposits migrate towards interest-bearing accounts, raising the funding cost',
+    'through_cycle': 'charge-offs and reserves at their average of recent years',
+    'normalising': 'the charge-off rate moves from the latest year to its long-run average over the full history',
+    'latest': 'charge-offs and reserve coverage held at the latest year, the best guide to the current book',
+    'historical_payout': 'dividends and repurchases at their historical payout ratios, repurchases only from excess capital',
+    'cet1_target': 'all capital above the CET1 target is returned through repurchases',
+    'fixed_payout': 'a total payout target: dividends at the historical ratio, repurchases make up the rest when capital allows',
+    'ii_linked': 'fee income grows with interest income',
+    'asset_linked': 'fee income is a stable share of total assets',
+    'fade_growth': 'fee income growth fades from its historical median to the long-term rate',
+    'adverse': 'adverse stress: provisions x2, net interest income -8%, fees -12%',
+    'severe': 'severe stress: provisions x3, net interest income -12%, fees -20%',
+    'extreme': 'extreme stress: provisions x4, net interest income -18%, fees -30%',
+    'front_loaded': 'the stress hits hardest in the first two years, then partly recovers',
+    'u_shaped': 'the stress builds, peaks in years two and three and eases afterwards',
+    'maintained': 'dividends are maintained while earnings are positive',
+    'cut': 'dividends are suspended for the whole stress period',
+    'parallel': 'rate shocks move short and long rates equally',
+    'steepener': 'long rates move fully, short rates by half (a steepening curve)',
+    'flattener': 'short rates move fully, long rates by half (a flattening curve)',
+    'symmetric': 'deposit repricing is the same for rises and falls',
+    'asymmetric': 'deposits reprice slower when rates rise than when they fall',
+    'equal': 'equity value is the equal-weighted average of DDM, residual income and justified P/TBV',
+    'rim_led': "residual income carries half the weight, as book value anchors a bank's value",
+    'ddm_led': 'the dividend discount model carries half the weight: distributions are what shareholders receive',
+    'ptbv_led': 'justified price to tangible book carries half the weight, as the market prices banks on P/TBV',
+    'perpetuity': 'residual income continues to grow in perpetuity',
+    'fading': 'residual income fades over time as competition erodes excess returns',
+    'capm': 'cost of equity from CAPM',
+    'capm_premium': 'CAPM plus a bank-specific risk premium',
+}
+
+
 BANK_HORIZONS = {'bank_integrated': [5, 6, 7], 'bank_capital': [5, 6], 'bank_alm': [5, 6], 'bank_valuation': [7, 8, 10],
                  'bank_strategic': [10, 12]}
 
@@ -88,6 +150,8 @@ def build(facts, sector, market, sic, kind, trim=0, profile=None):
     ends, d = got
     mods = MODULES[kind]
     years = profile.pick(BANK_HORIZONS[kind]) if profile else (10 if kind == 'bank_strategic' else 5)
+    bv = variants.Variant(f'{profile.key if profile else ends[-1] + sector}:bank', blocks=BANK, modules=BANK_MODULES)
+    X = bv.methods
     nh, hi = len(ends), len(ends) - 1
     last = int(ends[-1][:4])
     periods = [f'FY{e[:4]}A' for e in ends] + [f'FY{last + k}E' for k in range(1, years + 1)]
@@ -109,6 +173,16 @@ def build(facts, sector, market, sic, kind, trim=0, profile=None):
     mi.add('shares', 'Shares outstanding (millions)', round(shares / 1e6, 3) if shares else 0, NUM)
     mi.add('k_step', 'Sensitivity step: cost of equity', 0.005, PCT)
     mi.add('g_step', 'Sensitivity step: growth', 0.005, PCT)
+    if 'valuation' in mods:
+        mi.section('Valuation method settings')
+        for k_, lab, w in zip(('w_ddm', 'w_rim', 'w_ptbv'), ('Weight: dividend discount', 'Weight: residual income',
+                                                             'Weight: justified P/TBV'), WEIGHTS[X['valuation_weights']]):
+            mi.add(k_, lab, round(w, 6), PCT)
+        if X['ri_terminal'] == 'fading':
+            mi.add('omega', 'Persistence of residual income', round(bv.rng.uniform(0.6, 0.9), 2), '0.00',
+                   'Share of residual income that survives each year after the forecast')
+        if X['cost_of_equity'] == 'capm_premium':
+            mi.add('prem', 'Bank-specific risk premium', round(bv.rng.choice([0.005, 0.01, 0.015]), 4), PCT)
     M = mi.ref
 
     bi = Inputs(wb, 'Bank Inputs', head('Capital, risk and stress inputs'))
@@ -129,10 +203,27 @@ def build(facts, sector, market, sic, kind, trim=0, profile=None):
     for k, bp in enumerate([-0.02, -0.01, 0.01, 0.02]):
         bi.add(f'shock{k}', f'Rate shock {k + 1}', bp, PCT)
     bi.section('Severe stress')
-    bi.add('s_credit', 'Provision multiplier', 3.0, '0.00"x"')
-    bi.add('s_nii', 'Net interest income decline', 0.12, PCT)
-    bi.add('s_fee', 'Fee income decline', 0.20, PCT)
-    bi.add('s_div', 'Dividends maintained during stress (1 = yes, 0 = cut)', 1, '0')
+    sc_, sn_, sf_ = SEVERITY[X['stress_severity']]
+    bi.add('s_credit', 'Provision multiplier', sc_, '0.00"x"')
+    bi.add('s_nii', 'Net interest income decline', sn_, PCT)
+    bi.add('s_fee', 'Fee income decline', sf_, PCT)
+    bi.add('s_div', 'Dividends maintained during stress (1 = yes, 0 = cut)', 1 if X['stress_dividends'] == 'maintained' else 0, '0')
+    bi.section('Method settings')
+    if X['loan_growth'] == 'decay':
+        bi.add('decay', 'Loan growth decay factor per year', round(bv.rng.uniform(0.55, 0.85), 2), '0.00')
+    if X['deposit_pricing'] == 'beta_to_rates':
+        bi.add('rate_chg', 'Expected change in policy rates per year', bv.rng.choice([-0.005, -0.0025, 0.0025, 0.005]), PCT)
+    if X['deposit_pricing'] == 'mix_shift':
+        nib_last = d['nib_dep'][hi] / d['deposits'][hi] if d['deposits'][hi] else 0.0
+        bi.add('nib_tgt', 'Non-interest-bearing share of deposits by the final year', round(nib_last * bv.rng.uniform(0.75, 0.95), 4), PCT)
+    if X['capital_policy'] == 'fixed_payout':
+        bi.add('tp', 'Total payout target % net income', bv.rng.choice([0.6, 0.7, 0.8, 0.9]), PCT)
+    short_w, long_w = CURVE[X['curve_shock']]
+    bi.add('short_w', 'Short-rate share of each shock (repricing)', short_w, '0.00')
+    bi.add('long_w', 'Long-rate share of each shock (economic value)', long_w, '0.00')
+    up, down = (0.8, 1.2) if X['deposit_beta'] == 'asymmetric' else (1.0, 1.0)
+    bi.add('d_up', 'Deposit beta multiplier when rates rise', up, '0.00')
+    bi.add('d_down', 'Deposit beta multiplier when rates fall', down, '0.00')
     B_ = bi.ref
 
     si = Inputs(wb, 'Scenario Inputs', head('Scenario manager'))
@@ -228,6 +319,10 @@ def build(facts, sector, market, sic, kind, trim=0, profile=None):
                        ('fee_r', 'Fee income % revenue'), ('fee_ii', 'Fee income % interest income'),
                        ('fee_g', 'Fee income growth'), ('tax_r', 'Effective tax rate'), ('eq_a', 'Equity / assets')]:
         rt.row(key, label)
+    if bv.has('returns_tree'):
+        rt.row('tlev', 'Tangible leverage (average assets / average tangible equity)', section='Returns tree')
+        rt.row('rote_d', 'ROTE = ROA x tangible leverage')
+        rt.row('rote_chk', 'Check: tree vs ROTE')
 
     w0 = max(0, nh - 5)  # drivers from the latest five years; the full history stays on every sheet
 
@@ -249,6 +344,21 @@ def build(facts, sector, market, sic, kind, trim=0, profile=None):
         ('tax', 'Effective tax rate', f'MAX(0,MIN(1,IFERROR(SUM({span(is_, "tax")})/SUM({span(is_, "pretax")}),0)))'),
         ('div', 'Dividend payout % net income', f'MAX(0,MIN(1,IFERROR(-SUM({span(is_, "div")})/SUM({span(is_, "ni")}),0)))'),
         ('bb', 'Repurchases % net income (capital permitting)', f'MAX(0,MIN(1,IFERROR(-SUM({span(is_, "bb")})/SUM({span(is_, "ni")}),0)))')]
+    if X['loan_growth'] == 'deposit_funded':
+        drivers.append(('dep_g0', 'Starting deposit growth (historical median, within limits) + scenario',
+                        f'MAX({B_("floor")},MIN({B_("cap")},IFERROR(MEDIAN({span(lq, "dep_g", 1)}),0)))+{L["loan"]}'))
+    if X['credit_cost'] in ('normalising', 'latest'):
+        drivers.append(('nco_last', 'Net charge-off rate, latest year x credit multiplier', f'{cq.ref("nco_r", hi)}*{L["credit"]}'))
+    if X['credit_cost'] == 'normalising':
+        drivers.append(('nco_lr', 'Net charge-off rate, full-history average x credit multiplier',
+                        f'IFERROR(AVERAGE({cq.span("nco_r", 1, hi)}),0)*{L["credit"]}'))
+    if X['credit_cost'] == 'latest':
+        drivers.append(('cov_last', 'Allowance % gross loans, latest year x credit multiplier', f'{cq.ref("cov", hi)}*{L["credit"]}'))
+    if X['fees'] == 'asset_linked':
+        drivers.append(('fee_a', 'Fee income % total assets', f'IFERROR(SUM({span(is_, "nonii")})/SUM({span(bs, "assets")}),0)'))
+    if X['fees'] == 'fade_growth':
+        drivers.append(('fee_g0', 'Fee income growth (historical median, within -10% / +20%)',
+                        f'MAX(-0.1,MIN(0.2,IFERROR(MEDIAN({span(rt, "fee_g", 1)}),0)))'))
     for key, label, f in drivers:
         asm.row(key, label)
         asm.set(key, 0, f'={f}', PCT)
@@ -281,8 +391,15 @@ def build(facts, sector, market, sic, kind, trim=0, profile=None):
             is_.set('yr', j, f'=N({I("yr", p)})+1', '0')
             is_.set('ii', j, f'={N_("ii", j)}')
             is_.set('ie', j, f'={N_("ie", j)}')
-            is_.set('nonii', j, f'={I("nonii", p)}*(1+IFERROR({I("ii", j)}/{I("ii", p)}-1,0)+{L["fee"]})' if j == F0 else
-                    f'={I("nonii", p)}*(1+IFERROR({I("ii", j)}/{I("ii", p)}-1,0))')
+            t = f'{I("yr", j)}/{years}'  # share of the horizon elapsed
+            fee_adj = f'*(1+{L["fee"]})' if j == F0 else ''
+            if X['fees'] == 'asset_linked':
+                is_.set('nonii', j, f'={B("assets", j)}*{A("fee_a")}{fee_adj}')
+            elif X['fees'] == 'fade_growth':
+                is_.set('nonii', j, f'={I("nonii", p)}*(1+{A("fee_g0")}+({B_("lt")}-{A("fee_g0")})*{t}){fee_adj}')
+            else:
+                is_.set('nonii', j, f'={I("nonii", p)}*(1+IFERROR({I("ii", j)}/{I("ii", p)}-1,0)+{L["fee"]})' if j == F0 else
+                        f'={I("nonii", p)}*(1+IFERROR({I("ii", j)}/{I("ii", p)}-1,0))')
             is_.set('nonie', j, f'={I("rev", j)}*{A("eff")}')
             is_.set('prov', j, f'={Q("prov", j)}')
             is_.set('other', j, f'={I("yr", j)}-{I("yr", j)}')
@@ -290,17 +407,36 @@ def build(facts, sector, market, sic, kind, trim=0, profile=None):
             is_.set('ato', j, f'={I("yr", j)}-{I("yr", j)}')
             is_.set('div', j, f'=-MAX(0,{I("ni", j)})*{A("div")}')
             # Repurchases only from capital above the target CET1 ratio.
-            is_.set('bb', j, f'=-MAX(0,MIN(MAX(0,{I("ni", j)})*{A("bb")},{B("eq", p)}+{I("ni", j)}+{I("div", j)}-{B("gw", j)}-{K("req", j)}))')
-            bs.set('gross', j, f'={B("gross", p)}*(1+{A("loan_g")}+({B_("lt")}-{A("loan_g")})*{I("yr", j)}/{years})')
-            bs.set('acl', j, f'={B("gross", j)}*{A("cov")}')
+            excess = f'{B("eq", p)}+{I("ni", j)}+{I("div", j)}-{B("gw", j)}-{K("req", j)}'
+            if X['capital_policy'] == 'cet1_target':
+                is_.set('bb', j, f'=-MAX(0,{excess})')
+            elif X['capital_policy'] == 'fixed_payout':
+                is_.set('bb', j, f'=-MAX(0,MIN(MAX(0,{I("ni", j)})*MAX(0,{B_("tp")}-{A("div")}),{excess}))')
+            else:
+                is_.set('bb', j, f'=-MAX(0,MIN(MAX(0,{I("ni", j)})*{A("bb")},{excess}))')
+            if X['loan_growth'] == 'decay':
+                g = f'{B_("lt")}+({A("loan_g")}-{B_("lt")})*{B_("decay")}^{I("yr", j)}'
+            elif X['loan_growth'] == 'deposit_funded':
+                g = f'{A("dep_g0")}+({B_("lt")}-{A("dep_g0")})*{t}'
+            else:
+                g = f'{A("loan_g")}+({B_("lt")}-{A("loan_g")})*{t}'
+            bs.set('gross', j, f'={B("gross", p)}*(1+{g})')
+            bs.set('acl', j, f'={B("gross", j)}*{A("cov_last") if X["credit_cost"] == "latest" else A("cov")}')
             bs.set('loans', j, f'={B("gross", j)}-{B("acl", j)}', bold=True)
             bs.set('assets', j, f'=IFERROR({B("loans", j)}/{A("loan_a")},{B("assets", p)})', bold=True)
             bs.set('sec', j, f'={B("assets", j)}*{A("sec_a")}')
-            bs.set('nib', j, f'={B("dep", j)}*{A("nib_s")}')
+            bs.set('nib', j, f'={B("dep", j)}*({A("nib_s")}+({B_("nib_tgt")}-{A("nib_s")})*{t})' if X['deposit_pricing'] == 'mix_shift'
+                   else f'={B("dep", j)}*{A("nib_s")}')
             bs.set('ibd', j, f'={B("dep", j)}-{B("nib", j)}')
             bs.set('eq', j, f'={B("eq", p)}+{I("ni", j)}+{I("div", j)}+{I("bb", j)}', bold=True)
             bs.set('gw', j, f'={B("gw", p)}')
-            cq.set('nco', j, f'={B("gross", p)}*{A("nco")}')
+            if X['credit_cost'] == 'latest':
+                nco = A('nco_last')
+            elif X['credit_cost'] == 'normalising':
+                nco = f'({A("nco_last")}+({A("nco_lr")}-{A("nco_last")})*{t})'
+            else:
+                nco = A('nco')
+            cq.set('nco', j, f'={B("gross", p)}*{nco}')
             cq.set('prov', j, f'={Q("nco", j)}+{B("acl", j)}-{Q("acl_open", j)}')
         is_.set('nii', j, f'={I("ii", j)}-{I("ie", j)}', bold=True)
         is_.set('rev', j, f'={I("nii", j)}+{I("nonii", j)}', bold=True)
@@ -328,8 +464,12 @@ def build(facts, sector, market, sic, kind, trim=0, profile=None):
                 nb.set('yield', j, f'=IFERROR({N_("ii", j)}/{N_("avg_assets", j)},0)', PCT)
                 nb.set('cost', j, f'=IFERROR({N_("ie", j)}/{N_("fund_open", j)},0)', PCT)
             else:
-                nb.set('yield', j, f'={A("yield")}', PCT)
-                nb.set('cost', j, f'={A("cost")}', PCT)
+                if X['deposit_pricing'] == 'beta_to_rates':
+                    nb.set('yield', j, f'={A("yield")}+{B_("a_beta")}*{B_("rate_chg")}*{I("yr", j)}', PCT)
+                    nb.set('cost', j, f'=MAX(0,{A("cost")}+{B_("d_beta")}*{B_("rate_chg")}*{I("yr", j)})', PCT)
+                else:
+                    nb.set('yield', j, f'={A("yield")}', PCT)
+                    nb.set('cost', j, f'={A("cost")}', PCT)
                 nb.set('ii', j, f'={N_("avg_assets", j)}*{N_("yield", j)}', bold=True)
                 nb.set('ie', j, f'={N_("fund_open", j)}*{N_("cost", j)}', bold=True)
             nb.set('nii', j, f'={N_("ii", j)}-{N_("ie", j)}', bold=True)
@@ -355,6 +495,10 @@ def build(facts, sector, market, sic, kind, trim=0, profile=None):
             rt.set('roe', j, f'=IFERROR({I("ni", j)}/AVERAGE({B("eq", p)},{B("eq", j)}),0)', PCT)
             rt.set('rote', j, f'=IFERROR({I("ni", j)}/AVERAGE({B("tbv", p)},{B("tbv", j)}),0)', PCT)
             rt.set('fee_g', j, f'=IFERROR({I("nonii", j)}/{I("nonii", p)}-1,0)', PCT)
+            if bv.has('returns_tree'):
+                rt.set('tlev', j, f'=IFERROR(AVERAGE({B("assets", p)},{B("assets", j)})/AVERAGE({B("tbv", p)},{B("tbv", j)}),0)', MULT)
+                rt.set('rote_d', j, f'={R("roa", j)}*{R("tlev", j)}', PCT)
+                rt.set('rote_chk', j, f'=ROUND(IF({R("tlev", j)}=0,0,{R("rote_d", j)}-{R("rote", j)}),6)')
         if h:
             cq.set('acl', j, f'={B("acl", j)}', bold=True) if not j else None
         cq.set('cov', j, f'=IFERROR({B("acl", j)}/{B("gross", j)},0)', PCT)
@@ -401,9 +545,51 @@ def build(facts, sector, market, sic, kind, trim=0, profile=None):
     items = [(f'Balance sheet balances ({periods[j]})', B('check', j)) for j in range(n)]
     items += [(f'Allowance roll-forward ties ({periods[j]})', Q('acl_chk', j)) for j in range(F0, n)]
     items.append(('Scenario switch is 1, 2 or 3', f'IF(OR({sel_ref}=1,{sel_ref}=2,{sel_ref}=3),0,1)'))
+    if bv.has('returns_tree'):
+        items += [(f'Returns tree reconciles ({periods[j]})', R('rote_chk', j)) for j in range(F0, n)]
+    if bv.has('deposit_franchise'):
+        lq.row('nib_val', 'Funding benefit of non-interest-bearing deposits', section='Deposit franchise')
+        lq.row('nib_nii', '  % net interest income')
+        for j in range(1, n):
+            lq.set('nib_val', j, f'={N_("nib_benefit", j)}', NUM)
+            lq.set('nib_nii', j, f'=IFERROR({LQ("nib_val", j)}/{I("nii", j)},0)', PCT)
+        sections[sections.index(('Liquidity & Funding', 'Loan-to-deposit, deposit mix, securities and wholesale funding'))] = (
+            'Liquidity & Funding', 'Loan-to-deposit, deposit mix, securities, wholesale funding and the deposit franchise value')
+    if bv.has('capital_walk'):
+        cp.row('w_open', 'Opening CET1 capital', section='CET1 walk')
+        cp.row('w_ni', 'Plus: net income')
+        cp.row('w_dist', 'Less: distributions')
+        cp.row('w_other', 'Goodwill, intangibles & other equity movements')
+        cp.row('w_close', 'Closing CET1 capital', bold=True)
+        cp.row('w_chk', 'Check: walk vs CET1')
+        for j in range(1, n):
+            p = j - 1
+            cp.set('w_open', j, f'={K("cet1", p)}')
+            cp.set('w_ni', j, f'={I("ni", j)}')
+            cp.set('w_dist', j, f'={I("div", j)}+{I("bb", j)}')
+            cp.set('w_other', j, f'={K("cet1", j)}-({K("w_open", j)}+{K("w_ni", j)}+{K("w_dist", j)})' if j < nh
+                   else f'=-({B("gw", j)}-{B("gw", p)})')
+            cp.set('w_close', j, f'={K("w_open", j)}+{K("w_ni", j)}+{K("w_dist", j)}+{K("w_other", j)}', bold=True)
+            cp.set('w_chk', j, f'=ROUND({K("w_close", j)}-{K("cet1", j)},3)')
+        items += [(f'CET1 walk reconciles ({periods[j]})', K('w_chk', j)) for j in range(F0, n)]
+    if bv.has('ppnr_bridge'):
+        pb = Sheet(wb, 'PPNR Bridge', head('Pre-provision net revenue bridge, year on year'), periods, nh)
+        for key, label, bold in [('nii', 'Net interest income change', False), ('fee', 'Fee income change', False),
+                                 ('exp', 'Noninterest expense change (increase = negative)', False), ('tot', 'Change in PPNR', True),
+                                 ('chk', 'Bridge check (total - actual change)', False)]:
+            pb.row(key, label, bold)
+        for j in range(1, n):
+            p = j - 1
+            pb.set('nii', j, f'={I("nii", j)}-{I("nii", p)}')
+            pb.set('fee', j, f'={I("nonii", j)}-{I("nonii", p)}')
+            pb.set('exp', j, f'=-({I("nonie", j)}-{I("nonie", p)})')
+            pb.set('tot', j, f'={pb.ref("nii", j)}+{pb.ref("fee", j)}+{pb.ref("exp", j)}', bold=True)
+            pb.set('chk', j, f'=ROUND({pb.ref("tot", j)}-({I("ppnr", j)}-{I("ppnr", p)}),3)')
+            items.append((f'PPNR bridge reconciles ({periods[j]})', pb.ref('chk', j)))
+        sections.append(('PPNR Bridge', 'Net interest income, fee and expense effects on pre-provision net revenue'))
     extra = []
     c = dict(wb=wb, head=head, periods=periods, nh=nh, n=n, F0=F0, FN=FN, years=years, I=I, B=B, K=K, Q=Q, M=M, B_=B_,
-             is_=is_, bs=bs, cp=cp, nb=nb)
+             is_=is_, bs=bs, cp=cp, nb=nb, X=X)
     c.update(ends=ends, data=d, ds=ds, heading=head, profile=profile, base_last=d['assets'][hi])
     a, b = enterprise.company_lines(wb, c, facts, base=lambda j: B('assets', j), base_label='total assets')
     sections, items = sections + a, items + b
@@ -416,6 +602,10 @@ def build(facts, sector, market, sic, kind, trim=0, profile=None):
     if 'valuation' in mods:
         a, b, e = valuation(c)
         sections, items, extra = sections + a, items + b, extra + e
+    shown = {b: X[b] for b in CORE_BLOCKS}
+    for m in mods:
+        shown.update({b: X[b] for b in MODULE_BLOCKS[m]})
+    enterprise._methods_note(bi.ws, bi.next_row + 1, shown, BANK_WHY)
     sections = dashboard(c, name_ref, extra) + sections
     sections.append(('Checks', 'Integrity checks'))
     checks(wb, items)
@@ -424,9 +614,12 @@ def build(facts, sector, market, sic, kind, trim=0, profile=None):
           f'Enterprise-wide {label.lower()} built from the bank\'s historical financial statements with a {years}-year '
           'forecast: net interest income on average balances, fee income, efficiency, an allowance roll-forward that '
           'drives provisions, capital (RWA, CET1, leverage) with capital-constrained repurchases, liquidity and funding, '
-          'and a Base / Upside / Downside scenario manager. All figures outside the input sheets are formulas.', sections)
+          'and a Base / Upside / Downside scenario manager. This model\'s own methods: '
+          + '; '.join(f'{b.replace("_", " ")}: {m.replace("_", " ")}' for b, m in shown.items())
+          + '. All figures outside the input sheets are formulas.', sections)
     wb.properties.title = f'{REDACTED} - {label}'
     wb.asof = ends[-1][:4]
+    wb.variant = bv
     return enterprise.finish(wb)
 
 
@@ -434,6 +627,7 @@ def stress(c):
     I, K, B_, periods, F0, FN, n = c['I'], c['K'], c['B_'], c['periods'], c['F0'], c['FN'], c['n']
     st = Sheet(c['wb'], 'Stress Test', c['head']('Severe stress test of earnings and capital'), periods, c['nh'])
     for key, label, bold, sec in [
+        ('w', 'Stress intensity (1 = full severity)', False, 'Stress path'),
         ('nii', 'Net interest income (stressed)', False, 'Stressed earnings'), ('fee', 'Fee income (stressed)', False, None),
         ('exp', 'Noninterest expense', False, None), ('ppnr', 'Pre-provision net revenue', True, None),
         ('prov', 'Provision for credit losses (stressed)', False, None), ('pretax', 'Pre-tax income', True, None),
@@ -447,11 +641,15 @@ def stress(c):
     st.set('cet1', hi, f'={K("cet1", hi)}', bold=True)
     for j in range(F0, n):
         p = j - 1
-        st.set('nii', j, f'={I("nii", j)}*(1-{B_("s_nii")})')
-        st.set('fee', j, f'={I("nonii", j)}*(1-{B_("s_fee")})')
+        t = I('yr', j)
+        shape = c['X']['stress_shape']
+        st.set('w', j, {'flat': f'=1+{t}-{t}', 'front_loaded': f'=IF({t}<=2,1,0.4)',
+                        'u_shaped': f'=IF({t}<=1,0.6,IF({t}<=3,1,0.5))'}[shape], '0.00')
+        st.set('nii', j, f'={I("nii", j)}*(1-{B_("s_nii")}*{S("w", j)})')
+        st.set('fee', j, f'={I("nonii", j)}*(1-{B_("s_fee")}*{S("w", j)})')
         st.set('exp', j, f'={I("nonie", j)}')
         st.set('ppnr', j, f'={S("nii", j)}+{S("fee", j)}-{S("exp", j)}', bold=True)
-        st.set('prov', j, f'=MAX(0,{I("prov", j)})*{B_("s_credit")}')
+        st.set('prov', j, f'=MAX(0,{I("prov", j)})*(1+({B_("s_credit")}-1)*{S("w", j)})')
         st.set('pretax', j, f'={S("ppnr", j)}-{S("prov", j)}', bold=True)
         st.set('tax', j, f'=MAX(0,{S("pretax", j)})*IFERROR({I("tax", j)}/{I("pretax", j)},0)')
         st.set('ni', j, f'={S("pretax", j)}-{S("tax", j)}', bold=True)
@@ -481,7 +679,8 @@ def alm(c):
     ws.sheet_view.showGridLines = False
     ws['A1'] = c['head']('Interest rate risk: net interest income and economic value of equity')
     ws['A1'].font = Font(bold=True, size=13, color=NAVY)
-    ws['A2'] = 'Parallel, instantaneous shocks applied to the first forecast year balance sheet; repricing betas on Bank Inputs.'
+    ws['A2'] = ('Instantaneous shocks applied to the first forecast year balance sheet; short-rate and long-rate shares of each '
+                'shock and repricing betas on Bank Inputs.')
     ws['A2'].font = NOTE
     ws.column_dimensions['A'].width = 52
     shocks = [B_('shock0'), B_('shock1'), None, B_('shock2'), B_('shock3')]
@@ -499,18 +698,18 @@ def alm(c):
         ws.cell(row=4, column=2 + k, value=f'={sh}' if sh else f'={B_("shock0")}-{B_("shock0")}').number_format = PCT
         x = f'{cl}$4'
         ws.cell(row=5, column=2 + k, value=f'={assets}*{B_("a_beta")}').number_format = NUM
-        ws.cell(row=6, column=2 + k, value=f'={ibd}*{B_("d_beta")}').number_format = NUM
+        ws.cell(row=6, column=2 + k, value=f'={ibd}*{B_("d_beta")}*IF({x}>0,{B_("d_up")},{B_("d_down")})').number_format = NUM
         ws.cell(row=7, column=2 + k, value=f'={ol}*{B_("w_beta")}').number_format = NUM
-        ws.cell(row=8, column=2 + k, value=f'={cl}5*{x}').number_format = NUM
-        ws.cell(row=9, column=2 + k, value=f'=({cl}6+{cl}7)*{x}').number_format = NUM
+        ws.cell(row=8, column=2 + k, value=f'={cl}5*{x}*{B_("short_w")}').number_format = NUM
+        ws.cell(row=9, column=2 + k, value=f'=({cl}6+{cl}7)*{x}*{B_("short_w")}').number_format = NUM
         ws.cell(row=10, column=2 + k, value=f'={cl}8-{cl}9').number_format = NUM
         ws.cell(row=11, column=2 + k, value=f'={base_nii}+{cl}10').number_format = NUM
         ws.cell(row=12, column=2 + k, value=f'=IFERROR({cl}10/{base_nii},0)').number_format = PCT
-        ws.cell(row=13, column=2 + k, value=f'=-({B("assets", hi)}*{B_("a_dur")}-({B("dep", hi)}+{B("ol", hi)})*{B_("l_dur")})*{x}').number_format = NUM
+        ws.cell(row=13, column=2 + k, value=f'=-({B("assets", hi)}*{B_("a_dur")}-({B("dep", hi)}+{B("ol", hi)})*{B_("l_dur")})*{x}*{B_("long_w")}').number_format = NUM
         ws.cell(row=14, column=2 + k, value=f'=IFERROR({cl}13/{B("eq", hi)},0)').number_format = PCT
     extra = [('a_up', 'NII change for +200 bp', "='Interest Rate Risk'!$F$12", PCT),
              ('a_eve', 'EVE change for +200 bp (% equity)', "='Interest Rate Risk'!$F$14", PCT)]
-    return [('Interest Rate Risk', 'NII and EVE sensitivity to parallel rate shocks')], \
+    return [('Interest Rate Risk', 'NII and EVE sensitivity to rate shocks along the chosen curve shape')], \
         [('Zero shock leaves NII unchanged', "'Interest Rate Risk'!$D$10")], extra
 
 
@@ -528,7 +727,11 @@ def valuation(c):
     V = vl.ref
     vi = Inputs(wb, 'Valuation', head('Bank valuation summary'))
     vi.section('Cost of equity')
-    vi.add('ke', 'Cost of equity (CAPM)', f'={M("rf")}+{M("beta")}*{M("erp")}', PCT, formula=True)
+    X = c['X']
+    if X['cost_of_equity'] == 'capm_premium':
+        vi.add('ke', 'Cost of equity (CAPM + bank premium)', f'={M("rf")}+{M("beta")}*{M("erp")}+{M("prem")}', PCT, formula=True)
+    else:
+        vi.add('ke', 'Cost of equity (CAPM)', f'={M("rf")}+{M("beta")}*{M("erp")}', PCT, formula=True)
     ke, g = vi.ref('ke'), M('g')
     for j in range(F0, FN + 1):
         p = j - 1
@@ -548,7 +751,11 @@ def valuation(c):
     vi.section('Residual income model')
     vi.add('bv0', 'Current book value', f'={B("eq", hi)}', NUM, formula=True)
     vi.add('ri_pv', 'PV of forecast residual income', f'=SUM({vl.span("pv_ri", F0, FN)})', NUM, formula=True)
-    vi.add('ri_tv', 'PV of terminal residual income', f'={ri_n}*(1+{g})/({ke}-{g})/(1+{ke})^{t_n}', NUM, formula=True)
+    if X['ri_terminal'] == 'fading':
+        vi.add('ri_tv', 'PV of terminal residual income (fading at the persistence rate)',
+               f'={ri_n}*{M("omega")}/(1+{ke}-{M("omega")})/(1+{ke})^{t_n}', NUM, formula=True)
+    else:
+        vi.add('ri_tv', 'PV of terminal residual income', f'={ri_n}*(1+{g})/({ke}-{g})/(1+{ke})^{t_n}', NUM, formula=True)
     vi.add('rim', 'Equity value - residual income', f'={vi.ref("bv0")}+{vi.ref("ri_pv")}+{vi.ref("ri_tv")}', NUM, formula=True)
     vi.section('Justified price to tangible book')
     vi.add('rote', 'Sustainable ROTE (forecast average)', f"=AVERAGE('Returns & Efficiency'!{col(F0)}{c['rote_row']}:{col(FN)}{c['rote_row']})"
@@ -556,7 +763,8 @@ def valuation(c):
     vi.add('ptbv', 'Justified P/TBV = (ROTE - g) / (Ke - g)', f'=IFERROR(MAX(0,({vi.ref("rote")}-{g})/({ke}-{g})),0)', MULT, formula=True)
     vi.add('ptbv_v', 'Equity value - justified P/TBV', f'={vi.ref("ptbv")}*{B("tbv", hi)}', NUM, formula=True)
     vi.section('Conclusion')
-    vi.add('eq', 'Equity value - average of three methods', f'=AVERAGE({vi.ref("ddm")},{vi.ref("rim")},{vi.ref("ptbv_v")})', NUM, formula=True)
+    vi.add('eq', 'Equity value - weighted average of the three methods',
+           f'={M("w_ddm")}*{vi.ref("ddm")}+{M("w_rim")}*{vi.ref("rim")}+{M("w_ptbv")}*{vi.ref("ptbv_v")}', NUM, formula=True)
     vi.add('ps', 'Value per share (USD)', f'=IFERROR({vi.ref("eq")}/{M("shares")},0)', PRICE, formula=True)
     vi.add('p_tbv', 'Implied P/TBV', f'=IFERROR({vi.ref("eq")}/{B("tbv", hi)},0)', MULT, formula=True)
     vi.add('pe', 'Implied P/E (next year)', f'=IFERROR({vi.ref("eq")}/{I("ni", F0)},0)', MULT, formula=True)
@@ -576,12 +784,13 @@ def valuation(c):
             kk, gg = f'$A{4 + r}', f'{col(k)}$3'
             se.cell(row=4 + r, column=2 + k,
                     value=f'=IFERROR(SUMPRODUCT({d_rng}/(1+{kk})^{t_rng})+{dist_n}*(1+{gg})/({kk}-{gg})/(1+{kk})^{t_n},0)').number_format = NUM
-    extra = [('v_ke', 'Cost of equity', f'={ke}', PCT), ('v_eq', 'Equity value (average of methods)', f'={vi.ref("eq")}', NUM),
+    extra = [('v_ke', 'Cost of equity', f'={ke}', PCT), ('v_eq', 'Equity value (weighted methods)', f'={vi.ref("eq")}', NUM),
              ('v_ps', 'Value per share (USD)', f'={vi.ref("ps")}', PRICE)]
     return [('Valuation Model', 'Distributions and residual income by year, discounted at the cost of equity'),
             ('Valuation', 'DDM, residual income and justified P/TBV, per-share value and implied multiples'),
             ('DDM Sensitivity', 'DDM value across cost of equity and growth')], \
         [('Cost of equity exceeds growth (0 = yes)', f'IF({ke}>{g},0,1)'),
+         ('Valuation weights sum to 100%', f'ROUND(({M("w_ddm")}+{M("w_rim")}+{M("w_ptbv")}-1)*100,6)'),
          ('DDM grid centre equals base DDM value', f"'DDM Sensitivity'!$D$6-{vi.ref('ddm')}")], extra
 
 
