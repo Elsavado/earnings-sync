@@ -20,7 +20,7 @@ from pathlib import Path
 import requests
 from openpyxl.workbook import Workbook  # noqa: F401  (import check)
 
-from . import bank, bankent, dcf, enterprise, fpa, govent, irent, lbo, links, lo, sources, three, unique
+from . import bank, bankent, dcf, enterprise, fpa, govent, irent, lbo, links, lo, sources, three, unique, variants
 from .anonymize import Anonymizer
 from .market import Market
 from .process import process
@@ -185,6 +185,56 @@ class Run:
                 log(f'state save failed, will retry: {type(err).__name__}: {err}')
                 return
             self.last_save = time.time()
+
+    # --- unique logic and unique names (user, 2026-10-24) -------------------------------------------------------
+    def logic(self):
+        """This model type's register: logic signature -> model key, seeded once from the replacement audit."""
+        reg = self.state.setdefault('logic', {})
+        if not self.state.get('logic_seeded') and not DRY:
+            try:
+                from .replace import DRIVES, Drive
+                found = 0
+                for coll in ('enterprise', 'government'):
+                    data, _ = Drive(DRIVES[coll]).get_json(f'registry-{coll}.json.gz')
+                    found += data is not None
+                    for sig, key in ((data or {}).get(ENT_KIND) or {}).items():
+                        reg.setdefault(sig, key)
+                if found == 2:  # both audits done: the register now covers every existing model of this type
+                    self.state['logic_seeded'] = 1
+            except Exception as err:  # noqa: BLE001
+                log(f'logic register not seeded yet ({type(err).__name__})')
+        return reg
+
+    def unique_logic(self, make, tries=40):
+        """Builds with salt 0, 1, 2 ... until the model's logic is not used by another model of this type.
+        Returns (workbook or None, signature, salt)."""
+        taken = self.logic()
+        for salt in range(tries):
+            variants.reset(salt)
+            wb = make()
+            if wb is None:
+                return None, None, salt
+            sig = variants.signature()
+            if sig not in taken:
+                wb.logic_tag = variants.tag()
+                return wb, sig, salt
+        raise RuntimeError('no unused logic left for this model type')
+
+    def taken_logic(self, sig, salt, key):
+        if sig:
+            self.logic()[sig] = key
+        if salt:
+            self.state.setdefault('salts', {})[key] = salt
+
+    def unique_name(self, label, key):
+        """The label with the model's code; a longer code if the text is already used (every name unique)."""
+        names = self.state.setdefault('names', {})
+        for k in (6, 8, 10):
+            cand = f'{label} - {key[7:7 + k]}'
+            if clean_label(cand) not in names:
+                names[clean_label(cand)] = key
+                return cand
+        return f'{label} - {key[7:]}'
 
     def publish(self, path, label, ext, key, category, source):
         """Numbers, uploads and records one verified model file."""
@@ -405,7 +455,7 @@ class Run:
                 try:
                     make = bankent.build if ENT_KIND in bankent.KINDS else enterprise.build
                     prof = unique.Profile(key)
-                    wb = make(facts, sector, self.market, sic, ENT_KIND, trim, profile=prof)
+                    wb, sig, salt = self.unique_logic(lambda: make(facts, sector, self.market, sic, ENT_KIND, trim, profile=prof))
                     if wb is not None:
                         wb.profile = prof
                         allowed = finish_unique(wb, key)
@@ -424,8 +474,9 @@ class Run:
                         self.state['seen'][key] = f'rej:{why}'[:160]
                         log(f'  - {key[4:]}: {why}')
                         continue
-                    self.publish(out, f'{SHORT[ENT_KIND]} - {short_name(sector)} FY{str(wb.asof)[-2:]} - {key[7:13]}', 'xlsx',
-                                 key, sector, 'sec')
+                    label = self.unique_name(f'{SHORT[ENT_KIND]} - {short_name(sector)} FY{str(wb.asof)[-2:]} - {wb.logic_tag}', key)
+                    if self.publish(out, label, 'xlsx', key, sector, 'sec'):
+                        self.taken_logic(sig, salt, key)
                 finally:
                     shutil.rmtree(work, ignore_errors=True)
         log(f'enterprise {ENT_KIND}: company {st["i"]}/{len(st["companies"])}')
@@ -512,7 +563,7 @@ class Run:
                 continue
             try:
                 prof = unique.Profile(key)
-                wb = govent.build(ENT_KIND, e, self.market, profile=prof)
+                wb, sig, salt = self.unique_logic(lambda: govent.build(ENT_KIND, e, self.market, profile=prof))
                 if wb is not None:
                     wb.profile = prof
                     allowed = finish_unique(wb, key)
@@ -534,7 +585,8 @@ class Run:
                 cat = e.get('sector') if ENT_KIND == 'gov_project' else ('United States' if e.get('kind') == 'us' else 'Countries')
                 place = short_name(e.get('country') or e.get('name'), 22)
                 what = f'{place} {short_name(e.get("sector"), 18)}' if ENT_KIND == 'gov_project' else f'{place} {wb.asof}'
-                self.publish(out, f'{SHORT[ENT_KIND]} - {what} - {key[7:13]}', 'xlsx', key, cat or 'Other', 'gov')
+                if self.publish(out, self.unique_name(f'{SHORT[ENT_KIND]} - {what} - {wb.logic_tag}', key), 'xlsx', key, cat or 'Other', 'gov'):
+                    self.taken_logic(sig, salt, key)
             finally:
                 shutil.rmtree(work, ignore_errors=True)
             done += 1

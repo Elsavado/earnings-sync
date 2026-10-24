@@ -4,6 +4,13 @@
     python -m models.replace plan <collection>                  # list the targets, save the plan on the drive
     python -m models.replace run <collection> <shard> <shards>  # rebuild, verify and overwrite one shard
     python -m models.replace status <collection> <shards>       # totals; 'remaining' for the chain step
+    python -m models.replace audit <collection> <shard> <shards> # logic signature of every replaced model
+    python -m models.replace dedupe <collection> <shards>       # register of signatures; models sharing one -> redo list
+    REDO=true ... run                                           # rebuild the redo list with logic not used yet
+
+Unique logic (user, 2026-10-24: "the models being built should each have unique logic"): within a model type no two
+models may share a signature (variants.signature: every module's methods and analysis modules). A model whose logic
+is already taken is rebuilt with the next salt (same company and look, newly drawn methods) until it is unused.
 
 collection:
   excel       IR Transcripts drive, 'Excel Models': the SEC-built models, identified by number from the collector state
@@ -30,7 +37,7 @@ import requests
 from googleapiclient.discovery import build as gbuild
 from googleapiclient.http import MediaFileUpload, MediaIoBaseUpload
 
-from . import bankent, enhanced, enterprise, govent, three_x, unique
+from . import bankent, enhanced, enterprise, govent, three_x, unique, variants
 from .main import model_code
 from .store import FOLDER, MIME, _retry, _SharedDrive, credentials
 from .xl import REDACTED
@@ -207,18 +214,20 @@ def _fy(wb):
     return str(getattr(wb, 'asof', '') or '')[-2:]
 
 
-def rebuild(item, facts, sector, sic, collection):
-    """The enhanced workbook for one plan item, or (None, reason)."""
+def rebuild(item, facts, sector, sic, collection, salt=0):
+    """The enhanced workbook for one plan item, or (None, reason). salt re-draws the model's logic."""
     key = item['key']
     if collection == 'excel':
         kind, title = EXCEL.get(item['kind'], (None, None))
         if kind is None:
             return None, f'no enhanced builder for {item["kind"]} yet'
         if kind == 'three':
+            variants.reset(salt)
             wb = three_x.build(facts, sector, key, is_reit=item['kind'] == 'reit')
         elif kind in bankent.KINDS:
             prof = unique.Profile(key)
             for trim in (0, 1):
+                variants.reset(salt)
                 wb = bankent.build(facts, sector, enhanced.market(), sic, kind, trim, profile=prof, title=title)
                 if wb is not None:
                     wb.profile = prof
@@ -226,6 +235,7 @@ def rebuild(item, facts, sector, sic, collection):
         else:
             prof = unique.Profile(key)
             for trim in (0, 1):  # a year earlier when the latest year does not qualify (as the original was built)
+                variants.reset(salt)
                 wb = enterprise.build(facts, sector, enhanced.market(), sic, kind, trim, profile=prof, title=title,
                                       fin_range=range(6000, 6500) if kind == 'valuation' else enterprise.FIN)
                 if wb is not None:
@@ -238,6 +248,7 @@ def rebuild(item, facts, sector, sic, collection):
     trims = [item['trim']] + [t for t in (0, 1, 2) if t != item['trim']]
     make = bankent.build if item['kind'] in bankent.KINDS else enterprise.build
     for trim in trims:  # the same as-of year as the original file name
+        variants.reset(salt)
         wb = make(facts, sector, enhanced.market(), sic, item['kind'], trim, profile=prof)
         if wb is None:
             continue
@@ -245,6 +256,112 @@ def rebuild(item, facts, sector, sic, collection):
             wb.profile = prof
             return wb, None
     return None, 'as-of year of the original not available'
+
+
+def build_one(i, facts, sector, sic, collection, entities, salt=0):
+    """(workbook, reason) for a plan item in any collection, with the given logic salt."""
+    if collection == 'government':
+        e = entities.get(i['kind'], {}).get(i['eid'])
+        if not e:
+            return None, 'entity data unavailable'
+        prof = unique.Profile(i['key'])
+        variants.reset(salt)
+        wb = govent.build(i['kind'], e, enhanced.market(), profile=prof)
+        if wb is None:
+            return None, 'entity does not suit the model'
+        wb.profile = prof
+        return wb, None
+    return rebuild(i, facts, sector, sic, collection, salt)
+
+
+def unique_build(i, facts, sector, sic, collection, entities, taken, tries=40):
+    """Builds with salt 0, 1, 2 ... until the model's logic signature is not in taken. (wb, reason, sig, salt)."""
+    for salt in range(tries):
+        wb, why = build_one(i, facts, sector, sic, collection, entities, salt)
+        if wb is None:
+            return None, why, None, salt
+        sig = variants.signature()
+        if sig not in taken:
+            return wb, None, sig, salt
+    return None, 'no unused logic left for this model type', None, tries
+
+
+def load_entities(collection, items, s):
+    out = {}
+    if collection == 'government':
+        for kind in sorted({i['kind'] for i in items}):
+            out[kind] = {str(eid): e for eid, e in govent.load(kind, s, lambda *a: None)}
+    return out
+
+
+def audit(collection, shard, shards):
+    """Logic signature of every replaced model in this shard (build only, no recalculation)."""
+    drv = Drive(DRIVES[collection])
+    data, _ = drv.get_json(f'plan-{collection}.json.gz')
+    st, _ = drv.get_json(f'state-{collection}-{shard}-of-{shards}.json.gz')
+    salts, _ = drv.get_json(f'salts-{collection}.json.gz')
+    salts = salts or {}
+    done = (st or {}).get('done') or {}
+    mine = [i for i in data['items'] if i['cik'] % shards == shard and done.get(i['key']) == 'replaced']
+    name = f'sigs-{collection}-{shard}-of-{shards}.json.gz'
+    out, oid = drv.get_json(name)
+    out = out or {}
+    s = requests.Session()
+    s.headers['User-Agent'] = SEC_UA
+    entities = load_entities(collection, mine, s)
+    by_cik = collections.defaultdict(list)
+    for i in mine:
+        if i['key'] not in out:
+            by_cik[i['cik']].append(i)
+    tally = collections.Counter()
+    for cik, items in by_cik.items():
+        if left() < 180:
+            break
+        got = (None, None, None) if collection == 'government' else enhanced.company(s, cik)
+        if not got:
+            tally['company data unavailable'] += len(items)
+            continue
+        for i in items:
+            try:
+                wb, why = build_one(i, *got, collection, entities, salts.get(i['key'], 0))
+            except Exception as err:  # noqa: BLE001
+                wb, why = None, type(err).__name__
+            if wb is None:
+                tally[f'not rebuilt: {why}'[:60]] += 1
+                continue
+            out[i['key']] = [i['kind'], variants.signature()]
+            tally['signed'] += 1
+    drv.put_json(name, out, oid)
+    log('\n'.join(f'{k}: {v}' for k, v in sorted(tally.items())))
+    left_ = len([i for i in mine if i['key'] not in out])
+    log(f'audit {collection} shard {shard}: {len(out)} signed, {left_} to go')
+    with open(os.environ.get('GITHUB_OUTPUT', os.devnull), 'a') as f:
+        f.write(f'remaining={left_}\n')
+
+
+def dedupe(collection, shards):
+    """Merges the shard signatures: the register (type -> signature -> model) and the models to rebuild."""
+    drv = Drive(DRIVES[collection])
+    reg, rid = drv.get_json(f'registry-{collection}.json.gz')
+    reg = reg or {}
+    redo, n = [], 0
+    for k in range(shards):
+        part, _ = drv.get_json(f'sigs-{collection}-{k}-of-{shards}.json.gz')
+        for key, (kind, sig) in sorted((part or {}).items()):
+            n += 1
+            owner = reg.setdefault(kind, {}).setdefault(sig, key)
+            if owner != key:
+                redo.append(key)
+    drv.put_json(f'registry-{collection}.json.gz', reg, rid)
+    _, did = drv.get_json(f'redo-{collection}.json.gz')
+    drv.put_json(f'redo-{collection}.json.gz', {'keys': redo}, did)
+    per = collections.Counter(kind for kind in reg for _ in reg[kind])
+    log(f'dedupe {collection}: {n} models signed, {sum(per.values())} distinct logics, {len(redo)} share a logic -> rebuild')
+    for kind, c in sorted(per.items()):
+        log(f'  {kind}: {c} distinct')
+
+
+REDO = os.environ.get('REDO', '').lower() == 'true'
 
 
 def run(collection, shard, shards):
@@ -257,6 +374,15 @@ def run(collection, shard, shards):
     state, sid = drv.get_json(name)
     state = state or {'done': {}}
     mine = [i for i in data['items'] if i['cik'] % shards == shard]
+    taken, salts, reg, sid_salts = {}, {}, None, None
+    if REDO:
+        redo, _ = drv.get_json(f'redo-{collection}.json.gz')
+        reg, _ = drv.get_json(f'registry-{collection}.json.gz')
+        want = set((redo or {}).get('keys', []))
+        mine = [i for i in mine if i['key'] in want]
+        name = f'state-redo-{collection}-{shard}-of-{shards}.json.gz'
+        state, sid = drv.get_json(name)
+        state = state or {'done': {}}
     todo = [i for i in mine if not is_done(state, i['key'])]
     if not DRY:
         state['retried'] = RETRY_PASS  # this pass retries the older outcomes; later passes treat them as final
@@ -267,10 +393,7 @@ def run(collection, shard, shards):
     s = requests.Session()
     s.headers['User-Agent'] = SEC_UA
     tally, tmp, last_save = collections.Counter(), Path(tempfile.mkdtemp()), time.time()
-    entities = {}
-    if collection == 'government':
-        for kind in sorted({i['kind'] for i in todo}):
-            entities[kind] = {str(eid): e for eid, e in govent.load(kind, s, lambda *a: None)}
+    entities = load_entities(collection, todo, s)
     for cik, items in by_cik.items():
         if left() < 300:
             break
@@ -289,15 +412,11 @@ def run(collection, shard, shards):
             work = tmp / re.sub(r'\W', '_', i['key'])
             work.mkdir()
             try:
-                if collection == 'government':
-                    e = entities.get(i['kind'], {}).get(i['eid'])
-                    prof = unique.Profile(i['key'])
-                    wb = govent.build(i['kind'], e, enhanced.market(), profile=prof) if e else None
-                    why = None if wb is not None else 'entity data unavailable'
-                    if wb is not None:
-                        wb.profile = prof
+                if REDO:
+                    wb, why, sig, salt = unique_build(i, facts, sector, sic, collection, entities, (reg or {}).get(i['kind'], {}))
                 else:
-                    wb, why = rebuild(i, facts, sector, sic, collection)
+                    wb, why = build_one(i, facts, sector, sic, collection, entities)
+                    salt = 0
                 out = None
                 if wb is not None:
                     allowed = enhanced.finish(wb, i['key'])
@@ -310,6 +429,9 @@ def run(collection, shard, shards):
                 for fid in i['ids']:
                     drv.overwrite(fid, out)
                 state['done'][i['key']] = 'replaced'
+                if REDO:
+                    state.setdefault('salts', {})[i['key']] = salt
+                    reg.setdefault(i['kind'], {})[sig] = i['key']
                 tally['replaced'] += 1
                 tally['copies updated'] += len(i['ids']) - 1
             else:
@@ -351,6 +473,10 @@ def status(collection, shards):
 if __name__ == '__main__':
     if sys.argv[1] == 'plan':
         plan(sys.argv[2])
+    elif sys.argv[1] == 'audit':
+        audit(sys.argv[2], int(sys.argv[3]), int(sys.argv[4]))
+    elif sys.argv[1] == 'dedupe':
+        dedupe(sys.argv[2], int(sys.argv[3]))
     elif sys.argv[1] == 'status':
         status(sys.argv[2], int(sys.argv[3]))
     elif sys.argv[1] == 'run':
