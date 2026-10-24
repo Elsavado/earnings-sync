@@ -7,7 +7,8 @@
 
 collection:
   excel       IR Transcripts drive, 'Excel Models': the SEC-built models, identified by number from the collector state
-  enterprise  Enterprise Wide Models drive: the corporate kinds, identified by their key (recomputed with ENT_NAME_KEY)
+  enterprise  Enterprise Wide Models drive: corporate and bank kinds, identified by their key (recomputed with ENT_NAME_KEY)
+  government  Enterprise Wide Models drive: government kinds, identified by their entity (recomputed with ENT_NAME_KEY)
 
 Each file keeps its id, name, folder and properties; only the content changes. Exact copies elsewhere on the same
 drive (same MD5) get the same new content. A model that cannot be rebuilt, or fails verification, keeps its original.
@@ -29,19 +30,21 @@ import requests
 from googleapiclient.discovery import build as gbuild
 from googleapiclient.http import MediaFileUpload, MediaIoBaseUpload
 
-from . import enhanced, enterprise, three_x, unique
+from . import bankent, enhanced, enterprise, govent, three_x, unique
 from .main import model_code
 from .store import FOLDER, MIME, _retry, _SharedDrive, credentials
 from .xl import REDACTED
 
 DRIVES = {'excel': os.environ.get('IRT_DRIVE_ID') or '0AM6PzKRbJBK-Uk9PVA',
           'enterprise': os.environ.get('ENTERPRISE_DRIVE_ID') or '0AG5EzL2T7ZlfUk9PVA'}
+DRIVES['government'] = DRIVES['enterprise']
 PRIVATE = 'Enhance Models - private'
 XLSX = MIME['xlsx']
 # Excel Models kinds -> how the enhanced model is built (corporate kinds reuse the Enterprise engine with this title)
 EXCEL = {'three': ('three', None), 'reit': ('three', None), 'dcf': ('valuation', 'DCF valuation model'),
-         'lbo': ('buyout', 'LBO model'), 'fpa': ('budget', 'Operating & FP&A model')}
-CORPORATE = tuple(enterprise.KINDS)
+         'lbo': ('buyout', 'LBO model'), 'fpa': ('budget', 'Operating & FP&A model'), 'bank': ('bank_integrated', 'Bank model')}
+CORPORATE = tuple(enterprise.KINDS) + tuple(bankent.KINDS)
+GOVERNMENT = tuple(govent.KINDS)
 SEC_UA = os.environ.get('SEC_USER_AGENT') or 'ExcelModels research contact@example.com'
 START = time.time()
 BUDGET = float(os.environ.get('RUN_MINUTES', '50')) * 60
@@ -159,9 +162,31 @@ def plan_enterprise(drv):
     return items
 
 
+def plan_government(drv):
+    if not os.environ.get('ENT_NAME_KEY'):
+        raise SystemExit('ENT_NAME_KEY is needed to match the Enterprise file codes')
+    s = requests.Session()
+    s.headers['User-Agent'] = SEC_UA
+    items, unmatched = [], 0
+    for kind in GOVERNMENT:
+        codes = {model_code(f'{eid}:{kind}'): str(eid) for eid, _ in govent.load(kind, s, lambda *a: None)}
+        n = 0
+        for f in drv.each(f"appProperties has {{ key='xmApp' and value='ent-{kind}' }} and trashed = false"):
+            key = (f.get('appProperties') or {}).get('xmKey', '')
+            eid = codes.get(key[4:]) if key.startswith('gov:') else None
+            if eid is None:
+                unmatched += 1
+                continue
+            items.append({'key': key, 'eid': eid, 'cik': int(key[7:13], 16), 'kind': kind, 'ids': [f['id']], 'name': f['name']})
+            n += 1
+        log(f'plan government {kind}: {n} models')
+    log(f'plan government: {len(items)} models, {unmatched} not matched to an entity (left as they are)')
+    return items
+
+
 def plan(collection):
     drv = Drive(DRIVES[collection])
-    items = plan_excel(drv) if collection == 'excel' else plan_enterprise(drv)
+    items = {'excel': plan_excel, 'enterprise': plan_enterprise, 'government': plan_government}[collection](drv)
     _, fid = drv.get_json(f'plan-{collection}.json.gz')
     drv.put_json(f'plan-{collection}.json.gz', {'items': items, 'at': time.time()}, fid)
 
@@ -180,6 +205,13 @@ def rebuild(item, facts, sector, sic, collection):
             return None, f'no enhanced builder for {item["kind"]} yet'
         if kind == 'three':
             wb = three_x.build(facts, sector, key, is_reit=item['kind'] == 'reit')
+        elif kind in bankent.KINDS:
+            prof = unique.Profile(key)
+            for trim in (0, 1):
+                wb = bankent.build(facts, sector, enhanced.market(), sic, kind, trim, profile=prof, title=title)
+                if wb is not None:
+                    wb.profile = prof
+                    break
         else:
             prof = unique.Profile(key)
             for trim in (0, 1):  # a year earlier when the latest year does not qualify (as the original was built)
@@ -193,8 +225,9 @@ def rebuild(item, facts, sector, sic, collection):
         return (wb, None) if wb is not None else (None, 'company does not suit the enhanced model')
     prof = unique.Profile(key)
     trims = [item['trim']] + [t for t in (0, 1, 2) if t != item['trim']]
+    make = bankent.build if item['kind'] in bankent.KINDS else enterprise.build
     for trim in trims:  # the same as-of year as the original file name
-        wb = enterprise.build(facts, sector, enhanced.market(), sic, item['kind'], trim, profile=prof)
+        wb = make(facts, sector, enhanced.market(), sic, item['kind'], trim, profile=prof)
         if wb is None:
             continue
         if not item.get('fy') or _fy(wb) == item['fy']:
@@ -221,10 +254,17 @@ def run(collection, shard, shards):
     s = requests.Session()
     s.headers['User-Agent'] = SEC_UA
     tally, tmp, last_save = collections.Counter(), Path(tempfile.mkdtemp()), time.time()
+    entities = {}
+    if collection == 'government':
+        for kind in sorted({i['kind'] for i in todo}):
+            entities[kind] = {str(eid): e for eid, e in govent.load(kind, s, lambda *a: None)}
     for cik, items in by_cik.items():
         if left() < 300:
             break
-        got = enhanced.company(s, cik)
+        if collection == 'government':
+            got = (None, None, None)
+        else:
+            got = enhanced.company(s, cik)
         if not got:
             for i in items:
                 tally['kept: company data unavailable'] += 1
@@ -236,7 +276,15 @@ def run(collection, shard, shards):
             work = tmp / re.sub(r'\W', '_', i['key'])
             work.mkdir()
             try:
-                wb, why = rebuild(i, facts, sector, sic, collection)
+                if collection == 'government':
+                    e = entities.get(i['kind'], {}).get(i['eid'])
+                    prof = unique.Profile(i['key'])
+                    wb = govent.build(i['kind'], e, enhanced.market(), profile=prof) if e else None
+                    why = None if wb is not None else 'entity data unavailable'
+                    if wb is not None:
+                        wb.profile = prof
+                else:
+                    wb, why = rebuild(i, facts, sector, sic, collection)
                 out = None
                 if wb is not None:
                     allowed = enhanced.finish(wb, i['key'])

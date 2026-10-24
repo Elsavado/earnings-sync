@@ -143,7 +143,8 @@ BANK_HORIZONS = {'bank_integrated': [5, 6, 7], 'bank_capital': [5, 6], 'bank_alm
                  'bank_strategic': [10, 12]}
 
 
-def build(facts, sector, market, sic, kind, trim=0, profile=None):
+def build(facts, sector, market, sic, kind, trim=0, profile=None, title=None):
+    """title replaces 'Enterprise wide model - <kind>' (Excel Models bank models rebuilt on this engine keep their own name)."""
     got = prepare(facts, trim)
     if not got:
         return None
@@ -610,7 +611,7 @@ def build(facts, sector, market, sic, kind, trim=0, profile=None):
     sections.append(('Checks', 'Integrity checks'))
     checks(wb, items)
     label = KINDS[kind]
-    cover(wb, f'Enterprise wide model - {label}', f'{sector}',
+    cover(wb, title or f'Enterprise wide model - {label}', f'{sector}',
           f'Enterprise-wide {label.lower()} built from the bank\'s historical financial statements with a {years}-year '
           'forecast: net interest income on average balances, fee income, efficiency, an allowance roll-forward that '
           'drives provisions, capital (RWA, CET1, leverage) with capital-constrained repurchases, liquidity and funding, '
