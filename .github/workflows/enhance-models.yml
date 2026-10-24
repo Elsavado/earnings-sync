@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: 'test, plan or replace'
+        description: 'test, plan, replace, audit, dedupe or redo'
         required: false
         default: 'test'
       kind:
@@ -121,7 +121,7 @@ jobs:
         run: python -m models.replace plan ${{ github.event.inputs.collection }}
 
   shards:
-    if: github.event.inputs.mode == 'replace'
+    if: contains(fromJSON('["replace","audit","redo"]'), github.event.inputs.mode)
     runs-on: ubuntu-latest
     outputs:
       list: ${{ steps.s.outputs.list }}
@@ -131,6 +131,7 @@ jobs:
 
   replace:
     needs: shards
+    if: github.event.inputs.mode == 'replace' || github.event.inputs.mode == 'redo'
     runs-on: ubuntu-latest
     timeout-minutes: 58
     strategy:
@@ -162,11 +163,12 @@ jobs:
           ENTERPRISE_DRIVE_ID: ${{ vars.ENTERPRISE_DRIVE_ID }}
           RUN_MINUTES: ${{ github.event.inputs.dry_run == 'true' && '10' || '50' }}
           REPLACE_DRY: ${{ github.event.inputs.dry_run || 'false' }}
+          REDO: ${{ github.event.inputs.mode == 'redo' }}
         run: python -m models.replace run ${{ github.event.inputs.collection }} ${{ matrix.shard }} $SHARDS
 
   chain:
     needs: replace
-    if: always() && needs.replace.result != 'cancelled' && github.event.inputs.dry_run != 'true'
+    if: always() && needs.replace.result != 'cancelled' && github.event.inputs.dry_run != 'true' && github.event.inputs.mode == 'replace'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -192,4 +194,58 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh workflow run enhance-models.yml -R ${{ github.repository }} --ref main -f mode=replace -f collection=${{ github.event.inputs.collection }} -f chained=true
+
+  audit:
+    needs: shards
+    if: github.event.inputs.mode == 'audit'
+    runs-on: ubuntu-latest
+    timeout-minutes: 58
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJSON(needs.shards.outputs.list) }}
+    defaults:
+      run:
+        working-directory: excel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: excel/requirements.txt
+      - run: pip install -q -r requirements.txt
+      - name: Logic signature of every replaced model
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.WS_GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+          ENT_NAME_KEY: ${{ secrets.ENT_NAME_KEY }}
+          ENTERPRISE_DRIVE_ID: ${{ vars.ENTERPRISE_DRIVE_ID }}
+          RUN_MINUTES: '52'
+        run: python -m models.replace audit ${{ github.event.inputs.collection }} ${{ matrix.shard }} $SHARDS
+
+  dedupe:
+    if: github.event.inputs.mode == 'dedupe'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: excel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: excel/requirements.txt
+      - run: pip install -q -r requirements.txt
+      - name: Register of logics; models sharing one go on the redo list
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.WS_GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
+          ENTERPRISE_DRIVE_ID: ${{ vars.ENTERPRISE_DRIVE_ID }}
+        run: python -m models.replace dedupe ${{ github.event.inputs.collection }} $SHARDS
 
