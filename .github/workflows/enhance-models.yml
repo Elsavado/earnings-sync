@@ -1,0 +1,62 @@
+name: Enhance models
+
+# Rebuilds the generated models with model-specific logic (excel/models/variants.py) and verifies each one.
+# mode=test builds a random sample and reports counts only; the replace mode is added once every family passes.
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'test'
+        required: false
+        default: 'test'
+      kind:
+        description: 'Model family (three)'
+        required: false
+        default: 'three'
+      size:
+        description: 'Sample size for mode=test'
+        required: false
+        default: '40'
+      seed:
+        description: 'Sample seed'
+        required: false
+        default: '7'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    if: github.event.inputs.mode == 'test'
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    defaults:
+      run:
+        working-directory: excel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: excel/requirements.txt
+      - name: Install LibreOffice
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq --no-install-recommends libreoffice-calc > /dev/null
+          soffice --version
+      - run: pip install -q -r requirements.txt
+      - name: Build and verify a sample
+        env:
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+          SEED: ${{ github.event.inputs.seed }}
+          SAMPLES: samples
+        run: python -m models.enhanced test ${{ github.event.inputs.kind }} ${{ github.event.inputs.size }}
+      - name: Keep three passing samples (1 day)
+        if: always() && hashFiles('excel/samples/**') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: enhanced-samples-${{ github.event.inputs.kind }}
+          path: excel/samples
+          retention-days: 1
