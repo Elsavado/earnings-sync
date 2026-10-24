@@ -192,12 +192,15 @@ def plan(collection):
 
 
 # ---------------------------------------------------------------- rebuild
-RETRY = ('kept: no enhanced builder',)  # outcomes recorded before a builder existed: try again
+# Outcomes recorded before a builder or a fix existed are tried once more (one retry pass per shard state, so a model
+# that still does not qualify is not retried for ever).
+RETRY = ('kept: no enhanced builder', 'kept: company does not suit')
+RETRY_PASS = 'retry-2026-10-24'
 
 
 def is_done(state, key):
     v = state['done'].get(key)
-    return v is not None and not v.startswith(RETRY)
+    return v is not None and (state.get('retried') == RETRY_PASS or not v.startswith(RETRY))
 
 
 def _fy(wb):
@@ -255,6 +258,8 @@ def run(collection, shard, shards):
     state = state or {'done': {}}
     mine = [i for i in data['items'] if i['cik'] % shards == shard]
     todo = [i for i in mine if not is_done(state, i['key'])]
+    if not DRY:
+        state['retried'] = RETRY_PASS  # this pass retries the older outcomes; later passes treat them as final
     log(f'{collection} shard {shard}/{shards}: {len(mine)} models, {len(todo)} to do')
     by_cik = collections.defaultdict(list)
     for i in todo:
@@ -332,7 +337,7 @@ def status(collection, shards):
     for k in range(shards):
         st, _ = drv.get_json(f'state-{collection}-{k}-of-{shards}.json.gz')
         for key, v in ((st or {}).get('done') or {}).items():
-            if v.startswith(RETRY):
+            if not is_done(st, key):
                 continue
             done.add(key)
             tally['replaced' if v == 'replaced' else 'kept (original stays)'] += 1
