@@ -81,7 +81,8 @@ def annotate(wb, v, c):
         _note(ws, r0 + i, f'{m.replace("_", " ").capitalize()}: {WHY.get(m, "")}.')
 
     # 2. Outputs page with commentary and sanity flags.
-    d = wb.create_sheet('Dashboard', 1)
+    title = 'Commentary' if 'Dashboard' in wb.sheetnames else 'Dashboard'  # Enterprise models already have a dashboard
+    d = wb.create_sheet(title, 1)
     d.sheet_view.showGridLines = False
     d.column_dimensions['A'].width = 34
     for col_ in 'BCD':
@@ -142,4 +143,4 @@ def annotate(wb, v, c):
               f'Fiscal years; "A" = reported, "E" = forecast. Forecast horizon: {N} years.']:
         r += 1
         d.cell(row=r, column=1, value=t).font = NOTE
-    return [('Dashboard', 'Key outputs, live commentary, sanity flags and conventions')]
+    return [(title, 'Key outputs, live commentary, sanity flags and conventions')]
