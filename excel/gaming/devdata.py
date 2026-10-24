@@ -29,7 +29,7 @@ DEVF = '8 Game Development'
 CODE, GDD, INPUTS, VIDEOS, TELEM, ASSETS = (f'{DEVF}/Game & Engine Code', f'{DEVF}/Design Documents',
                                            f'{DEVF}/Gameplay Recordings & Input Logs', f'{DEVF}/Gameplay Videos & Trailers',
                                            f'{DEVF}/Player Analytics & Telemetry', f'{DEVF}/3D Assets & Materials')
-UA = 'GameDevPlanningCollector/1.0 (personal research; python-requests)'
+UA = 'GameDevPlanningCollector/1.1 (personal research; https://github.com/Elsavado/earnings-sync) python-requests'
 S = requests.Session()
 S.headers['User-Agent'] = UA
 OSI = {'MIT', 'Apache-2.0', 'GPL-2.0', 'GPL-3.0', 'LGPL-2.1', 'LGPL-3.0', 'AGPL-3.0', 'BSD-2-Clause', 'BSD-3-Clause', 'MPL-2.0',
@@ -78,11 +78,19 @@ def gh(url, params=None, gap=2.2):
     return js(get(url if url.startswith('http') else 'https://api.github.com' + url, params, gap=gap, headers=h))
 
 
-def download(url, dest, limit, headers=None):
-    """Streams url to dest; None if it fails or exceeds limit bytes."""
-    for i in range(3):
+def download(url, dest, limit, headers=None, gap=0.0):
+    """Streams url to dest; None if it fails or exceeds limit bytes. Waits out 429/503 (Retry-After) and retries."""
+    for i in range(5):
+        time.sleep(gap)
         try:
             with S.get(url, stream=True, timeout=120, headers=headers or {}) as r:
+                if r.status_code in (429, 503) or r.status_code >= 500:
+                    try:
+                        wait = float(r.headers.get('Retry-After', 0))
+                    except ValueError:
+                        wait = 0
+                    time.sleep(min(600, max(wait, 30 * (i + 1))))
+                    continue
                 if not r.ok:
                     return None
                 n = 0
@@ -99,7 +107,9 @@ def download(url, dest, limit, headers=None):
 
 
 def safe(name, n=150):
-    name = re.sub(r'[\\/:*?"<>|\x00-\x1f]+', ' ', str(name)).strip(' .')
+    # Drive search queries quote names with ', so names use the typographic apostrophe
+    name = re.sub(r'[\\/:*?"<>|\x00-\x1f]+', ' ', str(name)).replace("'", '’').strip(' .')
+    name = re.sub(r'\s{2,}', ' ', name)
     return name[:n].rstrip(' .') or 'item'
 
 
@@ -147,6 +157,18 @@ class Ctx:
         self.n['added'] += 1
         if time.time() - self.last_save > 600:
             self.save()
+
+    def upload(self, path, data=None, local=None, mime='application/octet-stream'):
+        """One upload; a failure is counted and skipped instead of stopping the kind."""
+        try:
+            if local is not None:
+                self.out.put_file(path, local, mime)
+            else:
+                self.out.put(path, data, mime)
+            return True
+        except Exception:  # noqa: BLE001
+            self.n['failed'] += 1
+            return False
 
     def save(self):
         for folder, rows in self.rows.items():
@@ -286,14 +308,16 @@ def gdd(out, dry):
                         c.n['failed'] += 1
                         continue
                     name = safe(f'{it["owner"]["login"]}__{it["name"]}__{Path(t["path"]).name}')
-                    out.put(f'{GDD}/{name}', raw.content)
+                    if not c.upload(f'{GDD}/{name}', raw.content):
+                        continue
                     c.add(GDD, {'item': name, 'title': f'{it["full_name"]}: {t["path"]}', 'source_url': f'{it["html_url"]}/blob/'
                                 f'{it["default_branch"]}/{t["path"]}', 'licence': spdx, 'notes': f'{t["size"]:,} bytes'}, checksum=t['sha'])
                     got += 1
                 if got:
                     lic = gh(f'/repos/{it["full_name"]}/license') or {}
                     if lic.get('content'):
-                        out.put(f'{GDD}/{safe(it["owner"]["login"] + "__" + it["name"])}.LICENSE.txt', base64.b64decode(lic['content']), 'text/plain')
+                        c.upload(f'{GDD}/{safe(it["owner"]["login"] + "__" + it["name"])}.LICENSE.txt', base64.b64decode(lic['content']),
+                                 mime='text/plain')
                 c.seen.add(f'gh:{it["id"]}')
             if len(items) < 30:
                 cur = 99
@@ -352,8 +376,10 @@ def datasets(out, dry, kind, folder, zq, hq, relevant, exts, file_cap_gb, run_gb
                     if not download(f['links']['self'], dest, cap):
                         c.n['failed'] += 1
                         continue
-                    out.put_file(f'{sub}/{safe(f["key"])}', dest)
+                    ok = c.upload(f'{sub}/{safe(f["key"])}', local=dest)
                     dest.unlink()
+                    if not ok:
+                        continue
                     c.add(sub, {'item': safe(f['key']), 'title': md.get('title', ''), 'source_url': h.get('links', {}).get('self_html')
                                 or f'https://zenodo.org/records/{h["id"]}', 'licence': lic,
                                 'notes': f'{f["size"] / 2**20:.1f} MB; version {md.get("version") or "latest"}; DOI {h.get("doi", "")}'},
@@ -389,8 +415,10 @@ def datasets(out, dry, kind, folder, zq, hq, relevant, exts, file_cap_gb, run_gb
                     c.n['failed'] += 1
                     continue
                 item = safe(t['path'].replace('/', ' - '))
-                out.put_file(f'{sub}/{item}', dest)
+                ok = c.upload(f'{sub}/{item}', local=dest)
                 dest.unlink()
+                if not ok:
+                    continue
                 c.add(sub, {'item': item, 'title': d['id'], 'source_url': f'https://huggingface.co/datasets/{d["id"]}', 'licence': lic,
                             'notes': f'{t["size"] / 2**20:.1f} MB'}, checksum=ck)
             c.seen.add(ident)
@@ -447,7 +475,7 @@ def videos(out, dry):
     bud = Budget(dry, 6, 150, 2)
     cap = (40 * 2**20) if dry else int(1.5 * 2**30)
     tmp = Path(tempfile.mkdtemp())
-    cats, seen_cats = list(VIDEO_CATS), set()
+    cats, seen_cats, streak = list(VIDEO_CATS), set(), 0
     depth = {k: 0 for k in cats}
     while cats and not bud.done():
         cat = cats.pop(0)
@@ -476,12 +504,20 @@ def videos(out, dry):
                 if ii.get('size', 0) > cap or not bud.take(ii.get('size', 0)):
                     continue
                 dest = tmp / 'v'
-                if not download(ii['url'], dest, cap):
+                if not download(ii['url'], dest, cap, gap=3):
                     c.n['failed'] += 1
+                    streak += 1
+                    if streak >= 12:  # the media server is refusing us: stop for this run, try again next run
+                        log('  videos: media downloads refused repeatedly; stopping this run')
+                        bud.items = 0
+                        break
                     continue
+                streak = 0
                 item = safe(pg['title'].split(':', 1)[1])
-                out.put_file(f'{VIDEOS}/{item}', dest, ii.get('mime') or 'video/webm')
+                ok = c.upload(f'{VIDEOS}/{item}', local=dest, mime=ii.get('mime') or 'video/webm')
                 dest.unlink()
+                if not ok:
+                    continue
                 artist = re.sub(r'<[^>]+>', '', (em.get('Artist') or {}).get('value', '')).strip()
                 desc = re.sub(r'https?://\S+|<[^>]+>', ' ', (em.get('ImageDescription') or {}).get('value', ''))
                 desc = next((ln.strip() for ln in desc.splitlines() if len(ln.strip()) > 3), '')
@@ -554,8 +590,10 @@ def assets(out, dry):
                 c.n['failed'] += 1
                 continue
             item = safe(f'{aid}_{d.get("attribute", "")}.{d.get("filetype", "zip")}')
-            out.put_file(f'{ASSETS}/ambientCG/{item}', dest)
+            ok = c.upload(f'{ASSETS}/ambientCG/{item}', local=dest)
             dest.unlink()
+            if not ok:
+                continue
             c.add(f'{ASSETS}/ambientCG', {'item': item, 'title': a.get('displayName') or aid, 'source_url': f'https://ambientcg.com/view?id={aid}',
                                           'licence': 'CC0-1.0', 'notes': f'{a.get("dataType", "")}; {d.get("attribute", "")}'}, f'acg:{aid}')
         if len(found) < 100:
