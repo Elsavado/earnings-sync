@@ -31,6 +31,7 @@ HORIZONS = [4, 5, 5, 6, 7, 8]
 # model is built is recorded, and signature() names the model's full logic (each module's methods and modules). A collector that finds a signature already used re-draws with reset(salt) until it is new.
 SALT = 0
 CREATED = []
+SIG_V = 2  # signature format; files of signatures and registers carry it in their names
 
 
 def reset(salt=0):

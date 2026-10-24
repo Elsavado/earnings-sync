@@ -299,11 +299,13 @@ def audit(collection, shard, shards):
     drv = Drive(DRIVES[collection])
     data, _ = drv.get_json(f'plan-{collection}.json.gz')
     st, _ = drv.get_json(f'state-{collection}-{shard}-of-{shards}.json.gz')
-    salts, _ = drv.get_json(f'salts-{collection}.json.gz')
-    salts = salts or {}
+    salts = {}  # models rebuilt by REDO runs use the salt recorded there
+    for k in range(shards):
+        st_r, _ = drv.get_json(f'state-redo-v{variants.SIG_V}-{collection}-{k}-of-{shards}.json.gz')
+        salts.update((st_r or {}).get('salts') or {})
     done = (st or {}).get('done') or {}
     mine = [i for i in data['items'] if i['cik'] % shards == shard and done.get(i['key']) == 'replaced']
-    name = f'sigs-{collection}-{shard}-of-{shards}.json.gz'
+    name = f'sigs-v{variants.SIG_V}-{collection}-{shard}-of-{shards}.json.gz'
     out, oid = drv.get_json(name)
     out = out or {}
     s = requests.Session()
@@ -342,19 +344,19 @@ def audit(collection, shard, shards):
 def dedupe(collection, shards):
     """Merges the shard signatures: the register (type -> signature -> model) and the models to rebuild."""
     drv = Drive(DRIVES[collection])
-    reg, rid = drv.get_json(f'registry-{collection}.json.gz')
+    reg, rid = drv.get_json(f'registry-v{variants.SIG_V}-{collection}.json.gz')
     reg = reg or {}
     redo, n = [], 0
     for k in range(shards):
-        part, _ = drv.get_json(f'sigs-{collection}-{k}-of-{shards}.json.gz')
+        part, _ = drv.get_json(f'sigs-v{variants.SIG_V}-{collection}-{k}-of-{shards}.json.gz')
         for key, (kind, sig) in sorted((part or {}).items()):
             n += 1
             owner = reg.setdefault(kind, {}).setdefault(sig, key)
             if owner != key:
                 redo.append(key)
-    drv.put_json(f'registry-{collection}.json.gz', reg, rid)
-    _, did = drv.get_json(f'redo-{collection}.json.gz')
-    drv.put_json(f'redo-{collection}.json.gz', {'keys': redo}, did)
+    drv.put_json(f'registry-v{variants.SIG_V}-{collection}.json.gz', reg, rid)
+    _, did = drv.get_json(f'redo-v{variants.SIG_V}-{collection}.json.gz')
+    drv.put_json(f'redo-v{variants.SIG_V}-{collection}.json.gz', {'keys': redo}, did)
     per = collections.Counter(kind for kind in reg for _ in reg[kind])
     log(f'dedupe {collection}: {n} models signed, {sum(per.values())} distinct logics, {len(redo)} share a logic -> rebuild')
     for kind, c in sorted(per.items()):
@@ -376,11 +378,11 @@ def run(collection, shard, shards):
     mine = [i for i in data['items'] if i['cik'] % shards == shard]
     taken, salts, reg, sid_salts = {}, {}, None, None
     if REDO:
-        redo, _ = drv.get_json(f'redo-{collection}.json.gz')
-        reg, _ = drv.get_json(f'registry-{collection}.json.gz')
+        redo, _ = drv.get_json(f'redo-v{variants.SIG_V}-{collection}.json.gz')
+        reg, _ = drv.get_json(f'registry-v{variants.SIG_V}-{collection}.json.gz')
         want = set((redo or {}).get('keys', []))
         mine = [i for i in mine if i['key'] in want]
-        name = f'state-redo-{collection}-{shard}-of-{shards}.json.gz'
+        name = f'state-redo-v{variants.SIG_V}-{collection}-{shard}-of-{shards}.json.gz'
         state, sid = drv.get_json(name)
         state = state or {'done': {}}
     todo = [i for i in mine if not is_done(state, i['key'])]

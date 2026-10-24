@@ -190,17 +190,17 @@ class Run:
     def logic(self):
         """This model type's register: logic signature -> model key, seeded once from the replacement audit."""
         reg = self.state.setdefault('logic', {})
-        if not self.state.get('logic_seeded') and not DRY:
+        if self.state.get('logic_seeded') != variants.SIG_V and not DRY:
             try:
                 from .replace import DRIVES, Drive
                 found = 0
                 for coll in ('enterprise', 'government'):
-                    data, _ = Drive(DRIVES[coll]).get_json(f'registry-{coll}.json.gz')
+                    data, _ = Drive(DRIVES[coll]).get_json(f'registry-v{variants.SIG_V}-{coll}.json.gz')
                     found += data is not None
                     for sig, key in ((data or {}).get(ENT_KIND) or {}).items():
                         reg.setdefault(sig, key)
                 if found == 2:  # both audits done: the register now covers every existing model of this type
-                    self.state['logic_seeded'] = 1
+                    self.state['logic_seeded'] = variants.SIG_V
             except Exception as err:  # noqa: BLE001
                 log(f'logic register not seeded yet ({type(err).__name__})')
         return reg
