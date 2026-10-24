@@ -21,6 +21,7 @@ import zipfile
 from pathlib import Path
 
 import requests
+from googleapiclient.errors import HttpError
 
 from models.anonymize import Anonymizer
 
@@ -397,8 +398,15 @@ class Run:
             log(f'  - {kind} {cand["source"]}: same title as an earlier file')
             return
         n = self.state['next'].get(kind, 1)
-        name = (self.store.upload_doc(res['path'], kind, n, res['label'], res['ext'], cand['key']) if self.store
-                else f'{n} - {res["label"]}.{res["ext"]}')
+        try:
+            name = (self.store.upload_doc(res['path'], kind, n, res['label'], res['ext'], cand['key']) if self.store
+                    else f'{n} - {res["label"]}.{res["ext"]}')
+        except HttpError as err:  # Drive keeps failing on this one file (e.g. it cannot convert it): skip it, go on
+            if err.resp.status != 500:
+                raise
+            self.state['seen'][cand['key']] = 'rej:Drive could not take the file'
+            log(f'  - {kind}: Drive could not take one file (error 500); skipped')
+            return
         self.state['next'][kind] = n + 1
         self.state['hashes'][digest] = f'{kind}:{n}'
         self.state['seen'][cand['key']] = f'ok:{kind}:{n}'
@@ -410,7 +418,7 @@ class Run:
             d = Path('samples') / kind
             d.mkdir(parents=True, exist_ok=True)
             shutil.copy(res['path'], d / name)
-        log(f'  {K.KINDS[kind]["folder"]}: #{n} {name}')
+        log(f'  {K.KINDS[kind]["folder"]}: #{n}')  # numbers only: the repository is public
         self.save()
         self.uploaded_bytes += Path(res['path']).stat().st_size
         if self.store and not DRY and (self.uploaded_bytes - self.checked_at > 2 * 2**30 or self.made[kind] % 50 == 0):
