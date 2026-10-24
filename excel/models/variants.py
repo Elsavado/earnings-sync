@@ -28,8 +28,7 @@ HORIZONS = [4, 5, 5, 6, 7, 8]
 
 
 # Uniqueness (user, 2026-10-24: "the models being built should each have unique logic"): every Variant made while a
-# model is built is recorded, and signature() names the model's full logic (each module's methods and modules, the
-# forecast horizon). A collector that finds a signature already used re-draws with reset(salt) until it is new.
+# model is built is recorded, and signature() names the model's full logic (each module's methods and modules). A collector that finds a signature already used re-draws with reset(salt) until it is new.
 SALT = 0
 CREATED = []
 
@@ -48,7 +47,7 @@ def signature():
         part = v.key.rsplit(':', 1)[-1] if i else 'core'
         mods = ','.join(sorted(m for m in v.modules if not m.startswith('_x')))
         meth = ','.join(f'{b}={m}' for b, m in sorted(v.methods.items()))
-        parts.append(f'{part}|{meth}|{mods}' + (f'|y{v.years}' if not i else ''))
+        parts.append(f'{part}|{meth}|{mods}')  # methods and modules only: the horizon is a setting, not logic
     return hashlib.sha1(';'.join(parts).encode()).hexdigest()[:20] if parts else None
 
 
