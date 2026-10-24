@@ -252,6 +252,9 @@ class Run:
             return None, 'checks not computed'
         if abs(total) > 0.01:
             return None, f'checks fail ({total})'
+        empty = lo.empty_parts(out)
+        if empty:
+            return None, f'empty content: {empty[0]}'
         # Safety net: nothing in a delivered model may point outside the workbook.
         pkg = Package(out)
         links.clean(pkg)

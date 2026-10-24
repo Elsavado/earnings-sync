@@ -45,6 +45,9 @@ def verify(wb, path, allowed=()):
         return None, 'checks not computed'
     if abs(total) > 0.01:
         return None, 'checks fail'
+    empty = lo.empty_parts(out)
+    if empty:
+        return None, f'empty content: {empty[0]}'
     pkg = Package(out)
     links.clean(pkg)
     if links.has_external(pkg):

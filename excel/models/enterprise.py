@@ -1278,7 +1278,8 @@ HORIZONS = {'integrated': [5, 6, 7], 'valuation': [7, 8, 10], 'buyout': [5, 6, 7
             'strategic': [10, 12, 15]}
 
 
-def build(facts, sector, market, sic, kind, trim=0, profile=None):
+def build(facts, sector, market, sic, kind, trim=0, profile=None, title=None):
+    """title replaces 'Enterprise wide model - <kind>' (the Excel Models rebuilt on this engine keep their own type names)."""
     s = _sic(sic)
     fin = s in FIN
     if kind in ('valuation', 'buyout', 'credit') and fin:
@@ -1327,7 +1328,7 @@ def build(facts, sector, market, sic, kind, trim=0, profile=None):
     try:
         if profile is not None:  # enhanced core: this model's own forecasting methods (variants.py)
             wb = three_x.build(facts, sector, f'{profile.key}:core', is_reit=s == 6798, years=years, trim=trim, extend=extend,
-                               deep=True, title=f'Enterprise wide model - {label}', description=desc)
+                               deep=True, title=title or f'Enterprise wide model - {label}', description=desc)
         else:
             wb = three.build(facts, sector, is_reit=s == 6798, years=years, trim=trim, extend=extend, deep=True,
                              title=f'Enterprise wide model - {label}', description=desc)

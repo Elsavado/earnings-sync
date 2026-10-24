@@ -77,3 +77,39 @@ def recalculated_errors(xlsx_path):
             elif name in ('Checks',) and val is not None:
                 values[f'{name}!{col_letters(c)}{r}'] = val
     return errors, formulas, values
+
+
+def empty_parts(xlsx_path, min_formulas=300):
+    """Problems that make a recalculated model look empty (user, 2026-10-24: 'make sure they have contents and they are
+    not empty'): a sheet with almost nothing on it, a sheet of numbers that are nearly all zero, or too few formulas
+    overall. Checks is exempt (its results are zero by design). Returns a list of short reasons, empty when fine."""
+    from .xlsxml import Package
+    pkg = Package(xlsx_path)
+    problems, formulas = [], 0
+    for name, part in pkg.sheets:
+        text = nums = nonzero = 0
+        for (_, _), (kind, val, formula) in pkg.grid(part).items():
+            if formula is not None:
+                formulas += 1
+            if val in (None, ''):
+                continue
+            try:
+                x = float(val) if kind not in ('s', 'str', 'inlineStr', 'e', 'b') else None
+            except (TypeError, ValueError):
+                x = None
+            if x is None:
+                text += 1
+            else:
+                nums += 1
+                nonzero += abs(x) > 1e-9
+        if name == 'Checks':
+            continue
+        if nums == 0 and text < 10:
+            problems.append('a sheet is empty')
+        elif 0 < nums and (nonzero < 5 or nonzero < 0.2 * nums) and text < 10:
+            problems.append('a sheet has almost no figures')
+        elif nums >= 20 and nonzero < 0.2 * nums:
+            problems.append('a sheet is nearly all zeros')
+    if formulas < min_formulas:
+        problems.append(f'only {formulas} formulas')
+    return problems

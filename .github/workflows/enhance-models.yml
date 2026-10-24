@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: 'test'
+        description: 'test, plan or replace'
         required: false
         default: 'test'
       kind:
@@ -22,12 +22,31 @@ on:
         description: 'Sample seed'
         required: false
         default: '7'
+      collection:
+        description: 'plan / replace: excel or enterprise'
+        required: false
+        default: 'excel'
+      dry_run:
+        description: 'replace: rebuild and verify only, no overwrite (10 minutes per shard)'
+        type: boolean
+        required: false
+        default: false
+      chained:
+        description: 'Started by the previous replace run (internal)'
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: read
+  actions: write
+
+env:
+  SHARDS: '20'
 
 jobs:
   kinds:
+    if: github.event.inputs.mode == 'test'
     runs-on: ubuntu-latest
     outputs:
       list: ${{ steps.k.outputs.list }}
@@ -75,3 +94,102 @@ jobs:
           name: enhanced-samples-${{ matrix.kind }}
           path: excel/samples
           retention-days: 1
+
+  plan:
+    if: github.event.inputs.mode == 'plan'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    defaults:
+      run:
+        working-directory: excel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: excel/requirements.txt
+      - run: pip install -q -r requirements.txt
+      - name: List the models to replace (plan saved on the drive)
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.WS_GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+          ENT_NAME_KEY: ${{ secrets.ENT_NAME_KEY }}
+          ENTERPRISE_DRIVE_ID: ${{ vars.ENTERPRISE_DRIVE_ID }}
+        run: python -m models.replace plan ${{ github.event.inputs.collection }}
+
+  shards:
+    if: github.event.inputs.mode == 'replace'
+    runs-on: ubuntu-latest
+    outputs:
+      list: ${{ steps.s.outputs.list }}
+    steps:
+      - id: s
+        run: python3 -c "import json,os;print('list='+json.dumps(list(range(int(os.environ['SHARDS'])))))" >> "$GITHUB_OUTPUT"
+
+  replace:
+    needs: shards
+    runs-on: ubuntu-latest
+    timeout-minutes: 58
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJSON(needs.shards.outputs.list) }}
+    defaults:
+      run:
+        working-directory: excel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: excel/requirements.txt
+      - name: Install LibreOffice
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq --no-install-recommends libreoffice-calc > /dev/null
+      - run: pip install -q -r requirements.txt
+      - name: Rebuild, verify and overwrite in place
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.WS_GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+          ENT_NAME_KEY: ${{ secrets.ENT_NAME_KEY }}
+          ENTERPRISE_DRIVE_ID: ${{ vars.ENTERPRISE_DRIVE_ID }}
+          RUN_MINUTES: ${{ github.event.inputs.dry_run == 'true' && '10' || '50' }}
+          REPLACE_DRY: ${{ github.event.inputs.dry_run || 'false' }}
+        run: python -m models.replace run ${{ github.event.inputs.collection }} ${{ matrix.shard }} $SHARDS
+
+  chain:
+    needs: replace
+    if: always() && needs.replace.result != 'cancelled' && github.event.inputs.dry_run != 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: excel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: excel/requirements.txt
+      - run: pip install -q -r requirements.txt
+      - id: st
+        name: Progress
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.WS_GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
+          ENTERPRISE_DRIVE_ID: ${{ vars.ENTERPRISE_DRIVE_ID }}
+        run: python -m models.replace status ${{ github.event.inputs.collection }} $SHARDS
+      - name: Start the next run
+        if: steps.st.outputs.remaining != '0' && vars.ENHANCE_LIVE == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run enhance-models.yml -R ${{ github.repository }} --ref main -f mode=replace -f collection=${{ github.event.inputs.collection }} -f chained=true
+
