@@ -935,6 +935,8 @@ def project(e, market, profile=None):
     pi.add('loan', 'External loan financing (USD millions)', round(e['loan'], 3), '#,##0.00')
     pi.add('year0', 'Approval year', first, '0')
     pi.add('build', 'Implementation period (years)', build_years, '0')
+    pi.add('close_year', 'Closing year', cl.year, '0')
+    pi.add('month0', 'Approval month', a.month, '0')
     pi.ws.cell(row=pi.next_row + 1, column=1, value=f'Country: {place}').font = NOTE
     pi.ws.cell(row=pi.next_row + 2, column=1, value=f'Sector: {e["sector"]}').font = NOTE
     H = pi.ref
