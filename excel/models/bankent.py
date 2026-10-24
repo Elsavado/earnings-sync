@@ -679,8 +679,9 @@ def build(facts, sector, market, sic, kind, trim=0, profile=None, title=None):
             cp.set('w_open', j, f'={K("cet1", p)}')
             cp.set('w_ni', j, f'={I("ni", j)}')
             cp.set('w_dist', j, f'={I("div", j)}+{I("bb", j)}')
+            aoci_move = f'+({K("aoci", j)}-{K("aoci", p)})' if X['aoci'] == 'aoci_included' else ''
             cp.set('w_other', j, f'={K("cet1", j)}-({K("w_open", j)}+{K("w_ni", j)}+{K("w_dist", j)})' if j < nh
-                   else f'=-({B("gw", j)}-{B("gw", p)})')
+                   else f'=-({B("gw", j)}-{B("gw", p)}){aoci_move}')
             cp.set('w_close', j, f'={K("w_open", j)}+{K("w_ni", j)}+{K("w_dist", j)}+{K("w_other", j)}', bold=True)
             cp.set('w_chk', j, f'=ROUND({K("w_close", j)}-{K("cet1", j)},3)')
         items += [(f'CET1 walk reconciles ({periods[j]})', K('w_chk', j)) for j in range(F0, n)]
