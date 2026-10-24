@@ -5,6 +5,7 @@ Layout:  Financial Documents/Earnings Call Transcripts/Folder 1 (Documents 1-20)
 Every upload carries appProperties fdApp, fdKind, fdNum and fdKey, so numbering can be
 recovered from Drive itself.
 """
+import hashlib
 import os
 
 from googleapiclient.errors import HttpError
@@ -21,6 +22,16 @@ MIME = {'pdf': 'application/pdf',
         'pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
         'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         'ipynb': 'application/x-ipynb+json', 'csv': 'text/csv', 'json': 'application/json', 'zip': 'application/zip'}
+
+
+def prop(name, value, limit=124):
+    """Drive caps each appProperty at 124 UTF-8 bytes, key and value together: a longer value keeps a prefix cut on
+    a character boundary plus a hash of the whole value, so it stays unique."""
+    room = limit - len(name.encode())
+    if len(value.encode()) <= room:
+        return value
+    tail = '#' + hashlib.sha256(value.encode()).hexdigest()[:16]
+    return value.encode()[:room - len(tail)].decode('utf-8', 'ignore') + tail
 
 
 def folder_name(n):
@@ -95,7 +106,7 @@ class Store(_Base):
         if fname not in self.folders:
             self.folders[fname] = self._folder(self.kind_roots[kind], fname[1])
         body = {'name': name, 'parents': [self.folders[fname]],
-                'appProperties': {'fdApp': APP, 'fdKind': kind, 'fdNum': str(n), 'fdKey': key[:100]}}
+                'appProperties': {'fdApp': APP, 'fdKind': kind, 'fdNum': str(n), 'fdKey': prop('fdKey', key)}}
         if google:
             body['mimeType'] = google
         import os
