@@ -203,15 +203,33 @@ def load(kind, s, log):
 
 
 # --- method choices (each model draws its own, from its key) ----------------------------------------------------
-POPULATION = {'births': ['rate_trend', 'fertility_fade', 'constant'], 'mortality': ['drift', 'ageing_linked'],
-              'migration': ['fade', 'hold', 'mean_revert']}
+POPULATION = {'births': ['rate_trend', 'fertility_fade', 'constant'], 'mortality': ['drift', 'ageing_linked', 'improvement_scale'],
+              'migration': ['fade', 'hold', 'mean_revert', 'trend_damped'],
+              'age_structure': ['share_trend', 'cohort_ageing', 'constant_shares'],
+              'households': ['constant_size', 'size_decline', 'headship_rate'],
+              'health_demand': ['age_weighted', 'per_capita', 'utilisation'],
+              'schools': ['enrolment_constant', 'enrolment_rising', 'class_size_target'],
+              'housing_need': ['vacancy_allowance', 'replacement', 'second_homes'],
+              'workforce': ['participation_constant', 'participation_trend', 'ageing_adjusted'],
+              'scenario_frame': ['symmetric', 'migration_led', 'fertility_led']}
 FISCAL = {'fiscal_rule': ['consolidation', 'debt_anchor', 'expenditure_rule', 'primary_target'],
           'interest': ['repricing', 'constant', 'r_g_spread'], 'growth_path': ['fade5', 'fade_full', 'exponential'],
-          'stress_severity': ['moderate', 'standard', 'severe']}
+          'stress_severity': ['moderate', 'standard', 'severe'],
+          'debt_currency': ['domestic', 'fx_share'], 'contingent': ['no_contingent', 'contingent_shock'],
+          'revenue': ['constant_ratio', 'buoyancy', 'tax_effort']}
 ECONOMY = {'growth_path': ['linear', 'exponential', 'persistence'], 'inflation': ['linear', 'adaptive'],
-           'labour': ['okun_gap', 'okun_change'], 'external': ['shares', 'elasticity']}
+           'labour': ['okun_gap', 'okun_change'], 'external': ['shares', 'elasticity'],
+           'potential': ['given_anchor', 'trend_history', 'production_function'],
+           'fiscal_stance': ['neutral_stance', 'consolidation_drag'],
+           'exchange_rate': ['no_passthrough', 'partial_passthrough', 'full_passthrough'],
+           'investment': ['constant_share', 'accelerator'], 'policy_rate': ['neutral_rate', 'taylor_rule']}
 PROJECT = {'discounting': ['sdr_constant', 'sdr_declining', 'sdr_high'], 'benefit_ramp': ['linear', 's_curve', 'immediate'],
-           'risk': ['none', 'expected_value', 'optimism_bias'], 'prices': ['real', 'nominal']}
+           'risk': ['none', 'expected_value', 'optimism_bias'], 'prices': ['real', 'nominal'],
+           'residual': ['fixed_share', 'no_residual', 'straight_line', 'perpetuity_value'],
+           'overrun': ['no_overrun', 'reference_class', 'contingency'],
+           'benefit_basis': ['sector_rate', 'willingness_to_pay', 'avoided_cost', 'productivity_growth'],
+           'distribution': ['unweighted', 'equity_weighted'], 'labour_cost': ['scf_only', 'shadow_wage'],
+           'carbon': ['no_carbon', 'shadow_carbon'], 'financing': ['loan_counterpart', 'grant_share', 'ppp_availability']}
 GOV_MODULES = {'gov_population': ['growth_sources'], 'gov_fiscal': ['debt_decomposition'], 'gov_economy': ['demand_contributions'],
                'gov_project': ['fiscal_impact']}
 GOV_WHY = {
@@ -252,6 +270,68 @@ GOV_WHY = {
     'optimism_bias': 'economic costs carry an optimism-bias uplift, as appraisals tend to understate them',
     'real': 'flows in constant prices discounted at a real rate',
     'nominal': 'benefits and running costs escalate with inflation and are discounted at the nominal rate',
+    'improvement_scale': 'death rates fall with a mortality-improvement scale, partly offset by ageing',
+    'trend_damped': 'migration follows its recent linear trend, damped towards zero change',
+    'share_trend': 'age shares follow their recent linear trends',
+    'cohort_ageing': 'the 65+ share is pushed up by cohorts ageing in; the child share follows births',
+    'constant_shares': 'age shares are held at the latest year',
+    'constant_size': 'households at a constant average size',
+    'size_decline': 'average household size keeps falling, so households grow faster than population',
+    'headship_rate': 'households from adults and a headship rate (households per adult)',
+    'age_weighted': 'hospital beds scale with population and the change in the 65+ share',
+    'per_capita': 'hospital beds at a flat rate per 1,000 people',
+    'utilisation': 'hospital beds from age-specific utilisation: older residents use several times more care',
+    'enrolment_constant': 'school enrolment and class sizes stay at the standards',
+    'enrolment_rising': 'school enrolment rises towards universal coverage',
+    'class_size_target': 'pupils per teacher fall to a policy target',
+    'vacancy_allowance': 'housing need is households plus a vacancy allowance',
+    'replacement': 'housing need adds the replacement of obsolete homes each year',
+    'second_homes': 'housing need adds second and vacation homes as a share of the stock',
+    'participation_constant': 'the labour force at a constant participation rate of the working-age population',
+    'participation_trend': 'participation rises towards a target (more women and older workers in work)',
+    'ageing_adjusted': 'participation falls as the population ages (fewer workers per resident)',
+    'symmetric': 'High and Low scenarios move fertility, mortality and migration together',
+    'migration_led': 'the High and Low scenarios are driven mainly by migration',
+    'fertility_led': 'the High and Low scenarios are driven mainly by fertility',
+    'domestic': 'all debt is in local currency',
+    'fx_share': 'part of the debt is in foreign currency, so depreciation raises the debt stock',
+    'no_contingent': 'no contingent liabilities are tested',
+    'contingent_shock': 'a contingent-liability shock (e.g. a bank or state-enterprise bail-out) adds to debt in the second year',
+    'constant_ratio': 'revenue stays at its recent share of GDP',
+    'buoyancy': 'revenue grows faster than GDP through a buoyancy above one',
+    'tax_effort': 'revenue rises with a tax-effort programme up to a ceiling',
+    'given_anchor': 'potential growth is a policy anchor',
+    'trend_history': 'potential growth is the ten-year average of actual growth',
+    'production_function': 'potential growth from labour, capital deepening and productivity (a production function)',
+    'neutral_stance': 'fiscal policy is neutral for growth',
+    'consolidation_drag': 'fiscal consolidation lowers government consumption and drags on growth through a multiplier',
+    'no_passthrough': 'the exchange rate does not feed into prices',
+    'partial_passthrough': 'part of a steady depreciation passes through to inflation',
+    'full_passthrough': 'most of a steady depreciation passes through to inflation, as in very open economies',
+    'constant_share': 'investment stays at its recent share of GDP',
+    'accelerator': 'investment responds to the growth gap (accelerator)',
+    'neutral_rate': 'the policy rate moves to the neutral real rate plus target inflation',
+    'taylor_rule': 'the policy rate follows a Taylor rule on the inflation and growth gaps',
+    'fixed_share': 'the residual value is a fixed share of the capital cost',
+    'no_residual': 'no residual value: the asset is worn out at the end of the horizon',
+    'straight_line': 'residual value by straight-line depreciation over the physical life of the asset',
+    'perpetuity_value': 'residual value as the perpetuity of the final year\'s net benefits, capped at 1.5x the capital cost',
+    'no_overrun': 'capital costs as budgeted',
+    'reference_class': 'capital costs carry a reference-class uplift from comparable projects',
+    'contingency': 'capital costs carry a physical contingency',
+    'sector_rate': 'benefits at a typical rate of return for the sector',
+    'willingness_to_pay': 'benefits include consumer surplus above what users pay (willingness to pay)',
+    'avoided_cost': 'benefits are the costs avoided compared with the next-best alternative',
+    'productivity_growth': 'benefits grow with productivity gains among users',
+    'unweighted': 'benefits counted equally whoever receives them',
+    'equity_weighted': 'benefits to low-income groups carry a distributional weight',
+    'scf_only': 'all costs shadow-priced with the standard conversion factor',
+    'shadow_wage': 'unskilled labour in the cost is priced at a shadow wage below the market wage',
+    'no_carbon': 'emissions are not valued',
+    'shadow_carbon': 'operating emissions are valued at a rising shadow carbon price',
+    'loan_counterpart': 'the external loan plus government counterpart funding',
+    'grant_share': 'part of the counterpart funding comes from grants',
+    'ppp_availability': 'a private partner funds the counterpart share; the government pays availability payments',
 }
 STRESS = {'moderate': (-0.02, 0.01, -0.01), 'standard': (-0.03, 0.02, -0.015), 'severe': (-0.045, 0.03, -0.025)}
 
@@ -359,9 +439,18 @@ def population(e, profile=None):
         si.add('cbr_conv', 'Long-run birth rate as a share of the recent rate', round(gv.rng.uniform(0.8, 0.95), 3), '0.000')
     if X['mortality'] == 'ageing_linked':
         si.add('m_elast', 'Elasticity of the death rate to the 65+ share', round(gv.rng.uniform(0.6, 1.0), 2), '0.00')
-    live, name_ref, sw = _scenario(wb, si, [('fert', 'Birth rate multiplier', (1.0, 1.08, 0.92), '0.00"x"'),
-                                            ('mort', 'Death rate multiplier', (1.0, 0.96, 1.05), '0.00"x"'),
-                                            ('mig', 'Migration multiplier', (1.0, 1.35, 0.55), '0.00"x"')])
+    if X['mortality'] == 'improvement_scale':
+        si.add('m_impr', 'Mortality improvement per year', round(gv.rng.uniform(0.008, 0.016), 4), PCT)
+    if X['migration'] == 'trend_damped':
+        si.add('m_damp', 'Damping of the migration trend per year', round(gv.rng.uniform(0.6, 0.85), 2), '0.00')
+    if X['age_structure'] == 'cohort_ageing':
+        si.add('age_push', 'Extra rise in the 65+ share per year from cohorts ageing in', round(gv.rng.uniform(0.001, 0.003), 4), PCT)
+    frame = {'symmetric': ((1.0, 1.08, 0.92), (1.0, 0.96, 1.05), (1.0, 1.35, 0.55)),
+             'migration_led': ((1.0, 1.02, 0.98), (1.0, 0.99, 1.01), (1.0, 1.6, 0.4)),
+             'fertility_led': ((1.0, 1.15, 0.85), (1.0, 0.98, 1.02), (1.0, 1.1, 0.9))}[X['scenario_frame']]
+    live, name_ref, sw = _scenario(wb, si, [('fert', 'Birth rate multiplier', frame[0], '0.00"x"'),
+                                            ('mort', 'Death rate multiplier', frame[1], '0.00"x"'),
+                                            ('mig', 'Migration multiplier', frame[2], '0.00"x"')])
     pi = Inputs(wb, 'Planning Inputs', head('Public-service planning standards and unit costs'))
     has_age = 'y014' in e
     pi.section('Age structure (used when the place has no age detail)')
@@ -375,6 +464,27 @@ def population(e, profile=None):
            ('waste', 'Municipal waste (kg per person per day)', 2.2, '0.0'), ('enrol', 'School enrolment rate (school-age)', 0.95, PCT)]
     for key, label, v, fmt in std:
         pi.add(key, label, v, fmt)
+    pi.section('Method settings')
+    if X['households'] == 'size_decline':
+        pi.add('hh_dec', 'Annual decline in average household size', round(gv.rng.uniform(0.003, 0.008), 4), PCT)
+    if X['households'] == 'headship_rate':
+        pi.add('head', 'Headship rate (households per adult aged 15+)', round(gv.rng.uniform(0.45, 0.52), 3), '0.000')
+    if X['health_demand'] == 'utilisation':
+        pi.add('u_young', 'Beds per 1,000 residents under 65', 2.0, '0.0')
+        pi.add('u_old', 'Beds per 1,000 residents aged 65+', round(gv.rng.uniform(7.0, 10.0), 1), '0.0')
+    if X['schools'] == 'enrolment_rising':
+        pi.add('enrol_tgt', 'Target enrolment rate by the final year', 0.99, PCT)
+    if X['schools'] == 'class_size_target':
+        pi.add('ptr_tgt', 'Target pupils per teacher by the final year', round(gv.rng.uniform(12.0, 15.0), 1), '0.0')
+    if X['housing_need'] == 'replacement':
+        pi.add('repl', 'Obsolete homes replaced per year (% of stock)', round(gv.rng.uniform(0.003, 0.008), 4), PCT)
+    if X['housing_need'] == 'second_homes':
+        pi.add('second', 'Second and vacation homes (% of households)', round(gv.rng.uniform(0.02, 0.06), 3), PCT)
+    pi.add('part', 'Labour force participation (% of population aged 15-64)', round(gv.rng.uniform(0.70, 0.78), 3), PCT)
+    if X['workforce'] == 'participation_trend':
+        pi.add('part_tgt', 'Participation target by the final year', round(gv.rng.uniform(0.78, 0.83), 3), PCT)
+    if X['workforce'] == 'ageing_adjusted':
+        pi.add('part_old', 'Participation of residents aged 65+', round(gv.rng.uniform(0.15, 0.25), 3), PCT)
     pi.section('Capital cost per unit (USD thousands)')
     for key, label, v in [('c_house', 'Housing unit', 320.0), ('c_bed', 'Hospital bed', 950.0), ('c_place', 'School place', 45.0),
                           ('c_water', 'Water capacity per 1,000 litres a day', 2.6)]:
@@ -409,9 +519,12 @@ def population(e, profile=None):
         ('intl_lr', 'Net international migration per year (full-history average) x scenario', f'AVERAGE({pr.span("intl", 0, hi)})*{live["mig"]}'),
         ('dom_lr', 'Net domestic migration per year (full-history average) x scenario', f'AVERAGE({pr.span("dom", 0, hi)})*{live["mig"]}'),
         ('d014', 'Annual change in the 0-14 share', f'IFERROR(SLOPE({pr.span("y014", a10, hi)},{pr.span("t", a10, hi)}),0)' if has_age else f'{P("sh014")}-{P("sh014")}'),
-        ('d65', 'Annual change in the 65+ share', f'IFERROR(SLOPE({pr.span("y65", a10, hi)},{pr.span("t", a10, hi)}),0)' if has_age else f'{P("sh65")}-{P("sh65")}')]:
+        ('d65', 'Annual change in the 65+ share', f'IFERROR(SLOPE({pr.span("y65", a10, hi)},{pr.span("t", a10, hi)}),0)' if has_age else f'{P("sh65")}-{P("sh65")}'),
+        ('dintl', 'Recent trend in net international migration per year', f'IFERROR(SLOPE({span("intl")},{span("t")}),0)'),
+        ('ddom', 'Recent trend in net domestic migration per year', f'IFERROR(SLOPE({span("dom")},{span("t")}),0)')]:
         asm.row(key, label)
         asm.set(key, 0, f'={f}', '#,##0.000' if key in ('cbr', 'cdr', 'd014', 'd65') else PEOPLE)
+
     A = lambda k: asm.ref(k, 0, absolute=True)  # noqa: E731
     for j in range(n):
         p, h = j - 1, j < nh
@@ -435,12 +548,17 @@ def population(e, profile=None):
             pr.set('births', j, f'={R("open", j)}/1000*{cbr}', PEOPLE)
             if X['mortality'] == 'ageing_linked':
                 cdr = f'{A("cdr")}*MAX(0.5,1+{si.ref("m_elast")}*IFERROR(({R("y65", p)}-{R("y65", hi)})/{R("y65", hi)},0))'
+            elif X['mortality'] == 'improvement_scale':
+                cdr = f'{A("cdr")}*(1+{si.ref("mort_drift")})^({k})*(1-{si.ref("m_impr")})^({k})'
             else:
                 cdr = f'{A("cdr")}*(1+{si.ref("mort_drift")})^({k})'
             pr.set('deaths', j, f'=-{R("open", j)}/1000*{cdr}', PEOPLE)
             if X['migration'] == 'hold':
                 pr.set('intl', j, f'={A("intl")}', PEOPLE)
                 pr.set('dom', j, f'={A("dom")}', PEOPLE)
+            elif X['migration'] == 'trend_damped':
+                pr.set('intl', j, f'={R("intl", p)}+{A("dintl")}*{si.ref("m_damp")}^({k})', PEOPLE)
+                pr.set('dom', j, f'={R("dom", p)}+{A("ddom")}*{si.ref("m_damp")}^({k})', PEOPLE)
             elif X['migration'] == 'mean_revert':
                 pr.set('intl', j, f'={A("intl")}+({A("intl_lr")}-{A("intl")})*({k})/{horizon}', PEOPLE)
                 pr.set('dom', j, f'={A("dom")}+({A("dom_lr")}-{A("dom")})*({k})/{horizon}', PEOPLE)
@@ -450,8 +568,15 @@ def population(e, profile=None):
                 pr.set('dom', j, f'={A("dom")}*{fade}', PEOPLE)
             pr.set('resid', j, f'={R("t", j)}-{R("t", j)}', PEOPLE)
             pr.set('close', j, f'={R("open", j)}+{R("natural", j)}+{R("netmig", j)}+{R("resid", j)}', PEOPLE, bold=True)
-            pr.set('y014', j, f'=MAX(0.05,MIN(0.6,{R("y014", p)}+{A("d014")}))', PCT)
-            pr.set('y65', j, f'=MAX(0.01,MIN(0.45,{R("y65", p)}+{A("d65")}))', PCT)
+            if X['age_structure'] == 'constant_shares':
+                pr.set('y014', j, f'={R("y014", p)}', PCT)
+                pr.set('y65', j, f'={R("y65", p)}', PCT)
+            elif X['age_structure'] == 'cohort_ageing':
+                pr.set('y014', j, f'=MAX(0.05,MIN(0.6,{R("y014", p)}*IFERROR({R("cbr", j)}/{R("cbr", hi)},1)))', PCT)
+                pr.set('y65', j, f'=MAX(0.01,MIN(0.45,{R("y65", p)}+MAX(0,{A("d65")})+{si.ref("age_push")}))', PCT)
+            else:
+                pr.set('y014', j, f'=MAX(0.05,MIN(0.6,{R("y014", p)}+{A("d014")}))', PCT)
+                pr.set('y65', j, f'=MAX(0.01,MIN(0.45,{R("y65", p)}+{A("d65")}))', PCT)
         pr.set('y1564', j, f'=1-{R("y014", j)}-{R("y65", j)}', PCT)
         pr.set('dep', j, f'=IFERROR(({R("y014", j)}+{R("y65", j)})/{R("y1564", j)},0)', PCT)
         pr.set('old', j, f'=IFERROR({R("y65", j)}/{R("y1564", j)},0)', PCT)
@@ -473,7 +598,8 @@ def population(e, profile=None):
 
     sp = Sheet(wb, 'Service Planning', head('Public-service needs and capital investment (live scenario)'), periods[hi:], 1, unit='Units as stated')
     for key, label, bold, sec in [
-        ('pop', 'Population', True, 'Demand'), ('hh', 'Households', False, None), ('homes', 'Housing units required', False, None),
+        ('pop', 'Population', True, 'Demand'), ('hh_size', 'Average household size', False, None), ('hh', 'Households', False, None),
+        ('homes', 'Housing units required', False, None), ('enrol', 'Enrolment rate', False, None), ('ptr', 'Pupils per teacher', False, None),
         ('pupils', 'School pupils', False, None), ('teachers', 'Teachers required', False, None),
         ('beds', 'Hospital beds required', False, None), ('police', 'Police officers required', False, None),
         ('water', 'Water demand (million litres a day)', False, None), ('waste', 'Municipal waste (tonnes a year)', False, None),
@@ -481,19 +607,41 @@ def population(e, profile=None):
         ('d_beds', 'Additional hospital beds', False, None), ('d_water', 'Additional water capacity (million litres a day)', False, None),
         ('cap_house', 'Housing', False, 'Capital investment in the year (USD millions)'), ('cap_school', 'Schools', False, None),
         ('cap_health', 'Hospitals', False, None), ('cap_water', 'Water', False, None), ('cap', 'Total capital investment', True, None),
-        ('cap_cum', 'Cumulative capital investment', True, None), ('cap_pc', 'Capital investment per resident (USD)', False, None)]:
+        ('cap_cum', 'Cumulative capital investment', True, None), ('cap_pc', 'Capital investment per resident (USD)', False, None),
+        ('part', 'Participation rate', False, 'Workforce'), ('lf', 'Labour force', False, None),
+        ('lf_pc', 'Workers per resident', False, None)]:
         sp.row(key, label, bold, section=sec)
     S = sp.ref
     m = n - hi
     for jj in range(m):
         j, p = hi + jj, jj - 1
         school = f'IF({R("y014", j)}={P("sh014")},{P("sh517")},{R("y014", j)}*{P("sh517")}/{P("sh014")})'
+        tt = f'{jj}/{m - 1}'  # share of the projection elapsed
         sp.set('pop', jj, f'={R("close", j)}', PEOPLE, bold=True)
-        sp.set('hh', jj, f'={S("pop", jj)}/{P("hh")}', PEOPLE)
-        sp.set('homes', jj, f'={S("hh", jj)}*(1+{P("vac")})', PEOPLE)
-        sp.set('pupils', jj, f'={S("pop", jj)}*{school}*{P("enrol")}', PEOPLE)
-        sp.set('teachers', jj, f'=IFERROR({S("pupils", jj)}/{P("ptr")},0)', PEOPLE)
-        sp.set('beds', jj, f'={S("pop", jj)}/1000*{P("beds")}*(1+({R("y65", j)}-{R("y65", hi)}))', PEOPLE)
+        if X['households'] == 'headship_rate':
+            sp.set('hh', jj, f'={S("pop", jj)}*(1-{R("y014", j)})*{P("head")}', PEOPLE)
+            sp.set('hh_size', jj, f'=IFERROR({S("pop", jj)}/{S("hh", jj)},0)', '0.00')
+        else:
+            sp.set('hh_size', jj, f'={P("hh")}*(1-{P("hh_dec")})^{jj}' if X['households'] == 'size_decline' else f'={P("hh")}', '0.00')
+            sp.set('hh', jj, f'={S("pop", jj)}/{S("hh_size", jj)}', PEOPLE)
+        extra = (f'+{S("hh", 0)}*{P("repl")}*{jj}' if X['housing_need'] == 'replacement' else
+                 f'+{S("hh", jj)}*{P("second")}' if X['housing_need'] == 'second_homes' else '')
+        sp.set('homes', jj, f'={S("hh", jj)}*(1+{P("vac")}){extra}', PEOPLE)
+        sp.set('enrol', jj, f'={P("enrol")}+({P("enrol_tgt")}-{P("enrol")})*{tt}' if X['schools'] == 'enrolment_rising' else f'={P("enrol")}', PCT)
+        sp.set('ptr', jj, f'={P("ptr")}+({P("ptr_tgt")}-{P("ptr")})*{tt}' if X['schools'] == 'class_size_target' else f'={P("ptr")}', '0.0')
+        sp.set('pupils', jj, f'={S("pop", jj)}*{school}*{S("enrol", jj)}', PEOPLE)
+        sp.set('teachers', jj, f'=IFERROR({S("pupils", jj)}/{S("ptr", jj)},0)', PEOPLE)
+        if X['health_demand'] == 'per_capita':
+            sp.set('beds', jj, f'={S("pop", jj)}/1000*{P("beds")}', PEOPLE)
+        elif X['health_demand'] == 'utilisation':
+            sp.set('beds', jj, f'={S("pop", jj)}/1000*((1-{R("y65", j)})*{P("u_young")}+{R("y65", j)}*{P("u_old")})', PEOPLE)
+        else:
+            sp.set('beds', jj, f'={S("pop", jj)}/1000*{P("beds")}*(1+({R("y65", j)}-{R("y65", hi)}))', PEOPLE)
+        part = f'{P("part")}+({P("part_tgt")}-{P("part")})*{tt}' if X['workforce'] == 'participation_trend' else P('part')
+        sp.set('part', jj, f'={part}', PCT)
+        old_w = f'+{S("pop", jj)}*{R("y65", j)}*{P("part_old")}' if X['workforce'] == 'ageing_adjusted' else ''
+        sp.set('lf', jj, f'={S("pop", jj)}*{R("y1564", j)}*{S("part", jj)}{old_w}', PEOPLE)
+        sp.set('lf_pc', jj, f'=IFERROR({S("lf", jj)}/{S("pop", jj)},0)', PCT)
         sp.set('police', jj, f'={S("pop", jj)}/1000*{P("police")}', PEOPLE)
         sp.set('water', jj, f'={S("pop", jj)}*{P("water")}/1000000', '#,##0.00')
         sp.set('waste', jj, f'={S("pop", jj)}*{P("waste")}*365/1000', PEOPLE)
@@ -523,7 +671,7 @@ def population(e, profile=None):
         ('Planning Inputs', 'Service standards and capital unit costs (inputs)'),
         ('Assumptions', 'Component rates from the historical years with the live scenario'),
         ('Projection', f'{horizon}-year projection by components of change, with age structure and dependency ratios'),
-        ('Service Planning', 'Housing, schools, hospitals, water, waste and policing needs with capital investment')]
+        ('Service Planning', 'Housing, schools, hospitals, water, waste and policing needs, capital investment and the workforce')]
     chk = [(f'Components add up ({periods[j]})', R('chk', j)) for j in range(1, n)] + [sw]
     enterprise._methods_note(si.ws, si.next_row + 1, X, GOV_WHY)
     wb.variant = gv
@@ -586,6 +734,16 @@ def fiscal(e, profile=None):
         si.add('pb_tgt', 'Primary balance target (% GDP, reached in five years)', round(gv.rng.uniform(0.0, 0.015), 4), PCT)
     if X['interest'] == 'r_g_spread':
         si.add('rg', 'Effective interest rate less nominal growth', round(gv.rng.uniform(-0.01, 0.02), 4), PCT)
+    if X['debt_currency'] == 'fx_share':
+        si.add('fx_sh', 'Foreign-currency share of debt', round(gv.rng.uniform(0.2, 0.5), 2), PCT)
+        si.add('dep', 'Expected depreciation of the local currency per year', round(gv.rng.uniform(0.01, 0.04), 3), PCT)
+    if X['contingent'] == 'contingent_shock':
+        si.add('cl', 'Contingent liabilities realised (% GDP, second year)', round(gv.rng.uniform(0.03, 0.10), 3), PCT)
+    if X['revenue'] == 'buoyancy':
+        si.add('buoy', 'Revenue buoyancy (revenue growth / nominal GDP growth)', round(gv.rng.uniform(1.05, 1.2), 2), '0.00')
+    if X['revenue'] == 'tax_effort':
+        si.add('effort', 'Tax-effort gain per year (% GDP)', round(gv.rng.uniform(0.001, 0.004), 4), PCT)
+        si.add('rev_cap', 'Revenue ceiling (% GDP)', round(gv.rng.uniform(0.25, 0.4), 3), PCT)
     live, name_ref, sw = _scenario(wb, si, [('g', 'Real growth adjustment', (0.0, 0.0075, -0.01), PCT),
                                             ('rev', 'Revenue effort (% GDP)', (0.0, 0.005, -0.0075), PCT),
                                             ('i', 'Interest rate adjustment', (0.0, -0.005, 0.0125), PCT)],
@@ -636,7 +794,12 @@ def fiscal(e, profile=None):
             fa.set('g', j, f'={A("g0")}+({S_("lt_g")}-{A("g0")})*{conv}', PCT)
             fa.set('pi', j, f'={A("pi0")}+({S_("lt_pi")}-{A("pi0")})*{conv}', PCT)
             fa.set('gdp', j, f'={R("gdp", p)}*(1+{R("ng", j)})', BN, bold=True)
-            fa.set('rev', j, f'={R("gdp", j)}*{A("rev")}', BN, bold=True)
+            if X['revenue'] == 'buoyancy':
+                fa.set('rev', j, (f'={R("gdp", j)}*{A("rev")}' if j == F0 else f'={R("rev", p)}*(1+{R("ng", j)}*{S_("buoy")})'), BN, bold=True)
+            elif X['revenue'] == 'tax_effort':
+                fa.set('rev', j, f'={R("gdp", j)}*MIN(MAX({S_("rev_cap")},{A("rev")}),{A("rev")}+{S_("effort")}*{R("t", j)})', BN, bold=True)
+            else:
+                fa.set('rev', j, f'={R("gdp", j)}*{A("rev")}', BN, bold=True)
             fa.set('tax', j, f'={R("rev", j)}*{A("tax_s")}', BN)
             if X['interest'] == 'constant':
                 rate = A('i')
@@ -659,7 +822,10 @@ def fiscal(e, profile=None):
             else:
                 fa.set('pexp', j, f'={R("gdp", j)}*({A("pexp")}-{S_("adj")}*MIN(5,{R("t", j)}))', BN)
             fa.set('exp', j, f'={R("pexp", j)}+{R("int", j)}', BN, bold=True)
-            fa.set('sfa', j, f'={R("t", j)}-{R("t", j)}', BN)
+            if X['debt_currency'] == 'fx_share':
+                fa.set('sfa', j, f'={R("d_open", j)}*{S_("fx_sh")}*{S_("dep")}', BN)  # valuation effect of depreciation
+            else:
+                fa.set('sfa', j, f'={R("t", j)}-{R("t", j)}', BN)
             fa.set('debt', j, f'={R("d_open", j)}+{R("borrow", j)}+{R("sfa", j)}', BN, bold=True)
         if h:
             fa.set('pexp', j, f'={R("exp", j)}-{R("int", j)}', BN)
@@ -683,7 +849,8 @@ def fiscal(e, profile=None):
     for key, label, bold, sec in [
         ('base', 'Debt - live scenario', True, 'Debt paths'), ('s_g', 'Debt - growth shock', False, None),
         ('s_i', 'Debt - interest rate shock', False, None), ('s_pb', 'Debt - primary balance shock', False, None),
-        ('s_c', 'Debt - combined shock', False, None),
+        ('s_c', 'Debt - combined shock', False, None)] + (
+        [('s_cl', 'Debt - contingent-liability shock', False, None)] if X['contingent'] == 'contingent_shock' else []) + [
         ('ig', 'Interest-growth differential (r - g)', False, 'Dynamics'), ('stab', 'Debt-stabilising primary balance', False, None),
         ('gap', 'Primary balance gap (actual - stabilising)', False, None),
         ('gfn', 'Gross financing needs', True, 'Financing'), ('gfn_test', 'Financing needs test', False, None),
@@ -700,7 +867,7 @@ def fiscal(e, profile=None):
     for jj in range(m):
         j, p = hi + jj, jj - 1
         if jj == 0:
-            for key in ('base', 's_g', 's_i', 's_pb', 's_c'):
+            for key in ('base', 's_g', 's_i', 's_pb', 's_c') + (('s_cl',) if X['contingent'] == 'contingent_shock' else ()):
                 dsa.set(key, 0, f'={R("debt_pct", hi)}', PCT, bold=key == 'base')
             continue
         shock2 = f'IF({jj}<=2,1,0)'
@@ -711,6 +878,8 @@ def fiscal(e, profile=None):
         dsa.set('s_pb', jj, f'={Q("s_pb", p)}*(1+{r_})/(1+{g_})-({pb}+{S_("s_pb")}*{shock2})', PCT)
         dsa.set('s_c', jj, f'={Q("s_c", p)}*(1+{r_}+{S_("s_i")}*MIN(1,{jj}/{S_("mat")}))/(1+{g_}+{S_("s_g")}*{shock2})'
                 f'-({pb}+({S_("s_pb")}+{S_("s_g")}*{R("rev_pct", j)})*{shock2})', PCT)
+        if X['contingent'] == 'contingent_shock':
+            dsa.set('s_cl', jj, f'={Q("s_cl", p)}*(1+{r_})/(1+{g_})-{pb}+IF({jj}=2,{S_("cl")},0)', PCT)
         dsa.set('ig', jj, f'=({r_}-{g_})/(1+{g_})', PCT)
         dsa.set('stab', jj, f'={Q("base", p)}*{Q("ig", jj)}', PCT)
         dsa.set('gap', jj, f'={pb}-{Q("stab", jj)}', PCT)
@@ -725,7 +894,8 @@ def fiscal(e, profile=None):
     items = [('d0', f'Debt % GDP {periods[hi]}', f'={R("debt_pct", hi)}', PCT),
              ('d1', f'Debt % GDP {periods[FN]} (live scenario)', f'={R("debt_pct", FN)}', PCT),
              ('dmax', 'Highest debt % GDP under the stress tests', f'=MAX({dsa.span("s_g", 1, m - 1)},{dsa.span("s_i", 1, m - 1)},'
-              f'{dsa.span("s_pb", 1, m - 1)},{dsa.span("s_c", 1, m - 1)})', PCT),
+              f'{dsa.span("s_pb", 1, m - 1)},{dsa.span("s_c", 1, m - 1)}'
+              + (f',{dsa.span("s_cl", 1, m - 1)}' if X['contingent'] == 'contingent_shock' else '') + ')', PCT),
              ('pb', 'Average primary balance % GDP, forecast', f'=AVERAGE({fa.span("pb_pct", F0, FN)})', PCT),
              ('stab', 'Debt-stabilising primary balance, first forecast year', f'={Q("stab", 1)}', PCT),
              ('gfn', 'Peak gross financing needs % GDP', f'=MAX({dsa.span("gfn", 1, m - 1)})', PCT)]
@@ -794,6 +964,24 @@ def economy(e, profile=None):
     if X['external'] == 'elasticity':
         si.add('ext_g', 'Real growth of export markets', round(gv.rng.uniform(0.02, 0.035), 4), PCT)
         si.add('m_el', 'Income elasticity of imports', round(gv.rng.uniform(1.1, 1.6), 2), '0.00')
+    if X['potential'] == 'production_function':
+        si.add('tfp', 'Total factor productivity growth', round(gv.rng.uniform(0.006, 0.015), 4), PCT)
+        si.add('alpha', 'Capital share of income', round(gv.rng.uniform(0.3, 0.4), 2), '0.00')
+        si.add('ky', 'Capital-output ratio', round(gv.rng.uniform(2.5, 3.5), 1), '0.0')
+        si.add('dk', 'Depreciation of the capital stock', 0.05, PCT)
+    if X['fiscal_stance'] == 'consolidation_drag':
+        si.add('cons', 'Cut in government consumption per year (% GDP, three years)', round(gv.rng.uniform(0.002, 0.006), 4), PCT)
+        si.add('mult', 'Fiscal multiplier', round(gv.rng.uniform(0.4, 1.0), 2), '0.00')
+    if X['exchange_rate'] != 'no_passthrough':
+        si.add('depr', 'Steady depreciation of the currency per year', round(gv.rng.uniform(0.02, 0.06), 3), PCT)
+        si.add('pt', 'Pass-through of depreciation to inflation', round(gv.rng.uniform(0.1, 0.25), 2) if X['exchange_rate'] == 'partial_passthrough'
+               else round(gv.rng.uniform(0.5, 0.8), 2), '0.00')
+    if X['investment'] == 'accelerator':
+        si.add('acc', 'Investment response to the growth gap (% GDP per pp)', round(gv.rng.uniform(0.3, 0.8), 2), '0.00')
+    si.add('r_neutral', 'Neutral real interest rate', round(gv.rng.uniform(0.005, 0.02), 4), PCT)
+    if X['policy_rate'] == 'taylor_rule':
+        si.add('t_pi', 'Taylor-rule weight on the inflation gap', 0.5, '0.00')
+        si.add('t_y', 'Taylor-rule weight on the growth gap', 0.5, '0.00')
     live, name_ref, sw = _scenario(wb, si, [('g', 'Real growth adjustment', (0.0, 0.01, -0.015), PCT),
                                             ('pi', 'Inflation adjustment', (0.0, -0.005, 0.02), PCT),
                                             ('inv', 'Investment ratio adjustment (% GDP)', (0.0, 0.01, -0.015), PCT)],
@@ -812,7 +1000,8 @@ def economy(e, profile=None):
         ('sav', 'National saving (investment + current account)', False, None), ('sav_pct', 'Saving % GDP', False, None),
         ('u', 'Unemployment rate', False, 'Labour market'), ('gap', 'Growth gap vs potential', False, None),
         ('pop', 'Population (millions)', False, 'Living standards'), ('gdppc', 'GDP per person (local currency, thousands)', False, None),
-        ('pc_g', 'Real GDP per person growth', False, None), ('chk', 'Check: expenditure = GDP', False, 'Checks')]:
+        ('pc_g', 'Real GDP per person growth', False, None), ('rate', 'Policy interest rate', False, 'Monetary policy'),
+        ('real_rate', 'Real policy rate', False, None), ('chk', 'Check: expenditure = GDP', False, 'Checks')]:
         mf.row(key, label, bold, section=sec)
     if gv.has('demand_contributions'):
         for key, label in [('k_c', 'Household consumption'), ('k_g', 'Government consumption'), ('k_i', 'Investment'),
@@ -826,7 +1015,12 @@ def economy(e, profile=None):
         ('c', 'Household consumption % GDP', share('c')), ('gc', 'Government consumption % GDP', share('g')),
         ('inv', 'Investment % GDP + scenario', f'{share("i")}+{live["inv"]}'), ('x', 'Exports % GDP', share('x')),
         ('m', 'Imports % GDP', share('m')), ('ca_nx', 'Current account less net exports % GDP (income, transfers)',
-                                              f'{share("ca")}-({share("x")}-{share("m")})')]:
+                                              f'{share("ca")}-({share("x")}-{share("m")})'),
+        ('pot', {'given_anchor': 'Potential real growth (anchor)', 'trend_history': 'Potential real growth (ten-year average of actual growth)',
+                 'production_function': 'Potential real growth (labour + capital deepening + productivity)'}[X['potential']],
+         (S_('pot') if X['potential'] == 'given_anchor' else
+          f'MAX(0,MIN(0.08,AVERAGE({mf.span("g", max(1, hi - 9), hi)})))' if X['potential'] == 'trend_history' else
+          f'MAX(0,MIN(0.08,(1-{S_("alpha")})*{S_("pop_g")}+{S_("alpha")}*({share("i")}/{S_("ky")}-{S_("dk")}-{S_("pop_g")})+{S_("tfp")}))'))]:
         asm.row(key, label)
         asm.set(key, 0, f'={f}', PCT)
     A = lambda k: asm.ref(k, 0, absolute=True)  # noqa: E731
@@ -845,33 +1039,39 @@ def economy(e, profile=None):
             mf.set('t', j, f'=N({R("t", p)})+1', '0')
             fade = f'MIN(1,{R("t", j)}/{S_("conv")})'
             first = j == F0
+            drag = f'-{S_("mult")}*{S_("cons")}*IF({R("t", j)}<=3,1,0)' if X['fiscal_stance'] == 'consolidation_drag' else ''
             if X['growth_path'] == 'exponential':
-                mf.set('g', j, f'={S_("pot")}+({A("g0")}-{S_("pot")})*{S_("speed")}^({R("t", j)}-1)', PCT)
+                mf.set('g', j, f'={A("pot")}+({A("g0")}-{A("pot")})*{S_("speed")}^({R("t", j)}-1){drag}', PCT)
             elif X['growth_path'] == 'persistence':
-                mf.set('g', j, f'={A("g0")}' if first else f'={S_("pot")}+({R("g", p)}-{S_("pot")})*{S_("persist")}', PCT)
+                mf.set('g', j, f'={A("g0")}{drag}' if first else f'={A("pot")}+({R("g", p)}-{A("pot")})*{S_("persist")}{drag}', PCT)
             else:
-                mf.set('g', j, f'={A("g0")}+({S_("pot")}-{A("g0")})*{fade}', PCT)
+                mf.set('g', j, f'={A("g0")}+({A("pot")}-{A("g0")})*{fade}{drag}', PCT)
+            fx = f'+{S_("pt")}*{S_("depr")}' if X['exchange_rate'] != 'no_passthrough' else ''
             if X['inflation'] == 'adaptive':
-                mf.set('pi', j, f'={A("pi0")}' if first else f'={R("pi", p)}+{S_("lam")}*({S_("lt_pi")}-{R("pi", p)})', PCT)
+                mf.set('pi', j, f'={A("pi0")}{fx}' if first else f'={R("pi", p)}+{S_("lam")}*({S_("lt_pi")}{fx}-{R("pi", p)})', PCT)
             else:
-                mf.set('pi', j, f'={A("pi0")}+({S_("lt_pi")}-{A("pi0")})*{fade}', PCT)
+                mf.set('pi', j, f'={A("pi0")}+({S_("lt_pi")}{fx}-{A("pi0")})*{fade}', PCT)
             mf.set('gdp', j, f'={R("gdp", p)}*(1+{R("g", j)})*(1+{R("pi", j)})', BN, bold=True)
-            mf.set('inv', j, f'={R("gdp", j)}*{A("inv")}', BN)
+            if X['investment'] == 'accelerator':
+                mf.set('inv', j, f'={R("gdp", j)}*MAX(0.05,{A("inv")}+{S_("acc")}*({R("g", j)}-{A("pot")}))', BN)
+            else:
+                mf.set('inv', j, f'={R("gdp", j)}*{A("inv")}', BN)
             if X['external'] == 'elasticity':
                 mf.set('x', j, f'={R("x", p)}*(1+{S_("ext_g")})*(1+{R("pi", j)})', BN)
                 mf.set('m', j, f'={R("m", p)}*(1+{R("g", j)}*{S_("m_el")})*(1+{R("pi", j)})', BN)
             else:
                 mf.set('x', j, f'={R("gdp", j)}*{A("x")}', BN)
                 mf.set('m', j, f'={R("gdp", j)}*{A("m")}', BN)
-            mf.set('gc', j, f'={R("gdp", j)}*{A("gc")}', BN)
+            cut = f'-{S_("cons")}*MIN(3,{R("t", j)})' if X['fiscal_stance'] == 'consolidation_drag' else ''
+            mf.set('gc', j, f'={R("gdp", j)}*MAX(0.02,{A("gc")}{cut})', BN)
             mf.set('disc', j, f'={R("t", j)}-{R("t", j)}', BN)
             # Household consumption closes the identity in the forecast.
             mf.set('c', j, f'={R("gdp", j)}-({R("gc", j)}+{R("inv", j)}+{R("x", j)}-{R("m", j)})-{R("disc", j)}', BN)
             mf.set('ca', j, f'={R("nx", j)}+{R("gdp", j)}*{A("ca_nx")}', BN)
             if X['labour'] == 'okun_change':
-                mf.set('u', j, f'=MAX(0,{R("u", p)}-{S_("okun")}*({R("g", j)}-{S_("pot")}))', PCT)
+                mf.set('u', j, f'=MAX(0,{R("u", p)}-{S_("okun")}*({R("g", j)}-{A("pot")}))', PCT)
             else:
-                mf.set('u', j, f'=MAX(0,{R("u", p)}-{S_("okun")}*({R("g", j)}-{S_("pot")})+({S_("nairu")}-{R("u", p)})*0.2)', PCT)
+                mf.set('u', j, f'=MAX(0,{R("u", p)}-{S_("okun")}*({R("g", j)}-{A("pot")})+({S_("nairu")}-{R("u", p)})*0.2)', PCT)
             mf.set('pop', j, f'={R("pop", p)}*(1+{S_("pop_g")})', '#,##0.00')
         mf.set('real', j, f'=100*{R("gdp", j)}/{R("gdp", hi)}' if j == hi else
                (f'={R("real", j + 1)}/(1+{R("g", j + 1)})' if j < hi else f'={R("real", p)}*(1+{R("g", j)})'), '0.0')
@@ -879,7 +1079,12 @@ def economy(e, profile=None):
         mf.set('nx', j, f'={R("x", j)}-{R("m", j)}', BN)
         mf.set('sav', j, f'={R("inv", j)}+{R("ca", j)}', BN)
         mf.set('sav_pct', j, f'=IFERROR({R("sav", j)}/{R("gdp", j)},0)', PCT)
-        mf.set('gap', j, f'={R("g", j)}-{S_("pot")}', PCT)
+        mf.set('gap', j, f'={R("g", j)}-{A("pot")}', PCT)
+        if X['policy_rate'] == 'taylor_rule':
+            mf.set('rate', j, f'=MAX(0,{S_("r_neutral")}+{R("pi", j)}+{S_("t_pi")}*({R("pi", j)}-{S_("lt_pi")})+{S_("t_y")}*{R("gap", j)})', PCT)
+        else:
+            mf.set('rate', j, f'=MAX(0,{S_("r_neutral")}+{S_("lt_pi")}+({R("pi", j)}-{S_("lt_pi")})*IF({j}<{F0},1,MAX(0,1-{R("t", j)}/{S_("conv")})))', PCT)
+        mf.set('real_rate', j, f'={R("rate", j)}-{R("pi", j)}', PCT)
         mf.set('gdppc', j, f'=IFERROR({R("gdp", j)}/{R("pop", j)},0)', '#,##0.00')
         if j:
             mf.set('pc_g', j, f'=IFERROR(({R("real", j)}/{R("pop", j)})/({R("real", p)}/{R("pop", p)})-1,0)', PCT)
@@ -963,6 +1168,33 @@ def project(e, market, profile=None):
         ai.add('ob', 'Optimism-bias uplift on economic costs', round(gv.rng.uniform(0.1, 0.3), 2), PCT)
     if X['prices'] == 'nominal':
         ai.add('infl', 'Inflation for benefits and running costs', round(gv.rng.uniform(0.02, 0.035), 4), PCT)
+    if X['residual'] == 'straight_line':
+        ai.add('asset_life', 'Physical life of the asset (years after completion)', float(life + gv.rng.choice([10, 15, 20, 25])), '0')
+    if X['overrun'] == 'reference_class':
+        ai.add('rc', 'Reference-class uplift on capital cost', round(gv.rng.uniform(0.2, 0.45), 2), PCT)
+    if X['overrun'] == 'contingency':
+        ai.add('cont', 'Physical contingency on capital cost', round(gv.rng.uniform(0.05, 0.15), 2), PCT)
+    if X['benefit_basis'] == 'willingness_to_pay':
+        ai.add('cs', 'Consumer surplus above user payments (% of benefits)', round(gv.rng.uniform(0.15, 0.35), 2), PCT)
+    if X['benefit_basis'] == 'avoided_cost':
+        ai.add('alt', 'Annual cost of the next-best alternative (% of capital cost)', round(rate * gv.rng.uniform(0.9, 1.3), 4), PCT)
+    if X['benefit_basis'] == 'productivity_growth':
+        ai.add('prod', 'Productivity growth of benefits per operating year', round(gv.rng.uniform(0.01, 0.025), 4), PCT)
+    if X['distribution'] == 'equity_weighted':
+        ai.add('poor_sh', 'Share of benefits to low-income groups', round(gv.rng.uniform(0.3, 0.6), 2), PCT)
+        ai.add('eq_w', 'Distributional weight on those benefits', round(gv.rng.uniform(1.2, 1.6), 2), '0.00')
+    if X['labour_cost'] == 'shadow_wage':
+        ai.add('lab_sh', 'Unskilled labour share of costs', round(gv.rng.uniform(0.2, 0.4), 2), PCT)
+        ai.add('swr', 'Shadow wage rate (share of the market wage)', round(gv.rng.uniform(0.5, 0.8), 2), '0.00')
+    if X['carbon'] == 'shadow_carbon':
+        ai.add('co2', 'Operating emissions (tonnes CO2 per USD million of O&M)', float(gv.rng.choice([200, 350, 500, 700])), '#,##0')
+        ai.add('cp', 'Shadow carbon price (USD per tonne, first year)', float(gv.rng.choice([50, 75, 100])), '#,##0')
+        ai.add('cp_g', 'Real growth of the carbon price', 0.03, PCT)
+    if X['financing'] == 'grant_share':
+        ai.add('grant', 'Grant share of counterpart funding', round(gv.rng.uniform(0.2, 0.6), 2), PCT)
+    if X['financing'] == 'ppp_availability':
+        ai.add('ppp_r', 'Private financing rate (availability payments)', round(gv.rng.uniform(0.07, 0.10), 3), PCT)
+        ai.add('ppp_n', 'Availability payment period (years)', float(gv.rng.choice([15, 20, 25])), '0')
     ai.section('Loan terms')
     ai.add('ref', 'Reference rate', round(market.sofr, 4), PCT, 'Current secured overnight financing rate')
     ai.add('spread', 'Lending spread', 0.0085, PCT)
@@ -985,11 +1217,14 @@ def project(e, market, profile=None):
         ('w', 'Disbursement weight', False, 'Capital cost'), ('capex', 'Capital expenditure', True, None),
         ('cum', 'Cumulative capital expenditure', False, None), ('pct', 'Physical progress', False, None),
         ('loan_d', 'Loan disbursement', False, 'Financing'), ('gov', 'Government counterpart funding', False, None),
+        ('grant', 'Grant funding', False, None), ('priv', 'Private partner funding', False, None),
+        ('ap', 'Availability payments by government', False, None),
         ('l_open', 'Loan - opening balance', False, 'Loan service'), ('l_rep', 'Loan - principal repayment', False, None),
         ('l_close', 'Loan - closing balance', True, None), ('l_int', 'Loan - interest', False, None),
         ('l_fee', 'Loan - commitment fee', False, None), ('l_serv', 'Total debt service', True, None),
         ('e_cost', 'Economic capital cost (shadow priced)', False, 'Economic analysis'), ('e_om', 'Operation & maintenance', False, None),
-        ('e_ben', 'Economic benefits', False, None), ('e_res', 'Residual value', False, None),
+        ('e_ben', 'Economic benefits', False, None), ('e_carb', 'Carbon cost of operations', False, None),
+        ('e_res', 'Residual value', False, None),
         ('e_net', 'Net economic flow', True, None), ('df', 'Discount factor', False, None), ('pv', 'Present value', True, None),
         ('pv_ben', 'PV of benefits', False, None), ('pv_cost', 'PV of costs', False, None),
         ('s_cost', 'Net flow - cost overrun test', False, 'Sensitivity flows'), ('s_ben', 'Net flow - benefit shortfall test', False, None),
@@ -1008,7 +1243,15 @@ def project(e, market, profile=None):
         cf.set('cum', j, f'=SUM({cf.span("capex", 0, j)})')
         cf.set('pct', j, f'=IFERROR({C("cum", j)}/({cost}),0)', PCT)
         cf.set('loan_d', j, f'={C("capex", j)}*{H("loan")}/{H("cost")}')
-        cf.set('gov', j, f'={C("capex", j)}-{C("loan_d", j)}')
+        counter = f'({C("capex", j)}-{C("loan_d", j)})'
+        cf.set('grant', j, f'={counter}*{P("grant")}' if X['financing'] == 'grant_share' else f'={C("t", j)}-{C("t", j)}')
+        cf.set('priv', j, f'={counter}' if X['financing'] == 'ppp_availability' else f'={C("t", j)}-{C("t", j)}')
+        cf.set('gov', j, f'={counter}-{C("grant", j)}-{C("priv", j)}')
+        if X['financing'] == 'ppp_availability':
+            crf = f'({P("ppp_r")}/(1-(1+{P("ppp_r")})^-{P("ppp_n")}))'
+            cf.set('ap', j, f'=IF(AND({C("op", j)}>0,{C("op", j)}<={P("ppp_n")}),SUM({cf.span("priv", 0, n - 1)})*{crf},0)')
+        else:
+            cf.set('ap', j, f'={C("t", j)}-{C("t", j)}')
         cf.set('l_open', j, f'={C("l_close", p)}' if j else f'={C("t", j)}')
         cf.set('l_rep', j, f'=IF({C("t", j)}>={P("grace")},MIN({C("l_open", j)},{C("l_open", j)}/MAX(1,{P("mat")}-{C("t", j)})),0)')
         cf.set('l_close', j, f'={C("l_open", j)}+{C("loan_d", j)}-{C("l_rep", j)}', bold=True)
@@ -1026,11 +1269,30 @@ def project(e, market, profile=None):
         esc = f'*(1+{P("infl")})^{C("t", j)}' if X['prices'] == 'nominal' else ''
         ben_k = f'*(1-{P("ben_risk")})' if X['risk'] == 'expected_value' else ''
         cost_k = f'*(1+{P("ob")})' if X['risk'] == 'optimism_bias' else ''
-        cf.set('e_cost', j, f'=-{C("capex", j)}*{P("scf")}{cost_k}')
-        cf.set('e_om', j, f'=-IF({C("op", j)}>0,{H("cost")}*{P("om")}*{P("scf")}{cost_k}{esc},0)')
-        cf.set('e_ben', j, f'=IF({C("op", j)}>0,{H("cost")}*{P("ben")}*{live["ben"]}{ben_k}*{ramp}{esc},0)')
-        cf.set('e_res', j, f'=IF({j}={n - 1},{H("cost")}*{P("resid")},0)' if j == n - 1 else f'={C("t", j)}-{C("t", j)}')
-        cf.set('e_net', j, f'={C("e_cost", j)}+{C("e_om", j)}+{C("e_ben", j)}+{C("e_res", j)}', bold=True)
+        conv = f'(1-{P("lab_sh")})*{P("scf")}+{P("lab_sh")}*{P("swr")}' if X['labour_cost'] == 'shadow_wage' else P('scf')
+        cap_k = (f'*(1+{P("rc")})' if X['overrun'] == 'reference_class' else
+                 f'*(1+{P("cont")})' if X['overrun'] == 'contingency' else '')
+        ben_rate = (f'{P("ben")}*(1+{P("cs")})' if X['benefit_basis'] == 'willingness_to_pay' else
+                    P('alt') if X['benefit_basis'] == 'avoided_cost' else P('ben'))
+        prod = f'*(1+{P("prod")})^MAX(0,{C("op", j)}-1)' if X['benefit_basis'] == 'productivity_growth' else ''
+        dist = f'*(1+{P("poor_sh")}*({P("eq_w")}-1))' if X['distribution'] == 'equity_weighted' else ''
+        cf.set('e_cost', j, f'=-{C("capex", j)}*({conv}){cost_k}{cap_k}')
+        cf.set('e_om', j, f'=-IF({C("op", j)}>0,{H("cost")}*{P("om")}*({conv}){cost_k}{esc},0)')
+        cf.set('e_ben', j, f'=IF({C("op", j)}>0,{H("cost")}*{ben_rate}*{live["ben"]}{ben_k}{prod}{dist}*{ramp}{esc},0)')
+        if X['carbon'] == 'shadow_carbon':
+            cf.set('e_carb', j, f'=-IF({C("op", j)}>0,{H("cost")}*{P("om")}*{P("co2")}*{P("cp")}*(1+{P("cp_g")})^{C("t", j)}/1000000{esc},0)')
+        else:
+            cf.set('e_carb', j, f'={C("t", j)}-{C("t", j)}')
+        if j == n - 1:
+            rm = X['residual']
+            res = (f'{H("cost")}*{P("resid")}' if rm == 'fixed_share' else
+                   f'{C("t", j)}-{C("t", j)}' if rm == 'no_residual' else
+                   f'{H("cost")}*MAX(0,1-{P("life")}/{P("asset_life")})' if rm == 'straight_line' else
+                   f'MIN({H("cost")}*1.5,MAX(0,({C("e_ben", j)}+{C("e_om", j)}+{C("e_carb", j)})/{P("sdr")}))')
+            cf.set('e_res', j, f'={res}')
+        else:
+            cf.set('e_res', j, f'={C("t", j)}-{C("t", j)}')
+        cf.set('e_net', j, f'={C("e_cost", j)}+{C("e_om", j)}+{C("e_ben", j)}+{C("e_carb", j)}+{C("e_res", j)}', bold=True)
         rate_ = f'((1+{P("sdr")})*(1+{P("infl")})-1)' if X['prices'] == 'nominal' else P('sdr')
         if X['discounting'] == 'sdr_declining':
             rate2 = f'((1+{P("sdr2")})*(1+{P("infl")})-1)' if X['prices'] == 'nominal' else P('sdr2')
@@ -1040,11 +1302,11 @@ def project(e, market, profile=None):
             cf.set('df', j, f'=1/(1+{rate_})^{C("t", j)}', '0.0000')
         cf.set('pv', j, f'={C("e_net", j)}*{C("df", j)}', bold=True)
         cf.set('pv_ben', j, f'=({C("e_ben", j)}+{C("e_res", j)})*{C("df", j)}')
-        cf.set('pv_cost', j, f'=-({C("e_cost", j)}+{C("e_om", j)})*{C("df", j)}')
+        cf.set('pv_cost', j, f'=-({C("e_cost", j)}+{C("e_om", j)}+{C("e_carb", j)})*{C("df", j)}')
         cf.set('s_cost', j, f'={C("e_net", j)}+{C("e_cost", j)}*{P("s_cost")}')
         cf.set('s_ben', j, f'={C("e_net", j)}-{C("e_ben", j)}*{P("s_ben")}')
         op_d = f'({C("op", j)}-{P("s_delay")})'
-        delayed = f'IF({C("op", j)}>{P("s_delay")},{H("cost")}*{P("ben")}*{live["ben"]}{ben_k}*{ramp_of(op_d)}{esc},0)'
+        delayed = f'IF({C("op", j)}>{P("s_delay")},{H("cost")}*{ben_rate}*{live["ben"]}{ben_k}{prod}{dist}*{ramp_of(op_d)}{esc},0)'
         cf.set('s_delay', j, f'={C("e_net", j)}-{C("e_ben", j)}+{delayed}')
     ea = Inputs(wb, 'Economic Analysis', head('Economic appraisal results'))
     rng = lambda k: cf.span(k, 0, n - 1)  # noqa: E731
@@ -1067,10 +1329,17 @@ def project(e, market, profile=None):
     ea.add('loan_share', 'Loan share of project cost', f'=IFERROR({H("loan")}/{H("cost")},0)', PCT, formula=True)
     ea.add('int_total', 'Total interest and fees (USD millions)', f'=SUM({rng("l_int")})+SUM({rng("l_fee")})', '#,##0.00', formula=True)
     ea.add('peak_serv', 'Peak annual debt service (USD millions)', f'=MAX({rng("l_serv")})', '#,##0.00', formula=True)
+    if X['financing'] == 'ppp_availability':
+        ea.add('ap_total', 'Total availability payments (USD millions)', f'=SUM({rng("ap")})', '#,##0.00', formula=True)
+    if X['financing'] == 'grant_share':
+        ea.add('grant_total', 'Grant funding (USD millions)', f'=SUM({rng("grant")})', '#,##0.00', formula=True)
+    if X['carbon'] == 'shadow_carbon':
+        ea.add('carb_pv', 'PV of the carbon cost (USD millions)', f'=-SUMPRODUCT({rng("e_carb")},{rng("df")})', '#,##0.00', formula=True)
     if gv.has('fiscal_impact'):
         ea.section('Fiscal impact')
-        ea.add('fis_pv', 'PV of counterpart funding and debt service (USD millions)',
-               f'=SUMPRODUCT({rng("gov")},{rng("df")})+SUMPRODUCT({rng("l_serv")},{rng("df")})', '#,##0.00', formula=True)
+        ea.add('fis_pv', 'PV of counterpart funding, availability payments and debt service (USD millions)',
+               f'=SUMPRODUCT({rng("gov")},{rng("df")})+SUMPRODUCT({rng("ap")},{rng("df")})+SUMPRODUCT({rng("l_serv")},{rng("df")})',
+               '#,##0.00', formula=True)
         ea.add('fis_ratio', 'Fiscal cost per unit of economic benefit (PV)', f'=IFERROR({ea.ref("fis_pv")}/SUM({rng("pv_ben")}),0)', '0.00', formula=True)
     enterprise._methods_note(ai.ws, ai.next_row + 1, X, GOV_WHY)
     wb.variant = gv
@@ -1084,7 +1353,7 @@ def project(e, market, profile=None):
         ('Project Cash Flows', 'Disbursement, financing, loan service and economic flows by year'),
         ('Economic Analysis', 'ENPV, EIRR, benefit-cost ratio, sensitivity tests and switching values')]
     chk = [('Disbursements equal project cost', f'SUM({rng("capex")})-{cost}'),
-           ('Financing equals disbursements', f'SUM({rng("loan_d")})+SUM({rng("gov")})-SUM({rng("capex")})'),
+           ('Financing equals disbursements', f'SUM({rng("loan_d")})+SUM({rng("gov")})+SUM({rng("grant")})+SUM({rng("priv")})-SUM({rng("capex")})'),
            ('Loan fully repaid by the end of the horizon', f'{C("l_close", n - 1)}'),
            ('Disbursement weights are positive during implementation', f'IF(MIN({rng("w")})<0,1,0)'), sw]
     desc = (f'Enterprise-wide appraisal of the public investment project "{title}" in {place} ({e["sector"]}): disbursement '

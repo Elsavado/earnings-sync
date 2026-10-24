@@ -84,6 +84,13 @@ BANK = {
     'credit_cost': ['through_cycle', 'normalising', 'latest'],
     'capital_policy': ['historical_payout', 'cet1_target', 'fixed_payout'],
     'fees': ['ii_linked', 'asset_linked', 'fade_growth'],
+    'securities': ['asset_share', 'deposit_linked', 'run_off'],
+    'funding': ['deposit_share', 'deposit_growth', 'wholesale_target'],
+    'opex': ['efficiency_ratio', 'cost_growth', 'positive_jaws'],
+    'provisioning': ['incurred', 'cecl_lifetime'],
+    'capital_buffer': ['management_target', 'regulatory_plus', 'stress_buffer'],
+    'aoci': ['aoci_excluded', 'aoci_included'],
+    'liquidity_test': ['ldr_limit', 'lcr_proxy', 'survival_horizon'],
     'stress_severity': ['adverse', 'severe', 'extreme'],
     'stress_shape': ['flat', 'front_loaded', 'u_shaped'],
     'stress_dividends': ['maintained', 'cut'],
@@ -93,7 +100,8 @@ BANK = {
     'ri_terminal': ['perpetuity', 'fading'],
     'cost_of_equity': ['capm', 'capm_premium'],
 }
-CORE_BLOCKS = ('loan_growth', 'deposit_pricing', 'credit_cost', 'capital_policy', 'fees')
+CORE_BLOCKS = ('loan_growth', 'deposit_pricing', 'credit_cost', 'capital_policy', 'fees', 'securities', 'funding', 'opex',
+               'provisioning', 'capital_buffer', 'aoci', 'liquidity_test')
 MODULE_BLOCKS = {'stress': ('stress_severity', 'stress_shape', 'stress_dividends'), 'alm': ('curve_shock', 'deposit_beta'),
                  'valuation': ('valuation_weights', 'ri_terminal', 'cost_of_equity')}
 BANK_MODULES = ['returns_tree', 'ppnr_bridge', 'deposit_franchise', 'capital_walk']
@@ -136,7 +144,28 @@ BANK_WHY = {
     'fading': 'residual income fades over time as competition erodes excess returns',
     'capm': 'cost of equity from CAPM',
     'capm_premium': 'CAPM plus a bank-specific risk premium',
+    'asset_share': 'investment securities stay at their historical share of total assets',
+    'deposit_linked': 'the securities book is sized to deposits, as excess deposits are invested in securities',
+    'run_off': 'the securities book runs off as bonds mature and is not reinvested above a liquidity floor',
+    'deposit_share': 'deposits stay at their historical share of total assets; borrowings fill the gap',
+    'deposit_growth': 'deposits grow at their own historical pace; wholesale borrowings fund the rest of the balance sheet',
+    'wholesale_target': 'the share of wholesale funding moves to a target, as treasury rebalances the funding mix',
+    'efficiency_ratio': 'noninterest expense follows revenue at the historical efficiency ratio',
+    'cost_growth': 'noninterest expense grows with cost inflation, independent of revenue (operating leverage)',
+    'positive_jaws': 'the efficiency ratio improves each year as revenue grows faster than costs (positive jaws)',
+    'incurred': 'the allowance stays at its historical coverage of loans',
+    'cecl_lifetime': 'the allowance moves to lifetime expected losses: the loss rate times the weighted-average life of the book',
+    'management_target': 'excess capital is measured against a management CET1 target',
+    'regulatory_plus': 'the CET1 target is the regulatory minimum plus a management buffer',
+    'stress_buffer': 'the CET1 target is the regulatory minimum plus a stress capital buffer sized to stress losses',
+    'aoci_excluded': 'unrealised securities losses are filtered out of CET1 (AOCI opt-out)',
+    'aoci_included': 'unrealised losses on available-for-sale securities reduce CET1 (no AOCI filter)',
+    'ldr_limit': 'liquidity is tested against a loan-to-deposit limit',
+    'lcr_proxy': 'liquidity is tested with a liquidity coverage proxy: liquid assets against 30-day stressed outflows',
+    'survival_horizon': 'liquidity is tested by the months the bank survives a steady deposit run-off',
 }
+BANK_DEFAULTS = {'stress_severity': 'severe', 'stress_shape': 'flat', 'stress_dividends': 'maintained', 'curve_shock': 'parallel',
+                 'deposit_beta': 'symmetric'}
 
 
 BANK_HORIZONS = {'bank_integrated': [5, 6, 7], 'bank_capital': [5, 6], 'bank_alm': [5, 6], 'bank_valuation': [7, 8, 10],
@@ -151,8 +180,9 @@ def build(facts, sector, market, sic, kind, trim=0, profile=None, title=None):
     ends, d = got
     mods = MODULES[kind]
     years = profile.pick(BANK_HORIZONS[kind]) if profile else (10 if kind == 'bank_strategic' else 5)
-    bv = variants.Variant(f'{profile.key if profile else ends[-1] + sector}:bank', blocks=BANK, modules=BANK_MODULES)
-    X = bv.methods
+    used = list(CORE_BLOCKS) + [b for m in mods for b in MODULE_BLOCKS[m]]
+    bv = variants.Variant(f'{profile.key if profile else ends[-1] + sector}:bank', blocks={b: BANK[b] for b in used}, modules=BANK_MODULES)
+    X = dict(BANK_DEFAULTS, **bv.methods)  # blocks of modules this type does not have keep a neutral setting
     nh, hi = len(ends), len(ends) - 1
     last = int(ends[-1][:4])
     periods = [f'FY{e[:4]}A' for e in ends] + [f'FY{last + k}E' for k in range(1, years + 1)]
@@ -189,8 +219,15 @@ def build(facts, sector, market, sic, kind, trim=0, profile=None, title=None):
     bi = Inputs(wb, 'Bank Inputs', head('Capital, risk and stress inputs'))
     bi.section('Capital')
     bi.add('density', 'Risk-weighted assets % total assets', 0.72, PCT, 'Typical density for a commercial bank balance sheet')
-    bi.add('target', 'Target CET1 ratio', 0.105, PCT, 'Management target including buffers')
     bi.add('min', 'Regulatory minimum CET1 ratio (incl. conservation buffer)', 0.07, PCT)
+    if X['capital_buffer'] == 'regulatory_plus':
+        bi.add('mgmt_buf', 'Management buffer over the minimum', round(bv.rng.uniform(0.015, 0.03), 4), PCT)
+        bi.add('target', 'Target CET1 ratio (minimum + management buffer)', f'={bi.ref("min")}+{bi.ref("mgmt_buf")}', PCT, formula=True)
+    elif X['capital_buffer'] == 'stress_buffer':
+        bi.add('scb', 'Stress capital buffer (peak-to-trough CET1 decline under stress)', round(bv.rng.uniform(0.025, 0.045), 4), PCT)
+        bi.add('target', 'Target CET1 ratio (minimum + stress capital buffer)', f'={bi.ref("min")}+{bi.ref("scb")}', PCT, formula=True)
+    else:
+        bi.add('target', 'Target CET1 ratio', round(bv.rng.choice([0.10, 0.105, 0.11, 0.115]), 4), PCT, 'Management target including buffers')
     bi.section('Growth guard-rails')
     bi.add('cap', 'Maximum starting loan growth', 0.15, PCT)
     bi.add('floor', 'Minimum starting loan growth', -0.05, PCT)
@@ -219,6 +256,30 @@ def build(facts, sector, market, sic, kind, trim=0, profile=None, title=None):
         bi.add('nib_tgt', 'Non-interest-bearing share of deposits by the final year', round(nib_last * bv.rng.uniform(0.75, 0.95), 4), PCT)
     if X['capital_policy'] == 'fixed_payout':
         bi.add('tp', 'Total payout target % net income', bv.rng.choice([0.6, 0.7, 0.8, 0.9]), PCT)
+    if X['securities'] == 'run_off':
+        bi.add('runoff', 'Securities run-off per year (maturities not reinvested)', round(bv.rng.uniform(0.06, 0.14), 3), PCT)
+        bi.add('sec_floor', 'Liquidity floor: securities % total assets', round(bv.rng.uniform(0.08, 0.14), 3), PCT)
+    if X['funding'] == 'wholesale_target':
+        bi.add('wh_tgt', 'Target wholesale share of funding by the final year', round(bv.rng.uniform(0.05, 0.18), 3), PCT)
+    if X['opex'] == 'cost_growth':
+        bi.add('c_infl', 'Annual growth of noninterest expense', round(bv.rng.uniform(0.025, 0.045), 4), PCT)
+    if X['opex'] == 'positive_jaws':
+        bi.add('jaws', 'Efficiency-ratio improvement per year', round(bv.rng.uniform(0.004, 0.012), 4), PCT)
+    if X['provisioning'] == 'cecl_lifetime':
+        bi.add('wal', 'Weighted-average remaining life of the loan book (years)', round(bv.rng.uniform(3.0, 5.0), 1), '0.0')
+    if X['aoci'] == 'aoci_included':
+        bi.add('afs_sh', 'Available-for-sale share of securities', round(bv.rng.uniform(0.4, 0.7), 2), PCT)
+        bi.add('rate_up', 'Rise in long rates since the securities were bought', round(bv.rng.uniform(0.005, 0.015), 4), PCT)
+    if X['liquidity_test'] == 'ldr_limit':
+        bi.add('ldr_lim', 'Loan-to-deposit limit', bv.rng.choice([0.9, 0.95, 1.0]), PCT)
+    elif X['liquidity_test'] == 'lcr_proxy':
+        bi.add('cash_sh', 'Cash & equivalents share of other assets', round(bv.rng.uniform(0.3, 0.5), 2), PCT)
+        bi.add('ro_ibd', '30-day run-off: interest-bearing deposits', 0.10, PCT)
+        bi.add('ro_nib', '30-day run-off: operational non-interest-bearing deposits', 0.05, PCT)
+        bi.add('ro_ol', '30-day run-off: borrowings & other liabilities', 0.40, PCT)
+    else:
+        bi.add('cash_sh', 'Cash & equivalents share of other assets', round(bv.rng.uniform(0.3, 0.5), 2), PCT)
+        bi.add('ro_m', 'Deposit run-off per month in a funding stress', round(bv.rng.uniform(0.02, 0.05), 3), PCT)
     short_w, long_w = CURVE[X['curve_shock']]
     bi.add('short_w', 'Short-rate share of each shock (repricing)', short_w, '0.00')
     bi.add('long_w', 'Long-rate share of each shock (economic value)', long_w, '0.00')
@@ -304,7 +365,9 @@ def build(facts, sector, market, sic, kind, trim=0, profile=None, title=None):
         ('build', 'Reserve build / (release)', False, None)]:
         cq.row(key, label, bold, section=sec)
     for key, label, bold, sec in [
-        ('rwa', 'Risk-weighted assets', False, 'Capital'), ('cet1', 'CET1 capital (tangible common equity)', True, None),
+        ('rwa', 'Risk-weighted assets', False, 'Capital')] + ([('aoci', 'Unrealised losses on AFS securities (AOCI)', False, None)]
+                                                              if X['aoci'] == 'aoci_included' else []) + [
+        ('cet1', 'CET1 capital (tangible common equity' + (' less AOCI)' if X['aoci'] == 'aoci_included' else ')'), True, None),
         ('cet1_r', 'CET1 ratio', True, None), ('lev', 'Leverage ratio (CET1 / tangible assets)', False, None),
         ('req', 'Capital required at target', False, None), ('excess', 'Excess / (shortfall) capital vs target', True, None),
         ('buffer', 'Buffer over regulatory minimum (pp)', False, None), ('test', 'Regulatory minimum test', False, None),
@@ -315,6 +378,13 @@ def build(facts, sector, market, sic, kind, trim=0, profile=None, title=None):
                        ('sec_a', 'Securities / assets'), ('liquid', '(Securities + cash & other) / assets'),
                        ('whole', 'Borrowings & other % total funding'), ('dep_g', 'Deposit growth')]:
         lq.row(key, label)
+    lt_rows = {'ldr_limit': [('ldr_head', 'Headroom to the loan-to-deposit limit'), ('ldr_test', 'Loan-to-deposit limit test')],
+               'lcr_proxy': [('hqla', 'Liquid assets (securities + cash)'), ('outfl', '30-day stressed outflows'),
+                             ('lcr', 'Liquidity coverage proxy (x)'), ('lcr_test', 'Coverage test (at least 1.0x)')],
+               'survival_horizon': [('hqla', 'Liquid assets (securities + cash)'), ('ro', 'Deposit outflow per month'),
+                                    ('surv', 'Survival horizon (months)'), ('surv_test', 'Survival test (at least 6 months)')]}[X['liquidity_test']]
+    for i_, (key, label) in enumerate(lt_rows):
+        lq.row(key, label, section='Liquidity test' if i_ == 0 else None)
     for key, label in [('roa', 'Return on average assets'), ('roe', 'Return on average equity'),
                        ('rote', 'Return on average tangible equity'), ('eff', 'Efficiency ratio'),
                        ('fee_r', 'Fee income % revenue'), ('fee_ii', 'Fee income % interest income'),
@@ -345,7 +415,11 @@ def build(facts, sector, market, sic, kind, trim=0, profile=None, title=None):
         ('tax', 'Effective tax rate', f'MAX(0,MIN(1,IFERROR(SUM({span(is_, "tax")})/SUM({span(is_, "pretax")}),0)))'),
         ('div', 'Dividend payout % net income', f'MAX(0,MIN(1,IFERROR(-SUM({span(is_, "div")})/SUM({span(is_, "ni")}),0)))'),
         ('bb', 'Repurchases % net income (capital permitting)', f'MAX(0,MIN(1,IFERROR(-SUM({span(is_, "bb")})/SUM({span(is_, "ni")}),0)))')]
-    if X['loan_growth'] == 'deposit_funded':
+    if X['securities'] == 'deposit_linked':
+        drivers.append(('sec_dep', 'Securities % deposits', f'IFERROR(SUM({span(bs, "sec")})/SUM({span(bs, "dep")}),0)'))
+    if X['funding'] == 'wholesale_target':
+        drivers.append(('wh0', 'Wholesale share of funding, latest year', f'{lq.ref("whole", hi)}'))
+    if X['loan_growth'] == 'deposit_funded' or X['funding'] == 'deposit_growth':
         drivers.append(('dep_g0', 'Starting deposit growth (historical median, within limits) + scenario',
                         f'MAX({B_("floor")},MIN({B_("cap")},IFERROR(MEDIAN({span(lq, "dep_g", 1)}),0)))+{L["loan"]}'))
     if X['credit_cost'] in ('normalising', 'latest'):
@@ -401,7 +475,12 @@ def build(facts, sector, market, sic, kind, trim=0, profile=None, title=None):
             else:
                 is_.set('nonii', j, f'={I("nonii", p)}*(1+IFERROR({I("ii", j)}/{I("ii", p)}-1,0)+{L["fee"]})' if j == F0 else
                         f'={I("nonii", p)}*(1+IFERROR({I("ii", j)}/{I("ii", p)}-1,0))')
-            is_.set('nonie', j, f'={I("rev", j)}*{A("eff")}')
+            if X['opex'] == 'cost_growth':
+                is_.set('nonie', j, f'={I("nonie", p)}*(1+{B_("c_infl")})*(1+{L["eff"]})')
+            elif X['opex'] == 'positive_jaws':
+                is_.set('nonie', j, f'={I("rev", j)}*MAX(0.35,{A("eff")}-{B_("jaws")}*{I("yr", j)})')
+            else:
+                is_.set('nonie', j, f'={I("rev", j)}*{A("eff")}')
             is_.set('prov', j, f'={Q("prov", j)}')
             is_.set('other', j, f'={I("yr", j)}-{I("yr", j)}')
             is_.set('tax', j, f'=MAX(0,{I("pretax", j)})*{A("tax")}')
@@ -422,21 +501,30 @@ def build(facts, sector, market, sic, kind, trim=0, profile=None, title=None):
             else:
                 g = f'{A("loan_g")}+({B_("lt")}-{A("loan_g")})*{t}'
             bs.set('gross', j, f'={B("gross", p)}*(1+{g})')
-            bs.set('acl', j, f'={B("gross", j)}*{A("cov_last") if X["credit_cost"] == "latest" else A("cov")}')
-            bs.set('loans', j, f'={B("gross", j)}-{B("acl", j)}', bold=True)
-            bs.set('assets', j, f'=IFERROR({B("loans", j)}/{A("loan_a")},{B("assets", p)})', bold=True)
-            bs.set('sec', j, f'={B("assets", j)}*{A("sec_a")}')
-            bs.set('nib', j, f'={B("dep", j)}*({A("nib_s")}+({B_("nib_tgt")}-{A("nib_s")})*{t})' if X['deposit_pricing'] == 'mix_shift'
-                   else f'={B("dep", j)}*{A("nib_s")}')
-            bs.set('ibd', j, f'={B("dep", j)}-{B("nib", j)}')
-            bs.set('eq', j, f'={B("eq", p)}+{I("ni", j)}+{I("div", j)}+{I("bb", j)}', bold=True)
-            bs.set('gw', j, f'={B("gw", p)}')
             if X['credit_cost'] == 'latest':
                 nco = A('nco_last')
             elif X['credit_cost'] == 'normalising':
                 nco = f'({A("nco_last")}+({A("nco_lr")}-{A("nco_last")})*{t})'
             else:
                 nco = A('nco')
+            cov0 = A('cov_last') if X['credit_cost'] == 'latest' else A('cov')
+            if X['provisioning'] == 'cecl_lifetime':
+                bs.set('acl', j, f'={B("gross", j)}*MAX(0,{cov0}+({nco}*{B_("wal")}-{cov0})*{t})')
+            else:
+                bs.set('acl', j, f'={B("gross", j)}*{cov0}')
+            bs.set('loans', j, f'={B("gross", j)}-{B("acl", j)}', bold=True)
+            bs.set('assets', j, f'=IFERROR({B("loans", j)}/{A("loan_a")},{B("assets", p)})', bold=True)
+            if X['securities'] == 'deposit_linked':
+                bs.set('sec', j, f'=MIN({B("assets", j)}-{B("loans", j)},{B("dep", j)}*{A("sec_dep")})')
+            elif X['securities'] == 'run_off':
+                bs.set('sec', j, f'=MIN({B("assets", j)}-{B("loans", j)},MAX({B("assets", j)}*{B_("sec_floor")},{B("sec", p)}*(1-{B_("runoff")})))')
+            else:
+                bs.set('sec', j, f'={B("assets", j)}*{A("sec_a")}')
+            bs.set('nib', j, f'={B("dep", j)}*({A("nib_s")}+({B_("nib_tgt")}-{A("nib_s")})*{t})' if X['deposit_pricing'] == 'mix_shift'
+                   else f'={B("dep", j)}*{A("nib_s")}')
+            bs.set('ibd', j, f'={B("dep", j)}-{B("nib", j)}')
+            bs.set('eq', j, f'={B("eq", p)}+{I("ni", j)}+{I("div", j)}+{I("bb", j)}', bold=True)
+            bs.set('gw', j, f'={B("gw", p)}')
             cq.set('nco', j, f'={B("gross", p)}*{nco}')
             cq.set('prov', j, f'={Q("nco", j)}+{B("acl", j)}-{Q("acl_open", j)}')
         is_.set('nii', j, f'={I("ii", j)}-{I("ie", j)}', bold=True)
@@ -446,7 +534,13 @@ def build(facts, sector, market, sic, kind, trim=0, profile=None, title=None):
         is_.set('ni', j, f'={I("pretax", j)}-{I("tax", j)}+{I("ato", j)}', bold=True)
         bs.set('oa', j, f'={B("assets", j)}-{B("loans", j)}-{B("sec", j)}')
         if not h:
-            bs.set('dep', j, f'={B("assets", j)}*{A("dep_a")}', bold=True)
+            t_ = f'{I("yr", j)}/{years}'
+            if X['funding'] == 'deposit_growth':
+                bs.set('dep', j, f'=MIN({B("assets", j)}-{B("eq", j)},{B("dep", p)}*(1+{A("dep_g0")}+({B_("lt")}-{A("dep_g0")})*{t_}))', bold=True)
+            elif X['funding'] == 'wholesale_target':
+                bs.set('dep', j, f'=({B("assets", j)}-{B("eq", j)})*(1-MAX(0,{A("wh0")}+({B_("wh_tgt")}-{A("wh0")})*{t_}))', bold=True)
+            else:
+                bs.set('dep', j, f'={B("assets", j)}*{A("dep_a")}', bold=True)
         else:
             bs.set('dep', j, f'={B("nib", j)}+{B("ibd", j)}', bold=True)
         bs.set('ol', j, f'={B("assets", j)}-{B("dep", j)}-{B("eq", j)}')
@@ -505,7 +599,11 @@ def build(facts, sector, market, sic, kind, trim=0, profile=None, title=None):
         cq.set('cov', j, f'=IFERROR({B("acl", j)}/{B("gross", j)},0)', PCT)
         # Capital
         cp.set('rwa', j, f'={B("assets", j)}*{B_("density")}')
-        cp.set('cet1', j, f'={B("tbv", j)}', bold=True)
+        if X['aoci'] == 'aoci_included':
+            cp.set('aoci', j, f'=-{B("sec", j)}*{B_("afs_sh")}*{B_("a_dur")}*{B_("rate_up")}')
+            cp.set('cet1', j, f'={B("tbv", j)}+{K("aoci", j)}', bold=True)
+        else:
+            cp.set('cet1', j, f'={B("tbv", j)}', bold=True)
         cp.set('cet1_r', j, f'=IFERROR({K("cet1", j)}/{K("rwa", j)},0)', PCT, bold=True)
         cp.set('lev', j, f'=IFERROR({K("cet1", j)}/({B("assets", j)}-{B("gw", j)}),0)', PCT)
         cp.set('req', j, f'={K("rwa", j)}*{B_("target")}')
@@ -522,6 +620,19 @@ def build(facts, sector, market, sic, kind, trim=0, profile=None, title=None):
         lq.set('sec_a', j, f'=IFERROR({B("sec", j)}/{B("assets", j)},0)', PCT)
         lq.set('liquid', j, f'=IFERROR(({B("sec", j)}+{B("oa", j)})/{B("assets", j)},0)', PCT)
         lq.set('whole', j, f'=IFERROR({B("ol", j)}/({B("dep", j)}+{B("ol", j)}),0)', PCT)
+        if X['liquidity_test'] == 'ldr_limit':
+            lq.set('ldr_head', j, f'={B_("ldr_lim")}-{LQ("ldr", j)}', PCT)
+            lq.set('ldr_test', j, f'=IF({LQ("ldr", j)}<={B_("ldr_lim")},"Within limit","Above limit")', '@')
+        elif X['liquidity_test'] == 'lcr_proxy':
+            lq.set('hqla', j, f'={B("sec", j)}+{B("oa", j)}*{B_("cash_sh")}', NUM)
+            lq.set('outfl', j, f'={B("ibd", j)}*{B_("ro_ibd")}+{B("nib", j)}*{B_("ro_nib")}+MAX(0,{B("ol", j)})*{B_("ro_ol")}', NUM)
+            lq.set('lcr', j, f'=IFERROR({LQ("hqla", j)}/{LQ("outfl", j)},0)', MULT)
+            lq.set('lcr_test', j, f'=IF({LQ("lcr", j)}>=1,"Pass","Below 1.0x")', '@')
+        else:
+            lq.set('hqla', j, f'={B("sec", j)}+{B("oa", j)}*{B_("cash_sh")}', NUM)
+            lq.set('ro', j, f'={B("dep", j)}*{B_("ro_m")}', NUM)
+            lq.set('surv', j, f'=IFERROR({LQ("hqla", j)}/{LQ("ro", j)},0)', '0.0')
+            lq.set('surv_test', j, f'=IF({LQ("surv", j)}>=6,"Pass","Below 6 months")', '@')
         # Returns
         rt.set('eff', j, f'=IFERROR({I("nonie", j)}/{I("rev", j)},0)', PCT)
         rt.set('fee_r', j, f'=IFERROR({I("nonii", j)}/{I("rev", j)},0)', PCT)
