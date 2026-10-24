@@ -34,6 +34,7 @@ def main():
         'telemetry': lambda: devdata.telemetry(out, dry),
         'assets': lambda: devdata.assets(out, dry),
         'lgi_dev': lambda: lgi_dev(out, dry),
+        'pseudo_backfill': lambda: devdata.pseudo_backfill(out, dry),
     }
     failed = []
     for kind in sys.argv[1:]:

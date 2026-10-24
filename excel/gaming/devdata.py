@@ -23,6 +23,7 @@ from pathlib import Path
 
 import requests
 
+from . import pseudo
 from .out import log
 
 DEVF = '8 Game Development'
@@ -211,6 +212,33 @@ def git(*a, cwd=None, timeout=1800):
                           env={**os.environ, 'GIT_TERMINAL_PROMPT': '0', 'GIT_LFS_SKIP_SMUDGE': '1'})
 
 
+PSEUDO_MARK = 'people as Contributor NNN'
+
+
+def pseudo_bundle(work, bundle):
+    """Pseudonymises the people in the clone's whole history (pseudo.py) and bundles every branch and tag."""
+    names = pseudo.rewrite_repo(work)
+    if git('bundle', 'create', str(bundle), '--all', cwd=work).returncode:
+        raise RuntimeError('bundle')
+    commits = git('rev-list', '--count', '--all', cwd=work).stdout.strip()
+    lfs = 'filter=lfs' in git('show', 'HEAD:.gitattributes', cwd=work).stdout
+    return names, commits, lfs
+
+
+def repo_title(full_name, owner_type, names):
+    """owner/repo with a personal owner account shown as its Contributor number (organisations keep their name)."""
+    owner, _, repo = full_name.partition('/')
+    if owner_type == 'Organization':
+        return full_name
+    return f'{names.get(owner)}/{repo}'
+
+
+def code_notes(name, commits, size, lfs, roots, names):
+    return (f'git bundle of every branch and tag; {commits} commits; {size / 2**20:.1f} MB; licence text in {name}.LICENSE.txt '
+            f'(unchanged); {len(names.order)} {PSEUDO_MARK} in history, credits and headers (licence files untouched); '
+            f'original root commit {",".join(sorted(roots)[:5])}' + (f' (+{len(roots) - 5} more)' if len(roots) > 5 else '') +('; large binary files are Git LFS pointers' if lfs else ''))
+
+
 def code(out, dry):
     c = Ctx(out, 'code')
     bud = Budget(dry, 10, 60, 2)
@@ -241,25 +269,21 @@ def code(out, dry):
                         c.n['skipped'] += 1
                         continue
                     bundle = tmp / f'{name}.bundle'
-                    if git('bundle', 'create', str(bundle), '--all', cwd=work).returncode:
-                        raise RuntimeError('bundle')
+                    names, commits, lfs = pseudo_bundle(work, bundle)
                     size = bundle.stat().st_size
                     if not bud.take(size):
                         bundle.unlink()
                         if bud.done():
                             break
                         continue
-                    commits = git('rev-list', '--count', '--all', cwd=work).stdout.strip()
-                    lfs = 'filter=lfs' in git('show', 'HEAD:.gitattributes', cwd=work).stdout
                     lic = gh(f'/repos/{it["full_name"]}/license') or {}
                     folder = f'{CODE}/{engine}'
                     out.put_file(f'{folder}/{name}.bundle', bundle, 'application/octet-stream')
                     if lic.get('content'):
                         out.put(f'{folder}/{name}.LICENSE.txt', base64.b64decode(lic['content']), 'text/plain')
-                    c.add(folder, {'item': f'{name}.bundle', 'title': it['full_name'], 'source_url': it['html_url'], 'licence': spdx,
-                                   'notes': f'git bundle of every branch and tag; {commits} commits; {size / 2**20:.1f} MB; '
-                                            f'licence text in {name}.LICENSE.txt' + ('; large binary files are Git LFS pointers' if lfs else '')},
-                          ident, roots=roots)
+                    c.add(folder, {'item': f'{name}.bundle', 'title': repo_title(it['full_name'], it['owner'].get('type'), names),
+                                   'source_url': it['html_url'], 'licence': spdx,
+                                   'notes': code_notes(name, commits, size, lfs, roots, names)}, ident, roots=roots)
                     bundle.unlink()
                 except Exception:  # noqa: BLE001 - one repository never stops the run
                     c.n['failed'] += 1
@@ -279,7 +303,19 @@ def code(out, dry):
 
 # ---------------------------------------------------------------- design documents
 GDD_Q = ['topic:game-design-document', 'topic:gdd', '"game design document" in:description,readme', '"GDD" game in:description']
-GDD_FILE = re.compile(r'(?i)(?:^|/)[^/]*(?:\bgdd\b|game[-_ ]?design[-_ ]?doc|design[-_ ]?document)[^/]*\.(?:md|pdf|docx|odt|txt)$')
+GDD_FILE = re.compile(r'(?i)(?:^|/)[^/]*(?:\bgdd\b|game[-_ ]?design[-_ ]?doc|design[-_ ]?document)[^/]*\.(?:md|pdf|docx|txt)$')
+
+
+def pseudo_doc(data, ext, names):
+    """Bytes of a design document with its people as Contributor numbers (pseudo.document)."""
+    with tempfile.TemporaryDirectory() as d:
+        p = Path(d) / f'doc{ext.lower()}'
+        p.write_bytes(data)
+        try:
+            pseudo.document(p, ext, names, handles=True)
+        except Exception:  # noqa: BLE001 - an unreadable document is kept out rather than uploaded with names
+            raise RuntimeError('document could not be pseudonymised')
+        return p.read_bytes()
 
 
 def gdd(out, dry):
@@ -300,6 +336,9 @@ def gdd(out, dry):
                 tree = (gh(f'/repos/{it["full_name"]}/git/trees/{it["default_branch"]}', {'recursive': 1}) or {}).get('tree') or []
                 docs = [t for t in tree if t.get('type') == 'blob' and GDD_FILE.search(t['path']) and 0 < t.get('size', 0) <= 20 * 2**20]
                 got = 0
+                names = pseudo.Names()  # one numbering per repository
+                if it['owner'].get('type') != 'Organization':
+                    names.get(it['owner']['login'])
                 for t in docs[:5]:
                     if t['sha'] in c.sums or not bud.take(t['size']):
                         continue
@@ -308,10 +347,16 @@ def gdd(out, dry):
                         c.n['failed'] += 1
                         continue
                     name = safe(f'{it["owner"]["login"]}__{it["name"]}__{Path(t["path"]).name}')
-                    if not c.upload(f'{GDD}/{name}', raw.content):
+                    try:
+                        data = pseudo_doc(raw.content, Path(t['path']).suffix, names)
+                    except RuntimeError:
+                        c.n['failed'] += 1
                         continue
-                    c.add(GDD, {'item': name, 'title': f'{it["full_name"]}: {t["path"]}', 'source_url': f'{it["html_url"]}/blob/'
-                                f'{it["default_branch"]}/{t["path"]}', 'licence': spdx, 'notes': f'{t["size"]:,} bytes'}, checksum=t['sha'])
+                    if not c.upload(f'{GDD}/{name}', data):
+                        continue
+                    c.add(GDD, {'item': name, 'title': f'{repo_title(it["full_name"], it["owner"].get("type"), names)}: {t["path"]}',
+                                'source_url': f'{it["html_url"]}/blob/{it["default_branch"]}/{t["path"]}', 'licence': spdx,
+                                'notes': f'{t["size"]:,} bytes; {PSEUDO_MARK}'}, checksum=t['sha'])
                     got += 1
                 if got:
                     lic = gh(f'/repos/{it["full_name"]}/license') or {}
@@ -331,6 +376,24 @@ def gdd(out, dry):
 def zenodo_records(q, page):
     r = js(get('https://zenodo.org/api/records', {'q': q, 'type': 'dataset', 'size': 25, 'page': page, 'sort': 'bestmatch'}, gap=2.5))
     return (r or {}).get('hits', {}).get('hits')
+
+
+def hf_title(dataset_id):
+    """owner/name with the uploading account as Contributor 001 (the source URL keeps the real id)."""
+    owner, _, rest = dataset_id.partition('/')
+    return f'Contributor 001/{rest}' if rest else dataset_id
+
+
+def video_title(raw):
+    """First descriptive line of a Commons description (no links or promotion lines)."""
+    raw = re.sub(r'<[^>]+>', ' ', raw or '')
+    return next((re.sub(r'\s+', ' ', ln).strip() for ln in raw.splitlines() if len(ln.strip()) > 3 and
+                 not re.search(r'(?i)https?:|www\.|\.ly/|\.gg/|➡|subscribe|follow us|download', ln)), '')
+
+
+def video_notes(size, artist):
+    who = f'Contributor 001 (credit line on the source page)' if artist else 'see source page'
+    return f'{size / 2**20:.1f} MB; author: {who}; {PSEUDO_MARK}'
 
 
 def hf_datasets(term):
@@ -380,7 +443,7 @@ def datasets(out, dry, kind, folder, zq, hq, relevant, exts, file_cap_gb, run_gb
                     dest.unlink()
                     if not ok:
                         continue
-                    c.add(sub, {'item': safe(f['key']), 'title': md.get('title', ''), 'source_url': h.get('links', {}).get('self_html')
+                    c.add(sub, {'item': safe(f['key']), 'title': pseudo.text(md.get('title', ''), pseudo.Names()), 'source_url': h.get('links', {}).get('self_html')
                                 or f'https://zenodo.org/records/{h["id"]}', 'licence': lic,
                                 'notes': f'{f["size"] / 2**20:.1f} MB; version {md.get("version") or "latest"}; DOI {h.get("doi", "")}'},
                           checksum=ck)
@@ -419,7 +482,7 @@ def datasets(out, dry, kind, folder, zq, hq, relevant, exts, file_cap_gb, run_gb
                 dest.unlink()
                 if not ok:
                     continue
-                c.add(sub, {'item': item, 'title': d['id'], 'source_url': f'https://huggingface.co/datasets/{d["id"]}', 'licence': lic,
+                c.add(sub, {'item': item, 'title': hf_title(d['id']), 'source_url': f'https://huggingface.co/datasets/{d["id"]}', 'licence': lic,
                             'notes': f'{t["size"] / 2**20:.1f} MB'}, checksum=ck)
             c.seen.add(ident)
     shutil.rmtree(tmp, ignore_errors=True)
@@ -519,10 +582,13 @@ def videos(out, dry):
                 if not ok:
                     continue
                 artist = re.sub(r'<[^>]+>', '', (em.get('Artist') or {}).get('value', '')).strip()
-                desc = re.sub(r'https?://\S+|<[^>]+>', ' ', (em.get('ImageDescription') or {}).get('value', ''))
-                desc = next((ln.strip() for ln in desc.splitlines() if len(ln.strip()) > 3), '')
+                desc = video_title((em.get('ImageDescription') or {}).get('value', ''))
+                vn = pseudo.Names()
+                if artist_raw := re.sub(r'<[^>]+>', '', (em.get('Artist') or {}).get('value', '')).strip():
+                    vn.get(artist_raw)
+                desc = pseudo.text(desc, vn)
                 c.add(VIDEOS, {'item': item, 'title': desc[:200] or item.rsplit('.', 1)[0], 'source_url': ii.get('descriptionurl', ''), 'licence': lic,
-                               'notes': f'{ii.get("size", 0) / 2**20:.1f} MB; attribution: {artist[:200] or "see source page"}'},
+                               'notes': video_notes(ii.get('size', 0), artist)},
                       pg['title'], checksum=ii.get('sha1'))
     shutil.rmtree(tmp, ignore_errors=True)
     c.finish()
@@ -602,4 +668,118 @@ def assets(out, dry):
         c.st['cursor']['acg'] = off
     shutil.rmtree(tmp, ignore_errors=True)
     c.finish()
+
+
+# ---------------------------------------------------------------- re-process items collected before pseudonyms
+def pseudo_backfill(out, dry):
+    """Rewrites the items already on Drive in place (same file names): code bundles, design documents, video and dataset
+    manifests. Items whose manifest row already says PSEUDO_MARK are skipped, so the job can resume. A dry run reads
+    Drive but writes to ./samples, for at most two bundles and three documents."""
+    from .out import Out
+    src = Out(False) if dry else out
+    n = {'bundles': 0, 'documents': 0, 'manifest rows': 0, 'failed': 0}
+    left = {'bundle': 2 if dry else 10**6, 'doc': 3 if dry else 10**6}
+    tmp = Path(tempfile.mkdtemp())
+    owner_type = {}
+
+    def otype(owner):
+        if owner not in owner_type:
+            owner_type[owner] = (gh(f'/users/{owner}') or {}).get('type', 'User')
+        return owner_type[owner]
+
+    for eng in src.children(CODE):
+        folder = f'{CODE}/{eng}'
+        rows = src.read_csv(f'{folder}/manifest.csv')
+        mb = lambda r: float((re.search(r'([\d.]+) MB', r['notes']) or [0, 0])[1])  # noqa: E731
+        for r in sorted(rows, key=mb):  # smallest first
+            if late() or left['bundle'] <= 0:
+                break
+            if not r['item'].endswith('.bundle') or PSEUDO_MARK in r['notes']:
+                continue
+            old, work, new = tmp / 'old.bundle', tmp / 'work.git', tmp / r['item']
+            try:
+                if not src.get_file(f'{folder}/{r["item"]}', old):
+                    raise RuntimeError('missing')
+                if git('clone', '--mirror', '--quiet', str(old), str(work)).returncode:
+                    raise RuntimeError('clone from bundle')
+                roots = set(git('rev-list', '--max-parents=0', '--all', cwd=work).stdout.split())  # original roots
+                old.unlink()
+                names, commits, lfs = pseudo_bundle(work, new)
+                out.put_file(f'{folder}/{r["item"]}', new, 'application/octet-stream')
+                name = r['item'][:-len('.bundle')]
+                r['title'] = repo_title(r['title'], otype(r['title'].split('/')[0]), names)
+                r['notes'] = code_notes(name, commits, new.stat().st_size, lfs, roots, names)
+                out.manifest(folder, [r])
+                n['bundles'] += 1
+                left['bundle'] -= 1
+            except Exception:  # noqa: BLE001
+                n['failed'] += 1
+            finally:
+                rmtree(work)
+                old.unlink(missing_ok=True)
+                new.unlink(missing_ok=True)
+
+    rows = src.read_csv(f'{GDD}/manifest.csv')
+    per_repo = {}
+    for r in rows:
+        repo = r['title'].split(':', 1)[0]
+        if repo not in per_repo:
+            per_repo[repo] = pseudo.Names()
+            owner = repo.split('/')[0]
+            if not owner.startswith('Contributor ') and otype(owner) != 'Organization':
+                per_repo[repo].get(owner)
+    done_rows = []
+    for r in rows:
+        if late() or left['doc'] <= 0:
+            break
+        if PSEUDO_MARK in r['notes']:
+            continue
+        repo = r['title'].split(':', 1)[0]
+        names = per_repo[repo]
+        try:
+            p = tmp / 'doc'
+            if not src.get_file(f'{GDD}/{r["item"]}', p):
+                raise RuntimeError('missing')
+            data = pseudo_doc(p.read_bytes(), Path(r['item']).suffix, names)
+            out.put(f'{GDD}/{r["item"]}', data)
+            p.unlink()
+            owner = repo.split('/')[0]
+            kind = 'Organization' if owner.startswith('Contributor ') or otype(owner) == 'Organization' else 'User'
+            r['title'] = repo_title(repo, kind, names) + ':' + r['title'].split(':', 1)[1]
+            r['notes'] = f'{r["notes"]}; {PSEUDO_MARK}'
+            done_rows.append(r)
+            n['documents'] += 1
+            left['doc'] -= 1
+        except Exception:  # noqa: BLE001
+            n['failed'] += 1
+    out.manifest(GDD, done_rows)
+
+    attrib = re.compile(r'attribution: [^;]*')
+    folders = [VIDEOS] + [f'{INPUTS}/{x}' for x in src.children(INPUTS)] + [f'{TELEM}/{x}' for x in src.children(TELEM)]
+    for folder in folders:
+        rows, changed = src.read_csv(f'{folder}/manifest.csv'), []
+        for r in rows:
+            if PSEUDO_MARK in r['notes']:
+                continue
+            if folder == VIDEOS:
+                m = attrib.search(r['notes'])
+                vn = pseudo.Names()
+                who = m.group(0)[len('attribution: '):].strip() if m else ''
+                if who and who != 'see source page':
+                    vn.get(who)
+                r['title'] = pseudo.text(video_title(r['title']) or r['item'].rsplit('.', 1)[0], vn)
+                r['notes'] = attrib.sub('author: ' + ('Contributor 001 (credit line on the source page)' if vn.order else 'see source page'),
+                                        r['notes'])
+            elif 'huggingface.co/datasets/' in r['source_url']:
+                r['title'] = hf_title(r['source_url'].split('huggingface.co/datasets/', 1)[1])
+            else:
+                r['title'] = pseudo.text(r['title'], pseudo.Names())
+            r['notes'] = f'{r["notes"]}; {PSEUDO_MARK}'
+            changed.append(r)
+        out.manifest(folder, changed)
+        n['manifest rows'] += len(changed)
+    rmtree(tmp)
+    log('  pseudo_backfill: ' + ', '.join(f'{k} {v}' for k, v in n.items()))
+    if n['failed']:
+        raise RuntimeError(f'pseudo_backfill: {n["failed"]} item(s) failed; rerun to retry them')
 

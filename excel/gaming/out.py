@@ -188,6 +188,41 @@ class Out:
         self.put(f'{folder}/manifest.csv', Table('Manifest', self.MANIFEST_COLS, sorted(have.values(), key=lambda r: r['item'])).csv_bytes(),
                  'text/csv')
 
+    def get_file(self, path, local):
+        """Downloads a Drive file to disk in chunks; False if it does not exist."""
+        if self.dry:
+            p = self.root / path
+            if not p.exists():
+                return False
+            Path(local).write_bytes(p.read_bytes())
+            return True
+        from googleapiclient.http import MediaIoBaseDownload
+        from models.store import _retry
+        _, _, fid = self._find(path)
+        if not fid:
+            return False
+        with open(local, 'wb') as f:
+            dl = MediaIoBaseDownload(f, self.files.get_media(fileId=fid), chunksize=64 * 2**20)
+            done = False
+            while not done:
+                _, done = _retry(lambda: dl.next_chunk())
+        return True
+
+    def children(self, folder):
+        """Names of the sub-folders of folder."""
+        if self.dry:
+            p = self.root / folder
+            return sorted(x.name for x in p.iterdir() if x.is_dir()) if p.exists() else []
+        from models.store import _retry
+        parent, out, token = self._folder(folder), [], None
+        while True:
+            res = _retry(lambda: self.files.list(q=f"'{parent}' in parents and mimeType = 'application/vnd.google-apps.folder' and trashed = false",
+                                                 fields='nextPageToken, files(name)', pageSize=1000, pageToken=token).execute())
+            out += [f['name'] for f in res.get('files', [])]
+            token = res.get('nextPageToken')
+            if not token:
+                return sorted(out)
+
     def get(self, path):
         if self.dry:
             p = self.root / path
