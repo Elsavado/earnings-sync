@@ -177,10 +177,11 @@ def process(cand, kind, work):
         return {'ok': False, 'reason': f'http {r.status_code}'}
     raw = work / 'download.bin'
     size, t0 = 0, time.time()
+    cap = office.MAX_SIZE['xlsx'] if kind in office.KINDS and cand['ext'] == 'xlsx' else MAX_BYTES[size_class(kind)]
     with open(raw, 'wb') as f:
         for chunk in r.iter_content(1 << 16):
             size += len(chunk)
-            if size > MAX_BYTES[size_class(kind)] or time.time() - t0 > DOWNLOAD_SECONDS[size_class(kind)]:
+            if size > cap or time.time() - t0 > DOWNLOAD_SECONDS[size_class(kind)]:
                 return {'ok': False, 'reason': 'too large or too slow'}
             f.write(chunk)
     digest = file_hash(raw)
@@ -511,6 +512,9 @@ class Run:
 
         order = [k for k in K.KINDS if k in ONLY] if ONLY else list(K.FIN_KINDS)
         worker = Worker(int(os.environ.get('WORKERS') or (3 if all(k in K.TABULAR for k in order) else 2)))
+        for kind in order:
+            if kind in office.KINDS:
+                office.start(self.state, kind, log)
         rounds = 0
         while left() > 90 and not self.full:
             rounds += 1

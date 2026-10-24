@@ -72,6 +72,8 @@ TOPICS = ['budget', 'financial', 'accounting', 'business plan', 'project managem
           'agriculture', 'transport', 'survey', 'statistics', 'data analysis', 'software', 'research methods', 'strategy',
           'governance', 'procurement', 'human resources', 'operations', 'supply chain', 'risk', 'audit', 'tourism',
           'water', 'urban planning', 'public health', 'innovation', 'entrepreneurship', 'sustainability', '']
+# A spreadsheet expands many times in memory when opened (a 40 MB workbook ran a runner out of memory).
+MAX_SIZE = {'xlsx': 8 * 2**20, 'docx': 40 * 2**20, 'pptx': 40 * 2**20, 'pdf': 40 * 2**20}
 ZFILE = {'gsheets': ('xlsx', None), 'gdocs': ('docx', None), 'slides': ('pptx', None), 'presentations': ('pdf', 'presentation'),
          'bookkeeping': ('xlsx', None)}
 BOOK_Q = ['"general ledger"', 'bookkeeping', '"trial balance"', '"journal entries"', '"cash book"', '"accounts payable"',
@@ -119,7 +121,7 @@ def zenodo_files(state, kind, s, log, pages=2):
                 for f in h.get('files', [])[:20]:
                     key = f.get('key', '')
                     url = (f.get('links') or {}).get('self')
-                    if key.lower().endswith('.' + ext) and url and 0 < f.get('size', 0) <= 40 * 2**20:
+                    if key.lower().endswith('.' + ext) and url and 0 < f.get('size', 0) <= MAX_SIZE[ext]:
                         added += _add(state, kind, {'key': f'zenodo:{h["id"]}:{key}'[:300], 'url': url, 'ext': ext,
                                                     'orgs': [], 'source': 'zenodo', 'topic': topic.strip('"'),
                                                     'title': title[:200]}, f'zenodo:{h["id"]}')
@@ -162,9 +164,11 @@ def canada(state, kind, s, log, pages=2):
                 if not usca.english_title(title):
                     continue
                 for f in p.get('resources', []):
-                    url = f.get('url') or ''
+                    url = (f.get('url') or '').strip()
+                    if url.startswith('/'):  # files hosted on the portal itself are listed by path
+                        url = 'https://open.canada.ca' + url
                     if (str(f.get('format', '')).upper() == fmt and 'en' in (f.get('language') or [])
-                            and url.lower().split('?')[0].endswith('.' + ext) and (f.get('size') or 0) <= 40 * 2**20):
+                            and url.lower().split('?')[0].endswith('.' + ext) and (f.get('size') or 0) <= MAX_SIZE[ext]):
                         added += _add(state, kind, {'key': f'ckan:open.canada.ca:{p["id"]}', 'url': url, 'ext': ext,
                                                     'orgs': [], 'source': 'canada', 'topic': topic.strip('"'),
                                                     'title': title[:200]}, f'ckan:open.canada.ca:{p["id"]}')
@@ -204,10 +208,15 @@ def _vet_socrata(state, kind):
     state['queue'][kind] = keep
 
 
-def office_sources(state, kind, s, log):
+def start(state, kind, log):
+    """At the start of a run, before any queued candidate is processed (main.Run.go)."""
     dropped = prune(state, kind)
+    _vet_socrata(state, kind)
     if dropped:
         log(f'  {kind}: {dropped} queued candidate(s) from before the English / US-Canada rules dropped')
+
+
+def office_sources(state, kind, s, log):
     turn = state['cursors'].setdefault(f'office:turn:{kind}', {'n': 0})
     turn['n'] += 1
     fns = [zenodo_files, canada] + ([socrata_book] if kind == 'bookkeeping' else [])
