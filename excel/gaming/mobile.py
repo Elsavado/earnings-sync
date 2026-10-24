@@ -3,7 +3,7 @@ every game that has appeared in them (price, ratings, release and update dates, 
 from datetime import datetime, timezone
 
 from .out import MONEY, PLATFORMS, Table, log, person_free
-from .steam import get, today
+from .steam import get, js, today
 
 COUNTRIES = ['us', 'gb', 'de', 'fr', 'jp', 'kr', 'cn', 'br', 'in', 'ca', 'au', 'mx', 'id', 'tr', 'sa', 'it']
 CHARTS = {'top_grossing': 'topgrossingapplications', 'top_free': 'topfreeapplications', 'top_paid': 'toppaidapplications'}
@@ -17,7 +17,7 @@ def mobile(out):
             r = get(f'https://itunes.apple.com/{cc}/rss/{feed}/limit=200/genre=6014/json', gap=1, key='itunes')
             if r is None or not r.ok:
                 continue
-            for i, e in enumerate(((r.json() or {}).get('feed') or {}).get('entry') or [], 1):
+            for i, e in enumerate(((js(r) or {}).get('feed') or {}).get('entry') or [], 1):
                 aid = e['id']['attributes']['im:id']
                 ids.add(aid)
                 home.setdefault(aid, cc)
@@ -37,7 +37,7 @@ def mobile(out):
     old = {r['app_id']: r for r in out.read_csv(f'{PLATFORMS}/App Store Game Catalogue/appstore_game_catalogue.csv')}
     def lookup(batch, cc):
         r = get('https://itunes.apple.com/lookup', {'id': ','.join(batch), 'country': cc}, gap=1, key='itunes')
-        return ((r.json() or {}).get('results') or []) if r is not None and r.ok else []
+        return ((js(r) or {}).get('results') or []) if r is not None and r.ok else []
     ids = list(ids)
     found = []
     for k in range(0, len(ids), 150):

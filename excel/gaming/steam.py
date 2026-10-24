@@ -36,6 +36,14 @@ def get(url, params=None, gap=0.0, key='default', tries=6):
     return None
 
 
+def js(r):
+    """The JSON body of a response, or None when the call failed or the body is not JSON."""
+    try:
+        return r.json() if r is not None and r.ok else None
+    except ValueError:
+        return None
+
+
 def today():
     return datetime.now(timezone.utc).strftime('%Y-%m-%d')
 
@@ -52,7 +60,10 @@ def catalog(out, limit_pages=None):
         r = get('https://steamspy.com/api.php', {'request': 'all', 'page': page}, gap=61, key='steamspy')
         if r is None or not r.ok:
             break
-        data = r.json()
+        try:
+            data = r.json()
+        except ValueError:  # past the last page SteamSpy answers with an empty, non-JSON body
+            break
         if not data:
             break
         apps += list(data.values())
@@ -113,7 +124,7 @@ def details(out, n=5000):
                 gap=1.5, key='store')
         if r is None or not r.ok:
             continue
-        d = (r.json() or {}).get(str(app['appid'])) or {}
+        d = (js(r) or {}).get(str(app['appid'])) or {}
         if not d.get('success'):
             continue
         d = d['data']
@@ -164,9 +175,9 @@ def details(out, n=5000):
         batch = ids[k:k + 100]
         r = get('https://store.steampowered.com/api/appdetails', {'appids': ','.join(map(str, batch)), 'cc': 'us',
                                                                    'filters': 'price_overview'}, gap=1.5, key='store')
-        js = r.json() if r is not None and r.ok else {}
+        js_ = js(r) or {}
         for x in batch:
-            p = ((js.get(str(x)) or {}).get('data') or {})
+            p = ((js_.get(str(x)) or {}).get('data') or {})
             p = p.get('price_overview') if isinstance(p, dict) else None
             rows.append({'dlc_appid': x, 'parent_appid': dlc_parent[x][0], 'parent_name': dlc_parent[x][1],
                          'price_usd': (p or {}).get('final', 0) / 100 if p else None,
@@ -187,7 +198,7 @@ def reviews(out, n=5000):
         r = get(f'https://store.steampowered.com/appreviews/{a}', {'json': 1, 'filter': 'all', 'language': 'all',
                                                                     'num_per_page': 0, 'purchase_type': 'all'}, gap=1.2, key='store')
         if r is not None and r.ok:
-            q = (r.json() or {}).get('query_summary') or {}
+            q = (js(r) or {}).get('query_summary') or {}
             totals.append({'appid': a, 'name': app['name'], 'review_score_desc': q.get('review_score_desc'),
                            'total_positive': q.get('total_positive'), 'total_negative': q.get('total_negative'),
                            'total_reviews': q.get('total_reviews'),
@@ -196,7 +207,7 @@ def reviews(out, n=5000):
         r = get(f'https://store.steampowered.com/appreviewhistogram/{a}', {'l': 'english', 'review_score_preference': 0},
                 gap=1.2, key='store')
         if r is not None and r.ok:
-            res = (r.json() or {}).get('results') or {}
+            res = (js(r) or {}).get('results') or {}
             for x in res.get('rollups') or []:
                 up, down = x.get('recommendations_up', 0), x.get('recommendations_down', 0)
                 monthly.append({'appid': a, 'name': app['name'],
@@ -226,7 +237,7 @@ def news(out, n=5000):
                 gap=0.3, key='api')
         if r is None or not r.ok:
             continue
-        ni = [x for x in ((r.json() or {}).get('appnews') or {}).get('newsitems') or [] if x.get('feed_type') == 1]
+        ni = [x for x in ((js(r) or {}).get('appnews') or {}).get('newsitems') or [] if x.get('feed_type') == 1]
         dates = sorted(x['date'] for x in ni)
         for x in ni:
             tags = x.get('tags') or []
@@ -265,9 +276,9 @@ def prices(out, n=5000):
             batch = apps[k:k + 100]
             r = get('https://store.steampowered.com/api/appdetails', {'appids': ','.join(str(a['appid']) for a in batch),
                                                                        'cc': cc, 'filters': 'price_overview'}, gap=1.3, key='store')
-            js = r.json() if r is not None and r.ok else {}
+            js_ = js(r) or {}
             for a in batch:
-                p = ((js.get(str(a['appid'])) or {}).get('data') or {})
+                p = ((js_.get(str(a['appid'])) or {}).get('data') or {})
                 p = p.get('price_overview') if isinstance(p, dict) else None
                 if p:
                     rows.append({'date': d, 'country': cc.upper(), 'appid': a['appid'], 'name': a['name'], 'currency': p.get('currency'),
@@ -291,7 +302,7 @@ def players(out, n=2000):
         r = get('https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/', {'appid': a['appid']}, key=f'c{a["appid"]}')
         if r is None or not r.ok:
             return None
-        c = ((r.json() or {}).get('response') or {}).get('player_count')
+        c = ((js(r) or {}).get('response') or {}).get('player_count')
         return None if c is None else f'{stamp},{a["appid"]},"{(a["name"] or "").replace(chr(34), "")}",{c}\n'
     with ThreadPoolExecutor(8) as ex:
         lines = [x for x in ex.map(one, apps) if x]
@@ -356,7 +367,7 @@ def hardware(out, backfill=True):
     if backfill:
         cdx = get('https://web.archive.org/cdx/search/cdx', {'url': 'store.steampowered.com/hwsurvey', 'output': 'json',
                                                               'from': '2008', 'collapse': 'timestamp:6', 'filter': 'statuscode:200'})
-        snaps = cdx.json()[1:] if cdx is not None and cdx.ok else []
+        snaps = (js(cdx) or [])[1:]
         for s in snaps:
             ts = s[1]
             page = get(f'https://web.archive.org/web/{ts}id_/{s[2]}', gap=2, key='wayback')
