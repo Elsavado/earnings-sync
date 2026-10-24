@@ -51,6 +51,16 @@ def _add(state, kind, cand, record):
     return True
 
 
+def repeated_label(state, kind, label):
+    """After anonymising, titles that differed only by a person's name read the same: those are published once."""
+    labels = state.setdefault('office_labels', {}).setdefault(kind, {})
+    t = usca.norm_title(label)
+    if t in labels:
+        return True
+    labels[t] = 1
+    return False
+
+
 def prune(state, kind):
     """Drops candidates queued under the old rules (any language, any country, every file of a record)."""
     q = state['queue'].get(kind, [])
@@ -208,8 +218,13 @@ def _vet_socrata(state, kind):
     state['queue'][kind] = keep
 
 
-def start(state, kind, log):
+def start(state, kind, log, store=None):
     """At the start of a run, before any queued candidate is processed (main.Run.go)."""
+    labels = state.setdefault('office_labels', {}).setdefault(kind, {})
+    if store is not None and not labels:  # the titles already on Drive, once
+        for name in store.names(kind):
+            labels[usca.norm_title(re.sub(r'^\d+ - |\.\w{2,5}$', '', name))] = 1
+        labels[''] = 1
     dropped = prune(state, kind)
     _vet_socrata(state, kind)
     if dropped:

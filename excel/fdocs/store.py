@@ -94,6 +94,19 @@ class Store(_Base):
             if not token:
                 return best
 
+    def names(self, kind):
+        """Names of every file of one type this collector has on Drive."""
+        out, token = [], None
+        while True:
+            res = _retry(lambda: self.drive.files().list(
+                q=f"appProperties has {{ key='fdApp' and value='{APP}' }} and "
+                  f"appProperties has {{ key='fdKind' and value='{kind}' }} and trashed = false",
+                fields='nextPageToken, files(name)', pageSize=1000, pageToken=token).execute())
+            out += [f['name'] for f in res.get('files', [])]
+            token = res.get('nextPageToken')
+            if not token:
+                return out
+
     def upload_doc(self, path, kind, n, label, ext, key):
         from .office import GOOGLE
         google = GOOGLE.get(kind) if ext in ('xlsx', 'docx', 'pptx') else None  # Drive converts the file to its Google type

@@ -392,6 +392,10 @@ class Run:
         if digest in self.state['hashes']:
             self.state['seen'][cand['key']] = 'rej:duplicate'
             return
+        if kind in office.KINDS and office.repeated_label(self.state, kind, res['label']):
+            self.state['seen'][cand['key']] = 'rej:same title as an earlier file'
+            log(f'  - {kind} {cand["source"]}: same title as an earlier file')
+            return
         n = self.state['next'].get(kind, 1)
         name = (self.store.upload_doc(res['path'], kind, n, res['label'], res['ext'], cand['key']) if self.store
                 else f'{n} - {res["label"]}.{res["ext"]}')
@@ -514,7 +518,7 @@ class Run:
         worker = Worker(int(os.environ.get('WORKERS') or (3 if all(k in K.TABULAR for k in order) else 2)))
         for kind in order:
             if kind in office.KINDS:
-                office.start(self.state, kind, log)
+                office.start(self.state, kind, log, self.store)
         rounds = 0
         while left() > 90 and not self.full:
             rounds += 1
