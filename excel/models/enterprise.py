@@ -490,14 +490,78 @@ def market_inputs(wb, c, market, sic, facts):
 
 
 # --- valuation -----------------------------------------------------------------------------------------------------
+VALUATION = {
+    'cost_of_equity': ['capm', 'capm_size', 'adjusted_beta'],
+    'weights': ['market', 'target', 'book'],
+    'cash_tax': ['marginal', 'effective', 'blended'],
+    'terminal': ['midpoint', 'perpetuity_led', 'exit_led', 'value_driver'],
+    'timing': ['mid_year', 'mid_year', 'end_year'],
+}
+VALUATION_MODULES = ['apv', 'tv_diagnostics']
+VAL_WHY = {
+    'capm': "cost of equity from CAPM with the industry beta relevered at the company's capital structure",
+    'capm_size': 'CAPM plus a size premium, since smaller companies have historically earned more than CAPM predicts',
+    'adjusted_beta': 'CAPM with a Blume-adjusted beta (two thirds raw, one third the market beta of 1), as beta tends towards 1 over time',
+    'market': 'capital-structure weights at the market value of equity and the book value of debt',
+    'target': "weights at the industry's typical debt / equity, i.e. the structure the business is expected to carry long term",
+    'book': 'weights at book values, used where market prices say little about the long-run structure',
+    'marginal': 'operating profit is taxed at the marginal rate',
+    'effective': 'operating profit is taxed at the forecast effective rate from the income statement',
+    'blended': 'tax at the average of the marginal and the forecast effective rate',
+    'midpoint': 'equity value is the midpoint of the perpetuity-growth and exit-multiple methods',
+    'perpetuity_led': 'the perpetuity-growth method carries three quarters of the weight, the exit multiple one quarter',
+    'exit_led': 'the exit multiple carries three quarters of the weight, as buyers price the business on multiples',
+    'value_driver': 'the terminal value uses the value-driver formula: growth must be funded by reinvestment at the return on new capital',
+    'mid_year': 'cash flows arrive mid-year',
+    'end_year': 'cash flows arrive at each year end (the conservative convention)',
+}
+
+
+def _module_variant(c, name, blocks, modules):
+    """This model's own method choices for one module, drawn from the model's key (same key, same choices)."""
+    from . import variants
+    base = c.get('variant')
+    return variants.Variant(f'{base.key if base else c["heading"]("")}:{name}', blocks=blocks, modules=modules)
+
+
+def _methods_note(ws, r, methods, why):
+    ws.cell(row=r, column=1, value='Methods in this model').font = BOLD
+    for i, (blk, m_) in enumerate(methods.items(), 1):
+        ws.cell(row=r + i, column=1, value=blk.replace('_', ' ').capitalize())
+        ws.cell(row=r + i, column=2, value=f'{m_.replace("_", " ")}: {why.get(m_, "")}').font = NOTE
+
+
 def valuation(wb, c, market, sic, facts):
-    M = market_inputs(wb, c, market, sic, facts).ref
+    mi = market_inputs(wb, c, market, sic, facts)
+    M = mi.ref
+    vv = _module_variant(c, 'valuation', VALUATION, VALUATION_MODULES)
+    V = vv.methods
     I, B, C = c['is_'].ref, c['bs'].ref, c['cf'].ref
     n, nh, periods = c['n'], c['nh'], c['periods']
     hi, F0, FN = nh - 1, nh, n - 1
     head = c['heading']
+    # Inputs used by this model's own methods only.
+    mi.section('Valuation method settings')
+    if V['cost_of_equity'] == 'capm_size':
+        float_ = xbrl.dei_latest(facts, 'EntityPublicFloat', 'USD') or 0
+        mi.add('size', 'Size premium', 0.03 if float_ < 2e9 else (0.015 if float_ < 1e10 else 0.005), PCT,
+               'Small companies have historically earned more than CAPM predicts')
+    if V['weights'] == 'target':
+        _, de_ind, industry, _ = market.beta(sic)
+        mi.add('wd_t', 'Target weight of debt', round(min(0.8, max(0.0, de_ind / (1 + de_ind))), 4), PCT,
+               f'Typical debt / (debt + equity) in the industry ({industry})')
+    vd = V['terminal'] == 'value_driver'
+    if vd:
+        mi.add('ronic', 'Return on new invested capital in perpetuity', round(vv.rng.uniform(0.09, 0.15), 3), PCT,
+               'Growth beyond the forecast is funded by reinvestment at this return')
+    else:
+        mi.add('w_perp', 'Weight of the perpetuity-growth method',
+               {'midpoint': 0.5, 'perpetuity_led': 0.75, 'exit_led': 0.25}[V['terminal']], PCT, 'The exit multiple carries the rest')
+    if V['timing'] == 'end_year':
+        mi.ws.cell(row=mi.rows['mid'], column=2).value = 0
     dc = Sheet(wb, 'DCF', head('Unlevered free cash flow and discounting (live scenario)'), periods, nh)
-    for key, label, bold, sec in [('ebit', 'EBIT', True, 'Free cash flow'), ('taxes', 'Less: taxes on EBIT', False, None),
+    for key, label, bold, sec in [('ebit', 'EBIT', True, 'Free cash flow'), ('t_rate', 'Tax rate applied to EBIT', False, None),
+                                  ('taxes', 'Less: taxes on EBIT', False, None),
                                   ('nopat', 'NOPAT', True, None), ('da', 'Plus: depreciation & amortisation', False, None),
                                   ('capex', 'Less: capital expenditure', False, None),
                                   ('wc', 'Less: investment in working capital', False, None),
@@ -509,14 +573,27 @@ def valuation(wb, c, market, sic, facts):
     wc = Inputs(wb, 'WACC', head('Weighted average cost of capital'))
     wc.section('Capital structure')
     wc.add('debt', 'Total debt (last reported year)', f'={B("debt", hi)}+{B("revolver", hi)}', NUM, formula=True)
-    wc.add('equity', 'Equity value used for weights', f'=IF({M("mcap")}>0,{M("mcap")},MAX({B("equity", hi)},{B("ta", hi)}*{M("min_eq")}))',
-           NUM, 'Market value of equity if available, otherwise book equity (with a minimum)', formula=True)
-    wc.add('de', 'Debt / equity', f'=IFERROR({wc.ref("debt")}/{wc.ref("equity")},0)', PCT, formula=True)
-    wc.add('wd', 'Weight of debt', f'=IFERROR({wc.ref("debt")}/({wc.ref("debt")}+{wc.ref("equity")}),0)', PCT, formula=True)
+    if V['weights'] == 'book':
+        wc.add('equity', 'Equity value used for weights (book)', f'=MAX({B("equity", hi)},{B("ta", hi)}*{M("min_eq")})', NUM,
+               'Book equity, with a minimum', formula=True)
+    else:
+        wc.add('equity', 'Equity value used for weights', f'=IF({M("mcap")}>0,{M("mcap")},MAX({B("equity", hi)},{B("ta", hi)}*{M("min_eq")}))',
+               NUM, 'Market value of equity if available, otherwise book equity (with a minimum)', formula=True)
+    if V['weights'] == 'target':
+        wc.add('wd', 'Weight of debt (target)', f'={M("wd_t")}', PCT, formula=True)
+        wc.add('de', 'Debt / equity (target)', f'=IFERROR({wc.ref("wd")}/(1-{wc.ref("wd")}),0)', PCT, formula=True)
+    else:
+        wc.add('de', 'Debt / equity', f'=IFERROR({wc.ref("debt")}/{wc.ref("equity")},0)', PCT, formula=True)
+        wc.add('wd', 'Weight of debt', f'=IFERROR({wc.ref("debt")}/({wc.ref("debt")}+{wc.ref("equity")}),0)', PCT, formula=True)
     wc.add('we', 'Weight of equity', f'=1-{wc.ref("wd")}', PCT, formula=True)
-    wc.section('Cost of equity (CAPM)')
+    wc.section('Cost of equity')
     wc.add('bl', 'Relevered beta (Hamada)', f'={M("bu")}*(1+(1-{M("tax")})*{wc.ref("de")})', '0.00', formula=True)
-    wc.add('ke', 'Cost of equity', f'={M("rf")}+{wc.ref("bl")}*{M("erp")}', PCT, formula=True)
+    beta = wc.ref('bl')
+    if V['cost_of_equity'] == 'adjusted_beta':
+        wc.add('ba', 'Adjusted beta (Blume: 2/3 raw + 1/3 x 1.0)', f'=2/3*{wc.ref("bl")}+1/3', '0.00', formula=True)
+        beta = wc.ref('ba')
+    ke = f'{M("rf")}+{beta}*{M("erp")}' + (f'+{M("size")}' if V['cost_of_equity'] == 'capm_size' else '')
+    wc.add('ke', 'Cost of equity', f'={ke}', PCT, formula=True)
     wc.section('Cost of debt')
     wc.add('kd_hist', 'Historical interest rate', f'=IFERROR({I("interest", hi)}/{wc.ref("debt")},0)', PCT, formula=True)
     wc.add('kd', 'Pre-tax cost of debt', f'=MAX({wc.ref("kd_hist")},{M("rf")}+{M("spread")})', PCT, formula=True)
@@ -524,10 +601,12 @@ def valuation(wb, c, market, sic, facts):
     wc.section('Result')
     wc.add('wacc', 'WACC', f'={wc.ref("we")}*{wc.ref("ke")}+{wc.ref("wd")}*{wc.ref("kd_at")}', PCT, formula=True)
     W = wc.ref('wacc')
+    eff = lambda j: f'MAX(0,MIN(0.4,IFERROR({I("tax", j)}/{I("pretax", j)},{M("tax")})))'  # noqa: E731
     for j in range(F0, n):
-        p = j - 1
         dc.set('ebit', j, f'={I("ebit", j)}', bold=True)
-        dc.set('taxes', j, f'=-MAX(0,{P("ebit", j)})*{M("tax")}')
+        rate = {'marginal': f'{M("tax")}', 'effective': eff(j), 'blended': f'AVERAGE({M("tax")},{eff(j)})'}[V['cash_tax']]
+        dc.set('t_rate', j, f'={rate}', PCT)
+        dc.set('taxes', j, f'=-MAX(0,{P("ebit", j)})*{P("t_rate", j)}')
         dc.set('nopat', j, f'={P("ebit", j)}+{P("taxes", j)}', bold=True)
         dc.set('da', j, f'={C("da", j)}')
         dc.set('capex', j, f'={C("capex", j)}')
@@ -538,12 +617,19 @@ def valuation(wb, c, market, sic, facts):
         dc.set('period', j, f'={P("year", j)}-{M("mid")}/2', '0.0')
         dc.set('df', j, f'=1/(1+{W})^{P("period", j)}', '0.0000')
         dc.set('pv', j, f'={P("ufcf", j)}*{P("df", j)}', bold=True)
-    ufcf_n, ebitda_n, yr_n = P('ufcf', FN), P('ebitda', FN), P('year', FN)
+    ufcf_n, ebitda_n, yr_n, nopat_n = P('ufcf', FN), P('ebitda', FN), P('year', FN), P('nopat', FN)
     ufcf_rng, per_rng = dc.span('ufcf', F0, FN), dc.span('period', F0, FN)
+    if vd:
+        def tv(w, g):
+            return f'{nopat_n}*(1+{g})*(1-{g}/{M("ronic")})/({w}-{g})'
+    else:
+        def tv(w, g):
+            return f'{ufcf_n}*(1+{g})/({w}-{g})'
     va = Inputs(wb, 'Valuation', head('Enterprise and equity value'))
-    va.section('Perpetuity growth method')
+    va.section('Value-driver method (perpetuity)' if vd else 'Perpetuity growth method')
     va.add('sum_pv', 'Sum of PV of forecast cash flows', f'=SUM({dc.span("pv", F0, FN)})', NUM, formula=True)
-    va.add('tv_g', 'Terminal value (Gordon growth)', f'={ufcf_n}*(1+{M("g")})/({W}-{M("g")})', NUM, formula=True)
+    va.add('tv_g', 'Terminal value (NOPAT x (1 + g) x (1 - g / RONIC) / (WACC - g))' if vd else 'Terminal value (Gordon growth)',
+           f'={tv(W, M("g"))}', NUM, formula=True)
     va.add('pv_g', 'PV of terminal value', f'={va.ref("tv_g")}/(1+{W})^{yr_n}', NUM, formula=True)
     va.add('ev_g', 'Enterprise value', f'={va.ref("sum_pv")}+{va.ref("pv_g")}', NUM, formula=True)
     va.add('imp_mult', 'Implied exit EV / EBITDA', f'=IFERROR({va.ref("tv_g")}/{ebitda_n},0)', MULT, formula=True)
@@ -558,15 +644,38 @@ def valuation(wb, c, market, sic, facts):
     va.add('nci', 'Less: non-controlling interest & other equity', f'=-{B("nci", hi)}', NUM, formula=True)
     va.add('cash', 'Plus: cash and equivalents', f'={B("cash", hi)}', NUM, formula=True)
     va.add('bridge', 'Net adjustment', f'={va.ref("debt")}+{va.ref("nci")}+{va.ref("cash")}', NUM, formula=True)
-    va.add('eq_g', 'Equity value - perpetuity method', f'={va.ref("ev_g")}+{va.ref("bridge")}', NUM, formula=True)
+    va.add('eq_g', 'Equity value - ' + ('value-driver method' if vd else 'perpetuity method'),
+           f'={va.ref("ev_g")}+{va.ref("bridge")}', NUM, formula=True)
     va.add('eq_m', 'Equity value - exit multiple method', f'={va.ref("ev_m")}+{va.ref("bridge")}', NUM, formula=True)
-    va.add('eq', 'Equity value - midpoint of methods', f'=AVERAGE({va.ref("eq_g")},{va.ref("eq_m")})', NUM, formula=True)
+    wp = '0.5' if vd else M('w_perp')
+    va.add('eq', 'Equity value - midpoint of methods' if vd else 'Equity value - weighted',
+           f'={wp}*{va.ref("eq_g")}+(1-{wp})*{va.ref("eq_m")}', NUM, formula=True)
     va.add('ps', 'Value per share (USD)', f'=IFERROR({va.ref("eq")}/{M("shares")},0)', PRICE, formula=True)
     va.add('updown', 'Value vs market value of equity', f'=IFERROR({va.ref("eq")}/{M("mcap")}-1,0)', PCT, formula=True)
     va.section('Implied multiples (last reported year)')
-    va.add('ev_rev', 'EV / revenue', f'=IFERROR(AVERAGE({va.ref("ev_g")},{va.ref("ev_m")})/{I("revenue", hi)},0)', MULT, formula=True)
-    va.add('ev_ebitda', 'EV / EBITDA', f'=IFERROR(AVERAGE({va.ref("ev_g")},{va.ref("ev_m")})/{I("ebitda", hi)},0)', MULT, formula=True)
+    ev_w = f'({wp}*{va.ref("ev_g")}+(1-{wp})*{va.ref("ev_m")})'
+    va.add('ev_rev', 'EV / revenue', f'=IFERROR({ev_w}/{I("revenue", hi)},0)', MULT, formula=True)
+    va.add('ev_ebitda', 'EV / EBITDA', f'=IFERROR({ev_w}/{I("ebitda", hi)},0)', MULT, formula=True)
     va.add('pe', 'Equity value / net income', f'=IFERROR({va.ref("eq")}/{I("net_income", hi)},0)', MULT, formula=True)
+    if vv.has('tv_diagnostics'):
+        va.section('Terminal value diagnostics')
+        va.add('tvs_g', 'Terminal value % EV (' + ('value driver' if vd else 'perpetuity') + ')',
+               f'=IFERROR({va.ref("pv_g")}/{va.ref("ev_g")},0)', PCT, formula=True)
+        va.add('tvs_m', 'Terminal value % EV (exit multiple)', f'=IFERROR({va.ref("pv_m")}/{va.ref("ev_m")},0)', PCT, formula=True)
+        va.add('reinv', 'Implied terminal reinvestment rate (g / RONIC)' if vd else 'Implied terminal reinvestment rate (1 - UFCF / NOPAT)',
+               f'=IFERROR({M("g")}/{M("ronic")},0)' if vd else f'=IFERROR(1-{ufcf_n}/{nopat_n},0)', PCT, formula=True)
+        va.add('tv_flag', 'Comment', f'=IF(MAX({va.ref("tvs_g")},{va.ref("tvs_m")})>0.8,"Over 80% of value sits in the terminal year - '
+               f'test the long-run assumptions","Terminal share within the usual range")', '@', formula=True)
+    if vv.has('apv'):
+        va.section('Adjusted present value (cross-check)')
+        va.add('ku', 'Unlevered cost of capital (risk-free + unlevered beta x ERP)', f'={M("rf")}+{M("bu")}*{M("erp")}', PCT, formula=True)
+        ku = va.ref('ku')
+        va.add('apv_ops', 'Value of operations at the unlevered cost',
+               f'=IFERROR(SUMPRODUCT({ufcf_rng}/(1+{ku})^{per_rng})+{tv(ku, M("g"))}/(1+{ku})^{yr_n},0)', NUM, formula=True)
+        va.add('apv_ts', 'Value of interest tax shields (debt held constant)', f'={wc.ref("debt")}*{M("tax")}', NUM, formula=True)
+        va.add('apv_ev', 'Enterprise value (APV)', f'={va.ref("apv_ops")}+{va.ref("apv_ts")}', NUM, formula=True)
+        va.add('apv_eq', 'Equity value (APV)', f'={va.ref("apv_ev")}+{va.ref("bridge")}', NUM, formula=True)
+        va.add('apv_gap', 'APV vs DCF equity value', f'=IFERROR({va.ref("apv_eq")}/{va.ref("eq")}-1,0)', PCT, formula=True)
 
     se = wb.create_sheet('Sensitivity')
     _title(se, head('Equity value sensitivity (USD millions)'),
@@ -578,51 +687,79 @@ def valuation(wb, c, market, sic, facts):
     se['A4'].font = BOLD
     se['A12'] = 'WACC (rows) x exit EV / EBITDA (columns)'
     se['A12'].font = BOLD
-    for k, s in enumerate(steps):
-        se.cell(row=5, column=2 + k, value=f'={M("g")}+({s})*{M("g_step")}').number_format = PCT
-        se.cell(row=13, column=2 + k, value=f'={M("exit")}+({s})*{M("m_step")}').number_format = MULT
+    for k, s_ in enumerate(steps):
+        se.cell(row=5, column=2 + k, value=f'={M("g")}+({s_})*{M("g_step")}').number_format = PCT
+        se.cell(row=13, column=2 + k, value=f'={M("exit")}+({s_})*{M("m_step")}').number_format = MULT
         for r0 in (6, 14):
-            se.cell(row=r0 + k, column=1, value=f'={W}+({s})*{M("w_step")}').number_format = PCT
+            se.cell(row=r0 + k, column=1, value=f'={W}+({s_})*{M("w_step")}').number_format = PCT
         se.column_dimensions[col(k)].width = 14
     for r in range(5):
         for k in range(5):
             w, g, m = f'$A{6 + r}', f'{col(k)}$5', f'{col(k)}$13'
             pv = f'SUMPRODUCT({ufcf_rng}/(1+{w})^{per_rng})'
-            se.cell(row=6 + r, column=2 + k,
-                    value=f'=IFERROR({pv}+{ufcf_n}*(1+{g})/({w}-{g})/(1+{w})^{yr_n}+{bridge},0)').number_format = NUM
+            se.cell(row=6 + r, column=2 + k, value=f'=IFERROR({pv}+{tv(w, g)}/(1+{w})^{yr_n}+{bridge},0)').number_format = NUM
             w2 = f'$A{14 + r}'
             pv2 = f'SUMPRODUCT({ufcf_rng}/(1+{w2})^{per_rng})'
-            se.cell(row=14 + r, column=2 + k,
-                    value=f'={pv2}+{m}*{ebitda_n}/(1+{w2})^{yr_n}+{bridge}').number_format = NUM
+            se.cell(row=14 + r, column=2 + k, value=f'={pv2}+{m}*{ebitda_n}/(1+{w2})^{yr_n}+{bridge}').number_format = NUM
     ff = Inputs(wb, 'Football Field', head('Valuation summary - equity value ranges'))
     ff.ws['D3'], ff.ws['E3'] = 'Low', 'High'
     ff.section('Equity value (USD millions)')
-    for key, label, rng in [('g', 'DCF - perpetuity growth (sensitivity range)', 'Sensitivity!$B$6:$F$10'),
+    for key, label, rng in [('g', ('DCF - value driver' if vd else 'DCF - perpetuity growth') + ' (sensitivity range)', 'Sensitivity!$B$6:$F$10'),
                             ('m', 'DCF - exit multiple (sensitivity range)', 'Sensitivity!$B$14:$F$18')]:
         ff.add(key, label, f'=MEDIAN({rng})', NUM, 'Median of the grid; low and high in columns D and E', formula=True)
         r = ff.rows[key]
         ff.ws.cell(row=r, column=4, value=f'=MIN({rng})').number_format = NUM
         ff.ws.cell(row=r, column=5, value=f'=MAX({rng})').number_format = NUM
+    if vv.has('apv'):
+        ff.add('apv', 'Adjusted present value', f'={va.ref("apv_eq")}', NUM, formula=True)
     ff.add('mkt', 'Market value of equity', f'={M("mcap")}', NUM, formula=True)
+    _methods_note(ff.ws, ff.next_row + 1, V, VAL_WHY)
     c.setdefault('dash_extra', []).extend([
-        ('v_wacc', 'WACC', f'={W}', PCT), ('v_eq', 'DCF equity value (midpoint)', f'={va.ref("eq")}', NUM),
+        ('v_wacc', 'WACC', f'={W}', PCT), ('v_eq', 'DCF equity value (weighted)', f'={va.ref("eq")}', NUM),
         ('v_ps', 'DCF value per share (USD)', f'={va.ref("ps")}', PRICE)])
-    sections = [('Market Inputs', 'Risk-free rate, ERP, beta, SOFR, terminal growth, exit multiple, share data (inputs)'),
+    sections = [('Market Inputs', 'Risk-free rate, ERP, beta, SOFR, terminal growth, exit multiple, share data and method settings (inputs)'),
                 ('DCF', 'Unlevered free cash flow from the integrated forecast and discounting'),
-                ('WACC', 'Capital structure, CAPM cost of equity, cost of debt and WACC'),
-                ('Valuation', 'Perpetuity and exit-multiple methods, equity bridge, per-share value, implied multiples'),
+                ('WACC', 'Capital structure, cost of equity, cost of debt and WACC'),
+                ('Valuation', 'Terminal-value methods, equity bridge, per-share value, implied multiples'
+                 + (', APV cross-check' if vv.has('apv') else '') + (', terminal diagnostics' if vv.has('tv_diagnostics') else '')),
                 ('Sensitivity', 'Equity value across WACC x growth and WACC x exit multiple'),
-                ('Football Field', 'Valuation ranges by method')]
+                ('Football Field', 'Valuation ranges by method and the methods chosen')]
     items = [('WACC exceeds terminal growth (0 = yes)', f'IF({W}>{M("g")},0,1)'),
              ('Perpetuity grid centre equals base equity value', f'Sensitivity!$D$8-{va.ref("eq_g")}'),
              ('Exit-multiple grid centre equals base equity value', f'Sensitivity!$D$16-{va.ref("eq_m")}'),
              ('PV of cash flows equals SUMPRODUCT re-calculation', f'{va.ref("sum_pv")}-SUMPRODUCT({ufcf_rng}/(1+{W})^{per_rng})')]
+    if vd:
+        items.append(('Return on new capital exceeds terminal growth (0 = yes)', f'IF({M("ronic")}>{M("g")},0,1)'))
     return sections, items
+
+
+BUYOUT = {
+    'structure': ['tlb_notes', 'unitranche', 'tlb_pik'],
+    'sweep': ['partial', 'full', 'cash_build', 'partial'],
+    'exit': ['flat', 'contraction', 'mean_reversion'],
+    'tax': ['full_deduction', 'interest_cap'],
+}
+BUYOUT_MODULES = ['value_bridge', 'credit_path']
+BUY_WHY = {
+    'tlb_notes': 'senior term loan B plus unsecured fixed-coupon notes - the classic sponsor structure',
+    'unitranche': 'a single blended-rate unitranche facility from a direct lender: simpler, faster, priced above a TLB',
+    'tlb_pik': 'term loan B plus a payment-in-kind mezzanine tranche whose interest accrues to principal, preserving cash',
+    'partial': 'part of the excess cash sweeps the term loan; the rest builds on the balance sheet',
+    'full': 'all excess cash above the operating floor prepays the term loan',
+    'cash_build': 'no sweep: cash accumulates and reduces net debt at exit',
+    'flat': 'exit at the entry multiple - no multiple expansion is underwritten',
+    'contraction': 'exit one turn below entry, a conservative underwriting stance',
+    'mean_reversion': 'the exit multiple reverts half way to a long-run market average of 9x',
+    'full_deduction': 'interest is fully tax-deductible',
+    'interest_cap': 'net interest is deductible only up to 30% of EBITDA, as under US rules for leveraged companies',
+}
 
 
 # --- leveraged buyout ----------------------------------------------------------------------------------------------
 def buyout(wb, c, market, sic, facts):
     M = market_inputs(wb, c, market, sic, facts).ref
+    bv = _module_variant(c, 'buyout', BUYOUT, BUYOUT_MODULES)
+    X = bv.methods
     I, B, C = c['is_'].ref, c['bs'].ref, c['cf'].ref
     n, nh, periods, years = c['n'], c['nh'], c['periods'], c['years']
     hi, F0, FN = nh - 1, nh, n - 1
@@ -631,23 +768,34 @@ def buyout(wb, c, market, sic, facts):
     for row in c['mi'].ws.iter_rows(min_row=c['mi'].rows['exit'], max_row=c['mi'].rows['exit'], min_col=2, max_col=2):
         entry = row[0].value
     senior_x, notes_x = round(min(4.0, entry * 0.35), 2), round(min(2.0, entry * 0.15), 2)
+    if X['structure'] == 'unitranche':
+        senior_x, notes_x = round(min(5.5, senior_x + notes_x), 2), 0.0
+    exit_x = {'flat': entry, 'contraction': round(max(4.0, entry - 1.0), 1), 'mean_reversion': round((entry + 9.0) / 2, 1)}[X['exit']]
+    sweep = {'partial': round(bv.rng.choice([0.5, 0.6, 0.75]), 2), 'full': 1.0, 'cash_build': 0.0}[X['sweep']]
     ti = Inputs(wb, 'Transaction Inputs', head('Transaction, financing and exit inputs'))
     ti.section('Purchase price')
     ti.add('entry', 'Entry EV / EBITDA', entry, MULT, 'Same basis as the exit multiple on Market Inputs')
     ti.add('tx_fee', 'Transaction fees % enterprise value', 0.02, PCT)
     ti.add('min_cash', 'Minimum operating cash % revenue', 0.03, PCT)
     ti.section('Financing')
-    ti.add('tl_x', 'Term loan B (x LTM EBITDA)', senior_x, MULT, 'Senior secured, floating')
-    ti.add('tl_spread', 'Term loan spread over SOFR', 0.035, PCT)
+    uni = X['structure'] == 'unitranche'
+    pik = X['structure'] == 'tlb_pik'
+    ti.add('tl_x', 'Unitranche facility (x LTM EBITDA)' if uni else 'Term loan B (x LTM EBITDA)', senior_x, MULT,
+           'Single senior facility, floating' if uni else 'Senior secured, floating')
+    ti.add('tl_spread', 'Spread over SOFR', 0.0575 if uni else 0.035, PCT)
     ti.add('tl_amort', 'Mandatory amortisation % original principal p.a.', 0.01, PCT)
-    ti.add('sweep', 'Excess cash flow sweep %', 0.75, PCT)
-    ti.add('sn_x', 'Senior notes (x LTM EBITDA)', notes_x, MULT, 'Unsecured, fixed coupon, bullet')
-    ti.add('sn_rate', 'Senior notes coupon', round(market.rf + 0.035, 4), PCT, 'Risk-free rate plus 350 bp')
-    ti.add('fin_fee', 'Financing fees % of debt raised', 0.025, PCT)
+    ti.add('sweep', 'Excess cash flow sweep %', sweep, PCT)
+    ti.add('sn_x', ('PIK mezzanine notes' if pik else 'Senior notes') + ' (x LTM EBITDA)', notes_x, MULT,
+           'Interest accrues to principal, repaid at exit' if pik else 'Unsecured, fixed coupon, bullet')
+    ti.add('sn_rate', 'PIK coupon' if pik else 'Senior notes coupon', round(market.rf + (0.075 if pik else 0.035), 4), PCT,
+           'Risk-free rate plus 750 bp, paid in kind' if pik else 'Risk-free rate plus 350 bp')
+    ti.add('fin_fee', 'Financing fees % of debt raised', 0.03 if uni else 0.025, PCT)
     ti.add('rev_spread', 'Revolver spread over SOFR', 0.03, PCT)
-    ti.add('mgmt', 'Management equity pool % of exit equity', 0.08, PCT, 'Dilutes the sponsor at exit')
+    ti.add('mgmt', 'Management equity pool % of exit equity', bv.rng.choice([0.05, 0.08, 0.10, 0.12]), PCT, 'Dilutes the sponsor at exit')
+    if X['tax'] == 'interest_cap':
+        ti.add('int_cap', 'Interest deductibility cap % EBITDA', 0.30, PCT, 'Interest above the cap is not deductible')
     ti.section('Exit')
-    ti.add('exit', 'Exit EV / EBITDA', entry, MULT, 'Equal to entry: no multiple expansion')
+    ti.add('exit', 'Exit EV / EBITDA', exit_x, MULT, BUY_WHY[X['exit']].capitalize())
     ti.add('step', 'Sensitivity step (x EBITDA)', 1.0, MULT)
     T = ti.ref
     ltm = I('ebitda', hi)
@@ -697,11 +845,15 @@ def buyout(wb, c, market, sic, facts):
         lb.set('ebit', j, f'={L("ebitda", j)}-{L("da", j)}')
         lb.set('interest', j, f'={L("rev_int", j)}+{L("tl_int", j)}+{L("sn_int", j)}')
         lb.set('pretax', j, f'={L("ebit", j)}-{L("interest", j)}')
-        lb.set('taxes', j, f'=-MAX(0,{L("pretax", j)})*{M("tax")}')
+        if X['tax'] == 'interest_cap':
+            lb.set('taxes', j, f'=-MAX(0,{L("ebit", j)}-MIN({L("interest", j)},MAX(0,{L("ebitda", j)})*{T("int_cap")}))*{M("tax")}')
+        else:
+            lb.set('taxes', j, f'=-MAX(0,{L("pretax", j)})*{M("tax")}')
         lb.set('ni', j, f'={L("pretax", j)}+{L("taxes", j)}', bold=True)
         lb.set('capex', j, f'={C("capex", j)}')
         lb.set('wc', j, f'={C("wc", j)}')
-        lb.set('fcf', j, f'={L("ni", j)}+{L("da", j)}+{L("capex", j)}+{L("wc", j)}', bold=True)
+        noncash = f'+{L("sn_int", j)}' if pik else ''  # PIK interest is an expense but not a cash payment
+        lb.set('fcf', j, f'={L("ni", j)}+{L("da", j)}+{L("capex", j)}+{L("wc", j)}{noncash}', bold=True)
         lb.set('cash_open', j, f'={L("cash", p)}')
         lb.set('mand', j, f'=-{L("tl_mand", j)}')
         lb.set('pre', j, f'={L("cash_open", j)}+{L("fcf", j)}+{L("mand", j)}')
@@ -717,7 +869,7 @@ def buyout(wb, c, market, sic, facts):
         lb.set('tl_sweep', j, f'=MIN({L("tl_open", j)}-{L("tl_mand", j)},{L("avail", j)}*{T("sweep")})')
         lb.set('tl', j, f'={L("tl_open", j)}-{L("tl_mand", j)}-{L("tl_sweep", j)}')
         lb.set('tl_int', j, f'={L("tl_open", j)}*({M("sofr")}+{T("tl_spread")})')
-        lb.set('sn', j, f'={L("sn", p)}')
+        lb.set('sn', j, f'={L("sn", p)}*(1+{T("sn_rate")})' if pik else f'={L("sn", p)}')
         lb.set('sn_int', j, f'={L("sn", p)}*{T("sn_rate")}')
         lb.set('total', j, f'={L("rev", j)}+{L("tl", j)}+{L("sn", j)}', bold=True)
         lb.set('net', j, f'={L("total", j)}-{L("cash", j)}')
@@ -762,6 +914,33 @@ def buyout(wb, c, market, sic, facts):
             eq_out = f'({x}*{rs.ref("ebitda")}+{rs.ref("net")})*(1-{T("mgmt")})'
             se.cell(row=5 + r, column=2 + k,
                     value=f'=IFERROR(MAX(0,{eq_out}/{eq_in})^(1/{years})-1,0)').number_format = PCT
+    extra_sections, extra_items = [], []
+    if bv.has('value_bridge'):
+        vb = Inputs(wb, 'Value Creation', head('Sources of sponsor value creation (100% equity)'))
+        e0, eN = ltm, rs.ref('ebitda')
+        vb.section('Bridge from equity invested to exit equity')
+        vb.add('in', 'Equity invested at close', f'={su.ref("equity")}', NUM, formula=True)
+        vb.add('growth', 'EBITDA growth at the entry multiple', f'={T("entry")}*({eN}-{e0})', NUM, formula=True)
+        vb.add('mult', 'Multiple expansion / (contraction)', f'=({T("exit")}-{T("entry")})*{eN}', NUM, formula=True)
+        vb.add('delev', 'Net debt reduction', f'=({su.ref("tl")}+{su.ref("sn")}-{su.ref("cash_bs")})-{L("net", FN)}', NUM, formula=True)
+        vb.add('leak', 'Fees paid at close', f'=-({su.ref("tx_fees")}+{su.ref("fin_fees")})', NUM, formula=True)
+        vb.add('out', 'Exit equity value (100%)', f'={vb.ref("in")}+{vb.ref("growth")}+{vb.ref("mult")}+{vb.ref("delev")}+{vb.ref("leak")}',
+               NUM, formula=True)
+        vb.section('Share of value created')
+        for k_, lab in (('growth', 'Operational growth'), ('mult', 'Multiple'), ('delev', 'Deleveraging')):
+            vb.add(f'{k_}_pct', lab, f'=IFERROR({vb.ref(k_)}/({vb.ref("out")}-{vb.ref("in")}),0)', PCT, formula=True)
+        extra_sections.append(('Value Creation', 'Bridge of equity value: EBITDA growth, multiple and deleveraging'))
+        extra_items.append(('Value bridge equals exit equity', f'{vb.ref("out")}-{rs.ref("eq100")}'))
+    if bv.has('credit_path'):
+        r = rs.next_row + 1
+        rs.ws.cell(row=r, column=1, value='Credit path').font = Font(bold=True, color=NAVY)
+        rs.next_row = r + 1
+        rs.add('lev0', 'Leverage at close', f'={su.ref("lev")}', MULT, formula=True)
+        rs.add('levN', 'Leverage at exit', f'={L("lev", FN)}', MULT, formula=True)
+        rs.add('cov_min', 'Lowest EBITDA / interest in the hold period', f'=MIN({lb.span("cov", F0, FN)})', MULT, formula=True)
+        rs.add('paid', 'Share of initial debt repaid by exit', f'={L("paid", FN)}', PCT, formula=True)
+    r = rs.next_row + 1
+    _methods_note(rs.ws, r, X, BUY_WHY)
     c.setdefault('dash_extra', []).extend([('b_irr', 'Buyout IRR', f'={rs.ref("irr")}', PCT),
                                            ('b_moic', 'Buyout MOIC', f'={rs.ref("moic")}', MULT)])
     sections = [('Market Inputs', 'Rates, beta, tax and multiples (inputs)'),
@@ -769,8 +948,8 @@ def buyout(wb, c, market, sic, facts):
                 ('Sources & Uses', 'Funding of the purchase at close'),
                 ('LBO Model', 'Buyout cash flows from the integrated forecast, cash sweep, debt and credit statistics'),
                 ('Returns', 'Exit value, MOIC, IRR (two ways) and sponsor NPV'),
-                ('IRR Sensitivity', 'IRR across entry and exit multiples')]
-    items = [('Sources equal uses', f'{su.ref("sources")}-{su.ref("uses")}'),
+                ('IRR Sensitivity', 'IRR across entry and exit multiples')] + extra_sections
+    items = extra_items + [('Sources equal uses', f'{su.ref("sources")}-{su.ref("uses")}'),
              ('Sensitivity centre equals base IRR', f"('IRR Sensitivity'!$D$7-{rs.ref('irr')})*100"),
              ('Closing cash never below zero', f'-MIN(0,MIN({lb.span("cash", F0, FN)}))'),
              ('Term loan never negative', f'-MIN(0,MIN({lb.span("tl", F0, FN)}))')]
@@ -778,23 +957,58 @@ def buyout(wb, c, market, sic, facts):
 
 
 # --- budget & FP&A -----------------------------------------------------------------------------------------------
+BUDGET = {
+    'phasing': ['seasonal', 'seasonal', 'even', 'ramp'],
+    'departments': ['functional', 'commercial', 'product_led'],
+    'variance': ['prior_year', 'flexed'],
+}
+BUDGET_MODULES = ['quarterly_view', 'headcount_detail']
+BUD_WHY = {
+    'seasonal': "monthly revenue follows the company's own quarterly pattern",
+    'even': 'revenue is spread evenly - appropriate for subscription or contracted revenue',
+    'ramp': 'revenue builds through the year in line with the annual growth rate (exit run-rate above entry)',
+    'functional': 'costs are planned by the classic functions: sales & marketing, R&D, G&A and operations',
+    'commercial': 'a commercially organised cost base with customer success split from sales',
+    'product_led': 'a product-led structure where engineering and product carry most of the cost',
+    'prior_year': 'the budget is compared with the last reported year',
+    'flexed': 'a flexed budget at last year\'s revenue separates the volume effect from spending efficiency',
+}
+DEPTS = {
+    'functional': [('sm', 'Sales & marketing', 0.35), ('rd', 'Research & development', 0.20), ('ga', 'General & administrative', 0.25),
+                   ('ops', 'Operations & supply chain', 0.20)],
+    'commercial': [('sales', 'Sales', 0.28), ('mkt', 'Marketing', 0.14), ('cs', 'Customer success & service', 0.14),
+                   ('rd', 'Research & development', 0.16), ('ga', 'General & administrative', 0.18), ('ops', 'Operations', 0.10)],
+    'product_led': [('eng', 'Engineering', 0.34), ('prod', 'Product & design', 0.12), ('gtm', 'Go-to-market', 0.26),
+                    ('ga', 'General & administrative', 0.16), ('it', 'Infrastructure & IT', 0.12)],
+}
+
+
 def budget(wb, c, weights):
     I, C = c['is_'].ref, c['cf'].ref
     nh, periods = c['nh'], c['periods']
     hi, f1 = nh - 1, nh
     head = c['heading']
+    bv = _module_variant(c, 'budget', BUDGET, BUDGET_MODULES)
+    X = bv.methods
+    if X['phasing'] == 'even':
+        weights = [round(1 / 12, 6)] * 11
+        weights.append(round(1 - sum(weights), 6))
+    elif X['phasing'] == 'ramp':
+        slope = bv.rng.uniform(0.04, 0.12)
+        raw = [1 + slope * (k - 5.5) / 5.5 for k in range(12)]
+        weights = [round(x / sum(raw), 6) for x in raw[:11]]
+        weights.append(round(1 - sum(weights), 6))
     bi = Inputs(wb, 'Budget Inputs', head(f'Budget inputs for {periods[f1]}'))
-    bi.section('Monthly revenue seasonality (share of the year)')
+    bi.section('Monthly revenue phasing (share of the year)')
     for m, w in zip(MONTHS, weights):
-        bi.add(f'w_{m}', m, w, PCT, "From the company's quarterly revenue pattern, spread evenly within each quarter"
-               if m == 'Jan' and weights[0] != round(1 / 12, 6) else None)
-    bi.add('var', 'Variable share of operating expenses', 0.5, PCT, 'Follows monthly revenue; the rest is spread evenly')
+        bi.add(f'w_{m}', m, w, PCT, BUD_WHY[X['phasing']].capitalize() if m == 'Jan' else None)
+    bi.add('var', 'Variable share of operating expenses', round(bv.rng.uniform(0.3, 0.7), 2), PCT,
+           'Follows monthly revenue; the rest is spread evenly')
     bi.section('Department allocation of operating expenses')
-    depts = [('sm', 'Sales & marketing', 0.35), ('rd', 'Research & development', 0.20), ('ga', 'General & administrative', 0.25),
-             ('ops', 'Operations & supply chain', 0.20)]
+    depts = DEPTS[X['departments']]
     for key, label, share in depts:
         bi.add(f'd_{key}', label, share, PCT, 'Assumed split; adjust to the company\'s cost structure')
-    bi.add('fte_cost', 'Average fully loaded cost per employee (USD millions)', 0.12, NUM)
+    bi.add('fte_cost', 'Average fully loaded cost per employee (USD millions)', round(bv.rng.uniform(0.09, 0.16), 3), NUM)
     W = {m: bi.ref(f'w_{m}') for m in MONTHS}
     mb = Sheet(wb, 'Monthly Budget', head(f'Monthly budget {periods[f1]} (live scenario)'), MONTHS + ['FY total'])
     mb.ws.column_dimensions[col(12)].width = 14
@@ -843,8 +1057,9 @@ def budget(wb, c, weights):
         dp.set('pct', j, f'=IFERROR({dp.ref("total", j)}/{I("revenue", jj)},0)', PCT)
         dp.set('fte', j, f'=SUM({col(j)}{dp.rows["fte_" + depts[0][0]]}:{col(j)}{dp.rows["fte_" + depts[-1][0]]})', '#,##0', bold=True)
 
+    flexed = X['variance'] == 'flexed'
     va = Sheet(wb, 'Variance Analysis', head(f'Budget {periods[f1]} vs actual {periods[hi]}'),
-               ['Actual', 'Budget', 'Variance', 'Variance %', 'Assessment'])
+               ['Actual', 'Budget', 'Variance', 'Variance %', 'Assessment'] + (['Flexed budget', 'Volume effect', 'Spending effect'] if flexed else []))
     va.ws.column_dimensions[col(4)].width = 16
     lines = [('revenue', 'Revenue', I, 'revenue', 1), ('cogs', 'Cost of revenue', I, 'cogs', -1), ('gross', 'Gross profit', I, 'gross', 1),
              ('opex', 'Operating expenses', I, 'opex', -1), ('ebit', 'Operating income', I, 'ebit', 1),
@@ -859,13 +1074,41 @@ def budget(wb, c, weights):
         va.set(key, 3, f'=IFERROR({va.ref(key, 2)}/ABS({va.ref(key, 0)}),0)', PCT)
         good = f'{va.ref(key, 2)}>=0' if sign > 0 else f'{va.ref(key, 2)}<=0'
         va.set(key, 4, f'=IF({good},"Favourable","Unfavourable")', '@')
+        if flexed:
+            # flexed budget: the budget's ratio to revenue applied to last year's revenue (revenue itself is not flexed)
+            scale = f'IFERROR({ref("revenue", hi)}/{ref("revenue", f1)},0)' if ref is I else f'IFERROR({I("revenue", hi)}/{I("revenue", f1)},0)'
+            va.set(key, 5, f'={va.ref(key, 1)}' if key == 'revenue' else f'={va.ref(key, 1)}*{scale}')
+            va.set(key, 6, f'={va.ref(key, 1)}-{va.ref(key, 5)}')
+            va.set(key, 7, f'={va.ref(key, 5)}-{va.ref(key, 0)}')
     c.setdefault('dash_extra', []).extend([
         ('bud_rev', f'Budget revenue {periods[f1]}', f'={Mb("revenue", 12)}', NUM),
         ('bud_fte', 'Implied employees (budget year)', f"={dp.ref('fte', 0)}", '#,##0')])
-    sections = [('Budget Inputs', 'Monthly seasonality, cost behaviour, department split and cost per employee (inputs)'),
+    extra = []
+    if bv.has('quarterly_view'):
+        qv = Sheet(wb, 'Quarterly View', head(f'Budget {periods[f1]} by quarter'), ['Q1', 'Q2', 'Q3', 'Q4', 'FY total'])
+        for key in ('revenue', 'gross', 'opex', 'ebit', 'ebitda'):
+            qv.row(key, {'revenue': 'Revenue', 'gross': 'Gross profit', 'opex': 'Operating expenses', 'ebit': 'Operating income',
+                         'ebitda': 'EBITDA'}[key], bold=key in ('revenue', 'ebitda'))
+        qv.row('share', 'Revenue share of the year', gap_before=True)
+        for q in range(4):
+            for key in ('revenue', 'gross', 'opex', 'ebit', 'ebitda'):
+                qv.set(key, q, f'=SUM({mb.span(key, 3 * q, 3 * q + 2)})')
+            qv.set('share', q, f'=IFERROR({qv.ref("revenue", q)}/{qv.ref("revenue", 4)},0)', PCT)
+        for key in ('revenue', 'gross', 'opex', 'ebit', 'ebitda'):
+            qv.set(key, 4, f'=SUM({qv.span(key, 0, 3)})', bold=True)
+        extra.append(('Quarterly View', 'The budget year by quarter'))
+    if bv.has('headcount_detail'):
+        dp.row('rev_fte', 'Revenue per employee', gap_before=True)
+        dp.row('opex_fte', 'Operating expenses per employee')
+        for j in range(len(periods) - f1):
+            dp.set('rev_fte', j, f'=IFERROR({I("revenue", f1 + j)}/{dp.ref("fte", j)},0)', NUM)
+            dp.set('opex_fte', j, f'=IFERROR({dp.ref("total", j)}/{dp.ref("fte", j)},0)', NUM)
+    _methods_note(bi.ws, bi.next_row + 1, X, BUD_WHY)
+    sections = [('Budget Inputs', 'Monthly phasing, cost behaviour, department split and cost per employee (inputs)'),
                 ('Monthly Budget', 'Twelve-month budget for the first forecast year with year-to-date tracking'),
                 ('Department Plan', 'Operating expenses and implied headcount by department for every forecast year'),
-                ('Variance Analysis', 'Budget versus last reported year with favourable / unfavourable flags')]
+                ('Variance Analysis', 'Budget versus last reported year with favourable / unfavourable flags'
+                 + (', flexed budget, volume and spending effects' if flexed else ''))] + extra
     items = [('Seasonality weights sum to 100%', f'(SUM({bi.ref("w_Jan")}:{bi.ref("w_Dec").split("!")[1]})-1)*100'),
              ('Department shares sum to 100%',
               f'(SUM({bi.ref("d_" + depts[0][0])}:{bi.ref("d_" + depts[-1][0]).split("!")[1]})-1)*100'),
@@ -876,28 +1119,55 @@ def budget(wb, c, weights):
 
 
 # --- credit & liquidity --------------------------------------------------------------------------------------------
+CREDIT = {
+    'covenants': ['investment_grade', 'leveraged', 'bank_style'],
+    'rating': ['ebit_coverage', 'ffo_debt'],
+    'liquidity': ['revolver_light', 'revolver_heavy'],
+}
+CREDIT_MODULES = ['stress_test', 'covenant_trend']
+CRED_WHY = {
+    'investment_grade': 'investment-grade style covenants: net leverage up to 3.5x, interest cover of at least 3x',
+    'leveraged': 'leveraged-finance covenants: net leverage up to 5x, interest cover of at least 2x',
+    'bank_style': 'conservative bank covenants: net leverage up to 3x, interest cover of at least 4x',
+    'ebit_coverage': 'the synthetic rating follows EBIT interest cover',
+    'ffo_debt': 'the synthetic rating follows funds from operations / debt, the measure rating agencies weight most',
+    'revolver_light': 'a revolver of about 10% of revenue backs the liquidity test',
+    'revolver_heavy': 'a larger revolver of about 20% of revenue backs the liquidity test',
+}
+COVENANTS = {'investment_grade': (3.5, 3.0, 3.0), 'leveraged': (5.0, 2.0, 4.5), 'bank_style': (3.0, 4.0, 2.5)}
+FFO_RATINGS = [(-100000, 'CCC', 0.0856), (0.05, 'B', 0.0403), (0.12, 'BB', 0.0275), (0.2, 'BBB', 0.0174), (0.3, 'A-', 0.0147),
+               (0.45, 'A', 0.0121), (0.6, 'AA', 0.0092), (0.8, 'AAA', 0.0070)]
+
+
 def credit(wb, c):
     I, B, R = c['is_'].ref, c['bs'].ref, c['rt'].ref
     n, nh, periods = c['n'], c['nh'], c['periods']
     head = c['heading']
+    cv = _module_variant(c, 'credit', CREDIT, CREDIT_MODULES)
+    X = cv.methods
+    max_lev, min_cov, target = COVENANTS[X['covenants']]
+    ffo = X['rating'] == 'ffo_debt'
     ci = Inputs(wb, 'Credit Inputs', head('Covenants, liquidity and rating inputs'))
     ci.section('Covenants')
-    ci.add('max_lev', 'Maximum net debt / EBITDA', 3.5, MULT, 'Typical investment-grade style maintenance covenant')
-    ci.add('min_cov', 'Minimum EBITDA / interest', 3.0, MULT)
-    ci.add('target', 'Target total debt / EBITDA for debt capacity', 3.0, MULT)
+    ci.add('max_lev', 'Maximum net debt / EBITDA', max_lev, MULT, CRED_WHY[X['covenants']].capitalize())
+    ci.add('min_cov', 'Minimum EBITDA / interest', min_cov, MULT)
+    ci.add('target', 'Target total debt / EBITDA for debt capacity', target, MULT)
     ci.section('Liquidity')
-    ci.add('rcf', 'Revolving credit commitment % revenue', 0.10, PCT, 'Committed facility size')
+    ci.add('rcf', 'Revolving credit commitment % revenue', 0.10 if X['liquidity'] == 'revolver_light' else 0.20, PCT, 'Committed facility size')
     ci.add('min_liq', 'Minimum liquidity % revenue', 0.05, PCT)
+    if cv.has('stress_test'):
+        ci.add('shock', 'Stress case: EBITDA decline', round(cv.rng.choice([0.15, 0.2, 0.25, 0.3]), 2), PCT, 'Applied to every forecast year')
     ws = ci.ws
     r = ci.next_row + 1
-    ws.cell(row=r, column=1, value='Synthetic rating table (EBIT / interest at least ...)').font = Font(bold=True, color=NAVY)
-    for k, h in enumerate(['Coverage from', 'Rating', 'Spread']):
+    ws.cell(row=r, column=1, value='Synthetic rating table (' + ('FFO / debt' if ffo else 'EBIT / interest') + ' at least ...)').font = Font(bold=True, color=NAVY)
+    for k, h in enumerate(['FFO / debt from' if ffo else 'Coverage from', 'Rating', 'Spread']):
         ws.cell(row=r + 1, column=1 + k, value=h).font = BOLD
-    for i, (lo, rating, spread) in enumerate(RATINGS):
+    table = FFO_RATINGS if ffo else RATINGS
+    for i, (lo, rating, spread) in enumerate(table):
         for k, (v, fmt) in enumerate(((lo, '0.00'), (rating, '@'), (spread, PCT))):
             cell = ws.cell(row=r + 2 + i, column=1 + k, value=v)
             cell.font, cell.fill, cell.number_format = INPUT, INPUT_FILL, fmt
-    t0, t1 = r + 2, r + 1 + len(RATINGS)
+    t0, t1 = r + 2, r + 1 + len(table)
     cov_rng, rat_rng, spr_rng = (f"'Credit Inputs'!${x}${t0}:${x}${t1}" for x in 'ABC')
     C_ = ci.ref
     ca = Sheet(wb, 'Credit Analysis', head('Credit statistics, covenants and liquidity (live scenario)'), periods, nh)
@@ -907,7 +1177,8 @@ def credit(wb, c):
         ('lev', 'Total debt / EBITDA', False, 'Leverage and coverage'), ('nlev', 'Net debt / EBITDA', False, None),
         ('cov', 'EBITDA / interest', False, None), ('ecov', 'EBIT / interest', False, None),
         ('fcf_debt', 'Free cash flow / total debt', False, None), ('dcap', 'Debt / (debt + equity)', False, None),
-        ('rating', 'Synthetic rating (EBIT coverage)', True, 'Rating'), ('spread', 'Implied credit spread', False, None),
+        ('ffo', 'Funds from operations (net income + D&A)', False, None), ('ffo_debt', 'FFO / total debt', False, None),
+        ('rating', 'Synthetic rating (' + ('FFO / debt' if ffo else 'EBIT coverage') + ')', True, 'Rating'), ('spread', 'Implied credit spread', False, None),
         ('lev_head', 'Leverage covenant headroom (x)', False, 'Covenant tests'), ('lev_test', 'Leverage covenant', False, None),
         ('cov_head', 'Coverage covenant headroom (x)', False, None), ('cov_test', 'Coverage covenant', False, None),
         ('rcf', 'Revolver commitment', False, 'Liquidity'), ('undrawn', 'Undrawn revolver', False, None),
@@ -929,8 +1200,11 @@ def credit(wb, c):
         ca.set('ecov', j, f'=IF({A_("interest", j)}<=0,99,{A_("ebit", j)}/{A_("interest", j)})', MULT)
         ca.set('fcf_debt', j, f'=IFERROR({R("fcf", j)}/{A_("debt", j)},0)', PCT)
         ca.set('dcap', j, f'=IFERROR({A_("debt", j)}/({A_("debt", j)}+{B("te", j)}),0)', PCT)
-        ca.set('rating', j, f'=INDEX({rat_rng},MATCH({A_("ecov", j)},{cov_rng},1))', '@', bold=True)
-        ca.set('spread', j, f'=INDEX({spr_rng},MATCH({A_("ecov", j)},{cov_rng},1))', PCT)
+        ca.set('ffo', j, f'={I("net_income", j)}+{I("da", j)}')
+        ca.set('ffo_debt', j, f'=IF({A_("debt", j)}<=0,99,{A_("ffo", j)}/{A_("debt", j)})', PCT)
+        metric = A_('ffo_debt', j) if ffo else A_('ecov', j)
+        ca.set('rating', j, f'=INDEX({rat_rng},MATCH({metric},{cov_rng},1))', '@', bold=True)
+        ca.set('spread', j, f'=INDEX({spr_rng},MATCH({metric},{cov_rng},1))', PCT)
         ca.set('lev_head', j, f'={C_("max_lev")}-{A_("nlev", j)}', MULT)
         ca.set('lev_test', j, f'=IF(AND({A_("ebitda", j)}>0,{A_("nlev", j)}<={C_("max_lev")}),"Pass","Breach")', '@')
         ca.set('cov_head', j, f'={A_("cov", j)}-{C_("min_cov")}', MULT)
@@ -948,9 +1222,31 @@ def credit(wb, c):
         ('c_breach', 'Covenant breaches in the forecast',
          f'=COUNTIF({ca.span("lev_test", nh, fn)},"Breach")+COUNTIF({ca.span("cov_test", nh, fn)},"Breach")', '0'),
         ('c_liq', 'Liquidity, final forecast year', f'={A_("liq", fn)}', NUM)])
+    extra = []
+    if cv.has('stress_test'):
+        st = Sheet(wb, 'Stress Test', head('Credit statistics with EBITDA reduced by the stress case'), periods, nh)
+        for key, label, bold in [('ebitda', 'Stressed EBITDA', True), ('nlev', 'Net debt / EBITDA (stressed)', False),
+                                 ('cov', 'EBITDA / interest (stressed)', False), ('lev_test', 'Leverage covenant (stressed)', False),
+                                 ('cov_test', 'Coverage covenant (stressed)', False)]:
+            st.row(key, label, bold)
+        for j in range(nh, n):
+            st.set('ebitda', j, f'={A_("ebitda", j)}*(1-{C_("shock")})', bold=True)
+            st.set('nlev', j, f'=IFERROR({A_("net", j)}/{st.ref("ebitda", j)},0)', MULT)
+            st.set('cov', j, f'=IFERROR({st.ref("ebitda", j)}/{A_("interest", j)},99)', MULT)
+            st.set('lev_test', j, f'=IF(AND({st.ref("ebitda", j)}>0,{st.ref("nlev", j)}<={C_("max_lev")}),"Pass","Breach")', '@')
+            st.set('cov_test', j, f'=IF({st.ref("cov", j)}>={C_("min_cov")},"Pass","Breach")', '@')
+        extra.append(('Stress Test', 'Leverage and coverage covenants with EBITDA cut by the stress case'))
+    if cv.has('covenant_trend'):
+        ca.row('lev_trend', 'Leverage headroom change vs prior year (x)', section='Trend')
+        ca.row('watch', 'Watch flag')
+        for j in range(nh, n):
+            ca.set('lev_trend', j, f'={A_("lev_head", j)}-{A_("lev_head", j - 1)}', MULT)
+            ca.set('watch', j, f'=IF(AND({A_("lev_trend", j)}<0,{A_("lev_head", j)}<0.5),"Watch: headroom thin and shrinking","")', '@')
+    _methods_note(ci.ws, t1 + 2, X, CRED_WHY)
     sections = [('Credit Inputs', 'Covenant levels, liquidity requirements and the synthetic rating table (inputs)'),
-                ('Credit Analysis', 'Leverage, coverage, synthetic rating, covenant tests, liquidity and debt capacity')]
-    items = [(f'Rating lookup resolves ({periods[j]})', f'IF(ISNA(MATCH({A_("ecov", j)},{cov_rng},1)),1,0)') for j in range(nh, n)]
+                ('Credit Analysis', 'Leverage, coverage, synthetic rating, covenant tests, liquidity and debt capacity')] + extra
+    metric_of = (lambda j: A_('ffo_debt', j)) if ffo else (lambda j: A_('ecov', j))
+    items = [(f'Rating lookup resolves ({periods[j]})', f'IF(ISNA(MATCH({metric_of(j)},{cov_rng},1)),1,0)') for j in range(nh, n)]
     return sections, items
 
 
