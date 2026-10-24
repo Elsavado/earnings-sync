@@ -58,8 +58,7 @@ jobs:
           python3 - <<'EOF'
           import json, os, re
           src = ''.join(open(f'excel/models/{m}.py').read() for m in ('enterprise', 'bankent', 'govent', 'irent') if os.path.exists(f'excel/models/{m}.py'))
-          blocks = re.findall(r"^KINDS = \{
-(.*?)^\}", src, re.M | re.S)  # only the KINDS tables, not other dicts
+          blocks = re.findall(r"^KINDS = \{\n(.*?)^\}", src, re.M | re.S)  # only the KINDS tables, not other dicts
           known = [k for b in blocks for k in re.findall(r"^\s+'([a-z_]+)': '[^']+',\s*$", b, re.M)]
           want = known if os.environ['KINDS'] == 'all' else [k.strip() for k in os.environ['KINDS'].split(',')]
           kinds = [k for k in want if k in known]
