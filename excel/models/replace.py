@@ -182,9 +182,12 @@ def rebuild(item, facts, sector, sic, collection):
             wb = three_x.build(facts, sector, key, is_reit=item['kind'] == 'reit')
         else:
             prof = unique.Profile(key)
-            wb = enterprise.build(facts, sector, enhanced.market(), sic, kind, 0, profile=prof, title=title)
-            if wb is not None:
-                wb.profile = prof
+            for trim in (0, 1):  # a year earlier when the latest year does not qualify (as the original was built)
+                wb = enterprise.build(facts, sector, enhanced.market(), sic, kind, trim, profile=prof, title=title,
+                                      fin_range=range(6000, 6500) if kind == 'valuation' else enterprise.FIN)
+                if wb is not None:
+                    wb.profile = prof
+                    break
         if wb is not None:
             wb.properties.creator = wb.properties.lastModifiedBy = REDACTED  # Excel Models naming rule
         return (wb, None) if wb is not None else (None, 'company does not suit the enhanced model')

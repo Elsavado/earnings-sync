@@ -1278,10 +1278,11 @@ HORIZONS = {'integrated': [5, 6, 7], 'valuation': [7, 8, 10], 'buyout': [5, 6, 7
             'strategic': [10, 12, 15]}
 
 
-def build(facts, sector, market, sic, kind, trim=0, profile=None, title=None):
-    """title replaces 'Enterprise wide model - <kind>' (the Excel Models rebuilt on this engine keep their own type names)."""
+def build(facts, sector, market, sic, kind, trim=0, profile=None, title=None, fin_range=FIN):
+    """title replaces 'Enterprise wide model - <kind>' (the Excel Models rebuilt on this engine keep their own type names);
+    fin_range: industry codes without an unlevered DCF, LBO or corporate credit module (the Excel DCFs only excluded 6000-6499)."""
     s = _sic(sic)
-    fin = s in FIN
+    fin = s in fin_range
     if kind in ('valuation', 'buyout', 'credit') and fin:
         return None
     years = profile.pick(HORIZONS[kind]) if profile else (10 if kind == 'strategic' else 5)
