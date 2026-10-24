@@ -192,6 +192,14 @@ def plan(collection):
 
 
 # ---------------------------------------------------------------- rebuild
+RETRY = ('kept: no enhanced builder',)  # outcomes recorded before a builder existed: try again
+
+
+def is_done(state, key):
+    v = state['done'].get(key)
+    return v is not None and not v.startswith(RETRY)
+
+
 def _fy(wb):
     return str(getattr(wb, 'asof', '') or '')[-2:]
 
@@ -246,7 +254,7 @@ def run(collection, shard, shards):
     state, sid = drv.get_json(name)
     state = state or {'done': {}}
     mine = [i for i in data['items'] if i['cik'] % shards == shard]
-    todo = [i for i in mine if i['key'] not in state['done']]
+    todo = [i for i in mine if not is_done(state, i['key'])]
     log(f'{collection} shard {shard}/{shards}: {len(mine)} models, {len(todo)} to do')
     by_cik = collections.defaultdict(list)
     for i in todo:
@@ -309,7 +317,7 @@ def run(collection, shard, shards):
                 last_save = time.time()
     if not DRY:
         sid = drv.put_json(name, state, sid)
-    remaining = len([i for i in mine if i['key'] not in state['done']])
+    remaining = len([i for i in mine if not is_done(state, i['key'])])
     log('\n'.join(f'{k}: {v}' for k, v in sorted(tally.items())))
     log(f'remaining in this shard: {remaining}')
     with open(os.environ.get('GITHUB_OUTPUT', os.devnull), 'a') as f:
@@ -324,6 +332,8 @@ def status(collection, shards):
     for k in range(shards):
         st, _ = drv.get_json(f'state-{collection}-{k}-of-{shards}.json.gz')
         for key, v in ((st or {}).get('done') or {}).items():
+            if v.startswith(RETRY):
+                continue
             done.add(key)
             tally['replaced' if v == 'replaced' else 'kept (original stays)'] += 1
     remaining = len([i for i in (data or {}).get('items', []) if i['key'] not in done])
