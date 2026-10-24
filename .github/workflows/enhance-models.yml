@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: 'test, plan, replace, audit, dedupe or redo'
+        description: 'test, plan, replace, rebuild, audit, dedupe or redo'
         required: false
         default: 'test'
       kind:
@@ -23,7 +23,7 @@ on:
         required: false
         default: '7'
       collection:
-        description: 'plan / replace: excel or enterprise'
+        description: 'plan / replace / rebuild / audit: excel, enterprise or government'
         required: false
         default: 'excel'
       dry_run:
@@ -121,7 +121,7 @@ jobs:
         run: python -m models.replace plan ${{ github.event.inputs.collection }}
 
   shards:
-    if: contains(fromJSON('["replace","audit","redo"]'), github.event.inputs.mode)
+    if: contains(fromJSON('["replace","rebuild","audit","redo"]'), github.event.inputs.mode)
     runs-on: ubuntu-latest
     outputs:
       list: ${{ steps.s.outputs.list }}
@@ -131,7 +131,7 @@ jobs:
 
   replace:
     needs: shards
-    if: github.event.inputs.mode == 'replace' || github.event.inputs.mode == 'redo'
+    if: contains(fromJSON('["replace","rebuild","redo"]'), github.event.inputs.mode)
     runs-on: ubuntu-latest
     timeout-minutes: 58
     strategy:
@@ -164,11 +164,12 @@ jobs:
           RUN_MINUTES: ${{ github.event.inputs.dry_run == 'true' && '10' || '50' }}
           REPLACE_DRY: ${{ github.event.inputs.dry_run || 'false' }}
           REDO: ${{ github.event.inputs.mode == 'redo' }}
+          REBUILD: ${{ github.event.inputs.mode == 'rebuild' }}
         run: python -m models.replace run ${{ github.event.inputs.collection }} ${{ matrix.shard }} $SHARDS
 
   chain:
     needs: replace
-    if: always() && needs.replace.result != 'cancelled' && github.event.inputs.dry_run != 'true' && github.event.inputs.mode == 'replace'
+    if: always() && needs.replace.result != 'cancelled' && github.event.inputs.dry_run != 'true' && (github.event.inputs.mode == 'replace' || github.event.inputs.mode == 'rebuild')
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -188,12 +189,13 @@ jobs:
           GOOGLE_CLIENT_SECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
           GOOGLE_REFRESH_TOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
           ENTERPRISE_DRIVE_ID: ${{ vars.ENTERPRISE_DRIVE_ID }}
+          REBUILD: ${{ github.event.inputs.mode == 'rebuild' }}
         run: python -m models.replace status ${{ github.event.inputs.collection }} $SHARDS
       - name: Start the next run
         if: steps.st.outputs.remaining != '0' && vars.ENHANCE_LIVE == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh workflow run enhance-models.yml -R ${{ github.repository }} --ref main -f mode=replace -f collection=${{ github.event.inputs.collection }} -f chained=true
+        run: gh workflow run enhance-models.yml -R ${{ github.repository }} --ref main -f mode=${{ github.event.inputs.mode }} -f collection=${{ github.event.inputs.collection }} -f chained=true
 
   audit:
     needs: shards

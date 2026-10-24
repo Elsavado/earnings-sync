@@ -7,6 +7,7 @@
     python -m models.replace audit <collection> <shard> <shards> # logic signature of every replaced model
     python -m models.replace dedupe <collection> <shards>       # register of signatures; models sharing one -> redo list
     REDO=true ... run                                           # rebuild the redo list with logic not used yet
+    REBUILD=true ... run / status                               # the latest REBUILDS pass: its kinds rebuilt again
 
 Unique logic (user, 2026-10-24: "the models being built should each have unique logic"): within a model type no two
 models may share a signature (variants.signature: every module's methods and analysis modules). A model whose logic
@@ -205,6 +206,28 @@ RETRY = ('kept: no enhanced builder', 'kept: company does not suit')
 RETRY_PASS = 'retry-2026-10-24'
 
 
+# Full rebuilds of some model types after their builders changed, in order. Each pass keeps its own state files, so
+# the first replacement's records stay as they were; audits take a model's latest outcome and logic salt.
+REBUILDS = [
+    ('rebuild-2026-10-24', {'enterprise': {'bank_alm', 'bank_capital', 'bank_integrated', 'bank_strategic',
+                                           'bank_valuation'},
+                            'government': None}),  # None: every kind in the collection
+]
+REBUILD = os.environ.get('REBUILD', '').lower() == 'true'
+
+
+def rebuild_scope(collection, pass_=None):
+    """(pass name, kinds or None) of the latest rebuild pass, or of pass_; None when it does not touch collection."""
+    for name, colls in reversed(REBUILDS):
+        if (pass_ is None or name == pass_) and collection in colls:
+            return name, colls[collection]
+    return None
+
+
+def in_scope(item, kinds):
+    return kinds is None or item['kind'] in kinds
+
+
 def is_done(state, key):
     v = state['done'].get(key)
     return v is not None and (state.get('retried') == RETRY_PASS or not v.startswith(RETRY))
@@ -299,11 +322,23 @@ def audit(collection, shard, shards):
     drv = Drive(DRIVES[collection])
     data, _ = drv.get_json(f'plan-{collection}.json.gz')
     st, _ = drv.get_json(f'state-{collection}-{shard}-of-{shards}.json.gz')
-    salts = {}  # models rebuilt by REDO runs use the salt recorded there
+    done = dict((st or {}).get('done') or {})
+    # A model's logic salt: from the latest redo round that rebuilt it, unless a later rebuild pass replaced it (salt 0).
+    salts = {}
+    for v in range(2, variants.SIG_V):
+        for k in range(shards):
+            st_r, _ = drv.get_json(f'state-redo-v{v}-{collection}-{k}-of-{shards}.json.gz')
+            salts.update((st_r or {}).get('salts') or {})
+    for pass_, colls in REBUILDS:
+        if collection in colls:
+            st_b, _ = drv.get_json(f'state-{pass_}-{collection}-{shard}-of-{shards}.json.gz')
+            for key, v in ((st_b or {}).get('done') or {}).items():
+                if v == 'replaced':
+                    done[key] = v
+                    salts.pop(key, None)
     for k in range(shards):
         st_r, _ = drv.get_json(f'state-redo-v{variants.SIG_V}-{collection}-{k}-of-{shards}.json.gz')
         salts.update((st_r or {}).get('salts') or {})
-    done = (st or {}).get('done') or {}
     mine = [i for i in data['items'] if i['cik'] % shards == shard and done.get(i['key']) == 'replaced']
     name = f'sigs-v{variants.SIG_V}-{collection}-{shard}-of-{shards}.json.gz'
     out, oid = drv.get_json(name)
@@ -377,6 +412,15 @@ def run(collection, shard, shards):
     state = state or {'done': {}}
     mine = [i for i in data['items'] if i['cik'] % shards == shard]
     taken, salts, reg, sid_salts = {}, {}, None, None
+    if REBUILD:
+        scope = rebuild_scope(collection)
+        if not scope:
+            log(f'no rebuild pass for {collection}')
+            return 0
+        mine = [i for i in mine if in_scope(i, scope[1])]
+        name = f'state-{scope[0]}-{collection}-{shard}-of-{shards}.json.gz'
+        state, sid = drv.get_json(name)
+        state = state or {'done': {}}
     if REDO:
         redo, _ = drv.get_json(f'redo-v{variants.SIG_V}-{collection}.json.gz')
         reg, _ = drv.get_json(f'registry-v{variants.SIG_V}-{collection}.json.gz')
@@ -458,8 +502,13 @@ def status(collection, shards):
     drv = Drive(DRIVES[collection])
     data, _ = drv.get_json(f'plan-{collection}.json.gz')
     done, tally = set(), collections.Counter()
+    prefix, scope = 'state', None
+    if REBUILD and rebuild_scope(collection):
+        prefix, scope = rebuild_scope(collection)
+        prefix = f'state-{prefix}'
+        data = {'items': [i for i in (data or {}).get('items', []) if in_scope(i, scope)]}
     for k in range(shards):
-        st, _ = drv.get_json(f'state-{collection}-{k}-of-{shards}.json.gz')
+        st, _ = drv.get_json(f'{prefix}-{collection}-{k}-of-{shards}.json.gz')
         for key, v in ((st or {}).get('done') or {}).items():
             if not is_done(st, key):
                 continue
