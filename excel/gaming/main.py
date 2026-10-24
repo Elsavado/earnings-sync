@@ -1,12 +1,13 @@
 """python -m gaming.main KIND [KIND ...]
 
-Kinds: catalog, details, reviews, news, prices, players, players_daily, mobile, hardware, companies, benchmarks.
+Kinds: catalog, details, reviews, news, prices, players, players_daily, mobile, hardware, companies, benchmarks;
+game development (devdata.py): code, gdd, inputs, videos, telemetry, assets; lgi_dev (Little Games Inc tool exports).
 Environment: SHARED_DRIVE_ID, GOOGLE_* sign-in, DRY_RUN (writes ./samples with small limits)."""
 import sys
 import traceback
 from datetime import datetime, timedelta, timezone
 
-from . import derived, mobile, sec, steam
+from . import derived, devdata, mobile, sec, steam
 from .out import Out, dry_run, log
 
 
@@ -26,6 +27,13 @@ def main():
         'hardware': lambda: steam.hardware(out, backfill=not dry),
         'companies': lambda: sec.companies(out, only=['Roblox', 'Playtika'] if dry else None),
         'benchmarks': lambda: derived.benchmarks(out),
+        'code': lambda: devdata.code(out, dry),
+        'gdd': lambda: devdata.gdd(out, dry),
+        'inputs': lambda: devdata.inputs(out, dry),
+        'videos': lambda: devdata.videos(out, dry),
+        'telemetry': lambda: devdata.telemetry(out, dry),
+        'assets': lambda: devdata.assets(out, dry),
+        'lgi_dev': lambda: lgi_dev(out, dry),
     }
     failed = []
     for kind in sys.argv[1:]:
@@ -37,6 +45,11 @@ def main():
             failed.append(kind)
     if failed:
         sys.exit(f'failed: {failed}')
+
+
+def lgi_dev(out, dry):
+    from lgi import devtools
+    devtools.build(out, dry)
 
 
 if __name__ == '__main__':

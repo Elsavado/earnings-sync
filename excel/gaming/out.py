@@ -150,6 +150,44 @@ class Out:
         while resp is None:
             _, resp = _retry(lambda: req.next_chunk())
 
+    def put_file(self, path, local, mime='application/octet-stream'):
+        """Uploads a file from disk in chunks (for large bundles, archives and videos). A dry run copies only files up to
+        20 MB into ./samples and records the rest by name."""
+        local = Path(local)
+        if self.dry:
+            p = self.root / path
+            p.parent.mkdir(parents=True, exist_ok=True)
+            if local.stat().st_size <= 20 * 2**20:
+                p.write_bytes(local.read_bytes())
+            else:
+                p.with_name(p.name + '.skipped-in-dry-run.txt').write_text(f'{local.stat().st_size} bytes')
+            return
+        from googleapiclient.http import MediaFileUpload
+        from models.store import _retry
+        parent, name, fid = self._find(path)
+        media = MediaFileUpload(str(local), mimetype=mime, resumable=True, chunksize=64 * 2**20)
+        req = (self.files.update(fileId=fid, media_body=media) if fid else
+               self.files.create(body={'name': name, 'parents': [parent]}, media_body=media, fields='id'))
+        resp = None
+        while resp is None:
+            _, resp = _retry(lambda: req.next_chunk())
+
+    MANIFEST_COLS = [('item', 'File in this folder'), ('title', 'Title of the work'), ('source_url', 'Where it was obtained'),
+                     ('licence', 'Licence it is distributed under'), ('collected_date', 'Date collected (UTC)'),
+                     ('synthetic', 'yes = generated (fictional) data, no = obtained from the source above'),
+                     ('notes', 'Size, version, attribution or other notes')]
+
+    def manifest(self, folder, rows):
+        """Adds rows to <folder>/manifest.csv (one row per item, newest wins): every item keeps its origin and licence."""
+        if not rows:
+            return
+        keys = [k for k, _ in self.MANIFEST_COLS]
+        have = {r['item']: r for r in self.read_csv(f'{folder}/manifest.csv')}
+        for r in rows:
+            have[r['item']] = {k: r.get(k, '') for k in keys}
+        self.put(f'{folder}/manifest.csv', Table('Manifest', self.MANIFEST_COLS, sorted(have.values(), key=lambda r: r['item'])).csv_bytes(),
+                 'text/csv')
+
     def get(self, path):
         if self.dry:
             p = self.root / path

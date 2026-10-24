@@ -3,7 +3,9 @@ name: Gaming operations data
 # Public gaming operational data (excel/gaming) → Workspace Shared Drive "Gaming Operations Data", filed under
 # 1 Players & Engagement … 7 Industry Benchmarks. Hourly: concurrent players. Daily (02 UTC): regional prices,
 # App Store charts, yesterday's player summary. Weekly (Sunday 04 UTC) or kinds=full: catalogue, details, reviews,
-# update timelines, hardware survey, company financials and KPIs, then benchmarks.
+# update timelines, hardware survey, company financials and KPIs, then benchmarks; plus game development material
+# (8 Game Development: open-source game/engine code with history, design documents, gameplay + input datasets,
+# CC gameplay videos, telemetry datasets, CC0 3D assets) and the Little Games Inc tool exports (kinds=dev runs only these).
 # Scheduled runs only act while the repository variable GAMING_LIVE is 'true'.
 on:
   schedule:
@@ -12,7 +14,7 @@ on:
   workflow_dispatch:
     inputs:
       kinds:
-        description: 'full, or a comma list: catalog,details,reviews,news,prices,players,players_daily,mobile,hardware,companies,benchmarks'
+        description: 'full, dev, or a comma list: catalog,details,reviews,news,prices,players,players_daily,mobile,hardware,companies,benchmarks,code,gdd,inputs,videos,telemetry,assets,lgi_dev'
         required: false
         default: 'full'
       dry_run:
@@ -51,6 +53,7 @@ jobs:
           import json, os, time
           ev, sched, kinds = os.environ['EVENT'], os.environ.get('SCHEDULE', ''), os.environ.get('KINDS') or 'full'
           full, groups = False, []
+          DEV = [['code'], ['inputs'], ['videos', 'assets'], ['gdd', 'telemetry'], ['lgi_dev']]
           if ev == 'schedule':
               if os.environ.get('LIVE') != 'true':
                   pass
@@ -62,10 +65,12 @@ jobs:
                       groups = [['players', 'players_daily'], ['prices'], ['mobile']]
           elif kinds.strip() == 'full':
               full = True
+          elif kinds.strip() == 'dev':
+              groups = DEV
           else:
               groups = [[k.strip()] for k in kinds.split(',') if k.strip()]
           if full:
-              groups = [['details'], ['reviews'], ['news'], ['hardware'], ['companies']]
+              groups = [['details'], ['reviews'], ['news'], ['hardware'], ['companies']] + DEV
           with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
               f.write(f"full={'true' if full else 'false'}\ngroups={json.dumps([' '.join(g) for g in groups])}\n"
                       f"any={'true' if groups else 'false'}\n")
@@ -121,6 +126,8 @@ jobs:
           GOOGLE_CLIENT_SECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
           GOOGLE_REFRESH_TOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_MINUTES: '330'
         run: python -m gaming.main ${{ matrix.group }}
       - name: Keep dry-run samples
         if: always() && github.event.inputs.dry_run == 'true'
