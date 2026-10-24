@@ -223,6 +223,23 @@ class Out:
             if not token:
                 return sorted(out)
 
+    def trash(self, path, folder=False):
+        """Moves a file (or, with folder=True, a folder) to the Drive trash (restorable for 30 days)."""
+        if self.dry:
+            return
+        from models.store import _retry
+        if folder:
+            fid = self._folder(path)
+        else:
+            _, _, fid = self._find(path)
+        if fid:
+            _retry(lambda: self.files.update(fileId=fid, body={'trashed': True}).execute())
+
+    def remove_manifest_rows(self, folder, items):
+        keep = [r for r in self.read_csv(f'{folder}/manifest.csv') if r['item'] not in set(items)]
+        self.put(f'{folder}/manifest.csv', Table('Manifest', self.MANIFEST_COLS, keep).csv_bytes(), 'text/csv')
+        return len(keep)
+
     def get(self, path):
         if self.dry:
             p = self.root / path

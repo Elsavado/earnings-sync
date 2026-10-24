@@ -20,6 +20,7 @@ import tempfile
 import time
 import zipfile
 from pathlib import Path
+from urllib.parse import quote
 
 import requests
 
@@ -130,26 +131,59 @@ class Budget:
         return late() or self.items <= 0 or self.left <= 0
 
 
+KIND_FOLDERS = {'code': (CODE, True), 'gdd': (GDD, False), 'inputs': (INPUTS, True), 'telemetry': (TELEM, True),
+                'videos': (VIDEOS, None), 'assets': (ASSETS, True)}  # None: the folder itself and its sub-folders
+ROOTS_NOTE = re.compile(r'original root commit ([0-9a-f,]+)')
+
+
+def norm(s):
+    """Comparable form of a URL or item name (apostrophe style, spacing and case do not matter)."""
+    return re.sub(r'\s+', ' ', str(s).replace('’', "'")).strip().lower()
+
+
+def kind_folders(out, kind):
+    base, subs = KIND_FOLDERS.get(kind, (None, False))
+    if not base:
+        return []
+    return ([base] if subs is not True else []) + ([f'{base}/{x}' for x in out.children(base)] if subs is not False else [])
+
+
 class Ctx:
-    """Shared state for one kind: seen ids/checksums (unique content), counts, pending manifest rows per folder."""
+    """State for one kind (its own state file, so parallel jobs never overwrite each other): seen ids and checksums,
+    plus every item already listed in the kind's manifests on Drive (the durable record), counts and pending rows."""
 
     def __init__(self, out, kind):
         self.out, self.kind = out, kind
-        st = out.state('devdata') or {}
-        self.all = st
-        self.st = st.setdefault(kind, {'seen': [], 'sums': [], 'roots': [], 'cursor': {}})
+        st = out.state(f'devdata-{kind}')
+        if st is None:  # first run with per-kind state: start from the shared file of earlier runs
+            st = (out.state('devdata') or {}).get(kind) or {}
+        self.st = st
         for k in ('seen', 'sums', 'roots'):
             self.st.setdefault(k, [])
         self.st.setdefault('cursor', {})
         self.seen, self.sums, self.roots = set(self.st['seen']), set(self.st['sums']), set(self.st['roots'])
+        self.urls, self.items = set(), set()
+        for folder in kind_folders(out, kind):
+            for r in out.read_csv(f'{folder}/manifest.csv'):
+                self.urls.add(norm(r.get('source_url', '')))
+                self.items.add(norm(r.get('source_url', '')) + '|' + norm(r.get('item', '')))
+                m = ROOTS_NOTE.search(r.get('notes', ''))
+                if m:
+                    self.roots.update(m.group(1).split(','))
         self.rows = {}
         self.n = {'added': 0, 'skipped': 0, 'failed': 0}
         self.last_save = time.time()
+
+    def have(self, url, item=None):
+        """True when the source (or this item of it) is already in a manifest."""
+        return (norm(url) + '|' + norm(item)) in self.items if item is not None else norm(url) in self.urls
 
     def add(self, folder, row, ident=None, checksum=None, roots=()):
         row.setdefault('collected_date', today())
         row.setdefault('synthetic', 'no')
         self.rows.setdefault(folder, []).append(row)
+        self.urls.add(norm(row.get('source_url', '')))
+        self.items.add(norm(row.get('source_url', '')) + '|' + norm(row.get('item', '')))
         if ident:
             self.seen.add(ident)
         if checksum:
@@ -177,7 +211,7 @@ class Ctx:
         self.rows = {}
         self.st['seen'], self.st['sums'], self.st['roots'] = sorted(self.seen), sorted(self.sums), sorted(self.roots)
         if not self.out.dry:
-            self.out.save_state('devdata', self.all)
+            self.out.save_state(f'devdata-{self.kind}', self.st)
         self.last_save = time.time()
 
     def finish(self):
@@ -255,7 +289,7 @@ def code(out, dry):
                     break
                 ident = f'gh:{it["id"]}'
                 spdx = ((it.get('license') or {}).get('spdx_id') or '')
-                if ident in c.seen or it.get('is_template') or spdx not in OSI:
+                if ident in c.seen or c.have(it['html_url']) or it.get('is_template') or spdx not in OSI:
                     c.n['skipped'] += 1
                     continue
                 name = f'{it["owner"]["login"]}__{it["name"]}'
@@ -340,7 +374,7 @@ def gdd(out, dry):
                 if it['owner'].get('type') != 'Organization':
                     names.get(it['owner']['login'])
                 for t in docs[:5]:
-                    if t['sha'] in c.sums or not bud.take(t['size']):
+                    if t['sha'] in c.sums or c.have(f'{it["html_url"]}/blob/{it["default_branch"]}/{t["path"]}') or not bud.take(t['size']):
                         continue
                     raw = get(f'https://raw.githubusercontent.com/{it["full_name"]}/{it["default_branch"]}/{t["path"]}', gap=0.3)
                     if raw is None or not raw.ok:
@@ -425,15 +459,20 @@ def datasets(out, dry, kind, folder, zq, hq, relevant, exts, file_cap_gb, run_gb
                 concept = f'zc:{h.get("conceptrecid") or h["id"]}'
                 lic = (md.get('license') or {}).get('id', '') or ''
                 text = f'{md.get("title", "")} {re.sub("<[^>]+>", " ", md.get("description") or "")} {" ".join(md.get("keywords") or [])}'
-                if concept in c.seen or not OPEN_DATA.match(lic) or not relevant(text):
+                if concept in c.seen or not relevant(text):
                     c.n['skipped'] += 1
+                    continue
+                if not OPEN_DATA.match(lic):
+                    c.seen.add(concept)
+                    c.n['rejected: licence'] = c.n.get('rejected: licence', 0) + 1
                     continue
                 sub = f'{folder}/{safe(md.get("title") or h["id"], 90)}'
                 files = [f for f in h.get('files', []) if f.get('key', '').lower().endswith(exts) and 0 < f.get('size', 0) <= cap]
                 got = 0
                 for f in files[:40]:
                     ck = f.get('checksum') or f.get('key')
-                    if ck in c.sums or not bud.take(f['size']):
+                    rec = h.get('links', {}).get('self_html') or f'https://zenodo.org/records/{h["id"]}'
+                    if ck in c.sums or c.have(rec, safe(f['key'])) or not bud.take(f['size']):
                         continue
                     dest = tmp / 'f'
                     if not download(f['links']['self'], dest, cap):
@@ -463,15 +502,19 @@ def datasets(out, dry, kind, folder, zq, hq, relevant, exts, file_cap_gb, run_gb
             ident = f'hf:{d["id"]}'
             lic = _hf_licence(d)
             text = f'{d["id"]} {(d.get("cardData") or {}).get("pretty_name", "")} {d.get("description") or ""} {" ".join(d.get("tags") or [])}'
-            if ident in c.seen or d.get('gated') or d.get('private') or not OPEN_DATA.match(lic) or not relevant(text):
+            if ident in c.seen or d.get('private') or not relevant(text):
                 c.n['skipped'] += 1
+                continue
+            if d.get('gated') or not OPEN_DATA.match(lic):  # gated sets need an account and their own terms
+                c.seen.add(ident)
+                c.n['rejected: licence or gated'] = c.n.get('rejected: licence or gated', 0) + 1
                 continue
             tree = js(get(f'https://huggingface.co/api/datasets/{d["id"]}/tree/main', {'recursive': 'true'}, gap=1)) or []
             files = [t for t in tree if t.get('type') == 'file' and t['path'].lower().endswith(exts) and 0 < t.get('size', 0) <= cap]
             sub = f'{folder}/{safe(d["id"].replace("/", " - "), 90)}'
             for t in files[:40]:
                 ck = (t.get('lfs') or {}).get('oid') or t.get('oid')
-                if ck in c.sums or not bud.take(t['size']):
+                if ck in c.sums or c.have(f'https://huggingface.co/datasets/{d["id"]}', safe(t['path'].replace('/', ' - '))) or not bud.take(t['size']):
                     continue
                 dest = tmp / 'f'
                 if not download(f'https://huggingface.co/datasets/{d["id"]}/resolve/main/{t["path"]}', dest, cap):
@@ -489,7 +532,11 @@ def datasets(out, dry, kind, folder, zq, hq, relevant, exts, file_cap_gb, run_gb
     c.finish()
 
 
-GAME = re.compile(r'(?i)\b(?:game|gameplay|games|gaming|atari|minecraft|doom|mario|esports?|video ?game|starcraft|dota|league of legends)\b')
+# video games specifically (a bare "game" also matches sports matches and gamified science tools)
+GAME = re.compile(r'(?i)\b(?:gameplay|game ?play|video ?games?|computer games?|mobile games?|online games?|gamers?|gaming|playtest\w*|'
+                  r'atari|minecraft|minerl|procgen|doom|vizdoom|mario|esports?|starcraft|dota|league of legends|counter-strike|'
+                  r'cs:?go|overwatch|fortnite|steam|unity3?d?|unreal|godot|game engine|game telemetry|game analytics|'
+                  r'video game)\b')
 INPUT = re.compile(r'(?i)keyboard|mouse|controller|gamepad|joystick|input|action|demonstration|gaze|eye[- ]track|replay|trajector|button')
 PLAYER = re.compile(r'(?i)player|playtest|telemetry|session|churn|retention|match|esport|behaviou?r|engagement|ticket|support|review')
 
@@ -498,8 +545,10 @@ def inputs(out, dry):
     datasets(out, dry, 'inputs', INPUTS,
              ['"Atari-HEAD"', 'gameplay keyboard mouse', 'gameplay "human demonstrations"', 'gameplay eye tracking dataset',
               'video game input actions dataset', 'minecraft human demonstrations', 'game controller input logs',
-              'gameplay recordings dataset', 'esports replay dataset'],
-             ['atari', 'gameplay', 'minecraft', 'game demonstrations', 'video game actions', 'doom'],
+              'gameplay recordings dataset', 'esports replay dataset', 'MineRL', 'minecraft gameplay video dataset',
+              '"video pretraining" minecraft', 'procgen recordings', 'gameplay video dataset', 'game playthrough video dataset'],
+             ['atari', 'gameplay', 'minecraft', 'game demonstrations', 'video game actions', 'doom', 'minerl', 'procgen',
+              'gameplay video', 'vpt'],
              lambda t: bool(GAME.search(t) and INPUT.search(t)),
              ('.zip', '.tar', '.gz', '.bz2', '.xz', '.7z', '.mp4', '.webm', '.mkv', '.avi', '.csv', '.json', '.jsonl', '.parquet',
               '.hdf5', '.h5', '.npz', '.txt'), 3, 8, 200)
@@ -533,11 +582,8 @@ def _members(cat, kinds):
             return
 
 
-def videos(out, dry):
-    c = Ctx(out, 'videos')
-    bud = Budget(dry, 6, 150, 2)
-    cap = (40 * 2**20) if dry else int(1.5 * 2**30)
-    tmp = Path(tempfile.mkdtemp())
+def _commons(c, bud, cap, tmp):
+    """Wikimedia Commons: free licences only (Commons reviews every upload)."""
     cats, seen_cats, streak = list(VIDEO_CATS), set(), 0
     depth = {k: 0 for k in cats}
     while cats and not bud.done():
@@ -560,7 +606,7 @@ def videos(out, dry):
                 ii = (pg.get('imageinfo') or [{}])[0]
                 em = ii.get('extmetadata') or {}
                 lic = (em.get('LicenseShortName') or {}).get('value', '')
-                if not ii.get('url') or ii.get('sha1') in c.sums or not FREE.match(lic) or (em.get('NonFree') or {}).get('value'):
+                if not ii.get('url') or ii.get('sha1') in c.sums or c.have(ii.get('descriptionurl', '')) or not FREE.match(lic) or (em.get('NonFree') or {}).get('value'):
                     c.n['skipped'] += 1
                     c.seen.add(pg['title'])
                     continue
@@ -576,6 +622,8 @@ def videos(out, dry):
                         break
                     continue
                 streak = 0
+                if not fresh(c, dest):
+                    continue
                 item = safe(pg['title'].split(':', 1)[1])
                 ok = c.upload(f'{VIDEOS}/{item}', local=dest, mime=ii.get('mime') or 'video/webm')
                 dest.unlink()
@@ -590,6 +638,252 @@ def videos(out, dry):
                 c.add(VIDEOS, {'item': item, 'title': desc[:200] or item.rsplit('.', 1)[0], 'source_url': ii.get('descriptionurl', ''), 'licence': lic,
                                'notes': video_notes(ii.get('size', 0), artist)},
                       pg['title'], checksum=ii.get('sha1'))
+                c.n['commons added'] = c.n.get('commons added', 0) + 1
+
+
+
+def fresh(c, path):
+    """Content dedupe across every video source: False (and the file removed) when this exact file is already collected."""
+    import hashlib
+    h = hashlib.sha256()
+    with open(path, 'rb') as f:
+        for b in iter(lambda: f.read(2**20), b''):
+            h.update(b)
+    d = f'sha256:{h.hexdigest()}'
+    if d in c.sums:
+        Path(path).unlink()
+        c.n['duplicate content'] = c.n.get('duplicate content', 0) + 1
+        return False
+    c.sums.add(d)
+    return True
+
+
+def fetch(c, url, dest, cap, gap=1.0):
+    """Downloads one video; a failed download is counted, a file already collected (same content) is dropped."""
+    if not download(url, dest, cap, gap=gap):
+        c.n['failed'] += 1
+        Path(dest).unlink(missing_ok=True)
+        return False
+    return fresh(c, dest)
+
+
+# Free and open-source games: footage of these is redistributable under the uploader's licence. Footage of other
+# (commercial) games is only taken when the uploader shows it is their own game (devlog, "my game", made with ...).
+OPEN_GAMES = ['supertuxkart', 'supertux', '0 a.d.', '0ad', 'xonotic', 'wesnoth', 'minetest', 'luanti', 'openttd', 'veloren',
+              'mindustry', 'openra', 'freeciv', 'warzone 2100', 'red eclipse', 'hedgewars', 'teeworlds', 'ddnet', 'openarena',
+              'nexuiz', 'speed dreams', 'stuntrally', 'stunt rally', 'mega glest', 'megaglest', 'glest', 'freeorion', 'unciv',
+              'cataclysm dda', 'cataclysm: dark days ahead', 'shattered pixel dungeon', 'pixel dungeon', 'naev', 'endless sky',
+              'flare', 'opensurge', 'open surge', 'pingus', 'frogatto', 'tux racer', 'extreme tux racer', 'supertux2',
+              'armagetron', 'chromium b.s.u', 'assaultcube', 'urban terror', 'warsow', 'sauerbraten', 'cube 2', 'tremulous',
+              'unvanquished', 'openmw', 'openrct2', 'openloco', 'opentyrian', 'mari0', 'lincity', 'simutrans', 'widelands',
+              'the battle for wesnoth', 'battle for wesnoth', 'liquidwar', 'zero-k', 'zero k', 'beyond all reason',
+              'spring engine', 'freedoom', 'blobby volley', 'oolite', 'vega strike', 'pioneer space sim', 'endless-sky',
+              'keeperrl', 'dungeon crawl stone soup', 'crawl', 'nethack', 'angband', 'cdda', 'colobot', 'trigger rally',
+              'yorg', 'yorg.io', 'shapez', 'luxtorpeda', 'godot demo', 'kenney']
+OWN_GAME = re.compile(r'(?i)\bdev ?log\b|\bmy (?:first |new |indie )?game\b|\bour (?:new |indie )?game\b|\bmade (?:it )?(?:with|in) '
+                      r'(?:godot|unity|unreal|bevy|love2d|pico-?8|gamemaker|defold|raylib|monogame)\b|\bgame ?jam\b|'
+                      r'\bwork in progress\b|\bwip\b|\bindie ?dev\b|\bgamedev\b')
+OPEN_GAME = re.compile(r'(?i)(?<![\w])(?:' + '|'.join(re.escape(g) for g in OPEN_GAMES) + r')(?![\w])')
+
+
+def game_ok(text):
+    """'open' (open-source game), 'own' (the uploader's own game) or None (other footage: skipped)."""
+    if OPEN_GAME.search(text or ''):
+        return 'open'
+    if OWN_GAME.search(text or ''):
+        return 'own'
+    return None
+
+
+PT_LICENCES = {1: 'CC BY 4.0', 2: 'CC BY-SA 4.0', 7: 'Public domain (CC0)'}  # PeerTube licence ids
+
+
+def _peertube(c, bud, cap, tmp):
+    """PeerTube (the federated index at sepiasearch.org): Gaming category, CC BY / CC BY-SA / public domain only."""
+    folder = f'{VIDEOS}/PeerTube'
+    for term in ['gameplay', 'trailer', 'devlog', 'let\'s play', 'speedrun', 'game', '']:
+        start = c.st['cursor'].get(f'pt:{term}', 0)
+        while start < 2000 and not bud.done():
+            params = [('search', term), ('categoryOneOf', 7), ('count', 50), ('start', start), ('sort', '-publishedAt')]
+            params += [('licenceOneOf', k) for k in PT_LICENCES]
+            res = js(get('https://sepiasearch.org/api/v1/search/videos', params, gap=1)) or {}
+            data = res.get('data') or []
+            for v in data:
+                if bud.done():
+                    break
+                ident = f'pt:{v.get("uuid")}'
+                lic_id = (v.get('licence') or {}).get('id')
+                if ident in c.seen or c.have(v.get('url', '')):
+                    continue
+                c.seen.add(ident)
+                if lic_id not in PT_LICENCES:
+                    c.n['rejected: licence'] = c.n.get('rejected: licence', 0) + 1
+                    continue
+                host = (v.get('account') or {}).get('host') or (v.get('channel') or {}).get('host')
+                det = js(get(f'https://{host}/api/v1/videos/{v["uuid"]}', gap=0.5)) or {}
+                text = ' '.join([det.get('name') or v.get('name') or '', det.get('description') or '', ' '.join(det.get('tags') or [])])
+                kind = game_ok(text)
+                if not kind:
+                    c.n['rejected: footage of other games'] = c.n.get('rejected: footage of other games', 0) + 1
+                    continue
+                files = list(det.get('files') or []) + [f for sp in det.get('streamingPlaylists') or [] for f in sp.get('files') or []]
+                files = [f for f in files if f.get('fileDownloadUrl') and 0 < f.get('size', 0) <= cap and (f.get('resolution') or {}).get('id', 0) <= 720]
+                if not files:
+                    c.n['skipped'] += 1
+                    continue
+                f = max(files, key=lambda f: (f.get('resolution') or {}).get('id', 0))
+                if not bud.take(f['size']):
+                    continue
+                dest = tmp / 'v'
+                if not fetch(c, f['fileDownloadUrl'], dest, cap):
+                    continue
+                item = safe(f'{v["uuid"]} - {det.get("name") or "video"}', 140) + '.mp4'
+                ok = c.upload(f'{folder}/{item}', local=dest, mime='video/mp4')
+                dest.unlink(missing_ok=True)
+                if not ok:
+                    continue
+                vn = pseudo.Names()
+                vn.get(((det.get('account') or {}).get('displayName')) or 'uploader')
+                c.add(folder, {'item': item, 'title': pseudo.text(det.get('name') or '', vn), 'source_url': v.get('url', ''),
+                               'licence': PT_LICENCES[lic_id], 'notes': f'{f["size"] / 2**20:.1f} MB; {(f.get("resolution") or {}).get("label", "")}; '
+                               f'{"open-source game" if kind == "open" else "the uploader’s own game"}; author: Contributor 001 '
+                               f'(credit line on the source page); {PSEUDO_MARK}'}, ident)
+                c.n['peertube added'] = c.n.get('peertube added', 0) + 1
+            if len(data) < 50:
+                start = 10**6
+                break
+            start += 50
+        c.st['cursor'][f'pt:{term}'] = start
+
+
+IA_FREE = re.compile(r'(?i)creativecommons\.org/(?:licenses/(?:by|by-sa)/|publicdomain/(?:zero|mark)/)')
+
+
+def _archive(c, bud, cap, tmp):
+    """Internet Archive: explicit CC BY / CC BY-SA / public-domain licence AND footage of an open-source game (or the
+    uploader's own game). Footage of commercial games is skipped whatever its stated licence."""
+    folder = f'{VIDEOS}/Internet Archive'
+    games = ' OR '.join(f'"{g}"' for g in OPEN_GAMES[:60])
+    queries = [f'mediatype:movies AND licenseurl:*creativecommons* AND (title:({games}) OR subject:({games}))',
+               'mediatype:movies AND licenseurl:*creativecommons* AND subject:(devlog OR "indie game" OR gamedev OR "game jam")']
+    for qi, q in enumerate(queries):
+        page = c.st['cursor'].get(f'ia:{qi}', 1)
+        while page <= 40 and not bud.done():
+            res = js(get('https://archive.org/advancedsearch.php', {'q': q, 'fl[]': ['identifier', 'licenseurl', 'title', 'subject'],
+                                                                    'rows': 100, 'page': page, 'output': 'json'}, gap=1)) or {}
+            docs = (res.get('response') or {}).get('docs') or []
+            for d in docs:
+                if bud.done():
+                    break
+                ident = f'ia:{d["identifier"]}'
+                if ident in c.seen or c.have(f'https://archive.org/details/{d["identifier"]}'):
+                    continue
+                c.seen.add(ident)
+                lic = d.get('licenseurl') or ''
+                if not IA_FREE.search(lic):
+                    c.n['rejected: licence'] = c.n.get('rejected: licence', 0) + 1
+                    continue
+                md = js(get(f'https://archive.org/metadata/{d["identifier"]}', gap=0.5)) or {}
+                meta = md.get('metadata') or {}
+                subj = meta.get('subject') or ''
+                text = ' '.join([str(meta.get('title', '')), str(meta.get('description', ''))[:3000],
+                                 ' '.join(subj) if isinstance(subj, list) else str(subj)])
+                kind = game_ok(text)
+                if not kind:
+                    c.n['rejected: footage of other games'] = c.n.get('rejected: footage of other games', 0) + 1
+                    continue
+                vids = [f for f in md.get('files') or [] if re.search(r'(?i)\.(?:mp4|webm|ogv|mkv)$', f.get('name', ''))
+                        and 0 < int(f.get('size') or 0) <= cap]
+                if not vids:
+                    c.n['skipped'] += 1
+                    continue
+                f = min(vids, key=lambda f: (f.get('source') != 'original', abs(int(f['size']) - 300 * 2**20)))
+                ck = f'md5:{f.get("md5")}' if f.get('md5') else None
+                if ck in c.sums or not bud.take(int(f['size'])):
+                    continue
+                dest = tmp / 'v'
+                url = f'https://archive.org/download/{d["identifier"]}/{quote(f["name"])}'
+                if not fetch(c, url, dest, cap):
+                    continue
+                item = safe(f'{d["identifier"]} - {Path(f["name"]).name}', 110)
+                ok = c.upload(f'{folder}/{item}', local=dest, mime='video/mp4')
+                dest.unlink(missing_ok=True)
+                if not ok:
+                    continue
+                vn = pseudo.Names()
+                vn.get(str(meta.get('creator') or meta.get('uploader') or 'uploader'))
+                c.add(folder, {'item': item, 'title': pseudo.text(str(meta.get('title', ''))[:200], vn),
+                               'source_url': f'https://archive.org/details/{d["identifier"]}', 'licence': lic,
+                               'notes': f'{int(f["size"]) / 2**20:.1f} MB; {"open-source game" if kind == "open" else "the uploader’s own game"}; '
+                                        f'author: Contributor 001 (credit line on the source page); {PSEUDO_MARK}'}, ident, checksum=ck)
+                c.n['archive added'] = c.n.get('archive added', 0) + 1
+            if len(docs) < 100:
+                page = 10**6
+                break
+            page += 1
+        c.st['cursor'][f'ia:{qi}'] = page
+
+
+PROJECT_REPOS = ['supertuxkart/stk-code', 'SuperTux/supertux', '0ad/0ad', 'xonotic/xonotic', 'wesnoth/wesnoth', 'luanti-org/luanti',
+                 'OpenTTD/OpenTTD', 'veloren/veloren', 'Anuken/Mindustry', 'OpenRA/OpenRA', 'freeciv/freeciv', 'Warzone2100/warzone2100',
+                 'redeclipse/base', 'hedgewars/hw', 'teeworlds/teeworlds', 'ddnet/ddnet', 'Unciv/Unciv', 'CleverRaven/Cataclysm-DDA',
+                 '00-Evan/shattered-pixel-dungeon', 'naev/naev', 'endless-sky/endless-sky', 'flareteam/flare-game', 'alemart/opensurge',
+                 'OpenMW/openmw', 'OpenRCT2/OpenRCT2', 'widelands/widelands', 'Pingus/pingus', 'frogatto/frogatto', 'colobot/colobot',
+                 'godotengine/godot-demo-projects', 'mrdoob/three.js', 'Zero-K-Game/Zero-K', 'beyond-all-reason/Beyond-All-Reason']
+PROJECT_MEDIA = re.compile(r'(?i)\.(?:mp4|webm|ogv|mkv|mov)$')
+
+
+def _projects(c, bud, cap, tmp):
+    """Trailers and gameplay videos that open-source game projects publish themselves (in the repository or as release
+    assets), under the project's licence. Video files in these repositories are part of the licensed work."""
+    folder = f'{VIDEOS}/Open-source Game Projects'
+    for full in PROJECT_REPOS:
+        if bud.done():
+            break
+        info = gh(f'/repos/{full}') or {}
+        spdx = ((info.get('license') or {}).get('spdx_id') or '')
+        if not info or spdx not in OSI:
+            c.n['rejected: licence'] = c.n.get('rejected: licence', 0) + (1 if info else 0)
+            continue
+        cands = []
+        tree = (gh(f'/repos/{full}/git/trees/{info["default_branch"]}', {'recursive': 1}) or {}).get('tree') or []
+        cands += [(t['path'], t['size'], f'https://raw.githubusercontent.com/{full}/{info["default_branch"]}/{t["path"]}', t['sha'])
+                  for t in tree if t.get('type') == 'blob' and PROJECT_MEDIA.search(t['path']) and 0 < t.get('size', 0) <= cap]
+        for rel in (gh(f'/repos/{full}/releases', {'per_page': 30}) or [])[:30]:
+            cands += [(f'release {rel.get("tag_name")}/{a["name"]}', a['size'], a['browser_download_url'], f'asset:{a["id"]}')
+                      for a in rel.get('assets') or [] if PROJECT_MEDIA.search(a['name']) and 0 < a['size'] <= cap]
+        for path, size, url, ident in cands[:20]:
+            if bud.done():
+                break
+            key = f'gh:{full}:{ident}'
+            item = safe(f'{full.replace("/", "__")}__{path.replace("/", " - ")}', 110)
+            if key in c.seen or c.have(f'https://github.com/{full}', item) or not bud.take(size):
+                continue
+            dest = tmp / 'v'
+            if not fetch(c, url, dest, cap):
+                c.seen.add(key)
+                continue
+            item = safe(f'{full.replace("/", "__")}__{path.replace("/", " - ")}', 110)
+            ok = c.upload(f'{folder}/{item}', local=dest)
+            dest.unlink(missing_ok=True)
+            if not ok:
+                continue
+            c.add(folder, {'item': item, 'title': f'{full.split("/")[1]}: {path}', 'source_url': f'https://github.com/{full}',
+                           'licence': spdx, 'notes': f'{size / 2**20:.1f} MB; published by the project ({"release asset" if path.startswith("release ") else "in the repository"}); '
+                           f'some projects license media separately - see the repository; {PSEUDO_MARK}'}, key)
+            c.n['project videos added'] = c.n.get('project videos added', 0) + 1
+
+
+def videos(out, dry):
+    """Openly licensed gameplay videos and trailers from four sources, each with its own share of the run budget."""
+    c = Ctx(out, 'videos')
+    cap = (40 * 2**20) if dry else int(1.5 * 2**30)
+    tmp = Path(tempfile.mkdtemp())
+    for fn, gb, items in ((_commons, 4, 100), (_peertube, 4, 100), (_archive, 4, 80), (_projects, 2, 60)):
+        try:
+            fn(c, Budget(dry, gb, items, 1), cap, tmp)
+        except Exception:  # noqa: BLE001 - one source never stops the others
+            c.n['failed'] += 1
     shutil.rmtree(tmp, ignore_errors=True)
     c.finish()
 
@@ -604,7 +898,7 @@ def assets(out, dry):
         for aid, meta in sorted(lst.items(), key=lambda kv: -kv[1].get('date_published', 0)):
             if bud.done():
                 break
-            if f'ph:{aid}' in c.seen:
+            if f'ph:{aid}' in c.seen or c.have(f'https://polyhaven.com/a/{aid}'):
                 continue
             files = js(get(f'https://api.polyhaven.com/files/{aid}', gap=0.5)) or {}
             g = ((files.get('gltf') or {}).get('1k') or {}).get('gltf')
@@ -641,7 +935,7 @@ def assets(out, dry):
             if bud.done():
                 break
             aid = a.get('assetId')
-            if not aid or f'acg:{aid}' in c.seen:
+            if not aid or f'acg:{aid}' in c.seen or c.have(f'https://ambientcg.com/view?id={aid}'):
                 continue
             downs = [d for cat in ((a.get('downloadFolders') or {}).get('default') or {}).get('downloadFiletypeCategories', {}).values()
                      for d in cat.get('downloads', [])]
@@ -782,4 +1076,44 @@ def pseudo_backfill(out, dry):
     log('  pseudo_backfill: ' + ', '.join(f'{k} {v}' for k, v in n.items()))
     if n['failed']:
         raise RuntimeError(f'pseudo_backfill: {n["failed"]} item(s) failed; rerun to retry them')
+
+
+def dedupe_dev(out, dry):
+    """Removes copies collected twice (the same source and item listed in two manifest rows, e.g. after parallel jobs
+    overwrote each other's state): keeps the copy named in the current style, moves the others to the Drive trash
+    (restorable for 30 days) and drops their manifest rows; empty dataset folders go to the trash too. A dry run only
+    counts."""
+    from .out import Out
+    src = Out(False) if dry else out
+    n = {'duplicate items': 0, 'trashed': 0, 'emptied folders': 0, 'failed': 0}
+    for kind in KIND_FOLDERS:
+        groups = {}
+        for folder in kind_folders(src, kind):
+            for r in src.read_csv(f'{folder}/manifest.csv'):
+                groups.setdefault(norm(r['source_url']) + '|' + norm(r['item']), []).append((folder, r['item']))
+        drop = {}
+        for copies in groups.values():
+            if len(copies) < 2:
+                continue
+            current = [x for x in copies if x[1] == safe(x[1].replace("'", '’')) and x[0] == re.sub(r' {2,}', ' ', x[0])]
+            keep = (current or copies)[0]
+            for folder, item in copies:
+                if (folder, item) != keep:
+                    drop.setdefault(folder, []).append(item)
+                    n['duplicate items'] += 1
+        if dry:
+            continue
+        for folder, items in drop.items():
+            try:
+                for item in items:
+                    out.trash(f'{folder}/{item}')
+                    n['trashed'] += 1
+                if out.remove_manifest_rows(folder, items) == 0 and folder.count('/') >= 2:
+                    out.trash(folder, folder=True)
+                    n['emptied folders'] += 1
+            except Exception:  # noqa: BLE001
+                n['failed'] += 1
+    log('  dedupe_dev: ' + ', '.join(f'{k} {v}' for k, v in n.items()))
+    if n['failed']:
+        raise RuntimeError(f'dedupe_dev: {n["failed"]} folder(s) failed')
 

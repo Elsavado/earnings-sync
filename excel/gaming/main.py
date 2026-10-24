@@ -35,6 +35,7 @@ def main():
         'assets': lambda: devdata.assets(out, dry),
         'lgi_dev': lambda: lgi_dev(out, dry),
         'pseudo_backfill': lambda: devdata.pseudo_backfill(out, dry),
+        'dedupe_dev': lambda: devdata.dedupe_dev(out, dry),
     }
     failed = []
     for kind in sys.argv[1:]:
