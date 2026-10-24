@@ -57,6 +57,33 @@ def short_name(text, limit=24):
     return t.strip(' -&,') or 'General'
 
 
+LIST_V = 2  # 2: listed companies plus every other XBRL filer with annual figures (user, 2026-10-24: "add more companies")
+FRAME_TAGS = ('Revenues', 'RevenueFromContractWithCustomerExcludingAssessedTax', 'SalesRevenueNet', 'Assets', 'NetIncomeLoss',
+              'InterestAndDividendIncomeOperating')
+
+
+def sec_filers(s):
+    """CIKs to model: companies with a ticker first, then every other company that reported annual revenue, assets,
+    net income or bank interest income in XBRL in any year since 2010 (unlisted, delisted and debt-only filers)."""
+    data = s.get('https://www.sec.gov/files/company_tickers.json', timeout=60).json()
+    ciks, seen = [], set()
+    for v in data.values():
+        if v['cik_str'] not in seen:
+            seen.add(v['cik_str'])
+            ciks.append(v['cik_str'])
+    more = set()
+    for tag in FRAME_TAGS:
+        for year in range(2010, time.gmtime().tm_year):
+            try:
+                r = s.get(f'https://data.sec.gov/api/xbrl/frames/us-gaap/{tag}/USD/CY{year}.json', timeout=120)
+                time.sleep(0.12)
+                if r.ok:
+                    more.update(int(d['cik']) for d in r.json().get('data', []) if d.get('cik'))
+            except (requests.RequestException, ValueError):
+                continue
+    return ciks + sorted(more - seen)
+
+
 def finish_unique(wb, key, extra_inputs=()):
     """The model's own look (unique.py), then the reference check; returns the sheets allowed to hold figures."""
     mapping = unique.apply(wb, wb.profile if getattr(wb, 'profile', None) else unique.Profile(key))
@@ -342,14 +369,10 @@ class Run:
         s = requests.Session()
         s.headers['User-Agent'] = SEC_UA
         st = self.state['sec']
-        if 'companies' not in st or st.get('listed_at', 0) < time.time() - 7 * 86400 and st['i'] >= len(st['companies']):
-            data = s.get('https://www.sec.gov/files/company_tickers.json', timeout=60).json()
-            ciks, seen = [], set()
-            for v in data.values():
-                if v['cik_str'] not in seen:
-                    seen.add(v['cik_str'])
-                    ciks.append(v['cik_str'])
-            st['companies'], st['i'], st['listed_at'] = ciks, 0, time.time()
+        if ('companies' not in st or st.get('list_v') != LIST_V
+                or st.get('listed_at', 0) < time.time() - 7 * 86400 and st['i'] >= len(st['companies'])):
+            st['companies'], st['i'], st['listed_at'], st['list_v'] = sec_filers(s), 0, time.time(), LIST_V
+            log(f'enterprise {ENT_KIND}: {len(st["companies"])} companies listed')
         label = enterprise.label_of(ENT_KIND)
         while st['i'] < len(st['companies']) and time.time() < until:
             cik = st['companies'][st['i']]
