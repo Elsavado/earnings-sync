@@ -11,7 +11,7 @@ on:
         required: false
         default: 'test'
       kind:
-        description: 'Model family (three)'
+        description: 'Model families, comma list (three, integrated, valuation, buyout, budget, credit, strategic)'
         required: false
         default: 'three'
       size:
@@ -27,10 +27,25 @@ permissions:
   contents: read
 
 jobs:
+  kinds:
+    runs-on: ubuntu-latest
+    outputs:
+      list: ${{ steps.k.outputs.list }}
+    steps:
+      - id: k
+        env:
+          KIND: ${{ github.event.inputs.kind }}
+        run: python3 -c "import json,os;print('list='+json.dumps([k.strip() for k in os.environ['KIND'].split(',') if k.strip()]))" >> "$GITHUB_OUTPUT"
+
   test:
+    needs: kinds
     if: github.event.inputs.mode == 'test'
     runs-on: ubuntu-latest
     timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        kind: ${{ fromJSON(needs.kinds.outputs.list) }}
     defaults:
       run:
         working-directory: excel
@@ -52,11 +67,11 @@ jobs:
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
           SEED: ${{ github.event.inputs.seed }}
           SAMPLES: samples
-        run: python -m models.enhanced test ${{ github.event.inputs.kind }} ${{ github.event.inputs.size }}
+        run: python -m models.enhanced test ${{ matrix.kind }} ${{ github.event.inputs.size }}
       - name: Keep three passing samples (1 day)
         if: always() && hashFiles('excel/samples/**') != ''
         uses: actions/upload-artifact@v4
         with:
-          name: enhanced-samples-${{ github.event.inputs.kind }}
+          name: enhanced-samples-${{ matrix.kind }}
           path: excel/samples
           retention-days: 1

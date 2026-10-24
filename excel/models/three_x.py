@@ -39,12 +39,25 @@ def _allowed(data):
     return ok
 
 
-def build(facts, sector, key, is_reit=False):
-    got = prepare(facts)
+def build(facts, sector, key, is_reit=False, years=None, trim=0, extend=None, title=None, description=None, deep=False):
+    """The same hooks as three.build: years overrides the variant's horizon; trim drops the latest reported years;
+    extend(wb, ctx) -> (sections, check items) adds modules (the Enterprise models bring their own scenario manager,
+    so this model's scenario_manager module is left out when extend is given); deep keeps every reported year."""
+    got = prepare(facts, 40 if deep else 6)
     if not got:
         return None
     ends, data = got
+    if trim:
+        if len(ends) - trim < 3:
+            return None
+        ends, data = ends[:-trim], {k: v_[:-trim] for k, v_ in data.items()}
+        if any(x is None or x <= 0 for x in data['revenue']) or data['assets'][-1] <= 0:
+            return None
     v = variants.Variant(key, allowed=_allowed(data))
+    if years:
+        v.years = years
+    if extend:
+        v.modules.discard('scenario_manager')
     N = v.years
     P = v.params
     nh = len(ends)
@@ -533,27 +546,55 @@ def build(facts, sector, key, is_reit=False):
             check_items.append((f'EBIT bridge reconciles ({periods[j]})', G('chk', j)))
         sections.append(('EBIT Bridge', 'Volume, margin and cost effects on operating income'))
 
-    from . import enterprise as E
-    from .unique import Profile
-    ctx = dict(ds=ds, si=si, asm=asm, is_=is_, bs=bs, cf=cf, rt=rt, periods=periods, ends=ends, data=data, nh=nh, n=n,
-               years=N, heading=heading, A=A, D=D, profile=Profile(key))
-    for fn in (lambda: E.company_lines(wb, ctx, facts), lambda: E.rnd(wb, ctx, facts), lambda: E.sbc(wb, ctx)):
-        try:
-            more, _ = fn()
-            sections += more
-        except Exception:  # noqa: BLE001  (an optional module never stops the model)
-            pass
+    if is_reit:
+        ff = Sheet(wb, 'FFO & AFFO', heading('Funds from operations (NAREIT definition)'), periods, nh)
+        for k_, label, bold in [('ni', 'Net income', False), ('reda', 'Real estate depreciation & amortisation', False),
+                                ('gain', 'Less: gains on sale of real estate', False), ('ffo', 'Funds from operations (FFO)', True),
+                                ('capex', 'Less: recurring capital expenditure', False), ('affo', 'Adjusted FFO (AFFO)', True),
+                                ('payout', 'Dividends % AFFO', False)]:
+            ff.row(k_, label, bold)
+        for j in range(n):
+            h = j < nh
+            ff.set('ni', j, f'={I("net_income", j)}')
+            ff.set('reda', j, f'=IF({D("re_da", j)}<>0,{D("re_da", j)},{C("da", j)})' if h else f'={C("da", j)}')
+            if h:
+                ff.set('gain', j, f'=-{D("gain_re", j)}')
+            ff.set('ffo', j, f'={ff.ref("ni", j)}+{ff.ref("reda", j)}+{ff.ref("gain", j)}', bold=True)
+            ff.set('capex', j, f'={C("capex", j)}')
+            ff.set('affo', j, f'={ff.ref("ffo", j)}+{ff.ref("capex", j)}', bold=True)
+            ff.set('payout', j, f'=IFERROR(-{C("div", j)}/{ff.ref("affo", j)},0)', PCT)
+        sections.append(('FFO & AFFO', 'REIT funds from operations and adjusted FFO, with dividend cover'))
+
+    if extend:
+        more_sections, more_checks = extend(wb, dict(
+            ds=ds, si=si, asm=asm, is_=is_, bs=bs, cf=cf, rt=rt, periods=periods, ends=ends, data=data, nh=nh, n=n,
+            years=N, heading=heading, A=A, D=D, debt_wide=debt_wide, da_on_rev=da_on_rev, is_reit=is_reit, variant=v))
+        sections += more_sections
+        check_items += more_checks
+    else:
+        from . import enterprise as E
+        from .unique import Profile
+        ctx = dict(ds=ds, si=si, asm=asm, is_=is_, bs=bs, cf=cf, rt=rt, periods=periods, ends=ends, data=data, nh=nh, n=n,
+                   years=N, heading=heading, A=A, D=D, profile=Profile(key))
+        for fn in (lambda: E.company_lines(wb, ctx, facts), lambda: E.rnd(wb, ctx, facts), lambda: E.sbc(wb, ctx)):
+            try:
+                more, _ = fn()
+                sections += more
+            except Exception:  # noqa: BLE001  (an optional module never stops the model)
+                pass
     from .practice import annotate
     sections += annotate(wb, v, dict(is_=is_, bs=bs, cf=cf, rt=rt, asm=asm, si=si, periods=periods, nh=nh, n=n, years=N, A=A, S=S))
 
     sections.append(('Checks', 'Balance, cash and bridge checks for every year'))
     checks(wb, check_items)
-    kind = 'REIT three-statement model (enhanced)' if is_reit else 'Three-statement financial model (enhanced)'
+    kind = title or ('REIT three-statement model (enhanced)' if is_reit else 'Three-statement financial model (enhanced)')
+    methods = ('This model uses its own forecasting methods: ' + '; '.join(v.describe()).lower() + '. Analysis modules: ' +
+               (', '.join(sorted(m.replace('_', ' ') for m in v.modules)) or 'none') + '.')
     cover(wb, kind, sector,
+          (description + ' ' + methods) if description else
           'Integrated income statement, balance sheet and cash flow built from the company\'s reported 10-K figures, '
-          f'with a {N}-year forecast. This model uses its own forecasting methods: ' + '; '.join(v.describe()).lower() +
-          '. Analysis modules: ' + (', '.join(sorted(m.replace('_', ' ') for m in v.modules)) or 'none') +
-          '. The balance sheet balances in every year and all checks are summarised on the Checks sheet.',
+          f'with a {N}-year forecast. ' + methods +
+          ' The balance sheet balances in every year and all checks are summarised on the Checks sheet.',
           sections)
     wb.properties.title = f'{REDACTED} - {kind}'
     wb.properties.creator = REDACTED

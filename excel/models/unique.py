@@ -105,6 +105,7 @@ BASE = ('1F3864', '2E75B6', 'FFF2CC')
 
 class Profile:
     def __init__(self, key):
+        self.key = key
         self.seed = int(hashlib.sha256(key.encode()).hexdigest()[:16], 16)
         r = self.rng = random.Random(self.seed)
         self.palette = r.choice(PALETTES)

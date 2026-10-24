@@ -21,7 +21,7 @@ from openpyxl.chart import BarChart, LineChart, Reference
 from openpyxl.styles import Font
 from openpyxl.worksheet.datavalidation import DataValidation
 
-from . import three, xbrl
+from . import three, three_x, xbrl
 from .xl import BOLD, INPUT, INPUT_FILL, MULT, NAVY, NOTE, NUM, PCT, PRICE, Inputs, Sheet, col
 
 KINDS = {
@@ -303,8 +303,14 @@ def scenarios(wb, c):
     adjust('cogs_pct', lambda f: f'MAX(0,{f}-{live["gm"]})')
     adjust('opex_pct', lambda f: f'{f}-{live["opex"]}')
     adjust('capex_pct', lambda f: f'({f})*{live["capex"]}')
-    adjust('ar_pct', lambda f: f'({f})*{live["wc"]}')
-    adjust('inv_pct', lambda f: f'({f})*{live["wc"]}')
+    # Enhanced models may forecast working capital in days instead of ratios: the same scaling applies to the days targets.
+    for key in ('ar_pct', 'inv_pct') if 'ar_pct' in asm.rows else ('dso_avg', 'dio_avg', 'dso_last', 'dio_last'):
+        adjust(key, lambda f: f'({f})*{live["wc"]}')
+    for key, fn in (('capex_last', lambda f: f'({f})*{live["capex"]}'),  # intensity-fade capex starts from the latest ratio
+                    ('gm_last', lambda f: f'MIN(1,{f}+{live["gm"]})'), ('gm_tgt', lambda f: f'MIN(1,{f}+{live["gm"]})'),
+                    ('var', lambda f: f'MAX(0,{f}-{live["opex"]})')):
+        if key in asm.rows:
+            adjust(key, fn)
     asm.ws.cell(row=asm.next_row + 2, column=1,
                 value='Drivers include the live scenario adjustments from the Scenario Inputs sheet.').font = NOTE
     c['scenario_name'] = name_ref
@@ -1023,8 +1029,12 @@ def build(facts, sector, market, sic, kind, trim=0, profile=None):
             'margins, capital intensity and working capital across every statement and module. Supporting schedules, '
             'a KPI dashboard and integrity checks are included; all figures outside the input sheets are formulas.')
     try:
-        wb = three.build(facts, sector, is_reit=s == 6798, years=years, trim=trim, extend=extend, deep=True,
-                         title=f'Enterprise wide model - {label}', description=desc)
+        if profile is not None:  # enhanced core: this model's own forecasting methods (variants.py)
+            wb = three_x.build(facts, sector, f'{profile.key}:core', is_reit=s == 6798, years=years, trim=trim, extend=extend,
+                               deep=True, title=f'Enterprise wide model - {label}', description=desc)
+        else:
+            wb = three.build(facts, sector, is_reit=s == 6798, years=years, trim=trim, extend=extend, deep=True,
+                             title=f'Enterprise wide model - {label}', description=desc)
     except _Skip:
         return None
     return finish(wb)

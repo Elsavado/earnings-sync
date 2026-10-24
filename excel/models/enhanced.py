@@ -2,6 +2,8 @@
 
     python -m models.enhanced test <kind> <sample size>     # random companies, verify only, print counts
 
+kind: three (Excel Models), or an Enterprise kind (integrated, valuation, buyout, budget, credit, strategic).
+
 Each model is recalculated in LibreOffice and must have no formula errors, all checks at zero, no
 external links and no typed-in figures outside the input sheets - the same gate as main.Run.verify.
 Logs carry counts only (the repository is public).
@@ -23,7 +25,6 @@ from .xl import INPUT_SHEETS
 from .xlsxml import Package
 
 SEC_UA = os.environ.get('SEC_USER_AGENT') or 'ExcelModels research contact@example.com'
-BUILDERS = {'three': three_x.build}
 
 
 def verify(wb, path, allowed=()):
@@ -55,9 +56,33 @@ def verify(wb, path, allowed=()):
 
 
 def finish(wb, key):
-    mapping = unique.apply(wb, unique.Profile(key))
+    mapping = unique.apply(wb, getattr(wb, 'profile', None) or unique.Profile(key))
     references_ok(wb)
     return {mapping.get(n, n) for n in INPUT_SHEETS}
+
+
+ENT_KINDS = ('integrated', 'valuation', 'buyout', 'budget', 'credit', 'strategic')
+_MARKET = []
+
+
+def market():
+    if not _MARKET:
+        from .market import Market
+        _MARKET.append(Market(lambda *a: None))
+    return _MARKET[0]
+
+
+def make(kind, facts, sector, sic, key):
+    """(workbook, the variant behind it) or (None, None) when the company does not suit the model type."""
+    if kind == 'three':
+        wb = three_x.build(facts, sector, key, is_reit=str(sic) == '6798')
+        return wb, getattr(wb, 'variant', None)
+    from . import enterprise
+    prof = unique.Profile(key)
+    wb = enterprise.build(facts, sector, market(), sic, kind, 0, profile=prof)
+    if wb is not None:
+        wb.profile = prof
+    return wb, getattr(wb, 'variant', None)
 
 
 def company(s, cik):
@@ -89,15 +114,16 @@ def test(kind, size):
         facts, sector, sic = got
         key = f'sec:{cik}:{kind}'
         try:
-            wb = BUILDERS[kind](facts, sector, key, is_reit=str(sic) == '6798') if kind == 'three' else BUILDERS[kind](facts, sector, key)
+            wb, variant = make(kind, facts, sector, sic, key)
         except Exception as err:  # noqa: BLE001
             tally[f'build error {type(err).__name__}'] += 1
+            print('BUILD', type(err).__name__, str(err)[:160], flush=True)
             continue
         if wb is None:
             tally['skipped (thin data)'] += 1
             continue
         tally['built'] += 1
-        for b, m in wb.variant.methods.items():
+        for b, m in variant.methods.items():
             methods[f'{b}={m}'] += 1
         work = tmp / f'm{tally["built"]}'
         work.mkdir()
@@ -113,7 +139,7 @@ def test(kind, size):
         else:
             tally[f'failed: {why}'] += 1
             # keep failing variants (methods only, no company) so they can be fixed
-            print('FAIL', why, '|', ' '.join(f'{k}={v}' for k, v in wb.variant.methods.items()), '|', ','.join(sorted(wb.variant.modules)), flush=True)
+            print('FAIL', why, '|', ' '.join(f'{k}={v}' for k, v in variant.methods.items()), '|', ','.join(sorted(variant.modules)), flush=True)
         shutil.rmtree(work, ignore_errors=True)
     print('\n'.join(f'{k}: {v}' for k, v in sorted(tally.items())))
     print('methods used:', dict(sorted(methods.items())))
