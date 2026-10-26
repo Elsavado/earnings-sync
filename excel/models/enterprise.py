@@ -35,7 +35,8 @@ KINDS = {
 BANK_KINDS = {}  # filled in by bankent.py
 GOV_KINDS = {}  # filled in by govent.py
 GROUPS = {'corporate': 'Corporate & Industry Models', 'bank': 'Bank Models', 'gov': 'Government Models'}
-TRIMS = (0, 1)  # as of the latest year end, and as of the year before
+TRIMS = (0, 1, 2, 3, 4)  # as of the latest year end and each of the four before (2-4 added 2026-10-26: new models
+# once every company had its latest two; a company needs 3 years of history left at that year end)
 FIN = range(6000, 6800)  # banks, insurers, brokers, REITs: no unlevered DCF, LBO or corporate credit module
 BANK_SIC = set(range(6020, 6037)) | {6111, 6141, 6153, 6159, 6162, 6172, 6199}
 

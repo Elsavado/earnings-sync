@@ -57,7 +57,8 @@ def short_name(text, limit=24):
     return t.strip(' -&,') or 'General'
 
 
-LIST_V = 2  # 2: listed companies plus every other XBRL filer with annual figures (user, 2026-10-24: "add more companies")
+LIST_V = 3  # 2: listed companies plus every other XBRL filer with annual figures (user, 2026-10-24: "add more companies")
+# 3: a new pass over every company for the earlier year ends (enterprise.TRIMS 2-4)
 FRAME_TAGS = ('Revenues', 'RevenueFromContractWithCustomerExcludingAssessedTax', 'SalesRevenueNet', 'Assets', 'NetIncomeLoss',
               'InterestAndDividendIncomeOperating')
 
