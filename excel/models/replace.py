@@ -395,7 +395,7 @@ def dedupe(collection, shards):
                 redo.append(key)
     drv.put_json(f'registry-v{variants.SIG_V}-{collection}.json.gz', reg, rid)
     _, did = drv.get_json(f'redo-v{variants.SIG_V}-{collection}.json.gz')
-    drv.put_json(f'redo-v{variants.SIG_V}-{collection}.json.gz', {'keys': redo}, did)
+    drv.put_json(f'redo-v{variants.SIG_V}-{collection}.json.gz', {'keys': redo, 'round': int(time.time())}, did)
     per = collections.Counter(kind for kind in reg for _ in reg[kind])
     log(f'dedupe {collection}: {n} models signed, {sum(per.values())} distinct logics, {len(redo)} share a logic -> rebuild')
     for kind, c in sorted(per.items()):
@@ -433,6 +433,9 @@ def run(collection, shard, shards):
         name = f'state-redo-v{variants.SIG_V}-{collection}-{shard}-of-{shards}.json.gz'
         state, sid = drv.get_json(name)
         state = state or {'done': {}}
+        rnd = (redo or {}).get('round')
+        if state.get('round') != rnd:  # a new redo list: every model on it is rebuilt again; salts stay for audits
+            state = {'done': {}, 'salts': state.get('salts', {}), 'round': rnd}
     todo = [i for i in mine if not is_done(state, i['key'])]
     if not DRY:
         state['retried'] = RETRY_PASS  # this pass retries the older outcomes; later passes treat them as final
