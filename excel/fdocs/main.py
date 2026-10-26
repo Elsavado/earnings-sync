@@ -405,7 +405,7 @@ class Run:
         except (HttpError, ssl.SSLError, ConnectionError, TimeoutError, OSError) as err:
             # Drive keeps failing on this one file (it cannot convert it, or converting outlasts the read timeout):
             # count it if it landed after all, else skip it and go on. Several failures in a row: Drive is down, stop.
-            if isinstance(err, HttpError) and err.resp.status != 500:
+            if isinstance(err, HttpError) and err.resp.status not in (400, 500):  # 400: Drive will not take this file
                 raise
             self.upload_fails = getattr(self, 'upload_fails', 0) + 1
             if self.upload_fails >= 3:

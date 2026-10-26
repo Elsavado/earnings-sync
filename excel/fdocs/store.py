@@ -126,7 +126,13 @@ class Store(_Base):
         big = os.path.getsize(path) > 5 * 2**20  # simple uploads stop at 5 MB; larger files go up in chunks
         media = MediaFileUpload(path, mimetype=MIME[ext], resumable=big, chunksize=32 * 2**20 if big else -1)
 
+        tried = []
+
         def send():
+            # A timed-out upload can still land: before sending again, look for it (retries made up to 10 copies).
+            if tried and self.uploaded(key):
+                return {}
+            tried.append(1)
             req = self.drive.files().create(body=body, media_body=media, fields='id')
             if not big:
                 return req.execute()
