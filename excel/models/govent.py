@@ -19,6 +19,7 @@ import re
 import time
 from datetime import date
 
+import requests
 from openpyxl.chart import LineChart, Reference
 from openpyxl.styles import Font
 from openpyxl.worksheet.datavalidation import DataValidation
@@ -163,11 +164,19 @@ def load(kind, s, log):
         out, start = [], 0
         fl = 'id,project_name,countryname,totalamt,lendprojectcost,boardapprovaldate,closingdate,sector1,status,mjsector1Name'
         while True:
-            r = s.get('https://search.worldbank.org/api/v2/projects', params={'format': 'json', 'rows': 500, 'os': start, 'fl': fl},
-                      timeout=120)
-            if not r.ok:
-                break
-            js = r.json()
+            # A failed page used to end the list early, so later projects looked unavailable: retry, then fail loudly.
+            for i in range(6):
+                try:
+                    r = s.get('https://search.worldbank.org/api/v2/projects',
+                              params={'format': 'json', 'rows': 500, 'os': start, 'fl': fl}, timeout=120)
+                    if r.ok:
+                        js = r.json()
+                        break
+                except (requests.RequestException, ValueError):
+                    pass
+                time.sleep(2 ** i * 3)
+            else:
+                raise RuntimeError(f'World Bank projects page {start // 500 + 1} unavailable')
             projects = list((js.get('projects') or {}).values())
             if not projects:
                 break

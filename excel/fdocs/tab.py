@@ -101,6 +101,17 @@ def _role(col):
     return 'text'
 
 
+
+UNPACKED_MAX = 250 * 2**20
+
+
+def check_unpacked(path):
+    """A small .xlsx can unpack to gigabytes of cells; reject it before loading (read from the zip directory only)."""
+    import zipfile
+    with zipfile.ZipFile(path) as z:
+        if sum(i.file_size for i in z.infolist()) > UNPACKED_MAX:
+            raise ValueError('spreadsheet too large once unpacked')
+
 class Table:
     def __init__(self, anon):
         self.anon = anon
@@ -176,6 +187,7 @@ class Table:
     # --- XLSX --------------------------------------------------------------
     def xlsx(self, src, dst, kind):
         from openpyxl import load_workbook
+        check_unpacked(src)
         wb = load_workbook(src)
         best = None
         for ws in wb.worksheets:

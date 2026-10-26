@@ -335,12 +335,25 @@ def _process_one(args):
         return {'ok': False, 'reason': f'error {type(err).__name__}: {str(err)[:80]}'}
 
 
+WORKER_MEM = float(os.environ.get('WORKER_MEM_GB', '3')) * 2**30
+
+
+def _limit_memory():
+    """Caps each child's heap: a spreadsheet that unpacks to gigabytes raises MemoryError in its own child (the file
+    is rejected) instead of exhausting the runner, which GitHub then reports only as 'The operation was canceled'."""
+    try:
+        import resource
+        resource.setrlimit(resource.RLIMIT_DATA, (int(WORKER_MEM), int(WORKER_MEM)))
+    except (ImportError, ValueError, OSError):
+        pass
+
+
 class Worker:
     """Runs process() in child processes (several files at once) so a pathological file can be killed."""
 
     def __init__(self, n):
         self.n = n
-        self.pool = multiprocessing.get_context('fork').Pool(n)
+        self.pool = multiprocessing.get_context('fork').Pool(n, initializer=_limit_memory)
 
     def start(self, args):
         return self.pool.apply_async(_process_one, (args,))
@@ -348,7 +361,7 @@ class Worker:
     def reset(self):
         self.pool.terminate()
         os.system('pkill -9 -f soffice >/dev/null 2>&1; pkill -9 -f chrome >/dev/null 2>&1')
-        self.pool = multiprocessing.get_context('fork').Pool(self.n)
+        self.pool = multiprocessing.get_context('fork').Pool(self.n, initializer=_limit_memory)
 
     def close(self):
         self.pool.terminate()

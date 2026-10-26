@@ -303,6 +303,8 @@ def table_text(path, ext, limit=800000):
     out, n = [], 0
     if ext == 'xlsx':
         from openpyxl import load_workbook
+        from .tab import check_unpacked
+        check_unpacked(path)
         wb = load_workbook(path, read_only=True)
         for ws in wb.worksheets:
             out.append(ws.title)
