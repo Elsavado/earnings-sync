@@ -137,6 +137,14 @@ class Store(_Base):
         _retry(send)
         return name
 
+    def uploaded(self, key):
+        """Ids of files already on the drive for this source key (an upload whose reply was lost can still land)."""
+        v = prop('fdKey', key).replace('\\', '\\\\').replace("'", "\\'")
+        q = (f"appProperties has {{ key='fdKey' and value='{v}' }} and "
+             f"appProperties has {{ key='fdApp' and value='{APP}' }} and trashed = false")
+        res = _retry(lambda: self.drive.files().list(q=q, fields='files(id)', pageSize=10).execute())
+        return [f['id'] for f in res.get('files', [])]
+
     def reset(self, log=print):
         """Permanently deletes every uploaded document, the type folders and the run state."""
         n = 0

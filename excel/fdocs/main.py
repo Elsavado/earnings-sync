@@ -12,6 +12,7 @@ import multiprocessing
 import os
 import re
 import shutil
+import ssl
 import subprocess
 import sys
 import tempfile
@@ -401,12 +402,22 @@ class Run:
         try:
             name = (self.store.upload_doc(res['path'], kind, n, res['label'], res['ext'], cand['key']) if self.store
                     else f'{n} - {res["label"]}.{res["ext"]}')
-        except HttpError as err:  # Drive keeps failing on this one file (e.g. it cannot convert it): skip it, go on
-            if err.resp.status != 500:
+        except (HttpError, ssl.SSLError, ConnectionError, TimeoutError, OSError) as err:
+            # Drive keeps failing on this one file (it cannot convert it, or converting outlasts the read timeout):
+            # count it if it landed after all, else skip it and go on. Several failures in a row: Drive is down, stop.
+            if isinstance(err, HttpError) and err.resp.status != 500:
                 raise
-            self.state['seen'][cand['key']] = 'rej:Drive could not take the file'
-            log(f'  - {kind}: Drive could not take one file (error 500); skipped')
-            return
+            self.upload_fails = getattr(self, 'upload_fails', 0) + 1
+            if self.upload_fails >= 3:
+                raise
+            got = self.store.uploaded(cand['key'])
+            if not got:
+                self.state['seen'][cand['key']] = 'rej:Drive could not take the file'
+                log(f'  - {kind}: Drive could not take one file ({type(err).__name__}); skipped')
+                return
+            name = f'#{n}'
+            log(f'  {kind}: #{n} landed despite the error ({len(got)} copies on the drive)')
+        self.upload_fails = 0
         self.state['next'][kind] = n + 1
         self.state['hashes'][digest] = f'{kind}:{n}'
         self.state['seen'][cand['key']] = f'ok:{kind}:{n}'
