@@ -346,9 +346,13 @@ def audit(collection, shard, shards):
     s = requests.Session()
     s.headers['User-Agent'] = SEC_UA
     entities = load_entities(collection, mine, s)
+    def stale(key):  # not signed yet, or signed before a redo gave it another salt (entries: kind, sig[, salt])
+        e = out.get(key)
+        return e is None or (e[2] if len(e) > 2 else 0) != salts.get(key, 0)
+
     by_cik = collections.defaultdict(list)
     for i in mine:
-        if i['key'] not in out:
+        if stale(i['key']):
             by_cik[i['cik']].append(i)
     tally = collections.Counter()
     for cik, items in by_cik.items():
@@ -366,11 +370,11 @@ def audit(collection, shard, shards):
             if wb is None:
                 tally[f'not rebuilt: {why}'[:60]] += 1
                 continue
-            out[i['key']] = [i['kind'], variants.signature()]
+            out[i['key']] = [i['kind'], variants.signature(), salts.get(i['key'], 0)]
             tally['signed'] += 1
     drv.put_json(name, out, oid)
     log('\n'.join(f'{k}: {v}' for k, v in sorted(tally.items())))
-    left_ = len([i for i in mine if i['key'] not in out])
+    left_ = len([i for i in mine if stale(i['key'])])
     log(f'audit {collection} shard {shard}: {len(out)} signed, {left_} to go')
     with open(os.environ.get('GITHUB_OUTPUT', os.devnull), 'a') as f:
         f.write(f'remaining={left_}\n')
@@ -384,7 +388,7 @@ def dedupe(collection, shards):
     redo, n = [], 0
     for k in range(shards):
         part, _ = drv.get_json(f'sigs-v{variants.SIG_V}-{collection}-{k}-of-{shards}.json.gz')
-        for key, (kind, sig) in sorted((part or {}).items()):
+        for key, (kind, sig, *_) in sorted((part or {}).items()):
             n += 1
             owner = reg.setdefault(kind, {}).setdefault(sig, key)
             if owner != key:
