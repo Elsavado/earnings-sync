@@ -39,7 +39,7 @@ from googleapiclient.discovery import build as gbuild
 from googleapiclient.http import MediaFileUpload, MediaIoBaseUpload
 
 from . import bankent, enhanced, enterprise, govent, three_x, unique, variants
-from .main import model_code
+from .main import model_code, sec_filers
 from .store import FOLDER, MIME, _retry, _SharedDrive, credentials
 from .xl import REDACTED
 
@@ -149,11 +149,12 @@ def plan_enterprise(drv):
         raise SystemExit('ENT_NAME_KEY is needed to match the Enterprise file codes')
     s = requests.Session()
     s.headers['User-Agent'] = SEC_UA
-    tickers = s.get('https://www.sec.gov/files/company_tickers.json', timeout=60).json()
-    ciks = sorted({v['cik_str'] for v in tickers.values()})
+    ciks = sorted(set(sec_filers(s)))  # every company the collector models, not only those with a ticker
+    years = range(2005, time.gmtime().tm_year + 1)
     items, unmatched = [], 0
     for kind in CORPORATE:
         codes = {model_code(f'{cik}:{kind}:{t}'): (cik, t) for cik in ciks for t in enterprise.TRIMS}
+        codes.update({model_code(f'{cik}:{kind}:fy{y}'): (cik, None) for cik in ciks for y in years})  # keyed by year
         n = 0
         for f in drv.each(f"appProperties has {{ key='xmApp' and value='ent-{kind}' }} and trashed = false"):
             key = (f.get('appProperties') or {}).get('xmKey', '')
@@ -268,7 +269,8 @@ def rebuild(item, facts, sector, sic, collection, salt=0):
             wb.properties.creator = wb.properties.lastModifiedBy = REDACTED  # Excel Models naming rule
         return (wb, None) if wb is not None else (None, 'company does not suit the enhanced model')
     prof = unique.Profile(key)
-    trims = [item['trim']] + [t for t in (0, 1, 2) if t != item['trim']]
+    trims = ([item['trim']] + [t for t in (0, 1, 2) if t != item['trim']] if item['trim'] is not None
+             else range(10))  # a model keyed by fiscal year: the as-of year in its name picks the year end
     make = bankent.build if item['kind'] in bankent.KINDS else enterprise.build
     for trim in trims:  # the same as-of year as the original file name
         variants.reset(salt)

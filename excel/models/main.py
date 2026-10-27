@@ -57,8 +57,24 @@ def short_name(text, limit=24):
     return t.strip(' -&,') or 'General'
 
 
-LIST_V = 3  # 2: listed companies plus every other XBRL filer with annual figures (user, 2026-10-24: "add more companies")
+LIST_V = 4  # 2: listed companies plus every other XBRL filer with annual figures (user, 2026-10-24: "add more companies")
 # 3: a new pass over every company for the earlier year ends (enterprise.TRIMS 2-4)
+# 4: models keyed by fiscal year, DEPTH year ends per company (2026-10-27)
+DEPTH = 10  # the latest year end and the nine before, where three years of history remain (user, 2026-10-27)
+ANNUAL_FORMS = ('10-K', '10-KT', '20-F', '40-F')
+
+
+def year_ends(facts, kind):
+    """The fiscal years a company's models can be built as of (the builder's own annual series), oldest first."""
+    got = bankent.prepare(facts, 0) if kind in bankent.KINDS else three.prepare(facts, 40)
+    return [str(e)[:4] for e in got[0]] if got else []
+
+
+def last_annual(sub):
+    """Filing date of the company's latest annual report: a later one means a new fiscal year to model."""
+    rec = (sub.get('filings') or {}).get('recent') or {}
+    return max((d for f, d in zip(rec.get('form', []), rec.get('filingDate', [])) if f.split('/')[0] in ANNUAL_FORMS),
+               default='')
 FRAME_TAGS = ('Revenues', 'RevenueFromContractWithCustomerExcludingAssessedTax', 'SalesRevenueNet', 'Assets', 'NetIncomeLoss',
               'InterestAndDividendIncomeOperating')
 
@@ -416,7 +432,7 @@ class Run:
         log(f'sec: company {st["i"]}/{len(st["companies"])}')
 
     def enterprise(self, until):
-        """Enterprise-wide models of one type (ENT_KIND) for every company, at the latest and the previous year end."""
+        """Enterprise-wide models of one type (ENT_KIND) for every company, as of each of its DEPTH latest year ends."""
         s = requests.Session()
         s.headers['User-Agent'] = SEC_UA
         st = self.state['sec']
@@ -425,12 +441,15 @@ class Run:
             st['companies'], st['i'], st['listed_at'], st['list_v'] = sec_filers(s), 0, time.time(), LIST_V
             log(f'enterprise {ENT_KIND}: {len(st["companies"])} companies listed')
         label = enterprise.label_of(ENT_KIND)
+        seen, done = self.state['seen'], self.state.setdefault('fy_done', {})
         while st['i'] < len(st['companies']) and time.time() < until:
             cik = st['companies'][st['i']]
             st['i'] += 1
-            keys = {t: 'ent:' + model_code(f'{cik}:{ENT_KIND}:{t}') for t in enterprise.TRIMS}
-            todo = [t for t in enterprise.TRIMS if keys[t] not in self.state['seen']]
-            if not todo:
+            # Models are keyed by fiscal year: a new annual report adds a new key, and nothing is built twice. The
+            # first models were keyed by position (latest year end = 0, the year before = 1 ...): those count as
+            # built for the year they were built as of.
+            legacy = {t: 'ent:' + model_code(f'{cik}:{ENT_KIND}:{t}') for t in enterprise.TRIMS}
+            if seen.get(legacy[0]) == 'rej:not this industry':
                 continue
             try:
                 sub = s.get(f'https://data.sec.gov/submissions/CIK{cik:010d}.json', timeout=60)
@@ -440,8 +459,10 @@ class Run:
                 sub = sub.json()
                 sic = sub.get('sic') or ''
                 if not enterprise.applies(ENT_KIND, sic):
-                    for t in todo:
-                        self.state['seen'][keys[t]] = 'rej:not this industry'
+                    seen[legacy[0]] = 'rej:not this industry'
+                    continue
+                mark = f'{DEPTH}:{last_annual(sub)}'
+                if done.get(str(cik)) == mark:  # every year end done, and no annual report since
                     continue
                 facts = s.get(f'https://data.sec.gov/api/xbrl/companyfacts/CIK{cik:010d}.json', timeout=120)
                 time.sleep(0.12)
@@ -450,9 +471,18 @@ class Run:
                 facts = facts.json()
             except (requests.RequestException, ValueError):
                 continue
+            ends = year_ends(facts, ENT_KIND)
+            todo = {}
+            for t in range(min(DEPTH, len(ends) - 2)):
+                key = 'ent:' + model_code(f'{cik}:{ENT_KIND}:fy{ends[-1 - t]}')
+                if key in seen:
+                    continue
+                if t in legacy and legacy[t] in seen:
+                    seen[key] = seen[legacy[t]]
+                    continue
+                todo[t] = key
             sector = (sub.get('sicDescription') or 'Diversified').title()
-            for trim in todo:
-                key = keys[trim]
+            for trim, key in todo.items():
                 try:
                     make = bankent.build if ENT_KIND in bankent.KINDS else enterprise.build
                     prof = unique.Profile(key)
@@ -467,6 +497,9 @@ class Run:
                 if wb is None:
                     self.state['seen'][key] = 'rej:not applicable'
                     continue
+                if str(wb.asof) != ends[-1 - trim]:  # the key names the year the model is built as of
+                    self.state['seen'][key] = 'rej:year end mismatch'
+                    continue
                 work = self.tmp / f'ent_{cik}_{trim}'
                 work.mkdir()
                 try:
@@ -480,6 +513,7 @@ class Run:
                         self.taken_logic(sig, salt, key)
                 finally:
                     shutil.rmtree(work, ignore_errors=True)
+            done[str(cik)] = mark  # after its builds: a run cut short redoes the company
         log(f'enterprise {ENT_KIND}: company {st["i"]}/{len(st["companies"])}')
 
     def ir(self, companies_json):
