@@ -551,6 +551,8 @@ class Run:
         for kind in order:
             if kind in office.KINDS:
                 office.start(self.state, kind, log, self.store)
+            if kind in research.KINDS:
+                research.prune(self.state, kind, log)
         rounds = 0
         while left() > 90 and not self.full:
             rounds += 1

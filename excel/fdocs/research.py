@@ -1,5 +1,9 @@
-"""Workspace kinds: research notebooks from STEM papers and theses ('scinotebooks') and Figma designs
-together with the HTML/CSS built from them ('figma').
+"""Workspace kinds: research notebooks ('scinotebooks'), Figma designs together with the HTML/CSS built from them
+('figma') and style guides ('styleguides').
+
+Finance only (user, 2026-10-27; topic.py): notebooks on quantitative finance, trading, portfolios, hedge funds,
+accounting, risk and financial analysis (finance libraries or several finance terms in their text), and designs and
+guidelines for finance products or teams. The STEM notebooks collected before stay on Drive; none are added.
 
 Sources are openly licensed only:
 - scinotebooks: GitHub repositories in the Jupyter language whose README points to a paper, a thesis or an
@@ -28,6 +32,7 @@ from models.xl import REDACTED
 
 from . import anon as _anon
 from . import sources
+from .topic import finance as is_finance, terms as finance_terms
 from .sources import _add, _gh, late
 
 KINDS = ('scinotebooks', 'figma', 'styleguides')
@@ -36,19 +41,19 @@ OPEN = {'mit', 'apache-2.0', 'bsd-3-clause', 'bsd-2-clause', 'gpl-3.0', 'gpl-2.0
 ZIP_DATE = (2026, 1, 1, 0, 0, 0)  # fixed dates: the same content always gives the same zip (duplicate check)
 
 # --- research notebooks -------------------------------------------------------------------------
-TOPICS = ['physics', 'quantum', 'astronomy', 'astrophysics', 'cosmology', 'particle physics', 'condensed matter',
-          'chemistry', 'computational chemistry', 'molecular dynamics', 'materials science', 'crystallography',
-          'bioinformatics', 'genomics', 'single-cell', 'protein', 'computational biology', 'systems biology',
-          'neuroscience', 'ecology', 'epidemiology', 'climate', 'oceanography', 'geophysics', 'seismology',
-          'fluid dynamics', 'plasma', 'spectroscopy', 'numerical methods', 'mathematical biology', 'remote sensing',
-          'hydrology', 'robotics', 'signal processing', 'finite element', 'optics', 'thermodynamics']
-MARKERS = ['arxiv', 'doi', 'thesis', 'paper', 'dissertation', 'publication']
-SCIENCE_LIBS = re.compile(
-    r'^\s*(?:import|from)\s+(scipy|astropy|healpy|sympy|Bio|rdkit|pymatgen|ase|pyscf|psi4|openmm|mdtraj|MDAnalysis|'
-    r'qiskit|cirq|pennylane|qutip|mne|nilearn|nibabel|neo|brian2|xarray|netCDF4|cartopy|obspy|metpy|scanpy|anndata|'
-    r'pysam|pyrosetta|fenics|dolfin|firedrake|pyvista|yt|sunpy|lightkurve|galpy|emcee|corner|camb|classy|lmfit|uproot|'
-    r'ROOT|coffea|skimage|cv2|SimpleITK|pydicom|geopandas|rasterio|gdal|osgeo|pint|uncertainties|numba|jax|sklearn|'
-    r'statsmodels|pymc|pymc3|arviz|torch|tensorflow|networkx|control|pyomo|casadi)\b', re.M)
+# Finance, accounting, hedge-fund and financial-analysis notebooks only (user, 2026-10-27; topic.py).
+TOPICS = ['quantitative finance', 'algorithmic trading', 'portfolio optimization', 'hedge fund', 'backtesting',
+          'financial analysis', 'financial statements', 'accounting', 'asset pricing', 'factor investing',
+          'risk management', 'value at risk', 'credit risk', 'credit scoring', 'option pricing', 'derivatives pricing',
+          'fixed income', 'yield curve', 'stock market', 'stock prediction', 'volatility forecasting',
+          'financial econometrics', 'financial time series', 'market microstructure', 'corporate finance', 'valuation',
+          'fraud detection', 'banking', 'insurance', 'actuarial', 'fintech', 'cryptocurrency trading', 'forex',
+          'earnings', 'financial forecasting', 'public finance', 'monetary policy', 'macroeconomics finance']
+MARKERS = ['arxiv', 'doi', 'thesis', 'paper', 'dissertation', 'publication', 'analysis', 'strategy']
+FINANCE_LIBS = re.compile(
+    r'^\s*(?:import|from)\s+(yfinance|pandas_datareader|QuantLib|zipline|backtrader|pyfolio|empyrical|quantstats|ta|talib|'
+    r'arch|riskfolio|pypfopt|ffn|bt|vectorbt|alpha_vantage|quandl|nasdaqdatalink|ccxt|fredapi|wrds|edgar|'
+    r'sec_edgar_downloader|finta|mplfinance|qlib|finrl|alpaca_trade_api|ib_insync|openbb)\b', re.M)
 DOMAIN = re.compile(
     r'hamiltonian|eigen(?:value|state|vector)|wave ?function|schr[oö]dinger|quantum|lattice|spin|boson|fermion|'
     r'galax|redshift|stellar|exoplanet|telescope|spectr|photometr|cosmolog|dark matter|molecul|reaction|catalys|'
@@ -62,22 +67,20 @@ DOMAIN = re.compile(
 COURSEWORK = re.compile(r'\b(?:homework|assignments?|problem set|exercises?(?: \d)?|lab \d|quiz|midterm|final exam|'
                         r'coursera|udemy|bootcamp|kaggle competition|tutorial \d)\b', re.I)
 FIELDS = [
-    ('Physics-informed machine learning', r'physics.informed|\bpinns?\b'),
-    ('Quantum computing', r'qiskit|cirq|pennylane|qutip|qubit'),
-    ('Astronomy and astrophysics', r'astropy|healpy|galax|redshift|stellar|exoplanet|telescope|cosmolog|lightkurve|sunpy'),
-    ('Particle physics', r'uproot|coffea|\bROOT\b|hadron|collider|lhc\b|jet\b.{0,40}(?:pt|eta)'),
-    ('Chemistry', r'rdkit|pyscf|psi4|molecul|reaction|catalys|density functional|\bdft\b'),
-    ('Materials science', r'pymatgen|\base\b|crystal|alloy|band ?gap|materials'),
-    ('Molecular dynamics', r'openmm|mdtraj|MDAnalysis|molecular dynamics'),
-    ('Genomics and bioinformatics', r'\bBio\b|biopython|scanpy|anndata|pysam|genom|sequenc|\brna\b|\bdna\b|single.cell'),
-    ('Neuroscience', r'\bmne\b|nilearn|nibabel|brian2|neuroscien|spike train|spiking|\beeg\b|fmri|cortex|synap'),
-    ('Biology', r'protein|enzyme|cell (?:line|type|biolog)|species|ecolog|biolog'),
-    ('Epidemiology', r'epidemi|infection|outbreak|sir model|incidence'),
-    ('Earth and climate science', r'xarray|netCDF4|cartopy|metpy|obspy|climate|ocean|precipitation|atmospher|seismic|geophys|hydrolog'),
-    ('Fluid dynamics', r'navier|turbulen|reynolds|fluid'),
-    ('Engineering', r'fenics|dolfin|firedrake|finite element|control|robot|signal processing|sensor'),
-    ('Physics', r'hamiltonian|quantum|lattice|spin|plasma|optic|laser|thermodynam|magnetic'),
-    ('Mathematics', r'sympy|theorem|eigenvalue|differential equation|\bpde\b|numerical'),
+    ('Algorithmic trading', r'backtest|zipline|backtrader|vectorbt|trading strateg|algorithmic trading|alpaca|ib_insync'),
+    ('Portfolio management', r'portfolio|pypfopt|riskfolio|efficient frontier|markowitz|sharpe ratio|asset allocation'),
+    ('Hedge funds and factor investing', r'hedge fund|factor (?:model|investing)|fama|long.short'),
+    ('Derivatives and option pricing', r'option pricing|black.scholes|QuantLib|implied volatility|greeks|binomial tree'),
+    ('Fixed income', r'fixed income|yield curve|bond (?:pricing|yield)|term structure'),
+    ('Risk management', r'value at risk|expected shortfall|credit risk|risk management|stress test|default probab'),
+    ('Credit and banking', r'credit scor|loan|banking|lending|fraud'),
+    ('Accounting and financial statements', r'accounting|financial statement|balance sheet|income statement|cash flow|edgar|10-k'),
+    ('Valuation and corporate finance', r'valuation|discounted cash|\bdcf\b|wacc|corporate finance|capital structure'),
+    ('Volatility and financial econometrics', r'volatility|garch|\barch\b|econometric|cointegration'),
+    ('Cryptocurrency markets', r'crypto|bitcoin|ethereum|ccxt|blockchain'),
+    ('Insurance and actuarial', r'insurance|actuar'),
+    ('Macroeconomics and public finance', r'monetary|inflation|interest rate|fiscal|public finance|fredapi'),
+    ('Stock market analysis', r'stock|equit|yfinance|share price|market data'),
 ]
 # Scientific eponyms are not people to redact ('Navier-Stokes', 'Runge-Kutta', 'Hartree-Fock', 'Bessel').
 EPONYMS = set('''abel airy ampere arrhenius avogadro bayes bernoulli bessel biot black blackman bloch bohr boltzmann born
@@ -314,11 +317,10 @@ def notebook(cand, raw, work, out, A):
         return {'ok': False, 'reason': 'no explanation (markdown)'}
     if COURSEWORK.search(md_src[:20000]) or COURSEWORK.search(cand['url']):
         return {'ok': False, 'reason': 'course work'}
-    libs = {m.group(1) for m in SCIENCE_LIBS.finditer(code_src)}
-    terms = {m.group(0).lower() for m in DOMAIN.finditer(md_src + '\n' + code_src)}
-    strong = libs - {'sklearn', 'torch', 'tensorflow', 'statsmodels', 'networkx', 'numba', 'jax', 'cv2', 'skimage'}
-    if not (strong and len(terms) >= 2) and len(terms) < 5:
-        return {'ok': False, 'reason': 'not a scientific notebook'}
+    libs = {m.group(1) for m in FINANCE_LIBS.finditer(code_src)}
+    terms = finance_terms(md_src[:50000])
+    if not (libs and len(terms) >= 2) and len(terms) < 4:  # finance only (user, 2026-10-27)
+        return {'ok': False, 'reason': 'not a finance notebook'}
     letters = [ch for ch in md_src if ch.isalpha()]
     if letters and sum(ch.isascii() for ch in letters) / len(letters) < 0.9:
         return {'ok': False, 'reason': 'not English'}
@@ -339,7 +341,7 @@ def notebook(cand, raw, work, out, A):
         return {'ok': False, 'reason': 'notebook broken by anonymising'}
     dst.write_text(text, encoding='utf-8')
     hay = '\n'.join(libs) + '\n' + md_src[:30000] + '\n' + cand.get('topic', '')
-    field = next((name for name, pat in FIELDS if re.search(pat, hay, re.I)), 'Science')
+    field = next((name for name, pat in FIELDS if re.search(pat, hay, re.I)), 'Financial analysis')
     return {'ok': True, 'path': str(dst), 'ext': 'ipynb', 'label': f'Research notebook - {field}'}
 
 
@@ -349,7 +351,9 @@ FIG_CODE_QUERIES = ['figma ".fig" extension:md', '"design.fig"', 'figma ".fig fi
 FIG_REPO_QUERIES = ['figma in:readme language:HTML', 'figma in:readme language:CSS', 'figma in:readme language:SCSS',
                     'figma design html css', 'figma to html', 'figma landing page', 'figma ui kit', 'figma template html',
                     'figma mockup html', 'figma prototype html', 'figma website', 'figma portfolio', 'figma frontend',
-                    'figma responsive', 'figma design system css']
+                    'figma responsive', 'figma design system css', 'figma fintech', 'figma banking app',
+                    'figma finance dashboard', 'figma crypto wallet', 'figma trading app', 'figma budget app',
+                    'figma invoice', 'figma payment app', 'figma investment app', 'figma accounting dashboard']
 FIXTURE = re.compile(r'(?:^|/)(?:tests?|__tests__|fixtures?|spec|testdata|samples?)/', re.I)
 WEB = re.compile(r'\.(?:html?|css|scss|sass|less|svg|png|jpe?g|gif|webp|avif|ico|woff2?|ttf|otf|eot)$', re.I)
 SKIP_DIR = re.compile(r'(?:^|/)(?:node_modules|vendor|bower_components|\.git|\.github|\.vscode|\.idea|__MACOSX)/', re.I)
@@ -360,6 +364,17 @@ CATEGORY = [('Landing page', r'landing'), ('Portfolio', r'portfolio|resume|\bcv\
             ('Finance', r'bank|finance|crypto|wallet|payment'), ('Health', r'health|medical|fitness|clinic'),
             ('Real estate', r'real estate|property|apartment'), ('Agency', r'agency|startup|saas|business')]
 
+
+
+FIN_DESIGN = re.compile(r'\bbank|crypto|wallet|money|fintech|invest|trading|stock|portfolio|accounting|invoice|budget|'
+                        r'expense|payment|financ|loan|insurance|\btax\b|payroll|ledger|hedge', re.I)
+
+
+def _finance_repo(repo):
+    """Designs and guidelines for finance products or teams only (user, 2026-10-27): name, description or topics."""
+    text = ' '.join([repo['full_name'].replace('-', ' ').replace('_', ' '), repo.get('description') or '',
+                     ' '.join(repo.get('topics') or [])])
+    return is_finance(text) or bool(FIN_DESIGN.search(text))
 
 def _fig_ok(data):
     """A real Figma file: 'fig-kiwi' binary, or the newer zip holding canvas.fig (never a Git LFS pointer)."""
@@ -382,7 +397,7 @@ def _figma_repo(state, kind, s, repo):
     if f'ghrepo:{kind}:{full}' in state['seen']:
         return 0
     state['seen'][f'ghrepo:{kind}:{full}'] = 1
-    if not _license_ok(repo) or repo.get('size', 0) > 400_000 or repo.get('fork'):
+    if not _license_ok(repo) or repo.get('size', 0) > 400_000 or repo.get('fork') or not _finance_repo(repo):
         return 0
     if COURSEWORK.search(full.replace('-', ' ').replace('_', ' ')) or COURSEWORK.search(repo.get('description') or ''):
         return 0
@@ -604,7 +619,9 @@ STYLE_REPO_QUERIES = ['topic:style-guide', 'topic:styleguide', 'topic:design-sys
                       '"style guide" in:name,description', '"brand guidelines" in:name,description',
                       '"design guidelines" in:name,description', '"coding standards" in:name,description',
                       '"API guidelines" in:name,description', '"content style guide" in:name,description',
-                      '"design system" in:name,description']
+                      '"design system" in:name,description', 'topic:fintech design-system', 'topic:banking design-system',
+                      '"financial writing" style guide', 'accounting guidelines in:name,description',
+                      'finance "style guide" in:name,description', 'investment guidelines in:name,description']
 STYLE_DOC = re.compile(r'\.(?:md|mdx|markdown|rst|txt|adoc|pdf)$', re.I)
 STYLE_PATH = re.compile(r'(?:^|/)(?:docs?|guide|guides|guidelines?|style[-_ ]?guide|handbook|standards?|principles|'
                         r'foundations|components|patterns|content|writing|brand|tokens|accessibility|rules)(?:/|$)|'
@@ -630,7 +647,7 @@ def _style_repo(state, kind, s, repo):
     name = full.replace('-', ' ').replace('_', ' ')
     if not _license_ok(repo) or repo.get('fork') or repo.get('archived') and repo.get('stargazers_count', 0) < 20 \
             or repo.get('stargazers_count', 0) < 3 or re.search(r'\bawesome\b', name, re.I) \
-            or COURSEWORK.search(name) or COURSEWORK.search(repo.get('description') or ''):
+            or COURSEWORK.search(name) or COURSEWORK.search(repo.get('description') or '') or not _finance_repo(repo):
         return 0
     branch = repo.get('default_branch') or 'main'
     docs = sources._repo_files(s, full, branch, lambda p: bool(STYLE_DOC.search(p) and STYLE_PATH.search(p)
@@ -809,6 +826,22 @@ def sci_sources(state, kind, s, log):
         if not late():
             added += fn(state, kind, s, log, pages=1)
     return added
+
+
+def prune(state, kind, log):
+    """At the start of a run: drops candidates queued before the finance-only rule (user, 2026-10-27)."""
+    q = state['queue'].get(kind, [])
+    if kind == 'scinotebooks':
+        keep = [c for c in q if c.get('topic') in TOPICS]
+    else:
+        keep = [c for c in q if _finance_repo({'full_name': c['key'].split(':', 1)[-1], 'description': c.get('about'),
+                                               'topics': (c.get('topics') or '').split()})]
+    for c in q:
+        if c not in keep:
+            state['queued'].pop(c['key'], None)
+    state['queue'][kind] = keep
+    if len(q) > len(keep):
+        log(f'  {kind}: {len(q) - len(keep)} queued candidate(s) not about finance dropped')
 
 
 DISCOVER = {'scinotebooks': [sci_sources], 'figma': [figma_github], 'styleguides': [style_github]}

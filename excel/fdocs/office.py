@@ -9,6 +9,8 @@ file type), the Government of Canada open-data portal (English resources), and U
 English content from the US and Canada only, and unique (user, 2026-10-24; usca.py): one file per record or
 dataset, records from US / Canadian authors or governments, English metadata, title and text, and no two files with
 the same normalised title.
+Finance only (user, 2026-10-27; topic.py): the searches are finance, accounting, hedge-fund and financial-analysis
+subjects, and a record is kept only when its title, or its keywords and description, are about them.
 """
 import re
 import time
@@ -19,10 +21,11 @@ import requests
 from . import anon as _anon
 from . import sources
 from . import tab as _tab
-from . import usca
+from . import topic, usca
 from .sources import _add as _queue, late
 
-RULES = 2  # queued candidates from before the English / US-Canada / one-per-record rules are dropped
+RULES = 3  # queued candidates from before the English / US-Canada / one-per-record (2) and finance-only (3) rules
+# are re-checked or dropped
 
 
 def _records(state):
@@ -61,10 +64,23 @@ def repeated_label(state, kind, label):
     return False
 
 
+def about_finance(title, about=''):
+    """The record is about finance, accounting, investing or financial analysis: its title says so, or its keywords
+    and description name at least two finance terms (one passing mention is not enough)."""
+    return topic.finance(title) or topic.finance(about, need=2)
+
+
 def prune(state, kind):
-    """Drops candidates queued under the old rules (any language, any country, every file of a record)."""
+    """Drops candidates queued under the old rules (any language, any country, every file of a record), and those
+    whose title is not about finance (rules 3). Socrata ledgers are searched by bookkeeping terms only."""
     q = state['queue'].get(kind, [])
-    keep = [c for c in q if c.get('rules') == RULES or c.get('source') == 'socrata']
+    keep = []
+    for c in q:
+        if c.get('source') == 'socrata' or c.get('rules') == RULES:
+            keep.append(c)
+        elif c.get('rules') == 2 and topic.finance(c.get('title') or ''):
+            c['rules'] = RULES
+            keep.append(c)
     for c in q:
         if c not in keep:
             state['queued'].pop(c['key'], None)
@@ -76,12 +92,14 @@ PERSON = 'Salvador Sekwa'
 GOOGLE = {'gsheets': 'application/vnd.google-apps.spreadsheet', 'gdocs': 'application/vnd.google-apps.document',
           'slides': 'application/vnd.google-apps.presentation'}
 ZENODO_LIC = re.compile(r'^(?:cc-by|cc0|cc-zero|mit|apache|bsd|gpl|lgpl|agpl|mpl|isc|unlicense|odc|pddl)', re.I)
-# Topics rotate so the collection covers business, finance, public sector, education and science.
-TOPICS = ['budget', 'financial', 'accounting', 'business plan', 'project management', 'marketing', 'sales', 'economics',
-          'annual report', 'policy', 'education', 'training', 'workshop', 'health', 'engineering', 'energy', 'climate',
-          'agriculture', 'transport', 'survey', 'statistics', 'data analysis', 'software', 'research methods', 'strategy',
-          'governance', 'procurement', 'human resources', 'operations', 'supply chain', 'risk', 'audit', 'tourism',
-          'water', 'urban planning', 'public health', 'innovation', 'entrepreneurship', 'sustainability', '']
+# Finance, accounting, hedge-fund and financial-analysis subjects only (user, 2026-10-27; topic.py checks each record).
+TOPICS = ['financial statements', 'financial analysis', 'financial model', 'financial planning', 'financial reporting',
+          'accounting', 'management accounting', 'cost accounting', 'budget', 'public finance', 'fiscal', 'audit',
+          'annual report', 'cash flow', 'balance sheet', 'income statement', 'valuation', 'corporate finance',
+          'investment', 'portfolio', 'hedge fund', 'asset management', 'private equity', 'venture capital',
+          'equity research', 'stock market', 'fixed income', 'bond market', 'capital markets', 'risk management',
+          'credit risk', 'banking', 'monetary policy', 'interest rates', 'insurance', 'actuarial', 'taxation',
+          'treasury', 'trading', 'quantitative finance', 'fintech', 'financial literacy', 'economic analysis']
 # A spreadsheet expands many times in memory when opened (a 40 MB workbook ran a runner out of memory).
 MAX_SIZE = {'xlsx': 8 * 2**20, 'docx': 40 * 2**20, 'pptx': 40 * 2**20, 'pdf': 40 * 2**20}
 ZFILE = {'gsheets': ('xlsx', None), 'gdocs': ('docx', None), 'slides': ('pptx', None), 'presentations': ('pdf', 'presentation'),
@@ -128,6 +146,9 @@ def zenodo_files(state, kind, s, log, pages=2):
                 title = md.get('title') or ''
                 if not (usca.zenodo_language(md) and usca.english_title(title) and usca.zenodo_usca(md)):
                     continue
+                about = ' '.join(md.get('keywords') or []) + ' ' + re.sub(r'<[^>]+>', ' ', md.get('description') or '')[:3000]
+                if not about_finance(title, about):
+                    continue
                 for f in h.get('files', [])[:20]:
                     key = f.get('key', '')
                     url = (f.get('links') or {}).get('self')
@@ -172,6 +193,10 @@ def canada(state, kind, s, log, pages=2):
                     continue
                 title = (p.get('title_translated') or {}).get('en') or p.get('title') or ''
                 if not usca.english_title(title):
+                    continue
+                notes = (p.get('notes_translated') or {}).get('en') or p.get('notes') or ''
+                tags = ' '.join(t.get('name', '') for t in p.get('tags') or [] if isinstance(t, dict))
+                if not about_finance(title, f'{tags} {notes[:3000]}'):
                     continue
                 for f in p.get('resources', []):
                     url = (f.get('url') or '').strip()
@@ -228,7 +253,7 @@ def start(state, kind, log, store=None):
     dropped = prune(state, kind)
     _vet_socrata(state, kind)
     if dropped:
-        log(f'  {kind}: {dropped} queued candidate(s) from before the English / US-Canada rules dropped')
+        log(f'  {kind}: {dropped} queued candidate(s) not meeting the English / US-Canada / finance-only rules dropped')
 
 
 def office_sources(state, kind, s, log):
