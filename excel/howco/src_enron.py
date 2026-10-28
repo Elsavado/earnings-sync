@@ -171,6 +171,11 @@ def one(ctx, A, path, hashes, uploaded, log):
     subprocess.run(['readpst', '-e', '-b', '-q', '-D', '-j', '4', '-o', str(out), str(pst)], check=False,
                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=7200)
     pst.unlink()
+    return process(ctx, A, name, mailbox, part, out, work, hashes, uploaded, log)
+
+
+def process(ctx, A, name, mailbox, part, out, work, hashes, uploaded, log):
+    """Rewrites the messages unpacked in out (one .eml per message, folders as in the mailbox) and uploads."""
     files = sorted(p for p in out.rglob('*') if p.is_file())
     log(f'{name}: {len(files)} messages unpacked')
 

@@ -77,40 +77,38 @@ def run(ctx, log):
     s.headers['User-Agent'] = UA
     robots = Robots(s)
     colls = _collections(s)
-    cur = st.setdefault('cursor', {'coll': colls[0], 'page': 0, 'pages': None})
+    # One resumable cursor per crawl; newest crawl first. A crawl whose index stops answering is set aside for the
+    # rest of this run and the previous crawl is used instead; later runs return to the newest unfinished one.
+    curs = st.setdefault('crawls', {})
+    if 'cursor' in st:  # cursor of the first version
+        old = st.pop('cursor')
+        curs.setdefault(old['coll'], {'coll': old['coll'], 'page': old['page'], 'pages': old['pages']})
+    stalled = set()
     kept = checked = 0
+    cur = None
     while ctx.left() > 600:
+        todo = [c for c in colls if not curs.get(c, {}).get('done') and c not in stalled]
+        if not todo:
+            if not stalled:
+                st['finished'] = True
+            break
+        cur = curs.setdefault(todo[0], {'coll': todo[0], 'page': 0, 'pages': None})
         api = f'https://index.commoncrawl.org/{cur["coll"]}-index'
         if cur['pages'] is None:
-            try:
-                cur['pages'] = s.get(api, params={'url': '*.edu', 'showNumPages': 'true'}, timeout=120).json()['pages']
-            except (requests.RequestException, ValueError, KeyError):
-                log('index unavailable; trying again next run')
-                break
+            cur['pages'] = _ask(s, api, {'url': '*.edu', 'showNumPages': 'true'}, log, json_page=True)
+            if cur['pages'] is None:
+                log(f'{cur["coll"]}: index unavailable; using the previous crawl')
+                stalled.add(cur['coll'])
+                continue
         if cur['page'] >= cur['pages']:
-            older = [c for c in colls if c < cur['coll']]
-            if not older:
-                st['finished'] = True
-                break
-            cur.update(coll=older[0], page=0, pages=None)
+            cur['done'] = True
             continue
-        rows = None
-        for attempt in range(4):
-            try:
-                r = s.get(api, params={'url': '*.edu', 'output': 'json', 'page': cur['page'],
-                                       'filter': ['mime:application/pdf', 'status:200', f'~url:{URL_RE}']}, timeout=180)
-                if r.status_code == 404:
-                    rows = []
-                    break
-                if r.ok:
-                    rows = [json.loads(x) for x in r.text.splitlines() if x.strip()]
-                    break
-            except (requests.RequestException, ValueError):
-                pass
-            time.sleep(15 * (attempt + 1))
+        rows = _ask(s, api, {'url': '*.edu', 'output': 'json', 'page': cur['page'],
+                             'filter': ['mime:application/pdf', 'status:200', f'~url:{URL_RE}']}, log)
         if rows is None:
-            log(f'{cur["coll"]} page {cur["page"]}: index did not answer; trying again next run')
-            break
+            log(f'{cur["coll"]} page {cur["page"]}: index did not answer; using the previous crawl for now')
+            stalled.add(cur['coll'])
+            continue
         for row in rows:
             url = row['url']
             host = urlparse(url).netloc.lower()
@@ -182,12 +180,33 @@ def run(ctx, log):
         if ctx.dry and kept >= 12:
             break
         cur['page'] += 1
+        time.sleep(1)  # the index asks for at most one request a second
         st['seen'], st['hashes'], st['titles'], st['blocked'] = sorted(seen), sorted(hashes), sorted(titles), sorted(blocked)
         if cur['page'] % 10 == 0:
             ctx.save()
             log(f'{cur["coll"]} page {cur["page"]}/{cur["pages"]}: {checked} PDFs checked, {kept} reports kept')
     st['seen'], st['hashes'], st['titles'], st['blocked'] = sorted(seen), sorted(hashes), sorted(titles), sorted(blocked)
-    log(f'this run: {checked} PDFs checked, {kept} reports kept; index at {cur["coll"]} page {cur["page"]}')
+    log(f'this run: {checked} PDFs checked, {kept} reports kept; crawls: '
+        + ', '.join(f'{c["coll"]} {c["page"]}/{c["pages"]}' for c in curs.values()))
+
+
+def _ask(s, api, params, log, json_page=False):
+    """One index request with patient retries (the index throttles and times out under load): 10 s, 30 s, 60 s,
+    120 s. Returns the page count (json_page), the rows, or None."""
+    for wait in (10, 30, 60, 120, None):
+        try:
+            r = s.get(api, params=params, timeout=240)
+            if r.status_code == 404:
+                return 0 if json_page else []
+            if r.ok:
+                if json_page:
+                    return int(r.json()['pages'])
+                return [json.loads(x) for x in r.text.splitlines() if x.strip()]
+        except (requests.RequestException, ValueError, KeyError):
+            pass
+        if wait is None:
+            return None
+        time.sleep(wait)
 
 
 def _subject(A, text):
