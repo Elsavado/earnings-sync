@@ -245,6 +245,13 @@ class People:
             return m.group(0)
         text = CAP.sub(full, text)
         text = CAP_UP.sub(lambda m: full(m) if self.known(m.group(1), m.group(3)) else m.group(0), text)
+        def initial(m):
+            hits = [k for k in self.by_last.get(m.group(2).lower(), ()) if k[0] == m.group(1).lower()]
+            if len(hits) != 1:
+                return m.group(0)
+            p = self.map[hits[0]].split()
+            return p[0][0] + p[1]
+        text = re.sub(r'\b([A-Z])([A-Z][a-z]{2,})\b', initial, text)
         for first, last in participants:
             p = self.pseudo(first, last).split()
             f = _norm(first)

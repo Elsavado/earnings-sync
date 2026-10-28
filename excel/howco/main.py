@@ -48,6 +48,7 @@ class Ctx:
         self.anon = None
         self.samples = 0
         self.leak_report = []
+        self.possible_report = []  # spaCy: people that may be left (dry runs)
 
     def left(self):
         return BUDGET - (time.time() - START)
@@ -81,14 +82,14 @@ class Ctx:
         names = [v['title'] for v in t.values()]
         self.anon = Anon(pmaps, own.setdefault('people', {}), cmaps, own.setdefault('companies', {}), key_material(),
                          names, names[:1500], {v['ticker']: v['title'] for v in t.values()}, tmaps, own.setdefault('tickers', {}))
+        self.anon.check_ner = self.dry
         log(f'names: {len(self.anon.pp.map)} people and {len(self.anon.co.map)} companies known; '
             f'{len(self.anon.co.multi)} multi-word and {len(self.anon.co.single)} one-word company names to match')
         return self.anon
 
     def sample(self, local, name, leaks=()):
         """Dry run: keeps up to 40 processed files in the private folder for checking, with what leaked."""
-        if leaks:
-            self.leak_report.append(f'{name}: {", ".join(sorted(set(leaks))[:10])}')
+        self.note(name, leaks)
         if not self.dry or self.samples >= 40:
             return
         self.samples += 1
@@ -98,6 +99,16 @@ class Ctx:
         media = MediaFileUpload(str(local), resumable=False)
         _retry(lambda: self.drive.drive.files().create(body={'name': name[:200], 'parents': [parent]},
                                                        media_body=media, fields='id').execute())
+
+    def note(self, name, leaks, context=None):
+        """Records what a file still contains: real names the rules replaced elsewhere, and possible people."""
+        real = sorted({x for x in leaks if not x.startswith('possible')})
+        poss = sorted({x[len('possible person: '):] for x in leaks if x.startswith('possible')})
+        if real:
+            self.leak_report.append(f'{name}: ' + (context(real) if context else ', '.join(real[:10])))
+        if poss:
+            self.possible_report.append(f'{name}: ' + ', '.join(poss[:12]))
+        return bool(real)
 
     def finish(self):
         if self.dry:

@@ -22,8 +22,11 @@ LEGACY = {'doc': 'docx', 'xls': 'xlsx', 'ppt': 'pptx', 'rtf': 'docx', 'wpd': 'do
 
 class Anon:
     def __init__(self, people_maps, people_own, co_maps, co_own, key, registrants=(), top=(), tickers=(), tick_maps=(),
-                 tick_own=None):
+                 tick_own=None, ner=True):
         self.co = _co.Companies(co_maps, co_own, key, registrants, top, tickers, tick_maps, tick_own)
+        self.use_ner = ner  # spaCy finds the people of documents the rules do not know (first names not on the list)
+        self.check_ner = False  # dry runs: spaCy also looks for people left in the output
+        self.nlp = None
         self.pp = _pp.People(people_maps, people_own, key, avoid=self.co.words(), domain=self.co.domain,
                              is_company=self.co.is_company)
 
@@ -39,12 +42,64 @@ class Anon:
         """A new document: forget which real names were replaced (the leak check is per document)."""
         self.co.start()
 
-    def prelearn(self, s):
-        """Learns the companies of a whole message or document before any part of it is rewritten."""
+    def prelearn(self, s, ner=None):
+        """Learns the companies (and, with spaCy, the people) of a whole message or document before any part of it
+        is rewritten. Returns the people found, so their surnames alone are replaced in the document too."""
         self.co.learn_all(s)
+        found = []
+        if self.use_ner if ner is None else ner:
+            for f, l in self.people_in(s):
+                self.pp.pseudo(f, l)
+                found.append((f, l))
+        return found
+
+    def _nlp(self):
+        if self.nlp is None:
+            try:
+                import spacy
+                self.nlp = spacy.load('en_core_web_sm', exclude=['parser', 'lemmatizer', 'attribute_ruler', 'tagger',
+                                                                 'senter'])
+                self.nlp.max_length = 2_000_000
+            except Exception:  # noqa: BLE001 - without spaCy the rules alone are used
+                self.nlp = False
+        return self.nlp
+
+    def people_in(self, s, limit=800000):
+        """('First', 'Last') of the people spaCy finds in s (two to four capitalised words, not a company, not a
+        made-up name, not a phrase of everyday words)."""
+        nlp = self._nlp()
+        if not nlp or not s:
+            return []
+        out, seen = [], set()
+        for i in range(0, min(len(s), limit), 100000):
+            for ent in nlp(s[i:i + 100000]).ents:
+                if ent.label_ != 'PERSON':
+                    continue
+                toks = re.findall(r"[A-Za-z][A-Za-z'’\-]+", ent.text)
+                toks = [t for t in toks if not (len(t) == 1)]
+                if not 2 <= len(toks) <= 4 or not all(t[0].isupper() for t in toks):
+                    continue
+                f, l = toks[0], re.sub(r"['’]s$", '', toks[-1])
+                key = (f.lower(), l.lower())
+                if key in seen or self.pp.fake(f, l) or self.co.is_company(f, l):
+                    continue
+                if (f.lower() in _pp.NOT_NAMES or l.lower() in _pp.NOT_NAMES or l.lower() in _pp.NOT_LAST
+                        or f.lower() in _pp.PLACE_FIRST or f'{f} {l}'.lower() in _pp.NOT_PEOPLE
+                        or any(w.lower() in self.co.taken_flat for w in (f, l))
+                        or all(self.pp.common(w) >= 4.5 for w in (f, l)) or (f.isupper() and l.isupper())):
+                    continue
+                seen.add(key)
+                out.append((f, l))
+        return out
 
     def leaks(self, s, participants=()):
-        return self.pp.leaks(s, participants) + self.co.leaks(s)
+        out = self.pp.leaks(s, participants) + self.co.leaks(s)
+        if self.check_ner:  # people the rules never learned: listed as 'possible' for checking
+            fake = {w.lower() for v in self.pp.taken for w in v.split()}
+            for f, l in self.people_in(s, limit=300000):
+                if f.lower() not in fake and l.lower() not in fake:
+                    out.append(f'possible person: {f} {l}')
+        return out
 
     # --- files --------------------------------------------------------------------------------------
     def file(self, src, dst, ext, participants=()):
@@ -57,7 +112,7 @@ class Anon:
         if ext in TEXT_EXT:
             raw = Path(src).read_bytes()
             t = raw.decode('utf-8', 'replace') if _utf8(raw) else raw.decode('cp1252', 'replace')
-            self.prelearn(t)
+            participants = list(participants) + self.prelearn(t)
             out = self.text(t, participants)
             Path(dst).write_text(out, encoding='utf-8')
             return True, out
@@ -68,7 +123,7 @@ class Anon:
         doc = pymupdf.open(src)
         if doc.needs_pass:
             return False, ''
-        self.prelearn(''.join(p.get_text() for p in doc)[:2000000])
+        participants = list(participants) + self.prelearn(''.join(p.get_text() for p in doc)[:2000000])
         full = []
         for page in doc:
             text = page.get_text()
@@ -93,8 +148,9 @@ class Anon:
     def ooxml(self, src, dst, participants=()):
         texts = []
         with zipfile.ZipFile(src) as zin:
-            self.prelearn(' '.join(re.sub(r'<[^>]+>', ' ', zin.read(n).decode('utf-8', 'replace'))
-                                   for n in zin.namelist() if n.endswith('.xml'))[:2000000])
+            participants = list(participants) + self.prelearn(' '.join(
+                re.sub(r'<[^>]+>', ' ', zin.read(n).decode('utf-8', 'replace'))
+                for n in zin.namelist() if n.endswith('.xml'))[:2000000])
         with zipfile.ZipFile(src) as zin, zipfile.ZipFile(dst, 'w', zipfile.ZIP_DEFLATED) as zout:
             for item in zin.infolist():
                 data = zin.read(item.filename)
