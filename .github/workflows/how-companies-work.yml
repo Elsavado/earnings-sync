@@ -90,7 +90,7 @@ jobs:
           cache: pip
           cache-dependency-path: excel/requirements.txt
       - name: Install tools
-        if: matrix.source == 'enron' || matrix.source == 'fcic' || matrix.source == 'antitrust'
+        if: matrix.source != 'atlas' && matrix.source != 'stocks' && matrix.source != 'edu'
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq --no-install-recommends pst-utils libreoffice-writer libreoffice-calc libreoffice-impress > /dev/null

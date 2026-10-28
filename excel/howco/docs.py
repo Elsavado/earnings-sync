@@ -120,7 +120,10 @@ def run(ctx, log, discover, business_only=False, min_text_per_page=200):
         hashes.add(h)
         src, e = str(path), ext
         if ext in LEGACY:
-            conv = convert_legacy([str(path)], ctx.work / 'conv').get(str(path))
+            try:
+                conv = convert_legacy([str(path)], ctx.work / 'conv').get(str(path))
+            except (RuntimeError, OSError):
+                conv = None
             if not conv:
                 skip('not converted')
                 continue
