@@ -1,0 +1,124 @@
+name: How Companies Work
+
+# Collects real-world records of how companies operate into the Workspace Shared Drive "Research Collections",
+# folder "How Companies Work" (excel/howco): an energy-trading company's e-mail corpus, ATLAS Finance simulated
+# firms, Open Stock Reports, university equity research and SEC banker board decks. Every person and company gets
+# a consistent made-up name. One job per source; runs chain back-to-back while the repository variable HOWCO_LIVE
+# is 'true'. A source problem never fails the run (it is logged; the saved state carries over).
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Process a little without publishing (samples and a leak report go to the private folder)'
+        type: boolean
+        required: false
+        default: false
+      sources:
+        description: 'Sources (enron,atlas,stocks,edu,sec)'
+        required: false
+        default: 'enron,atlas,stocks,edu,sec'
+      minutes:
+        description: 'Run budget in minutes'
+        required: false
+        default: '320'
+      chained:
+        description: 'Started by the previous run (internal)'
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: how-companies-work-${{ github.event.inputs.dry_run || 'false' }}
+  cancel-in-progress: false
+
+env:
+  SHARED_DRIVE_ID: ${{ vars.HOWCO_DRIVE_ID || '0ACsHljU9Hj2_Uk9PVA' }}
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      go: ${{ steps.check.outputs.go }}
+      sources: ${{ steps.check.outputs.sources }}
+    steps:
+      - id: check
+        env:
+          LIVE: ${{ vars.HOWCO_LIVE }}
+          DRY: ${{ github.event.inputs.dry_run || 'false' }}
+          SOURCES: ${{ github.event.inputs.sources || 'enron,atlas,stocks,edu,sec' }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          ok = ('enron', 'atlas', 'stocks', 'edu', 'sec')
+          src = [s.strip() for s in os.environ['SOURCES'].split(',') if s.strip() in ok]
+          go = bool(src) and (os.environ['DRY'] == 'true' or os.environ['LIVE'] == 'true')
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write(f"go={'true' if go else 'false'}\nsources={json.dumps(src)}\n")
+          print('go' if go else 'stop', src)
+          PY
+
+  collect:
+    needs: prepare
+    if: needs.prepare.outputs.go == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        source: ${{ fromJSON(needs.prepare.outputs.sources) }}
+    defaults:
+      run:
+        working-directory: excel
+    steps:
+      - uses: actions/checkout@v4
+      - name: Free disk space
+        if: matrix.source == 'enron'
+        run: sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL || true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: excel/requirements.txt
+      - name: Install tools
+        if: matrix.source == 'enron'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq --no-install-recommends pst-utils libreoffice-writer libreoffice-calc libreoffice-impress > /dev/null
+          readpst -V | head -1
+      - name: Install Python packages
+        run: pip install -q -r requirements.txt
+      - name: Collect
+        continue-on-error: true
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.WS_GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+          SOURCE: ${{ matrix.source }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+          LIVE: ${{ vars.HOWCO_LIVE }}
+          RUN_MINUTES: ${{ github.event.inputs.minutes || '320' }}
+        run: python -m howco.main
+
+  next:
+    needs: [prepare, collect]
+    if: always() && needs.prepare.outputs.go == 'true' && github.event.inputs.dry_run != 'true' && vars.HOWCO_LIVE == 'true'
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCES: ${{ github.event.inputs.sources || 'enron,atlas,stocks,edu,sec' }}
+        run: |
+          for i in 1 2 3 4 5 6; do
+            gh workflow run how-companies-work.yml -R ${{ github.repository }} --ref main -f dry_run=false \
+              -f sources="$SOURCES" -f minutes=320 -f chained=true && exit 0
+            sleep $(( i * 30 ))
+          done
+          echo "could not start the next run" >> "$GITHUB_STEP_SUMMARY"
