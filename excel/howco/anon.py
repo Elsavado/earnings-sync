@@ -30,12 +30,18 @@ class Anon:
     def text(self, s, participants=(), learn=True):
         if not s:
             return s
+        if learn:
+            self.co.learn_all(s)  # from the original text only: never from made-up names
         s = self.pp.sub(s, participants, learn=learn)
-        return self.co.sub(s, learn=learn)
+        return self.co.sub(s, learn=False)
 
     def start(self):
         """A new document: forget which real names were replaced (the leak check is per document)."""
         self.co.start()
+
+    def prelearn(self, s):
+        """Learns the companies of a whole message or document before any part of it is rewritten."""
+        self.co.learn_all(s)
 
     def leaks(self, s, participants=()):
         return self.pp.leaks(s, participants) + self.co.leaks(s)
@@ -51,6 +57,7 @@ class Anon:
         if ext in TEXT_EXT:
             raw = Path(src).read_bytes()
             t = raw.decode('utf-8', 'replace') if _utf8(raw) else raw.decode('cp1252', 'replace')
+            self.prelearn(t)
             out = self.text(t, participants)
             Path(dst).write_text(out, encoding='utf-8')
             return True, out
@@ -61,6 +68,7 @@ class Anon:
         doc = pymupdf.open(src)
         if doc.needs_pass:
             return False, ''
+        self.prelearn(''.join(p.get_text() for p in doc)[:2000000])
         full = []
         for page in doc:
             text = page.get_text()
@@ -84,6 +92,9 @@ class Anon:
 
     def ooxml(self, src, dst, participants=()):
         texts = []
+        with zipfile.ZipFile(src) as zin:
+            self.prelearn(' '.join(re.sub(r'<[^>]+>', ' ', zin.read(n).decode('utf-8', 'replace'))
+                                   for n in zin.namelist() if n.endswith('.xml'))[:2000000])
         with zipfile.ZipFile(src) as zin, zipfile.ZipFile(dst, 'w', zipfile.ZIP_DEFLATED) as zout:
             for item in zin.infolist():
                 data = zin.read(item.filename)

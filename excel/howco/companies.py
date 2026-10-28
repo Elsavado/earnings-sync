@@ -38,13 +38,17 @@ pinnacle west; idacorp; tractebel; powerex; bc hydro; transcanada; westcoast ene
 questar; kn energy; tenneco; columbia gas; coastal corporation; panhandle eastern; texas eastern; tejas gas;
 valero; ultramar; sun company; ameren; xcel energy; northern states power; detroit edison; consumers energy;
 pepco; conectiv; bge; baltimore gas and electric; exelon; peco; commonwealth edison; comed; illinova;
-dynegy marketing; el paso merchant; mirant americas; reliant energy services'''
+dynegy marketing; el paso merchant; mirant americas; reliant energy services; microsoft; google; alphabet; facebook;
+netflix; yahoo; ebay; paypal; walmart; wal mart; boeing; amazon; intel; cisco; oracle corporation; ibm; adobe;
+nvidia; tesla motors; starbucks; mcdonalds; coca cola; pepsico; procter gamble; johnson johnson; general electric;
+general motors; exxon mobil; aol; time warner; worldcom; tyco; qwest; global crossing; adelphia; halliburton'''
 SEED = [tuple(w.split()) for w in (x.strip() for x in SEED.replace('\n', ' ').split(';')) if w]
 # Labels of domains that are not companies.
 NOT_COMPANY_DOMAINS = {'example', 'localhost', 'www', 'mail', 'email', 'smtp'}
 KEEP_TLDS = ('.gov', '.edu', '.mil', '.org', '.int', '.us')
 DOMAIN = re.compile(r'(?<![\w.\-@])((?:[a-z0-9\-]+\.)*)([a-z0-9][a-z0-9\-]{1,62})((?:\.co|\.com)?\.(?:com|net|biz|info|'
-                    r'co|uk|ca|au|de|fr|jp|ch|nl|no|se|be|es|it|in|br|mx|ar|cn|hk|sg)\b)', re.I)
+                    r'co|uk|ca|au|de|fr|jp|ch|nl|no|se|be|es|it|in|br|mx|ar|cn|hk|sg)\b)(?![.\-]?[A-Za-z0-9])', re.I)
+HOST_AT = re.compile(r'@([A-Za-z0-9][A-Za-z0-9.\-]*\.[A-Za-z]{2,})')
 SUFFIXED = re.compile(r"\b((?:(?:[A-Z]\.|[A-Z][\w&'’\-]*)[ \t]+){0,3}[A-Z][\w&'’\-]*)" + SUFFIX_RE + r"(?![\w])")
 TICKER_CTX = re.compile(r'\b(NYSE(?:\s*American|\s*Arca)?|NASDAQ|Nasdaq|AMEX|TSX|OTC|OTCBB|Ticker|Symbol|ticker|symbol)'
                         r'(\s*[:\-–]\s*|\s+)([A-Z][A-Z.]{0,5})\b')
@@ -77,6 +81,7 @@ class Companies:
                 self.map.setdefault(k, v)
         self.map.update(own)
         self.taken = {v.lower() for v in self.map.values()}
+        self.taken_flat = {v.replace(' ', '') for v in self.taken} | {w for v in self.taken for w in v.split()}
         self.firsts = first_names()
         self.multi, self.single = set(), set()
         self.common_single = set()  # one-word names that are everyday words ('apple', 'target'): only where a document names them as a company
@@ -87,8 +92,11 @@ class Companies:
         for c in SEED:
             self._add(c, True)
         for k in self.map:
-            self._add(tuple(k.split()), True)
-        self.compound = {c[0] for c in SEED if len(c) == 1} | {k for k in self.map if ' ' not in k}
+            if not k.startswith('dom:'):
+                self._add(tuple(k.split()), True)
+        # Replaced inside longer words too ('EnronOnline'): only names that are not part of English words.
+        self.compound = ({c[0] for c in SEED if len(c) == 1 and len(c[0]) >= 5 and self.zipf(c[0], 'en') < 3.0}
+                         | {k for k in self.map if ' ' not in k and not k.startswith('dom:') and self.zipf(k, 'en') < 2.0})
         # tickers: {ticker: SEC title} (a list is accepted too)
         self.ticker_title = {k.upper(): v for k, v in tickers.items()} if isinstance(tickers, dict) else {}
         self.tickers = {t.upper() for t in tickers}
@@ -144,14 +152,17 @@ class Companies:
             name = self._word(d, 0) if len(k.split()) == 1 else f'{self._word(d, 0)} {self._word(d, 12)}'
             lw = name.lower()
             ok = (lw not in self.taken and all(self.zipf(w, 'en') < 1.5 and w not in self.firsts for w in lw.split())
-                  and not any(w[:3] == r[:3] for w in lw.split() for r in k.split()) and tuple(lw.split()) not in
+                  and not any(w[:3] == r[:3] for w in lw.split() for r in k.removeprefix('dom:').split())
+                  and tuple(lw.split()) not in
                   self.multi and lw not in self.single)
             if ok:
                 break
             salt += 1
         self.map[k] = self.own[k] = name
         self.taken.add(name.lower())
-        self._add(tuple(k.split()), True)
+        self.taken_flat |= {name.lower().replace(' ', '')} | set(name.lower().split())
+        if not k.startswith('dom:'):
+            self._add(tuple(k.split()), True)
         return name
 
     def ticker(self, t):
@@ -172,12 +183,15 @@ class Companies:
     def learn_domain(self, label):
         """A commercial domain's label names a company: 'dynegy' (from dynegy.com)."""
         label = label.lower()
-        if label in NOT_COMPANY_DOMAINS or len(label) < 2:
+        if label in NOT_COMPANY_DOMAINS or len(label) < 2 or label in self.taken_flat:
             return None
         k = label.replace('-', ' ') if '-' in label else label
+        known = k in self.map or k in self.single or tuple(k.split()) in self.multi
+        if not known and any(self.zipf(w, 'en') >= 2.0 for w in k.split()):
+            k = 'dom:' + k  # 'wellhead.com': an ordinary word, replaced only where it is a domain
         if k not in self.map:
             self.pseudo(k)
-        if ' ' not in k:
+        if ' ' not in k and not k.startswith('dom:') and self.zipf(k, 'en') < 2.0:
             self.compound.add(k)
         return k
 
@@ -191,6 +205,8 @@ class Companies:
             while core and core[0] in NOT_NAMES:
                 core = core[1:]
             if not core or len(core) > 4 or all(w in GENERIC or self.zipf(w, 'en') >= 4.3 for w in core):
+                continue
+            if any(w in self.taken_flat for w in core):  # a made-up name of ours
                 continue
             if len(core) == 1 and (self.zipf(core[0], 'en') >= 3.5 or core[0] in GENERIC):
                 if core[0] in self.common_single:  # 'Apple Inc.': this document names the company
@@ -210,20 +226,64 @@ class Companies:
     # --- text --------------------------------------------------------------------------------------
     def domain(self, host):
         """'mail.dynegy.com' → 'mail.<invented>.com' (government, school and non-profit domains stay)."""
-        m = DOMAIN.fullmatch(host.strip().lower())
-        if not m or host.lower().endswith(KEEP_TLDS):
+        lead = re.match(r"^[\s'\"<(]*", host).group(0)
+        tail = re.search(r"[\s'\">),;.]*$", host).group(0)
+        core = host[len(lead):len(host) - len(tail)]
+        if core and '.' not in core and re.fullmatch(r'[A-Za-z][A-Za-z0-9\-]{1,62}', core):
+            k = self.learn_domain(core)  # Lotus Notes and Exchange: 'person@ENRON'
+            if not k:
+                return host
+            self.seen.add(k)
+            new = self.map[k].replace(' ', '')
+            return lead + (new.upper() if core.isupper() else new.lower()) + tail
+        m = DOMAIN.fullmatch(core.lower())
+        if not m or core.lower().endswith(KEEP_TLDS):
             return host
+        host = core
         k = self.learn_domain(m.group(2))
         if not k:
             return host
         self.seen.add(k)
-        return f'{m.group(1)}{self.map[k].replace(" ", "").lower()}{m.group(3)}'
+        subs = []
+        for lab in m.group(1).split('.')[:-1]:
+            sk = lab if lab in self.map else ('dom:' + lab if 'dom:' + lab in self.map else None)
+            if sk:
+                self.seen.add(sk)
+            subs.append(self.map[sk].replace(' ', '').lower() if sk else lab)
+        prefix = ''.join(x + '.' for x in subs)
+        return f'{lead}{prefix}{self.map[k].replace(" ", "").lower()}{m.group(3)}{tail}'
 
     def sub(self, text, learn=True):
         if not text:
             return text
         if learn:
-            self.learn(text)
+            self.learn_all(text)
+        text = DOMAIN.sub(lambda m: self.domain(m.group(0)) if not m.group(0).lower().endswith(KEEP_TLDS) else m.group(0),
+                          text)
+        text = self._names(text)
+        text = TICKER_CTX.sub(lambda m: m.group(1) + m.group(2) + self.ticker(m.group(3)), text)
+        text = TICKER_PAREN.sub(lambda m: m.group(0) if m.group(1) or m.group(2) not in self.doc_tickers
+                                else '(' + self.ticker(m.group(2)) + ')', text)
+        return text
+
+    def learn_all(self, text):
+        """Learns the companies a text names (legal suffixes, tickers in context, domains). Called on a whole
+        message or document first, so a name met late is replaced from the start."""
+        if not text:
+            return
+        self.learn(text)
+        for h in HOST_AT.findall(text) + [m.group(0) for m in DOMAIN.finditer(text)]:
+            m = DOMAIN.fullmatch(h.lower().strip('.'))
+            if m and not h.lower().endswith(KEEP_TLDS):
+                self.learn_domain(m.group(2))
+                for lab in m.group(1).split('.')[:-1]:  # 'shockwave.<company>.net': a product or company label
+                    if lab in self.map or 'dom:' + lab in self.map:
+                        continue
+                    if len(lab) >= 4 and not re.fullmatch(r'(?:www\d*|mail\d*|smtp|mx\d*|ns\d*|web|ftp|pop\d*|imap|'
+                                                          r'mailman|lists?|email|news|home|members?|users?|secure|'
+                                                          r'[a-z]?\d+|[a-z]{1,3}\d*)', lab):
+                        self.learn_domain(lab)
+        if True:
             # A ticker named in context: its SEC registrant is a company of this document.
             for m in list(TICKER_CTX.finditer(text)) + list(TICKER_PAREN.finditer(text)):
                 ctx = m.re is TICKER_CTX or m.group(1)
@@ -241,13 +301,6 @@ class Companies:
                 else:
                     self._add(core, True)
                 self.pseudo(core)
-        text = DOMAIN.sub(lambda m: self.domain(m.group(0)) if not m.group(0).lower().endswith(KEEP_TLDS) else m.group(0),
-                          text)
-        text = self._names(text)
-        text = TICKER_CTX.sub(lambda m: m.group(1) + m.group(2) + self.ticker(m.group(3)), text)
-        text = TICKER_PAREN.sub(lambda m: m.group(0) if m.group(1) or m.group(2) not in self.doc_tickers
-                                else '(' + self.ticker(m.group(2)) + ')', text)
-        return text
 
     def _names(self, s):
         toks = [(m.start(), m.end(), m.group(0)) for m in TOKEN_RE.finditer(s)]
@@ -264,6 +317,10 @@ class Companies:
                 # Capitalised in running text; an all-lower one-word name only when it is rare (a domain label).
                 if not (seg[0][2][0].isupper() or (L == 1 and self.zipf(key[0], 'en') < 2.0 and key[0] in self.single)):
                     continue
+                if L == 1 and seg[0][2][0].isupper() and key[0] not in self.single and key[0] not in self.active:
+                    stem = re.sub(r'(?:ing|ed|es|s)$', '', key[0])
+                    if len(stem) >= 4 and (stem in self.single or stem in self.active):
+                        key = (stem,)
                 if (L > 1 and key in self.multi) or (L == 1 and (key[0] in self.single or
                                                               (key[0] in self.active and seg[0][2][0].isupper()))):
                     hit = L
@@ -289,7 +346,7 @@ class Companies:
         for w in sorted((w for w in self.compound if len(w) >= 5 and w in low and self.zipf(w, 'en') < 3.8),
                         key=len, reverse=True):
             if w in s.lower():
-                s = re.sub(re.escape(w), lambda m: _style(m.group(0), self.map[w].replace(' ', '')), s, flags=re.I)
+                s = re.sub(re.escape(w), lambda m: _style(m.group(0), self.pseudo(w).replace(' ', '')), s, flags=re.I)
                 self.seen.add(w)
         return s
 
@@ -305,7 +362,20 @@ class Companies:
         low = (text or '').lower()
         out = []
         for k in self.seen:
+            if k.startswith('dom:'):
+                if re.search(r'[@.]' + re.escape(k[4:].replace(' ', '-')) + r'\.', low):
+                    out.append(k[4:])
+                continue
             words = k.split()
+            if k in self.compound and len(k) >= 5:  # replaced inside any word, so it must be gone in any case
+                if k in low:
+                    out.append(k)
+                continue
+            if len(words) == 1 and self.zipf(k, 'en') >= 2.0:
+                if re.search(r'\b' + re.escape(k.capitalize()) + r'\b', text or '') or (
+                        len(k) >= 5 and re.search('(?i:' + re.escape(k) + ')(?=[A-Z@/])', text or '')):
+                    out.append(k)
+                continue
             if len(k) >= 4 and re.search(r'\b' + r'[\s&,.\-]*'.join(map(re.escape, words)) + r'\b', low):
                 if not (len(words) == 1 and self.zipf(k, 'en') >= 3.0):
                     out.append(k)

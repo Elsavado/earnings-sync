@@ -10,6 +10,7 @@ then upload
 Attachments are unique across the whole corpus (content hash). Zips keep the Shared Drive far below its item cap.
 """
 import email
+import os
 import email.policy
 import hashlib
 import re
@@ -55,6 +56,9 @@ def run(ctx, log):
     hashes = set(st['hashes'])
     uploaded = ctx.drive.uploaded()
     files = pst_files()
+    only = [x.strip() for x in os.environ.get('ONLY', '').split(',') if x.strip()]
+    if only:  # a dry run of chosen mailboxes
+        files = [f for f in files if any(o in f[0] for o in only)]
     log(f'{len(files)} PST files, {len(st["done"])} done')
     if not ctx.dry and 'licence' not in uploaded:
         p = ctx.work / 'licence.txt'
@@ -79,7 +83,17 @@ def run(ctx, log):
         ctx.save()
         log(f'{path.rsplit("/", 1)[-1]}: {stats} in {(time.time() - t0) / 60:.0f} min')
         if ctx.dry:
-            break  # one PST is enough to check
+            if len([f for f in files if f[0] in st['done']]) >= max(1, len(only)) or not only:
+                break  # one PST (or the chosen ones) is enough to check
+
+
+def _contexts(text, words):
+    """For the private leak report: each leaked word with a little of the text around it."""
+    out = []
+    for w in sorted(set(words))[:6]:
+        m = re.search(re.escape(w), text, re.I)
+        out.append(f'[{w}] ' + (repr(text[max(0, m.start() - 60):m.end() + 40]) if m else ''))
+    return ' | '.join(out)
 
 
 def _participants(A, msg):
@@ -102,9 +116,15 @@ def _addr_list(A, value):
             new_addr = A.text(addr)
         else:
             new_addr = ''
-        new_disp = A.text(disp) if disp else ''
+        who = A.pp.from_display(disp) if disp else None
+        if who:  # a person: the whole display name becomes the made-up one ('Last, First' kept as such)
+            f, l = A.pp.pseudo(*who).split(' ', 1)
+            new_disp = f'{l}, {f}' if ',' in disp else f'{f} {l}'
+        else:
+            new_disp = A.text(disp) if disp else ''
         out.append(f'"{new_disp}" <{new_addr}>' if new_disp and new_addr else (new_addr or new_disp))
-    return ', '.join(x for x in out if x)
+    # Lotus Notes and role addresses keep their local part ('Team/Corp/<company>@...'): company names in it go too.
+    return A.co._names(', '.join(x for x in out if x))
 
 
 def _body(msg):
@@ -214,7 +234,9 @@ def process(ctx, A, name, mailbox, part, out, work, hashes, uploaded, log):
             A.start()
             try:
                 msg = email.message_from_bytes(p.read_bytes(), policy=email.policy.compat32)
-                body = A.text(_body(msg), who)
+                raw_body = _body(msg)
+                A.prelearn(raw_body + '\n' + '\n'.join(f'{k}: {v}' for k, v in msg.items()))
+                body = A.text(raw_body, who)
                 new = EmailMessage()
                 for h in ADDR_HEADERS:
                     v = msg.get_all(h)
@@ -246,7 +268,7 @@ def process(ctx, A, name, mailbox, part, out, work, hashes, uploaded, log):
                 lk = A.leaks(raw.decode('utf-8', 'replace'), who)
                 if lk:
                     stats['messages with a name left'] += 1
-                    ctx.leak_report.append(f'{name} message {i + 1}: {", ".join(sorted(set(lk))[:8])}')
+                    ctx.leak_report.append(f'{name} message {i + 1}: ' + _contexts(raw.decode('utf-8', 'replace'), lk))
                 if ctx.dry and stats['messages'] <= 15:
                     s = work / f'sample {i + 1}.eml'
                     s.write_bytes(raw)
@@ -286,7 +308,7 @@ def process(ctx, A, name, mailbox, part, out, work, hashes, uploaded, log):
         lk = A.leaks(text, who)
         if lk:
             stats['attachments with a name left'] += 1
-            ctx.leak_report.append(f'{name} attachment {local.name}: {", ".join(sorted(set(lk))[:8])}')
+            ctx.leak_report.append(f'{name} attachment {local.name}: ' + _contexts(text, lk))
         stem = re.sub(r'[\\/:*?"<>|]+', ' ', fn_new.rsplit('.', 1)[0]).strip()[:80] or 'attachment'
         by_type.setdefault(TYPES[ext], []).append((dst, f'{stem}.{e}'))
         stats['attachments'] += 1

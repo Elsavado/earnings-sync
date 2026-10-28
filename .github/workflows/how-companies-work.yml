@@ -17,6 +17,10 @@ on:
         description: 'Sources (enron,atlas,stocks,edu,sec; also fcic,lehman,senate,antitrust)'
         required: false
         default: 'enron,atlas,stocks,edu,sec'
+      only:
+        description: 'Dry run: only these items (e.g. PST names allen-p_000,kaminski-v_000)'
+        required: false
+        default: ''
       minutes:
         description: 'Run budget in minutes'
         required: false
@@ -104,6 +108,7 @@ jobs:
           DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
           LIVE: ${{ vars.HOWCO_LIVE }}
           RUN_MINUTES: ${{ github.event.inputs.minutes || '320' }}
+          ONLY: ${{ github.event.inputs.only || '' }}
         run: python -m howco.main
 
   next:

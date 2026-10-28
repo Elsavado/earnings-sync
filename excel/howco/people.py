@@ -185,6 +185,9 @@ class People:
             if len(parts) < 2:
                 return None
             first, last = parts[0], parts[-1]
+            # 'Hargrove  Mac D': surname first without a comma (two spaces in many address books).
+            if not self.is_first(first) and len(parts) >= 2 and self.is_first(parts[1]) and not self.known(first, last):
+                first, last = parts[1], parts[0]
         first, last = first.strip('.'), last.strip('.')
         if not (first.isalpha() and last.replace('-', '').replace("'", '').isalpha()) or len(first) < 2 or len(last) < 2:
             return None
@@ -216,7 +219,7 @@ class People:
         if not text:
             return text
         text = EMAIL.sub(lambda m: self.address(m.group(0)), text)
-        text = X500.sub(lambda m: '/O=ENRON/OU=NA/CN=RECIPIENTS/CN=' + self._x500(m.group(1)), text)
+        text = X500.sub(lambda m: '/O=ORG/OU=NA/CN=RECIPIENTS/CN=' + self._x500(m.group(1)), text)
 
         def lastfirst(m):
             last, first = m.group(1), m.group(2)
