@@ -14,7 +14,7 @@ on:
         required: false
         default: false
       sources:
-        description: 'Sources (enron,atlas,stocks,edu,sec)'
+        description: 'Sources (enron,atlas,stocks,edu,sec; also fcic,lehman,senate,antitrust)'
         required: false
         default: 'enron,atlas,stocks,edu,sec'
       minutes:
@@ -54,7 +54,7 @@ jobs:
         run: |
           python3 - <<'PY'
           import json, os
-          ok = ('enron', 'atlas', 'stocks', 'edu', 'sec')
+          ok = ('enron', 'atlas', 'stocks', 'edu', 'sec', 'fcic', 'lehman', 'senate', 'antitrust')
           src = [s.strip() for s in os.environ['SOURCES'].split(',') if s.strip() in ok]
           go = bool(src) and (os.environ['DRY'] == 'true' or os.environ['LIVE'] == 'true')
           with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
@@ -86,7 +86,7 @@ jobs:
           cache: pip
           cache-dependency-path: excel/requirements.txt
       - name: Install tools
-        if: matrix.source == 'enron'
+        if: matrix.source == 'enron' || matrix.source == 'fcic'
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq --no-install-recommends pst-utils libreoffice-writer libreoffice-calc libreoffice-impress > /dev/null

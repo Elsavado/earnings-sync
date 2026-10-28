@@ -27,7 +27,9 @@ SEC_UA = os.environ.get('SEC_USER_AGENT') or 'research contact@example.com'
 NEW_DATA_CAP = 1.25 * 2**40  # never more than ~1.25 TB of new data (user: keep 300 GB of the 2 TB pool free)
 FREE_FLOOR = 300 * 2**30
 FOLDERS = {'enron': 'Energy Trading Company Corpus', 'atlas': 'ATLAS Finance (simulated firms)',
-           'stocks': 'Open Stock Reports', 'edu': 'Equity Research (.edu)', 'sec': 'Banker Board Decks (SEC)'}
+           'stocks': 'Open Stock Reports', 'edu': 'Equity Research (.edu)', 'sec': 'Banker Board Decks (SEC)',
+           'fcic': 'Financial Crisis Inquiry Commission', 'lehman': 'Investment Bank Bankruptcy Examiner',
+           'senate': 'Senate Investigation Exhibits', 'antitrust': 'Antitrust Trial Exhibits'}
 
 
 def log(msg):

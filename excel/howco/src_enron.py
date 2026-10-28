@@ -214,10 +214,15 @@ def one(ctx, A, path, hashes, uploaded, log):
                 for h in ADDR_HEADERS:
                     v = msg.get_all(h)
                     if v:
-                        new[h] = _addr_list(A, ', '.join(str(x) for x in v))
+                        new[h] = re.sub(r'[
+
+]+\s*', ' ', _addr_list(A, ', '.join(str(x) for x in v)))
                 for h in KEEP_HEADERS:
                     if msg.get(h):
-                        new[h] = A.text(str(msg.get(h)), who) if h == 'Subject' else str(msg.get(h))
+                        val = A.text(str(msg.get(h)), who) if h == 'Subject' else str(msg.get(h))
+                        new[h] = re.sub(r'[
+
+]+\s*', ' ', val)
                 names = []
                 for fn, ext, data in _attachments(msg):
                     fn_new = A.text(fn, who)
@@ -231,7 +236,8 @@ def one(ctx, A, path, hashes, uploaded, log):
                     local.write_bytes(data)
                     new_att.append((local, ext, fn_new, who, h))
                 if names:
-                    new['X-Attachments'] = '; '.join(names)[:900]
+                    new['X-Attachments'] = re.sub(r'[
+]+\s*', ' ', '; '.join(names))[:900]
                 new.set_content(body or '')
                 raw = bytes(new)
                 folder = '/'.join(A.text(seg, who) for seg in p.parent.relative_to(out).parts)
