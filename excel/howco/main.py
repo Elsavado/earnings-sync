@@ -113,10 +113,13 @@ class Ctx:
     def finish(self):
         if self.dry:
             rep = self.work / 'leak-report.txt'
-            rep.write_text('\n'.join(self.leak_report) or 'no leaks found', encoding='utf-8')
+            rep.write_text('LEAKS (real names left)\n' + ('\n'.join(self.leak_report) or 'none')
+                           + '\n\nPOSSIBLE PEOPLE (spaCy; check by hand)\n' + ('\n'.join(self.possible_report) or 'none'),
+                           encoding='utf-8')
             self.samples = 0
             self.sample(rep, 'leak-report.txt')
-        log(f'leak check: {len(self.leak_report)} file(s) with a real name left')
+        log(f'leak check: {len(self.leak_report)} file(s) with a real name left; '
+            f'{len(self.possible_report)} file(s) with a possible person (dry runs)')
 
 
 def main():

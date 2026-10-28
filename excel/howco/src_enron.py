@@ -266,9 +266,8 @@ def process(ctx, A, name, mailbox, part, out, work, hashes, uploaded, log):
                 z.writestr(f'{folder}/{i + 1}.eml', raw)
                 stats['messages'] += 1
                 lk = A.leaks(raw.decode('utf-8', 'replace'), who)
-                if lk:
+                if lk and ctx.note(f'{name} message {i + 1}', lk, lambda w: _contexts(raw.decode('utf-8', 'replace'), w)):
                     stats['messages with a name left'] += 1
-                    ctx.leak_report.append(f'{name} message {i + 1}: ' + _contexts(raw.decode('utf-8', 'replace'), lk))
                 if ctx.dry and stats['messages'] <= 15:
                     s = work / f'sample {i + 1}.eml'
                     s.write_bytes(raw)
@@ -306,9 +305,8 @@ def process(ctx, A, name, mailbox, part, out, work, hashes, uploaded, log):
             stats['attachments unreadable'] += 1
             continue
         lk = A.leaks(text, who)
-        if lk:
+        if lk and ctx.note(f'{name} attachment {local.name}', lk, lambda w: _contexts(text, w)):
             stats['attachments with a name left'] += 1
-            ctx.leak_report.append(f'{name} attachment {local.name}: ' + _contexts(text, lk))
         stem = re.sub(r'[\\/:*?"<>|]+', ' ', fn_new.rsplit('.', 1)[0]).strip()[:80] or 'attachment'
         by_type.setdefault(TYPES[ext], []).append((dst, f'{stem}.{e}'))
         stats['attachments'] += 1
