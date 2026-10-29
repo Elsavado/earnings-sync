@@ -56,6 +56,8 @@ def run(ctx, log):
     st.setdefault('hashes', [])
     st.setdefault('owners', {})
     st.setdefault('att_parts', {})
+    if st.get('dedup') != 2:  # mailboxes written while repeats were matched by Message-ID: done again, zips replaced
+        st['done'], st['messages'], st['dedup'] = [], {}, 2
     A = ctx.make_anon()
     hashes = set(st['hashes'])
     uploaded = ctx.drive.uploaded()
@@ -252,9 +254,9 @@ def process(ctx, A, name, mailbox, part, out, work, hashes, uploaded, log):
                 if len(raw_body) < 20 and not atts:
                     stats['empty, left out'] += 1
                     continue
-                mid = str(msg.get('Message-ID') or '').strip()
-                k = hashlib.sha1((mid or f"{msg.get('Subject')}|{msg.get('Date')}|{raw_body}").encode(
-                    'utf-8', 'replace')).hexdigest()[:16]
+                # by content: each folder's copy of an e-mail has its own Message-ID in this data set
+                k = hashlib.sha1(f"{msg.get('Subject')}|{msg.get('Date')}|{msg.get('From')}|"
+                                 f"{' '.join(raw_body.split())}".encode('utf-8', 'replace')).hexdigest()[:16]
                 if k in known:
                     stats['repeats, left out'] += 1
                     continue
@@ -302,9 +304,8 @@ def process(ctx, A, name, mailbox, part, out, work, hashes, uploaded, log):
                     log(f'  message {i + 1}: {type(e).__name__}: {str(e)[:150]}')
     shutil.rmtree(out, ignore_errors=True)
     key = f'emails:{mailbox}:{part}'
-    if key not in uploaded:
-        ctx.drive.upload(str(zpath), rel, f'Emails part {part}.zip', key)
-        stats['uploads'] += 1
+    ctx.drive.upload(str(zpath), rel, f'Emails part {part}.zip', key, replace=uploaded.get(key))  # a redo: in place
+    stats['uploads'] += 1
     zpath.unlink()
 
     # Attachments: legacy formats to OOXML, made-up names inside, then zipped by type.
