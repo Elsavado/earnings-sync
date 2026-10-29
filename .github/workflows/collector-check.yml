@@ -1,0 +1,43 @@
+name: Collector check
+
+# Once a day: how many files each live collector added to the Workspace drives in the last 24 hours. Collectors
+# that added none are listed in the open issue "Collector check", which closes by itself when all add files again
+# (excel/collector_check.py). Never fails.
+on:
+  schedule:
+    - cron: '15 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install tools
+        run: pip install -q google-api-python-client google-auth
+      - name: Count new files per collector
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GOOGLE_CLIENT_ID: ${{ secrets.WS_GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
+          ENTERPRISE_LIVE: ${{ vars.ENTERPRISE_LIVE }}
+          OFFICE_LIVE: ${{ vars.OFFICE_LIVE }}
+          RESEARCH_LIVE: ${{ vars.RESEARCH_LIVE }}
+          HOWCO_LIVE: ${{ vars.HOWCO_LIVE }}
+          GAMING_LIVE: ${{ vars.GAMING_LIVE }}
+          ENTERPRISE_DRIVE_ID: ${{ vars.ENTERPRISE_DRIVE_ID }}
+          OFFICE_DRIVE_ID: ${{ vars.OFFICE_DRIVE_ID }}
+          RESEARCH_DRIVE_ID: ${{ vars.RESEARCH_DRIVE_ID }}
+          HOWCO_DRIVE_ID: ${{ vars.HOWCO_DRIVE_ID }}
+          GAMING_DRIVE_ID: ${{ vars.GAMING_DRIVE_ID }}
+        run: python -I excel/collector_check.py
