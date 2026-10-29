@@ -39,6 +39,10 @@ SCHEMA = {
     'required': ['finance', 'english', 'us_or_canada'],
     'additionalProperties': False,
 }
+# Designs count when they are for a finance product (user rule, 2026-10-27: designs for finance products or teams).
+FIGMA_NOTE = ('For a design, "finance content" means a design for a finance product or team: a banking, payments, '
+              'wallet, crypto exchange, trading, investing, budgeting, expense, invoicing, accounting, loan or insurance '
+              'app or website, or a finance dashboard.\n')
 _client = None
 
 
@@ -82,6 +86,7 @@ def judge(state, kind, title, excerpt):
     office = kind in OFFICE
     prompt = (f'Material: {WHAT.get(kind, "a file")}.\nTitle: {(title or "(none)")[:300]}\n'
               f'Beginning of the content:\n"""\n{(excerpt or "")[:EXCERPT]}\n"""\n'
+              + (FIGMA_NOTE if kind == 'figma' else '') +
               'Is it finance content as defined? Is it in English? Does it come from the US or Canada?')
     try:
         r = _get_client().messages.create(

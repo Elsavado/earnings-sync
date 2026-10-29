@@ -80,6 +80,9 @@ def status(state, prefixes, log, kind):
         + (f', {websearch.remaining(state, kind)} queries left today' if websearch.provider() else ''))
 
 
+_quiet_at = 0.0
+
+
 def run(state, kind, s, log, fns):
     """Each source in turn (a different one leads every call) until the queue is full or time is up; logs what
     each source found."""
@@ -98,7 +101,9 @@ def run(state, kind, s, log, fns):
             continue
         total += n
         found.append(f'{fn.__name__} {n} ({time.time() - t0:.0f}s)')
-    if found:
+    global _quiet_at
+    if found and (total or time.time() - _quiet_at > 600):  # empty rounds are logged every ten minutes
+        _quiet_at = time.time()
         log(f'  {kind}: found ' + ', '.join(found))
     return total
 
