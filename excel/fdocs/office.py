@@ -301,7 +301,7 @@ SOURCES = {
     'gsheets': [zenodo_files, canada, feeds.datagov, feeds.socrata_sheets, feeds.web],
     'gdocs': [zenodo_files, canada, feeds.datagov, feeds.sec_docs, feeds.web],
     'slides': [zenodo_files, canada, feeds.datagov, feeds.web],
-    'presentations': [zenodo_files, canada, feeds.datagov, feeds.web],
+    'presentations': [zenodo_files, canada, feeds.datagov, feeds.sec_docs, feeds.web],
     'bookkeeping': [zenodo_files, canada, socrata_book, feeds.datagov, feeds.web],
 }
 

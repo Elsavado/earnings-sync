@@ -494,7 +494,8 @@ class Run:
         q = self.state['queue'].setdefault(kind, [])
         done = 0
         pending = []  # (cand, work dir, async result, deadline)
-        limit = FILE_SECONDS[size_class(kind)]
+        # A spreadsheet (8 MB at most) that takes minutes is stuck: it must not hold up the run (2026-10-29).
+        limit = 300 if kind == 'gsheets' else FILE_SECONDS[size_class(kind)]
         while (q or pending) and not self.full:
             while q and len(pending) < worker.n and time.time() < until:
                 cand = q.pop(0)

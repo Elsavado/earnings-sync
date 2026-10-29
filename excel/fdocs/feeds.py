@@ -325,17 +325,33 @@ SEC_DOCS = [
     ('"investment policy" "investment committee"', r'EX-99', '', 'Investment policy statement'),
     ('"dividend reinvestment" "plan"', r'EX-99', '', 'Dividend reinvestment plan'),
 ]
-assert all(topic.finance(t) for *_, t in SEC_DOCS)
+# Slide presentations filed as PDF copies (presentations kind): investor, earnings and lender decks.
+# PDF copies are rare (about 1 in 80 hits), so any form and these exhibit types are read; activist decks (DFAN14A) too.
+SEC_DECK = r'EX-99|DFAN14A|DEFA14A|425|8-K'
+SEC_PRESENT = [
+    ('"investor presentation"', SEC_DECK, '', 'Investor presentation'),
+    ('"earnings presentation"', SEC_DECK, '', 'Quarterly earnings presentation'),
+    ('"investor day"', SEC_DECK, '', 'Investor day presentation'),
+    ('"lender presentation"', SEC_DECK, '', 'Lender presentation on financing'),
+    ('"supplemental financial information" presentation', SEC_DECK, '', 'Supplemental financial presentation'),
+    ('"annual meeting" "shareholders" presentation', SEC_DECK, '', 'Shareholder meeting investor presentation'),
+]
+SEC_BY_KIND = {'gdocs': (SEC_DOCS, ('.htm', '.html')), 'presentations': (SEC_PRESENT, ('.pdf',))}
+assert all(topic.finance(t) for *_, t in SEC_DOCS + SEC_PRESENT)
 SEC_STATES = set('AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC '
                  'ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY PR A0 A1 A2 A3 A4 A5 A6 A7 A8 A9 B0'.split())  # A0-B0: Canada
 
 
-def sec_docs(state, kind, s, log, pages=3):
-    """Exhibits of US and Canadian filers (business address), HTML converted to a Word document by main.process."""
+def sec_docs(state, kind, s, log, pages=None):
+    """Exhibits of US and Canadian filers (business address): for documents the HTML exhibit (converted to a Word
+    document by main.process), for presentations the PDF copy of a slide deck."""
     from . import office
     added = 0
     rec = office._records(state)
-    for q, ftypes, forms, title in rotate(state, f'secdocs:{kind}', SEC_DOCS):
+    queries, exts = SEC_BY_KIND[kind]
+    fails = 0
+    pages = pages or (10 if kind == 'presentations' else 3)
+    for q, ftypes, forms, title in rotate(state, f'secdocs:{kind}', queries):
         if late() or full(state, kind):
             break
         cur = cursor(state, f'office:sec:{kind}:{q}:{forms}', {'year': THIS_YEAR, 'from': 0})
@@ -359,12 +375,15 @@ def sec_docs(state, kind, s, log, pages=3):
             except (requests.RequestException, ValueError, KeyError):
                 hits = None
             if hits is None:
-                log(f'  sec {kind} {cur["year"]}: search failed; trying again next round')
-                return added
+                fails += 1
+                log(f'  sec {kind} {cur["year"]}: search failed; next query')
+                if fails >= 3:
+                    return added  # the search service is struggling: try again next round
+                break
             for h in hits['hits']:
                 src = h['_source']
                 adsh, _, fn = h['_id'].partition(':')
-                if not fn.lower().endswith(('.htm', '.html')) or not ft.match(src.get('file_type') or ''):
+                if not fn.lower().endswith(exts) or not ft.match(src.get('file_type') or ''):
                     continue
                 states = set(src.get('biz_states') or [])
                 if not states or not states <= SEC_STATES:
@@ -376,7 +395,7 @@ def sec_docs(state, kind, s, log, pages=3):
                     continue
                 key = f'sec:{adsh}:{fn}'
                 cand = {'key': key, 'url': f'https://www.sec.gov/Archives/edgar/data/{cik}/{adsh.replace("-", "")}/{fn}',
-                        'ext': 'htm', 'orgs': src.get('display_names') or [], 'source': 'sec', 'cik': cik,
+                        'ext': fn.rsplit('.', 1)[-1].lower(), 'orgs': src.get('display_names') or [], 'source': 'sec', 'cik': cik,
                         'date': src.get('file_date') or '', 'topic': title, 'title': title, 'rules': office.RULES}
                 from .sources import _add as _queue
                 if _queue(state, kind, cand):

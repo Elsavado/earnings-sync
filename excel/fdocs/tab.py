@@ -213,7 +213,8 @@ class Table:
                 ws._images.remove(img)
             for row in ws.iter_rows():
                 for c in row:
-                    c.hyperlink = None
+                    if type(c).__name__ != 'MergedCell':  # merged cells are read-only (and carry no link)
+                        c.hyperlink = None
         p = wb.properties
         p.creator = p.lastModifiedBy = PERSON
         p.title = p.subject = p.description = p.keywords = None
