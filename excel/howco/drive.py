@@ -111,6 +111,16 @@ class Drive:
         return _retry(lambda: drv.files().create(body={'name': name, 'mimeType': FOLDER, 'parents': [parent]},
                                                  fields='id').execute())['id']
 
+    def trash_folder(self, rel):
+        """Moves '<root>/<rel>' of the content drive to the trash (restorable for 30 days). Returns how many."""
+        q = f"name = '{_q(rel)}' and mimeType = '{FOLDER}' and '{self.root}' in parents and trashed = false"
+        found = _retry(lambda: self.content.files().list(q=q, fields='files(id)').execute())['files']
+        for f in found:
+            _retry(lambda: self.svc.files().update(fileId=f['id'], body={'trashed': True},
+                                                    supportsAllDrives=True).execute())
+        self.paths = {}
+        return len(found)
+
     def folder(self, parent, name, create=False):
         """A folder in the first drive (the private folder and its sub-folders)."""
         return self._folder(self.drive, parent, name, create)

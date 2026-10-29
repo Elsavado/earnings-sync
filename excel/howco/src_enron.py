@@ -8,6 +8,9 @@ then upload
                                                        (unique office documents, PDFs and text files; up to 500 a zip)
 
 Attachments are unique across the whole corpus (content hash). Zips keep the Shared Drive far below its item cap.
+Only e-mails are kept (no calendar entries, contacts or journal items), each e-mail once per mailbox (the Lotus
+folders "All documents", "Sent", "Discussion threads" repeat the others), without the data set's licence footer
+(the licence file of the corpus folder carries it) and without messages that are empty once it is gone.
 """
 import email
 import os
@@ -35,6 +38,7 @@ TYPES = {'xls': 'Spreadsheets', 'xlsx': 'Spreadsheets', 'xlsm': 'Spreadsheets', 
 ADDR_HEADERS = ('From', 'To', 'Cc', 'Bcc', 'Reply-To', 'Sender')
 KEEP_HEADERS = ('Date', 'Subject', 'Importance', 'Content-Language')
 PER_ZIP = 500
+FOOTER = re.compile(r'\*{3,}\s*EDRM \S+ Email Data Set has been produced.*?(?:\*{3,}|\Z)', re.S | re.I)
 LICENCE = ('Source: EDRM Enron Email Data Set v2 as PST (Hugging Face intellekthq/enron-ferc-pst), produced by ZL '
            'Technologies, Inc., licensed CC BY 3.0 US (https://creativecommons.org/licenses/by/3.0/us/), modified '
            'by its publisher to reduce privacy risk. Modified again here: every person and company has a made-up '
@@ -188,7 +192,8 @@ def one(ctx, A, path, hashes, uploaded, log):
                 f.write(chunk)
     out = work / 'out'
     out.mkdir()
-    subprocess.run(['readpst', '-e', '-b', '-q', '-D', '-j', '4', '-o', str(out), str(pst)], check=False,
+    # -t e: e-mails only (appointments, contacts and journal items came out as empty 'MAILER-DAEMON' messages)
+    subprocess.run(['readpst', '-e', '-b', '-q', '-D', '-t', 'e', '-j', '4', '-o', str(out), str(pst)], check=False,
                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=7200)
     pst.unlink()
     return process(ctx, A, name, mailbox, part, out, work, hashes, uploaded, log)
@@ -222,6 +227,14 @@ def process(ctx, A, name, mailbox, part, out, work, hashes, uploaded, log):
         ctx.state['owners'][mailbox] = owner
     owner_name = A.pp.pseudo(*owner)
     rel = f'{ctx.folder}/{owner_name}'
+    kept = ctx.state.setdefault('messages', {}).setdefault(mailbox, [])  # e-mails already written, per mailbox
+    known = set(kept)
+
+    def folder_of(p, who):
+        # readpst names the top folders after the mailbox file (bailey-s_000/bailey-s/...): the owner instead
+        segs = [owner_name if seg.lower().startswith(mailbox.lower()) else A.text(seg.lstrip("'"), who)
+                for seg in p.parent.relative_to(out).parts]
+        return '/'.join(dict.fromkeys(segs))  # the owner once
 
     # Pass 2: rewrite every message; collect new attachments.
     stats = Counter()
@@ -234,7 +247,19 @@ def process(ctx, A, name, mailbox, part, out, work, hashes, uploaded, log):
             A.start()
             try:
                 msg = email.message_from_bytes(p.read_bytes(), policy=email.policy.compat32)
-                raw_body = _body(msg)
+                raw_body = FOOTER.sub('', _body(msg)).strip()
+                atts = list(_attachments(msg))
+                if len(raw_body) < 20 and not atts:
+                    stats['empty, left out'] += 1
+                    continue
+                mid = str(msg.get('Message-ID') or '').strip()
+                k = hashlib.sha1((mid or f"{msg.get('Subject')}|{msg.get('Date')}|{raw_body}").encode(
+                    'utf-8', 'replace')).hexdigest()[:16]
+                if k in known:
+                    stats['repeats, left out'] += 1
+                    continue
+                known.add(k)
+                kept.append(k)
                 A.prelearn(raw_body + '\n' + '\n'.join(f'{k}: {v}' for k, v in msg.items()))
                 body = A.text(raw_body, who)
                 new = EmailMessage()
@@ -247,7 +272,7 @@ def process(ctx, A, name, mailbox, part, out, work, hashes, uploaded, log):
                         val = A.text(str(msg.get(h)), who) if h == 'Subject' else str(msg.get(h))
                         new[h] = re.sub(r'[\r\n]+\s*', ' ', val)
                 names = []
-                for fn, ext, data in _attachments(msg):
+                for fn, ext, data in atts:
                     fn_new = A.text(fn, who)
                     names.append(fn_new)
                     h = hashlib.sha1(data).hexdigest()[:20]
@@ -262,9 +287,8 @@ def process(ctx, A, name, mailbox, part, out, work, hashes, uploaded, log):
                     new['X-Attachments'] = re.sub(r'[\r\n]+\s*', ' ', '; '.join(names))[:900]
                 new.set_content(body or '')
                 raw = bytes(new)
-                folder = '/'.join(A.text(seg, who) for seg in p.parent.relative_to(out).parts)
-                z.writestr(f'{folder}/{i + 1}.eml', raw)
                 stats['messages'] += 1
+                z.writestr(f'{folder_of(p, who)}/{stats["messages"]}.eml', raw)
                 lk = A.leaks(raw.decode('utf-8', 'replace'), who)
                 if lk and ctx.note(f'{name} message {i + 1}', lk, lambda w: _contexts(raw.decode('utf-8', 'replace'), w)):
                     stats['messages with a name left'] += 1

@@ -250,3 +250,62 @@ def convert_legacy(paths, outdir):
 
 def which(*names):
     return next((shutil.which(n) for n in names if shutil.which(n)), None)
+
+
+class Plain:
+    """Repo variable HOWCO_ANON=false (user, 2026-10-29: "collect the contents without anonymising"): the same
+    calls as Anon, but every text, file, person, company and ticker stays as it is."""
+
+    def __init__(self, real):
+        self.pp = _PlainPeople(real.pp)
+        self.co = _PlainCompanies()
+
+    def text(self, s, participants=(), learn=True):
+        return s
+
+    def start(self):
+        pass
+
+    def prelearn(self, s, ner=None):
+        return []
+
+    def leaks(self, s, participants=()):
+        return []
+
+    def file(self, src, dst, ext, participants=()):
+        shutil.copyfile(src, dst)
+        if ext.lower() == 'pdf':
+            import pymupdf
+            with pymupdf.open(src) as d:
+                return True, ''.join(p.get_text() for p in d)
+        return True, ''
+
+
+class _PlainPeople:
+    def __init__(self, real):
+        self.from_display = real.from_display  # reading 'Last, First' and the like still helps (mailbox owners)
+
+    def pseudo(self, first, last):
+        return f'{first} {last}'.title()
+
+    def address(self, addr, display=''):
+        return addr
+
+
+class _PlainCompanies:
+    map = {}
+
+    def _add(self, *a):
+        pass
+
+    def _names(self, s):
+        return s
+
+    def pseudo(self, core):
+        return core
+
+    def ticker(self, t):
+        return t
+
+    def start(self):
+        pass

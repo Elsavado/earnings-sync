@@ -2,7 +2,7 @@
 
 Environment: GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET / GOOGLE_REFRESH_TOKEN (Drive), SHARED_DRIVE_ID,
 SEC_USER_AGENT, RUN_MINUTES (budget), DRY_RUN=true (nothing published: a few samples and a leak report go to the
-private folder instead). Never exits with an error for a source problem (the user wants no failure e-mails):
+private folder instead), HOWCO_ANON=false (nothing anonymised: real people, companies and wording). Never exits with an error for a source problem (the user wants no failure e-mails):
 problems are logged and the run ends normally; the state saved so far carries over to the next run.
 """
 import importlib
@@ -15,7 +15,7 @@ from pathlib import Path
 
 import requests
 
-from .anon import Anon
+from .anon import Anon, Plain
 from .drive import Drive
 from .people import key_material
 
@@ -23,6 +23,7 @@ START = time.time()
 SOURCE = os.environ.get('SOURCE', '')
 DRY = os.environ.get('DRY_RUN', '').lower() == 'true'
 BUDGET = float(os.environ.get('RUN_MINUTES', '300')) * 60
+PLAIN = os.environ.get('HOWCO_ANON', '').lower() == 'false'  # user, 2026-10-29: collect without anonymising
 SEC_UA = os.environ.get('SEC_USER_AGENT') or 'research contact@example.com'
 NEW_DATA_CAP = 1.25 * 2**40  # never more than ~1.25 TB of new data (user: keep 300 GB of the 2 TB pool free)
 FREE_FLOOR = 300 * 2**30
@@ -83,6 +84,10 @@ class Ctx:
         self.anon = Anon(pmaps, own.setdefault('people', {}), cmaps, own.setdefault('companies', {}), key_material(),
                          names, names[:1500], {v['ticker']: v['title'] for v in t.values()}, tmaps, own.setdefault('tickers', {}))
         self.anon.check_ner = self.dry
+        if PLAIN:
+            log('not anonymised (HOWCO_ANON=false): real names and wording are kept')
+            plain, self.anon = Plain(self.anon), None  # no name maps to save
+            return plain
         log(f'names: {len(self.anon.pp.map)} people and {len(self.anon.co.map)} companies known; '
             f'{len(self.anon.co.multi)} multi-word and {len(self.anon.co.single)} one-word company names to match')
         return self.anon
@@ -150,6 +155,15 @@ def main():
         return
     if ctx.drive.target != ctx.drive.top:
         log(f'content goes to overflow drive {ctx.drive.target}')
+    if PLAIN and not DRY and not ctx.state.get('plain'):
+        # The first run without anonymising: this source's made-up-name files go to the trash (kept 30 days) and
+        # it collects again from the start, so the two versions never sit side by side.
+        n = ctx.drive.trash_folder(ctx.folder)
+        keep = {k: ctx.state[k] for k in ('bytes', 'items', 'by_drive') if k in ctx.state}  # trash still counts
+        ctx.state.clear()
+        ctx.state.update(keep, plain=True)
+        ctx.save()
+        log(f'anonymised version moved to the trash ({n} folder(s)); collecting again without anonymising')
     try:
         importlib.import_module(f'howco.src_{SOURCE}').run(ctx, log)
     except Exception:  # noqa: BLE001 - logged; the saved state carries over

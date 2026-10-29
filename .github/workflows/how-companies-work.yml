@@ -107,6 +107,7 @@ jobs:
           SOURCE: ${{ matrix.source }}
           DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
           LIVE: ${{ vars.HOWCO_LIVE }}
+          HOWCO_ANON: ${{ vars.HOWCO_ANON }}
           RUN_MINUTES: ${{ github.event.inputs.minutes || '320' }}
           ONLY: ${{ github.event.inputs.only || '' }}
         run: python -m howco.main
