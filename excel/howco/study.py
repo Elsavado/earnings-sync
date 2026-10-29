@@ -15,7 +15,9 @@ Cost control: the running total (from usage, at batch prices) and every batch id
 'How Companies Work - private/enron-study.json.gz'. A batch is never submitted when the projected total (spent +
 estimated cost of pending batches + this batch) would pass STUDY_BUDGET_USD (default 50); STUDY_RESERVE_USD of it
 (default 12) is kept for the mailbox pages. New batches are submitted only before STUDY_END (default 2026-11-02, UTC;
-the API credit expires then); later runs only log that the credit window has ended.
+the API credit expires then); later runs only log that the credit window has ended. So that the budget reaches every
+mailbox, a first pass sends at most STUDY_MAILBOX_CAP e-mails (default 3000) per mailbox; the rest follows once no
+mailbox under the cap is waiting, or from STUDY_UNCAP_AFTER (default 2026-11-01).
 
 Environment: ANTHROPIC_API_KEY, GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET / GOOGLE_REFRESH_TOKEN, SHARED_DRIVE_ID,
 STUDY_BUDGET_USD, STUDY_RESERVE_USD, STUDY_END, STUDY_MAX_ITEMS (new e-mails per run), STUDY_RUN_MINUTES.
@@ -305,6 +307,11 @@ class Study:
         self.budget = float(os.environ.get('STUDY_BUDGET_USD') or 50)
         self.reserve = float(os.environ.get('STUDY_RESERVE_USD') or 12)
         self.max_items = int(os.environ.get('STUDY_MAX_ITEMS') or 60000)
+        # First pass: at most this many e-mails sent per mailbox, so the budget reaches every mailbox; the rest
+        # once no mailbox under the cap is waiting (and nothing new came for SETTLE_HOURS), or from STUDY_UNCAP_AFTER.
+        self.cap = int(os.environ.get('STUDY_MAILBOX_CAP') or 3000)
+        self.uncap_after = os.environ.get('STUDY_UNCAP_AFTER') or '2026-11-01'
+        self.uncapped = False
         self.minutes = float(os.environ.get('STUDY_RUN_MINUTES') or 80)
         self.work = tempfile.mkdtemp(prefix='enron_study_')
         self.run_log = {'at': datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M'), 'collected': 0.0,
@@ -625,11 +632,23 @@ class Study:
             if not add(f'r{j}-{int(time.time())}', tag_params(user_text(item[1], item[2])), meta):
                 self.st['retry'].append(meta)
 
+        now = datetime.now(timezone.utc)
+        waiting = [f for f in files if not (self.st['zips'].get(f['id']) and
+                                            self.st['zips'][f['id']]['next'] >= self.st['zips'][f['id']]['n'])]
+        under = [f for f in waiting if self.st['mail'].get(f['mbx'], {}).get('sent', 0) < self.cap]
+        newest = max((f['createdTime'] for f in files), default='2000-01-01T00:00:00')
+        quiet = (now - datetime.strptime(newest[:19], '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc)
+                 ).total_seconds() > SETTLE_HOURS * 3600
+        self.uncapped = now.strftime('%Y-%m-%d') >= self.uncap_after or (not under and quiet)
+        held = 0
         for f in files:
             info = self.st['zips'].get(f['id'])
             if info and info['next'] >= info['n']:
                 continue
             m = self.mailbox(f)
+            if not self.uncapped and m.get('sent', 0) >= self.cap:
+                held += 1
+                continue
             if not can_submit:
                 stopped = 'credit window or collector not ready'
                 continue
@@ -677,17 +696,24 @@ class Study:
                 if self.run_log['submitted'] + len(cur['reqs']) >= self.max_items:
                     stopped = f'{self.max_items:,} e-mails a run'
                     break
+                if not self.uncapped and m.get('sent', 0) >= self.cap:
+                    held += 1
+                    break
                 if not add(f't{m["id"]}-{f["part"][-3:]}-{i}', tag_params(user_text(h, text)),
                            {'k': k, 't': [target]}):
                     stopped = f'budget (${limit_usd:.2f} for tagging)'
                     break
                 self.st['seen'][k] = f['mbx']
+                m['sent'] = m.get('sent', 0) + 1
                 i += 1
                 info['next'] = i
             info['next'] = i
             if stopped:
                 break
         submit()
+        if held:
+            log(f'{held} zip(s) wait: their mailbox has {self.cap:,} e-mails sent (first pass; '
+                f'the rest follows when every mailbox is covered or from {self.uncap_after})')
         if stopped:
             log(f'tagging stopped this run: {stopped}')
         log(f'tagging: {self.run_log["submitted"]:,} e-mails sent this run; {n_trivial:,} trivial e-mails listed '
@@ -727,7 +753,7 @@ class Study:
         for mbx, m in sorted(self.st['mail'].items()):
             if mbx in busy or any(t['mbx'] == mbx for meta in self.st['retry'] for t in meta['t']):
                 continue
-            unread = any(z['mbx'] == mbx and z.get('next', 0) < z.get('n', 0) for z in self.st['zips'].values())
+            unread = any(z['mbx'] == mbx and z.get('next', 0) < z.get('n', 0) for z in self.st['zips'].values())                 and (self.uncapped or m.get('sent', 0) < self.cap)
             if unread:
                 continue
             newest = datetime.strptime(m.get('newest', '2000-01-01T00:00:00')[:19], '%Y-%m-%dT%H:%M:%S').replace(
