@@ -263,7 +263,10 @@ def process(cand, kind, work):
     # Documents
     if kind == 'gdocs' and ext in ('htm', 'html'):  # SEC exhibits for Google Docs: HTML -> Word (feeds.sec_docs)
         src = work / 'doc.html'
-        src.write_text(html_clean(data), encoding='utf-8')
+        # Contact lines of press releases (telephone numbers, e-mail addresses) are dropped before converting.
+        html = re.sub(r'[\w.+-]+@[\w-]+(?:\.[\w-]+)+', '', html_clean(data))
+        html = re.sub(r'(?:\+?1[\s.-]?)?\(?\b\d{3}\)?[\s.-]?\d{3}[\s.-]\d{4}\b', '', html)
+        src.write_text(html, encoding='utf-8')
         conv = convert(src, work, 'docx')
         if not conv:
             return {'ok': False, 'reason': 'HTML conversion failed', 'raw': digest}
