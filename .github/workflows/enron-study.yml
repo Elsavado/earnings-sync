@@ -1,0 +1,56 @@
+name: Enron Study Library
+
+# Turns the energy-trading company e-mail corpus of "How Companies Work" (excel/howco/src_enron.py) into a study
+# library (excel/howco/study.py): per e-mail tags and a one-line summary (Claude Haiku, Message Batches), a
+# "How this mailbox works.md" page per mailbox (Claude Sonnet) and study indexes (CSV) in the corpus folders.
+# Each run collects the batches that ended, publishes, and submits batches for the zips that are new.
+# Spend is capped by the repository variable STUDY_BUDGET_USD (default 50); new batches stop at STUDY_END
+# (default 2026-11-02, when the API credit expires). The run never fails (the user wants no failure e-mails).
+on:
+  schedule:
+    - cron: '40 */3 * * *'
+  workflow_dispatch:
+    inputs:
+      max_items:
+        description: 'At most this many new e-mails sent for tagging in this run'
+        required: false
+        default: '60000'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: enron-study
+  cancel-in-progress: false
+
+jobs:
+  study:
+    runs-on: ubuntu-latest
+    timeout-minutes: 100
+    continue-on-error: true
+    defaults:
+      run:
+        working-directory: excel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Python packages
+        continue-on-error: true
+        run: pip install -q "anthropic>=1.0" "google-api-python-client>=2.120" "google-auth>=2.28" "requests>=2.31"
+      - name: Study
+        continue-on-error: true
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GOOGLE_CLIENT_ID: ${{ secrets.WS_GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
+          SHARED_DRIVE_ID: ${{ vars.HOWCO_DRIVE_ID || '0ACsHljU9Hj2_Uk9PVA' }}
+          HOWCO_ANON: ${{ vars.HOWCO_ANON }}
+          STUDY_BUDGET_USD: ${{ vars.STUDY_BUDGET_USD || '50' }}
+          STUDY_RESERVE_USD: ${{ vars.STUDY_RESERVE_USD || '12' }}
+          STUDY_END: ${{ vars.STUDY_END || '2026-11-02' }}
+          STUDY_MAX_ITEMS: ${{ github.event.inputs.max_items || '60000' }}
+          STUDY_RUN_MINUTES: '85'
+        run: python -m howco.study
