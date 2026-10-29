@@ -8,7 +8,7 @@ was marked done for good, so each run found nothing and the queues stayed empty.
 - each kind takes its sources in turn and moves on to the next query, source and cursor while its queue is short;
 - every source logs what it found, and each run logs how many cursors are open, finished or waiting to reopen.
 
-Content rules stay as they are: finance only (topic.py via office.about_finance), English US / Canadian content
+Content rules stay as they are: finance only (topic.py via office.about_finance; llm.py when a key is set), English US / Canadian content
 (usca.py), one file per record, no repeated titles, and at most HOST_CAP files from one site or filer.
 """
 import hashlib
@@ -203,7 +203,8 @@ def datagov(state, kind, s, log, pages=3):
                 if lic and not OPEN_LICENSE.search(lic) and 'Government' not in str(org.get('organization_type') or ''):
                     continue
                 about = ' '.join(str(k) for k in (d.get('keyword') or [])) + ' ' + str(d.get('description') or '')[:3000]
-                if not office.about_finance(title, about):
+                fin = office.finance_ok(state, kind, title, about)
+                if not fin:
                     continue
                 for dist in d.get('distribution') or []:
                     url = str(dist.get('downloadURL') or '').strip()
@@ -217,7 +218,8 @@ def datagov(state, kind, s, log, pages=3):
                     if not host_ok(state, kind, publisher):
                         break
                     if office._add(state, kind, {'key': f'datagov:{ident}', 'url': url, 'ext': ext, 'orgs': [],
-                                                 'source': 'datagov', 'topic': term, 'title': title[:200]},
+                                                 'source': 'datagov', 'topic': term, 'title': title[:200],
+                                                 'weak': fin == 'weak'},
                                    f'datagov:{ident}'):
                         added += 1
                         host_used(state, kind, publisher)
@@ -281,7 +283,8 @@ def socrata_sheets(state, kind, s, log, pages=3):
                 about = ' '.join([str(res.get('description') or '')[:3000], str(cls.get('domain_category') or '')]
                                  + [str(t) for t in (cls.get('categories') or []) + (cls.get('tags') or [])
                                     + (cls.get('domain_tags') or [])])
-                if not office.about_finance(name, about):
+                fin = office.finance_ok(state, kind, name, about)
+                if not fin:
                     continue
                 # The publisher tells same-named datasets of different governments apart ('Checkbook - City of X').
                 title = name if not attribution or attribution.lower() in name.lower() else f'{name} - {attribution}'
@@ -292,7 +295,8 @@ def socrata_sheets(state, kind, s, log, pages=3):
                 url = (f'https://{domain}/api/views/{res["id"]}/rows.csv?accessType=DOWNLOAD' if book
                        else f'https://{domain}/resource/{res["id"]}.csv?$limit={SHEET_ROWS}')
                 if office._add(state, kind, {'key': f'socrata:{domain}:{res["id"]}', 'url': url, 'ext': 'csv', 'orgs': [],
-                                             'source': 'socrata', 'topic': term, 'title': title[:200]},
+                                             'source': 'socrata', 'topic': term, 'title': title[:200],
+                                             'weak': fin == 'weak'},
                                f'socrata:{domain}:{res["id"]}'):
                     added += 1
                     host_used(state, kind, 'socrata:' + domain)
@@ -445,12 +449,14 @@ def web(state, kind, s, log, calls=3):
             if not url.lower().split('?')[0].endswith('.' + ext) or not host_re.search(host):
                 continue
             title = _web_title(o['title'])
-            if not title or not usca.english_title(title) or not office.about_finance(title, o['snippet']):
+            fin = office.finance_ok(state, kind, title, o['snippet']) if title and usca.english_title(title) else ''
+            if not fin:
                 continue
             if not host_ok(state, kind, 'web:' + host):
                 continue
             if office._add(state, kind, {'key': f'web:{url}'[:300], 'url': url, 'ext': ext, 'orgs': [], 'source': 'web',
-                                         'topic': q.split(' filetype:')[0].strip('"'), 'title': title[:200]},
+                                         'topic': q.split(' filetype:')[0].strip('"'), 'title': title[:200],
+                                         'weak': fin == 'weak'},
                            f'web:{host}:{usca.norm_title(title)}'):
                 added += 1
                 host_used(state, kind, 'web:' + host)

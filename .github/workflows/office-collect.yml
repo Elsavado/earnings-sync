@@ -93,7 +93,7 @@ jobs:
           sudo apt-get install -y -qq --no-install-recommends libreoffice-writer libreoffice-impress > /dev/null
           soffice --version
       - name: Install Python packages
-        run: pip install -q -r requirements.txt
+        run: pip install -q -r requirements.txt 'anthropic>=1.13,<3'
       - name: Collect, anonymise and upload
         env:
           GOOGLE_CLIENT_ID: ${{ secrets.WS_GOOGLE_CLIENT_ID }}
@@ -105,6 +105,9 @@ jobs:
           GOOGLE_CSE_KEY: ${{ secrets.GOOGLE_CSE_KEY }}
           GOOGLE_CSE_CX: ${{ secrets.GOOGLE_CSE_CX }}
           BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
+          # LLM acceptance check (fdocs/llm.py): optional; TOPIC_BUDGET_USD caps the spend for both collectors.
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TOPIC_BUDGET_USD: ${{ vars.TOPIC_BUDGET_USD || '10' }}
           DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
           RUN_MINUTES: ${{ github.event.inputs.minutes || '50' }}
           KINDS: ${{ matrix.kind }}

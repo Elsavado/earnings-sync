@@ -28,6 +28,7 @@ from models.anonymize import Anonymizer
 
 from . import kinds as K
 from . import feeds
+from . import llm
 from . import office
 from . import research
 from . import sources
@@ -228,7 +229,13 @@ def process(cand, kind, work):
         if why:
             return {'ok': False, 'reason': why, 'raw': digest}
         lab = office.label(kind, cand, A) if kind in office.KINDS else K.LABEL[kind]
-        return {'ok': True, 'path': str(dst), 'ext': ext, 'label': lab, 'raw': digest}
+        sample = ''
+        if kind in llm.KINDS and ext != 'json':
+            try:
+                sample = office.table_text(dst, ext, limit=llm.EXCERPT)
+            except Exception:  # noqa: BLE001
+                sample = ''
+        return {'ok': True, 'path': str(dst), 'ext': ext, 'label': lab, 'raw': digest, 'sample': sample}
 
     if kind == 'notebooks':
         src = work / 'nb.ipynb'
@@ -329,7 +336,8 @@ def process(cand, kind, work):
             if pages < 5 or wide < 0.6:
                 return {'ok': False, 'reason': 'not a slide presentation', 'raw': digest}
         label = office.label(kind, cand, A)
-    return {'ok': True, 'path': str(dst), 'ext': ext, 'label': describe(label, cand), 'raw': digest}
+    return {'ok': True, 'path': str(dst), 'ext': ext, 'label': describe(label, cand), 'raw': digest,
+            'sample': text[:llm.EXCERPT]}
 
 
 def _process_one(args):
@@ -527,11 +535,27 @@ class Run:
         if blocked and not re.search(r'(^|\.)(sec\.gov|github\.com|githubusercontent\.com|handle\.net|doi\.org)$', blocked):
             self.state.setdefault('blocked', {})[blocked] = 1
             log(f'  {blocked} blocks automated downloads; skipping that site from now on')
+        if res.get('ok') and kind in llm.KINDS:
+            res = self.llm_check(kind, cand, res)
         if not res.get('ok'):
             self.state['seen'][cand['key']] = f'rej:{res.get("reason")}'[:120]
             log(f'  - {kind} {cand["source"]}: {str(res.get("reason"))[:90]}')
             return
         self.publish(kind, res, cand)
+
+    def llm_check(self, kind, cand, res):
+        """The LLM acceptance check (llm.py) on the title and the start of the content; a candidate the keyword
+        filter alone would reject ('weak') needs its yes."""
+        weak = cand.get('weak') or res.get('weak')
+        verdict = llm.judge(self.state, kind, cand.get('title') or res.get('label'),
+                            res.get('sample') or cand.get('about') or '')
+        if verdict is False:
+            return {'ok': False, 'reason': 'LLM check: not finance' + (' / English / US-Canada content' if kind in office.KINDS else ' content')}
+        if verdict is None and weak:
+            return {'ok': False, 'reason': 'not about finance (keyword filter; no LLM check)'}
+        if weak:
+            self.state['counts']['llm:rescued'] = self.state['counts'].get('llm:rescued', 0) + 1
+        return res
 
     def go(self):
         nexts = {k: self.state['next'].get(k, 1) for k in K.KINDS}
@@ -569,6 +593,7 @@ class Run:
             if kind in research.KINDS:
                 research.prune(self.state, kind, log)
                 feeds.status(self.state, ('sci:',) if kind == 'scinotebooks' else (f'{kind}:',), log, kind)
+        self.llm_start = dict(self.state.get('llm') or {})
         rounds = 0
         idle = 0  # rounds in a row with empty queues and nothing found
         while left() > 90 and not self.full:
@@ -589,6 +614,9 @@ class Run:
             if all(not self.state['queue'].get(k) for k in order) and idle >= 3 * len(order)                     and not set(order) & set(research.KINDS):
                 break
         worker.close()
+        if any(k in llm.KINDS for k in order):
+            log(llm.summary(self.state, self.llm_start) + (f'; keyword misses accepted so far: '
+                f'{self.state["counts"].get("llm:rescued", 0)}' if llm.available() else '; off (no key)'))
         self.save(force=True)
         c = self.state['counts']
         log(f'done: {sum(self.made.values())} documents this run {json.dumps(self.made)}; totals {json.dumps(c, sort_keys=True)}')

@@ -31,7 +31,7 @@ import requests
 from models.xl import REDACTED
 
 from . import anon as _anon
-from . import feeds, sources, websearch
+from . import feeds, llm, sources, websearch
 from .topic import finance as is_finance, terms as finance_terms
 from .sources import _add, _gh, late
 
@@ -341,8 +341,11 @@ def notebook(cand, raw, work, out, A):
         return {'ok': False, 'reason': 'course work'}
     libs = {m.group(1) for m in FINANCE_LIBS.finditer(code_src)}
     terms = finance_terms(md_src[:50000])
+    weak = False
     if not (libs and len(terms) >= 2) and len(terms) < 4:  # finance only (user, 2026-10-27)
-        return {'ok': False, 'reason': 'not a finance notebook'}
+        if not ((libs or terms) and llm.available()):
+            return {'ok': False, 'reason': 'not a finance notebook'}
+        weak = True  # finance signals: the LLM check (llm.py) decides after anonymising
     letters = [ch for ch in md_src if ch.isalpha()]
     if letters and sum(ch.isascii() for ch in letters) / len(letters) < 0.9:
         return {'ok': False, 'reason': 'not English'}
@@ -366,7 +369,8 @@ def notebook(cand, raw, work, out, A):
     fp = 'nbcode:' + hashlib.sha256(re.sub(r'\s+', '', code_src).encode()).hexdigest()
     hay = '\n'.join(libs) + '\n' + md_src[:30000] + '\n' + cand.get('topic', '')
     field = next((name for name, pat in FIELDS if re.search(pat, hay, re.I)), 'Financial analysis')
-    return {'ok': True, 'path': str(dst), 'ext': 'ipynb', 'label': f'Research notebook - {field}', 'fp': fp}
+    return {'ok': True, 'path': str(dst), 'ext': 'ipynb', 'label': f'Research notebook - {field}', 'fp': fp,
+            'weak': weak, 'sample': md_src[:2000] + '\n' + code_src[:1000]}
 
 
 # --- Figma designs with HTML/CSS ----------------------------------------------------------------

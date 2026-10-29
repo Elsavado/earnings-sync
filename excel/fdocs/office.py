@@ -23,7 +23,7 @@ import requests
 from . import anon as _anon
 from . import sources
 from . import tab as _tab
-from . import feeds, topic, usca
+from . import feeds, llm, topic, usca
 from .sources import _add as _queue, late
 
 RULES = 3  # queued candidates from before the English / US-Canada / one-per-record (2) and finance-only (3) rules
@@ -70,6 +70,20 @@ def about_finance(title, about=''):
     """The record is about finance, accounting, investing or financial analysis: its title says so, or its keywords
     and description name at least two finance terms (one passing mention is not enough)."""
     return topic.finance(title) or topic.finance(about, need=2)
+
+
+WEAK_MAX = 15  # queued candidates the keyword filter alone would reject, waiting for the LLM check
+
+
+def finance_ok(state, kind, title, about=''):
+    """'yes' when the keyword filter accepts the record; 'weak' when it does not but the record has finance signals
+    and the LLM check (llm.py) can decide after the file is made; '' otherwise."""
+    if about_finance(title, about):
+        return 'yes'
+    if topic.terms(f'{title} {about}') and llm.available(state) and \
+            sum(bool(c.get('weak')) for c in state['queue'].get(kind, [])) < WEAK_MAX:
+        return 'weak'
+    return ''
 
 
 def prune(state, kind):
@@ -163,7 +177,8 @@ def zenodo_files(state, kind, s, log, pages=2):
                 if not (usca.zenodo_language(md) and usca.english_title(title) and usca.zenodo_usca(md)):
                     continue
                 about = ' '.join(md.get('keywords') or []) + ' ' + re.sub(r'<[^>]+>', ' ', md.get('description') or '')[:3000]
-                if not about_finance(title, about):
+                fin = finance_ok(state, kind, title, about)
+                if not fin:
                     continue
                 for f in h.get('files', [])[:20]:
                     key = f.get('key', '')
@@ -171,7 +186,7 @@ def zenodo_files(state, kind, s, log, pages=2):
                     if key.lower().endswith('.' + ext) and url and 0 < f.get('size', 0) <= MAX_SIZE[ext]:
                         added += _add(state, kind, {'key': f'zenodo:{h["id"]}:{key}'[:300], 'url': url, 'ext': ext,
                                                     'orgs': [], 'source': 'zenodo', 'topic': topic.strip('"'),
-                                                    'title': title[:200]}, f'zenodo:{h["id"]}')
+                                                    'title': title[:200], 'weak': fin == 'weak'}, f'zenodo:{h["id"]}')
                         break  # one file per record
             if cur.get('done'):
                 break
@@ -221,7 +236,8 @@ def canada(state, kind, s, log, pages=2):
                     continue
                 notes = (p.get('notes_translated') or {}).get('en') or p.get('notes') or ''
                 tags = ' '.join(t.get('name', '') for t in p.get('tags') or [] if isinstance(t, dict))
-                if not about_finance(title, f'{tags} {notes[:3000]}'):
+                fin = finance_ok(state, kind, title, f'{tags} {notes[:3000]}')
+                if not fin:
                     continue
                 for f in p.get('resources', []):
                     url = (f.get('url') or '').strip()
@@ -231,7 +247,8 @@ def canada(state, kind, s, log, pages=2):
                             and url.lower().split('?')[0].endswith('.' + ext) and (f.get('size') or 0) <= MAX_SIZE[ext]):
                         added += _add(state, kind, {'key': f'ckan:open.canada.ca:{p["id"]}', 'url': url, 'ext': ext,
                                                     'orgs': [], 'source': 'canada', 'topic': topic.strip('"'),
-                                                    'title': title[:200]}, f'ckan:open.canada.ca:{p["id"]}')
+                                                    'title': title[:200], 'weak': fin == 'weak'},
+                                     f'ckan:open.canada.ca:{p["id"]}')
                         break  # one file per dataset
             if cur.get('done'):
                 break
