@@ -373,12 +373,17 @@ def sec_docs(state, kind, s, log, pages=None):
                       'from': cur['from']}
             if forms:
                 params['forms'] = forms
-            try:
-                r = s.get('https://efts.sec.gov/LATEST/search-index', params=params, timeout=60)
-                time.sleep(0.2)
-                hits = r.json()['hits'] if r.ok else None
-            except (requests.RequestException, ValueError, KeyError):
-                hits = None
+            hits = None
+            for attempt in range(3):  # the search service often answers with a passing internal error
+                try:
+                    r = s.get('https://efts.sec.gov/LATEST/search-index', params=params, timeout=60)
+                    time.sleep(0.2)
+                    hits = r.json()['hits'] if r.ok else None
+                except (requests.RequestException, ValueError, KeyError):
+                    hits = None
+                if hits is not None:
+                    break
+                time.sleep(3 * (attempt + 1))
             if hits is None:
                 fails += 1
                 log(f'  sec {kind} {cur["year"]}: search failed; next query')
