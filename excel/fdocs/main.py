@@ -169,6 +169,38 @@ NOTEBOOK_WORDS = re.compile(r'portfolio|returns?|valuation|dcf|discount|option|b
                             r'financial|price|trading|hedg', re.I)
 
 
+_BLOCK = re.compile(r'<(p|div|tr|table)\b[^>]*>.*?</\1>', re.S | re.I)
+_CONTACT = re.compile(r'\b(?:investor|media|press|company)?\s*contacts?\b\s*:?', re.I)
+
+
+def _text(fragment):
+    return re.sub(r'\s+', ' ', re.sub(r'<[^>]+>|&nbsp;|&#160;', ' ', fragment)).strip()
+
+
+def sec_exhibit_clean(html):
+    """SEC exhibit HTML for a Google Doc: no EDGAR header (exhibit type, file name, description), no page title, no
+    contact blocks (the 'Contacts:' line, the short name / title lines after it and small contact tables), no
+    telephone numbers or e-mail addresses."""
+    html = re.sub(r'^.*?<TEXT>', '', html, count=1, flags=re.S | re.I)
+    html = re.sub(r'<title\b.*?</title>', '', html, flags=re.S | re.I)
+    out, drop, pos = [], 0, 0
+    for m in _BLOCK.finditer(html):
+        text = _text(m.group(0))
+        if m.group(1).lower() == 'table' and len(text) < 600 and _CONTACT.search(text):
+            cut = True
+        elif _CONTACT.match(text) and len(text) < 200:
+            cut, drop = True, 6  # the contact heading and up to six short lines after it
+        elif drop and len(text) < 90:
+            cut, drop = True, drop - 1
+        else:
+            cut, drop = False, 0
+        out.append(html[pos:m.start()] + ('' if cut else m.group(0)))
+        pos = m.end()
+    html = ''.join(out) + html[pos:]
+    html = re.sub(r'[\w.+-]+@[\w-]+(?:\.[\w-]+)+', '', html)
+    return re.sub(r'(?:\+?1[\s.-]?)?\(?\b\d{3}\)?[\s.-]?\d{3}[\s.-]\d{4}\b', '', html)
+
+
 def process(cand, kind, work):
     """Downloads and anonymises one candidate. Returns {'ok', 'path', 'ext', 'label'} or {'ok': False, 'reason'}."""
     A = ANON['doc']
@@ -263,9 +295,7 @@ def process(cand, kind, work):
     # Documents
     if kind == 'gdocs' and ext in ('htm', 'html'):  # SEC exhibits for Google Docs: HTML -> Word (feeds.sec_docs)
         src = work / 'doc.html'
-        # Contact lines of press releases (telephone numbers, e-mail addresses) are dropped before converting.
-        html = re.sub(r'[\w.+-]+@[\w-]+(?:\.[\w-]+)+', '', html_clean(data))
-        html = re.sub(r'(?:\+?1[\s.-]?)?\(?\b\d{3}\)?[\s.-]?\d{3}[\s.-]\d{4}\b', '', html)
+        html = sec_exhibit_clean(html_clean(data))
         src.write_text(html, encoding='utf-8')
         conv = convert(src, work, 'docx')
         if not conv:
