@@ -10,14 +10,15 @@ research acknowledgement ('funded by') does not pass.
 """
 import re
 
+# Every term starts at a word boundary ('evaluation' is not 'valuation'); 'investigate' is not investing (2026-10-29).
 FINANCE = re.compile(
-    r'financ\w*|accounting|accountan\w*|bookkeep\w*|ledger|budget\w*|fiscal|treasury|audit\w*|'
+    r'\b(?:financ\w*|accounting|accountan\w*|bookkeep\w*|ledger|budget\w*|fiscal|treasury|audit\w*|'
     r'balance sheet|income statement|profit and loss|\bp&l\b|cash ?flow|statement of (?:financial position|operations)|'
     r'chart of accounts|trial balance|journal entr\w+|accounts? (?:payable|receivable)|general ledger|'
     r'revenue\w*|expenditure\w*|expenses?|payroll|invoice\w*|vendor payments?|disbursements?|reconciliation|'
     r'cost accounting|management accounting|costing|cost (?:analysis|estimate|centre|center)|'
     r'\btax(?:es|ation)?\b|\bvat\b|\bgaap\b|\bifrs\b|\bcpa\b|\bcfa\b|'
-    r'invest\w*|portfolio\w*|hedge funds?|mutual funds?|pension funds?|investment funds?|fund (?:balance|accounting)|'
+    r'invest(?!igat)\w*|portfolio\w*|hedge funds?|mutual funds?|pension funds?|investment funds?|fund (?:balance|accounting)|'
     r'asset (?:management|allocation|pricing)|wealth management|private equity|venture capital|'
     r'equit(?:y|ies) research|stock (?:market|price|returns?|exchange|portfolio)s?|share prices?|securities|'
     r'(?:government|corporate|municipal|treasury) bonds?|bond (?:yield|market|pricing|portfolio)s?|fixed income|yield curve|'
@@ -31,7 +32,7 @@ FINANCE = re.compile(
     r'financial derivatives?|futures contracts?|implied volatility|(?:price|market|stock) volatility|forex|exchange rates?|'
     r'annual report|10-k|quarterly report|earnings call|financial (?:model\w*|analysis|plan\w*|forecast\w*|reporting|'
     r'statements?|ratios?|performance|literacy)|economic (?:analysis|indicators?)|public finance|procurement spend\w*|'
-    r'fintech|payments?\b|cryptocurrenc\w+|bitcoin',
+    r'fintech|payments?\b|cryptocurrenc\w+|bitcoin)',
     re.I)
 
 

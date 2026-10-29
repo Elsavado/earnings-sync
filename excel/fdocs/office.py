@@ -3,8 +3,10 @@ Slides), PDF presentations and bookkeeping records.
 
 Sources are openly licensed only: Zenodo records under a Creative Commons, CC0 or open-source licence (searched by
 file type), the Government of Canada open-data portal (English resources), and US government open-data portals
-(Socrata) for bookkeeping ledgers. People's names become 'Salvador Sekwa' (user, 2026-10-22), companies
-'Redacted Company Name Inc'; e-mails, links, pictures and embedded objects are removed as for the other types.
+(Socrata) for bookkeeping ledgers. Since 2026-10-29 also public records published by organisations: the data.gov
+catalog, Socrata finance datasets as spreadsheets, SEC EDGAR finance exhibits as documents, and web search of
+government, university and investor-relations sites when a key is set (feeds.py, websearch.py).
+People's names become 'Salvador Sekwa' (user, 2026-10-22), companies 'Redacted Company Name Inc'; e-mails, links, pictures and embedded objects are removed as for the other types.
 
 English content from the US and Canada only, and unique (user, 2026-10-24; usca.py): one file per record or
 dataset, records from US / Canadian authors or governments, English metadata, title and text, and no two files with
@@ -21,7 +23,7 @@ import requests
 from . import anon as _anon
 from . import sources
 from . import tab as _tab
-from . import topic, usca
+from . import feeds, topic, usca
 from .sources import _add as _queue, late
 
 RULES = 3  # queued candidates from before the English / US-Canada / one-per-record (2) and finance-only (3) rules
@@ -100,6 +102,15 @@ TOPICS = ['financial statements', 'financial analysis', 'financial model', 'fina
           'equity research', 'stock market', 'fixed income', 'bond market', 'capital markets', 'risk management',
           'credit risk', 'banking', 'monetary policy', 'interest rates', 'insurance', 'actuarial', 'taxation',
           'treasury', 'trading', 'quantitative finance', 'fintech', 'financial literacy', 'economic analysis']
+# More finance subjects (2026-10-29): the first list ran dry; each new term has its own cursors.
+TOPICS += [t for t in feeds.FIN_TERMS + ['financial econometrics', 'financial risk', 'derivatives pricing', 'option pricing',
+                                         'portfolio management', 'municipal finance', 'government budget',
+                                         'accounting standards', 'financial accounting', 'auditing', 'tax policy',
+                                         'banking regulation', 'financial stability', 'household finance',
+                                         'personal finance', 'retirement savings', 'mutual funds', 'credit markets',
+                                         'mortgage markets', 'real estate finance', 'project finance',
+                                         'infrastructure finance', 'investment management', 'financial economics']
+           if t not in TOPICS]
 # A spreadsheet expands many times in memory when opened (a 40 MB workbook ran a runner out of memory).
 MAX_SIZE = {'xlsx': 8 * 2**20, 'docx': 40 * 2**20, 'pptx': 40 * 2**20, 'pdf': 40 * 2**20}
 ZFILE = {'gsheets': ('xlsx', None), 'gdocs': ('docx', None), 'slides': ('pptx', None), 'presentations': ('pdf', 'presentation'),
@@ -118,12 +129,14 @@ BOOK_COL = re.compile(r'debit|credit|ledger|journal|account|balance|fund|object|
 def zenodo_files(state, kind, s, log, pages=2):
     ext, rtype = ZFILE[kind]
     added = 0
-    for topic in (BOOK_Q if kind == 'bookkeeping' else TOPICS):
-        cur = state['cursors'].setdefault(f'office:zenodo:{kind}:{topic}', {'page': 1})
+    for topic in feeds.rotate(state, f'zenodo:{kind}', BOOK_Q + feeds.BOOK_TERMS if kind == 'bookkeeping' else TOPICS):
+        if late() or feeds.full(state, kind):
+            break
+        cur = feeds.cursor(state, f'office:zenodo:{kind}:{topic}', {'page': 1})
         if cur.get('done'):
             continue
         for _ in range(pages):
-            if late():
+            if late() or feeds.full(state, kind):
                 return added
             params = {'q': topic, 'file_type': ext, 'size': 25, 'page': cur['page'], 'sort': 'mostrecent'}
             if rtype:
@@ -140,6 +153,9 @@ def zenodo_files(state, kind, s, log, pages=2):
                 break
             time.sleep(2.5)  # Zenodo allows about 30 searches a minute
             for h in hits:
+                if feeds.older(cur, h.get('created')):  # a reopened cursor: only records added since it finished
+                    feeds.finish(cur)
+                    break
                 md = h.get('metadata') or {}
                 if not ZENODO_LIC.match((md.get('license') or {}).get('id', '') or ''):
                     continue
@@ -157,9 +173,11 @@ def zenodo_files(state, kind, s, log, pages=2):
                                                     'orgs': [], 'source': 'zenodo', 'topic': topic.strip('"'),
                                                     'title': title[:200]}, f'zenodo:{h["id"]}')
                         break  # one file per record
+            if cur.get('done'):
+                break
             cur['page'] += 1
             if len(hits) < 25 or cur['page'] > 400:  # Zenodo serves at most 10,000 results per search
-                cur['done'] = True
+                feeds.finish(cur)
                 break
     return added
 
@@ -172,12 +190,16 @@ def canada(state, kind, s, log, pages=2):
     """Government of Canada open data (Open Government Licence - Canada): the English resource of each dataset."""
     fmt, ext = CKAN_FMT[kind], ZFILE[kind][0]
     added = 0
-    for topic in (BOOK_Q if kind == 'bookkeeping' else TOPICS):
-        cur = state['cursors'].setdefault(f'office:canada:{kind}:{topic}', {'start': 0})
+    terms = BOOK_Q + feeds.BOOK_TERMS if kind == 'bookkeeping' else (
+        feeds.PRESENT_TERMS + TOPICS if kind in ('slides', 'presentations') else TOPICS)
+    for topic in feeds.rotate(state, f'canada:{kind}', terms):
+        if late() or feeds.full(state, kind):
+            break
+        cur = feeds.cursor(state, f'office:canada:{kind}:{topic}', {'start': 0})
         if cur.get('done'):
             continue
         for _ in range(pages):
-            if late():
+            if late() or feeds.full(state, kind):
                 return added
             try:
                 r = s.get(CKAN_CA, timeout=60, params={'q': topic.strip('"') or '*:*', 'fq': f'res_format:{fmt}',
@@ -189,6 +211,9 @@ def canada(state, kind, s, log, pages=2):
                 log(f'  canada {kind}: failed')
                 break
             for p in res.get('results', []):
+                if feeds.older(cur, p.get('metadata_modified')):  # reopened: only datasets changed since
+                    feeds.finish(cur)
+                    break
                 if not str(p.get('license_id', '')).startswith('ca-ogl'):
                     continue
                 title = (p.get('title_translated') or {}).get('en') or p.get('title') or ''
@@ -208,21 +233,19 @@ def canada(state, kind, s, log, pages=2):
                                                     'orgs': [], 'source': 'canada', 'topic': topic.strip('"'),
                                                     'title': title[:200]}, f'ckan:open.canada.ca:{p["id"]}')
                         break  # one file per dataset
+            if cur.get('done'):
+                break
             cur['start'] += 50
             if cur['start'] >= res.get('count', 0) or cur['start'] >= 5000:
-                cur['done'] = True
+                feeds.finish(cur)
                 break
     return added
 
 
 def socrata_book(state, kind, s, log, pages=3):
-    saved = sources.SOCRATA.get(kind)
-    sources.SOCRATA[kind] = SOCRATA_BOOK
-    try:
-        return sources.socrata(state, kind, s, log, pages=pages)
-    finally:
-        if saved is None:
-            sources.SOCRATA.pop(kind, None)
+    """Bookkeeping ledgers of US / Canadian government Socrata portals (the whole dataset), searched by
+    bookkeeping terms with cursors that reopen (feeds.socrata_sheets)."""
+    return feeds.socrata_sheets(state, kind, s, log, pages=pages)
 
 
 def _vet_socrata(state, kind):
@@ -256,15 +279,19 @@ def start(state, kind, log, store=None):
         log(f'  {kind}: {dropped} queued candidate(s) not meeting the English / US-Canada / finance-only rules dropped')
 
 
+# Sources of each kind (2026-10-29: the data.gov catalog, Socrata portals, SEC exhibits and web search added).
+SOURCES = {
+    'gsheets': [zenodo_files, canada, feeds.datagov, feeds.socrata_sheets, feeds.web],
+    'gdocs': [zenodo_files, canada, feeds.datagov, feeds.sec_docs, feeds.web],
+    'slides': [zenodo_files, canada, feeds.datagov, feeds.web],
+    'presentations': [zenodo_files, canada, feeds.datagov, feeds.web],
+    'bookkeeping': [zenodo_files, canada, socrata_book, feeds.datagov, feeds.web],
+}
+
+
 def office_sources(state, kind, s, log):
-    turn = state['cursors'].setdefault(f'office:turn:{kind}', {'n': 0})
-    turn['n'] += 1
-    fns = [zenodo_files, canada] + ([socrata_book] if kind == 'bookkeeping' else [])
-    fns = fns[turn['n'] % len(fns):] + fns[:turn['n'] % len(fns)]  # each source leads in turn
-    added = 0
-    for fn in fns:
-        if not late():
-            added += fn(state, kind, s, log)
+    """Each source leads in turn; the kind moves on to the next query, source and cursor while its queue is short."""
+    added = feeds.run(state, kind, s, log, SOURCES[kind])
     _vet_socrata(state, kind)
     return added
 

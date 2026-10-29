@@ -31,7 +31,7 @@ import requests
 from models.xl import REDACTED
 
 from . import anon as _anon
-from . import sources
+from . import feeds, sources, websearch
 from .topic import finance as is_finance, terms as finance_terms
 from .sources import _add, _gh, late
 
@@ -49,6 +49,23 @@ TOPICS = ['quantitative finance', 'algorithmic trading', 'portfolio optimization
           'financial econometrics', 'financial time series', 'market microstructure', 'corporate finance', 'valuation',
           'fraud detection', 'banking', 'insurance', 'actuarial', 'fintech', 'cryptocurrency trading', 'forex',
           'earnings', 'financial forecasting', 'public finance', 'monetary policy', 'macroeconomics finance']
+# More finance notebook subjects (2026-10-29), searched without the paper marker in slices of creation dates
+# (sci_slices): GitHub serves at most 1,000 results per search, so each half-year is its own search.
+NB_TERMS = ['portfolio optimization', 'stock price prediction', 'stock analysis', 'trading strategy', 'pairs trading',
+            'mean reversion trading', 'momentum strategy', 'quantitative trading', 'algorithmic trading', 'backtest',
+            'factor model', 'fama french', 'capm', 'efficient frontier', 'sharpe ratio', 'black scholes',
+            'option pricing', 'monte carlo option', 'implied volatility', 'garch volatility', 'value at risk',
+            'expected shortfall', 'credit risk', 'credit scoring', 'loan default prediction', 'probability of default',
+            'fraud detection transactions', 'financial statement analysis', 'financial ratios', 'dcf valuation',
+            'stock valuation', 'company valuation', 'yield curve', 'bond pricing', 'fixed income', 'interest rate model',
+            'term structure', 'portfolio risk', 'risk parity', 'asset allocation', 'hedge fund', 'hedging strategy',
+            'market microstructure', 'order book', 'high frequency trading', 'cryptocurrency price', 'bitcoin price',
+            'forex prediction', 'financial time series', 'sentiment analysis stocks', 'earnings call analysis',
+            'sec filings analysis', '10-k analysis', 'accounting data analysis', 'bank customer churn', 'insurance claims',
+            'actuarial', 'mutual fund performance', 'etf analysis', 'reinforcement learning trading', 'finrl',
+            'yfinance', 'quantlib', 'pyportfolioopt', 'zipline', 'backtrader', 'econometrics finance', 'inflation forecasting',
+            'macroeconomic forecasting', 'financial forecasting', 'budget analysis', 'personal finance analysis']
+TOPICS += [t for t in NB_TERMS if t not in TOPICS]
 MARKERS = ['arxiv', 'doi', 'thesis', 'paper', 'dissertation', 'publication', 'analysis', 'strategy']
 FINANCE_LIBS = re.compile(
     r'^\s*(?:import|from)\s+(yfinance|pandas_datareader|QuantLib|zipline|backtrader|pyfolio|empyrical|quantstats|ta|talib|'
@@ -106,7 +123,8 @@ def _license_ok(repo):
 
 def _notebook_files(s, full, branch, limit=12):
     return sources._repo_files(s, full, branch, lambda p: p.endswith('.ipynb') and '.ipynb_checkpoints' not in p
-                               and not re.search(r'(?:^|/)(?:test|tests|docs?/_build|site-packages)/', p),
+                               and not re.search(r'(?:^|/)(?:test|tests|docs?/_build|site-packages)/', p)
+                               and not re.search(r'copy\d*\.ipynb$|copy of', p, re.I),
                                8 * 2**20, limit)
 
 
@@ -127,9 +145,11 @@ def _queue_repo_notebooks(state, kind, s, full, branch, source, extra=None):
 def sci_github(state, kind, s, log, pages=2):
     """Jupyter repositories whose README cites a paper, thesis, arXiv or DOI record, one topic at a time."""
     added = 0
-    for topic in TOPICS:
+    for topic in feeds.rotate(state, 'sci:gh', TOPICS):
         for marker in MARKERS:
-            cur = state['cursors'].setdefault(f'sci:gh:{topic}:{marker}', {'page': 1})
+            if late() or feeds.full(state, kind):
+                return added
+            cur = feeds.cursor(state, f'sci:gh:{topic}:{marker}', {'page': 1})
             if cur.get('done'):
                 continue
             for _ in range(pages):
@@ -156,7 +176,7 @@ def sci_github(state, kind, s, log, pages=2):
                                                        'github', {'topic': topic})
                 cur['page'] += 1
                 if len(items) < 50 or cur['page'] > 20:
-                    cur['done'] = True
+                    feeds.finish(cur)
                     break
     return added
 
@@ -168,8 +188,10 @@ GH_REPO = re.compile(r'github\.com/([A-Za-z0-9_.\-]+)/([A-Za-z0-9_.\-]+?)(?:\.gi
 def sci_zenodo(state, kind, s, log, pages=2):
     """Zenodo research records: their own .ipynb files and the GitHub repository they archive."""
     added = 0
-    for topic in TOPICS:
-        cur = state['cursors'].setdefault(f'sci:zenodo:{topic}', {'page': 1})
+    for topic in feeds.rotate(state, 'sci:zenodo', TOPICS):
+        if late() or feeds.full(state, kind):
+            return added
+        cur = feeds.cursor(state, f'sci:zenodo:{topic}', {'page': 1})
         if cur.get('done'):
             continue
         for _ in range(pages):
@@ -207,7 +229,7 @@ def sci_zenodo(state, kind, s, log, pages=2):
                         break
             cur['page'] += 1
             if len(hits) < 25 or cur['page'] > 40:
-                cur['done'] = True
+                feeds.finish(cur)
                 break
     return added
 
@@ -340,9 +362,11 @@ def notebook(cand, raw, work, out, A):
     except ValueError:
         return {'ok': False, 'reason': 'notebook broken by anonymising'}
     dst.write_text(text, encoding='utf-8')
+    # Near-duplicates (one tutorial copied into many repositories): the same code cells, whitespace aside.
+    fp = 'nbcode:' + hashlib.sha256(re.sub(r'\s+', '', code_src).encode()).hexdigest()
     hay = '\n'.join(libs) + '\n' + md_src[:30000] + '\n' + cand.get('topic', '')
     field = next((name for name, pat in FIELDS if re.search(pat, hay, re.I)), 'Financial analysis')
-    return {'ok': True, 'path': str(dst), 'ext': 'ipynb', 'label': f'Research notebook - {field}'}
+    return {'ok': True, 'path': str(dst), 'ext': 'ipynb', 'label': f'Research notebook - {field}', 'fp': fp}
 
 
 # --- Figma designs with HTML/CSS ----------------------------------------------------------------
@@ -427,7 +451,7 @@ def _figma_repo(state, kind, s, repo):
 def figma_github(state, kind, s, log, pages=2):
     added = 0
     for q in FIG_CODE_QUERIES:  # READMEs that mention a .fig file: the likeliest repositories
-        cur = state['cursors'].setdefault(f'figma:code:{q}', {'page': 1})
+        cur = feeds.cursor(state, f'figma:code:{q}', {'page': 1})
         if cur.get('done'):
             continue
         for _ in range(pages):
@@ -459,10 +483,10 @@ def figma_github(state, kind, s, log, pages=2):
                     added += _figma_repo(state, kind, s, repo)
             cur['page'] += 1
             if len(items) < 100 or cur['page'] > 10:
-                cur['done'] = True
+                feeds.finish(cur)
                 break
     for q in FIG_REPO_QUERIES:
-        cur = state['cursors'].setdefault(f'figma:repo:{q}', {'page': 1})
+        cur = feeds.cursor(state, f'figma:repo:{q}', {'page': 1})
         if cur.get('done'):
             continue
         for _ in range(pages):
@@ -486,7 +510,7 @@ def figma_github(state, kind, s, log, pages=2):
                 added += _figma_repo(state, kind, s, repo)
             cur['page'] += 1
             if len(items) < 50 or cur['page'] > 20:
-                cur['done'] = True
+                feeds.finish(cur)
                 break
     return added
 
@@ -817,15 +841,173 @@ def process(cand, kind, raw, work, A):
     return notebook(cand, raw, Path(work), out, A) if kind == 'scinotebooks' else figma(cand, raw, Path(work), out, A)
 
 
-def sci_sources(state, kind, s, log):
-    """Zenodo and GitHub take turns going first, so neither fills the queue alone."""
-    turn = state['cursors'].setdefault('sci:turn', {'n': 0})
-    turn['n'] += 1
+def _slices(first=2015):
+    """Half-year creation-date windows, newest first ('2026-07-01..2026-12-31')."""
+    out = []
+    for y in range(time.gmtime().tm_year, first - 1, -1):
+        out += [f'{y}-07-01..{y}-12-31', f'{y}-01-01..{y}-06-30']
+    return out
+
+
+def _gh_search(s, q, page, per_page=50, sort=None):
+    """One page of GitHub repository search: the items, or None when it failed (rate limits wait a little)."""
+    params = {'q': q, 'per_page': per_page, 'page': page}
+    if sort:
+        params['sort'] = sort
+    try:
+        r = s.get('https://api.github.com/search/repositories', headers=_gh(s), timeout=60, params=params)
+        if r.status_code in (403, 429):
+            time.sleep(30)
+            return None
+        items = r.json().get('items', []) if r.ok else ([] if r.status_code == 422 else None)
+    except (requests.RequestException, ValueError):
+        items = None
+    time.sleep(2)  # search API: 30 requests a minute
+    return items
+
+
+def _gh_core_ok(s, floor=300):
+    """The job's GitHub token keeps enough of its hourly REST allowance (shared by the repository's workflows,
+    including the call that chains the next run) before a source reads repository trees."""
+    try:
+        r = s.get('https://api.github.com/rate_limit', headers=_gh(s), timeout=30)  # does not count
+        return r.json()['resources']['core']['remaining'] >= floor if r.ok else False
+    except (requests.RequestException, ValueError, KeyError):
+        return False
+
+
+def sci_slices(state, kind, s, log, pages=2):
+    """Finance notebooks on GitHub (Jupyter repositories with an open licence), one finance term and one half-year
+    of creation dates per search; the notebook gate (finance terms or libraries, explained, no course work) decides."""
     added = 0
-    for fn in ((sci_zenodo, sci_github) if turn['n'] % 2 else (sci_github, sci_zenodo)):
-        if not late():
-            added += fn(state, kind, s, log, pages=1)
+    if not _gh_core_ok(s):
+        log(f'  {kind}: GitHub allowance low; sci_slices waits')
+        return 0
+    for term in feeds.rotate(state, 'sci:slices', NB_TERMS):
+        for window in _slices():
+            if late() or feeds.full(state, kind):
+                return added
+            cur = feeds.cursor(state, f'sci:slice:{term}:{window}', {'page': 1})
+            if cur.get('done'):
+                continue
+            for _ in range(pages):
+                if late() or feeds.full(state, kind):
+                    return added
+                items = _gh_search(s, f'{term} language:"Jupyter Notebook" fork:false created:{window}', cur['page'])
+                if items is None:
+                    return added
+                for repo in items:
+                    if late():
+                        return added
+                    if _license_ok(repo) and repo.get('size', 0) < 2_000_000 and not COURSEWORK.search(
+                            f"{repo['full_name']} {repo.get('description') or ''}".replace('-', ' ').replace('_', ' ')):
+                        added += _queue_repo_notebooks(state, kind, s, repo['full_name'],
+                                                       repo.get('default_branch') or 'main', 'github', {'topic': term})
+                cur['page'] += 1
+                if len(items) < 50 or cur['page'] > 20:
+                    feeds.finish(cur)
+                    break
+            if added >= 15:  # one term at a time: the next call starts with the next term
+                return added
     return added
+
+
+def _sci_zenodo1(state, kind, s, log):
+    return sci_zenodo(state, kind, s, log, pages=1)
+
+
+def _sci_github1(state, kind, s, log):
+    return sci_github(state, kind, s, log, pages=1)
+
+
+_sci_zenodo1.__name__, _sci_github1.__name__ = 'sci_zenodo', 'sci_github'
+
+
+def sci_sources(state, kind, s, log):
+    """Zenodo, GitHub papers and GitHub date slices take turns going first, so none fills the queue alone; each
+    logs what it found."""
+    return feeds.run(state, kind, s, log, [_sci_zenodo1, _sci_github1, sci_slices])
+
+
+FIG_TERMS = ['bank', 'banking', 'fintech', 'finance', 'wallet', 'crypto', 'payment', 'invoice', 'budget', 'expense',
+             'trading', 'stock', 'investment', 'accounting', 'loan', 'insurance', 'money', 'portfolio tracker',
+             'credit card', 'checkout payment', 'financial dashboard', 'exchange crypto']
+
+
+def figma_slices(state, kind, s, log, pages=2):
+    """Figma repositories for finance products, one term and one year of creation dates per search."""
+    added = 0
+    years = [f'{y}-01-01..{y}-12-31' for y in range(time.gmtime().tm_year, 2016, -1)]
+    if not _gh_core_ok(s):
+        log(f'  {kind}: GitHub allowance low; figma_slices waits')
+        return 0
+    for term in feeds.rotate(state, 'figma:slices', FIG_TERMS):
+        for window in years:
+            if late() or feeds.full(state, kind):
+                return added
+            cur = feeds.cursor(state, f'figma:slice:{term}:{window}', {'page': 1})
+            if cur.get('done'):
+                continue
+            for _ in range(pages):
+                if late():
+                    return added
+                items = _gh_search(s, f'figma {term} fork:false created:{window}', cur['page'])
+                if items is None:
+                    return added
+                for repo in items:
+                    if late():
+                        return added
+                    added += _figma_repo(state, kind, s, repo)
+                cur['page'] += 1
+                if len(items) < 50 or cur['page'] > 20:
+                    feeds.finish(cur)
+                    break
+    return added
+
+
+GH_URL = re.compile(r'https://github\.com/([A-Za-z0-9_.\-]+)/([A-Za-z0-9_.\-]+)')
+
+
+def figma_web(state, kind, s, log, calls=2):
+    """Web search (when a provider key is set) for GitHub repositories that commit a Figma file of a finance app."""
+    if not websearch.provider() or websearch.remaining(state, kind) <= 0:
+        return 0
+    added = used = 0
+    for term in feeds.rotate(state, 'figma:web', FIG_TERMS):
+        if late() or feeds.full(state, kind) or used >= calls:
+            break
+        q = f'site:github.com figma "{term}" ".fig" html css'
+        cur = feeds.cursor(state, f'figma:web:{q}', {'page': 0}, feeds.WEB_REOPEN_DAYS)
+        if cur.get('done'):
+            continue
+        res = websearch.search(state, kind, s, q, cur['page'])
+        used += 1
+        if res is None:
+            break
+        keep, raw = res
+        for o in keep:
+            m = GH_URL.match(o['url'])
+            if not m or m[1].lower() in ('topics', 'search', 'orgs', 'features', 'marketplace', 'collections'):
+                continue
+            full = f'{m[1]}/{m[2]}'.removesuffix('.git')
+            if f'ghrepo:{kind}:{full}' in state['seen']:
+                continue
+            try:
+                rr = s.get(f'https://api.github.com/repos/{full}', headers=_gh(s), timeout=30)
+                repo = rr.json() if rr.ok else None
+            except (requests.RequestException, ValueError):
+                repo = None
+            if repo:
+                added += _figma_repo(state, kind, s, repo)
+        cur['page'] += 1
+        if raw == 0 or cur['page'] >= websearch.PAGES:
+            feeds.finish(cur)
+    return added
+
+
+def figma_sources(state, kind, s, log):
+    """The README searches, finance-term date slices and web search take turns; each logs what it found."""
+    return feeds.run(state, kind, s, log, [figma_github, figma_slices, figma_web])
 
 
 def prune(state, kind, log):
@@ -844,4 +1026,4 @@ def prune(state, kind, log):
         log(f'  {kind}: {len(q) - len(keep)} queued candidate(s) not about finance dropped')
 
 
-DISCOVER = {'scinotebooks': [sci_sources], 'figma': [figma_github], 'styleguides': [style_github]}
+DISCOVER = {'scinotebooks': [sci_sources], 'figma': [figma_sources], 'styleguides': [style_github]}

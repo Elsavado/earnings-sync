@@ -95,6 +95,10 @@ jobs:
           GOOGLE_REFRESH_TOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
           GITHUB_TOKEN: ${{ github.token }}
+          # Web search (fdocs/websearch.py): Google Programmable Search when both are set, else Brave, else none.
+          GOOGLE_CSE_KEY: ${{ secrets.GOOGLE_CSE_KEY }}
+          GOOGLE_CSE_CX: ${{ secrets.GOOGLE_CSE_CX }}
+          BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
           DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
           RUN_MINUTES: ${{ github.event.inputs.minutes || '50' }}
           KINDS: ${{ matrix.kind }}

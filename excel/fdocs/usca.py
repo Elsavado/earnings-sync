@@ -84,6 +84,9 @@ def zenodo_usca(md):
 def norm_title(title):
     """Title key for near-duplicates: lower case, accents/punctuation/numbers/versions dropped, first 12 words."""
     t = unicodedata.normalize('NFKD', title.lower()).encode('ascii', 'ignore').decode()
-    t = re.sub(r'\b(?:v(?:ersion)?\s*\d+(?:\.\d+)*|part\s+\d+|\d+)\b', ' ', t)
+    t = re.sub(r'\b(?:v(?:ersion)?\s*\d+(?:\.\d+)*|part\s+\d+|\d+(?:st|nd|rd|th)?)\b', ' ', t)
+    # Monthly and quarterly editions of one series read as one title (2026-10-29).
+    t = re.sub(r'\b(?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sep(?:t(?:ember)?)?|'
+               r'oct(?:ober)?|nov(?:ember)?|dec(?:ember)?|q[1-4]|fy|cy)\b', ' ', t)
     words = re.findall(r'[a-z]+', t)
     return ' '.join(words[:12])

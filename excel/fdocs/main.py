@@ -27,6 +27,7 @@ from googleapiclient.errors import HttpError
 from models.anonymize import Anonymizer
 
 from . import kinds as K
+from . import feeds
 from . import office
 from . import research
 from . import sources
@@ -253,7 +254,14 @@ def process(cand, kind, work):
         return {'ok': True, 'path': str(dst), 'ext': 'ipynb', 'label': K.LABEL[kind], 'raw': digest}
 
     # Documents
-    if ext in ('htm', 'html', 'txt'):
+    if kind == 'gdocs' and ext in ('htm', 'html'):  # SEC exhibits for Google Docs: HTML -> Word (feeds.sec_docs)
+        src = work / 'doc.html'
+        src.write_text(html_clean(data), encoding='utf-8')
+        conv = convert(src, work, 'docx')
+        if not conv:
+            return {'ok': False, 'reason': 'HTML conversion failed', 'raw': digest}
+        ext, src = 'docx', Path(conv)
+    elif ext in ('htm', 'html', 'txt'):
         src = work / 'doc.html'
         src.write_text(html_clean(data), encoding='utf-8')
         pdf = html_to_pdf(src, work)
@@ -404,7 +412,8 @@ class Run:
 
     def publish(self, kind, res, cand):
         digest = file_hash(res['path'])
-        if digest in self.state['hashes']:
+        fp = res.get('fp')  # a content fingerprint (research notebooks: their code cells)
+        if digest in self.state['hashes'] or (fp and fp in self.state['hashes']):
             self.state['seen'][cand['key']] = 'rej:duplicate'
             return
         if kind in office.KINDS and office.repeated_label(self.state, kind, res['label']):
@@ -433,6 +442,8 @@ class Run:
         self.upload_fails = 0
         self.state['next'][kind] = n + 1
         self.state['hashes'][digest] = f'{kind}:{n}'
+        if fp:
+            self.state['hashes'][fp] = f'{kind}:{n}'
         self.state['seen'][cand['key']] = f'ok:{kind}:{n}'
         c = self.state['counts']
         c[kind] = c.get(kind, 0) + 1
@@ -454,15 +465,18 @@ class Run:
     def discover(self, kind, s, until):
         q = self.state['queue'].setdefault(kind, [])
         sources.DEADLINE = until
+        added = 0
         for fn in sources.DISCOVER[kind]:
             if len(q) >= 60 or time.time() > until:
                 break
             try:
                 n = fn(self.state, kind, s, log)
+                added += n or 0
                 if n:
                     log(f'  {kind}: +{n} candidates from {fn.__name__}')
             except Exception as err:  # noqa: BLE001
                 log(f'  {kind}: {fn.__name__} failed ({type(err).__name__}: {err})')
+        return added
 
     def work(self, kind, until, worker):
         """Processes the queue several files at a time; results are numbered and uploaded one by one."""
@@ -551,9 +565,12 @@ class Run:
         for kind in order:
             if kind in office.KINDS:
                 office.start(self.state, kind, log, self.store)
+                feeds.status(self.state, ('office:',), log, kind)
             if kind in research.KINDS:
                 research.prune(self.state, kind, log)
+                feeds.status(self.state, ('sci:',) if kind == 'scinotebooks' else (f'{kind}:',), log, kind)
         rounds = 0
+        idle = 0  # rounds in a row with empty queues and nothing found
         while left() > 90 and not self.full:
             rounds += 1
             slice_s = max(60, (left() - 60) / len(order))
@@ -561,13 +578,15 @@ class Run:
                 if left() < 90:
                     break
                 until = time.time() + slice_s
-                self.discover(kind, s, time.time() + min(120, slice_s / 3))
+                found = self.discover(kind, s, time.time() + min(120, slice_s / 3))
+                idle = 0 if found or self.state['queue'].get(kind) else idle + 1
                 n = self.work(kind, until, worker)
                 log(f'{kind}: processed {n}, {len(self.state["queue"].get(kind, []))} queued, '
                     f'{self.made.get(kind, 0)} made this run')
                 self.save(force=True)
-            # Research kinds keep searching for the whole run (their sources are slow, paced APIs).
-            if all(not self.state['queue'].get(k) for k in order) and rounds > 1 and not set(order) & set(research.KINDS):
+            # Research kinds keep searching for the whole run (their sources are slow, paced APIs). Office kinds go
+            # on to the next queries and sources while they find anything; three empty rounds in a row end the run.
+            if all(not self.state['queue'].get(k) for k in order) and idle >= 3 * len(order)                     and not set(order) & set(research.KINDS):
                 break
         worker.close()
         self.save(force=True)
