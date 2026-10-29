@@ -1,9 +1,10 @@
 """Equity research reports published by universities (.edu): student investment funds, research challenges,
 course reports with a rating and a target price.
 
-Discovery is a live search of the web through the Common Crawl index (index.commoncrawl.org, newest crawl first):
-every PDF on a .edu site whose address mentions equity research, stock pitches, coverage initiations, investment
-funds and the like. Each candidate is downloaded from the site itself (robots.txt respected; sites that challenge
+Discovery is a live search of the web through the Common Crawl index, newest crawl first: every PDF on a .edu site
+whose address mentions equity research, stock pitches, coverage initiations, investment funds and the like. The
+index files are read straight from data.commoncrawl.org (the .edu part of each crawl's sorted index, ~6,700 blocks,
+several at a time): the index API took minutes per filtered page (2 PDFs in 102 min). Each candidate is downloaded from the site itself (robots.txt respected; sites that challenge
 automated visitors are skipped), and kept only when its text is a real equity research report: a target price, a
 rating or recommendation, and valuation work. Unique by content and by title. People and companies get the
 made-up names every source shares; the university is kept.
@@ -15,6 +16,8 @@ import json
 import re
 import time
 import urllib.robotparser
+import zlib
+from concurrent.futures import ThreadPoolExecutor
 from urllib.parse import urlparse
 
 import requests
@@ -34,6 +37,58 @@ PER_FOLDER = 20
 
 def _collections(s):
     return [c['id'] for c in s.get('https://index.commoncrawl.org/collinfo.json', timeout=60).json()]
+
+
+CC = 'https://data.commoncrawl.org/cc-index/collections/{}/indexes/'
+URL_ANY = re.compile(URL_RE[2:-2], re.I)
+
+
+def _edu_blocks(s, coll):
+    """[file, offset, length] of every index block that holds .edu addresses (the index is sorted by host)."""
+    blocks, prev = [], None
+    with s.get(CC.format(coll) + 'cluster.idx', stream=True, timeout=300) as r:
+        r.raise_for_status()
+        for line in r.iter_lines():
+            if line.startswith(b'edu,'):
+                if not blocks and prev is not None:
+                    blocks.append(prev)  # the block before the first .edu entry may hold the first .edu lines
+                blocks.append(line)
+            elif blocks:
+                break
+            prev = line
+    out = []
+    for b in blocks:
+        _, f, off, ln, _ = b.decode().split('\t')
+        out.append([f, int(off), int(ln)])
+    return out
+
+
+def _block_pdfs(s, coll, block):
+    """Candidate report PDFs in one index block ([] when it could not be read)."""
+    f, off, ln = block
+    rows = None
+    for wait in (5, 20, 60, None):
+        try:
+            r = s.get(CC.format(coll) + f, headers={'Range': f'bytes={off}-{off + ln - 1}'}, timeout=120)
+            if r.status_code in (200, 206):
+                rows = zlib.decompress(r.content, 16 + zlib.MAX_WBITS).splitlines()
+                break
+        except (requests.RequestException, zlib.error):
+            pass
+        if wait is None:
+            return []
+        time.sleep(wait)
+    urls = []
+    for row in rows:
+        if not row.startswith(b'edu,') or b'"application/pdf"' not in row or b'"status": "200"' not in row:
+            continue
+        try:
+            url = json.loads(row.split(b' ', 2)[2])['url']
+        except (ValueError, KeyError, IndexError):
+            continue
+        if URL_ANY.search(url):
+            urls.append(url)
+    return urls
 
 
 class Robots:
@@ -77,62 +132,83 @@ def run(ctx, log):
     s.headers['User-Agent'] = UA
     robots = Robots(s)
     colls = _collections(s)
-    # One resumable cursor per crawl; newest crawl first. A crawl whose index stops answering is set aside for the
-    # rest of this run and the previous crawl is used instead; later runs return to the newest unfinished one.
-    curs = st.setdefault('crawls', {})
-    if 'cursor' in st:  # cursor of the first version
-        old = st.pop('cursor')
-        curs.setdefault(old['coll'], {'coll': old['coll'], 'page': old['page'], 'pages': old['pages']})
-    stalled = set()
+    # One resumable cursor per crawl (index block reached); newest crawl first. Cursors of the index-API version
+    # (pages) start again at block 0: addresses already seen are skipped.
+    st.pop('cursor', None)
+    curs = {c: v for c, v in st.setdefault('crawls', {}).items() if 'block' in v or v.get('done')}
+    st['crawls'] = curs
+    queue = st.setdefault('queue', [])
     kept = checked = 0
-    cur = None
-    while ctx.left() > 600:
-        todo = [c for c in colls if not curs.get(c, {}).get('done') and c not in stalled]
-        if not todo:
-            if not stalled:
+
+    def fill():
+        """Scan index blocks of the newest unfinished crawl until candidates are queued (or the time is up)."""
+        while len(queue) < 50 and ctx.left() > 900:
+            todo = [c for c in colls if not curs.get(c, {}).get('done')]
+            if not todo:
                 st['finished'] = True
-            break
-        cur = curs.setdefault(todo[0], {'coll': todo[0], 'page': 0, 'pages': None})
-        api = f'https://index.commoncrawl.org/{cur["coll"]}-index'
-        if cur['pages'] is None:
-            cur['pages'] = _ask(s, api, {'url': '*.edu', 'showNumPages': 'true'}, log, json_page=True)
-            if cur['pages'] is None:
-                log(f'{cur["coll"]}: index unavailable; using the previous crawl')
-                stalled.add(cur['coll'])
+                return
+            cur = curs.setdefault(todo[0], {'coll': todo[0], 'block': 0, 'blocks': None})
+            cur.setdefault('block', 0)
+            if st.get('list_of') != cur['coll']:
+                try:
+                    st['block_list'] = _edu_blocks(s, cur['coll'])
+                except (requests.RequestException, ValueError) as e:
+                    log(f'{cur["coll"]}: index list not readable ({type(e).__name__}); next crawl')
+                    cur['done'] = True
+                    continue
+                st['list_of'], cur['blocks'] = cur['coll'], len(st['block_list'])
+                log(f'{cur["coll"]}: {cur["blocks"]} index blocks with .edu addresses')
+            blist = st['block_list']
+            if cur['block'] >= len(blist):
+                cur['done'] = True
                 continue
-        if cur['page'] >= cur['pages']:
-            cur['done'] = True
-            continue
-        rows = _ask(s, api, {'url': '*.edu', 'output': 'json', 'page': cur['page'],
-                             'filter': ['mime:application/pdf', 'status:200', f'~url:{URL_RE}']}, log)
-        if rows is None:
-            log(f'{cur["coll"]} page {cur["page"]}: index did not answer; using the previous crawl for now')
-            stalled.add(cur['coll'])
-            continue
-        for row in rows:
-            url = row['url']
-            host = urlparse(url).netloc.lower()
+            batch = blist[cur['block']:cur['block'] + 64]
+            with ThreadPoolExecutor(8) as pool:
+                found = list(pool.map(lambda b: _block_pdfs(s, cur['coll'], b), batch))
+            for urls in found:
+                queue.extend(u for u in urls if hashlib.sha1(u.encode()).hexdigest()[:16] not in seen)
+            cur['block'] += len(batch)
+            if cur['block'] % 640 < 64:
+                log(f'{cur["coll"]}: block {cur["block"]}/{cur["blocks"]}, {len(queue)} candidates queued')
+
+    def fetch(url):
+        """(url, PDF bytes or None, why not)."""
+        if not robots.ok(url):
+            return url, None, 'robots'
+        try:
+            resp = s.get(url, timeout=60, stream=True)
+            data = b''
+            for chunk in resp.iter_content(1 << 16):
+                data += chunk
+                if len(data) > 40 * 2**20:
+                    break
+        except requests.RequestException:
+            return url, None, 'error'
+        if not resp.ok or len(data) > 40 * 2**20:
+            return url, None, 'error'
+        if data[:5] != b'%PDF-':
+            return url, None, 'bot' if BOT.search(data[:6000]) else 'not a pdf'
+        return url, data, None
+
+    while ctx.left() > 600:
+        fill()
+        if not queue:
+            break
+        batch = []
+        while queue and len(batch) < 16:
+            url = queue.pop(0)
             k = hashlib.sha1(url.encode()).hexdigest()[:16]
-            if k in seen or host in blocked or ctx.left() < 300:
+            if k in seen or urlparse(url).netloc.lower() in blocked:
                 continue
             seen.add(k)
+            batch.append(url)
+        with ThreadPoolExecutor(8) as pool:  # downloads in parallel; checking and uploading stay one at a time
+            got = list(pool.map(fetch, batch))
+        for url, data, why in got:
             checked += 1
-            if not robots.ok(url):
-                continue
-            try:
-                resp = s.get(url, timeout=60, stream=True)
-                data = b''
-                for chunk in resp.iter_content(1 << 16):
-                    data += chunk
-                    if len(data) > 40 * 2**20:
-                        break
-            except requests.RequestException:
-                continue
-            if not resp.ok or len(data) > 40 * 2**20:
-                continue
-            if data[:5] != b'%PDF-':
-                if BOT.search(data[:6000]):
-                    blocked.add(host)
+            if why == 'bot':
+                blocked.add(urlparse(url).netloc.lower())
+            if data is None or ctx.left() < 300:
                 continue
             h = hashlib.sha1(data).hexdigest()
             if h in hashes:
@@ -175,38 +251,13 @@ def run(ctx, log):
             ctx.drive.upload(str(dst), folder, name, f'edu:{h[:20]}')
             kept += 1
             ctx.sample(dst, name, leaks)
-            if ctx.dry and kept >= 12:
-                break
+        st['seen'], st['hashes'], st['titles'], st['blocked'] = sorted(seen), sorted(hashes), sorted(titles), sorted(blocked)
+        ctx.save()
         if ctx.dry and kept >= 12:
             break
-        cur['page'] += 1
-        time.sleep(1)  # the index asks for at most one request a second
-        st['seen'], st['hashes'], st['titles'], st['blocked'] = sorted(seen), sorted(hashes), sorted(titles), sorted(blocked)
-        if cur['page'] % 10 == 0:
-            ctx.save()
-            log(f'{cur["coll"]} page {cur["page"]}/{cur["pages"]}: {checked} PDFs checked, {kept} reports kept')
     st['seen'], st['hashes'], st['titles'], st['blocked'] = sorted(seen), sorted(hashes), sorted(titles), sorted(blocked)
-    log(f'this run: {checked} PDFs checked, {kept} reports kept; crawls: '
-        + ', '.join(f'{c["coll"]} {c["page"]}/{c["pages"]}' for c in curs.values()))
-
-
-def _ask(s, api, params, log, json_page=False):
-    """One index request with patient retries (the index throttles and times out under load): 10 s, 30 s, 60 s,
-    120 s. Returns the page count (json_page), the rows, or None."""
-    for wait in (10, 30, 60, 120, None):
-        try:
-            r = s.get(api, params=params, timeout=240)
-            if r.status_code == 404:
-                return 0 if json_page else []
-            if r.ok:
-                if json_page:
-                    return int(r.json()['pages'])
-                return [json.loads(x) for x in r.text.splitlines() if x.strip()]
-        except (requests.RequestException, ValueError, KeyError):
-            pass
-        if wait is None:
-            return None
-        time.sleep(wait)
+    log(f'this run: {checked} PDFs checked, {kept} reports kept, {len(queue)} queued; crawls: '
+        + ', '.join(f'{c["coll"]} {c.get("block", 0)}/{c.get("blocks")}' for c in curs.values() if c.get('blocks')))
 
 
 def _subject(A, text):
