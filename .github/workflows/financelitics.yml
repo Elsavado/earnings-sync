@@ -1,0 +1,72 @@
+name: Financelitics data
+
+# Workspace shared drive "Research Collections" (joseph@irtranscripts.com), folder "Financelitics": data for a financial
+# analytics firm (earnings call analysis, 10-K/10-Q review, SEC comment letters, risk modelling, portfolio benchmarks,
+# sector teams). Uploads only when repo variable FINLITICS_LIVE is "true". Public repository: logs print counts only.
+
+on:
+  schedule:
+    - cron: "53 */6 * * *"
+  workflow_dispatch:
+    inputs:
+      sources:
+        description: "filings,comments,fred,fdic,famafrench,treasury,transcripts,books"
+        default: "filings,comments,fred,fdic,famafrench,treasury,transcripts,books"
+      minutes:
+        description: "time budget (minutes)"
+        default: "320"
+      dry_run:
+        description: "force a dry run (no upload)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+env:
+  FINLITICS_DRIVE_ID: ${{ vars.RESEARCH_DRIVE_ID || '0ACsHljU9Hj2_Uk9PVA' }}
+  PYTHONUNBUFFERED: "1"
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    concurrency: finlitics
+    defaults:
+      run:
+        working-directory: excel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install requests python-docx pillow openpyxl && sudo apt-get update -qq && sudo apt-get install -y -qq --no-install-recommends libreoffice-writer > /dev/null
+      - name: rclone for the Workspace shared drive
+        env:
+          CID: ${{ secrets.WS_GOOGLE_CLIENT_ID }}
+          CSECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
+          RTOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
+        run: |
+          curl -fsSL https://rclone.org/install.sh | sudo bash >/dev/null
+          mkdir -p ~/.config/rclone state
+          python3 - <<'EOF'
+          import json, os
+          tok = json.dumps({"access_token": "expired", "token_type": "Bearer", "refresh_token": os.environ["RTOKEN"],
+                            "expiry": "2000-01-01T00:00:00Z"})
+          conf = (f"[ws]\ntype = drive\nscope = drive\nclient_id = {os.environ['CID']}\n"
+                  f"client_secret = {os.environ['CSECRET']}\ntoken = {tok}\nteam_drive = {os.environ['FINLITICS_DRIVE_ID']}\n")
+          p = os.path.expanduser("~/.config/rclone/rclone.conf")
+          open(p, "w").write(conf)
+          os.chmod(p, 0o600)
+          print("sign-in values present:", {k: len(os.environ.get(k, "")) > 0 for k in ("CID", "CSECRET", "RTOKEN")})
+          EOF
+          rclone about ws: 2>&1 | grep -v -i token | head -5 || true
+          rclone copy "ws:Financelitics/_state" state -q || true
+      - name: Collect
+        env:
+          LIVE: ${{ vars.FINLITICS_LIVE == 'true' && inputs.dry_run != true }}
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+        run: |
+          flag=$([ "$LIVE" = "true" ] && echo --live || echo "")
+          python -m finlitics --sources "${{ inputs.sources || 'filings,comments,fred,fdic,famafrench,treasury,transcripts,books' }}"             --remote "ws:Financelitics" --state state/finlitics.json --minutes "${{ inputs.minutes || 320 }}" $flag
