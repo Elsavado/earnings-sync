@@ -1,0 +1,118 @@
+name: Avala AI and physical AI data
+
+# Workspace shared drive "Physical AI Data" (joseph@irtranscripts.com):
+#   Avala Learning/            modules from learning.avala.ai for the signed-in account (secret AVALA_LEARN_COOKIE)
+#   Public Physical AI Data/   openly licensed robot, LiDAR, driving and ROS bag / MCAP datasets (Hugging Face)
+# Uploads only when repo variable AVALA_LIVE is "true". This repository is public: logs print counts only.
+
+on:
+  schedule:
+    - cron: "41 */6 * * *"
+  workflow_dispatch:
+    inputs:
+      sources:
+        description: "learning,physical"
+        default: "learning,physical"
+      minutes:
+        description: "time budget per job (minutes)"
+        default: "320"
+      dry_run:
+        description: "force a dry run (no upload)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+env:
+  AVALA_DRIVE_ID: ${{ vars.AVALA_DRIVE_ID || '0ADVSOIQtuvLlUk9PVA' }}
+  PYTHONUNBUFFERED: "1"
+
+jobs:
+  learning:
+    if: github.event_name == 'schedule' || contains(inputs.sources, 'learning')
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    concurrency: avala-learning
+    defaults:
+      run:
+        working-directory: excel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install requests python-docx pillow
+      - name: rclone for the Workspace shared drive
+        env:
+          CID: ${{ secrets.WS_GOOGLE_CLIENT_ID }}
+          CSECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
+          RTOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
+        run: |
+          curl -fsSL https://rclone.org/install.sh | sudo bash >/dev/null
+          mkdir -p ~/.config/rclone state
+          python3 - <<'EOF'
+          import json, os
+          tok = json.dumps({"access_token": "", "token_type": "Bearer", "refresh_token": os.environ["RTOKEN"],
+                            "expiry": "2000-01-01T00:00:00Z"})
+          conf = (f"[ws]\ntype = drive\nscope = drive\nclient_id = {os.environ['CID']}\n"
+                  f"client_secret = {os.environ['CSECRET']}\ntoken = {tok}\nteam_drive = {os.environ['AVALA_DRIVE_ID']}\n")
+          p = os.path.expanduser("~/.config/rclone/rclone.conf")
+          open(p, "w").write(conf)
+          os.chmod(p, 0o600)
+          EOF
+          rclone copy "ws:_state" state -q || true
+      - name: Collect learning
+        env:
+          LIVE: ${{ vars.AVALA_LIVE == 'true' && inputs.dry_run != true }}
+          AVALA_LEARN_COOKIE: ${{ secrets.AVALA_LEARN_COOKIE }}
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          flag=$([ "$LIVE" = "true" ] && echo --live || echo "")
+          python -m avala --sources "learning" --state "state/avala-learning.json" \
+            --minutes "${{ inputs.minutes || 320 }}" $flag
+
+  physical:
+    if: github.event_name == 'schedule' || contains(inputs.sources, 'physical')
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    concurrency: avala-physical
+    defaults:
+      run:
+        working-directory: excel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install requests python-docx pillow
+      - name: rclone for the Workspace shared drive
+        env:
+          CID: ${{ secrets.WS_GOOGLE_CLIENT_ID }}
+          CSECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
+          RTOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
+        run: |
+          curl -fsSL https://rclone.org/install.sh | sudo bash >/dev/null
+          mkdir -p ~/.config/rclone state
+          python3 - <<'EOF'
+          import json, os
+          tok = json.dumps({"access_token": "", "token_type": "Bearer", "refresh_token": os.environ["RTOKEN"],
+                            "expiry": "2000-01-01T00:00:00Z"})
+          conf = (f"[ws]\ntype = drive\nscope = drive\nclient_id = {os.environ['CID']}\n"
+                  f"client_secret = {os.environ['CSECRET']}\ntoken = {tok}\nteam_drive = {os.environ['AVALA_DRIVE_ID']}\n")
+          p = os.path.expanduser("~/.config/rclone/rclone.conf")
+          open(p, "w").write(conf)
+          os.chmod(p, 0o600)
+          EOF
+          rclone copy "ws:_state" state -q || true
+      - name: Collect physical
+        env:
+          LIVE: ${{ vars.AVALA_LIVE == 'true' && inputs.dry_run != true }}
+          AVALA_LEARN_COOKIE: ${{ secrets.AVALA_LEARN_COOKIE }}
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          flag=$([ "$LIVE" = "true" ] && echo --live || echo "")
+          python -m avala --sources "physical" --state "state/avala-physical.json" \
+            --minutes "${{ inputs.minutes || 320 }}" $flag
