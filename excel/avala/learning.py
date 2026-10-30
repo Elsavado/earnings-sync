@@ -3,8 +3,10 @@
 Each module becomes one Word file (lessons -> steps: text, images, quiz choices with the account's own answer,
 practice examples), plus its training videos as MP4. Grouped by learning journey; modules outside any journey
 are grouped by their industry tag."""
+import ast
 import base64
 import io
+import json
 import os
 import re
 import time
@@ -228,7 +230,7 @@ def export(sink, st, cookie, max_modules=400):
             mm = jm.get("module") or {}
             in_journey.setdefault(mm.get("id"), (j["title"], jm.get("sort_order") or k))
     done = st.setdefault("learning_done", {})
-    n = 0
+    n = library(s, sink, st)
     for m in mods:
         if n >= max_modules or sink.full():
             break
@@ -257,3 +259,62 @@ def export(sink, st, cookie, max_modules=400):
         n += 1
         time.sleep(0.3)
     return n
+
+
+def library(s, sink, st):
+    """The Library page: reference videos listed in its page script. Written as one indexed Word file; a video is
+    also saved when Vimeo serves a downloadable file for it (most are locked to Avala's own player)."""
+    page = _get(s, BASE + "/library")
+    if not page or page.status_code != 200:
+        return 0
+    items = []
+    for chunk in set(re.findall(r"/_next/static/chunks/app/library/page-[^\"'\s]+\.js", page.text)):
+        js = _get(s, BASE + chunk)
+        for m in re.finditer(r"JSON\.parse\('(\[.*?\])'\)", js.text if js else "", re.S):
+            try:
+                items += [x for x in json.loads(ast.literal_eval("'" + m.group(1) + "'")) if isinstance(x, dict) and x.get("url")]
+            except Exception:
+                pass
+    if not items:
+        return 0
+    stamp = str(sorted(x.get("id", "") for x in items))
+    if st.get("library_stamp") == stamp:
+        return 0
+    d = Document()
+    d.styles["Normal"].font.size = Pt(10.5)
+    d.add_heading("Avala reference video library", 0)
+    d.add_paragraph(f"{len(items)} reference videos from {BASE}/library. Open the links while signed in to Avala.")
+    by_topic = {}
+    for x in items:
+        topic = next((t for t in x.get("tags", []) if t not in ("reference-video", "vimeo")), "general")
+        by_topic.setdefault(topic, []).append(x)
+    saved = 0
+    for topic in sorted(by_topic):
+        d.add_heading(topic.replace("-", " ").title(), 1)
+        for x in by_topic[topic]:
+            d.add_heading(x.get("title") or x.get("id"), 2)
+            if x.get("description"):
+                d.add_paragraph(x["description"])
+            d.add_paragraph(f"Tags: {', '.join(x.get('tags', []))}")
+            d.add_paragraph(f"Video: {x['url']}")
+            for k in ("moduleTitle", "lessonTitle"):
+                if x.get(k):
+                    d.add_paragraph(f"{k.replace('Title', '').title()}: {x[k]}")
+            vid = x.get("vimeoId")
+            cfg = _get(requests.Session(), f"https://player.vimeo.com/video/{vid}/config",
+                       headers={"Referer": BASE + "/", "User-Agent": "Mozilla/5.0"}) if vid else None
+            try:
+                prog = cfg.json()["request"]["files"]["progressive"] if cfg and cfg.status_code == 200 else []
+            except Exception:
+                prog = []
+            if prog:
+                best = max(prog, key=lambda f: f.get("width") or 0)
+                if sink.download(requests, best["url"], f"{ROOT}/Library/Videos/{safe(x.get('title') or vid, 90)}.mp4",
+                                 3 * 2 ** 30):
+                    saved += 1
+    p = sink.path(f"{ROOT}/Library/Avala reference video library.docx")
+    d.save(p)
+    sink.wrote(p)
+    st["library_stamp"] = stamp
+    print(f"library: {len(items)} reference videos indexed, {saved} downloadable")
+    return 1
