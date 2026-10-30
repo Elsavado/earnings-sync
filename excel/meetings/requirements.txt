@@ -3,3 +3,4 @@ google-api-python-client>=2.120
 google-auth>=2.28
 yt-dlp[default]>=2025.10.22
 faster-whisper>=1.1
+av<16

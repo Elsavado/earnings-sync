@@ -93,6 +93,8 @@ def process(ctx, it):
         if it.get('segments'):
             segs = it['segments']()
             how, detail = 'official', it.get('segments_how', '')
+        if not it['media']:
+            raise media.Skip('no audio or video file')
         src, err = None, None
         for kind, url in it['media']:
             try:
@@ -212,7 +214,8 @@ def collect(ctx, items):
         except Exception as e:  # noqa: BLE001 - logged; counted; retried on later runs
             ctx.stats['failed'] += 1
             ctx.state['failed'][fid] = ctx.state['failed'].get(fid, 0) + 1
-            log(f'  failed: {it.get("title")!r}: {type(e).__name__}: {str(e)[:300]}')
+            log(f'  failed: {it.get("title")!r}: {type(e).__name__}: {str(e)[:300]}\n'
+                + ''.join(traceback.format_exc().splitlines(True)[-6:]))
         n += 1
         if n % 5 == 0:
             ctx.save()

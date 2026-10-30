@@ -148,7 +148,13 @@ class ASR:
         if self.model is None:
             self.model = WhisperModel(self.name, device='cpu', compute_type='int8', cpu_threads=os.cpu_count() or 4)
         t0 = time.time()
-        parts, _ = self.model.transcribe(str(audio), language='en', beam_size=1, vad_filter=True,
+        # decoded by ffmpeg (16 kHz mono float32), so PyAV's file reader is never needed
+        import numpy as np
+        pcm = subprocess.run(['ffmpeg', '-nostdin', '-loglevel', 'error', '-i', str(audio), '-f', 's16le', '-ac', '1',
+                              '-ar', '16000', '-'], capture_output=True, check=True, timeout=3600).stdout
+        wave = np.frombuffer(pcm, np.int16).astype(np.float32) / 32768.0
+        del pcm
+        parts, _ = self.model.transcribe(wave, language='en', beam_size=1, vad_filter=True,
                                          condition_on_previous_text=False)
         segs = [{'start': p.start, 'end': p.end, 'text': p.text.strip(), 'speaker': None} for p in parts if p.text.strip()]
         took = max(1.0, time.time() - t0)
