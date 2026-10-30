@@ -149,6 +149,18 @@ def markdown(d, s, md, videos):
         flush_table()
 
 
+def tag_values(m):
+    """Tag values as text; some modules store a tag value as an object."""
+    out = []
+    for t in m.get("tags") or []:
+        v = t.get("value") if isinstance(t, dict) else t
+        if isinstance(v, dict):
+            v = v.get("label") or v.get("name") or v.get("value")
+        if v:
+            out.append(str(v))
+    return out
+
+
 def module_doc(s, m, journey):
     d = Document()
     d.styles["Normal"].font.size = Pt(10.5)
@@ -156,7 +168,7 @@ def module_doc(s, m, journey):
     d.core_properties.comments = f"Avala Learning module {m.get('slug')} (exported for the account holder)"
     d.add_heading(m["title"], 0)
     meta = [("Journey", journey or "-"), ("Type", m.get("type")),
-            ("Industry", ", ".join(t["value"] for t in m.get("tags", []) if t.get("value"))),
+            ("Industry", ", ".join(tag_values(m))),
             ("Estimated time", f"{m.get('estimated_time_minutes') or '?'} min"),
             ("Required", "Yes" if m.get("is_required") else "No"),
             ("Your progress", f"{m.get('progressPercentage', 0)}%")]
@@ -245,10 +257,14 @@ def export(sink, st, cookie, max_modules=400):
         if journey:
             folder = f"{ROOT}/Journeys/{safe(journey, 60)}/{int(order):02d} {safe(m['title'], 80)}"
         else:
-            topic = next((t["value"] for t in m.get("tags", []) if t.get("value")), None) or m.get("type") or "Other"
+            topic = next(iter(tag_values(m)), None) or m.get("type") or "Other"
             folder = f"{ROOT}/Modules by topic/{safe(topic, 50)}/{safe(m['title'], 80)}"
         full.update({k: m.get(k) for k in ("progressPercentage",) if k in m})
-        doc, videos, _ = module_doc(s, full, journey)
+        try:
+            doc, videos, _ = module_doc(s, full, journey)
+        except Exception as e:  # one malformed module must not stop the export
+            print(f"module skipped ({type(e).__name__})")
+            continue
         p = sink.path(f"{folder}/{safe(m['title'], 80)}.docx")
         doc.save(p)
         sink.wrote(p)
