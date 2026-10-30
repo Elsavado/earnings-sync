@@ -1,0 +1,113 @@
+name: Meeting Recordings
+
+# Daily collector of publicly shareable meeting recordings (excel/meetings) into the Workspace Shared Drive
+# "Research Collections", folder "Meeting Recordings": public finance meetings (Federal Reserve, SEC, standard
+# setters, pension boards, budget and finance committees), company investor days and webinars, open meeting corpora
+# (AMI, ICSI, Earnings-21) and Creative Commons uploads (Internet Archive, YouTube). Each recording: audio.m4a,
+# transcript.vtt, transcript.txt (timestamped) and meta.json in its own folder. One job per source.
+# Runs unless the repository variable MEETINGS_LIVE is 'false'. A source problem never fails the run.
+on:
+  schedule:
+    - cron: '35 8 * * *'
+  workflow_dispatch:
+    inputs:
+      sources:
+        description: 'Sources (corpora,fed,granicus,archive,ytpublic,ytcompany,ytcc)'
+        required: false
+        default: 'corpora,fed,granicus,archive,ytpublic,ytcompany,ytcc'
+      max_items:
+        description: 'At most this many recordings per source (0 = no limit)'
+        required: false
+        default: '0'
+      minutes:
+        description: 'Run budget in minutes'
+        required: false
+        default: '320'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: meeting-recordings
+  cancel-in-progress: false
+
+env:
+  SHARED_DRIVE_ID: ${{ vars.MEETINGS_DRIVE_ID || '0ACsHljU9Hj2_Uk9PVA' }}
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      go: ${{ steps.check.outputs.go }}
+      sources: ${{ steps.check.outputs.sources }}
+    steps:
+      - id: check
+        env:
+          LIVE: ${{ vars.MEETINGS_LIVE || 'true' }}
+          SOURCES: ${{ github.event.inputs.sources || 'corpora,fed,granicus,archive,ytpublic,ytcompany,ytcc' }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          ok = ('corpora', 'fed', 'granicus', 'archive', 'ytpublic', 'ytcompany', 'ytcc')
+          src = [s.strip() for s in os.environ['SOURCES'].split(',') if s.strip() in ok]
+          go = bool(src) and os.environ['LIVE'].lower() != 'false'
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write(f"go={'true' if go else 'false'}\nsources={json.dumps(src)}\n")
+          print('go' if go else 'stop', src)
+          PY
+
+  collect:
+    needs: prepare
+    if: needs.prepare.outputs.go == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        source: ${{ fromJSON(needs.prepare.outputs.sources) }}
+    defaults:
+      run:
+        working-directory: excel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: excel/meetings/requirements.txt
+      - name: Install tools
+        continue-on-error: true
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq --no-install-recommends ffmpeg > /dev/null
+          ffmpeg -version | head -1
+      - name: JavaScript runtime for yt-dlp (YouTube)
+        if: startsWith(matrix.source, 'yt')
+        continue-on-error: true
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - name: Install Python packages
+        continue-on-error: true
+        run: pip install -q -r meetings/requirements.txt
+      - name: Collect
+        continue-on-error: true
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.WS_GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
+          YT_COOKIES: ${{ secrets.YT_COOKIES }}
+          SOURCE: ${{ matrix.source }}
+          LIVE: ${{ vars.MEETINGS_LIVE || 'true' }}
+          RUN_MINUTES: ${{ github.event.inputs.minutes || '320' }}
+          MAX_ITEMS: ${{ github.event.inputs.max_items || '0' }}
+          PYTHONUTF8: '1'
+        run: |
+          if [ -n "$YT_COOKIES" ]; then
+            printf '%s\n' "$YT_COOKIES" > "$RUNNER_TEMP/yt-cookies.txt"
+            export YT_COOKIES_FILE="$RUNNER_TEMP/yt-cookies.txt"
+          fi
+          unset YT_COOKIES
+          python -m meetings.main || true

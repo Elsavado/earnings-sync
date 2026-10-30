@@ -35,9 +35,11 @@ jobs:
           RESEARCH_LIVE: ${{ vars.RESEARCH_LIVE }}
           HOWCO_LIVE: ${{ vars.HOWCO_LIVE }}
           GAMING_LIVE: ${{ vars.GAMING_LIVE }}
+          MEETINGS_LIVE: ${{ vars.MEETINGS_LIVE || 'true' }}
           ENTERPRISE_DRIVE_ID: ${{ vars.ENTERPRISE_DRIVE_ID }}
           OFFICE_DRIVE_ID: ${{ vars.OFFICE_DRIVE_ID }}
           RESEARCH_DRIVE_ID: ${{ vars.RESEARCH_DRIVE_ID }}
           HOWCO_DRIVE_ID: ${{ vars.HOWCO_DRIVE_ID }}
           GAMING_DRIVE_ID: ${{ vars.GAMING_DRIVE_ID }}
+          MEETINGS_DRIVE_ID: ${{ vars.MEETINGS_DRIVE_ID }}
         run: python -I excel/collector_check.py

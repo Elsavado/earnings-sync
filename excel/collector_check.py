@@ -25,6 +25,8 @@ COLLECTORS = [
      "appProperties has { key='hcApp' and value='howco' }", "createdTime"),
     ("Gaming operations data", "GAMING_LIVE", "GAMING_DRIVE_ID", "0APJqW8wSgUmkUk9PVA",
      "", "modifiedTime"),  # mostly updates its own files
+    ("Meeting recordings", "MEETINGS_LIVE", "MEETINGS_DRIVE_ID", "0ACsHljU9Hj2_Uk9PVA",
+     "appProperties has { key='mtApp' and value='meetings' }", "createdTime"),
 ]
 
 
