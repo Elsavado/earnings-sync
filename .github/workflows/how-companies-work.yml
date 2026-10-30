@@ -58,7 +58,8 @@ jobs:
         run: |
           python3 - <<'PY'
           import json, os
-          ok = ('enron', 'atlas', 'stocks', 'edu', 'sec', 'fcic', 'lehman', 'senate', 'antitrust')
+          ok = ('enron', 'atlas', 'stocks', 'edu', 'sec', 'fcic', 'lehman', 'senate', 'antitrust', 'enronsec',
+                'enroncongress', 'examiners')
           src = [s.strip() for s in os.environ['SOURCES'].split(',') if s.strip() in ok]
           go = bool(src) and (os.environ['DRY'] == 'true' or os.environ['LIVE'] == 'true')
           with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
@@ -93,7 +94,7 @@ jobs:
         if: matrix.source != 'atlas' && matrix.source != 'stocks' && matrix.source != 'edu'
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y -qq --no-install-recommends pst-utils libreoffice-writer libreoffice-calc libreoffice-impress > /dev/null
+          sudo apt-get install -y -qq --no-install-recommends pst-utils libreoffice-writer libreoffice-calc libreoffice-impress ocrmypdf tesseract-ocr tesseract-ocr-eng > /dev/null
           readpst -V | head -1
       - name: Install Python packages
         run: pip install -q -r requirements.txt
@@ -104,6 +105,8 @@ jobs:
           GOOGLE_CLIENT_SECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
           GOOGLE_REFRESH_TOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+          COURTLISTENER_TOKEN: ${{ secrets.COURTLISTENER_TOKEN }}
+          GOVINFO_API_KEY: ${{ secrets.GOVINFO_API_KEY }}
           SOURCE: ${{ matrix.source }}
           DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
           LIVE: ${{ vars.HOWCO_LIVE }}

@@ -1,11 +1,13 @@
 """Public record collections of documents (shared by the FCIC, examiner-report, Senate and antitrust sources).
 
 discover(ctx) yields candidates {'url', 'group', 'title'}; each is downloaded once (by address and content), legacy
-DOC/XLS/PPT are converted, scanned pages without text are skipped (their names cannot be removed), people and
+DOC/XLS/PPT/HTML are converted, scanned pages get text recognition (OCR; still skipped when it finds no text), people and
 companies get the shared made-up names, and the file goes to <folder>/<group>/Folder K (Documents a-b)/<n> - <title>.
 """
 import hashlib
 import re
+import shutil
+import subprocess
 import time
 from pathlib import Path
 from urllib.parse import unquote, urljoin, urlparse
@@ -15,7 +17,7 @@ import requests
 from .anon import LEGACY, OOXML, convert_legacy
 
 UA = 'HowCompaniesWork research collector (education; contact via github.com/Elsavado)'
-EXT = {'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt', 'csv', 'rtf'}
+EXT = {'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt', 'csv', 'rtf', 'htm', 'html'}
 PER_FOLDER = 50
 BUSINESS = re.compile(r'\b(?:revenue|margin|budget|forecast|pricing|price|profit|financial|cost|sales|growth|market '
                       r'share|return on|investment|earnings|cash|capital|valuation|acquisition|merger|deal|contract|'
@@ -70,6 +72,32 @@ def title_of(url, text=''):
     return re.sub(r'[_\s]+', ' ', t).strip()
 
 
+def ocr(src, work):
+    """Searchable copy of a scanned PDF (ocrmypdf + Tesseract), or None when OCR is unavailable or fails."""
+    if not shutil.which('ocrmypdf'):
+        return None
+    out = str(work / 'ocr.pdf')
+    try:
+        r = subprocess.run(['ocrmypdf', '--skip-text', '-l', 'eng', '--jobs', '2', '--optimize', '0', '--output-type',
+                            'pdf', '--tesseract-timeout', '180', '-q', src, out], capture_output=True, timeout=3600)
+    except (subprocess.TimeoutExpired, OSError):
+        return None
+    return out if r.returncode == 0 and Path(out).exists() else None
+
+
+def html_to_docx(src, work):
+    """Word copy of an HTML filing (LibreOffice), or None."""
+    outdir = work / 'html'
+    outdir.mkdir(exist_ok=True)
+    try:
+        subprocess.run(['soffice', '--headless', '--convert-to', 'docx:MS Word 2007 XML', '--outdir', str(outdir), src],
+                       capture_output=True, timeout=600)
+    except (subprocess.TimeoutExpired, OSError):
+        return None
+    out = outdir / (Path(src).stem + '.docx')
+    return str(out) if out.exists() else None
+
+
 def run(ctx, log, discover, business_only=False, min_text_per_page=200):
     import pymupdf
     st = ctx.state
@@ -77,10 +105,16 @@ def run(ctx, log, discover, business_only=False, min_text_per_page=200):
     st.setdefault('hashes', [])
     st.setdefault('n', {})
     st.setdefault('skipped', {})
+    if st.get('ocr_pass') != 1:
+        # once: walk every list again so documents skipped as scans before get OCR; anything already on the drive is
+        # recognised by its content key and skipped without processing
+        st['seen'], st['ocr_pass'] = [], 1
     seen, hashes = set(st['seen']), set(st['hashes'])
+    on_drive = set(ctx.drive.uploaded()) if not ctx.dry else set()
     A = ctx.make_anon()
     s = session()
     kept = 0
+    seen_now = set()
 
     def skip(why):
         st['skipped'][why] = st['skipped'].get(why, 0) + 1
@@ -114,12 +148,19 @@ def run(ctx, log, discover, business_only=False, min_text_per_page=200):
             skip('download failed' if not r.ok else 'too large')
             continue
         h = hashlib.sha1(path.read_bytes()).hexdigest()
-        if h in hashes:
+        if h in hashes and (f'doc:{h[:24]}' in on_drive or h in seen_now):
             skip('duplicate')
             continue
         hashes.add(h)
+        seen_now.add(h)
         src, e = str(path), ext
-        if ext in LEGACY:
+        if ext in ('htm', 'html'):
+            src = html_to_docx(src, ctx.work)
+            if not src:
+                skip('not converted')
+                continue
+            e = 'docx'
+        elif ext in LEGACY:
             try:
                 conv = convert_legacy([str(path)], ctx.work / 'conv').get(str(path))
             except (RuntimeError, OSError):
@@ -136,7 +177,18 @@ def run(ctx, log, discover, business_only=False, min_text_per_page=200):
             except Exception:  # noqa: BLE001
                 skip('unreadable')
                 continue
-            if not pages or len(text) / pages < min_text_per_page:
+            if pages and len(text) / pages < min_text_per_page:
+                done = ocr(src, ctx.work)
+                if done:
+                    try:
+                        with pymupdf.open(done) as d:
+                            text = ''.join(p.get_text() for p in d)
+                    except Exception:  # noqa: BLE001
+                        text = ''
+                    if len(text) / pages >= min_text_per_page / 4:
+                        src = done
+                        st['ocr_done'] = st.get('ocr_done', 0) + 1
+            if not pages or len(text) / pages < min_text_per_page / 4:
                 skip('scanned pages without text')
                 continue
         if business_only and e == 'pdf' and len(BUSINESS.findall(text[:200000])) < 5:

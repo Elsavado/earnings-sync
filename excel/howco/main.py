@@ -30,7 +30,10 @@ FREE_FLOOR = 300 * 2**30
 FOLDERS = {'enron': 'Energy Trading Company Corpus', 'atlas': 'ATLAS Finance (simulated firms)',
            'stocks': 'Open Stock Reports', 'edu': 'Equity Research (.edu)', 'sec': 'Banker Board Decks (SEC)',
            'fcic': 'Financial Crisis Inquiry Commission', 'lehman': 'Investment Bank Bankruptcy Examiner',
-           'senate': 'Senate Investigation Exhibits', 'antitrust': 'Antitrust Trial Exhibits'}
+           'senate': 'Senate Investigation Exhibits', 'antitrust': 'Antitrust Trial Exhibits',
+           'enronsec': 'Energy Trading Company Corpus/SEC Filings (EDGAR)',
+           'enroncongress': 'Energy Trading Company Corpus/Congressional Hearings & Reports',
+           'examiners': 'Bankruptcy Examiner & Trustee Reports'}
 
 
 def log(msg):
