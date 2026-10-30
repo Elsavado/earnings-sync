@@ -39,7 +39,7 @@ def _get(ctx, url, tries=2):
 
 
 def _strip(s):
-    return re.sub(r'\s+', ' ', html.unescape(re.sub(r'<[^>]+>', ' ', s))).strip()
+    return re.sub(r'\s+', ' ', html.unescape(html.unescape(re.sub(r'<[^>]+>', ' ', s)))).strip()
 
 
 def _view_title(page):

@@ -127,7 +127,13 @@ def process(ctx, it):
                 else:  # stream: ffmpeg reads the address itself
                     src = url
                 break
-            except (media.Skip, media.Blocked, media.OutOfTime):
+            except media.Blocked as e:
+                if kind == 'ytdlp':
+                    raise
+                err = e  # refused: try the next way, Blocked if every way is refused
+                src = None
+                continue
+            except (media.Skip, media.OutOfTime):
                 raise
             except Exception as e:  # noqa: BLE001 - try the next way to the same recording
                 err = e
@@ -220,6 +226,9 @@ def collect(ctx, items):
         if n % 5 == 0:
             ctx.save()
         if ctx.yt_dead and it.get('youtube_only'):
+            break
+        if not ctx.source.startswith('yt') and ctx.stats['blocked'] >= 15 and ctx.stats['collected'] == 0:
+            log('the host refuses every download so far (HTTP 403): stopping this source for the run')
             break
 
 

@@ -45,6 +45,8 @@ def session():
 def fetch(s, url, dest, timeout=120):
     """Streams url to dest; returns the size."""
     with s.get(url, stream=True, timeout=timeout) as r:
+        if r.status_code in (401, 403):
+            raise Blocked(f'HTTP {r.status_code}: the host refuses the download')
         r.raise_for_status()
         with open(dest, 'wb') as f:
             for chunk in r.iter_content(4 * 2**20):
@@ -56,7 +58,11 @@ def to_audio(src, dest, timeout=3 * 3600):
     """Any audio/video file or stream (src may be an URL) -> mono 64 kbps AAC (.m4a). Returns the duration (s)."""
     cmd = ['ffmpeg', '-nostdin', '-loglevel', 'error', '-y', '-i', str(src), '-vn', '-ac', '1', '-ar', '22050',
            '-c:a', 'aac', '-b:a', '64k', '-movflags', '+faststart', str(dest)]
-    subprocess.run(cmd, check=True, timeout=timeout, capture_output=True)
+    res = subprocess.run(cmd, timeout=timeout, capture_output=True, text=True, errors='replace')
+    if res.returncode:
+        if re.search(r"\b40[13]\b|Forbidden|Unauthorized", res.stderr or ""):
+            raise Blocked('the host refuses the stream (HTTP 403)')
+        raise RuntimeError(f'ffmpeg failed: {(res.stderr or "").strip()[-300:]}')
     return duration(dest)
 
 

@@ -12,9 +12,9 @@ on:
   workflow_dispatch:
     inputs:
       sources:
-        description: 'Sources (corpora,fed,granicus,archive,ytpublic,ytcompany,ytcc)'
+        description: 'Sources (corpora,fed,archive,ytpublic,ytcompany,ytcc; also granicus: its media hosts refuse GitHub runners, HTTP 403)'
         required: false
-        default: 'corpora,fed,granicus,archive,ytpublic,ytcompany,ytcc'
+        default: 'corpora,fed,archive,ytpublic,ytcompany,ytcc'
       max_items:
         description: 'At most this many recordings per source (0 = no limit)'
         required: false
@@ -45,7 +45,7 @@ jobs:
       - id: check
         env:
           LIVE: ${{ vars.MEETINGS_LIVE || 'true' }}
-          SOURCES: ${{ github.event.inputs.sources || 'corpora,fed,granicus,archive,ytpublic,ytcompany,ytcc' }}
+          SOURCES: ${{ github.event.inputs.sources || 'corpora,fed,archive,ytpublic,ytcompany,ytcc' }}
         run: |
           python3 - <<'PY'
           import json, os
