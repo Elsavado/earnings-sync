@@ -54,7 +54,7 @@ jobs:
           mkdir -p ~/.config/rclone state
           python3 - <<'EOF'
           import json, os
-          tok = json.dumps({"access_token": "", "token_type": "Bearer", "refresh_token": os.environ["RTOKEN"],
+          tok = json.dumps({"access_token": "expired", "token_type": "Bearer", "refresh_token": os.environ["RTOKEN"],
                             "expiry": "2000-01-01T00:00:00Z"})
           conf = (f"[ws]\ntype = drive\nscope = drive\nclient_id = {os.environ['CID']}\n"
                   f"client_secret = {os.environ['CSECRET']}\ntoken = {tok}\nteam_drive = {os.environ['AVALA_DRIVE_ID']}\n")
@@ -100,7 +100,7 @@ jobs:
           mkdir -p ~/.config/rclone state
           python3 - <<'EOF'
           import json, os
-          tok = json.dumps({"access_token": "", "token_type": "Bearer", "refresh_token": os.environ["RTOKEN"],
+          tok = json.dumps({"access_token": "expired", "token_type": "Bearer", "refresh_token": os.environ["RTOKEN"],
                             "expiry": "2000-01-01T00:00:00Z"})
           conf = (f"[ws]\ntype = drive\nscope = drive\nclient_id = {os.environ['CID']}\n"
                   f"client_secret = {os.environ['CSECRET']}\ntoken = {tok}\nteam_drive = {os.environ['AVALA_DRIVE_ID']}\n")
