@@ -61,7 +61,9 @@ jobs:
           p = os.path.expanduser("~/.config/rclone/rclone.conf")
           open(p, "w").write(conf)
           os.chmod(p, 0o600)
+          print("sign-in values present:", {k: len(os.environ.get(k, "")) > 0 for k in ("CID", "CSECRET", "RTOKEN")})
           EOF
+          rclone about ws: 2>&1 | grep -v -i token | head -5 || true
           rclone copy "ws:_state" state -q || true
       - name: Collect learning
         env:
@@ -105,7 +107,9 @@ jobs:
           p = os.path.expanduser("~/.config/rclone/rclone.conf")
           open(p, "w").write(conf)
           os.chmod(p, 0o600)
+          print("sign-in values present:", {k: len(os.environ.get(k, "")) > 0 for k in ("CID", "CSECRET", "RTOKEN")})
           EOF
+          rclone about ws: 2>&1 | grep -v -i token | head -5 || true
           rclone copy "ws:_state" state -q || true
       - name: Collect physical
         env:
