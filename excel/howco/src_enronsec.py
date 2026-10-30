@@ -23,12 +23,13 @@ def discover(ctx, s, log):
                     r.get('primaryDocDescription', [''] * len(r['form']))))
     log(f'{len(rows)} Enron filings listed')
     for form, date, acc, doc, desc in sorted(rows, key=lambda x: x[1]):
-        if not doc:
-            continue
-        ext = doc.rsplit('.', 1)[-1].lower() if '.' in doc else 'txt'
+        folder = f'https://www.sec.gov/Archives/edgar/data/{CIK}/{acc.replace("-", "")}'
+        # filings before 2001 list no primary document: the complete submission text holds them
+        url = f'{folder}/{doc}' if doc else f'{folder}/{acc}.txt'
+        ext = doc.rsplit('.', 1)[-1].lower() if doc and '.' in doc else 'txt'
         group = GROUPS.get(form) or ('Ownership filings (13D/13G)' if form.startswith('SC 13') else
                                      'Utility holding company filings (U-forms)' if form.startswith('U') else 'Other filings')
-        yield {'url': f'https://www.sec.gov/Archives/edgar/data/{CIK}/{acc.replace("-", "")}/{doc}', 'group': group,
+        yield {'url': url, 'group': group,
                'ext': ext, 'title': f'{date} {form} {(desc or "").strip()}'.strip()}
 
 

@@ -188,6 +188,7 @@ def run(ctx, log, discover, business_only=False, min_text_per_page=200):
                     if len(text) / pages >= min_text_per_page / 4:
                         src = done
                         st['ocr_done'] = st.get('ocr_done', 0) + 1
+                        log(f'  OCR recovered text from a {pages}-page scan')
             if not pages or len(text) / pages < min_text_per_page / 4:
                 skip('scanned pages without text')
                 continue

@@ -14,7 +14,7 @@ def discover(ctx, s, log):
     key = os.environ.get('GOVINFO_API_KEY') or 'DEMO_KEY'
     found, mark = set(), '*'
     for _ in range(40):
-        body = {'query': 'enron AND (collection:CHRG OR collection:CPRT OR collection:CRPT)', 'pageSize': 100,
+        body = {'query': 'title:enron AND (collection:CHRG OR collection:CPRT OR collection:CRPT)', 'pageSize': 100,
                 'offsetMark': mark}
         try:
             d = s.post(f'https://api.govinfo.gov/search?api_key={key}', json=body, timeout=60).json()
