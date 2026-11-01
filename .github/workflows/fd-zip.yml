@@ -1,0 +1,63 @@
+name: Financial Documents zips
+
+# Zips the Workspace folder "Financial Documents" (IR Transcripts Shared Drive) by document category into
+# "Financial Documents - Zipped/<Category>/<Category> - Part NN of MM.zip" (~495 MB parts, excel/fdzip.py).
+# The originals stay as they are. One job per category. Starts on dispatch or when .github/fd-zip.run changes
+# (a push needs no API call). A rerun only makes the parts still missing. Public repository: logs print counts only.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['.github/fd-zip.run']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fd-zip
+  cancel-in-progress: false
+
+jobs:
+  zip:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      matrix:
+        category:
+          - CIMs, QoE & Diligence Reports
+          - Contracts
+          - Earnings Call Transcripts
+          - Employee Payroll & Payments
+          - Equity Research & Investment Thesis
+          - Financial Transactions
+          - Industry & Market Research
+          - Investment & IC Memos
+          - Jupyter Notebooks
+          - LP Updates & Investor Letters
+          - Term Sheets, LOIs & NDAs
+    defaults:
+      run:
+        working-directory: excel
+    steps:
+      - uses: actions/checkout@v4
+      - name: rclone for the IR Transcripts shared drive
+        env:
+          CID: ${{ secrets.WS_GOOGLE_CLIENT_ID }}
+          CSECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
+          RTOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
+        run: |
+          curl -fsSL https://rclone.org/install.sh | sudo bash >/dev/null
+          mkdir -p ~/.config/rclone
+          python3 - <<'EOF'
+          import json, os
+          tok = json.dumps({"access_token": "expired", "token_type": "Bearer", "refresh_token": os.environ["RTOKEN"],
+                            "expiry": "2000-01-01T00:00:00Z"})
+          conf = (f"[ws]\ntype = drive\nscope = drive\nclient_id = {os.environ['CID']}\n"
+                  f"client_secret = {os.environ['CSECRET']}\ntoken = {tok}\nteam_drive = 0AM6PzKRbJBK-Uk9PVA\n")
+          p = os.path.expanduser("~/.config/rclone/rclone.conf")
+          open(p, "w").write(conf)
+          os.chmod(p, 0o600)
+          EOF
+      - name: Zip and upload
+        run: python3 fdzip.py "${{ matrix.category }}"
