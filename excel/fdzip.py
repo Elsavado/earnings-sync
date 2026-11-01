@@ -21,6 +21,7 @@ import zipfile
 SRC = 'ws:Financial Documents'
 DST = 'ws:Financial Documents - Zipped'
 PER_TYPE = 50
+SKIP = {'CSV'}  # user, 2026-11-01: "do not add csv"
 
 
 def log(msg):
@@ -39,6 +40,8 @@ def main():
     by_type = {}
     for f in sorted(files, key=lambda f: f['Path']):
         ext = f['Name'].rsplit('.', 1)[-1].upper() if '.' in f['Name'] else 'OTHER'
+        if ext in SKIP:
+            continue
         by_type.setdefault(f"{f['Path'].split('/', 1)[0]} - {ext}", []).append(f)
     log(f'{len(files)} files: ' + ', '.join(f'{t} {len(v)}' for t, v in sorted(by_type.items())))
     names = {f'{t} - {min(PER_TYPE, len(v))} files.zip' for t, v in by_type.items()}
