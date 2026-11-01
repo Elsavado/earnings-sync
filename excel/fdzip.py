@@ -1,12 +1,12 @@
-"""Zips a batch of 50 files per file type from the Workspace folder "Financial Documents" (IR Transcripts Shared
-Drive) into a separate folder; the originals are never moved or changed (user, 2026-11-01: "zip a batch of 50 files
-per file type, do not zip them all"):
+"""Zips a batch of 50 files per document category and file type from the Workspace folder "Financial Documents"
+(IR Transcripts Shared Drive) into a separate folder; the originals are never moved or changed (user, 2026-11-01:
+"zip a batch of 50 files per file type, do not zip them all", then "by document type ... the way they are in the
+folders, as term sheets etc, each in their own zips of 50"):
 
-  Financial Documents - Zipped/PDF - 50 files.zip, IPYNB - 50 files.zip, CSV - 50 files.zip, ...
+  Financial Documents - Zipped/Term Sheets, LOIs & NDAs - PDF - 50 files.zip, Jupyter Notebooks - IPYNB - 50 files.zip, ...
 
-The 50 files of a type are spread evenly over its sorted file list, so every category of that type is represented.
-A type with fewer files is zipped whole. Files are stored (not recompressed) and keep their folder path.
-Anything else in the zip folder (category zips from the earlier whole-folder plan) is removed first.
+The 50 files are spread evenly over the group's sorted file list. A group with fewer files is zipped whole. Files are stored (not recompressed) and keep their folder path.
+Anything else in the zip folder (zips of earlier plans) is removed first.
 
   python fdzip.py        (rclone remote "ws:" must point at the IR Transcripts Shared Drive)
 """
@@ -39,7 +39,7 @@ def main():
     by_type = {}
     for f in sorted(files, key=lambda f: f['Path']):
         ext = f['Name'].rsplit('.', 1)[-1].upper() if '.' in f['Name'] else 'OTHER'
-        by_type.setdefault(ext, []).append(f)
+        by_type.setdefault(f"{f['Path'].split('/', 1)[0]} - {ext}", []).append(f)
     log(f'{len(files)} files: ' + ', '.join(f'{t} {len(v)}' for t, v in sorted(by_type.items())))
     names = {f'{t} - {min(PER_TYPE, len(v))} files.zip' for t, v in by_type.items()}
     old = [p for p in rclone('lsf', '-R', DST, capture=True, check=False).splitlines() if p not in names]
