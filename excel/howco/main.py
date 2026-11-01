@@ -33,7 +33,11 @@ FOLDERS = {'enron': 'Energy Trading Company Corpus', 'atlas': 'ATLAS Finance (si
            'senate': 'Senate Investigation Exhibits', 'antitrust': 'Antitrust Trial Exhibits',
            'enronsec': 'Energy Trading Company Corpus/SEC Filings (EDGAR)',
            'enroncongress': 'Energy Trading Company Corpus/Congressional Hearings & Reports',
-           'examiners': 'Bankruptcy Examiner & Trustee Reports'}
+           'examiners': 'Bankruptcy Examiner & Trustee Reports',
+           # "Last Minute Call" (its own top folder; always anonymised)
+           'lmc_mna': 'M&A', 'lmc_fpa': 'Corporate Finance & FP&A', 'lmc_invest': 'Investment Analysis',
+           'lmc_credit': 'Credit Analysis'}
+ALWAYS_ANON = ('lmc_mna', 'lmc_fpa', 'lmc_invest', 'lmc_credit')  # user, 2026-11-01: imaginary company names
 
 
 def log(msg):
@@ -87,7 +91,7 @@ class Ctx:
         self.anon = Anon(pmaps, own.setdefault('people', {}), cmaps, own.setdefault('companies', {}), key_material(),
                          names, names[:1500], {v['ticker']: v['title'] for v in t.values()}, tmaps, own.setdefault('tickers', {}))
         self.anon.check_ner = self.dry
-        if PLAIN:
+        if PLAIN and self.source not in ALWAYS_ANON:
             log('not anonymised (HOWCO_ANON=false): real names and wording are kept')
             plain, self.anon = Plain(self.anon), None  # no name maps to save
             return plain
@@ -158,7 +162,7 @@ def main():
         return
     if ctx.drive.target != ctx.drive.top:
         log(f'content goes to overflow drive {ctx.drive.target}')
-    if PLAIN and not DRY and not ctx.state.get('plain'):
+    if PLAIN and not DRY and not ctx.state.get('plain') and SOURCE not in ALWAYS_ANON:
         # The first run without anonymising: this source's made-up-name files go to the trash (kept 30 days) and
         # it collects again from the start, so the two versions never sit side by side.
         n = ctx.drive.trash_folder(ctx.folder)
@@ -168,7 +172,7 @@ def main():
         ctx.save()
         log(f'anonymised version moved to the trash ({n} folder(s)); collecting again without anonymising')
     try:
-        importlib.import_module(f'howco.src_{SOURCE}').run(ctx, log)
+        importlib.import_module('howco.src_lastminute' if SOURCE in ALWAYS_ANON else f'howco.src_{SOURCE}').run(ctx, log)
     except Exception:  # noqa: BLE001 - logged; the saved state carries over
         log('problem:\n' + traceback.format_exc()[-3000:])
     finally:

@@ -22,6 +22,7 @@ from models.store import FOLDER, _SharedDrive, _retry, credentials
 
 APP = 'howco'
 ROOT = 'How Companies Work'
+ROOTS = {k: 'Last Minute Call' for k in ('lmc_mna', 'lmc_fpa', 'lmc_invest', 'lmc_credit')}  # their own top folder
 PRIVATE = 'How Companies Work - private'
 CAP = 350000  # items per Shared Drive (Google allows 400,000)
 BASELINE = 11776  # items already on "Research Collections" before this collector (2026-10-28)
@@ -58,7 +59,7 @@ class Drive:
     def use(self, drive_id):
         self.target = drive_id
         self.content = self.drive if drive_id == self.top else _SharedDrive(self.svc, drive_id)
-        self.root = self._folder(self.content, self.top, ROOT) if drive_id == self.top else drive_id
+        self.root = self._folder(self.content, self.top, ROOTS.get(self.source, ROOT)) if drive_id == self.top else drive_id
         self.paths = {}
 
     def choose(self, counts):
