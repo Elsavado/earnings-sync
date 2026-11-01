@@ -95,6 +95,7 @@ def run(ctx, log):
     kinds = AREAS[ctx.source]
     s = sources.session()
     A = ctx.make_anon()
+    A.co.two_words = True  # each company a unique name, also across the four parallel areas
     total = 0
     # Kinds take turns, a slice of time each, until the run budget is spent.
     while ctx.left() > 600:
@@ -190,3 +191,18 @@ def run(ctx, log):
         if ctx.dry or not progress and all(not st['queue'].get(_kind_key(k)) for k in kinds):
             break
     log(f'this run: {total} documents')
+    _check_unique(ctx, A, log)
+
+
+def _check_unique(ctx, A, log):
+    """Every made-up name belongs to one company only, over the four areas and every other source."""
+    owner = {}
+    for n in ctx.drive.private_names():
+        if n.startswith('names-') and n.endswith('.json.gz'):
+            m = A.co.own if n == f'names-{ctx.source}.json.gz' else ctx.drive.load(n).get('companies', {})
+            for core, name in m.items():
+                owner.setdefault(name.lower(), set()).add(core.removeprefix('dom:'))
+    for core, name in A.co.own.items():
+        owner.setdefault(name.lower(), set()).add(core.removeprefix('dom:'))
+    clash = {k: v for k, v in owner.items() if len(v) > 1}
+    log(f'unique names: {len(owner)} made-up company names, {len(clash)} given to more than one company')

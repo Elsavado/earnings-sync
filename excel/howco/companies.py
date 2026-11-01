@@ -149,7 +149,10 @@ class Companies:
         salt = 0
         while True:
             d = hmac.new(self.key, f'co:{k}#{salt}'.encode(), hashlib.sha256).digest()
-            name = self._word(d, 0) if len(k.split()) == 1 else f'{self._word(d, 0)} {self._word(d, 12)}'
+            # Two made-up words (about 10^13 combinations) when parallel jobs assign names (two_words): they
+            # cannot see each other's new names, so a one-word name could be given to two companies.
+            one = len(k.split()) == 1 and not getattr(self, 'two_words', False)
+            name = self._word(d, 0) if one else f'{self._word(d, 0)} {self._word(d, 12)}'
             lw = name.lower()
             ok = (lw not in self.taken and all(self.zipf(w, 'en') < 1.5 and w not in self.firsts for w in lw.split())
                   and not any(w[:3] == r[:3] for w in lw.split() for r in k.removeprefix('dom:').split())
