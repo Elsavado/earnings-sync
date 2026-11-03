@@ -98,7 +98,8 @@ jobs:
           GOOGLE_REFRESH_TOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
           YT_COOKIES: ${{ secrets.YT_COOKIES }}
           SOURCE: ${{ matrix.source }}
-          LIVE: ${{ vars.MEETINGS_LIVE || 'true' }}
+          LIVE: ${{ vars.MEETINGS_LIVE || 'false
+          ' }}
           RUN_MINUTES: ${{ github.event.inputs.minutes || '320' }}
           MAX_ITEMS: ${{ github.event.inputs.max_items || '0' }}
           PYTHONUTF8: '1'
