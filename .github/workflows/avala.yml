@@ -6,8 +6,6 @@ name: Avala AI and physical AI data
 # Uploads only when repo variable AVALA_LIVE is "true". This repository is public: logs print counts only.
 
 on:
-  schedule:
-    - cron: "41 */6 * * *"
   workflow_dispatch:
     inputs:
       sources:

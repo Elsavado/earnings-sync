@@ -7,8 +7,6 @@ name: Meeting Recordings
 # transcript.vtt, transcript.txt (timestamped) and meta.json in its own folder. One job per source.
 # Runs unless the repository variable MEETINGS_LIVE is 'false'. A source problem never fails the run.
 on:
-  schedule:
-    - cron: '35 8 * * *'
   workflow_dispatch:
     inputs:
       sources:

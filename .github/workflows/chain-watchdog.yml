@@ -1,0 +1,48 @@
+name: Chain watchdog
+
+# Endless hand-offs: every 15 minutes, restart any live collector that has no run queued or in progress.
+# Chained collectors normally start their own next run; this catches broken chains (e.g. a GitHub 500 on
+# dispatch) and turns the collectors without a chain into back-to-back loops. Set CHAIN=off to pause all.
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  actions: write
+
+concurrency:
+  group: chain-watchdog
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    if: vars.CHAIN != 'off'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      R: ${{ github.repository }}
+    steps:
+      - run: |
+          # workflow file | live flag | dispatch arguments
+          while IFS='|' read -r wf live args; do
+            [ -z "$wf" ] && continue
+            if [ "$live" != "true" ]; then echo "$wf: not live, skipped"; continue; fi
+            n=$(gh run list -R "$R" --workflow "$wf" -L 20 --json status \
+                -q '[.[] | select(.status=="in_progress" or .status=="queued" or .status=="waiting" or .status=="pending")] | length')
+            if [ "$n" -gt 0 ]; then echo "$wf: running"; continue; fi
+            for i in 1 2 3 4; do
+              eval gh workflow run "$wf" -R "$R" --ref main $args && { echo "$wf: restarted"; break; }
+              sleep $(( i * 20 ))
+            done
+          done <<LIST
+          enterprise-models.yml|${{ vars.ENTERPRISE_LIVE }}|-f dry_run=false -f minutes=50 -f chained=true -f kinds=all
+          office-collect.yml|${{ vars.OFFICE_LIVE }}|-f dry_run=false -f minutes=50 -f chained=true
+          research-collect.yml|${{ vars.RESEARCH_LIVE }}|-f dry_run=false -f minutes=50 -f chained=true
+          how-companies-work.yml|${{ vars.HOWCO_LIVE }}|-f dry_run=false -f sources=enron,atlas,stocks,edu,sec -f minutes=320 -f chained=true
+          avala.yml|${{ vars.AVALA_LIVE }}|
+          financelitics.yml|${{ vars.FINLITICS_LIVE }}|
+          meeting-recordings.yml|${{ vars.MEETINGS_LIVE || 'true' }}|
+          LIST

@@ -128,4 +128,9 @@ jobs:
     steps:
       - env:
           GH_TOKEN: ${{ github.token }}
-        run: gh workflow run office-collect.yml -R ${{ github.repository }} --ref main -f dry_run=false -f minutes=50 -f chained=true
+        run: |
+          for i in 1 2 3 4 5 6; do
+            gh workflow run office-collect.yml -R ${{ github.repository }} --ref main -f dry_run=false -f minutes=50 -f chained=true && exit 0
+            sleep $(( i * 30 ))
+          done
+          echo "could not start the next run" >> "$GITHUB_STEP_SUMMARY"; exit 1
