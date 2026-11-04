@@ -40,7 +40,13 @@ LANE = os.environ.get("FL_LANE", "")  # two parallel jobs per heavy source: 'eve
 
 
 def _mine(y):
-    return not LANE or (y % 2 == 0) == (LANE == "even")
+    """Lanes: 'even' / 'odd', or 'k/n' (job k of n parallel jobs)."""
+    if not LANE:
+        return True
+    if "/" in LANE:
+        k, n = (int(x) for x in LANE.split("/"))
+        return y % n == k
+    return (y % 2 == 0) == (LANE == "even")
 
 
 def _count(st, key, n=1):
@@ -505,6 +511,16 @@ PUBLIC = re.compile(r"\.(gov|edu|mil|int)$|\.(gov|gc|ac|edu|govt|gob|gouv|go)\.[
 SECOND = {"co", "com", "net", "org", "ac", "gov", "ne", "or", "go"}
 
 
+def _crawls(s, st):
+    """Every Common Crawl crawl, newest first (the list on data.commoncrawl.org; the fixed list if it is not there)."""
+    if not st.get("crawls") or st.get("crawls_day") != dt.date.today().isoformat():
+        r = C.get(s, f"{CC}/crawl-data/index.html")
+        ids = sorted(set(re.findall(r"CC-MAIN-20\d\d-\d\d", r.text)), reverse=True) if r else []
+        st["crawls"] = ids or CRAWLS
+        st["crawls_day"] = dt.date.today().isoformat()
+    return st["crawls"]
+
+
 def _company_label(host):
     parts = host.lower().removeprefix("www.").split(".")
     if len(parts) >= 3 and parts[-2] in SECOND:
@@ -529,7 +545,8 @@ def _cc_part(s, path, cache="cache/cc-esg.parquet"):
     finally:
         os.remove(cache)
     t = t.filter(pc.match_substring_regex(pc.utf8_lower(t["url_path"]), ESG_URL))
-    return [r for r in t.to_pylist() if not r.get("content_truncated") and not PUBLIC.search(r["url_host_name"] or "")]
+    return [r for r in t.to_pylist() if not r.get("content_truncated") and not PUBLIC.search(r["url_host_name"] or "")
+            and not re.search(r"\.(ke|za)$", r["url_host_name"] or "")]  # Kenya / South Africa: the africa source's
 
 
 def _warc_body(s, row):
@@ -556,15 +573,21 @@ def esgweb(sink, st):
     pos = st.setdefault("cc", {"crawl": 0, "part": 0})
     seen = set(st.setdefault("seen", []))
     comp = st.setdefault("companies", {})
+    done = st.setdefault("crawls_done", [])
     n = 0
-    while pos["crawl"] < len(CRAWLS) and not sink.full() and st.get("items", 0) < CAPS["esgweb"]:
-        crawl = CRAWLS[pos["crawl"]]
+    while not sink.full() and st.get("items", 0) < CAPS["esgweb"]:
+        todo = [c for c in _crawls(s, st) if c not in done]
+        if not todo:
+            break
+        crawl = todo[0]
         r = C.get(s, f"{CC}/crawl-data/{crawl}/cc-index-table.paths.gz", timeout=300)
         parts = [p for p in gzip.decompress(r.content).decode().split() if "subset=warc/" in p] if r else []
         random.Random(crawl).shuffle(parts)
         parts = [p for i, p in enumerate(parts) if _mine(i)]
+        if pos.get("name") != crawl:
+            pos.update({"name": crawl, "part": 0})
         if pos["part"] >= len(parts):
-            pos["crawl"], pos["part"] = pos["crawl"] + 1, 0
+            done.append(crawl)
             continue
         try:
             rows = _cc_part(s, parts[pos["part"]])
@@ -605,3 +628,192 @@ def esgweb(sink, st):
 
 SOURCES["esgweb"] = esgweb
 CAPS["esgweb"] = 40000
+
+
+# ---------------------------------------------------------------- Kenya and South Africa (user 2026-11-04: "heavily")
+
+import io as _io
+
+AFR = "Kenya & South Africa"
+AFR_REPORTS = "14 Kenya & South Africa Annual & Integrated Reports"
+AFR_PUBLIC = re.compile(r"\.(gov|go|ac|mil|sch|edu|agric|school|nic|police)\.(ke|za)$|\.gov\.za$|\.go\.ke$|\.ac\.(ke|za)$|\.parliament\.|"
+                        r"\.(nic|org)\.za$|\.or\.ke$", re.I)  # public bodies, universities, NGOs stay out
+AFR_KIND = [  # (url words, section folder, label) -- first match wins
+    (r"prospectus|pre[-_ ]?listing|listing[-_ ]?statement|offer[-_ ]?document|information[-_ ]?memorandum|ipo",
+     f"{IPO}/{AFR}", "Prospectus"),
+    (r"circular|scheme[-_ ]?of[-_ ]?arrangement|takeover|offer[-_ ]?to[-_ ]?shareholders|merger|acquisition|disposal|"
+     r"transaction[-_ ]?announcement|firm[-_ ]?intention|cautionary", f"{DEALS}/{AFR}", "Deal document"),
+    (r"pricing[-_ ]?supplement|programme[-_ ]?memorandum|note[-_ ]?programme|medium[-_ ]?term[-_ ]?note|bond|sukuk|"
+     r"debenture|facility[-_ ]?agreement|loan[-_ ]?agreement|term[-_ ]?sheet|credit[-_ ]?rating|rating[-_ ]?report",
+     f"{CREDIT}/{AFR}", "Credit document"),
+    (r"minimum[-_ ]?disclosure|\bmdd\b|fact[-_ ]?sheet|factsheet|unit[-_ ]?trust|collective[-_ ]?investment|"
+     r"money[-_ ]?market[-_ ]?fund|etf|fund[-_ ]?(holdings|report|update)|portfolio[-_ ]?holdings",
+     f"{FUNDS}/{AFR}", "Fund document"),
+    (r"quarterly|interim|investor[-_ ]?(report|presentation|update)|portfolio[-_ ]?report|results|trading[-_ ]?"
+     r"(statement|update)|half[-_ ]?year|q[1-4][-_ ]", f"{PREP}/{AFR}", "Results & portfolio report"),
+    (ESG_URL, f"{ESG}/Company Sustainability Reports ({AFR})", "Sustainability report"),
+    (r"integrated[-_ ]?report|annual[-_ ]?report|annual[-_ ]?financial[-_ ]?statements|\bafs\b|financial[-_ ]?"
+     r"statements|abridged|audited", AFR_REPORTS, "Annual & integrated report"),
+]
+AFR_KIND = [(re.compile(p, re.I), f, l) for p, f, l in AFR_KIND]
+AFR_PREFIX = ("ke,", "za,")
+
+
+class _Range(_io.RawIOBase):
+    """A read-only remote file through HTTP range requests: pyarrow reads only the footer and the row groups used."""
+
+    def __init__(self, s, url):
+        self.s, self.url, self.pos = s, url, 0
+        self.size = int(s.head(url, timeout=60).headers["Content-Length"])
+
+    def seekable(self):
+        return True
+
+    def readable(self):
+        return True
+
+    def tell(self):
+        return self.pos
+
+    def seek(self, off, whence=0):
+        self.pos = off if whence == 0 else self.pos + off if whence == 1 else self.size + off
+        return self.pos
+
+    def read(self, n=-1):
+        if n is None or n < 0:
+            n = self.size - self.pos
+        if n <= 0:
+            return b""
+        end = min(self.size, self.pos + n) - 1
+        for i in range(4):
+            try:
+                r = self.s.get(self.url, headers={"Range": f"bytes={self.pos}-{end}"}, timeout=300)
+                if r.status_code in (200, 206):
+                    b = r.content
+                    self.pos += len(b)
+                    return b
+            except Exception:  # noqa: BLE001
+                pass
+            time.sleep(5 * (i + 1))
+        raise OSError("range read failed")
+
+    def readinto(self, b):
+        d = self.read(len(b))
+        b[:len(d)] = d
+        return len(d)
+
+
+def _afr_part(s, path):
+    """Does this index part hold Kenyan or South African hosts? (footer statistics only)"""
+    import pyarrow.parquet as pq
+    try:
+        md = pq.ParquetFile(_Range(s, f"{CC}/{path}")).metadata
+        col = next(i for i in range(md.num_columns) if md.schema.column(i).name == "url_surtkey")
+        lo = md.row_group(0).column(col).statistics.min
+        hi = md.row_group(md.num_row_groups - 1).column(col).statistics.max
+        return any(lo <= p + "￿" and hi >= p for p in AFR_PREFIX)
+    except Exception:  # noqa: BLE001 - an unreadable part is skipped
+        return False
+
+
+def _afr_rows(s, path):
+    """PDF records of Kenyan and South African hosts in one index part, reading only the row groups whose
+    url_surtkey range covers 'ke,' or 'za,'."""
+    import pyarrow.compute as pc
+    import pyarrow.parquet as pq
+    f = pq.ParquetFile(_Range(s, f"{CC}/{path}"))
+    md = f.metadata
+    col = next(i for i in range(md.num_columns) if md.schema.column(i).name == "url_surtkey")
+    groups = []
+    for g in range(md.num_row_groups):
+        stt = md.row_group(g).column(col).statistics
+        lo, hi = (stt.min, stt.max) if stt is not None and stt.has_min_max else ("", "￿")
+        if any(lo <= p + "￿" and hi >= p for p in AFR_PREFIX):
+            groups.append(g)
+    if not groups:
+        return []
+    t = f.read_row_groups(groups, columns=["url_surtkey", "url", "url_host_name", "url_path", "content_mime_detected",
+                                           "fetch_status", "content_languages", "warc_filename", "warc_record_offset",
+                                           "warc_record_length", "content_truncated"])
+    sk = t["url_surtkey"]
+    keep = pc.and_(pc.or_(pc.starts_with(sk, "ke,"), pc.starts_with(sk, "za,")),
+                   pc.and_(pc.equal(t["content_mime_detected"], "application/pdf"), pc.equal(t["fetch_status"], 200)))
+    rows = t.filter(keep).to_pylist()
+    return [r for r in rows if not r.get("content_truncated") and not AFR_PUBLIC.search(r["url_host_name"] or "")]
+
+
+def africa(sink, st):
+    """Kenyan and South African companies' own documents, out of the Common Crawl web archive: prospectuses and
+    listing statements, deal circulars and takeover documents, bond programmes / pricing supplements / facility
+    agreements and rating reports, unit-trust fact sheets and fund disclosures, results and portfolio reports,
+    sustainability reports, and annual / integrated reports. Filed in the matching sections under "Kenya & South
+    Africa", one folder per company under its made-up name; every document anonymised."""
+    import hashlib
+    s = C.session()
+    anon = C.anon_for(st)
+    seen = set(st.setdefault("seen", []))
+    comp = st.setdefault("companies", {})
+    done = st.setdefault("crawls_done", [])
+    cand = st.setdefault("cand", {})  # crawl: index parts that hold .ke / .za hosts (still to read)
+    n = 0
+    while not sink.full() and st.get("items", 0) < CAPS["africa"]:
+        crawls = _crawls(s, st)
+        todo = [c for i, c in enumerate(crawls) if c not in done and _mine(i)]
+        if not todo:
+            break
+        crawl = todo[0]
+        if crawl not in cand:
+            r = C.get(s, f"{CC}/crawl-data/{crawl}/cc-index-table.paths.gz", timeout=300)
+            parts = [p for p in gzip.decompress(r.content).decode().split() if "subset=warc/" in p] if r else []
+            cand[crawl] = [p for p in parts if _afr_part(s, p)]
+            sink.state.save()
+        if not cand[crawl]:
+            done.append(crawl)
+            cand.pop(crawl, None)
+            continue
+        part = cand[crawl].pop(0)
+        try:
+            rows = _afr_rows(s, part)
+        except Exception as exc:  # noqa: BLE001
+            print(f"africa: index part skipped ({type(exc).__name__})")
+            rows = []
+        for row in rows:
+            if sink.full() or st.get("items", 0) >= CAPS["africa"]:
+                break
+            url = row["url"]
+            hit = next(((f, l) for rx, f, l in AFR_KIND if rx.search(url.lower())), None)
+            if not hit:
+                continue
+            key = hashlib.sha1(url.split("?")[0].lower().encode()).hexdigest()[:16]
+            if key in seen:
+                continue
+            seen.add(key)
+            body = _warc_body(s, row)
+            if not body or len(body) > C.CAP:
+                continue
+            dig = hashlib.sha1(body).hexdigest()[:16]
+            if dig in seen:
+                continue
+            seen.add(dig)
+            label = _company_label(row["url_host_name"])
+            if label not in comp:
+                comp[label] = safe(anon.co.pseudo((label,)), 60)
+            country = "Kenya" if row["url_surtkey"].startswith("ke,") else "South Africa"
+            year = (re.findall(r"(?<!\d)(20[0-3]\d|199\d)(?!\d)", url) or ["undated"])[-1]
+            folder, label_kind = hit
+            room = " data room" if folder.startswith(DEALS) else ""
+            rel = f"{folder}/{country}/{comp[label]}{room}/{year} {label_kind} {dig[:6]}"
+            if C.save_pdf_anon(sink, anon, body, rel, label):
+                n += 1
+                _count(st, "africa")
+        st["seen"] = sorted(seen)[-400000:]
+        sink.state.save()
+    return n
+
+
+SOURCES["africa"] = africa
+CAPS["africa"] = 45000
+CAPS["funds"] = 22000
+CAPS["ipos"] = 25000
+CAPS["credit"] = 30000
+CAPS["deals"] = 35000  # with the folders, the shared drive stays well under its 400,000-item limit

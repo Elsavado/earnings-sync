@@ -17,6 +17,19 @@ LAST = ("Ashdown Blackwood Carrow Davenport Ellery Fairbank Galloway Hartwell In
 CITIES = ["Ridgeport", "Lakemont", "Harbor Falls", "Cedar Vale", "Westbrook", "Stonehaven", "Maple Crossing",
           "Silver Bay", "Northfield", "Fairhaven", "Brookside", "Pine Hollow"]
 FIRM = "Larkmoor Wealth Partners"  # made up
+# user 2026-11-04: Kenya and South Africa heavily. region: (share, office cities, currency, ID wording, AML law)
+REGIONS = {
+    "Kenya": (0.35, ["Nairobi", "Mombasa", "Kisumu", "Nakuru", "Eldoret", "Thika"], "KES",
+              "National ID / KRA PIN", "Proceeds of Crime and Anti-Money Laundering Act (POCAMLA)"),
+    "South Africa": (0.35, ["Johannesburg", "Cape Town", "Durban", "Pretoria", "Gqeberha", "Stellenbosch"], "ZAR",
+                     "SA ID number / tax reference", "Financial Intelligence Centre Act (FICA)"),
+    "United States": (0.30, CITIES, "USD", "Tax ID", "Bank Secrecy Act / USA PATRIOT Act CIP"),
+}
+AF_FIRST = ("Wanjiru Achieng Otieno Kamau Njeri Mwangi Akinyi Kipchoge Chebet Wafula Nyambura Odhiambo Muthoni Kiprono "
+            "Atieno Barasa Thandiwe Sipho Lerato Thabo Naledi Bongani Zanele Kagiso Ayanda Lindiwe Mpho Themba Nomvula "
+            "Pieter Annelie Johan Marike Ruan Zainab Farouk Priya Devan").split()
+AF_LAST = ("Mutua Kariuki Ochieng Wambui Kiplagat Onyango Njoroge Macharia Owino Chege Kibet Nduta Dlamini Nkosi Mokoena "
+           "Ndlovu Khumalo Mthembu Botha Van der Merwe Naidoo Pillay Molefe Sithole Mabaso Pretorius Govender").split()
 # made-up funds: (name, ticker, asset class, annual return, annual volatility, beta to equities)
 FUNDS = [("Halvern US Total Market Index Fund", "HVTMX", "US equity", 0.085, 0.16, 1.0),
          ("Halvern International Developed Index Fund", "HVIDX", "International equity", 0.065, 0.17, 0.85),
@@ -116,32 +129,45 @@ def client(sink, root, k):
     from docx import Document
     from openpyxl import Workbook
     rng = random.Random(f"larkmoor-client-{k}")
-    first, last = _person(rng)
+    x, region = rng.random(), "United States"
+    acc = 0.0
+    for reg, spec in REGIONS.items():
+        acc += spec[0]
+        if x < acc:
+            region = reg
+            break
+    _share, cities, cur, id_word, aml = REGIONS[region]
+    if region == "United States":
+        first, last = _person(rng)
+    else:
+        first, last = rng.choice(AF_FIRST + FIRST[:10]), rng.choice(AF_LAST)
     name = f"{first} {last}"
     cid = f"LWP-{100000 + k}"
     acct = f"****{rng.randint(1000, 9999)}"
     profile = rng.choice(list(PROFILES))
     weights = PROFILES[profile]
     advisor = " ".join(_person(rng))
-    city = rng.choice(CITIES)
+    city = rng.choice(cities)
     age = rng.randint(28, 82)
-    start = round(rng.lognormvariate(math.log(600000), 0.9), -3)
+    fx = {"USD": 1, "KES": 130, "ZAR": 18}[cur]
+    start = round(rng.lognormvariate(math.log(600000), 0.9) * fx, -3)
     monthly = round(start * rng.uniform(0, 0.004), -1)
     months = _months(rng)
     hist = _simulate(rng, months, weights, start, monthly)
-    folder = f"{root}/{FIRM}/Clients {k // 1000 * 1000:05d}-{k // 1000 * 1000 + 999:05d}/{cid} {last}, {first}"
+    folder = f"{root}/{FIRM}/{region}/Clients {k // 1000 * 1000:05d}-{k // 1000 * 1000 + 999:05d}/{cid} {last}, {first}"
     occupation = rng.choice(["Physician", "Software engineer", "Business owner", "Attorney", "Retired teacher",
                              "Corporate executive", "Architect", "Pharmacist", "Retired engineer", "Consultant"])
     wealth_src = rng.choice(["Employment income and savings", "Sale of a private business", "Inheritance",
                              "Pension and retirement savings", "Real estate sale", "Equity compensation"])
     kyc = [[(16, f"{FIRM} - Client profile and KYC file"), (10, f"Client ID {cid}    Prepared {months[0]:%Y-%m-%d}"),
             (12, "1. Client"), (10, f"Name: {name}    Age band: {age // 10 * 10}s    City: {city}"),
-            (10, f"Occupation: {occupation}    Tax ID: ***-**-{rng.randint(1000, 9999)} (masked)"),
+            (10, f"Occupation: {occupation}    {id_word}: ****{rng.randint(1000, 9999)} (masked)    Country: {region}"),
             (12, "2. Identity verification"),
             (10, f"Government ID: verified ({rng.choice(['passport', 'driver licence'])}, number masked)"),
             (10, f"Address verification: utility statement, verified {months[0]:%Y-%m-%d}"),
             (12, "3. Source of wealth and funds"), (10, f"Source of wealth: {wealth_src}"),
-            (10, f"Initial funding: {start:,.0f} USD by account transfer"),
+            (10, f"Initial funding: {start:,.0f} {cur} by account transfer"),
+            (10, f"Customer due diligence under the {aml}."),
             (12, "4. Screening"), (10, "Sanctions lists: no match.  PEP: no.  Adverse media: none found."),
             (12, "5. Suitability"), (10, f"Risk profile: {profile}.  Horizon: {rng.choice([7, 10, 15, 20])} years."),
             (10, f"Liquidity needs: {rng.choice(['low', 'moderate', 'annual withdrawals'])}.  Experience: "
@@ -164,7 +190,8 @@ def client(sink, root, k):
     for mth, units, prices, add, wd in hist:
         vals = [u * p for u, p in zip(units, prices)]
         total = sum(vals)
-        lines = [(14, f"{FIRM} - Monthly statement"), (10, f"{name}    Account {acct}    Period {mth:%B %Y}"),
+        lines = [(14, f"{FIRM} - Monthly statement ({region}, amounts in {cur})"),
+                 (10, f"{name}    Account {acct}    Period {mth:%B %Y}"),
                  (10, f"Beginning value {prev:,.2f}   Contributions {add:,.2f}   Withdrawals {wd:,.2f}   "
                       f"Change in value {total - prev - add + wd:,.2f}   Ending value {total:,.2f}"),
                  (11, "Holdings")]
