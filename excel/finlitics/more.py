@@ -300,6 +300,13 @@ def portfolio(sink, st):
 
 # ---------------------------------------------------------------- 13 fund holdings, benchmarks, pricing, ESG
 
+def _num(v):
+    try:
+        return float(v)
+    except (TypeError, ValueError):
+        return None
+
+
 def _x(el, path):
     from xml.etree import ElementTree as ET  # noqa: F401
     node = el
@@ -332,18 +339,34 @@ def funds(sink, st):
             if sink.full():
                 st["nport_pos"][f"{y}Q{q}"] = i
                 return n
+            st["nport_pos"][f"{y}Q{q}"] = i + 1
+            try:
+                got = _nport_one(s, sink, anon, company, date, path, ET, Workbook)
+                n += got
+                st["items"] = st.get("items", 0) + got
+            except Exception as exc:  # noqa: BLE001 - one odd filing never stops the source
+                print(f"funds: filing skipped ({type(exc).__name__})")
+            if st.get("items", 0) >= CAPS["funds"]:
+                return n
+        st["nport_q"].append(f"{y}Q{q}")
+    return n
+
+
+def _nport_one(s, sink, anon, company, date, path, ET, Workbook):
+    if True:
+        if True:
             acc = path.rsplit("/", 1)[-1].replace(".txt", "")
             time.sleep(0.12)
             r = C.get(s, f"https://www.sec.gov/Archives/{path.rsplit('/', 1)[0]}/{acc.replace('-', '')}/primary_doc.xml")
             if not r:
-                continue
+                return 0
             try:
                 root = ET.fromstring(r.content)
             except ET.ParseError:
-                continue
+                return 0
             fd = next((c for c in root.iter() if c.tag.endswith("formData")), None)
             if fd is None:
-                continue
+                return 0
             gen = next((c for c in fd if c.tag.endswith("genInfo")), None)
             fin = next((c for c in fd if c.tag.endswith("fundInfo")), None)
             fam = _nm(anon, company)
@@ -365,7 +388,7 @@ def funds(sink, st):
             ws.append(["Monthly total return (%)", "Month 1", "Month 2", "Month 3"])
             ret = next((c for c in fin.iter() if c.tag.endswith("monthlyTotReturn")), None) if fin is not None else None
             if ret is not None:
-                ws.append(["Fund", *[float(ret.attrib.get(k, "0") or 0) for k in ("rtn1", "rtn2", "rtn3")]])
+                ws.append(["Fund", *[_num(ret.attrib.get(k)) for k in ("rtn1", "rtn2", "rtn3")]])
                 ws.append(["Quarter (compounded)", "=((1+B10/100)*(1+C10/100)*(1+D10/100)-1)*100"])
             hs = wb.create_sheet("Holdings")
             hs.append(["Issuer (made-up name)", "Asset class", "Issuer type", "Country", "Currency", "Value (USD)",
@@ -389,12 +412,7 @@ def funds(sink, st):
                           f"{series} {period}.xlsx")
             wb.save(p)
             sink.wrote(p)
-            n += 1
-            if not _count(st, "funds"):
-                return n
-            st["nport_pos"][f"{y}Q{q}"] = i + 1
-        st["nport_q"].append(f"{y}Q{q}")
-    return n
+            return 1
 
 
 # ---------------------------------------------------------------- 08 ESG
