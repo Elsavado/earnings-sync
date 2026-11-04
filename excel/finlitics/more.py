@@ -531,19 +531,11 @@ def _company_label(host):
 def _cc_part(s, path, cache="cache/cc-esg.parquet"):
     import pyarrow.compute as pc
     import pyarrow.parquet as pq
-    os.makedirs("cache", exist_ok=True)
-    with s.get(f"{CC}/{path}", stream=True, timeout=1200) as r:
-        r.raise_for_status()
-        with open(cache, "wb") as f:
-            for chunk in r.iter_content(8 << 20):
-                f.write(chunk)
-    try:
-        t = pq.read_table(cache, columns=["url", "url_host_name", "url_path", "content_languages",
-                                          "warc_filename", "warc_record_offset", "warc_record_length",
-                                          "content_truncated"],
-                          filters=[("content_mime_detected", "=", "application/pdf"), ("fetch_status", "=", 200)])
-    finally:
-        os.remove(cache)
+    f = pq.ParquetFile(_Range(s, f"{CC}/{path}"))  # only the columns used are read (range requests)
+    t = f.read(columns=["url", "url_host_name", "url_path", "content_mime_detected", "fetch_status",
+                        "content_languages", "warc_filename", "warc_record_offset", "warc_record_length",
+                        "content_truncated"])
+    t = t.filter(pc.and_(pc.equal(t["content_mime_detected"], "application/pdf"), pc.equal(t["fetch_status"], 200)))
     t = t.filter(pc.match_substring_regex(pc.utf8_lower(t["url_path"]), ESG_URL))
     return [r for r in t.to_pylist() if not r.get("content_truncated") and not PUBLIC.search(r["url_host_name"] or "")
             and not re.search(r"\.(ke|za)$", r["url_host_name"] or "")]  # Kenya / South Africa: the africa source's
@@ -552,8 +544,17 @@ def _cc_part(s, path, cache="cache/cc-esg.parquet"):
 def _warc_body(s, row):
     import zlib
     off, ln = int(row["warc_record_offset"]), int(row["warc_record_length"])
-    r = C.get(s, f"{CC}/{row['warc_filename']}", headers={"Range": f"bytes={off}-{off + ln - 1}"}, tries=3)
-    if r is None or len(r.content) != ln:
+    r = None
+    for i in range(3):  # a byte-range answer is 206 Partial Content
+        try:
+            r = s.get(f"{CC}/{row['warc_filename']}", headers={"Range": f"bytes={off}-{off + ln - 1}"}, timeout=120)
+            if r.status_code in (200, 206) and len(r.content) == ln:
+                break
+        except Exception:  # noqa: BLE001
+            pass
+        r = None
+        time.sleep(3 * (i + 1))
+    if r is None:
         return None
     try:
         rec = zlib.decompressobj(16 + zlib.MAX_WBITS).decompress(r.content)
