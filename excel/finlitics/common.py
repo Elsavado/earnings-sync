@@ -509,3 +509,31 @@ def worldbank_esg(s, sink, st, folder):
         n += 1
     st["wb"] = dt.date.today().isoformat()
     return n
+
+
+def save_pdf_anon(sink, anon, body, rel, company=""):
+    """A PDF already in memory (web archive): company aliases learned from its text, then redacted in place."""
+    tmp = tempfile.mkdtemp(prefix="fl_")
+    try:
+        import pymupdf
+        src = os.path.join(tmp, "src.pdf")
+        open(src, "wb").write(body)
+        try:
+            doc = pymupdf.open(src)
+            if doc.needs_pass or doc.page_count > 600:
+                return False
+            text = "".join(p.get_text() for p in doc)[:3000000]
+            doc.close()
+        except Exception:  # damaged PDF
+            return False
+        anon.start()
+        learn_aliases(anon, text, company)
+        dst = sink.path(f"{rel}.pdf")
+        ok, _ = anon.pdf(src, dst)
+        if ok:
+            sink.wrote(dst)
+        return ok
+    except Exception:
+        return False
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)

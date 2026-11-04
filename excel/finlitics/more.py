@@ -466,3 +466,124 @@ def wealth(sink, st, per_run=400):
 
 SOURCES = {"ipos": ipos, "deals": deals, "credit": credit, "portfolio": portfolio, "funds": funds, "esg": esg,
            "wealth": wealth}
+
+
+# ---------------------------------------------------------------- 08 ESG: company websites worldwide (Common Crawl)
+
+CC = "https://data.commoncrawl.org"
+CRAWLS = ["CC-MAIN-2025-30", "CC-MAIN-2025-26", "CC-MAIN-2025-21", "CC-MAIN-2025-18", "CC-MAIN-2025-13",
+          "CC-MAIN-2025-08", "CC-MAIN-2025-05", "CC-MAIN-2024-51", "CC-MAIN-2024-46", "CC-MAIN-2024-42",
+          "CC-MAIN-2024-38", "CC-MAIN-2024-33", "CC-MAIN-2024-30", "CC-MAIN-2024-26", "CC-MAIN-2024-22",
+          "CC-MAIN-2024-18", "CC-MAIN-2024-10", "CC-MAIN-2023-50", "CC-MAIN-2023-40", "CC-MAIN-2023-23"]
+# report words in the PDF's address, in the main languages companies publish in (lower case)
+ESG_URL = (r"sustainab|esg[-_ ]?(report|disclosure|factbook|data)|csr[-_ ]?report|corporate[-_ ]?responsibility|"
+           r"responsibility[-_ ]?report|impact[-_ ]?report|climate[-_ ]?(report|disclosure|transition)|tcfd|tnfd|"
+           r"integrated[-_ ]?(annual[-_ ]?)?report|non[-_ ]?financial|carbon[-_ ]?(disclosure|report)|"
+           r"nachhaltigkeit|durabilit|duurzaamheid|sostenibilit|sustentabilidad|sustentabilidade|sostenibilidad|"
+           r"hallbarhet|baerekraft|baeredygtighed|kestavyys|vastuullisuus|zrownowazon|udrzitelnost|fenntarthat|"
+           r"surdurulebilirlik|csr|esg")
+PUBLIC = re.compile(r"\.(gov|edu|mil|int)$|\.(gov|gc|ac|edu|govt|gob|gouv|go)\.[a-z]{2}$|\.nhs\.uk$|\.europa\.eu$|"
+                    r"\.un\.org$|worldbank\.org$|oecd\.org$", re.I)  # public bodies are the Asset Library's
+SECOND = {"co", "com", "net", "org", "ac", "gov", "ne", "or", "go"}
+
+
+def _company_label(host):
+    parts = host.lower().removeprefix("www.").split(".")
+    if len(parts) >= 3 and parts[-2] in SECOND:
+        return parts[-3]
+    return parts[-2] if len(parts) >= 2 else parts[0]
+
+
+def _cc_part(s, path, cache="cache/cc-esg.parquet"):
+    import pyarrow.compute as pc
+    import pyarrow.parquet as pq
+    os.makedirs("cache", exist_ok=True)
+    with s.get(f"{CC}/{path}", stream=True, timeout=1200) as r:
+        r.raise_for_status()
+        with open(cache, "wb") as f:
+            for chunk in r.iter_content(8 << 20):
+                f.write(chunk)
+    try:
+        t = pq.read_table(cache, columns=["url", "url_host_name", "url_path", "content_languages",
+                                          "warc_filename", "warc_record_offset", "warc_record_length",
+                                          "content_truncated"],
+                          filters=[("content_mime_detected", "=", "application/pdf"), ("fetch_status", "=", 200)])
+    finally:
+        os.remove(cache)
+    t = t.filter(pc.match_substring_regex(pc.utf8_lower(t["url_path"]), ESG_URL))
+    return [r for r in t.to_pylist() if not r.get("content_truncated") and not PUBLIC.search(r["url_host_name"] or "")]
+
+
+def _warc_body(s, row):
+    import zlib
+    off, ln = int(row["warc_record_offset"]), int(row["warc_record_length"])
+    r = C.get(s, f"{CC}/{row['warc_filename']}", headers={"Range": f"bytes={off}-{off + ln - 1}"}, tries=3)
+    if r is None or len(r.content) != ln:
+        return None
+    try:
+        rec = zlib.decompressobj(16 + zlib.MAX_WBITS).decompress(r.content)
+    except zlib.error:
+        return None
+    parts = rec.split(b"\r\n\r\n", 2)
+    return parts[2] if len(parts) == 3 and parts[2][:5] == b"%PDF-" else None
+
+
+def esgweb(sink, st):
+    """Sustainability, ESG, climate (TCFD), CSR and integrated reports that companies publish on their own websites,
+    worldwide and in every language, out of the Common Crawl web archive (public bodies left out). One folder per
+    company under its made-up name; the report text is anonymised (company, people and ticker names made up)."""
+    import hashlib
+    s = C.session()
+    anon = C.anon_for(st)
+    pos = st.setdefault("cc", {"crawl": 0, "part": 0})
+    seen = set(st.setdefault("seen", []))
+    comp = st.setdefault("companies", {})
+    n = 0
+    while pos["crawl"] < len(CRAWLS) and not sink.full() and st.get("items", 0) < CAPS["esgweb"]:
+        crawl = CRAWLS[pos["crawl"]]
+        r = C.get(s, f"{CC}/crawl-data/{crawl}/cc-index-table.paths.gz", timeout=300)
+        parts = [p for p in gzip.decompress(r.content).decode().split() if "subset=warc/" in p] if r else []
+        random.Random(crawl).shuffle(parts)
+        parts = [p for i, p in enumerate(parts) if _mine(i)]
+        if pos["part"] >= len(parts):
+            pos["crawl"], pos["part"] = pos["crawl"] + 1, 0
+            continue
+        try:
+            rows = _cc_part(s, parts[pos["part"]])
+        except Exception as exc:  # noqa: BLE001
+            print(f"esgweb: index part skipped ({type(exc).__name__})")
+            rows = []
+        pos["part"] += 1
+        for row in rows:
+            if sink.full() or st.get("items", 0) >= CAPS["esgweb"]:
+                break
+            key = hashlib.sha1(row["url"].split("?")[0].lower().encode()).hexdigest()[:16]
+            if key in seen:
+                continue
+            seen.add(key)
+            body = _warc_body(s, row)
+            if not body or len(body) > C.CAP:
+                continue
+            dig = hashlib.sha1(body).hexdigest()[:16]
+            if dig in seen:
+                continue
+            seen.add(dig)
+            label = _company_label(row["url_host_name"])
+            if label not in comp:
+                comp[label] = safe(anon.co.pseudo((label,)), 60)
+            year = (re.findall(r"(?<!\d)(20[0-3]\d)(?!\d)", row["url"]) or ["undated"])[-1]
+            lang = (row.get("content_languages") or "").split(",")[0] or "xx"
+            kind = ("Climate report" if re.search(r"climate|tcfd|tnfd|carbon", row["url"], re.I) else
+                    "Integrated report" if re.search(r"integrated", row["url"], re.I) else
+                    "CSR report" if re.search(r"csr|responsib", row["url"], re.I) else "Sustainability report")
+            rel = f"{ESG}/Company Sustainability Reports (worldwide)/{comp[label]}/{year} {kind} ({lang}) {dig[:6]}"
+            if C.save_pdf_anon(sink, anon, body, rel, label):
+                n += 1
+                _count(st, "esgweb")
+        st["seen"] = sorted(seen)[-400000:]
+        sink.state.save()
+    return n
+
+
+SOURCES["esgweb"] = esgweb
+CAPS["esgweb"] = 40000

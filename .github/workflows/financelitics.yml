@@ -48,6 +48,8 @@ jobs:
           - {name: portfolio, sources: portfolio, lane: "", phase: 2}
           - {name: funds, sources: funds, lane: "", phase: 2}
           - {name: esg, sources: esg, lane: "", phase: 2}
+          - {name: esgweb_a, sources: esgweb, lane: even, phase: 2}
+          - {name: esgweb_b, sources: esgweb, lane: odd, phase: 2}
           - {name: wealth, sources: wealth, lane: "", phase: 2}
     defaults:
       run:
@@ -59,7 +61,7 @@ jobs:
           python-version: "3.12"
           cache: pip
           cache-dependency-path: excel/requirements.txt
-      - run: pip install -q -r requirements.txt python-docx pillow && sudo apt-get update -qq && sudo apt-get install -y -qq --no-install-recommends libreoffice-writer > /dev/null
+      - run: pip install -q -r requirements.txt python-docx pillow pyarrow && sudo apt-get update -qq && sudo apt-get install -y -qq --no-install-recommends libreoffice-writer > /dev/null
       - name: rclone for the Workspace shared drive
         env:
           CID: ${{ secrets.WS_GOOGLE_CLIENT_ID }}
