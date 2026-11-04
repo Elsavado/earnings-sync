@@ -30,7 +30,25 @@ jobs:
   collect:
     runs-on: ubuntu-latest
     timeout-minutes: 350
-    concurrency: finlitics
+    concurrency: finlitics-${{ matrix.name }}
+    # phase 1 = core (real names). Phase 2 (2026-11-04, all anonymised) runs when FINLITICS2_LIVE is 'true' (else a
+    # dry run): IPOs, deal data rooms, credit files (two lanes each: even / odd years), portfolio reporting, fund
+    # holdings, ESG, wealth-management client records.
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {name: core, sources: "", lane: "", phase: 1}
+          - {name: ipos_a, sources: ipos, lane: even, phase: 2}
+          - {name: ipos_b, sources: ipos, lane: odd, phase: 2}
+          - {name: deals_a, sources: deals, lane: even, phase: 2}
+          - {name: deals_b, sources: deals, lane: odd, phase: 2}
+          - {name: credit_a, sources: credit, lane: even, phase: 2}
+          - {name: credit_b, sources: credit, lane: odd, phase: 2}
+          - {name: portfolio, sources: portfolio, lane: "", phase: 2}
+          - {name: funds, sources: funds, lane: "", phase: 2}
+          - {name: esg, sources: esg, lane: "", phase: 2}
+          - {name: wealth, sources: wealth, lane: "", phase: 2}
     defaults:
       run:
         working-directory: excel
@@ -40,7 +58,8 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
-      - run: pip install requests python-docx pillow openpyxl && sudo apt-get update -qq && sudo apt-get install -y -qq --no-install-recommends libreoffice-writer > /dev/null
+          cache-dependency-path: excel/requirements.txt
+      - run: pip install -q -r requirements.txt python-docx pillow && sudo apt-get update -qq && sudo apt-get install -y -qq --no-install-recommends libreoffice-writer > /dev/null
       - name: rclone for the Workspace shared drive
         env:
           CID: ${{ secrets.WS_GOOGLE_CLIENT_ID }}
@@ -63,12 +82,20 @@ jobs:
           rclone about ws: 2>&1 | grep -v -i token | head -5 || true
           rclone copy "ws:Financelitics/_state" state -q || true
       - name: Collect
+        timeout-minutes: 335
         env:
-          LIVE: ${{ vars.FINLITICS_LIVE == 'true' && inputs.dry_run != true }}
+          LIVE: ${{ (matrix.phase == 1 && vars.FINLITICS_LIVE == 'true' || matrix.phase == 2 && vars.FINLITICS2_LIVE == 'true') && inputs.dry_run != true }}
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+          HOWCO_KEY: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
+          FL_LANE: ${{ matrix.lane }}
         run: |
           flag=$([ "$LIVE" = "true" ] && echo --live || echo "")
-          python -m finlitics --sources "${{ inputs.sources || 'filings,comments,fred,fdic,famafrench,treasury,transcripts,books' }}"             --remote "ws:Financelitics" --state state/finlitics.json --minutes "${{ inputs.minutes || 320 }}" $flag
+          if [ "${{ matrix.name }}" = core ]; then
+            src="${{ inputs.sources || 'filings,comments,fred,fdic,famafrench,treasury,transcripts,books' }}"; state=state/finlitics.json
+          else
+            src="${{ matrix.sources }}"; state="state/finlitics-${{ matrix.name }}.json"
+          fi
+          python -m finlitics --sources "$src" --remote "ws:Financelitics" --state "$state" --minutes "${{ inputs.minutes || 320 }}" $flag
 
   next:
     # Endless hand-off: start the next run when this one ends (the watchdog's schedule is unreliable).

@@ -369,11 +369,14 @@ def books(sink, st, per_topic=8):
 
 SOURCES = {"filings": filings, "comments": comment_letters, "fred": fred, "fdic": fdic, "famafrench": famafrench,
            "treasury": treasury, "transcripts": transcripts, "books": books}
+CORE = ",".join(SOURCES)  # phase 1 (real names); phase 2 sources below are all anonymised (finlitics/more.py)
+from finlitics.more import SOURCES as _MORE  # noqa: E402
+SOURCES.update(_MORE)
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--sources", default=",".join(SOURCES))
+    ap.add_argument("--sources", default=CORE)
     ap.add_argument("--out", default="out")
     ap.add_argument("--state", default="state/finlitics.json")
     ap.add_argument("--remote", default="ws:Financelitics")
