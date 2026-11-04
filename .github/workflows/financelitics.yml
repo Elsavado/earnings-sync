@@ -104,7 +104,7 @@ jobs:
   next:
     # Endless hand-off: start the next run when this one ends (the watchdog's schedule is unreliable).
     needs: collect
-    if: !cancelled() && vars.FINLITICS_LIVE == 'true' && vars.CHAIN != 'off' && inputs.dry_run != true  # a cancelled run never hands off
+    if: ${{ !cancelled() && vars.FINLITICS_LIVE == 'true' && vars.CHAIN != 'off' && inputs.dry_run != true }}  # a cancelled run never hands off
     runs-on: ubuntu-latest
     steps:
       - env:
