@@ -384,6 +384,17 @@ def main():
     ap.add_argument("--budget-gb", type=float, default=40)
     ap.add_argument("--minutes", type=float, default=320)
     a = ap.parse_args()
+    job = os.path.basename(a.state).removeprefix("finlitics-").removesuffix(".json")
+    runner = os.environ.get("FL_RUNNER")
+    try:
+        import json as _json
+        place = _json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "placement.json")))
+    except (OSError, ValueError):
+        place = {}
+    home = place.get(job, "Elsavado/earnings-sync")
+    if runner and runner != home:
+        print(f"{job}: runs in the other runner repository; nothing to do here")
+        return
     st = State(a.state)
     sink = Sink(a.out, a.remote, a.live, st, int(a.budget_gb * 2 ** 30), time.time() + a.minutes * 60)
     names = [x.strip() for x in a.sources.split(",") if x.strip() in SOURCES]

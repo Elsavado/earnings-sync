@@ -33,18 +33,14 @@ jobs:
     concurrency: finlitics-${{ matrix.name }}
     # phase 1 = core (real names). Phase 2 (2026-11-04, all anonymised) runs when FINLITICS2_LIVE is 'true' (else a
     # dry run): IPOs and deal data rooms (3 jobs each, by year), credit files (2 jobs), portfolio reporting, fund
-    # holdings, ESG, wealth-management client records.
+    # holdings, ESG. Deals, IPO lanes 1-2, Kenya & South Africa and wealth run in LittleGamesIncorporated/financelitics-runner
+    # (excel/finlitics/placement.json), which checks out this repository's code.
     strategy:
       fail-fast: false
       matrix:
         include:
           - {name: core, sources: "", lane: "", phase: 1}
-          - {name: ipos_1, sources: ipos, lane: 0/3, phase: 2}
-          - {name: ipos_2, sources: ipos, lane: 1/3, phase: 2}
           - {name: ipos_3, sources: ipos, lane: 2/3, phase: 2}
-          - {name: deals_1, sources: deals, lane: 0/3, phase: 2}
-          - {name: deals_2, sources: deals, lane: 1/3, phase: 2}
-          - {name: deals_3, sources: deals, lane: 2/3, phase: 2}
           - {name: credit_a, sources: credit, lane: even, phase: 2}
           - {name: credit_b, sources: credit, lane: odd, phase: 2}
           - {name: portfolio, sources: portfolio, lane: "", phase: 2}
@@ -52,9 +48,6 @@ jobs:
           - {name: esg, sources: esg, lane: "", phase: 2}
           - {name: esgweb_a, sources: esgweb, lane: even, phase: 2}
           - {name: esgweb_b, sources: esgweb, lane: odd, phase: 2}
-          - {name: africa_a, sources: africa, lane: even, phase: 2}
-          - {name: africa_b, sources: africa, lane: odd, phase: 2}
-          - {name: wealth, sources: wealth, lane: "", phase: 2}
     defaults:
       run:
         working-directory: excel
@@ -94,6 +87,7 @@ jobs:
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
           HOWCO_KEY: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
           FL_LANE: ${{ matrix.lane }}
+          FL_RUNNER: ${{ github.repository }}
         run: |
           flag=$([ "$LIVE" = "true" ] && echo --live || echo "")
           if [ "${{ matrix.name }}" = core ]; then
