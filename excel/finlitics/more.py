@@ -765,7 +765,11 @@ def africa(sink, st):
         if crawl not in cand:
             r = C.get(s, f"{CC}/crawl-data/{crawl}/cc-index-table.paths.gz", timeout=300)
             parts = [p for p in gzip.decompress(r.content).decode().split() if "subset=warc/" in p] if r else []
-            cand[crawl] = [p for p in parts if _afr_part(s, p)]
+            from concurrent.futures import ThreadPoolExecutor
+            with ThreadPoolExecutor(16) as ex:  # footer reads only: 300 parts in about a minute
+                flags = list(ex.map(lambda p: _afr_part(C.session(), p), parts))
+            cand[crawl] = [p for p, f in zip(parts, flags) if f]
+            print(f"africa: {crawl}: {len(cand[crawl])} index part(s) hold Kenyan / South African sites")
             sink.state.save()
         if not cand[crawl]:
             done.append(crawl)
