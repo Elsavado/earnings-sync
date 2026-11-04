@@ -22,6 +22,10 @@ permissions:
   contents: read
   actions: write
 
+concurrency:  # one chain: at most one run going and one waiting; an extra start replaces the waiting one
+  group: financelitics-chain
+  cancel-in-progress: false
+
 env:
   FINLITICS_DRIVE_ID: ${{ vars.RESEARCH_DRIVE_ID || '0ACsHljU9Hj2_Uk9PVA' }}
   PYTHONUNBUFFERED: "1"
@@ -100,7 +104,7 @@ jobs:
   next:
     # Endless hand-off: start the next run when this one ends (the watchdog's schedule is unreliable).
     needs: collect
-    if: always() && vars.FINLITICS_LIVE == 'true' && vars.CHAIN != 'off' && inputs.dry_run != true
+    if: !cancelled() && vars.FINLITICS_LIVE == 'true' && vars.CHAIN != 'off' && inputs.dry_run != true  # a cancelled run never hands off
     runs-on: ubuntu-latest
     steps:
       - env:
