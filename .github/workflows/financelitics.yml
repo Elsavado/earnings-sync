@@ -20,6 +20,7 @@ on:
 
 permissions:
   contents: read
+  actions: write
 
 env:
   FINLITICS_DRIVE_ID: ${{ vars.RESEARCH_DRIVE_ID || '0ACsHljU9Hj2_Uk9PVA' }}
@@ -68,3 +69,18 @@ jobs:
         run: |
           flag=$([ "$LIVE" = "true" ] && echo --live || echo "")
           python -m finlitics --sources "${{ inputs.sources || 'filings,comments,fred,fdic,famafrench,treasury,transcripts,books' }}"             --remote "ws:Financelitics" --state state/finlitics.json --minutes "${{ inputs.minutes || 320 }}" $flag
+
+  next:
+    # Endless hand-off: start the next run when this one ends (the watchdog's schedule is unreliable).
+    needs: collect
+    if: always() && vars.FINLITICS_LIVE == 'true' && vars.CHAIN != 'off' && inputs.dry_run != true
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for i in 1 2 3 4 5 6; do
+            gh workflow run financelitics.yml -R ${{ github.repository }} --ref main && exit 0
+            sleep $(( i * 30 ))
+          done
+          echo "could not start the next run" >> "$GITHUB_STEP_SUMMARY"; exit 1

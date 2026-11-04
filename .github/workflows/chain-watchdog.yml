@@ -44,5 +44,5 @@ jobs:
           how-companies-work.yml|${{ vars.HOWCO_LIVE }}|-f dry_run=false -f sources=enron,atlas,stocks,edu,sec -f minutes=320 -f chained=true
           avala.yml|${{ vars.AVALA_LIVE }}|
           financelitics.yml|${{ vars.FINLITICS_LIVE }}|
-          meeting-recordings.yml|${{ vars.MEETINGS_LIVE || 'true' }}|
+          meeting-recordings.yml|${{ vars.MEETINGS_LIVE }}|
           LIST

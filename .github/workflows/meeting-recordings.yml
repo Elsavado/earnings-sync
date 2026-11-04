@@ -5,7 +5,7 @@ name: Meeting Recordings
 # setters, pension boards, budget and finance committees), company investor days and webinars, open meeting corpora
 # (AMI, ICSI, Earnings-21) and Creative Commons uploads (Internet Archive, YouTube). Each recording: audio.m4a,
 # transcript.vtt, transcript.txt (timestamped) and meta.json in its own folder. One job per source.
-# Runs unless the repository variable MEETINGS_LIVE is 'false'. A source problem never fails the run.
+# Runs only when the repository variable MEETINGS_LIVE is 'true' (stopped by the user 2026-11-04). A source problem never fails the run.
 on:
   workflow_dispatch:
     inputs:
@@ -42,7 +42,7 @@ jobs:
     steps:
       - id: check
         env:
-          LIVE: ${{ vars.MEETINGS_LIVE || 'true' }}
+          LIVE: ${{ vars.MEETINGS_LIVE || 'false' }}
           SOURCES: ${{ github.event.inputs.sources || 'corpora,fed,archive,ytpublic,ytcompany,ytcc' }}
         run: |
           python3 - <<'PY'
@@ -98,8 +98,7 @@ jobs:
           GOOGLE_REFRESH_TOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
           YT_COOKIES: ${{ secrets.YT_COOKIES }}
           SOURCE: ${{ matrix.source }}
-          LIVE: ${{ vars.MEETINGS_LIVE || 'false
-          ' }}
+          LIVE: ${{ vars.MEETINGS_LIVE || 'false' }}
           RUN_MINUTES: ${{ github.event.inputs.minutes || '320' }}
           MAX_ITEMS: ${{ github.event.inputs.max_items || '0' }}
           PYTHONUTF8: '1'
