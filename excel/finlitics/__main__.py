@@ -117,7 +117,10 @@ def fetch(s, sink, url, rel, cap=500 * 2 ** 20, pdf=True):
         if os.path.exists(p):
             os.remove(p)
         return False
-    sink.wrote(to_pdf(p) if pdf else p)
+    out = to_pdf(p) if pdf else p
+    if not out:
+        return False
+    sink.wrote(out)
     return True
 
 

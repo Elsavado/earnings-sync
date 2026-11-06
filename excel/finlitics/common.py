@@ -104,6 +104,48 @@ ROLE = {"company", "parent", "merger sub", "buyer", "seller", "purchaser", "borr
         "bank", "trust", "fund", "adviser", "advisor", "investment adviser", "underwriters", "representatives"}
 
 
+def _nickname(core, short, z):
+    """A defined term is a company's short name only when it looks like one (2026-11-06: 'Merger Agreement',
+    'Special Meeting', 'Proposal' were being renamed): an acronym, a word taken from the company's name, or a rare
+    single word. Phrases of everyday words stay as they are."""
+    words = re.findall(r"[A-Za-z0-9&]+", short)
+    if not words:
+        return False
+    name = [t.lower() for t in core]
+    if len(words) == 1 and short.replace("&", "").isupper() and 2 <= len(short) <= 6:
+        return True
+    for w in words:
+        lw = w.lower()
+        if lw in name or any(len(lw) >= 4 and (t.startswith(lw[:4]) or lw.startswith(t[:4])) for t in name if len(t) >= 4):
+            return True
+    return len(words) == 1 and z(words[0].lower(), "en") < 3.0
+
+
+# never renamed: public bodies, laws, exchanges, standard setters and fonts (2026-11-06: 'Securities and Exchange
+# Commission' and 'Times New Roman' came out as made-up words)
+KEEP_PHRASES = re.compile(r"Securities and Exchange Commission|Securities Exchange Act|Securities Act|Investment Company "
+                          r"Act|Investment Advisers Act|Trust Indenture Act|Internal Revenue (?:Service|Code)|Federal "
+                          r"Reserve(?: Bank| Board| System)?|New York Stock Exchange|Nasdaq(?: Stock Market| Global "
+                          r"Select Market)?|NYSE American|Financial Accounting Standards Board|Public Company Accounting "
+                          r"Oversight Board|Delaware General Corporation Law|Department of (?:Justice|the Treasury|Labor)|"
+                          r"Federal Trade Commission|Commodity Futures Trading Commission|Hart-Scott-Rodino|Dodd-Frank|"
+                          r"Sarbanes-Oxley|Times New Roman|Arial|Helvetica|Calibri|Garamond|Georgia|Verdana", re.I)
+
+
+def protect(text):
+    """Swaps the KEEP_PHRASES for placeholders before anonymising; unprotect puts them back."""
+    found = []
+
+    def hold(m):
+        found.append(m.group(0))
+        return f"{len(found) - 1}"
+    return KEEP_PHRASES.sub(hold, text), found
+
+
+def unprotect(text, found):
+    return re.sub(r"(\d+)", lambda m: found[int(m.group(1))], text)
+
+
 def learn_aliases(anon, text, filer=""):
     """Defined terms that stand for a company ('Aspen Technology, Inc. (\"AspenTech\")') and the filer's own short
     name get the company's made-up name, so short forms are replaced too."""
@@ -120,7 +162,7 @@ def learn_aliases(anon, text, filer=""):
     def alias(name, short):
         core = core_tokens(name)
         key = " ".join(core_tokens(short) or (short.lower(),))
-        if not core or not key or key.lower() in ROLE:
+        if not core or not key or key.lower() in ROLE or not _nickname(core, short, z):
             return
         made = force(core)
         learned.append((" ".join(core), made))
@@ -163,17 +205,135 @@ def last_pass(text, learned):
     return text
 
 
+CODE_MARK = re.compile(r"<\s*/?\s*(p|div|font|td|tr|table|span|br|b|html|body|head|meta|title|a|h\d)\b|&nbsp;|&#\d+;|"
+                       r"style\s*=|margin-|font-family|fasb\.org/us-gaap", re.I)
+
+
+def looks_like_code(text):
+    """True when a page shows web-page code (tags, styles, entities) instead of the document's words."""
+    sample = text[:20000]
+    words = max(1, len(sample.split()))
+    return len(CODE_MARK.findall(sample)) / words > 0.02
+
+
+def _chrome():
+    for name in ("google-chrome", "google-chrome-stable", "chromium", "chromium-browser"):
+        if shutil.which(name):
+            return shutil.which(name)
+    return None
+
+
+def strip_envelope(raw):
+    """SEC documents often come inside their EDGAR envelope ('<DOCUMENT> <TYPE>... <TEXT> <html>...'): the web page
+    alone, or the text unchanged when there is no web page in it."""
+    m = re.search(r"<html\b", raw, re.I)
+    if not m:
+        return raw
+    e = raw.lower().rfind("</html>")
+    return raw[m.start():(e + 7) if e > m.start() else len(raw)]
+
+
+def _render(chrome, src, pdf, timeout):
+    try:
+        subprocess.run([chrome, "--headless=new", "--disable-gpu", "--no-sandbox", "--no-pdf-header-footer",
+                        "--blink-settings=imagesEnabled=false", f"--user-data-dir={tempfile.mkdtemp(prefix='chr_')}",
+                        f"--print-to-pdf={pdf}", "file://" + os.path.abspath(src)], capture_output=True, timeout=timeout)
+    except (subprocess.TimeoutExpired, OSError):
+        subprocess.run(["pkill", "-f", "chr_"], capture_output=True)
+    return os.path.exists(pdf) and os.path.getsize(pdf) > 0
+
+
+def _render_parts(chrome, src, pdf, timeout, part=1_500_000):
+    """A big filing in parts cut at its own page breaks, printed one by one and joined (a 16 MB page crashes the
+    browser)."""
+    import pymupdf
+    raw = open(src, encoding="utf-8", errors="replace").read()
+    b = re.search(r"<body[^>]*>", raw, re.I)
+    head = raw[:b.end()] if b else "<html><body>"
+    body = raw[b.end():] if b else raw
+    cuts = [m.start() for m in re.finditer(r"<hr[^>]*page-break|<div[^>]*page-break-(?:before|after)", body, re.I)]
+    pieces, last = [], 0
+    for c in cuts + [len(body)]:
+        if c - last >= part or c == len(body):
+            pieces.append(body[last:c])
+            last = c
+    out = pymupdf.open()
+    for i, piece in enumerate(pieces):
+        ps, pp = f"{src}.{i}.html", f"{src}.{i}.pdf"
+        open(ps, "w", encoding="utf-8").write(head + piece + "</body></html>")
+        if not _render(chrome, ps, pp, timeout):
+            return False
+        with pymupdf.open(pp) as d:
+            out.insert_pdf(d)
+        os.remove(ps)
+        os.remove(pp)
+    out.save(pdf, garbage=3, deflate=True)
+    return True
+
+
+def html_to_pdf(src, pdf, timeout=420):
+    """Web page -> PDF the way a browser prints it (2026-11-06: LibreOffice read SEC pages as plain text, so the PDFs
+    showed the page code). Headless Chrome first, LibreOffice forced to read HTML as fallback."""
+    raw = open(src, encoding="utf-8", errors="replace").read()
+    clean = strip_envelope(raw)
+    if clean != raw:
+        open(src, "w", encoding="utf-8").write(clean)
+    chrome = _chrome()
+    if chrome:
+        if len(clean) > 2_000_000:
+            _render_parts(chrome, src, pdf, timeout)
+        else:
+            _render(chrome, src, pdf, timeout)
+    if not (os.path.exists(pdf) and os.path.getsize(pdf)):
+        soffice = shutil.which("soffice") or shutil.which("libreoffice")
+        if soffice:
+            try:
+                subprocess.run([soffice, "--headless", "--norestore", "--infilter=HTML (StarWriter)", "--convert-to",
+                                "pdf:writer_pdf_Export", "--outdir", os.path.dirname(pdf), src],
+                               capture_output=True, timeout=timeout)
+                made = os.path.join(os.path.dirname(pdf), os.path.splitext(os.path.basename(src))[0] + ".pdf")
+                if made != pdf and os.path.exists(made):
+                    os.replace(made, pdf)
+            except (subprocess.TimeoutExpired, OSError):
+                subprocess.run(["pkill", "-f", "soffice"], capture_output=True)
+    for junk in os.listdir(os.path.dirname(pdf) or "."):  # LibreOffice lock / temp files never ship
+        if junk.startswith(".~lock.") or junk.endswith(".tmp"):
+            try:
+                os.remove(os.path.join(os.path.dirname(pdf) or ".", junk))
+            except OSError:
+                pass
+    if not (os.path.exists(pdf) and os.path.getsize(pdf)):
+        return False
+    try:
+        import pymupdf
+        d = pymupdf.open(pdf)
+        text = "".join(d[i].get_text() for i in range(min(6, d.page_count)))
+        d.close()
+    except Exception:  # noqa: BLE001
+        text = ""
+    if not text.strip() or looks_like_code(text):
+        os.remove(pdf)
+        return False
+    return True
+
+
 def to_pdf(p):
+    """A written .htm/.html/.docx file -> PDF beside it. Returns the PDF path, or None when no clean PDF came out (the
+    source file is removed either way: raw web pages are never uploaded)."""
+    pdf = os.path.splitext(p)[0] + ".pdf"
+    if p.lower().endswith(("htm", "html")):
+        ok = html_to_pdf(p, pdf)
+        os.remove(p)
+        return pdf if ok else None
     soffice = shutil.which("soffice") or shutil.which("libreoffice")
     if not soffice:
         return p
     try:
-        filt = "pdf:writer_web_pdf_Export" if p.lower().endswith(("htm", "html")) else "pdf"
-        subprocess.run([soffice, "--headless", "--norestore", "--convert-to", filt, "--outdir", os.path.dirname(p), p],
+        subprocess.run([soffice, "--headless", "--norestore", "--convert-to", "pdf", "--outdir", os.path.dirname(p), p],
                        capture_output=True, timeout=600)
     except (subprocess.TimeoutExpired, OSError):
+        subprocess.run(["pkill", "-f", "soffice"], capture_output=True)
         return p
-    pdf = os.path.splitext(p)[0] + ".pdf"
     if os.path.exists(pdf) and os.path.getsize(pdf):
         os.remove(p)
         return pdf
@@ -217,16 +377,22 @@ def fetch_anon(s, sink, anon, url, rel, filer=""):
             sink.wrote(dst)
             return True
         raw = body.decode("utf-8", "replace") if _utf8(body) else body.decode("cp1252", "replace")
-        if ext == "txt":
+        if ext == "txt" and re.search(r"<html\b", raw[:20000], re.I):
+            raw = strip_envelope(raw)  # EDGAR envelope around a web page: the page itself
+        elif ext == "txt":
             raw = "<html><body><pre>" + raw.replace("&", "&amp;").replace("<", "&lt;") + "</pre></body></html>"
         raw = re.sub(r"<img\b[^>]*>", "", raw, flags=re.I)  # logos and signatures stay out
         plain = html.unescape(re.sub(r"<[^>]+>", " ", raw)).replace(" ", " ")
         learned = learn_aliases(anon, plain, filer)
         people = anon.prelearn(plain[:400000])
-        out = last_pass(anon.text(raw, people), learned)
+        raw, kept = protect(raw)
+        out = unprotect(last_pass(anon.text(raw, people), learned), kept)
         dst = sink.path(f"{rel}.htm")
         open(dst, "w", encoding="utf-8").write(out)
-        sink.wrote(to_pdf(dst))
+        pdf = to_pdf(dst)
+        if not pdf:
+            return False
+        sink.wrote(pdf)
         return True
     except Exception:  # one bad document never stops a source
         return False
@@ -524,8 +690,8 @@ def is_english(text, sample=40000):
     return sum(w in EN_WORDS for w in words) / len(words) >= 0.08
 
 
-ESG_TEXT = re.compile(r"sustainab|greenhouse|emission|scope [123]|climate|esg|carbon|decarboni|net[- ]zero|"
-                      r"renewable|biodiversity|human rights|diversity|tcfd|gri|sasb|stakeholder", re.I)
+ESG_TEXT = re.compile(r"sustainab|greenhouse|emission|scope [123]\b|climate|\besg\b|carbon|decarboni|net[- ]zero|"
+                      r"renewable|biodiversity|human rights|diversity|tcfd|gri\b|sasb|stakeholder", re.I)
 
 
 def is_esg(text, sample=60000):

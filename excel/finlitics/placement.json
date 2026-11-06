@@ -1,11 +1,3 @@
 {
-  "_note": "Which GitHub repository runs each Financelitics job (a job never runs in two places). Jobs not listed run in Elsavado/earnings-sync.",
-  "deals_1": "LittleGamesIncorporated/financelitics-runner",
-  "deals_2": "LittleGamesIncorporated/financelitics-runner",
-  "deals_3": "LittleGamesIncorporated/financelitics-runner",
-  "ipos_1": "LittleGamesIncorporated/financelitics-runner",
-  "ipos_2": "LittleGamesIncorporated/financelitics-runner",
-  "africa_a": "LittleGamesIncorporated/financelitics-runner",
-  "africa_b": "LittleGamesIncorporated/financelitics-runner",
-  "wealth": "LittleGamesIncorporated/financelitics-runner"
+  "_note": "Which GitHub repository runs each Financelitics job. Empty since 2026-11-06: the LittleGamesIncorporated account is gone, every job runs in Elsavado/earnings-sync."
 }

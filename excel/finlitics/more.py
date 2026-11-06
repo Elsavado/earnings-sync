@@ -437,7 +437,8 @@ def esg(sink, st):
     # 1. company reports (EDGAR full-text search: exhibits that are the reports themselves)
     pos = st.setdefault("efts", {})
     # every year gets a slice each pass (2026-11-06: one pass per year left everything in the current year)
-    for y, q in [(y, q) for _ in range(10) for y in range(dt.date.today().year, 2009, -1) for q in ESG_Q]:
+    for y, q in [(y, q) for _ in range(10) for y in range(dt.date.today().year, 2009, -1) for q in ESG_Q
+                 if _mine(y)]:
         key = f"{y}|{q}"
         start = pos.get(key, 0)
         stop = (start or 0) + 200
@@ -453,6 +454,8 @@ def esg(sink, st):
                 break
             start += len(hits)
             for h in hits:
+                if sink.full():  # 2026-11-06: a page of 100 hits overran the job's time limit
+                    break
                 src = h["_source"]
                 typ = (src.get("file_type") or "").upper()
                 if not (typ.startswith("EX-99") or typ in ("DEF 14A", "ARS")):
@@ -466,6 +469,8 @@ def esg(sink, st):
                     n += 1
                     _count(st, "esg")
         pos[key] = start
+    if LANE and not LANE.startswith("0/"):  # facility and country data: lane 0 only
+        return n
     # 2. EPA greenhouse gas reporting program: facility emissions per year, parent companies made up
     n += C.ghgrp(s, sink, anon, st, f"{ESG}/Facility Greenhouse Gas Emissions (EPA GHGRP)")
     # 3. World Bank sovereign ESG indicators
