@@ -5,6 +5,8 @@ name: Financelitics data
 # sector teams). Uploads only when repo variable FINLITICS_LIVE is "true". Public repository: logs print counts only.
 
 on:
+  schedule:  # backup only (user 2026-11-07: "upload endlessly in a loop"): restarts the chain if a hand-off was lost
+    - cron: "41 */4 * * *"
   workflow_dispatch:
     inputs:
       sources:
