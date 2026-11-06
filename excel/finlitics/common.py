@@ -65,12 +65,45 @@ def anon_for(st):
         from howco.people import key_material
         names, ticks = _registrants(session(True))
         own = st.setdefault("names", {"people": {}, "companies": {}, "tickers": {}})
+        purge_companies(own.setdefault("companies", {}))
         a = Anon([], own.setdefault("people", {}), [], own.setdefault("companies", {}), key_material(),
                  names, names[:1500], ticks, [], own.setdefault("tickers", {}), ner=True)
         found = a.people_in
         a.people_in = lambda s, limit=400000: [(f, l) for f, l in found(s, limit) if _plausible(a, f, l)]
         _ANON[key] = a
     return _ANON[key]
+
+
+# 2026-11-07: the company map had learnt phrases ('according to', 'acquisitions', 'a 2 table of contents') as company
+# names, so ordinary words came out as made-up names ('Vabont Kanim'). A key with these words is not a company name.
+NOT_NAME = set("""table contents filed held by according conducted succeeded were was is are be been being has had having
+if such this that these those which who whom whose its their his her our your we they it plan survey directly jointly
+based upon following impact adopted purpose converted remains brought new from with into as at on in for to or not no
+than then when where while during after before under over above below between within without about against per via
+shares share stock common preferred section exhibit page pages schedule annex article agreement registration
+statement merger constituent law""".split())
+
+
+def co_key_ok(key):
+    """A key of the company map that can be a company's name (lower-case words)."""
+    from wordfreq import zipf_frequency as z
+    w = key.split()
+    if not w or len(w) > 6 or w[0].isdigit() or any(x in NOT_NAME for x in w):
+        return False
+    if w[0] in ("a", "an") and (len(w) == 1 or w[1].isdigit()):
+        return False
+    if len(w) == 1 and z(w[0], "en") >= 3.5:  # one everyday word ('acquisitions', 'abundance' stays)
+        return False
+    return True
+
+
+def purge_companies(co):
+    """Drops the keys that are not company names (in place); web addresses ('dom:') stay."""
+    bad = [k for k in co if not k.startswith("dom:") and not co_key_ok(k)]
+    for k in bad:
+        del co[k]
+    if bad:
+        print(f"company map: {len(bad)} phrases that are not company names dropped, {len(co)} kept")
 
 
 STREET = {"drive", "street", "road", "avenue", "lane", "boulevard", "way", "place", "court", "plaza", "parkway",
@@ -160,9 +193,23 @@ def learn_aliases(anon, text, filer=""):
         return co.pseudo(core)
 
     def alias(name, short):
-        core = core_tokens(name)
+        toks = name.split()  # the name is the capitalised words right before 'Inc.' etc., not the sentence before them
+        i = len(toks)
+        while i and (toks[i - 1][:1].isupper() or toks[i - 1] in ("&", "of", "and", "de")):
+            i -= 1
+        toks = toks[i:]
+        while len(toks) > 2 and (toks[0] in ("&", "of", "and", "de") or z(toks[0].lower(), "en") >= 4.0):
+            rest = toks[1:]  # 'Special Meeting of Acme Widgets' -> 'Acme Widgets'; 'Bank of America' stays whole
+            while rest and rest[0] in ("&", "of", "and", "de"):
+                rest = rest[1:]
+            if len(rest) < 2:
+                break
+            toks = rest
+        name = " ".join(toks).strip(" &")
+        core = core_tokens(name) if name else ()
         key = " ".join(core_tokens(short) or (short.lower(),))
-        if not core or not key or key.lower() in ROLE or not _nickname(core, short, z):
+        if (not core or not key or key.lower() in ROLE or not co_key_ok(" ".join(core)) or not co_key_ok(key)
+                or not _nickname(core, short, z)):
             return
         made = force(core)
         learned.append((" ".join(core), made))

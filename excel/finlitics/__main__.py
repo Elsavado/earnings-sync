@@ -377,6 +377,23 @@ from finlitics.more import SOURCES as _MORE  # noqa: E402
 SOURCES.update(_MORE)
 
 
+# 2026-11-07 (user: "yes re download"): documents anonymised before the company-map fix had ordinary words swapped for
+# made-up names. Each anonymised source starts again from the beginning once; same file names, so the new copies
+# replace the old ones. Name maps stay (a company keeps its made-up name).
+REDO = {"ipos": ["ipo_q", "ipo_pos", "items"], "deals": ["deal_q", "deal_pos", "items"], "credit": ["efts", "items"],
+        "portfolio": ["acc", "items"], "esg": ["efts", "items"],
+        "esgweb": ["seen", "crawls_done", "cc", "items"], "africa": ["seen", "crawls_done", "cand", "items"]}
+ANON_V = 2
+
+
+def redo(name, sec):
+    if name in REDO and sec.get("anon_v", 1) < ANON_V:
+        for k in REDO[name]:
+            sec.pop(k, None)
+        sec["anon_v"] = ANON_V
+        print(f"{name}: starting again from the beginning (documents re-anonymised)")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--sources", default=CORE)
@@ -408,6 +425,7 @@ def main():
         real_deadline, sink.deadline = sink.deadline, min(sink.deadline, slice_end)
         t0 = time.time()
         try:
+            redo(name, st.section(name))
             n = SOURCES[name](sink, st.section(name))
             sink.flush()
             print(f"{name}: {n} items in {time.time() - t0:.0f}s; total {sink.files} files, {sink.sent / 2 ** 20:.0f} MB")
