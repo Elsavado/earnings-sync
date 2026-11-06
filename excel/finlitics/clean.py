@@ -42,7 +42,7 @@ def text_of(body):
 def folders(remote):
     """Folders written from the web archive: worldwide ESG, Kenya & South Africa ESG, the Kenya & South Africa
     sections of 07/09/10/11/13 and folder 14."""
-    out = [WORLD, f"{ESG}/Company Sustainability Reports (Kenya & South Africa)",
+    out = [WORLD, USA, f"{ESG}/Company Sustainability Reports (Kenya & South Africa)",
            "14 Kenya & South Africa Annual & Integrated Reports"]
     for line in rc("lsf", remote, "--dirs-only", capture=True).decode().splitlines():
         top = line.rstrip("/")
@@ -74,10 +74,21 @@ def main():
     us_folders = set()
     for f in ("state/finlitics-esgweb_a.json", "state/finlitics-esgweb_b.json"):
         if os.path.exists(f):
-            for label, made_up in json.load(open(f)).get("companies", {}).items():
+            data = json.load(open(f))
+            data = data.get("esgweb", data)  # the job's state is kept under its source's name
+            for label, made_up in data.get("companies", {}).items():
                 if label in us_keys:
                     us_folders.add(made_up)
     print(f"US company folders known: {len(us_folders)}")
+    moved = set(st.get("usa_moved", []))
+    for name in sorted(us_folders - moved):  # whole company folders, worldwide -> USA (server side)
+        if time.time() > end:
+            break
+        if a.live:
+            rc("move", f"{a.remote}/{WORLD}/{name}", f"{a.remote}/{USA}/{name}")
+        moved.add(name)
+        stats["to_usa"] += 1
+    st["usa_moved"] = sorted(moved)
 
     if a.live and not st.get("sec_moved"):
         if rc("lsf", f"{a.remote}/{ESG}/Company ESG Reports", "--max-depth", "1", capture=True):

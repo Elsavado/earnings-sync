@@ -597,7 +597,7 @@ def _us_names():
         keys.add("".join(words))
         if len(words[0]) >= 5 and words[0] not in US_GENERIC:
             keys.add(words[0])
-        if 3 <= len(v.get("ticker", "")) <= 5:
+        if 4 <= len(v.get("ticker", "")) <= 5:  # 3-letter tickers matched unrelated sites
             keys.add(v["ticker"].lower())
     return keys
 
