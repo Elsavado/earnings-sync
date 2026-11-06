@@ -511,7 +511,30 @@ def worldbank_esg(s, sink, st, folder):
     return n
 
 
-def save_pdf_anon(sink, anon, body, rel, company=""):
+EN_WORDS = frozenset("the and of to for our we with is are this that from by which have has will was were be its "
+                     "their these been more also than such other into".split())
+
+
+def is_english(text, sample=40000):
+    """True when the text reads as English (user 2026-11-06: English versions only). Share of common English
+    function words among the words of the first pages; other languages score near zero. No text (scans) = False."""
+    words = re.findall(r"[a-zA-Z]+", text[:sample].lower())
+    if len(words) < 150:
+        return False
+    return sum(w in EN_WORDS for w in words) / len(words) >= 0.08
+
+
+ESG_TEXT = re.compile(r"sustainab|greenhouse|emission|scope [123]|climate|esg|carbon|decarboni|net[- ]zero|"
+                      r"renewable|biodiversity|human rights|diversity|tcfd|gri|sasb|stakeholder", re.I)
+
+
+def is_esg(text, sample=60000):
+    """The report itself is about sustainability: ESG words come up again and again (not a thesis, contract or fund
+    report that only has 'esg' or 'csr' in its web address)."""
+    return len(ESG_TEXT.findall(text[:sample])) >= 15
+
+
+def save_pdf_anon(sink, anon, body, rel, company="", esg=False):
     """A PDF already in memory (web archive): company aliases learned from its text, then redacted in place."""
     tmp = tempfile.mkdtemp(prefix="fl_")
     try:
@@ -525,6 +548,8 @@ def save_pdf_anon(sink, anon, body, rel, company=""):
             text = "".join(p.get_text() for p in doc)[:3000000]
             doc.close()
         except Exception:  # damaged PDF
+            return False
+        if not is_english(text) or (esg and not is_esg(text)):
             return False
         anon.start()
         learn_aliases(anon, text, company)

@@ -436,34 +436,36 @@ def esg(sink, st):
     n = 0
     # 1. company reports (EDGAR full-text search: exhibits that are the reports themselves)
     pos = st.setdefault("efts", {})
-    for y in range(dt.date.today().year, 2009, -1):
-        for q in ESG_Q:
-            key = f"{y}|{q}"
-            start = pos.get(key, 0)
-            while start is not None and start < 3000 and not sink.full() and st.get("items", 0) < CAPS["esg"]:
-                time.sleep(0.25)
-                r = C.get(s, "https://efts.sec.gov/LATEST/search-index", params={
-                    "q": q, "forms": "8-K,10-K,DEF 14A,ARS", "startdt": f"{y}-01-01", "enddt": f"{y}-12-31",
-                    "from": start})
-                hits = r.json().get("hits", {}).get("hits", []) if r else []
-                if not hits:
-                    start = None
-                    break
-                start += len(hits)
-                for h in hits:
-                    src = h["_source"]
-                    typ = (src.get("file_type") or "").upper()
-                    if not (typ.startswith("EX-99") or typ in ("DEF 14A", "ARS")):
-                        continue
-                    acc, fname = h["_id"].split(":", 1)
-                    cik = (src.get("ciks") or ["0"])[0].lstrip("0") or "0"
-                    company = re.sub(r"\s*\(.*", "", (src.get("display_names") or ["Company"])[0])
-                    kind = "Proxy statement (ESG & governance)" if typ == "DEF 14A" else "Sustainability & climate report"
-                    rel = f"{ESG}/Company ESG Reports/{y}/{_nm(anon, company)}/{src.get('file_date', '')} {kind}"
-                    if C.fetch_anon(s, sink, anon, f"{ARCH}/data/{cik}/{acc.replace('-', '')}/{fname}", rel, filer=company):
-                        n += 1
-                        _count(st, "esg")
-            pos[key] = start
+    # every year gets a slice each pass (2026-11-06: one pass per year left everything in the current year)
+    for y, q in [(y, q) for _ in range(10) for y in range(dt.date.today().year, 2009, -1) for q in ESG_Q]:
+        key = f"{y}|{q}"
+        start = pos.get(key, 0)
+        stop = (start or 0) + 200
+        while (start is not None and start < min(3000, stop) and not sink.full()
+               and st.get("items", 0) < CAPS["esg"]):
+            time.sleep(0.25)
+            r = C.get(s, "https://efts.sec.gov/LATEST/search-index", params={
+                "q": q, "forms": "8-K,10-K,DEF 14A,ARS", "startdt": f"{y}-01-01", "enddt": f"{y}-12-31",
+                "from": start})
+            hits = r.json().get("hits", {}).get("hits", []) if r else []
+            if not hits:
+                start = None
+                break
+            start += len(hits)
+            for h in hits:
+                src = h["_source"]
+                typ = (src.get("file_type") or "").upper()
+                if not (typ.startswith("EX-99") or typ in ("DEF 14A", "ARS")):
+                    continue
+                acc, fname = h["_id"].split(":", 1)
+                cik = (src.get("ciks") or ["0"])[0].lstrip("0") or "0"
+                company = re.sub(r"\s*\(.*", "", (src.get("display_names") or ["Company"])[0])
+                kind = "Proxy statement (ESG & governance)" if typ == "DEF 14A" else "Sustainability & climate report"
+                rel = f"{ESG}/Company ESG Reports (USA, SEC filings)/{y}/{_nm(anon, company)}/{src.get('file_date', '')} {kind}"
+                if C.fetch_anon(s, sink, anon, f"{ARCH}/data/{cik}/{acc.replace('-', '')}/{fname}", rel, filer=company):
+                    n += 1
+                    _count(st, "esg")
+        pos[key] = start
     # 2. EPA greenhouse gas reporting program: facility emissions per year, parent companies made up
     n += C.ghgrp(s, sink, anon, st, f"{ESG}/Facility Greenhouse Gas Emissions (EPA GHGRP)")
     # 3. World Bank sovereign ESG indicators
@@ -564,6 +566,46 @@ def _warc_body(s, row):
     return parts[2] if len(parts) == 3 and parts[2][:5] == b"%PDF-" else None
 
 
+US_GENERIC = set("first american united global general national new great bank capital financial international "
+                 "group energy health community federal pacific atlantic southern northern western eastern "
+                 "central north south east west world digital data life home green blue star sun gold power".split())
+US_SUFFIX = r"\b(inc|corp|corporation|co|company|ltd|plc|llc|lp|holdings?|group|the|n\.?v|s\.?a|trust|bancorp)\b"
+
+
+def _us_names():
+    """Name keys of SEC-registered companies (company_tickers.json): the whole name squeezed ('generalmills'), the
+    first word when it is distinctive ('nike') and the ticker. A .com site whose name matches is a US company's."""
+    s = C.session(True)
+    r = C.get(s, "https://www.sec.gov/files/company_tickers.json")
+    # US-GAAP reporters only: foreign issuers listed in the US (Siemens, Unilever ...) report IFRS
+    gaap = set()
+    for period in ("CY2024Q4I", "CY2023Q4I", "CY2025Q2I"):
+        f = C.get(s, f"https://data.sec.gov/api/xbrl/frames/us-gaap/Assets/USD/{period}.json")
+        gaap |= {d["cik"] for d in (f.json().get("data", []) if f else [])}
+    keys = set()
+    for v in (r.json().values() if r else []):
+        if gaap and v.get("cik_str") not in gaap:
+            continue
+        words = re.findall(r"[a-z0-9]+", re.sub(US_SUFFIX, " ", v.get("title", "").lower()))
+        if not words:
+            continue
+        keys.add("".join(words))
+        if len(words[0]) >= 5 and words[0] not in US_GENERIC:
+            keys.add(words[0])
+        if 3 <= len(v.get("ticker", "")) <= 5:
+            keys.add(v["ticker"].lower())
+    return keys
+
+
+def _is_us(host, us):
+    host = (host or "").lower().removeprefix("www.")
+    if host.endswith(".us"):
+        return True
+    if not host.endswith(".com"):  # country sites (.co.uk, .de, .jp ...) are not US
+        return False
+    return _company_label(host) in us
+
+
 def esgweb(sink, st):
     """Sustainability, ESG, climate (TCFD), CSR and integrated reports that companies publish on their own websites,
     worldwide and in every language, out of the Common Crawl web archive (public bodies left out). One folder per
@@ -575,6 +617,7 @@ def esgweb(sink, st):
     seen = set(st.setdefault("seen", []))
     comp = st.setdefault("companies", {})
     done = st.setdefault("crawls_done", [])
+    us = _us_names()
     n = 0
     while not sink.full() and st.get("items", 0) < CAPS["esgweb"]:
         todo = [c for c in _crawls(s, st) if c not in done]
@@ -614,12 +657,12 @@ def esgweb(sink, st):
             if label not in comp:
                 comp[label] = safe(anon.co.pseudo((label,)), 60)
             year = (re.findall(r"(?<!\d)(20[0-3]\d)(?!\d)", row["url"]) or ["undated"])[-1]
-            lang = (row.get("content_languages") or "").split(",")[0] or "xx"
             kind = ("Climate report" if re.search(r"climate|tcfd|tnfd|carbon", row["url"], re.I) else
                     "Integrated report" if re.search(r"integrated", row["url"], re.I) else
                     "CSR report" if re.search(r"csr|responsib", row["url"], re.I) else "Sustainability report")
-            rel = f"{ESG}/Company Sustainability Reports (worldwide)/{comp[label]}/{year} {kind} ({lang}) {dig[:6]}"
-            if C.save_pdf_anon(sink, anon, body, rel, label):
+            where = "USA" if _is_us(row["url_host_name"], us) else "worldwide"
+            rel = f"{ESG}/Company Sustainability Reports ({where})/{comp[label]}/{year} {kind} {dig[:6]}"
+            if C.save_pdf_anon(sink, anon, body, rel, label, esg=True):
                 n += 1
                 _count(st, "esgweb")
         st["seen"] = sorted(seen)[-400000:]
