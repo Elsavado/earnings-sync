@@ -43,6 +43,7 @@ jobs:
     # (excel/finlitics/placement.json), which checks out this repository's code.
     strategy:
       fail-fast: false
+      max-parallel: 9  # 2026-11-07: the account runs 20 jobs at once; 10 go to the Asset Library collector, 1 to ops-data
       matrix:
         include:
           # 2026-11-06: repair + English/ESG clean first; LittleGames runner jobs back here (that account is gone)
