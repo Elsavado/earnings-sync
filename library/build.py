@@ -73,7 +73,7 @@ def isos(m, live, lane, lanes):
     iso = m["iso"]
     names = sorted(n for n in rc("lsf", src(iso["id"], iso["sub"]), "--files-only", capture=True).splitlines()
                    if n.lower().endswith(".iso"))
-    work = "/mnt/iso"
+    work = "/mnt/iso/w"  # /mnt/iso itself belongs to the runner user; /mnt does not
     done = 0
     for i, name in enumerate(names):
         if i % lanes != lane:
