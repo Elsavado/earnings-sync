@@ -1,0 +1,49 @@
+name: Shintiru library
+
+# Learning library on shintiru@gmail.com (user 2026-11-07): shared Google Drive folders copied server side into
+# Library/<subject>/<course>; the print-pack disc images unpacked into browsable folders. Folder ids live in the
+# LIBRARY_MAP secret. Public repository: logs print counts only.
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "dry run (nothing copied)"
+        type: boolean
+        default: false
+
+concurrency:
+  group: shintiru-library
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {part: drives, lane: "0/1"}
+          - {part: iso, lane: "0/2"}
+          - {part: iso, lane: "1/2"}
+    steps:
+      - uses: actions/checkout@v4
+      - name: rclone and 7-Zip
+        env:
+          CONF: ${{ secrets.SHINTIRU_RCLONE_CONF }}
+        run: |
+          curl -fsSL https://rclone.org/install.sh | sudo bash >/dev/null
+          sudo apt-get install -y -qq p7zip-full > /dev/null
+          mkdir -p ~/.config/rclone
+          printf '%s\n' "$CONF" > ~/.config/rclone/rclone.conf
+          chmod 600 ~/.config/rclone/rclone.conf
+          sudo mkdir -p /mnt/iso && sudo chown "$USER" /mnt/iso
+          rclone about shintiru: 2>&1 | grep -E "^(Total|Used|Free)" || true
+      - name: Build
+        timeout-minutes: 330
+        env:
+          LIBRARY_MAP: ${{ secrets.LIBRARY_MAP }}
+        run: |
+          flag=$([ "${{ inputs.dry_run }}" = "true" ] && echo "" || echo --live)
+          python3 library/build.py --part ${{ matrix.part }} --lane ${{ matrix.lane }} $flag
