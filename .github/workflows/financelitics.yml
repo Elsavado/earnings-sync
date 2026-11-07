@@ -109,18 +109,18 @@ jobs:
           flag=$([ "$LIVE" = "true" ] && echo --live || echo "")
           if [ "${{ matrix.sources }}" = repair ]; then  # rewrites PDFs only when FINLITICS_CLEAN_LIVE is 'true'
             [ "${{ vars.FINLITICS_CLEAN_LIVE }}" = true ] || flag=""
-            exec python -m finlitics.clean --mode repair --lane "${{ matrix.lane }}" --threads 6 --remote "ws:Financelitics" --state "state/finlitics-${{ matrix.name }}.json" --minutes "${{ inputs.minutes || 320 }}" $flag
+            exec python -m finlitics.clean --mode repair --lane "${{ matrix.lane }}" --threads 6 --remote "ws:Financelitics" --state "state/finlitics-${{ matrix.name }}.json" --minutes "${{ inputs.minutes || 300 }}" $flag
           fi
           if [ "${{ matrix.name }}" = clean ]; then  # deletes only when repo variable FINLITICS_CLEAN_LIVE is 'true'
             [ "${{ vars.FINLITICS_CLEAN_LIVE }}" = true ] || flag=""
-            exec python -m finlitics.clean --remote "ws:Financelitics" --state state/finlitics-clean.json --minutes "${{ inputs.minutes || 320 }}" $flag
+            exec python -m finlitics.clean --remote "ws:Financelitics" --state state/finlitics-clean.json --minutes "${{ inputs.minutes || 300 }}" $flag
           fi
           if [ "${{ matrix.name }}" = core ]; then
             src="${{ inputs.sources || 'filings,comments,fred,fdic,famafrench,treasury,transcripts,books' }}"; state=state/finlitics.json
           else
             src="${{ matrix.sources }}"; state="state/finlitics-${{ matrix.name }}.json"
           fi
-          python -m finlitics --sources "$src" --remote "ws:Financelitics" --state "$state" --minutes "${{ inputs.minutes || 320 }}" $flag
+          python -m finlitics --sources "$src" --remote "ws:Financelitics" --state "$state" --minutes "${{ inputs.minutes || 300 }}" $flag
 
   next:
     # Endless hand-off: start the next run when this one ends (the watchdog's schedule is unreliable).
