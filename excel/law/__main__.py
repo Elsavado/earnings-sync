@@ -1,0 +1,676 @@
+"""LAW collector (user 2026-11-08): complete court cases, traced from the first filing to the final decision, into the
+IR Transcripts shared drive, folder "LAW".
+
+Sources (public court records, US government works):
+  scotus  US Supreme Court argued cases, October Term 2017 onward (electronic dockets): every docket filing PDF in
+          order (petition, briefs in opposition, amicus, merits briefs, motions, orders), the oral argument
+          transcript and audio, the opinion of the Court, plus a case timeline and the docket.
+  icj     International Court of Justice contentious and advisory cases, closed ones only: application, written and
+          oral proceedings, orders, judgments (English or bilingual editions).
+  sec     SEC closed litigated administrative proceedings: order instituting proceedings, briefs, initial decision,
+          Commission opinion, finality order.
+  recap   Closed US federal court cases from the RECAP archive (Free Law Project, mirrored on the Internet Archive)
+          whose documents are nearly all present from the complaint/indictment to the judgment.
+
+Layout:
+  LAW/01 US Supreme Court/October Term <yyyy>/<docket> <case name>/
+  LAW/02 US District Courts/<Civil|Criminal>/<nature of suit>/<case name> (<docket>, <court>)/
+  LAW/03 US Bankruptcy Courts/<court>/<case name> (<docket>)/        business debtors only
+  LAW/04 US Courts of Appeals/<circuit>/<case name> (<docket>)/
+  LAW/05 Other Federal Courts/<court>/<case name> (<docket>)/
+  LAW/06 International Court of Justice/<no> <case>/<01 Institution of Proceedings .. 10 Summaries>/
+  LAW/07 SEC Administrative Proceedings/<year>/<file no> <respondents>/
+Each case folder: "00 Case Timeline.pdf" (every docket entry with its date and file), "00 Docket.json", then the
+documents numbered in docket order ("0001 2019-03-02 Complaint.pdf", attachments "0001-01 Exhibit A.pdf").
+
+State: "LAW - private/state-<job>.json". Uploads only with --live.
+"""
+import argparse, concurrent.futures as cf, html, json, os, re, shutil, subprocess, sys, tempfile, time, zlib
+import xml.etree.ElementTree as ET
+
+import requests
+
+UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36"
+S = requests.Session()
+S.headers["User-Agent"] = UA
+SC = "https://www.supremecourt.gov"
+IA = "https://archive.org"
+T0 = time.time()
+
+STATES = {"al": "Alabama", "ak": "Alaska", "az": "Arizona", "ar": "Arkansas", "ca": "California", "co": "Colorado",
+          "ct": "Connecticut", "de": "Delaware", "dc": "District of Columbia", "fl": "Florida", "ga": "Georgia",
+          "hi": "Hawaii", "id": "Idaho", "il": "Illinois", "in": "Indiana", "ia": "Iowa", "ks": "Kansas",
+          "ky": "Kentucky", "la": "Louisiana", "me": "Maine", "md": "Maryland", "ma": "Massachusetts",
+          "mi": "Michigan", "mn": "Minnesota", "ms": "Mississippi", "mo": "Missouri", "mt": "Montana",
+          "ne": "Nebraska", "nv": "Nevada", "nh": "New Hampshire", "nj": "New Jersey", "nm": "New Mexico",
+          "ny": "New York", "nc": "North Carolina", "nd": "North Dakota", "oh": "Ohio", "ok": "Oklahoma",
+          "or": "Oregon", "pa": "Pennsylvania", "ri": "Rhode Island", "sc": "South Carolina", "sd": "South Dakota",
+          "tn": "Tennessee", "tx": "Texas", "ut": "Utah", "vt": "Vermont", "va": "Virginia", "wa": "Washington",
+          "wv": "West Virginia", "wi": "Wisconsin", "wy": "Wyoming", "pr": "Puerto Rico", "gu": "Guam",
+          "vi": "Virgin Islands", "nmi": "Northern Mariana Islands"}
+SIDE = {"n": "Northern", "s": "Southern", "e": "Eastern", "w": "Western", "m": "Middle", "c": "Central"}
+CIRCUITS = {f"ca{i}": f"{n} Circuit" for i, n in enumerate(
+    ["", "First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth", "Ninth", "Tenth", "Eleventh"])
+    if i}
+CIRCUITS.update({"cadc": "D.C. Circuit", "cafc": "Federal Circuit"})
+OTHER = {"cit": "Court of International Trade", "uscfc": "Court of Federal Claims", "jpml": "Judicial Panel on "
+         "Multidistrict Litigation", "cavc": "Court of Appeals for Veterans Claims", "fisc": "Foreign Intelligence "
+         "Surveillance Court"}
+BUSINESS = re.compile(r"\b(inc|llc|l\.l\.c|corp|corporation|company|co\.|ltd|limited|lp|l\.p|llp|holdings?|bank|"
+                      r"group|partners|partnership|trust|fund|capital|industries|enterprises|association|authority|"
+                      r"city of|county|hospital|university|church|diocese)\b", re.I)
+
+
+def log(*a):
+    print(time.strftime("%H:%M:%S"), *a, flush=True)
+
+
+def left(minutes):
+    return minutes * 60 - (time.time() - T0)
+
+
+def clean(s, n=90):
+    s = html.unescape(re.sub(r"<[^>]+>", " ", s or ""))
+    s = re.sub(r'[\\/:*?"<>|\r\n\t]+', " ", s)
+    s = re.sub(r"\s+", " ", s).strip(" .")
+    if len(s) > n:
+        s = s[:n].rsplit(" ", 1)[0].rstrip(" ,;.-")
+    return s or "Document"
+
+
+def get(url, tries=4, **kw):
+    for i in range(tries):
+        try:
+            r = S.get(url, timeout=kw.pop("timeout", 60), **kw)
+            if r.status_code == 200:
+                return r
+            if r.status_code in (404, 410, 403):
+                return None
+        except requests.RequestException:
+            pass
+        time.sleep(2 + 3 * i)
+    return None
+
+
+def fetch(url, path):
+    for i in range(4):
+        try:
+            with S.get(url, timeout=120, stream=True) as r:
+                if r.status_code != 200:
+                    if r.status_code in (403, 404, 410):
+                        return False
+                    raise requests.RequestException(r.status_code)
+                with open(path, "wb") as f:
+                    for c in r.iter_content(1 << 20):
+                        f.write(c)
+            return os.path.getsize(path) > 0
+        except (requests.RequestException, OSError):
+            time.sleep(3 + 4 * i)
+    return False
+
+
+# ---------------------------------------------------------------- drive
+
+class Drive:
+    def __init__(self, remote, job, live):
+        self.remote, self.job, self.live = remote, job, live
+        self.state_path = f"{remote.split(':')[0]}:LAW - private/state-{job}.json"
+        self.local_state = os.path.join(tempfile.gettempdir(), f"law-state-{job}.json")
+        self.state = {}
+        try:
+            r = subprocess.run(["rclone", "cat", self.state_path], capture_output=True, text=True)
+        except FileNotFoundError:
+            r = None
+        if r and r.returncode == 0 and r.stdout.strip():
+            self.state = json.loads(r.stdout)
+        self.state.setdefault("done", [])
+        self.state.setdefault("skip", [])
+        self.state.setdefault("files", 0)
+        self.done = set(self.state["done"])
+        self.skip = set(self.state["skip"])
+
+    def save(self):
+        self.state["done"], self.state["skip"] = sorted(self.done), sorted(self.skip)
+        with open(self.local_state, "w") as f:
+            json.dump(self.state, f)
+        if self.live:
+            subprocess.run(["rclone", "copyto", self.local_state, self.state_path, "-q"], check=False)
+
+    def upload(self, folder, dest):
+        n = len(os.listdir(folder))
+        if not self.live:
+            log(f"  dry run: {n} files -> {dest}")
+            return True
+        r = subprocess.run(["rclone", "copy", folder, f"{self.remote}{dest}", "--transfers", "8", "--checkers", "8",
+                            "--drive-chunk-size", "64M", "--retries", "5", "--low-level-retries", "20", "-q"])
+        if r.returncode == 0:
+            self.state["files"] += n
+        return r.returncode == 0
+
+
+# ---------------------------------------------------------------- timeline
+
+def timeline_pdf(path, title, facts, rows):
+    from reportlab.lib import colors
+    from reportlab.lib.pagesizes import letter, landscape
+    from reportlab.lib.styles import getSampleStyleSheet
+    from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+    ss = getSampleStyleSheet()
+    small = ss["BodyText"].clone("small", fontSize=8, leading=10)
+    esc = lambda s: html.escape(str(s or ""))
+    story = [Paragraph(esc(title), ss["Title"])]
+    for k, v in facts:
+        if v:
+            story.append(Paragraph(f"<b>{esc(k)}:</b> {esc(v)}", small))
+    story.append(Spacer(1, 10))
+    data = [[Paragraph(f"<b>{h}</b>", small) for h in ("No.", "Date", "Docket entry", "File")]]
+    for no, date, text, fname in rows:
+        data.append([Paragraph(esc(no), small), Paragraph(esc(date), small),
+                     Paragraph(esc(text)[:3000], small), Paragraph(esc(fname), small)])
+    t = Table(data, colWidths=[40, 62, 430, 190], repeatRows=1)
+    t.setStyle(TableStyle([("GRID", (0, 0), (-1, -1), 0.25, colors.grey), ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                           ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#e8e8e8"))]))
+    story.append(t)
+    SimpleDocTemplate(path, pagesize=landscape(letter), leftMargin=30, rightMargin=30, topMargin=30,
+                      bottomMargin=30, title=title).build(story)
+
+
+def download_all(jobs, folder, threads=8):
+    """jobs: [(url, filename)] -> number fetched; failed ones are removed from the folder."""
+    ok = 0
+    with cf.ThreadPoolExecutor(threads) as ex:
+        futs = {ex.submit(fetch, u, os.path.join(folder, n)): n for u, n in jobs}
+        for f in cf.as_completed(futs):
+            if f.result():
+                ok += 1
+            else:
+                try:
+                    os.remove(os.path.join(folder, futs[f]))
+                except OSError:
+                    pass
+    return ok
+
+
+# ---------------------------------------------------------------- Supreme Court
+
+def scotus_cases(term):
+    """Argued cases of one October Term: [(docket, name, transcript url)]."""
+    r = get(f"{SC}/oral_arguments/argument_transcript/{term}")
+    out, seen = [], set()
+    if not r:
+        return out
+    for m in re.finditer(r"href='\.\./argument_transcripts/(\d{4})/([^']+\.pdf)'[^>]*>([^<]+)</a></span>\s*"
+                         r"<span[^>]*>([^<]+)</span>", r.text):
+        yr, pdf, docket, name = m.groups()
+        docket = docket.strip()
+        if docket in seen:
+            continue
+        seen.add(docket)
+        out.append((docket, html.unescape(name).strip(), f"{SC}/oral_arguments/argument_transcripts/{yr}/{pdf}"))
+    return out
+
+
+def scotus_opinions(term):
+    r = get(f"{SC}/opinions/slipopinion/{term % 100:02d}")
+    ops = {}
+    if r:
+        for row in re.findall(r"<tr[^>]*>(.*?)</tr>", r.text, re.S):
+            link = re.search(r"href='(/opinions/\d+pdf/[^']+\.pdf)'", row)
+            if not link:
+                continue
+            for d in re.findall(r">\s*(\d{2}A?-\d+)\s*<", row):
+                ops.setdefault(d, SC + link.group(1))
+    return ops
+
+
+def scotus(drive, minutes, lane):
+    k, n = lane
+    terms = [t for t in range(2017, time.gmtime().tm_year + 1) if t % n == k]
+    for term in terms:
+        ops = scotus_opinions(term)
+        cases = scotus_cases(term)
+        log(f"OT{term}: {len(cases)} argued cases, {len(ops)} opinions")
+        for docket, name, transcript in cases:
+            if left(minutes) < 900:
+                return
+            key = f"scotus:{docket}"
+            if key in drive.done:
+                continue
+            r = get(f"{SC}/RSS/Cases/JSON/{docket}.json")
+            if not r:
+                continue
+            try:
+                d = r.json()
+            except ValueError:
+                continue
+            procs = d.get("ProceedingsandOrder") or []
+            text = " ".join(p.get("Text", "") for p in procs)
+            link = re.search(r"href\s*=\s*['\"]([^'\"]+/opinions/[^'\"]+\.pdf)", text)
+            opinion = ops.get(docket) or (link.group(1) if link else None)
+            if opinion and opinion.startswith("/"):
+                opinion = SC + opinion
+            finished = re.search(r"JUDGMENT ISSUED|Adjudged to be|DISMISSED|Certified copy", text, re.I)
+            if not finished:
+                log(f"  {docket} not finished yet")
+                continue
+            folder = tempfile.mkdtemp(prefix="scotus-")
+            jobs, rows = [], []
+            for i, p in enumerate(procs, 1):
+                date = p.get("Date", "")
+                try:
+                    iso = time.strftime("%Y-%m-%d", time.strptime(date, "%b %d %Y"))
+                except ValueError:
+                    iso = date
+                links = p.get("Links") or []
+                names = []
+                for j, l in enumerate(links, 1):
+                    url = l.get("DocumentUrl", "")
+                    if not url.lower().endswith(".pdf"):
+                        continue
+                    sub = f"-{j}" if len(links) > 1 else ""
+                    fn = f"{i:03d}{sub} {iso} {clean(l.get('Description') or l.get('File'), 70)}.pdf"
+                    jobs.append((url, fn))
+                    names.append(fn)
+                rows.append((i, iso, re.sub(r"<[^>]+>", "", p.get("Text", "")), "; ".join(names)))
+            if d.get("QPLink"):
+                jobs.append((SC + "/" + d["QPLink"].lstrip("./").replace("../", ""), "000 Questions Presented.pdf"))
+            jobs.append((transcript, "900 Oral Argument Transcript.pdf"))
+            jobs.append((f"{SC}/media/audio/mp3files/{docket}.mp3", "901 Oral Argument Audio.mp3"))
+            if opinion:
+                jobs.append((opinion, "999 Opinion of the Court.pdf"))
+            got = download_all(jobs, folder)
+            title = f"{docket} {name}"
+            facts = [("Court", "Supreme Court of the United States"), ("Term", f"October Term {term}"),
+                     ("Petitioner", d.get("PetitionerTitle")), ("Respondent", d.get("RespondentTitle")),
+                     ("Docketed", d.get("DocketedDate")), ("Lower court", d.get("LowerCourt")),
+                     ("Lower court case numbers", d.get("LowerCourtCaseNumbers")),
+                     ("Lower court decision", d.get("LowerCourtDecision")),
+                     ("Files in this folder", f"{got} documents plus this timeline and the docket")]
+            rows += [("", "", "Oral argument transcript", "900 Oral Argument Transcript.pdf"),
+                     ("", "", "Oral argument audio", "901 Oral Argument Audio.mp3"),
+                     ("", "", "Opinion of the Court", "999 Opinion of the Court.pdf")]
+            timeline_pdf(os.path.join(folder, "00 Case Timeline.pdf"), title, facts, rows)
+            with open(os.path.join(folder, "00 Docket.json"), "w", encoding="utf-8") as f:
+                json.dump(d, f, indent=1)
+            dest = f"LAW/01 US Supreme Court/October Term {term}/{clean(title, 120)}"
+            if got >= 3 and drive.upload(folder, dest):
+                drive.done.add(key)
+                log(f"  {docket}: {got} files")
+                drive.save()
+            shutil.rmtree(folder, ignore_errors=True)
+
+
+# ---------------------------------------------------------------- RECAP (federal courts)
+
+def court_place(court, docket, name, nos):
+    c = court.lower()
+    case = clean(name, 110)
+    docket = (docket or "").replace(":", "-")
+    if c in CIRCUITS:
+        return f"04 US Courts of Appeals/{CIRCUITS[c]}/{case} ({clean(docket, 30)})"
+    if c in OTHER:
+        return f"05 Other Federal Courts/{OTHER[c]}/{case} ({clean(docket, 30)})"
+    m = re.fullmatch(r"(nmi|[a-z]{2})([nsewmc]?)(d|b)", c)
+    if not m:
+        return f"05 Other Federal Courts/{c.upper()}/{case} ({clean(docket, 30)})"
+    st, side, kind = m.groups()
+    place = (f"{SIDE[side]} District of " if side else "District of ") + STATES.get(st, st.upper())
+    if kind == "b":
+        return f"03 US Bankruptcy Courts/Bankruptcy Court, {place}/{case} ({clean(docket, 30)})"
+    crim = bool(re.search(r"-(cr|mj|po)-", docket))
+    if crim:
+        return f"02 US District Courts/Criminal/{place}/{case} ({clean(docket, 30)})"
+    label = re.sub(r"^\d+\s*", "", nos or "").replace(":", " -").strip() or "Other Civil"
+    return f"02 US District Courts/Civil/{clean(label, 60)}/{case} ({clean(docket, 30)}, {place})"
+
+
+def parse_docket(ident, files):
+    """The fuller of the JSON and XML dockets (the archive's copies are often partial)."""
+    names = {f["name"] for f in files}
+    got = [d for d in (_docket(ident, names, "json"), _docket(ident, names, "xml")) if d]
+    if not got:
+        return None
+    best = max(got, key=lambda d: len(d["entries"]))
+    for d in got:  # fill case facts the fuller one lacks
+        for k, v in d.items():
+            if v and not best.get(k):
+                best[k] = v
+    return best
+
+
+def _docket(ident, names, kind):
+    """-> dict(case_name, docket, court, filed, terminated, nos, entries=[(no, date, text, [(doc, att, desc)])])."""
+    base = ident
+    if kind == "json" and f"{base}.docket.json" in names:
+        r = get(f"{IA}/download/{ident}/{base}.docket.json", timeout=120)
+        if not r:
+            return None
+        try:
+            d = r.json()
+        except ValueError:
+            return None
+        ents = []
+        for e in d.get("docket_entries") or []:
+            docs = [(str(x.get("document_number") or e.get("entry_number") or ""), int(x.get("attachment_number")
+                     or 0), x.get("description") or "") for x in e.get("recap_documents") or []]
+            ents.append((e.get("entry_number"), e.get("date_filed") or "", e.get("description") or "", docs))
+        return dict(case_name=d.get("case_name") or d.get("case_name_full"), docket=d.get("docket_number") or "",
+                    court=d.get("court") or "", filed=d.get("date_filed"), terminated=d.get("date_terminated"),
+                    nos=d.get("nature_of_suit") or "", cause=d.get("cause") or "", judge=d.get("assigned_to_str"),
+                    entries=ents, raw=d)
+    if kind == "xml" and f"{base}.docket.xml" in names:
+        r = get(f"{IA}/download/{ident}/{base}.docket.xml", timeout=120)
+        if not r:
+            return None
+        try:
+            root = ET.fromstring(r.content)
+        except ET.ParseError:
+            return None
+        g = lambda p: (root.findtext(p) or "").strip()
+        by = {}
+        for doc in root.iter("document"):
+            no = (doc.findtext("doc_num") or "").strip()
+            att = int((doc.findtext("attachment_num") or "0").strip() or 0)
+            e = by.setdefault(no, [no, (doc.findtext("date_filed") or "").strip(), "", []])
+            desc = (doc.findtext("long_desc") or doc.findtext("short_desc") or "").strip()
+            if att == 0 and desc:
+                e[2] = desc
+            e[3].append((no, att, (doc.findtext("short_desc") or desc or "").strip()))
+        ents = sorted(by.values(), key=lambda e: int(e[0]) if e[0].isdigit() else 10 ** 9)
+        return dict(case_name=g("case_details/case_name"), docket=g("case_details/docket_num"),
+                    court=g("case_details/court"), filed=g("case_details/date_case_filed"),
+                    terminated=g("case_details/date_case_terminated"), nos=g("case_details/nature_of_suit"),
+                    cause=g("case_details/case_cause"), judge=g("case_details/assigned_to"),
+                    entries=[tuple(e) for e in ents], raw=None, xml=r.text)
+    return None
+
+
+def recap_case(drive, ident, meta):
+    files = (meta or {}).get("files") or []
+    pdfs = {}
+    pre = ident + "."
+    for f in files:
+        m = re.fullmatch(re.escape(pre) + r"(\d+)\.(\d+)\.pdf", f["name"])
+        if m:
+            pdfs[(m.group(1), int(m.group(2)))] = (f["name"], int(f.get("size") or 0))
+    mains = {d for d, a in pdfs if a == 0}
+    if len(mains) < 12 or "1" not in mains:
+        return "few"
+    d = parse_docket(ident, files)
+    if not d or not d["entries"]:
+        return "nodocket"
+    terminated = d.get("terminated") or (meta.get("metadata") or {}).get("date-case-terminated")
+    if not terminated:
+        return "open"
+    court = d["court"] or ident.split(".")[2]
+    if re.fullmatch(r"[a-z]{2,3}[nsewmc]?b", court) and not BUSINESS.search(d["case_name"] or ""):
+        return "personal"
+    numbered = [int(e[0]) for e in d["entries"] if str(e[0] or "").isdigit()]
+    top = max(int(m) for m in mains if m.isdigit())
+    last = max(numbered + [top])
+    # a docket number without a PDF is often a text-only order, so half the numbers carrying a document is complete
+    if len(mains) / last < 0.5 or top < 0.85 * last:
+        return "incomplete"
+    known = {str(e[0]) for e in d["entries"]}
+    for dn in sorted(mains - known, key=lambda x: int(x) if x.isdigit() else 0):  # documents missing from the docket
+        d["entries"].append((dn, "", "", [(dn, 0, "")]))
+    for (dn, att) in pdfs:
+        for e in d["entries"]:
+            if str(e[0]) == dn and att and (dn, att) not in {(str(x[0]), x[1]) for x in e[3]}:
+                e[3].append((dn, att, ""))
+    d["entries"].sort(key=lambda e: int(e[0]) if str(e[0]).isdigit() else 10 ** 9)
+    with_doc = mains
+    total = sum(s for _, s in pdfs.values())
+    if total > 2.5e9 or len(pdfs) > 3000:
+        return "huge"
+    folder = tempfile.mkdtemp(prefix="recap-")
+    jobs, rows, used = [], [], set()
+    for no, date, text, docs in d["entries"]:
+        names = []
+        for dn, att, desc in sorted(set(docs), key=lambda x: x[1]):
+            if (str(dn), att) not in pdfs or (str(dn), att) in used:
+                continue
+            used.add((str(dn), att))
+            label = clean(desc or (text if att == 0 else f"Attachment {att}") or f"Document {dn}", 70)
+            num = f"{int(dn):04d}" if str(dn).isdigit() else clean(str(dn), 10)
+            fn = f"{num}{'-%02d' % att if att else ''} {date[:10]} {label}.pdf"
+            jobs.append((f"{IA}/download/{ident}/{pdfs[(str(dn), att)][0]}", fn))
+            names.append(fn)
+        rows.append((no or "", (date or "")[:10], text, "; ".join(names)))
+    got = download_all(jobs, folder)
+    title = f"{d['case_name']} ({d['docket']})"
+    place = court_place(court, d["docket"], d["case_name"] or ident, d["nos"])
+    facts = [("Court", place.split("/")[-2] if "/" in place else court), ("Docket number", d["docket"]),
+             ("Filed", d["filed"]), ("Terminated", terminated), ("Nature of suit", d["nos"]), ("Cause", d["cause"]),
+             ("Assigned to", d["judge"]),
+             ("Documents", f"{got} of {len(with_doc)} docket documents (with attachments) in this folder"),
+             ("Source", "PACER via the RECAP archive (Free Law Project), US government public court records")]
+    timeline_pdf(os.path.join(folder, "00 Case Timeline.pdf"), title, facts, rows)
+    if d.get("raw") is not None:
+        with open(os.path.join(folder, "00 Docket.json"), "w", encoding="utf-8") as f:
+            json.dump(d["raw"], f, indent=1)
+    elif d.get("xml"):
+        with open(os.path.join(folder, "00 Docket.xml"), "w", encoding="utf-8") as f:
+            f.write(d["xml"])
+    ok = got >= 12 and drive.upload(folder, "LAW/" + place)
+    shutil.rmtree(folder, ignore_errors=True)
+    return f"ok {got}" if ok else "failed"
+
+
+def recap(drive, minutes, lane, max_files):
+    k, n = lane
+    st = drive.state
+    q = ("collection:usfederalcourts AND mediatype:texts AND item_size:[15000000 TO 3000000000]")
+    stats = st.setdefault("stats", {})
+    while left(minutes) > 900:
+        if max_files and st["files"] >= max_files:
+            log(f"file cap {max_files} reached")
+            return
+        params = {"q": q, "fields": "identifier", "count": 1000}
+        if st.get("cursor"):
+            params["cursor"] = st["cursor"]
+        r = get(f"{IA}/services/search/v1/scrape", params=params, timeout=120)
+        if not r:
+            time.sleep(30)
+            continue
+        page = r.json()
+        idents = [x["identifier"] for x in page.get("items", []) if x["identifier"].startswith("gov.uscourts.")
+                  and zlib.crc32(x["identifier"].encode()) % n == k]
+        idents = [i for i in idents if i not in drive.done and i not in drive.skip]
+        log(f"page: {len(idents)} candidates (lane {k}/{n}); uploaded so far {st['files']} files, "
+            f"{len(drive.done)} cases")
+        for ident in idents:
+            if left(minutes) < 900:
+                drive.save()
+                return
+            r = get(f"{IA}/metadata/{ident}", timeout=120)
+            res = recap_case(drive, ident, r.json() if r else None) if r else "nometa"
+            key = res.split()[0]
+            stats[key] = stats.get(key, 0) + 1
+            if res.startswith("ok"):
+                drive.done.add(ident)
+                log(f"  case {len(drive.done)}: {res.split()[1]} documents")
+                drive.save()
+            elif res not in ("failed", "nometa", "open"):
+                drive.skip.add(ident)
+        nxt = page.get("cursor")
+        if not nxt:
+            st["cursor"] = None
+            st["passes"] = st.get("passes", 0) + 1
+            drive.save()
+            log("reached the end of the archive listing; starting over for newly added cases")
+            if st["passes"] > 3:
+                return
+            continue
+        st["cursor"] = nxt
+        drive.save()
+        log(f"checked: {json.dumps(stats)}")
+
+
+# ---------------------------------------------------------------- International Court of Justice
+
+ICJ = "https://www.icj-cij.org"
+ICJ_SECTIONS = [("institution-proceedings", "01 Institution of Proceedings"),
+                ("written-proceedings", "02 Written Proceedings"),
+                ("preliminary-objections", "03 Preliminary Objections"),
+                ("oral-proceedings", "04 Oral Proceedings"), ("orders", "05 Orders"),
+                ("judgments", "06 Judgments and Advisory Opinions"), ("other-documents", "07 Other Documents"),
+                ("correspondence", "08 Correspondence"), ("press-releases", "09 Press Releases"),
+                ("summaries", "10 Summaries")]
+
+
+def icj(drive, minutes, lane):
+    k, n = lane
+    r = get(f"{ICJ}/pending-cases")
+    pending = set(re.findall(r'href="/case/(\d+)"', r.text)) if r else set()
+    for num in range(1, 260):
+        if num % n != k or str(num) in pending or f"icj:{num}" in drive.done:
+            continue
+        if left(minutes) < 900:
+            return
+        r = get(f"{ICJ}/case/{num}")
+        if not r:
+            continue
+        m = re.search(r"<title>([^<|]+)", r.text)
+        title = html.unescape(m.group(1)).strip() if m else f"Case {num}"
+        if title.lower().startswith(("page not found", "international court")):
+            continue
+        folder = tempfile.mkdtemp(prefix="icj-")
+        jobs, rows, seen = [], [], set()
+        for slug, label in ICJ_SECTIONS:
+            p = get(f"{ICJ}/case/{num}/{slug}")
+            if not p:
+                continue
+            os.makedirs(os.path.join(folder, label), exist_ok=True)
+            i = 0
+            for href, text in re.findall(r'<a href="(https://www\.icj-cij\.org/sites/default/files/[^"]+\.pdf)"'
+                                         r'\s+class="title"[^>]*>(.*?)</a>', p.text, re.S):
+                if href in seen or href.endswith("-FR.pdf"):
+                    continue
+                seen.add(href)
+                i += 1
+                date = re.search(r"-(\d{4})(\d{2})(\d{2})-", href)
+                d = "-".join(date.groups()) if date else ""
+                fn = f"{label}/{i:03d}{' ' + d if d else ''} {clean(text, 80)}.pdf"
+                jobs.append((href, fn))
+                rows.append((i, d, f"{label[3:]}: {clean(text, 400)}", fn))
+        got = download_all(jobs, folder)
+        for sub in os.listdir(folder):
+            if not os.listdir(os.path.join(folder, sub)):
+                os.rmdir(os.path.join(folder, sub))
+        timeline_pdf(os.path.join(folder, "00 Case Timeline.pdf"), title,
+                     [("Court", "International Court of Justice"), ("Case number", num),
+                      ("Files in this folder", f"{got} documents")], rows)
+        dest = f"LAW/06 International Court of Justice/{num:03d} {clean(title, 120)}"
+        if got >= 3 and drive.upload(folder, dest):
+            drive.done.add(f"icj:{num}")
+            log(f"  ICJ {num}: {got} files")
+            drive.save()
+        shutil.rmtree(folder, ignore_errors=True)
+
+
+# ---------------------------------------------------------------- SEC administrative proceedings
+
+SEC = "https://www.sec.gov"
+
+
+def sec_ap(drive, minutes, lane):
+    k, n = lane
+    S2 = requests.Session()
+    S2.headers["User-Agent"] = os.environ.get("SEC_USER_AGENT") or "LAW research collector admin@example.com"
+    base = f"{SEC}/enforcement-litigation/administrative-proceedings"
+    files = []
+    for page in range(0, 200):
+        r = S2.get(f"{base}/closed-litigated-administrative-proceedings", params={"page": page}, timeout=60)
+        time.sleep(0.3)
+        got = sorted(set(re.findall(r'href="/enforcement-litigation/administrative-proceedings/(3-[^"]+)"',
+                                    r.text))) if r.status_code == 200 else []
+        if not got:
+            break
+        files += [f for f in got if f not in files]
+    log(f"SEC: {len(files)} closed litigated proceedings")
+    for fno in files:
+        if zlib.crc32(fno.encode()) % n != k or f"sec:{fno}" in drive.done:
+            continue
+        if left(minutes) < 900:
+            return
+        r = S2.get(f"{base}/{fno}", timeout=60)
+        time.sleep(0.3)
+        if r.status_code != 200:
+            continue
+        t = r.text
+        resp = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", t[t.find("<h1"):t.find("<table")]))
+        resp = re.sub(r"^.*?Respondents?\s*", "", html.unescape(resp)).strip()
+        rows_html = re.findall(r"<tr[^>]*>(.*?)</tr>", t, re.S)
+        entries = []
+        for row in rows_html:
+            a = re.search(r'<a href="([^"]+)"[^>]*>(.*?)</a>', row, re.S)
+            dt = re.search(r'datetime="(\d{4}-\d{2}-\d{2})', row)
+            rel = re.search(r'field-release-number">\s*([^<\s][^<]*?)\s*<', row)
+            if a and dt:
+                entries.append((dt.group(1), rel.group(1) if rel else "", html.unescape(re.sub(r"<[^>]+>", "",
+                                a.group(2))).strip(), a.group(1)))
+        if len(entries) < 2:
+            continue
+        entries.sort()
+        folder = tempfile.mkdtemp(prefix="sec-")
+        jobs, rows = [], []
+        for i, (d, rel, text, href) in enumerate(entries, 1):
+            url = href if href.startswith("http") else SEC + href
+            ext = os.path.splitext(url.split("?")[0])[1].lower() or ".pdf"
+            if ext not in (".pdf", ".txt", ".htm", ".html"):
+                ext = ".pdf"
+            fn = f"{i:03d} {d} {clean(text, 80)}{'.pdf' if ext.startswith('.htm') else ext}"
+            if ext.startswith(".htm"):
+                rows.append((i, d, f"{text} ({rel}) - web page, not saved: {url}", ""))
+                continue
+            jobs.append((url, fn))
+            rows.append((i, d, f"{text}{' (' + rel + ')' if rel else ''}", fn))
+        got = 0
+        for url, fn in jobs:  # the SEC asks for at most 10 requests a second
+            try:
+                rr = S2.get(url, timeout=120)
+                if rr.status_code == 200 and rr.content:
+                    open(os.path.join(folder, fn), "wb").write(rr.content)
+                    got += 1
+            except requests.RequestException:
+                pass
+            time.sleep(0.25)
+        title = f"{fno.upper()} {resp}" if resp else fno.upper()
+        timeline_pdf(os.path.join(folder, "00 Case Timeline.pdf"), title,
+                     [("Forum", "U.S. Securities and Exchange Commission, administrative proceeding"),
+                      ("File number", fno.upper()), ("Respondents", resp), ("Files in this folder", got)], rows)
+        year = entries[0][0][:4]
+        dest = f"LAW/07 SEC Administrative Proceedings/{year}/{clean(title, 120)}"
+        if got >= 2 and drive.upload(folder, dest):
+            drive.done.add(f"sec:{fno}")
+            log(f"  SEC {fno}: {got} files")
+            drive.save()
+        shutil.rmtree(folder, ignore_errors=True)
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--source", choices=["scotus", "recap", "icj", "sec"], required=True)
+    ap.add_argument("--lane", default="0/1")
+    ap.add_argument("--remote", default="ws:")
+    ap.add_argument("--minutes", type=float, default=300)
+    ap.add_argument("--max-files", type=int, default=0)
+    ap.add_argument("--live", action="store_true")
+    a = ap.parse_args()
+    k, n = map(int, a.lane.split("/"))
+    job = f"{a.source}-{k}of{n}"
+    drive = Drive(a.remote if a.remote.endswith(":") else a.remote + ":", job, a.live)
+    log(f"{job}: {len(drive.done)} cases done before, live={a.live}")
+    try:
+        if a.source == "recap":
+            recap(drive, a.minutes, (k, n), a.max_files)
+        else:
+            {"scotus": scotus, "icj": icj, "sec": sec_ap}[a.source](drive, a.minutes, (k, n))
+    finally:
+        drive.save()
+        log(f"{job}: {len(drive.done)} cases, {drive.state['files']} files uploaded in total")
+
+
+if __name__ == "__main__":
+    main()

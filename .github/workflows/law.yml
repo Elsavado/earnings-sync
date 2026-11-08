@@ -1,0 +1,72 @@
+name: LAW court cases
+
+# Complete court cases traced from the first filing to the final decision (user 2026-11-08) into the IR Transcripts
+# shared drive, folder LAW: US Supreme Court argued cases, closed US federal court cases (RECAP archive),
+# International Court of Justice cases and SEC litigated administrative proceedings (excel/law).
+# Uploads only when the repository variable LAW_LIVE is 'true'. Restarts every 6 hours and resumes from its state;
+# RECAP stops at LAW_MAX_FILES files per lane (the shared drive holds at most 400,000 items).
+
+on:
+  workflow_dispatch:
+    inputs:
+      minutes:
+        description: "run budget in minutes"
+        default: "300"
+  schedule:
+    - cron: "23 */6 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: law-cases
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 345
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {source: scotus, lane: "0/1"}
+          - {source: sec, lane: "0/1"}
+          - {source: recap, lane: "0/2"}
+          - {source: recap, lane: "1/2"}
+    defaults:
+      run:
+        working-directory: excel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Tools
+        env:
+          CID: ${{ secrets.WS_GOOGLE_CLIENT_ID }}
+          CSECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
+          RTOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
+        run: |
+          pip install -q requests reportlab
+          curl -fsSL https://rclone.org/install.sh | sudo bash >/dev/null
+          mkdir -p ~/.config/rclone
+          python3 - <<'EOF'
+          import json, os
+          tok = json.dumps({"access_token": "expired", "token_type": "Bearer", "refresh_token": os.environ["RTOKEN"],
+                            "expiry": "2000-01-01T00:00:00Z"})
+          p = os.path.expanduser("~/.config/rclone/rclone.conf")
+          open(p, "w").write(f"[ws]\ntype = drive\nscope = drive\nclient_id = {os.environ['CID']}\n"
+                             f"client_secret = {os.environ['CSECRET']}\ntoken = {tok}\nteam_drive = 0AM6PzKRbJBK-Uk9PVA\n")
+          os.chmod(p, 0o600)
+          EOF
+          rclone lsf ws: --max-depth 1 --dirs-only | grep -c . || true
+      - name: Collect
+        timeout-minutes: 330
+        env:
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+          PYTHONUTF8: "1"
+        run: |
+          flag=$([ "${{ vars.LAW_LIVE }}" = "true" ] && echo --live || echo "")
+          python -m law --source ${{ matrix.source }} --lane ${{ matrix.lane }} --remote ws: \
+            --minutes "${{ inputs.minutes || 300 }}" --max-files "${{ vars.LAW_MAX_FILES || 45000 }}" $flag

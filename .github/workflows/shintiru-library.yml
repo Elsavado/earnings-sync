@@ -11,6 +11,8 @@ on:
         description: "dry run (nothing copied)"
         type: boolean
         default: false
+  schedule:  # a run stops after 330 minutes; the next one resumes (files already copied are skipped)
+    - cron: "47 */6 * * *"
 
 concurrency:
   group: shintiru-library
