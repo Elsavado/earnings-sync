@@ -13,7 +13,7 @@ on:
         description: "run budget in minutes"
         default: "300"
       only:
-        description: "run only this source (scotus, sec, recap, enron); blank = all"
+        description: "run only this source (scotus, sec, recap, enron, pca); blank = all"
         default: ""
   schedule:
     - cron: "23 */6 * * *"
@@ -38,6 +38,7 @@ jobs:
           - {source: recap, lane: "0/2"}
           - {source: recap, lane: "1/2"}
           - {source: enron, lane: "0/1"}
+          - {source: pca, lane: "0/1"}
     defaults:
       run:
         working-directory: excel

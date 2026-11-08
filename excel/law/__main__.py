@@ -20,6 +20,7 @@ Layout:
   LAW/05 Other Federal Courts/<court>/<case name> (<docket>)/
   LAW/06 International Court of Justice/<no> <case>/<01 Institution of Proceedings .. 10 Summaries>/
   LAW/07 SEC Administrative Proceedings/<year>/<file no> <respondents>/
+  LAW/09 Permanent Court of Arbitration/<case type>/<case no> <case>/
   LAW/08 Enron Cases/<US Supreme Court|SEC Enforcement|US District Courts|US Bankruptcy Courts|...>/<case>/
 Each case folder: "00 Case Timeline.pdf" (every docket entry with its date and file), "00 Docket.json", then the
 documents numbered in docket order ("0001 2019-03-02 Complaint.pdf", attachments "0001-01 Exhibit A.pdf").
@@ -782,9 +783,67 @@ def enron(drive, minutes, lane):
     drive.save()
 
 
+# ---------------------------------------------------------------- Permanent Court of Arbitration
+# The PCA case repository's own JSON feed (the page builds its list from it with JavaScript): concluded cases
+# with published documents - notices of arbitration, written submissions, procedural orders, hearing
+# transcripts, awards. English (or bilingual) documents; hearing videos are left out.
+
+PCA = "https://pcacases.com/web/api/cases"
+
+
+def pca(drive, minutes, lane):
+    k, n = lane
+    r = get(f"{PCA}/search?1", timeout=120)
+    if not r:
+        return
+    cases = [c for c in r.json() if c.get("case_status") == "Concluded" and c["id"] % n == k]
+    log(f"PCA: {len(cases)} concluded cases")
+    for c in cases:
+        key = f"pca:{c['id']}"
+        if key in drive.done or key in drive.skip:
+            continue
+        if left(minutes) < 900:
+            return
+        r = get(f"{PCA}/{c['id']}", timeout=120)
+        if not r:
+            continue
+        d = r.json()
+        att = [a for a in d.get("attachments") or [] if a.get("ismultimedia") != "Y"
+               and (a.get("language") or {}).get("name", "English") in ("English", "Multilingual", "Bilingual")]
+        if not att:
+            drive.skip.add(key)
+            continue
+        att.sort(key=lambda a: (a.get("date") or "", a.get("position") or 0))
+        folder = tempfile.mkdtemp(prefix="pca-")
+        jobs, rows = [], []
+        for i, a in enumerate(att, 1):
+            date = (a.get("date") or "")[:10]
+            kind = (a.get("typeofdocument") or {}).get("name") or ""
+            fn = f"{i:03d} {date} {clean(kind, 30)} - {clean(a.get('title') or a.get('filename'), 70)}.pdf"
+            jobs.append((a["download_link"], fn))
+            rows.append((i, date, f"{kind}: {a.get('title') or ''}", fn))
+        got = download_all(jobs, folder, threads=4)
+        name = c.get("case_name") or d.get("casename") or f"Case {c['id']}"
+        title = f"PCA Case No. {c.get('case_number') or ''} {name}".strip()
+        timeline_pdf(os.path.join(folder, "00 Case Timeline.pdf"), title,
+                     [("Forum", "Permanent Court of Arbitration"), ("Case type", c.get("case_type")),
+                      ("Claimants", ", ".join(c.get("claimants_names") or [])),
+                      ("Respondents", ", ".join(c.get("respondents_names") or [])),
+                      ("Filed", (c.get("date_of_filling") or "")[:10]), ("Status", "Concluded"),
+                      ("Summary", re.sub(r"<[^>]+>", " ", html.unescape(c.get("case_description") or ""))[:3000]),
+                      ("Files in this folder", got)], rows)
+        dest = (f"LAW/09 Permanent Court of Arbitration/{clean(c.get('case_type') or 'Other', 50)}/"
+                f"{clean((c.get('case_number') or '') + ' ' + name, 120)}")
+        if got and drive.upload(folder, dest):
+            drive.done.add(key)
+            drive.save()
+            log(f"  PCA {c.get('case_number')}: {got} files")
+        shutil.rmtree(folder, ignore_errors=True)
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--source", choices=["scotus", "recap", "icj", "sec", "enron"], required=True)
+    ap.add_argument("--source", choices=["scotus", "recap", "icj", "sec", "enron", "pca"], required=True)
     ap.add_argument("--lane", default="0/1")
     ap.add_argument("--remote", default="ws:")
     ap.add_argument("--minutes", type=float, default=300)
@@ -799,7 +858,7 @@ def main():
         if a.source == "recap":
             recap(drive, a.minutes, (k, n), a.max_files)
         else:
-            {"scotus": scotus, "icj": icj, "sec": sec_ap, "enron": enron}[a.source](drive, a.minutes, (k, n))
+            {"scotus": scotus, "icj": icj, "sec": sec_ap, "enron": enron, "pca": pca}[a.source](drive, a.minutes, (k, n))
     finally:
         drive.save()
         log(f"{job}: {len(drive.done)} cases, {drive.state['files']} files uploaded in total")
