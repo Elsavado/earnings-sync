@@ -20,6 +20,7 @@ Layout:
   LAW/05 Other Federal Courts/<court>/<case name> (<docket>)/
   LAW/06 International Court of Justice/<no> <case>/<01 Institution of Proceedings .. 10 Summaries>/
   LAW/07 SEC Administrative Proceedings/<year>/<file no> <respondents>/
+  LAW/08 Enron Cases/<US Supreme Court|SEC Enforcement|US District Courts|US Bankruptcy Courts|...>/<case>/
 Each case folder: "00 Case Timeline.pdf" (every docket entry with its date and file), "00 Docket.json", then the
 documents numbered in docket order ("0001 2019-03-02 Complaint.pdf", attachments "0001-01 Exhibit A.pdf").
 
@@ -385,7 +386,8 @@ def _docket(ident, names, kind):
     return None
 
 
-def recap_case(drive, ident, meta):
+def recap_case(drive, ident, meta, topic=None):
+    """topic: (regex, folder) - keep every case whose name or parties match, complete or not."""
     files = (meta or {}).get("files") or []
     pdfs = {}
     pre = ident + "."
@@ -394,22 +396,28 @@ def recap_case(drive, ident, meta):
         if m:
             pdfs[(m.group(1), int(m.group(2)))] = (f["name"], int(f.get("size") or 0))
     mains = {d for d, a in pdfs if a == 0}
-    if len(mains) < 12 or "1" not in mains:
+    if not topic and (len(mains) < 12 or "1" not in mains):
         return "few"
     d = parse_docket(ident, files)
     if not d or not d["entries"]:
         return "nodocket"
     terminated = d.get("terminated") or (meta.get("metadata") or {}).get("date-case-terminated")
-    if not terminated:
+    if topic:
+        who = (d["case_name"] or "") + " " + json.dumps((d.get("raw") or {}).get("parties") or "") + (d.get("xml") or "")[:20000]
+        if not mains or not re.search(topic[0], who, re.I):
+            return "offtopic"
+    elif not terminated:
         return "open"
     court = d["court"] or ident.split(".")[2]
-    if re.fullmatch(r"[a-z]{2,3}[nsewmc]?b", court) and not BUSINESS.search(d["case_name"] or ""):
+    if not topic and re.search(ENRON_WHO, d["case_name"] or "", re.I):
+        return "enron"  # kept by the enron job in 08 Enron Cases
+    if not topic and re.fullmatch(r"[a-z]{2,3}[nsewmc]?b", court) and not BUSINESS.search(d["case_name"] or ""):
         return "personal"
     numbered = [int(e[0]) for e in d["entries"] if str(e[0] or "").isdigit()]
     top = max(int(m) for m in mains if m.isdigit())
     last = max(numbered + [top])
     # a docket number without a PDF is often a text-only order, so half the numbers carrying a document is complete
-    if len(mains) / last < 0.5 or top < 0.85 * last:
+    if not topic and (len(mains) / last < 0.5 or top < 0.85 * last):
         return "incomplete"
     known = {str(e[0]) for e in d["entries"]}
     for dn in sorted(mains - known, key=lambda x: int(x) if x.isdigit() else 0):  # documents missing from the docket
@@ -440,6 +448,8 @@ def recap_case(drive, ident, meta):
     got = download_all(jobs, folder)
     title = f"{d['case_name']} ({d['docket']})"
     place = court_place(court, d["docket"], d["case_name"] or ident, d["nos"])
+    if topic:
+        place = topic[1] + "/" + place.split("/", 1)[0][3:] + "/" + place.rsplit("/", 1)[1]
     facts = [("Court", place.split("/")[-2] if "/" in place else court), ("Docket number", d["docket"]),
              ("Filed", d["filed"]), ("Terminated", terminated), ("Nature of suit", d["nos"]), ("Cause", d["cause"]),
              ("Assigned to", d["judge"]),
@@ -452,7 +462,7 @@ def recap_case(drive, ident, meta):
     elif d.get("xml"):
         with open(os.path.join(folder, "00 Docket.xml"), "w", encoding="utf-8") as f:
             f.write(d["xml"])
-    ok = got >= 12 and drive.upload(folder, "LAW/" + place)
+    ok = got >= (1 if topic else 12) and drive.upload(folder, "LAW/" + place)
     shutil.rmtree(folder, ignore_errors=True)
     return f"ok {got}" if ok else "failed"
 
@@ -649,9 +659,132 @@ def sec_ap(drive, minutes, lane):
         shutil.rmtree(folder, ignore_errors=True)
 
 
+# ---------------------------------------------------------------- Enron (user 2026-11-08: "the enron corpus case too")
+# The court and regulatory cases around Enron's collapse. The e-mail corpus itself (released by FERC from docket
+# PA02-2) is already on the Workspace in Research Collections/How Companies Work, so it is not copied again.
+
+ENRON = "08 Enron Cases"
+ENRON_WHO = (r"enron|jeffrey k(eith|\.)? skilling|andrew s(tuart|\.)? fastow|kenneth l(ee|\.)? lay\b|"
+             r"richard a(lan|\.)? causey|michael (j\.? )?kopper|nigerian barge|"
+             r"(usa|united states( of america)?) v\.? arthur andersen")
+USREP = "https://tile.loc.gov/storage-services/service/ll/usrep/"
+ENRON_SCOTUS = [("08-1394", "Skilling v. United States", 2009, USREP + "usrep561/usrep561358/usrep561358.pdf"),
+                ("04-368", "Arthur Andersen LLP v. United States", 2004, USREP + "usrep544/usrep544696/usrep544696.pdf")]
+
+
+def html_pdf(html_text, path, base):
+    src = path[:-4] + ".html"
+    open(src, "w", encoding="utf-8").write(re.sub(r"<head>", f'<head><base href="{base}">', html_text, count=1))
+    for chrome in ("google-chrome", "chromium", "chromium-browser"):
+        if shutil.which(chrome):
+            subprocess.run([chrome, "--headless=new", "--disable-gpu", "--no-sandbox", f"--print-to-pdf={path}",
+                            "--no-pdf-header-footer", "file://" + os.path.abspath(src)], capture_output=True,
+                           timeout=180)
+            break
+    os.remove(src)
+    return os.path.exists(path) and os.path.getsize(path) > 1000
+
+
+def enron(drive, minutes, lane):
+    # 1. US Supreme Court: argument transcripts, audio, opinions, docket (electronic filings begin in 2017)
+    for docket, name, term, usrep in ENRON_SCOTUS:
+        key = f"enron:scotus:{docket}"
+        if key in drive.done:
+            continue
+        folder = tempfile.mkdtemp(prefix="enron-")
+        ops = scotus_opinions(term)
+        jobs = [(f"{SC}/oral_arguments/argument_transcripts/{term}/{docket}.pdf", "01 Oral Argument Transcript.pdf"),
+                (f"{SC}/media/audio/mp3files/{docket}.mp3", "02 Oral Argument Audio.mp3")]
+        jobs.append((ops.get(docket) or usrep, "03 Opinion of the Court.pdf"))
+        got = download_all(jobs, folder)
+        r = get(f"{SC}/search.aspx?filename=/docketfiles/{docket}.htm")
+        if r and html_pdf(r.text, os.path.join(folder, "00 Docket.pdf"), SC + "/"):
+            got += 1
+        if got and drive.upload(folder, f"LAW/{ENRON}/US Supreme Court/{docket} {name}"):
+            drive.done.add(key)
+            drive.save()
+            log(f"  Enron SCOTUS {docket}: {got} files")
+        shutil.rmtree(folder, ignore_errors=True)
+    # 2. SEC enforcement: every litigation document linked from the SEC's Enron page
+    if "enron:sec" not in drive.done:
+        S2 = requests.Session()
+        S2.headers["User-Agent"] = os.environ.get("SEC_USER_AGENT") or "LAW research collector admin@example.com"
+        r = S2.get(f"{SEC}/spotlight/enron.htm", timeout=60)
+        if r.status_code == 200:
+            folder = tempfile.mkdtemp(prefix="enron-")
+            links, seen = [], set()
+            for href, text in re.findall(r'<a[^>]+href="([^"#]+)"[^>]*>(.*?)</a>', r.text, re.S):
+                url = href if href.startswith("http") else SEC + "/" + href.lstrip("/")
+                if "sec.gov" not in url or url in seen or not re.search(r"/litigation/|/news/press", url):
+                    continue
+                seen.add(url)
+                links.append((url, clean(re.sub(r"<[^>]+>", "", text), 80)))
+            rows, got = [], 0
+            for i, (url, text) in enumerate(links, 1):
+                fn = f"{i:03d} {text}.pdf"
+                try:
+                    rr = S2.get(url, timeout=120)
+                    time.sleep(0.25)
+                    if rr.status_code != 200:
+                        continue
+                    low = url.lower().split("?")[0]
+                    if low.endswith(".pdf"):
+                        open(os.path.join(folder, fn), "wb").write(rr.content)
+                        ok = True
+                    elif low.endswith(".txt"):
+                        fn = fn[:-4] + ".txt"
+                        open(os.path.join(folder, fn), "wb").write(rr.content)
+                        ok = True
+                    else:
+                        ok = html_pdf(rr.text, os.path.join(folder, fn), url)
+                    if ok:
+                        got += 1
+                        rows.append((i, "", text, fn))
+                except (requests.RequestException, subprocess.SubprocessError, OSError):
+                    pass
+            timeline_pdf(os.path.join(folder, "00 Index.pdf"), "SEC enforcement actions related to Enron",
+                         [("Source", "U.S. Securities and Exchange Commission, Spotlight on Enron"),
+                          ("Files in this folder", got)], rows)
+            if got and drive.upload(folder, f"LAW/{ENRON}/SEC Enforcement"):
+                drive.done.add("enron:sec")
+                drive.save()
+                log(f"  Enron SEC: {got} files")
+            shutil.rmtree(folder, ignore_errors=True)
+    # 3. Federal court dockets: bankruptcy, securities class action, criminal trials, appeals
+    q = ('collection:usfederalcourts AND (enron OR skilling OR fastow OR "arthur andersen" OR "kenneth lay" '
+         'OR kopper OR causey OR "Enron Creditors Recovery")')
+    cursor = None
+    while left(minutes) > 900:
+        params = {"q": q, "fields": "identifier", "count": 1000}
+        if cursor:
+            params["cursor"] = cursor
+        r = get(f"{IA}/services/search/v1/scrape", params=params, timeout=120)
+        if not r:
+            break
+        page = r.json()
+        for x in page.get("items", []):
+            ident = x["identifier"]
+            if not ident.startswith("gov.uscourts.") or ident in drive.done or ident in drive.skip:
+                continue
+            if left(minutes) < 900:
+                return
+            m = get(f"{IA}/metadata/{ident}", timeout=120)
+            res = recap_case(drive, ident, m.json(), topic=(ENRON_WHO, ENRON)) if m else "nometa"
+            if res.startswith("ok"):
+                drive.done.add(ident)
+                drive.save()
+                log(f"  Enron court case {ident}: {res.split()[1]} documents")
+            elif res not in ("failed", "nometa"):
+                drive.skip.add(ident)
+        cursor = page.get("cursor")
+        if not cursor:
+            break
+    drive.save()
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--source", choices=["scotus", "recap", "icj", "sec"], required=True)
+    ap.add_argument("--source", choices=["scotus", "recap", "icj", "sec", "enron"], required=True)
     ap.add_argument("--lane", default="0/1")
     ap.add_argument("--remote", default="ws:")
     ap.add_argument("--minutes", type=float, default=300)
@@ -666,7 +799,7 @@ def main():
         if a.source == "recap":
             recap(drive, a.minutes, (k, n), a.max_files)
         else:
-            {"scotus": scotus, "icj": icj, "sec": sec_ap}[a.source](drive, a.minutes, (k, n))
+            {"scotus": scotus, "icj": icj, "sec": sec_ap, "enron": enron}[a.source](drive, a.minutes, (k, n))
     finally:
         drive.save()
         log(f"{job}: {len(drive.done)} cases, {drive.state['files']} files uploaded in total")
