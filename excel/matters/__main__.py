@@ -317,18 +317,25 @@ def ocr_if_needed(path):
     import fitz
     try:
         doc = fitz.open(path)
-        # pages that are pictures (scans): OCR them again even when an old, often incomplete OCR layer exists
-        scanned = sum(1 for p in doc if p.get_images())
-        n = len(doc)
+        # pages that ARE pictures (a scan covering most of the page): OCR them again even when an old, often
+        # incomplete OCR layer exists. Typed pages with a seal or letterhead image are left alone (fast).
+        scanned = []
+        for p in doc:
+            area = abs(p.rect)
+            cover = sum(abs(fitz.Rect(i["bbox"]) & p.rect) for i in p.get_image_info())
+            if area and cover / area > 0.5:
+                scanned.append(p.number + 1)
+        n = len(scanned)
         doc.close()
     except Exception:
         return False
     if scanned:
         tmp = path + ".ocr.pdf"
+        pages = ",".join(map(str, scanned))
         try:
             r = None
             for mode in ("--redo-ocr", "--skip-text"):  # some files refuse --redo-ocr
-                r = subprocess.run(["ocrmypdf", mode, "-q", "--jobs", "1", "--output-type", "pdf",
+                r = subprocess.run(["ocrmypdf", mode, "-q", "--jobs", "1", "--output-type", "pdf", "--pages", pages,
                                     "--optimize", "0", path, tmp], capture_output=True, timeout=60 + 20 * n)
                 if r.returncode == 0:
                     break
