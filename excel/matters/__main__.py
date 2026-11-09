@@ -29,7 +29,9 @@ import requests
 import law.__main__ as L
 from law.__main__ import IA, clean, download_all, get, left, log
 
-ROOT = os.environ.get("MATTERS_ROOT") or "Matter Files"
+ROOT = os.environ.get("MATTERS_ROOT", "")  # the "Matter Files" shared drive itself; folders at its top
+P = ROOT + "/" if ROOT else ""
+LAW_REMOTE = os.environ.get("LAW_REMOTE") or "ws:"  # where the LAW folder (and its done-state) lives
 MIN_DOCS, MAX_DOCS = 500, 3000
 
 # ---------------------------------------------------------------- dates
@@ -538,7 +540,7 @@ def write_index(drive):
         w.writeheader()
         w.writerows(rows)
     if drive.live:
-        subprocess.run(["rclone", "copyto", p, f"{drive.remote}{ROOT}/00 Matter Index ({drive.job}).csv", "-q"],
+        subprocess.run(["rclone", "copyto", p, f"{drive.remote}{P}00 Matter Index ({drive.job}).csv", "-q"],
                        check=False)
 
 
@@ -730,7 +732,7 @@ def lit_matter(drive, ident, meta, minutes, sample=0):
              ("Record type", "Public court record of a concluded US federal case (docket and filings)"),
              ("Redaction", REDACTION_NOTE)] + flag_facts(stats, names)
     rows = [(no or "", red.date_iso(date), red.text(text), "") for no, date, text, _ in d["entries"]]
-    dest = f"{ROOT}/Litigation/{clean(area, 50)}/Matter {mid}"
+    dest = f"{P}Litigation/{clean(area, 50)}/Matter {mid}"
     if sample:
         shutil.copytree(final, os.path.join("sample", mid), dirs_exist_ok=True)
         L.timeline_pdf(os.path.join("sample", mid, "00 Matter Timeline.pdf"), mid, [], rows)
@@ -748,7 +750,7 @@ def law_done(drive):
     """RECAP cases already in LAW: not repeated here."""
     seen = set()
     for job in ("recap-0of2", "recap-1of2", "enron-0of1"):
-        r = subprocess.run(["rclone", "cat", f"{drive.remote}LAW - private/state-{job}.json"], capture_output=True,
+        r = subprocess.run(["rclone", "cat", f"{LAW_REMOTE}LAW - private/state-{job}.json"], capture_output=True,
                            text=True)
         if r.returncode == 0 and r.stdout.strip():
             seen |= set(json.loads(r.stdout).get("done", []))
@@ -985,7 +987,7 @@ def deal_matter(drive, cik, defm, form, minutes, sample=0):
                                 f"closing)"),
              ("Record type", "Public SEC filing record of a completed acquisition"), ("Redaction", REDACTION_NOTE)] + flag_facts(stats, names)
     rows = [(fi, sd, frm, "; ".join(v)) for (fi, sd, frm), v in sorted(tl.items())]
-    dest = f"{ROOT}/Transactions/Mergers and Acquisitions/Matter {mid}"
+    dest = f"{P}Transactions/Mergers and Acquisitions/Matter {mid}"
     if sample:
         shutil.copytree(final, os.path.join("sample", mid), dirs_exist_ok=True)
         summary_pdf(os.path.join("sample", mid, "00 Matter Summary.pdf"), mid, facts)
