@@ -38,6 +38,9 @@ S.headers["User-Agent"] = UA
 SC = "https://www.supremecourt.gov"
 IA = "https://archive.org"
 T0 = time.time()
+# Top folder for new uploads (user 2026-11-09: new cases go to a new folder, nothing more added to "LAW").
+# The done-state stays in "LAW - private", so cases already in "LAW" are not uploaded again.
+ROOT = os.environ.get("LAW_ROOT") or "LAW"
 
 STATES = {"al": "Alabama", "ak": "Alaska", "az": "Arizona", "ar": "Arkansas", "ca": "California", "co": "Colorado",
           "ct": "Connecticut", "de": "Delaware", "dc": "District of Columbia", "fl": "Florida", "ga": "Georgia",
@@ -165,16 +168,24 @@ def timeline_pdf(path, title, facts, rows):
         if v:
             story.append(Paragraph(f"<b>{esc(k)}:</b> {esc(v)}", small))
     story.append(Spacer(1, 10))
-    data = [[Paragraph(f"<b>{h}</b>", small) for h in ("No.", "Date", "Docket entry", "File")]]
-    for no, date, text, fname in rows:
-        data.append([Paragraph(esc(no), small), Paragraph(esc(date), small),
-                     Paragraph(esc(text)[:3000], small), Paragraph(esc(fname), small)])
-    t = Table(data, colWidths=[40, 62, 430, 190], repeatRows=1)
-    t.setStyle(TableStyle([("GRID", (0, 0), (-1, -1), 0.25, colors.grey), ("VALIGN", (0, 0), (-1, -1), "TOP"),
-                           ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#e8e8e8"))]))
-    story.append(t)
-    SimpleDocTemplate(path, pagesize=landscape(letter), leftMargin=30, rightMargin=30, topMargin=30,
-                      bottomMargin=30, title=title).build(story)
+    from reportlab.platypus.doctemplate import LayoutError
+    # very long docket entries (or unbroken strings) can make one row taller than a page: retry shorter
+    cut = lambda s, n: re.sub(r"(\S{60})", r"\1 ", str(s or ""))[:n]
+    for limit in (3000, 1200, 300):
+        data = [[Paragraph(f"<b>{h}</b>", small) for h in ("No.", "Date", "Docket entry", "File")]]
+        for no, date, text, fname in rows:
+            data.append([Paragraph(esc(no), small), Paragraph(esc(date), small),
+                         Paragraph(esc(cut(text, limit)), small), Paragraph(esc(cut(fname, 300)), small)])
+        t = Table(data, colWidths=[40, 62, 430, 190], repeatRows=1)
+        t.setStyle(TableStyle([("GRID", (0, 0), (-1, -1), 0.25, colors.grey), ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                               ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#e8e8e8"))]))
+        try:
+            SimpleDocTemplate(path, pagesize=landscape(letter), leftMargin=30, rightMargin=30, topMargin=30,
+                              bottomMargin=30, title=title).build(story + [t])
+            return
+        except LayoutError:
+            continue
+    log(f"  timeline too large, skipped: {title[:80]}")
 
 
 def download_all(jobs, folder, threads=8):
@@ -294,7 +305,7 @@ def scotus(drive, minutes, lane):
             timeline_pdf(os.path.join(folder, "00 Case Timeline.pdf"), title, facts, rows)
             with open(os.path.join(folder, "00 Docket.json"), "w", encoding="utf-8") as f:
                 json.dump(d, f, indent=1)
-            dest = f"LAW/01 US Supreme Court/October Term {term}/{clean(title, 120)}"
+            dest = f"{ROOT}/01 US Supreme Court/October Term {term}/{clean(title, 120)}"
             if got >= 3 and drive.upload(folder, dest):
                 drive.done.add(key)
                 log(f"  {docket}: {got} files")
@@ -463,7 +474,7 @@ def recap_case(drive, ident, meta, topic=None):
     elif d.get("xml"):
         with open(os.path.join(folder, "00 Docket.xml"), "w", encoding="utf-8") as f:
             f.write(d["xml"])
-    ok = got >= (1 if topic else 12) and drive.upload(folder, "LAW/" + place)
+    ok = got >= (1 if topic else 12) and drive.upload(folder, f"{ROOT}/" + place)
     shutil.rmtree(folder, ignore_errors=True)
     return f"ok {got}" if ok else "failed"
 
@@ -572,7 +583,7 @@ def icj(drive, minutes, lane):
         timeline_pdf(os.path.join(folder, "00 Case Timeline.pdf"), title,
                      [("Court", "International Court of Justice"), ("Case number", num),
                       ("Files in this folder", f"{got} documents")], rows)
-        dest = f"LAW/06 International Court of Justice/{num:03d} {clean(title, 120)}"
+        dest = f"{ROOT}/06 International Court of Justice/{num:03d} {clean(title, 120)}"
         if got >= 3 and drive.upload(folder, dest):
             drive.done.add(f"icj:{num}")
             log(f"  ICJ {num}: {got} files")
@@ -652,7 +663,7 @@ def sec_ap(drive, minutes, lane):
                      [("Forum", "U.S. Securities and Exchange Commission, administrative proceeding"),
                       ("File number", fno.upper()), ("Respondents", resp), ("Files in this folder", got)], rows)
         year = entries[0][0][:4]
-        dest = f"LAW/07 SEC Administrative Proceedings/{year}/{clean(title, 120)}"
+        dest = f"{ROOT}/07 SEC Administrative Proceedings/{year}/{clean(title, 120)}"
         if got >= 2 and drive.upload(folder, dest):
             drive.done.add(f"sec:{fno}")
             log(f"  SEC {fno}: {got} files")
@@ -701,7 +712,7 @@ def enron(drive, minutes, lane):
         r = get(f"{SC}/search.aspx?filename=/docketfiles/{docket}.htm")
         if r and html_pdf(r.text, os.path.join(folder, "00 Docket.pdf"), SC + "/"):
             got += 1
-        if got and drive.upload(folder, f"LAW/{ENRON}/US Supreme Court/{docket} {name}"):
+        if got and drive.upload(folder, f"{ROOT}/{ENRON}/US Supreme Court/{docket} {name}"):
             drive.done.add(key)
             drive.save()
             log(f"  Enron SCOTUS {docket}: {got} files")
@@ -746,7 +757,7 @@ def enron(drive, minutes, lane):
             timeline_pdf(os.path.join(folder, "00 Index.pdf"), "SEC enforcement actions related to Enron",
                          [("Source", "U.S. Securities and Exchange Commission, Spotlight on Enron"),
                           ("Files in this folder", got)], rows)
-            if got and drive.upload(folder, f"LAW/{ENRON}/SEC Enforcement"):
+            if got and drive.upload(folder, f"{ROOT}/{ENRON}/SEC Enforcement"):
                 drive.done.add("enron:sec")
                 drive.save()
                 log(f"  Enron SEC: {got} files")
@@ -832,7 +843,7 @@ def pca(drive, minutes, lane):
                       ("Filed", (c.get("date_of_filling") or "")[:10]), ("Status", "Concluded"),
                       ("Summary", re.sub(r"<[^>]+>", " ", html.unescape(c.get("case_description") or ""))[:3000]),
                       ("Files in this folder", got)], rows)
-        dest = (f"LAW/09 Permanent Court of Arbitration/{clean(c.get('case_type') or 'Other', 50)}/"
+        dest = (f"{ROOT}/09 Permanent Court of Arbitration/{clean(c.get('case_type') or 'Other', 50)}/"
                 f"{clean((c.get('case_number') or '') + ' ' + name, 120)}")
         if got and drive.upload(folder, dest):
             drive.done.add(key)

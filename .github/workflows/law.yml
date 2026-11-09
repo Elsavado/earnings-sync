@@ -72,6 +72,7 @@ jobs:
         timeout-minutes: 330
         env:
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+          LAW_ROOT: ${{ vars.LAW_ROOT || 'LAW' }}
           PYTHONUTF8: "1"
         run: |
           flag=$([ "${{ vars.LAW_LIVE }}" = "true" ] && echo --live || echo "")
