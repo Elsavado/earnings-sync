@@ -96,6 +96,10 @@ CONTACT = [
     (re.compile(r"\b(?:Case|Docket|Civil Action|Criminal Action|Adv(?:ersary)?(?:\.\s*Pro(?:c|ceeding)\.?)?|"
                 r"Bankruptcy|Misc\.?|Appeal|Petition)\s+No(?:s)?\.?:?\s*[\w:.-]*\d[\w:.-]*", re.I),
      "[Case No. Redacted]"),
+    # stock tickers and filing file names (they give away the company and the real year)
+    (re.compile(r"\b(?:NASDAQ|Nasdaq|NYSE(?: American| MKT| Arca)?|AMEX|OTC(?:QB|QX| Markets| Pink)?|TSX|LSE)"
+                r"(?:\s*(?:Global Select|Global|Capital) Market)?\s*:\s*[A-Z][A-Z.]{0,5}\b"), "[Redacted Ticker]"),
+    (re.compile(r"\b[\w.-]*\d[\w.-]*\.(?:htm|html|txt|xml|jpg|gif|pdf|xsd)\b", re.I), "[file]"),
 ]
 TITLES = re.compile(r"^(?:(?:mr|ms|mrs|dr|hon|judge|justice|magistrate|chief|honorable|the|defendant|plaintiff|"
                     r"debtor|officer|agent|detective|sgt|sergeant|lt|capt|trustee|attorney|counsel|witness|"
@@ -126,6 +130,8 @@ def zipf(w):
 def norm_person(s):
     s = re.sub(r"['’]s$", "", " ".join(s.split())).strip(" ,.;:()[]\"'")
     s = TITLES.sub("", s).strip(" ,.;:")
+    if "redacted" in s.lower():  # our own replacement text, not a name
+        return None
     if not (2 < len(s) <= 60) or re.search(r"\d|[@/\\_=<>]", s) or not re.search(r"[A-Z]", s):
         return None
     toks = s.split()
@@ -253,11 +259,11 @@ class Redactor:
                 continue  # citation years stay correct
             add(m.start(), m.end(), str(int(m.group(1)) - self.years), "date")
 
-    def text(self, s):
+    def text(self, s, dates=True):
         if not s:
             return s
         out, i = [], 0
-        for a, b, new, _ in self.spans(s):
+        for a, b, new, _ in self.spans(s, dates):
             out.append(s[i:a])
             out.append(new)
             i = b
@@ -433,21 +439,22 @@ def _redact_html(src, dst):
     raw = re.sub(r"(?is)<img[^>]*>", "", raw)
     raw = re.sub(r"(?i)&nbsp;|&#160;|&#xa0;", " ", raw)
 
-    def scrub(s):
+    def scrub(s, dates=True):
         parts = re.split(r"(<[^>]+>)", s)
         n = 0
         for i in range(0, len(parts), 2):
             if parts[i].strip():
                 t = html.unescape(parts[i])
-                sp = RED.spans(t)
+                sp = RED.spans(t, dates)
                 if sp:
                     n += len(sp)
-                    parts[i] = html.escape(RED.text(t), quote=False)
+                    parts[i] = html.escape(RED.text(t, dates), quote=False)
         return "".join(parts), n
 
     out, n = scrub(raw)
     if RED.spans(plain_html(out), dates=False):  # a name split by formatting tags: flatten inline tags, again
-        out, n2 = scrub(re.sub(r"(?i)</?(?:font|span|b|i|u|a|strong|em|sup|sub)\b[^>]*>", "", out))
+        # dates were already moved in the first pass: they must never be moved twice
+        out, n2 = scrub(re.sub(r"(?i)</?(?:font|span|b|i|u|a|strong|em|sup|sub)\b[^>]*>", "", out), dates=False)
         n += n2
     with open(dst, "w", encoding="utf-8") as f:
         f.write(out)
@@ -1164,7 +1171,7 @@ def deal_matter(drive, cik, defm, form, minutes, sample=0):
     tender = form == "SC 14D9"
     mtype = "Public company acquisition - " + ("tender offer" if tender else "merger with shareholder vote")
     inc = d.get("stateOfIncorporation") or ""
-    juris = "United States - federal securities law (SEC)" + (f"; incorporated in {L.STATES.get(inc.lower(), inc)}"
+    juris = "United States - federal securities law (SEC)" + (f"; incorporated in {L.STATES.get(inc.lower(), f"a non-US jurisdiction (EDGAR code {inc})")}"
                                                                if inc else "")
     rng = f"{red.date_iso(start.isoformat())} to {red.date_iso(end.isoformat())}"
     facts = [("Practice area", "Mergers & Acquisitions"), ("Matter type", mtype), ("Jurisdiction", juris),
