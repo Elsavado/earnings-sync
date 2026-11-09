@@ -45,7 +45,7 @@ P_B = re.compile(rf"\b(\d{{1,2}})(st|nd|rd|th)?(\s+day\s+of\s+|\s+){MON}(,\s*|\s
 P_C = re.compile(r"(?<![\d/])(\d{1,2})/(\d{1,2})/(\d{4}|\d{2})(?![\d/])")
 P_D = re.compile(r"(?<![\d-])(\d{4})-(\d{2})-(\d{2})(?![\d-])")
 P_E = re.compile(rf"\b{MON}(,?\s+)(\d{{4}})\b", re.I)
-P_Y = re.compile(r"(?<![\w/.$-])(19[89]\d|20[0-4]\d)(?![\w%/-])")
+P_Y = re.compile(r"(?<![\w/.$-])(19[3-9]\d|20[0-4]\d)(?![\w%/-])")
 
 
 def _mon(s):
@@ -1030,11 +1030,108 @@ def transactions(drive, minutes, lane, max_files, sample=0):
         log(f"checked: {json.dumps(stats)}")
 
 
+# ---------------------------------------------------------------- Nuremberg (International Military Tribunal)
+# user 2026-11-09: the full Nuremberg trial record from the Avalon Project (Yale Law School): every court document
+# (charter, indictment, rules, orders, judgment, sentences) and the transcript of every hearing day.
+
+AVALON = "https://avalon.law.yale.edu"
+IMT_PEOPLE = ["Hermann Goering", "Hermann Göring", "Rudolf Hess", "Joachim von Ribbentrop", "Wilhelm Keitel",
+              "Ernst Kaltenbrunner", "Alfred Rosenberg", "Hans Frank", "Wilhelm Frick", "Julius Streicher",
+              "Walther Funk", "Hjalmar Schacht", "Karl Doenitz", "Karl Dönitz", "Erich Raeder", "Baldur von Schirach",
+              "Fritz Sauckel", "Alfred Jodl", "Franz von Papen", "Arthur Seyss-Inquart", "Albert Speer",
+              "Constantin von Neurath", "Hans Fritzsche", "Martin Bormann", "Robert Ley", "Gustav Krupp",
+              "Robert H. Jackson", "Geoffrey Lawrence", "Hartley Shawcross", "Francis Biddle", "John J. Parker",
+              "Henri Donnedieu de Vabres", "Iona Nikitchenko", "Roman Rudenko", "Norman Birkett", "David Maxwell-Fyfe",
+              "Adolf Hitler", "Heinrich Himmler", "Reinhard Heydrich", "Joseph Goebbels", "Rudolf Hoess"]
+
+
+def nuremberg(drive, minutes, lane, max_files, sample=0):
+    if "imt" in drive.done:
+        log("Nuremberg trial already done")
+        return
+    menu = get(f"{AVALON}/subject_menus/imt.asp", timeout=60)
+    if not menu:
+        return
+    items, seen = [], set()
+
+    def take(page, tag):
+        for href, text in re.findall(r'(?i)href="\.\./imt/([^"#]+\.asp)"[^>]*>(.*?)</a', page, re.S):
+            if href not in seen:
+                seen.add(href)
+                items.append((f"{AVALON}/imt/{href}", clean(re.sub(r"<[^>]+>", " ", text), 80), tag))
+
+    take(menu.text, "court")
+    for v in range(1, 23):
+        r = get(f"{AVALON}/subject_menus/imtproc_v{v}menu.asp", timeout=60)
+        if r:
+            take(r.text, f"vol{v}")
+    if sample:
+        items = items[:sample]
+    log(f"Nuremberg: {len(items)} documents")
+    raw_dir, out_dir = tempfile.mkdtemp(prefix="raw-"), tempfile.mkdtemp(prefix="matter-")
+    jobs = [(u, f"{i:04d}.htm") for i, (u, _, _) in enumerate(items, 1)]
+    download_all(jobs, raw_dir, threads=3)
+    missing = [j for j in jobs if not os.path.exists(os.path.join(raw_dir, j[1]))]
+    if missing:
+        time.sleep(20)
+        download_all(missing, raw_dir, threads=1)
+    have = [(j[1], j[1]) for j in jobs if os.path.exists(os.path.join(raw_dir, j[1]))]
+    res = process_matter("avalon-imt", have, raw_dir, out_dir, set(IMT_PEOPLE), {}, minutes)
+    shutil.rmtree(raw_dir, ignore_errors=True)
+    if res is None:
+        return
+    red, kept, stats = res
+    names, rows, shifted = {}, [], []
+    final = tempfile.mkdtemp(prefix="final-")
+    for i, (u, title, tag) in enumerate(items, 1):
+        rel = f"{i:04d}.htm"
+        if rel not in kept:
+            continue
+        m = re.search(r"/(\d{1,2})-(\d{1,2})-(\d{2})\.asp$", u)
+        date = _date(1900 + int(m.group(3)), m.group(1), m.group(2)) if m else None
+        sd = red.shift(date).isoformat() if date else ""
+        if sd:
+            shifted.append(sd)
+        sub = "01 Court Documents" if tag == "court" else "02 Trial Transcripts"
+        os.makedirs(os.path.join(final, sub), exist_ok=True)
+        fn = " ".join(x for x in (f"{i:04d}", sd, clean(red.text(title), 70)) if x) + ".htm"
+        os.replace(os.path.join(out_dir, rel), os.path.join(final, sub, fn))
+        names[rel] = f"{sub}/{fn}"
+        rows.append((i, sd, red.text(title), fn))
+    shutil.rmtree(out_dir, ignore_errors=True)
+    n = sum(len(f) for _, _, f in os.walk(final))
+    log(f"  Nuremberg: kept {n}, {json.dumps({k: v for k, v in stats.items() if k != 'flagged'})}")
+    mid = "L-" + hashlib.sha1(b"avalon-imt").hexdigest()[:6].upper()
+    start = red.shift(dt.date(1945, 8, 8)).isoformat()
+    end = red.shift(dt.date(1946, 10, 16)).isoformat()
+    rng = f"{start} to {end}"
+    area, mtype = "International Criminal Law", "International war crimes trial (international military tribunal)"
+    juris = "International - four-power international military tribunal (Germany)"
+    facts = [("Practice area", area), ("Matter type", mtype), ("Jurisdiction", juris),
+             ("Status", "Concluded (judgment and sentences delivered)"), ("Date range", rng),
+             ("Document count", f"{n} documents: court documents and the transcript of every hearing day "
+                                f"(fewer than 500 - kept at the user's request)"),
+             ("Record type", "Published official trial record (Avalon Project, Yale Law School)"),
+             ("Redaction", REDACTION_NOTE)] + flag_facts(stats, names)
+    dest = f"{P}Litigation/{area}/Matter {mid}"
+    if sample:
+        shutil.copytree(final, os.path.join("sample", mid), dirs_exist_ok=True)
+        summary_pdf(os.path.join("sample", mid, "00 Matter Summary.pdf"), mid, facts)
+        shutil.rmtree(final, ignore_errors=True)
+        return
+    if finish(drive, mid, final, dest, red, facts, rows, n,
+              {"matter": mid, "practice area": area, "matter type": mtype, "jurisdiction": juris,
+               "date range": rng, "documents": n, "folder": dest}):
+        drive.done.add("imt")
+        drive.save()
+    shutil.rmtree(final, ignore_errors=True)
+
+
 # ---------------------------------------------------------------- main
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--source", choices=["litigation", "transactions"], required=True)
+    ap.add_argument("--source", choices=["litigation", "transactions", "nuremberg"], required=True)
     ap.add_argument("--lane", default="0/1")
     ap.add_argument("--remote", default="ws:")
     ap.add_argument("--minutes", type=float, default=300)
@@ -1047,7 +1144,7 @@ def main():
     drive = L.Drive(a.remote if a.remote.endswith(":") else a.remote + ":", job, a.live and not a.sample)
     log(f"{job}: {len(drive.done)} matters done before, live={drive.live}")
     try:
-        {"litigation": litigation, "transactions": transactions}[a.source](drive, a.minutes, (k, n), a.max_files,
+        {"litigation": litigation, "transactions": transactions, "nuremberg": nuremberg}[a.source](drive, a.minutes, (k, n), a.max_files,
                                                                            a.sample)
     finally:
         drive.save()

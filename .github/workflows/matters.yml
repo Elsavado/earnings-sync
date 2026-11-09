@@ -13,7 +13,7 @@ on:
         description: "run budget in minutes"
         default: "320"
       only:
-        description: "litigation or transactions; blank = both"
+        description: "litigation, transactions or nuremberg; blank = all"
         default: ""
       sample:
         description: "test: documents of one matter to redact into a run artifact (0 = normal run)"
@@ -39,6 +39,7 @@ jobs:
           - {source: litigation, lane: "2/3"}
           - {source: transactions, lane: "0/2"}
           - {source: transactions, lane: "1/2"}
+          - {source: nuremberg, lane: "0/1"}
     defaults:
       run:
         working-directory: excel
