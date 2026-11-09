@@ -83,8 +83,9 @@ CONTACT = [
     (re.compile(r"(?<!\d)\d{3}-\d{2}-\d{4}(?!\d)|\b[Xx*]{3}-[Xx*]{2}-\d{4}\b"), "[Redacted]"),
     (re.compile(r"(?<![\d-])\d{2}-\d{7}(?![\d-])"), "[Redacted]"),
     (re.compile(r"(?<![\d-])(?:\+?1[\s.-]?)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}(?!\d)"), "[Redacted Phone]"),
-    (re.compile(r"\b\d{1,6}\s+(?:[NSEW]\.?\s+)?(?:[A-Z][\w'.-]*\s+){1,4}(?:Street|St|Avenue|Ave|Road|Rd|Boulevard|"
-                r"Blvd|Drive|Dr|Lane|Ln|Way|Court|Ct|Place|Pl|Parkway|Pkwy|Highway|Hwy|Circle|Terrace|Square|"
+    # (no "Court": in legal papers "12 Order of the Court" is not an address; never inside a date "2020-03-12")
+    (re.compile(r"(?<![\d-])\b\d{1,6}\s+(?:[NSEW]\.?\s+)?(?:[A-Z][\w'.-]*\s+){1,4}(?:Street|St|Avenue|Ave|Road|Rd|"
+                r"Boulevard|Blvd|Drive|Dr|Lane|Ln|Way|Place|Pl|Parkway|Pkwy|Highway|Hwy|Circle|Terrace|Square|"
                 r"Plaza)\b\.?(?:,?\s+(?:Suite|Ste\.?|Floor|Fl\.?|Apt\.?|Unit|#)\s*[\w-]+)?"), "[Redacted Address]"),
     (re.compile(r"\bP\.?\s?O\.?\s+Box\s+\d+", re.I), "[Redacted Address]"),
     (re.compile(r"\b(?:State\s+)?Bar\s+(?:No|Number|#|I\.?D\.?)\.?:?\s*[A-Z]{0,3}\d[\w-]*|\bSBN\s*:?\s*\d+", re.I),
@@ -101,7 +102,9 @@ CONTACT = [
                 r"(?:\s*(?:Global Select|Global|Capital) Market)?\s*:\s*[A-Z][A-Z.]{0,5}\b"), "[Redacted Ticker]"),
     (re.compile(r"\b[\w.-]*\d[\w.-]*\.(?:htm|html|txt|xml|jpg|gif|pdf|xsd)\b", re.I), "[file]"),
     # SEC file numbers (001-12935, 333-123456): they identify the company
-    (re.compile(r"(?<![\w-])(?:0\d\d|33|333|811|814|1|2)-\d{4,6}(?![\w-])"), "[Redacted File No.]"),
+    (re.compile(r"(?<![\w-])(?:0\d\d|33|333|811|814|1|2|3)-\d{4,6}(?![\w-])"), "[Redacted File No.]"),
+    # Supreme Court and appeals docket numbers (19-1392, 18-60868) and applications (19A1027): they identify the case
+    (re.compile(r"(?<![\w.$/-])\d{2}-\d{3,5}(?![\w/-])|(?<![\w-])\d{2}A\d{1,4}(?![\w-])"), "[Case No. Redacted]"),
 ]
 TITLES = re.compile(r"^(?:(?:mr|ms|mrs|dr|hon|judge|justice|magistrate|chief|honorable|the|defendant|plaintiff|"
                     r"debtor|officer|agent|detective|sgt|sergeant|lt|capt|trustee|attorney|counsel|witness|"
@@ -164,9 +167,9 @@ def org_variants(name):
 class Redactor:
     """One per matter: fixed date offset, the matter's people and parties, compiled once per process."""
 
-    def __init__(self, key, people=(), singles=(), orgs=None):
+    def __init__(self, key, people=(), singles=(), orgs=None, shift=True):
         h = int(hashlib.sha256(("matter-shift:" + key).encode()).hexdigest(), 16)
-        self.days = 7 * (60 + h % 300)  # 1.2 to 7 years back, whole weeks
+        self.days = 7 * (60 + h % 300) if shift else 0  # 1.2 to 7 years back, whole weeks (0: already moved)
         self.years = round(self.days / 365.25)
         self.people, self.singles, self.orgs = set(people), set(singles), dict(orgs or {})
         self._c = None
@@ -494,7 +497,7 @@ def build_terms(results, known_people, orgs):
     return people, singles, org_labels
 
 
-def process_matter(key, docs, raw_dir, out_dir, known_people, orgs, minutes):
+def process_matter(key, docs, raw_dir, out_dir, known_people, orgs, minutes, shift=True):
     """docs: [(raw filename, out relative path)] -> (red, kept [(out path, ok)], stats) or None when time ran out."""
     paths = [os.path.join(raw_dir, r) for r, _ in docs]
     workers = max(1, os.cpu_count() or 2)
@@ -503,7 +506,7 @@ def process_matter(key, docs, raw_dir, out_dir, known_people, orgs, minutes):
     if left(minutes) < 600:
         return None
     people, singles, org_labels = build_terms(res, known_people, orgs)
-    red = Redactor(key, people, singles, org_labels)
+    red = Redactor(key, people, singles, org_labels, shift)
     stats = collections.Counter()
     kept = []
     jobs = []
@@ -671,7 +674,7 @@ def case_parties(name):
     return people, orgs
 
 
-def redact_folder(folder, key, people=(), orgs=None):
+def redact_folder(folder, key, people=(), orgs=None, shift=True):
     """Redact every file in place (names, contact details, case numbers; dates moved by the case's fixed offset);
     file names too. Audio and pictures cannot be redacted and are removed. -> Redactor"""
     for root, _, files in os.walk(folder):
@@ -681,7 +684,7 @@ def redact_folder(folder, key, people=(), orgs=None):
     rels = sorted(os.path.relpath(os.path.join(r, f), folder) for r, _, fs in os.walk(folder) for f in fs)
     out_dir = tempfile.mkdtemp(prefix="redacted-")
     tmp = [(rel, f"{i:05d}{os.path.splitext(rel)[1].lower()}") for i, rel in enumerate(rels)]
-    res = process_matter(key, tmp, folder, out_dir, set(people), dict(orgs or {}), 10 ** 7)
+    res = process_matter(key, tmp, folder, out_dir, set(people), dict(orgs or {}), 10 ** 7, shift)
     red, kept, _ = res
     for rel, t in tmp:
         if t not in kept or not os.path.exists(os.path.join(out_dir, t)):

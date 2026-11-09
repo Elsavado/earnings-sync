@@ -142,7 +142,7 @@ class Drive:
         if self.live:
             subprocess.run(["rclone", "copyto", self.local_state, self.state_path, "-q"], check=False)
 
-    def upload(self, folder, dest, people=(), orgs=None):
+    def upload(self, folder, dest, people=(), orgs=None, second_pass=False):
         if os.environ.get("LAW_REDACT") == "true":
             # user 2026-11-09: every upload redacted (names, contacts, case numbers; dates moved per case)
             import matters.__main__ as M
@@ -152,8 +152,9 @@ class Drive:
                 orgs = dict(orgs or {}, **{"Enron Corp.": "Energy Company", "Enron Corp": "Energy Company",
                                            "Enron": "Energy Company", "Arthur Andersen LLP": "Audit Firm",
                                            "Arthur Andersen": "Audit Firm", "Andersen": "Audit Firm"})
-            red = M.redact_folder(folder, dest, people, orgs)
-            dest = M.redact_dest(dest, red)
+            red = M.redact_folder(folder, dest, people, orgs, shift=not second_pass)
+            if not second_pass:  # a second pass keeps the folder's (already redacted) name and dates
+                dest = M.redact_dest(dest, red)
         self.last_dest = dest
         n = sum(len(f) for _, _, f in os.walk(folder))
         if not n:
@@ -880,8 +881,13 @@ def redact_existing(drive, minutes, lane):
     dirs = sorted({os.path.dirname(x) for x in r.stdout.splitlines() if x.strip()})
     dirs = [d for d in dirs if zlib.crc32(d.encode()) % n == k and d not in drive.done
             and not re.search(r"(^|/)Case [0-9A-F]{6}$", d)]
-    log(f"redact: {len(dirs)} folders to redact in lane {k}/{n}")
-    for d in dirs:
+    # folders redacted before the docket-number fix (2026-11-09): one more pass, dates NOT moved again
+    r2 = subprocess.run(["rclone", "cat", f"{drive.remote}LAW - private/pass2.txt"], capture_output=True, text=True)
+    redo = [x[len(ROOT) + 1:] if x.startswith(ROOT + "/") else x for x in r2.stdout.splitlines() if x.strip()]
+    redo = [d for d in redo if zlib.crc32(d.encode()) % n == k and "pass2:" + d not in drive.done]
+    dirs = [(d, True) for d in redo] + [(d, False) for d in dirs]
+    log(f"redact: {len(dirs)} folders to redact in lane {k}/{n} ({len(redo)} second passes)")
+    for d, again in dirs:
         if left(minutes) < 1200:
             return
         folder = tempfile.mkdtemp(prefix="law2-")
@@ -891,7 +897,7 @@ def redact_existing(drive, minutes, lane):
             continue
         originals = sorted(os.listdir(folder))
         os.environ["LAW_REDACT"] = "true"
-        ok = drive.upload(folder, f"{ROOT}/{d}" if d else ROOT)
+        ok = drive.upload(folder, f"{ROOT}/{d}" if d else ROOT, second_pass=again)
         if ok and drive.live:  # redacted copy is up: move the unredacted originals of this folder to the trash
             redacted = set(os.listdir(folder)) if drive.last_dest == f"{ROOT}/{d}" else set()
             gone = [x for x in originals if x not in redacted]
@@ -903,7 +909,7 @@ def redact_existing(drive, minutes, lane):
             os.remove(lst)
         before = len(originals)
         if ok:
-            drive.done.add(d)
+            drive.done.add("pass2:" + d if again else d)
             drive.save()
             log(f"  redacted folder {len(drive.done)}: {before} files")
         shutil.rmtree(folder, ignore_errors=True)
