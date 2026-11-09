@@ -119,6 +119,7 @@ def fetch(url, path):
 class Drive:
     def __init__(self, remote, job, live):
         self.remote, self.job, self.live = remote, job, live
+        self.last_dest = None
         self.state_path = f"{remote.split(':')[0]}:LAW - private/state-{job}.json"
         self.local_state = os.path.join(tempfile.gettempdir(), f"law-state-{job}.json")
         self.state = {}
@@ -141,8 +142,22 @@ class Drive:
         if self.live:
             subprocess.run(["rclone", "copyto", self.local_state, self.state_path, "-q"], check=False)
 
-    def upload(self, folder, dest):
-        n = len(os.listdir(folder))
+    def upload(self, folder, dest, people=(), orgs=None):
+        if os.environ.get("LAW_REDACT") == "true":
+            # user 2026-11-09: every upload redacted (names, contacts, case numbers; dates moved per case)
+            import matters.__main__ as M
+            if not orgs and not people:
+                people, orgs = M.case_parties(dest.rsplit("/", 1)[-1])
+            if "Enron" in dest:
+                orgs = dict(orgs or {}, **{"Enron Corp.": "Energy Company", "Enron Corp": "Energy Company",
+                                           "Enron": "Energy Company", "Arthur Andersen LLP": "Audit Firm",
+                                           "Arthur Andersen": "Audit Firm", "Andersen": "Audit Firm"})
+            red = M.redact_folder(folder, dest, people, orgs)
+            dest = M.redact_dest(dest, red)
+        self.last_dest = dest
+        n = sum(len(f) for _, _, f in os.walk(folder))
+        if not n:
+            return False
         if not self.live:
             log(f"  dry run: {n} files -> {dest}")
             return True
@@ -474,7 +489,11 @@ def recap_case(drive, ident, meta, topic=None):
     elif d.get("xml"):
         with open(os.path.join(folder, "00 Docket.xml"), "w", encoding="utf-8") as f:
             f.write(d["xml"])
-    ok = got >= (1 if topic else 12) and drive.upload(folder, f"{ROOT}/" + place)
+    lp = {}
+    if os.environ.get("LAW_REDACT") == "true":  # the docket's parties, attorneys and judge are redacted too
+        import matters.__main__ as M
+        lp = dict(zip(("people", "orgs"), M.lit_parties(d)))
+    ok = got >= (1 if topic else 12) and drive.upload(folder, f"{ROOT}/" + place, **lp)
     shutil.rmtree(folder, ignore_errors=True)
     return f"ok {got}" if ok else "failed"
 
@@ -852,9 +871,47 @@ def pca(drive, minutes, lane):
         shutil.rmtree(folder, ignore_errors=True)
 
 
+def redact_existing(drive, minutes, lane):
+    """user 2026-11-09: redact what LAW 2 already holds - each case folder is downloaded, redacted, uploaded under
+    its redacted name, and the unredacted original deleted."""
+    k, n = lane
+    base = f"{drive.remote}{ROOT}"
+    r = subprocess.run(["rclone", "lsf", "-R", "--files-only", "--fast-list", base], capture_output=True, text=True)
+    dirs = sorted({os.path.dirname(x) for x in r.stdout.splitlines() if x.strip()})
+    dirs = [d for d in dirs if zlib.crc32(d.encode()) % n == k and d not in drive.done
+            and not re.search(r"(^|/)Case [0-9A-F]{6}$", d)]
+    log(f"redact: {len(dirs)} folders to redact in lane {k}/{n}")
+    for d in dirs:
+        if left(minutes) < 1200:
+            return
+        folder = tempfile.mkdtemp(prefix="law2-")
+        src = f"{base}/{d}" if d else base
+        if subprocess.run(["rclone", "copy", src, folder, "--max-depth", "1", "-q"]).returncode != 0:
+            shutil.rmtree(folder, ignore_errors=True)
+            continue
+        originals = sorted(os.listdir(folder))
+        os.environ["LAW_REDACT"] = "true"
+        ok = drive.upload(folder, f"{ROOT}/{d}" if d else ROOT)
+        if ok and drive.live:  # redacted copy is up: move the unredacted originals of this folder to the trash
+            redacted = set(os.listdir(folder)) if drive.last_dest == f"{ROOT}/{d}" else set()
+            gone = [x for x in originals if x not in redacted]
+            lst = os.path.join(folder, "..", f"orig-{zlib.crc32(d.encode())}.txt")
+            with open(lst, "w", encoding="utf-8") as f:
+                f.write("".join(x + "\n" for x in gone))
+            subprocess.run(["rclone", "delete", src, "--max-depth", "1", "--files-from-raw", lst, "-q"])
+            subprocess.run(["rclone", "rmdir", src, "-q"])  # only removed when it is now empty
+            os.remove(lst)
+        before = len(originals)
+        if ok:
+            drive.done.add(d)
+            drive.save()
+            log(f"  redacted folder {len(drive.done)}: {before} files")
+        shutil.rmtree(folder, ignore_errors=True)
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--source", choices=["scotus", "recap", "icj", "sec", "enron", "pca"], required=True)
+    ap.add_argument("--source", choices=["scotus", "recap", "icj", "sec", "enron", "pca", "redact"], required=True)
     ap.add_argument("--lane", default="0/1")
     ap.add_argument("--remote", default="ws:")
     ap.add_argument("--minutes", type=float, default=300)
@@ -866,7 +923,9 @@ def main():
     drive = Drive(a.remote if a.remote.endswith(":") else a.remote + ":", job, a.live)
     log(f"{job}: {len(drive.done)} cases done before, live={a.live}")
     try:
-        if a.source == "recap":
+        if a.source == "redact":
+            redact_existing(drive, a.minutes, (k, n))
+        elif a.source == "recap":
             recap(drive, a.minutes, (k, n), a.max_files)
         else:
             {"scotus": scotus, "icj": icj, "sec": sec_ap, "enron": enron, "pca": pca}[a.source](drive, a.minutes, (k, n))

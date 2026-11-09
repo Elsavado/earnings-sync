@@ -601,6 +601,71 @@ REDACTION_NOTE = ("People's names, parties, contact details, addresses, ID/accou
                   "document metadata removed.")
 
 
+# ---------------------------------------------------------------- redact a whole case folder (LAW 2 uploads)
+# user 2026-11-09: "any upload should be redacted" - the LAW collector redacts each case folder before upload.
+
+UNREDACTABLE = (".mp3", ".mp4", ".wav", ".m4a", ".jpg", ".jpeg", ".png", ".gif", ".zip")
+
+
+def case_parties(name):
+    """'Smith v. Acme Corp.' -> people, org labels"""
+    people, orgs = set(), {}
+    name = re.sub(r"\s*\([^)]*\)\s*$", "", name or "")
+    name = re.sub(r"^(?:[\d-]+\s+|In re:?\s+)", "", name, flags=re.I)
+    for role, side in zip(("Plaintiff", "Defendant"), re.split(r"\s+v(?:s)?\.?\s+", name, maxsplit=1)):
+        side = re.sub(r",?\s+et al\.?$", "", side.strip(), flags=re.I)
+        if not side or re.fullmatch(r"(USA|United States( of America)?|Securities and Exchange Commission|SEC)",
+                                    side, re.I):
+            continue
+        if L.BUSINESS.search(side) or not norm_person(side):
+            orgs.setdefault(side, f"{role} Company 1")
+        else:
+            people.add(side)
+    return people, orgs
+
+
+def redact_folder(folder, key, people=(), orgs=None):
+    """Redact every file in place (names, contact details, case numbers; dates moved by the case's fixed offset);
+    file names too. Audio and pictures cannot be redacted and are removed. -> Redactor"""
+    for root, _, files in os.walk(folder):
+        for fn in files:
+            if fn.lower().endswith(UNREDACTABLE):
+                os.remove(os.path.join(root, fn))
+    rels = sorted(os.path.relpath(os.path.join(r, f), folder) for r, _, fs in os.walk(folder) for f in fs)
+    out_dir = tempfile.mkdtemp(prefix="redacted-")
+    tmp = [(rel, f"{i:05d}{os.path.splitext(rel)[1].lower()}") for i, rel in enumerate(rels)]
+    res = process_matter(key, tmp, folder, out_dir, set(people), dict(orgs or {}), 10 ** 7)
+    red, kept, _ = res
+    for rel, t in tmp:
+        if t not in kept or not os.path.exists(os.path.join(out_dir, t)):
+            continue
+        stem, ext = os.path.splitext(rel)
+        new = "/".join(clean(red.text(p), 120) for p in stem.replace("\\", "/").split("/")) + ext
+        os.makedirs(os.path.dirname(os.path.join(folder, new + ".new")), exist_ok=True)
+        os.replace(os.path.join(out_dir, t), os.path.join(folder, new + ".new"))
+    for root, _, files in os.walk(folder):  # originals out, redacted copies in
+        for fn in files:
+            if not fn.endswith(".new"):
+                os.remove(os.path.join(root, fn))
+    for root, _, files in os.walk(folder):
+        for fn in files:
+            os.replace(os.path.join(root, fn), os.path.join(root, fn[:-4]))
+    shutil.rmtree(out_dir, ignore_errors=True)
+    return red
+
+
+def redact_dest(dest, red):
+    """Drive path: the case's own folder becomes 'Case <code>', years in the other folder names move with the dates."""
+    parts = dest.split("/")
+    code = hashlib.sha1(dest.encode()).hexdigest()[:6].upper()
+    head = [p.replace("08 Enron Cases", "08 Energy Company Fraud Cases") for p in parts[:-1]]
+    head = [re.sub(r"\b(19[3-9]\d|20[0-4]\d)\b", lambda m: str(int(m.group(1)) - red.years), p) for p in head]
+    last = parts[-1]
+    if last in ("SEC Enforcement",):
+        return "/".join(head + [last])
+    return "/".join(head + [f"Case {code}"])
+
+
 # ---------------------------------------------------------------- litigation (RECAP)
 
 # ---------------------------------------------------------------- CourtListener (Free Law Project REST API)

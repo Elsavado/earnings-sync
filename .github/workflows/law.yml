@@ -13,7 +13,7 @@ on:
         description: "run budget in minutes"
         default: "300"
       only:
-        description: "run only this source (scotus, sec, recap, enron, pca); blank = all"
+        description: "run only this source (scotus, sec, recap, enron, pca, redact); blank = all"
         default: ""
   schedule:
     - cron: "23 */6 * * *"
@@ -39,6 +39,10 @@ jobs:
           - {source: recap, lane: "1/2"}
           - {source: enron, lane: "0/1"}
           - {source: pca, lane: "0/1"}
+          - {source: redact, lane: "0/4"}
+          - {source: redact, lane: "1/4"}
+          - {source: redact, lane: "2/4"}
+          - {source: redact, lane: "3/4"}
     defaults:
       run:
         working-directory: excel
@@ -54,7 +58,9 @@ jobs:
           CSECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
           RTOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
         run: |
-          pip install -q requests reportlab
+          sudo apt-get -qq update >/dev/null && sudo apt-get -qq install -y ocrmypdf tesseract-ocr >/dev/null
+          pip install -q requests reportlab pymupdf spacy wordfreq
+          python -m spacy download en_core_web_lg -q >/dev/null
           curl -fsSL https://rclone.org/install.sh | sudo bash >/dev/null
           mkdir -p ~/.config/rclone
           python3 - <<'EOF'
@@ -73,6 +79,7 @@ jobs:
         env:
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
           LAW_ROOT: ${{ vars.LAW_ROOT || 'LAW' }}
+          LAW_REDACT: "true"   # user 2026-11-09: every upload redacted
           PYTHONUTF8: "1"
         run: |
           flag=$([ "${{ vars.LAW_LIVE }}" = "true" ] && echo --live || echo "")
