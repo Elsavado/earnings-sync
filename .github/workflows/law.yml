@@ -39,10 +39,14 @@ jobs:
           - {source: recap, lane: "1/2"}
           - {source: enron, lane: "0/1"}
           - {source: pca, lane: "0/1"}
-          - {source: redact, lane: "0/4"}
-          - {source: redact, lane: "1/4"}
-          - {source: redact, lane: "2/4"}
-          - {source: redact, lane: "3/4"}
+          - {source: redact, lane: "0/8"}
+          - {source: redact, lane: "1/8"}
+          - {source: redact, lane: "2/8"}
+          - {source: redact, lane: "3/8"}
+          - {source: redact, lane: "4/8"}
+          - {source: redact, lane: "5/8"}
+          - {source: redact, lane: "6/8"}
+          - {source: redact, lane: "7/8"}
     defaults:
       run:
         working-directory: excel
