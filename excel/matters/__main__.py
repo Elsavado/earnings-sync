@@ -13,6 +13,7 @@ Redaction, per matter:
   * e-mail, phone, street address, SSN/EIN, bar numbers, account numbers, dates of birth, case numbers
   * DATES are not kept: every date is moved back by one fixed per-matter offset (a whole number of weeks, so
     intervals and weekdays are unchanged); stand-alone years move by the same amount. Citation years are left.
+  * no document is left out: one that cannot be redacted is kept as downloaded and listed in the summary
   * PDF metadata, attachments, links, comments, form fields and JavaScript are removed; scanned pages are OCR'd
     first so their text can be found and the pixels under it removed.
 Each matter: "00 Matter Summary.pdf" (practice area, matter type, jurisdiction, date range, document count),
@@ -485,23 +486,27 @@ def process_matter(key, docs, raw_dir, out_dir, known_people, orgs, minutes):
     stats = collections.Counter()
     kept = []
     jobs = []
-    for (rawname, rel), (ok, _, _) in zip(docs, res):
-        if not ok:
-            stats["unreadable"] += 1
-            continue
+    # user 2026-11-09: no document is left out. A document that cannot be redacted is kept as downloaded, and one
+    # where a detail may remain is kept too; both are listed in the matter summary.
+    flagged = {"not redacted (unreadable or locked file, kept as downloaded)": [],
+               "redacted, but a name or detail may remain": []}
+    for rawname, rel in docs:
         dst = os.path.join(out_dir, rel)
         os.makedirs(os.path.dirname(dst), exist_ok=True)
         jobs.append((os.path.join(raw_dir, rawname), dst, rel))
     with cf.ProcessPoolExecutor(workers, initializer=_init_red, initargs=(red,)) as ex:
         for (src, dst, rel), (ok, n, lo) in zip(jobs, ex.map(w_redact, [j[0] for j in jobs], [j[1] for j in jobs],
                                                               chunksize=4)):
-            if ok and not lo:
-                kept.append(rel)
-                stats["redactions"] += n
-            else:
-                stats["dropped"] += 1
-                if os.path.exists(dst):
-                    os.remove(dst)
+            if not ok:
+                shutil.copyfile(src, dst)
+                flagged["not redacted (unreadable or locked file, kept as downloaded)"].append(rel)
+                stats["kept_unredacted"] += 1
+            elif lo:
+                flagged["redacted, but a name or detail may remain"].append(rel)
+                stats["kept_with_leftovers"] += 1
+            stats["redactions"] += n or 0
+            kept.append(rel)
+    stats["flagged"] = flagged
     stats["people"], stats["parties"] = len(people) + len(singles), len(org_labels)
     return red, kept, stats
 
@@ -535,6 +540,14 @@ def write_index(drive):
     if drive.live:
         subprocess.run(["rclone", "copyto", p, f"{drive.remote}{ROOT}/00 Matter Index ({drive.job}).csv", "-q"],
                        check=False)
+
+
+def flag_facts(stats, names):
+    out = []
+    for label, rels in (stats.get("flagged") or {}).items():
+        if rels:
+            out.append((f"Documents {label}", f"{len(rels)}: " + "; ".join(names.get(r, r) for r in rels)))
+    return out
 
 
 REDACTION_NOTE = ("People's names, parties, contact details, addresses, ID/account/bar/case numbers redacted; "
@@ -669,7 +682,11 @@ def lit_matter(drive, ident, meta, minutes, sample=0):
     raw_dir, out_dir = tempfile.mkdtemp(prefix="raw-"), tempfile.mkdtemp(prefix="matter-")
     jobs = [(f"{IA}/download/{ident}/{pdfs[k][0]}", f"{k[0]}.{k[1]}.pdf") for k in order]
     download_all(jobs, raw_dir)
-    have = [k for k in order if os.path.exists(os.path.join(raw_dir, f"{k[0]}.{k[1]}.pdf"))]
+    missing = [j for j in jobs if not os.path.exists(os.path.join(raw_dir, j[1]))]
+    if missing:  # second attempt, slower, so nothing is left out for a passing network error
+        time.sleep(20)
+        download_all(missing, raw_dir, threads=2)
+    have =[k for k in order if os.path.exists(os.path.join(raw_dir, f"{k[0]}.{k[1]}.pdf"))]
     people, orgs = lit_parties(d)
     docs = []
     for dn, att in have:
@@ -683,6 +700,7 @@ def lit_matter(drive, ident, meta, minutes, sample=0):
         shutil.rmtree(out_dir, ignore_errors=True)
         return "time"
     red, kept, stats = res
+    names = {}
     final = tempfile.mkdtemp(prefix="final-")
     shifted = []
     for i, (r, (dn, att, date, label)) in enumerate(docs):
@@ -695,9 +713,10 @@ def lit_matter(drive, ident, meta, minutes, sample=0):
         fn = " ".join(x for x in (f"{num}{'-%02d' % att if att else ''}", sd, clean(red.text(label), 70)) if x)
         fn += ".pdf"
         os.replace(os.path.join(out_dir, rel), os.path.join(final, fn))
+        names[rel] = fn
     shutil.rmtree(out_dir, ignore_errors=True)
     n = len(os.listdir(final))
-    log(f"  matter {mid}: kept {n}, {json.dumps(dict(stats))}")
+    log(f"  matter {mid}: kept {n}, {json.dumps({k: v for k, v in stats.items() if k != 'flagged'})}")
     if n < MIN_DOCS and not sample:
         shutil.rmtree(final, ignore_errors=True)
         return "under500"
@@ -709,7 +728,7 @@ def lit_matter(drive, ident, meta, minutes, sample=0):
              ("Status", "Concluded (case terminated)"), ("Date range", rng),
              ("Document count", f"{n} documents (every docket document and attachment in the public record)"),
              ("Record type", "Public court record of a concluded US federal case (docket and filings)"),
-             ("Redaction", REDACTION_NOTE)]
+             ("Redaction", REDACTION_NOTE)] + flag_facts(stats, names)
     rows = [(no or "", red.date_iso(date), red.text(text), "") for no, date, text, _ in d["entries"]]
     dest = f"{ROOT}/Litigation/{clean(area, 50)}/Matter {mid}"
     if sample:
@@ -934,6 +953,7 @@ def deal_matter(drive, cik, defm, form, minutes, sample=0):
         shutil.rmtree(out_dir, ignore_errors=True)
         return "time"
     red, kept, stats = res
+    names = {}
     final = tempfile.mkdtemp(prefix="final-")
     kept = set(kept)
     tl = {}
@@ -945,10 +965,11 @@ def deal_matter(drive, cik, defm, form, minutes, sample=0):
         os.makedirs(os.path.join(final, sub), exist_ok=True)
         fn = f"{seq:02d} {clean(typ.replace('/', '-'), 20)} - {clean(red.text(desc) or typ, 60)}{ext}"
         os.replace(os.path.join(out_dir, rawname), os.path.join(final, sub, fn))
+        names[rawname] = f"{sub}/{fn}"
         tl.setdefault((fi, sd, frm), []).append(fn)
     shutil.rmtree(out_dir, ignore_errors=True)
     n = sum(len(v) for v in tl.values())
-    log(f"  matter {mid}: kept {n}, {json.dumps(dict(stats))}")
+    log(f"  matter {mid}: kept {n}, {json.dumps({k: v for k, v in stats.items() if k != 'flagged'})}")
     if n < MIN_DOCS and not sample:
         shutil.rmtree(final, ignore_errors=True)
         return "under500"
@@ -962,7 +983,7 @@ def deal_matter(drive, cik, defm, form, minutes, sample=0):
              ("Status", "Completed (target delisted / registration ended)"), ("Date range", rng),
              ("Document count", f"{n} documents in {len(tl)} filings (every filing and exhibit, announcement to "
                                 f"closing)"),
-             ("Record type", "Public SEC filing record of a completed acquisition"), ("Redaction", REDACTION_NOTE)]
+             ("Record type", "Public SEC filing record of a completed acquisition"), ("Redaction", REDACTION_NOTE)] + flag_facts(stats, names)
     rows = [(fi, sd, frm, "; ".join(v)) for (fi, sd, frm), v in sorted(tl.items())]
     dest = f"{ROOT}/Transactions/Mergers and Acquisitions/Matter {mid}"
     if sample:
