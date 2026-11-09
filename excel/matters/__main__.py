@@ -559,6 +559,107 @@ REDACTION_NOTE = ("People's names, parties, contact details, addresses, ID/accou
 
 # ---------------------------------------------------------------- litigation (RECAP)
 
+# ---------------------------------------------------------------- CourtListener (Free Law Project REST API)
+
+CL = "https://www.courtlistener.com/api/rest/v4"
+# off unless COURTLISTENER_ON=true: the account allows 50 calls an hour (2026-11-09) - too few to check cases with
+CL_TOKEN = os.environ.get("COURTLISTENER_TOKEN", "").strip() if os.environ.get("COURTLISTENER_ON") == "true" else ""
+CLS = requests.Session()
+if CL_TOKEN:
+    CLS.headers["Authorization"] = "Token " + CL_TOKEN
+_cl_last = [0.0]
+
+
+def cl_get(path, params=None, tries=5):
+    for i in range(tries):
+        wait = _cl_last[0] + 0.8 - time.time()  # ~4,500 calls an hour, under the account's 5,000
+        if wait > 0:
+            time.sleep(wait)
+        _cl_last[0] = time.time()
+        try:
+            r = CLS.get(path if path.startswith("http") else CL + path, params=params, timeout=120)
+        except requests.RequestException:
+            time.sleep(10 + 10 * i)
+            continue
+        if r.status_code == 200:
+            return r.json()
+        if r.status_code == 429:
+            ra = int(r.headers.get("Retry-After") or 60)
+            if ra > 300:  # hourly allowance used up: carry on with the archive copy instead of waiting
+                return None
+            time.sleep(ra + 1)
+            continue
+        if r.status_code in (400, 403, 404):
+            return None
+        time.sleep(10 + 10 * i)
+    return None
+
+
+def cl_all(path, params):
+    out, nxt, prm = [], path, dict(params, page_size=100)
+    while nxt:
+        page = cl_get(nxt, prm)
+        if not page:
+            break
+        out += page.get("results") or []
+        nxt, prm = page.get("next"), None
+    return out
+
+
+def cl_docket(ident):
+    """IA identifier gov.uscourts.<court>.<pacer id> -> (docket dict, pdfs, court, terminated) | status | 'nocl'."""
+    parts = ident.split(".")
+    if len(parts) < 4:
+        return "nocl"
+    court, pacer = parts[2], parts[3]
+    found = cl_get("/dockets/", {"court": court, "pacer_case_id": pacer,
+                                 "fields": "id,case_name,docket_number,court_id,date_filed,date_terminated,"
+                                           "nature_of_suit,cause,assigned_to_str"})
+    rows = (found or {}).get("results") or []
+    if not rows:
+        return "nocl"
+    k = rows[0]
+    if not k.get("date_terminated"):
+        return "open"
+    if re.fullmatch(r"[a-z]{2,3}[nsewmc]?b", court) and not L.BUSINESS.search(k.get("case_name") or ""):
+        return "personal"
+    cnt = cl_get("/recap-documents/", {"docket_entry__docket": k["id"], "is_available": "true", "count": "on"})
+    n = int((cnt or {}).get("count") or 0)
+    if n < MIN_DOCS:
+        return "few"
+    if n > MAX_DOCS:
+        return "huge"
+    entries, pdfs = [], {}
+    for e in cl_all("/docket-entries/", {"docket": k["id"]}):
+        docs = []
+        for rd in e.get("recap_documents") or []:
+            dn = str(rd.get("document_number") or e.get("entry_number") or "")
+            att = int(rd.get("attachment_number") or 0)
+            docs.append((dn, att, rd.get("description") or ""))
+            if rd.get("is_available") and rd.get("filepath_local") and dn:
+                pdfs[(dn, att)] = (f"https://storage.courtlistener.com/{rd['filepath_local']}",
+                                   int(rd.get("file_size") or 0))
+        entries.append((e.get("entry_number"), e.get("date_filed") or "", e.get("description") or "", docs))
+    if len(pdfs) < MIN_DOCS:
+        return "few"
+    if sum(x[1] for x in pdfs.values()) > 4e9:
+        return "huge"
+    parties = []
+    atty = {a["id"]: a for a in cl_all("/attorneys/", {"docket": k["id"]})}
+    for p in cl_all("/parties/", {"docket": k["id"]}):
+        parties.append({"name": p.get("name"),
+                        "party_types": [{"name": (t.get("name") or "")} for t in p.get("party_types") or []],
+                        "attorneys": [{"name": (atty.get(a.get("attorney_id")) or {}).get("name") or "",
+                                       "contact_raw": (atty.get(a.get("attorney_id")) or {}).get("contact_raw") or ""}
+                                      for a in p.get("attorneys") or []]})
+    entries.sort(key=lambda e: int(e[0]) if str(e[0] or "").isdigit() else 10 ** 9)
+    d = dict(case_name=k.get("case_name"), docket=k.get("docket_number") or "", court=court,
+             filed=k.get("date_filed"), terminated=k.get("date_terminated"), nos=k.get("nature_of_suit") or "",
+             cause=k.get("cause") or "", judge=k.get("assigned_to_str"), entries=entries,
+             raw={"parties": parties})
+    return d, pdfs, court, k["date_terminated"]
+
+
 def lit_parties(d):
     people, orgs = set(), {}
     raw = d.get("raw") or {}
@@ -653,8 +754,15 @@ def lit_matter(drive, ident, meta, minutes, sample=0):
     for f in files:
         m = re.fullmatch(re.escape(ident + ".") + r"(\d+)\.(\d+)\.pdf", f["name"])
         if m:
-            pdfs[(m.group(1), int(m.group(2)))] = (f["name"], int(f.get("size") or 0))
+            pdfs[(m.group(1), int(m.group(2)))] = (f"{IA}/download/{ident}/{f['name']}", int(f.get("size") or 0))
     mains = {d for d, a in pdfs if a == 0}
+    if CL_TOKEN:  # CourtListener holds the fuller docket and more documents than the archive copy
+        got = cl_docket(ident)
+        if isinstance(got, tuple):
+            d, pdfs, court, terminated = got
+            return lit_build(drive, ident, d, pdfs, court, terminated, minutes, sample)
+        if got != "nocl":
+            return got
     if len(pdfs) < MIN_DOCS or "1" not in mains:
         return "few"
     if len(pdfs) > MAX_DOCS or sum(s for _, s in pdfs.values()) > 4e9:
@@ -673,6 +781,11 @@ def lit_matter(drive, ident, meta, minutes, sample=0):
     last = max(numbered + [top])
     if len(mains) / last < 0.5 or top < 0.85 * last:
         return "incomplete"
+    return lit_build(drive, ident, d, pdfs, court, terminated, minutes, sample)
+
+
+def lit_build(drive, ident, d, pdfs, court, terminated, minutes, sample=0):
+    """d: docket dict (case facts, entries, raw parties); pdfs: {(doc no, attachment): (url, size)}"""
     mid = "L-" + hashlib.sha1(ident.encode()).hexdigest()[:6].upper()
     log(f"  matter {mid}: {len(pdfs)} documents, downloading")
     dates = {str(e[0]): (e[1] or "")[:10] for e in d["entries"]}
@@ -682,7 +795,7 @@ def lit_matter(drive, ident, meta, minutes, sample=0):
     if sample:
         order = order[:sample]
     raw_dir, out_dir = tempfile.mkdtemp(prefix="raw-"), tempfile.mkdtemp(prefix="matter-")
-    jobs = [(f"{IA}/download/{ident}/{pdfs[k][0]}", f"{k[0]}.{k[1]}.pdf") for k in order]
+    jobs = [(pdfs[k][0], f"{k[0]}.{k[1]}.pdf") for k in order]
     download_all(jobs, raw_dir)
     missing = [j for j in jobs if not os.path.exists(os.path.join(raw_dir, j[1]))]
     if missing:  # second attempt, slower, so nothing is left out for a passing network error
@@ -761,7 +874,8 @@ def litigation(drive, minutes, lane, max_files, sample=0):
     k, n = lane
     st = drive.state
     skip_law = law_done(drive) if drive.live else set()
-    q = "collection:usfederalcourts AND mediatype:texts AND item_size:[200000000 TO 4000000000]"
+    lo = 50000000 if CL_TOKEN else 200000000
+    q = f"collection:usfederalcourts AND mediatype:texts AND item_size:[{lo} TO 4000000000]"
     stats = st.setdefault("stats", {})
     while left(minutes) > 1800:
         if max_files and st["files"] >= max_files:

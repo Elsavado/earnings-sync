@@ -79,6 +79,8 @@ jobs:
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
           PYTHONUTF8: "1"
           LAW_REMOTE: "law:"
+          COURTLISTENER_TOKEN: ${{ secrets.COURTLISTENER_TOKEN }}
+          COURTLISTENER_ON: ${{ vars.COURTLISTENER_ON }}
         run: |
           flag=$([ "${{ vars.MATTERS_LIVE }}" = "true" ] && echo --live || echo "")
           sample="${{ inputs.sample || 0 }}"
