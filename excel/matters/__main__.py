@@ -969,6 +969,9 @@ def deal_candidates(year):
     return out
 
 
+ITEMS = {}  # accession -> 8-K item numbers
+
+
 def submissions(cik):
     r = sget(f"https://data.sec.gov/submissions/CIK{cik:010d}.json")
     if not r:
@@ -979,6 +982,8 @@ def submissions(cik):
     def add(b):
         for i in range(len(b["form"])):
             rows.append((b["filingDate"][i], b["form"][i], b["accessionNumber"][i]))
+            if b.get("items") and b["items"][i]:
+                ITEMS[b["accessionNumber"][i]] = b["items"][i]
     add(d["filings"]["recent"])
     for f in d["filings"].get("files") or []:
         r2 = sget(f"https://data.sec.gov/submissions/{f['name']}")
@@ -1004,14 +1009,16 @@ def filing_docs(cik, acc):
         if not seq.isdigit() or not href:
             continue
         name = href.group(1).split("/")[-1].split("?")[0]
-        if (not re.search(r"\.(htm|html|txt|pdf)$", name, re.I) or re.match(r"(GRAPHIC|ZIP|EX-101|XML|JSON)", typ)
-                or re.fullmatch(r"R\d+\.htm", name)):
+        if (not re.search(r"\.(htm|html|txt|pdf|xml)$", name, re.I) or re.match(r"(GRAPHIC|ZIP|EX-101|XML|JSON)", typ)
+                or re.fullmatch(r"R\d+\.htm", name) or (name.lower().endswith(".xml") and "/xsl" not in href.group(1)
+                                                          and any(x[3].lower() == name.lower() for x in out))):
             continue
         desc = html.unescape(re.sub(r"<[^>]+>", "", cells[1])).strip()
         out.append((int(seq), typ, desc, name, "https://www.sec.gov" + href.group(1)
                     if href.group(1).startswith("/") else href.group(1)))
-    names = re.findall(r"(?i)<span class=\"companyName\">\s*([^<(]+)", r.text)
-    return out, [n.strip() for n in names]
+    filers = [(n.strip(), role.strip(), int(c)) for n, role, c in re.findall(
+        r"(?is)<span class=\"companyName\">\s*([^<(]+)\(([^)]*)\).*?CIK=(\d+)", r.text)]
+    return out, filers
 
 
 def deal_matter(drive, cik, defm, form, minutes, sample=0):
@@ -1020,7 +1027,7 @@ def deal_matter(drive, cik, defm, form, minutes, sample=0):
         return "nometa"
     t0 = dt.date.fromisoformat(defm)
     close = [r for r in rows if r[1] in ("15-12B", "15-12G", "15-15D", "25-NSE") and
-             t0 < dt.date.fromisoformat(r[0]) <= t0 + dt.timedelta(days=450)]
+             t0 < dt.date.fromisoformat(r[0]) <= t0 + dt.timedelta(days=730)]
     if not close:
         return "notclosed"
     end = dt.date.fromisoformat(close[0][0])
@@ -1031,23 +1038,51 @@ def deal_matter(drive, cik, defm, form, minutes, sample=0):
     if len(win) < 20:
         return "few"
     mid = "T-" + hashlib.sha1(f"{cik}{defm}".encode()).hexdigest()[:6].upper()
-    filings, names, ndocs = [], set(), 0
-    for date, frm, acc in win:
-        docs, filers = filing_docs(cik, acc)
-        names |= set(filers)
+    filings, names, people, ndocs, seen = [], set(), set(), 0, set()
+    parties = collections.Counter()
+
+    def take(c, date, frm, acc):
+        nonlocal ndocs
+        if acc in seen:
+            return
+        seen.add(acc)
+        docs, filers = filing_docs(c, acc)
+        for n, role, fc in filers:
+            if L.BUSINESS.search(n) or "reporting" not in role.lower():
+                names.add(n)
+                if fc != cik and frm.split("/")[0] in ("425", "S-4", "SC TO-T", "SC TO-C", "SC 13E3", "DEFM14A",
+                                                        "SC 13D", "DEFA14A"):
+                    parties[fc] += 1
+            else:
+                people.add(n)
         if docs:
-            filings.append((date, frm, acc, docs))
+            filings.append((date, frm, acc, docs, c))
             ndocs += len(docs)
+
+    for date, frm, acc in win:
+        take(cik, date, frm, acc)
         if left(minutes) < 1800:
             return "time"
+    # the other side of the deal (buyer / tender offeror): its deal filings in the same period
+    acq_forms = {"425", "S-4", "S-4/A", "S-4MEF", "424B3", "SC TO-T", "SC TO-T/A", "SC TO-C", "SC 13D", "SC 13D/A",
+                 "SC 13E3", "SC 13E3/A", "DEFA14A", "EFFECT", "S-4 POS", "POS AM", "8-K", "8-K/A"}
+    for pc, _ in parties.most_common(2):
+        _, prow = submissions(pc)
+        for date, frm, acc in prow:
+            if (start <= dt.date.fromisoformat(date) <= end + dt.timedelta(days=5) and frm in acq_forms
+                    and (not frm.startswith("8-K") or re.search(r"\b(1\.01|2\.01)\b", ITEMS.get(acc, "")))):
+                take(pc, date, frm, acc)
+        if left(minutes) < 1800:
+            return "time"
+    filings.sort()
     if ndocs < MIN_DOCS or ndocs > MAX_DOCS * 2:
         return "few" if ndocs < MIN_DOCS else "huge"
     log(f"  matter {mid}: {len(filings)} filings, {ndocs} documents, downloading")
     raw_dir, out_dir = tempfile.mkdtemp(prefix="raw-"), tempfile.mkdtemp(prefix="matter-")
     plan, jobs = [], []
-    for fi, (date, frm, acc, docs) in enumerate(filings, 1):
+    for fi, (date, frm, acc, docs, _) in enumerate(filings, 1):
         for seq, typ, desc, name, url in docs:
-            ext = os.path.splitext(name)[1].lower().replace(".html", ".htm")
+            ext = ".htm" if "/xsl" in url else os.path.splitext(name)[1].lower().replace(".html", ".htm")
             rawname = f"{acc}-{seq}{ext}"
             jobs.append((url, rawname))
             plan.append((rawname, fi, date, frm, seq, typ, desc, ext))
@@ -1063,7 +1098,7 @@ def deal_matter(drive, cik, defm, form, minutes, sample=0):
         if n.upper() not in {t.upper() for t in target}:
             k += 1
             orgs.setdefault(n, f"Counterparty Company {k}")
-    res = process_matter(f"{cik}-{defm}", [(p[0], p[0]) for p in plan], raw_dir, out_dir, set(), orgs, minutes)
+    res = process_matter(f"{cik}-{defm}", [(p[0], p[0]) for p in plan], raw_dir, out_dir, people, orgs, minutes)
     shutil.rmtree(raw_dir, ignore_errors=True)
     if res is None:
         shutil.rmtree(out_dir, ignore_errors=True)
