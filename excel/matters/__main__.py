@@ -85,7 +85,8 @@ CONTACT = [
      "[Redacted Bar No.]"),
     (re.compile(r"\b(?:Account|Acct\.?|Loan|Policy|Claim)\s*(?:No\.?|Number|#)\s*:?\s*[\w-]*\d{4,}[\w-]*", re.I),
      "[Redacted Account No.]"),
-    (re.compile(r"\b\d{1,2}:\d{2}-[a-zA-Z]{1,4}-\d{2,6}(?:-[A-Za-z0-9]{1,5})*\b"), "[Case No. Redacted]"),
+    (re.compile(r"\b\d{1,2}\s?:\s?\d{2}\s?-\s?[a-zA-Z]{1,4}\s?-\s?\d{2,6}(?:\s?-\s?[A-Za-z0-9.]{1,6})*"),
+     "[Case No. Redacted]"),
     (re.compile(r"\b(?:Case|Docket|Civil Action|Criminal Action|Adv(?:ersary)?(?:\.\s*Pro(?:c|ceeding)\.?)?|"
                 r"Bankruptcy|Misc\.?|Appeal|Petition)\s+No(?:s)?\.?:?\s*[\w:.-]*\d[\w:.-]*", re.I),
      "[Case No. Redacted]"),
@@ -230,7 +231,7 @@ class Redactor:
             d = _date(yy, mo, da)
             if d:
                 n = self.shift(d)
-                p = lambda v, src: f"{v:02d}" if len(src) == 2 and src.startswith("0") else str(v)
+                p = lambda v, src: f"{v:02d}" if len(src) == 2 else str(v)
                 f1, f2 = (p(n.month, a), p(n.day, b)) if int(a) <= 12 else (p(n.day, a), p(n.month, b))
                 add(m.start(), m.end(), f"{f1}/{f2}/{n.year if len(y) == 4 else '%02d' % (n.year % 100)}", "date")
         for m in P_E.finditer(text):
@@ -304,7 +305,8 @@ def ocr_if_needed(path):
     import fitz
     try:
         doc = fitz.open(path)
-        scanned = sum(1 for p in doc if len(p.get_text().strip()) < 60 and p.get_images())
+        # pages that are pictures (scans): OCR them again even when an old, often incomplete OCR layer exists
+        scanned = sum(1 for p in doc if p.get_images())
         n = len(doc)
         doc.close()
     except Exception:
@@ -312,8 +314,12 @@ def ocr_if_needed(path):
     if scanned:
         tmp = path + ".ocr.pdf"
         try:
-            r = subprocess.run(["ocrmypdf", "--skip-text", "-q", "--jobs", "1", "--output-type", "pdf",
-                                "--optimize", "0", path, tmp], capture_output=True, timeout=60 + 20 * n)
+            r = None
+            for mode in ("--redo-ocr", "--skip-text"):  # some files refuse --redo-ocr
+                r = subprocess.run(["ocrmypdf", mode, "-q", "--jobs", "1", "--output-type", "pdf",
+                                    "--optimize", "0", path, tmp], capture_output=True, timeout=60 + 20 * n)
+                if r.returncode == 0:
+                    break
             if r.returncode == 0 and os.path.getsize(tmp) > 0:
                 os.replace(tmp, path)
         except (subprocess.TimeoutExpired, OSError):
@@ -686,7 +692,8 @@ def lit_matter(drive, ident, meta, minutes, sample=0):
         sd = red.date_iso(date)
         shifted.append(sd)
         num = f"{int(dn):04d}" if dn.isdigit() else clean(dn, 10)
-        fn = f"{num}{'-%02d' % att if att else ''} {sd} {clean(red.text(label), 70)}.pdf"
+        fn = " ".join(x for x in (f"{num}{'-%02d' % att if att else ''}", sd, clean(red.text(label), 70)) if x)
+        fn += ".pdf"
         os.replace(os.path.join(out_dir, rel), os.path.join(final, fn))
     shutil.rmtree(out_dir, ignore_errors=True)
     n = len(os.listdir(final))
