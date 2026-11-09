@@ -523,6 +523,40 @@ def process_matter(key, docs, raw_dir, out_dir, known_people, orgs, minutes):
     return red, kept, stats
 
 
+def to_pdf(path):
+    """user 2026-11-09: web-page filings (.htm/.xml/.txt) become PDFs, after redaction. -> new path (or the old one)"""
+    import fitz
+    ext = os.path.splitext(path)[1].lower()
+    if ext not in (".htm", ".html", ".xml", ".txt"):
+        return path
+    with open(path, encoding="utf-8", errors="replace") as f:
+        t = f.read()
+    if ext == ".txt" or not re.search(r"(?i)<(html|body|div|p|table)", t):
+        t = f"<html><head><meta charset='utf-8'></head><body><pre style='white-space:pre-wrap;font-size:9pt'>"             f"{html.escape(t)}</pre></body></html>"
+    pdf = os.path.splitext(path)[0] + ".pdf"
+    try:
+        if not L.html_pdf(t, pdf, "about:blank"):
+            return path
+        with fitz.open(pdf) as d:  # the browser stamps its own title/dates: clear them
+            d.set_metadata({})
+            d.del_xml_metadata()
+            d.save(pdf + ".tmp", garbage=3, deflate=True)
+        os.replace(pdf + ".tmp", pdf)
+    except Exception:
+        for x in (pdf, pdf + ".tmp"):
+            if os.path.exists(x):
+                os.remove(x)
+        return path
+    os.remove(path)
+    return pdf
+
+
+def pdf_all(folder, names):
+    """convert every web-page file in the folder (4 at a time). names: {rel: path} -> {rel: new path}"""
+    with cf.ThreadPoolExecutor(4) as ex:
+        return dict(zip(names, ex.map(to_pdf, names.values())))
+
+
 def summary_pdf(path, mid, facts):
     L.timeline_pdf(path, f"Matter {mid} - Summary", facts, [])
 
@@ -1217,9 +1251,13 @@ def deal_matter(drive, cik, defm, form, minutes, sample=0):
     final = tempfile.mkdtemp(prefix="final-")
     kept = set(kept)
     tl = {}
+    conv = pdf_all(out_dir, {p[0]: os.path.join(out_dir, p[0]) for p in plan if p[0] in kept})
     for rawname, fi, date, frm, seq, typ, desc, ext in plan:
         if rawname not in kept:
             continue
+        if conv.get(rawname, "").endswith(".pdf"):
+            os.replace(conv[rawname], os.path.join(out_dir, rawname))
+            ext = ".pdf"
         sd = red.date_iso(date)
         sub = f"{fi:03d} {sd} {clean(frm.replace('/', '-'), 20)}"
         os.makedirs(os.path.join(final, sub), exist_ok=True)
@@ -1341,10 +1379,15 @@ def nuremberg(drive, minutes, lane, max_files, sample=0):
     red, kept, stats = res
     names, rows, shifted = {}, [], []
     final = tempfile.mkdtemp(prefix="final-")
+    conv = pdf_all(out_dir, {r: os.path.join(out_dir, r) for r in kept})
     for i, (u, title, tag) in enumerate(items, 1):
         rel = f"{i:04d}.htm"
         if rel not in kept:
             continue
+        ext = ".htm"
+        if conv.get(rel, "").endswith(".pdf"):
+            os.replace(conv[rel], os.path.join(out_dir, rel))
+            ext = ".pdf"
         m = re.search(r"/(\d{1,2})-(\d{1,2})-(\d{2})\.asp$", u)
         date = _date(1900 + int(m.group(3)), m.group(1), m.group(2)) if m else None
         sd = red.shift(date).isoformat() if date else ""
@@ -1352,7 +1395,7 @@ def nuremberg(drive, minutes, lane, max_files, sample=0):
             shifted.append(sd)
         sub = "01 Court Documents" if tag == "court" else "02 Trial Transcripts"
         os.makedirs(os.path.join(final, sub), exist_ok=True)
-        fn = " ".join(x for x in (f"{i:04d}", sd, clean(red.text(title), 70)) if x) + ".htm"
+        fn = " ".join(x for x in (f"{i:04d}", sd, clean(red.text(title), 70)) if x) + ext
         os.replace(os.path.join(out_dir, rel), os.path.join(final, sub, fn))
         names[rel] = f"{sub}/{fn}"
         rows.append((i, sd, red.text(title), fn))
