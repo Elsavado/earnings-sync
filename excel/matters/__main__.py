@@ -180,7 +180,7 @@ class Redactor:
             return "|".join(r"\s+".join(map(re.escape, t.split())) for t in terms)
         multi = [t for t in self.people if " " in t] + [t for t in self.orgs if " " in t]
         caps = [t for t in self.singles] + [t for t in self.orgs if " " not in t]
-        caps += [t.upper() for t in caps]
+        caps += [t.upper() for t in caps] + [t.title() for t in caps]  # 'DENBURY' is also written 'Denbury'
         lab = {k.lower(): v for k, v in self.orgs.items()}
         self._c = (re.compile(rf"(?<![\w-])(?:{alt(multi)})(?![\w-])", re.I) if multi else None,
                    re.compile(rf"(?<![\w-])(?:{alt(caps)})(?![\w-])") if caps else None, lab)
