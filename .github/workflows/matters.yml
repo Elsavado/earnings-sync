@@ -1,0 +1,91 @@
+name: Matter files
+
+# Complete files of CLOSED matters with 500+ real documents each (user 2026-11-09): concluded US federal court cases
+# (full public record) and completed public-company acquisitions (every SEC filing and exhibit, announcement to
+# closing). People, parties and contact details redacted; all dates moved by a fixed per-matter offset (excel/matters).
+# Destination: IR Transcripts shared drive, folder "Matter Files". Uploads only when MATTERS_LIVE is 'true'.
+# sample=N: test one matter (first N documents), nothing uploaded to Drive, result kept as a run artifact.
+
+on:
+  workflow_dispatch:
+    inputs:
+      minutes:
+        description: "run budget in minutes"
+        default: "320"
+      only:
+        description: "litigation or transactions; blank = both"
+        default: ""
+      sample:
+        description: "test: documents of one matter to redact into a run artifact (0 = normal run)"
+        default: "0"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: matter-files-${{ inputs.only || 'all' }}-${{ inputs.sample || '0' }}
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {source: litigation, lane: "0/3"}
+          - {source: litigation, lane: "1/3"}
+          - {source: litigation, lane: "2/3"}
+          - {source: transactions, lane: "0/2"}
+          - {source: transactions, lane: "1/2"}
+    defaults:
+      run:
+        working-directory: excel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Tools
+        if: ${{ !inputs.only || inputs.only == matrix.source }}
+        env:
+          CID: ${{ secrets.WS_GOOGLE_CLIENT_ID }}
+          CSECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
+          RTOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
+        run: |
+          sudo apt-get -qq update >/dev/null && sudo apt-get -qq install -y ocrmypdf tesseract-ocr >/dev/null
+          pip install -q requests reportlab pymupdf spacy wordfreq
+          python -m spacy download en_core_web_lg -q >/dev/null
+          curl -fsSL https://rclone.org/install.sh | sudo bash >/dev/null
+          mkdir -p ~/.config/rclone
+          python3 - <<'EOF'
+          import json, os
+          tok = json.dumps({"access_token": "expired", "token_type": "Bearer", "refresh_token": os.environ["RTOKEN"],
+                            "expiry": "2000-01-01T00:00:00Z"})
+          p = os.path.expanduser("~/.config/rclone/rclone.conf")
+          open(p, "w").write(f"[ws]\ntype = drive\nscope = drive\nclient_id = {os.environ['CID']}\n"
+                             f"client_secret = {os.environ['CSECRET']}\ntoken = {tok}\nteam_drive = 0AM6PzKRbJBK-Uk9PVA\n")
+          os.chmod(p, 0o600)
+          EOF
+          rclone lsf ws: --max-depth 1 --dirs-only | grep -c . || true
+      - name: Collect
+        if: ${{ !inputs.only || inputs.only == matrix.source }}
+        timeout-minutes: 335
+        env:
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+          PYTHONUTF8: "1"
+        run: |
+          flag=$([ "${{ vars.MATTERS_LIVE }}" = "true" ] && echo --live || echo "")
+          sample="${{ inputs.sample || 0 }}"
+          lane="${{ matrix.lane }}"
+          if [ "$sample" != "0" ]; then [ "${lane%%/*}" = "0" ] || exit 0; lane=0/1; fi
+          python -m matters --source ${{ matrix.source }} --lane $lane --remote ws: --sample "$sample"             --minutes "${{ inputs.minutes || 320 }}" --max-files "${{ vars.MATTERS_MAX_FILES || 20000 }}" $flag
+      - name: Sample
+        if: ${{ inputs.sample && inputs.sample != '0' && (!inputs.only || inputs.only == matrix.source) && matrix.lane != '1/3' && matrix.lane != '2/3' && matrix.lane != '1/2' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: sample-${{ matrix.source }}
+          path: excel/sample
+          retention-days: 3
+          if-no-files-found: warn
