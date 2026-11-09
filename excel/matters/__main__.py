@@ -1,4 +1,5 @@
-"""Matter files (user 2026-11-09): complete files of CLOSED matters with 500+ real documents each, redacted.
+"""Matter files (user 2026-11-09): complete files of CLOSED matters, redacted (any size; long PDFs of matters under
+500 documents split into marked parts, the true document count stated in each summary).
 
   Litigation   - concluded US federal court cases whose full record (every docket document and attachment) is public:
                  PACER via the RECAP archive. Only cases that really hold 500+ documents qualify; nothing is split
@@ -32,7 +33,9 @@ from law.__main__ import IA, clean, download_all, get, left, log
 ROOT = os.environ.get("MATTERS_ROOT", "")  # the "Matter Files" shared drive itself; folders at its top
 P = ROOT + "/" if ROOT else ""
 LAW_REMOTE = os.environ.get("LAW_REMOTE") or "ws:"  # where the LAW folder (and its done-state) lives
-MIN_DOCS, MAX_DOCS = 500, 3000
+MIN_DOCS, MAX_DOCS = 12, 3000  # user 2026-11-09: court cases of any size (12+ documents, as LAW), not only 500+
+SPLIT_UNDER, SPLIT_PAGES = 500, 10  # matters under 500 documents: PDFs over 10 pages are split, marked part k of n
+DEAL_MIN = 1  # user 2026-11-09: completed deals are kept whatever their document count
 
 # ---------------------------------------------------------------- dates
 
@@ -517,7 +520,41 @@ def summary_pdf(path, mid, facts):
     L.timeline_pdf(path, f"Matter {mid} - Summary", facts, [])
 
 
+def split_pdfs(folder):
+    """user 2026-11-09: split long PDFs of smaller matters into SPLIT_PAGES-page parts. -> files after splitting"""
+    import fitz
+    for root, _, files in os.walk(folder):
+        for fn in files:
+            if not fn.lower().endswith(".pdf") or fn.startswith("00 "):
+                continue
+            path = os.path.join(root, fn)
+            try:
+                with fitz.open(path) as doc:
+                    pages = len(doc)
+                    if pages <= SPLIT_PAGES:
+                        continue
+                    parts = (pages + SPLIT_PAGES - 1) // SPLIT_PAGES
+                    for k in range(parts):
+                        out = fitz.open()
+                        out.insert_pdf(doc, from_page=k * SPLIT_PAGES, to_page=min(pages, (k + 1) * SPLIT_PAGES) - 1)
+                        out.save(os.path.join(root, f"{fn[:-4]} (part {k + 1} of {parts}).pdf"), garbage=3,
+                                 deflate=True)
+                        out.close()
+            except Exception:
+                continue
+            os.remove(path)
+    return sum(1 for _, _, f in os.walk(folder) for x in f if not x.startswith("00 "))
+
+
 def finish(drive, mid, folder, dest, red, facts, rows, n_docs, index_row):
+    files = n_docs
+    if n_docs < SPLIT_UNDER:
+        files = split_pdfs(folder)
+        if files != n_docs:
+            facts = facts + [("Files after splitting", f"{files} files from the {n_docs} original documents "
+                              f"(documents over {SPLIT_PAGES} pages split into parts, each marked 'part k of n'); "
+                              f"the original document count is {n_docs}")]
+    index_row = dict(index_row, files=files)
     L.timeline_pdf(os.path.join(folder, "00 Matter Timeline.pdf"), f"Matter {mid} - Timeline",
                    [("Dates", f"all dates moved back {red.days} days (whole weeks; intervals and weekdays kept)")],
                    rows)
@@ -536,7 +573,7 @@ def write_index(drive):
     rows = drive.state.get("index", [])
     with open(p, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=["matter", "practice area", "matter type", "jurisdiction", "date range",
-                                          "documents", "folder"])
+                                          "documents", "files", "folder"], extrasaction="ignore")
         w.writeheader()
         w.writerows(rows)
     if drive.live:
@@ -874,7 +911,7 @@ def litigation(drive, minutes, lane, max_files, sample=0):
     k, n = lane
     st = drive.state
     skip_law = law_done(drive) if drive.live else set()
-    lo = 50000000 if CL_TOKEN else 200000000
+    lo = 15000000
     q = f"collection:usfederalcourts AND mediatype:texts AND item_size:[{lo} TO 4000000000]"
     stats = st.setdefault("stats", {})
     while left(minutes) > 1800:
@@ -1035,7 +1072,7 @@ def deal_matter(drive, cik, defm, form, minutes, sample=0):
            and t0 - dt.timedelta(days=300) <= dt.date.fromisoformat(r[0]) <= t0]
     start = dt.date.fromisoformat(pre[0][0]) - dt.timedelta(days=4) if pre else t0 - dt.timedelta(days=120)
     win = [r for r in rows if start <= dt.date.fromisoformat(r[0]) <= end + dt.timedelta(days=5)]
-    if len(win) < 20:
+    if not win:
         return "few"
     mid = "T-" + hashlib.sha1(f"{cik}{defm}".encode()).hexdigest()[:6].upper()
     filings, names, people, ndocs, seen = [], set(), set(), 0, set()
@@ -1075,8 +1112,8 @@ def deal_matter(drive, cik, defm, form, minutes, sample=0):
         if left(minutes) < 1800:
             return "time"
     filings.sort()
-    if ndocs < MIN_DOCS or ndocs > MAX_DOCS * 2:
-        return "few" if ndocs < MIN_DOCS else "huge"
+    if ndocs < DEAL_MIN or ndocs > MAX_DOCS * 2:
+        return "few" if ndocs < DEAL_MIN else "huge"
     log(f"  matter {mid}: {len(filings)} filings, {ndocs} documents, downloading")
     raw_dir, out_dir = tempfile.mkdtemp(prefix="raw-"), tempfile.mkdtemp(prefix="matter-")
     plan, jobs = [], []
@@ -1121,7 +1158,7 @@ def deal_matter(drive, cik, defm, form, minutes, sample=0):
     shutil.rmtree(out_dir, ignore_errors=True)
     n = sum(len(v) for v in tl.values())
     log(f"  matter {mid}: kept {n}, {json.dumps({k: v for k, v in stats.items() if k != 'flagged'})}")
-    if n < MIN_DOCS and not sample:
+    if n < DEAL_MIN and not sample:
         shutil.rmtree(final, ignore_errors=True)
         return "under500"
     tender = form == "SC 14D9"
