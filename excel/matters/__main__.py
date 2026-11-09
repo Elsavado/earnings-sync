@@ -100,6 +100,8 @@ CONTACT = [
     (re.compile(r"\b(?:NASDAQ|Nasdaq|NYSE(?: American| MKT| Arca)?|AMEX|OTC(?:QB|QX| Markets| Pink)?|TSX|LSE)"
                 r"(?:\s*(?:Global Select|Global|Capital) Market)?\s*:\s*[A-Z][A-Z.]{0,5}\b"), "[Redacted Ticker]"),
     (re.compile(r"\b[\w.-]*\d[\w.-]*\.(?:htm|html|txt|xml|jpg|gif|pdf|xsd)\b", re.I), "[file]"),
+    # SEC file numbers (001-12935, 333-123456): they identify the company
+    (re.compile(r"(?<![\w-])(?:0\d\d|33|333|811|814|1|2)-\d{4,6}(?![\w-])"), "[Redacted File No.]"),
 ]
 TITLES = re.compile(r"^(?:(?:mr|ms|mrs|dr|hon|judge|justice|magistrate|chief|honorable|the|defendant|plaintiff|"
                     r"debtor|officer|agent|detective|sgt|sergeant|lt|capt|trustee|attorney|counsel|witness|"
@@ -254,7 +256,7 @@ class Redactor:
         for m in P_Y.finditer(text):
             before, after = text[max(0, m.start() - 30):m.start()], text[m.end():m.end() + 12]
             if (re.match(r"\s*(WL|U\.S\. Dist|U\.S\. App|Bankr\. LEXIS|LEXIS)", after)
-                    or re.search(r"(Act of|Pub\. ?L\.|Stat\.|U\.S\.C\.|Code of|Rev\.)\s*$", before)
+                    or re.search(r"(Act of|Pub\. ?L\.|Stat\.|U\.S\.C\.|Code of|Rev\.)\s*$", before, re.I)
                     or (after.startswith(")") and "(" in before and ")" not in before[before.rfind("("):])):
                 continue  # citation years stay correct
             add(m.start(), m.end(), str(int(m.group(1)) - self.years), "date")
@@ -1247,6 +1249,9 @@ def deal_matter(drive, cik, defm, form, minutes, sample=0):
     plan = [p for p in plan if os.path.exists(os.path.join(raw_dir, p[0]))]
     target = {n for n in [d.get("name") or ""] + [x.get("name") for x in d.get("formerNames") or []] if n}
     orgs = {n: "Target Company" for n in target}
+    for t in d.get("tickers") or []:  # its stock ticker (e.g. in the cover-page table)
+        if len(t) >= 2:
+            orgs[t] = "[Redacted Ticker]"
     k = 0
     for n in sorted(names):
         if n.upper() not in {t.upper() for t in target}:
