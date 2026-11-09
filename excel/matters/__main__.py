@@ -531,8 +531,12 @@ def to_pdf(path):
         return path
     with open(path, encoding="utf-8", errors="replace") as f:
         t = f.read()
-    if ext == ".txt" or not re.search(r"(?i)<(html|body|div|p|table)", t):
-        t = f"<html><head><meta charset='utf-8'></head><body><pre style='white-space:pre-wrap;font-size:9pt'>"             f"{html.escape(t)}</pre></body></html>"
+    m = re.search(r"(?is)<TEXT>(.*?)(?:</TEXT>|$)", t)  # SEC wrapper (<DOCUMENT><TYPE>...<TEXT>): keep the document
+    if m:
+        t = m.group(1)
+    if not re.search(r"(?i)<(html|body|div|p|table|font)[\s>]", t):  # plain text: keep its layout
+        t = ("<html><head><meta charset='utf-8'></head><body><pre style='white-space:pre-wrap;font-size:9pt'>"
+             + html.escape(t) + "</pre></body></html>")
     pdf = os.path.splitext(path)[0] + ".pdf"
     try:
         if not L.html_pdf(t, pdf, "about:blank"):
