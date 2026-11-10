@@ -1,0 +1,34 @@
+name: LAW 2 restore originals
+on:
+  workflow_dispatch:
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Tools
+        env:
+          CID: ${{ secrets.WS_GOOGLE_CLIENT_ID }}
+          CSECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
+          RTOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
+        run: |
+          pip install -q requests
+          curl -fsSL https://rclone.org/install.sh | sudo bash >/dev/null
+          mkdir -p ~/.config/rclone
+          python3 - <<'PY'
+          import json, os
+          tok = json.dumps({"access_token": "expired", "token_type": "Bearer", "refresh_token": os.environ["RTOKEN"],
+                            "expiry": "2000-01-01T00:00:00Z"})
+          p = os.path.expanduser("~/.config/rclone/rclone.conf")
+          open(p, "w").write(f"[ws]\ntype = drive\nscope = drive\nclient_id = {os.environ['CID']}\n"
+                             f"client_secret = {os.environ['CSECRET']}\ntoken = {tok}\nteam_drive = 0AM6PzKRbJBK-Uk9PVA\n")
+          os.chmod(p, 0o600)
+          PY
+      - name: Restore and drop date-shifted copies
+        env:
+          PYTHONUTF8: "1"
+        run: python -u excel/law/restore.py
