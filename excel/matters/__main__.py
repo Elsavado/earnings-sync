@@ -105,6 +105,8 @@ CONTACT = [
     (re.compile(r"(?<![\w-])(?:0\d\d|33|333|811|814|1|2|3)-\d{4,6}(?![\w-])"), "[Redacted File No.]"),
     # Supreme Court and appeals docket numbers (19-1392, 18-60868) and applications (19A1027): they identify the case
     (re.compile(r"(?<![\w.$/-])\d{2}-\d{3,5}(?![\w/-])|(?<![\w-])\d{2}A\d{1,4}(?![\w-])"), "[Case No. Redacted]"),
+    # state/trial court numbers with a letter prefix (CR-04-1347, CC-2003-419, CV-2010-000123)
+    (re.compile(r"(?<![\w-])[A-Z]{1,4}-\d{2,4}-\d{2,7}(?:-[A-Z0-9]{1,4})?(?![\w-])"), "[Case No. Redacted]"),
 ]
 TITLES = re.compile(r"^(?:(?:mr|ms|mrs|dr|hon|judge|justice|magistrate|chief|honorable|the|defendant|plaintiff|"
                     r"debtor|officer|agent|detective|sgt|sergeant|lt|capt|trustee|attorney|counsel|witness|"

@@ -881,10 +881,10 @@ def redact_existing(drive, minutes, lane):
     dirs = sorted({os.path.dirname(x) for x in r.stdout.splitlines() if x.strip()})
     dirs = [d for d in dirs if zlib.crc32(d.encode()) % n == k and d not in drive.done
             and not re.search(r"(^|/)Case [0-9A-F]{6}$", d)]
-    # folders redacted before the docket-number fix (2026-11-09): one more pass, dates NOT moved again
-    r2 = subprocess.run(["rclone", "cat", f"{drive.remote}LAW - private/pass2.txt"], capture_output=True, text=True)
+    # folders redacted before the state case-number fix (2026-11-10): one more pass, dates NOT moved again
+    r2 = subprocess.run(["rclone", "cat", f"{drive.remote}LAW - private/pass3.txt"], capture_output=True, text=True)
     redo = [x[len(ROOT) + 1:] if x.startswith(ROOT + "/") else x for x in r2.stdout.splitlines() if x.strip()]
-    redo = [d for d in redo if zlib.crc32(d.encode()) % n == k and "pass2:" + d not in drive.done]
+    redo = [d for d in redo if zlib.crc32(d.encode()) % n == k and "pass3:" + d not in drive.done]
     dirs = [(d, True) for d in redo] + [(d, False) for d in dirs]
     log(f"redact: {len(dirs)} folders to redact in lane {k}/{n} ({len(redo)} second passes)")
     for d, again in dirs:
@@ -909,7 +909,7 @@ def redact_existing(drive, minutes, lane):
             os.remove(lst)
         before = len(originals)
         if ok:
-            drive.done.add("pass2:" + d if again else d)
+            drive.done.add("pass3:" + d if again else d)
             drive.save()
             log(f"  redacted folder {len(drive.done)}: {before} files")
         shutil.rmtree(folder, ignore_errors=True)
