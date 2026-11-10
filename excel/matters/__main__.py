@@ -12,8 +12,8 @@ Redaction, per matter:
     signature lines) -> black boxes in PDFs, "Redacted Name" in text
   * parties / companies of the matter -> black boxes / role labels ("Plaintiff Company 1", "Target Company")
   * e-mail, phone, street address, SSN/EIN, bar numbers, account numbers, dates of birth, case numbers
-  * DATES are not kept: every date is moved back by one fixed per-matter offset (a whole number of weeks, so
-    intervals and weekdays are unchanged); stand-alone years move by the same amount. Citation years are left.
+  * DATES are kept as they are (user 2026-11-10). DATE_SHIFT=true brings back the old per-matter shift (every
+    date moved back by one fixed whole-week offset).
   * no document is left out: one that cannot be redacted is kept as downloaded and listed in the summary
   * PDF metadata, attachments, links, comments, form fields and JavaScript are removed; scanned pages are OCR'd
     first so their text can be found and the pixels under it removed.
@@ -33,6 +33,7 @@ from law.__main__ import IA, clean, download_all, get, left, log
 ROOT = os.environ.get("MATTERS_ROOT", "")  # the "Matter Files" shared drive itself; folders at its top
 P = ROOT + "/" if ROOT else ""
 LAW_REMOTE = os.environ.get("LAW_REMOTE") or "ws:"  # where the LAW folder (and its done-state) lives
+SHIFT_DATES = os.environ.get("DATE_SHIFT") == "true"  # user 2026-11-10: "do not shift dates"
 MIN_DOCS, MAX_DOCS = 12, 3000  # user 2026-11-09: court cases of any size (12+ documents, as LAW), not only 500+
 SPLIT_UNDER, SPLIT_PAGES = 500, 10  # matters under 500 documents: PDFs over 10 pages are split, marked part k of n
 DEAL_MIN = 1  # user 2026-11-09: completed deals are kept whatever their document count
@@ -171,7 +172,7 @@ class Redactor:
 
     def __init__(self, key, people=(), singles=(), orgs=None, shift=True):
         h = int(hashlib.sha256(("matter-shift:" + key).encode()).hexdigest(), 16)
-        self.days = 7 * (60 + h % 300) if shift else 0  # 1.2 to 7 years back, whole weeks (0: already moved)
+        self.days = 7 * (60 + h % 300) if shift and SHIFT_DATES else 0  # 1.2 to 7 years back, whole weeks (0: already moved)
         self.years = round(self.days / 365.25)
         self.people, self.singles, self.orgs = set(people), set(singles), dict(orgs or {})
         self._c = None
@@ -222,7 +223,7 @@ class Redactor:
             for m in rx.finditer(text):
                 if norm_person(m.group(1)):
                     add(m.start(1), m.end(1), "Redacted Name", "name")
-        if dates:
+        if dates and self.days:
             self._dates(text, add)
         return sorted(out)
 
@@ -615,7 +616,8 @@ def finish(drive, mid, folder, dest, red, facts, rows, n_docs, index_row, split=
                               f"the original document count is {n_docs}")]
     index_row = dict(index_row, files=files)
     L.timeline_pdf(os.path.join(folder, "00 Matter Timeline.pdf"), f"Matter {mid} - Timeline",
-                   [("Dates", f"all dates moved back {red.days} days (whole weeks; intervals and weekdays kept)")],
+                   [("Dates", f"all dates moved back {red.days} days (whole weeks; intervals and weekdays kept)"
+                                if red.days else "original dates")],
                    rows)
     summary_pdf(os.path.join(folder, "00 Matter Summary.pdf"), mid, facts)
     top, real = len(os.listdir(folder)), sum(len(f) for _, _, f in os.walk(folder))
@@ -649,7 +651,7 @@ def flag_facts(stats, names):
 
 
 REDACTION_NOTE = ("People's names, parties, contact details, addresses, ID/account/bar/case numbers redacted; "
-                  "every date moved back by one fixed offset for this matter (intervals and weekdays kept); "
+                  "dates are the original dates; "
                   "document metadata removed.")
 
 
@@ -677,7 +679,7 @@ def case_parties(name):
 
 
 def redact_folder(folder, key, people=(), orgs=None, shift=True):
-    """Redact every file in place (names, contact details, case numbers; dates moved by the case's fixed offset);
+    """Redact every file in place (names, contact details, case numbers; dates kept unless DATE_SHIFT=true);
     file names too. Audio and pictures cannot be redacted and are removed. -> Redactor"""
     for root, _, files in os.walk(folder):
         for fn in files:
