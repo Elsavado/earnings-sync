@@ -78,12 +78,17 @@ def _date(y, m, d):
 
 # ---------------------------------------------------------------- redaction rules
 
+US_STATES = sorted("Alabama|Alaska|Arizona|Arkansas|California|Colorado|Connecticut|Delaware|Florida|Georgia|Hawaii|Idaho|Illinois|Indiana|Iowa|Kansas|Kentucky|Louisiana|Maine|Maryland|Massachusetts|Michigan|Minnesota|Mississippi|Missouri|Montana|Nebraska|Nevada|New Hampshire|New Jersey|New Mexico|New York|North Carolina|North Dakota|Ohio|Oklahoma|Oregon|Pennsylvania|Rhode Island|South Carolina|South Dakota|Tennessee|Texas|Utah|Vermont|Virginia|Washington|West Virginia|Wisconsin|Wyoming|District of Columbia|Puerto Rico".split("|") + "AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY DC PR".split(), key=len, reverse=True)
+
 CONTACT = [
     (re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+"), "[Redacted Email]"),
     (re.compile(r"(?:Date of Birth|D\.?O\.?B\.?)\s*:?\s*[\w/.,-]+(?:\s+\d{1,2},?\s+\d{4})?", re.I), "[Redacted DOB]"),
     (re.compile(r"(?<!\d)\d{3}-\d{2}-\d{4}(?!\d)|\b[Xx*]{3}-[Xx*]{2}-\d{4}\b"), "[Redacted]"),
     (re.compile(r"(?<![\d-])\d{2}-\d{7}(?![\d-])"), "[Redacted]"),
     (re.compile(r"(?<![\d-])(?:\+?1[\s.-]?)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}(?!\d)"), "[Redacted Phone]"),
+    # city, state and ZIP line of an address ("Plano, Texas 75024", "New York, NY 10001-1234")
+    (re.compile(r"\b[A-Z][A-Za-z.'-]+(?:\s[A-Z][A-Za-z.'-]+){0,2},\s*(?:" + "|".join(US_STATES) + r")\.?,?\s+\d{5}(?:-\d{4})?\b"),
+     "[Redacted Address]"),
     # (no "Court": in legal papers "12 Order of the Court" is not an address; never inside a date "2020-03-12")
     (re.compile(r"(?<![\d-])\b\d{1,6}\s+(?:[NSEW]\.?\s+)?(?:[A-Z][\w'.-]*\s+){1,4}(?:Street|St|Avenue|Ave|Road|Rd|"
                 r"Boulevard|Blvd|Drive|Dr|Lane|Ln|Way|Place|Pl|Parkway|Pkwy|Highway|Hwy|Circle|Terrace|Square|"
@@ -396,7 +401,7 @@ def w_redact(src, dst):
         return False, 0, str(e)[:100]
 
 
-def _redact_pdf(src, dst):
+def _redact_pdf(src, dst, dates=True):
     import fitz
     doc = fitz.open(src)
     if doc.needs_pass:
@@ -410,7 +415,7 @@ def _redact_pdf(src, dst):
         for lk in page.get_links():
             page.delete_link(lk)
         text, idx = page_words(page)
-        sp = RED.spans(text)
+        sp = RED.spans(text, dates)
         if not sp:
             continue
         for a, b, new, kind in sp:
@@ -570,10 +575,31 @@ def to_pdf(path):
     return pdf
 
 
-def pdf_all(folder, names):
-    """convert every web-page file in the folder (4 at a time). names: {rel: path} -> {rel: new path}"""
+def pdf_all(folder, names, red=None):
+    """convert every web-page file in the folder (4 at a time). names: {rel: path} -> {rel: new path}
+    With red: each converted PDF gets one more redaction pass (dates untouched) - a phone number or name split by
+    the page's formatting tags is one line of text in the PDF (2026-11-10)."""
     with cf.ThreadPoolExecutor(4) as ex:
-        return dict(zip(names, ex.map(to_pdf, names.values())))
+        conv = dict(zip(names, ex.map(to_pdf, names.values())))
+    if red is not None:
+        _init_red(red)
+
+        def again(rel):
+            new = conv[rel]
+            if new == names[rel] or not new.endswith(".pdf"):
+                return
+            try:
+                ok, _, _ = _redact_pdf(new, new + ".r.pdf", dates=False)
+                if ok:
+                    os.replace(new + ".r.pdf", new)
+            except Exception:
+                pass
+            if os.path.exists(new + ".r.pdf"):
+                os.remove(new + ".r.pdf")
+
+        with cf.ThreadPoolExecutor(4) as ex:
+            list(ex.map(again, conv))
+    return conv
 
 
 def summary_pdf(path, mid, facts):
@@ -1274,7 +1300,7 @@ def deal_matter(drive, cik, defm, form, minutes, sample=0):
     final = tempfile.mkdtemp(prefix="final-")
     kept = set(kept)
     tl = {}
-    conv = pdf_all(out_dir, {p[0]: os.path.join(out_dir, p[0]) for p in plan if p[0] in kept})
+    conv = pdf_all(out_dir, {p[0]: os.path.join(out_dir, p[0]) for p in plan if p[0] in kept}, red)
     for rawname, fi, date, frm, seq, typ, desc, ext in plan:
         if rawname not in kept:
             continue
@@ -1402,7 +1428,7 @@ def nuremberg(drive, minutes, lane, max_files, sample=0):
     red, kept, stats = res
     names, rows, shifted = {}, [], []
     final = tempfile.mkdtemp(prefix="final-")
-    conv = pdf_all(out_dir, {r: os.path.join(out_dir, r) for r in kept})
+    conv = pdf_all(out_dir, {r: os.path.join(out_dir, r) for r in kept}, red)
     for i, (u, title, tag) in enumerate(items, 1):
         rel = f"{i:04d}.htm"
         if rel not in kept:
