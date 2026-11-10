@@ -605,9 +605,9 @@ def split_pdfs(folder):
     return sum(1 for _, _, f in os.walk(folder) for x in f if not x.startswith("00 "))
 
 
-def finish(drive, mid, folder, dest, red, facts, rows, n_docs, index_row):
+def finish(drive, mid, folder, dest, red, facts, rows, n_docs, index_row, split=True):
     files = n_docs
-    if n_docs < SPLIT_UNDER:
+    if split and n_docs < SPLIT_UNDER:  # user 2026-11-10: deal files stay whole (split=False)
         files = split_pdfs(folder)
         if files != n_docs:
             facts = facts + [("Files after splitting", f"{files} files from the {n_docs} original documents "
@@ -1312,7 +1312,7 @@ def deal_matter(drive, cik, defm, form, minutes, sample=0):
         return f"ok {n}"
     ok = finish(drive, mid, final, dest, red, facts, rows, n,
                 {"matter": mid, "practice area": "Mergers & Acquisitions", "matter type": mtype,
-                 "jurisdiction": juris, "date range": rng, "documents": n, "folder": dest})
+                 "jurisdiction": juris, "date range": rng, "documents": n, "folder": dest}, split=False)
     shutil.rmtree(final, ignore_errors=True)
     return f"ok {n}" if ok else "failed"
 
