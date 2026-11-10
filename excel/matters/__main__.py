@@ -1163,7 +1163,7 @@ def filing_docs(cik, acc):
         if len(cells) < 4:
             continue
         seq = re.sub(r"<[^>]+>", "", cells[0]).strip()
-        href = re.search(r'href="([^"]+)"', cells[2])
+        href = re.search(r'href="(?:/ix\?doc=)?([^"]+)"', cells[2])  # inline-XBRL viewer link -> the document
         typ = re.sub(r"<[^>]+>", "", cells[3]).strip()
         if not seq.isdigit() or not href:
             continue
