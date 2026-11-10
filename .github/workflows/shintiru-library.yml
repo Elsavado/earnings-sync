@@ -29,6 +29,7 @@ jobs:
           - {part: drives, lane: "0/1"}
           - {part: iso, lane: "0/2"}
           - {part: iso, lane: "1/2"}
+          - {part: web, lane: "0/1"}
     steps:
       - uses: actions/checkout@v4
       - name: rclone and 7-Zip
@@ -48,4 +49,8 @@ jobs:
           LIBRARY_MAP: ${{ secrets.LIBRARY_MAP }}
         run: |
           flag=$([ "${{ inputs.dry_run }}" = "true" ] && echo "" || echo --live)
+          if [ "${{ matrix.part }}" = "web" ]; then
+            [ -n "$flag" ] || { echo "dry run: web part skipped"; exit 0; }
+            pip install -q requests && python3 -u library/web.py --minutes 315; exit 0
+          fi
           python3 library/build.py --part ${{ matrix.part }} --lane ${{ matrix.lane }} $flag
