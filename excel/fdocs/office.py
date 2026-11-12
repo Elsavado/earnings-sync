@@ -49,6 +49,16 @@ def _add(state, kind, cand, record):
     if record in rec or (t and t in titles):
         return False
     cand['rules'] = RULES
+    if cand.get('ext') == 'xlsx' and (cand.get('size') or 0) > MAX_SIZE['xlsx']:
+        # Too big for a runner: straight to the large-workbook pass on Kaggle (bigbook.py).
+        big = state.setdefault('big', {})
+        if cand['key'] in big or cand['key'] in state['seen'] or len(big) >= 5000:
+            return False
+        big[cand['key']] = dict(cand, kind=kind)
+        rec[record] = 1
+        if t:
+            titles[t] = 1
+        return True
     if not _queue(state, kind, cand):
         return False
     rec[record] = 1
@@ -128,6 +138,11 @@ TOPICS += [t for t in feeds.FIN_TERMS + ['financial econometrics', 'financial ri
            if t not in TOPICS]
 # A spreadsheet expands many times in memory when opened (a 40 MB workbook ran a runner out of memory).
 MAX_SIZE = {'xlsx': 8 * 2**20, 'docx': 40 * 2**20, 'pptx': 40 * 2**20, 'pdf': 40 * 2**20}
+BIG_XLSX = 150 * 2**20  # larger workbooks are found too and handled on Kaggle (bigbook.py) when it is signed in
+
+
+def cap(ext):
+    return BIG_XLSX if ext == 'xlsx' and os.environ.get('KAGGLE_API_TOKEN') else MAX_SIZE[ext]
 ZFILE = {'gsheets': ('xlsx', None), 'gdocs': ('docx', None), 'slides': ('pptx', None), 'presentations': ('pdf', 'presentation'),
          'bookkeeping': ('xlsx', None)}
 BOOK_Q = ['"general ledger"', 'bookkeeping', '"trial balance"', '"journal entries"', '"cash book"', '"accounts payable"',
@@ -184,8 +199,9 @@ def zenodo_files(state, kind, s, log, pages=2):
                 for f in h.get('files', [])[:20]:
                     key = f.get('key', '')
                     url = (f.get('links') or {}).get('self')
-                    if key.lower().endswith('.' + ext) and url and 0 < f.get('size', 0) <= MAX_SIZE[ext]:
+                    if key.lower().endswith('.' + ext) and url and 0 < f.get('size', 0) <= cap(ext):
                         added += _add(state, kind, {'key': f'zenodo:{h["id"]}:{key}'[:300], 'url': url, 'ext': ext,
+                                                    'size': f.get('size', 0),
                                                     'orgs': [], 'source': 'zenodo', 'topic': topic.strip('"'),
                                                     'title': title[:200], 'weak': fin == 'weak'}, f'zenodo:{h["id"]}')
                         break  # one file per record
@@ -245,8 +261,9 @@ def canada(state, kind, s, log, pages=2):
                     if url.startswith('/'):  # files hosted on the portal itself are listed by path
                         url = 'https://open.canada.ca' + url
                     if (str(f.get('format', '')).upper() == fmt and 'en' in (f.get('language') or [])
-                            and url.lower().split('?')[0].endswith('.' + ext) and (f.get('size') or 0) <= MAX_SIZE[ext]):
+                            and url.lower().split('?')[0].endswith('.' + ext) and (f.get('size') or 0) <= cap(ext)):
                         added += _add(state, kind, {'key': f'ckan:open.canada.ca:{p["id"]}', 'url': url, 'ext': ext,
+                                                    'size': f.get('size') or 0,
                                                     'orgs': [], 'source': 'canada', 'topic': topic.strip('"'),
                                                     'title': title[:200], 'weak': fin == 'weak'},
                                      f'ckan:open.canada.ca:{p["id"]}')
