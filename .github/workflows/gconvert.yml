@@ -1,16 +1,16 @@
 name: Google copies of Office files
 
 # Word -> Google Docs, Excel -> Google Sheets, PowerPoint -> Google Slides for the existing files on shintiru's drive,
-# the Financelitics folder of Research Collections, and hassan's drive (its copies go to shintiru's drive: hassan's
+# the Financelitics folder of Research Collections, salvadorsekwa's drive, and hassan's drive (its copies go to shintiru's drive: hassan's
 # is full). Originals are kept (user, 2026-11-12). excel/gconvert.py; resumes by appProperties gcFrom.
 # Each target starts its next run while files are left and the repository variable CONVERT_LIVE is 'true'.
 on:
   workflow_dispatch:
     inputs:
       targets:
-        description: 'shintiru,financelitics,hassan'
+        description: 'shintiru,financelitics,hassan,salvador'
         required: false
-        default: 'shintiru,financelitics,hassan'
+        default: 'shintiru,financelitics,hassan,salvador'
       dry_run:
         description: 'Count only'
         type: boolean
@@ -33,9 +33,9 @@ jobs:
     steps:
       - id: t
         env:
-          T: ${{ github.event.inputs.targets || 'shintiru,financelitics,hassan' }}
+          T: ${{ github.event.inputs.targets || 'shintiru,financelitics,hassan,salvador' }}
         run: |
-          python3 -c "import json,os; t=[x.strip() for x in os.environ['T'].split(',') if x.strip() in ('shintiru','financelitics','hassan')]; open(os.environ['GITHUB_OUTPUT'],'a').write('targets='+json.dumps(t)+chr(10))"
+          python3 -c "import json,os; t=[x.strip() for x in os.environ['T'].split(',') if x.strip() in ('shintiru','financelitics','hassan','salvador')]; open(os.environ['GITHUB_OUTPUT'],'a').write('targets='+json.dumps(t)+chr(10))"
 
   convert:
     needs: prepare
@@ -62,13 +62,15 @@ jobs:
         env:
           SHIN: ${{ secrets.SHINTIRU_RCLONE_CONF }}
           HASSAN: ${{ secrets.HASSAN_RCLONE_CONF }}
+          SALVADOR: ${{ secrets.SALVADOR_RCLONE_CONF }}
         run: |
           curl -fsSL https://rclone.org/install.sh | sudo bash >/dev/null
           mkdir -p ~/.config/rclone
-          { printf '%s\n' "$SHIN"; printf '\n%s\n' "$HASSAN"; } > ~/.config/rclone/rclone.conf
+          { printf '%s\n' "$SHIN"; printf '\n%s\n' "$HASSAN"; printf '\n%s\n' "$SALVADOR"; } > ~/.config/rclone/rclone.conf
           chmod 600 ~/.config/rclone/rclone.conf
-          if [ "${{ matrix.target }}" = hassan ] && ! rclone listremotes | grep -q '^hassan:'; then
-            echo "secret HASSAN_RCLONE_CONF (the [hassan] section of rclone.conf) is not set" >> "$GITHUB_STEP_SUMMARY"
+          t="${{ matrix.target }}"
+          if [ "$t" != shintiru ] && ! rclone listremotes | grep -q "^$t:"; then
+            echo "secret ${t^^}_RCLONE_CONF (the [$t] section of rclone.conf) is not set" >> "$GITHUB_STEP_SUMMARY"
             exit 1
           fi
       - name: Convert

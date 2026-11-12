@@ -7,6 +7,7 @@ financelitics into google docs"; originals kept, each file to the Google type of
 
 TARGET=shintiru      shintiru's My Drive: a converted copy beside each original (Drive converts it server side).
 TARGET=financelitics Workspace shared drive "Research Collections", folder "Financelitics" and below: the same.
+TARGET=salvador      salvadorsekwa's My Drive (asset library): a converted copy beside each original.
 TARGET=hassan        hassan's drive is full (no new files can be made there), so its files are downloaded and the
                      Google copies go to shintiru's drive under "Hassan - Construction Operations Research/<same path>"
                      (user: "send them to shintiru too but assume it is hassan").
@@ -158,8 +159,8 @@ def save_state(drive, sid, state, parent):
 
 
 def main():
-    src_kind = {'shintiru': 'shintiru', 'hassan': 'hassan', 'financelitics': 'ws'}[TARGET]
-    dst_kind = {'shintiru': 'shintiru', 'hassan': 'shintiru', 'financelitics': 'ws'}[TARGET]
+    src_kind = {'shintiru': 'shintiru', 'hassan': 'hassan', 'financelitics': 'ws', 'salvador': 'salvador'}[TARGET]
+    dst_kind = {'shintiru': 'shintiru', 'hassan': 'shintiru', 'financelitics': 'ws', 'salvador': 'salvador'}[TARGET]
     src, dst = service(src_kind), service(dst_kind)
     shared = WS_DRIVE if TARGET == 'financelitics' else None
 
