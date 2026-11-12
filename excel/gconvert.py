@@ -53,6 +53,24 @@ DRY = os.environ.get('DRY_RUN', '').lower() == 'true'
 END = time.time() + float(os.environ.get('RUN_MINUTES', '320')) * 60
 STATE = f'gconvert-{TARGET}.json'
 HASSAN_ROOT = 'Hassan - Construction Operations Research'
+FIN_COPY = 'Financelitics (Google)'
+
+
+def ws_copy_drive(drive):
+    """The shared drive for the Financelitics copies (made once, same organiser as Research Collections)."""
+    token = None
+    while True:
+        res = retry(lambda: drive.drives().list(pageSize=100, pageToken=token, fields='nextPageToken, drives(id,name)').execute())
+        for d in res.get('drives', []):
+            if d['name'] == FIN_COPY:
+                return d['id']
+        token = res.get('nextPageToken')
+        if not token:
+            break
+    if DRY:
+        return None
+    return retry(lambda: drive.drives().create(requestId='financelitics-google-copies-1', body={'name': FIN_COPY},
+                                               fields='id').execute())['id']
 RC = 'Research Collections'
 WS_DRIVE = '0ACsHljU9Hj2_Uk9PVA'
 
@@ -168,11 +186,14 @@ def main():
         log(f'  {len(files)} of them inside Financelitics')
 
     # Copies already made (any run): their originals are done.
-    dshared = shared if dst_kind == 'ws' else None
+    # Financelitics: the copies go to their own shared drive (Research Collections is near the item limit).
+    dshared = ws_copy_drive(dst) if TARGET == 'financelitics' else None
+    if dshared:
+        log(f'  copies go to shared drive "{FIN_COPY}"')
     gq = ' or '.join(f"mimeType = '{G}{t}'" for t in ('document', 'spreadsheet', 'presentation'))
     done = {f['appProperties']['gcFrom'] for f in list_all(dst, f'trashed = false and ({gq})', 'appProperties', dshared)
             if (f.get('appProperties') or {}).get('gcFrom')}
-    state_parent = 'root' if dst_kind == 'shintiru' else WS_DRIVE
+    state_parent = dshared or 'root'
     sid, state = load_state(dst, dshared)
     failed = state.setdefault('failed', {})
     todo = [f for f in files if f['id'] not in done and f['id'] not in failed]
@@ -197,15 +218,16 @@ def main():
         with lock:
             if parent in made_dirs:
                 return made_dirs[parent]
-            cur = 'root'
-            for part in [HASSAN_ROOT] + path_parts(parent):
+            cur = dshared or 'root'
+            for part in ([] if dshared else [HASSAN_ROOT]) + path_parts(parent):
                 key = (cur, part)
                 if key not in made_dirs:
                     esc = part.replace('\\', '\\\\').replace("'", "\\'")
                     got = list_all(dst, f"'{cur}' in parents and name = '{esc}' and mimeType = '{FOLDER}' "
-                                        f"and trashed = false", 'id')
+                                        f"and trashed = false", 'id', dshared)
                     made_dirs[key] = got[0]['id'] if got else retry(lambda: dst.files().create(
-                        body={'name': part, 'mimeType': FOLDER, 'parents': [cur]}, fields='id').execute())['id']
+                        body={'name': part, 'mimeType': FOLDER, 'parents': [cur]}, fields='id',
+                        supportsAllDrives=True).execute())['id']
                 cur = made_dirs[key]
             made_dirs[parent] = cur
             return cur
@@ -234,7 +256,9 @@ def main():
                 media = MediaIoBaseUpload(buf, mimetype=f['mimeType'], resumable=True, chunksize=32 * 2**20)
                 retry(lambda: svc('shintiru').files().create(body=body, media_body=media, fields='id').execute())
             else:
-                if parent:
+                if dshared:
+                    body['parents'] = [dest_folder(parent)]
+                elif parent:
                     body['parents'] = [parent]
                 retry(lambda: svc(src_kind).files().copy(fileId=f['id'], body=body, fields='id',
                                                           supportsAllDrives=True).execute())
