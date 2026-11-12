@@ -46,6 +46,7 @@ GOOGLE = {
     'application/vnd.ms-powerpoint': 'presentation',
     'application/vnd.oasis.opendocument.presentation': 'presentation',
 }
+GOOGLE.update({k.lower(): v for k, v in list(GOOGLE.items())})  # Drive also reports lower-case variants
 # Drive's conversion limits (larger files fail anyway): documents 50 MB, sheets 100 MB, slides 100 MB.
 MAX = {'document': 50 * 2**20, 'spreadsheet': 100 * 2**20, 'presentation': 100 * 2**20}
 FOLDER = 'application/vnd.google-apps.folder'
