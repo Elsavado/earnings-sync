@@ -289,6 +289,14 @@ def main(src_dir, out_dir, ids_path, mapping_json):
                 fname, k = f'{base} ({k}){ext}', k + 1
             used.add((folder, fname.lower()))
             dst = dst_dir / fname
+            if ext in ('.docx', '.pptx', '.xlsx') and not zipfile.is_zipfile(src):
+                # an older format saved under the new extension: let LibreOffice re-save it properly
+                old = work / ('legacy' + {'.docx': '.doc', '.pptx': '.ppt', '.xlsx': '.xls'}[ext])
+                shutil.copy(src, old)
+                conv = convert(old, work, ext.lstrip('.'))
+                if not conv:
+                    raise RuntimeError('conversion failed')
+                src = conv
             if ext in ('.docx', '.pptx', '.xlsx'):
                 clean_ooxml(src, dst, C)
                 after = ooxml_text(dst)
