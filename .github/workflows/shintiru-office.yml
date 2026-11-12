@@ -94,7 +94,7 @@ jobs:
           python-version: '3.12'
           cache: pip
           cache-dependency-path: excel/requirements.txt
-      - run: pip install -q -r requirements.txt
+      - run: pip install -q -r requirements.txt duckdb
       - name: Drive sign-in (rclone remote shintiru)
         env:
           CONF: ${{ secrets.SHINTIRU_RCLONE_CONF }}
@@ -114,6 +114,85 @@ jobs:
         run: |
           # only this job's crawl cursor (the others belong to other scanners), then the found lists per type
           find /tmp/cursors -newer /tmp/stamp -name '*.json' | while read -r f; do rclone copy -q "$f" "shintiru:$FD_PRIVATE/cc-scan"; done
+          if [ -d /tmp/found ]; then rclone copy -q /tmp/found "shintiru:$FD_PRIVATE/cc-inbox"; fi
+
+  explore:
+    # sites that already gave good files: their own pages and sitemaps, and their Wayback Machine copies since 2012
+    needs: prepare
+    if: needs.prepare.outputs.go == 'true' && github.event.inputs.dry_run != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 58
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3]
+    defaults:
+      run:
+        working-directory: excel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: excel/requirements.txt
+      - run: pip install -q -r requirements.txt
+      - name: Drive sign-in (rclone remote shintiru)
+        env:
+          CONF: ${{ secrets.SHINTIRU_RCLONE_CONF }}
+        run: |
+          curl -fsSL https://rclone.org/install.sh | sudo bash >/dev/null
+          mkdir -p ~/.config/rclone
+          printf '%s\n' "$CONF" > ~/.config/rclone/rclone.conf
+          chmod 600 ~/.config/rclone/rclone.conf
+          rclone copy -q "shintiru:$FD_PRIVATE" /tmp/states --include 'state*.json.gz' --max-depth 1
+          rclone copy -q "shintiru:$FD_PRIVATE/sites" /tmp/cursors --include "sites-${{ matrix.shard }}.json" || true
+      - name: Explore sites and the Wayback Machine
+        env:
+          RUN_MINUTES: '48'
+        run: python -m fdocs.sites ${{ matrix.shard }} 4 /tmp/states /tmp/cursors /tmp/found
+      - name: Hand the lists to the collectors
+        if: always()
+        run: |
+          if [ -f /tmp/cursors/sites-${{ matrix.shard }}.json ]; then rclone copy -q /tmp/cursors/sites-${{ matrix.shard }}.json "shintiru:$FD_PRIVATE/sites"; fi
+          if [ -d /tmp/found ]; then rclone copy -q /tmp/found "shintiru:$FD_PRIVATE/cc-inbox"; fi
+
+  search:
+    # Brave Search API: topic phrases x file types, capped by var BRAVE_MONTHLY_CAP; off without the secret
+    needs: prepare
+    if: needs.prepare.outputs.go == 'true' && github.event.inputs.dry_run != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 58
+    defaults:
+      run:
+        working-directory: excel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: excel/requirements.txt
+      - run: pip install -q -r requirements.txt
+      - name: Drive sign-in (rclone remote shintiru)
+        env:
+          CONF: ${{ secrets.SHINTIRU_RCLONE_CONF }}
+        run: |
+          curl -fsSL https://rclone.org/install.sh | sudo bash >/dev/null
+          mkdir -p ~/.config/rclone
+          printf '%s\n' "$CONF" > ~/.config/rclone/rclone.conf
+          chmod 600 ~/.config/rclone/rclone.conf
+          rclone copy -q "shintiru:$FD_PRIVATE/search" /tmp/cursors || true
+      - name: Search
+        env:
+          RUN_MINUTES: '45'
+          BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
+          BRAVE_MONTHLY_CAP: ${{ vars.BRAVE_MONTHLY_CAP }}
+        run: python -m fdocs.brave /tmp/cursors /tmp/found
+      - name: Hand the lists to the collectors
+        if: always()
+        run: |
+          if [ -f /tmp/cursors/brave.json ]; then rclone copy -q /tmp/cursors/brave.json "shintiru:$FD_PRIVATE/search"; fi
           if [ -d /tmp/found ]; then rclone copy -q /tmp/found "shintiru:$FD_PRIVATE/cc-inbox"; fi
 
   collect:
@@ -141,7 +220,7 @@ jobs:
           sudo apt-get install -y -qq --no-install-recommends libreoffice-writer libreoffice-impress > /dev/null
           soffice --version
       - name: Install Python packages
-        run: pip install -q -r requirements.txt 'anthropic>=1.13,<3' kaggle
+        run: pip install -q -r requirements.txt 'anthropic>=1.13,<3' 'kaggle==2.2.5'
       - name: Drive sign-in (rclone remote shintiru)
         env:
           CONF: ${{ secrets.SHINTIRU_RCLONE_CONF }}
@@ -183,7 +262,7 @@ jobs:
           retention-days: 7
 
   next:
-    needs: [prepare, scan, collect]
+    needs: [prepare, scan, explore, search, collect]
     if: always() && needs.prepare.outputs.go == 'true' && github.event.inputs.dry_run != 'true' && vars.SHINTIRU_OFFICE_LIVE == 'true'
     runs-on: ubuntu-latest
     steps:

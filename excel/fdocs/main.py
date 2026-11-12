@@ -549,6 +549,10 @@ class Run:
         if fp:
             self.state['hashes'][fp] = f'{kind}:{n}'
         self.state['seen'][cand['key']] = f'ok:{kind}:{n}'
+        if cand.get('source') == 'cc':  # sites that gave a good file: the site explorer and Wayback go deeper there
+            host = re.sub(r'^https?://(?:web\.archive\.org/web/\d+id_/https?://)?([^/]+).*$', r'\1', cand['url']).lower()
+            good = self.state.setdefault('good_hosts', {})
+            good[host] = good.get(host, 0) + 1
         c = self.state['counts']
         c[kind] = c.get(kind, 0) + 1
         c[f'source:{cand["source"]}'] = c.get(f'source:{cand["source"]}', 0) + 1

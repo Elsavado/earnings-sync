@@ -258,21 +258,48 @@ def _read_block(s, coll, block, kinds):
     return out
 
 
-INBOX = os.environ.get('CC_INBOX', '')  # files found by the parallel index scanners (fdocs/ccscan.py)
+INBOX = os.environ.get('CC_INBOX', '')  # files found by the scanners, site explorer, Wayback and search (inbox)
+# Files per site and type: Common Crawl spreads over many sites; the site explorer and Wayback go deep on sites
+# that already gave good files (user, 2026-11-12: search the internet at large).
+HOST_CAP = {'cc': PER_HOST, 'site': 400, 'wb': 400, 'brave': 60}
+EXT_KIND = {'.pptx': 'slides', '.ppt': 'slides', '.docx': 'gdocs', '.doc': 'gdocs', '.xlsx': 'gsheets'}
 
 
-def _offer(state, k, url, ext, hosts):
-    """Queues one found file unless seen, queued, over its host's share or refused by robots.txt."""
-    host = urlparse(url).netloc.lower()
+def english_host(host):
+    """The host's top-level domain is in the English-leaning list, and whether it is an open (edu / gov / ac) host."""
+    labels = host.lower().split(':')[0].split('.')
+    return labels[-1] in TLDS, any(lab in OPEN_TLDS for lab in labels[-2:])
+
+
+def accept_url(url):
+    """(kind, ext) for an address worth downloading on the shintiru profile, else None: an Office file on an
+    English-leaning host; Word files elsewhere than edu / gov / ac also need a subject hint in the address."""
+    path = urlparse(url).path.lower()
+    ext = os.path.splitext(path)[1]
+    kind = EXT_KIND.get(ext)
+    if not kind or (KINDS_RUN and kind not in KINDS_RUN):
+        return None
+    eng, open_host = english_host(urlparse(url).netloc)
+    if not (eng or open_host):
+        return None
+    if not open_host and kind == 'gdocs' and not URL_HINT.search(url):
+        return None
+    return kind, ext.lstrip('.')
+
+
+def _offer(state, k, url, ext, hosts, source='cc', check=None):
+    """Queues one found file unless seen, queued, over its host's share or refused by robots.txt. check: the
+    address whose site's robots.txt decides (the original site for a Wayback copy)."""
+    host = urlparse(check or url).netloc.lower()
     hk = f'{k}:{host}'
     cap = QUEUE_CAP * 8 if INBOX else QUEUE_CAP
-    if hosts.get(hk, 0) >= PER_HOST or len(state['queue'].get(k, [])) >= cap:
+    if hosts.get(hk, 0) >= HOST_CAP.get(source, PER_HOST) or len(state['queue'].get(k, [])) >= cap:
         return False
-    key = 'cc:' + hashlib.sha1(url.split('#')[0].encode()).hexdigest()
+    key = 'cc:' + hashlib.sha1((check or url).split('#')[0].encode()).hexdigest()
     if key in state['seen'] or key in state['queued']:
         return False
     try:
-        if not _ROBOTS.ok(url):
+        if not _ROBOTS.ok(check or url):
             state['seen'][key] = 'rej:robots.txt'
             return False
     except Exception:  # noqa: BLE001
@@ -292,12 +319,13 @@ def _from_inbox(state, kind, log):
     for f in sorted(Path(INBOX).glob('*.tsv')):
         if late():
             break  # lists left over go back to the drive for the next run (workflow)
+        source = f.name.split('-', 1)[0] if f.name.split('-', 1)[0] in HOST_CAP else 'cc'
         for line in f.read_text(encoding='utf-8', errors='replace').splitlines():
-            parts = line.split('	')
-            if len(parts) != 3 or parts[0] != kind:
+            parts = line.split('\t')
+            if len(parts) not in (3, 4) or parts[0] != kind:
                 continue
             lines += 1
-            added += _offer(state, kind, parts[1], parts[2], hosts)
+            added += _offer(state, kind, parts[1], parts[2], hosts, source, parts[3] if len(parts) == 4 else None)
         f.unlink()
     log(f'  {kind}: scanners found {lines}, {added} new queued')
     return added
