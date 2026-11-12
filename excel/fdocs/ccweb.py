@@ -190,7 +190,7 @@ def _read_block(s, coll, block, kinds):
             continue
         tld = surt.split(b')')[0].split(b',')
         open_host = tld[0].decode() in OPEN_TLDS or (len(tld) > 1 and tld[1].decode() in OPEN_TLDS)
-        if not open_host and not URL_HINT.search(url):
+        if not open_host and kind == 'gdocs' and not URL_HINT.search(url):  # decks and workbooks are rare: all
             continue
         out.append((kind, url, ext))
     return out
