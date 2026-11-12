@@ -93,7 +93,7 @@ jobs:
           sudo apt-get install -y -qq --no-install-recommends libreoffice-writer libreoffice-impress > /dev/null
           soffice --version
       - name: Install Python packages
-        run: pip install -q -r requirements.txt 'anthropic>=1.13,<3'
+        run: pip install -q -r requirements.txt 'anthropic>=1.13,<3' kaggle
       - name: Drive sign-in (rclone remote shintiru)
         env:
           CONF: ${{ secrets.SHINTIRU_RCLONE_CONF }}
@@ -111,9 +111,16 @@ jobs:
           DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
           RUN_MINUTES: ${{ github.event.inputs.minutes || '50' }}
           KINDS: ${{ matrix.kind }}
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+          KAGGLE_USERNAME: ${{ vars.KAGGLE_USERNAME }}
           WORKERS: '4'
           DRIVE_FLOOR_GB: '50'
-        run: python -m fdocs.main
+        run: |
+          # Large workbooks skipped by earlier runs go to a private Kaggle notebook (30 GB); finished ones come back
+          # and are uploaded here first (fdocs/bigbook.py). Never stops the run.
+          [ -n "$KAGGLE_USERNAME" ] && echo "::add-mask::$KAGGLE_USERNAME"
+          if true; then python -m fdocs.bigbook sync || true; fi
+          python -m fdocs.main
       - name: Keep dry-run samples
         if: always() && github.event.inputs.dry_run == 'true' && hashFiles('excel/samples/**') != ''
         uses: actions/upload-artifact@v4

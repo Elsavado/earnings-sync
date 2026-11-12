@@ -55,6 +55,8 @@ sources.DISCOVER.update(office.DISCOVER)
 def size_class(kind):
     return 'data' if kind in K.TABULAR or kind in ('figma', 'styleguides') else 'doc'  # these download many files
 ANON = None  # set before the worker pool forks
+BIG_REASON = re.compile(r'too large|too slow|MemoryError|longer than|unpacked', re.I)
+BIG_FIELDS = ('key', 'url', 'ext', 'source', 'title', 'topic', 'orgs', 'rules', 'subject')
 
 
 def log(msg):
@@ -446,9 +448,31 @@ def file_hash(path):
     return h.hexdigest()
 
 
+def make_anon():
+    """Builds the document anonymizer (company names, tickers, spaCy) into ANON; returns the HTTP session."""
+    global ANON
+    s = sources.session()
+    tickers = s.get('https://www.sec.gov/files/company_tickers.json', timeout=60).json()
+    names = [v['title'] for v in tickers.values()]
+    cj = Path(__file__).resolve().parents[2] / 'companies.json'
+    if cj.exists():
+        for c in json.loads(cj.read_text(encoding='utf-8')).get('companies', []):
+            names += [c.get('name', '')] + list(c.get('aliases') or [])
+    try:
+        import spacy
+        nlp = spacy.load('en_core_web_sm', exclude=['parser', 'lemmatizer', 'attribute_ruler', 'tagger', 'senter'])
+    except Exception:  # noqa: BLE001
+        nlp = None
+    base = Anonymizer(names, [v['title'] for v in list(tickers.values())[:1500]], None)
+    ANON = {'doc': DocAnon(base, nlp, [v['ticker'] for v in tickers.values()])}
+    log(f'anonymizer: {len(base.multi)} multi-word and {len(base.single)} one-word company names, '
+        f'{len(ANON["doc"].tickers)} tickers, spaCy {"on" if nlp else "OFF"}')
+    return s
+
+
 class Run:
     def __init__(self):
-        signed_in = os.environ.get('GOOGLE_REFRESH_TOKEN') or os.environ.get('GOOGLE_SA_JSON')
+        signed_in = os.environ.get('GOOGLE_REFRESH_TOKEN') or os.environ.get('GOOGLE_SA_JSON') or os.environ.get('RCLONE_REMOTE')
         self.store = None if DRY and not signed_in else Store(dry_run=DRY, state_name=STATE_NAME)
         self.state = (self.store.load_state() if self.store else {}) or {}
         st = self.state
@@ -597,6 +621,10 @@ class Run:
             log(f'  {blocked} blocks automated downloads; skipping that site from now on')
         if res.get('ok') and kind in llm.KINDS:
             res = self.llm_check(kind, cand, res)
+        if not res.get('ok') and kind in ('gsheets', 'bookkeeping') and not os.environ.get('BIG_PASS')                 and cand.get('ext') == 'xlsx' and BIG_REASON.search(str(res.get('reason'))):
+            big = self.state.setdefault('big', {})
+            if len(big) < 5000:  # waiting for the large-workbook pass on Kaggle (bigbook.py)
+                big[cand['key']] = dict({k: cand[k] for k in BIG_FIELDS if k in cand}, kind=kind)
         if not res.get('ok'):
             self.state['seen'][cand['key']] = f'rej:{res.get("reason")}'[:120]
             log(f'  - {kind} {cand["source"]}: {str(res.get("reason"))[:90]}')
@@ -626,23 +654,7 @@ class Run:
             if limit and limit - used < FLOOR:
                 log(f"Drive has less than {FLOOR / 2**30:.0f} GB free; stopping")
                 return
-        s = sources.session()
-        tickers = s.get('https://www.sec.gov/files/company_tickers.json', timeout=60).json()
-        names = [v['title'] for v in tickers.values()]
-        cj = Path(__file__).resolve().parents[2] / 'companies.json'
-        if cj.exists():
-            for c in json.loads(cj.read_text(encoding='utf-8')).get('companies', []):
-                names += [c.get('name', '')] + list(c.get('aliases') or [])
-        try:
-            import spacy
-            nlp = spacy.load('en_core_web_sm', exclude=['parser', 'lemmatizer', 'attribute_ruler', 'tagger', 'senter'])
-        except Exception:  # noqa: BLE001
-            nlp = None
-        global ANON
-        base = Anonymizer(names, [v['title'] for v in list(tickers.values())[:1500]], None)
-        ANON = {'doc': DocAnon(base, nlp, [v['ticker'] for v in tickers.values()])}
-        log(f'anonymizer: {len(base.multi)} multi-word and {len(base.single)} one-word company names, '
-            f'{len(ANON["doc"].tickers)} tickers, spaCy {"on" if nlp else "OFF"}')
+        s = make_anon()
 
         order = [k for k in K.KINDS if k in ONLY] if ONLY else list(K.FIN_KINDS)
         worker = Worker(int(os.environ.get('WORKERS') or (3 if all(k in K.TABULAR for k in order) else 2)))
