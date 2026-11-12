@@ -95,28 +95,18 @@ jobs:
           soffice --version
       - name: Install Python packages
         run: pip install -q -r requirements.txt 'anthropic>=1.13,<3'
-      - name: Drive sign-in from the shintiru rclone config
+      - name: Drive sign-in (rclone remote shintiru)
         env:
           CONF: ${{ secrets.SHINTIRU_RCLONE_CONF }}
         run: |
-          python3 - <<'PY'
-          import configparser, json, os
-          c = configparser.ConfigParser(interpolation=None)
-          c.read_string(os.environ['CONF'])
-          sec = next(c[n] for n in c.sections() if c[n].get('type') == 'drive' and 'shintiru' in n)
-          tok = json.loads(sec['token'])
-          vals = {'GOOGLE_CLIENT_ID': sec.get('client_id', ''), 'GOOGLE_CLIENT_SECRET': sec.get('client_secret', ''),
-                  'GOOGLE_REFRESH_TOKEN': tok.get('refresh_token', '')}
-          missing = [k for k, v in vals.items() if not v]
-          if missing:
-              raise SystemExit(f'shintiru rclone config lacks {missing}')
-          with open(os.environ['GITHUB_ENV'], 'a') as f:
-              for k, v in vals.items():
-                  print(f'::add-mask::{v}')
-                  f.write(f'{k}={v}' + chr(10))
-          PY
+          curl -fsSL https://rclone.org/install.sh | sudo bash >/dev/null
+          mkdir -p ~/.config/rclone
+          printf '%s\n' "$CONF" > ~/.config/rclone/rclone.conf
+          chmod 600 ~/.config/rclone/rclone.conf
+          rclone about shintiru: 2>&1 | grep -E "^(Total|Used|Free)" || true
       - name: Collect, anonymise and upload
         env:
+          RCLONE_REMOTE: shintiru
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
           GITHUB_TOKEN: ${{ github.token }}
           DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}

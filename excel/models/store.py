@@ -9,6 +9,7 @@ import gzip
 import io
 import json
 import os
+import re
 import ssl
 import time
 
@@ -75,8 +76,43 @@ class _SharedDrive:
         return self.service.about()
 
 
+class RcloneCredentials:
+    """Access tokens of an rclone Drive remote (RCLONE_REMOTE): for accounts signed in through rclone's own app,
+    whose refresh token only rclone can use. rclone refreshes the token when a call needs it and saves it in its
+    config; this reads it back (rclone config dump) shortly before it expires."""
+
+    def __new__(cls, remote):
+        import datetime
+        import subprocess
+        from google.auth.credentials import Credentials as _Base
+
+        class _Creds(_Base):
+            def __init__(self):
+                super().__init__()
+                self._last = 0
+                self.refresh(None)
+
+            def refresh(self, request):
+                if time.time() - self._last < 20 and self.token:
+                    return
+                self._last = time.time()
+                subprocess.run(['rclone', 'lsf', '--dirs-only', '--max-depth', '1', f'{remote}:'],
+                               capture_output=True, timeout=120)  # rclone renews an expired token and saves it
+                dump = json.loads(subprocess.run(['rclone', 'config', 'dump'], capture_output=True, text=True,
+                                                 timeout=60, check=True).stdout)
+                tok = json.loads(dump[remote]['token'])
+                self.token = tok['access_token']
+                exp = datetime.datetime.fromisoformat(re.sub(r'(\.\d{6})\d*', r'\1', tok['expiry']).replace('Z', '+00:00'))
+                self.expiry = exp.astimezone(datetime.timezone.utc).replace(tzinfo=None)
+
+        return _Creds()
+
+
 def credentials():
-    """A service account (GOOGLE_SA_JSON, e.g. for a Workspace Shared Drive) or a user's refresh token."""
+    """A service account (GOOGLE_SA_JSON, e.g. for a Workspace Shared Drive), an rclone remote (RCLONE_REMOTE),
+    or a user's refresh token."""
+    if os.environ.get('RCLONE_REMOTE'):
+        return RcloneCredentials(os.environ['RCLONE_REMOTE'])
     if os.environ.get('GOOGLE_SA_JSON'):
         from google.oauth2 import service_account
         return service_account.Credentials.from_service_account_info(
