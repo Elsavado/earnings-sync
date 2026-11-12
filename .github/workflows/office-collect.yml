@@ -55,7 +55,8 @@ jobs:
         env:
           LIVE: ${{ vars.OFFICE_LIVE }}
           CHAINED: ${{ github.event.inputs.chained || 'false' }}
-          KINDS: ${{ github.event.inputs.kinds || 'gsheets,gdocs,slides,presentations,bookkeeping' }}
+          # Chained runs (and the watchdog) use OFFICE_KINDS when set, so the live types are chosen by that variable.
+          KINDS: ${{ (github.event.inputs.chained == 'true' && vars.OFFICE_KINDS) || github.event.inputs.kinds || vars.OFFICE_KINDS || 'gsheets,gdocs,slides,presentations,bookkeeping' }}
         run: |
           python3 - <<'PY'
           import json, os
