@@ -208,6 +208,9 @@ def process(cand, kind, work):
         office.setup(kind)
     work = Path(work)
     s = sources.session()
+    if cand.get('source') == 'cc':  # Common Crawl addresses (shintiru profile): a plain crawler agent, no contact details
+        from . import ccweb
+        s.headers['User-Agent'] = ccweb.UA
     r = s.get(cand['url'], timeout=90, stream=True)
     if not r.ok:
         return {'ok': False, 'reason': f'http {r.status_code}'}
@@ -260,6 +263,10 @@ def process(cand, kind, work):
             why = f'unreadable ({type(err).__name__})'
         if why:
             return {'ok': False, 'reason': why, 'raw': digest}
+        if office.SHIN and kind in office.KINDS:  # finance, learning or operations only
+            why = _subject(cand, office.table_text(dst, ext, limit=200000))
+            if why:
+                return {'ok': False, 'reason': why, 'raw': digest}
         lab = office.label(kind, cand, A) if kind in office.KINDS else K.LABEL[kind]
         sample = ''
         if kind in llm.KINDS and ext != 'json':
@@ -368,9 +375,20 @@ def process(cand, kind, work):
             pages, wide = office.landscape_share(dst)
             if pages < 5 or wide < 0.6:
                 return {'ok': False, 'reason': 'not a slide presentation', 'raw': digest}
+        if office.SHIN:
+            why = _subject(cand, text)
+            if why:
+                return {'ok': False, 'reason': why, 'raw': digest}
         label = office.label(kind, cand, A)
     return {'ok': True, 'path': str(dst), 'ext': ext, 'label': describe(label, cand), 'raw': digest,
             'sample': text[:llm.EXCERPT]}
+
+
+def _subject(cand, text):
+    """Shintiru profile: sets cand['subject'] (Finance / Learning / Operations); the reason when it is none."""
+    from . import ccweb
+    cand['subject'] = ccweb.subject(text)
+    return None if cand['subject'] else 'not finance, learning or operations'
 
 
 def _process_one(args):
@@ -457,7 +475,10 @@ class Run:
         if digest in self.state['hashes'] or (fp and fp in self.state['hashes']):
             self.state['seen'][cand['key']] = 'rej:duplicate'
             return
-        if kind in office.KINDS and office.repeated_label(self.state, kind, res['label']):
+        if kind in office.KINDS and office.SHIN and office.repeated_label(self.state, kind, res['label']):
+            res['label'] = f"{res['label']} - {digest[:6]}"  # different content under a common title ('Week 1')
+            office.repeated_label(self.state, kind, res['label'])
+        elif kind in office.KINDS and office.repeated_label(self.state, kind, res['label']):
             self.state['seen'][cand['key']] = 'rej:same title as an earlier file'
             log(f'  - {kind} {cand["source"]}: same title as an earlier file')
             return

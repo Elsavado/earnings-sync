@@ -14,6 +14,7 @@ the same normalised title.
 Finance only (user, 2026-10-27; topic.py): the searches are finance, accounting, hedge-fund and financial-analysis
 subjects, and a record is kept only when its title, or its keywords and description, are about them.
 """
+import os
 import re
 import time
 from pathlib import Path
@@ -306,6 +307,16 @@ SOURCES = {
 }
 
 
+# Shintiru library profile (user, 2026-11-12; ccweb.py): Google Slides / Docs / Sheets from Common Crawl only -- a
+# source this (Workspace) profile never reads, so the two drives stay distinct -- about finance, learning or
+# operations, mostly English, any country. People become 'Redacted Name' (the default rule).
+SHIN = os.environ.get('OFFICE_PROFILE') == 'shintiru'
+if SHIN:
+    from . import ccweb
+    SOURCES = {k: [ccweb.cc_files] for k in KINDS}
+    PERSON = 'Redacted Name'
+
+
 def office_sources(state, kind, s, log):
     """Each source leads in turn; the kind moves on to the next query, source and cursor while its queue is short."""
     added = feeds.run(state, kind, s, log, SOURCES[kind])
@@ -364,7 +375,8 @@ def label(kind, cand, A=None):
         t = t[:70].rsplit(' ', 1)[0].rstrip(' ,;:-')
     if not t:
         t = (cand.get('topic') or '').strip().title()
-    return f'{LABEL[kind]} - {t}' if t else LABEL[kind]
+    head = f"{LABEL[kind]} - {cand['subject']}" if cand.get('subject') else LABEL[kind]
+    return f'{head} - {t}' if t else head
 
 
 def table_text(path, ext, limit=800000):
