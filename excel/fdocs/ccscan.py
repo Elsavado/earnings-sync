@@ -81,8 +81,11 @@ def columnar(coll, cur, files, write):
             if lo and hi and not any(lo <= t <= hi for t in wanted):
                 skipped += 1
             else:
+                # crawls before about 2018 leave content_mime_detected empty: the server's own type and the
+                # file ending are used as well
                 rows = con.execute(f"select url from read_parquet('{u}') where fetch_status = 200 "
-                                   f"and content_mime_detected in ({mimes})").fetchall()
+                                   f"and (content_mime_detected in ({mimes}) or content_mime_type in ({mimes}) "
+                                   r"or regexp_matches(url_path, '(?i)\.(docx?|xlsx|pptx?)$'))").fetchall()
                 for (url,) in rows:
                     hit = ccweb.accept_url(url)
                     if hit:
@@ -133,7 +136,10 @@ def main(shard, cursors, out):
 
     def cur_of(c):
         f = cursors / f'{c}.json'
-        return json.loads(f.read_text()) if f.exists() else {}
+        c = json.loads(f.read_text()) if f.exists() else {}
+        if c.get('done') and c.get('v') != 2:  # finished by the reader that missed pre-2018 file types: read again
+            c = {}
+        return c
     pending = [c for c in colls if not cur_of(c).get('done')]
     if shard >= len(pending):
         log(f'shard {shard}: no crawl left for this shard ({len(pending)} unfinished)')
@@ -143,6 +149,7 @@ def main(shard, cursors, out):
     cur.setdefault('pos', 0)
     cur.setdefault('pidx', 0)
     cur['done'] = False
+    cur['v'] = 2
 
     def save():
         (cursors / f'{coll}.json').write_text(json.dumps({k: v for k, v in cur.items() if k != 'save'}))
