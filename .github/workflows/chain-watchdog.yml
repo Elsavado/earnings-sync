@@ -41,6 +41,7 @@ jobs:
           enterprise-models.yml|${{ vars.ENTERPRISE_LIVE }}|-f dry_run=false -f minutes=50 -f chained=true -f kinds=all
           office-collect.yml|${{ vars.OFFICE_LIVE }}|-f dry_run=false -f minutes=50 -f chained=true
           shintiru-office.yml|${{ vars.SHINTIRU_OFFICE_LIVE }}|-f dry_run=false -f minutes=50 -f chained=true
+          hassan-office.yml|${{ vars.HASSAN_OFFICE_LIVE }}|-f dry_run=false -f minutes=50 -f chained=true
           research-collect.yml|${{ vars.RESEARCH_LIVE }}|-f dry_run=false -f minutes=50 -f chained=true
           how-companies-work.yml|${{ vars.HOWCO_LIVE }}|-f dry_run=false -f sources=enron,atlas,stocks,edu,sec -f minutes=320 -f chained=true
           avala.yml|${{ vars.AVALA_LIVE }}|

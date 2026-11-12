@@ -310,7 +310,7 @@ SOURCES = {
 # Shintiru library profile (user, 2026-11-12; ccweb.py): Google Slides / Docs / Sheets from Common Crawl only -- a
 # source this (Workspace) profile never reads, so the two drives stay distinct -- about finance, learning or
 # operations, mostly English, any country. People become 'Redacted Name' (the default rule).
-SHIN = os.environ.get('OFFICE_PROFILE') == 'shintiru'
+SHIN = os.environ.get('OFFICE_PROFILE') in ('shintiru', 'hassan')  # 'hassan': construction collection on shintiru's drive
 if SHIN:
     from . import ccweb
     SOURCES = {k: [ccweb.cc_files] for k in KINDS}

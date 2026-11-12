@@ -73,9 +73,29 @@ OPERATIONS = re.compile(
     r'job (?:card|sheet)|dispatch|fleet|safety|compliance|standard operating procedure|sop)\b', re.I)
 
 
+# Construction and engineering projects (user, 2026-11-12: the "hassan" collection, kept on shintiru's drive while
+# hassan's own drive is full). These files go to that collection only; the shintiru library turns them away.
+CONSTRUCTION = re.compile(
+    r'\b(?:construction|contractors?|subcontract\w*|building (?:works?|permit|code|services)|civil engineering|'
+    r'structural|concrete|reinforced|rebar|formwork|scaffold\w*|excavation|foundations?|masonry|steelwork|'
+    r'bim|revit|autocad|site (?:plan|safety|diary|log|inspection|meeting|manager|visit)|bill of quantities|boq|'
+    r'quantity survey\w*|tender\w*|bids?\b|rfis?\b|submittals?|change orders?|variation orders?|punch ?list|'
+    r'snag\w*|method statement|commissioning|handover|hvac|plumbing|electrical installation|earthworks|'
+    r'road ?works|bridges?|pavement|asphalt|surveying|architect\w*|drawings? (?:register|schedule)|'
+    r'specifications?|work breakdown|critical path|gantt|earned value|cost estimat\w+|osha|hse plan|'
+    r'project (?:schedule|manager|site)|site works|retention|practical completion|defects liability)\b', re.I)
+PROFILE = os.environ.get('OFFICE_PROFILE', '')
+CONSTRUCTION_URL = re.compile(
+    r'construct|contract|build|civil|struct|concrete|bim|revit|cad|site|tender|bid|boq|quantit|survey|architect|'
+    r'engineer|project|schedul|estimat|hvac|plumb|electric|road|bridge|safety|hse|osha|specif|drawing|commission',
+    re.I)
+
+
 def subject(text):
-    """'Finance', 'Operations' or 'Learning' when the text is about one of them (finance first), else ''."""
+    """'Construction', 'Finance', 'Operations' or 'Learning' when the text is about one of them, else ''."""
     text = (text or '')[:60000]
+    if len({m.group(0).lower() for m in CONSTRUCTION.finditer(text)}) >= 4:
+        return 'Construction'
     if len(topic.terms(text)) >= 3:
         return 'Finance'
     ops = {m.group(0).lower() for m in OPERATIONS.finditer(text)}
@@ -190,6 +210,8 @@ def _read_block(s, coll, block, kinds):
             continue
         tld = surt.split(b')')[0].split(b',')
         open_host = tld[0].decode() in OPEN_TLDS or (len(tld) > 1 and tld[1].decode() in OPEN_TLDS)
+        if PROFILE == 'hassan' and not CONSTRUCTION_URL.search(url):  # construction collection: by address first
+            continue
         if not open_host and kind == 'gdocs' and not URL_HINT.search(url):  # decks and workbooks are rare: all
             continue
         out.append((kind, url, ext))

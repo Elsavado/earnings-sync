@@ -388,6 +388,10 @@ def _subject(cand, text):
     """Shintiru profile: sets cand['subject'] (Finance / Learning / Operations); the reason when it is none."""
     from . import ccweb
     cand['subject'] = ccweb.subject(text)
+    if ccweb.PROFILE == 'hassan':
+        return None if cand['subject'] == 'Construction' else 'not construction'
+    if cand['subject'] == 'Construction':
+        return 'construction (the hassan collection)'
     return None if cand['subject'] else 'not finance, learning or operations'
 
 
