@@ -13,6 +13,7 @@ so no single site fills the library.
 """
 import hashlib
 import json
+import os
 import re
 import time
 import urllib.robotparser
@@ -28,8 +29,12 @@ from .sources import _add as _queue, late
 UA = 'Mozilla/5.0 (compatible; library-collector/1.0; open educational materials)'
 CC = 'https://data.commoncrawl.org/cc-index/collections/{}/indexes/'
 PER_HOST = 25
-BLOCKS_PER_CALL = 64  # index blocks read per discovery call (8 at a time)
+BLOCKS_PER_CALL = 48  # index blocks read per round (THREADS at a time); Common Crawl throttles harder use
+THREADS = 4
+# Every type of the run is taken from the same pass over the index (one job reads it once for all of them).
+KINDS_RUN = [k for k in os.environ.get('KINDS', '').split(',') if k in ('gsheets', 'gdocs', 'slides')]
 QUEUE_MAX = 80
+QUEUE_CAP = 400  # another type's queue stops growing here (its files are plentiful)
 
 MIMES = {
     'slides': {b'application/vnd.openxmlformats-officedocument.presentationml.presentation': 'pptx',
@@ -152,7 +157,7 @@ def _blocks(s, coll, log):
     return blocks
 
 
-def _read_block(s, coll, block, kind):
+def _read_block(s, coll, block, kinds):
     f, off, ln = block
     rows = None
     for wait in (5, 20, None):
@@ -166,7 +171,7 @@ def _read_block(s, coll, block, kind):
         if wait is None:
             return None
         time.sleep(wait)
-    mimes = MIMES[kind]
+    mimes = {m: (k, e) for k in kinds for m, e in MIMES[k].items()}
     out = []
     for row in rows:
         if b'"status": "200"' not in row or not any(m in row for m in mimes):
@@ -179,6 +184,7 @@ def _read_block(s, coll, block, kind):
         mime = (d.get('mime-detected') or d.get('mime') or '').encode()
         if mime not in mimes:
             continue
+        kind, ext = mimes[mime]
         url = d.get('url', '')
         if not url.lower().split('?')[0].endswith(EXT_OK[kind]):
             continue
@@ -186,7 +192,7 @@ def _read_block(s, coll, block, kind):
         open_host = tld[0].decode() in OPEN_TLDS or (len(tld) > 1 and tld[1].decode() in OPEN_TLDS)
         if not open_host and not URL_HINT.search(url):
             continue
-        out.append((url, mimes[mime], ts.decode()))
+        out.append((kind, url, ext))
     return out
 
 
@@ -197,7 +203,8 @@ def cc_files(state, kind, s, log):
         return 0
     if _ROBOTS is None:
         _ROBOTS = Robots(requests.Session())
-    cur = state['cursors'].setdefault(f'cc:{kind}', {})
+    kinds = sorted(set(KINDS_RUN) | {kind}) if KINDS_RUN else [kind]
+    cur = state['cursors'].setdefault('cc:' + ','.join(kinds), {})
     hosts = state.setdefault('cc_hosts', {})
     if not cur.get('colls'):
         cur['colls'] = _collections(s)[:12]  # newest first; older crawls repeat most addresses
@@ -214,17 +221,19 @@ def cc_files(state, kind, s, log):
             cur['pos'] = 0
             continue
         batch = blocks[cur['pos']:cur['pos'] + BLOCKS_PER_CALL]
-        with ThreadPoolExecutor(8) as ex:
-            found = list(ex.map(lambda b: _read_block(s, coll, b, kind), batch))
-        if any(f is None for f in found[:4]) and all(f is None for f in found):
-            log(f'  common crawl {coll}: index not reachable; trying later')
+        with ThreadPoolExecutor(THREADS) as ex:
+            found = list(ex.map(lambda b: _read_block(s, coll, b, kinds), batch))
+        ok = [f is not None for f in found]
+        if not any(ok):
+            log(f'  common crawl {coll}: index busy (throttled); trying later')
+            time.sleep(30)
             break
-        cur['pos'] += len(batch)
+        cur['pos'] += ok.index(False) if False in ok else len(batch)  # unread blocks are read next time
         for urls in found:
-            for url, ext, _ in urls or []:
+            for k, url, ext in urls or []:
                 host = urlparse(url).netloc.lower()
-                hk = f'{kind}:{host}'
-                if hosts.get(hk, 0) >= PER_HOST:
+                hk = f'{k}:{host}'
+                if hosts.get(hk, 0) >= PER_HOST or len(state['queue'].get(k, [])) >= QUEUE_CAP:
                     continue
                 key = 'cc:' + hashlib.sha1(url.split('#')[0].encode()).hexdigest()
                 if key in state['seen'] or key in state['queued']:
@@ -237,7 +246,7 @@ def cc_files(state, kind, s, log):
                     continue
                 cand = {'key': key, 'url': url, 'ext': ext, 'orgs': [], 'source': 'cc', 'topic': '',
                         'title': title_from(url), 'rules': 3}
-                if _queue(state, kind, cand):
+                if _queue(state, k, cand):
                     hosts[hk] = hosts.get(hk, 0) + 1
                     added += 1
     if added:

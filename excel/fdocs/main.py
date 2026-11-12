@@ -475,9 +475,10 @@ class Run:
         if digest in self.state['hashes'] or (fp and fp in self.state['hashes']):
             self.state['seen'][cand['key']] = 'rej:duplicate'
             return
-        if kind in office.KINDS and office.SHIN and office.repeated_label(self.state, kind, res['label']):
-            res['label'] = f"{res['label']} - {digest[:6]}"  # different content under a common title ('Week 1')
-            office.repeated_label(self.state, kind, res['label'])
+        if kind in office.KINDS and office.SHIN:
+            if office.repeated_label(self.state, kind, res['label']):
+                res['label'] = f"{res['label']} - {digest[:6]}"  # different content under a common title ('Week 1')
+                office.repeated_label(self.state, kind, res['label'])
         elif kind in office.KINDS and office.repeated_label(self.state, kind, res['label']):
             self.state['seen'][cand['key']] = 'rej:same title as an earlier file'
             log(f'  - {kind} {cand["source"]}: same title as an earlier file')

@@ -64,7 +64,7 @@ jobs:
           ok = ('gsheets', 'gdocs', 'slides')
           kinds = [k.strip() for k in os.environ['KINDS'].split(',') if k.strip() in ok]
           with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-              f.write(f"go={'true' if go and kinds else 'false'}\nkinds={json.dumps(kinds)}\n")
+              f.write(f"go={'true' if go and kinds else 'false'}\nkinds={json.dumps([','.join(kinds)])}\n")  # one job reads the index once for every type
           print('go' if go else 'stop', kinds)
           PY
 
@@ -88,7 +88,6 @@ jobs:
           cache: pip
           cache-dependency-path: excel/requirements.txt
       - name: Install LibreOffice
-        if: matrix.kind == 'gdocs' || matrix.kind == 'slides'
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq --no-install-recommends libreoffice-writer libreoffice-impress > /dev/null

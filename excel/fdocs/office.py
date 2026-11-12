@@ -326,6 +326,13 @@ def office_sources(state, kind, s, log):
 
 def _gate(kind, header, rows):
     """Table gate for the office kinds (replaces tab.gate's transaction/payroll checks)."""
+    if kind == 'gsheets' and SHIN:  # real workbooks: title rows above the table are fine
+        table = [r for r in [header] + list(rows) if sum(1 for c in r if str(c or '').strip()) >= 2]
+        if len(table) < 8:
+            return f'too few rows ({len(table)})'
+        if max(sum(1 for c in r if str(c or '').strip()) for r in table) < 3:
+            return 'too few columns'
+        return None if _english_table(header, rows) else 'not English'
     if kind == 'gsheets':
         if len(rows) < 10:
             return f'too few rows ({len(rows)})'
