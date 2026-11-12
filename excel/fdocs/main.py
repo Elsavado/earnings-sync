@@ -39,6 +39,8 @@ from .tab import Table
 START = time.time()
 BUDGET = float(os.environ.get('RUN_MINUTES', '50')) * 60
 DRY = os.environ.get('DRY_RUN', '').lower() == 'true'
+# user, 2026-11-13: anonymising is not a must for the shintiru collection; files go up as published
+PLAIN = office.SHIN and os.environ.get('SHINTIRU_ANONYMISE', 'true').lower() == 'false'
 ONLY = [k for k in os.environ.get('KINDS', '').split(',') if k.strip()]
 # Documents are small; transaction and payroll datasets are downloaded whole (up to 1.5 GB).
 FILE_SECONDS = {'doc': 240, 'data': 1800}
@@ -258,10 +260,13 @@ def process(cand, kind, work):
         shutil.copy(raw, src)
         dst = out / f'data.{ext}'
         try:
-            if kind in office.KINDS and ext != 'json':
+            if PLAIN and kind in office.KINDS and ext == 'xlsx':
+                why = _plain_xlsx(src, dst, kind)
+            elif kind in office.KINDS and ext != 'json':
                 A.learn(office.table_text(src, ext))  # the sheet's own people, as documents do
-            why = getattr(tab, ext)(src, dst, kind)
-            if not why and kind in office.KINDS and ext != 'json':
+            if not (PLAIN and kind in office.KINDS and ext == 'xlsx'):
+                why = getattr(tab, ext)(src, dst, kind)
+            if not why and kind in office.KINDS and ext != 'json' and not PLAIN:
                 left_over = A.leaks(office.table_text(dst, ext))
                 if left_over:
                     why = f'names left ({left_over[:3]})'
@@ -354,7 +359,10 @@ def process(cand, kind, work):
         return {'ok': False, 'reason': why, 'raw': digest}
     label = K.label(kind, text)
     dst = out / f'doc.{ext}'
-    if ext == 'pdf':
+    if PLAIN and kind in office.KINDS:
+        shutil.copy(src, dst)
+        why = None
+    elif ext == 'pdf':
         A.learn(text, cand.get('orgs') or [])
         why = A.pdf(src, dst)
     else:
@@ -388,6 +396,23 @@ def process(cand, kind, work):
         label = office.label(kind, cand, A)
     return {'ok': True, 'path': str(dst), 'ext': ext, 'label': describe(label, cand), 'raw': digest,
             'sample': text[:llm.EXCERPT]}
+
+
+def _plain_xlsx(src, dst, kind):
+    """Shintiru without anonymising: the workbook must open and hold a usable table; it is kept as published."""
+    from openpyxl import load_workbook
+    from .tab import check_unpacked, gate
+    check_unpacked(src)
+    wb = load_workbook(src, read_only=True)
+    try:
+        for ws in wb.worksheets:
+            rows = list(ws.iter_rows(max_row=400, values_only=True)) if hasattr(ws, 'iter_rows') else []
+            if rows and gate(kind, [str(c or '') for c in rows[0]], rows[1:]) is None:
+                shutil.copy(src, dst)
+                return None
+    finally:
+        wb.close()
+    return 'no transaction or payroll table'
 
 
 def _subject(cand, text):

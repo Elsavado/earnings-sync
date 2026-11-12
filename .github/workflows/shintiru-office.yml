@@ -46,6 +46,7 @@ env:
   FD_PRIVATE: 'Library Office Collector - private'
   FD_APP: 'shintiru-office'
   OFFICE_PROFILE: 'shintiru'
+  SHINTIRU_ANONYMISE: ${{ vars.SHINTIRU_ANONYMISE || 'false' }}   # user, 2026-11-13: anonymising not a must
   COLLECTOR_TITLE: 'Shintiru Slides, Docs and Sheets'
 
 jobs:
