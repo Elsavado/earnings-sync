@@ -1,0 +1,58 @@
+name: PDF presentations to Google Slides
+
+# Google Slides copies of the PDF presentations in a shared folder, on the irtranscripts account (user, 2026-11-12):
+# each page becomes a slide image, its text goes to the speaker notes; copies beside each PDF, PDFs kept.
+# excel/pdfslides.py; the folder id is the repository variable PDFSLIDES_FOLDER (not in this repository).
+# The next run starts while PDFs are left and the variable PDFSLIDES_LIVE is 'true'.
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Count only'
+        type: boolean
+        required: false
+        default: false
+      minutes:
+        description: 'Run budget in minutes'
+        required: false
+        default: '320'
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: pdfslides-${{ github.event.inputs.dry_run || 'false' }}
+  cancel-in-progress: false
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    defaults:
+      run:
+        working-directory: excel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -q google-api-python-client google-auth pymupdf python-pptx
+      - name: Convert
+        id: run
+        env:
+          PDF_FOLDER: ${{ vars.PDFSLIDES_FOLDER }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+          RUN_MINUTES: ${{ github.event.inputs.minutes || '320' }}
+          WS_CLIENT_ID: ${{ secrets.WS_GOOGLE_CLIENT_ID }}
+          WS_CLIENT_SECRET: ${{ secrets.WS_GOOGLE_CLIENT_SECRET }}
+          WS_REFRESH_TOKEN: ${{ secrets.WS_GOOGLE_REFRESH_TOKEN }}
+        run: |
+          echo "::add-mask::$PDF_FOLDER"
+          python pdfslides.py
+      - name: Next run
+        if: steps.run.outputs.left != '' && steps.run.outputs.left != '0' && github.event.inputs.dry_run != 'true' && vars.PDFSLIDES_LIVE == 'true'
+        working-directory: .
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pdfslides.yml -R ${{ github.repository }} --ref main -f dry_run=false
