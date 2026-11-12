@@ -225,9 +225,10 @@ def main():
                 key = (cur, part)
                 if key not in made_dirs:
                     esc = part.replace('\\', '\\\\').replace("'", "\\'")
-                    got = list_all(dst, f"'{cur}' in parents and name = '{esc}' and mimeType = '{FOLDER}' "
+                    d = svc(dst_kind)  # this thread's own client: a shared one crashed the run (exit 139)
+                    got = list_all(d, f"'{cur}' in parents and name = '{esc}' and mimeType = '{FOLDER}' "
                                         f"and trashed = false", 'id', dshared)
-                    made_dirs[key] = got[0]['id'] if got else retry(lambda: dst.files().create(
+                    made_dirs[key] = got[0]['id'] if got else retry(lambda: d.files().create(
                         body={'name': part, 'mimeType': FOLDER, 'parents': [cur]}, fields='id',
                         supportsAllDrives=True).execute())['id']
                 cur = made_dirs[key]
