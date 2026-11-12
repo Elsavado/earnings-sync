@@ -475,6 +475,15 @@ class Run:
         signed_in = os.environ.get('GOOGLE_REFRESH_TOKEN') or os.environ.get('GOOGLE_SA_JSON') or os.environ.get('RCLONE_REMOTE')
         self.store = None if DRY and not signed_in else Store(dry_run=DRY, state_name=STATE_NAME)
         self.state = (self.store.load_state() if self.store else {}) or {}
+        if not self.state and self.store and STATE_NAME != 'state.json.gz' and os.environ.get('STATE_SEED'):
+            # first run of one type in its own job: start from the shared state (numbers, seen addresses, hashes)
+            self.store.state_name = 'state.json.gz'
+            self.state = self.store.load_state() or {}
+            self.store.state_name, self.store.state_id = STATE_NAME, None
+            for k in list((self.state.get('queue') or {})):
+                if k not in ONLY:
+                    self.state['queue'].pop(k)
+            log(f'state seeded from the shared state for {STATE_NAME}')
         st = self.state
         for k, v in {'next': {}, 'seen': {}, 'queued': {}, 'queue': {}, 'cursors': {}, 'hashes': {}, 'counts': {}}.items():
             st.setdefault(k, v)

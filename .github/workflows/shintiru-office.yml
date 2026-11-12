@@ -6,6 +6,10 @@ name: Shintiru Slides, Docs and Sheets
 # "Library/11 Google Slides, Docs & Sheets/<Type>/Folder N (Documents a-b)/<n> - <label>". Same code as the Workspace
 # office collector (office-collect.yml) with OFFICE_PROFILE=shintiru; Common Crawl is used by this profile only.
 # Runs chain back-to-back while the repository variable SHINTIRU_OFFICE_LIVE is 'true'.
+# Full force (user, 2026-11-12): parallel scanner jobs (var SHINTIRU_SCANNERS, default 10) each read one Common Crawl
+# index on their own runner (fdocs/ccscan.py; Common Crawl throttles many threads from one address) and leave lists
+# of found files in the private folder's cc-inbox; one collector job per type queues them, downloads, anonymises and
+# uploads.
 on:
   workflow_dispatch:
     inputs:
@@ -51,12 +55,14 @@ jobs:
     outputs:
       go: ${{ steps.check.outputs.go }}
       kinds: ${{ steps.check.outputs.kinds }}
+      shards: ${{ steps.check.outputs.shards }}
     steps:
       - id: check
         env:
           LIVE: ${{ vars.SHINTIRU_OFFICE_LIVE }}
           CHAINED: ${{ github.event.inputs.chained || 'false' }}
           KINDS: ${{ github.event.inputs.kinds || 'gsheets,gdocs,slides' }}
+          SCANNERS: ${{ vars.SHINTIRU_SCANNERS }}
         run: |
           python3 - <<'PY'
           import json, os
@@ -64,9 +70,51 @@ jobs:
           ok = ('gsheets', 'gdocs', 'slides')
           kinds = [k.strip() for k in os.environ['KINDS'].split(',') if k.strip() in ok]
           with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-              f.write(f"go={'true' if go and kinds else 'false'}\nkinds={json.dumps([','.join(kinds)])}\n")  # one job reads the index once for every type
+              f.write(f"go={'true' if go and kinds else 'false'}\nkinds={json.dumps(kinds)}\n")  # one collector job per type
+              f.write(f"shards={json.dumps(list(range(int(os.environ.get('SCANNERS') or 10))))}\n")
           print('go' if go else 'stop', kinds)
           PY
+
+  scan:
+    needs: prepare
+    if: needs.prepare.outputs.go == 'true' && github.event.inputs.dry_run != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 58
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJSON(needs.prepare.outputs.shards) }}
+    defaults:
+      run:
+        working-directory: excel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: excel/requirements.txt
+      - run: pip install -q -r requirements.txt
+      - name: Drive sign-in (rclone remote shintiru)
+        env:
+          CONF: ${{ secrets.SHINTIRU_RCLONE_CONF }}
+        run: |
+          curl -fsSL https://rclone.org/install.sh | sudo bash >/dev/null
+          mkdir -p ~/.config/rclone
+          printf '%s\n' "$CONF" > ~/.config/rclone/rclone.conf
+          chmod 600 ~/.config/rclone/rclone.conf
+          rclone copy -q "shintiru:$FD_PRIVATE/cc-scan" /tmp/cursors || true
+          touch /tmp/stamp
+      - name: Read the index
+        env:
+          RUN_MINUTES: '48'
+        run: python -m fdocs.ccscan ${{ matrix.shard }} /tmp/cursors /tmp/found
+      - name: Hand the lists to the collectors
+        if: always()
+        run: |
+          # only this job's crawl cursor (the others belong to other scanners), then the found lists per type
+          find /tmp/cursors -newer /tmp/stamp -name '*.json' | while read -r f; do rclone copy -q "$f" "shintiru:$FD_PRIVATE/cc-scan"; done
+          if [ -d /tmp/found ]; then rclone copy -q /tmp/found "shintiru:$FD_PRIVATE/cc-inbox"; fi
 
   collect:
     needs: prepare
@@ -120,7 +168,12 @@ jobs:
           # and are uploaded here first (fdocs/bigbook.py). Never stops the run.
           [ -n "$KAGGLE_USERNAME" ] && echo "::add-mask::$KAGGLE_USERNAME"
           if true; then python -m fdocs.bigbook sync || true; fi
-          python -m fdocs.main
+          rclone move -q "shintiru:$FD_PRIVATE/cc-inbox/$KINDS" /tmp/inbox || true
+          echo "lists from the scanners: $(ls /tmp/inbox 2>/dev/null | wc -l)"
+          CC_INBOX=/tmp/inbox STATE_SEED=1 python -m fdocs.main
+      - name: Return unread scanner lists
+        if: always() && github.event.inputs.dry_run != 'true'
+        run: if [ -d /tmp/inbox ] && [ -n "$(ls /tmp/inbox)" ]; then rclone move -q /tmp/inbox "shintiru:$FD_PRIVATE/cc-inbox/${{ matrix.kind }}"; fi
       - name: Keep dry-run samples
         if: always() && github.event.inputs.dry_run == 'true' && hashFiles('excel/samples/**') != ''
         uses: actions/upload-artifact@v4
@@ -130,7 +183,7 @@ jobs:
           retention-days: 7
 
   next:
-    needs: [prepare, collect]
+    needs: [prepare, scan, collect]
     if: always() && needs.prepare.outputs.go == 'true' && github.event.inputs.dry_run != 'true' && vars.SHINTIRU_OFFICE_LIVE == 'true'
     runs-on: ubuntu-latest
     steps:

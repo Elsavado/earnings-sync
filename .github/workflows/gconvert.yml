@@ -8,9 +8,9 @@ on:
   workflow_dispatch:
     inputs:
       targets:
-        description: 'shintiru,financelitics,hassan,salvador'
+        description: 'shintiru,financelitics,salvador (hassan stopped by the user, 2026-11-12: no hassan copies on shintiru)'
         required: false
-        default: 'shintiru,financelitics,hassan,salvador'
+        default: 'shintiru,financelitics,salvador'
       dry_run:
         description: 'Count only'
         type: boolean
@@ -33,9 +33,9 @@ jobs:
     steps:
       - id: t
         env:
-          T: ${{ github.event.inputs.targets || 'shintiru,financelitics,hassan,salvador' }}
+          T: ${{ github.event.inputs.targets || 'shintiru,financelitics,salvador' }}
         run: |
-          python3 -c "import json,os; t=[x.strip() for x in os.environ['T'].split(',') if x.strip() in ('shintiru','financelitics','hassan','salvador')]; open(os.environ['GITHUB_OUTPUT'],'a').write('targets='+json.dumps(t)+chr(10))"
+          python3 -c "import json,os; t=[x.strip() for x in os.environ['T'].split(',') if x.strip() in ('shintiru','financelitics','salvador')]; open(os.environ['GITHUB_OUTPUT'],'a').write('targets='+json.dumps(t)+chr(10))"
 
   convert:
     needs: prepare

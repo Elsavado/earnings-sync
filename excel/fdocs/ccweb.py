@@ -14,6 +14,7 @@ so no single site fills the library.
 import hashlib
 import json
 import os
+from pathlib import Path
 import re
 import time
 import urllib.robotparser
@@ -218,6 +219,51 @@ def _read_block(s, coll, block, kinds):
     return out
 
 
+INBOX = os.environ.get('CC_INBOX', '')  # files found by the parallel index scanners (fdocs/ccscan.py)
+
+
+def _offer(state, k, url, ext, hosts):
+    """Queues one found file unless seen, queued, over its host's share or refused by robots.txt."""
+    host = urlparse(url).netloc.lower()
+    hk = f'{k}:{host}'
+    cap = QUEUE_CAP * 8 if INBOX else QUEUE_CAP
+    if hosts.get(hk, 0) >= PER_HOST or len(state['queue'].get(k, [])) >= cap:
+        return False
+    key = 'cc:' + hashlib.sha1(url.split('#')[0].encode()).hexdigest()
+    if key in state['seen'] or key in state['queued']:
+        return False
+    try:
+        if not _ROBOTS.ok(url):
+            state['seen'][key] = 'rej:robots.txt'
+            return False
+    except Exception:  # noqa: BLE001
+        return False
+    cand = {'key': key, 'url': url, 'ext': ext, 'orgs': [], 'source': 'cc', 'topic': '',
+            'title': title_from(url), 'rules': 3}
+    if _queue(state, k, cand):
+        hosts[hk] = hosts.get(hk, 0) + 1
+        return True
+    return False
+
+
+def _from_inbox(state, kind, log):
+    """Queues this type's files from the scanners' lists (read once per run, then removed)."""
+    hosts = state.setdefault('cc_hosts', {})
+    added = lines = 0
+    for f in sorted(Path(INBOX).glob('*.tsv')):
+        if late():
+            break  # lists left over go back to the drive for the next run (workflow)
+        for line in f.read_text(encoding='utf-8', errors='replace').splitlines():
+            parts = line.split('	')
+            if len(parts) != 3 or parts[0] != kind:
+                continue
+            lines += 1
+            added += _offer(state, kind, parts[1], parts[2], hosts)
+        f.unlink()
+    log(f'  {kind}: scanners found {lines}, {added} new queued')
+    return added
+
+
 def cc_files(state, kind, s, log):
     """Walks the Common Crawl index for this type's files and queues those not seen before."""
     global _ROBOTS
@@ -225,6 +271,8 @@ def cc_files(state, kind, s, log):
         return 0
     if _ROBOTS is None:
         _ROBOTS = Robots(requests.Session())
+    if INBOX:
+        return _from_inbox(state, kind, log)
     kinds = sorted(set(KINDS_RUN) | {kind}) if KINDS_RUN else [kind]
     cur = state['cursors'].setdefault('cc:' + ','.join(kinds), {})
     hosts = state.setdefault('cc_hosts', {})
@@ -253,24 +301,7 @@ def cc_files(state, kind, s, log):
         cur['pos'] += ok.index(False) if False in ok else len(batch)  # unread blocks are read next time
         for urls in found:
             for k, url, ext in urls or []:
-                host = urlparse(url).netloc.lower()
-                hk = f'{k}:{host}'
-                if hosts.get(hk, 0) >= PER_HOST or len(state['queue'].get(k, [])) >= QUEUE_CAP:
-                    continue
-                key = 'cc:' + hashlib.sha1(url.split('#')[0].encode()).hexdigest()
-                if key in state['seen'] or key in state['queued']:
-                    continue
-                try:
-                    if not _ROBOTS.ok(url):
-                        state['seen'][key] = 'rej:robots.txt'
-                        continue
-                except Exception:  # noqa: BLE001
-                    continue
-                cand = {'key': key, 'url': url, 'ext': ext, 'orgs': [], 'source': 'cc', 'topic': '',
-                        'title': title_from(url), 'rules': 3}
-                if _queue(state, k, cand):
-                    hosts[hk] = hosts.get(hk, 0) + 1
-                    added += 1
+                added += _offer(state, k, url, ext, hosts)
     if added:
         log(f'  {kind}: common crawl crawl {cur.get("ci", 0) + 1}/{len(cur.get("colls") or [])}, '
             f'block {cur.get("pos", 0)}: +{added}')
