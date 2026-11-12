@@ -272,6 +272,7 @@ def main(src_dir, out_dir, ids_path, mapping_json):
             continue
         C = Cleaner(ids_path, nlp)
         work = Path(tempfile.mkdtemp())
+        dst = None
         try:
             if ext in ('.doc', '.ppt'):
                 conv = convert(src, work, 'docx' if ext == '.doc' else 'pptx')
@@ -298,7 +299,17 @@ def main(src_dir, out_dir, ids_path, mapping_json):
                     raise RuntimeError('conversion failed')
                 src = conv
             if ext in ('.docx', '.pptx', '.xlsx'):
-                clean_ooxml(src, dst, C)
+                try:
+                    clean_ooxml(src, dst, C)
+                except zipfile.BadZipFile:
+                    # a damaged package: LibreOffice usually repairs it on re-save, then clean once more
+                    dst.unlink(missing_ok=True)
+                    fix = work / 'fix'
+                    fix.mkdir(exist_ok=True)
+                    conv = convert(src, fix, ext.lstrip('.'))
+                    if not conv:
+                        raise
+                    clean_ooxml(conv, dst, C)
                 after = ooxml_text(dst)
             elif ext == '.pdf':
                 if clean_pdf(src, dst, C) == 'scanned':
@@ -314,6 +325,8 @@ def main(src_dir, out_dir, ids_path, mapping_json):
                 continue
             stats['cleaned'] += 1
         except Exception as err:  # noqa: BLE001
+            if dst is not None:
+                dst.unlink(missing_ok=True)  # a failed file never leaves a partial copy behind
             stats['failed'] += 1
             print(f'  failed: {type(err).__name__}', flush=True)
         finally:

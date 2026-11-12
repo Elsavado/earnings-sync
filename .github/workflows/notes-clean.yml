@@ -59,5 +59,8 @@ jobs:
       - name: Upload cleaned copies
         if: github.event.inputs.dry_run != 'true'
         run: |
-          rclone copy -q /tmp/out "shintiru:${{ github.event.inputs.dest }}"
+          # sync: files in the destination that this run did not produce (partial copies from failed files) are
+          # removed; Google-format copies are hidden from the listing so they are never touched; at most 10 deletes
+          rclone sync -q --checksum --drive-skip-gdocs --max-delete 10 /tmp/out "shintiru:${{ github.event.inputs.dest }}"
+          echo "on drive: $(rclone lsf -R --files-only --drive-skip-gdocs "shintiru:${{ github.event.inputs.dest }}" | wc -l) files" >> "$GITHUB_STEP_SUMMARY"
           echo "uploaded: $(find /tmp/out -type f | wc -l) files" >> "$GITHUB_STEP_SUMMARY"
