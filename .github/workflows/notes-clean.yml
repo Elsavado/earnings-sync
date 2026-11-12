@@ -1,0 +1,63 @@
+name: Cleaned learning materials
+
+# Cleaned copies of a shared learning-materials folder on shintiru's drive (user, 2026-11-12): identifying details
+# removed from names and contents (excel/notesclean.py), originals untouched. The identifier list and the folder
+# mapping are private files on the drive, never in this repository; logs show counts only.
+on:
+  workflow_dispatch:
+    inputs:
+      dest:
+        description: 'Destination on shintiru'
+        required: false
+        default: 'Library/12 Nursing and School Learning Materials'
+      private:
+        description: 'Private folder with source.txt (folder id), ids.txt and mapping.json'
+        required: false
+        default: 'Library Office Collector - private/notes-clean'
+      dry_run:
+        description: 'Clean and count only, upload nothing'
+        type: boolean
+        required: false
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    defaults:
+      run:
+        working-directory: excel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq --no-install-recommends libreoffice-writer libreoffice-impress > /dev/null
+          pip install -q pymupdf 'spacy>=3.7,<4' \
+            'en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl'
+          curl -fsSL https://rclone.org/install.sh | sudo bash >/dev/null
+      - name: Drive sign-in (rclone remote shintiru)
+        env:
+          CONF: ${{ secrets.SHINTIRU_RCLONE_CONF }}
+        run: |
+          mkdir -p ~/.config/rclone
+          printf '%s\n' "$CONF" > ~/.config/rclone/rclone.conf
+          chmod 600 ~/.config/rclone/rclone.conf
+      - name: Download (quiet)
+        run: |
+          rclone copy -q "shintiru:${{ github.event.inputs.private }}" /tmp/private
+          rclone copy -q "shintiru,root_folder_id=$(tr -d '[:space:]' < /tmp/private/source.txt):" /tmp/src
+          echo "files: $(find /tmp/src -type f | wc -l)"
+      - name: Clean
+        run: python notesclean.py /tmp/src /tmp/out /tmp/private/ids.txt /tmp/private/mapping.json
+      - name: Upload cleaned copies
+        if: github.event.inputs.dry_run != 'true'
+        run: |
+          rclone copy -q /tmp/out "shintiru:${{ github.event.inputs.dest }}"
+          echo "uploaded: $(find /tmp/out -type f | wc -l) files" >> "$GITHUB_STEP_SUMMARY"
