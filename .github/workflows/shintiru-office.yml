@@ -221,7 +221,7 @@ jobs:
           sudo apt-get install -y -qq --no-install-recommends libreoffice-writer libreoffice-impress > /dev/null
           soffice --version
       - name: Install Python packages
-        run: pip install -q -r requirements.txt 'anthropic>=1.13,<3' 'kaggle==2.2.5'
+        run: pip install -q -r requirements.txt 'anthropic>=1.13,<3' 'kaggle==2.2.5' six
       - name: Drive sign-in (rclone remote shintiru)
         env:
           CONF: ${{ secrets.SHINTIRU_RCLONE_CONF }}

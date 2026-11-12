@@ -155,7 +155,7 @@ class Store:
     def quota(self):
         if self.shared:
             return 0, 0  # Shared Drive files use the organisation's pooled storage, not this account's quota
-        q = self.drive.about().get(fields='storageQuota').execute()['storageQuota']
+        q = _retry(lambda: self.drive.about().get(fields='storageQuota').execute())['storageQuota']
         return int(q.get('usage', 0)), int(q.get('limit', 0) or 0)
 
     def max_number(self):
