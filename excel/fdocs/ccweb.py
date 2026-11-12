@@ -56,7 +56,10 @@ URL_HINT = re.compile(
     r'lectur|lesson|course|module|unit[-_ ]?\d|week[-_ ]?\d|chapter|chap\d|syllab|tutorial|class|training|workshop|'
     r'curricul|teach|learn|student|exam|quiz|worksheet|exercise|assignment|homework|notes|slides|lab[-_ ]?\d|'
     r'operat|\bops\b|inventor|roster|rota|schedul|shift|timesheet|attendance|kpi|dashboard|tracker|logistic|supply|'
-    r'procure|warehouse|maintenan|checklist|template|planner|capacity|headcount|staffing|project[-_ ]?plan|workplan',
+    r'procure|warehouse|maintenan|checklist|template|planner|capacity|headcount|staffing|project[-_ ]?plan|workplan|'
+    r'software|\bsow\b|statement[-_ ]?of[-_ ]?work|scope|proposal|requirement|specification|\bspec\b|\bapi\b|'
+    r'architect|sprint|backlog|release|deploy|test[-_ ]?(?:plan|case|script)|\buat\b|\bqa\b|roadmap|wireframe|'
+    r'devops|saas|integration|migration|runbook|status[-_ ]?report|case[-_ ]?stud|web[-_ ]?(?:app|dev|platform)',
     re.I)
 
 LEARNING = re.compile(
@@ -92,13 +95,49 @@ CONSTRUCTION_URL = re.compile(
     re.I)
 
 
+# Software and operational-tools delivery (user, 2026-11-12: documents like those of a B2B web / operational-tools
+# development company: proposals, statements of work, specifications, architecture, sprints, testing, releases,
+# runbooks, project budgets and timesheets, case-study and architecture-review decks).
+SOFTWARE = re.compile(
+    r'\b(?:software|web (?:application|platform|portal|development)|saas|statement of work|sow|scope of work|'
+    r'requirements? (?:document|specification)|functional (?:requirements|specification)|user stor(?:y|ies)|'
+    r'acceptance criteria|use cases?|sprints?|scrum|kanban|agile|backlog|story points|velocity|release notes?|'
+    r'releases?|deployment|deploy\w*|ci/cd|continuous integration|devops|pipelines?|repositor(?:y|ies)|github|'
+    r'gitlab|jira|api|apis|rest(?:ful)?|graphql|endpoints?|webhooks?|integrations?|microservices?|architecture|'
+    r'system design|database schema|data model|postgres\w*|mysql|sql server|aws|azure|google cloud|cloud hosting|'
+    r'kubernetes|docker|uptime|latency|load testing|test (?:plan|cases?|scripts?|strategy|results)|qa|'
+    r'quality assurance|uat|user acceptance|regression testing|bugs?|defects?|issue log|change requests?|'
+    r'wireframes?|mock-?ups?|prototypes?|ux|ui|front-?end|back-?end|full-?stack|dashboards?|it services|'
+    r'service level agreement|support tickets?|runbooks?|disaster recovery|go-?live|cutover|data migration|'
+    r'technical (?:specification|design|documentation)|solution design|discovery|roadmap|stakeholders?|'
+    r'project (?:charter|plan|proposal|status report)|status reports?|resource plan|time ?sheets?|billable hours|'
+    r'change management|handover|onboarding)\b', re.I)
+MIN_YEAR = int(os.environ.get('CC_MIN_YEAR', '2012'))
+_YEAR = re.compile(rb'<dcterms:(?:created|modified)[^>]*>(\d{4})-')
+
+
+def too_old(path):
+    """True when an Office file's own dates (created / last saved) are all before MIN_YEAR; files without dates pass."""
+    import zipfile
+    try:
+        with zipfile.ZipFile(path) as z:
+            years = [int(y) for y in _YEAR.findall(z.read('docProps/core.xml')[:20000])]
+    except (KeyError, OSError, zipfile.BadZipFile, ValueError):
+        return False
+    years = [y for y in years if 1990 <= y <= 2100]
+    return bool(years) and max(years) < MIN_YEAR
+
+
 def subject(text):
-    """'Construction', 'Finance', 'Operations' or 'Learning' when the text is about one of them, else ''."""
+    """'Construction', 'Finance', 'Software', 'Operations' or 'Learning' when the text is about one of them, else ''."""
     text = (text or '')[:60000]
     if len({m.group(0).lower() for m in CONSTRUCTION.finditer(text)}) >= 4:
         return 'Construction'
     if len(topic.terms(text)) >= 3:
         return 'Finance'
+    soft = {m.group(0).lower() for m in SOFTWARE.finditer(text)}
+    if len(soft) >= 5:
+        return 'Software'
     ops = {m.group(0).lower() for m in OPERATIONS.finditer(text)}
     learn = {m.group(0).lower() for m in LEARNING.finditer(text)}
     if len(ops) >= 4 and len(ops) >= len(learn):

@@ -245,6 +245,10 @@ def process(cand, kind, work):
             return {'ok': False, 'reason': 'not a PDF', 'raw': digest}
     out = work / 'out'
     out.mkdir()
+    if office.SHIN and cand.get('source') == 'cc' and data[:2] == b'PK':
+        from . import ccweb
+        if ccweb.too_old(raw):  # user, 2026-11-12: from 2012 on
+            return {'ok': False, 'reason': f'made before {ccweb.MIN_YEAR}', 'raw': digest}
 
     if kind in K.TABULAR:
         tab = Table(A)
@@ -394,7 +398,7 @@ def _subject(cand, text):
         return None if cand['subject'] == 'Construction' else 'not construction'
     if cand['subject'] == 'Construction':
         return 'construction (the hassan collection)'
-    return None if cand['subject'] else 'not finance, learning or operations'
+    return None if cand['subject'] else 'not finance, software, learning or operations'
 
 
 def _process_one(args):

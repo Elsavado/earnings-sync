@@ -9,9 +9,9 @@ type) queue them, check robots.txt and download.
   python -m fdocs.ccscan SHARD CURSORS_DIR OUT_DIR
 
 Lists go to OUT_DIR/<type>/, one folder per collector job. Shard N takes the N-th crawl not yet finished
-(newest first). CURSORS_DIR holds one small file per crawl,
+(every crawl from 2012 on, newest and oldest in turn). CURSORS_DIR holds one small file per crawl,
 <crawl>.json = {"pos": next block, "blocks": total, "done": bool}; the workflow keeps it on the drive.
-Environment: OFFICE_PROFILE, RUN_MINUTES, SCAN_CRAWLS (how many of the newest crawls to cover, default 24).
+Environment: OFFICE_PROFILE, RUN_MINUTES, CC_MIN_YEAR (default 2012).
 """
 import json
 import os
@@ -38,7 +38,12 @@ def main(shard, cursors, out):
     out.mkdir(parents=True, exist_ok=True)
     s = requests.Session()
     s.headers['User-Agent'] = ccweb.UA
-    colls = ccweb._collections(s)[:int(os.environ.get('SCAN_CRAWLS', '24'))]
+    # every crawl from MIN_YEAR on (user: "from 2012"), newest and oldest taken in turn so the whole period fills
+    import re
+    every = [c for c in ccweb._collections(s)
+             if int((re.search(r'(\d{4})', c) or [0, 0])[1]) >= ccweb.MIN_YEAR]
+    colls = [x for pair in zip(every, reversed(every)) for x in pair][:len(every)]
+    colls = list(dict.fromkeys(colls))
 
     def cur_of(c):
         f = cursors / f'{c}.json'
