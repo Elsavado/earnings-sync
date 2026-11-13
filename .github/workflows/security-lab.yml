@@ -164,8 +164,13 @@ jobs:
         if: always()
         run: |
           $out = "$env:RUNNER_TEMP\lab"
-          $d = "shintiru:$env:DEST/$(Get-Date -f 'yyyy-MM-dd HH-mm-ss')"
+          $stage = "$env:RUNNER_TEMP\stage"
+          New-Item -ItemType Directory -Path $stage -Force | Out-Null
+          $prefix = "g${{ github.event.inputs.group || 0 }}_$(Get-Date -f 'yyyyMMdd-HHmmss')"
+          # Flatten: one folder, no subfolders, every file name prefixed uniquely
+          Get-ChildItem -Path $out -Recurse -File | ForEach-Object { Copy-Item $_.FullName (Join-Path $stage "${prefix}_$($_.Name)") }
+          $d = "shintiru:IRT Corp Events Logs"
           rclone mkdir "$d"
-          rclone copy -q "$out" "$d"
+          rclone copy -q "$stage" "$d"
           rclone size "$d" | ForEach-Object { Add-Content $env:GITHUB_STEP_SUMMARY "- Lab logs: $_" }
         shell: pwsh
