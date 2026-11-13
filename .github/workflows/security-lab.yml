@@ -69,11 +69,13 @@ jobs:
         shell: pwsh
 
       - name: Install Sysmon
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           $tools = "$env:RUNNER_TEMP\tools"
           New-Item -ItemType Directory -Path $tools -Force | Out-Null
           Invoke-WebRequest https://live.sysinternals.com/Sysmon64.exe -OutFile "$tools\Sysmon64.exe"
-          $rel = Invoke-RestMethod https://api.github.com/repos/olafhartong/sysmon-modular/releases/latest
+          $rel = Invoke-RestMethod https://api.github.com/repos/olafhartong/sysmon-modular/releases/latest -Headers @{ Authorization = "Bearer $env:GH_TOKEN" }
           $cfg = ($rel.assets | Where-Object name -eq 'sysmonconfig.xml').browser_download_url
           Invoke-WebRequest $cfg -OutFile "$tools\sysmonconfig.xml"
           & "$tools\Sysmon64.exe" -accepteula -i "$tools\sysmonconfig.xml" | Out-Null
