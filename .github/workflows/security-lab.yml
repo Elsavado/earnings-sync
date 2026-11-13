@@ -131,7 +131,7 @@ jobs:
               if ($test.supported_platforms -notcontains 'windows') { continue }
               if ($test.executor.name -eq 'manual') { continue }
               $n = $i + 1
-              Write-Host "  $t / $n: $($test.name)"
+              Write-Host "  ${t} / ${n}: $($test.name)"
               try {
                 Invoke-AtomicTest $t -TestNumbers $n -GetPrereqs -PathToAtomicsFolder $atomics -TimeoutSeconds 120 *>$null
                 Invoke-AtomicTest $t -TestNumbers $n -PathToAtomicsFolder $atomics -TimeoutSeconds 120 *>$null
