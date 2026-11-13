@@ -14,8 +14,8 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-ORG = os.environ["OKTA_ORG_URL"].rstrip("/")
-TOKEN = os.environ["OKTA_API_TOKEN"]
+ORG = os.environ["OKTA_ORG_URL"].strip().strip("Feff").rstrip("/")
+TOKEN = os.environ["OKTA_API_TOKEN"].strip().strip("Feff")
 OUT = os.environ.get("OUT", "out")
 ROUNDS = int(os.environ.get("ROUNDS", "3"))
 MODE = os.environ.get("MODE", "both")
