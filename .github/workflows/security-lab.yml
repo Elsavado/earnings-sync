@@ -32,6 +32,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install rclone
+        run: |
+          Invoke-WebRequest https://downloads.rclone.org/rclone-current-windows-amd64.zip -OutFile "$env:RUNNER_TEMP\rclone.zip"
+          Expand-Archive "$env:RUNNER_TEMP\rclone.zip" "$env:RUNNER_TEMP\rc" -Force
+          $dir = (Get-ChildItem "$env:RUNNER_TEMP\rc" -Directory | Select-Object -First 1).FullName
+          Add-Content $env:GITHUB_PATH $dir
+          & "$dir\rclone.exe" version
+        shell: pwsh
+
       - name: Drive sign-in (rclone remote shintiru)
         env:
           CONF: ${{ secrets.SHINTIRU_RCLONE_CONF }}
@@ -39,7 +48,7 @@ jobs:
           mkdir "$env:USERPROFILE\.config\rclone" -Force | Out-Null
           "$env:CONF" | Out-File "$env:USERPROFILE\.config\rclone\rclone.conf" -Encoding ASCII
           (Get-Item "$env:USERPROFILE\.config\rclone\rclone.conf").Attributes = 'Hidden'
-          rclone version
+          rclone listremotes
         shell: pwsh
 
       - name: Enable full logging
