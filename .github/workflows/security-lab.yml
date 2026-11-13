@@ -84,12 +84,17 @@ jobs:
       - name: Install Atomic Red Team
         run: |
           $ErrorActionPreference = 'Stop'
-          Install-PackageProvider -Name NuGet -Force -Scope CurrentUser | Out-Null
-          Install-Module -Name powershell-yaml -Force -Scope CurrentUser -AllowClobber
-          Invoke-WebRequest 'https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/install-atomicredteam.ps1' -OutFile "$env:RUNNER_TEMP\install-atomicredteam.ps1" -UseBasicParsing
-          & "$env:RUNNER_TEMP\install-atomicredteam.ps1" -Force
-          Install-AtomicRedTeam -getAtomics -Force -InstallPath "$env:RUNNER_TEMP\AtomicRedTeam"
-          Write-Host 'Atomic Red Team installed'
+          Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+          Install-Module -Name powershell-yaml -Force -Scope CurrentUser -Repository PSGallery
+          $art = "$env:RUNNER_TEMP\AtomicRedTeam"
+          New-Item -ItemType Directory -Force -Path $art | Out-Null
+          Invoke-WebRequest https://github.com/redcanaryco/invoke-atomicredteam/archive/refs/heads/master.zip -OutFile "$env:RUNNER_TEMP\iar.zip" -UseBasicParsing
+          Invoke-WebRequest https://github.com/redcanaryco/atomic-red-team/archive/refs/heads/master.zip -OutFile "$env:RUNNER_TEMP\art.zip" -UseBasicParsing
+          Expand-Archive "$env:RUNNER_TEMP\iar.zip" "$env:RUNNER_TEMP\x" -Force
+          Expand-Archive "$env:RUNNER_TEMP\art.zip" "$env:RUNNER_TEMP\x" -Force
+          Move-Item "$env:RUNNER_TEMP\x\invoke-atomicredteam-master" "$art\invoke-atomicredteam" -Force
+          Move-Item "$env:RUNNER_TEMP\x\atomic-red-team-master\atomics" "$art\atomics" -Force
+          Write-Host "Atomic tests: $((Get-ChildItem "$art\atomics" -Directory).Count) techniques"
         shell: pwsh
 
       - name: Run attack techniques
