@@ -1,10 +1,13 @@
 name: Okta lab logs to shintiru
 
-# Real Okta System Log data from the user's own free Okta developer org (2026-11-13). The run makes real activity
-# (lab users and groups, sign-ins, failed sign-ins, lockout/unlock, suspend, group moves, offboarding) and then
-# exports the org's System Log. Only "lab.*" users and "Lab *" groups are touched.
+# Real Okta System Log data from the user's own free Okta developer org (2026-11-13). Every 2 hours a steady pool of
+# lab users "works" (sign-ins, failed sign-ins, lockouts, profile/group/app/role changes, password resets, joiners and
+# leavers), then only the events since the previous export are saved (state file on the drive), so nothing repeats.
+# Only "lab.*" users and "Lab ..." groups/apps/zones are touched. Pause: repository variable OKTA_LIVE=false.
 # Secrets: OKTA_ORG_URL, OKTA_API_TOKEN (Okta admin console > Security > API > Tokens), SHINTIRU_RCLONE_CONF.
 on:
+  schedule:
+    - cron: '17 */2 * * *'
   workflow_dispatch:
     inputs:
       mode:
@@ -12,9 +15,9 @@ on:
         required: false
         default: 'both'
       rounds:
-        description: 'Activity rounds (4 lab users each)'
+        description: 'Activity rounds (8-20 pool users each)'
         required: false
-        default: '3'
+        default: '20'
 
 permissions:
   contents: read
@@ -28,8 +31,9 @@ env:
 
 jobs:
   okta:
+    if: github.event_name == 'workflow_dispatch' || vars.OKTA_LIVE != 'false'
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 110
     steps:
       - uses: actions/checkout@v4
       - name: Check secrets
@@ -38,14 +42,6 @@ jobs:
           TOK: ${{ secrets.OKTA_API_TOKEN }}
         run: |
           [ -n "$ORG" ] && [ -n "$TOK" ] || { echo "::error::Set secrets OKTA_ORG_URL and OKTA_API_TOKEN"; exit 1; }
-      - name: Activity and System Log export
-        env:
-          OKTA_ORG_URL: ${{ secrets.OKTA_ORG_URL }}
-          OKTA_API_TOKEN: ${{ secrets.OKTA_API_TOKEN }}
-          MODE: ${{ github.event.inputs.mode || 'both' }}
-          ROUNDS: ${{ github.event.inputs.rounds || '3' }}
-          OUT: out
-        run: python3 -I seclogs/okta_lab.py
       - name: Drive sign-in (rclone remote shintiru)
         env:
           CONF: ${{ secrets.SHINTIRU_RCLONE_CONF }}
@@ -54,10 +50,41 @@ jobs:
           mkdir -p ~/.config/rclone
           printf '%s\n' "$CONF" > ~/.config/rclone/rclone.conf
           chmod 600 ~/.config/rclone/rclone.conf
-      - name: Upload
+          rclone copyto -q "shintiru:$DEST/_state.json" state.json 2>/dev/null || true
+          [ -s state.json ] && echo "previous export: $(cat state.json)" || echo "no state yet: export starts 90 days back"
+      - name: Activity and System Log export
+        env:
+          OKTA_ORG_URL: ${{ secrets.OKTA_ORG_URL }}
+          OKTA_API_TOKEN: ${{ secrets.OKTA_API_TOKEN }}
+          MODE: ${{ github.event.inputs.mode || 'both' }}
+          ROUNDS: ${{ github.event.inputs.rounds || '20' }}
+          POOL: '50'
+          STATE: state.json
+          OUT: out
+        run: python3 -I seclogs/okta_lab.py
+      - name: Upload and monthly summary
+        if: (github.event.inputs.mode || 'both') != 'activity'
         run: |
-          [ -s out/okta_system_log.jsonl ] || { echo "::error::No System Log events exported"; exit 1; }
-          D="shintiru:$DEST/$(date -u +%Y-%m-%d_%H%M)"
-          gzip -9 out/okta_system_log.jsonl
-          rclone copy -q out "$D"
-          echo "- Okta System Log: $(zcat out/okta_system_log.jsonl.gz | wc -l) events → $D" >> "$GITHUB_STEP_SUMMARY"
+          M="shintiru:$DEST/$(date -u +%Y-%m)"
+          f=$(ls out/*.jsonl.gz)
+          n=$(zcat "$f" | wc -l)
+          if [ "$n" -gt 0 ]; then rclone copy -q out "$M"; else echo "no new events"; fi
+          rclone copyto -q state.json "shintiru:$DEST/_state.json"
+          mkdir -p month && rclone copy -q --include '*.counts.json' "$M" month
+          python3 -I - "$M" <<'EOF' > month/_summary.csv
+          import csv, glob, json, sys
+          tot = {}
+          for p in glob.glob('month/*.counts.json'):
+              for t, res, v in json.load(open(p)):
+                  tot[(t, res)] = tot.get((t, res), 0) + v
+          w = csv.writer(sys.stdout)
+          w.writerow(['eventType', 'outcome', 'events'])
+          for (t, res), v in sorted(tot.items(), key=lambda x: -x[1]):
+              w.writerow([t, res, v])
+          EOF
+          rclone copy -q month/_summary.csv "$M"
+          total=$(tail -n +2 month/_summary.csv | awk -F, '{s+=$NF} END {print s+0}')
+          {
+            echo "- New Okta System Log events this run: $n → $M"
+            echo "- Events so far this month: $total"
+          } >> "$GITHUB_STEP_SUMMARY"
