@@ -1,0 +1,113 @@
+name: Security logs to shintiru
+
+# Real security logs from recorded attack simulations and lab companies (user, 2026-11-13): endpoint security
+# (Sysmon, Microsoft Defender for Endpoint, CrowdStrike Falcon), identity and directory (Windows Security logs of hosts
+# and domain controllers, Okta, Microsoft Entra ID, BloodHound / LDAP) and alerts and monitoring (Splunk, Microsoft
+# Sentinel). Nothing is made up. Openly licensed sources only, each with its licence beside it:
+#   bots      Splunk Boss of the SOC v1-v3 (CC0), the full lab-company datasets as Splunk publishes them   ~24.4 GB
+#   attack    Splunk attack_data (Apache-2.0), sorted by tool (seclogs/sort_logs.py)                      ~10.4 GB
+#   otrf      OTRF Security-Datasets (MIT), Windows host logs of the atomic and compound simulations      < 1 GB
+#   sentinel  Microsoft Sentinel "Sample Data" (MIT)                                                      ~0.55 GB
+# EVTX-ATTACK-SAMPLES is left out: it is already on another drive (no cross-drive duplicates).
+# Every copy skips files already on the drive, so a run can be repeated safely.
+on:
+  workflow_dispatch:
+    inputs:
+      sources:
+        description: 'Sources (bots,attack,otrf,sentinel)'
+        required: false
+        default: 'bots,attack,otrf,sentinel'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-logs
+  cancel-in-progress: false
+
+env:
+  DEST: 'Library/13 Security Logs & Telemetry'
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      sources: ${{ steps.s.outputs.sources }}
+    steps:
+      - id: s
+        env:
+          WANT: ${{ github.event.inputs.sources || 'bots,attack,otrf,sentinel' }}
+        run: |
+          python3 -c "import json,os; ok=('bots','attack','otrf','sentinel'); print('sources='+json.dumps([s.strip() for s in os.environ['WANT'].split(',') if s.strip() in ok]))" >> "$GITHUB_OUTPUT"
+
+  copy:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    strategy:
+      fail-fast: false
+      matrix:
+        source: ${{ fromJSON(needs.prepare.outputs.sources) }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Drive sign-in (rclone remote shintiru)
+        env:
+          CONF: ${{ secrets.SHINTIRU_RCLONE_CONF }}
+        run: |
+          curl -fsSL https://rclone.org/install.sh | sudo bash >/dev/null
+          mkdir -p ~/.config/rclone
+          printf '%s\n' "$CONF" > ~/.config/rclone/rclone.conf
+          chmod 600 ~/.config/rclone/rclone.conf
+
+      - name: Splunk Boss of the SOC v1-v3
+        if: matrix.source == 'bots'
+        run: |
+          D="shintiru:$DEST/Alerts & Monitoring/Splunk Boss of the SOC (lab company datasets)"
+          for v in "botsv1/splunk-pre-indexed/botsv1_data_set.tgz" "botsv2/botsv2_data_set.tgz" "botsv3/botsv3_data_set.tgz"; do
+            f=$(basename "$v")
+            if rclone lsf "$D/$f" 2>/dev/null | grep -q .; then echo "$f already there"; continue; fi
+            rclone copyurl -q "https://botsdataset.s3.amazonaws.com/$v" "$D/$f" && echo "$f copied"
+          done
+          curl -fsSL https://raw.githubusercontent.com/splunk/botsv1/master/README.md -o "README (botsv1).md" || true
+          printf 'Splunk Boss of the SOC datasets v1, v2 and v3 (Splunk), released under CC0 1.0.\nLoad each .tgz into Splunk as an app (pre-indexed data).\n' > "LICENCE (CC0).txt"
+          rclone copy -q "LICENCE (CC0).txt" "$D"
+          [ -f "README (botsv1).md" ] && rclone copy -q "README (botsv1).md" "$D" || true
+          echo "- Boss of the SOC: $(rclone size "$D" | tr '\n' ' ')" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Splunk attack_data, by tool
+        if: matrix.source == 'attack'
+        run: |
+          GIT_LFS_SKIP_SMUDGE=1 git clone -q --depth 1 https://github.com/splunk/attack_data /tmp/ad
+          python3 seclogs/sort_logs.py /tmp/ad https://media.githubusercontent.com/media/splunk/attack_data/master > /tmp/list.tsv
+          echo "files to copy: $(wc -l < /tmp/list.tsv)"
+          # skip what is already on the drive
+          rclone lsf -R --files-only "shintiru:$DEST" 2>/dev/null | sort > /tmp/have.txt || true
+          awk -F'\t' -v d="$DEST/" 'NR==FNR {have[$0]=1; next} !($2 in have)' /tmp/have.txt /tmp/list.tsv > /tmp/todo.tsv
+          echo "not yet on the drive: $(wc -l < /tmp/todo.tsv)"
+          export DEST
+          cut -f1,2 /tmp/todo.tsv | tr '\t' '\n' | xargs -d '\n' -n 2 -P 6 sh -c 'rclone copyurl -q --retries 5 "$0" "shintiru:$DEST/$1" || echo "failed: $1"'
+          cp /tmp/ad/LICENSE "/tmp/LICENSE (Apache-2.0).txt"
+          rclone lsf --dirs-only "shintiru:$DEST" -R 2>/dev/null | grep '/Splunk Attack Data/$' | while read -r d; do
+            rclone copy -q "/tmp/LICENSE (Apache-2.0).txt" "shintiru:$DEST/$d"; done
+          echo "- Splunk attack_data: $(wc -l < /tmp/list.tsv) files by tool, $(wc -l < /tmp/todo.tsv) copied this run" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: OTRF Security-Datasets (Windows host logs)
+        if: matrix.source == 'otrf'
+        run: |
+          git clone -q --depth 1 https://github.com/OTRF/Security-Datasets /tmp/otrf
+          D="shintiru:$DEST/Endpoint & Identity - Sysmon, Windows Security & Defender (OTRF Security-Datasets)"
+          # host logs only (the network captures are not tool logs)
+          rclone copy -q --exclude "**/network/**" /tmp/otrf/datasets/atomic/windows "$D/atomic simulations"
+          rclone copy -q --exclude "**/network/**" /tmp/otrf/datasets/compound "$D/compound simulations"
+          rclone copy -q /tmp/otrf/LICENSE "$D" && rclone moveto -q "$D/LICENSE" "$D/LICENSE (MIT).txt" || true
+          echo "- OTRF Security-Datasets: $(rclone size "$D" | tr '\n' ' ')" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Microsoft Sentinel sample data
+        if: matrix.source == 'sentinel'
+        run: |
+          git clone -q --depth 1 --filter=blob:none --sparse https://github.com/Azure/Azure-Sentinel /tmp/as
+          git -C /tmp/as sparse-checkout set "Sample Data"
+          D="shintiru:$DEST/Alerts & Monitoring/Microsoft Sentinel Sample Data"
+          rclone copy -q "/tmp/as/Sample Data" "$D"
+          cp /tmp/as/LICENSE "/tmp/LICENSE (MIT).txt" && rclone copy -q "/tmp/LICENSE (MIT).txt" "$D"
+          echo "- Microsoft Sentinel sample data: $(rclone size "$D" | tr '\n' ' ')" >> "$GITHUB_STEP_SUMMARY"
