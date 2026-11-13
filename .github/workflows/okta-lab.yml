@@ -27,7 +27,8 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  DEST: 'Library/13 Security Logs & Telemetry/Identity & Directory/Okta/Own Lab'
+  OUTDIR: 'IRT Corp Events Logs'        # log files + monthly summary, flat, okta_ prefix (like the security labs)
+  DEST: 'Library/13 Security Logs & Telemetry/Identity & Directory/Okta/Own Lab'   # bookkeeping: state + counts
 
 jobs:
   okta:
@@ -65,12 +66,16 @@ jobs:
       - name: Upload and monthly summary
         if: (github.event.inputs.mode || 'both') != 'activity'
         run: |
-          M="shintiru:$DEST/$(date -u +%Y-%m)"
+          ym=$(date -u +%Y-%m)
+          M="shintiru:$DEST/counts/$ym"
           f=$(ls out/*.jsonl.gz)
           n=$(zcat "$f" | wc -l)
-          if [ "$n" -gt 0 ]; then rclone copy -q out "$M"; else echo "no new events"; fi
+          if [ "$n" -gt 0 ]; then
+            rclone copy -q --include '*.jsonl.gz' out "shintiru:$OUTDIR"
+            rclone copy -q --include '*.counts.json' out "$M"
+          else echo "no new events"; fi
           rclone copyto -q state.json "shintiru:$DEST/_state.json"
-          mkdir -p month && rclone copy -q --include '*.counts.json' "$M" month
+          mkdir -p month && rclone copy -q "$M" month
           python3 -I - "$M" <<'EOF' > month/_summary.csv
           import csv, glob, json, sys
           tot = {}
@@ -82,9 +87,9 @@ jobs:
           for (t, res), v in sorted(tot.items(), key=lambda x: -x[1]):
               w.writerow([t, res, v])
           EOF
-          rclone copy -q month/_summary.csv "$M"
+          rclone copyto -q month/_summary.csv "shintiru:$OUTDIR/okta_summary_$ym.csv"
           total=$(tail -n +2 month/_summary.csv | awk -F, '{s+=$NF} END {print s+0}')
           {
-            echo "- New Okta System Log events this run: $n → $M"
+            echo "- New Okta System Log events this run: $n → $OUTDIR/$(basename "$f")"
             echo "- Events so far this month: $total"
           } >> "$GITHUB_STEP_SUMMARY"

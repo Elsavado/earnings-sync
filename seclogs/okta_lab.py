@@ -36,6 +36,7 @@ AGENTS = [
     "Mozilla/5.0 (X11; Linux x86_64; rv:132.0) Gecko/20100101 Firefox/132.0",
 ]
 stats = {"calls": 0, "errors": 0}
+AT_LIMIT = False
 
 
 def call(method, path, body=None, auth=True, ua=None):
@@ -120,7 +121,14 @@ def setup():
     zone = find_or_create("zones", "Lab Office Zone", {
         "type": "IP", "name": "Lab Office Zone", "status": "ACTIVE",
         "gateways": [{"type": "CIDR", "value": "198.51.100.0/24"}], "proxies": None})
-    pool = pool_users()
+    # users Okta created but could not activate (free plan: ~10 active users) are removed again
+    s, leftovers, _ = call("GET", "/api/v1/users?limit=200&search=" + urllib.parse.quote(
+        'profile.login sw "lab." and (status eq "STAGED" or status eq "PROVISIONED" or status eq "DEPROVISIONED")'))
+    for x in leftovers or []:
+        if isinstance(x, dict):
+            call("DELETE", f"/api/v1/users/{x['id']}")
+            call("DELETE", f"/api/v1/users/{x['id']}")
+    pool = [u for u in pool_users() if u.get("status") not in ("STAGED", "PROVISIONED", "DEPROVISIONED")]
     have = {u["profile"]["login"] for u in pool}
     for i in range(1, POOL + 1):
         login = f"lab.pool.{i:03d}@example.com"
@@ -131,7 +139,13 @@ def setup():
                 if u["profile"]["department"] in groups:
                     call("PUT", f"/api/v1/groups/{groups[u['profile']['department']]}/users/{u['id']}")
             else:
-                print("pool user not created (org user limit?)", login)
+                print("pool stops at", len(pool), "users: the org's active-user limit is reached")
+                s, x, _ = call("GET", "/api/v1/users/" + urllib.parse.quote(login))
+                if s == 200:
+                    call("DELETE", f"/api/v1/users/{x['id']}")
+                    call("DELETE", f"/api/v1/users/{x['id']}")
+                global AT_LIMIT
+                AT_LIMIT = True
                 break
     print(f"setup: {len(groups)} groups, app={'yes' if app else 'no'}, zone={'yes' if zone else 'no'}, pool={len(pool)}")
     return groups, app, zone, pool
@@ -223,7 +237,7 @@ def activity():
     for rnd in range(ROUNDS):
         for u in random.sample(pool, k=min(len(pool), random.randint(8, 20))):
             workday(u, groups, app, zone)
-        for _ in range(random.randint(0, 2)):
+        for _ in range(0 if AT_LIMIT else random.randint(0, 2)):
             churn(groups)
         if zone and random.random() < 0.1:
             z = dict(zone, gateways=[{"type": "CIDR", "value": random.choice(["198.51.100.0/24", "203.0.113.0/24"])}])
