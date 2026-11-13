@@ -1,0 +1,157 @@
+name: Security lab (Linux) - auditd logs and attacks
+
+# Free lab on a GitHub Linux machine. auditd records process, network and sensitive-file activity while
+# Atomic Red Team Linux techniques run on this machine only. Logs are copied into one flat folder on
+# shintiru ("IRT Corp Events Logs") with unique file names. The machine is thrown away after the run.
+on:
+  workflow_dispatch:
+    inputs:
+      group:
+        description: 'Linux technique group (0-1)'
+        required: false
+        default: '0'
+      minutes:
+        description: 'Run time budget in minutes'
+        required: false
+        default: '90'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-lab
+  cancel-in-progress: false
+
+jobs:
+  lab:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install rclone
+        run: |
+          curl -fsSL https://downloads.rclone.org/rclone-current-linux-amd64.zip -o "$RUNNER_TEMP/rclone.zip"
+          unzip -q "$RUNNER_TEMP/rclone.zip" -d "$RUNNER_TEMP/rc"
+          sudo install "$RUNNER_TEMP"/rc/rclone-*/rclone /usr/local/bin/rclone
+          rclone version
+
+      - name: Drive sign-in (rclone remote shintiru)
+        env:
+          CONF: ${{ secrets.SHINTIRU_RCLONE_CONF }}
+        run: |
+          mkdir -p "$HOME/.config/rclone"
+          printf '%s\n' "$CONF" > "$HOME/.config/rclone/rclone.conf"
+          chmod 600 "$HOME/.config/rclone/rclone.conf"
+          rclone listremotes
+
+      - name: Enable auditd logging
+        run: |
+          export DEBIAN_FRONTEND=noninteractive
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq auditd audispd-plugins
+          sudo tee /etc/audit/rules.d/lab.rules > /dev/null <<'RULES'
+          -a always,exit -F arch=b64 -S execve -k lab_exec
+          -a always,exit -F arch=b64 -S connect -k lab_net
+          -w /etc/passwd -p wa -k lab_passwd
+          -w /etc/shadow -p wa -k lab_shadow
+          -w /etc/group -p wa -k lab_group
+          -w /etc/crontab -p wa -k lab_cron
+          -w /etc/cron.d -p wa -k lab_cron
+          -w /etc/systemd/system -p wa -k lab_systemd
+          RULES
+          sudo augenrules --load || true
+          sudo systemctl restart auditd || sudo service auditd restart || true
+          sudo auditctl -l | head -20
+
+      - name: Install Atomic Red Team
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+          Install-Module -Name powershell-yaml -Force -Scope CurrentUser -Repository PSGallery
+          $art = Join-Path $HOME 'AtomicRedTeam'
+          New-Item -ItemType Directory -Force -Path $art | Out-Null
+          $tmp = Join-Path $env:RUNNER_TEMP 'art'
+          New-Item -ItemType Directory -Force -Path $tmp | Out-Null
+          Invoke-WebRequest https://github.com/redcanaryco/invoke-atomicredteam/archive/refs/heads/master.zip -OutFile (Join-Path $tmp 'iar.zip') -UseBasicParsing
+          Invoke-WebRequest https://github.com/redcanaryco/atomic-red-team/archive/refs/heads/master.zip -OutFile (Join-Path $tmp 'art.zip') -UseBasicParsing
+          Expand-Archive (Join-Path $tmp 'iar.zip') (Join-Path $tmp 'x') -Force
+          Expand-Archive (Join-Path $tmp 'art.zip') (Join-Path $tmp 'x') -Force
+          Move-Item (Join-Path $tmp 'x/invoke-atomicredteam-master') (Join-Path $art 'invoke-atomicredteam') -Force
+          Move-Item (Join-Path $tmp 'x/atomic-red-team-master/atomics') (Join-Path $art 'atomics') -Force
+          Write-Host "Atomic tests: $((Get-ChildItem (Join-Path $art 'atomics') -Directory).Count) techniques"
+
+      - name: Run attack techniques
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Continue'
+          $ProgressPreference = 'SilentlyContinue'
+          $out = Join-Path $env:RUNNER_TEMP 'lab'
+          New-Item -ItemType Directory -Path $out -Force | Out-Null
+
+          $groups = @(
+            @('T1082','T1033','T1057','T1083','T1049','T1087.001'),
+            @('T1136.001','T1053.003','T1543.002')
+          )
+
+          $group = [int]'${{ github.event.inputs.group || 0 }}' % 2
+          $techniques = $groups[$group]
+          $end = (Get-Date).AddMinutes([int]'${{ github.event.inputs.minutes || 90 }}')
+
+          $atomics = Join-Path $HOME 'AtomicRedTeam/atomics'
+          Import-Module (Join-Path $HOME 'AtomicRedTeam/invoke-atomicredteam/Invoke-AtomicRedTeam.psd1') -Force
+
+          $timeline = @()
+          Write-Host "Running $($techniques.Count) techniques, group $group"
+
+          foreach ($t in $techniques) {
+            if ((Get-Date) -gt $end) { Write-Host 'Time budget reached'; break }
+            $yaml = Join-Path $atomics "$t/$t.yaml"
+            if (-not (Test-Path $yaml)) { Write-Host "$t not found"; continue }
+            $tests = (Get-AtomicTechnique -Path $yaml).atomic_tests
+            for ($i = 0; $i -lt $tests.Count; $i++) {
+              $test = $tests[$i]
+              if ($test.supported_platforms -notcontains 'linux') { continue }
+              if ($test.executor.name -notin @('sh','bash')) { continue }
+              $n = $i + 1
+              Write-Host "  ${t} / ${n}: $($test.name)"
+              try {
+                Invoke-AtomicTest $t -TestNumbers $n -GetPrereqs -PathToAtomicsFolder $atomics -TimeoutSeconds 120 *>$null
+                Invoke-AtomicTest $t -TestNumbers $n -PathToAtomicsFolder $atomics -TimeoutSeconds 120 *>$null
+                $timeline += "$t/$n ran"
+              } catch {
+                $timeline += "$t/$n error: $_"
+              }
+            }
+          }
+
+          $timeline | Out-File (Join-Path $out 'timeline.txt')
+          Write-Host "Ran $(($timeline | Where-Object { $_ -match ' ran$' }).Count) tests"
+
+      - name: Export logs
+        if: always()
+        run: |
+          out="$RUNNER_TEMP/lab"
+          mkdir -p "$out"
+          sudo cp /var/log/audit/audit.log "$out/audit.log" || true
+          sudo ausearch -i -ts today > "$out/audit_readable.txt" 2>/dev/null || true
+          sudo journalctl --no-pager -o short-iso > "$out/journal.log" || true
+          echo "Exported: $(du -sh "$out" | cut -f1)"
+
+      - name: Upload to Shintiru
+        if: always()
+        run: |
+          out="$RUNNER_TEMP/lab"
+          stage="$RUNNER_TEMP/stage"
+          rm -rf "$stage"; mkdir -p "$stage"
+          prefix="linux_g${{ github.event.inputs.group || 0 }}_$(date -u +%Y%m%d-%H%M%S)"
+          # Flatten: one folder, no subfolders, every file name prefixed uniquely
+          find "$out" -type f | while read -r f; do
+            sudo cp "$f" "$stage/${prefix}_$(basename "$f")"
+          done
+          sudo chown -R "$(id -u):$(id -g)" "$stage"
+          d="shintiru:IRT Corp Events Logs"
+          rclone mkdir "$d"
+          rclone copy -q "$stage" "$d"
+          rclone size "$d" | sed 's/^/- Linux lab logs: /' >> "$GITHUB_STEP_SUMMARY"
