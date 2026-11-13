@@ -14,9 +14,14 @@ on:
         description: 'Run time budget in minutes'
         required: false
         default: '180'
+      chain_left:
+        description: 'Number of further runs to queue after this one (0 = none)'
+        required: false
+        default: '0'
 
 permissions:
   contents: read
+  actions: write
 
 concurrency:
   group: security-lab
@@ -176,4 +181,17 @@ jobs:
           rclone mkdir "$d"
           rclone copy -q "$stage" "$d"
           rclone size "$d" | ForEach-Object { Add-Content $env:GITHUB_STEP_SUMMARY "- Lab logs: $_" }
+        shell: pwsh
+
+      - name: Queue next run in chain
+        if: success() && github.event.inputs.chain_left != '0' && github.event.inputs.chain_left != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          $cur = [int]'${{ github.event.inputs.group || 0 }}'
+          $next = ($cur + 1) % 7
+          $left = [int]'${{ github.event.inputs.chain_left }}' - 1
+          gh workflow run security-lab.yml --repo $env:REPO -f group=$next -f minutes=180 -f chain_left=$left
+          Add-Content $env:GITHUB_STEP_SUMMARY "- Queued next run: group $next, $left further runs after it"
         shell: pwsh
