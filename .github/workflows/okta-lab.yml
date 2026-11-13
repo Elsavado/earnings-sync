@@ -1,0 +1,63 @@
+name: Okta lab logs to shintiru
+
+# Real Okta System Log data from the user's own free Okta developer org (2026-11-13). The run makes real activity
+# (lab users and groups, sign-ins, failed sign-ins, lockout/unlock, suspend, group moves, offboarding) and then
+# exports the org's System Log. Only "lab.*" users and "Lab *" groups are touched.
+# Secrets: OKTA_ORG_URL, OKTA_API_TOKEN (Okta admin console > Security > API > Tokens), SHINTIRU_RCLONE_CONF.
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'activity, export or both'
+        required: false
+        default: 'both'
+      rounds:
+        description: 'Activity rounds (4 lab users each)'
+        required: false
+        default: '3'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: okta-lab
+  cancel-in-progress: false
+
+env:
+  DEST: 'Library/13 Security Logs & Telemetry/Identity & Directory/Okta/Own Lab'
+
+jobs:
+  okta:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check secrets
+        env:
+          ORG: ${{ secrets.OKTA_ORG_URL }}
+          TOK: ${{ secrets.OKTA_API_TOKEN }}
+        run: |
+          [ -n "$ORG" ] && [ -n "$TOK" ] || { echo "::error::Set secrets OKTA_ORG_URL and OKTA_API_TOKEN"; exit 1; }
+      - name: Activity and System Log export
+        env:
+          OKTA_ORG_URL: ${{ secrets.OKTA_ORG_URL }}
+          OKTA_API_TOKEN: ${{ secrets.OKTA_API_TOKEN }}
+          MODE: ${{ github.event.inputs.mode || 'both' }}
+          ROUNDS: ${{ github.event.inputs.rounds || '3' }}
+          OUT: out
+        run: python3 -I seclogs/okta_lab.py
+      - name: Drive sign-in (rclone remote shintiru)
+        env:
+          CONF: ${{ secrets.SHINTIRU_RCLONE_CONF }}
+        run: |
+          curl -fsSL https://rclone.org/install.sh | sudo bash >/dev/null
+          mkdir -p ~/.config/rclone
+          printf '%s\n' "$CONF" > ~/.config/rclone/rclone.conf
+          chmod 600 ~/.config/rclone/rclone.conf
+      - name: Upload
+        run: |
+          [ -s out/okta_system_log.jsonl ] || { echo "::error::No System Log events exported"; exit 1; }
+          D="shintiru:$DEST/$(date -u +%Y-%m-%d_%H%M)"
+          gzip -9 out/okta_system_log.jsonl
+          rclone copy -q out "$D"
+          echo "- Okta System Log: $(zcat out/okta_system_log.jsonl.gz | wc -l) events → $D" >> "$GITHUB_STEP_SUMMARY"
