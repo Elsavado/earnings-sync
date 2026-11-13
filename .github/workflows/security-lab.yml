@@ -83,10 +83,12 @@ jobs:
 
       - name: Install Atomic Red Team
         run: |
-          Install-PackageProvider -Name NuGet -Force -Scope CurrentUser -Verbose *>$null
-          Install-Module -Name powershell-yaml -Force -Scope CurrentUser -Verbose *>$null
-          IEX (Invoke-WebRequest 'https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/install-atomicredteam.ps1' -UseBasicParsing)
-          Install-AtomicRedTeam -getAtomics -Force -InstallPath "$env:RUNNER_TEMP\AtomicRedTeam" *>$null
+          $ErrorActionPreference = 'Stop'
+          Install-PackageProvider -Name NuGet -Force -Scope CurrentUser | Out-Null
+          Install-Module -Name powershell-yaml -Force -Scope CurrentUser -AllowClobber
+          Invoke-WebRequest 'https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/install-atomicredteam.ps1' -OutFile "$env:RUNNER_TEMP\install-atomicredteam.ps1" -UseBasicParsing
+          & "$env:RUNNER_TEMP\install-atomicredteam.ps1" -Force
+          Install-AtomicRedTeam -getAtomics -Force -InstallPath "$env:RUNNER_TEMP\AtomicRedTeam"
           Write-Host 'Atomic Red Team installed'
         shell: pwsh
 
