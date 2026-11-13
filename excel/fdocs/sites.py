@@ -150,8 +150,11 @@ def explore(s, host, lists):
             continue
         pages += 1
         for href in HREF.findall(body):
-            u = urldefrag(urljoin(final, unescape(href)))[0]
-            p = urlparse(u)
+            try:  # a malformed link (e.g. "http://[bad") must not stop the crawl
+                u = urldefrag(urljoin(final, unescape(href)))[0]
+                p = urlparse(u)
+            except ValueError:
+                continue
             if p.scheme not in ('http', 'https') or p.netloc.lower().removeprefix('www.') != host.removeprefix('www.'):
                 continue
             if note(u) or SKIP.search(p.path) or u in seen or len(seen) > PAGES * 6:

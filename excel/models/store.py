@@ -32,7 +32,7 @@ def folder_name(n):
     return f'Folder {k} (Models {PER_FOLDER * (k - 1) + 1}-{PER_FOLDER * k})'
 
 
-def _retry(fn, tries=6):
+def _retry(fn, tries=9):
     """Retries Drive calls on rate limits, server errors and dropped connections (a connection
     left idle while sources are crawled can be closed by the far end: SSLEOFError, resets)."""
     for i in range(tries):
@@ -40,7 +40,8 @@ def _retry(fn, tries=6):
             return fn()
         except HttpError as err:
             if err.resp.status in (403, 429, 500, 502, 503, 504) and i < tries - 1:
-                time.sleep(2 ** i)
+                # per-minute Drive quota (403 rateLimitExceeded / 429) needs a wait that spans the minute
+                time.sleep(max(2 ** i, 20) if err.resp.status in (403, 429) else min(2 ** i, 60))
                 continue
             raise
         except (ssl.SSLError, ConnectionError, TimeoutError, OSError, httplib2.HttpLib2Error):
