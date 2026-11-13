@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       group:
-        description: 'Linux technique group (0-3)'
+        description: 'Linux technique group (0-5)'
         required: false
         default: '0'
       minutes:
@@ -107,10 +107,12 @@ jobs:
             @('T1082','T1033','T1057','T1083','T1049','T1087.001'),
             @('T1136.001','T1053.003','T1543.002'),
             @('T1016','T1007','T1069.001','T1518.001'),
-            @('T1059.004','T1222.002','T1098','T1548.001')
+            @('T1059.004','T1222.002','T1098','T1548.001'),
+            @('T1005','T1560.001','T1074.001'),
+            @('T1546.004','T1021.004','T1046')
           )
 
-          $group = [int]'${{ github.event.inputs.group || 0 }}' % 4
+          $group = [int]'${{ github.event.inputs.group || 0 }}' % 6
           $techniques = $groups[$group]
           $end = (Get-Date).AddMinutes([int]'${{ github.event.inputs.minutes || 180 }}')
 
