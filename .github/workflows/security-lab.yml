@@ -14,10 +14,18 @@ on:
         description: 'Run time budget in minutes'
         required: false
         default: '180'
-      chain_left:
-        description: 'Number of further runs to queue after this one (0 = none)'
+      queue:
+        description: 'Comma-separated technique groups still to run after this one (chain)'
         required: false
-        default: '0'
+        default: ''
+      retry:
+        description: 'Comma-separated failed groups waiting for their one retry (chain)'
+        required: false
+        default: ''
+      retried:
+        description: 'Comma-separated groups that already had their retry (chain)'
+        required: false
+        default: ''
 
 permissions:
   contents: read
@@ -184,14 +192,42 @@ jobs:
         shell: pwsh
 
       - name: Queue next run in chain
-        if: success() && github.event.inputs.chain_left != '0' && github.event.inputs.chain_left != ''
+        if: always() && job.status != 'cancelled'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
         run: |
-          $cur = [int]'${{ github.event.inputs.group || 0 }}'
-          $next = ($cur + 1) % 7
-          $left = [int]'${{ github.event.inputs.chain_left }}' - 1
-          gh workflow run security-lab.yml --repo $env:REPO -f group=$next -f minutes=180 -f chain_left=$left
-          Add-Content $env:GITHUB_STEP_SUMMARY "- Queued next run: group $next, $left further runs after it"
+          $status = '${{ job.status }}'
+          $cur = '${{ github.event.inputs.group || 0 }}'
+          $queue = @('${{ github.event.inputs.queue }}' -split ',' | Where-Object { $_ -ne '' })
+          $retry = @('${{ github.event.inputs.retry }}' -split ',' | Where-Object { $_ -ne '' })
+          $retried = @('${{ github.event.inputs.retried }}' -split ',' | Where-Object { $_ -ne '' })
+
+          # A failed group is skipped now and queued for one retry after the rest of the chain
+          if ($status -ne 'success') {
+            if ($retried -contains $cur) {
+              Add-Content $env:GITHUB_STEP_SUMMARY "- Group $cur failed again after retry: dropped"
+            } elseif ($retry -notcontains $cur) {
+              $retry += $cur
+              Add-Content $env:GITHUB_STEP_SUMMARY "- Group $cur failed: queued for retry after the rest"
+            }
+          }
+
+          if ($queue.Count -gt 0) {
+            $next = $queue[0]
+            $queue = @($queue | Select-Object -Skip 1)
+          } elseif ($retry.Count -gt 0) {
+            $next = $retry[0]
+            $retry = @($retry | Select-Object -Skip 1)
+            $retried += $next
+          } else {
+            Add-Content $env:GITHUB_STEP_SUMMARY "- Chain complete: nothing left to queue"
+            exit 0
+          }
+
+          $q = $queue -join ','
+          $r = $retry -join ','
+          $d = $retried -join ','
+          gh workflow run security-lab.yml --repo $env:REPO -f group=$next -f minutes=180 -f queue=$q -f retry=$r -f retried=$d
+          Add-Content $env:GITHUB_STEP_SUMMARY "- Queued next run: group $next (queue: $q; retry: $r)"
         shell: pwsh
