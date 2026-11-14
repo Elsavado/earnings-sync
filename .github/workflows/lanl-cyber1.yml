@@ -1,0 +1,60 @@
+name: LANL cyber1 to shintiru
+
+# LANL Comprehensive Cyber-Security Events (cyber1) - real enterprise auth, process, flow, DNS and red-team logs,
+# released by Los Alamos National Laboratory for research. Access was granted to the user by LANL; the signed links
+# are kept in the secret LANL_CYBER1_URLS (one per line), never in this file. Files are streamed straight to Drive
+# in parallel, one job per file, with their original names, into IRT Corp Events Logs.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      items: ${{ steps.p.outputs.items }}
+    steps:
+      - id: p
+        env:
+          URLS: ${{ secrets.LANL_CYBER1_URLS }}
+        run: |
+          [ -n "$URLS" ] || { echo "::error::Set secret LANL_CYBER1_URLS"; exit 1; }
+          python3 -I -c "
+          import json, os, urllib.parse
+          items = []
+          for line in os.environ['URLS'].splitlines():
+              line = line.strip()
+              if line:
+                  items.append(urllib.parse.urlsplit(line).path.rsplit('/', 1)[-1])
+          print('items=' + json.dumps(items))" >> "$GITHUB_OUTPUT"
+
+  copy:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      matrix:
+        item: ${{ fromJSON(needs.plan.outputs.items) }}
+    steps:
+      - name: Install rclone
+        run: curl -fsSL https://rclone.org/install.sh | sudo bash >/dev/null
+      - name: Drive sign-in (rclone remote shintiru)
+        env:
+          CONF: ${{ secrets.SHINTIRU_RCLONE_CONF }}
+        run: |
+          mkdir -p ~/.config/rclone
+          printf '%s\n' "$CONF" > ~/.config/rclone/rclone.conf
+          chmod 600 ~/.config/rclone/rclone.conf
+      - name: Stream file to IRT Corp Events Logs
+        env:
+          URLS: ${{ secrets.LANL_CYBER1_URLS }}
+          ITEM: ${{ matrix.item }}
+        run: |
+          url=$(printf '%s\n' "$URLS" | grep -F "/cyber1/$ITEM" | head -1)
+          [ -n "$url" ] || { echo "::error::No link for $ITEM"; exit 1; }
+          rclone copyurl --no-check-certificate=false --retries 5 --low-level-retries 10 -q \
+            "$url" "shintiru:IRT Corp Events Logs/lanl_cyber1_$ITEM" \
+            && echo "- $ITEM copied" >> "$GITHUB_STEP_SUMMARY"
