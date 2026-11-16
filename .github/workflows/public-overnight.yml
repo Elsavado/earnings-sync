@@ -1,0 +1,47 @@
+name: public overnight build
+
+# User (2026-11-17): "build the overnight job". Builds public-data Google Sheets (budget trackers, ward permit
+# trackers) and Google Slides (ward permit decks) into the shintiru folder "Public Budget Trackers and Decks".
+# Files already in the folder are skipped, so a rerun only adds what is missing.
+
+on:
+  workflow_dispatch:
+    inputs:
+      minutes:
+        description: 'Time budget in minutes for the build'
+        default: '330'
+  schedule:
+    - cron: '30 2 * * *'
+
+concurrency:
+  group: public-overnight
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    defaults:
+      run:
+        working-directory: excel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -q google-api-python-client google-auth httplib2 openpyxl python-pptx
+      - name: rclone remote (shintiru)
+        env:
+          SHIN: ${{ secrets.SHINTIRU_RCLONE_CONF }}
+        run: |
+          mkdir -p ~/.config/rclone
+          printf '%s\n' "$SHIN" > ~/.config/rclone/rclone.conf
+          chmod 600 ~/.config/rclone/rclone.conf
+          curl -fsSL https://rclone.org/install.sh | sudo bash >/dev/null
+          rclone listremotes | grep -q '^shintiru:' || { echo 'secret SHINTIRU_RCLONE_CONF is not set' >> "$GITHUB_STEP_SUMMARY"; exit 1; }
+      - name: Build
+        env:
+          RCLONE_REMOTE: shintiru
+          RUN_MINUTES: ${{ github.event.inputs.minutes || '330' }}
+          PYTHONPATH: .
+        run: python publicbuild/overnight.py
