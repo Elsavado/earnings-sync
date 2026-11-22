@@ -1,0 +1,126 @@
+name: Ever Gauzy smoke test (original upstream)
+
+# Runs the ORIGINAL ever-co/ever-gauzy (not the anonymised copy) the way RUN-LOCALLY-ever-gauzy.md describes:
+# install, demo .env (SQLite, no secrets), config, migration, demo seed, then start the API and web app and
+# check that both answer. Logs and the uploaded artifact are public because this repository is public.
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'ever-gauzy branch or tag to test (empty = default branch)'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gauzy-smoke
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL || true
+          df -h /
+
+      - name: Clone ever-gauzy (upstream)
+        run: |
+          REF="${{ github.event.inputs.ref }}"
+          if [ -n "$REF" ]; then BR="--branch $REF"; else BR=""; fi
+          git clone --depth 1 $BR https://github.com/ever-co/ever-gauzy.git gauzy
+          cd gauzy && git log --oneline -1
+
+      - name: Node version from upstream .nvmrc
+        id: node
+        run: echo "version=$(cat gauzy/.nvmrc | tr -d 'v \n')" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ steps.node.outputs.version }}
+
+      - name: Install Yarn 1
+        run: npm install -g yarn@1.22.22
+
+      - name: Install dependencies
+        working-directory: gauzy
+        run: yarn install --frozen-lockfile --network-timeout 120000 > ../install.log 2>&1 || (tail -80 ../install.log; exit 1)
+
+      - name: Demo environment file (SQLite, no external services)
+        working-directory: gauzy
+        run: |
+          cp .env.sample .env
+          set_env() {
+            if grep -q "^$1=" .env; then sed -i "s|^$1=.*|$1=$2|" .env; else echo "$1=$2" >> .env; fi
+          }
+          set_env DEMO true
+          set_env DEMO_SUPER_ADMIN_EMAIL superadmin@demo.invalid
+          set_env DEMO_SUPER_ADMIN_PASSWORD "$(openssl rand -hex 12)"
+          set_env DEMO_ADMIN_EMAIL admin@demo.invalid
+          set_env DEMO_ADMIN_PASSWORD "$(openssl rand -hex 12)"
+          set_env DEMO_EMPLOYEE_EMAIL employee@demo.invalid
+          set_env DEMO_EMPLOYEE_PASSWORD "$(openssl rand -hex 12)"
+          set_env POSTHOG_ENABLED false
+          set_env DB_TYPE better-sqlite3
+          set_env API_BASE_URL http://localhost:3000
+          set_env CLIENT_BASE_URL http://localhost:4200
+          grep -E "^(DEMO|DB_TYPE|POSTHOG_ENABLED|API_BASE_URL|CLIENT_BASE_URL)=" .env
+
+      - name: Generate local config
+        working-directory: gauzy
+        run: yarn run config:dev
+
+      - name: Database migration
+        working-directory: gauzy
+        env:
+          NODE_OPTIONS: --max-old-space-size=12288
+        run: yarn ts-node -r tsconfig-paths/register --project apps/api/tsconfig.app.json ./apps/api/src/migration.ts migration:run
+
+      - name: Demo seed
+        working-directory: gauzy
+        env:
+          NODE_OPTIONS: --max-old-space-size=12288
+        run: yarn seed
+
+      - name: Start API and web app
+        working-directory: gauzy
+        env:
+          NODE_ENV: development
+          NODE_OPTIONS: --max-old-space-size=12288
+        run: |
+          nohup yarn nx serve api > ../api.log 2>&1 &
+          nohup yarn nx serve gauzy > ../web.log 2>&1 &
+
+      - name: Wait for API and web (up to 45 min)
+        run: |
+          for i in $(seq 1 270); do
+            a=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/api/ || true)
+            w=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:4200/ || true)
+            echo "$(date -u +%H:%M:%S) api=$a web=$w"
+            if [ "$a" != "000" ] && [ "$w" != "000" ]; then echo "both answering"; exit 0; fi
+            sleep 10
+          done
+          echo "::error::API or web did not answer in 45 minutes"
+          tail -60 ../api.log; tail -60 ../web.log
+          exit 1
+
+      - name: Smoke checks
+        run: |
+          echo "API:"; curl -s -o /dev/null -w "%{http_code}\n" http://localhost:3000/api/
+          echo "Web:"; curl -s -o /dev/null -w "%{http_code}\n" http://localhost:4200/
+          echo "Login endpoint:"; curl -s -o /dev/null -w "%{http_code}\n" -X POST -H 'Content-Type: application/json' -d '{}' http://localhost:3000/api/auth/login || true
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gauzy-smoke-logs
+          path: |
+            install.log
+            api.log
+            web.log
+          if-no-files-found: ignore
