@@ -92,8 +92,12 @@ jobs:
           NODE_ENV: development
           NODE_OPTIONS: --max-old-space-size=12288
         run: |
-          nohup yarn nx serve api > ../api.log 2>&1 &
-          nohup yarn nx serve gauzy > ../web.log 2>&1 &
+          yarn nx build api > ../api-build.log 2>&1 || { tail -80 ../api-build.log; exit 1; }
+          yarn nx build gauzy > ../web-build.log 2>&1 || { tail -80 ../web-build.log; exit 1; }
+          nohup node dist/apps/api/main.js > ../api.log 2>&1 &
+          WEBDIR=$(dirname "$(find dist/apps/gauzy -name index.html | head -1)")
+          echo "serving $WEBDIR"
+          npx --yes http-server "$WEBDIR" -p 4200 -a 127.0.0.1 > ../web.log 2>&1 &
 
       - name: Wait for API and web (up to 45 min)
         run: |
