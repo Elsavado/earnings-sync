@@ -32,6 +32,8 @@ jobs:
 
       - name: Start API and UI (README "yarn start")
         run: |
+        env:
+          NODE_OPTIONS: "--max-old-space-size=8192"
           nohup yarn start > /tmp/start.log 2>&1 &
 
       - name: Wait for API and UI
