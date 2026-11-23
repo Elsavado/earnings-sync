@@ -6,10 +6,10 @@
 	"homepage": "https://irtranscripts.com",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ever-co/ever-gauzy.git"
+		"url": "https://github.com/Elsavado/businessopsplatformmain.git"
 	},
 	"bugs": {
-		"url": "https://github.com/ever-co/ever-gauzy/issues"
+		"url": "https://github.com/Elsavado/businessopsplatformmain/issues"
 	},
 	"private": true,
 	"author": {

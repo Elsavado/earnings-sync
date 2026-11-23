@@ -28,7 +28,7 @@ import { KeyResultUpdateService } from './keyresult-update.service';
 
 /**
  * Owner decision 2(a) (2026-10-23): `PUT /key-results/:id` and `PUT /goals/:id` need `GOALS_EDIT`
- * (ever-co/ever-gauzy#11323), and the goals page wrote a filed progress update back through both, so an employee's
+ * (Elsavado/businessopsplatformmain#11323), and the goals page wrote a filed progress update back through both, so an employee's
  * report half-failed. Filing an update (`POST /key-result-updates`, `createKeyResultUpdate`) now applies it on the
  * server: the key result moves to the reported value and the progress that value is, and its goal to the weighted
  * progress of its key results. The progress is the server's, not the request's.

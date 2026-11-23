@@ -89,7 +89,7 @@ describe('assertReferencesAreInScope', () => {
 /**
  * The body can name the policy (and the equipment) as the related object, `equipmentSharingPolicy: { id }`, which
  * the ORM persists as the foreign key just like the column. The check read the columns only, so a crafted body named
- * another organization's policy of the same tenant through the object (follow-up of ever-co/ever-gauzy#11167).
+ * another organization's policy of the same tenant through the object (follow-up of Elsavado/businessopsplatformmain#11167).
  */
 describe('sharingReferences', () => {
 	it('lists the related objects beside the columns', () => {
@@ -311,7 +311,7 @@ describe('sharingAsStored', () => {
 /**
  * The employees and the teams a sharing is handed to are many-to-many lists, which the CRUD base checked against the
  * tenant only: a body could list another organization's employees or teams of the same tenant (follow-up of
- * ever-co/ever-gauzy#11359). Each one is now held to the sharing's organization, like its equipment and its policy.
+ * Elsavado/businessopsplatformmain#11359). Each one is now held to the sharing's organization, like its equipment and its policy.
  */
 describe('sharingMemberReferences', () => {
 	it('lists the employees and the teams in both forms, the related object and the bare id', () => {
@@ -354,7 +354,7 @@ describe('sharingMemberReferences', () => {
 
 /**
  * A sharing may list many employees and teams, so their scope check reads each table once, with all of its ids,
- * instead of one query per member (review on ever-co/ever-gauzy#11397).
+ * instead of one query per member (review on Elsavado/businessopsplatformmain#11397).
  */
 describe('assertMembersAreInScope', () => {
 	const SCOPE = { tenantId: 'tenant-A', organizationId: 'org-1' };

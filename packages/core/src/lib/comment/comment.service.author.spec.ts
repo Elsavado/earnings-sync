@@ -172,7 +172,7 @@ describe('CommentService — the author and the resolver are the caller', () => 
 			expect(written().resolvedByEmployeeId).toBe('employee-manager');
 		});
 
-		it('keeps what a tenant administrator states on an edit, as every per-user row does (ever-co/ever-gauzy#11328)', async () => {
+		it('keeps what a tenant administrator states on an edit, as every per-user row does (Elsavado/businessopsplatformmain#11328)', async () => {
 			as('employee-admin', true, true);
 
 			await service.update('comment-1', { employeeId: VICTIM, resolvedByEmployeeId: VICTIM } as never);

@@ -600,7 +600,7 @@ export class ImportService {
 	 * The import wrote these rows like any other, without the rules of the role-permission API, so an archive (a
 	 * hand-built ZIP is accepted) handed an ADMIN or a custom role `SUPER_ADMIN_EDIT`, `GLOBAL_SETTING`,
 	 * `PAYMENT_PROVIDERS_EDIT`, ... which the importing ADMIN does not hold, and the role could then be given to a user
-	 * they control. The API refuses that (ever-co/ever-gauzy#11232), and refuses an ADMIN any change to the
+	 * they control. The API refuses that (Elsavado/businessopsplatformmain#11232), and refuses an ADMIN any change to the
 	 * permissions of the SUPER_ADMIN and ADMIN roles (SEC-A-07). The same rules now decide here, on the row as it will
 	 * stand:
 	 *
@@ -680,7 +680,7 @@ export class ImportService {
 
 	/**
 	 * Whether the importer could grant a role through the API: their own level or lower, the ceiling invitations use
-	 * (`canInviteWithRole`, ever-co/ever-gauzy#11318). Only a SUPER_ADMIN grants SUPER_ADMIN, only an ADMIN or a
+	 * (`canInviteWithRole`, Elsavado/businessopsplatformmain#11318). Only a SUPER_ADMIN grants SUPER_ADMIN, only an ADMIN or a
 	 * SUPER_ADMIN grants ADMIN or a role the tenant created, and an importer holding a role the tenant created counts
 	 * as the lowest level. The importer's role is the one loaded for this request, not the access token's.
 	 *

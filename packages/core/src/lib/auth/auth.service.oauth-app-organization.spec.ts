@@ -10,7 +10,7 @@ import { AuthService } from './auth.service';
  *
  * `exchangeOAuthAppAuthorizationCode` used to call `getJwtAccessToken({ id, tenantId })` with no organization, so
  * the token named whichever active employee record of the user the database returned first. Since the organization
- * boundary (ever-co/ever-gauzy#11316) confines a non-admin to the organization of their token, a member of two
+ * boundary (Elsavado/businessopsplatformmain#11316) confines a non-admin to the organization of their token, a member of two
  * organizations got an app pinned to an arbitrary one of them, and Zapier resolved its integration
  * (`findIntegrationByTenantId(tenantId, organizationId)`) in that organization too. The authorization code now
  * records the organization of the approving session, checked against the user's memberships, and the exchange mints

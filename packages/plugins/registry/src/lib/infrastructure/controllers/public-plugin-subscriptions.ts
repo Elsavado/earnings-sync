@@ -3,7 +3,7 @@
  *
  * The plugin store is shared by every tenant and the read is not scoped to one, so `?relations[]=subscriptions` gave
  * any visitor every tenant's subscription to the plugin: its tenant, organization, subscriber, status, dates and plan.
- * The subscription ids it gave out also opened the billing routes of other tenants (ever-co/ever-gauzy#11234). A
+ * The subscription ids it gave out also opened the billing routes of other tenants (Elsavado/businessopsplatformmain#11234). A
  * signed-in caller reads their own subscription from `GET /plugins/:pluginId/subscriptions/me`, and the plugin's
  * publisher every subscription from `GET /plugins/:pluginId/subscriptions/publisher` (owner decision, 2026-10-22).
  */

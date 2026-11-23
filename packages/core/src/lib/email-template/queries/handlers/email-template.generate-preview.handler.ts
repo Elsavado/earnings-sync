@@ -74,7 +74,7 @@ export class EmailTemplateGeneratePreviewHandler implements IQueryHandler<EmailT
 			task_status: 'In Progress',
 			task_update_project: 'IRTranscripts Project',
 			task_update_assign_by: 'Ruslan Konviser',
-			task_update_url: 'https://github.com/ever-co/ever-gauzy/issues/1688',
+			task_update_url: 'https://github.com/Elsavado/businessopsplatformmain/issues/1688',
 			inviteCode: generateAlphaNumericCode(),
 			teams: 'IRTranscripts Team',
 			verificationCode: generateAlphaNumericCode(),
@@ -86,7 +86,7 @@ export class EmailTemplateGeneratePreviewHandler implements IQueryHandler<EmailT
 				{
 					tenantName: 'Default',
 					userName: 'Default',
-					resetLink: 'https://github.com/ever-co/ever-gauzy'
+					resetLink: 'https://github.com/Elsavado/businessopsplatformmain'
 				}
 			],
 			companyLink,

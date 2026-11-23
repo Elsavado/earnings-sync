@@ -195,7 +195,7 @@ export class EquipmentSharingMutationComponent extends TranslationBaseComponent 
 		try {
 			if (this.equipmentSharing) {
 				// The version of the row this dialog was opened on: the server writes the edit only at that version
-				// (ever-co/ever-gauzy#11384), so a decision or another edit saved while the dialog was open is not
+				// (Elsavado/businessopsplatformmain#11384), so a decision or another edit saved while the dialog was open is not
 				// overwritten by this one's columns (its `status` included, read when the dialog opened) — the save
 				// is refused with 409 instead. The edit is made in place (the row is updated where it is rather than
 				// removed and filed again). A row read before the column existed carries no version, and is saved

@@ -1114,7 +1114,7 @@ export const DEFAULT_ROLE_PERMISSIONS = [
 			PermissionsEnum.EMPLOYEE_AVAILABILITY_DELETE,
 			/**
 			 * Switching among the organizations the user belongs to (`POST /auth/switch-organization`, which checks the
-			 * membership): since ever-co/ever-gauzy#11316 a non-admin works only in the organization of their token, so a
+			 * membership): since Elsavado/businessopsplatformmain#11316 a non-admin works only in the organization of their token, so a
 			 * manager of two organizations needs it to reach the second. Existing tenants get the same from
 			 * `GrantChangeSelectedOrganizationPermission1791000000861`.
 			 */

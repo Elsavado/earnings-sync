@@ -235,7 +235,7 @@ jobs:
             console.log(script.desktop(false))
         env:
           IRTRANSCRIPTS_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
-          PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
+          PROJECT_REPO: 'https://github.com/Elsavado/businessopsplatformmain.git'
           DESKTOP_APP_NAME: 'irtranscripts-desktop'
           # Demo electron releases go to the same repo
           DESKTOP_APP_REPO_NAME: 'ever-irtranscripts'
@@ -311,7 +311,7 @@ jobs:
           # failures. Matches the e2e workflow's proven setting on the same box.
           NX_ISOLATE_PLUGINS: false
           NX_DAEMON: false
-          PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
+          PROJECT_REPO: 'https://github.com/Elsavado/businessopsplatformmain.git'
           # Demo electron releases go to the same repo
           DESKTOP_APP_REPO_OWNER: 'ever-co'
           DESKTOP_APP_REPO_NAME: 'ever-irtranscripts'

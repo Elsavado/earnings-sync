@@ -15,7 +15,7 @@ export const CHANGE_SELECTED_ORGANIZATION_ROLES: readonly RolesEnum[] = [RolesEn
 /**
  * Grants `CHANGE_SELECTED_ORGANIZATION` to the `MANAGER` and `VIEWER` roles of every tenant.
  *
- * Since ever-co/ever-gauzy#11316 (owner decision 1) a non-admin works only in the organization named in their access
+ * Since Elsavado/businessopsplatformmain#11316 (owner decision 1) a non-admin works only in the organization named in their access
  * token, and moves to another organization of the tenant with `POST /auth/switch-organization`, which requires
  * `CHANGE_SELECTED_ORGANIZATION`. `SUPER_ADMIN`, `ADMIN`, `DATA_ENTRY` and `EMPLOYEE` hold it by default; `MANAGER` and
  * `VIEWER` did not, so a manager or viewer who belongs to two organizations was stuck in one. The route still checks

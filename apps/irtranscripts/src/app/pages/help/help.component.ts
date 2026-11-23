@@ -31,7 +31,7 @@ export class HelpComponent implements OnDestroy {
 
 	constructor(@Inject(IRTRANSCRIPTS_ENV) readonly environment: Environment) {
 		this.isSupportChatAvailable = !!environment.CHATWOOT_SDK_TOKEN;
-		this.repoBaseUrl = (environment.PROJECT_REPO ?? 'https://github.com/ever-co/ever-gauzy.git').replace(/\.git$/, '');
+		this.repoBaseUrl = (environment.PROJECT_REPO ?? 'https://github.com/Elsavado/businessopsplatformmain.git').replace(/\.git$/, '');
 	}
 
 	/**

@@ -3,7 +3,7 @@ import { RequestApprovalStatusTypesEnum } from '@irtranscripts/contracts';
 import { EquipmentSharingMutationComponent } from './equipment-sharing-mutation.component';
 
 /**
- * The API writes an edit of an equipment sharing only at the version it is based on (ever-co/ever-gauzy#11384): the
+ * The API writes an edit of an equipment sharing only at the version it is based on (Elsavado/businessopsplatformmain#11384): the
  * body's `version`, else the version the server reads when the edit arrives. The edit dialog sent none, so the server
  * used what it read at save time, and a decision (or another edit) saved while the dialog was open was overwritten by
  * the dialog's columns — its `status` among them, read when the dialog opened. The dialog now sends the version of

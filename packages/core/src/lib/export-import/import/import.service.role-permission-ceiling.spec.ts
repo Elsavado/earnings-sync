@@ -139,7 +139,7 @@ function buildService(importRecords: Record<string, string> = {}, stored: Record
  * `POST /import` (IMPORT_ADD, an ADMIN's by default) wrote an archive's `role_permission` rows like any other table's,
  * so a crafted archive (a hand-built ZIP is accepted) enabled on an ADMIN or a custom role a permission the importing
  * ADMIN does not hold (`SUPER_ADMIN_EDIT`, `GLOBAL_SETTING`, `PAYMENT_PROVIDERS_EDIT`, ...), which they could then give
- * to a user they control. The role-permission API refuses that (ever-co/ever-gauzy#11232) and refuses an ADMIN any
+ * to a user they control. The role-permission API refuses that (Elsavado/businessopsplatformmain#11232) and refuses an ADMIN any
  * change to the SUPER_ADMIN and ADMIN roles' permissions (SEC-A-07). The import now writes these rows by the same
  * rules, and skips the rest.
  *

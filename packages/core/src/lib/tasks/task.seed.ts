@@ -25,7 +25,7 @@ export const GITHUB_API_URL = 'https://api.github.com';
 export const SEED_ISSUES_TIMEOUT_MS = 10_000;
 
 /**
- * The issues the task seeds turn into tasks: the open issues of `ever-co/ever-gauzy` when GitHub answers, the
+ * The issues the task seeds turn into tasks: the open issues of `Elsavado/businessopsplatformmain` when GitHub answers, the
  * local sample issues ({@link SEED_SAMPLE_ISSUES}) when it does not.
  *
  * The request is unauthenticated (60 an hour per IP), and a 403 used to end the seed: no tags and no tasks, and
@@ -35,7 +35,7 @@ export const SEED_ISSUES_TIMEOUT_MS = 10_000;
  * @returns The issues, never empty.
  */
 export async function loadSeedIssues(httpService: HttpService = new HttpService()): Promise<ISeedIssue[]> {
-	const url = `${GITHUB_API_URL}/repos/ever-co/ever-gauzy/issues`;
+	const url = `${GITHUB_API_URL}/repos/Elsavado/businessopsplatformmain/issues`;
 
 	try {
 		const issues = await lastValueFrom(

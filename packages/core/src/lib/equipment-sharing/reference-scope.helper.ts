@@ -202,7 +202,7 @@ export function withReferencesAsIds<T extends ISharingReferences>(
  * policy, each as its column, `null` for one checked as absent — so the upsert keeps none of the stored row's. Left
  * to the upsert, a column the payload omits was read again at the write: an upsert that only changes the equipment,
  * checked in organization A, could land after a concurrent upsert moved the sharing to organization B with B's
- * equipment and policy, and store A's equipment in B's sharing (review on ever-co/ever-gauzy#11359). The row a
+ * equipment and policy, and store A's equipment in B's sharing (review on Elsavado/businessopsplatformmain#11359). The row a
  * write stores is now always the triple that write checked; of two concurrent writes, the last one wins whole.
  *
  * @param values - The payload, normalised by {@link withReferencesAsIds}.

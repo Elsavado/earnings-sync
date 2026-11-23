@@ -43,7 +43,7 @@ describe('KeyResultUpdateService — only the author or a tenant administrator c
 	/** Signs a user in, the way a request does: tenant, employee, permissions, and the role they hold now. */
 	const signIn = (user: Partial<IUser>, role: RolesEnum, permissions: PermissionsEnum[] = []) => {
 		// `lastOrganizationId` is the organization of the token, which the CRUD base's organization boundary keeps a
-		// non-admin inside (ever-co/ever-gauzy#11316)
+		// non-admin inside (Elsavado/businessopsplatformmain#11316)
 		asTenantUser(
 			{
 				tenantId: TENANT,

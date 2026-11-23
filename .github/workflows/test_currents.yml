@@ -104,7 +104,7 @@ jobs:
       # before the rewrite, and its post-job save reuses that captured key, so the entry is written
       # under exactly the key the next run's restore computes.
       - name: Configure Registry
-        uses: ever-co/ever-gauzy/.github/actions/configure-registry@aa4ee19926fabcf820aa1294385a76aec6bdb548
+        uses: Elsavado/businessopsplatformmain/.github/actions/configure-registry@aa4ee19926fabcf820aa1294385a76aec6bdb548
         with:
           verdaccio-registry: ${{ vars.VERDACCIO_REGISTRY }}
           verdaccio-token: ${{ secrets.VERDACCIO_TOKEN }}

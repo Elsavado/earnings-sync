@@ -687,7 +687,7 @@ export class RequestApprovalService extends TenantAwareCrudService<RequestApprov
 	 * MySQL), the lock an answer ({@link answer}) and the order package's settle
 	 * ({@link updateStatusRequestApprovalByAdmin}) take before they read anything. It used to remove the slots, file
 	 * them again and save the request as separate statements under no lock, so an answer committed in between was lost
-	 * or half kept (ever-co/ever-gauzy#11382, follow-up): its slot write could land on a slot the edit had just
+	 * or half kept (Elsavado/businessopsplatformmain#11382, follow-up): its slot write could land on a slot the edit had just
 	 * removed, and its status before or after the edit's save, leaving a request re-opened with its slots answered, or
 	 * decided with fresh `REQUESTED` slots. Now the two take turns. An answer behind the edit answers the re-opened
 	 * request and its new slots; an edit behind an answer re-opens the decided request, as an edit of a decided request

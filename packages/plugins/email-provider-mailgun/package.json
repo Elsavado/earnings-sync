@@ -8,13 +8,13 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ever-co/ever-gauzy",
+		"url": "https://github.com/Elsavado/businessopsplatformmain",
 		"directory": "packages/plugins/email-provider-mailgun"
 	},
 	"bugs": {
-		"url": "https://github.com/ever-co/ever-gauzy/issues"
+		"url": "https://github.com/Elsavado/businessopsplatformmain/issues"
 	},
-	"homepage": "https://github.com/ever-co/ever-gauzy/tree/develop/packages/plugins/email-provider-mailgun",
+	"homepage": "https://github.com/Elsavado/businessopsplatformmain/tree/develop/packages/plugins/email-provider-mailgun",
 	"license": "AGPL-3.0",
 	"private": true,
 	"type": "commonjs",

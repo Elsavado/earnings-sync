@@ -9,7 +9,7 @@ call either of them can make. Nothing else in IRTranscripts calls Ever Platform.
 
 This page is published at [docs.irtranscripts.com](https://docs.irtranscripts.com/ever-platform/outbound-calls/) from
 [`ever-co/ever-gauzy-docs`](https://github.com/ever-co/ever-gauzy-docs). The copy in
-`ever-co/ever-gauzy` (`tools/ever-platform/outbound-calls.md`) is the one CI checks against the
+`Elsavado/businessopsplatformmain` (`tools/ever-platform/outbound-calls.md`) is the one CI checks against the
 pinned contract; a change to it is copied to the published page.
 
 ## When nothing is sent
@@ -107,7 +107,7 @@ by the web app.
 
 Run the API with both modules off and capture its traffic (for example `tcpdump -i any host api.ever.co`,
 or a Compose network with `internal: true`): there is none to Ever Platform. Or run the egress audit
-locally, with Docker, at the root of a checkout of [`ever-co/ever-gauzy`](https://github.com/ever-co/ever-gauzy)
+locally, with Docker, at the root of a checkout of [`Elsavado/businessopsplatformmain`](https://github.com/Elsavado/businessopsplatformmain)
 (the audit and its config live there; [its README](../../tools/egress-audit/README.md#running-it) has the
 other modes and the route-list check):
 

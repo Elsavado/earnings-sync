@@ -3,7 +3,7 @@
  * `equipmentId` / `equipmentSharingPolicyId` columns only, while the recreate also persisted the related objects
  * (`equipment: { id }`, `equipmentSharingPolicy: { id }`), which the ORM writes as the foreign key just the same: a
  * crafted body re-attached a sharing to another organization's equipment or policy of the same tenant (follow-up of
- * ever-co/ever-gauzy#11167).
+ * Elsavado/businessopsplatformmain#11167).
  *
  * The services are replaced, so the suite does not load the entity graph (see `reference-scope.helper.spec.ts`).
  */
@@ -136,7 +136,7 @@ describe('EquipmentSharingUpdateHandler — the rows an edit points at', () => {
 	});
 });
 
-describe('EquipmentSharingUpdateHandler — an edit is a compare-and-set on the version it read (ever-co/ever-gauzy#11359)', () => {
+describe('EquipmentSharingUpdateHandler — an edit is a compare-and-set on the version it read (Elsavado/businessopsplatformmain#11359)', () => {
 	it('removes the row only at the version the server read when the body states none, and recreates it at the next', async () => {
 		const { handler, sharingService, approvalService } = setUp();
 

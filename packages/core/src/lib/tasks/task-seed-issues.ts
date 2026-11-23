@@ -1,7 +1,7 @@
 /**
  * The issues the task seeds turn into tasks when GitHub cannot be reached.
  *
- * The seeds read the open issues of `ever-co/ever-gauzy` from the GitHub API, unauthenticated: 60 requests an hour
+ * The seeds read the open issues of `Elsavado/businessopsplatformmain` from the GitHub API, unauthenticated: 60 requests an hour
  * per IP. A demo cluster shares its egress IP with CI runners, and a workstation running several API boots exhausts
  * it, so the request regularly answers 403 — and the seed used to stop there: no tags, no tasks, and with no
  * project holding a task the time logs, activities and job proposals seeded after it failed too. These stand in for

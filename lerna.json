@@ -2,7 +2,7 @@
 	"npmClient": "yarn",
 	"version": "0.1.0",
 	"changelog": {
-		"repo": "ever-co/ever-gauzy",
+		"repo": "Elsavado/businessopsplatformmain",
 		"cacheDir": ".changelog",
 		"labels": {}
 	},

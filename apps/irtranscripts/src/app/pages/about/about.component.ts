@@ -60,7 +60,7 @@ export class AboutComponent implements OnInit, OnDestroy {
 	private copiedTimer: ReturnType<typeof setTimeout> | null = null;
 
 	constructor(private readonly http: HttpClient, @Inject(IRTRANSCRIPTS_ENV) readonly environment: Environment) {
-		this.repoBaseUrl = (environment.PROJECT_REPO ?? 'https://github.com/ever-co/ever-gauzy.git').replace(/\.git$/, '');
+		this.repoBaseUrl = (environment.PROJECT_REPO ?? 'https://github.com/Elsavado/businessopsplatformmain.git').replace(/\.git$/, '');
 		this.repoName = this.repoBaseUrl.replace(/^https?:\/\/github\.com\//, '');
 		this.web = { version: environment.version ?? '', commit: environment.commit ?? '' };
 		this.isProductionBuild = !!environment.production;

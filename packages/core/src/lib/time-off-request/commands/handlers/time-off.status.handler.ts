@@ -22,7 +22,7 @@ export class TimeOffStatusHandler implements ICommandHandler<TimeOffStatusComman
 	 * `approveTimeOffRequest` / `denyTimeOffRequest`), and the request approval recorded beside it.
 	 *
 	 * Who may decide, and that a decided request may be decided again, are unchanged. What changed is how the two rows
-	 * are written (follow-up listed on ever-co/ever-gauzy#11382): see {@link decide}.
+	 * are written (follow-up listed on Elsavado/businessopsplatformmain#11382): see {@link decide}.
 	 *
 	 * @param command The request and the decision.
 	 * @returns The request, as decided.
@@ -60,7 +60,7 @@ export class TimeOffStatusHandler implements ICommandHandler<TimeOffStatusComman
 	 *
 	 * Now, on one transaction: the request approval's row is locked first (`SELECT … FOR UPDATE` on PostgreSQL and
 	 * MySQL; SQLite serializes the transaction instead), the lock the request approval's own answer route takes before
-	 * it moves the leave (ever-co/ever-gauzy#11382), so the two routes take turns and take their locks in one order;
+	 * it moves the leave (Elsavado/businessopsplatformmain#11382), so the two routes take turns and take their locks in one order;
 	 * then the leave is read again under its own lock, and refused (404, nothing written) when it is gone; then each
 	 * row's status is written, and nothing else.
 	 *

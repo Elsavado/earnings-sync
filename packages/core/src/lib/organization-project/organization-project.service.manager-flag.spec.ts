@@ -12,7 +12,7 @@ import { OrganizationProjectService } from './organization-project.service';
  * manager act for the project's members: their time-tracking statistics and activity. An EMPLOYEE holds
  * ORG_PROJECT_ADD by default, names any colleagues of the organization as members of a project they create, and
  * is made that project's manager automatically, so setting the flag there let any employee give themselves the
- * manager's reach over those colleagues. The team twin was closed by ever-co/ever-gauzy#11197.
+ * manager's reach over those colleagues. The team twin was closed by Elsavado/businessopsplatformmain#11197.
  *
  * The flag is now written only by a caller holding CHANGE_SELECTED_EMPLOYEE (Admin / Super Admin), who may already
  * act for every employee. Anyone else gives the MANAGER role alone, never raises the flag, and clears it with the

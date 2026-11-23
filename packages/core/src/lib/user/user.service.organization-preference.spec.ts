@@ -23,7 +23,7 @@ import { UserService } from './user.service';
  * (`RequestContext.currentOrganizationId()`), and the one the next sign-in scopes its token to. `PUT /user/:id`
  * and the `updateUser` field wrote it from the body with no membership check, and `PROFILE_EDIT` (every employee
  * holds it) may edit one's own profile — so a user could point themselves at any organization of their tenant and,
- * with the organization boundary on by default (ever-co/ever-gauzy#11316), work inside it.
+ * with the organization boundary on by default (Elsavado/businessopsplatformmain#11316), work inside it.
  */
 describe('UserService.updateProfile — the organization a profile points at must be a membership', () => {
 	const TENANT = 'tenant-1';

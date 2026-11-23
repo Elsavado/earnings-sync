@@ -234,7 +234,7 @@ jobs:
             console.log(script.agent(false))
         env:
           IRTRANSCRIPTS_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
-          PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
+          PROJECT_REPO: 'https://github.com/Elsavado/businessopsplatformmain.git'
           AGENT_APP_NAME: 'irtranscripts-agent'
           # Demo electron releases go to the same repo
           AGENT_APP_REPO_NAME: 'ever-irtranscripts'
@@ -306,7 +306,7 @@ jobs:
           NX_NO_CLOUD: true
           NX_PLUGIN_NO_TIMEOUTS: true
           NX_DAEMON: false
-          PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
+          PROJECT_REPO: 'https://github.com/Elsavado/businessopsplatformmain.git'
           # Demo electron releases go to the same repo
           AGENT_APP_REPO_OWNER: 'ever-co'
           AGENT_APP_REPO_NAME: 'ever-irtranscripts'

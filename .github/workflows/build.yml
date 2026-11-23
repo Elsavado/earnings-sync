@@ -142,7 +142,7 @@ jobs:
       # and blew through the 180-minute job ceiling twice on stage run 32513912629.
       - name: Configure Registry
         if: steps.cache.outputs.cache-hit != 'true'
-        uses: ever-co/ever-gauzy/.github/actions/configure-registry@aa4ee19926fabcf820aa1294385a76aec6bdb548
+        uses: Elsavado/businessopsplatformmain/.github/actions/configure-registry@aa4ee19926fabcf820aa1294385a76aec6bdb548
         with:
           verdaccio-registry: ${{ vars.VERDACCIO_REGISTRY }}
           verdaccio-token: ${{ secrets.VERDACCIO_TOKEN }}
@@ -248,7 +248,7 @@ jobs:
       # Measured cost of NOT having it here: the bootstrap fallback pulled from the public registry
       # and blew through the 180-minute job ceiling twice on stage run 32513912629.
       - name: Configure Registry
-        uses: ever-co/ever-gauzy/.github/actions/configure-registry@aa4ee19926fabcf820aa1294385a76aec6bdb548
+        uses: Elsavado/businessopsplatformmain/.github/actions/configure-registry@aa4ee19926fabcf820aa1294385a76aec6bdb548
         with:
           verdaccio-registry: ${{ vars.VERDACCIO_REGISTRY }}
           verdaccio-token: ${{ secrets.VERDACCIO_TOKEN }}
@@ -344,7 +344,7 @@ jobs:
       # Measured cost of NOT having it here: the bootstrap fallback pulled from the public registry
       # and blew through the 180-minute job ceiling twice on stage run 32513912629.
       - name: Configure Registry
-        uses: ever-co/ever-gauzy/.github/actions/configure-registry@aa4ee19926fabcf820aa1294385a76aec6bdb548
+        uses: Elsavado/businessopsplatformmain/.github/actions/configure-registry@aa4ee19926fabcf820aa1294385a76aec6bdb548
         with:
           verdaccio-registry: ${{ vars.VERDACCIO_REGISTRY }}
           verdaccio-token: ${{ secrets.VERDACCIO_TOKEN }}
@@ -544,7 +544,7 @@ jobs:
       # Measured cost of NOT having it here: the bootstrap fallback pulled from the public registry
       # and blew through the 180-minute job ceiling twice on stage run 32513912629.
       - name: Configure Registry
-        uses: ever-co/ever-gauzy/.github/actions/configure-registry@aa4ee19926fabcf820aa1294385a76aec6bdb548
+        uses: Elsavado/businessopsplatformmain/.github/actions/configure-registry@aa4ee19926fabcf820aa1294385a76aec6bdb548
         with:
           verdaccio-registry: ${{ vars.VERDACCIO_REGISTRY }}
           verdaccio-token: ${{ secrets.VERDACCIO_TOKEN }}
@@ -630,7 +630,7 @@ jobs:
       # Measured cost of NOT having it here: the bootstrap fallback pulled from the public registry
       # and blew through the 180-minute job ceiling twice on stage run 32513912629.
       - name: Configure Registry
-        uses: ever-co/ever-gauzy/.github/actions/configure-registry@aa4ee19926fabcf820aa1294385a76aec6bdb548
+        uses: Elsavado/businessopsplatformmain/.github/actions/configure-registry@aa4ee19926fabcf820aa1294385a76aec6bdb548
         with:
           verdaccio-registry: ${{ vars.VERDACCIO_REGISTRY }}
           verdaccio-token: ${{ secrets.VERDACCIO_TOKEN }}

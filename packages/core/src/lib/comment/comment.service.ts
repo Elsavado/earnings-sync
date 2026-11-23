@@ -66,7 +66,7 @@ export class CommentService extends TenantAwareCrudService<Comment> {
 			// The author is the caller, and never the body. A caller with an employee record is the author.
 			// A caller without one posts an author-less comment, which is owned by the user who posted it:
 			// `createdByUserId` is stamped from the credential, which is the key assertMayManage manages it
-			// by and the identity the ever-co/ever-gauzy#11328 ownership rule reads. The body's `employeeId`
+			// by and the identity the Elsavado/businessopsplatformmain#11328 ownership rule reads. The body's `employeeId`
 			// used to be the fallback, so a caller with no employee record could post as any employee,
 			// mention notifications included.
 			const employeeId = this.callerEmployeeId();
@@ -168,7 +168,7 @@ export class CommentService extends TenantAwareCrudService<Comment> {
 			}
 
 			// Update the comment with the new input data. Who wrote and who resolved it are not an edit's to
-			// restate, by the rule every per-user row follows (ever-co/ever-gauzy#11328, withoutAuthorChange):
+			// restate, by the rule every per-user row follows (Elsavado/businessopsplatformmain#11328, withoutAuthorChange):
 			// `createdByUserId` and `createdByUser` never, the author and resolver columns only by a tenant
 			// administrator.
 			// ICommentUpdateInput already leaves the author out, but the REST DTO still carried `employeeId`,

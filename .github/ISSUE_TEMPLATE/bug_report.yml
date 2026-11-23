@@ -84,7 +84,7 @@ body:
     attributes:
       label: Before submitting
       options:
-        - label: I searched the [existing issues](https://github.com/ever-co/ever-gauzy/issues) and this is not a duplicate
+        - label: I searched the [existing issues](https://github.com/Elsavado/businessopsplatformmain/issues) and this is not a duplicate
           required: true
-        - label: I read the [contributing guidelines](https://github.com/ever-co/ever-gauzy/blob/master/.github/CONTRIBUTING.md)
+        - label: I read the [contributing guidelines](https://github.com/Elsavado/businessopsplatformmain/blob/master/.github/CONTRIBUTING.md)
           required: true

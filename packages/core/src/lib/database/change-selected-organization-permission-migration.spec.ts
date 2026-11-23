@@ -8,7 +8,7 @@ import { CoreRolePermissionsReload1791000000500 } from './migrations/17910000005
 import { GrantChangeSelectedOrganizationPermission1791000000861 } from './migrations/1791000000861-GrantChangeSelectedOrganizationPermission';
 
 /**
- * After ever-co/ever-gauzy#11316 a non-admin works only in the organization of their access token and moves with
+ * After Elsavado/businessopsplatformmain#11316 a non-admin works only in the organization of their access token and moves with
  * `POST /auth/switch-organization`, which requires `CHANGE_SELECTED_ORGANIZATION`. `MANAGER` and `VIEWER` did not hold
  * it, so a manager or viewer in two organizations was stuck in one. The migration grants it to those two roles in every
  * tenant, and to nobody else; a new tenant gets the same from `DEFAULT_ROLE_PERMISSIONS`.

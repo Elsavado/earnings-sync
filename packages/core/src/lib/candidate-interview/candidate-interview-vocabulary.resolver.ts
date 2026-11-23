@@ -198,7 +198,7 @@ export class CandidateInterviewVocabularyResolver {
 	 * Edits a technology, answering the row the write produced.
 	 *
 	 * States the role guard and the three roles its route `PUT /candidate-technologies/:id` has stated since
-	 * ever-co/ever-gauzy#11228. Without them any member of the tenant could rewrite a sitting's technology
+	 * Elsavado/businessopsplatformmain#11228. Without them any member of the tenant could rewrite a sitting's technology
 	 * names and ratings over GraphQL while the REST twin refused the same caller.
 	 */
 	@Mutation('updateCandidateTechnology')
@@ -357,7 +357,7 @@ export class CandidateInterviewVocabularyResolver {
 	 * Edits a personal quality, answering the row the write produced.
 	 *
 	 * States the role guard and the three roles its route `PUT /candidate-personal-qualities/:id` has stated
-	 * since ever-co/ever-gauzy#11228, for the same reason the technology edit does.
+	 * since Elsavado/businessopsplatformmain#11228, for the same reason the technology edit does.
 	 */
 	@Mutation('updateCandidatePersonalQuality')
 	@UseGuards(RoleGuard)

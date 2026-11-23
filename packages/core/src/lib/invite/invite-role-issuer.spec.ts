@@ -6,7 +6,7 @@ import { mayIssueInviteRole, withholdTokensNotIssuable } from './invite-role-iss
  * employee could read an admin invitation's token, accept it with the invited address and register as an admin. The
  * token now stays with a caller who may issue invitations (ORG_INVITE_EDIT) for the invitation's role.
  *
- * Which roles a caller may issue is the role ceiling `createBulk` applies (owner decision, ever-co/ever-gauzy#11318):
+ * Which roles a caller may issue is the role ceiling `createBulk` applies (owner decision, Elsavado/businessopsplatformmain#11318):
  * own level or below, only ADMIN/SUPER_ADMIN invite ADMIN, only SUPER_ADMIN invites SUPER_ADMIN.
  */
 describe('mayIssueInviteRole', () => {

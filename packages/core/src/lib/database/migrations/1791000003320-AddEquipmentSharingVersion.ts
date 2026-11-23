@@ -21,7 +21,7 @@ const COLUMN: Readonly<{ name: string } & Record<Dialect, string>> = {
  * (`@VersionColumn` on `EquipmentSharing`).
  *
  * Two authorized editors who read the same sharing and both wrote it back interleaved column by column, because
- * `save()` writes only the columns that differ from what it loaded (review on ever-co/ever-gauzy#11359). An edit is
+ * `save()` writes only the columns that differ from what it loaded (review on Elsavado/businessopsplatformmain#11359). An edit is
  * now a compare-and-set on the version it read, refused with 409 when the row has moved on.
  *
  * Every existing sharing gets version 1, which is what the default writes, so nothing is backfilled; on Postgres 11+

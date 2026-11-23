@@ -717,8 +717,8 @@ describe('CandidateInterviewVocabularyResolver — the guard stack is the contro
 	it.each([
 		{ field: 'updateCandidateTechnology', controller: CandidateTechnologiesController },
 		{ field: 'updateCandidatePersonalQuality', controller: CandidatePersonalQualitiesController }
-	])('$field refuses the callers its REST edit refuses (ever-co/ever-gauzy#11228 parity)', ({ field, controller }) => {
-		// The REST edit gained the role guard in ever-co/ever-gauzy#11228; the GraphQL edit had kept the
+	])('$field refuses the callers its REST edit refuses (Elsavado/businessopsplatformmain#11228 parity)', ({ field, controller }) => {
+		// The REST edit gained the role guard in Elsavado/businessopsplatformmain#11228; the GraphQL edit had kept the
 		// tenant guard alone, so a VIEWER or EMPLOYEE could rewrite a sitting's vocabulary over GraphQL.
 		expect(guardsOfRoute(controller, 'update')).toContain(RoleGuard);
 		expect(guardsOfField(field)).toContain(RoleGuard);

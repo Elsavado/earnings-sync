@@ -13,7 +13,7 @@ jest.mock('@nestjs/axios', () => ({
 }));
 
 /**
- * The random seed turns the open issues of ever-co/ever-gauzy into tasks. The GitHub request is unauthenticated
+ * The random seed turns the open issues of Elsavado/businessopsplatformmain into tasks. The GitHub request is unauthenticated
  * (60 an hour per IP); on its 403 the seed threw: no tags, no tasks, and with no project holding a task the time
  * logs, activities and job proposals seeded after it failed as well. It now seeds the local sample issues.
  */
@@ -70,7 +70,7 @@ describe('createRandomTask when GitHub refuses the issues request', () => {
 
 		// Asked once, with a deadline so an unreachable GitHub cannot hold the seed
 		expect(get).toHaveBeenCalledWith(
-			`${GITHUB_API_URL}/repos/ever-co/ever-gauzy/issues`,
+			`${GITHUB_API_URL}/repos/Elsavado/businessopsplatformmain/issues`,
 			expect.objectContaining({ timeout: expect.any(Number) })
 		);
 		expect(saved.map((task) => task.title)).toEqual(SEED_SAMPLE_ISSUES.map((issue) => issue.title));

@@ -4,7 +4,7 @@ import { canInviteWithRole, ID, IInvite, IRole, RolesEnum } from '@irtranscripts
  * Whether a caller holding `callerRole` may issue an invitation that grants `invitedRole`, and so may hold its
  * accept-invite token (whoever holds the token can accept the invitation and register with its role).
  *
- * The rule `createBulk` applies when it mints an invitation (owner decision, ever-co/ever-gauzy#11318): an inviter
+ * The rule `createBulk` applies when it mints an invitation (owner decision, Elsavado/businessopsplatformmain#11318): an inviter
  * grants only their own level or lower (`canInviteWithRole`), so only an ADMIN or SUPER_ADMIN issues an ADMIN
  * invitation, only a SUPER_ADMIN a SUPER_ADMIN one, and a role the tenant created takes a tenant admin.
  *

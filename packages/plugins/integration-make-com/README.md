@@ -79,4 +79,4 @@ After building your library with `yarn nx build plugin-integration-make-com`, go
 
 ## Support
 
-For issues and feature requests, please visit our [GitHub repository](https://github.com/ever-co/ever-gauzy).
+For issues and feature requests, please visit our [GitHub repository](https://github.com/Elsavado/businessopsplatformmain).

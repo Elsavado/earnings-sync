@@ -22,7 +22,7 @@ export class EquipmentSharingUpdateHandler implements ICommandHandler<EquipmentS
 	 * read below finds. The row is removed only at that version, so of two edits based on the same version one goes
 	 * through and the other is refused with 409 `ENTITY_VERSION_CONFLICT` before it has removed or written anything;
 	 * two overlapping edits used to recreate the row one over the other and keep some columns of each
-	 * (ever-co/ever-gauzy#11359). The recreated row carries the next version.
+	 * (Elsavado/businessopsplatformmain#11359). The recreated row carries the next version.
 	 *
 	 * @param command - The EquipmentSharingUpdateCommand containing the record's ID and the updated equipment sharing data.
 	 * @returns A promise that resolves to the updated EquipmentSharing record.

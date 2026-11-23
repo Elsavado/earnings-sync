@@ -125,7 +125,7 @@ export interface IEquipmentSharingDecisionTransaction {
 	 * Reads the sharing's request approval by its own id, inside the tenant, and holds its row until the transaction
 	 * ends (`SELECT … FOR UPDATE` on PostgreSQL and MySQL; SQLite serializes the transaction instead, and the read
 	 * is a plain one there). An answer through the request approval's own route locks that row first as well
-	 * (ever-co/ever-gauzy#11382), so the two routes take their locks in one order.
+	 * (Elsavado/businessopsplatformmain#11382), so the two routes take their locks in one order.
 	 *
 	 * @returns The approval as stored now, or null when it is no longer there.
 	 */
@@ -294,7 +294,7 @@ export class EquipmentSharingService extends TenantAwareCrudService<EquipmentSha
 	 * A body whose id names a stored sharing is an edit of that sharing, and two of them used to interleave column by
 	 * column: the upsert's `save()` writes only the columns that differ from what it loads, so an edit checked in one
 	 * organization could land after another edit moved the sharing and keep half of each (review on
-	 * ever-co/ever-gauzy#11359). Such an upsert first claims the version of the row the check read — or the version
+	 * Elsavado/businessopsplatformmain#11359). Such an upsert first claims the version of the row the check read — or the version
 	 * the body states — in one conditional statement, `UPDATE … SET version = :next WHERE id = :id AND version =
 	 * :read`, and is refused with 409 when the row has moved on; the upsert then stores the checked payload. Of two
 	 * edits based on the same read, one claims the version and the other is refused before it writes anything.
@@ -795,7 +795,7 @@ export class EquipmentSharingService extends TenantAwareCrudService<EquipmentSha
 	 *
 	 * `PUT /equipment-sharing/:id` removes the row and files it again under the same id (its documented GraphQL
 	 * contract, kept as it is). Between the two statements the row is missing, and a `POST /equipment-sharing` that
-	 * names its id in that moment inserts it, which the recreate then overwrites (ever-co/ever-gauzy#11398). This edit
+	 * names its id in that moment inserts it, which the recreate then overwrites (Elsavado/businessopsplatformmain#11398). This edit
 	 * writes the row where it is instead, so there is no such moment:
 	 *
 	 * - the row is read in the caller's scope (tenant and organization boundary; 404 otherwise), and the equipment,

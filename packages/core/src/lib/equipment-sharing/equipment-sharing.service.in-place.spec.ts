@@ -21,7 +21,7 @@ import { inPlaceSharingChange } from './in-place-update.helper';
  * removes the row and files it again (`PUT /equipment-sharing/:id`, kept as it is).
  *
  * That edit leaves a moment where the row is missing — a `POST /equipment-sharing` naming its id then inserts it, and
- * the recreate overwrites it (ever-co/ever-gauzy#11398). `PUT /equipment-sharing/:id/in-place` (GraphQL
+ * the recreate overwrites it (Elsavado/businessopsplatformmain#11398). `PUT /equipment-sharing/:id/in-place` (GraphQL
  * `updateEquipmentSharingInPlace`) writes the row where it is, in one statement predicated on the version the body
  * states, and is refused with 409 `ENTITY_VERSION_CONFLICT` when the row has moved on.
  *

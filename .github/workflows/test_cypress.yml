@@ -105,7 +105,7 @@ jobs:
       # packages from any npm registry. Adding the step there would buy nothing and would rewrite
       # yarn.lock ahead of that action's own internal lockfile-keyed cache, splitting it in two.
       - name: Configure Registry
-        uses: ever-co/ever-gauzy/.github/actions/configure-registry@aa4ee19926fabcf820aa1294385a76aec6bdb548
+        uses: Elsavado/businessopsplatformmain/.github/actions/configure-registry@aa4ee19926fabcf820aa1294385a76aec6bdb548
         with:
           verdaccio-registry: ${{ vars.VERDACCIO_REGISTRY }}
           verdaccio-token: ${{ secrets.VERDACCIO_TOKEN }}

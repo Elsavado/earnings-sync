@@ -3,7 +3,7 @@ import { ENTITY_VERSION_CONFLICT, isEntityVersionConflict } from './version-conf
 
 /**
  * A write based on a row that has moved on is answered `409` with the catalogued code `ENTITY_VERSION_CONFLICT`
- * (the equipment sharing edit, ever-co/ever-gauzy#11384). The pages tell that apart from every other failure, so it
+ * (the equipment sharing edit, Elsavado/businessopsplatformmain#11384). The pages tell that apart from every other failure, so it
  * is pinned on the shapes the HTTP client rejects with.
  */
 describe('isEntityVersionConflict', () => {

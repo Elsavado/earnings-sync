@@ -289,7 +289,7 @@ beforeEach(() => {
 	// (`refusalForResolvedEndpoint`), and `receiver.example.test` is a name no resolver knows: a real lookup
 	// lasts as long as the machine's resolver takes to say so, which on a runner whose DNS is slow or
 	// unreachable is longer than the 5 s a test may take. The lookup answers a public address instead, so the
-	// policy still runs and lets the attempt through (the same fix as the resolver spec, ever-co/ever-gauzy#11361).
+	// policy still runs and lets the attempt through (the same fix as the resolver spec, Elsavado/businessopsplatformmain#11361).
 	lookup = jest.spyOn(dnsPromises, 'lookup').mockResolvedValue([{ address: PUBLIC_ADDRESS, family: 4 }] as never);
 });
 

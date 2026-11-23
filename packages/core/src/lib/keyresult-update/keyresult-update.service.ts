@@ -85,7 +85,7 @@ export class KeyResultUpdateService extends TenantAwareCrudService<KeyResultUpda
 	 * progress of its key results.
 	 *
 	 * The goals page used to compute both and write them back itself with `PUT /key-results/:id` and `PUT /goals/:id`.
-	 * Those routes need `GOALS_EDIT` (ever-co/ever-gauzy#11323), so an employee's report half-failed: the history row
+	 * Those routes need `GOALS_EDIT` (Elsavado/businessopsplatformmain#11323), so an employee's report half-failed: the history row
 	 * was filed and the key result and goal stayed where they were. Applying the report here keeps it whole without
 	 * `GOALS_EDIT`, and the progress is computed on the server ({@link keyResultProgress}, {@link goalProgress})
 	 * rather than taken from the request, so a report cannot set a percentage its value does not reach.

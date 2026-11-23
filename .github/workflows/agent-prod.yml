@@ -285,7 +285,7 @@ jobs:
             console.log(script.agent(true))
         env:
           IRTRANSCRIPTS_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
-          PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
+          PROJECT_REPO: 'https://github.com/Elsavado/businessopsplatformmain.git'
           AGENT_APP_NAME: 'irtranscripts-agent'
           AGENT_APP_REPO_NAME: 'ever-irtranscripts-agent'
           AGENT_APP_REPO_OWNER: 'ever-co'
@@ -551,7 +551,7 @@ jobs:
             console.log(script.agent(true))
         env:
           IRTRANSCRIPTS_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
-          PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
+          PROJECT_REPO: 'https://github.com/Elsavado/businessopsplatformmain.git'
           AGENT_APP_NAME: 'irtranscripts-agent'
           AGENT_APP_REPO_NAME: 'ever-irtranscripts-agent'
           AGENT_APP_REPO_OWNER: 'ever-co'
@@ -748,7 +748,7 @@ jobs:
             console.log(script.agent(true))
         env:
           IRTRANSCRIPTS_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
-          PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
+          PROJECT_REPO: 'https://github.com/Elsavado/businessopsplatformmain.git'
           AGENT_APP_NAME: 'irtranscripts-agent'
           AGENT_APP_REPO_NAME: 'ever-irtranscripts-agent'
           AGENT_APP_REPO_OWNER: 'ever-co'
@@ -1079,7 +1079,7 @@ jobs:
           AZURE_CODE_SIGNING_ACCOUNT: ${{ vars.AZURE_CODE_SIGNING_ACCOUNT || 'ever' }}
           AZURE_CODE_SIGNING_ENDPOINT: ${{ vars.AZURE_CODE_SIGNING_ENDPOINT || 'https://eus.codesigning.azure.net/' }}
           IRTRANSCRIPTS_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
-          PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
+          PROJECT_REPO: 'https://github.com/Elsavado/businessopsplatformmain.git'
           AGENT_APP_NAME: 'irtranscripts-agent'
           AGENT_APP_REPO_NAME: 'ever-irtranscripts-agent'
           AGENT_APP_REPO_OWNER: 'ever-co'
@@ -1438,7 +1438,7 @@ jobs:
           # WINDOWS_PUBLISHER_NAME the bump script emits no signer, so ARM64 builds
           # unsigned and succeeds; electron-updater verification stays off for it. x64 signs.
           IRTRANSCRIPTS_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
-          PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
+          PROJECT_REPO: 'https://github.com/Elsavado/businessopsplatformmain.git'
           AGENT_APP_NAME: 'irtranscripts-agent'
           AGENT_APP_REPO_NAME: 'ever-irtranscripts-agent'
           AGENT_APP_REPO_OWNER: 'ever-co'

@@ -321,10 +321,10 @@ export const env: Env = cleanEnv(
 			default: 'https://gitlab.com/ever-co'
 		}),
 		COMPANY_FACEBOOK_LINK: str({
-			default: 'https://www.facebook.com/gauzyplatform'
+			default: ''
 		}),
 		COMPANY_TWITTER_LINK: str({
-			default: 'https://twitter.com/gauzyplatform'
+			default: ''
 		}),
 		COMPANY_IN_LINK: str({
 			default: 'https://www.linkedin.com/company/everhq'
@@ -333,7 +333,7 @@ export const env: Env = cleanEnv(
 			default: 'assets/images/logos/logo_IRTranscripts.svg'
 		}),
 		PROJECT_REPO: str({
-			default: 'https://github.com/ever-co/ever-gauzy.git'
+			default: 'https://github.com/Elsavado/businessopsplatformmain.git'
 		}),
 
 		DESKTOP_TIMER_APP_NAME: str({

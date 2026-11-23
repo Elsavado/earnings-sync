@@ -3,7 +3,7 @@ import { documentStorageOrganizationSegment } from './document-storage-scope';
 
 /**
  * The upload storage engine named the organization folder of a document's key after the raw `Organization-Id`
- * header (follow-up of ever-co/ever-gauzy#11358): any caller could file their bytes under the key prefix of any
+ * header (follow-up of Elsavado/businessopsplatformmain#11358): any caller could file their bytes under the key prefix of any
  * organization they named. The folder is now the request's own organization, and a malformed header is a 400.
  */
 describe('documentStorageOrganizationSegment', () => {

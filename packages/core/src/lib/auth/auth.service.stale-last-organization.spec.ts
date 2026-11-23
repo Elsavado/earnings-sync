@@ -5,7 +5,7 @@ import { AuthService } from './auth.service';
 
 /**
  * A stored organization (`user.lastOrganizationId`) scopes a new token only while the user is still a member of it
- * (follow-up of ever-co/ever-gauzy#11357).
+ * (follow-up of Elsavado/businessopsplatformmain#11357).
  *
  * Sign-in, workspace sign-in (password, social and magic-code sign-ins all end there), workspace switch and token
  * refresh used the stored organization as the token's organization without checking it. Once the user's membership

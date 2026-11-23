@@ -339,7 +339,7 @@ export class EquipmentSharingComponent extends PaginationFilterBaseComponent imp
 	/**
 	 * Reports a failed approve / refuse.
 	 *
-	 * The server decides a sharing only at the version it reads (ever-co/ever-gauzy#11384), so a decision that loses
+	 * The server decides a sharing only at the version it reads (Elsavado/businessopsplatformmain#11384), so a decision that loses
 	 * the race with another decision or an edit is answered `409 ENTITY_VERSION_CONFLICT`. That is not an error of the
 	 * user's: they are told the request changed, and the list, which the caller reloads, shows what it is now. Any
 	 * other failure is shown as before.

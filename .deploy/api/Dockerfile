@@ -22,7 +22,7 @@
 FROM node:26.12.1-alpine3.24 AS dependencies
 
 LABEL maintainer="ever@ever.co"
-LABEL org.opencontainers.image.source="https://github.com/ever-co/ever-gauzy"
+LABEL org.opencontainers.image.source="https://github.com/Elsavado/businessopsplatformmain"
 
 ENV CI=true
 

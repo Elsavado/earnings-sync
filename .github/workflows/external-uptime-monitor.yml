@@ -24,7 +24,7 @@ name: External Uptime Monitor
 #  `ubuntu-latest` only so that GitHub's move of that label to Ubuntu 26 does not change the
 #  OS underneath the probe - it is still a GitHub-hosted runner.)
 #
-#  COST: ever-co/ever-gauzy is a PUBLIC repository, so GitHub-hosted minutes are free and
+#  COST: Elsavado/businessopsplatformmain is a PUBLIC repository, so GitHub-hosted minutes are free and
 #  unlimited. This costs $0. If the repo ever goes private, reduce the cron to hourly.
 # =====================================================================================
 
@@ -374,7 +374,7 @@ jobs:
               # "the origin answered with an error".
               w=$(curl -4 -sS -L --max-redirs 5 \
                     --connect-timeout "${CONNECT_TIMEOUT}" --max-time "${MAX_TIME}" \
-                    -A 'ever-irtranscripts-external-uptime-monitor (+https://github.com/ever-co/ever-gauzy)' \
+                    -A 'ever-irtranscripts-external-uptime-monitor (+https://github.com/Elsavado/businessopsplatformmain)' \
                     -D "$body.hdr" \
                     -o "$body" \
                     -w '%{http_code}|%{time_namelookup}|%{time_connect}|%{time_appconnect}|%{time_starttransfer}|%{time_total}|%{remote_ip}' \

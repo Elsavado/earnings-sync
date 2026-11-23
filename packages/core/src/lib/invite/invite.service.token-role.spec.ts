@@ -12,7 +12,7 @@ import { InviteService } from './invite.service';
 
 /**
  * Listing (`GET /invite`) and resending (`POST /invite/resend`) an invitation hand out its accept-invite token, so both
- * apply the role ceiling `createBulk` applies when it mints one (ever-co/ever-gauzy#11318), and both rank the caller by
+ * apply the role ceiling `createBulk` applies when it mints one (Elsavado/businessopsplatformmain#11318), and both rank the caller by
  * the same role: the one stored for them, not the request context's (`RequestContext.currentRoleName()`), which with
  * `JWT_AUTHENTICATED_USER_TTL_MS` set may come from a reused authenticated-user context, from before a role change.
  */

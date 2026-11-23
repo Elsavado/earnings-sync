@@ -285,7 +285,7 @@ function renderMarkdown() {
 				`becomes served, when one of the ${AUDITED_NAMES} rows disappears, and when the build backlog grows.`
 		),
 		wrap(
-			'**Where it lives.** The gate checks `tools/scripts/design-name-triage.md` in `ever-co/ever-gauzy`; ' +
+			'**Where it lives.** The gate checks `tools/scripts/design-name-triage.md` in `Elsavado/businessopsplatformmain`; ' +
 				`the documentation site publishes the same page from \`ever-co/ever-gauzy-docs\` (\`${PUBLISHED}\`), ` +
 				'and `node tools/scripts/design-name-triage-check.mjs --markdown` prints it.'
 		),

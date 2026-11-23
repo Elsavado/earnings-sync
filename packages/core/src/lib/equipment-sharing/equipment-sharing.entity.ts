@@ -80,7 +80,7 @@ export class EquipmentSharing extends TenantOrganizationBaseEntity implements IE
 	 * MikroORM.
 	 *
 	 * Two authorized editors who read the same sharing and both write it back used to interleave column by column
-	 * (`save()` writes only the columns that differ from what it loaded; ever-co/ever-gauzy#11359). An edit is now a
+	 * (`save()` writes only the columns that differ from what it loaded; Elsavado/businessopsplatformmain#11359). An edit is now a
 	 * compare-and-set on the version it is based on — the one the body states, else the one the server read — and is
 	 * refused with 409 `ENTITY_VERSION_CONFLICT` when the stored row has moved on. Stating it is optional, so a client
 	 * that never sends it keeps working.

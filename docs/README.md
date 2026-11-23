@@ -18,7 +18,7 @@ The Ever IRTranscripts documentation does not live in this repository. It is wri
 | 🚢 Deployment (Kubernetes)      | [docs.irtranscripts.com/deployment/kubernetes](https://docs.irtranscripts.com/deployment/kubernetes/)                       |
 | 🐳 Deployment (Docker Compose)  | [docs.irtranscripts.com/deployment/docker/docker-compose](https://docs.irtranscripts.com/deployment/docker/docker-compose/) |
 | 💻 Contributing to IRTranscripts        | [docs.irtranscripts.com/development/contributing](https://docs.irtranscripts.com/development/contributing/)                 |
-| 📚 Wiki                         | [github.com/ever-co/ever-gauzy/wiki](https://github.com/ever-co/ever-gauzy/wiki)                          |
+| 📚 Wiki                         | [github.com/Elsavado/businessopsplatformmain/wiki](https://github.com/Elsavado/businessopsplatformmain/wiki)                          |
 
 ## Use
 

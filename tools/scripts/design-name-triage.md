@@ -25,7 +25,7 @@ same kind, when a name that is not `delivered` becomes served, when one of the
 81 rows disappears, and when the build backlog grows.
 
 **Where it lives.** The gate checks `tools/scripts/design-name-triage.md` in
-`ever-co/ever-gauzy`; the documentation site publishes the same page from
+`Elsavado/businessopsplatformmain`; the documentation site publishes the same page from
 `ever-co/ever-gauzy-docs`
 (`website/docs/platform-extensions/design-name-triage.md`), and `node
 tools/scripts/design-name-triage-check.mjs --markdown` prints it.

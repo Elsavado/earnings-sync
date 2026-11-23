@@ -13,7 +13,7 @@ import { EquipmentSharing } from './equipment-sharing.entity';
 import { EquipmentSharingService } from './equipment-sharing.service';
 
 /**
- * The optimistic version of an equipment sharing (review on ever-co/ever-gauzy#11359).
+ * The optimistic version of an equipment sharing (review on Elsavado/businessopsplatformmain#11359).
  *
  * Two authorized editors who read the same sharing and both wrote it back interleaved column by column: the edit is
  * a delete-then-recreate whose recreate is the CRUD base's upsert, and `save()` writes only the columns that differ

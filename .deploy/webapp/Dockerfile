@@ -20,7 +20,7 @@
 FROM node:26.12.1-alpine3.24 AS dependencies
 
 LABEL maintainer="ever@ever.co"
-LABEL org.opencontainers.image.source="https://github.com/ever-co/ever-gauzy"
+LABEL org.opencontainers.image.source="https://github.com/Elsavado/businessopsplatformmain"
 
 ENV CI=true
 
@@ -338,15 +338,15 @@ ENV PLATFORM_LOGO="assets/images/logos/logo_IRTranscripts.svg"
 ENV IRTRANSCRIPTS_DESKTOP_LOGO_512X512="assets/icons/icon_512x512.png"
 ENV PLATFORM_PRIVACY_URL="https://irtranscripts.com/privacy"
 ENV PLATFORM_TOS_URL="https://irtranscripts.com/tos"
-ENV PROJECT_REPO="https://github.com/ever-co/ever-gauzy.git"
+ENV PROJECT_REPO="https://github.com/Elsavado/businessopsplatformmain.git"
 ENV COMPANY_NAME="Ever Co. LTD"
 ENV COMPANY_LINK="https://ever.co"
 ENV COMPANY_SITE_NAME="IRTranscripts"
 ENV COMPANY_SITE_LINK="https://irtranscripts.com"
 ENV COMPANY_GITHUB_LINK="https://github.com/ever-co"
 ENV COMPANY_GITLAB_LINK="https://gitlab.com/ever-co"
-ENV COMPANY_FACEBOOK_LINK="https://www.facebook.com/gauzyplatform"
-ENV COMPANY_TWITTER_LINK="https://twitter.com/gauzyplatform"
+ENV COMPANY_FACEBOOK_LINK=""
+ENV COMPANY_TWITTER_LINK=""
 ENV COMPANY_IN_LINK="https://www.linkedin.com/company/everhq"
 ENV PLATFORM_WEBSITE_URL="https://irtranscripts.com"
 ENV PLATFORM_WEBSITE_DOWNLOAD_URL="https://irtranscripts.com/downloads"

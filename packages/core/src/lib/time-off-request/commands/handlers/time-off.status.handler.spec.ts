@@ -12,7 +12,7 @@ import { TimeOffStatusHandler } from './time-off.status.handler';
 
 /**
  * `PUT /time-off-request/approval|denied/:id` (and the GraphQL approve / deny) read the leave and its request approval,
- * set their status in memory, and `save()`d each copy on its own (follow-up listed on ever-co/ever-gauzy#11382). A save
+ * set their status in memory, and `save()`d each copy on its own (follow-up listed on Elsavado/businessopsplatformmain#11382). A save
  * writes every column its copy differs in from the stored row, so an edit of the leave that landed between the read
  * and the save was written back to what the read found; and the two saves were separate, unlocked statements, so two
  * decisions — or a decision and an answer through the request approval's own route, which locks the approval's

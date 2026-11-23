@@ -4,7 +4,7 @@ import { BehaviorSubject, of, Subject, throwError } from 'rxjs';
 import { OrganizationSwitchService, TIMER_RELOAD_TIMEOUT } from './organization-switch.service';
 
 /**
- * ever-co/ever-gauzy#11316 confines a non-admin to the organization of their access token, so picking another
+ * Elsavado/businessopsplatformmain#11316 confines a non-admin to the organization of their access token, so picking another
  * organization in the desktop timer must go through `POST /auth/switch-organization` and keep the tokens it returns.
  * The collaborators are plain stubs: the service is constructed directly, no TestBed.
  */

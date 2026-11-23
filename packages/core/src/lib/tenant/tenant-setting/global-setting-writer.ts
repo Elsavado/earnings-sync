@@ -32,7 +32,7 @@ export function operatorUserIds(env: Record<string, string | undefined> = proces
  * Whether the user operates this installation in the strict sense: a super admin listed by user id in
  * `EVER_OPERATOR_USER_IDS`. With no list, nobody: unlike {@link mayWriteGlobalSettings}, a single-tenant
  * installation does not make its super admin the operator. It is the rule the plugin bills use
- * (ever-co/ever-gauzy#11234), for what no tenant's own admins may decide for themselves, such as their
+ * (Elsavado/businessopsplatformmain#11234), for what no tenant's own admins may decide for themselves, such as their
  * Documents storage limit (`operator-only-tenant-settings.ts`).
  *
  * @param userId The signed-in user, if any.

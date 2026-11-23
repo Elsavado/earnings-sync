@@ -20,8 +20,8 @@ export const MANAGER_TASK_SETTING_AND_AVAILABILITY_ROLES: readonly RolesEnum[] =
  * Grants `ORG_TASK_SETTING` and `EMPLOYEE_AVAILABILITY_CREATE`, `_READ`, `_UPDATE` and `_DELETE` to the `MANAGER`
  * role of every tenant (the owner's answer names `EMPLOYEE_AVAILABILITY_*`, so the read comes with the writes).
  *
- * The task-setting writes (ever-co/ever-gauzy#11329) and the availability-slot, appointment and appointment-invitation
- * writes (ever-co/ever-gauzy#11321) wrote with no permission at all (GHSA-v79w-54p2-wmh5) and now state these grants.
+ * The task-setting writes (Elsavado/businessopsplatformmain#11329) and the availability-slot, appointment and appointment-invitation
+ * writes (Elsavado/businessopsplatformmain#11321) wrote with no permission at all (GHSA-v79w-54p2-wmh5) and now state these grants.
  * `MANAGER` held none of them by default, so managers lost writes they had. Owner decision 2(b) (2026-10-23) gives
  * them back to `MANAGER`. `DEFAULT_ROLE_PERMISSIONS` lists the same grants for a new tenant. A `role_permission` row is
  * per-tenant data that only a seed (at provisioning) or a migration (afterwards) writes, so without this migration the
