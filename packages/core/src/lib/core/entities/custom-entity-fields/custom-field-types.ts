@@ -1,4 +1,4 @@
-import { CustomFieldsObject } from '@gauzy/contracts';
+import { CustomFieldsObject } from '@irtranscripts/contracts';
 
 /**
  * This interface should be implemented by any entity which can be extended

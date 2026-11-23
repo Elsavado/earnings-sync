@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IPagination } from '@gauzy/contracts';
-import { API_PREFIX, toParams } from '@gauzy/ui-core/common';
-import { Store } from '@gauzy/ui-core/core';
+import { IPagination } from '@irtranscripts/contracts';
+import { API_PREFIX, toParams } from '@irtranscripts/ui-core/common';
+import { Store } from '@irtranscripts/ui-core/core';
 import { catchError, map, Observable, of } from 'rxjs';
 import { IVideo } from '../models/video.model';
 

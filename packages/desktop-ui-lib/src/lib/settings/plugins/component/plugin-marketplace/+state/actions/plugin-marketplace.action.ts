@@ -1,4 +1,4 @@
-import { ID, IPlugin } from '@gauzy/contracts';
+import { ID, IPlugin } from '@irtranscripts/contracts';
 import { createAction } from '@ngneat/effects';
 import { AnalyticsPeriod } from '../../../../services/plugin-analytics.service';
 import { IPluginSecurity } from '../../../../services/plugin-security.service';
@@ -46,7 +46,7 @@ export class PluginMarketplaceActions {
 		plugin
 	}));
 
-	// Web-to-desktop installation via deep link (gauzy:// protocol)
+	// Web-to-desktop installation via deep link (irtranscripts:// protocol)
 	public static readonly installFromWeb = createAction(
 		'[Plugin Marketplace] Install From Web',
 		(plugin: IPlugin) => ({ plugin })

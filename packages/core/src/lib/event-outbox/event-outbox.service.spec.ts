@@ -1,4 +1,4 @@
-import { EventOutboxStatus, ID, IOutboxWriteInput } from '@gauzy/contracts';
+import { EventOutboxStatus, ID, IOutboxWriteInput } from '@irtranscripts/contracts';
 import { EventDelivery } from './event-delivery.entity';
 import { EventOutbox } from './event-outbox.entity';
 import { EventOutboxService, describeFailure } from './event-outbox.service';

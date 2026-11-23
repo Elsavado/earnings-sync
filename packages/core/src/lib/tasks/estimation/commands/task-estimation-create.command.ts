@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { ITaskEstimationCreateInput } from '@gauzy/contracts';
+import { ITaskEstimationCreateInput } from '@irtranscripts/contracts';
 
 export class TaskEstimationCreateCommand implements ICommand {
 	static readonly type = '[Task Estimation] Create Task Estimation';

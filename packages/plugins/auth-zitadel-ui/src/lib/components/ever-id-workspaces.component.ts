@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { NbButtonModule, NbListModule } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
-import { IWorkspaceResponse } from '@gauzy/contracts';
+import { IWorkspaceResponse } from '@irtranscripts/contracts';
 import { EverIdWorkspaceResponse } from '../services/auth-zitadel-ui.service';
 
 /**

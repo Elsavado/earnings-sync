@@ -1,7 +1,7 @@
 import { Controller, HttpStatus, Param, Put, Body, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CommandBus } from '@nestjs/cqrs';
-import { IIntegrationEntitySettingTied, PermissionsEnum } from '@gauzy/contracts';
+import { IIntegrationEntitySettingTied, PermissionsEnum } from '@irtranscripts/contracts';
 import { IntegrationEntitySettingTied } from './integration-entity-setting-tied.entity';
 import { Permissions } from './../shared/decorators';
 import { PermissionGuard, TenantPermissionGuard } from './../shared/guards';

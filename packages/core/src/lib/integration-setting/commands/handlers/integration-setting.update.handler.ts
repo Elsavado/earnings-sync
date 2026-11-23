@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IIntegrationSetting } from '@gauzy/contracts';
+import { IIntegrationSetting } from '@irtranscripts/contracts';
 import { IntegrationSettingUpdateCommand } from '../integration-setting.update.command';
 import { IntegrationSettingService } from '../../integration-setting.service';
 

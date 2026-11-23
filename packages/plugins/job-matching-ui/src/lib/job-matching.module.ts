@@ -4,22 +4,22 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Subject, of } from 'rxjs';
 import { catchError, map, takeUntil, tap } from 'rxjs/operators';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
 import {
 	applyDeclarativeRegistrations,
 	IOnPluginUiBootstrap,
 	IOnPluginUiDestroy,
 	PluginUiDefinition,
 	PLUGIN_DEFINITION
-} from '@gauzy/plugin-ui';
+} from '@irtranscripts/plugin-ui';
 import {
 	IntegrationEntitySettingServiceStoreService,
 	LoggerService,
 	NavMenuBuilderService,
 	PageRouteRegistryService
-} from '@gauzy/ui-core/core';
-import { DialogsModule, NebularModule, SharedModule } from '@gauzy/ui-core/shared';
+} from '@irtranscripts/ui-core/core';
+import { DialogsModule, NebularModule, SharedModule } from '@irtranscripts/ui-core/shared';
 import { getJobMatchingRoutes, JOB_MATCHING_PAGE_LINK } from './job-matching.routes';
 import { JobMatchingComponent } from './components/job-matching/job-matching.component';
 

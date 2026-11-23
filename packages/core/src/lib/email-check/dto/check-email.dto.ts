@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty } from 'class-validator';
-import { IEmailCheckRequest } from '@gauzy/contracts';
+import { IEmailCheckRequest } from '@irtranscripts/contracts';
 
 /**
  * DTO for checking if an email exists in the database.

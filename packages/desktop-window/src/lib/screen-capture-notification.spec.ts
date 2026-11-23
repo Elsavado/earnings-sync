@@ -29,7 +29,7 @@ const browserWindow = {
 };
 const windowOptions: any[] = [];
 
-jest.mock('@gauzy/desktop-core', () => ({
+jest.mock('@irtranscripts/desktop-core', () => ({
 	BaseWindow: class {
 		get browserWindow() {
 			return browserWindow;

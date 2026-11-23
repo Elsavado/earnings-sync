@@ -5,7 +5,7 @@ import { EmployeeAppointment } from '../../employee-appointment.entity';
 import { UpdateResult } from 'typeorm';
 import { EmployeeService } from '../../../employee/employee.service';
 import { OrganizationService } from '../../../organization/organization.service';
-import { isNotEmpty } from '@gauzy/utils';
+import { isNotEmpty } from '@irtranscripts/utils';
 
 @CommandHandler(EmployeeAppointmentUpdateCommand)
 export class EmployeeAppointmentUpdateHandler implements ICommandHandler<EmployeeAppointmentUpdateCommand> {

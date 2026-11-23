@@ -1,9 +1,9 @@
-import { IHelpCenter } from '@gauzy/contracts';
+import { IHelpCenter } from '@irtranscripts/contracts';
 import { Component, OnDestroy, Input, ErrorHandler, ChangeDetectionStrategy } from '@angular/core';
 import { NbDialogRef } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { HelpCenterService } from '@gauzy/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { HelpCenterService } from '@irtranscripts/ui-core/core';
 
 @Component({
     selector: 'ga-delete-category',

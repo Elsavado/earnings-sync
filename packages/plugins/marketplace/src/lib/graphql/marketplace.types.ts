@@ -18,8 +18,8 @@ import {
 	SellerVerificationStatus,
 	TaxCollectionMode,
 	TaxRegistrationScheme
-} from '@gauzy/contracts';
-import { DecimalScalar } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { DecimalScalar } from '@irtranscripts/core';
 import { SellerOfferingBulkOperation } from '../seller-offering/seller-offering.bulk';
 import type { IBulkSellerOfferingItemResult } from '../seller-offering/seller-offering.bulk';
 

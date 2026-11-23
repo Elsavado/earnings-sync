@@ -1,10 +1,10 @@
-# Migrations of @gauzy/plugin-ever-stats
+# Migrations of @irtranscripts/plugin-ever-stats
 
 Plugins cannot carry their own migrations yet, so the tables of this plugin are created by migrations in `packages/core/src/lib/database/migrations/`. Move them here once plugins can own migrations.
 
 | Migration | Creates | Notes |
 |---|---|---|
-| `1790000021000-EverInstance.ts` | `ever_instance` | Owned by `@gauzy/plugin-ever-instance` (see its `MIGRATIONS.md`). |
+| `1790000021000-EverInstance.ts` | `ever_instance` | Owned by `@irtranscripts/plugin-ever-instance` (see its `MIGRATIONS.md`). |
 | `1790000021100-EverStatsReport.ts` | `ever_stats_report`, `ever_stats_lease`, index `IDX_ever_stats_report_created_at` | This plugin. |
 
 Both are hand-written for Postgres, MySQL and SQLite, use `CREATE TABLE IF NOT EXISTS` / `CREATE INDEX IF NOT EXISTS` (running `up` twice is harmless), create new empty tables only (no foreign key, no change to an existing table, no statement per tenant or per row), and take a transaction-scoped advisory lock on Postgres so two API processes booting together run them one after the other. `down` drops the tables. They run whether or not the plugin is loaded; the tables stay empty when it is not.

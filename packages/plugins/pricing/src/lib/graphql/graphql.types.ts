@@ -1,5 +1,5 @@
-import { GraphqlConnection, IConnectionPageSelection } from '@gauzy/core';
-import { CurrencyCode, DecimalString, ID } from '@gauzy/contracts';
+import { GraphqlConnection, IConnectionPageSelection } from '@irtranscripts/core';
+import { CurrencyCode, DecimalString, ID } from '@irtranscripts/contracts';
 import {
 	IProductPriceBulkItem,
 	IResolvedPrice,

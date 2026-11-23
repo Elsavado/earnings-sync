@@ -42,7 +42,7 @@
  * other collaborator is a stub of its own rather than a copy of the one under test, so a field that
  * reached the wrong service is visible instead of passing on a shared double.
  *
- * `@gauzy/core`'s barrel is doubled for the reason the package's other resolver specs state — it boots
+ * `@irtranscripts/core`'s barrel is doubled for the reason the package's other resolver specs state — it boots
  * the whole application graph, which no declaration here needs — and the two pieces of it this suite
  * actually compares are the kernel's own: `@Permissions` is required from its own module, because the
  * metadata it writes is what "states the route's permission" means and a double that wrote nothing would
@@ -50,7 +50,7 @@
  * restated in the shape `packages/core/src/lib/core/crud/crud.controller.ts` declares them.
  */
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	DatabaseTypeEnum: {
 		mongodb: 'mongodb',
 		sqlite: 'sqlite',
@@ -87,7 +87,7 @@ jest.mock('../payment-method-token/payment-method-token-lifecycle.service', () =
 	PaymentMethodTokenLifecycleService: class PaymentMethodTokenLifecycleService {}
 }));
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
@@ -96,7 +96,7 @@ jest.mock('@gauzy/core', () => {
 	return {
 		// The shared GraphQL gate, which the resolvers read from the public barrel rather than from a path into
 		// the kernel's sources: the declaring module's own value, so the assertions below compare against it.
-		FEATURE_GRAPHQL: jest.requireActual('@gauzy/core/src/lib/feature/graphql-feature.code').FEATURE_GRAPHQL,
+		FEATURE_GRAPHQL: jest.requireActual('@irtranscripts/core/src/lib/feature/graphql-feature.code').FEATURE_GRAPHQL,
 		BaseEntity,
 		TenantBaseEntity: BaseEntity,
 		TenantOrganizationBaseEntity: BaseEntity,
@@ -127,7 +127,7 @@ jest.mock('@gauzy/core', () => {
 		MultiORMManyToOne: decorator,
 		// The permission decorator is the kernel's own: what this suite compares between a route and the
 		// field that mirrors it is the metadata it writes.
-		Permissions: jest.requireActual('@gauzy/core/src/lib/shared/decorators/permissions.decorator').Permissions,
+		Permissions: jest.requireActual('@irtranscripts/core/src/lib/shared/decorators/permissions.decorator').Permissions,
 		UseValidationPipe: decorator,
 		PermissionGuard: class PermissionGuard {},
 		TenantPermissionGuard: class TenantPermissionGuard {},
@@ -138,15 +138,15 @@ jest.mock('@gauzy/core', () => {
 		// two resolvers that serve them inject the bus.
 		BaseEvent: class BaseEvent {},
 		EventBus: class EventBus {},
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
 		VisibleWith: decorator,
 		FieldVisibility: class FieldVisibility {},
 		// The connection helpers the list fields page and answer with are the kernel's own, taken from the
 		// kernel rather than restated: `connection.ts` reaches `connectionFromOffsetPage` through this
 		// barrel, so a double that dropped it would fail the import rather than an assertion.
-		connectionFromOffsetPage: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		connectionFromOffsetPage: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.connectionFromOffsetPage,
-		resolveConnectionWindow: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		resolveConnectionWindow: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.resolveConnectionWindow,
 		// The four kernel classes the controllers and the two stored-instrument resolvers name in their
 		// constructor signatures — TypeScript emits them as the injection metadata, so they have to exist.
@@ -179,9 +179,9 @@ jest.mock('@gauzy/core', () => {
 
 import { FieldDefinitionNode, ObjectTypeDefinitionNode, ObjectTypeExtensionNode, TypeNode } from 'graphql';
 import { BadRequestException } from '@nestjs/common';
-import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@gauzy/constants';
-import { FEATURE_GRAPHQL } from '@gauzy/core/src/lib/feature/graphql-feature.code';
-import { FeatureFlagGuard, PermissionGuard, TenantPermissionGuard } from '@gauzy/core';
+import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { FEATURE_GRAPHQL } from '@irtranscripts/core/src/lib/feature/graphql-feature.code';
+import { FeatureFlagGuard, PermissionGuard, TenantPermissionGuard } from '@irtranscripts/core';
 import { PaymentPermission } from '../payment.permissions';
 import { PaymentProviderController } from '../payment-provider/payment-provider.controller';
 import { PaymentCollectionController } from '../payment-collection/payment-collection.controller';

@@ -48,16 +48,16 @@ jobs:
           envsubst < $GITHUB_WORKSPACE/.do/app.yaml > temp.yaml && mv temp.yaml $GITHUB_WORKSPACE/.do/app.yaml
         env:
           ENV_NAME: 'demo'
-          DOCR_REPOSITORY: 'gauzy-api-demo'
-          APP_DOMAIN: 'apidemoda.gauzy.co'
+          DOCR_REPOSITORY: 'irtranscripts-api-demo'
+          APP_DOMAIN: 'apidemoda.irtranscripts.com'
           INSTANCE_COUNT: '1'
           INSTANCE_SIZE: 'professional-xs'
           API_HOST: '0.0.0.0'
           DEMO: 'true'
           NODE_ENV: 'development'
           ADMIN_PASSWORD_RESET: 'true'
-          API_BASE_URL: 'https://apidemoda.gauzy.co'
-          CLIENT_BASE_URL: 'https://demo.gauzy.co'
+          API_BASE_URL: 'https://apidemoda.irtranscripts.com'
+          CLIENT_BASE_URL: 'https://demo.irtranscripts.com'
           DB_TYPE: '${{ secrets.DB_TYPE }}'
           DB_URI: '${{ secrets.DB_URI }}'
           DB_HOST: '${{ env.DB_HOST_PUBLIC }}'
@@ -126,8 +126,8 @@ jobs:
           INTEGRATED_USER_DEFAULT_PASS: '${{ secrets.INTEGRATED_USER_DEFAULT_PASS }}'
           UPWORK_REDIRECT_URL: '${{ secrets.UPWORK_REDIRECT_URL }}'
           FILE_PROVIDER: '${{ secrets.FILE_PROVIDER }}'
-          GAUZY_AI_GRAPHQL_ENDPOINT: '${{ secrets.GAUZY_AI_GRAPHQL_ENDPOINT }}'
-          GAUZY_AI_REST_ENDPOINT: '${{ secrets.GAUZY_AI_REST_ENDPOINT }}'
+          IRTRANSCRIPTS_AI_GRAPHQL_ENDPOINT: '${{ secrets.IRTRANSCRIPTS_AI_GRAPHQL_ENDPOINT }}'
+          IRTRANSCRIPTS_AI_REST_ENDPOINT: '${{ secrets.IRTRANSCRIPTS_AI_REST_ENDPOINT }}'
           UNLEASH_APP_NAME: '${{ secrets.UNLEASH_APP_NAME }}'
           UNLEASH_API_URL: '${{ secrets.UNLEASH_API_URL }}'
           UNLEASH_INSTANCE_ID: '${{ secrets.UNLEASH_INSTANCE_ID }}'
@@ -140,18 +140,18 @@ jobs:
           OTEL_PROVIDER: '${{ secrets.OTEL_PROVIDER }}'
           OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: '${{ secrets.OTEL_EXPORTER_OTLP_TRACES_ENDPOINT }}'
           OTEL_EXPORTER_OTLP_HEADERS: '${{ secrets.OTEL_EXPORTER_OTLP_HEADERS }}'
-          GAUZY_GITHUB_CLIENT_ID: '${{ secrets.GAUZY_GITHUB_CLIENT_ID }}'
-          GAUZY_GITHUB_CLIENT_SECRET: '${{ secrets.GAUZY_GITHUB_CLIENT_SECRET }}'
-          GAUZY_GITHUB_APP_PRIVATE_KEY: '${{ secrets.GAUZY_GITHUB_APP_PRIVATE_KEY }}'
-          GAUZY_GITHUB_WEBHOOK_URL: '${{ secrets.GAUZY_GITHUB_WEBHOOK_URL }}'
-          GAUZY_GITHUB_WEBHOOK_SECRET: '${{ secrets.GAUZY_GITHUB_WEBHOOK_SECRET }}'
-          GAUZY_GITHUB_APP_NAME: '${{ secrets.GAUZY_GITHUB_APP_NAME }}'
-          GAUZY_GITHUB_REDIRECT_URL: '${{ secrets.GAUZY_GITHUB_REDIRECT_URL }}'
-          GAUZY_GITHUB_POST_INSTALL_URL: '${{ secrets.GAUZY_GITHUB_POST_INSTALL_URL }}'
-          GAUZY_GITHUB_APP_ID: '${{ secrets.GAUZY_GITHUB_APP_ID }}'
-          GAUZY_GITHUB_OAUTH_CLIENT_ID: '${{ secrets.GAUZY_GITHUB_OAUTH_CLIENT_ID }}'
-          GAUZY_GITHUB_OAUTH_CLIENT_SECRET: '${{ secrets.GAUZY_GITHUB_OAUTH_CLIENT_SECRET }}'
-          GAUZY_GITHUB_OAUTH_CALLBACK_URL: '${{ secrets.GAUZY_GITHUB_OAUTH_CALLBACK_URL }}'
+          IRTRANSCRIPTS_GITHUB_CLIENT_ID: '${{ secrets.IRTRANSCRIPTS_GITHUB_CLIENT_ID }}'
+          IRTRANSCRIPTS_GITHUB_CLIENT_SECRET: '${{ secrets.IRTRANSCRIPTS_GITHUB_CLIENT_SECRET }}'
+          IRTRANSCRIPTS_GITHUB_APP_PRIVATE_KEY: '${{ secrets.IRTRANSCRIPTS_GITHUB_APP_PRIVATE_KEY }}'
+          IRTRANSCRIPTS_GITHUB_WEBHOOK_URL: '${{ secrets.IRTRANSCRIPTS_GITHUB_WEBHOOK_URL }}'
+          IRTRANSCRIPTS_GITHUB_WEBHOOK_SECRET: '${{ secrets.IRTRANSCRIPTS_GITHUB_WEBHOOK_SECRET }}'
+          IRTRANSCRIPTS_GITHUB_APP_NAME: '${{ secrets.IRTRANSCRIPTS_GITHUB_APP_NAME }}'
+          IRTRANSCRIPTS_GITHUB_REDIRECT_URL: '${{ secrets.IRTRANSCRIPTS_GITHUB_REDIRECT_URL }}'
+          IRTRANSCRIPTS_GITHUB_POST_INSTALL_URL: '${{ secrets.IRTRANSCRIPTS_GITHUB_POST_INSTALL_URL }}'
+          IRTRANSCRIPTS_GITHUB_APP_ID: '${{ secrets.IRTRANSCRIPTS_GITHUB_APP_ID }}'
+          IRTRANSCRIPTS_GITHUB_OAUTH_CLIENT_ID: '${{ secrets.IRTRANSCRIPTS_GITHUB_OAUTH_CLIENT_ID }}'
+          IRTRANSCRIPTS_GITHUB_OAUTH_CLIENT_SECRET: '${{ secrets.IRTRANSCRIPTS_GITHUB_OAUTH_CLIENT_SECRET }}'
+          IRTRANSCRIPTS_GITHUB_OAUTH_CALLBACK_URL: '${{ secrets.IRTRANSCRIPTS_GITHUB_OAUTH_CALLBACK_URL }}'
           JITSU_BROWSER_URL: '${{ secrets.JITSU_BROWSER_URL }}'
           JITSU_BROWSER_WRITE_KEY: '${{ secrets.JITSU_BROWSER_WRITE_KEY }}'
           MAGIC_CODE_EXPIRATION_TIME: '${{ secrets.MAGIC_CODE_EXPIRATION_TIME }}'
@@ -169,7 +169,7 @@ jobs:
         id: check-app
         run: |
           echo "ENV_NAME is set to '${ENV_NAME}'"
-          APP_NAME="ever-gauzy-${ENV_NAME}"
+          APP_NAME="ever-irtranscripts-${ENV_NAME}"
           echo "Looking for app with name: $APP_NAME"
           doctl apps list --no-header
           APP_ID=$(doctl apps list --no-header | awk -v appName="$APP_NAME" '$2 == appName {print $1}')

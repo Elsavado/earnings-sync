@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import { randomUUID } from 'node:crypto';
-import { PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 import { dialectOf, InboxDialect, lockMigrations, q } from '../migration-helpers';
 
 /** Who gets which inbox grant (plan 04 §2): administrators all three, managers and employees `INBOX_VIEW`. */
@@ -31,7 +31,7 @@ function param(d: InboxDialect, n: number): string {
  * which lists the same grants) or a migration writes, so without this the routes would refuse every existing
  * user the moment the Inbox is switched on.
  *
- * A plugin migration: it runs only where `GAUZY_INBOX_ENABLED=true` loads the plugin. A role that has no row
+ * A plugin migration: it runs only where `IRTRANSCRIPTS_INBOX_ENABLED=true` loads the plugin. A role that has no row
  * for a grant gets one, switched on. A row that exists is left as its tenant left it — unless nobody decided it
  * (no `createdByUserId` / `updatedByUserId`, not deleted, switched off: what a permission-reload migration
  * writes for a value a role lacks), which is switched on. Running it again changes nothing.

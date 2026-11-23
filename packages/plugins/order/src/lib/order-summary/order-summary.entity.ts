@@ -1,7 +1,7 @@
 import { JoinColumn, RelationId } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsInt, IsNotEmpty, IsOptional, IsString, IsUUID, MaxLength } from 'class-validator';
-import { ID, IOrderSummary } from '@gauzy/contracts';
+import { ID, IOrderSummary } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	JsonColumn,
@@ -9,7 +9,7 @@ import {
 	MultiORMEntity,
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { Order } from '../order/order.entity';
 import { MikroOrmOrderSummaryRepository } from './repository/mikro-orm-order-summary.repository';
 

@@ -17,7 +17,7 @@
 import { AsyncLocalStorage } from 'async_hooks';
 import { ClsService } from 'nestjs-cls';
 import { SUBSCRIPTION_OPTIONS_METADATA } from '@nestjs/graphql/dist/graphql.constants';
-import { deliverPayloadAsIs, EventBus, RequestContext } from '@gauzy/core';
+import { deliverPayloadAsIs, EventBus, RequestContext } from '@irtranscripts/core';
 import {
 	CouponRedeemedEvent,
 	GiftCardRedeemedEvent,

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select } from '@ngneat/elf';
 import { Observable } from 'rxjs';
-import { DocumentKnowledgeStatusEnum, DocumentStatusEnum, ID, IDocument } from '@gauzy/contracts';
+import { DocumentKnowledgeStatusEnum, DocumentStatusEnum, ID, IDocument } from '@irtranscripts/contracts';
 import { IDocumentFacets } from '../models/docs-api.model';
 import { DocsFilterState } from '../models/docs-filter.model';
 import { DocsPresetCounts, DocsState, DocumentsStore } from './documents.store';

@@ -1,4 +1,4 @@
-import { ITimerToggleInput } from '@gauzy/contracts';
+import { ITimerToggleInput } from '@irtranscripts/contracts';
 import { IntersectionType, PartialType, PickType } from '@nestjs/swagger';
 import { StartTimerDTO } from './start-timer.dto';
 

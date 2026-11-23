@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as chalk from 'chalk';
-import { environment } from '@gauzy/config';
-import { ConnectionEntityManager, SeedDataService } from '@gauzy/core';
+import { environment } from '@irtranscripts/config';
+import { ConnectionEntityManager, SeedDataService } from '@irtranscripts/core';
 import { createDefaultJobSearchCategories } from './job-search-category/job-search-category.seed';
 import { createDefaultJobSearchOccupations } from './job-search-occupation/job-search-occupation.seed';
 

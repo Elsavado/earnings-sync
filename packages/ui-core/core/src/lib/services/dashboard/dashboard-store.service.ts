@@ -13,7 +13,7 @@ import {
 	IDashboardTab,
 	IDashboardWidgetPlacement,
 	JsonData
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { DashboardService } from './dashboard.service';
 import { createId, isLayoutV2, normalizeLayout, parseLayout } from './dashboard-layout.utils';
 import { Store } from '../store/store.service';
@@ -31,7 +31,7 @@ const STANDARD_LAYOUT_BACKUP_KEY = '_standardDashboardLayout';
  * - Loads the current user's custom dashboards for the selected organization.
  * - Tracks the currently applied dashboard (`null` = the Standard dashboard).
  * - Applies/captures the widget layout state, which the existing widget system
- *   (WidgetService/WindowService in @gauzy/ui-core/shared) reads from and writes to
+ *   (WidgetService/WindowService in @irtranscripts/ui-core/shared) reads from and writes to
  *   `Store.widgets` / `Store.windows`. A custom dashboard is a persisted snapshot
  *   of that serialized state (`IDashboardLayout`), stored in `IDashboard.contentHtml`.
  * - Preserves the Standard layout in a localStorage backup while a custom

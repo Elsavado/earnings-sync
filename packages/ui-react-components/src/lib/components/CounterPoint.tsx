@@ -21,7 +21,7 @@ interface Point {
 }
 
 /**
- * Computes the dot strip exactly like `gauzy-counter-point` (`packages/ui-core/shared/src/lib/counter-point`):
+ * Computes the dot strip exactly like `irtranscripts-counter-point` (`packages/ui-core/shared/src/lib/counter-point`):
  * a zero capacity means one working day in seconds, anything above 24 is normalised to 24 dots,
  * and dots at or above the value are painted `basic`.
  *
@@ -56,20 +56,20 @@ export function computeCounterPoints(total: number, value: number, color: string
  * @param color Point colour.
  */
 export function counterPointBackground(color: string): string {
-	if (color === 'basic') return 'var(--gauzy-hover-tint)';
+	if (color === 'basic') return 'var(--irtranscripts-hover-tint)';
 	if (/^(#|rgb|hsl|var\()/i.test(color)) return color;
 	return `var(--color-${color}-default)`;
 }
 
 /**
- * CounterPoint — React port of `<gauzy-counter-point>`: a strip of up to 24 pill-shaped dots
+ * CounterPoint — React port of `<irtranscripts-counter-point>`: a strip of up to 24 pill-shaped dots
  * (6px high, 3px apart, unfilled ones on the hover-tint track) or, with `progress`, a 6px
  * Nebular progress bar.
  */
 export function CounterPoint({ total, value = 0, color = '', progress = false, className, style }: CounterPointProps) {
 	// An UNKNOWN capacity (`total` undefined — the employees/projects count not loaded yet, or a
 	// user without the permission to read it) paints no dots at all, exactly like the Angular
-	// `gauzy-counter-point` (`for (i < undefined)` iterates zero times); `0` means "a day".
+	// `irtranscripts-counter-point` (`for (i < undefined)` iterates zero times); `0` means "a day".
 	const points = useMemo(
 		() => (progress || total === undefined ? [] : computeCounterPoints(total, value, color)),
 		[progress, total, value, color]

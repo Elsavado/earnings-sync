@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
-import { IUser } from '@gauzy/contracts';
+import { IUser } from '@irtranscripts/contracts';
 
 @Component({
     selector: 'ga-user-multi-select',

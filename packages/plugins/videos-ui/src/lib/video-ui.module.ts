@@ -1,7 +1,7 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { GauzyFiltersModule, NoDataMessageModule, SharedModule } from '@gauzy/ui-core/shared';
+import { IRTranscriptsFiltersModule, NoDataMessageModule, SharedModule } from '@irtranscripts/ui-core/shared';
 import {
 	NbBadgeModule,
 	NbButtonModule,
@@ -81,7 +81,7 @@ import { SoundshotPlayerSkeletonComponent } from './shared/ui/soundshot/soundsho
 		NoDataMessageModule,
 		SharedModule,
 		VideoUiRoutingModule,
-		GauzyFiltersModule,
+		IRTranscriptsFiltersModule,
 		NbButtonModule,
 		NbPopoverModule,
 		FormsModule,
@@ -101,13 +101,13 @@ import { SoundshotPlayerSkeletonComponent } from './shared/ui/soundshot/soundsho
 		// 🛑 Do NOT call provideEffectsManager() here. `@ngneat/effects-ng` documents it as
 		// "Must be called at the root level" — it runs `initEffects()`, which creates the effects
 		// manager and subscribes it to the GLOBAL `actions` stream. The app root already provides
-		// it (apps/gauzy/src/app/bootstrap.module.ts). This module is lazy-loaded via
-		// `loadChildren` (apps/gauzy .../employees/activity/activity.module.ts), so providing the
+		// it (apps/irtranscripts/src/app/bootstrap.module.ts). This module is lazy-loaded via
+		// `loadChildren` (apps/irtranscripts .../employees/activity/activity.module.ts), so providing the
 		// manager again stood up a SECOND manager on the same stream that re-entered synchronously
 		// on first navigation to the videos route and pegged the main thread — before any HTTP, so
 		// every unit test passed while the route was unreachable in a browser. A feature module
 		// contributes ONLY its effects via provideEffects(); the manager is the root's job. This is
-		// the same defect fixed in @gauzy/plugin-docs-ui (see docs-ui.module.effects-manager.spec.ts).
+		// the same defect fixed in @irtranscripts/plugin-docs-ui (see docs-ui.module.effects-manager.spec.ts).
 		provideEffects(VideoEffects, CamshotEffects, SoundshotEffects),
 		VideoQuery,
 		VideoStore,

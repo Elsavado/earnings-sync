@@ -3,26 +3,26 @@ import * as path from 'path';
 import { FEATURE_GRAPHQL } from './graphql-feature.code';
 
 /**
- * The plugins reach `FEATURE_GRAPHQL` — and everything else of the kernel's — through `@gauzy/core`.
+ * The plugins reach `FEATURE_GRAPHQL` — and everything else of the kernel's — through `@irtranscripts/core`.
  *
  * Eighty-five plugin resolvers across sixteen packages imported the code as
- * `@gauzy/core/src/lib/feature/graphql-feature.code`, a path into this package's sources. The workspace's
- * TypeScript paths map `@gauzy/core` to `packages/core/src/index.ts` and nothing below it, so such a path
- * resolves only through `node_modules/@gauzy/core` — the workspace link in a checkout, the built package in an
+ * `@irtranscripts/core/src/lib/feature/graphql-feature.code`, a path into this package's sources. The workspace's
+ * TypeScript paths map `@irtranscripts/core` to `packages/core/src/index.ts` and nothing below it, so such a path
+ * resolves only through `node_modules/@irtranscripts/core` — the workspace link in a checkout, the built package in an
  * image — and it resolves to whatever that link points at rather than to the sources being compiled. A
  * package that is published, or a checkout whose link points at another tree, reads a different file or none.
  * The code is exported from the public barrel instead, and this suite keeps it that way.
  *
  * Both checks read sources rather than loading them: importing the barrel would evaluate the whole kernel.
- * Specs are not scanned, because a spec that doubles `@gauzy/core` deliberately pulls single kernel modules
- * through the seam with `jest.requireActual('@gauzy/core/src/...')` so as not to boot it.
+ * Specs are not scanned, because a spec that doubles `@irtranscripts/core` deliberately pulls single kernel modules
+ * through the seam with `jest.requireActual('@irtranscripts/core/src/...')` so as not to boot it.
  */
 
 /** The repository root, five levels above this directory (`packages/core/src/lib/feature`). */
 const REPO_ROOT = path.resolve(__dirname, '../../../../..');
 
 /** An import, export or require of a path inside the kernel's sources. */
-const DEEP_IMPORT = /(?:from\s+|import\s+|require\(\s*)['"]@gauzy\/core\/src\//;
+const DEEP_IMPORT = /(?:from\s+|import\s+|require\(\s*)['"]@irtranscripts\/core\/src\//;
 
 /**
  * The non-spec TypeScript sources under a directory.

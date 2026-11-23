@@ -1,4 +1,4 @@
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 /**
  * An employee's copy of a job preset criterion: the criterion's values, for the employee, as a NEW row.

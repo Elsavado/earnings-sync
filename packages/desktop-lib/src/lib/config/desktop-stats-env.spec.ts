@@ -2,7 +2,7 @@ import { applyDesktopStatsEnv, desktopStatsEnv } from './desktop-stats-env';
 
 describe('desktopStatsEnv', () => {
 	it('always declares a desktop installation and its release', () => {
-		expect(desktopStatsEnv({}, '111.48.2')).toEqual({ EVER_INSTALL_SOURCE: 'desktop', GAUZY_APP_VERSION: '111.48.2' });
+		expect(desktopStatsEnv({}, '111.48.2')).toEqual({ EVER_INSTALL_SOURCE: 'desktop', IRTRANSCRIPTS_APP_VERSION: '111.48.2' });
 		expect(desktopStatsEnv({ EVER_INSTALL_SOURCE: 'self-hosted' }, '1.2.3')['EVER_INSTALL_SOURCE']).toBe('desktop');
 		expect(desktopStatsEnv(null, '')).toEqual({ EVER_INSTALL_SOURCE: 'desktop' });
 	});
@@ -25,7 +25,7 @@ describe('desktopStatsEnv', () => {
 	it('removes a switch the user cleared, so an earlier false does not stay (in-process restart)', () => {
 		const env: Record<string, string | undefined> = { EVER_STATS_ENABLED: 'false', OTHER: 'x' };
 		applyDesktopStatsEnv(env, { EVER_STATS_ENABLED: '' }, '1.0.0');
-		expect(env).toEqual({ OTHER: 'x', EVER_INSTALL_SOURCE: 'desktop', GAUZY_APP_VERSION: '1.0.0' });
+		expect(env).toEqual({ OTHER: 'x', EVER_INSTALL_SOURCE: 'desktop', IRTRANSCRIPTS_APP_VERSION: '1.0.0' });
 		// A switch the settings do not mention at all is left as the launch environment set it.
 		const launched: Record<string, string | undefined> = { EVER_STATS_ENABLED: 'false' };
 		applyDesktopStatsEnv(launched, {}, '1.0.0');

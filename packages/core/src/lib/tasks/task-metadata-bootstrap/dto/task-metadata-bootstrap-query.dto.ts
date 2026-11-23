@@ -1,7 +1,7 @@
 import { ApiPropertyOptional, PickType } from '@nestjs/swagger';
 import { Transform, TransformFnParams } from 'class-transformer';
 import { ArrayNotEmpty, IsArray, IsIn, IsOptional, IsUUID } from 'class-validator';
-import { ID, ITaskMetadataBootstrapQuery, TASK_METADATA_SECTIONS, TaskMetadataSection } from '@gauzy/contracts';
+import { ID, ITaskMetadataBootstrapQuery, TASK_METADATA_SECTIONS, TaskMetadataSection } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../../core/dto/tenant-organization-base.dto';
 
 export class TaskMetadataBootstrapQueryDTO

@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 export class AlterOrganizationGithubRepositoryIssueEntityTable1719994643595 implements MigrationInterface {
 	name = 'AlterOrganizationGithubRepositoryIssueEntityTable1719994643595';

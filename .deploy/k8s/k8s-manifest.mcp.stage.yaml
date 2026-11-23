@@ -2,11 +2,11 @@
 kind: Service
 apiVersion: v1
 metadata:
-    name: gauzy-mcp-stage-svc
+    name: irtranscripts-mcp-stage-svc
 spec:
     type: ClusterIP
     selector:
-        app: gauzy-mcp-stage
+        app: irtranscripts-mcp-stage
     ports:
         - name: http
           protocol: TCP
@@ -21,27 +21,27 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: gauzy-mcp-stage
+    name: irtranscripts-mcp-stage
 spec:
     replicas: 1
     selector:
         matchLabels:
-            app: gauzy-mcp-stage
+            app: irtranscripts-mcp-stage
     template:
         metadata:
             labels:
-                app: gauzy-mcp-stage
+                app: irtranscripts-mcp-stage
         spec:
             securityContext:
                 seccompProfile:
                     type: RuntimeDefault
             containers:
-                - name: gauzy-stage-mcp
+                - name: irtranscripts-stage-mcp
                   securityContext:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
                       runAsNonRoot: false
-                  image: registry.digitalocean.com/ever/gauzy-mcp-stage:latest
+                  image: registry.digitalocean.com/ever/irtranscripts-mcp-stage:latest
                   resources:
                       requests:
                           cpu: '50m'
@@ -114,8 +114,8 @@ spec:
 
                       - name: API_BASE_URL
                         value: '$API_BASE_URL'
-                      - name: GAUZY_AUTO_LOGIN
-                        value: '$GAUZY_AUTO_LOGIN'
+                      - name: IRTRANSCRIPTS_AUTO_LOGIN
+                        value: '$IRTRANSCRIPTS_AUTO_LOGIN'
 
                       - name: REDIS_ENABLED
                         value: '$REDIS_ENABLED'
@@ -144,7 +144,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-    name: gauzy-mcp-stage-ing
+    name: irtranscripts-mcp-stage-ing
     annotations:
         nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
         nginx.ingress.kubernetes.io/proxy-body-size: '20m'
@@ -153,17 +153,17 @@ metadata:
 spec:
     ingressClassName: nginx
     rules:
-        - host: mcpstage.gauzy.co
+        - host: mcpstage.irtranscripts.com
           http:
               paths:
                   - path: /
                     pathType: Prefix
                     backend:
                         service:
-                            name: gauzy-mcp-stage-svc
+                            name: irtranscripts-mcp-stage-svc
                             port:
                                 number: 80
     tls:
         - hosts:
-              - mcpstage.gauzy.co
-          secretName: mcp.gauzy.co-tls
+              - mcpstage.irtranscripts.com
+          secretName: mcp.irtranscripts.com-tls

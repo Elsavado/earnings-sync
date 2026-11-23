@@ -1,7 +1,7 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RolePermissionModule } from '@gauzy/core';
+import { RolePermissionModule } from '@irtranscripts/core';
 import { AiChatConversation } from './ai-chat-conversation.entity';
 import { AiChatConversationController } from './ai-chat-conversation.controller';
 import { AiChatConversationService } from './ai-chat-conversation.service';

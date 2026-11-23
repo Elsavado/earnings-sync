@@ -22,7 +22,7 @@ export enum TaskParticipantEnum {
 }
 
 /**
- * Which integrations may sync a task out of Gauzy.
+ * Which integrations may sync a task out of IRTranscripts.
  *
  * - `all`: every enabled integration may sync it, each by its own rules (the default; a task without a value is `all`).
  * - `ever-platform`: only the first-party Ever platform integrations (Ever Works) may sync it; third-party
@@ -35,11 +35,11 @@ export enum TaskSyncScopeEnum {
 	NONE = 'none'
 }
 
-/** Who is about to sync a task out of Gauzy: a third-party integration, or a first-party Ever platform one. */
+/** Who is about to sync a task out of IRTranscripts: a third-party integration, or a first-party Ever platform one. */
 export type TaskSyncAudience = 'third-party' | 'ever-platform';
 
 /**
- * Whether a task's sync scope lets an integration of the given audience sync it out of Gauzy.
+ * Whether a task's sync scope lets an integration of the given audience sync it out of IRTranscripts.
  *
  * A task without a scope (every task created before the column) is `all`. A value this build does not know is read
  * as the narrowest scope, `none`, so a newer scope never leaks a task through an older integration.
@@ -62,7 +62,7 @@ export interface IBaseTaskProperties extends IBasePerTenantAndOrganizationEntity
 	title: string;
 	number?: number;
 	public?: boolean;
-	syncScope?: TaskSyncScopeEnum | null; // Which integrations may sync the task out of Gauzy (null = `all`)
+	syncScope?: TaskSyncScopeEnum | null; // Which integrations may sync the task out of IRTranscripts (null = `all`)
 	prefix?: string;
 	description?: string;
 	status?: TaskStatusEnum;

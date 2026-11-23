@@ -1,5 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
-import { restatesStoredValue } from '@gauzy/common';
+import { restatesStoredValue } from '@irtranscripts/common';
 
 /**
  * The members of a patch that would change what a row already holds.
@@ -7,7 +7,7 @@ import { restatesStoredValue } from '@gauzy/common';
  * A member the patch does not state is not a change. A member it states with the value the row already holds is
  * not a change either, so a client that sends a whole row back with one descriptive member edited is not refused
  * for the members it did not touch. What counts as the value already held is `restatesStoredValue`'s rule
- * (`@gauzy/common`): a date is compared as an instant, because a column reads back as a `Date` while a body states an
+ * (`@irtranscripts/common`): a date is compared as an instant, because a column reads back as a `Date` while a body states an
  * ISO string; everything else this is used for — identifiers and enumerations — is compared as exact text, and a
  * body value that only stringifies to the stored one (an array holding it) is a change. None of these members is an
  * amount or a document, so no text is read as a decimal or as JSON: a batch number `"10"` and `"10.0"` are two

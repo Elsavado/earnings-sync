@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-legal-ui
+ * Public API Surface of @irtranscripts/plugin-legal-ui
  */
 export * from './lib/components/terms-and-conditions/terms-and-conditions.component';
 export * from './lib/components/privacy-policy/privacy-policy.component';

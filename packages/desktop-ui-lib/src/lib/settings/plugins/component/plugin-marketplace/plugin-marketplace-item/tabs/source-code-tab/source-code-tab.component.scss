@@ -7,12 +7,12 @@
 	padding: 1.5rem 0;
 
 	.info-card {
-		background: var(--gauzy-card-1);
+		background: var(--irtranscripts-card-1);
 		border: 1px solid var(--border-basic-color-3);
 		border-radius: calc(var(--border-radius) * 1.5);
 		padding: 0;
 		margin-bottom: 1.5rem;
-		// No `--gauzy-shadow`: it is a 1px ring on the dark canvas and this card
+		// No `--irtranscripts-shadow`: it is a 1px ring on the dark canvas and this card
 		// already draws a 1px `--border-basic-color-3` border.
 		transition: all 0.3s ease;
 
@@ -50,13 +50,13 @@
 					margin: 0 0 0.25rem;
 					font-size: 1.125rem;
 					font-weight: 600;
-					color: var(--gauzy-text-color-1);
+					color: var(--irtranscripts-text-color-1);
 				}
 
 				.section-subtitle {
 					margin: 0;
 					font-size: 0.875rem;
-					color: var(--gauzy-text-color-2);
+					color: var(--irtranscripts-text-color-2);
 					line-height: 1.5;
 				}
 			}
@@ -89,7 +89,7 @@
 					gap: 0.5rem;
 					font-weight: 500;
 					font-size: 0.875rem;
-					color: var(--gauzy-text-color-2);
+					color: var(--irtranscripts-text-color-2);
 					text-transform: uppercase;
 					letter-spacing: 0.5px;
 
@@ -100,7 +100,7 @@
 				}
 
 				.value {
-					color: var(--gauzy-text-color-1);
+					color: var(--irtranscripts-text-color-1);
 					font-size: 0.9375rem;
 					width: 100%;;
 

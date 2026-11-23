@@ -1,8 +1,8 @@
 {
-	"name": "gauzy-server",
+	"name": "irtranscripts-server",
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
 	"projectType": "application",
-	"prefix": "gauzy",
+	"prefix": "irtranscripts",
 	"sourceRoot": "apps/server/src",
 	"tags": [],
 	"implicitDependencies": [],
@@ -19,7 +19,7 @@
 				"customWebpackConfig": {
 					"path": "apps/server/config/custom-webpack.config.js"
 				},
-				"outputPath": "dist/apps/gauzy-server",
+				"outputPath": "dist/apps/irtranscripts-server",
 				"index": "apps/server/src/index.html",
 				"main": "apps/server/src/main.ts",
 				"polyfills": "apps/server/src/polyfills.ts",
@@ -124,10 +124,10 @@
 			"executor": "@angular-devkit/build-angular:dev-server",
 			"configurations": {
 				"production": {
-					"buildTarget": "gauzy-server:build:production"
+					"buildTarget": "irtranscripts-server:build:production"
 				},
 				"development": {
-					"buildTarget": "gauzy-server:build:development"
+					"buildTarget": "irtranscripts-server:build:development"
 				}
 			},
 			"defaultConfiguration": "development",

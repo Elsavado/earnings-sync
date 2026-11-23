@@ -5,7 +5,7 @@
 import '../core/entities/internal';
 
 import { In } from 'typeorm';
-import { IUser, PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { IUser, PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { CrudService } from '../core/crud/crud.service';
 import { asTenantUser, createTenantFixture } from '../core/testing/tenant-isolation/tenant-isolation.fixtures';

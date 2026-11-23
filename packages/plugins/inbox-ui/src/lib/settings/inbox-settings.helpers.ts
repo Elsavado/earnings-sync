@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { IEmailProviderDescriptor, IInboxProviderAccountCreated } from '@gauzy/contracts';
+import { IEmailProviderDescriptor, IInboxProviderAccountCreated } from '@irtranscripts/contracts';
 import { providerConfigFields } from './provider-config-form.helpers';
 
 /** One value shown once: its label (a provider field's own, or a translation key) and the value. */

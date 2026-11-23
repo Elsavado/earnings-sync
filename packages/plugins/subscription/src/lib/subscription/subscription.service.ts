@@ -9,7 +9,7 @@ import {
 	ID,
 	IdempotencyOutcome,
 	IdempotencyStatus
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	AdjustmentService,
 	ApiErrorCode,
@@ -24,7 +24,7 @@ import {
 	commitVersionedUpdate,
 	matchesExpectation,
 	parseEntityVersion
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import {
 	IChangeSubscriptionPlanInput,
 	ICreateSubscriptionInput,

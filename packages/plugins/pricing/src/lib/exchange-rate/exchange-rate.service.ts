@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { DeepPartial, FindOptionsWhere, IsNull, LessThanOrEqual, MoreThanOrEqual, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { CurrencyCode, DecimalString, ID } from '@gauzy/contracts';
-import { LegacyFindOneOptions, Money, RequestContext, TenantAwareCrudService } from '@gauzy/core';
+import { CurrencyCode, DecimalString, ID } from '@irtranscripts/contracts';
+import { LegacyFindOneOptions, Money, RequestContext, TenantAwareCrudService } from '@irtranscripts/core';
 import { confiningOrganizationId } from '../organization-boundary';
 import { assertOrganizationUnchanged, inCallerOrganization, organizationForCreate } from '../organization-scope';
 import { ExchangeRate } from './exchange-rate.entity';

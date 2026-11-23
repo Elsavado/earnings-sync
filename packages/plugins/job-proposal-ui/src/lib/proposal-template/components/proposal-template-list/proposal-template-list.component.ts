@@ -16,16 +16,16 @@ import {
 	ISelectedEmployee,
 	LanguagesEnum,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { API_PREFIX, distinctUntilChange } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { API_PREFIX, distinctUntilChange } from '@irtranscripts/ui-core/common';
 import {
 	ErrorHandlingService,
 	ProposalTemplateService,
 	ServerDataSource,
 	Store,
 	ToastrService
-} from '@gauzy/ui-core/core';
-import { I18nService } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/ui-core/core';
+import { I18nService } from '@irtranscripts/ui-core/i18n';
 import {
 	DeleteConfirmationComponent,
 	EmployeeLinksComponent,
@@ -34,7 +34,7 @@ import {
 	Nl2BrPipe,
 	PaginationFilterBaseComponent,
 	TruncatePipe
-} from '@gauzy/ui-core/shared';
+} from '@irtranscripts/ui-core/shared';
 import { ProposalTemplateFormComponent } from '../proposal-template-form/proposal-template-form.component';
 import { buildProposalTemplateViewSections } from '../../proposal-template-record-view';
 

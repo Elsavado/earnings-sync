@@ -14,11 +14,11 @@ import { filter, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
-import { ICurrency, IOrganization } from '@gauzy/contracts';
-import { environment as ENV } from '@gauzy/ui-config';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { CurrencyService, Store } from '@gauzy/ui-core/core';
-import { distinctUntilChange, isNotEmpty } from '@gauzy/ui-core/common';
+import { ICurrency, IOrganization } from '@irtranscripts/contracts';
+import { environment as ENV } from '@irtranscripts/ui-config';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { CurrencyService, Store } from '@irtranscripts/ui-core/core';
+import { distinctUntilChange, isNotEmpty } from '@irtranscripts/ui-core/common';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

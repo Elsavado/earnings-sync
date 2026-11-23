@@ -1,6 +1,6 @@
 import * as chalk from 'chalk';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@gauzy/plugin';
-import { ApplicationPluginConfig } from '@gauzy/common';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@irtranscripts/plugin';
+import { ApplicationPluginConfig } from '@irtranscripts/common';
 import { HubstaffModule } from './hubstaff.module';
 
 @Plugin({

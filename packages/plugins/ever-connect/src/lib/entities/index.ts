@@ -1,4 +1,4 @@
-import { EverInstance } from '@gauzy/plugin-ever-instance';
+import { EverInstance } from '@irtranscripts/plugin-ever-instance';
 import { EverConnectAudit } from './ever-connect-audit.entity';
 import { EverConnectConnection } from './ever-connect-connection.entity';
 import { EverConnectIntegration } from './ever-connect-integration.entity';

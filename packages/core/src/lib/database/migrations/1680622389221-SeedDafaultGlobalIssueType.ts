@@ -2,8 +2,8 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
 import { v4 as uuidv4 } from 'uuid';
 import * as path from 'path';
-import { getConfig, environment as env, DatabaseTypeEnum } from '@gauzy/config';
-import { FileStorageProviderEnum } from '@gauzy/contracts';
+import { getConfig, environment as env, DatabaseTypeEnum } from '@irtranscripts/config';
+import { FileStorageProviderEnum } from '@irtranscripts/contracts';
 import { copyAssets, getImageDimensions } from './../../core/seeds/utils';
 import { DEFAULT_GLOBAL_ISSUE_TYPES } from './../../tasks/issue-type/default-global-issue-types';
 import { getApiPublicPath } from '../../core';
@@ -56,7 +56,7 @@ export class SeedDafaultGlobalIssueType1680622389221 implements MigrationInterfa
 
 			// Determine the base directory for assets
 			const assetPublicPath = env.isElectron
-				? path.resolve(process.env.GAUZY_USER_PATH || '', 'public') // Electron-specific path
+				? path.resolve(process.env.IRTRANSCRIPTS_USER_PATH || '', 'public') // Electron-specific path
 				: config.assetOptions?.assetPublicPath || publicDir; // Custom public directory path from configuration.
 
 
@@ -116,7 +116,7 @@ export class SeedDafaultGlobalIssueType1680622389221 implements MigrationInterfa
 
 		// Determine the base directory for assets
 		const assetPublicPath = env.isElectron
-			? path.resolve(process.env.GAUZY_USER_PATH || '', 'public') // Electron-specific path
+			? path.resolve(process.env.IRTRANSCRIPTS_USER_PATH || '', 'public') // Electron-specific path
 			: config.assetOptions?.assetPublicPath || publicDir; // Custom public directory path from configuration.
 
 			for await (const issueType of DEFAULT_GLOBAL_ISSUE_TYPES) {

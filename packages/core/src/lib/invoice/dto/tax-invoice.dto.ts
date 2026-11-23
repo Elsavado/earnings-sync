@@ -1,4 +1,4 @@
-import { DiscountTaxTypeEnum, TaxCalculationTypeEnum } from "@gauzy/contracts";
+import { DiscountTaxTypeEnum, TaxCalculationTypeEnum } from "@irtranscripts/contracts";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { IsOptional, IsNumber, IsEnum } from "class-validator";
 

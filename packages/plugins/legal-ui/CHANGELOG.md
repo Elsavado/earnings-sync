@@ -1,4 +1,4 @@
-# Changelog for @gauzy/plugin-legal-ui
+# Changelog for @irtranscripts/plugin-legal-ui
 
 ## [Unreleased]
 

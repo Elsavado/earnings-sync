@@ -5,9 +5,9 @@
  * declares it, `INBOX_VIEW` guards "my mailboxes" and `INBOX_MAILBOX_MANAGE` everything else (as on the controller),
  * every field reaches the service method of its route, and the routes' DTO rules refuse what the routes refuse.
  */
-jest.mock('@gauzy/core', () => jest.requireActual('../testing/graphql-core-double').coreDouble());
-jest.mock('@gauzy/common', () => jest.requireActual('../testing/graphql-core-double').commonDouble());
-jest.mock('@gauzy/plugin', () => jest.requireActual('../testing/graphql-core-double').pluginDouble());
+jest.mock('@irtranscripts/core', () => jest.requireActual('../testing/graphql-core-double').coreDouble());
+jest.mock('@irtranscripts/common', () => jest.requireActual('../testing/graphql-core-double').commonDouble());
+jest.mock('@irtranscripts/plugin', () => jest.requireActual('../testing/graphql-core-double').pluginDouble());
 
 import 'reflect-metadata';
 import { BadRequestException } from '@nestjs/common';
@@ -18,7 +18,7 @@ import {
 	InboxMailboxMemberRoleEnum,
 	InboxMailboxOwnerTypeEnum,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { InboxEmailModule } from '../inbox-email.module';
 import { InboxEmailPlugin } from '../inbox-email.plugin';
 import {
@@ -95,7 +95,7 @@ function setup() {
 	const mailbox = { id: MAILBOX_ID, address: 'support.ever@inbox.example' };
 	const verification = {
 		recordType: 'TXT',
-		recordName: '_gauzy-inbox.acme.com',
+		recordName: '_irtranscripts-inbox.acme.com',
 		recordValue: 'v',
 		status: 'PENDING'
 	};

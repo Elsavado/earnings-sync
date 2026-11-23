@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { Between, In, SelectQueryBuilder, Brackets, WhereExpressionBuilder } from 'typeorm';
 import * as moment from 'moment';
-import { ID, IGetTimesheetInput, PermissionsEnum, ITimesheet, TimesheetStatus } from '@gauzy/contracts';
+import { ID, IGetTimesheetInput, PermissionsEnum, ITimesheet, TimesheetStatus } from '@irtranscripts/contracts';
 import { RequestContext } from './../../core/context';
 import { TenantAwareCrudService } from './../../core/crud';
 import { getDateRangeFormat, MultiORMEnum, parseFindOptionsRelations } from './../../core/utils';

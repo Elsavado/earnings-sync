@@ -4,8 +4,8 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { combineLatest } from 'rxjs';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
-import { BaseEntityEnum, IOrganization } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
+import { BaseEntityEnum, IOrganization } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
 import { IRecordViewSection } from './record-view.model';
 import { RecordViewPageState, recordViewPageStateOf } from './record-view-page.component';
 

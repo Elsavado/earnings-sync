@@ -10,8 +10,8 @@ import {
 	TenantPermissionGuard,
 	deliverPayloadAsIs,
 	tenantScopedTopicStream
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { EntitlementFeatures } from '../../entitlement.features';
 import { EntitlementKey } from '../../entitlement-key/entitlement-key.entity';
 import { EntitlementKeyService } from '../../entitlement-key/entitlement-key.service';

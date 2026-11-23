@@ -1,8 +1,8 @@
-// The dialect helpers read DB_TYPE once, when @gauzy/config loads; the real entity graph below is built on
+// The dialect helpers read DB_TYPE once, when @irtranscripts/config loads; the real entity graph below is built on
 // better-sqlite3, as the demo runs it. `getConfig` is a mock so a case can declare a Tag custom field.
-jest.mock('@gauzy/config', () => {
+jest.mock('@irtranscripts/config', () => {
 	process.env.DB_TYPE = 'better-sqlite3';
-	const actual = jest.requireActual('@gauzy/config');
+	const actual = jest.requireActual('@irtranscripts/config');
 	return { ...actual, getConfig: jest.fn(actual.getConfig) };
 });
 
@@ -20,8 +20,8 @@ import {
 	Repository,
 	SelectQueryBuilder
 } from 'typeorm';
-import * as config from '@gauzy/config';
-import { FileStorageProviderEnum, ITagFindInput } from '@gauzy/contracts';
+import * as config from '@irtranscripts/config';
+import { FileStorageProviderEnum, ITagFindInput } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { CrudService } from '../core/crud/crud.service';
 import { MultiORMEnum, parseFindOptionsRelations } from '../core/utils';
@@ -45,7 +45,7 @@ import { TAG_USAGE_COUNTERS, TagService } from './tag.service';
  */
 
 const ENTITY_GRAPH_TIMEOUT = 180_000;
-const actualGetConfig = jest.requireActual<typeof config>('@gauzy/config').getConfig;
+const actualGetConfig = jest.requireActual<typeof config>('@irtranscripts/config').getConfig;
 
 /** The old `findTags` TypeORM query, verbatim but for the repository and service it runs on. */
 async function legacyFindTags(

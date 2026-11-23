@@ -17,13 +17,13 @@
  *   proxy log and error report on the way (CWE-598), a header is not, and the route is matched before the
  *   id-addressed read it now shares a segment count with.
  *
- * `@gauzy/core` is doubled at the module boundary for the reason this package's other suites state. The
+ * `@irtranscripts/core` is doubled at the module boundary for the reason this package's other suites state. The
  * permission decorator is the kernel's own, because "the same grant" is a statement about the metadata it
  * writes, and a double that wrote nothing would have the comparison pass on two absences.
  */
 jest.mock('../commerce-cart/commerce-cart.service', () => ({ CommerceCartService: class CommerceCartService {} }));
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
@@ -41,7 +41,7 @@ jest.mock('@gauzy/core', () => {
 		},
 		// The kernel's own pipe: the id-addressed read refuses a segment that is not a UUID, which is half of why
 		// `by-token` can never name a cart.
-		UUIDValidationPipe: jest.requireActual('@gauzy/core/src/lib/shared/pipes/uuid-validation.pipe').UUIDValidationPipe,
+		UUIDValidationPipe: jest.requireActual('@irtranscripts/core/src/lib/shared/pipes/uuid-validation.pipe').UUIDValidationPipe,
 		ColumnIndex: decorator,
 		ExportRedacted: decorator,
 		MultiORMColumn: decorator,
@@ -50,25 +50,25 @@ jest.mock('@gauzy/core', () => {
 		MultiORMManyToOne: decorator,
 		JsonColumn: decorator,
 		VersionedColumn: decorator,
-		Permissions: jest.requireActual('@gauzy/core/src/lib/shared/decorators/permissions.decorator').Permissions,
+		Permissions: jest.requireActual('@irtranscripts/core/src/lib/shared/decorators/permissions.decorator').Permissions,
 		UseValidationPipe: decorator,
 		PermissionGuard: class {},
 		TenantPermissionGuard: class {},
 		FeatureFlagGuard: class {},
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
-		IDEMPOTENT_METADATA_KEY: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.policy')
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		IDEMPOTENT_METADATA_KEY: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.policy')
 			.IDEMPOTENT_METADATA_KEY,
-		VERSIONED_METADATA_KEY: jest.requireActual('@gauzy/core/src/lib/concurrency/version.util').VERSIONED_METADATA_KEY,
+		VERSIONED_METADATA_KEY: jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util').VERSIONED_METADATA_KEY,
 		Versioned: (options: any = {}) =>
 			require('@nestjs/common').SetMetadata(
-				jest.requireActual('@gauzy/core/src/lib/concurrency/version.util').VERSIONED_METADATA_KEY,
+				jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util').VERSIONED_METADATA_KEY,
 				options
 			),
-		versionExpectationOf: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		versionExpectationOf: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.versionExpectationOf,
-		connectionFromOffsetPage: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		connectionFromOffsetPage: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.connectionFromOffsetPage,
-		resolveConnectionWindow: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		resolveConnectionWindow: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.resolveConnectionWindow,
 		ColumnNumericTransformerPipe: class {
 			to(value: unknown) {
@@ -99,8 +99,8 @@ import {
 	ObjectTypeExtensionNode,
 	TypeNode
 } from 'graphql';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionGuard, TenantPermissionGuard, VERSIONED_METADATA_KEY } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionGuard, TenantPermissionGuard, VERSIONED_METADATA_KEY } from '@irtranscripts/core';
 import { CART_PERMISSIONS } from '../cart.permissions';
 import { CommerceCartController } from '../commerce-cart/commerce-cart.controller';
 import { CommerceCartService } from '../commerce-cart/commerce-cart.service';
@@ -345,7 +345,7 @@ describe('GET /carts/by-token — the token rides in a header, never in the path
 		expect(byId.status).toBe(200);
 		expect(service.findOneWithContent).toHaveBeenCalledWith(CART.id);
 		// A cart id is a UUID, which `by-token` is not: the id read's own pipe refuses the segment.
-		const uuidPipe = new (jest.requireActual('@gauzy/core/src/lib/shared/pipes/uuid-validation.pipe').UUIDValidationPipe)();
+		const uuidPipe = new (jest.requireActual('@irtranscripts/core/src/lib/shared/pipes/uuid-validation.pipe').UUIDValidationPipe)();
 
 		expect(() => uuidPipe.transform('by-token', { type: 'param' })).toThrow('valid uuid is expected');
 		expect(uuidPipe.transform(CART.id, { type: 'param' })).toBe(CART.id);

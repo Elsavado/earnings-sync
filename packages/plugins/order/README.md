@@ -1,6 +1,6 @@
-# @gauzy/plugin-order
+# @irtranscripts/plugin-order
 
-The canonical order of the Ever Gauzy platform. The platform had no order table
+The canonical order of the Ever IRTranscripts platform. The platform had no order table
 before this package; this is it.
 
 ## What this package owns
@@ -61,8 +61,8 @@ One surface, one controller per entity: `/api/orders`, `/api/order-lines`,
 
 ## Dependencies
 
-`@gauzy/plugin-cart` (an order is placed from a cart, and the two share one
-totals function), `@gauzy/plugin-pricing` (a line is priced by the price
-resolver) and `@gauzy/plugin-tax` (a tax line is produced by the tax resolver).
+`@irtranscripts/plugin-cart` (an order is placed from a cart, and the two share one
+totals function), `@irtranscripts/plugin-pricing` (a line is priced by the price
+resolver) and `@irtranscripts/plugin-tax` (a tax line is produced by the tax resolver).
 It registers itself as the cart's checkout handler at bootstrap, which is what
 keeps the dependency one-way.

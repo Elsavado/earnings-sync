@@ -2,10 +2,10 @@
  * Entitlements from purchases (Q7-W5): what right an order line grants, and what the grant path does with
  * the `lines` an `order.placed` event now carries.
  *
- * `@gauzy/core` and the entitlement service are doubled at the module boundary, as the package's other
+ * `@irtranscripts/core` and the entitlement service are doubled at the module boundary, as the package's other
  * suites do: what is under test is the adapter's answer and the consumer's decision from the payload.
  */
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	EventConsumerRegistry: class EventConsumerRegistry {},
 	FeatureService: class FeatureService {}
 }));
@@ -14,7 +14,7 @@ jest.mock('../entitlement/entitlement.service', () => ({
 	EntitlementService: class EntitlementService {}
 }));
 
-import { IEventEnvelope } from '@gauzy/contracts';
+import { IEventEnvelope } from '@irtranscripts/contracts';
 import { EntitlementKind } from '../entitlement.enums';
 import { EntitlementRevocationReason } from '../entitlement.types';
 import { EntitlementGrantConsumer } from './entitlement-grant.consumer';

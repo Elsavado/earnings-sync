@@ -1,4 +1,4 @@
-import { EverInstance } from '@gauzy/plugin-ever-instance';
+import { EverInstance } from '@irtranscripts/plugin-ever-instance';
 import { EverStatsLease } from './ever-stats-lease.entity';
 import { EverStatsReport } from './ever-stats-report.entity';
 

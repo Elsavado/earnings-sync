@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ITimerStatus } from '@gauzy/contracts';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
+import { ITimerStatus } from '@irtranscripts/contracts';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import {
 	BehaviorSubject,

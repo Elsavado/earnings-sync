@@ -7,4 +7,4 @@ import './electron-main';
 // This file serves as the entry point for the Electron app
 // The actual Electron main process is handled in electron-main.ts
 
-console.log('🚀 Starting Gauzy MCP Server Desktop App...');
+console.log('🚀 Starting IRTranscripts MCP Server Desktop App...');

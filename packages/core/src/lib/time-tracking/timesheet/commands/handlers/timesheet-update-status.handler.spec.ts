@@ -3,7 +3,7 @@ import '../../../../core/entities/internal';
 
 import { ForbiddenException } from '@nestjs/common';
 import { In } from 'typeorm';
-import { PermissionsEnum, TimesheetStatus } from '@gauzy/contracts';
+import { PermissionsEnum, TimesheetStatus } from '@irtranscripts/contracts';
 import { RequestContext } from '../../../../core/context';
 import { TimesheetUpdateStatusCommand } from '../timesheet-update-status.command';
 import { TimesheetUpdateStatusHandler } from './timesheet-update-status.handler';

@@ -1,4 +1,4 @@
-import { CurrenciesEnum } from "@gauzy/contracts";
+import { CurrenciesEnum } from "@irtranscripts/contracts";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsEnum, IsNotEmpty } from "class-validator";
 

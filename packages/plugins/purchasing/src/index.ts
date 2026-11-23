@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-purchasing
+ * Public API Surface of @irtranscripts/plugin-purchasing
  */
 export * from './lib/purchasing.plugin';
 export * from './lib/purchasing.module';

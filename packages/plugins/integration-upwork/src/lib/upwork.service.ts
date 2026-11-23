@@ -9,7 +9,7 @@ import { Auth } from 'upwork-api/lib/routers/auth.js';
 import { Users } from 'upwork-api/lib/routers/organization/users.js';
 import { pluck, map, sortBy } from 'underscore';
 import * as moment from 'moment';
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 import {
 	IAccessTokenSecretPair,
 	IAccessToken,
@@ -44,13 +44,13 @@ import {
 	ITimeLog,
 	IIntegrationSetting,
 	IIntegrationTenant
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	RequestContext,
 	mergeOverlappingDateRanges,
 	parseFindOptionsRelations,
 	unixTimestampToDate
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import {
 	ExpenseService,
 	IncomeService,
@@ -60,7 +60,7 @@ import {
 	RoleService,
 	TimeSlotService,
 	UserService
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import {
 	CreateTimeSlotMinutesCommand,
 	EmployeeCreateCommand,
@@ -81,9 +81,9 @@ import {
 	ScreenshotCreateCommand,
 	TimeLogCreateCommand,
 	TimeSlotCreateCommand
-} from '@gauzy/core';
-import { arrayToObject, isEmpty, isNotEmpty, isObject } from '@gauzy/utils';
-import { ProposalCreateCommand } from '@gauzy/plugin-job-proposal';
+} from '@irtranscripts/core';
+import { arrayToObject, isEmpty, isNotEmpty, isObject } from '@irtranscripts/utils';
+import { ProposalCreateCommand } from '@irtranscripts/plugin-job-proposal';
 import { UpworkReportService } from './upwork-report.service';
 import { UpworkJobService } from './upwork-job.service';
 import { UpworkOffersService } from './upwork-offers.service';
@@ -587,7 +587,7 @@ export class UpworkService {
 	}
 
 	/**
-	 * Lists the freelancer's Upwork engagements (a contract here is a project in Gauzy).
+	 * Lists the freelancer's Upwork engagements (a contract here is a project in IRTranscripts).
 	 *
 	 * @param getEngagementsDto - The integration and organization to read the engagements for.
 	 * @returns The engagements reported by Upwork.
@@ -647,7 +647,7 @@ export class UpworkService {
 	}
 
 	/**
-	 * Syncs Upwork contracts into Gauzy projects of an organization.
+	 * Syncs Upwork contracts into IRTranscripts projects of an organization.
 	 *
 	 * The organization is authorized for the caller and the integration must belong to it: both
 	 * used to be taken on trust from the request body, so any integration permission in the tenant
@@ -678,7 +678,7 @@ export class UpworkService {
 	}
 
 	/**
-	 * Creates or updates one Gauzy project per Upwork contract, for an already authorized scope.
+	 * Creates or updates one IRTranscripts project per Upwork contract, for an already authorized scope.
 	 *
 	 * @param dto - The integration, organization and contracts to sync.
 	 * @returns One integration map per synced contract.
@@ -731,7 +731,7 @@ export class UpworkService {
 					//if project already integrated then only update model/entity
 					if (integrationMap) {
 						await this._commandBus.execute(
-							new OrganizationProjectUpdateCommand(integrationMap.gauzyId, input)
+							new OrganizationProjectUpdateCommand(integrationMap.irtranscriptsId, input)
 						);
 						return integrationMap;
 					}
@@ -740,7 +740,7 @@ export class UpworkService {
 					);
 					return await this._commandBus.execute(
 						new IntegrationMapSyncEntityCommand({
-							gauzyId: project.id,
+							irtranscriptsId: project.id,
 							integrationId,
 							sourceId,
 							entity: IntegrationEntity.PROJECT,
@@ -753,7 +753,7 @@ export class UpworkService {
 	}
 
 	/**
-	 * Reads an Upwork work diary — the source of the time slots and time logs Gauzy syncs.
+	 * Reads an Upwork work diary — the source of the time slots and time logs IRTranscripts syncs.
 	 *
 	 * @param getWorkDiaryDto - The integration, organization, contract and date to read.
 	 * @returns The work diary payload reported by Upwork.
@@ -792,7 +792,7 @@ export class UpworkService {
 		const organizationId = timeLog.organizationId;
 		const tenantId = RequestContext.currentTenantId();
 
-		const gauzyTimeLog = await this._commandBus.execute(
+		const irtranscriptsTimeLog = await this._commandBus.execute(
 			new TimeLogCreateCommand({
 				projectId: timeLog.projectId,
 				employeeId: timeLog.employeeId,
@@ -807,7 +807,7 @@ export class UpworkService {
 
 		await this._commandBus.execute(
 			new IntegrationMapSyncEntityCommand({
-				gauzyId: gauzyTimeLog.id,
+				irtranscriptsId: irtranscriptsTimeLog.id,
 				integrationId: timeLog.integrationId,
 				sourceId: timeLog.sourceId,
 				entity: IntegrationEntity.TIME_LOG,
@@ -815,7 +815,7 @@ export class UpworkService {
 			})
 		);
 
-		return gauzyTimeLog;
+		return irtranscriptsTimeLog;
 	}
 
 	async syncTimeSlots({ timeSlots, employeeId, integrationId, sourceId, organizationId }) {
@@ -826,7 +826,7 @@ export class UpworkService {
 			const multiply = 10;
 			const duration = 600;
 			const { keyboard_events_count, mouse_events_count, cell_time, activity } = timeSlot;
-			const gauzyTimeSlot = await this._commandBus.execute(
+			const irtranscriptsTimeSlot = await this._commandBus.execute(
 				new TimeSlotCreateCommand({
 					employeeId,
 					startedAt: new Date(moment.unix(cell_time).format('YYYY-MM-DD HH:mm:ss')),
@@ -841,7 +841,7 @@ export class UpworkService {
 			);
 			const integratedSlot = await this._commandBus.execute(
 				new IntegrationMapSyncEntityCommand({
-					gauzyId: gauzyTimeSlot.id,
+					irtranscriptsId: irtranscriptsTimeSlot.id,
 					integrationId,
 					sourceId,
 					entity: IntegrationEntity.TIME_SLOT,
@@ -893,7 +893,7 @@ export class UpworkService {
 						employeeId,
 						integrationId,
 						organizationId,
-						projectId: contract.gauzyId,
+						projectId: contract.irtranscriptsId,
 						duration: timeSlots.length * 10 * 60,
 						sourceId
 					};
@@ -991,7 +991,7 @@ export class UpworkService {
 	 * @param integrationId - The Upwork integration to resolve credentials from.
 	 * @param organizationId - The organization the integration belongs to.
 	 * @param contracts - The Upwork contracts to sync.
-	 * @param employeeId - The Gauzy employee the synced data belongs to, when already known.
+	 * @param employeeId - The IRTranscripts employee the synced data belongs to, when already known.
 	 * @param entitiesToSync - The entity kinds to sync (work diary, report, proposal).
 	 * @param providerReferenceId - The Upwork provider reference used to resolve the employee.
 	 * @param providerId - The Upwork provider id used by the report sync.
@@ -1016,13 +1016,13 @@ export class UpworkService {
 		});
 
 		if (!employeeId) {
-			const employee = await this._getUpworkGauzyEmployee(
+			const employee = await this._getUpworkIRTranscriptsEmployee(
 				providerReferenceId,
 				integrationId,
 				organizationId,
 				config
 			);
-			employeeId = employee.gauzyId;
+			employeeId = employee.irtranscriptsId;
 		}
 
 		const results = await Promise.all(
@@ -1111,7 +1111,7 @@ export class UpworkService {
 
 					const { time, mouse, keyboard } = minute;
 
-					const gauzyTimeSlotMinute = await this._commandBus.execute(
+					const irtranscriptsTimeSlotMinute = await this._commandBus.execute(
 						new CreateTimeSlotMinutesCommand({
 							mouse,
 							keyboard,
@@ -1121,7 +1121,7 @@ export class UpworkService {
 							tenantId
 						})
 					);
-					return gauzyTimeSlotMinute;
+					return irtranscriptsTimeSlotMinute;
 				})
 			);
 
@@ -1179,7 +1179,7 @@ export class UpworkService {
 				const recordedAt = moment.unix(snapshot_time).format('YYYY-MM-DD HH:mm:ss');
 				const activityTimestamp = moment.unix(cell_time).format('YYYY-MM-DD HH:mm:ss');
 
-				const gauzyScreenshot = await this._commandBus.execute(
+				const irtranscriptsScreenshot = await this._commandBus.execute(
 					new ScreenshotCreateCommand({
 						file: screenshot_img,
 						thumb: screenshot_img_thmb,
@@ -1192,7 +1192,7 @@ export class UpworkService {
 
 				return await this._commandBus.execute(
 					new IntegrationMapSyncEntityCommand({
-						gauzyId: gauzyScreenshot.id,
+						irtranscriptsId: irtranscriptsScreenshot.id,
 						integrationId,
 						sourceId,
 						entity: IntegrationEntity.SCREENSHOT,
@@ -1245,7 +1245,7 @@ export class UpworkService {
 		});
 	}
 
-	private async _getUpworkGauzyEmployee(
+	private async _getUpworkIRTranscriptsEmployee(
 		providerReferenceId: string,
 		integrationId: string,
 		organizationId: string,
@@ -1330,7 +1330,7 @@ export class UpworkService {
 
 		return await this._commandBus.execute(
 			new IntegrationMapSyncEntityCommand({
-				gauzyId: employee.id,
+				irtranscriptsId: employee.id,
 				integrationId,
 				sourceId: userId,
 				entity: IntegrationEntity.EMPLOYEE,
@@ -1358,7 +1358,7 @@ export class UpworkService {
 			return record;
 		}
 
-		const gauzyClient = await this._commandBus.execute(
+		const irtranscriptsClient = await this._commandBus.execute(
 			new OrganizationContactCreateCommand({
 				name,
 				organizationId,
@@ -1368,7 +1368,7 @@ export class UpworkService {
 		);
 		return await this._commandBus.execute(
 			new IntegrationMapSyncEntityCommand({
-				gauzyId: gauzyClient.id,
+				irtranscriptsId: irtranscriptsClient.id,
 				integrationId,
 				sourceId,
 				entity: IntegrationEntity.CLIENT,
@@ -1484,7 +1484,7 @@ export class UpworkService {
 						return integrationMap;
 					}
 
-					const gauzyExpense = await this._commandBus.execute(
+					const irtranscriptsExpense = await this._commandBus.execute(
 						new ExpenseCreateCommand({
 							employeeId,
 							organizationId,
@@ -1501,7 +1501,7 @@ export class UpworkService {
 
 					return await this._commandBus.execute(
 						new IntegrationMapSyncEntityCommand({
-							gauzyId: gauzyExpense.id,
+							irtranscriptsId: irtranscriptsExpense.id,
 							integrationId,
 							sourceId: reference,
 							entity: IntegrationEntity.EXPENSE,
@@ -1552,7 +1552,7 @@ export class UpworkService {
 				const { record: income } = await this._incomeService.findOneOrFailByOptions({
 					where: {
 						employeeId,
-						clientId: client.gauzyId,
+						clientId: client.irtranscriptsId,
 						reference: contractId,
 						valueDate: new Date(moment(worked_on).format('YYYY-MM-DD HH:mm:ss')),
 						organizationId
@@ -1562,7 +1562,7 @@ export class UpworkService {
 				if (income) {
 					const { record } = await this._integrationMapService.findOneOrFailByOptions({
 						where: {
-							gauzyId: income.id,
+							irtranscriptsId: income.id,
 							integrationId,
 							entity: IntegrationEntity.INCOME,
 							organizationId
@@ -1572,7 +1572,7 @@ export class UpworkService {
 				} else {
 					const amount = parseFloat((parseFloat(hours) * parseFloat(assignment_rate)).toFixed(2));
 					const tenantId = RequestContext.currentTenantId();
-					const gauzyIncome = await this._commandBus.execute(
+					const irtranscriptsIncome = await this._commandBus.execute(
 						new IncomeCreateCommand({
 							employeeId,
 							organizationId,
@@ -1581,7 +1581,7 @@ export class UpworkService {
 							valueDate: new Date(moment(worked_on).format('YYYY-MM-DD HH:mm:ss')),
 							notes,
 							tags: [],
-							clientId: client.gauzyId,
+							clientId: client.irtranscriptsId,
 							reference: contractId,
 							currency: environment.defaultCurrency
 						})
@@ -1589,7 +1589,7 @@ export class UpworkService {
 					integratedIncomes.push(
 						await this._commandBus.execute(
 							new IntegrationMapSyncEntityCommand({
-								gauzyId: gauzyIncome.id,
+								irtranscriptsId: irtranscriptsIncome.id,
 								integrationId,
 								sourceId: contractId,
 								entity: IntegrationEntity.INCOME,
@@ -1637,14 +1637,14 @@ export class UpworkService {
 			return reports;
 		}
 
-		const gauzyIds = pluck(items, 'gauzyId');
+		const irtranscriptsIds = pluck(items, 'irtranscriptsId');
 		const {
 			dateRange: { start, end }
 		} = filter;
 
 		const income = await this._incomeService.findAll({
 			where: {
-				id: In(gauzyIds),
+				id: In(irtranscriptsIds),
 				valueDate: Between<Date>(
 					moment(moment(start).format('YYYY-MM-DD HH:mm:ss')).toDate(),
 					moment(moment(end).format('YYYY-MM-DD HH:mm:ss')).toDate()
@@ -1656,7 +1656,7 @@ export class UpworkService {
 		});
 		const expense = await this._expenseService.findAll({
 			where: {
-				id: In(gauzyIds),
+				id: In(irtranscriptsIds),
 				valueDate: Between<Date>(
 					moment(moment(start).format('YYYY-MM-DD HH:mm:ss')).toDate(),
 					moment(moment(end).format('YYYY-MM-DD HH:mm:ss')).toDate()
@@ -1800,7 +1800,7 @@ export class UpworkService {
 						if (integrationMap && integrationMap['success'] === true) {
 							integratedOffer = integrationMap.record;
 						} else {
-							const gauzyOffer = await this._commandBus.execute(
+							const irtranscriptsOffer = await this._commandBus.execute(
 								new ProposalCreateCommand({
 									employeeId,
 									organizationId,
@@ -1814,7 +1814,7 @@ export class UpworkService {
 
 							integratedOffer = await this._commandBus.execute(
 								new IntegrationMapSyncEntityCommand({
-									gauzyId: gauzyOffer.id,
+									irtranscriptsId: irtranscriptsOffer.id,
 									integrationId,
 									sourceId,
 									entity: IntegrationEntity.PROPOSAL,

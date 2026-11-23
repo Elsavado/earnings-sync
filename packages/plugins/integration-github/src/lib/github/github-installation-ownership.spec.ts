@@ -1,8 +1,8 @@
 import { HttpException } from '@nestjs/common';
 import { firstValueFrom, of, throwError } from 'rxjs';
 
-// Keep the @gauzy/core entity graph out of this suite (same approach as github-installation-id.spec.ts).
-jest.mock('@gauzy/core', () => ({
+// Keep the @irtranscripts/core entity graph out of this suite (same approach as github-installation-id.spec.ts).
+jest.mock('@irtranscripts/core', () => ({
 	TenantOrganizationBaseDTO: class TenantOrganizationBaseDTO {},
 	RequestContext: { currentTenantId: jest.fn() },
 	IntegrationService: class IntegrationService {},
@@ -13,7 +13,7 @@ jest.mock('@gauzy/core', () => ({
 	UseValidationPipe: () => () => undefined,
 	EVER_REDIS_CLIENT: 'EVER_REDIS_CLIENT'
 }));
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	environment: {
 		baseUrl: 'https://api.example.test',
 		JWT_SECRET: 'test-signing-secret',
@@ -26,8 +26,8 @@ jest.mock('@nestjs/axios', () => ({ HttpService: class HttpService {} }));
 // The real OctokitService pulls in probot; only its repository listing is used here.
 jest.mock('../probot/octokit.service', () => ({ OctokitService: class OctokitService {} }));
 
-import { environment } from '@gauzy/config';
-import { RequestContext } from '@gauzy/core';
+import { environment } from '@irtranscripts/config';
+import { RequestContext } from '@irtranscripts/core';
 import { GithubInstallationOwnershipService } from './github-installation-ownership.service';
 import { GitHubController } from './github.controller';
 import { GitHubAuthorizationController } from './github-authorization.controller';

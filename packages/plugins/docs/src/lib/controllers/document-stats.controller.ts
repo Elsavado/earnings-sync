@@ -1,15 +1,15 @@
 import { Controller, Get, HttpStatus, Query, UseGuards } from '@nestjs/common';
 import { QueryBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { FeatureFlag } from '@gauzy/common';
-import { FeatureEnum, PermissionsEnum } from '@gauzy/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
+import { FeatureEnum, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	FeatureFlagGuard,
 	PermissionGuard,
 	Permissions,
 	TenantPermissionGuard,
 	UseValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { GetDocumentsQueryDTO } from '../dto';
 import { GetDocumentStatsQuery } from '../queries/get-document-stats.query';
 import { IDocumentStats } from '../services/document-stats.service';

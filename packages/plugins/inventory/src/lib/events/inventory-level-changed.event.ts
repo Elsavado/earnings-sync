@@ -6,8 +6,8 @@
  * disagreeing. The three level states are separate classes so a subscriber declares which one it
  * cares about instead of filtering on a field.
  */
-import { ID } from '@gauzy/contracts';
-import { BaseEvent } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { BaseEvent } from '@irtranscripts/core';
 import { IStockAvailability } from './../stock-level/stock-level.types';
 
 /**

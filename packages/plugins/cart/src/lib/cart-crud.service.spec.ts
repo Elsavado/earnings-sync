@@ -2,7 +2,7 @@ import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 /**
- * `@gauzy/core` boots the whole application graph from its barrel, so it is doubled at the module boundary: the base
+ * `@irtranscripts/core` boots the whole application graph from its barrel, so it is doubled at the module boundary: the base
  * the cart services inherit is reduced to the switch it states. The organization boundary itself — who it confines,
  * and how every read, write and delete of the base keeps to it, a delete by id of a row outside it answering
  * `affected: 0` — is proven against real stores on both ORMs in core
@@ -10,7 +10,7 @@ import { join } from 'node:path';
  * it; the refusal the cart's create adds on top is proven in `commerce-cart.service.spec.ts` (R2-G19). **The cart base
  * under test is the real one.**
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	class TenantAwareCrudService {
 		/** Off in the platform's base: a service applies the boundary only when it says so. */
 		protected appliesOrganizationBoundary(): boolean {

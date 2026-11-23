@@ -1,6 +1,6 @@
 import { ActivatedRoute } from '@angular/router';
 import { NbMenuItem } from '@nebular/theme';
-import { FeatureEnum, PermissionsEnum } from '@gauzy/contracts';
+import { FeatureEnum, PermissionsEnum } from '@irtranscripts/contracts';
 
 // Define a type NavMenuBadgeType representing different types of badges.
 export type NavMenuBadgeType = 'basic' | 'primary' | 'info' | 'success' | 'warning' | 'danger' | 'control';

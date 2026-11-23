@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
-import { ID, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { Permissions } from '../shared/decorators';
 import { UseValidationPipe, UUIDValidationPipe, AbstractValidationPipe } from '../shared/pipes';

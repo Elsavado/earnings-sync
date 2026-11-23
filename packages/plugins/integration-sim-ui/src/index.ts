@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-integration-sim-ui
+ * Public API Surface of @irtranscripts/plugin-integration-sim-ui
  */
 export * from './lib/integration-sim-ui.module';
 export * from './lib/integration-sim.layout.component';

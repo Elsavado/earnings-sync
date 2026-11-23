@@ -1,4 +1,4 @@
-# Changelog for @gauzy/plugin-docs-ui
+# Changelog for @irtranscripts/plugin-docs-ui
 
 ## [Unreleased]
 

@@ -1,0 +1,33 @@
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { NbDialogRef } from '@nebular/theme';
+import { TranslateService } from '@ngx-translate/core';
+import { PaymentService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { IInvoice, IPayment } from '@irtranscripts/contracts';
+
+@Component({
+    selector: 'ga-payment-receipt-mutation',
+    templateUrl: './payment-receipt-mutation.component.html',
+    styleUrls: ['../payment-mutation/payment-mutation.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
+})
+export class InvoicePaymentReceiptMutationComponent extends TranslationBaseComponent {
+	constructor(
+		readonly translateService: TranslateService,
+		private paymentService: PaymentService,
+		protected dialogRef: NbDialogRef<InvoicePaymentReceiptMutationComponent>
+	) {
+		super(translateService);
+	}
+	invoice: IInvoice;
+	payment: IPayment;
+
+	async send() {
+		await this.paymentService.sendReceipt(this.payment, this.invoice);
+	}
+
+	cancel() {
+		this.dialogRef.close();
+	}
+}

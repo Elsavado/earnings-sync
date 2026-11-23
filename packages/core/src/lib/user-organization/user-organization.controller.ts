@@ -14,8 +14,8 @@ import {
 } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { parseToBoolean } from '@gauzy/utils';
-import { IUserOrganization, IPagination, ID, PermissionsEnum } from '@gauzy/contracts';
+import { parseToBoolean } from '@irtranscripts/utils';
+import { IUserOrganization, IPagination, ID, PermissionsEnum } from '@irtranscripts/contracts';
 import { CrudController, BaseQueryDTO } from './../core/crud';
 import { UUIDValidationPipe, UseValidationPipe } from './../shared/pipes';
 import { Permissions } from './../shared/decorators';

@@ -19,15 +19,15 @@
 		font-weight: 600;
 		font-size: 0.85rem;
 		text-transform: uppercase;
-		color: var(--gauzy-text-color-2);
+		color: var(--irtranscripts-text-color-2);
 		padding: 0.75rem 0.5rem;
-		border-bottom: 2px solid var(--gauzy-card-border);
+		border-bottom: 2px solid var(--irtranscripts-card-border);
 		white-space: nowrap;
 	}
 
 	td {
 		padding: 0.75rem 0.5rem;
-		border-bottom: 1px solid var(--gauzy-card-border);
+		border-bottom: 1px solid var(--irtranscripts-card-border);
 		vertical-align: middle;
 	}
 
@@ -59,28 +59,28 @@
 	text-align: center;
 
 	&.badge-success {
-		background-color: var(--gauzy-success-bg, rgba(0, 214, 143, 0.15));
-		color: var(--gauzy-text-success, #00d68f);
+		background-color: var(--irtranscripts-success-bg, rgba(0, 214, 143, 0.15));
+		color: var(--irtranscripts-text-success, #00d68f);
 	}
 
 	&.badge-danger {
-		background-color: var(--gauzy-danger-bg, rgba(255, 61, 113, 0.15));
-		color: var(--gauzy-text-danger, #ff3d71);
+		background-color: var(--irtranscripts-danger-bg, rgba(255, 61, 113, 0.15));
+		color: var(--irtranscripts-text-danger, #ff3d71);
 	}
 
 	&.badge-warning {
-		background-color: var(--gauzy-warning-bg, rgba(255, 170, 0, 0.15));
-		color: var(--gauzy-text-warning, #ffaa00);
+		background-color: var(--irtranscripts-warning-bg, rgba(255, 170, 0, 0.15));
+		color: var(--irtranscripts-text-warning, #ffaa00);
 	}
 
 	&.badge-info {
-		background-color: var(--gauzy-info-bg, rgba(0, 149, 255, 0.15));
-		color: var(--gauzy-text-info, #0095ff);
+		background-color: var(--irtranscripts-info-bg, rgba(0, 149, 255, 0.15));
+		color: var(--irtranscripts-text-info, #0095ff);
 	}
 
 	&.badge-basic {
-		background-color: var(--gauzy-basic-bg, rgba(143, 155, 179, 0.15));
-		color: var(--gauzy-text-color-2);
+		background-color: var(--irtranscripts-basic-bg, rgba(143, 155, 179, 0.15));
+		color: var(--irtranscripts-text-color-2);
 	}
 }
 

@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { IOrganization, ITagType, ITenant } from '@gauzy/contracts';
+import { IOrganization, ITagType, ITenant } from '@irtranscripts/contracts';
 import { TagType } from './tag-type.entity';
 import { DEFAULT_TAG_TYPES } from './default-tag-types';
 

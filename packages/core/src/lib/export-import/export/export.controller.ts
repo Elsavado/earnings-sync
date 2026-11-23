@@ -1,6 +1,6 @@
 import { Controller, HttpStatus, Get, Res, Query, UseGuards, Headers } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { ParseJsonPipe } from '../../shared/pipes/parse-json.pipe';
 import { PermissionGuard, TenantPermissionGuard } from '../../shared/guards';
 import { Permissions } from '../../shared/decorators';

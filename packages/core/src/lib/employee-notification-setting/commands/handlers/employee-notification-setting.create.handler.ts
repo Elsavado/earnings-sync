@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IEmployeeNotificationSetting } from '@gauzy/contracts';
+import { IEmployeeNotificationSetting } from '@irtranscripts/contracts';
 import { EmployeeNotificationSettingService } from '../../employee-notification-setting.service';
 import { EmployeeNotificationSettingCreateCommand } from '../employee-notification-setting.create.command';
 

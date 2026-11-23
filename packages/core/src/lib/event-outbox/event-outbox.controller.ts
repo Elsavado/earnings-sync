@@ -1,6 +1,6 @@
 import { Controller, Get, HttpStatus, NotFoundException, Param, Query, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ID, IEventDelivery, IEventOutbox, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IEventDelivery, IEventOutbox, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { paginateRows, resolveRestPage } from '../api/graphql-connection';
 import { ApiErrorCode } from '../core/errors/api-error-codes';
 import { Permissions } from '../shared/decorators';

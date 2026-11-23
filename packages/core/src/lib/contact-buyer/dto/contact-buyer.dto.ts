@@ -12,7 +12,7 @@ import {
 	Min,
 	ValidateNested
 } from 'class-validator';
-import { ContactBuyerRole, ID, JsonData } from '@gauzy/contracts';
+import { ContactBuyerRole, ID, JsonData } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../core/dto';
 
 /**

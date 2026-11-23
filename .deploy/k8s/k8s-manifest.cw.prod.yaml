@@ -2,10 +2,10 @@
 kind: Service
 apiVersion: v1
 metadata:
-    name: gauzy-prod
+    name: irtranscripts-prod
 spec:
     selector:
-        app: gauzy-prod-webapp
+        app: irtranscripts-prod-webapp
     ports:
         - name: web
           protocol: TCP
@@ -15,10 +15,10 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-    name: gauzy-prod-api
+    name: irtranscripts-prod-api
 spec:
     selector:
-        app: gauzy-prod-api
+        app: irtranscripts-prod-api
     ports:
         - name: web
           protocol: TCP
@@ -28,16 +28,16 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: gauzy-prod-api
+    name: irtranscripts-prod-api
 spec:
     replicas: 1
     selector:
         matchLabels:
-            app: gauzy-prod-api
+            app: irtranscripts-prod-api
     template:
         metadata:
             labels:
-                app: gauzy-prod-api
+                app: irtranscripts-prod-api
         spec:
             affinity:
                 nodeAffinity:
@@ -60,7 +60,7 @@ spec:
                                       - key: app
                                         operator: In
                                         values:
-                                            - gauzy-prod-api
+                                            - irtranscripts-prod-api
                               topologyKey: kubernetes.io/hostname
                           weight: 1
             securityContext:
@@ -69,7 +69,7 @@ spec:
             imagePullSecrets:
                 - name: ever-registry-docker-registry-credentials
             containers:
-                - name: gauzy-prod-api
+                - name: irtranscripts-prod-api
                   securityContext:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
@@ -103,9 +103,9 @@ spec:
                       - name: SENTRY_POSTGRES_TRACKING_ENABLED
                         value: '$SENTRY_POSTGRES_TRACKING_ENABLED'
                       - name: API_BASE_URL
-                        value: 'https://apicw.gauzy.co'
+                        value: 'https://apicw.irtranscripts.com'
                       - name: CLIENT_BASE_URL
-                        value: 'https://appcw.gauzy.co'
+                        value: 'https://appcw.irtranscripts.com'
                       - name: DB_URI
                         value: '$DB_URI'
                       - name: DB_HOST
@@ -230,10 +230,10 @@ spec:
                         value: '$UPWORK_REDIRECT_URL'
                       - name: FILE_PROVIDER
                         value: '$FILE_PROVIDER'
-                      - name: GAUZY_AI_GRAPHQL_ENDPOINT
-                        value: '$GAUZY_AI_GRAPHQL_ENDPOINT'
-                      - name: GAUZY_AI_REST_ENDPOINT
-                        value: '$GAUZY_AI_REST_ENDPOINT'
+                      - name: IRTRANSCRIPTS_AI_GRAPHQL_ENDPOINT
+                        value: '$IRTRANSCRIPTS_AI_GRAPHQL_ENDPOINT'
+                      - name: IRTRANSCRIPTS_AI_REST_ENDPOINT
+                        value: '$IRTRANSCRIPTS_AI_REST_ENDPOINT'
                       - name: UNLEASH_APP_NAME
                         value: '$UNLEASH_APP_NAME'
                       - name: UNLEASH_API_URL
@@ -258,28 +258,28 @@ spec:
                         value: '$OTEL_EXPORTER_OTLP_TRACES_ENDPOINT'
                       - name: OTEL_EXPORTER_OTLP_HEADERS
                         value: '$OTEL_EXPORTER_OTLP_HEADERS'
-                      - name: GAUZY_GITHUB_CLIENT_ID
-                        value: '$GAUZY_GITHUB_CLIENT_ID'
-                      - name: GAUZY_GITHUB_CLIENT_SECRET
-                        value: '$GAUZY_GITHUB_CLIENT_SECRET'
-                      - name: GAUZY_GITHUB_WEBHOOK_URL
-                        value: '$GAUZY_GITHUB_WEBHOOK_URL'
-                      - name: GAUZY_GITHUB_WEBHOOK_SECRET
-                        value: '$GAUZY_GITHUB_WEBHOOK_SECRET'
-                      - name: GAUZY_GITHUB_APP_PRIVATE_KEY
-                        value: '$GAUZY_GITHUB_APP_PRIVATE_KEY'
-                      - name: GAUZY_GITHUB_APP_ID
-                        value: '$GAUZY_GITHUB_APP_ID'
-                      - name: GAUZY_GITHUB_APP_NAME
-                        value: '$GAUZY_GITHUB_APP_NAME'
-                      - name: GAUZY_GITHUB_POST_INSTALL_URL
-                        value: '$GAUZY_GITHUB_POST_INSTALL_URL'
-                      - name: GAUZY_GITHUB_OAUTH_CLIENT_ID
-                        value: '$GAUZY_GITHUB_OAUTH_CLIENT_ID'
-                      - name: GAUZY_GITHUB_OAUTH_CLIENT_SECRET
-                        value: '$GAUZY_GITHUB_OAUTH_CLIENT_SECRET'
-                      - name: GAUZY_GITHUB_OAUTH_CALLBACK_URL
-                        value: '$GAUZY_GITHUB_OAUTH_CALLBACK_URL'
+                      - name: IRTRANSCRIPTS_GITHUB_CLIENT_ID
+                        value: '$IRTRANSCRIPTS_GITHUB_CLIENT_ID'
+                      - name: IRTRANSCRIPTS_GITHUB_CLIENT_SECRET
+                        value: '$IRTRANSCRIPTS_GITHUB_CLIENT_SECRET'
+                      - name: IRTRANSCRIPTS_GITHUB_WEBHOOK_URL
+                        value: '$IRTRANSCRIPTS_GITHUB_WEBHOOK_URL'
+                      - name: IRTRANSCRIPTS_GITHUB_WEBHOOK_SECRET
+                        value: '$IRTRANSCRIPTS_GITHUB_WEBHOOK_SECRET'
+                      - name: IRTRANSCRIPTS_GITHUB_APP_PRIVATE_KEY
+                        value: '$IRTRANSCRIPTS_GITHUB_APP_PRIVATE_KEY'
+                      - name: IRTRANSCRIPTS_GITHUB_APP_ID
+                        value: '$IRTRANSCRIPTS_GITHUB_APP_ID'
+                      - name: IRTRANSCRIPTS_GITHUB_APP_NAME
+                        value: '$IRTRANSCRIPTS_GITHUB_APP_NAME'
+                      - name: IRTRANSCRIPTS_GITHUB_POST_INSTALL_URL
+                        value: '$IRTRANSCRIPTS_GITHUB_POST_INSTALL_URL'
+                      - name: IRTRANSCRIPTS_GITHUB_OAUTH_CLIENT_ID
+                        value: '$IRTRANSCRIPTS_GITHUB_OAUTH_CLIENT_ID'
+                      - name: IRTRANSCRIPTS_GITHUB_OAUTH_CLIENT_SECRET
+                        value: '$IRTRANSCRIPTS_GITHUB_OAUTH_CLIENT_SECRET'
+                      - name: IRTRANSCRIPTS_GITHUB_OAUTH_CALLBACK_URL
+                        value: '$IRTRANSCRIPTS_GITHUB_OAUTH_CALLBACK_URL'
                       - name: MAGIC_CODE_EXPIRATION_TIME
                         value: '$MAGIC_CODE_EXPIRATION_TIME'
                       - name: APP_NAME
@@ -313,16 +313,16 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: gauzy-prod-webapp
+    name: irtranscripts-prod-webapp
 spec:
     replicas: 1
     selector:
         matchLabels:
-            app: gauzy-prod-webapp
+            app: irtranscripts-prod-webapp
     template:
         metadata:
             labels:
-                app: gauzy-prod-webapp
+                app: irtranscripts-prod-webapp
         spec:
             affinity:
                 nodeAffinity:
@@ -345,13 +345,13 @@ spec:
                                       - key: app
                                         operator: In
                                         values:
-                                            - gauzy-prod-webapp
+                                            - irtranscripts-prod-webapp
                               topologyKey: kubernetes.io/hostname
                           weight: 1
             imagePullSecrets:
                 - name: ever-registry-docker-registry-credentials
             containers:
-                - name: gauzy-prod-webapp
+                - name: irtranscripts-prod-webapp
                   securityContext:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
@@ -361,9 +361,9 @@ spec:
                       - name: DEMO
                         value: 'false'
                       - name: API_BASE_URL
-                        value: 'https://apicw.gauzy.co'
+                        value: 'https://apicw.irtranscripts.com'
                       - name: CLIENT_BASE_URL
-                        value: 'https://appcw.gauzy.co'
+                        value: 'https://appcw.irtranscripts.com'
                       - name: SENTRY_DSN
                         value: '$SENTRY_DSN'
                       - name: CHATWOOT_SDK_TOKEN
@@ -382,16 +382,16 @@ spec:
                         value: '23.3332736'
                       - name: DEFAULT_CURRENCY
                         value: 'USD'
-                      - name: GAUZY_GITHUB_CLIENT_ID
-                        value: '$GAUZY_GITHUB_CLIENT_ID'
-                      - name: GAUZY_GITHUB_APP_NAME
-                        value: '$GAUZY_GITHUB_APP_NAME'
-                      - name: GAUZY_GITHUB_REDIRECT_URL
-                        value: '$GAUZY_GITHUB_REDIRECT_URL'
-                      - name: GAUZY_GITHUB_POST_INSTALL_URL
-                        value: '$GAUZY_GITHUB_POST_INSTALL_URL'
-                      - name: GAUZY_GITHUB_APP_ID
-                        value: '$GAUZY_GITHUB_APP_ID'
+                      - name: IRTRANSCRIPTS_GITHUB_CLIENT_ID
+                        value: '$IRTRANSCRIPTS_GITHUB_CLIENT_ID'
+                      - name: IRTRANSCRIPTS_GITHUB_APP_NAME
+                        value: '$IRTRANSCRIPTS_GITHUB_APP_NAME'
+                      - name: IRTRANSCRIPTS_GITHUB_REDIRECT_URL
+                        value: '$IRTRANSCRIPTS_GITHUB_REDIRECT_URL'
+                      - name: IRTRANSCRIPTS_GITHUB_POST_INSTALL_URL
+                        value: '$IRTRANSCRIPTS_GITHUB_POST_INSTALL_URL'
+                      - name: IRTRANSCRIPTS_GITHUB_APP_ID
+                        value: '$IRTRANSCRIPTS_GITHUB_APP_ID'
                       - name: JITSU_BROWSER_URL
                         value: '$JITSU_BROWSER_URL'
                       - name: JITSU_BROWSER_WRITE_KEY
@@ -420,47 +420,47 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-    name: gauzy-prod
+    name: irtranscripts-prod
     annotations:
         kubernetes.io/ingress.class: traefik-everco
         traefik.ingress.kubernetes.io/router.middlewares: tenant-acb888-ever-https-redirect@kubernetescrd
 spec:
     rules:
-        - host: appcw.gauzy.co
+        - host: appcw.irtranscripts.com
           http:
               paths:
                   - backend:
                         service:
-                            name: gauzy-prod
+                            name: irtranscripts-prod
                             port:
                                 number: 4200
                     path: /
                     pathType: Prefix
     tls:
         - hosts:
-              - appcw.gauzy.co
-          secretName: appcw.gauzy.co-tls
+              - appcw.irtranscripts.com
+          secretName: appcw.irtranscripts.com-tls
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-    name: gauzy-prod-api
+    name: irtranscripts-prod-api
     annotations:
         kubernetes.io/ingress.class: traefik-everco
         traefik.ingress.kubernetes.io/router.middlewares: tenant-acb888-ever-https-redirect@kubernetescrd
 spec:
     rules:
-        - host: apicw.gauzy.co
+        - host: apicw.irtranscripts.com
           http:
               paths:
                   - backend:
                         service:
-                            name: gauzy-prod-api
+                            name: irtranscripts-prod-api
                             port:
                                 number: 3000
                     path: /
                     pathType: Prefix
     tls:
         - hosts:
-              - apicw.gauzy.co
-          secretName: apicw.gauzy.co-tls
+              - apicw.irtranscripts.com
+          secretName: apicw.irtranscripts.com-tls

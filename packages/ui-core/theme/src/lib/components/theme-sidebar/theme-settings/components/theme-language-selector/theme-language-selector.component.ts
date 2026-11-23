@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { debounceTime, filter, tap, from, concatMap } from 'rxjs';
-import { ILanguage, IUser, IUserUpdateInput, LanguagesEnum } from '@gauzy/contracts';
-import { LanguagesService, UsersService } from '@gauzy/ui-core/core';
-import { Store } from '@gauzy/ui-core/core';
-import { I18nService } from '@gauzy/ui-core/i18n';
-import { getLanguageFlagUrl } from '@gauzy/ui-core/shared';
+import { ILanguage, IUser, IUserUpdateInput, LanguagesEnum } from '@irtranscripts/contracts';
+import { LanguagesService, UsersService } from '@irtranscripts/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
+import { I18nService } from '@irtranscripts/ui-core/i18n';
+import { getLanguageFlagUrl } from '@irtranscripts/ui-core/shared';
 import { ThemeLanguageSelectorService } from './theme-language-selector.service';
 
 @UntilDestroy({ checkProperties: true })

@@ -12,7 +12,7 @@ import {
 	UserTO,
 	IntervalTO
 } from '../dto';
-import { TimerSyncStateEnum } from '@gauzy/contracts';
+import { TimerSyncStateEnum } from '@irtranscripts/contracts';
 import { TimerTransaction } from '../transactions';
 import { IntervalDAO } from './interval.dao';
 

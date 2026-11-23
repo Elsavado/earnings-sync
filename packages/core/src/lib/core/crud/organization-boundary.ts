@@ -1,5 +1,5 @@
-import { ID, RolesEnum } from '@gauzy/contracts';
-import { isNotEmpty } from '@gauzy/utils';
+import { ID, RolesEnum } from '@irtranscripts/contracts';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { RequestContext } from '../context';
 
 /**
@@ -15,7 +15,7 @@ export const TENANT_ADMIN_ROLES: ReadonlyArray<RolesEnum> = Object.freeze([Roles
  * organization of their token: `RequestContext.currentOrganizationId()`, the organization they last switched to,
  * which `JwtStrategy` attaches only after checking that the user is an active member of it. A caller of two
  * organizations of one tenant therefore sees and edits the one they switched to, and switches to reach the other —
- * which the Gauzy UI already does, minting a new token per organization.
+ * which the IRTranscripts UI already does, minting a new token per organization.
  */
 export interface IOrganizationBoundary {
 	/** The organization of the caller's token; `null` when there is none, in which case no organization is reached. */

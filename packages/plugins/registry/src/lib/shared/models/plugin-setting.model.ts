@@ -1,4 +1,4 @@
-import { ID, IPluginSetting as PluginSettingModel } from '@gauzy/contracts';
+import { ID, IPluginSetting as PluginSettingModel } from '@irtranscripts/contracts';
 
 /**
  * Interface for plugin settings

@@ -1,6 +1,6 @@
 import { Logger } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 const schemaDriftLogger = new Logger('UserDeletion');
 

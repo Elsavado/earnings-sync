@@ -1,6 +1,6 @@
 import { inject, Injectable, signal, Type } from '@angular/core';
 import { Location } from '@angular/common';
-import { IUser } from '@gauzy/contracts';
+import { IUser } from '@irtranscripts/contracts';
 import { Store } from '../store/store.service';
 import { UsersService } from '../users/users.service';
 
@@ -34,14 +34,14 @@ export type IChatSidebarState = {
 
 /**
  * localStorage key prefix. Two generations of keys exist:
- * - legacy, un-keyed (`gauzy_chat_sidebar_expanded` ...) — written before the
+ * - legacy, un-keyed (`irtranscripts_chat_sidebar_expanded` ...) — written before the
  *   state was per user; still READ as a fallback so existing users keep their
  *   state the first time they log in after the upgrade;
- * - per user (`gauzy_chat_sidebar_<userId>_expanded` ...) — the fast local
+ * - per user (`irtranscripts_chat_sidebar_<userId>_expanded` ...) — the fast local
  *   mirror used for first paint and when the server has nothing yet. Keyed by
  *   user id so two accounts on one browser never see each other's layout.
  */
-const CHAT_SIDEBAR_STORAGE_PREFIX = 'gauzy_chat_sidebar';
+const CHAT_SIDEBAR_STORAGE_PREFIX = 'irtranscripts_chat_sidebar';
 
 /** Field name → storage suffix. */
 const STORAGE_SUFFIX: Record<keyof IChatSidebarState, string> = {
@@ -62,7 +62,7 @@ const PERSIST_DEBOUNCE_MS = 600;
 /**
  * Router path of the standalone ("detached") chat window.
  *
- * It is registered at the app root (see `apps/gauzy/src/app/app.routes.ts`)
+ * It is registered at the app root (see `apps/irtranscripts/src/app/app.routes.ts`)
  * rather than through the page route registry: every registry location is a
  * child of `/pages`, which renders the `PagesComponent` shell (nav menu
  * sidebar + header + footer), and the detached window must show the chat
@@ -74,7 +74,7 @@ export const CHAT_DETACHED_WINDOW_PATH = '/ai-chat/window';
  * `window.open` target name. A constant (not `_blank`) so re-opening reuses
  * the same window instead of stacking one popup per click.
  */
-const CHAT_DETACHED_WINDOW_NAME = 'gauzy-ai-chat';
+const CHAT_DETACHED_WINDOW_NAME = 'irtranscripts-ai-chat';
 
 /**
  * `window.open` features: a resizable popup roughly the width of the docked

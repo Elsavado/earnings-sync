@@ -2,7 +2,7 @@ import { Injectable, NotFoundException, Optional } from '@nestjs/common';
 import { EntityManager, FindOptionsWhere, IsNull } from 'typeorm';
 import { EntityManager as MikroOrmEntityManager, QueryOrder } from '@mikro-orm/core';
 import { randomUUID } from 'node:crypto';
-import { isMySQL, isPostgres } from '@gauzy/config';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
 import {
 	EventOutboxStatus,
 	ID,
@@ -10,7 +10,7 @@ import {
 	IEventHeaders,
 	IOutboxWriteInput,
 	JsonData
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { CrudService } from '../core/crud/crud.service';
 import { RequestContext } from '../core/context/request-context';
 import { ApiErrorCode } from '../core/errors/api-error-codes';

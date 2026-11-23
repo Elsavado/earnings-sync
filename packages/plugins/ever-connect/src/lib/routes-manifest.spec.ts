@@ -2,8 +2,8 @@ import { Controller, Get, RequestMethod, Type, UseGuards } from '@nestjs/common'
 import { GUARDS_METADATA, METHOD_METADATA, PATH_METADATA } from '@nestjs/common/constants';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { PUBLIC_METHOD_METADATA } from '@gauzy/constants';
-import { PermissionGuard, TenantPermissionGuard } from '@gauzy/core';
+import { PUBLIC_METHOD_METADATA } from '@irtranscripts/constants';
+import { PermissionGuard, TenantPermissionGuard } from '@irtranscripts/core';
 import { EverConnectModule } from './ever-connect.module';
 import { EverConnectEnabledGuard, EverConnectOperatorGuard } from './guards/ever-connect-operator.guard';
 
@@ -22,7 +22,7 @@ const join_ = (...parts: string[]) =>
 		.join('/');
 
 /**
- * Every route of `controllers` that is behind neither Gauzy's organization permission guards nor the
+ * Every route of `controllers` that is behind neither IRTranscripts's organization permission guards nor the
  * operator check: the module's public or signed-in-only endpoints, which the manifest must declare.
  */
 export function specialRoutes(controllers: Array<Type<unknown>>, prefix = '/api'): Route[] {
@@ -56,14 +56,14 @@ export function specialRoutes(controllers: Array<Type<unknown>>, prefix = '/api'
 /**
  * `ever-connect.routes.json` declares every endpoint of this module that answers without an
  * organization permission or the operator check. It must equal the routes the module registers when
- * every optional route is mounted (`EVER_STATS_SERVES=gauzy,teams`); the requests Ever Platform will
+ * every optional route is mounted (`EVER_STATS_SERVES=irtranscripts,teams`); the requests Ever Platform will
  * make to an installation are declared as not mounted in this release. `UPDATE_ROUTES_MANIFEST=1`
  * rewrites the method and path list; the descriptions stay hand-written.
  */
 describe('route manifest', () => {
 	const controllers = (env: Record<string, string>) =>
 		EverConnectModule.register(env).controllers as Array<Type<unknown>>;
-	const registered = () => specialRoutes(controllers({ EVER_STATS_SERVES: 'gauzy,teams' }));
+	const registered = () => specialRoutes(controllers({ EVER_STATS_SERVES: 'irtranscripts,teams' }));
 
 	it('declares exactly the special routes the module registers', () => {
 		const manifest = JSON.parse(readFileSync(MANIFEST, 'utf8'));
@@ -86,7 +86,7 @@ describe('route manifest', () => {
 	it('health is signed-in only (never @Public) and mounted only on a paired installation', () => {
 		expect(registered()).toEqual([{ method: 'GET', path: '/api/ever-connect/health' }]);
 		expect(specialRoutes(controllers({}))).toEqual([]);
-		const health = controllers({ EVER_STATS_SERVES: 'gauzy,teams' }).find(
+		const health = controllers({ EVER_STATS_SERVES: 'irtranscripts,teams' }).find(
 			(c) => c.name === 'EverConnectHealthController'
 		) as Type<unknown>;
 		expect(Reflect.getMetadata(PUBLIC_METHOD_METADATA, health)).toBeUndefined();
@@ -94,7 +94,7 @@ describe('route manifest', () => {
 	});
 
 	it('a declared platform route is not mounted (no usage or provision route in this release)', () => {
-		const all = controllers({ EVER_STATS_SERVES: 'gauzy,teams' }).flatMap((c) =>
+		const all = controllers({ EVER_STATS_SERVES: 'irtranscripts,teams' }).flatMap((c) =>
 			Object.getOwnPropertyNames(c.prototype).map((name) =>
 				String(Reflect.getMetadata(PATH_METADATA, c.prototype[name] ?? {}) ?? '')
 			)
@@ -111,7 +111,7 @@ describe('route manifest', () => {
 				return {};
 			}
 		}
-		const withPlanted = specialRoutes([...controllers({ EVER_STATS_SERVES: 'gauzy,teams' }), PlantedController]);
+		const withPlanted = specialRoutes([...controllers({ EVER_STATS_SERVES: 'irtranscripts,teams' }), PlantedController]);
 		expect(withPlanted).toContainEqual({ method: 'GET', path: '/api/ever-connect/debug' });
 		expect(withPlanted).not.toEqual(registered());
 	});

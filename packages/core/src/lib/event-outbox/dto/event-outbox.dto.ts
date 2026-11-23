@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, TransformFnParams, Type } from 'class-transformer';
 import { IsArray, IsEnum, IsInt, IsNotEmpty, IsOptional, IsString, IsUUID, Max, MaxLength, Min } from 'class-validator';
-import { EventOutboxStatus, ID } from '@gauzy/contracts';
+import { EventOutboxStatus, ID } from '@irtranscripts/contracts';
 
 /**
  * The queries and the two bodies the outbox resources are read and moved with.

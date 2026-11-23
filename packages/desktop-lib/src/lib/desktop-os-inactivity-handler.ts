@@ -8,7 +8,7 @@ import { LocalStore } from './desktop-store';
 import { DesktopOfflineModeHandler, IntervalService, Timer, TimerService, TimerTO } from './offline';
 import { AlwaysTrackingSleep, NeverTrackingSleep } from './strategies';
 import { TranslateService } from './translation';
-import { logger } from '@gauzy/desktop-core';
+import { logger } from '@irtranscripts/desktop-core';
 
 // Default values
 const DEFAULT_INACTIVITY_TIME_LIMIT = 10; // minutes

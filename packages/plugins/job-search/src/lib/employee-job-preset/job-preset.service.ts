@@ -11,7 +11,7 @@ import {
 	IJobPreset,
 	IMatchingCriterions,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	LIKE_OPERATOR,
 	MultiORMEnum,
@@ -19,8 +19,8 @@ import {
 	RequestContext,
 	TenantAwareCrudService,
 	TypeOrmEmployeeRepository
-} from '@gauzy/core';
-import { prepareSQLQuery as p } from '@gauzy/core';
+} from '@irtranscripts/core';
+import { prepareSQLQuery as p } from '@irtranscripts/core';
 import { JobPreset } from './job-preset.entity';
 import { jobPresetListQuery } from './job-preset-list.query';
 import {

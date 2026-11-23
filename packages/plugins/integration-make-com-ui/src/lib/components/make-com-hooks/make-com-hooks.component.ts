@@ -3,9 +3,9 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { tap, catchError, finalize, switchMap, timeout } from 'rxjs/operators';
 import { EMPTY, TimeoutError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { IMakeComHook, IMakeComSetupStatus } from '@gauzy/contracts';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { MakeComStoreService, ToastrService } from '@gauzy/ui-core/core';
+import { IMakeComHook, IMakeComSetupStatus } from '@irtranscripts/contracts';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { MakeComStoreService, ToastrService } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

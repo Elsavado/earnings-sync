@@ -1,7 +1,7 @@
 import { ApiPropertyOptional, IntersectionType } from '@nestjs/swagger';
 import { IsOptional, IsBoolean, IsString } from 'class-validator';
 import { Transform, TransformFnParams } from 'class-transformer';
-import { parseToBoolean } from '@gauzy/utils';
+import { parseToBoolean } from '@irtranscripts/utils';
 import { FiltersQueryDTO, SelectorsQueryDTO, RelationsQueryDTO } from '../../../shared/dto';
 
 /**

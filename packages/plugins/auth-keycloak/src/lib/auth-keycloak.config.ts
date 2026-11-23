@@ -37,7 +37,7 @@ export function readStrictBoolean(value: string | undefined, name: string, fallb
 	return fallback;
 }
 
-/** The auth server URL Gauzy's configuration falls back to when `KEYCLOAK_AUTH_SERVER_URL` is unset. */
+/** The auth server URL IRTranscripts's configuration falls back to when `KEYCLOAK_AUTH_SERVER_URL` is unset. */
 const SAMPLE_AUTH_SERVER_URL = 'https://keycloak.example.com/auth';
 
 /** True for a missing value or the sample placeholder of the client id and secret. */

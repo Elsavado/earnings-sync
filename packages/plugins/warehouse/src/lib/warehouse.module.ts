@@ -8,7 +8,7 @@ import {
 	RolePermissionModule,
 	SequenceModule,
 	Warehouse
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { CarrierManifestController } from './carrier-manifest/carrier-manifest.controller';
 import { CarrierManifest } from './carrier-manifest/carrier-manifest.entity';
 import { CarrierManifestService } from './carrier-manifest/carrier-manifest.service';

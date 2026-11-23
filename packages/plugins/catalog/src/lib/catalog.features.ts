@@ -1,4 +1,4 @@
-import { PluginFeatureContribution } from '@gauzy/plugin';
+import { PluginFeatureContribution } from '@irtranscripts/plugin';
 
 /**
  * The feature flags the catalog plugin contributes.

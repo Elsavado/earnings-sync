@@ -2,7 +2,7 @@
 /**
  * The public list of every call the optional Ever Platform modules can make
  * (tools/ever-platform/outbound-calls.md), generated from the outbound-call rows of the Ever Platform
- * contract at the exact version Gauzy pins, and the checks that keep everything that repeats it in
+ * contract at the exact version IRTranscripts pins, and the checks that keep everything that repeats it in
  * step:
  *
  *   node tools/ever-platform/outbound-calls.mjs --write   regenerate the tables of the docs page
@@ -10,7 +10,7 @@
  *     - the docs page's generated tables differ from what the pinned rows give;
  *     - the request table of the connection's README names another row, or a request that is not
  *       one of its row's; the statistics README does not name its request;
- *     - the rows the egress audit's `every_trigger` run leaves out are not exactly the Gauzy rows
+ *     - the rows the egress audit's `every_trigger` run leaves out are not exactly the IRTranscripts rows
  *       of the contract this release does not make;
  *     - the audit's harness and the modules pin different versions of the contract.
  *
@@ -18,7 +18,7 @@
  * (`npm ci --prefix tools/egress-audit`); `outbound-calls.config.json` says which rows each
  * module makes in this release.
  *
- * The page is published at https://docs.gauzy.co/ever-platform/outbound-calls/ from
+ * The page is published at https://docs.irtranscripts.com/ever-platform/outbound-calls/ from
  * ever-co/ever-gauzy-docs (website/docs/ever-platform/outbound-calls.md): after a --write that
  * changes the tables, copy them there too.
  */
@@ -88,9 +88,9 @@ export function renderUsed(rows, config = CONFIG) {
 		const requests = servedEndpoints(row)
 			.map((e) => `\`${e.method} ${e.path}\``)
 			.join(', ');
-		// Where Gauzy's schedule differs from the contract's description of the row, Gauzy's wins
-		// (outbound-calls.config.json `gauzy_rows`): the page says when this installation calls.
-		const own = { ...row, ...(config.gauzy_rows?.[String(row.row)] ?? {}) };
+		// Where IRTranscripts's schedule differs from the contract's description of the row, IRTranscripts's wins
+		// (outbound-calls.config.json `irtranscripts_rows`): the page says when this installation calls.
+		const own = { ...row, ...(config.irtranscripts_rows?.[String(row.row)] ?? {}) };
 		lines.push(
 			`| ${row.row} | ${config.module_names[module]} | ${requests} | ${cell(own.trigger)} | ${cell(own.payload)} | ${cell(own.cadence)} | ${cell(own.disable)} |`
 		);
@@ -99,7 +99,7 @@ export function renderUsed(rows, config = CONFIG) {
 }
 
 export function renderNotMade(rows, config = CONFIG) {
-	const lines = ['| # | Calls | Why Gauzy does not make them |', '| --- | --- | --- |'];
+	const lines = ['| # | Calls | Why IRTranscripts does not make them |', '| --- | --- | --- |'];
 	for (const { row, why } of notMade(rows, config)) lines.push(`| ${row.row} | ${cell(row.title)} | ${why} |`);
 	return lines.join('\n');
 }
@@ -194,7 +194,7 @@ export function check({ rows, version }, config = CONFIG) {
 	const expectedExcluded = notMade(rows, config).map((n) => n.row.row);
 	if (JSON.stringify(excluded) !== JSON.stringify(expectedExcluded))
 		problems.push(
-			`tools/egress-audit/egress-audit.config.json: every_trigger_exclude_rows is [${excluded}], the rows Gauzy does not make are [${expectedExcluded}]`
+			`tools/egress-audit/egress-audit.config.json: every_trigger_exclude_rows is [${excluded}], the rows IRTranscripts does not make are [${expectedExcluded}]`
 		);
 	if ((audit.phase ?? 2) !== config.phase)
 		problems.push(

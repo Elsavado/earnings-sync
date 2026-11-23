@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm';
-import { getConfig } from '@gauzy/config';
-import { ITaskStatus } from '@gauzy/contracts';
+import { getConfig } from '@irtranscripts/config';
+import { ITaskStatus } from '@irtranscripts/contracts';
 import { cleanAssets, copyAssets } from './../../core/seeds/utils';
 import { DEFAULT_GLOBAL_STATUSES } from './default-global-statuses';
 import { TaskStatus } from './status.entity';

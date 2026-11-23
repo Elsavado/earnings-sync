@@ -33,7 +33,7 @@ describe('parseNonNegativeInt', () => {
 });
 
 describe('isEnvFlagEnabled', () => {
-	const KEYS = ['GAUZY_TEST_FLAG_A', 'GAUZY_TEST_FLAG_B'];
+	const KEYS = ['IRTRANSCRIPTS_TEST_FLAG_A', 'IRTRANSCRIPTS_TEST_FLAG_B'];
 
 	afterEach(() => {
 		for (const key of KEYS) {
@@ -42,23 +42,23 @@ describe('isEnvFlagEnabled', () => {
 	});
 
 	it('is on only for an explicit affirmative value', () => {
-		process.env.GAUZY_TEST_FLAG_A = ' TRUE ';
-		expect(isEnvFlagEnabled('GAUZY_TEST_FLAG_A')).toBe(true);
+		process.env.IRTRANSCRIPTS_TEST_FLAG_A = ' TRUE ';
+		expect(isEnvFlagEnabled('IRTRANSCRIPTS_TEST_FLAG_A')).toBe(true);
 
-		process.env.GAUZY_TEST_FLAG_A = 'enabled';
-		expect(isEnvFlagEnabled('GAUZY_TEST_FLAG_A')).toBe(false);
+		process.env.IRTRANSCRIPTS_TEST_FLAG_A = 'enabled';
+		expect(isEnvFlagEnabled('IRTRANSCRIPTS_TEST_FLAG_A')).toBe(false);
 
-		delete process.env.GAUZY_TEST_FLAG_A;
-		expect(isEnvFlagEnabled('GAUZY_TEST_FLAG_A')).toBe(false);
+		delete process.env.IRTRANSCRIPTS_TEST_FLAG_A;
+		expect(isEnvFlagEnabled('IRTRANSCRIPTS_TEST_FLAG_A')).toBe(false);
 	});
 
 	it('takes the first key that carries a value', () => {
-		process.env.GAUZY_TEST_FLAG_A = 'false';
-		process.env.GAUZY_TEST_FLAG_B = 'true';
-		expect(isEnvFlagEnabled('GAUZY_TEST_FLAG_A', 'GAUZY_TEST_FLAG_B')).toBe(false);
+		process.env.IRTRANSCRIPTS_TEST_FLAG_A = 'false';
+		process.env.IRTRANSCRIPTS_TEST_FLAG_B = 'true';
+		expect(isEnvFlagEnabled('IRTRANSCRIPTS_TEST_FLAG_A', 'IRTRANSCRIPTS_TEST_FLAG_B')).toBe(false);
 
-		delete process.env.GAUZY_TEST_FLAG_A;
-		expect(isEnvFlagEnabled('GAUZY_TEST_FLAG_A', 'GAUZY_TEST_FLAG_B')).toBe(true);
+		delete process.env.IRTRANSCRIPTS_TEST_FLAG_A;
+		expect(isEnvFlagEnabled('IRTRANSCRIPTS_TEST_FLAG_A', 'IRTRANSCRIPTS_TEST_FLAG_B')).toBe(true);
 	});
 });
 
@@ -79,17 +79,17 @@ describe('resolveAppLink', () => {
 	});
 
 	it('derives the link from CLIENT_BASE_URL when APP_LINK is empty - the hosted deployments case', () => {
-		// app.gauzy.co carries APP_LINK as an empty key; the fallback used to win and every welcome
+		// app.irtranscripts.com carries APP_LINK as an empty key; the fallback used to win and every welcome
 		// email footer pointed at http://localhost:4200/.
 		process.env['APP_LINK'] = '';
-		process.env['CLIENT_BASE_URL'] = 'https://app.gauzy.co';
-		expect(resolveAppLink('http://localhost:4200/')).toBe('https://app.gauzy.co/');
+		process.env['CLIENT_BASE_URL'] = 'https://app.irtranscripts.com';
+		expect(resolveAppLink('http://localhost:4200/')).toBe('https://app.irtranscripts.com/');
 	});
 
 	it('does not double the trailing slash and ignores whitespace', () => {
 		delete process.env['APP_LINK'];
-		process.env['CLIENT_BASE_URL'] = '  https://stage.gauzy.co//  ';
-		expect(resolveAppLink('http://localhost:4200/')).toBe('https://stage.gauzy.co/');
+		process.env['CLIENT_BASE_URL'] = '  https://stage.irtranscripts.com//  ';
+		expect(resolveAppLink('http://localhost:4200/')).toBe('https://stage.irtranscripts.com/');
 	});
 
 	it('falls back only when neither variable is set', () => {
@@ -97,6 +97,6 @@ describe('resolveAppLink', () => {
 		delete process.env['CLIENT_BASE_URL'];
 		expect(resolveAppLink('http://localhost:4200/')).toBe('http://localhost:4200/');
 		process.env['APP_LINK'] = '   ';
-		expect(resolveAppLink('https://app.gauzy.co/')).toBe('https://app.gauzy.co/');
+		expect(resolveAppLink('https://app.irtranscripts.com/')).toBe('https://app.irtranscripts.com/');
 	});
 });

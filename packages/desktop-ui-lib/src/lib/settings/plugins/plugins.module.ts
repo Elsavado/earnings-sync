@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, inject, NgModule, provideEnvironmentInitializer } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { TablerIconsModule } from '@gauzy/ui-core/icons';
+import { TablerIconsModule } from '@irtranscripts/ui-core/icons';
 import {
     NbAlertModule,
     NbBadgeModule,
@@ -100,7 +100,7 @@ import { PluginBasicInformationComponent } from './component/plugin-marketplace/
 import { PluginMarketplaceUploadComponent } from './component/plugin-marketplace/plugin-marketplace-upload/plugin-marketplace-upload.component';
 import { PluginMetadataComponent } from './component/plugin-marketplace/plugin-marketplace-upload/plugin-metadata/plugin-metadata.component';
 import { CdnFormComponent } from './component/plugin-marketplace/plugin-marketplace-upload/plugin-source/forms/cdn-form/cdn-form.component';
-import { GauzyFormComponent } from './component/plugin-marketplace/plugin-marketplace-upload/plugin-source/forms/gauzy-form/gauzy-form.component';
+import { IRTranscriptsFormComponent } from './component/plugin-marketplace/plugin-marketplace-upload/plugin-source/forms/irtranscripts-form/irtranscripts-form.component';
 import { NpmFormComponent } from './component/plugin-marketplace/plugin-marketplace-upload/plugin-source/forms/npm-form/npm-form.component';
 import { PluginSourceComponent } from './component/plugin-marketplace/plugin-marketplace-upload/plugin-source/plugin-source.component';
 import { PluginSubscriptionPlanCreatorComponent } from './component/plugin-marketplace/plugin-marketplace-upload/plugin-subscription-plan-creator/plugin-subscription-plan-creator.component';
@@ -236,7 +236,7 @@ import { PluginDeepLinkService } from './services/plugin-deep-link.service';
 		DialogAppSelectorComponent,
 		DialogSubscriptionPlanCreatorComponent,
 		CdnFormComponent,
-		GauzyFormComponent,
+		IRTranscriptsFormComponent,
 		NpmFormComponent,
 		DialogCreateSourceComponent,
 		SourceContainerComponent,

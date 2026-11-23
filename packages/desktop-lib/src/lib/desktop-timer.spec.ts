@@ -26,7 +26,7 @@ let appSetting: Record<string, any> = {};
 jest.mock(
 	'electron',
 	() => ({
-		app: { getPath: () => userData, getName: () => 'gauzy-test', getVersion: () => '1.0.0' },
+		app: { getPath: () => userData, getName: () => 'irtranscripts-test', getVersion: () => '1.0.0' },
 		screen: { getPrimaryDisplay: () => ({ workAreaSize: { width: 1920, height: 1080 } }) }
 	}),
 	{ virtual: true }
@@ -69,8 +69,8 @@ jest.mock('./desktop-active-window', () => ({
 	}
 }));
 
-jest.mock('@gauzy/desktop-activity', () => ({
-	...jest.requireActual('@gauzy/desktop-activity'),
+jest.mock('@irtranscripts/desktop-activity', () => ({
+	...jest.requireActual('@irtranscripts/desktop-activity'),
 	DesktopEventCounter: class {
 		// Long enough for every time slot to reset the activity tables after reading them.
 		intervalDuration = 3_600;
@@ -179,7 +179,7 @@ jest.mock('./offline', () => ({
 	UserService: jest.fn(() => ({ retrieve: jest.fn(async () => ({ employeeId: 'employee-1' })) }))
 }));
 
-jest.mock('@gauzy/desktop-core', () => ({ logger: { info: jest.fn() } }));
+jest.mock('@irtranscripts/desktop-core', () => ({ logger: { info: jest.fn() } }));
 
 const audit = {
 	timerAuditInfo: jest.fn(async (_message: string) => undefined),
@@ -187,7 +187,7 @@ const audit = {
 };
 jest.mock('./audit', () => ({ AuditLogHandler: { getInstance: () => audit } }));
 
-jest.mock('@gauzy/contracts', () => ({
+jest.mock('@irtranscripts/contracts', () => ({
 	ActivityType: { APP: 'APP', URL: 'URL' },
 	TimeLogSourceEnum: { DESKTOP: 'DESKTOP' },
 	TimerSyncStateEnum: { PENDING: 'PENDING', SYNCED: 'SYNCED' }
@@ -231,7 +231,7 @@ describe('TimerHandler', () => {
 		timerService.hold((write) => write.duration !== undefined);
 		const crashed = newHandler();
 		for (const job of jobs) {
-			await crashed.processWithQueue('gauzy-queue', job, knex);
+			await crashed.processWithQueue('irtranscripts-queue', job, knex);
 		}
 		await (await asyncQueueOf(crashed)).close(20);
 		const stuck = timerService;
@@ -281,7 +281,7 @@ describe('TimerHandler', () => {
 			appSetting = { asyncTimerDataSync: true };
 			const handler = newHandler();
 			timerService.hold((write) => write.duration === 1000);
-			await handler.processWithQueue('gauzy-queue', duration(1, 1000), knex);
+			await handler.processWithQueue('irtranscripts-queue', duration(1, 1000), knex);
 			return { handler, queue: await asyncQueueOf(handler) };
 		};
 		const refuseEveryStore = (queue: AsyncTimerSyncQueue) =>
@@ -300,12 +300,12 @@ describe('TimerHandler', () => {
 			appSetting = setting;
 			const handler = newHandler();
 
-			await handler.processWithQueue('gauzy-queue', duration(1, 1000), knex);
-			await handler.processWithQueue('gauzy-queue', duration(1, 2000), knex);
+			await handler.processWithQueue('irtranscripts-queue', duration(1, 1000), knex);
+			await handler.processWithQueue('irtranscripts-queue', duration(1, 2000), knex);
 
 			expect(embedded.createQueue).toHaveBeenCalledTimes(1);
 			expect(embedded.createQueue).toHaveBeenCalledWith({ inMemoryOnly: true });
-			expect(embedded.jobs.map((job) => job.type)).toEqual(['gauzy-queue-gauzy-test', 'gauzy-queue-gauzy-test']);
+			expect(embedded.jobs.map((job) => job.type)).toEqual(['irtranscripts-queue-irtranscripts-test', 'irtranscripts-queue-irtranscripts-test']);
 			expect(timerService.writes.map((write) => write.duration)).toEqual([1000, 2000]);
 			expect(await asyncQueueOf(handler)).toBeNull();
 			expect(fs.readdirSync(userData)).toEqual([]);
@@ -315,7 +315,7 @@ describe('TimerHandler', () => {
 			const handler = newHandler();
 			timerService.update.mockRejectedValueOnce(new Error('disk I/O error'));
 
-			await expect(handler.processWithQueue('gauzy-queue', duration(1, 1000), knex)).resolves.toBeUndefined();
+			await expect(handler.processWithQueue('irtranscripts-queue', duration(1, 1000), knex)).resolves.toBeUndefined();
 
 			expect(audit.timerAuditError).toHaveBeenCalledWith(
 				'[ProcessQueueMessage] Failed to process queue job (type: update-duration-timer): disk I/O error'
@@ -326,9 +326,9 @@ describe('TimerHandler', () => {
 			appSetting = { asyncTimerDataSync: true };
 			const handler = newHandler();
 
-			await handler.processWithQueue('gauzy-queue', duration(1, 1000), knex);
-			await handler.processWithQueue('gauzy-queue', { type: 'update-timer-time-slot', data: { id: 1, timeSlotId: 'slot-1' } }, knex);
-			await handler.processWithQueue('gauzy-queue', duration(1, 2000), knex);
+			await handler.processWithQueue('irtranscripts-queue', duration(1, 1000), knex);
+			await handler.processWithQueue('irtranscripts-queue', { type: 'update-timer-time-slot', data: { id: 1, timeSlotId: 'slot-1' } }, knex);
+			await handler.processWithQueue('irtranscripts-queue', duration(1, 2000), knex);
 			const queue = await asyncQueueOf(handler);
 
 			expect(queue).toBeInstanceOf(AsyncTimerSyncQueue);
@@ -345,10 +345,10 @@ describe('TimerHandler', () => {
 		it('reads the setting once, so a session never mixes the two queues', async () => {
 			appSetting = { asyncTimerDataSync: true };
 			const handler = newHandler();
-			await handler.processWithQueue('gauzy-queue', duration(1, 1000), knex);
+			await handler.processWithQueue('irtranscripts-queue', duration(1, 1000), knex);
 
 			appSetting = { asyncTimerDataSync: false };
-			await handler.processWithQueue('gauzy-queue', duration(1, 2000), knex);
+			await handler.processWithQueue('irtranscripts-queue', duration(1, 2000), knex);
 
 			expect(await (await asyncQueueOf(handler)).drain()).toBe(true);
 			expect(embedded.createQueue).not.toHaveBeenCalled();
@@ -362,7 +362,7 @@ describe('TimerHandler', () => {
 			const handler = newHandler();
 
 			try {
-				await handler.processWithQueue('gauzy-queue', duration(1, 1000), knex);
+				await handler.processWithQueue('irtranscripts-queue', duration(1, 1000), knex);
 			} finally {
 				userData = root;
 			}
@@ -378,7 +378,7 @@ describe('TimerHandler', () => {
 			const { handler, queue } = await sessionWithHeldJob();
 			refuseEveryStore(queue);
 
-			const fallback = handler.processWithQueue('gauzy-queue', duration(1, 2000), knex);
+			const fallback = handler.processWithQueue('irtranscripts-queue', duration(1, 2000), knex);
 			await sleep(50);
 			expect(timerService.writes).toEqual([]);
 			timerService.release();
@@ -396,7 +396,7 @@ describe('TimerHandler', () => {
 			const { handler, queue } = await sessionWithHeldJob();
 			jest.spyOn(queue, 'processWithQueue').mockRejectedValueOnce(new Error('SQLITE_BUSY: database is locked'));
 
-			await handler.processWithQueue('gauzy-queue', duration(1, 2000), knex);
+			await handler.processWithQueue('irtranscripts-queue', duration(1, 2000), knex);
 			timerService.release();
 
 			expect(await queue.drain()).toBe(true);
@@ -418,10 +418,10 @@ describe('TimerHandler', () => {
 				}
 
 				// The 2000 ms update is refused and waits behind the held 1000 ms one…
-				const older = handler.processWithQueue('gauzy-queue', duration(1, 2000), knex);
+				const older = handler.processWithQueue('irtranscripts-queue', duration(1, 2000), knex);
 				await sleep(20);
 				// …while the timer goes on: the 3000 ms update must still land after it.
-				const newer = handler.processWithQueue('gauzy-queue', duration(1, 3000), knex);
+				const newer = handler.processWithQueue('irtranscripts-queue', duration(1, 3000), knex);
 				await sleep(20);
 				timerService.release();
 				await Promise.all([older, newer]);
@@ -435,7 +435,7 @@ describe('TimerHandler', () => {
 		it('keeps a newer job behind an older one whose store attempt is still in flight', async () => {
 			appSetting = { asyncTimerDataSync: true };
 			const handler = newHandler();
-			await handler.processWithQueue('gauzy-queue', duration(1, 1000), knex);
+			await handler.processWithQueue('irtranscripts-queue', duration(1, 1000), knex);
 			const queue = await asyncQueueOf(handler);
 			expect(await queue.drain()).toBe(true);
 			const store = queue.processWithQueue.bind(queue);
@@ -446,9 +446,9 @@ describe('TimerHandler', () => {
 			});
 			jest.spyOn(queue, 'processWithQueue').mockImplementation(store);
 
-			const older = handler.processWithQueue('gauzy-queue', duration(1, 2000), knex);
+			const older = handler.processWithQueue('irtranscripts-queue', duration(1, 2000), knex);
 			// Submitted while the older job is still being stored: it must not reach the store first.
-			const newer = handler.processWithQueue('gauzy-queue', duration(1, 3000), knex);
+			const newer = handler.processWithQueue('irtranscripts-queue', duration(1, 3000), knex);
 			await Promise.all([older, newer]);
 			expect(await queue.drain()).toBe(true);
 
@@ -467,8 +467,8 @@ describe('TimerHandler', () => {
 
 			try {
 				await Promise.all([
-					handler.processWithQueue('gauzy-queue', duration(1, 2000), knex),
-					handler.processWithQueue('gauzy-queue', duration(1, 3000), knex)
+					handler.processWithQueue('irtranscripts-queue', duration(1, 2000), knex),
+					handler.processWithQueue('irtranscripts-queue', duration(1, 3000), knex)
 				]);
 
 				// One 60 s wait in 5 s rounds for the pair, not one per job.
@@ -503,7 +503,7 @@ describe('TimerHandler', () => {
 				});
 
 			try {
-				await handler.processWithQueue('gauzy-queue', duration(1, 2000), knex);
+				await handler.processWithQueue('irtranscripts-queue', duration(1, 2000), knex);
 
 				expect(settle.mock.calls.length).toBeGreaterThanOrEqual(2);
 				expect(
@@ -527,7 +527,7 @@ describe('TimerHandler', () => {
 			let clock = Date.now();
 			jest.spyOn(Date, 'now').mockImplementation(() => (clock += 61_000));
 
-			await handler.processWithQueue('gauzy-queue', duration(1, 2000), knex);
+			await handler.processWithQueue('irtranscripts-queue', duration(1, 2000), knex);
 			(Date.now as jest.Mock).mockRestore();
 			(queue.settle as jest.Mock).mockRestore();
 			expect(timerService.writes).toEqual([]);
@@ -542,7 +542,7 @@ describe('TimerHandler', () => {
 			const { handler, queue } = await sessionWithHeldJob();
 			refuseEveryStore(queue);
 
-			const fallback = handler.processWithQueue('gauzy-queue', duration(1, 2000), knex);
+			const fallback = handler.processWithQueue('irtranscripts-queue', duration(1, 2000), knex);
 			await sleep(6_000);
 			expect(timerService.writes).toEqual([]);
 			timerService.release();
@@ -567,7 +567,7 @@ describe('TimerHandler', () => {
 				return processInMemory(...args);
 			});
 
-			const refused = handler.processWithQueue('gauzy-queue', duration(1, 2000), knex);
+			const refused = handler.processWithQueue('irtranscripts-queue', duration(1, 2000), knex);
 			await sleep(20);
 			try {
 				await handler.stopTimer(null, window, knex, true);
@@ -587,7 +587,7 @@ describe('TimerHandler', () => {
 			timerService.hold((write) => write.id === 1);
 			const handler = newHandler();
 
-			await handler.processWithQueue('gauzy-queue', duration(2, 500), knex);
+			await handler.processWithQueue('irtranscripts-queue', duration(2, 500), knex);
 			await sleep(100);
 			expect(timerService.writes).toEqual([]);
 			expect(embedded.createQueue).not.toHaveBeenCalled();
@@ -601,7 +601,7 @@ describe('TimerHandler', () => {
 			]);
 
 			// Nothing is left behind any more: the rest of the session uses the in-memory queue.
-			await handler.processWithQueue('gauzy-queue', duration(2, 1500), knex);
+			await handler.processWithQueue('irtranscripts-queue', duration(2, 1500), knex);
 			expect(embedded.jobs).toHaveLength(1);
 			expect(await asyncQueueOf(handler)).toBeNull();
 			expect(timerService.writes.at(-1)).toMatchObject({ id: 2, duration: 1500 });
@@ -620,7 +620,7 @@ describe('TimerHandler', () => {
 			timerService.writes.push({ id: 1, synced: true });
 			// …which comes when the first job of the session opens the queue.
 			const handler = newHandler();
-			await handler.processWithQueue('gauzy-queue', windowEvents(2, 10), knex);
+			await handler.processWithQueue('irtranscripts-queue', windowEvents(2, 10), knex);
 			expect(await (await asyncQueueOf(handler)).drain()).toBe(true);
 
 			expect(timerService.writes).toContainEqual(expect.objectContaining({ id: 1, duration: 1000 }));
@@ -646,7 +646,7 @@ describe('TimerHandler', () => {
 			appSetting = { asyncTimerDataSync: true };
 			timerService.hold((write) => write.duration !== undefined);
 			const handler = newHandler();
-			await handler.processWithQueue('gauzy-queue', duration(1, 1000), knex);
+			await handler.processWithQueue('irtranscripts-queue', duration(1, 1000), knex);
 
 			expect(await handler.readyForOfflineSync(knex, 20)).toBe(false);
 			expect(await handler.readyForOfflineSync(knex, 20)).toBe(false);
@@ -678,7 +678,7 @@ describe('TimerHandler', () => {
 			timerService.hold((write) => write.duration !== undefined);
 			const handler = newHandler();
 
-			await handler.processWithQueue('gauzy-queue', duration(1, 1000), knex);
+			await handler.processWithQueue('irtranscripts-queue', duration(1, 1000), knex);
 
 			// Written before the queued duration, which is still waiting.
 			expect(timerService.writes).toEqual([expect.objectContaining({ id: 1, synced: false })]);
@@ -700,7 +700,7 @@ describe('TimerHandler', () => {
 			handler.lastTimer = { id: 7 };
 			let release: () => void = () => undefined;
 			activityTable.held = new Promise<void>((resolve) => (release = resolve));
-			await handler.processWithQueue('gauzy-queue', windowEvents(7, 1, 2), knex);
+			await handler.processWithQueue('irtranscripts-queue', windowEvents(7, 1, 2), knex);
 
 			const slot = handler.getAllActivities(knex, moment().subtract(1, 'minute'));
 			await sleep(50);
@@ -722,7 +722,7 @@ describe('TimerHandler', () => {
 			handler.lastTimer = { id: 7 };
 			let release: () => void = () => undefined;
 			activityTable.held = new Promise<void>((resolve) => (release = resolve));
-			await handler.processWithQueue('gauzy-queue', windowEvents(7, 1), knex);
+			await handler.processWithQueue('irtranscripts-queue', windowEvents(7, 1), knex);
 
 			// The save is still waiting when the slot gives up on it (5 s) and resets the tables…
 			const slot = await handler.getAllActivities(knex, moment().subtract(1, 'minute'));
@@ -747,12 +747,12 @@ describe('TimerHandler', () => {
 			const handler = newHandler();
 			let release: () => void = () => undefined;
 			activityTable.held = new Promise<void>((resolve) => (release = resolve));
-			await handler.processWithQueue('gauzy-queue', afkEvents(7, 1), knex);
+			await handler.processWithQueue('irtranscripts-queue', afkEvents(7, 1), knex);
 
 			await handler.clearActivityEvents(knex, ['afk_events' as any]);
 			activityTable.held = null;
 			release();
-			await handler.processWithQueue('gauzy-queue', windowEvents(7, 2), knex);
+			await handler.processWithQueue('irtranscripts-queue', windowEvents(7, 2), knex);
 			expect(await (await asyncQueueOf(handler)).drain()).toBe(true);
 
 			expect(activityTable.rows).toEqual([{ eventId: 2, timerId: 7, table: 'window_events' }]);
@@ -763,7 +763,7 @@ describe('TimerHandler', () => {
 			const handler = newHandler();
 			let release: () => void = () => undefined;
 			activityTable.held = new Promise<void>((resolve) => (release = resolve));
-			await handler.processWithQueue('gauzy-queue', windowEvents(7, 1), knex);
+			await handler.processWithQueue('irtranscripts-queue', windowEvents(7, 1), knex);
 			const queue = await asyncQueueOf(handler);
 			jest.spyOn(queue, 'processWithQueue').mockRejectedValue(new Error('SQLITE_FULL: database or disk is full'));
 
@@ -782,8 +782,8 @@ describe('TimerHandler', () => {
 
 		it('empties the tables right away with the in-memory queue, as before', async () => {
 			const handler = newHandler();
-			await handler.processWithQueue('gauzy-queue', windowEvents(7, 1), knex);
-			await handler.processWithQueue('gauzy-queue', afkEvents(7, 2), knex);
+			await handler.processWithQueue('irtranscripts-queue', windowEvents(7, 1), knex);
+			await handler.processWithQueue('irtranscripts-queue', afkEvents(7, 2), knex);
 
 			await handler.clearActivityEvents(knex, ['afk_events' as any]);
 			expect(activityTable.rows).toEqual([{ eventId: 1, timerId: 7, table: 'window_events' }]);
@@ -799,14 +799,14 @@ describe('TimerHandler', () => {
 			appSetting = { asyncTimerDataSync: true };
 			const handler = newHandler();
 			handler.lastTimer = { id: 1 };
-			await handler.processWithQueue('gauzy-queue', duration(1, 1000), knex);
+			await handler.processWithQueue('irtranscripts-queue', duration(1, 1000), knex);
 			const queue = await asyncQueueOf(handler);
 
 			await handler.stopTimer(null, window, knex, true);
 
 			expect(queue.isClosed).toBe(true);
 			expect(timerService.writes).toContainEqual(expect.objectContaining({ id: 1, duration: 1000 }));
-			await handler.processWithQueue('gauzy-queue', { type: 'update-timer-time-slot', data: { id: 1, timeSlotId: 'slot-9' } }, knex);
+			await handler.processWithQueue('irtranscripts-queue', { type: 'update-timer-time-slot', data: { id: 1, timeSlotId: 'slot-9' } }, knex);
 			expect(embedded.jobs).toHaveLength(1);
 			expect(timerService.writes.at(-1)).toMatchObject({ id: 1, timeslotId: 'slot-9' });
 			expect(audit.timerAuditError).not.toHaveBeenCalled();
@@ -816,7 +816,7 @@ describe('TimerHandler', () => {
 			appSetting = { asyncTimerDataSync: true };
 			const handler = newHandler();
 			handler.lastTimer = { id: 1 };
-			await handler.processWithQueue('gauzy-queue', duration(1, 1000), knex);
+			await handler.processWithQueue('irtranscripts-queue', duration(1, 1000), knex);
 
 			await handler.stopTimer(null, window, knex, false);
 
@@ -849,7 +849,7 @@ describe('TimerHandler', () => {
 			await handler.collectActivities(null, knex, window);
 			jest.advanceTimersByTime(3_000);
 			expect(queued).toHaveBeenCalledTimes(3);
-			expect(queued).toHaveBeenLastCalledWith('gauzy-queue', expect.objectContaining({ type: 'update-duration-timer' }), knex);
+			expect(queued).toHaveBeenLastCalledWith('irtranscripts-queue', expect.objectContaining({ type: 'update-duration-timer' }), knex);
 
 			await handler.stopTimerIntervalPeriod();
 			jest.advanceTimersByTime(10_000);

@@ -23,7 +23,7 @@ import {
 	UseValidationPipe,
 	AbstractValidationPipe
 } from './../shared/pipes';
-import { ID, IKeyResult, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IKeyResult, PermissionsEnum } from '@irtranscripts/contracts';
 import { CreateKeyResultDTO, KeyResultBulkInputDTO, UpdateKeyResultDTO } from './dto';
 import { DeleteResult } from 'typeorm';
 import { Permissions } from './../shared/decorators';

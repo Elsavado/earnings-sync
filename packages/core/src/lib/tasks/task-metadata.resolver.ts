@@ -1,13 +1,13 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, ID, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { FeatureFlag } from '@gauzy/common';
+import { FeatureFlag } from '@irtranscripts/common';
 import {
 	ID as Id,
 	IPagination,
 	ITaskMetadataBootstrapResponse,
 	PermissionsEnum,
 	TaskMetadataSection
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	ConnectionFieldKind,
 	ConnectionFilter,

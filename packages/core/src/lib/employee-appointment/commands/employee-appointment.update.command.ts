@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { IEmployeeAppointmentUpdateInput } from '@gauzy/contracts';
+import { IEmployeeAppointmentUpdateInput } from '@irtranscripts/contracts';
 
 export class EmployeeAppointmentUpdateCommand implements ICommand {
 	static readonly type = '[EmployeeAppointment] Update';

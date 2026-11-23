@@ -6,7 +6,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { EventBusModule, RolePermissionModule } from '@gauzy/core';
+import { EventBusModule, RolePermissionModule } from '@irtranscripts/core';
 import { InventorySequenceModule } from './../inventory-sequence.module';
 import { StockLevelModule } from './../stock-level/stock-level.module';
 import { StockTransfer } from './stock-transfer.entity';

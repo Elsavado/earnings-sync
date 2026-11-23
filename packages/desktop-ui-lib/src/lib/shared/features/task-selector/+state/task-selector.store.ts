@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { StoreConfig } from '@datorama/akita';
-import { ITask } from '@gauzy/contracts';
+import { ITask } from '@irtranscripts/contracts';
 import { SelectorStore } from '../../../+state/selector.store';
 import { ISelector } from '../../../interfaces/selector.interface';
 

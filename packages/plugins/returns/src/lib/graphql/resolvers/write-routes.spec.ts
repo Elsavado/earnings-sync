@@ -75,23 +75,23 @@
  * resolver's other collaborators are stubs of their own rather than copies of the one under test, so a
  * field that reached the wrong service is visible instead of passing on a shared double.
  *
- * The kernel barrel is doubled for the reason this package's other suites state: `@gauzy/core` boots the
+ * The kernel barrel is doubled for the reason this package's other suites state: `@irtranscripts/core` boots the
  * whole application graph from its barrel, the demonstration database configuration among it, so a suite
  * that reads one controller through it pays for the platform. The one inherited route this suite drives
  * is carried across, written as `CrudController` writes it — `delete(id)` calling `this.crudService.delete(id)`
  * — so the delegation compared below is the platform's shape and not an invention of this file.
  */
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { SetMetadata, UsePipes, ValidationPipe } = require('@nestjs/common');
-	const { PERMISSIONS_METADATA } = require('@gauzy/constants');
+	const { PERMISSIONS_METADATA } = require('@irtranscripts/constants');
 
 	// The kernel's own declarations and its conditional write, so the classes under test are declared
 	// with the platform's decorators rather than with no-ops.
-	const idempotency = jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.policy');
-	const versioned = jest.requireActual('@gauzy/core/src/lib/concurrency/versioned.decorator');
-	const versionedWrite = jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write');
-	const versionUtil = jest.requireActual('@gauzy/core/src/lib/concurrency/version.util');
+	const idempotency = jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.policy');
+	const versioned = jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned.decorator');
+	const versionedWrite = jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write');
+	const versionUtil = jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
@@ -150,7 +150,7 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		BaseEvent: class {},
 		EventBus: class {},
 		PermissionGuard: class PermissionGuard {},
@@ -172,7 +172,7 @@ jest.mock('@gauzy/core', () => {
 		Warehouse: class Warehouse {},
 		UseValidationPipe: (options: unknown) => UsePipes(new ValidationPipe(options as never)),
 		Permissions: (...permissions: string[]) => SetMetadata(PERMISSIONS_METADATA, permissions),
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
 		IDEMPOTENT_METADATA_KEY: idempotency.IDEMPOTENT_METADATA_KEY,
 		Versioned: versioned.Versioned,
 		// The key the decorator above writes, so the suite can read back what each surface declared.
@@ -182,11 +182,11 @@ jest.mock('@gauzy/core', () => {
 		versionExpectationOf: versionedWrite.versionExpectationOf,
 		// The page window and the connection the list fields answer with are the kernel's own, so a
 		// resolver that is loaded here is loaded with the platform's helpers rather than with holes.
-		resolveConnectionWindow: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		resolveConnectionWindow: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.resolveConnectionWindow,
-		connectionFromOffsetPage: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		connectionFromOffsetPage: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.connectionFromOffsetPage,
-		paginateRows: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection').paginateRows,
+		paginateRows: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection').paginateRows,
 		RequestContext: {
 			currentUser: () => null,
 			currentUserId: () => null,
@@ -198,9 +198,9 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-/** The feature-flag decorator is the only value these modules read from `@gauzy/common`. */
+/** The feature-flag decorator is the only value these modules read from `@irtranscripts/common`. */
 jest.mock(
-	'@gauzy/common',
+	'@irtranscripts/common',
 	() => ({
 		FeatureFlag: () => () => undefined
 	})
@@ -214,15 +214,15 @@ import {
 	ObjectTypeExtensionNode,
 	TypeNode
 } from 'graphql';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import {
 	IDEMPOTENT_METADATA_KEY,
 	PermissionGuard,
 	TenantPermissionGuard,
 	VERSION_EXPECTATION_PROPERTY,
 	VERSIONED_METADATA_KEY
-} from '@gauzy/core';
-import { PermissionsEnum } from '@gauzy/contracts';
+} from '@irtranscripts/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { ReturnsPermissions } from '../../returns.permissions';
 import { EditOrderClaimDTO } from '../../order-claim/dto';
 import { OrderClaimController } from '../../order-claim/order-claim.controller';

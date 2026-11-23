@@ -39,7 +39,7 @@ export class DialogOpenFile extends BaseDesktopDialogDecorator implements IDeskt
 
 			const source = sources[0];
 			const fileName = path.basename(source);
-			const destination = path.join(process.env.GAUZY_USER_PATH, this.fileDestination);
+			const destination = path.join(process.env.IRTRANSCRIPTS_USER_PATH, this.fileDestination);
 
 			try {
 				fs.mkdirSync(destination, { recursive: true });

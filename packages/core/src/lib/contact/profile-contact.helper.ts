@@ -1,4 +1,4 @@
-import { IContact, ID } from '@gauzy/contracts';
+import { IContact, ID } from '@irtranscripts/contracts';
 
 /**
  * The contact members a profile edit may write: the postal, geographic and fiscal facts of the row. The REST body

@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/swagger';
-import { IAiProviderCredentialUpdateInput } from '@gauzy/contracts';
+import { IAiProviderCredentialUpdateInput } from '@irtranscripts/contracts';
 import { CreateAiProviderCredentialDTO } from './create-ai-provider-credential.dto';
 
 /**

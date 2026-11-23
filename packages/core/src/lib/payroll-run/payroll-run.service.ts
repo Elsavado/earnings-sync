@@ -17,7 +17,7 @@ import {
 	PayrollItemTypeEnum,
 	PayrollRunStatusEnum,
 	EmployeeKindEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { RequestContext } from './../core/context';
 import { TenantAwareCrudService } from './../core/crud';
 import { Employee } from './../core/entities/internal';

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import { BaseEntityEnum, IComment, ICommentCreateInput, ID, IPagination } from '@gauzy/contracts';
-import { API_PREFIX, toParams } from '@gauzy/ui-core/common';
+import { BaseEntityEnum, IComment, ICommentCreateInput, ID, IPagination } from '@irtranscripts/contracts';
+import { API_PREFIX, toParams } from '@irtranscripts/ui-core/common';
 
 /** `PaginationQueryDTO.take` is `@Max(100)`; asking for more is a 400, not a bigger page. */
 export const COMMENTS_PAGE_SIZE = 100;

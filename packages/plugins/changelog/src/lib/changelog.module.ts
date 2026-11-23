@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { CqrsModule } from '@nestjs/cqrs';
-import { TenantModule } from '@gauzy/core';
+import { TenantModule } from '@irtranscripts/core';
 import { Changelog } from './changelog.entity';
 import { ChangelogController } from './changelog.controller';
 import { ChangelogService } from './changelog.service';

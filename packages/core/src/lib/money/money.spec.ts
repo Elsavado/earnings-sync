@@ -1,4 +1,4 @@
-import { MoneySymbolPosition } from '@gauzy/contracts';
+import { MoneySymbolPosition } from '@irtranscripts/contracts';
 import { Money } from './money';
 
 /**

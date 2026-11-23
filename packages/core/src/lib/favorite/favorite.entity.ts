@@ -3,7 +3,7 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import { EntityRepositoryType } from '@mikro-orm/core';
 import { JoinColumn, RelationId } from 'typeorm';
 import { IsOptional, IsUUID } from 'class-validator';
-import { ID, IEmployee, IFavorite } from '@gauzy/contracts';
+import { ID, IEmployee, IFavorite } from '@irtranscripts/contracts';
 import { BasePerEntityType, Employee } from '../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from '../core/decorators/entity';
 import { MikroOrmFavoriteRepository } from './repository/mikro-orm-favorite.repository';

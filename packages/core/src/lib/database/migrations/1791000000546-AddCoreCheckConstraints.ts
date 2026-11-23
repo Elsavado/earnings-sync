@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 import { addCheckConstraint, dropCheckConstraint, ICheckConstraintDefinition } from '../check-constraint.helper';
 
 /**

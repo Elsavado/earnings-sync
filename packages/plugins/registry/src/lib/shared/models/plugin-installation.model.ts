@@ -1,4 +1,4 @@
-import { IPluginInstallation as PluginInstallationModel, PluginInstallationStatus } from '@gauzy/contracts';
+import { IPluginInstallation as PluginInstallationModel, PluginInstallationStatus } from '@irtranscripts/contracts';
 
 /**
  * Plugin installation record

@@ -1,6 +1,6 @@
-import { Public } from '@gauzy/common';
-import { ID, PermissionsEnum } from '@gauzy/contracts';
-import { PermissionGuard, Permissions, TenantPermissionGuard, UUIDValidationPipe } from '@gauzy/core';
+import { Public } from '@irtranscripts/common';
+import { ID, PermissionsEnum } from '@irtranscripts/contracts';
+import { PermissionGuard, Permissions, TenantPermissionGuard, UUIDValidationPipe } from '@irtranscripts/core';
 import {
 	Body,
 	Controller,

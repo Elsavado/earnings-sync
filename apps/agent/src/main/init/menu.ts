@@ -1,6 +1,6 @@
 import { shell, MenuItemConstructorOptions } from 'electron';
 import * as path from 'path';
-import { AppMenu, TranslateService, LocalStore } from '@gauzy/desktop-lib';
+import { AppMenu, TranslateService, LocalStore } from '@irtranscripts/desktop-lib';
 import AppWindow from '../window-manager';
 const appRootPath: string = path.join(__dirname, '../..');
 import MainEvent from '../events/events';
@@ -39,7 +39,7 @@ export class AgentMenu {
 	private get aboutMenu(): MenuItemConstructorOptions {
 		const appWindow = this.appWindow;
 		return {
-			id: 'gauzy-about',
+			id: 'irtranscripts-about',
 			label: TranslateService.instant('MENU.ABOUT'),
 			enabled: true,
 			async click() {
@@ -53,7 +53,7 @@ export class AgentMenu {
 		return {
 			label: TranslateService.instant('TIMER_TRACKER.MENU.LEARN_MORE'),
 			click() {
-				shell.openExternal(process.env.COMPANY_SITE_LINK || 'https://gauzy.co/');
+				shell.openExternal(process.env.COMPANY_SITE_LINK || 'https://irtranscripts.com/');
 			}
 		}
 	}

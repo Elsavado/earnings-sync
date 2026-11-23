@@ -9,7 +9,7 @@ import {
 	TenantPermissionGuard,
 	UseValidationPipe,
 	UUIDValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { ShippingProfileVariant } from './shipping-profile-variant.entity';
 import { ShippingProfileVariantService } from './shipping-profile-variant.service';
 import { CreateShippingProfileVariantDTO, UpdateShippingProfileVariantDTO } from './dto';

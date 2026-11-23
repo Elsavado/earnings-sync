@@ -1,5 +1,5 @@
 import { IntersectionType, PickType } from '@nestjs/swagger';
-import { IEntitySubscriptionCreateInput } from '@gauzy/contracts';
+import { IEntitySubscriptionCreateInput } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../core/dto';
 import { EntitySubscription } from '../entity-subscription.entity';
 

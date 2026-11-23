@@ -1,8 +1,8 @@
 import { Global, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { INBOUND_ADDRESS_NAMESPACE, INBOX_EMAIL_HANDOFFS, INBOX_EMAIL_PROVIDER_REGISTRY } from '@gauzy/contracts';
-import { EmailSendModule, RolePermissionModule } from '@gauzy/core';
+import { INBOUND_ADDRESS_NAMESPACE, INBOX_EMAIL_HANDOFFS, INBOX_EMAIL_PROVIDER_REGISTRY } from '@irtranscripts/contracts';
+import { EmailSendModule, RolePermissionModule } from '@irtranscripts/core';
 import { InboxEmailController } from './emails/inbox-email.controller';
 import { InboxEmailService } from './emails/inbox-email.service';
 import { InboxEmailMessageResolver } from './graphql/inbox-email-message.resolver';
@@ -49,10 +49,10 @@ export const INBOX_EMAIL_ENTITIES = [
 /**
  * The Inbox email features (plan 04 §5, Phase 4): provider plugins and their accounts, the transport the core
  * email seam sends through, mailboxes, the provider webhook and the inbound worker, and the stored messages' API
- * (read, raw, attachments, reply, forward, quarantine). Loaded only when both `GAUZY_INBOX_ENABLED` and
- * `GAUZY_INBOX_EMAIL_ENABLED` are `true`.
+ * (read, raw, attachments, reply, forward, quarantine). Loaded only when both `IRTRANSCRIPTS_INBOX_ENABLED` and
+ * `IRTRANSCRIPTS_INBOX_EMAIL_ENABLED` are `true`.
  *
- * Global, so the email provider plugins (`@gauzy/plugin-email-provider-*`) reach the registry through the
+ * Global, so the email provider plugins (`@irtranscripts/plugin-email-provider-*`) reach the registry through the
  * `INBOX_EMAIL_PROVIDER_REGISTRY` token with `@Optional() @Inject(…)`, without importing this package and without
  * failing when the Inbox email features are off.
  */

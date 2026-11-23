@@ -20,7 +20,7 @@
  *   secret travels.
  *
  * Three module boundaries are doubled, and the reason is the same for all three: the base CRUD class
- * reaches the entity barrel and with it the whole application graph, `@gauzy/config` reads the process
+ * reaches the entity barrel and with it the whole application graph, `@irtranscripts/config` reads the process
  * environment at import time, and the request context is what a write runs inside. A fourth is
  * doubled for a load-order reason: the guards barrel reaches the employee repository and, through it,
  * the entity graph from the wrong end.
@@ -59,8 +59,8 @@ jest.mock('../core/context/request-context', () => ({
 	}
 }));
 
-jest.mock('@gauzy/config', () => ({
-	...jest.requireActual('@gauzy/config'),
+jest.mock('@irtranscripts/config', () => ({
+	...jest.requireActual('@irtranscripts/config'),
 	isPostgres: () => true,
 	isMySQL: () => false
 }));
@@ -75,8 +75,8 @@ import '../core/entities/internal';
 
 import { HttpException, RequestMethod } from '@nestjs/common';
 import { METHOD_METADATA, PATH_METADATA } from '@nestjs/common/constants';
-import { PermissionsEnum, WebhookDeliveryStatus } from '@gauzy/contracts';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
+import { PermissionsEnum, WebhookDeliveryStatus } from '@irtranscripts/contracts';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { WebhookDeliveryController } from './webhook-delivery.controller';
 import { WebhookSubscriptionController } from './webhook-subscription.controller';

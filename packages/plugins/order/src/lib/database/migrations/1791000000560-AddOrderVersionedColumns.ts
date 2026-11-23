@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 /**
  * States the version column of the order aggregate, and the index that reads a change by the order

@@ -1,6 +1,6 @@
 import { createHmac, timingSafeEqual } from 'node:crypto';
 import { isIP } from 'node:net';
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 
 /**
  * Bucket used when a request cannot be attributed to any address we are willing to trust.

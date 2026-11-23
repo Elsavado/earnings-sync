@@ -1,6 +1,6 @@
-# Ever Gauzy APIs
+# Ever IRTranscripts APIs
 
-Ever Gauzy APIs built with NestJs framework
+Ever IRTranscripts APIs built with NestJs framework
 
 ---
 

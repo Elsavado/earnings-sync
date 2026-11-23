@@ -1,4 +1,4 @@
-import { gauzyToggleFeatures } from '@gauzy/config';
+import { irtranscriptsToggleFeatures } from '@irtranscripts/config';
 import { DEFAULT_ENABLED_FEATURES } from './commerce-feature-catalogue';
 
 /** The codes the catalogue enables on a fresh install, as a set to test membership with. */
@@ -28,7 +28,7 @@ const DEFAULT_ENABLED_FEATURE_CODES = new Set(DEFAULT_ENABLED_FEATURES.map((entr
  * @returns True when the feature is on without anyone having enabled it.
  */
 export function isFeatureEnabledByDefault(code: string): boolean {
-	const configured = gauzyToggleFeatures[code];
+	const configured = irtranscriptsToggleFeatures[code];
 	if (configured !== undefined) {
 		return !!configured;
 	}

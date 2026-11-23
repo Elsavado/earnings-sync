@@ -1,7 +1,7 @@
 import '../../core/entities/internal';
 
 import { BadRequestException, ForbiddenException } from '@nestjs/common';
-import { environment, TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@gauzy/config';
+import { environment, TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@irtranscripts/config';
 import { sign, verify } from 'jsonwebtoken';
 import { DataSource, EntitySchema, Repository } from 'typeorm';
 import { signPurposeToken, TokenPurposeEnum } from '../../auth/purpose-token';

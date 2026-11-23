@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsArray, IsBoolean, IsEnum, IsInt, IsObject, IsOptional, IsString, IsUUID, MaxLength } from 'class-validator';
-import { FulfillmentDirection } from '@gauzy/contracts';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { FulfillmentDirection } from '@irtranscripts/contracts';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 
 /** One line of a fulfilment, as a caller states it. */
 export class FulfillmentLineInputDTO {

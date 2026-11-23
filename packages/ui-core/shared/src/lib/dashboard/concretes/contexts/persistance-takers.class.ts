@@ -1,4 +1,4 @@
-import { IPersistance } from '@gauzy/ui-core/common';
+import { IPersistance } from '@irtranscripts/ui-core/common';
 import { LayoutPersistance } from './layout-persistance.class';
 
 export class PersistanceTakers {

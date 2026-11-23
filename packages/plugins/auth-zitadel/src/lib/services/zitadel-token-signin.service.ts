@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable, Logger, UnauthorizedException } from '@nestjs/common';
-import { OidcClientService, OidcIssuerConfig, isOidcError } from '@gauzy/auth';
+import { OidcClientService, OidcIssuerConfig, isOidcError } from '@irtranscripts/auth';
 import { ZitadelAccountService } from './zitadel-account.service';
 import { ZitadelClaimsService } from './zitadel-claims.service';
 import { ZitadelConfigService } from './zitadel-config.service';
@@ -62,8 +62,8 @@ function brandingUrl(value: unknown): string | undefined {
 }
 
 /**
- * The requesting app's presentation for Gauzy's one-time code e-mail, from the request: names and a
- * signature as plain text, links only as https. Anything unusable is left out (Gauzy's own default
+ * The requesting app's presentation for IRTranscripts's one-time code e-mail, from the request: names and a
+ * signature as plain text, links only as https. Anything unusable is left out (IRTranscripts's own default
  * applies to it); a link that would carry the code is never taken from a request.
  */
 export function emailBranding(body: ZitadelEmailBranding | undefined): ZitadelEmailBranding {
@@ -91,7 +91,7 @@ export function emailBranding(body: ZitadelEmailBranding | undefined): ZitadelEm
  * person to verify it: the claim is in the token the caller holds, so the code tells it nothing new.
  *
  * The client may present itself (its name, logo, signature and links) for the one-time code e-mail
- * Gauzy sends when a link must be confirmed: the same display fields Gauzy's own sign-in and register
+ * IRTranscripts sends when a link must be confirmed: the same display fields IRTranscripts's own sign-in and register
  * routes take from their callers, here only together with a verified token of an allowed client.
  */
 @Injectable()

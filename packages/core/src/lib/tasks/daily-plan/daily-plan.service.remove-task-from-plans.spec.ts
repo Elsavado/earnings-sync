@@ -5,7 +5,7 @@ import { DataSource, EntitySchema as TypeOrmEntitySchema } from 'typeorm';
 import { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
 import { EntityCaseNamingStrategy, EntitySchema as MikroOrmEntitySchema, MikroORM } from '@mikro-orm/core';
 import * as moment from 'moment-timezone';
-import { isBetterSqlite3, isSqlite, TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@gauzy/config';
+import { isBetterSqlite3, isSqlite, TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@irtranscripts/config';
 import { RequestContext } from '../../core/context';
 import { TenantAwareCrudService } from '../../core/crud/tenant-aware-crud.service';
 import { MultiORMEnum } from '../../core/utils';
@@ -13,8 +13,8 @@ import { DailyPlanService } from './daily-plan.service';
 
 // The service reads how plan dates are stored from the dialect helpers, which answer what DB_TYPE says
 // (better-sqlite3 in a unit run). A case can make them answer PostgreSQL; every other case gets the real answer.
-jest.mock('@gauzy/config', () => {
-	const actual = jest.requireActual('@gauzy/config');
+jest.mock('@irtranscripts/config', () => {
+	const actual = jest.requireActual('@irtranscripts/config');
 
 	return {
 		...actual,
@@ -23,7 +23,7 @@ jest.mock('@gauzy/config', () => {
 	};
 });
 
-const actualConfig = jest.requireActual('@gauzy/config');
+const actualConfig = jest.requireActual('@irtranscripts/config');
 const isSqliteMock = isSqlite as unknown as jest.Mock;
 const isBetterSqlite3Mock = isBetterSqlite3 as unknown as jest.Mock;
 

@@ -17,9 +17,9 @@
 			}
 		</nb-list>
 		@if (!isDesktop) {
-			<gauzy-language-selector [setup]="isServer" class="language"></gauzy-language-selector>
+			<irtranscripts-language-selector [setup]="isServer" class="language"></irtranscripts-language-selector>
 		}
-		<gauzy-switch-theme class="theme-switch switch-theme-toggle"></gauzy-switch-theme>
+		<irtranscripts-switch-theme class="theme-switch switch-theme-toggle"></irtranscripts-switch-theme>
 	</nb-sidebar>
 
 	<nb-layout-column class="main-layout colored-column-success">
@@ -843,7 +843,7 @@
 																	[disabled]="$safeNavigationMigration(appSetting?.timerStarted)"
 																>
 																	<nb-icon
-																		*gauzySpinnerButton="
+																		*irtranscriptsSpinnerButton="
 																			$safeNavigationMigration((isCheckHost$ | async)?.isLoading)
 																		"
 																		[status]="
@@ -934,7 +934,7 @@
 																	[disabled]="$safeNavigationMigration(appSetting?.timerStarted)"
 																>
 																	<nb-icon
-																		*gauzySpinnerButton="isCheckDatabase$ | async"
+																		*irtranscriptsSpinnerButton="isCheckDatabase$ | async"
 																		[status]="
 																			(isConnectedDatabase$ | async)?.status
 																				? 'success'
@@ -1022,10 +1022,10 @@
 										</div>
 										@if (isServer) {
 											<div class="col-12 mb-3">
-												<gauzy-ssl
+												<irtranscripts-ssl
 													[config]="$safeNavigationMigration(config?.secureProxy)"
 													(update)="updateSslSetting($event)"
-												></gauzy-ssl>
+												></irtranscripts-ssl>
 											</div>
 										}
 									</div>
@@ -1156,7 +1156,7 @@
 				<div class="col-12 titlebar-space">
 					<div class="row">
 						<div class="col-12 text-center margin-content">
-							<img [src]="gauzyIcon" class="margin-icon" />
+							<img [src]="irtranscriptsIcon" class="margin-icon" />
 						</div>
 						<div class="col-12 version-text">
 							<div>
@@ -1282,7 +1282,7 @@
 			[disabled]="(restartDisable$ | async) || appSetting?.timerStarted"
 		>
 			{{ (isServer ? 'BUTTONS.SAVE' : 'BUTTONS.SAVE_RESTART') | translate }}
-			<nb-icon [icon]="isServer ? 'save' : 'refresh-outline'" *gauzySpinnerButton="isRestart$ | async"></nb-icon>
+			<nb-icon [icon]="isServer ? 'save' : 'refresh-outline'" *irtranscriptsSpinnerButton="isRestart$ | async"></nb-icon>
 		</button>
 	</div>
 </ng-template>

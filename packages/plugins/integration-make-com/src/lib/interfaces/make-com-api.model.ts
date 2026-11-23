@@ -1,7 +1,7 @@
 /**
  * Make.com API response and request interfaces.
  *
- * These model the Make.com REST API v2 resources that Gauzy interacts with.
+ * These model the Make.com REST API v2 resources that IRTranscripts interacts with.
  * @see https://developers.make.com/api-documentation/api-reference
  */
 

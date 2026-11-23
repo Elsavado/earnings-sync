@@ -1,7 +1,7 @@
 # Desktop end-to-end tests
 
-Drive the **packaged Gauzy desktop apps** (Electron) with Playwright over the Chrome DevTools Protocol, against a
-real Gauzy API.
+Drive the **packaged IRTranscripts desktop apps** (Electron) with Playwright over the Chrome DevTools Protocol, against a
+real IRTranscripts API.
 
 ## `desktop-timer.spec.ts` — the desktop timer's main flow
 
@@ -34,7 +34,7 @@ Needs the built API and the packaged app(s). Windows shown; on Linux/macOS use t
 yarn build:api                      # dist/apps/api
 yarn build:desktop-timer            # dist/apps/desktop-timer
 yarn electron-builder -c.electronVersion=44.9.3 build --windows --x64 --dir --project dist/apps/desktop-timer
-                                    # dist/apps/desktop-timer-packages/win-unpacked/Gauzy Desktop Timer.exe
+                                    # dist/apps/desktop-timer-packages/win-unpacked/IRTranscripts Desktop Timer.exe
 yarn nx e2e desktop-e2e             # or: npx playwright test -c apps/desktop-e2e/playwright.config.ts [spec] [--grep app]
 DESKTOP_E2E_API=off yarn nx e2e desktop-e2e -- desktop-apps-start   # start-up checks only, no API
 ```
@@ -76,7 +76,7 @@ window never came up. Attaching later leaves those renderers alone, and lets the
 
 ## What it changes on the machine, and how it puts it back
 
-- **Own user data per app** (`--user-data-dir=<run dir>/<app>-user-data`): an installed Gauzy app's settings, database
+- **Own user data per app** (`--user-data-dir=<run dir>/<app>-user-data`): an installed IRTranscripts app's settings, database
   and single-instance lock are not touched, and it may keep running.
 - **No internet**: `--proxy-server` points at a local proxy that refuses every request (403) and records the host;
   requests to loopback addresses — the API on `127.0.0.1` — bypass it. Node's HTTP stack in the main process and in
@@ -88,8 +88,8 @@ window never came up. Attaching later leaves those renderers alone, and lets the
 - **`--mute-audio`**: the timer plays a camera-shutter sound for every screenshot.
 - **Windows registry**: on its first start an app registers itself as a login item (`HKCU\…\CurrentVersion\Run`,
   `…\Explorer\StartupApproved\Run`, a value named after its app id — the same value an installed release uses) and
-  as its protocol handler (`HKCU\Software\Classes\gauzy-timer` and the other apps' protocols). The suite exports
-  those keys before the first start and afterwards puts back exactly what changed (in the Run keys only the Gauzy
+  as its protocol handler (`HKCU\Software\Classes\irtranscripts-timer` and the other apps' protocols). The suite exports
+  those keys before the first start and afterwards puts back exactly what changed (in the Run keys only the IRTranscripts
   apps' own values — other programs' login items are neither compared nor touched — and the whole protocol key),
   then checks that nothing differs. If a run is killed before its clean-up, the
   installed app's login item and protocol point at the test build until that app starts again (or fix them in

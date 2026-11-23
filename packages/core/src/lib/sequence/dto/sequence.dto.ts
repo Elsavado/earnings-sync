@@ -11,7 +11,7 @@ import {
 	MinLength,
 	ValidateNested
 } from 'class-validator';
-import { ID, ISequenceCreateInput, SequenceResetPolicy } from '@gauzy/contracts';
+import { ID, ISequenceCreateInput, SequenceResetPolicy } from '@irtranscripts/contracts';
 
 /**
  * What a caller states when it opens a numbering series.

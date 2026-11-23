@@ -1,6 +1,6 @@
 import '../nebular-jsx';
 import { type ReactNode } from 'react';
-import { ProgressBar, progressStatus } from '@gauzy/ui-react-components';
+import { ProgressBar, progressStatus } from '@irtranscripts/ui-react-components';
 import { durationFormat } from '../../utils/format.utils';
 import { NbButton } from '../NbButton';
 import { WindowCard } from './WindowCard';

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GithubViewComponent } from './view.component';
 import { IntegrationGithubUiModule } from '../../integration-github-ui.module';
-import { PipesModule } from '@gauzy/ui-core/shared';
+import { PipesModule } from '@irtranscripts/ui-core/shared';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 describe('GithubViewComponent', () => {

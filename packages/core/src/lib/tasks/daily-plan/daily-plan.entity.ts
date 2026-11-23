@@ -4,8 +4,8 @@ import { JoinColumn, JoinTable, RelationId } from 'typeorm';
 import { EntityRepositoryType } from '@mikro-orm/core';
 import { IsArray, IsDate, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
 import { Type } from 'class-transformer';
-import { isPostgres } from '@gauzy/config';
-import { DailyPlanStatusEnum, ID, IDailyPlan, IEmployee, IOrganizationTeam, ITask } from '@gauzy/contracts';
+import { isPostgres } from '@irtranscripts/config';
+import { DailyPlanStatusEnum, ID, IDailyPlan, IEmployee, IOrganizationTeam, ITask } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	MultiORMColumn,

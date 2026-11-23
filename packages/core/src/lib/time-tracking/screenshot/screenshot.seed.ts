@@ -2,9 +2,9 @@ import { faker } from '@faker-js/faker';
 import { copyFileSync, mkdirSync, readdir } from 'fs';
 import * as moment from 'moment';
 import * as path from 'path';
-import { ApplicationPluginConfig } from '@gauzy/common';
-import { environment as env } from '@gauzy/config';
-import { FileStorageProviderEnum, ID } from '@gauzy/contracts';
+import { ApplicationPluginConfig } from '@irtranscripts/common';
+import { environment as env } from '@irtranscripts/config';
+import { FileStorageProviderEnum, ID } from '@irtranscripts/contracts';
 import { Screenshot } from '../../core/entities/internal';
 import { randomSeedConfig } from './../../core/seeds/random-seed-config';
 import { getApiPublicPath } from '../../core/util';
@@ -41,7 +41,7 @@ export const createRandomScreenshot = async (
 
 	// Resolve asset public directory
 	const assetPublicDir = isElectron
-		? path.resolve(env.gauzyUserPath, 'public')
+		? path.resolve(env.irtranscriptsUserPath, 'public')
 		: config.assetOptions?.assetPublicPath || publicDir;
 
 	// Resolve asset path
@@ -49,7 +49,7 @@ export const createRandomScreenshot = async (
 
 	// Resolve seed source directory
 	const seedSourceDir = isElectron
-		? path.resolve(env.gauzySeedPath, 'screenshots')
+		? path.resolve(env.irtranscriptsSeedPath, 'screenshots')
 		: path.resolve(config.assetOptions.assetPath || assetPath, 'seed/screenshots');
 
 	const screenshotsDir = path.join('screenshots', moment().format('YYYY/MM/DD'), tenantId, employeeId);

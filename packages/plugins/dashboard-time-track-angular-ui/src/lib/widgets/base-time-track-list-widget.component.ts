@@ -2,8 +2,8 @@ import { computed, Directive, inject, OnInit, type Signal, signal } from '@angul
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { combineLatest, Observable, of, Subject } from 'rxjs';
 import { catchError, distinctUntilChanged, filter, map, startWith, switchMap, tap } from 'rxjs/operators';
-import { IDashboardWidgetContext, TimesheetStatisticsCacheService } from '@gauzy/ui-core/core';
-import { BaseDashboardWidgetComponent } from '@gauzy/ui-core/shared';
+import { IDashboardWidgetContext, TimesheetStatisticsCacheService } from '@irtranscripts/ui-core/core';
+import { BaseDashboardWidgetComponent } from '@irtranscripts/ui-core/shared';
 import {
 	RangePeriod,
 	rangeMessageKey,

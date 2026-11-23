@@ -1,7 +1,7 @@
 {
-	"name": "@gauzy/desktop-core",
+	"name": "@irtranscripts/desktop-core",
 	"version": "0.1.0",
-	"description": "Core library for Gauzy Desktop application",
+	"description": "Core library for IRTranscripts Desktop application",
 	"author": {
 		"name": "Ever Co. LTD",
 		"email": "ever@ever.co",
@@ -33,7 +33,7 @@
 		"@types/node": "^26.6.5"
 	},
 	"keywords": [
-		"gauzy",
+		"irtranscripts",
 		"desktop",
 		"electron",
 		"core",

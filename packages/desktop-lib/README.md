@@ -1,4 +1,4 @@
-# @gauzy/desktop-lib
+# @irtranscripts/desktop-lib
 
 This library was generated with [Nx](https://nx.dev).
 
@@ -19,7 +19,7 @@ After building your library with `yarn nx build desktop-lib`, go to the dist fol
 Install the Desktop Libs Library using your preferred package manager:
 
 ```bash
-npm install @gauzy/desktop-lib
+npm install @irtranscripts/desktop-lib
 # or
-yarn add @gauzy/desktop-lib
+yarn add @irtranscripts/desktop-lib
 ```

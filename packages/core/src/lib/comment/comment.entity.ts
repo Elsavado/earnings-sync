@@ -4,7 +4,7 @@ import { EntityRepositoryType } from '@mikro-orm/core';
 import { JoinColumn, JoinTable, RelationId } from 'typeorm';
 import { IsBoolean, IsDate, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ActorTypeEnum, IComment, ID, IEmployee, IOrganizationTeam } from '@gauzy/contracts';
+import { ActorTypeEnum, IComment, ID, IEmployee, IOrganizationTeam } from '@irtranscripts/contracts';
 import { BasePerEntityType, Employee, OrganizationTeam } from '../core/entities/internal';
 import {
 	ColumnIndex,

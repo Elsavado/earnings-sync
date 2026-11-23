@@ -29,14 +29,14 @@
  * a many-to-one on the same column, and the soft-delete filter is the one `mikro-orm-soft-delete`
  * registers. The real entities cannot be mapped here, because they reach the whole application graph.
  *
- * `@gauzy/core` is doubled at the module boundary for the reason the package's other suites state, and
+ * `@irtranscripts/core` is doubled at the module boundary for the reason the package's other suites state, and
  * everything the defect lives in is the kernel's own or the package's own: the version helpers, the
  * TypeORM-to-MikroORM criteria translation, the four services, the row lock and the persistence helpers.
  * The outbox double writes the event row through whichever manager it is handed and records whether that
  * manager was inside a transaction, because "the event commits with the change it describes" is the
  * outbox's whole contract.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared, and mapped below by fixture schemas. */
 	const decorator = () => () => undefined;
 
@@ -54,7 +54,7 @@ jest.mock('@gauzy/core', () => {
 		}
 	}
 
-	const utils = jest.requireActual('@gauzy/core/src/lib/core/utils');
+	const utils = jest.requireActual('@irtranscripts/core/src/lib/core/utils');
 
 	return {
 		CrudService,
@@ -85,16 +85,16 @@ jest.mock('@gauzy/core', () => {
 		RuleService: class {},
 		SequenceService: class {},
 		OrganizationContact: class OrganizationContact {},
-		commitVersionedUpdate: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		commitVersionedUpdate: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.commitVersionedUpdate,
-		bumpVersion: jest.requireActual('@gauzy/core/src/lib/concurrency/version.util').bumpVersion,
-		parseEntityVersion: jest.requireActual('@gauzy/core/src/lib/concurrency/version.util').parseEntityVersion,
-		ApiException: jest.requireActual('@gauzy/core/src/lib/core/errors/api-exception').ApiException,
-		ApiErrorCode: jest.requireActual('@gauzy/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
+		bumpVersion: jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util').bumpVersion,
+		parseEntityVersion: jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util').parseEntityVersion,
+		ApiException: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-exception').ApiException,
+		ApiErrorCode: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
 		// The cross-tenant reference check a grant runs is the platform's own, over the same database.
 		assertPlainReferencesNotForeign: (...args: unknown[]) =>
 			jest
-				.requireActual('@gauzy/core/src/lib/core/crud/plain-reference-ownership.helper')
+				.requireActual('@irtranscripts/core/src/lib/core/crud/plain-reference-ownership.helper')
 				.assertPlainReferencesNotForeign(...args),
 		RequestContext: {
 			currentUser: () => null,
@@ -110,8 +110,8 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-jest.mock('@gauzy/config', () => {
-	const actual = jest.requireActual('@gauzy/config');
+jest.mock('@irtranscripts/config', () => {
+	const actual = jest.requireActual('@irtranscripts/config');
 
 	return {
 		...actual,
@@ -145,10 +145,10 @@ import {
 import { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
 import { EntityRepository } from '@mikro-orm/knex';
 import { SOFT_DELETABLE_FILTER } from 'mikro-orm-soft-delete';
-import * as gauzyConfig from '@gauzy/config';
-import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@gauzy/config';
-import { OrganizationContact } from '@gauzy/core';
-import { ApiErrorCode } from '@gauzy/core/src/lib/core/errors/api-error-codes';
+import * as irtranscriptsConfig from '@irtranscripts/config';
+import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@irtranscripts/config';
+import { OrganizationContact } from '@irtranscripts/core';
+import { ApiErrorCode } from '@irtranscripts/core/src/lib/core/errors/api-error-codes';
 import { Entitlement } from './entitlement/entitlement.entity';
 import { EntitlementActivation } from './entitlement-activation/entitlement-activation.entity';
 import { EntitlementKey } from './entitlement-key/entitlement-key.entity';
@@ -782,8 +782,8 @@ describe.each([
 	beforeEach(async () => {
 		mockOrm.current = orm;
 		Object.assign(mockCaller, { tenantId: TENANT, organizationId: ORG, userId: USER });
-		(gauzyConfig.isPostgres as jest.Mock).mockReturnValue(false);
-		(gauzyConfig.isMySQL as jest.Mock).mockReturnValue(false);
+		(irtranscriptsConfig.isPostgres as jest.Mock).mockReturnValue(false);
+		(irtranscriptsConfig.isMySQL as jest.Mock).mockReturnValue(false);
 
 		await harness.clear();
 		harness.appended.length = 0;
@@ -1225,7 +1225,7 @@ describe.each([
 			const { entitlement } = await harness.entitlements.grant({} as any, SCOPE);
 			const reads = jest.spyOn(MikroOrmEntityManager.prototype, 'findOne');
 
-			(gauzyConfig.isPostgres as jest.Mock).mockReturnValue(true);
+			(irtranscriptsConfig.isPostgres as jest.Mock).mockReturnValue(true);
 
 			await harness.entitlements.suspend(entitlement.id as string, 'DISPUTE', SCOPE);
 
@@ -1246,7 +1246,7 @@ describe.each([
 			});
 			expect((reads.mock.instances[reads.mock.calls.indexOf(locked[0])] as any).isInTransaction()).toBe(true);
 
-			(gauzyConfig.isPostgres as jest.Mock).mockReturnValue(false);
+			(irtranscriptsConfig.isPostgres as jest.Mock).mockReturnValue(false);
 			reads.mockClear();
 
 			await harness.entitlements.resume(entitlement.id as string, SCOPE);

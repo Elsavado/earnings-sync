@@ -1,7 +1,7 @@
 import { IQuery } from '@nestjs/cqrs';
 import { FindOneOptions } from 'typeorm';
 import { ISoundshot } from '../models/soundshot.model';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 export class GetSoundshotQuery implements IQuery {
 	public static readonly type = '[Soundshot] Get';

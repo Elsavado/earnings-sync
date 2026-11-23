@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, filter, tap } from 'rxjs';
 import { ActivityWatchEventService } from './activity-watch-event.service';
-import { GAUZY_ENV } from '../../constants';
+import { IRTRANSCRIPTS_ENV } from '../../constants';
 import { ActivityWatchElectronService } from './activity-watch-electron.service';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy({ checkProperties: true })
@@ -20,7 +20,7 @@ export class ActivityWatchViewService {
 	constructor(
 		private readonly activityWatchElectronService: ActivityWatchElectronService,
 		private readonly activityWatchEventService: ActivityWatchEventService,
-		@Inject(GAUZY_ENV)
+		@Inject(IRTRANSCRIPTS_ENV)
 		private readonly environment: any
 	) {
 		this._isTimerRunning$ = new BehaviorSubject(false);

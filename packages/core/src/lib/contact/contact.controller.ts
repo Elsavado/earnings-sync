@@ -15,7 +15,7 @@ import {
 import { DeepPartial } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { IContact, IPagination, ID, PermissionsEnum } from '@gauzy/contracts';
+import { IContact, IPagination, ID, PermissionsEnum } from '@irtranscripts/contracts';
 import { CrudController } from './../core/crud';
 import { ParseJsonPipe, AbstractValidationPipe, UUIDValidationPipe } from './../shared/pipes';
 import { TenantPermissionGuard, PermissionGuard } from './../shared/guards';

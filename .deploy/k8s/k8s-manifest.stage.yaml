@@ -2,11 +2,11 @@
 kind: Service
 apiVersion: v1
 metadata:
-    name: gauzy-stage-web-lb
+    name: irtranscripts-stage-web-lb
 spec:
     type: ClusterIP
     selector:
-        app: gauzy-stage-webapp
+        app: irtranscripts-stage-webapp
     ports:
         - name: http
           protocol: TCP
@@ -16,36 +16,36 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-    name: gauzy-stage-web-ingress
+    name: irtranscripts-stage-web-ingress
     annotations:
         nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
         nginx.ingress.kubernetes.io/proxy-body-size: '20m'
 spec:
     ingressClassName: nginx
     rules:
-        - host: stage.gauzy.co
+        - host: stage.irtranscripts.com
           http:
               paths:
                   - path: /
                     pathType: Prefix
                     backend:
                         service:
-                            name: gauzy-stage-web-lb
+                            name: irtranscripts-stage-web-lb
                             port:
                                 number: 80
     tls:
         - hosts:
-              - stage.gauzy.co
-          secretName: stage.gauzy.co-tls
+              - stage.irtranscripts.com
+          secretName: stage.irtranscripts.com-tls
 ---
 kind: Service
 apiVersion: v1
 metadata:
-    name: gauzy-stage-api-lb
+    name: irtranscripts-stage-api-lb
 spec:
     type: ClusterIP
     selector:
-        app: gauzy-stage-api
+        app: irtranscripts-stage-api
     ports:
         - name: http
           protocol: TCP
@@ -55,52 +55,52 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-    name: gauzy-stage-api-ingress
+    name: irtranscripts-stage-api-ingress
     annotations:
         nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
         nginx.ingress.kubernetes.io/proxy-body-size: '20m'
 spec:
     ingressClassName: nginx
     rules:
-        - host: apistage.gauzy.co
+        - host: apistage.irtranscripts.com
           http:
               paths:
                   - path: /
                     pathType: Prefix
                     backend:
                         service:
-                            name: gauzy-stage-api-lb
+                            name: irtranscripts-stage-api-lb
                             port:
                                 number: 80
     tls:
         - hosts:
-              - apistage.gauzy.co
-          secretName: apistage.gauzy.co-tls
+              - apistage.irtranscripts.com
+          secretName: apistage.irtranscripts.com-tls
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: gauzy-stage-api
+    name: irtranscripts-stage-api
 spec:
     replicas: 2
     selector:
         matchLabels:
-            app: gauzy-stage-api
+            app: irtranscripts-stage-api
     template:
         metadata:
             labels:
-                app: gauzy-stage-api
+                app: irtranscripts-stage-api
         spec:
             securityContext:
                 seccompProfile:
                     type: RuntimeDefault
             containers:
-                - name: gauzy-stage-api
+                - name: irtranscripts-stage-api
                   securityContext:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
                       runAsNonRoot: false
-                  image: registry.digitalocean.com/ever/gauzy-api-stage:latest
+                  image: registry.digitalocean.com/ever/irtranscripts-api-stage:latest
                   resources:
                       requests:
                           cpu: '100m'
@@ -127,7 +127,7 @@ spec:
                       # The Documents pipeline (PDF/XLSX/DOCX extraction, OCR, chunking) is CPU-bound on the main thread.
                       # The worker deployment consumes the queue; the API pods only enqueue, so a large document can no
                       # longer block every request of an API pod for seconds.
-                      - name: GAUZY_DOCS_QUEUE_WORKER_ENABLED
+                      - name: IRTRANSCRIPTS_DOCS_QUEUE_WORKER_ENABLED
                         value: 'false'
                       - name: ADMIN_PASSWORD_RESET
                         value: 'true'
@@ -144,9 +144,9 @@ spec:
                       - name: SENTRY_POSTGRES_TRACKING_ENABLED
                         value: '$SENTRY_POSTGRES_TRACKING_ENABLED'
                       - name: API_BASE_URL
-                        value: 'https://apistage.gauzy.co'
+                        value: 'https://apistage.irtranscripts.com'
                       - name: CLIENT_BASE_URL
-                        value: 'https://stage.gauzy.co'
+                        value: 'https://stage.irtranscripts.com'
                       - name: DB_URI
                         value: '$DB_URI'
                       - name: DB_HOST
@@ -271,10 +271,10 @@ spec:
                         value: '$UPWORK_REDIRECT_URL'
                       - name: FILE_PROVIDER
                         value: '$FILE_PROVIDER'
-                      - name: GAUZY_AI_GRAPHQL_ENDPOINT
-                        value: '$GAUZY_AI_GRAPHQL_ENDPOINT'
-                      - name: GAUZY_AI_REST_ENDPOINT
-                        value: '$GAUZY_AI_REST_ENDPOINT'
+                      - name: IRTRANSCRIPTS_AI_GRAPHQL_ENDPOINT
+                        value: '$IRTRANSCRIPTS_AI_GRAPHQL_ENDPOINT'
+                      - name: IRTRANSCRIPTS_AI_REST_ENDPOINT
+                        value: '$IRTRANSCRIPTS_AI_REST_ENDPOINT'
                       - name: UNLEASH_APP_NAME
                         value: '$UNLEASH_APP_NAME'
                       - name: UNLEASH_API_URL
@@ -299,28 +299,28 @@ spec:
                         value: '$OTEL_EXPORTER_OTLP_TRACES_ENDPOINT'
                       - name: OTEL_EXPORTER_OTLP_HEADERS
                         value: '$OTEL_EXPORTER_OTLP_HEADERS'
-                      - name: GAUZY_GITHUB_CLIENT_ID
-                        value: '$GAUZY_GITHUB_CLIENT_ID'
-                      - name: GAUZY_GITHUB_CLIENT_SECRET
-                        value: '$GAUZY_GITHUB_CLIENT_SECRET'
-                      - name: GAUZY_GITHUB_WEBHOOK_URL
-                        value: '$GAUZY_GITHUB_WEBHOOK_URL'
-                      - name: GAUZY_GITHUB_WEBHOOK_SECRET
-                        value: '$GAUZY_GITHUB_WEBHOOK_SECRET'
-                      - name: GAUZY_GITHUB_APP_PRIVATE_KEY
-                        value: '$GAUZY_GITHUB_APP_PRIVATE_KEY'
-                      - name: GAUZY_GITHUB_APP_ID
-                        value: '$GAUZY_GITHUB_APP_ID'
-                      - name: GAUZY_GITHUB_APP_NAME
-                        value: '$GAUZY_GITHUB_APP_NAME'
-                      - name: GAUZY_GITHUB_POST_INSTALL_URL
-                        value: '$GAUZY_GITHUB_POST_INSTALL_URL'
-                      - name: GAUZY_GITHUB_OAUTH_CLIENT_ID
-                        value: '$GAUZY_GITHUB_OAUTH_CLIENT_ID'
-                      - name: GAUZY_GITHUB_OAUTH_CLIENT_SECRET
-                        value: '$GAUZY_GITHUB_OAUTH_CLIENT_SECRET'
-                      - name: GAUZY_GITHUB_OAUTH_CALLBACK_URL
-                        value: '$GAUZY_GITHUB_OAUTH_CALLBACK_URL'
+                      - name: IRTRANSCRIPTS_GITHUB_CLIENT_ID
+                        value: '$IRTRANSCRIPTS_GITHUB_CLIENT_ID'
+                      - name: IRTRANSCRIPTS_GITHUB_CLIENT_SECRET
+                        value: '$IRTRANSCRIPTS_GITHUB_CLIENT_SECRET'
+                      - name: IRTRANSCRIPTS_GITHUB_WEBHOOK_URL
+                        value: '$IRTRANSCRIPTS_GITHUB_WEBHOOK_URL'
+                      - name: IRTRANSCRIPTS_GITHUB_WEBHOOK_SECRET
+                        value: '$IRTRANSCRIPTS_GITHUB_WEBHOOK_SECRET'
+                      - name: IRTRANSCRIPTS_GITHUB_APP_PRIVATE_KEY
+                        value: '$IRTRANSCRIPTS_GITHUB_APP_PRIVATE_KEY'
+                      - name: IRTRANSCRIPTS_GITHUB_APP_ID
+                        value: '$IRTRANSCRIPTS_GITHUB_APP_ID'
+                      - name: IRTRANSCRIPTS_GITHUB_APP_NAME
+                        value: '$IRTRANSCRIPTS_GITHUB_APP_NAME'
+                      - name: IRTRANSCRIPTS_GITHUB_POST_INSTALL_URL
+                        value: '$IRTRANSCRIPTS_GITHUB_POST_INSTALL_URL'
+                      - name: IRTRANSCRIPTS_GITHUB_OAUTH_CLIENT_ID
+                        value: '$IRTRANSCRIPTS_GITHUB_OAUTH_CLIENT_ID'
+                      - name: IRTRANSCRIPTS_GITHUB_OAUTH_CLIENT_SECRET
+                        value: '$IRTRANSCRIPTS_GITHUB_OAUTH_CLIENT_SECRET'
+                      - name: IRTRANSCRIPTS_GITHUB_OAUTH_CALLBACK_URL
+                        value: '$IRTRANSCRIPTS_GITHUB_OAUTH_CALLBACK_URL'
                       - name: MAGIC_CODE_EXPIRATION_TIME
                         value: '$MAGIC_CODE_EXPIRATION_TIME'
                       - name: APP_NAME
@@ -374,27 +374,27 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: gauzy-stage-webapp
+    name: irtranscripts-stage-webapp
 spec:
     replicas: 2
     selector:
         matchLabels:
-            app: gauzy-stage-webapp
+            app: irtranscripts-stage-webapp
     template:
         metadata:
             labels:
-                app: gauzy-stage-webapp
+                app: irtranscripts-stage-webapp
         spec:
             securityContext:
                 seccompProfile:
                     type: RuntimeDefault
             containers:
-                - name: gauzy-stage-webapp
+                - name: irtranscripts-stage-webapp
                   securityContext:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
                       runAsNonRoot: false
-                  image: registry.digitalocean.com/ever/gauzy-webapp-stage:latest
+                  image: registry.digitalocean.com/ever/irtranscripts-webapp-stage:latest
                   resources:
                       requests:
                           cpu: '50m'
@@ -403,9 +403,9 @@ spec:
                       - name: DEMO
                         value: 'false'
                       - name: API_BASE_URL
-                        value: 'https://apistage.gauzy.co'
+                        value: 'https://apistage.irtranscripts.com'
                       - name: CLIENT_BASE_URL
-                        value: 'https://stage.gauzy.co'
+                        value: 'https://stage.irtranscripts.com'
                       - name: SENTRY_DSN
                         value: '$SENTRY_DSN'
                       - name: CHATWOOT_SDK_TOKEN
@@ -424,16 +424,16 @@ spec:
                         value: '23.3332736'
                       - name: DEFAULT_CURRENCY
                         value: 'USD'
-                      - name: GAUZY_GITHUB_CLIENT_ID
-                        value: '$GAUZY_GITHUB_CLIENT_ID'
-                      - name: GAUZY_GITHUB_APP_NAME
-                        value: '$GAUZY_GITHUB_APP_NAME'
-                      - name: GAUZY_GITHUB_REDIRECT_URL
-                        value: '$GAUZY_GITHUB_REDIRECT_URL'
-                      - name: GAUZY_GITHUB_POST_INSTALL_URL
-                        value: '$GAUZY_GITHUB_POST_INSTALL_URL'
-                      - name: GAUZY_GITHUB_APP_ID
-                        value: '$GAUZY_GITHUB_APP_ID'
+                      - name: IRTRANSCRIPTS_GITHUB_CLIENT_ID
+                        value: '$IRTRANSCRIPTS_GITHUB_CLIENT_ID'
+                      - name: IRTRANSCRIPTS_GITHUB_APP_NAME
+                        value: '$IRTRANSCRIPTS_GITHUB_APP_NAME'
+                      - name: IRTRANSCRIPTS_GITHUB_REDIRECT_URL
+                        value: '$IRTRANSCRIPTS_GITHUB_REDIRECT_URL'
+                      - name: IRTRANSCRIPTS_GITHUB_POST_INSTALL_URL
+                        value: '$IRTRANSCRIPTS_GITHUB_POST_INSTALL_URL'
+                      - name: IRTRANSCRIPTS_GITHUB_APP_ID
+                        value: '$IRTRANSCRIPTS_GITHUB_APP_ID'
                       - name: JITSU_BROWSER_URL
                         value: '$JITSU_BROWSER_URL'
                       - name: JITSU_BROWSER_WRITE_KEY
@@ -446,27 +446,27 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: gauzy-stage-worker
+    name: irtranscripts-stage-worker
 spec:
     replicas: 1
     selector:
         matchLabels:
-            app: gauzy-stage-worker
+            app: irtranscripts-stage-worker
     template:
         metadata:
             labels:
-                app: gauzy-stage-worker
+                app: irtranscripts-stage-worker
         spec:
             securityContext:
                 seccompProfile:
                     type: RuntimeDefault
             containers:
-                - name: gauzy-stage-worker
+                - name: irtranscripts-stage-worker
                   securityContext:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
                       runAsNonRoot: false
-                  image: registry.digitalocean.com/ever/gauzy-worker-stage:latest
+                  image: registry.digitalocean.com/ever/irtranscripts-worker-stage:latest
                   resources:
                       requests:
                           cpu: '50m'
@@ -486,7 +486,7 @@ spec:
                       - name: UV_THREADPOOL_SIZE
                         value: '16'
                       # File storage, as on the API: the worker now runs the Documents pipeline, which reads uploaded files
-                      # through these providers (GAUZY_DOCS_QUEUE_WORKER_ENABLED=false on the API).
+                      # through these providers (IRTRANSCRIPTS_DOCS_QUEUE_WORKER_ENABLED=false on the API).
                       - name: AWS_ACCESS_KEY_ID
                         value: '$AWS_ACCESS_KEY_ID'
                       - name: AWS_SECRET_ACCESS_KEY
@@ -540,9 +540,9 @@ spec:
                       - name: SENTRY_POSTGRES_TRACKING_ENABLED
                         value: '$SENTRY_POSTGRES_TRACKING_ENABLED'
                       - name: API_BASE_URL
-                        value: 'https://apistage.gauzy.co'
+                        value: 'https://apistage.irtranscripts.com'
                       - name: CLIENT_BASE_URL
-                        value: 'https://stage.gauzy.co'
+                        value: 'https://stage.irtranscripts.com'
                       - name: DB_URI
                         value: '$DB_URI'
                       - name: DB_HOST
@@ -601,10 +601,10 @@ spec:
                         value: '$MAIL_PASSWORD'
                       - name: FILE_PROVIDER
                         value: '$FILE_PROVIDER'
-                      - name: GAUZY_AI_GRAPHQL_ENDPOINT
-                        value: '$GAUZY_AI_GRAPHQL_ENDPOINT'
-                      - name: GAUZY_AI_REST_ENDPOINT
-                        value: '$GAUZY_AI_REST_ENDPOINT'
+                      - name: IRTRANSCRIPTS_AI_GRAPHQL_ENDPOINT
+                        value: '$IRTRANSCRIPTS_AI_GRAPHQL_ENDPOINT'
+                      - name: IRTRANSCRIPTS_AI_REST_ENDPOINT
+                        value: '$IRTRANSCRIPTS_AI_REST_ENDPOINT'
                       - name: UNLEASH_APP_NAME
                         value: '$UNLEASH_APP_NAME'
                       - name: UNLEASH_API_URL

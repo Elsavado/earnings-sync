@@ -8,8 +8,8 @@ import {
 	ITaskRelatedIssueType,
 	ITaskRelatedIssueTypeCreateInput,
 	ITaskRelatedIssueTypeFindInput
-} from '@gauzy/contracts';
-import { isPostgres } from '@gauzy/config';
+} from '@irtranscripts/contracts';
+import { isPostgres } from '@irtranscripts/config';
 import { TaskMetadataService } from '../task-metadata.service';
 import { MultiORMEnum } from '../../core/utils';
 import { RequestContext } from '../../core/context';

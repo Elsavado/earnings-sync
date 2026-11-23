@@ -1,5 +1,5 @@
 import * as chalk from 'chalk';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@gauzy/plugin';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@irtranscripts/plugin';
 import { MarketplaceModule } from './marketplace.module';
 import { MARKETPLACE_PERMISSIONS } from './marketplace.permissions';
 import { MARKETPLACE_FEATURES } from './marketplace.features';
@@ -74,10 +74,10 @@ import { resolvers } from './graphql/resolvers';
 	 * decorator's metadata type declares classes, hence the cast.
 	 */
 	dependsOn: [
-		'@gauzy/plugin-order',
-		'@gauzy/plugin-payment',
-		'@gauzy/plugin-catalog',
-		'@gauzy/plugin-pricing'
+		'@irtranscripts/plugin-order',
+		'@irtranscripts/plugin-payment',
+		'@irtranscripts/plugin-catalog',
+		'@irtranscripts/plugin-pricing'
 	] as any,
 	/**
 	 * GraphQL parity with the REST surface: the same resources, the same permissions, the same field

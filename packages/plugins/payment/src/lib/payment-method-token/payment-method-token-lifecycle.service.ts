@@ -9,8 +9,8 @@ import {
 	PaymentMethodTokenStatus,
 	PaymentMethodTokenType,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { FieldVisibility, PaymentAccountHolderService, PaymentMethodTokenService } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { FieldVisibility, PaymentAccountHolderService, PaymentMethodTokenService } from '@irtranscripts/core';
 
 /**
  * The narrowing the instrument list accepts, as the query DTO and the schema both state it.

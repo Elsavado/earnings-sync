@@ -11,7 +11,7 @@ import {
 	IReportDayData,
 	ITimeLog,
 	ReportGroupFilterEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	buildStatisticsRequest,
 	IDashboardWidgetContext,
@@ -19,7 +19,7 @@ import {
 	OrganizationTeamsService,
 	TimesheetService,
 	TimesheetStatisticsCacheService
-} from '@gauzy/ui-core/core';
+} from '@irtranscripts/ui-core/core';
 import {
 	ITeamDashboardMember,
 	ITeamDashboardMemberTask,

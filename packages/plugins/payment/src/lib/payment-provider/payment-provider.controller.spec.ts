@@ -4,9 +4,9 @@
  * reasons `payment-capture.controller.spec.ts` states in full. The resource under test is the real
  * one: the provider controller and the provider resolver over a stubbed kernel service.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { SetMetadata, UsePipes, ValidationPipe } = require('@nestjs/common');
-	const { PERMISSIONS_METADATA } = require('@gauzy/constants');
+	const { PERMISSIONS_METADATA } = require('@irtranscripts/constants');
 
 	const decorator = () => () => undefined;
 
@@ -59,7 +59,7 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		BaseEvent: class {},
 		EventBus: class {},
 		Payment: class Payment {},
@@ -72,7 +72,7 @@ jest.mock('@gauzy/core', () => {
 		UUIDValidationPipe: class UUIDValidationPipe {},
 		UseValidationPipe: (options: unknown) => UsePipes(new ValidationPipe(options as never)),
 		Permissions: (...permissions: string[]) => SetMetadata(PERMISSIONS_METADATA, permissions),
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
 		RequestContext: {
 			currentUser: () => null,
 			currentUserId: () => null,
@@ -85,7 +85,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 jest.mock(
-	'@gauzy/config',
+	'@irtranscripts/config',
 	() => ({
 		DatabaseTypeEnum: {
 			mongodb: 'mongodb',
@@ -104,15 +104,15 @@ jest.mock(
  * constructor signature is emitted as a value, so the service is doubled at its own module: the
  * interceptor under test is the real one.
  */
-jest.mock('@gauzy/core/src/lib/idempotency/idempotency.service', () => ({
+jest.mock('@irtranscripts/core/src/lib/idempotency/idempotency.service', () => ({
 	IdempotencyService: class IdempotencyService {}
 }));
 
 import { ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { from, lastValueFrom } from 'rxjs';
-import { IdempotencyInterceptor } from '@gauzy/core/src/lib/idempotency/idempotency.interceptor';
-import { IDEMPOTENT_METADATA_KEY } from '@gauzy/core/src/lib/idempotency/idempotency.policy';
+import { IdempotencyInterceptor } from '@irtranscripts/core/src/lib/idempotency/idempotency.interceptor';
+import { IDEMPOTENT_METADATA_KEY } from '@irtranscripts/core/src/lib/idempotency/idempotency.policy';
 import { PaymentProviderController } from './payment-provider.controller';
 import { PaymentProviderResolver } from '../graphql/resolvers/payment-provider.resolver';
 

@@ -24,7 +24,7 @@ env:
   DOCKER_BUILD_SUMMARY: false
 
 jobs:
-  gauzy-api:
+  irtranscripts-api:
     runs-on: ${{ vars.RUNNER_LINUX_X64_8 || 'ubuntu-24.04' }}
     timeout-minutes: 300
     steps:
@@ -61,8 +61,8 @@ jobs:
           platforms: linux/amd64
           tags: |
             ghcr.io/ever-co/gauzy-api:latest
-            everco/gauzy-api:latest
-            registry.digitalocean.com/ever/gauzy-api:latest
+            everco/irtranscripts-api:latest
+            registry.digitalocean.com/ever/irtranscripts-api:latest
           cache-from: type=registry,ref=ghcr.io/ever-co/gauzy-api:latest
           cache-to: type=inline
           build-args: |
@@ -70,8 +70,8 @@ jobs:
             VERDACCIO_REGISTRY=${{ vars.VERDACCIO_REGISTRY }}
             DEMO=false
             NX_BRANCH=${{ github.ref_name }}
-            GAUZY_APP_VERSION=${{ steps.relver.outputs.version }}
-            GAUZY_APP_COMMIT=${{ github.sha }}
+            IRTRANSCRIPTS_APP_VERSION=${{ steps.relver.outputs.version }}
+            IRTRANSCRIPTS_APP_COMMIT=${{ github.sha }}
           # VERDACCIO_TOKEN / NX_CLOUD_ACCESS_TOKEN are BuildKit build secrets (mounted
           # per-RUN, never embedded in image layers) — see the Dockerfile header.
           secrets: |
@@ -91,9 +91,9 @@ jobs:
       - name: Push to Docker Hub Registry
         run: |
           for attempt in 1 2 3 4 5; do
-            docker push everco/gauzy-api:latest && break
+            docker push everco/irtranscripts-api:latest && break
             [ "$attempt" = 5 ] && exit 1
-            echo "::warning::docker push everco/gauzy-api:latest failed (attempt $attempt of 5), retrying in $((attempt * 15)) s"
+            echo "::warning::docker push everco/irtranscripts-api:latest failed (attempt $attempt of 5), retrying in $((attempt * 15)) s"
             sleep $((attempt * 15))
           done
 
@@ -111,9 +111,9 @@ jobs:
         if: ${{ vars.DO_ENABLED == 'true' }}
         run: |
           for attempt in 1 2 3 4 5; do
-            docker push registry.digitalocean.com/ever/gauzy-api:latest && break
+            docker push registry.digitalocean.com/ever/irtranscripts-api:latest && break
             [ "$attempt" = 5 ] && exit 1
-            echo "::warning::docker push registry.digitalocean.com/ever/gauzy-api:latest failed (attempt $attempt of 5), retrying in $((attempt * 15)) s"
+            echo "::warning::docker push registry.digitalocean.com/ever/irtranscripts-api:latest failed (attempt $attempt of 5), retrying in $((attempt * 15)) s"
             sleep $((attempt * 15))
           done
 
@@ -149,7 +149,7 @@ jobs:
     #    run: |
     #      docker push ${{ secrets.CW_DOCKER_REGISTRY }}/ever-co/gauzy-api:latest
 
-  gauzy-webapp:
+  irtranscripts-webapp:
     runs-on: ${{ vars.RUNNER_LINUX_X64_8 || 'ubuntu-24.04' }}
     timeout-minutes: 300
     steps:
@@ -184,8 +184,8 @@ jobs:
           platforms: linux/amd64
           tags: |
             ghcr.io/ever-co/gauzy-webapp:latest
-            everco/gauzy-webapp:latest
-            registry.digitalocean.com/ever/gauzy-webapp:latest
+            everco/irtranscripts-webapp:latest
+            registry.digitalocean.com/ever/irtranscripts-webapp:latest
           cache-from: type=registry,ref=ghcr.io/ever-co/gauzy-webapp:latest
           cache-to: type=inline
           build-args: |
@@ -193,8 +193,8 @@ jobs:
             VERDACCIO_REGISTRY=${{ vars.VERDACCIO_REGISTRY }}
             DEMO=false
             NX_BRANCH=${{ github.ref_name }}
-            GAUZY_APP_VERSION=${{ steps.relver.outputs.version }}
-            GAUZY_APP_COMMIT=${{ github.sha }}
+            IRTRANSCRIPTS_APP_VERSION=${{ steps.relver.outputs.version }}
+            IRTRANSCRIPTS_APP_COMMIT=${{ github.sha }}
           # VERDACCIO_TOKEN / NX_CLOUD_ACCESS_TOKEN are BuildKit build secrets (mounted
           # per-RUN, never embedded in image layers) — see the Dockerfile header.
           secrets: |
@@ -214,9 +214,9 @@ jobs:
       - name: Push to Docker Hub Registry
         run: |
           for attempt in 1 2 3 4 5; do
-            docker push everco/gauzy-webapp:latest && break
+            docker push everco/irtranscripts-webapp:latest && break
             [ "$attempt" = 5 ] && exit 1
-            echo "::warning::docker push everco/gauzy-webapp:latest failed (attempt $attempt of 5), retrying in $((attempt * 15)) s"
+            echo "::warning::docker push everco/irtranscripts-webapp:latest failed (attempt $attempt of 5), retrying in $((attempt * 15)) s"
             sleep $((attempt * 15))
           done
 
@@ -234,9 +234,9 @@ jobs:
         if: ${{ vars.DO_ENABLED == 'true' }}
         run: |
           for attempt in 1 2 3 4 5; do
-            docker push registry.digitalocean.com/ever/gauzy-webapp:latest && break
+            docker push registry.digitalocean.com/ever/irtranscripts-webapp:latest && break
             [ "$attempt" = 5 ] && exit 1
-            echo "::warning::docker push registry.digitalocean.com/ever/gauzy-webapp:latest failed (attempt $attempt of 5), retrying in $((attempt * 15)) s"
+            echo "::warning::docker push registry.digitalocean.com/ever/irtranscripts-webapp:latest failed (attempt $attempt of 5), retrying in $((attempt * 15)) s"
             sleep $((attempt * 15))
           done
 
@@ -272,7 +272,7 @@ jobs:
     #    run: |
     #      docker push ${{ secrets.CW_DOCKER_REGISTRY }}/ever-co/gauzy-webapp:latest
 
-  gauzy-worker:
+  irtranscripts-worker:
     runs-on: ${{ vars.RUNNER_LINUX_X64_8 || 'ubuntu-24.04' }}
     timeout-minutes: 300
     steps:
@@ -309,8 +309,8 @@ jobs:
           platforms: linux/amd64
           tags: |
             ghcr.io/ever-co/gauzy-worker:latest
-            everco/gauzy-worker:latest
-            registry.digitalocean.com/ever/gauzy-worker:latest
+            everco/irtranscripts-worker:latest
+            registry.digitalocean.com/ever/irtranscripts-worker:latest
           cache-from: type=registry,ref=ghcr.io/ever-co/gauzy-worker:latest
           cache-to: type=inline
           build-args: |
@@ -318,8 +318,8 @@ jobs:
             VERDACCIO_REGISTRY=${{ vars.VERDACCIO_REGISTRY }}
             DEMO=false
             NX_BRANCH=${{ github.ref_name }}
-            GAUZY_APP_VERSION=${{ steps.relver.outputs.version }}
-            GAUZY_APP_COMMIT=${{ github.sha }}
+            IRTRANSCRIPTS_APP_VERSION=${{ steps.relver.outputs.version }}
+            IRTRANSCRIPTS_APP_COMMIT=${{ github.sha }}
           # VERDACCIO_TOKEN / NX_CLOUD_ACCESS_TOKEN are BuildKit build secrets (mounted
           # per-RUN, never embedded in image layers) — see the Dockerfile header.
           # WORKER_* build-args were dropped: they never reached the image (the global
@@ -342,9 +342,9 @@ jobs:
       - name: Push to Docker Hub Registry
         run: |
           for attempt in 1 2 3 4 5; do
-            docker push everco/gauzy-worker:latest && break
+            docker push everco/irtranscripts-worker:latest && break
             [ "$attempt" = 5 ] && exit 1
-            echo "::warning::docker push everco/gauzy-worker:latest failed (attempt $attempt of 5), retrying in $((attempt * 15)) s"
+            echo "::warning::docker push everco/irtranscripts-worker:latest failed (attempt $attempt of 5), retrying in $((attempt * 15)) s"
             sleep $((attempt * 15))
           done
 
@@ -362,9 +362,9 @@ jobs:
         if: ${{ vars.DO_ENABLED == 'true' }}
         run: |
           for attempt in 1 2 3 4 5; do
-            docker push registry.digitalocean.com/ever/gauzy-worker:latest && break
+            docker push registry.digitalocean.com/ever/irtranscripts-worker:latest && break
             [ "$attempt" = 5 ] && exit 1
-            echo "::warning::docker push registry.digitalocean.com/ever/gauzy-worker:latest failed (attempt $attempt of 5), retrying in $((attempt * 15)) s"
+            echo "::warning::docker push registry.digitalocean.com/ever/irtranscripts-worker:latest failed (attempt $attempt of 5), retrying in $((attempt * 15)) s"
             sleep $((attempt * 15))
           done
 

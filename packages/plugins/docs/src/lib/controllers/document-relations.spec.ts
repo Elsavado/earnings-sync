@@ -8,11 +8,11 @@
  * its own scoped route (`GET /documents?parentId=<id>`), which applies the visibility predicate in
  * SQL. The service half (masking whatever IS joined) is pinned in `document-scope.spec.ts`.
  *
- * `@gauzy/core` boots the whole application graph on import, so the decorator seams are stubbed at
+ * `@irtranscripts/core` boots the whole application graph on import, so the decorator seams are stubbed at
  * the module boundary; the function under test is the real one.
  */
-jest.mock('@gauzy/common', () => ({ FeatureFlag: () => () => undefined }));
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/common', () => ({ FeatureFlag: () => () => undefined }));
+jest.mock('@irtranscripts/core', () => ({
 	FeatureFlagGuard: class {},
 	PermissionGuard: class {},
 	Permissions: () => () => undefined,

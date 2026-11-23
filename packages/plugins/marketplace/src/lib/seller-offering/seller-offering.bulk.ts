@@ -1,5 +1,5 @@
-import type { CommissionBasis, CurrencyCode, DecimalString, ICommissionTier, ID } from '@gauzy/contracts';
-import type { BulkRequest } from '@gauzy/core';
+import type { CommissionBasis, CurrencyCode, DecimalString, ICommissionTier, ID } from '@irtranscripts/contracts';
+import type { BulkRequest } from '@irtranscripts/core';
 
 /**
  * The offering batch, as the two surfaces declare it.

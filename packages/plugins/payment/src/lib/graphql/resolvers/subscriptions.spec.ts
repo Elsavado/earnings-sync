@@ -17,8 +17,8 @@ import { AsyncLocalStorage } from 'async_hooks';
 import { NotFoundException } from '@nestjs/common';
 import { SUBSCRIPTION_OPTIONS_METADATA } from '@nestjs/graphql/dist/graphql.constants';
 import { ClsService } from 'nestjs-cls';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { deliverPayloadAsIs, EventBus, RequestContext } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { deliverPayloadAsIs, EventBus, RequestContext } from '@irtranscripts/core';
 import {
 	PaymentAuthorizedEvent,
 	PaymentCanceledEvent,

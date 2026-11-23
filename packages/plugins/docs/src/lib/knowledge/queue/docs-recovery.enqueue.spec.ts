@@ -8,10 +8,10 @@
  * and then got stuck. Re-enqueueing with the plain deterministic `docs:<stage>:<id>` id
  * therefore reported success and did nothing.
  *
- * `@gauzy/scheduler` and the Nest/TypeORM seams are mocked at the module boundary; the
+ * `@irtranscripts/scheduler` and the Nest/TypeORM seams are mocked at the module boundary; the
  * service under test is real.
  */
-jest.mock('@gauzy/scheduler', () => ({ ScheduledJob: () => () => undefined }));
+jest.mock('@irtranscripts/scheduler', () => ({ ScheduledJob: () => () => undefined }));
 jest.mock('../../entities/document.entity', () => ({ Document: class {} }));
 jest.mock('../../repositories/type-orm-document.repository', () => ({ TypeOrmDocumentRepository: class {} }));
 jest.mock('../../repositories/type-orm-document-index-state.repository', () => ({
@@ -31,7 +31,7 @@ jest.mock('../../docs.config', () => ({
 	})
 }));
 
-import { DocumentKindEnum, DocumentKnowledgeStatusEnum, DocumentStatusEnum } from '@gauzy/contracts';
+import { DocumentKindEnum, DocumentKnowledgeStatusEnum, DocumentStatusEnum } from '@irtranscripts/contracts';
 import { DOCS_JOB_CHUNK, DOCS_JOB_EXTRACT } from './constants';
 import { DocsRecoveryService } from './docs-recovery.service';
 

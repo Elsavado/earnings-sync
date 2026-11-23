@@ -1,13 +1,13 @@
 /**
  * Three module boundaries are doubled here, and the reason is the same for all three.
  *
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which an alert service needs and none of which is available
  * outside a running application; its nested `uuid` is ESM-only, so reading one entity would fail
- * under jest. `@gauzy/config` reads the process environment at import time. Both are therefore
+ * under jest. `@irtranscripts/config` reads the process environment at import time. Both are therefore
  * doubled at the module boundary, and **the service under test is the real one**.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
@@ -100,7 +100,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 jest.mock(
-	'@gauzy/config',
+	'@irtranscripts/config',
 	() => ({
 		DatabaseTypeEnum: {
 			mongodb: 'mongodb',
@@ -112,7 +112,7 @@ jest.mock(
 	})
 );
 
-import { WarehouseProduct, WarehouseProductVariant } from '@gauzy/core';
+import { WarehouseProduct, WarehouseProductVariant } from '@irtranscripts/core';
 import { StockAlert } from './stock-alert.entity';
 import { StockAlertService } from './stock-alert.service';
 

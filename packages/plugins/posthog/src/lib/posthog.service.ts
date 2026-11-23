@@ -1,6 +1,6 @@
 import { Inject, Injectable, Logger, OnModuleDestroy } from '@nestjs/common';
 import { PostHog } from 'posthog-node';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { PosthogModuleOptions } from './posthog.interfaces';
 import { POSTHOG_MODULE_OPTIONS } from './posthog.constants';
 

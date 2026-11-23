@@ -1,14 +1,14 @@
 /**
  * R3-11 / the order children of a placed order and the order ledgers: see the describe blocks below.
  *
- * `@gauzy/core` is doubled exactly as `order-delete-retires.db.spec.ts` doubles it (its barrel boots the application
+ * `@irtranscripts/core` is doubled exactly as `order-delete-retires.db.spec.ts` doubles it (its barrel boots the application
  * graph); the CRUD bases are the kernel's own.
  */
-jest.mock('@gauzy/plugin-cart', () => ({
-	TotalsCalculator: jest.requireActual('@gauzy/plugin-cart/src/lib/totals/totals-calculator').TotalsCalculator
+jest.mock('@irtranscripts/plugin-cart', () => ({
+	TotalsCalculator: jest.requireActual('@irtranscripts/plugin-cart/src/lib/totals/totals-calculator').TotalsCalculator
 }));
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the order entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
@@ -16,13 +16,13 @@ jest.mock('@gauzy/core', () => {
 
 	return {
 		// The kernel's own CRUD bases and request context: the retirement under test is their code.
-		CrudService: jest.requireActual('@gauzy/core/src/lib/core/crud/crud.service').CrudService,
-		TenantAwareCrudService: jest.requireActual('@gauzy/core/src/lib/core/crud/tenant-aware-crud.service')
+		CrudService: jest.requireActual('@irtranscripts/core/src/lib/core/crud/crud.service').CrudService,
+		TenantAwareCrudService: jest.requireActual('@irtranscripts/core/src/lib/core/crud/tenant-aware-crud.service')
 			.TenantAwareCrudService,
 		MikroOrmBaseEntityRepository: jest.requireActual(
-			'@gauzy/core/src/lib/core/repository/mikro-orm-base-entity.repository'
+			'@irtranscripts/core/src/lib/core/repository/mikro-orm-base-entity.repository'
 		).MikroOrmBaseEntityRepository,
-		RequestContext: jest.requireActual('@gauzy/core/src/lib/core/context').RequestContext,
+		RequestContext: jest.requireActual('@irtranscripts/core/src/lib/core/context').RequestContext,
 		// The base controller, in the shape the kernel declares it.
 		CrudController: class CrudController {
 			constructor(protected readonly crudService: any) {}
@@ -53,23 +53,23 @@ jest.mock('@gauzy/core', () => {
 		MultiORMOneToMany: decorator,
 		MultiORMManyToOne: decorator,
 		JsonColumn: decorator,
-		Permissions: jest.requireActual('@gauzy/core/src/lib/shared/decorators/permissions.decorator').Permissions,
+		Permissions: jest.requireActual('@irtranscripts/core/src/lib/shared/decorators/permissions.decorator').Permissions,
 		UseValidationPipe: decorator,
 		PermissionGuard: class {},
 		TenantPermissionGuard: class {},
 		FeatureFlagGuard: class {},
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
 		Versioned: () => decorator(),
 		VersionedColumn: decorator,
-		commitVersionedUpdate: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		commitVersionedUpdate: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.commitVersionedUpdate,
-		versionExpectationOf: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		versionExpectationOf: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.versionExpectationOf,
-		connectionFromOffsetPage: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		connectionFromOffsetPage: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.connectionFromOffsetPage,
-		resolveConnectionWindow: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		resolveConnectionWindow: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.resolveConnectionWindow,
-		paginateRows: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection').paginateRows,
+		paginateRows: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection').paginateRows,
 		ColumnNumericTransformerPipe: class {
 			to(value: unknown) {
 				return value;
@@ -86,7 +86,7 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		AdjustmentService: class {},
 		TaxLineService: class {},
 		SequenceService: class {}
@@ -95,9 +95,9 @@ jest.mock('@gauzy/core', () => {
 
 import 'reflect-metadata';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { OrderStatus, OrderTransactionType, PermissionsEnum } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { OrderStatus, OrderTransactionType, PermissionsEnum } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { OrderEditGuard } from './order/order-edit.guard';
 import { OrderLineController } from './order-line/order-line.controller';
 import { OrderShippingMethodController } from './order-shipping-method/order-shipping-method.controller';

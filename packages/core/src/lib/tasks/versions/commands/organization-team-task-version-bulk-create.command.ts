@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { IOrganizationTeam } from '@gauzy/contracts';
+import { IOrganizationTeam } from '@irtranscripts/contracts';
 
 export class OrganizationTeamTaskVersionBulkCreateCommand implements ICommand {
 	static readonly type = '[Organization Team] Task Version Bulk Create';

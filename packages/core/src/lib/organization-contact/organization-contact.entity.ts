@@ -31,7 +31,7 @@ import {
 	IImageAsset,
 	TaxRegistrationScheme,
 	ID
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	Contact,
 	Employee,

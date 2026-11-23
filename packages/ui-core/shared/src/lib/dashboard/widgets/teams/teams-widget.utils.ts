@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 // Type-only import: this module must stay free of cross-package runtime
 // dependencies so it can be unit tested without an Angular TestBed.
-import type { IDashboardWidgetContext } from '@gauzy/ui-core/core';
+import type { IDashboardWidgetContext } from '@irtranscripts/ui-core/core';
 
 /** Seconds in a full day, used when the organization has no working hours configured. */
 const SECONDS_IN_DAY = 86400;

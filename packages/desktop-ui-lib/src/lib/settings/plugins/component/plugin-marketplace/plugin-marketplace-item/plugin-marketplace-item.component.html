@@ -68,10 +68,10 @@
             }
             <!-- Subscription Status Badge -->
             @if (subscription) {
-              <gauzy-subscription-status-badge
+              <irtranscripts-subscription-status-badge
                 [status]="subscription.status"
                 class="mr-2"
-              ></gauzy-subscription-status-badge>
+              ></irtranscripts-subscription-status-badge>
             }
             @if (plugin) {
               <nb-badge
@@ -135,7 +135,7 @@
 							class="update-button"
 						>
 							<nb-icon
-								*gauzySpinnerButton="installing && isSelected"
+								*irtranscriptsSpinnerButton="installing && isSelected"
 								icon="sync-outline"
 								class="mr-1"
 							></nb-icon>
@@ -152,7 +152,7 @@
 							class="uninstall-button"
 						>
 							<nb-icon
-								*gauzySpinnerButton="uninstalling && isSelected"
+								*irtranscriptsSpinnerButton="uninstalling && isSelected"
 								icon="slash-outline"
 								class="mr-1"
 							></nb-icon>
@@ -179,7 +179,7 @@
 						"
 					>
 						<nb-icon
-							*gauzySpinnerButton="installing && isSelected"
+							*irtranscriptsSpinnerButton="installing && isSelected"
 							icon="cloud-download-outline"
 							class="mr-1"
 						></nb-icon>
@@ -201,7 +201,7 @@
 						"
 					>
 						<nb-icon
-							*gauzySpinnerButton="(installing && isSelected) || subscriptionLoading"
+							*irtranscriptsSpinnerButton="(installing && isSelected) || subscriptionLoading"
 							icon="lock-outline"
 							class="mr-1"
 						></nb-icon>
@@ -223,7 +223,7 @@
 						"
 					>
 						<nb-icon
-							*gauzySpinnerButton="installing && isSelected"
+							*irtranscriptsSpinnerButton="installing && isSelected"
 							icon="cloud-download-outline"
 							class="mr-1"
 						></nb-icon>
@@ -274,7 +274,7 @@
             [nbTooltip]="'PLUGIN.BUTTONS.VIEW_SUBSCRIPTION' | translate"
             >
             <nb-icon
-              *gauzySpinnerButton="subscriptionLoading"
+              *irtranscriptsSpinnerButton="subscriptionLoading"
               icon="credit-card-outline"
               class="mr-1"
             ></nb-icon>
@@ -356,7 +356,7 @@
             class="action-button"
             >
             <div class="button-content">
-              <nb-icon *gauzySpinnerButton="adding && isSelected" icon="layers-outline"></nb-icon>
+              <nb-icon *irtranscriptsSpinnerButton="adding && isSelected" icon="layers-outline"></nb-icon>
               <span class="action-label">{{ 'BUTTONS.ADD_VERSION' | translate }}</span>
             </div>
             @if(uploading && adding){
@@ -376,7 +376,7 @@
             class="action-button"
             >
             <div class="button-content">
-              <nb-icon *gauzySpinnerButton="creatingSource && isSelected" icon="code-outline"></nb-icon>
+              <nb-icon *irtranscriptsSpinnerButton="creatingSource && isSelected" icon="code-outline"></nb-icon>
               <span class="action-label">{{ 'BUTTONS.ADD_MORE_SOURCES' | translate }}</span>
             </div>
             @if(uploading && creatingSource){
@@ -396,7 +396,7 @@
             class="action-button"
             >
             <div class="button-content">
-              <nb-icon *gauzySpinnerButton="editing && isSelected" icon="edit-2-outline"></nb-icon>
+              <nb-icon *irtranscriptsSpinnerButton="editing && isSelected" icon="edit-2-outline"></nb-icon>
               <span class="action-label">{{ 'BUTTONS.EDIT' | translate }}</span>
             </div>
           </button>
@@ -411,7 +411,7 @@
             [disabled]="disabled"
             (click)="delete()"
             class="action-button"
-            *gauzySpinnerButton="deleting && isSelected"
+            *irtranscriptsSpinnerButton="deleting && isSelected"
             >
             <div class="button-content">
               <nb-icon icon="trash-2-outline"></nb-icon>

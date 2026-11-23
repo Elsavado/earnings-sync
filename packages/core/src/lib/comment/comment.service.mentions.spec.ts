@@ -4,7 +4,7 @@
  */
 import '../core/entities/internal';
 
-import { BaseEntityEnum, ICommentUpdateInput } from '@gauzy/contracts';
+import { BaseEntityEnum, ICommentUpdateInput } from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from '../core/crud/tenant-aware-crud.service';
 import { RequestContext } from '../core/context/request-context';
 import { CommentService } from './comment.service';

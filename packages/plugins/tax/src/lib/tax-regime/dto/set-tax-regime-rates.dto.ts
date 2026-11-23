@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ArrayNotEmpty, IsArray, IsUUID } from 'class-validator';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 /**
  * Set which rates a regime selects request DTO validation.

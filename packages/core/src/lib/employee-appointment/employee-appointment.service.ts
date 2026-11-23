@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { FindOptionsWhere } from 'typeorm';
-import { ID, IEmployeeAppointment, IEmployeeAppointmentCreateInput } from '@gauzy/contracts';
+import { ID, IEmployeeAppointment, IEmployeeAppointmentCreateInput } from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from './../core/crud';
 import { signPurposeToken, TokenPurposeEnum, verifyPurposeToken } from '../auth/purpose-token';
 import { TypeOrmEmployeeAppointmentRepository } from './repository/type-orm-employee-appointment.repository';

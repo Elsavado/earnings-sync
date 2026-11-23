@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
 import { v4 as uuidv4 } from 'uuid';
-import { FeatureEnum } from '@gauzy/contracts';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { FeatureEnum } from '@irtranscripts/contracts';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 export class SeedDocumentsFeature1790000004000 implements MigrationInterface {
 	name = 'SeedDocumentsFeature1790000004000';

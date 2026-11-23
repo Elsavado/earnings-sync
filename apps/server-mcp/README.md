@@ -1,10 +1,10 @@
-# Gauzy MCP Server - Desktop App
+# IRTranscripts MCP Server - Desktop App
 
-A modern Electron desktop application that provides an intuitive interface for managing and monitoring your Gauzy MCP (Model Context Protocol) server.
+A modern Electron desktop application that provides an intuitive interface for managing and monitoring your IRTranscripts MCP (Model Context Protocol) server.
 
 ## Overview
 
-This desktop application offers a user-friendly way to run, monitor, and manage your Gauzy MCP server. It features a modern UI with real-time status monitoring, log viewing, and easy server management - perfect for users who prefer a graphical interface over command-line tools.
+This desktop application offers a user-friendly way to run, monitor, and manage your IRTranscripts MCP server. It features a modern UI with real-time status monitoring, log viewing, and easy server management - perfect for users who prefer a graphical interface over command-line tools.
 
 ## Features
 
@@ -23,8 +23,8 @@ This desktop application offers a user-friendly way to run, monitor, and manage 
 ### Prerequisites
 
 -   Node.js (version 18 or higher)
--   Access to a running Gauzy API server
--   Valid Gauzy credentials
+-   Access to a running IRTranscripts API server
+-   Valid IRTranscripts credentials
 
 ### Installation & Build
 
@@ -70,7 +70,7 @@ When minimized, the app runs in the system tray with options to:
 
 Configure your MCP server through the built-in settings:
 
--   **API Configuration**: Set your Gauzy API URL
+-   **API Configuration**: Set your IRTranscripts API URL
 -   **Authentication**: Manage login credentials securely
 -   **Server Options**: Configure startup behavior and logging
 -   **Auto-launch**: Set the app to start with your system
@@ -83,14 +83,14 @@ The desktop app uses the same environment configuration as the standalone server
 
 ```bash
 # Required
-API_BASE_URL=http://localhost:3000        # Gauzy API URL
-GAUZY_AUTH_EMAIL=<your-email>             # Gauzy login email
-GAUZY_AUTH_PASSWORD=<your-password>       # Gauzy password
+API_BASE_URL=http://localhost:3000        # IRTranscripts API URL
+IRTRANSCRIPTS_AUTH_EMAIL=<your-email>             # IRTranscripts login email
+IRTRANSCRIPTS_AUTH_PASSWORD=<your-password>       # IRTranscripts password
 
 # Optional
-GAUZY_AUTO_LOGIN=true                     # Enable automatic login
-GAUZY_MCP_DEBUG=true                      # Enable debug logging
-GAUZY_MCP_AUTO_START=true                 # Auto-start server on app launch
+IRTRANSCRIPTS_AUTO_LOGIN=true                     # Enable automatic login
+IRTRANSCRIPTS_MCP_DEBUG=true                      # Enable debug logging
+IRTRANSCRIPTS_MCP_AUTO_START=true                 # Auto-start server on app launch
 ```
 
 
@@ -98,9 +98,9 @@ GAUZY_MCP_AUTO_START=true                 # Auto-start server on app launch
 
 Settings are automatically saved to:
 
--   **Windows**: `%APPDATA%/gauzy-mcp-server/config.json`
--   **macOS**: `~/Library/Application Support/gauzy-mcp-server/config.json`
--   **Linux**: `~/.config/gauzy-mcp-server/config.json`
+-   **Windows**: `%APPDATA%/irtranscripts-mcp-server/config.json`
+-   **macOS**: `~/Library/Application Support/irtranscripts-mcp-server/config.json`
+-   **Linux**: `~/.config/irtranscripts-mcp-server/config.json`
 
 ## Integration with AI Assistants
 
@@ -115,13 +115,13 @@ The desktop app runs the same MCP server as the standalone version, making it co
 ```json
 {
 "mcpServers": {
-        "gauzy": {
+        "irtranscripts": {
             "command": "node",
             "args": ["/path/shown/in/desktop/app"],
             "env": {
                 "API_BASE_URL": "http://localhost:3000",
-                "GAUZY_AUTH_EMAIL": "<your-email>",
-                "GAUZY_AUTH_PASSWORD": "<your-password>"
+                "IRTRANSCRIPTS_AUTH_EMAIL": "<your-email>",
+                "IRTRANSCRIPTS_AUTH_PASSWORD": "<your-password>"
             }
         }
     }
@@ -134,13 +134,13 @@ The underlying MCP server uses stdio transport, making it compatible with any AI
 
 ## Available MCP Tools
 
-The desktop app provides access to all Gauzy MCP tools through its managed server:
+The desktop app provides access to all IRTranscripts MCP tools through its managed server:
 
 ### 🔑 Authentication Flow
 
 The server uses a streamlined authentication approach:
 
-1. **Login**: Uses email/password to authenticate with Gauzy API
+1. **Login**: Uses email/password to authenticate with IRTranscripts API
 2. **User Context Capture**: Automatically gets tenant ID and organization ID from `/api/user/me`
 3. **Parameter Injection**: All tools automatically use your organization/tenant context
 4. **Token Management**: Handles refresh tokens and session management automatically
@@ -214,7 +214,7 @@ yarn nx build-electron server-mcp --all-platforms
     - Verify API_BASE_URL in settings
     - Check authentication credentials
     - Review logs in the app's log viewer
-    - Ensure the Gauzy API server is running
+    - Ensure the IRTranscripts API server is running
 
 3. **System Tray Not Working**
 
@@ -232,7 +232,7 @@ yarn nx build-electron server-mcp --all-platforms
 Enable debug mode through the app settings or environment variable:
 
 ```bash
-GAUZY_MCP_DEBUG=true yarn nx serve server-mcp
+IRTRANSCRIPTS_MCP_DEBUG=true yarn nx serve server-mcp
 ```
 
 Debug mode provides:
@@ -246,9 +246,9 @@ Debug mode provides:
 
 Application logs are saved to:
 
--   **Windows**: `%APPDATA%/gauzy-mcp-server/logs/`
--   **macOS**: `~/Library/Logs/gauzy-mcp-server/`
--   **Linux**: `~/.local/share/gauzy-mcp-server/logs/`
+-   **Windows**: `%APPDATA%/irtranscripts-mcp-server/logs/`
+-   **macOS**: `~/Library/Logs/irtranscripts-mcp-server/`
+-   **Linux**: `~/.local/share/irtranscripts-mcp-server/logs/`
 
 ## Security & Privacy
 

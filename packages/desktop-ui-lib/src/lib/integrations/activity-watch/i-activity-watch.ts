@@ -4,7 +4,7 @@ import {
 	IActivityWatchWebEvent,
 	IActivityWatchWindowEvent,
 	IDateRange
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 export interface IParseBucketsResult {
 	windowBucket: IActivityWatchBucket;

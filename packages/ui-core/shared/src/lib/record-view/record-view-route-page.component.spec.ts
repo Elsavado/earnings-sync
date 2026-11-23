@@ -3,8 +3,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, ParamMap } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { BaseEntityEnum } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
+import { BaseEntityEnum } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
 import { IRecordViewRouteData, RecordViewRoutePageComponent } from './record-view-route-page.component';
 
 const ID = 'aaaaaaaa-1111-4111-8111-111111111111';

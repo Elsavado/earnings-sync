@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EditTimeLogModalComponent } from './edit-time-log-modal.component';
 import { EditTimeLogModalModule } from './edit-time-log-modal.module';
-import { AuthService } from '@gauzy/ui-core/core';
+import { AuthService } from '@irtranscripts/ui-core/core';
 describe('EditTimeLogModalComponent', () => {
 	let component: EditTimeLogModalComponent;
 	let fixture: ComponentFixture<EditTimeLogModalComponent>;

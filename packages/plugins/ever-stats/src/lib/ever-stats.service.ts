@@ -1,6 +1,6 @@
 import { ConflictException, HttpException, HttpStatus, Inject, Injectable, Optional } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
-import { EverInstanceRecord, EverInstanceService } from '@gauzy/plugin-ever-instance';
+import { EverInstanceRecord, EverInstanceService } from '@irtranscripts/plugin-ever-instance';
 import {
 	MAX_STATS_REPORT_BYTES,
 	STATS_LEASE_MS,
@@ -191,7 +191,7 @@ export class EverStatsService {
 		const at = new Date(nowMs);
 		const period = statsPeriod(at);
 		const collected = await this.collector.collect(period, at);
-		const release = parseReleaseVersion(this.releaseRaw ?? process.env['GAUZY_APP_VERSION']);
+		const release = parseReleaseVersion(this.releaseRaw ?? process.env['IRTRANSCRIPTS_APP_VERSION']);
 		const built = this.builder.build({ identity, config: this.config, release, period, final: false, collected, now: at });
 		const text = built.text;
 		return {

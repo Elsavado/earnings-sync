@@ -13,7 +13,7 @@ import {
 	MaxLength,
 	ValidateNested
 } from 'class-validator';
-import { ITermsAcceptanceClaim } from '@gauzy/contracts';
+import { ITermsAcceptanceClaim } from '@irtranscripts/contracts';
 
 /** One-time keys are 43 base64url characters; anything far outside that is refused before any lookup. */
 const KEY_PATTERN = /^[A-Za-z0-9_-]{16,128}$/;
@@ -26,13 +26,13 @@ export class HandoffDTO {
 }
 
 export class ConfirmDTO extends HandoffDTO {
-	@ApiProperty({ type: () => String, description: "Gauzy's one-time e-mail code" })
+	@ApiProperty({ type: () => String, description: "IRTranscripts's one-time e-mail code" })
 	@IsString()
 	@Length(1, 64)
 	readonly code: string;
 }
 
-/** A legal document the confirmation page displayed (re-checked by Gauzy's register path). */
+/** A legal document the confirmation page displayed (re-checked by IRTranscripts's register path). */
 export class SignupTermsClaimDTO implements ITermsAcceptanceClaim {
 	@ApiProperty({ type: () => String })
 	@IsNotEmpty()
@@ -99,7 +99,7 @@ export class TokenSigninDTO {
 	@MaxLength(16_384)
 	readonly access_token?: string;
 
-	@ApiPropertyOptional({ type: () => String, description: "The calling app's name, for Gauzy's one-time code e-mail" })
+	@ApiPropertyOptional({ type: () => String, description: "The calling app's name, for IRTranscripts's one-time code e-mail" })
 	@IsOptional()
 	@IsString()
 	@MaxLength(MAX_BRANDING_LENGTH)

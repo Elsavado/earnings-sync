@@ -1,6 +1,6 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { In } from 'typeorm';
-import { BaseEntityEnum } from '@gauzy/contracts';
+import { BaseEntityEnum } from '@irtranscripts/contracts';
 import { OrganizationVendor } from './organization-vendor.entity';
 import { Expense } from '../expense/expense.entity';
 import { TenantAwareCrudService } from './../core/crud';

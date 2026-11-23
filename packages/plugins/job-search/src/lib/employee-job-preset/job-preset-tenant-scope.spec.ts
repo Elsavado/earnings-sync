@@ -1,11 +1,11 @@
-// `@gauzy/core` and the AI plugin drag in the whole entity graph: stand-ins are enough here.
+// `@irtranscripts/core` and the AI plugin drag in the whole entity graph: stand-ins are enough here.
 // Every name is usable as a decorator factory; the base entity copies its input as the real one does.
 const mockContext = {
 	tenantId: 'tenant-1' as string | null,
 	hasPermission: true
 };
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	function stub(this: unknown) {
 		return new.target ? undefined : () => undefined;
 	}
@@ -28,7 +28,7 @@ jest.mock('@gauzy/core', () => {
 		get: (object, name: string) => (name in object ? object[name] : name === '__esModule' ? true : stub)
 	});
 });
-jest.mock('@gauzy/plugin-integration-ai', () => ({ GauzyAIService: class GauzyAIService {} }));
+jest.mock('@irtranscripts/plugin-integration-ai', () => ({ IRTranscriptsAIService: class IRTranscriptsAIService {} }));
 
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { CreateJobPresetCommand } from './commands/create-job-preset.command';
@@ -171,7 +171,7 @@ describe('SaveEmployeeCriterionHandler', () => {
 		const handler = new SaveEmployeeCriterionHandler(
 			repository(employee) as any,
 			criteria as any,
-			{ syncGauzyEmployeeJobSearchCriteria: jest.fn() } as any,
+			{ syncIRTranscriptsEmployeeJobSearchCriteria: jest.fn() } as any,
 			presets as any
 		);
 		return { handler, criteria, presets };

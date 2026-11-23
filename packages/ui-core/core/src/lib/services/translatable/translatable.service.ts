@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ITranslatable, LanguagesEnum } from '@gauzy/contracts';
+import { ITranslatable, LanguagesEnum } from '@irtranscripts/contracts';
 import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()

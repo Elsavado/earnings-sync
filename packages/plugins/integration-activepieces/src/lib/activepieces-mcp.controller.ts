@@ -15,22 +15,22 @@ import {
 } from '@nestjs/common';
 import { ListMcpServersDto, ActivepiecesMcpUpdateDto, McpServerProjectQueryDto } from './dto';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiQuery, ApiBearerAuth } from '@nestjs/swagger';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PermissionGuard, TenantPermissionGuard, Permissions } from '@gauzy/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PermissionGuard, TenantPermissionGuard, Permissions } from '@irtranscripts/core';
 import { UseGuards } from '@nestjs/common';
 import { ActivepiecesMcpService } from './activepieces-mcp.service';
 import {
 	IActivepiecesMcpServer,
 	IActivepiecesMcpServerPublic,
 	IActivepiecesMcpServersListResponsePublic
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 /** The `projectId` query of the routes that name a server. */
 const PROJECT_QUERY_DESCRIPTION =
 	"ActivePieces project ID of the server (MCP 2.0: required with the tenant's own key; the tenant's own project is used when the server pins one)";
 
 /**
- * The tenant's Activepieces MCP server. Activepieces MCP 2.0 (the default; `GAUZY_ACTIVEPIECES_MCP_API=legacy` keeps
+ * The tenant's Activepieces MCP server. Activepieces MCP 2.0 (the default; `IRTRANSCRIPTS_ACTIVEPIECES_MCP_API=legacy` keeps
  * the routes before it) has one server per project: the routes that name a server read the project's and answer 404
  * for any other id; `projectId` (query) names the project with the tenant's own key. MCP accepts only user tokens:
  * in the `platform_project` mode, or with a tenant's own API key, every route answers 400 with an explanation.

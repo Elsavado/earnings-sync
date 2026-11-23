@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { debounceTime, filter, fromEvent, map, Observable } from 'rxjs';
 import { TimeTrackerQuery } from '../../+state/time-tracker.query';

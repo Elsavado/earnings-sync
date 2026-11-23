@@ -6,7 +6,7 @@ dayjs.extend(utc);
 
 /*
  * The desktop Recap picker reads `ngx-daterangepicker-material` dates the same way as the web
- * header picker (`@gauzy/ui-core/shared`, whose spec covers the cases in depth). 22.x emits LOCAL
+ * header picker (`@irtranscripts/ui-core/shared`, whose spec covers the cases in depth). 22.x emits LOCAL
  * dayjs objects, 6.x emitted the same wall clock tagged as UTC; both must give the picked local day.
  * Expectations are local (`new Date(y, m, d, ...)`), so the tests hold in any zone — run them with
  * e.g. `TZ=Europe/Paris` or `TZ=America/New_York` to see the offsets bite.

@@ -6,8 +6,8 @@ import {
 	DocumentReviewStatusEnum,
 	DocumentStatusEnum,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { getDocsConfig } from '../../docs.config';
 import { Document } from '../../entities/document.entity';
 import { DocsFeatureService } from '../../services/docs-feature.service';
@@ -23,7 +23,7 @@ import { hardenUntrustedContent, UNTRUSTED_CONTENT_NOTICE } from './untrusted-co
 
 /**
  * Contribution id under which this plugin's tools are registered with the
- * `AiChatToolRegistry` of `@gauzy/plugin-ai-chat`.
+ * `AiChatToolRegistry` of `@irtranscripts/plugin-ai-chat`.
  */
 export const DOCS_CHAT_TOOL_FACTORY_ID = 'docs';
 
@@ -38,8 +38,8 @@ const SEARCH_EXCERPT_MAX_CHARS = 2000;
 const READ_PAGE_TARGET_CHARS = 5000;
 const READ_PAGE_HARD_CAP_CHARS = 8000;
 
-/** The `@gauzy/plugin-ai-chat` surface this service uses (feature-detected at runtime). */
-type AiChatPackage = typeof import('@gauzy/plugin-ai-chat');
+/** The `@irtranscripts/plugin-ai-chat` surface this service uses (feature-detected at runtime). */
+type AiChatPackage = typeof import('@irtranscripts/plugin-ai-chat');
 
 /**
  * The per-turn tool context of the chat engine.
@@ -47,7 +47,7 @@ type AiChatPackage = typeof import('@gauzy/plugin-ai-chat');
  * Imported as a TYPE only, so the runtime feature detection in {@link DocsChatToolsService}
  * still decides whether the chat plugin is really installed — a type import emits no `require`.
  */
-type AiChatToolContext = import('@gauzy/plugin-ai-chat').IAiChatToolContext;
+type AiChatToolContext = import('@irtranscripts/plugin-ai-chat').IAiChatToolContext;
 
 /**
  * DocsChatToolsService
@@ -66,10 +66,10 @@ type AiChatToolContext = import('@gauzy/plugin-ai-chat').IAiChatToolContext;
  * filtered by the requesting user's own tenant/organization/permissions — by construction,
  * not by prompt. All document content returned to the model is fenced as UNTRUSTED.
  *
- * Defensive posture: when `@gauzy/plugin-ai-chat` is not installed, registration is
+ * Defensive posture: when `@irtranscripts/plugin-ai-chat` is not installed, registration is
  * skipped with a debug log; when the retrieval service has not been bound yet, only
  * `docs_search` degrades (with an explicit "not available" answer). Availability is
- * re-evaluated per chat turn: `GAUZY_DOCS_AI_ENABLED`, the `FEATURE_DOCUMENTS` feature
+ * re-evaluated per chat turn: `IRTRANSCRIPTS_DOCS_AI_ENABLED`, the `FEATURE_DOCUMENTS` feature
  * flag, and the requesting user's `DOCS_READ` permission.
  */
 @Injectable()
@@ -103,7 +103,7 @@ export class DocsChatToolsService implements OnModuleInit, OnModuleDestroy {
 	onModuleInit(): void {
 		const aiChat = this.loadAiChatPackage();
 		if (!aiChat?.AiChatToolRegistry) {
-			this.logger.debug('@gauzy/plugin-ai-chat is not installed — Documents chat tools are not registered.');
+			this.logger.debug('@irtranscripts/plugin-ai-chat is not installed — Documents chat tools are not registered.');
 			return;
 		}
 		aiChat.AiChatToolRegistry.register(DOCS_CHAT_TOOL_FACTORY_ID, async (context: AiChatToolContext) => {
@@ -133,7 +133,7 @@ export class DocsChatToolsService implements OnModuleInit, OnModuleDestroy {
 
 	/**
 	 * Whether the Documents tools may appear in the current chat turn:
-	 * `GAUZY_DOCS_AI_ENABLED=true`, `FEATURE_DOCUMENTS` enabled, and the requesting
+	 * `IRTRANSCRIPTS_DOCS_AI_ENABLED=true`, `FEATURE_DOCUMENTS` enabled, and the requesting
 	 * user holding `DOCS_READ` (spec 07 §11.1).
 	 */
 	private async isAvailable(): Promise<boolean> {
@@ -147,13 +147,13 @@ export class DocsChatToolsService implements OnModuleInit, OnModuleDestroy {
 	 * i.e. the `feature_organization` rows an admin actually toggles — the same source the REST
 	 * layer's `FeatureFlagGuard` reads, and the only one that can differ per organization.
 	 *
-	 * This used to read the static `gauzyToggleFeatures` map from `@gauzy/config`, which is a
+	 * This used to read the static `irtranscriptsToggleFeatures` map from `@irtranscripts/config`, which is a
 	 * PROCESS-wide default: an organization that had switched Documents off still got
 	 * `docs_search` / `docs_read` in every chat turn, because these tools call the search/read
 	 * services directly and never pass through the guard.
 	 *
 	 * Fails OPEN exactly like the pipeline does (see `DocsFeatureService`): the master
-	 * `GAUZY_DOCS_AI_ENABLED` switch and the caller's `DOCS_READ` still gate the tools.
+	 * `IRTRANSCRIPTS_DOCS_AI_ENABLED` switch and the caller's `DOCS_READ` still gate the tools.
 	 */
 	private isDocumentsFeatureEnabled(): Promise<boolean> {
 		const tenantId = RequestContext.currentTenantId();
@@ -542,17 +542,17 @@ export class DocsChatToolsService implements OnModuleInit, OnModuleDestroy {
 	/* ------------------------------------------------------------------ */
 
 	/**
-	 * Loads `@gauzy/plugin-ai-chat` defensively. The package is a declared dependency, but
+	 * Loads `@irtranscripts/plugin-ai-chat` defensively. The package is a declared dependency, but
 	 * a deployment may strip optional AI plugins — in that case the Documents plugin keeps
 	 * working and simply contributes no chat tools.
 	 */
 	private loadAiChatPackage(): AiChatPackage | undefined {
 		try {
 			// eslint-disable-next-line @typescript-eslint/no-var-requires
-			return require('@gauzy/plugin-ai-chat');
+			return require('@irtranscripts/plugin-ai-chat');
 		} catch (error) {
 			this.logger.debug(
-				`@gauzy/plugin-ai-chat could not be loaded: ${error instanceof Error ? error.message : error}`
+				`@irtranscripts/plugin-ai-chat could not be loaded: ${error instanceof Error ? error.message : error}`
 			);
 			return undefined;
 		}

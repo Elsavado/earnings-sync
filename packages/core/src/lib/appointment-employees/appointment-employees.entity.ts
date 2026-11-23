@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { RelationId } from 'typeorm';
-import { IAppointmentEmployee, IEmployee, IEmployeeAppointment } from '@gauzy/contracts';
+import { IAppointmentEmployee, IEmployee, IEmployeeAppointment } from '@irtranscripts/contracts';
 import { IsString, IsNotEmpty } from 'class-validator';
 import {
 	Employee,

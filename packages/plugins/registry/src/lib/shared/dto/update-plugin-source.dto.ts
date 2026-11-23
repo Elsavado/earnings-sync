@@ -1,4 +1,4 @@
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { ApiProperty, OmitType, PartialType } from '@nestjs/swagger';
 import { IsNotEmpty, IsUUID } from 'class-validator';
 import { PluginSourceDTO } from './plugin-source.dto';

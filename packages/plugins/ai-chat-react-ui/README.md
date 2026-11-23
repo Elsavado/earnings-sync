@@ -1,8 +1,8 @@
-# @gauzy/plugin-ai-chat-react-ui
+# @irtranscripts/plugin-ai-chat-react-ui
 
-React AI agent chat for the Gauzy platform, built with the [Vercel AI SDK](https://ai-sdk.dev)
+React AI agent chat for the IRTranscripts platform, built with the [Vercel AI SDK](https://ai-sdk.dev)
 (`@ai-sdk/react` v4 / AI SDK 7). The backend engine is
-[`@gauzy/plugin-ai-chat`](../ai-chat) (`POST /api/ai-chat`).
+[`@irtranscripts/plugin-ai-chat`](../ai-chat) (`POST /api/ai-chat`).
 
 The chat renders in a **dedicated sidebar slot** between the navigation menu and the page
 content — `Menu | Chat | Canvas` — so the agent can talk to the user while opening any platform
@@ -24,20 +24,20 @@ page and filling forms right next to the conversation.
 - **AI Playground** — `/pages/playground` page with provider/model selection fed by the backend
   config endpoint
 - **Keyboard shortcuts** — `Enter` to send, `Shift+Enter` for newline, `Escape` to collapse
-- **Plugin system** — registered via `defineDeclarativePlugin` from `@gauzy/plugin-ui`;
+- **Plugin system** — registered via `defineDeclarativePlugin` from `@irtranscripts/plugin-ui`;
   no host-app code needed beyond listing the plugin
 
 ## Usage
 
 ```typescript
-import { AiChatReactUiPlugin } from '@gauzy/plugin-ai-chat-react-ui';
+import { AiChatReactUiPlugin } from '@irtranscripts/plugin-ai-chat-react-ui';
 
 export const uiPluginConfig: PluginUiConfig = {
 	plugins: [AiChatReactUiPlugin]
 };
 ```
 
-The host app must also load Streamdown's stylesheet (see `apps/gauzy/project.json`):
+The host app must also load Streamdown's stylesheet (see `apps/irtranscripts/project.json`):
 
 ```json
 "styles": ["node_modules/streamdown/styles.css"]
@@ -53,7 +53,7 @@ playground) — defaults come from the tenant's BYOK settings or server environm
 ## Canvas tools (client-side)
 
 Client tools are declared on the server without `execute` and run in the browser through two
-Angular services in `@gauzy/ui-core`:
+Angular services in `@irtranscripts/ui-core`:
 
 - `AgentPageBridgeService` — page registry + router navigation (`list_pages`, `open_page`)
 - `AgentFormBridgeService` — DOM bridge that reads and fills the current page's forms

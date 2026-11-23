@@ -10,7 +10,7 @@ const STATUS: EverStatsStatus = {
 	install_source: 'self-hosted',
 	instance_id: '3d2b1a0c-5e4f-4a6b-8c7d-9e0f1a2b3c4d',
 	key_id: 'abcdefghijk',
-	serves: ['gauzy'],
+	serves: ['irtranscripts'],
 	country: 'ZZ',
 	api_url: 'https://api.ever.co',
 	next_send_at: '2026-10-03T12:00:00.000Z',

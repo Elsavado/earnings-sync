@@ -9,13 +9,13 @@
  * database that carries it, `down` reverses exactly what `up` can have changed, and a dialect the file
  * has no statements for is refused rather than silently skipped.
  *
- * `@gauzy/core` is doubled at the module boundary for the reason the package's other suites state: its
+ * `@irtranscripts/core` is doubled at the module boundary for the reason the package's other suites state: its
  * barrel boots the whole application graph, which importing the migration set would otherwise do. The
  * migration under test calls nothing in it.
  */
-jest.mock('@gauzy/core', () => ({}));
+jest.mock('@irtranscripts/core', () => ({}));
 
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 import { ALL_ORDER_MIGRATIONS } from './order-migrations';
 import { AddOrderVersionedColumns1791000000560 } from './migrations/1791000000560-AddOrderVersionedColumns';
 

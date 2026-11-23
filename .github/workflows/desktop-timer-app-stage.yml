@@ -128,7 +128,7 @@ jobs:
         env:
           RELEASE_TAG: ${{ steps.resolve.outputs.tag }}
           RELEASE_OWNER: 'ever-co'
-          RELEASE_REPO: 'ever-gauzy-desktop-timer'
+          RELEASE_REPO: 'ever-irtranscripts-desktop-timer'
           RELEASE_TYPE: 'prerelease'
         with:
           # The PAT the build jobs publish with; this job's own GITHUB_TOKEN is read-only.
@@ -288,14 +288,14 @@ jobs:
             const script = require('./.scripts/bump-version-electron.js')
             console.log(script.desktopTimer(false))
         env:
-          GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
+          IRTRANSCRIPTS_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
           PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
-          DESKTOP_TIMER_APP_NAME: 'gauzy-desktop-timer'
-          DESKTOP_TIMER_APP_REPO_NAME: 'ever-gauzy-desktop-timer'
+          DESKTOP_TIMER_APP_NAME: 'irtranscripts-desktop-timer'
+          DESKTOP_TIMER_APP_REPO_NAME: 'ever-irtranscripts-desktop-timer'
           DESKTOP_TIMER_APP_REPO_OWNER: 'ever-co'
-          COMPANY_SITE_LINK: 'https://gauzy.co'
-          DESKTOP_TIMER_APP_DESCRIPTION: 'Gauzy Desktop Timer'
-          DESKTOP_TIMER_APP_ID: 'com.ever.gauzydesktoptimer'
+          COMPANY_SITE_LINK: 'https://irtranscripts.com'
+          DESKTOP_TIMER_APP_DESCRIPTION: 'IRTranscripts Desktop Timer'
+          DESKTOP_TIMER_APP_ID: 'com.ever.irtranscriptsdesktoptimer'
 
       - name: Ensure dist directory exists
         shell: bash
@@ -554,14 +554,14 @@ jobs:
             const script = require('./.scripts/bump-version-electron.js')
             console.log(script.desktopTimer(false))
         env:
-          GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
+          IRTRANSCRIPTS_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
           PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
-          DESKTOP_TIMER_APP_NAME: 'gauzy-desktop-timer'
-          DESKTOP_TIMER_APP_REPO_NAME: 'ever-gauzy-desktop-timer'
+          DESKTOP_TIMER_APP_NAME: 'irtranscripts-desktop-timer'
+          DESKTOP_TIMER_APP_REPO_NAME: 'ever-irtranscripts-desktop-timer'
           DESKTOP_TIMER_APP_REPO_OWNER: 'ever-co'
-          COMPANY_SITE_LINK: 'https://gauzy.co'
-          DESKTOP_TIMER_APP_DESCRIPTION: 'Gauzy Desktop Timer'
-          DESKTOP_TIMER_APP_ID: 'com.ever.gauzydesktoptimer'
+          COMPANY_SITE_LINK: 'https://irtranscripts.com'
+          DESKTOP_TIMER_APP_DESCRIPTION: 'IRTranscripts Desktop Timer'
+          DESKTOP_TIMER_APP_ID: 'com.ever.irtranscriptsdesktoptimer'
 
       - name: Ensure dist directory exists
         shell: bash
@@ -751,14 +751,14 @@ jobs:
             const script = require('./.scripts/bump-version-electron.js')
             console.log(script.desktopTimer(false))
         env:
-          GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
+          IRTRANSCRIPTS_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
           PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
-          DESKTOP_TIMER_APP_NAME: 'gauzy-desktop-timer'
-          DESKTOP_TIMER_APP_REPO_NAME: 'ever-gauzy-desktop-timer'
+          DESKTOP_TIMER_APP_NAME: 'irtranscripts-desktop-timer'
+          DESKTOP_TIMER_APP_REPO_NAME: 'ever-irtranscripts-desktop-timer'
           DESKTOP_TIMER_APP_REPO_OWNER: 'ever-co'
-          COMPANY_SITE_LINK: 'https://gauzy.co'
-          DESKTOP_TIMER_APP_DESCRIPTION: 'Gauzy Desktop Timer'
-          DESKTOP_TIMER_APP_ID: 'com.ever.gauzydesktoptimer'
+          COMPANY_SITE_LINK: 'https://irtranscripts.com'
+          DESKTOP_TIMER_APP_DESCRIPTION: 'IRTranscripts Desktop Timer'
+          DESKTOP_TIMER_APP_ID: 'com.ever.irtranscriptsdesktoptimer'
 
       - name: Prepare Apple API Key
         run: |
@@ -837,7 +837,7 @@ jobs:
         with:
           token: ${{ secrets.GH_TOKEN }}
           owner: 'ever-co'
-          repo: 'ever-gauzy-desktop-timer'
+          repo: 'ever-irtranscripts-desktop-timer'
           tag: ${{ needs.check-release-tag.outputs.tag }}
           app-package-json: 'apps/desktop-timer/src/package.json'
 
@@ -1082,14 +1082,14 @@ jobs:
           AZURE_CERT_PROFILE_NAME: ${{ secrets.AZURE_CERT_PROFILE_NAME }}
           AZURE_CODE_SIGNING_ACCOUNT: ${{ vars.AZURE_CODE_SIGNING_ACCOUNT || 'ever' }}
           AZURE_CODE_SIGNING_ENDPOINT: ${{ vars.AZURE_CODE_SIGNING_ENDPOINT || 'https://eus.codesigning.azure.net/' }}
-          GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
+          IRTRANSCRIPTS_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
           PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
-          DESKTOP_TIMER_APP_NAME: 'gauzy-desktop-timer'
-          DESKTOP_TIMER_APP_REPO_NAME: 'ever-gauzy-desktop-timer'
+          DESKTOP_TIMER_APP_NAME: 'irtranscripts-desktop-timer'
+          DESKTOP_TIMER_APP_REPO_NAME: 'ever-irtranscripts-desktop-timer'
           DESKTOP_TIMER_APP_REPO_OWNER: 'ever-co'
-          COMPANY_SITE_LINK: 'https://gauzy.co'
-          DESKTOP_TIMER_APP_DESCRIPTION: 'Gauzy Desktop Timer'
-          DESKTOP_TIMER_APP_ID: 'com.ever.gauzydesktoptimer'
+          COMPANY_SITE_LINK: 'https://irtranscripts.com'
+          DESKTOP_TIMER_APP_DESCRIPTION: 'IRTranscripts Desktop Timer'
+          DESKTOP_TIMER_APP_ID: 'com.ever.irtranscriptsdesktoptimer'
 
       - name: Fix Node.js PATH for child processes
         shell: powershell
@@ -1445,14 +1445,14 @@ jobs:
           # "SignTool failed with exit code 3", taking the whole build down. Without
           # WINDOWS_PUBLISHER_NAME the bump script emits no signer, so ARM64 builds
           # unsigned and succeeds; electron-updater verification stays off for it. x64 signs.
-          GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
+          IRTRANSCRIPTS_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
           PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
-          DESKTOP_TIMER_APP_NAME: 'gauzy-desktop-timer'
-          DESKTOP_TIMER_APP_REPO_NAME: 'ever-gauzy-desktop-timer'
+          DESKTOP_TIMER_APP_NAME: 'irtranscripts-desktop-timer'
+          DESKTOP_TIMER_APP_REPO_NAME: 'ever-irtranscripts-desktop-timer'
           DESKTOP_TIMER_APP_REPO_OWNER: 'ever-co'
-          COMPANY_SITE_LINK: 'https://gauzy.co'
-          DESKTOP_TIMER_APP_DESCRIPTION: 'Gauzy Desktop Timer'
-          DESKTOP_TIMER_APP_ID: 'com.ever.gauzydesktoptimer'
+          COMPANY_SITE_LINK: 'https://irtranscripts.com'
+          DESKTOP_TIMER_APP_DESCRIPTION: 'IRTranscripts Desktop Timer'
+          DESKTOP_TIMER_APP_ID: 'com.ever.irtranscriptsdesktoptimer'
 
       - name: Fix Node.js PATH for child processes
         shell: powershell

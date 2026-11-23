@@ -1,5 +1,5 @@
 import { OmitType, PartialType } from '@nestjs/swagger';
-import { ICommentUpdateInput } from '@gauzy/contracts';
+import { ICommentUpdateInput } from '@irtranscripts/contracts';
 import { CreateCommentDTO } from './create-comment.dto';
 
 /**

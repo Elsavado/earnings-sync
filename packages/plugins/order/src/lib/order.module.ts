@@ -13,10 +13,10 @@ import {
 	SequenceModule,
 	TaxLineModule,
 	RolePermissionModule
-} from '@gauzy/core';
-import { CartModule } from '@gauzy/plugin-cart';
-import { PricingModule } from '@gauzy/plugin-pricing';
-import { TaxModule } from '@gauzy/plugin-tax';
+} from '@irtranscripts/core';
+import { CartModule } from '@irtranscripts/plugin-cart';
+import { PricingModule } from '@irtranscripts/plugin-pricing';
+import { TaxModule } from '@irtranscripts/plugin-tax';
 import { ALL_ORDER_ENTITIES } from './entities';
 import { ORDER_AGGREGATE_WRITER } from './order.types';
 import { OrderStreamedEvents } from './order-streamed-events';

@@ -1,5 +1,5 @@
 import { JoinColumn, RelationId } from 'typeorm';
-import { IProductOptionTranslatable, IProductOptionTranslation } from '@gauzy/contracts';
+import { IProductOptionTranslatable, IProductOptionTranslation } from '@irtranscripts/contracts';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
 import {

@@ -1,6 +1,6 @@
 import '../core/entities/internal';
 
-import { BaseEntityEnum, EntitySubscriptionTypeEnum } from '@gauzy/contracts';
+import { BaseEntityEnum, EntitySubscriptionTypeEnum } from '@irtranscripts/contracts';
 import { CrudService } from '../core/crud/crud.service';
 import { asTenantUser, createTenantFixture } from '../core/testing/tenant-isolation/tenant-isolation.fixtures';
 import { OrganizationSprintService } from './organization-sprint.service';

@@ -1,5 +1,5 @@
 import { IQuery } from '@nestjs/cqrs';
-import { BaseQueryDTO } from '@gauzy/core';
+import { BaseQueryDTO } from '@irtranscripts/core';
 import { IVideo } from '../video.model';
 
 export class GetVideosQuery implements IQuery {

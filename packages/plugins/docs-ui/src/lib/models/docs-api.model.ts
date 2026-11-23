@@ -7,11 +7,11 @@ import {
 	DocumentVisibilityEnum,
 	ID,
 	IDocument
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 /**
  * Plugin-local API models for the Wave-2 endpoints (facets, upload options, bulk,
- * settings). These mirror `03-backend-plugin.md`; they move to `@gauzy/contracts`
+ * settings). These mirror `03-backend-plugin.md`; they move to `@irtranscripts/contracts`
  * once the backend wave lands the shared DTOs.
  */
 
@@ -75,7 +75,7 @@ export interface IDocumentFindInput {
 	organizationId?: ID;
 	tenantId?: ID;
 	relations?: string[];
-	/** 1-based **page number** (Gauzy convention: the API computes `offset = take × (skip − 1)`). */
+	/** 1-based **page number** (IRTranscripts convention: the API computes `offset = take × (skip − 1)`). */
 	skip?: number;
 	take?: number;
 }

@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 /**
  * Make `invoice.invoiceNumber` unique per tenant instead of per installation (GHSA-57hw-jqpj-ww97).

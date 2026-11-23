@@ -5,7 +5,7 @@
  * Split out of `employee-chart.utils.ts` on purpose: `charts.widgets.ts` is
  * reachable from the ROOT bootstrap module (through
  * `provideCoreDashboardWidgets()`), so every module it imports lands in the
- * initial bundle. The utils module pulls `@gauzy/ui-config` and the whole set of
+ * initial bundle. The utils module pulls `@irtranscripts/ui-config` and the whole set of
  * Chart.js dataset builders along with it; this file pulls nothing at all, which
  * is what keeps the registry chunk to plain configuration.
  */

@@ -1,4 +1,4 @@
-import { IUser } from '@gauzy/contracts';
+import { IUser } from '@irtranscripts/contracts';
 import { IToken, ITokenFilters, ITokenQueryResult, TokenStatus } from './token.interface';
 
 export interface ITokenReadRepository {

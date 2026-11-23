@@ -1,4 +1,4 @@
-import { IOrganizationTaskSetting, } from '@gauzy/contracts';
+import { IOrganizationTaskSetting, } from '@irtranscripts/contracts';
 import { IntersectionType, OmitType } from '@nestjs/swagger';
 import { TenantOrganizationBaseDTO } from './../../core/dto';
 import { OrganizationTaskSetting } from './../organization-task-setting.entity';

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ROUTES, RouterModule } from '@angular/router';
 import { NbButtonModule, NbCardModule } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
-import { PageRouteRegistryService } from '@gauzy/ui-core/core';
+import { PageRouteRegistryService } from '@irtranscripts/ui-core/core';
 import { createRoutes } from './miscellaneous.routes';
 import { MiscellaneousComponent } from './miscellaneous.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';

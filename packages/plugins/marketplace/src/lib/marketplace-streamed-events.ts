@@ -1,5 +1,5 @@
 import { Injectable, OnModuleInit, Optional } from '@nestjs/common';
-import { declareStreamedEvents, GraphqlSubscriptionConsumer, SubscriptionCatalogue } from '@gauzy/core';
+import { declareStreamedEvents, GraphqlSubscriptionConsumer, SubscriptionCatalogue } from '@irtranscripts/core';
 
 /**
  * The marketplace facts `Subscription.events` may select: the seller, offering, payout, settlement and

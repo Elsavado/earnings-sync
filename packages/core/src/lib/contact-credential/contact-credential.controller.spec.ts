@@ -21,7 +21,7 @@
  *   "there is nothing here".
  *
  * Three module boundaries are doubled for the reason the channel suite states: the base CRUD class
- * reaches the entity barrel and with it the whole application graph, `@gauzy/config` reads the process
+ * reaches the entity barrel and with it the whole application graph, `@irtranscripts/config` reads the process
  * environment at import time, and the request context is what a write runs inside.
  */
 jest.mock('../shared/guards', () => ({
@@ -55,8 +55,8 @@ jest.mock('../core/context/request-context', () => ({
 	}
 }));
 
-jest.mock('@gauzy/config', () => ({
-	...jest.requireActual('@gauzy/config'),
+jest.mock('@irtranscripts/config', () => ({
+	...jest.requireActual('@irtranscripts/config'),
 	isPostgres: () => true,
 	isMySQL: () => false
 }));
@@ -69,8 +69,8 @@ jest.mock('@gauzy/config', () => ({
 import '../core/entities/internal';
 
 import { BadRequestException, HttpException } from '@nestjs/common';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { ContactCredentialController } from './contact-credential.controller';
 import { CREDENTIAL_SECRET_MEMBERS, findCredentialSecret, RejectCredentialSecretPipe } from './contact-credential.secret.pipe';

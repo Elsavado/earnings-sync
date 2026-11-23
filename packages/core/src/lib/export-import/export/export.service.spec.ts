@@ -200,7 +200,7 @@ describe('ExportService', () => {
 		});
 
 		it('removes the scratch root when job setup fails after it was created', async () => {
-			const before = new Set(fs.readdirSync(os.tmpdir()).filter((name) => name.startsWith('gauzy-export-')));
+			const before = new Set(fs.readdirSync(os.tmpdir()).filter((name) => name.startsWith('irtranscripts-export-')));
 			const mkdirSpy = jest.spyOn(fsp, 'mkdir').mockRejectedValueOnce(new Error('ENOSPC'));
 
 			try {
@@ -212,7 +212,7 @@ describe('ExportService', () => {
 			// The caller never got a job handle, so nothing else could have removed the directory.
 			const leaked = fs
 				.readdirSync(os.tmpdir())
-				.filter((name) => name.startsWith('gauzy-export-') && !before.has(name));
+				.filter((name) => name.startsWith('irtranscripts-export-') && !before.has(name));
 			expect(leaked).toEqual([]);
 		});
 
@@ -488,7 +488,7 @@ describe('ExportService', () => {
 
 			const manifest = JSON.parse(await readFromArchive(job.archivePath, EXPORT_MANIFEST_FILE));
 			expect(manifest).toMatchObject({
-				format: 'gauzy-export',
+				format: 'irtranscripts-export',
 				version: 1,
 				spreadsheetSafeCells: true
 			});

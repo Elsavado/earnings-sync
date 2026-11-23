@@ -1,10 +1,10 @@
-# Changelog for @gauzy/ui-react-components
+# Changelog for @irtranscripts/ui-react-components
 
 ## [Unreleased]
 
 ### Added
 
-- `themeTokens` / `statusColor()` — theme-adaptive CSS custom-property tokens (light/dark aware) for React surfaces mounted inside the Gauzy shell.
+- `themeTokens` / `statusColor()` — theme-adaptive CSS custom-property tokens (light/dark aware) for React surfaces mounted inside the IRTranscripts shell.
 - Theme-adaptive Nebular ports: `CounterPoint` (+ `computeCounterPoints`, `counterPointBackground`), `ProgressBar`, `Badge`, `Avatar`, `Spinner`, `Popover` (+ `computePopoverPosition`).
 - Helpers: `progressStatus()`, `ensureStyleTag()` / `useInjectedStyles()`.
 

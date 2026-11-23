@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-fulfillment
+ * Public API Surface of @irtranscripts/plugin-fulfillment
  */
 export * from './lib/fulfillment.plugin';
 export * from './lib/fulfillment.module';

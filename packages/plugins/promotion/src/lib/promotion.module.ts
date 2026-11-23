@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { EventBusModule, RolePermissionModule } from '@gauzy/core';
+import { EventBusModule, RolePermissionModule } from '@irtranscripts/core';
 import { resolvers } from './graphql/resolvers';
 import { ALL_PROMOTION_ENTITIES } from './promotion.entities';
 import { Campaign } from './campaign/campaign.entity';

@@ -14,7 +14,7 @@ import {
 	UsePipes
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ID, IPagination, ISellerPayoutRunResult, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IPagination, ISellerPayoutRunResult, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	AbstractValidationPipe,
 	BaseQueryDTO,
@@ -27,8 +27,8 @@ import {
 	TenantPermissionGuard,
 	UUIDValidationPipe,
 	UseValidationPipe
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { MarketplaceFeatures } from '../marketplace.features';
 import { SellerPayout } from './seller-payout.entity';
 import { SellerPayoutService } from './seller-payout.service';

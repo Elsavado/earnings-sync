@@ -11,8 +11,8 @@ import { BadRequestException, ExecutionContext, NotFoundException } from '@nestj
 import { MODULE_METADATA } from '@nestjs/common/constants';
 import { Reflector } from '@nestjs/core';
 import { buildSchema, printSchema } from 'graphql';
-import { RolesEnum } from '@gauzy/contracts';
-import { FEATURE_METADATA, PERMISSIONS_METADATA, ROLES_METADATA } from '@gauzy/constants';
+import { RolesEnum } from '@irtranscripts/contracts';
+import { FEATURE_METADATA, PERMISSIONS_METADATA, ROLES_METADATA } from '@irtranscripts/constants';
 import { RequestContext } from '../core/context';
 import { MultiORMEnum } from '../core/utils';
 import { FeatureModule } from '../feature/feature.module';

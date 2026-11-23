@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { ITag, ITagType } from '@gauzy/contracts';
+import { ITag, ITagType } from '@irtranscripts/contracts';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { Tag, TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { MultiORMColumn, MultiORMEntity, MultiORMOneToMany } from './../core/decorators/entity';

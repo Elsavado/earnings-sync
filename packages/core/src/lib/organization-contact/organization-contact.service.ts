@@ -7,10 +7,10 @@ import {
 	IPagination,
 	BaseEntityEnum,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { BaseQueryDTO, TenantAwareCrudService } from './../core/crud';
-import { isNotEmpty } from '@gauzy/utils';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { MultiORMEnum } from '../core/utils';
 import { LIKE_OPERATOR } from '../core/util';
 import { OrganizationContact } from './organization-contact.entity';

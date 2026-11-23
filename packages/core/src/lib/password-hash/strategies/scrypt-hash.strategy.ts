@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { hashPassword, verifyPassword } from '@gauzy/utils';
+import { hashPassword, verifyPassword } from '@irtranscripts/utils';
 import { IPasswordHashStrategy } from '../interfaces';
 
 @Injectable()

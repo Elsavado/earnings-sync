@@ -1,5 +1,5 @@
-import { PermissionsEnum } from '@gauzy/contracts';
-import { defineDeclarativePlugin, IPluginI18nService, PluginRouteInput } from '@gauzy/plugin-ui';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { defineDeclarativePlugin, IPluginI18nService, PluginRouteInput } from '@irtranscripts/plugin-ui';
 import { DASHBOARD_TIME_TRACKING_ROUTE, DASHBOARD_TIME_TRACKING_PATH } from './dashboard-time-track-angular-ui.constants';
 import { DASHBOARD_TIME_TRACK_WIDGETS } from './widgets/dashboard-time-track.widgets';
 import ar from '../i18n/ar.json';
@@ -27,7 +27,7 @@ import zh from '../i18n/zh.json';
  *
  * Add to your plugin config:
  * ```typescript
- * import { DashboardTimeTrackAngularUiPlugin } from '@gauzy/plugin-dashboard-time-track-angular-ui';
+ * import { DashboardTimeTrackAngularUiPlugin } from '@irtranscripts/plugin-dashboard-time-track-angular-ui';
  *
  * export const uiPluginConfig: PluginUiConfig = {
  *   plugins: [DashboardTimeTrackAngularUiPlugin]

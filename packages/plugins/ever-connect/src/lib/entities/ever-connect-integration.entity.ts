@@ -1,6 +1,6 @@
 import { PrimaryKey } from '@mikro-orm/core';
 import { PrimaryColumn } from 'typeorm';
-import { ColumnIndex, MultiORMColumn, MultiORMEntity, SkipExport } from '@gauzy/core';
+import { ColumnIndex, MultiORMColumn, MultiORMEntity, SkipExport } from '@irtranscripts/core';
 
 /**
  * The local state of one integration: for the whole installation (`scope = 'instance'`, the

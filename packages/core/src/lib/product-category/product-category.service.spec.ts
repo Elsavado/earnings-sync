@@ -14,7 +14,7 @@ import {
 } from '@mikro-orm/core';
 import { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
 import { SOFT_DELETABLE_FILTER } from 'mikro-orm-soft-delete';
-import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@gauzy/config';
+import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@irtranscripts/config';
 import { RequestContext } from '../core/context';
 import { CrudService } from '../core/crud/crud.service';
 import { MikroOrmBaseEntityRepository } from '../core/repository/mikro-orm-base-entity.repository';

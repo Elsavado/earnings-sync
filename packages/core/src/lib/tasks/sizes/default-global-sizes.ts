@@ -1,5 +1,5 @@
-import { ucFirst } from '@gauzy/utils';
-import { ITaskSize, TaskSizeEnum } from '@gauzy/contracts';
+import { ucFirst } from '@irtranscripts/utils';
+import { ITaskSize, TaskSizeEnum } from '@irtranscripts/contracts';
 
 export const DEFAULT_GLOBAL_SIZES: ITaskSize[] = [
 	{

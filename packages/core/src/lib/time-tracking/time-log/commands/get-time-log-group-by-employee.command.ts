@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { ITimeLog } from '@gauzy/contracts';
+import { ITimeLog } from '@irtranscripts/contracts';
 
 export class GetTimeLogGroupByEmployeeCommand implements ICommand {
 	static readonly type = '[TimeLog] group by employee';

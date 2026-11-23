@@ -1,14 +1,14 @@
 import * as http from 'node:http';
 import { Injectable, Logger, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
-import { environment } from '@gauzy/config';
-import { isAccessTokenPayload, JWT_ALGORITHMS } from '@gauzy/core';
+import { environment } from '@irtranscripts/config';
+import { isAccessTokenPayload, JWT_ALGORITHMS } from '@irtranscripts/core';
 import { verify } from 'jsonwebtoken';
 import {
 	mountPlaneProxy,
 	MountPlaneProxyResult,
 	readSessionTokenFromCookieHeader
-} from '@ever-gauzy/plugin-integration-plane-api';
+} from '@ever-irtranscripts/plugin-integration-plane-api';
 import { PlaneIntegrationService } from './plane-integration.service';
 import { PLANE_PROXY_UPSTREAM_URL_ENV, resolvePlaneProxyUpstreamUrl } from './plane-proxy-upstream';
 
@@ -26,11 +26,11 @@ const REQ_TENANT_ID = '__planeResolvedTenantId';
  *
  * Intercepts all `/api/plane/*` requests at the HTTP server level,
  * resolves per-tenant configuration from the database, and delegates
- * to the @ever-gauzy/plugin-integration-plane-api proxy.
+ * to the @ever-irtranscripts/plugin-integration-plane-api proxy.
  *
  * Tenant identification strategy (in priority order):
- *   1. X-TENANT-ID header (Gauzy internal calls)
- *   2. tenant-id cookie (Gauzy browser sessions)
+ *   1. X-TENANT-ID header (IRTranscripts internal calls)
+ *   2. tenant-id cookie (IRTranscripts browser sessions)
  *   3. UUID segment in URL path — the Plane UI is configured with
  *      VITE_API_BASE_URL=http://host/api/plane/{tenantId}
  *      so every request arrives as /api/plane/{tenantId}/auth/email-check etc.
@@ -78,7 +78,7 @@ export class PlaneProxyService implements OnModuleInit, OnModuleDestroy {
 					// sees a clean URL regardless of which tenant signal wins below.
 					const pathTenantId = this.extractTenantIdFromPath(req);
 
-					// 1. Explicit X-TENANT-ID header (Gauzy-internal calls) — JWT-validated.
+					// 1. Explicit X-TENANT-ID header (IRTranscripts-internal calls) — JWT-validated.
 					const headerTenantId = this.extractTenantIdFromHeader(req);
 					if (headerTenantId) {
 						this.validateTenantFromToken(req, headerTenantId);
@@ -106,7 +106,7 @@ export class PlaneProxyService implements OnModuleInit, OnModuleDestroy {
 						return sessionTenantId;
 					}
 
-					// 3. `tenant-id` cookie from a Gauzy browser session — only honored
+					// 3. `tenant-id` cookie from a IRTranscripts browser session — only honored
 					//    when a Bearer is also present, so it can be cross-checked against
 					//    the token (and so it never throws for a Plane bootstrap request
 					//    that merely carries an ambient tenant-id cookie).
@@ -193,14 +193,14 @@ export class PlaneProxyService implements OnModuleInit, OnModuleDestroy {
 		// Shared mode: pre-auth bootstrap requests (auth/email-check, login) carry no
 		// tenant, so this default config is what authenticates the proxy's internal
 		// email-check call. Empty strings here would SHADOW the proxy's own
-		// GAUZY_API_KEY/GAUZY_API_SECRET env fallback ('' is not nullish), so resolve
+		// IRTRANSCRIPTS_API_KEY/IRTRANSCRIPTS_API_SECRET env fallback ('' is not nullish), so resolve
 		// the env pair explicitly — otherwise every shared-mode login degrades to the
 		// magic-code flow. The pair is tenant-scoped and only ever grants the
 		// email-existence check (ApiKeyAuthGuard sets tenantId only; single guarded route).
 		return {
 			externalBaseApiUrl: this.getUpstreamUrl(),
-			apiKey: process.env['GAUZY_API_KEY'] || '',
-			apiSecret: process.env['GAUZY_API_SECRET'] || '',
+			apiKey: process.env['IRTRANSCRIPTS_API_KEY'] || '',
+			apiSecret: process.env['IRTRANSCRIPTS_API_SECRET'] || '',
 			clientBaseUrl: process.env['PLANE_CLIENT_BASE_URL'] || 'http://localhost:3001',
 			clientAdminUrl: process.env['PLANE_CLIENT_ADMIN_URL'] || 'http://localhost:3002',
 			clientSpaceUrl: process.env['PLANE_CLIENT_SPACE_URL'] || 'http://localhost:3003'
@@ -208,7 +208,7 @@ export class PlaneProxyService implements OnModuleInit, OnModuleDestroy {
 	}
 
 	/**
-	 * The Gauzy API base URL (with `/api`) the proxy sends its calls to: this API process over
+	 * The IRTranscripts API base URL (with `/api`) the proxy sends its calls to: this API process over
 	 * loopback, unless PLANE_PROXY_UPSTREAM_URL says otherwise. Not the public API_BASE_URL, which
 	 * routes every proxied call out through the CDN and back in.
 	 */
@@ -223,7 +223,7 @@ export class PlaneProxyService implements OnModuleInit, OnModuleDestroy {
 
 		if (upstreamUrl !== this.loggedUpstreamUrl) {
 			this.loggedUpstreamUrl = upstreamUrl;
-			this.logger.log(`Plane proxy calls the Gauzy API at ${upstreamUrl}`);
+			this.logger.log(`Plane proxy calls the IRTranscripts API at ${upstreamUrl}`);
 		}
 
 		return upstreamUrl;
@@ -266,7 +266,7 @@ export class PlaneProxyService implements OnModuleInit, OnModuleDestroy {
 	}
 
 	/**
-	 * Extract the tenant ID from the ambient `tenant-id` cookie (set by Gauzy
+	 * Extract the tenant ID from the ambient `tenant-id` cookie (set by IRTranscripts
 	 * browser sessions). Lower priority than the authenticated Plane session.
 	 */
 	private extractTenantIdFromCookie(req: http.IncomingMessage): string | undefined {
@@ -291,14 +291,14 @@ export class PlaneProxyService implements OnModuleInit, OnModuleDestroy {
 	// ── Session-based tenant resolution ──────────────────
 
 	/**
-	 * Read and verify the Gauzy JWT carried by the chunked
+	 * Read and verify the IRTranscripts JWT carried by the chunked
 	 * `auth-proxy-plane-token-*` cookies and return its `tenantId` claim.
 	 *
 	 * Returns `undefined` when no session cookie is present (unauthenticated
 	 * bootstrap) or when JWT_SECRET is not configured (e.g. a standalone proxy
-	 * that does not share Gauzy's signing secret). A present-but-invalid or
+	 * that does not share IRTranscripts's signing secret). A present-but-invalid or
 	 * expired cookie is also treated as no session: the forwarded Bearer is the
-	 * same token and Gauzy rejects it with 401, letting the Plane UI
+	 * same token and IRTranscripts rejects it with 401, letting the Plane UI
 	 * re-authenticate gracefully instead of the proxy hard-failing the request.
 	 */
 	private extractSessionTenantId(req: http.IncomingMessage): string | undefined {
@@ -331,7 +331,7 @@ export class PlaneProxyService implements OnModuleInit, OnModuleDestroy {
 	}
 
 	/**
-	 * Read the Gauzy JWT from the chunked `auth-proxy-plane-token-{0,1,...}`
+	 * Read the IRTranscripts JWT from the chunked `auth-proxy-plane-token-{0,1,...}`
 	 * cookie in the raw `Cookie` header (cookies are not parsed yet at the
 	 * HTTP-server interception layer). The proxy owns the cookie format — since
 	 * 0.1.7 the payload is deflated so an admin token fits in one cookie — so it
@@ -345,10 +345,10 @@ export class PlaneProxyService implements OnModuleInit, OnModuleDestroy {
 	// ── JWT validation ────────────────────────────────────────────────
 
 	/**
-	 * Validate that the request carries a valid Gauzy JWT whose tenantId
+	 * Validate that the request carries a valid IRTranscripts JWT whose tenantId
 	 * claim matches the header/cookie-supplied tenant ID.
 	 *
-	 * Only called for header/cookie-based tenant extraction (Gauzy calls).
+	 * Only called for header/cookie-based tenant extraction (IRTranscripts calls).
 	 * Plane UI calls use the path-based tenant ID and are authenticated
 	 * by the proxy's own cookie-based auth (auth-proxy-plane-token-*).
 	 */

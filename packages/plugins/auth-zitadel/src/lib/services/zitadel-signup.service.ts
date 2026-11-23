@@ -1,8 +1,8 @@
 import { BadRequestException, GoneException, Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { OidcValidatedIdToken } from '@gauzy/auth';
-import { ITermsAcceptanceClaim, ITermsAcceptanceDocument, LanguagesEnum } from '@gauzy/contracts';
+import { OidcValidatedIdToken } from '@irtranscripts/auth';
+import { ITermsAcceptanceClaim, ITermsAcceptanceDocument, LanguagesEnum } from '@irtranscripts/contracts';
 import { handoffBusy } from '../http/zitadel-retry';
-import { GAUZY_AUTH, GauzyAuthPort } from '../ports/gauzy-auth.port';
+import { IRTRANSCRIPTS_AUTH, IRTranscriptsAuthPort } from '../ports/irtranscripts-auth.port';
 import { TERMS_DOCUMENTS, TermsDocumentsPort } from '../ports/terms-documents.port';
 import { ZitadelAccountService, ZitadelIdentity } from './zitadel-account.service';
 import { ZitadelClaimHints } from './zitadel-claims.service';
@@ -50,7 +50,7 @@ export interface ZitadelPendingSignup {
 	locale: LanguagesEnum;
 	confirmedAt: number;
 	redirect?: string;
-	/** Set once Gauzy created the account, so a resumed sign-up links it and never registers twice. */
+	/** Set once IRTranscripts created the account, so a resumed sign-up links it and never registers twice. */
 	userId?: string;
 }
 
@@ -85,7 +85,7 @@ export interface ZitadelSignupDetails {
  * Turns a document link into an absolute URL of the web app (which uses hash routes): `/legal/tos`
  * becomes `<CLIENT_BASE_URL>/#/legal/terms`. An absolute http(s) link is kept as it is.
  *
- * @param url - The document's link as Gauzy publishes it.
+ * @param url - The document's link as IRTranscripts publishes it.
  * @param clientBaseUrl - The web app's base URL (no trailing slash).
  * @returns The absolute URL, or `undefined` when there is no usable link.
  */
@@ -105,10 +105,10 @@ export function absoluteDocumentUrl(url: string | undefined, clientBaseUrl: stri
 }
 
 /**
- * The confirmed sign-up path for people new to Gauzy (Ever Cloud only, `ZITADEL_SIGNUP_ENABLED=true`).
+ * The confirmed sign-up path for people new to IRTranscripts (Ever Cloud only, `ZITADEL_SIGNUP_ENABLED=true`).
  *
  * Nothing is created until the person confirms "create a workspace with this Ever ID". The account is
- * then made by Gauzy's own register path, behind Gauzy's own subscription gate; without a
+ * then made by IRTranscripts's own register path, behind IRTranscripts's own subscription gate; without a
  * subscription the confirmed sign-up waits (server-side, keyed to the identity) while the person goes
  * through checkout, and finishes when they sign in with Ever ID again. Silent account creation does
  * not exist.
@@ -127,7 +127,7 @@ export class ZitadelSignupService {
 		private readonly store: ZitadelStoreService,
 		private readonly gate: ZitadelSubscriptionGateService,
 		private readonly events: ZitadelEventsService,
-		@Inject(GAUZY_AUTH) private readonly gauzyAuth: GauzyAuthPort,
+		@Inject(IRTRANSCRIPTS_AUTH) private readonly irtranscriptsAuth: IRTranscriptsAuthPort,
 		@Inject(TERMS_DOCUMENTS) private readonly termsDocuments: TermsDocumentsPort
 	) {}
 
@@ -164,7 +164,7 @@ export class ZitadelSignupService {
 	}
 
 	/**
-	 * Finishes a confirmed sign-up whose account Gauzy already created but that a failed step left
+	 * Finishes a confirmed sign-up whose account IRTranscripts already created but that a failed step left
 	 * unlinked: links that account and signs in, without a new confirmation or code (the person
 	 * confirmed this sign-up with this Ever ID, and the account is the one it created). Returns `null`
 	 * when there is no such sign-up; one whose account no longer exists or is inactive is dropped.
@@ -219,7 +219,7 @@ export class ZitadelSignupService {
 	}
 
 	/**
-	 * The person confirmed. Records the confirmed sign-up and runs Gauzy's register path.
+	 * The person confirmed. Records the confirmed sign-up and runs IRTranscripts's register path.
 	 *
 	 * @throws NotFoundException when the sign-up path is off; BadRequestException without the
 	 *   confirmation; 409 `handoff_busy` while another attempt uses this key or finishes this
@@ -289,7 +289,7 @@ export class ZitadelSignupService {
 	}
 
 	/**
-	 * Tries to finish a confirmed sign-up: the subscription gate first, then Gauzy's register path.
+	 * Tries to finish a confirmed sign-up: the subscription gate first, then IRTranscripts's register path.
 	 * Called while the identity's pending sign-up is held.
 	 */
 	private async attempt(pending: ZitadelPendingSignup, sid: string | undefined, hints: ZitadelClaimHints): Promise<ZitadelSignupResult> {
@@ -302,7 +302,7 @@ export class ZitadelSignupService {
 			return { type: 'workspaces', response: await this.workspaces.signIn(linked, pending.identity, hints, sid) };
 		}
 
-		// The gate guards creating an account; once Gauzy created it, only the link is left to write.
+		// The gate guards creating an account; once IRTranscripts created it, only the link is left to write.
 		if (!pending.userId) {
 			const check = await this.gate.check(pending.email);
 			if (check.allowed === false) {
@@ -333,7 +333,7 @@ export class ZitadelSignupService {
 		let userId = claimed.userId;
 		try {
 			if (!userId) {
-				const created = await this.gauzyAuth.register(
+				const created = await this.irtranscriptsAuth.register(
 					{
 						user: { email: claimed.email, firstName: claimed.firstName, lastName: claimed.lastName },
 						terms: claimed.terms
@@ -359,8 +359,8 @@ export class ZitadelSignupService {
 	}
 
 	/**
-	 * Every document Gauzy currently requires must be accepted, as the register form requires; the
-	 * claims themselves are checked against the published text by Gauzy's register path.
+	 * Every document IRTranscripts currently requires must be accepted, as the register form requires; the
+	 * claims themselves are checked against the published text by IRTranscripts's register path.
 	 *
 	 * @throws BadRequestException when a required document is missing.
 	 */

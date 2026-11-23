@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { UpdateResult } from 'typeorm';
-import { IOrganizationProjectModule } from '@gauzy/contracts';
+import { IOrganizationProjectModule } from '@irtranscripts/contracts';
 import { OrganizationProjectModuleUpdateCommand } from '../organization-project-module-update.command';
 import { OrganizationProjectModuleService } from '../../organization-project-module.service';
 

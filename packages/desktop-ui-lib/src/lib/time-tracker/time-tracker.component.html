@@ -67,7 +67,7 @@
 									</div>
 								</div>
 								@if (isRemoteTimer) {
-								<gauzy-time-tracker-status class="status"></gauzy-time-tracker-status>
+								<irtranscripts-time-tracker-status class="status"></irtranscripts-time-tracker-status>
 								}
 							</div>
 							<div class="col-3 d-flex flex-column align-items-center">
@@ -113,11 +113,11 @@
 								</div>
 							</div>
 						</div>
-						<gauzy-time-tracker-form></gauzy-time-tracker-form>
+						<irtranscripts-time-tracker-form></irtranscripts-time-tracker-form>
 						<div class="row">
 							@if ((appSetting$ | async) && (appSetting$ | async)?.visibleAwOption) {
 							<div class="col-12">
-								<gauzy-activity-watch></gauzy-activity-watch>
+								<irtranscripts-activity-watch></irtranscripts-activity-watch>
 							</div>
 							} @if ((appSetting$ | async) && (appSetting$ | async)?.visibleWakatimeOption) {
 							<div class="col-12">

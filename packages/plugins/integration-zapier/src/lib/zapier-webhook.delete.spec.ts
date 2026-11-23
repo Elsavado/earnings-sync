@@ -1,6 +1,6 @@
-// `@gauzy/core`'s barrel drags in the whole entity graph (pre-existing circular import). Every name it
+// `@irtranscripts/core`'s barrel drags in the whole entity graph (pre-existing circular import). Every name it
 // gives these files is replaced by a stand-in usable as a class, a decorator factory or a helper.
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	function stub(this: unknown) {
 		// Called as a decorator factory: hand back a no-op decorator
 		return new.target ? undefined : () => undefined;

@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from "chalk";
-import { DatabaseTypeEnum } from "@gauzy/config";
+import { DatabaseTypeEnum } from "@irtranscripts/config";
 
 export class AlterTableTask1695570009125 implements MigrationInterface {
 	name = 'AlterTableTask1695570009125';

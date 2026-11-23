@@ -3,10 +3,10 @@ import { join } from 'node:path';
 
 /**
  * `install_source` is declared, never guessed: no source of the three packages reads a payment key,
- * the demo switch, a cloud provider variable, the container path, the desktop switch, the Gauzy
+ * the demo switch, a cloud provider variable, the container path, the desktop switch, the IRTranscripts
  * cloud endpoint or the hostname. Specs are excluded (they name these to prove they are ignored).
  */
-const FORBIDDEN = ['STRIPE_SECRET_KEY', 'process.env.DEMO', "process.env['DEMO']", 'CLOUD_PROVIDER', '/srv/gauzy', 'IS_ELECTRON', 'GAUZY_CLOUD_ENDPOINT', 'os.hostname', 'hostname()'];
+const FORBIDDEN = ['STRIPE_SECRET_KEY', 'process.env.DEMO', "process.env['DEMO']", 'CLOUD_PROVIDER', '/srv/irtranscripts', 'IS_ELECTRON', 'IRTRANSCRIPTS_CLOUD_ENDPOINT', 'os.hostname', 'hostname()'];
 
 export function sources(root: string): Array<{ path: string; text: string }> {
 	const out: Array<{ path: string; text: string }> = [];

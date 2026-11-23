@@ -9,7 +9,7 @@
 // nothing leaks, and the row chrome cannot drift between the panels.
 //
 // Colours are theme tokens only — never a literal — because a canvas widget has
-// to read correctly in all eight Gauzy themes.
+// to read correctly in all eight IRTranscripts themes.
 
 // `min-height: 0` is what makes the list scroll INSIDE the card: a flex/grid
 // child defaults to `min-height: auto` and refuses to shrink below its content,
@@ -64,7 +64,7 @@
   top: 0;
   z-index: 1;
   // Opaque: the rows scroll underneath it.
-  background-color: nb-theme(gauzy-card-3);
+  background-color: nb-theme(irtranscripts-card-3);
   color: nb-theme(text-hint-color);
   font-size: 12px;
   line-height: 15px;
@@ -73,17 +73,17 @@
   // tracks per element, so a header with a different gap would print its labels
   // out of line with the columns underneath it.
   gap: 0.5rem;
-  padding: nb-theme(gauzy-table-header-padding-y) nb-theme(gauzy-table-header-padding-x);
-  border-radius: nb-theme(gauzy-radius-sm);
+  padding: nb-theme(irtranscripts-table-header-padding-y) nb-theme(irtranscripts-table-header-padding-x);
+  border-radius: nb-theme(irtranscripts-radius-sm);
   margin-bottom: 2px;
 }
 
 .list-row {
   align-items: center;
   gap: 0.5rem;
-  padding: 0.875rem nb-theme(gauzy-table-cell-padding-x);
-  color: var(--gauzy-text-color-1);
-  border-bottom: 1px solid var(--gauzy-border-default-color);
+  padding: 0.875rem nb-theme(irtranscripts-table-cell-padding-x);
+  color: var(--irtranscripts-text-color-1);
+  border-bottom: 1px solid var(--irtranscripts-border-default-color);
   font-size: 12px;
   line-height: 15px;
   transition: background-color 0.15s ease-in-out;
@@ -93,7 +93,7 @@
   }
 
   &:hover {
-    background-color: var(--gauzy-hover-tint);
+    background-color: var(--irtranscripts-hover-tint);
   }
 }
 
@@ -232,7 +232,7 @@
 // an `nb-list-item`, so only the surrounding row chrome is supplied here.
 .activity-row {
   display: block;
-  padding: 0.875rem nb-theme(gauzy-table-cell-padding-x);
+  padding: 0.875rem nb-theme(irtranscripts-table-cell-padding-x);
 }
 
 // `ngx-activity-item` uses the larger report-page type scale by default. The

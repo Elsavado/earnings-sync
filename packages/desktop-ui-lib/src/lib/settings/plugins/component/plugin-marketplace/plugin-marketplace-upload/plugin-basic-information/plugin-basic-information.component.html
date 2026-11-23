@@ -110,7 +110,7 @@
           <nb-icon icon="folder-outline" class="label-icon"></nb-icon>
           {{ 'PLUGIN.FORM.CATEGORY' | translate }}
         </label>
-        <gauzy-category-selector [categoryId]="$safeNavigationMigration(category?.value)"></gauzy-category-selector>
+        <irtranscripts-category-selector [categoryId]="$safeNavigationMigration(category?.value)"></irtranscripts-category-selector>
         @if(category?.value) {
           <nb-hint class="hint-success">
             <nb-icon icon="checkmark-circle-outline"></nb-icon>

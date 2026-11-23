@@ -1,4 +1,4 @@
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 
 /**
  * Which origins an emailed link may point at.

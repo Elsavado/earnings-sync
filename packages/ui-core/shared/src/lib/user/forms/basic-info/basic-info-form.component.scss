@@ -17,7 +17,7 @@
 
 	& + & {
 		padding-top: 1.25rem;
-		border-top: 1px solid var(--gauzy-border-default-color);
+		border-top: 1px solid var(--irtranscripts-border-default-color);
 	}
 }
 
@@ -106,8 +106,8 @@
 	height: 4.5rem;
 	border-radius: nb-theme(border-radius);
 	overflow: hidden;
-	border: 1px solid var(--gauzy-border-default-color);
-	background-color: var(--gauzy-sidebar-background-3);
+	border: 1px solid var(--irtranscripts-border-default-color);
+	background-color: var(--irtranscripts-sidebar-background-3);
 	cursor: pointer;
 }
 

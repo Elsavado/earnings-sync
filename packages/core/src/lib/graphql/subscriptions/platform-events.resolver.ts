@@ -1,8 +1,8 @@
 import { randomUUID } from 'crypto';
 import { BadRequestException, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { Args, ID, Resolver, Subscription } from '@nestjs/graphql';
-import { FeatureFlag } from '@gauzy/common';
-import { ID as Id, PermissionsEnum } from '@gauzy/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
+import { ID as Id, PermissionsEnum } from '@irtranscripts/contracts';
 import { narrowPermissionsToOAuthAppScopes } from '../../auth/oauth-app-scope';
 import { RequestContext } from '../../core/context/request-context';
 import { ApiErrorCode } from '../../core/errors/api-error-codes';

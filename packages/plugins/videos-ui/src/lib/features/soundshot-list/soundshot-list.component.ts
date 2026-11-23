@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, type SimpleChanges } from '@angular/core';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { Actions } from '@ngneat/effects-ng';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { combineLatest, distinctUntilChanged, filter, map, Observable, take, tap } from 'rxjs';
@@ -7,7 +7,7 @@ import { SoundshotAction } from '../../+state/soundshot/soundshot.action';
 import { SoundshotQuery } from '../../+state/soundshot/soundshot.query';
 import { SoundshotStore } from '../../+state/soundshot/soundshot.store';
 import { ISoundshot } from '../../shared/models/soundshot.model';
-import { AlertModalComponent } from '@gauzy/ui-core/shared';
+import { AlertModalComponent } from '@irtranscripts/ui-core/shared';
 import { NbDialogService } from '@nebular/theme';
 
 @UntilDestroy({ checkProperties: true })

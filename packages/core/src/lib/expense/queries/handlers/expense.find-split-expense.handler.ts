@@ -1,4 +1,4 @@
-import { EmployeeKindEnum, IPagination, ISplitExpenseOutput } from '@gauzy/contracts';
+import { EmployeeKindEnum, IPagination, ISplitExpenseOutput } from '@irtranscripts/contracts';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { EmployeeService } from '../../../employee/employee.service';
 import { ExpenseService } from '../../expense.service';

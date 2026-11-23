@@ -1,7 +1,7 @@
 import { ApiProperty, IntersectionType, PickType } from '@nestjs/swagger';
-import { IOrganizationTeamJoinRequestValidateInput } from '@gauzy/contracts';
+import { IOrganizationTeamJoinRequestValidateInput } from '@irtranscripts/contracts';
 import { IsString, ValidateIf } from 'class-validator';
-import { ALPHA_NUMERIC_CODE_LENGTH } from '@gauzy/constants';
+import { ALPHA_NUMERIC_CODE_LENGTH } from '@irtranscripts/constants';
 import { CustomLength } from '../../shared/validators';
 import { UserEmailDTO } from '../../user/dto';
 import { OrganizationTeamJoinRequest } from '../organization-team-join-request.entity';

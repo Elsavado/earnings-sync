@@ -4,7 +4,7 @@ import { NbSidebarService } from '@nebular/theme';
 import { untilDestroyed, UntilDestroy } from '@ngneat/until-destroy';
 import { asyncScheduler, merge } from 'rxjs';
 import { filter, observeOn, take, tap } from 'rxjs/operators';
-import { environment } from '@gauzy/ui-config';
+import { environment } from '@irtranscripts/ui-config';
 
 /**
  * Minimal surface of the Chatwoot browser SDK that this component uses.
@@ -49,11 +49,11 @@ export class ThemeSettingsComponent implements OnInit, OnDestroy {
 	 * There is no in-app `faq` route — the entry carried neither a link nor a click
 	 * handler in the header menu it came from, so it had always been dead. The only
 	 * FAQ that actually exists is the published one on the docs site
-	 * (`ever-gauzy-docs/website/docs/reference/faq.md`; that Docusaurus site is
+	 * (`ever-irtranscripts-docs/website/docs/reference/faq.md`; that Docusaurus site is
 	 * configured with `baseUrl: '/'` and `routeBasePath: '/'`, hence no `/docs`
 	 * segment in the URL).
 	 */
-	public readonly faqUrl: string = 'https://docs.gauzy.co/reference/faq';
+	public readonly faqUrl: string = 'https://docs.irtranscripts.com/reference/faq';
 
 	constructor(
 		private readonly sidebarService: NbSidebarService,

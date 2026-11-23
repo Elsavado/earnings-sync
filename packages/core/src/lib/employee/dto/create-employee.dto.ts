@@ -2,7 +2,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsNotEmpty, IsObject, IsUUID, ValidateIf, ValidateNested } from 'class-validator';
 import { IntersectionType } from '@nestjs/mapped-types';
-import { ID, IEmployee, IEmployeeCreateInput } from '@gauzy/contracts';
+import { ID, IEmployee, IEmployeeCreateInput } from '@irtranscripts/contracts';
 import { EmploymentDTO } from './employment.dto';
 import { UserInputDTO } from './user-input-dto';
 import { RelationalTagDTO } from './../../tags/dto';

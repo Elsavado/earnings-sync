@@ -1,5 +1,5 @@
 import { IntersectionType, PartialType, PickType } from '@nestjs/swagger';
-import { ISocialAccountUpdateInput } from '@gauzy/contracts';
+import { ISocialAccountUpdateInput } from '@irtranscripts/contracts';
 import { TenantBaseDTO } from '../../../core/dto';
 import { CreateSocialAccountDTO } from './create-social-account.dto';
 

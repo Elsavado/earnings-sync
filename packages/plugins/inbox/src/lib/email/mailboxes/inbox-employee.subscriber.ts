@@ -1,6 +1,6 @@
 import { Subject } from 'rxjs';
 import { EventSubscriber } from 'typeorm';
-import { BaseEntityEventSubscriber, Employee } from '@gauzy/core';
+import { BaseEntityEventSubscriber, Employee } from '@irtranscripts/core';
 
 /** An employee the platform created (its id, tenant, organization and kind). */
 export interface InboxCreatedEmployee {

@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { LanguageElectronService } from '@gauzy/desktop-ui-lib';
+import { LanguageElectronService } from '@irtranscripts/desktop-ui-lib';
 import { AppComponent } from './app.component';
 
 /**
- * The root shell of the Gauzy Server renderer: a router outlet, plus the Electron language bridge
+ * The root shell of the IRTranscripts Server renderer: a router outlet, plus the Electron language bridge
  * started on init. This spec began as the 2021 Angular CLI scaffold (a `title` of 'desktop-web-ui' and
  * an h1 "Welcome to desktop-web-ui!"); the component replaced that placeholder long ago and the spec
  * never ran, so those two cases now assert what the shell really does. The component is standalone
@@ -14,7 +14,7 @@ import { AppComponent } from './app.component';
  * feature module (ngx-charts and the d3 tree among them) into a spec that uses none of them, which
  * took this three-case suite ~15 minutes on a cold transform cache.
  */
-jest.mock('@gauzy/desktop-ui-lib', () => ({ LanguageElectronService: class LanguageElectronService {} }));
+jest.mock('@irtranscripts/desktop-ui-lib', () => ({ LanguageElectronService: class LanguageElectronService {} }));
 
 describe('AppComponent', () => {
 	const languageElectronService = { initialize: jest.fn() };

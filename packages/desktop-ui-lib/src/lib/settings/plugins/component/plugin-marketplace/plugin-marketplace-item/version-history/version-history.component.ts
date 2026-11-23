@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ID, IPluginVersion } from '@gauzy/contracts';
+import { ID, IPluginVersion } from '@irtranscripts/contracts';
 import { NbDialogService, NbCardModule, NbIconModule, NbButtonModule, NbListModule, NbBadgeModule, NbTooltipModule } from '@nebular/theme';
 import { Actions } from '@ngneat/effects-ng';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';

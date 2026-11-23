@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsInt, IsNotEmpty, IsOptional, IsUUID, Min } from 'class-validator';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 
 /**
  * Variant gallery request DTO validation.

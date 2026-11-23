@@ -10,10 +10,10 @@
  * `PUT /gift-cards/:id` reactivated a cancelled card. This suite runs each update body through the pipe exactly as
  * its route mounts it.
  *
- * `@gauzy/core` is doubled for the reason the package's other specs give (its barrel boots the application graph);
- * `WithoutInitializers` - the one piece this suite is about - comes from `@gauzy/common`, real.
+ * `@irtranscripts/core` is doubled for the reason the package's other specs give (its barrel boots the application graph);
+ * `WithoutInitializers` - the one piece this suite is about - comes from `@irtranscripts/common`, real.
  */
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	TenantOrganizationBaseDTO: class {}
 }));
 

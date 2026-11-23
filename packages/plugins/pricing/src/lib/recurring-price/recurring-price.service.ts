@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { CurrencyCode } from '@gauzy/contracts';
+import { CurrencyCode } from '@irtranscripts/contracts';
 import { IRecurringPriceRequest, IRecurringPriceResult } from '../pricing.types';
 import { ProductPriceService } from '../product-price/product-price.service';
 

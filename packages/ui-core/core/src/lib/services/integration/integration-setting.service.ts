@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IIntegrationSetting } from '@gauzy/contracts';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { IIntegrationSetting } from '@irtranscripts/contracts';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 import { CrudService } from '../crud/crud.service';
 
 @Injectable({

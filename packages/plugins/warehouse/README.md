@@ -1,4 +1,4 @@
-# @gauzy/plugin-warehouse
+# @irtranscripts/plugin-warehouse
 
 ## Overview
 
@@ -156,7 +156,7 @@ dist folder `dist/packages/plugins/warehouse` and run `npm publish`.
 ## Installation
 
 ```bash
-npm install @gauzy/plugin-warehouse
+npm install @irtranscripts/plugin-warehouse
 # or
-yarn add @gauzy/plugin-warehouse
+yarn add @irtranscripts/plugin-warehouse
 ```

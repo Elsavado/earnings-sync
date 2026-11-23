@@ -13,8 +13,8 @@ import {
 	SellerStatus,
 	SellerTransactionStatus,
 	SellerVerificationStatus
-} from '@gauzy/contracts';
-import { EventOutboxService, Money, RequestContext, SequenceService } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { EventOutboxService, Money, RequestContext, SequenceService } from '@irtranscripts/core';
 import { SellerPayout } from './seller-payout.entity';
 import { MikroOrmSellerPayoutRepository } from './repository/mikro-orm-seller-payout.repository';
 import { TypeOrmSellerPayoutRepository } from './repository/type-orm-seller-payout.repository';

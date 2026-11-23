@@ -1,7 +1,7 @@
 // Must stay first: loads the entity graph before any handler pulls an entity (see activity.controller.spec.ts).
 import '../../../../core/entities/internal';
 
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 import { MultiORMEnum } from '../../../../core/utils';
 import {
 	asTenantUser,

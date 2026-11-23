@@ -10,7 +10,7 @@ import {
 	ViewChild
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IPlugin } from '@gauzy/contracts';
+import { IPlugin } from '@irtranscripts/contracts';
 import { NB_DIALOG_CONFIG, NbDialogRef, NbCardModule, NbIconModule, NbButtonModule, NbTooltipModule, NbFormFieldModule, NbInputModule, NbBadgeModule, NbToggleModule, NbSelectModule, NbOptionModule } from '@nebular/theme';
 import { Actions } from '@ngneat/effects-ng';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';

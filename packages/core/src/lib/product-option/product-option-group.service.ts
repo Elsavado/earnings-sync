@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { In, FindOptionsWhere } from 'typeorm';
 import { ProductOptionGroupTranslation } from './../core/entities/internal';
 import { TenantAwareCrudService } from './../core/crud';
-import { IProductOptionGroupTranslation, IProductOptionGroupTranslatable } from '@gauzy/contracts';
+import { IProductOptionGroupTranslation, IProductOptionGroupTranslatable } from '@irtranscripts/contracts';
 import { ProductOptionGroup } from './product-option-group.entity';
 import { MikroOrmProductOptionGroupRepository } from './repository/mikro-orm-product-option-group.repository';
 import { TypeOrmProductOptionGroupRepository } from './repository/type-orm-product-option-group.repository';

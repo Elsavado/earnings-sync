@@ -2,8 +2,8 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { RelationId, JoinColumn } from 'typeorm';
 import { IsString, IsOptional, IsDateString, IsUUID, IsNotEmpty, IsEnum, IsBoolean } from 'class-validator';
 import { Exclude } from 'class-transformer';
-import { FileStorageProvider, FileStorageProviderEnum, ID, IScreenshot, ITimeSlot, IUser } from '@gauzy/contracts';
-import { isBetterSqlite3, isSqlite } from '@gauzy/config';
+import { FileStorageProvider, FileStorageProviderEnum, ID, IScreenshot, ITimeSlot, IUser } from '@irtranscripts/contracts';
+import { isBetterSqlite3, isSqlite } from '@irtranscripts/config';
 import {
 	ColumnIndex,
 	MultiORMColumn,
@@ -45,7 +45,7 @@ export class Screenshot extends TenantOrganizationBaseEntity implements IScreens
 
 	/*
 	|--------------------------------------------------------------------------
-	| Image/Screenshot Analysis Through Gauzy AI
+	| Image/Screenshot Analysis Through IRTranscripts AI
 	|--------------------------------------------------------------------------
 	*/
 

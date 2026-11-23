@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
-import { ID, LanguagesEnum } from '@gauzy/contracts';
+import { ID, LanguagesEnum } from '@irtranscripts/contracts';
 import { IsOrganizationBelongsToUser } from './../../shared/validators';
 
 /**

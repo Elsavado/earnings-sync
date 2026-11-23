@@ -1,9 +1,9 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { FindOptionsWhere } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { FEATURE_GRAPHQL, FeatureFlagGuard, PermissionGuard, Permissions, TenantPermissionGuard } from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+import { ID } from '@irtranscripts/contracts';
+import { FEATURE_GRAPHQL, FeatureFlagGuard, PermissionGuard, Permissions, TenantPermissionGuard } from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { SubscriptionFeatures } from '../../subscription.features';
 import { SubscriptionPermissions } from '../../subscription.permissions';
 import { SubscriptionPlan } from '../../subscription-plan/subscription-plan.entity';

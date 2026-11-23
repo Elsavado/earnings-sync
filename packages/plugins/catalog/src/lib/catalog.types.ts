@@ -7,7 +7,7 @@
  * one imports it from here rather than declaring a look-alike of its own.
  */
 
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 /**
  * Lifecycle gate of a product or a product category.

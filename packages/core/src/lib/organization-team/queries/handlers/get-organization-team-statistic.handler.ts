@@ -1,6 +1,6 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { BadRequestException, HttpException } from '@nestjs/common';
-import { IOrganizationTeam } from '@gauzy/contracts';
+import { IOrganizationTeam } from '@irtranscripts/contracts';
 import { GetOrganizationTeamStatisticQuery } from '../get-organization-team-statistic.query';
 import { OrganizationTeamService } from '../../organization-team.service';
 

@@ -1,4 +1,4 @@
-import { IUser } from '@gauzy/contracts';
+import { IUser } from '@irtranscripts/contracts';
 import { LockMode, raw } from '@mikro-orm/core';
 import { Injectable } from '@nestjs/common';
 import { Between, EntityManager, In, LessThan, MoreThan } from 'typeorm';

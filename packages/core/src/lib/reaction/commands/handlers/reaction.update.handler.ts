@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { UpdateResult } from 'typeorm';
-import { IReaction } from '@gauzy/contracts';
+import { IReaction } from '@irtranscripts/contracts';
 import { ReactionService } from '../../reaction.service';
 import { ReactionUpdateCommand } from '../reaction.update.command';
 

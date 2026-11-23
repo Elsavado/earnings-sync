@@ -12,8 +12,8 @@ import { BadRequestException, ExecutionContext, ForbiddenException, NotFoundExce
 import { MODULE_METADATA } from '@nestjs/common/constants';
 import { Reflector } from '@nestjs/core';
 import { buildSchema, printSchema } from 'graphql';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@gauzy/constants';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { RequestContext } from '../core/context';
 import { FeatureModule } from '../feature/feature.module';
 import { FeatureFlagGuard, PermissionGuard, TenantPermissionGuard } from '../shared/guards';

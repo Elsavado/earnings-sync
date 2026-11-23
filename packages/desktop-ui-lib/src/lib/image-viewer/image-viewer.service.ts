@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { shareReplay, firstValueFrom, concatMap, map } from 'rxjs';
 import { ImageCacheService, Store, TimeSlotCacheService } from '../services';
-import { ITimeSlot } from '@gauzy/contracts';
+import { ITimeSlot } from '@irtranscripts/contracts';
 import { API_PREFIX } from '../constants';
-import { toParams } from '@gauzy/ui-core/common';
+import { toParams } from '@irtranscripts/ui-core/common';
 
 @Injectable({
 	providedIn: 'root'

@@ -1,4 +1,4 @@
-@use 'gauzy/_gauzy-dialogs' as *;
+@use 'irtranscripts/_irtranscripts-dialogs' as *;
 
 .equipment-img {
   display: flex;
@@ -31,7 +31,7 @@
 
 :host {
   nb-card {
-    background-color: nb-theme(gauzy-card-1);
+    background-color: nb-theme(irtranscripts-card-1);
     width: 645px;
   }
 }

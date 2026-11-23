@@ -40,7 +40,7 @@ describe('TokenInterceptor', () => {
 		}
 	);
 
-	it.each(['/api/user/me', 'https://apidemo.gauzy.co/api/organization', 'https://apidemo.gauzy.co/graphql'])(
+	it.each(['/api/user/me', 'https://apidemo.irtranscripts.com/api/organization', 'https://apidemo.irtranscripts.com/graphql'])(
 		'sends the token with an API request %s',
 		(url) => {
 			http.get(url).subscribe();

@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 import * as chalk from "chalk";
-import { DatabaseTypeEnum } from "@gauzy/config";
+import { DatabaseTypeEnum } from "@irtranscripts/config";
 
 export class AlterScreenshotTable1646117679347 implements MigrationInterface {
     name = 'AlterScreenshotTable1646117679347';

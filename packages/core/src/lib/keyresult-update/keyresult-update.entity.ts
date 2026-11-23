@@ -1,7 +1,7 @@
 import { RelationId, JoinColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum } from 'class-validator';
-import { IKeyResult, IKeyResultUpdate, KeyResultUpdateStatusEnum } from '@gauzy/contracts';
+import { IKeyResult, IKeyResultUpdate, KeyResultUpdateStatusEnum } from '@irtranscripts/contracts';
 import {
 	KeyResult,
 	TenantOrganizationBaseEntity

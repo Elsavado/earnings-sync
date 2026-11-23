@@ -1,4 +1,4 @@
-import { FeatureModule, RolePermissionModule } from '@gauzy/core';
+import { FeatureModule, RolePermissionModule } from '@irtranscripts/core';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MikroOrmModule } from '@mikro-orm/nestjs';

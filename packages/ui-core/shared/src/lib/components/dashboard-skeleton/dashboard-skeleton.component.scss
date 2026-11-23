@@ -8,18 +8,18 @@
   height: 100dvh;
   overflow-y: hidden;
 
-  // === GAUZY LIGHT (default) ===
+  // === IRTRANSCRIPTS LIGHT (default) ===
   // `--skeleton-canvas` is the page background (`layout-background-color`),
   // which is NOT the same surface as `--background-basic-color-1` (the panel /
-  // card colour): on `gauzy-dark` the canvas is rgb(9, 9, 11) and the panel is
+  // card colour): on `irtranscripts-dark` the canvas is rgb(9, 9, 11) and the panel is
   // rgb(18, 18, 20). Painting the whole loading screen with the panel colour is
   // what made it read lighter than the app it hands over to.
   --skeleton-canvas: #ffffff;
   --background-basic-color-1: rgb(255, 255, 255);
   --border-radius: 0.5rem;
   --button-rectangle-border-radius: 0.375rem;
-  --gauzy-sidebar-background-2: rgba(251, 251, 251, 1);
-  --gauzy-card-2: rgba(50, 50, 50, 0.03);
+  --irtranscripts-sidebar-background-2: rgba(251, 251, 251, 1);
+  --irtranscripts-card-2: rgba(50, 50, 50, 0.03);
 
   // Placeholder bar and its moving highlight — translucent NEUTRALS, declared
   // once rather than per theme, because they composite with whatever surface is
@@ -30,17 +30,17 @@
   --skeleton-shimmer: rgba(126, 126, 143, 0.28);
 }
 
-// === GAUZY DARK ===
-// Mirrors the `gauzy-dark` map in `static/styles/themes.scss`; if these drift,
+// === IRTRANSCRIPTS DARK ===
+// Mirrors the `irtranscripts-dark` map in `static/styles/themes.scss`; if these drift,
 // the loading skeleton flashes the previous palette before the app paints.
 // `_spinner.scss` holds the same literals for the pre-Angular boot skeleton.
-:host-context([data-skeleton-theme='gauzy-dark']) {
+:host-context([data-skeleton-theme='irtranscripts-dark']) {
   --skeleton-canvas: rgb(9, 9, 11);
   --background-basic-color-1: rgb(18, 18, 20);
   --border-radius: 0.5rem;
   --button-rectangle-border-radius: 0.375rem;
-  --gauzy-sidebar-background-2: rgb(12, 12, 14);
-  --gauzy-card-2: rgba(255, 255, 255, 0.02);
+  --irtranscripts-sidebar-background-2: rgb(12, 12, 14);
+  --irtranscripts-card-2: rgba(255, 255, 255, 0.02);
 }
 
 // === DEFAULT THEME ===
@@ -49,8 +49,8 @@
   --background-basic-color-1: #ffffff;
   --border-radius: 0.25rem;
   --button-rectangle-border-radius: 0.25rem;
-  --gauzy-sidebar-background-2: #ffffff;
-  --gauzy-card-2: rgba(50, 50, 50, 0.03);
+  --irtranscripts-sidebar-background-2: #ffffff;
+  --irtranscripts-card-2: rgba(50, 50, 50, 0.03);
 }
 
 // === DARK THEME ===
@@ -59,8 +59,8 @@
   --background-basic-color-1: #222b45;
   --border-radius: 0.25rem;
   --button-rectangle-border-radius: 0.25rem;
-  --gauzy-sidebar-background-2: rgb(32, 41, 67);
-  --gauzy-card-2: rgba(16, 16, 20, 0.3);
+  --irtranscripts-sidebar-background-2: rgb(32, 41, 67);
+  --irtranscripts-card-2: rgba(16, 16, 20, 0.3);
 }
 
 // === COSMIC THEME ===
@@ -69,8 +69,8 @@
   --background-basic-color-1: #323259;
   --border-radius: 0.5rem;
   --button-rectangle-border-radius: 1rem;
-  --gauzy-sidebar-background-2: rgb(45, 47, 86);
-  --gauzy-card-2: rgba(39, 39, 78, 0.5);
+  --irtranscripts-sidebar-background-2: rgb(45, 47, 86);
+  --irtranscripts-card-2: rgba(39, 39, 78, 0.5);
 }
 
 // === CORPORATE THEME ===
@@ -79,8 +79,8 @@
   --background-basic-color-1: rgba(255, 255, 255, 1);
   --border-radius: 0.375rem;
   --button-rectangle-border-radius: 0.375rem;
-  --gauzy-sidebar-background-2: rgba(251, 251, 251, 1);
-  --gauzy-card-2: rgba(50, 50, 50, 0.03);
+  --irtranscripts-sidebar-background-2: rgba(251, 251, 251, 1);
+  --irtranscripts-card-2: rgba(50, 50, 50, 0.03);
 }
 
 // === MATERIAL LIGHT ===
@@ -89,8 +89,8 @@
   --background-basic-color-1: #ffffff;
   --border-radius: 0.25rem;
   --button-rectangle-border-radius: 0.375rem;
-  --gauzy-sidebar-background-2: rgb(51, 51, 51);
-  --gauzy-card-2: rgba(50, 50, 50, 0.03);
+  --irtranscripts-sidebar-background-2: rgb(51, 51, 51);
+  --irtranscripts-card-2: rgba(50, 50, 50, 0.03);
 }
 
 // === MATERIAL DARK ===
@@ -99,8 +99,8 @@
   --background-basic-color-1: #303030;
   --border-radius: 0.25rem;
   --button-rectangle-border-radius: 0.375rem;
-  --gauzy-sidebar-background-2: rgb(51, 51, 51);
-  --gauzy-card-2: rgba(50, 50, 50, 0.03);
+  --irtranscripts-sidebar-background-2: rgb(51, 51, 51);
+  --irtranscripts-card-2: rgba(50, 50, 50, 0.03);
 }
 
 // A translucent fill with a translucent highlight sweeping across it, so the
@@ -120,14 +120,14 @@
   display: flex;
   width: 100%;
   height: 100vh;
-  // The page canvas. Only the two gauzy themes declare `--skeleton-canvas`; for
+  // The page canvas. Only the two irtranscripts themes declare `--skeleton-canvas`; for
   // the rest the fallback keeps the previous value.
   background-color: var(--skeleton-canvas, var(--background-basic-color-1));
 }
 
 .skeleton-sidebar {
   width: 260px;
-  background: var(--gauzy-sidebar-background-2);
+  background: var(--irtranscripts-sidebar-background-2);
   padding: 1rem;
   flex-shrink: 0;
   display: flex;
@@ -209,7 +209,7 @@
   padding: 1rem;
   overflow-y: auto;
   // Same canvas the loaded content column sits on — see `.skeleton-app-layout`.
-  background-color: var(--skeleton-canvas, var(--gauzy-card-2));
+  background-color: var(--skeleton-canvas, var(--irtranscripts-card-2));
 }
 
 .skeleton-top-header {

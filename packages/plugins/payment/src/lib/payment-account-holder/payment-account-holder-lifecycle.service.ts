@@ -5,8 +5,8 @@ import {
 	IPaymentAccountHolderUpdateInput,
 	PaymentAccountHolderStatus,
 	PaymentAccountVerificationStatus
-} from '@gauzy/contracts';
-import { PaymentAccountHolderService, RequestContext } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { PaymentAccountHolderService, RequestContext } from '@irtranscripts/core';
 import { PaymentMethodTokenLifecycleService } from '../payment-method-token/payment-method-token-lifecycle.service';
 
 /**

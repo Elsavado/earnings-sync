@@ -14,12 +14,12 @@
  *   the first attempt would answer a question the caller never asked;
  * - a route that has not adopted the convention reads no key, claims nothing and runs every time.
  *
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which this seam needs, so it is doubled at the module
  * boundary exactly as the package's other specifications do. The retry-safety kernel is the exception
  * and is taken from its own modules, because the kernel is what is under test here.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
@@ -98,24 +98,24 @@ jest.mock('@gauzy/core', () => {
 		ProductVariant: class {},
 		User: class {},
 		Warehouse: class {},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		// The decimal comparison the commission bands and the settlement's discrepancy are decided by is
 		// the kernel's own, so the double hands over the real one: a comparison doubled here would agree
 		// with the service about arithmetic the platform never performs.
-		compareDecimalStrings: jest.requireActual('@gauzy/core/src/lib/money/decimal').compareDecimalStrings,
+		compareDecimalStrings: jest.requireActual('@irtranscripts/core/src/lib/money/decimal').compareDecimalStrings,
 		isUniqueViolation: (error: any) => Boolean(error?.code === '23505'),
 		// The kernel is the subject here, so its own modules answer rather than a second copy of them.
-		ApiErrorCode: jest.requireActual('@gauzy/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
-		ApiException: jest.requireActual('@gauzy/core/src/lib/core/errors/api-exception').ApiException,
-		IDEMPOTENT_METADATA_KEY: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.policy')
+		ApiErrorCode: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
+		ApiException: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-exception').ApiException,
+		IDEMPOTENT_METADATA_KEY: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.policy')
 			.IDEMPOTENT_METADATA_KEY,
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
-		IdempotencyInterceptor: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.interceptor')
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		IdempotencyInterceptor: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.interceptor')
 			.IdempotencyInterceptor
 	};
 });
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	DatabaseTypeEnum: {
 		mongodb: 'mongodb',
 		sqlite: 'sqlite',
@@ -132,7 +132,7 @@ jest.mock('@gauzy/config', () => ({
  * module behind the name is doubled as well: the kernel's *decision* is what is under test here, not
  * how a row is persisted.
  */
-jest.mock('@gauzy/core/src/lib/idempotency/idempotency.service', () => ({ IdempotencyService: class {} }));
+jest.mock('@irtranscripts/core/src/lib/idempotency/idempotency.service', () => ({ IdempotencyService: class {} }));
 
 import { ExecutionContext, HttpStatus } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
@@ -144,9 +144,9 @@ import {
 	IdempotencyStatus,
 	JsonData,
 	SellerPayoutStatus
-} from '@gauzy/contracts';
-import { ApiErrorCode, ApiException, IdempotencyInterceptor, IDEMPOTENT_METADATA_KEY } from '@gauzy/core';
-import type { IdempotencyService } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { ApiErrorCode, ApiException, IdempotencyInterceptor, IDEMPOTENT_METADATA_KEY } from '@irtranscripts/core';
+import type { IdempotencyService } from '@irtranscripts/core';
 import { defer, lastValueFrom } from 'rxjs';
 import { SellerPayoutController } from './seller-payout.controller';
 import { SellerPayoutService } from './seller-payout.service';

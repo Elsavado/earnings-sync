@@ -17,8 +17,8 @@ import {
 	ITasksStatistics,
 	ITimeSlotStatistics,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
 import { Permissions } from '../../shared/decorators';
 import {
 	FeatureFlagGuard,

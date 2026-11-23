@@ -1,7 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IPlugin, IPluginSource, IPluginVersion, PluginSourceType, PluginStatus, PluginType } from '@gauzy/contracts';
+import { IPlugin, IPluginSource, IPluginVersion, PluginSourceType, PluginStatus, PluginType } from '@irtranscripts/contracts';
 import { NbDateService, NbDialogRef, NbDialogService, NbCardModule, NbIconModule, NbButtonModule, NbStepperModule } from '@nebular/theme';
 import { Actions } from '@ngneat/effects-ng';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -40,7 +40,7 @@ export class DialogCreateVersionComponent implements OnInit, OnDestroy {
 	showSourceSelector = false;
 	private readonly sourceIcons = new Map<PluginSourceType, string>([
 		[PluginSourceType.CDN, 'layers-outline'],
-		[PluginSourceType.GAUZY, 'cube-outline'],
+		[PluginSourceType.IRTRANSCRIPTS, 'cube-outline'],
 		[PluginSourceType.NPM, 'code-outline']
 	]);
 

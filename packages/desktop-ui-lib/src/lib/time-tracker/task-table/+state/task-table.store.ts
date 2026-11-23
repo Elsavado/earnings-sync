@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store, StoreConfig } from '@datorama/akita';
-import { ITask } from '@gauzy/contracts';
+import { ITask } from '@irtranscripts/contracts';
 
 export interface ITaskTableState {
 	data: ITask[];

@@ -1,6 +1,6 @@
-import { IEmployeeProposalTemplateCreateInput } from '@gauzy/contracts';
+import { IEmployeeProposalTemplateCreateInput } from '@irtranscripts/contracts';
 import { IntersectionType } from '@nestjs/mapped-types';
-import { EmployeeFeatureDTO } from '@gauzy/core';
+import { EmployeeFeatureDTO } from '@irtranscripts/core';
 import { ProposalTemplateDTO } from './proposal-template.dto';
 
 /**

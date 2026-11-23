@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsOptional, IsString, IsUUID, Length, MaxLength } from 'class-validator';
-import { DecimalString } from '@gauzy/contracts';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { DecimalString } from '@irtranscripts/contracts';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 import { CampaignBudgetType } from '../../promotion.types';
 import { IsDecimalAmount } from '../../promotion.validators';
 

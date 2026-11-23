@@ -1,4 +1,4 @@
-# @gauzy/plugin-purchasing
+# @irtranscripts/plugin-purchasing
 
 ## Overview
 
@@ -251,7 +251,7 @@ dist folder `dist/packages/plugins/purchasing` and run `npm publish`.
 ## Installation
 
 ```bash
-npm install @gauzy/plugin-purchasing
+npm install @irtranscripts/plugin-purchasing
 # or
-yarn add @gauzy/plugin-purchasing
+yarn add @irtranscripts/plugin-purchasing
 ```

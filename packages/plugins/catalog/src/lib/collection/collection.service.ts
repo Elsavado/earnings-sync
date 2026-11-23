@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { DeepPartial, FindOptionsWhere, IsNull, Not } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { EventBus, RequestContext } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { EventBus, RequestContext } from '@irtranscripts/core';
 import { CollectionType, PublicationStatus } from '../catalog.types';
 import { CollectionChangedEvent } from '../events';
 import { Collection } from './collection.entity';

@@ -1,5 +1,5 @@
-import { PreferredUiEnum } from '@gauzy/contracts';
-import { PageRouteRegistryConfig, preferredUiCanMatch, standardDashboardGuard } from '@gauzy/ui-core/core';
+import { PreferredUiEnum } from '@irtranscripts/contracts';
+import { PageRouteRegistryConfig, preferredUiCanMatch, standardDashboardGuard } from '@irtranscripts/ui-core/core';
 
 /** Path segment for the Time Tracking tab under /pages/dashboard. */
 export const DASHBOARD_TIME_TRACKING_PATH = 'time-tracking';

@@ -1,5 +1,5 @@
 import { IntersectionType, PickType } from '@nestjs/mapped-types';
-import { IDealCreateInput } from '@gauzy/contracts';
+import { IDealCreateInput } from '@irtranscripts/contracts';
 import { Deal } from '../../core/entities/internal';
 import { TenantOrganizationBaseDTO } from '../../core/dto';
 

@@ -1,14 +1,14 @@
 /**
- * The service imports only entity classes and the password hasher from `@gauzy/core`; stand-ins keep the
+ * The service imports only entity classes and the password hasher from `@irtranscripts/core`; stand-ins keep the
  * whole core module (and its entity graph) out of this spec.
  */
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	Employee: class Employee {},
 	User: class User {},
 	PasswordHashService: class PasswordHashService {}
 }));
 
-import { oAuth2ClientManager } from '@gauzy/auth';
+import { oAuth2ClientManager } from '@irtranscripts/auth';
 import { McpOAuthService } from './mcp-oauth.service';
 
 /**

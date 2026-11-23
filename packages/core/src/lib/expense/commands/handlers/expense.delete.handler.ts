@@ -1,8 +1,8 @@
 import { BadRequestException, ForbiddenException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { DeleteResult } from 'typeorm';
-import { isNotEmpty } from '@gauzy/utils';
-import { ID } from '@gauzy/contracts';
+import { isNotEmpty } from '@irtranscripts/utils';
+import { ID } from '@irtranscripts/contracts';
 import { ExpenseService } from '../../expense.service';
 import { EmployeeService } from '../../../employee/employee.service';
 import { EmployeeStatisticsService } from '../../../employee-statistics';

@@ -7,7 +7,7 @@ import {
 	TKbMouseActivity,
 	TWindowActivities,
 	ActivityState
-} from '@gauzy/desktop-activity';
+} from '@irtranscripts/desktop-activity';
 import {
 	KbMouseActivityService,
 	TranslateService,
@@ -15,7 +15,7 @@ import {
 	TimerService,
 	Timer,
 	PowerManagerPreventDisplaySleep
-} from '@gauzy/desktop-lib';
+} from '@irtranscripts/desktop-lib';
 import AppWindow from '../window-manager';
 import * as path from 'node:path';
 import {

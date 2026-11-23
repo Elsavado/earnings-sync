@@ -8,7 +8,7 @@
  * is honoured, and that a repeat is answered from the first attempt's record instead of running the
  * handler again.
  *
- * `@gauzy/core` is doubled at the module boundary for the reason the other cart specs state: the
+ * `@irtranscripts/core` is doubled at the module boundary for the reason the other cart specs state: the
  * barrel boots an application graph this suite has no use for. Everything the convention is made of —
  * the interceptor and the metadata the decorator writes — is the real thing.
  */
@@ -16,7 +16,7 @@ jest.mock('./commerce-checkout-session.service', () => ({
 	CommerceCheckoutSessionService: class CommerceCheckoutSessionService {}
 }));
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: nothing here is mapped onto a database or a module graph. */
 	const decorator = () => () => undefined;
 
@@ -25,7 +25,7 @@ jest.mock('@gauzy/core', () => {
 	 * string literal: a spec that spelled it out would keep passing after the decorator and the guard
 	 * stopped agreeing on the key they use.
 	 */
-	const { VERSIONED_METADATA_KEY } = jest.requireActual('@gauzy/core/src/lib/concurrency/version.util');
+	const { VERSIONED_METADATA_KEY } = jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util');
 
 	/** The base controller, reduced to what a route inherits: the service it delegates to. */
 	class CrudController {
@@ -69,22 +69,22 @@ jest.mock('@gauzy/core', () => {
 		// The export mark the cart's token digest carries; nothing is exported here.
 		ExportRedacted: decorator,
 		ColumnNumericTransformerPipe: class {},
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
-		IDEMPOTENT_METADATA_KEY: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.policy')
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		IDEMPOTENT_METADATA_KEY: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.policy')
 			.IDEMPOTENT_METADATA_KEY,
-		IdempotencyInterceptor: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.interceptor')
+		IdempotencyInterceptor: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.interceptor')
 			.IdempotencyInterceptor
 	};
 });
 
-jest.mock('@gauzy/core/src/lib/idempotency/idempotency.service', () => ({
+jest.mock('@irtranscripts/core/src/lib/idempotency/idempotency.service', () => ({
 	IdempotencyService: class IdempotencyService {}
 }));
 
 import { CallHandler, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { from, lastValueFrom } from 'rxjs';
-import { IDEMPOTENT_METADATA_KEY, IdempotencyInterceptor, VERSIONED_METADATA_KEY } from '@gauzy/core';
+import { IDEMPOTENT_METADATA_KEY, IdempotencyInterceptor, VERSIONED_METADATA_KEY } from '@irtranscripts/core';
 import { CommerceCheckoutSessionController } from './commerce-checkout-session.controller';
 
 const SESSION_ID = 'session-1';

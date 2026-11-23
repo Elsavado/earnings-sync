@@ -1,6 +1,6 @@
 import { IntersectionType, PartialType, PickType } from '@nestjs/swagger';
-import { IGetJobPresetInput } from '@gauzy/contracts';
-import { EmployeeFeatureDTO, TenantOrganizationBaseDTO } from '@gauzy/core';
+import { IGetJobPresetInput } from '@irtranscripts/contracts';
+import { EmployeeFeatureDTO, TenantOrganizationBaseDTO } from '@irtranscripts/core';
 
 export class JobPresetQueryDTO extends IntersectionType(
 	TenantOrganizationBaseDTO,

@@ -1,7 +1,7 @@
 import { NotFoundException, UseGuards } from '@nestjs/common';
 import { Args, ID, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { FeatureFlag } from '@gauzy/common';
-import { ID as Id, IOfficialHolidayFindInput, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
+import { ID as Id, IOfficialHolidayFindInput, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import {
 	ConnectionFilter,

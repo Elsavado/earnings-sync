@@ -1,6 +1,6 @@
 import { PrimaryKey } from '@mikro-orm/core';
 import { PrimaryColumn } from 'typeorm';
-import { MultiORMColumn, MultiORMEntity, SkipExport } from '@gauzy/core';
+import { MultiORMColumn, MultiORMEntity, SkipExport } from '@irtranscripts/core';
 
 /**
  * The connection of this installation to Ever Platform: one row, `id = 'self'`.
@@ -15,7 +15,7 @@ import { MultiORMColumn, MultiORMEntity, SkipExport } from '@gauzy/core';
 @SkipExport()
 @MultiORMEntity('ever_connect_connection')
 export class EverConnectConnection {
-	// Both ORMs get the primary key whichever one is active (Gauzy initializes both).
+	// Both ORMs get the primary key whichever one is active (IRTranscripts initializes both).
 	@PrimaryKey({ type: 'varchar', length: 16 })
 	@PrimaryColumn({ type: 'varchar', length: 16 })
 	id: string;

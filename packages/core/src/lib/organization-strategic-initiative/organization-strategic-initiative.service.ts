@@ -14,7 +14,7 @@ import {
 	OrganizationStrategicVisibilityScopeEnum,
 	PermissionsEnum,
 	RolesEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { BaseQueryDTO, TenantAwareCrudService } from '../core/crud';
 import { RequestContext } from '../core/context';
 import { TENANT_ADMIN_ROLES } from '../core/crud/organization-boundary';

@@ -1,6 +1,6 @@
-# @gauzy/plugin-legal-ui
+# @irtranscripts/plugin-legal-ui
 
-Renders the Terms of Service, Privacy Policy and Cookie Policy inside the Gauzy application.
+Renders the Terms of Service, Privacy Policy and Cookie Policy inside the IRTranscripts application.
 
 Two mount points are provided, both backed by the same components:
 
@@ -12,7 +12,7 @@ Two mount points are provided, both backed by the same components:
 ## Where the text comes from
 
 The legal text is **bundled into the build**. It is vendored from the published
-[`@ever-co/legal`](https://www.npmjs.com/package/@ever-co/legal) corpus (product `gauzy`, locale `en`)
+[`@ever-co/legal`](https://www.npmjs.com/package/@ever-co/legal) corpus (product `irtranscripts`, locale `en`)
 into `src/lib/content/*.generated.ts` and committed to this repository.
 
 That means rendering a legal page:
@@ -67,7 +67,7 @@ After building your library with `yarn nx build plugin-legal-ui`, go to the dist
 Install the Legal UI Plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-legal-ui
+npm install @irtranscripts/plugin-legal-ui
 # or
-yarn add @gauzy/plugin-legal-ui
+yarn add @irtranscripts/plugin-legal-ui
 ```

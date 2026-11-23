@@ -1,6 +1,6 @@
 ﻿import { Injectable } from '@nestjs/common';
 import { DeepPartial, EntityManager } from 'typeorm';
-import { ID, IOrderTotals } from '@gauzy/contracts';
+import { ID, IOrderTotals } from '@irtranscripts/contracts';
 import { orderLedgerAppendOnly } from '../order-ledger.append-only';
 import { IOrderRowScope, createUnderOrderScope, orderScopeColumns } from '../order-history/order-row-scope';
 import { OrderSummary } from './order-summary.entity';

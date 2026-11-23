@@ -1,9 +1,9 @@
 import { BadRequestException, ForbiddenException } from '@nestjs/common';
-import { EverOperatorService } from '@gauzy/plugin-ever-instance';
+import { EverOperatorService } from '@irtranscripts/plugin-ever-instance';
 import { roleNameOf } from './guards/ever-connect-operator.guard';
 import { EverConnectStore } from './ever-connect.store';
 
-/** The signed-in user as Gauzy's authentication guard attaches it to the request. */
+/** The signed-in user as IRTranscripts's authentication guard attaches it to the request. */
 export interface RequestUser {
 	id?: string;
 	tenantId?: string;

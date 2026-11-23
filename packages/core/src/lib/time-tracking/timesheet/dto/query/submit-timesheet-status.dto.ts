@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ArrayNotEmpty, IsEnum, IsNotEmpty } from 'class-validator';
-import { ID, ISubmitTimesheetInput } from '@gauzy/contracts';
+import { ID, ISubmitTimesheetInput } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../../../core/dto';
 
 /**

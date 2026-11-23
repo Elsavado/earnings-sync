@@ -19,10 +19,10 @@ import {
 	PermissionsEnum,
 	TimeLogSourceEnum,
 	TimeLogType
-} from '@gauzy/contracts';
-import { environment } from '@gauzy/ui-config';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { distinctUntilChange, isNotEmpty } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { environment } from '@irtranscripts/ui-config';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { distinctUntilChange, isNotEmpty } from '@irtranscripts/ui-core/common';
 import {
 	DEFAULT_SELECTOR_VISIBILITY,
 	DateRangePickerBuilderService,
@@ -42,8 +42,8 @@ import {
 	Store,
 	TimeTrackerService,
 	UsersOrganizationsService
-} from '@gauzy/ui-core/core';
-import { ALL_EMPLOYEES_SELECTED, NO_EMPLOYEE_SELECTED, QuickActionsComponent } from '@gauzy/ui-core/shared';
+} from '@irtranscripts/ui-core/core';
+import { ALL_EMPLOYEES_SELECTED, NO_EMPLOYEE_SELECTED, QuickActionsComponent } from '@irtranscripts/ui-core/shared';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -1212,7 +1212,7 @@ export class HeaderComponent extends TranslationBaseComponent implements OnInit,
 						}
 					]
 				: []),
-			// Divider (Documents) — `@gauzy/plugin-docs-ui`, `01-ux-spec.md` §1. Both entries
+			// Divider (Documents) — `@irtranscripts/plugin-docs-ui`, `01-ux-spec.md` §1. Both entries
 			// are one-shot deep links the hub consumes and strips from the URL on arrival.
 			// The hub's own route guards re-check the feature flag, but relying on that alone
 			// left a feature-disabled org staring at two live menu entries that bounce straight

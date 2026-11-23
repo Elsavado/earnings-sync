@@ -1,4 +1,4 @@
-import { TimeLogSourceEnum } from '@gauzy/contracts';
+import { TimeLogSourceEnum } from '@irtranscripts/contracts';
 
 export interface IActivity {
 	title: string;

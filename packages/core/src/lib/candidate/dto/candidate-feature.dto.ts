@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsObject, IsString, ValidateIf } from 'class-validator';
-import { ICandidate, ID, IRelationalCandidate } from '@gauzy/contracts';
+import { ICandidate, ID, IRelationalCandidate } from '@irtranscripts/contracts';
 
 export class CandidateFeatureDTO implements IRelationalCandidate {
 	@ApiProperty({ type: () => String, readOnly: true })

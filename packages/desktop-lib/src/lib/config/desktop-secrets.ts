@@ -1,5 +1,5 @@
 import { randomBytes } from 'node:crypto';
-import { IDesktopSecret, isKnownDefaultSecret } from '@gauzy/contracts';
+import { IDesktopSecret, isKnownDefaultSecret } from '@irtranscripts/contracts';
 
 /** The four signing/session secrets of the API a desktop app runs locally, as stored in `configs.secret`. */
 export type DesktopSecrets = Required<IDesktopSecret['secret']>;
@@ -15,9 +15,9 @@ export const DESKTOP_SECRET_ENV: Readonly<Record<keyof DesktopSecrets, string>> 
 /**
  * Returns the local API's secrets for this install, generating any that are missing.
  *
- * The desktop apps (Gauzy Desktop with the integrated server, Gauzy Server, Gauzy API Server) run the
+ * The desktop apps (IRTranscripts Desktop with the integrated server, IRTranscripts Server, IRTranscripts API Server) run the
  * API locally; the server apps listen on the network (unless LAN access is turned off) so remote
- * timers can connect, and Gauzy Desktop used to as well. Their builds used to bake `secretKey` /
+ * timers can connect, and IRTranscripts Desktop used to as well. Their builds used to bake `secretKey` /
  * `refreshTokenSecretKey` in as the defaults, and the verification and session secrets were never
  * passed at all, so anyone on the network could forge tokens for a default install
  * (GHSA-39j7-x845-4w3c). Each install now gets its own random values instead:

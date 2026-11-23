@@ -9,7 +9,7 @@ import {
 	UnauthorizedException
 } from '@nestjs/common';
 import { createHash, createPublicKey, createVerify, KeyObject } from 'node:crypto';
-import { INBOX_EMAIL_PROVIDER_REGISTRY } from '@gauzy/contracts';
+import { INBOX_EMAIL_PROVIDER_REGISTRY } from '@irtranscripts/contracts';
 import {
 	derivedMessageId,
 	headerValue,
@@ -31,7 +31,7 @@ import {
 	referencesOf,
 	safeFilename,
 	toVerdict
-} from '@gauzy/plugin-inbox';
+} from '@irtranscripts/plugin-inbox';
 
 /** The Mail Send API of each region (https, no redirects). */
 export const SENDGRID_API_BASE_URLS = { us: 'https://api.sendgrid.com', eu: 'https://api.eu.sendgrid.com' } as const;
@@ -179,7 +179,7 @@ export class SendGridProvider implements IEmailProviderPlugin, IInboundEmailProv
 	onModuleInit(): void {
 		if (!this.registry) {
 			this.logger.warn(
-				'The Inbox email features are off (GAUZY_INBOX_EMAIL_ENABLED): the SendGrid provider stays idle.'
+				'The Inbox email features are off (IRTRANSCRIPTS_INBOX_EMAIL_ENABLED): the SendGrid provider stays idle.'
 			);
 			return;
 		}

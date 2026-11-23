@@ -36,7 +36,7 @@ describe('MCP server bearer token validation', () => {
 				clientId: 'mcp-server',
 				clientSecret: 'secret'
 			});
-			expect(config.tokenValidation).toEqual({ audience: 'gauzy-mcp-api', issuer: 'https://auth.example.test' });
+			expect(config.tokenValidation).toEqual({ audience: 'irtranscripts-mcp-api', issuer: 'https://auth.example.test' });
 		});
 
 		it('has no introspection without both credentials', () => {
@@ -75,7 +75,7 @@ describe('MCP server bearer token validation', () => {
 			enabled: true,
 			requiredScopes: ['mcp.read'],
 			authorizationServers: [],
-			tokenValidation: { audience: 'gauzy-mcp-api', issuer: 'https://auth.example.test' },
+			tokenValidation: { audience: 'irtranscripts-mcp-api', issuer: 'https://auth.example.test' },
 			introspection: { endpoint: ENDPOINT, clientId: 'mcp-server', clientSecret: 'secret' },
 			tokenCacheTtlSeconds: 60
 		};
@@ -85,7 +85,7 @@ describe('MCP server bearer token validation', () => {
 			sub: 'user-1',
 			client_id: 'chatgpt-mcp-client',
 			scope: 'mcp.read mcp.write',
-			aud: 'gauzy-mcp-api',
+			aud: 'irtranscripts-mcp-api',
 			iss: 'https://auth.example.test',
 			exp: Math.floor(NOW / 1000) + 900,
 			...overrides

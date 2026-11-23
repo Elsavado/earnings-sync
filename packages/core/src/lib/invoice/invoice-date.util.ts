@@ -1,4 +1,4 @@
-import { IOrganization } from '@gauzy/contracts';
+import { IOrganization } from '@irtranscripts/contracts';
 import * as moment from 'moment';
 import 'moment-timezone';
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ILanguage } from '@gauzy/contracts';
+import { ILanguage } from '@irtranscripts/contracts';
 import { AbstractCacheService, Store } from '../services';
 import { StorageService } from './storage.service';
 

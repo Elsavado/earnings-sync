@@ -38,7 +38,7 @@ export interface McpTransportConfig {
 	};
 }
 
-export interface GauzyConfig {
+export interface IRTranscriptsConfig {
 	baseUrl: string;
 	debug: boolean;
 	auth: {
@@ -51,7 +51,7 @@ export interface GauzyConfig {
 	};
 }
 
-export const config: GauzyConfig = {
+export const config: IRTranscriptsConfig = {
 	baseUrl: environment.baseUrl,
 	debug: environment.debug,
 	auth: environment.auth,

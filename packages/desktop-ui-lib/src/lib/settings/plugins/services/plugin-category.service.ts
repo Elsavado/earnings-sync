@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IPagination, IPluginCategory } from '@gauzy/contracts';
-import { API_PREFIX, toParams } from '@gauzy/ui-core/common';
+import { IPagination, IPluginCategory } from '@irtranscripts/contracts';
+import { API_PREFIX, toParams } from '@irtranscripts/ui-core/common';
 import { Observable } from 'rxjs';
 
 /**

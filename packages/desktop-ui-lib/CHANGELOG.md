@@ -1,3 +1,3 @@
-# Changelog for @gauzy/desktop-ui-lib
+# Changelog for @irtranscripts/desktop-ui-lib
 
 ## [Unreleased]

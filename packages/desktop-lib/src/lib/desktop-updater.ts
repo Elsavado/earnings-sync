@@ -21,11 +21,11 @@ export class DesktopUpdater {
 	private _updateServer: DesktopLocalUpdateServer;
 	private _strategy: IDesktopGithubUpdate;
 	private _settingWindow: BrowserWindow;
-	private _gauzyWindow: BrowserWindow;
+	private _irtranscriptsWindow: BrowserWindow;
 	private _config: IUpdaterConfig;
 	private _automaticUpdate: AutomaticUpdate;
 	private _answeredVersions = new Set<string>();
-	/** The update dialog now showing on the gauzy window, if any: only one is shown at a time. */
+	/** The update dialog now showing on the irtranscripts window, if any: only one is shown at a time. */
 	private _openDialog: Promise<any> = null;
 
 	constructor(config: IUpdaterConfig) {
@@ -151,7 +151,7 @@ export class DesktopUpdater {
 					new DesktopDialog(
 						process.env.DESCRIPTION,
 						TranslateService.instant('TIMER_TRACKER.DIALOG.UPDATE_READY'),
-						this._gauzyWindow
+						this._irtranscriptsWindow
 					)
 				);
 				dialog.options = {
@@ -186,7 +186,7 @@ export class DesktopUpdater {
 				new DesktopDialog(
 					process.env.DESCRIPTION,
 					TranslateService.instant('TIMER_TRACKER.DIALOG.READY_INSTALL'),
-					this._gauzyWindow
+					this._irtranscriptsWindow
 				)
 			);
 			dialog.options.detail = TranslateService.instant('TIMER_TRACKER.DIALOG.HAS_BEEN_DOWNLOADED', {
@@ -250,8 +250,8 @@ export class DesktopUpdater {
 	public set settingWindow(value: BrowserWindow) {
 		this._settingWindow = value;
 	}
-	public set gauzyWindow(value: BrowserWindow) {
-		this._gauzyWindow = value;
+	public set irtranscriptsWindow(value: BrowserWindow) {
+		this._irtranscriptsWindow = value;
 	}
 
 	public async checkUpdate(): Promise<void> {

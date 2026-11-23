@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PageRouteRegistryService, PermissionsGuard } from '@gauzy/ui-core/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PageRouteRegistryService, PermissionsGuard } from '@irtranscripts/ui-core/core';
 import { DocsShellComponent } from './components/shell/docs-shell.component';
 import { DOCS_PAGE_LINK, DOCS_SECTIONS_LOCATION } from './docs.constants';
 import { docsFeatureGuard } from './guards/docs-feature.guard';

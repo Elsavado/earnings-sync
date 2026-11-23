@@ -13,7 +13,7 @@ export interface ReleaseVersion {
 }
 
 /**
- * Reads the release from `GAUZY_APP_VERSION` (the git tag baked into the images, such as `v111.47.0`
+ * Reads the release from `IRTRANSCRIPTS_APP_VERSION` (the git tag baked into the images, such as `v111.47.0`
  * or `v111.47.0-4-gbb20466`). The report carries `major.minor.patch` only; a suffix becomes the
  * channel: `-rc…` rc, `-beta…`/`-alpha…` beta, `-<n>-g<sha>`/`-dev…` dev, anything else custom.
  * Without a release version (a source build) the report says `0.0.0` on the `dev` channel.
@@ -80,7 +80,7 @@ export class EverStatsBuilder {
 			instance_id: input.identity.instanceId,
 			sent_at: input.now.toISOString().slice(0, 10),
 			module_version: MODULE_VERSION,
-			product: 'gauzy',
+			product: 'irtranscripts',
 			instance_kind: 'backend',
 			serves: [...input.config.serves],
 			version: input.release.version,

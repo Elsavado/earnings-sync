@@ -1,5 +1,5 @@
-import { IPagination, IPluginSource } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { IPagination, IPluginSource } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { FindOptionsWhere, IsNull } from 'typeorm';

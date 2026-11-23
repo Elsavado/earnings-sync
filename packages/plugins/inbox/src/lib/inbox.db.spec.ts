@@ -4,7 +4,7 @@
  * source handler (claimed once, released when the source refuses), the recipient state, and the writes of a
  * source (`upsertExternal`: idempotent on the external identity, recipients limited to the tenant's users).
  *
- * `@gauzy/core` is doubled at the module boundary (its barrel boots the whole application), as the other plugin
+ * `@irtranscripts/core` is doubled at the module boundary (its barrel boots the whole application), as the other plugin
  * database suites do: the plugin's entities are mapped below by fixture schemas over the tables its migrations
  * create, and the request context answers with the caller each case states.
  */
@@ -14,7 +14,7 @@ const mockCaller: { tenantId: string | null; userId: string | null; permissions:
 	permissions: []
 };
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	class BaseEntity {}
 	return {
@@ -51,7 +51,7 @@ import {
 	InboxTabEnum,
 	PermissionsEnum,
 	RolesEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { InboxItem } from './entities/inbox-item.entity';
 import { InboxItemRecipient } from './entities/inbox-item-recipient.entity';
 import { INBOX_MIGRATIONS } from './database/inbox-migrations';
@@ -181,7 +181,7 @@ describe('Inbox on SQLite', () => {
 			tenantId: TENANT,
 			organizationId: ORG,
 			kind: InboxItemKindEnum.QUESTION,
-			source: InboxItemSourceEnum.GAUZY,
+			source: InboxItemSourceEnum.IRTRANSCRIPTS,
 			title: 'Ship the release?',
 			options: [
 				{ id: 'yes', label: 'Yes', recommended: true },
@@ -192,7 +192,7 @@ describe('Inbox on SQLite', () => {
 		});
 
 	beforeAll(async () => {
-		directory = mkdtempSync(join(tmpdir(), 'gauzy-inbox-'));
+		directory = mkdtempSync(join(tmpdir(), 'irtranscripts-inbox-'));
 	});
 
 	afterAll(() => {
@@ -911,7 +911,7 @@ describe('Inbox on SQLite', () => {
 				tenantId: TENANT,
 				organizationId: ORG,
 				kind: InboxItemKindEnum.QUESTION,
-				source: InboxItemSourceEnum.GAUZY,
+				source: InboxItemSourceEnum.IRTRANSCRIPTS,
 				externalSource: 'ever_works',
 				externalId: 'ew-9',
 				title: 'Which plan?',
@@ -927,7 +927,7 @@ describe('Inbox on SQLite', () => {
 			const again = await service.upsertExternal({
 				tenantId: TENANT,
 				kind: InboxItemKindEnum.QUESTION,
-				source: InboxItemSourceEnum.GAUZY,
+				source: InboxItemSourceEnum.IRTRANSCRIPTS,
 				externalSource: 'ever_works',
 				externalId: 'ew-9',
 				title: 'Which plan? (renamed)',

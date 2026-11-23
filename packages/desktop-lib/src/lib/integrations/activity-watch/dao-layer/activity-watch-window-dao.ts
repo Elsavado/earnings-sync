@@ -1,6 +1,6 @@
 import { ActivityWatchEventTableList, IActivityWatchWindowEventCountService } from '../i-activity-watch-event-service';
 import { ActivityWatchDAO } from './activity-watch.dao';
-import { ActivityWatchEventType } from '@gauzy/contracts';
+import { ActivityWatchEventType } from '@irtranscripts/contracts';
 import { IDesktopEvent } from '../../../interfaces';
 
 export class ActivityWatchWindowDAO extends ActivityWatchDAO implements IActivityWatchWindowEventCountService {

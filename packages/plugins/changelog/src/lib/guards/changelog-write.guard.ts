@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
-import { RolesEnum } from '@gauzy/contracts';
-import { RequestContext, TenantService } from '@gauzy/core';
+import { RolesEnum } from '@irtranscripts/contracts';
+import { RequestContext, TenantService } from '@irtranscripts/core';
 
 /**
  * The changelog is shared by every tenant, but a super admin administers one tenant only and anyone

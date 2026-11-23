@@ -1,7 +1,7 @@
 import { ConflictException, HttpException, HttpStatus, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { IsNull, MoreThan } from 'typeorm';
-import { DocumentKindEnum, ID, IPagination } from '@gauzy/contracts';
-import { BaseQueryDTO, RequestContext, TenantAwareCrudService } from '@gauzy/core';
+import { DocumentKindEnum, ID, IPagination } from '@irtranscripts/contracts';
+import { BaseQueryDTO, RequestContext, TenantAwareCrudService } from '@irtranscripts/core';
 import { getDocsConfig } from '../docs.config';
 import { DOCS_LOCKED, DOCS_NOT_A_PAGE } from '../docs.constants';
 import { Document } from '../entities/document.entity';
@@ -26,7 +26,7 @@ export class DocumentVersionService extends TenantAwareCrudService<DocumentVersi
 	 * Captures a debounced PAGE version snapshot of the **pre-update** content.
 	 *
 	 * Debounce: if the newest snapshot for (`documentId`, current employee) is younger than the
-	 * window — default 10 minutes, env `GAUZY_DOCS_VERSION_DEBOUNCE_MINUTES` — the capture is
+	 * window — default 10 minutes, env `IRTRANSCRIPTS_DOCS_VERSION_DEBOUNCE_MINUTES` — the capture is
 	 * skipped (the autosave stream rolls up into the previous snapshot). A *different* editor
 	 * always captures immediately, so no author's work is silently absorbed into someone else's
 	 * snapshot. `document.version` increments exactly with capture count.

@@ -16,7 +16,7 @@ import {
 	MinLength,
 	ValidateNested
 } from 'class-validator';
-import { CurrencyCode, DecimalString, JsonData } from '@gauzy/contracts';
+import { CurrencyCode, DecimalString, JsonData } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../core/dto';
 import { PaymentDueBasis, PaymentTermLineType } from '../payment-term.enums';
 

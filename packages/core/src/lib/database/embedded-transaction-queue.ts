@@ -1,6 +1,6 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { DataSource, DataSourceOptions, EntityManager, QueryRunner } from 'typeorm';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 /**
  * Transactions on the embedded dialects, one at a time, and no statement inside another request's.
@@ -52,7 +52,7 @@ import { DatabaseTypeEnum } from '@gauzy/config';
  *   the claim, and can reach its own transaction while that `COMMIT` is in flight. Taken for a nested one,
  *   its `SAVEPOINT` began a transaction of its own after the `COMMIT`, the claim was never given back, and
  *   its commit was refused (`TransactionNotStartedError`): every later request waited out the timeout —
- *   one Gauzy comment wedged the API in the first local Gauzy ↔ Ever Works run. A claim that is ending
+ *   one IRTranscripts comment wedged the API in the first local IRTranscripts ↔ Ever Works run. A claim that is ending
  *   therefore nests nothing: such a transaction takes a claim of its own and queues behind the commit;
  * - `EntityManager.transaction` — which `DataSource.transaction`, every repository's manager and every
  *   manager a query runner carries go through — runs its whole call in a context of its own. Two
@@ -287,7 +287,7 @@ interface ISqliteRunnerInternals {
 }
 
 /** Marks a query runner the queue already guards, so it is never wrapped twice. */
-const GUARDED_RUNNER = Symbol('gauzy.embeddedTransactionQueue');
+const GUARDED_RUNNER = Symbol('irtranscripts.embeddedTransactionQueue');
 
 /** The state of every data source the queue was installed on. */
 const STATES = new WeakMap<DataSource, IEmbeddedTransactionState>();

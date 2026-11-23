@@ -1,4 +1,4 @@
-import { ITaskVersion } from '@gauzy/contracts';
+import { ITaskVersion } from '@irtranscripts/contracts';
 
 export const DEFAULT_GLOBAL_VERSIONS: ITaskVersion[] = [
 	{

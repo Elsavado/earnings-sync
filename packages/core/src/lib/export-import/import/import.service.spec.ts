@@ -268,7 +268,7 @@ describe('ImportService', () => {
 			const removeSpy = jest.spyOn(fsp, 'rm').mockRejectedValueOnce(new Error('EBUSY'));
 
 			await expect(
-				service.removeExtractedFiles(path.join(os.tmpdir(), 'gauzy-import-nope'))
+				service.removeExtractedFiles(path.join(os.tmpdir(), 'irtranscripts-import-nope'))
 			).resolves.toBeUndefined();
 
 			removeSpy.mockRestore();
@@ -278,7 +278,7 @@ describe('ImportService', () => {
 	/**
 	 * The export escapes a cell a spreadsheet would evaluate by prefixing `'`, and the import reverses
 	 * it. An uploaded ZIP is not necessarily one this server wrote, though: reversing the escape on a
-	 * dump from an older Gauzy, on a filled-in `/export/template`, or on a CSV set built by external
+	 * dump from an older IRTranscripts, on a filled-in `/export/template`, or on a CSV set built by external
 	 * tooling would silently drop a legitimate leading apostrophe. The archive manifest is what tells
 	 * the two apart.
 	 */
@@ -287,7 +287,7 @@ describe('ImportService', () => {
 		const ESCAPED_CSV = 'id,name\nrow-a,"\'=1+1"\n';
 
 		const MANIFEST = JSON.stringify({
-			format: 'gauzy-export',
+			format: 'irtranscripts-export',
 			version: 1,
 			spreadsheetSafeCells: true,
 			exportedAt: '2026-01-01T00:00:00.000Z'
@@ -305,7 +305,7 @@ describe('ImportService', () => {
 		}
 
 		it('un-escapes a cell of an archive this server wrote', async () => {
-			const imported = await importArchive({ 'gauzy-export.json': MANIFEST });
+			const imported = await importArchive({ 'irtranscripts-export.json': MANIFEST });
 
 			expect(imported).toHaveLength(1);
 			expect(imported[0]['name']).toBe('=1+1');
@@ -320,14 +320,14 @@ describe('ImportService', () => {
 
 		it.each([
 			['another format', JSON.stringify({ format: 'something-else', version: 1, spreadsheetSafeCells: true })],
-			['a newer version', JSON.stringify({ format: 'gauzy-export', version: 99, spreadsheetSafeCells: true })],
+			['a newer version', JSON.stringify({ format: 'irtranscripts-export', version: 99, spreadsheetSafeCells: true })],
 			[
 				'the flag turned off',
-				JSON.stringify({ format: 'gauzy-export', version: 1, spreadsheetSafeCells: false })
+				JSON.stringify({ format: 'irtranscripts-export', version: 1, spreadsheetSafeCells: false })
 			],
 			['a malformed file', 'not json at all']
 		])('does not decode on %s', async (_label, manifest) => {
-			const imported = await importArchive({ 'gauzy-export.json': manifest });
+			const imported = await importArchive({ 'irtranscripts-export.json': manifest });
 
 			expect(imported[0]['name']).toBe("'=1+1");
 		});

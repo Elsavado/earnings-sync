@@ -1,4 +1,4 @@
-# @gauzy/plugin-integration-zapier-ui
+# @irtranscripts/plugin-integration-zapier-ui
 
 This library was generated with [Nx](https://nx.dev).
 
@@ -21,7 +21,7 @@ and run `npm publish`.
 Install the Integration Zapier UI Plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-integration-zapier-ui
+npm install @irtranscripts/plugin-integration-zapier-ui
 # or
-yarn add @gauzy/plugin-integration-zapier-ui
+yarn add @irtranscripts/plugin-integration-zapier-ui
 ```

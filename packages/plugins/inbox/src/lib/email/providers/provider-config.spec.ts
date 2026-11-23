@@ -1,4 +1,4 @@
-import { IEmailProviderConfigSchema } from '@gauzy/contracts';
+import { IEmailProviderConfigSchema } from '@irtranscripts/contracts';
 import { ProviderConfigError, secretFields, splitProviderConfig } from './provider-config';
 
 const schema: IEmailProviderConfigSchema = {

@@ -21,7 +21,7 @@ import {
 	ISellerSplitReconciliation,
 	PermissionsEnum,
 	SellerHoldReason
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	AbstractValidationPipe,
 	BaseQueryDTO,
@@ -34,8 +34,8 @@ import {
 	TenantPermissionGuard,
 	UUIDValidationPipe,
 	UseValidationPipe
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { MarketplaceFeatures } from '../marketplace.features';
 import { SellerTransaction } from './seller-transaction.entity';
 import { SellerTransactionService } from './seller-transaction.service';

@@ -1,5 +1,5 @@
-import { PermissionsEnum } from '@gauzy/contracts';
-import { RequestContext } from "@gauzy/core";
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { RequestContext } from "@irtranscripts/core";
 import { CreateSoundshotDTO } from "../dtos/create-soundshot.dto";
 import { ISoundshot } from '../models/soundshot.model';
 

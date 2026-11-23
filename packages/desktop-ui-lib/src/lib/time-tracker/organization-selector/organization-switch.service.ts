@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IAuthResponse, IOrganization } from '@gauzy/contracts';
+import { IAuthResponse, IOrganization } from '@irtranscripts/contracts';
 import { TranslateService } from '@ngx-translate/core';
 import {
 	BehaviorSubject,
@@ -53,7 +53,7 @@ type CredentialsOutcome =
  *
  * The API confines a non-admin to the organization named in their access token (ever-co/ever-gauzy#11316), so
  * changing the selected organization locally is not enough: every list would come back empty and every write would be
- * refused. Like the Gauzy web UI (`OrganizationContextService` in `@gauzy/ui-core/core`), this calls
+ * refused. Like the IRTranscripts web UI (`OrganizationContextService` in `@irtranscripts/ui-core/core`), this calls
  * `POST /auth/switch-organization` first, and only once the API has issued tokens for the new organization does it
  * store them (renderer store and Electron main process, the way the desktop sign-in does) and move the selection.
  * When the API refuses, nothing changes and the user is told why.

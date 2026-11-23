@@ -1,9 +1,9 @@
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { ID } from '@gauzy/contracts';
-import { connectionFromOffsetPage, deliverPayloadAsIs, FEATURE_GRAPHQL, IConnectionPageSelection, resolveConnectionWindow, EventBus, FeatureFlagGuard, GraphqlConnection, PermissionGuard, Permissions, TenantPermissionGuard, tenantScopedEventStream } from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+import { ID } from '@irtranscripts/contracts';
+import { connectionFromOffsetPage, deliverPayloadAsIs, FEATURE_GRAPHQL, IConnectionPageSelection, resolveConnectionWindow, EventBus, FeatureFlagGuard, GraphqlConnection, PermissionGuard, Permissions, TenantPermissionGuard, tenantScopedEventStream } from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { CATALOG_PERMISSION_VALUES, catalogPermission } from '../../catalog.permissions';
 import { PublicationStatus } from '../../catalog.types';
 import { ProductPublishedEvent, ProductUnpublishedEvent } from '../../events';

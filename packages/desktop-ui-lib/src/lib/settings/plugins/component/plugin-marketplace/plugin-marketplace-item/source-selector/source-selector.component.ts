@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, type SimpleChanges, ViewChild } from '@angular/core';
-import { ID, IPluginSource } from '@gauzy/contracts';
+import { ID, IPluginSource } from '@irtranscripts/contracts';
 import { NbSelectComponent } from '@nebular/theme';
 import { Actions } from '@ngneat/effects-ng';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -12,7 +12,7 @@ import { SelectComponent } from '../../../../../../shared/components/ui/select/s
 
 @UntilDestroy({ checkProperties: true })
 @Component({
-    selector: 'gauzy-source-selector',
+    selector: 'irtranscripts-source-selector',
     templateUrl: './source-selector.component.html',
     styleUrls: ['./source-selector.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

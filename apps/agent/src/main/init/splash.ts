@@ -2,7 +2,7 @@ import { systemPreferences } from 'electron';
 import AppWindow from "../window-manager";
 import * as path from 'node:path';
 import { delaySync, getAuthConfig } from '../util';
-import { AppError } from '@gauzy/desktop-lib';
+import { AppError } from '@irtranscripts/desktop-lib';
 const appRootPath: string = path.join(__dirname, '../..');
 import { ApiService } from '../api';
 import isOnline from 'is-online';

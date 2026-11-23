@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
 import { v4 as uuidv4 } from 'uuid';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 import { prepareSQLQuery as p } from '../database.helper';
 import { replacePlaceholders } from '../../core/utils';
 import {

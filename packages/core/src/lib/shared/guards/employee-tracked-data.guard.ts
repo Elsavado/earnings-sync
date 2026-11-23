@@ -3,7 +3,7 @@ import { GqlContextType, GqlExecutionContext } from '@nestjs/graphql';
 import { GraphQLResolveInfo } from 'graphql';
 import { DataSource, In } from 'typeorm';
 import { isUUID } from 'class-validator';
-import { ID, PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { ID, PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../core/context';
 import { statedOrganizations } from '../../graphql/stated-organizations';
 

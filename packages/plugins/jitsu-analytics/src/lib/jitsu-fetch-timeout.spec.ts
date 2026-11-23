@@ -1,4 +1,4 @@
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	environment: { jitsu: { serverHost: '', serverWriteKey: '' } }
 }));
 jest.mock('@jitsu/js', () => ({ jitsuAnalytics: jest.fn() }));

@@ -1,7 +1,7 @@
 import '../../core/entities/internal';
 
-import { DatabaseTypeEnum } from '@gauzy/config';
-import { ID, IGetTasksStatistics, PermissionsEnum } from '@gauzy/contracts';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
+import { ID, IGetTasksStatistics, PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../core/context';
 import { MultiORMEnum } from '../../core/utils';
 import { ManagedEmployeeService } from '../../employee/managed-employee.service';

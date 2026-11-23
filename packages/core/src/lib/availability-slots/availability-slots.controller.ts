@@ -1,4 +1,4 @@
-import { IAvailabilitySlot, IAvailabilitySlotsCreateInput, ID, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { IAvailabilitySlot, IAvailabilitySlotsCreateInput, ID, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	Body,
 	Controller,

@@ -104,7 +104,7 @@ export function check(root = REPO_ROOT) {
 			continue;
 		}
 		// Every rule is about a package name or a module's entry point; skip the rest unread.
-		if (!/@gauzy\/plugin-|axios|undici/.test(text) && !file.endsWith('ever-connect/src/index.ts')) continue;
+		if (!/@irtranscripts\/plugin-|axios|undici/.test(text) && !file.endsWith('ever-connect/src/index.ts')) continue;
 		for (const { specifier, line } of specifiers(text)) {
 			const reason = violation(file, specifier);
 			if (reason) findings.push(`${file}:${line} ${reason}`);

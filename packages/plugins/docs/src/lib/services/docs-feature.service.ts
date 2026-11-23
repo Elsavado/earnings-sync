@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { FeatureEnum, ID } from '@gauzy/contracts';
-import { FeatureOrganizationService, FeatureService } from '@gauzy/core';
+import { FeatureEnum, ID } from '@irtranscripts/contracts';
+import { FeatureOrganizationService, FeatureService } from '@irtranscripts/core';
 import { DOCS_FEATURE_CACHE_TTL_MS } from '../docs.constants';
 
 /** One memoized answer of {@link DocsFeatureService.isEnabledFor}. */
@@ -43,7 +43,7 @@ export class DocsFeatureService {
 	 * Resolution order (most specific wins): the organization's own `feature_organization` row,
 	 * then the tenant-wide row (`organizationId` null — what `updateTenantFeatureOrganizations`
 	 * seeds), then whatever the core `FeatureService` says globally (which itself falls back to
-	 * the `@gauzy/config` toggle when no `feature` row exists).
+	 * the `@irtranscripts/config` toggle when no `feature` row exists).
 	 *
 	 * @param tenantId The tenant scope (from the job snapshot).
 	 * @param organizationId The organization scope (from the job snapshot).

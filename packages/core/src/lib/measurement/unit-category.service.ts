@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { ID, JsonData } from '@gauzy/contracts';
+import { ID, JsonData } from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from '../core/crud/tenant-aware-crud.service';
 import { RequestContext } from '../core/context/request-context';
 import { UnitCategory } from './unit-category.entity';

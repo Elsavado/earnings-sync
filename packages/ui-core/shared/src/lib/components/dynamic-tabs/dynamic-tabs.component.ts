@@ -18,8 +18,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { tap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { CustomNbRouteTab, PageTabRegistryConfig, PageTabRegistryService, PageTabsetPageId } from '@gauzy/ui-core/core';
-import { I18nService } from '@gauzy/ui-core/i18n';
+import { CustomNbRouteTab, PageTabRegistryConfig, PageTabRegistryService, PageTabsetPageId } from '@irtranscripts/ui-core/core';
+import { I18nService } from '@irtranscripts/ui-core/i18n';
 
 @UntilDestroy()
 @Component({

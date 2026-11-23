@@ -6,14 +6,14 @@
  * binds, `$1, $2, …`, which reached Postgres unbound: every reserve, release and reset failed with "there is
  * no parameter $1". The dialect is read from the environment at import time, so it is mocked here.
  */
-jest.mock('@gauzy/config', () => ({
-	...jest.requireActual('@gauzy/config'),
+jest.mock('@irtranscripts/config', () => ({
+	...jest.requireActual('@irtranscripts/config'),
 	isPostgres: () => true,
 	isMySQL: () => false,
 	isSqlite: () => false
 }));
 
-import { MultiORMEnum } from '@gauzy/core';
+import { MultiORMEnum } from '@irtranscripts/core';
 import { CampaignBudgetService } from './campaign-budget.service';
 
 /** A statement the service binds the same name in twice, as the conditional increment does. */

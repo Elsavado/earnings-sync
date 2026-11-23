@@ -6,9 +6,9 @@ import {
 	EntitySubscriptionTypeEnum,
 	ID,
 	IDocument
-} from '@gauzy/contracts';
-import { isBetterSqlite3, isSqlite } from '@gauzy/config';
-import { RequestContext } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { isBetterSqlite3, isSqlite } from '@irtranscripts/config';
+import { RequestContext } from '@irtranscripts/core';
 import { DOCS_REVIEW_NOT_PENDING } from '../docs.constants';
 import { ApproveReviewDTO, RejectReviewDTO, RequestReviewDTO } from '../dto';
 import { Document } from '../entities/document.entity';

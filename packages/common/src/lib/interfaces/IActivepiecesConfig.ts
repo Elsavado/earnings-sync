@@ -9,37 +9,37 @@ export interface IActivepiecesConfig {
 	 * API key for authenticating Activepieces API calls (Platform/Enterprise).
 	 *
 	 * An Activepieces API key belongs to a whole platform: every project on it. A tenant request never uses it without
-	 * the tenant's own project pinned by the server (`GAUZY_ACTIVEPIECES_API_KEY`).
+	 * the tenant's own project pinned by the server (`IRTRANSCRIPTS_ACTIVEPIECES_API_KEY`).
 	 */
 	readonly apiKey?: string;
 
 	/**
 	 * The id of the platform's signing key (Platform Settings → Signing Keys), the `kid` of the tokens the server signs
-	 * to obtain a tenant's project token (`GAUZY_ACTIVEPIECES_SIGNING_KEY_ID`).
+	 * to obtain a tenant's project token (`IRTRANSCRIPTS_ACTIVEPIECES_SIGNING_KEY_ID`).
 	 */
 	readonly signingKeyId?: string;
 
 	/**
 	 * The private key (RS256, PEM; `\n`-escaped or base64 also accepted) of that signing key
-	 * (`GAUZY_ACTIVEPIECES_SIGNING_PRIVATE_KEY`). With the key id, it turns the project-token mode on.
+	 * (`IRTRANSCRIPTS_ACTIVEPIECES_SIGNING_PRIVATE_KEY`). With the key id, it turns the project-token mode on.
 	 */
 	readonly signingPrivateKey?: string;
 
 	/**
 	 * Whether a tenant without a key of its own may use the platform key, confined to a project the server creates for
-	 * it (`GAUZY_ACTIVEPIECES_TENANT_PROJECTS`, on unless `false`).
+	 * it (`IRTRANSCRIPTS_ACTIVEPIECES_TENANT_PROJECTS`, on unless `false`).
 	 */
 	readonly tenantProjectsEnabled?: boolean;
 
 	/**
 	 * The prefix of the external id of a tenant's Activepieces project and user: `<prefix><tenantId>`
-	 * (`GAUZY_ACTIVEPIECES_PROJECT_EXTERNAL_ID_PREFIX`, `gauzy-tenant-` by default). Give each installation sharing one
+	 * (`IRTRANSCRIPTS_ACTIVEPIECES_PROJECT_EXTERNAL_ID_PREFIX`, `irtranscripts-tenant-` by default). Give each installation sharing one
 	 * Activepieces platform its own prefix (a stage restored from production has the same tenant ids).
 	 */
 	readonly projectExternalIdPrefix?: string;
 
 	/**
-	 * The MCP routes of the installation's Activepieces (`GAUZY_ACTIVEPIECES_MCP_API`, as set): `v2` (the default
+	 * The MCP routes of the installation's Activepieces (`IRTRANSCRIPTS_ACTIVEPIECES_MCP_API`, as set): `v2` (the default
 	 * when blank), MCP 2.0 — one MCP server per project at `/v1/projects/:projectId/mcp-server`, Activepieces since
 	 * November 2025 — or `legacy`, the `/v1/mcp-servers` routes it replaced, for an older self-hosted Activepieces.
 	 * Both accept only user tokens. Any other value is refused when an MCP route is called, rather than guessed.

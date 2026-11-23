@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
-import { environment as env } from '@gauzy/config';
-import { ID, IRole, IUser, PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { environment as env } from '@irtranscripts/config';
+import { ID, IRole, IUser, PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 import { verify } from 'jsonwebtoken';
 import { RequestContext } from '../../core/context';
 import { TypeOrmRoleRepository } from '../../role/repository/type-orm-role.repository';

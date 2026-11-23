@@ -1,9 +1,9 @@
 import * as chalk from 'chalk';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@gauzy/plugin';
-import { isSchedulerQueueRootEnabled } from '@gauzy/scheduler';
-import { CatalogPlugin } from '@gauzy/plugin-catalog';
-import { InventoryPlugin } from '@gauzy/plugin-inventory';
-import { PricingPlugin } from '@gauzy/plugin-pricing';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@irtranscripts/plugin';
+import { isSchedulerQueueRootEnabled } from '@irtranscripts/scheduler';
+import { CatalogPlugin } from '@irtranscripts/plugin-catalog';
+import { InventoryPlugin } from '@irtranscripts/plugin-inventory';
+import { PricingPlugin } from '@irtranscripts/plugin-pricing';
 import { ALL_CART_ENTITIES } from './entities';
 import { CartModule } from './cart.module';
 import { CartMaintenanceModule } from './maintenance/cart-maintenance.module';

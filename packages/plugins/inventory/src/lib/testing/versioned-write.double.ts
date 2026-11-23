@@ -2,7 +2,7 @@
  * The kernel's conditional write, doubled for the suites that mock the package barrel.
  *
  * This module is a double and is used only where the package barrel is mocked at the module
- * boundary. The specs of `packages/plugins/inventory` replace the whole `@gauzy/core` module,
+ * boundary. The specs of `packages/plugins/inventory` replace the whole `@irtranscripts/core` module,
  * because the barrel boots the application graph from it and its nested `uuid` is ESM-only under
  * jest; a factory that replaces a module answers for every name the code under test imports from
  * it, and `commitVersionedUpdate` and `versionExpectationOf` are two of those names. The seven

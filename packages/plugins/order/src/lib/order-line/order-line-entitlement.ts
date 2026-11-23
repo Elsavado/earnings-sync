@@ -1,4 +1,4 @@
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 /**
  * The port an order asks, at placement, what right each of its lines grants (Q7-W5).

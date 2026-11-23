@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IIssueType } from '@gauzy/contracts';
+import { IIssueType } from '@irtranscripts/contracts';
 import { OrganizationTeamIssueTypeBulkCreateCommand } from './../organization-team-issue-type-bulk-create.command';
 import { IssueTypeService } from './../../issue-type.service';
 

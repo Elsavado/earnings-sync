@@ -1,3 +1,3 @@
-# @gauzy/core
+# @irtranscripts/core
 
 ## [Unreleased]

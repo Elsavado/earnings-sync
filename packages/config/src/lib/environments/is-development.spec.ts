@@ -2,12 +2,12 @@ jest.mock('dotenv', () => ({
 	config: jest.fn(() => ({ parsed: {} }))
 }));
 
-import { isDevelopment as exportedIsDevelopment } from '@gauzy/config';
+import { isDevelopment as exportedIsDevelopment } from '@irtranscripts/config';
 import { environment } from './environment';
 import { isDevelopment } from './is-development';
 
 describe('isDevelopment', () => {
-	it('is exported by the @gauzy/config entry point', () => {
+	it('is exported by the @irtranscripts/config entry point', () => {
 		expect(exportedIsDevelopment).toBe(isDevelopment);
 	});
 

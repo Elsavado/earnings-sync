@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler, EventBus } from '@nestjs/cqrs';
 import { Injectable } from '@nestjs/common';
-import { ITimeLog } from '@gauzy/contracts';
+import { ITimeLog } from '@irtranscripts/contracts';
 import { StartTimerCommand } from '../../commands';
 import { TimerStartedEvent } from '../../events';
 import { TimerService } from '../../timer.service';

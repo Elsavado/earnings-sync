@@ -3,9 +3,9 @@ import { FormControl } from '@angular/forms';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { Observable } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
-import { ICandidate } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
-import { CandidatesService, ErrorHandlingService } from '@gauzy/ui-core/core';
+import { ICandidate } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
+import { CandidatesService, ErrorHandlingService } from '@irtranscripts/ui-core/core';
 import { BaseCandidateSelectorComponent } from '../base-candidate-selector.component';
 
 @UntilDestroy()

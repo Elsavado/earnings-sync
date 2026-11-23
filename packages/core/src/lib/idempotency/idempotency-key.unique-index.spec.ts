@@ -1,5 +1,5 @@
 import { DataSource, QueryRunner } from 'typeorm';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 import { CreateIdempotencyKeyTable1791000000010 } from '../database/migrations/1791000000010-CreateIdempotencyKeyTable';
 import { CreateOperationTables1791000000030 } from '../database/migrations/1791000000030-CreateOperationTables';
 import { ScopeIdempotencyKeyByTenant1791000000557 } from '../database/migrations/1791000000557-ScopeIdempotencyKeyByTenant';

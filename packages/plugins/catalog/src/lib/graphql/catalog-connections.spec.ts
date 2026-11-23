@@ -8,18 +8,18 @@
  * that asked for the retired rows is told it can ask and is quietly given the live ones — which is worse than
  * a missing argument, because there is nothing to notice.
  *
- * `@gauzy/core` is doubled at the module boundary, as every suite in this package doubles it: its barrel
+ * `@irtranscripts/core` is doubled at the module boundary, as every suite in this package doubles it: its barrel
  * boots the whole application graph — configuration, the ORM, the job registry — none of which a resolver
  * needs and none of which is available outside a running application. **The connection helpers in that double
  * are the kernel's own implementations rather than stand-ins**: a `resolveConnectionWindow` invented here
  * would let the suite agree with itself about a window the platform does not compute.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { SetMetadata } = require('@nestjs/common');
-	const { PERMISSIONS_METADATA } = require('@gauzy/constants');
+	const { PERMISSIONS_METADATA } = require('@irtranscripts/constants');
 	// Read through `requireActual`, which bypasses this factory: the connection contract is the kernel's, and
 	// a double here would measure this file rather than the platform.
-	const connection = jest.requireActual('@gauzy/core/src/lib/api/graphql-connection');
+	const connection = jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;

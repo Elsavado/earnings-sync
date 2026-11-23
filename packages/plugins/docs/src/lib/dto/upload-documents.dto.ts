@@ -1,8 +1,8 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, TransformFnParams } from 'class-transformer';
 import { IsArray, IsBoolean, IsEnum, IsOptional, IsUUID } from 'class-validator';
-import { DocumentSourceEnum, DocumentVisibilityEnum, ID, IDocument } from '@gauzy/contracts';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { DocumentSourceEnum, DocumentVisibilityEnum, ID, IDocument } from '@irtranscripts/contracts';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 
 /**
  * Normalizes a multipart text part into a boolean (`'true'`/`'1'` → true).

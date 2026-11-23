@@ -1,6 +1,6 @@
 import { AbstractControl, ValidatorFn } from '@angular/forms';
-import { isEmpty } from '@gauzy/ui-core/common';
-import { patterns } from '@gauzy/constants';
+import { isEmpty } from '@irtranscripts/ui-core/common';
+import { patterns } from '@irtranscripts/constants';
 
 export class EmailValidator {
 	/**

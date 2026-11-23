@@ -7,7 +7,7 @@ import {
 	MultiORMEntity,
 	MultiORMOneToMany,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { TaxRate } from '../tax-rate/tax-rate.entity';
 import { MikroOrmTaxCategoryRepository } from './repository/mikro-orm-tax-category.repository';
 

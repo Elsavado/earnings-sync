@@ -2,9 +2,9 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { NbDialogRef } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
-import { ID } from '@gauzy/contracts';
-import { ToastrService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { ID } from '@irtranscripts/contracts';
+import { ToastrService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { DocumentTreeStore } from '../services/document-tree.store';
 import { DocumentsService } from '../services/documents.service';
 

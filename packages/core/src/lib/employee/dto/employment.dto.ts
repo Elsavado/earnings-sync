@@ -1,4 +1,4 @@
-import { IOrganizationDepartment, IOrganizationEmploymentType, IOrganizationPosition, ISkill } from '@gauzy/contracts';
+import { IOrganizationDepartment, IOrganizationEmploymentType, IOrganizationPosition, ISkill } from '@irtranscripts/contracts';
 import { ApiPropertyOptional, IntersectionType, PickType } from '@nestjs/swagger';
 import { IsArray, IsObject, IsOptional, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';

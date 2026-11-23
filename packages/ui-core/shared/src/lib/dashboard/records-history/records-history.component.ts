@@ -9,8 +9,8 @@ import {
 	RecurringExpenseDefaultCategoriesEnum,
 	EmployeeStatisticsHistoryEnum as HistoryType,
 	IEmployeeStatisticsHistory
-} from '@gauzy/contracts';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
 import { PaginationFilterBaseComponent } from '../../smart-data-layout/pagination/pagination-filter-base.component';
 import { ContactLinksComponent, DateViewComponent, IncomeExpenseAmountComponent } from '../../table-components';
 

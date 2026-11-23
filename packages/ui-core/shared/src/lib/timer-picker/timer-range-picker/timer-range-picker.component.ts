@@ -2,13 +2,13 @@ import moment from 'moment';
 import timezone from 'moment-timezone';
 import { Component, OnInit, forwardRef, Input, ViewChild, ChangeDetectorRef, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { NG_VALUE_ACCESSOR, NgModel } from '@angular/forms';
-import { IDateRange } from '@gauzy/contracts';
+import { IDateRange } from '@irtranscripts/contracts';
 import { merge } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 // The service's own file, not the folder barrel: that barrel also exports the filter COMPONENT,
-// which pulls in `@gauzy/ui-core` and, with it, half the app — enough to make this component
+// which pulls in `@irtranscripts/ui-core` and, with it, half the app — enough to make this component
 // untestable in isolation.
-import { TimeZoneService } from '../../timesheet/gauzy-filters/timezone-filter/time-zone.service';
+import { TimeZoneService } from '../../timesheet/irtranscripts-filters/timezone-filter/time-zone.service';
 
 @Component({
 	selector: 'ngx-timer-range-picker',
@@ -97,7 +97,7 @@ export class TimerRangePickerComponent implements OnInit, AfterViewInit {
 	 *
 	 * The exact inverse of {@link composeInstant}, and it has to be. `writeValue` used to read an
 	 * existing range with a plain `moment()`, i.e. in the BROWSER's zone, while the write composes the
-	 * instant from the configured Gauzy zone. Opening a saved log for edit then showed times shifted
+	 * instant from the configured IRTranscripts zone. Opening a saved log for edit then showed times shifted
 	 * by the difference — and where that shift moved the start past the end (a log recorded near
 	 * midnight in a zone ahead of the browser's), the period computed as zero and the dialog refused
 	 * to save an edit that changed nothing but the description.
@@ -116,7 +116,7 @@ export class TimerRangePickerComponent implements OnInit, AfterViewInit {
 	 * Turn a picked calendar day + wall-clock time into an instant, in the zone this picker displays.
 	 *
 	 * The zone used to be the BROWSER's (`timezone.tz.guess()`), while every read of time logs filters
-	 * by the configured Gauzy timezone (`TimeZoneService`, consumed in `BaseSelectorFilterComponent`).
+	 * by the configured IRTranscripts timezone (`TimeZoneService`, consumed in `BaseSelectorFilterComponent`).
 	 * When the two differ, a log created near a day boundary is written at an instant outside the day
 	 * the grid asks for and silently disappears: the POST returns 201, the GET that follows comes back
 	 * empty.

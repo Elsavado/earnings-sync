@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { ITaskLinkedIssue } from '@gauzy/contracts';
+import { ITaskLinkedIssue } from '@irtranscripts/contracts';
 import { TaskLinkedIssueUpdateCommand } from '../task-linked-issue-update.command';
 import { TaskLinkedIssueService } from '../../task-linked-issue.service';
 

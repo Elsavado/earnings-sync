@@ -1,10 +1,10 @@
 {
-	"name": "gauzy-mcp-server",
-	"productName": "Ever Gauzy MCP Server",
+	"name": "irtranscripts-mcp-server",
+	"productName": "Ever IRTranscripts MCP Server",
 	"version": "0.1.0",
-	"description": "Ever Gauzy MCP Server",
+	"description": "Ever IRTranscripts MCP Server",
 	"license": "AGPL-3.0",
-	"homepage": "https://gauzy.co",
+	"homepage": "https://irtranscripts.com",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/ever-co/ever-gauzy.git"
@@ -20,15 +20,15 @@
 	},
 	"main": "main.js",
 	"bin": {
-		"gauzy-mcp": "./main.js"
+		"irtranscripts-mcp": "./main.js"
 	},
 	"build": {
 		"npmArgs": [
 			"--production"
 		],
-		"appId": "com.ever.gauzymcpserver",
+		"appId": "com.ever.irtranscriptsmcpserver",
 		"artifactName": "${name}-${arch}-${version}.${ext}",
-		"productName": "Ever Gauzy MCP Server",
+		"productName": "Ever IRTranscripts MCP Server",
 		"copyright": "Copyright © 2019-Present. Ever Co. LTD",
 		"beforeBuild": "tools/electron/before-build.js",
 		"afterSign": "tools/notarize.js",
@@ -49,7 +49,7 @@
 		"publish": [
 			{
 				"provider": "github",
-				"repo": "ever-gauzy-mcp-server",
+				"repo": "ever-irtranscripts-mcp-server",
 				"releaseType": "release"
 			}
 		],
@@ -89,7 +89,7 @@
 				"rpm",
 				"AppImage"
 			],
-			"executableName": "gauzy-mcp-server",
+			"executableName": "irtranscripts-mcp-server",
 			"artifactName": "${name}-${arch}-${version}.${ext}",
 			"synopsis": "Server",
 			"category": "Development"
@@ -117,13 +117,13 @@
 		]
 	},
 	"dependencies": {
-		"@gauzy/mcp-server": "file:../../../dist/packages/mcp-server",
-		"@gauzy/auth": "file:../../../dist/packages/auth",
-		"@gauzy/config": "file:../../../dist/packages/config",
-		"@gauzy/contracts": "file:../../../dist/packages/contracts",
-		"@gauzy/utils": "file:../../../dist/packages/utils",
-		"@gauzy/common": "file:../../../dist/packages/common",
-		"@gauzy/constants": "file:../../../dist/packages/constants",
+		"@irtranscripts/mcp-server": "file:../../../dist/packages/mcp-server",
+		"@irtranscripts/auth": "file:../../../dist/packages/auth",
+		"@irtranscripts/config": "file:../../../dist/packages/config",
+		"@irtranscripts/contracts": "file:../../../dist/packages/contracts",
+		"@irtranscripts/utils": "file:../../../dist/packages/utils",
+		"@irtranscripts/common": "file:../../../dist/packages/common",
+		"@irtranscripts/constants": "file:../../../dist/packages/constants",
 		"@modelcontextprotocol/sdk": "^1.32.1",
 		"axios": "^1.20.0",
 		"dotenv": "^18.0.7",
@@ -140,13 +140,13 @@
 	},
 	"resolutions": {
 		"**/@mikro-orm/better-sqlite/better-sqlite3": "13.0.3",
-		"@gauzy/mcp-server": "file:../../../dist/packages/mcp-server",
-		"@gauzy/auth": "file:../../../dist/packages/auth",
-		"@gauzy/config": "file:../../../dist/packages/config",
-		"@gauzy/contracts": "file:../../../dist/packages/contracts",
-		"@gauzy/utils": "file:../../../dist/packages/utils",
-		"@gauzy/common": "file:../../../dist/packages/common",
-		"@gauzy/constants": "file:../../../dist/packages/constants",
+		"@irtranscripts/mcp-server": "file:../../../dist/packages/mcp-server",
+		"@irtranscripts/auth": "file:../../../dist/packages/auth",
+		"@irtranscripts/config": "file:../../../dist/packages/config",
+		"@irtranscripts/contracts": "file:../../../dist/packages/contracts",
+		"@irtranscripts/utils": "file:../../../dist/packages/utils",
+		"@irtranscripts/common": "file:../../../dist/packages/common",
+		"@irtranscripts/constants": "file:../../../dist/packages/constants",
 		"knex": "3.3.0",
 		"**/xtraverse/xmldom": "npm:@xmldom/xmldom@^0.8.15",
 		"**/@nestjs/platform-express/multer": "^2.5.0"

@@ -17,8 +17,8 @@ import {
 	PayrollItemTypeEnum,
 	PayrollRunStatusEnum,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@gauzy/constants';
+} from '@irtranscripts/contracts';
+import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { CursorCodec } from '../api/cursor';
 import { RequestContext } from '../core/context';
 import { FeatureFlagGuard, PermissionGuard, TenantPermissionGuard } from '../shared/guards';

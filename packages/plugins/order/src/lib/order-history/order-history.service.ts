@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { ID } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { orderLedgerAppendOnly } from '../order-ledger.append-only';
 import { IOrderRowScope, createUnderOrderScope } from './order-row-scope';
 import { OrderHistory } from './order-history.entity';

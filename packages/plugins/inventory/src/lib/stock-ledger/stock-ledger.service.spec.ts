@@ -1,8 +1,8 @@
 /**
- * Two module boundaries are doubled here, for the reason the package’s other suites state: `@gauzy/core`
+ * Two module boundaries are doubled here, for the reason the package’s other suites state: `@irtranscripts/core`
  * boots the whole application graph from its barrel — configuration, the ORM, the job registry, the
  * module scanner — none of which a ledger seam needs and none of which is available outside a running
- * application, and `@gauzy/config` reads the process environment at import time. **The service under
+ * application, and `@irtranscripts/config` reads the process environment at import time. **The service under
  * test is the real one**, together with the real decimal primitives it writes and sums with.
  *
  * Two things stand in for the rest of the platform, and both are stated rather than mocked:
@@ -19,7 +19,7 @@
  *   the ledger — and a statement the double does not model throws rather than answering wrongly.
  */
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
@@ -32,7 +32,7 @@ jest.mock('@gauzy/core', () => {
 		) {}
 	}
 
-	const decimal = jest.requireActual('@gauzy/core/src/lib/money/decimal');
+	const decimal = jest.requireActual('@irtranscripts/core/src/lib/money/decimal');
 
 	return {
 		TenantAwareCrudService,
@@ -89,7 +89,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 jest.mock(
-	'@gauzy/config',
+	'@irtranscripts/config',
 	() => ({
 		DatabaseTypeEnum: {
 			mongodb: 'mongodb',
@@ -101,7 +101,7 @@ jest.mock(
 	})
 );
 
-import { RequestContext, WarehouseProductVariant, addDecimalStrings, compareDecimalStrings } from '@gauzy/core';
+import { RequestContext, WarehouseProductVariant, addDecimalStrings, compareDecimalStrings } from '@irtranscripts/core';
 import { StockMovement } from './../stock-movement/stock-movement.entity';
 import { StockMovementType } from './../inventory.enums';
 import { StockLedgerService } from './stock-ledger.service';

@@ -3,9 +3,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { catchError, debounceTime, map, shareReplay, switchMap } from 'rxjs/operators';
-import { IAiChatConfig, IRolePermission, IUser, PermissionsEnum } from '@gauzy/contracts';
-import { environment } from '@gauzy/ui-config';
-import { Store } from '@gauzy/ui-core/core';
+import { IAiChatConfig, IRolePermission, IUser, PermissionsEnum } from '@irtranscripts/contracts';
+import { environment } from '@irtranscripts/ui-config';
+import { Store } from '@irtranscripts/ui-core/core';
 
 /**
  * Why the AI chat is not available to the current user.
@@ -19,7 +19,7 @@ export type AiChatUnavailableReason =
 	| 'not-authenticated'
 	/** The user's role lacks `AI_CHAT_ACCESS`. */
 	| 'no-permission'
-	/** The server turned the feature off (`GAUZY_AI_CHAT_ENABLED=false`). */
+	/** The server turned the feature off (`IRTRANSCRIPTS_AI_CHAT_ENABLED=false`). */
 	| 'globally-disabled'
 	/** No registered provider has usable credentials for this tenant. */
 	| 'no-providers'

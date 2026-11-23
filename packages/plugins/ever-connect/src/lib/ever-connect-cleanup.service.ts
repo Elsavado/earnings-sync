@@ -1,7 +1,7 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { Subscription } from 'rxjs';
 import { EverConnectAuditService } from './ever-connect-audit.service';
-import { GAUZY_OWNER_DELETED } from './ever-connect-deletion.subscriber';
+import { IRTRANSCRIPTS_OWNER_DELETED } from './ever-connect-deletion.subscriber';
 import { EverConnectLinkService } from './ever-connect-link.service';
 import { EverConnectPlatformService, errorCode, isCredentialRevoked } from './ever-connect-platform.service';
 import { EverConnectSignals } from './ever-connect-signals';
@@ -12,13 +12,13 @@ import { ProblemError } from './sdk';
 const DELETION_DELAY_MS = 1_000;
 
 /**
- * What a deleted Gauzy tenant or organization leaves behind is removed (the plugin's tables have no
+ * What a deleted IRTranscripts tenant or organization leaves behind is removed (the plugin's tables have no
  * foreign keys to cascade): its link is removed on Ever Platform (best effort) and unlinked here, so
  * no document is fetched and no state is read for it any more, and its rows are removed from the
  * plugin's tables (links, integration states, lookup cache, audit). The installation keeps one audit
  * row saying a deleted organization's link was removed, without the organization's ids.
  *
- * It runs when Gauzy deletes a tenant or an organization through its entities, and before each
+ * It runs when IRTranscripts deletes a tenant or an organization through its entities, and before each
  * heartbeat, each read of the event feed and each re-read asked by a page, so a deletion made in any
  * other way is caught before anything is sent for that organization again.
  */
@@ -38,7 +38,7 @@ export class EverConnectCleanupService implements OnModuleInit, OnModuleDestroy 
 	) {}
 
 	onModuleInit(): void {
-		this.subscription = GAUZY_OWNER_DELETED.subscribe(() => {
+		this.subscription = IRTRANSCRIPTS_OWNER_DELETED.subscribe(() => {
 			if (this.timer) return;
 			this.timer = setTimeout(() => {
 				this.timer = null;

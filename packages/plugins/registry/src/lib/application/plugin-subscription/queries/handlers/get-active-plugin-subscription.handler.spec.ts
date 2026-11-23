@@ -2,7 +2,7 @@
 jest.mock('../../../../domain', () => ({ PluginSubscriptionService: class PluginSubscriptionService {} }));
 jest.mock('../../../../shared', () => ({}));
 
-import { PluginSubscriptionStatus } from '@gauzy/contracts';
+import { PluginSubscriptionStatus } from '@irtranscripts/contracts';
 import { NotFoundException } from '@nestjs/common';
 import { GetActivePluginSubscriptionQuery } from '../get-active-plugin-subscription.query';
 import { GetActivePluginSubscriptionQueryHandler } from './get-active-plugin-subscription.handler';

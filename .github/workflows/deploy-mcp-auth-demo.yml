@@ -2,7 +2,7 @@ name: Deploy MCP Auth to DigitalOcean Demo
 
 on:
   workflow_run:
-    workflows: ['Build and Publish Gauzy MCP Auth Image Demo']
+    workflows: ['Build and Publish IRTranscripts MCP Auth Image Demo']
     branches:
       - develop
       - temp
@@ -43,14 +43,14 @@ jobs:
         run: doctl registry login --expiry-seconds 600
 
       - name: Save DigitalOcean kubeconfig with short-lived credentials
-        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-gauzy
+        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-irtranscripts
 
       - name: Generate TLS Secrets for MCP Auth Demo
         run: |
           rm -f ${HOME}/ingress.mcpauth.crt ${HOME}/ingress.mcpauth.key
           echo ${{ secrets.INGRESS_API_CERT }} | base64 --decode > ${HOME}/ingress.mcpauth.crt
           echo ${{ secrets.INGRESS_API_CERT_KEY }} | base64 --decode > ${HOME}/ingress.mcpauth.key
-          kubectl create secret tls mcpauth.gauzy.co-tls --save-config --dry-run=client --cert=${HOME}/ingress.mcpauth.crt --key=${HOME}/ingress.mcpauth.key -o yaml | kubectl apply -f -
+          kubectl create secret tls mcpauth.irtranscripts.com-tls --save-config --dry-run=client --cert=${HOME}/ingress.mcpauth.crt --key=${HOME}/ingress.mcpauth.key -o yaml | kubectl apply -f -
 
       - name: Write PostgreSQL Certificate file
         run: |
@@ -60,7 +60,7 @@ jobs:
 
       - name: Apply k8s manifests changes in DigitalOcean k8s cluster (if any)
         run: |
-          envsubst < $GITHUB_WORKSPACE/.deploy/k8s/k8s-manifest.mcp-auth.demo.yaml | kubectl --context do-sfo2-k8s-gauzy apply -f -
+          envsubst < $GITHUB_WORKSPACE/.deploy/k8s/k8s-manifest.mcp-auth.demo.yaml | kubectl --context do-sfo2-k8s-irtranscripts apply -f -
         env:
           DB_URI: '${{ secrets.DB_URI }}'
           DB_HOST: '${{ secrets.DB_HOST }}'
@@ -97,4 +97,4 @@ jobs:
 
       - name: Restart Pods to pick up :latest tag version
         run: |
-          kubectl --context do-sfo2-k8s-gauzy rollout restart deployment/gauzy-mcp-auth-demo
+          kubectl --context do-sfo2-k8s-irtranscripts rollout restart deployment/irtranscripts-mcp-auth-demo

@@ -11,8 +11,8 @@ import { ExecutionContext, HttpException, NotFoundException } from '@nestjs/comm
 import { Reflector } from '@nestjs/core';
 import { SUBSCRIPTION_OPTIONS_METADATA } from '@nestjs/graphql/dist/graphql.constants';
 import { buildSchema } from 'graphql';
-import { ChannelStatus, PermissionsEnum } from '@gauzy/contracts';
-import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@gauzy/constants';
+import { ChannelStatus, PermissionsEnum } from '@irtranscripts/contracts';
+import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { CursorCodec } from '../api/cursor';
 import { RequestContext } from '../core/context/request-context';
 import { FeatureFlagGuard, PermissionGuard, TenantPermissionGuard } from '../shared/guards';

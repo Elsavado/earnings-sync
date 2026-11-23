@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NbAlertModule, NbButtonModule, NbCardModule } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
-import { IWorkspaceResponse } from '@gauzy/contracts';
+import { IWorkspaceResponse } from '@irtranscripts/contracts';
 import { EverIdWorkspacesComponent } from '../components/ever-id-workspaces.component';
 import { AuthZitadelUiService, EverIdWorkspaceResponse } from '../services/auth-zitadel-ui.service';
 import { EverIdSignInService } from '../services/ever-id-sign-in.service';

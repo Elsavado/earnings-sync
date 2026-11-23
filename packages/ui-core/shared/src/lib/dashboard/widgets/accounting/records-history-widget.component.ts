@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
 import { Observable } from 'rxjs';
-import { EmployeeStatisticsHistoryEnum, ID, IEmployeeStatisticsHistory } from '@gauzy/contracts';
-import { IDashboardWidgetContext } from '@gauzy/ui-core/core';
+import { EmployeeStatisticsHistoryEnum, ID, IEmployeeStatisticsHistory } from '@irtranscripts/contracts';
+import { IDashboardWidgetContext } from '@irtranscripts/ui-core/core';
 import { RecordsHistoryModule } from '../../records-history/records-history.module';
 import { TeamsWidgetStateComponent } from '../teams/teams-widget-state.component';
 import { BaseEmployeeHistoryWidgetComponent } from './base-employee-history-widget.component';

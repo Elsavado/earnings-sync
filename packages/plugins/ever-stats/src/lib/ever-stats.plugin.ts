@@ -1,4 +1,4 @@
-import { GauzyCorePlugin as Plugin } from '@gauzy/plugin';
+import { IRTranscriptsCorePlugin as Plugin } from '@irtranscripts/plugin';
 import { EVER_STATS_ENTITIES } from './entities';
 import { EverStatsModule } from './ever-stats.module';
 

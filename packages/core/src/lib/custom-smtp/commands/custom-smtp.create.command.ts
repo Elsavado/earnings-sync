@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { ICustomSmtpCreateInput } from '@gauzy/contracts';
+import { ICustomSmtpCreateInput } from '@irtranscripts/contracts';
 
 export class CustomSmtpCreateCommand implements ICommand {
 	static readonly type = '[Custom SMTP] Create';

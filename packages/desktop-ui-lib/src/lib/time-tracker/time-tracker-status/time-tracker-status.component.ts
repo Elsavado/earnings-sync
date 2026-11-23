@@ -8,7 +8,7 @@ import { AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-    selector: 'gauzy-time-tracker-status',
+    selector: 'irtranscripts-time-tracker-status',
     templateUrl: './time-tracker-status.component.html',
     styleUrls: ['./time-tracker-status.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,

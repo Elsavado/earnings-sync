@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { RelationId } from 'typeorm';
-import { IOrganizationProject, IOrganizationTeam, ITaskRelatedIssueType } from '@gauzy/contracts';
+import { IOrganizationProject, IOrganizationTeam, ITaskRelatedIssueType } from '@irtranscripts/contracts';
 import { IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 import { OrganizationProject, OrganizationTeam, TenantOrganizationBaseEntity } from '../../core/entities/internal';
 import {

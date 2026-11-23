@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 import * as chalk from "chalk";
-import { DatabaseTypeEnum } from "@gauzy/config";
+import { DatabaseTypeEnum } from "@irtranscripts/config";
 
 export class AlterInvoiceTable1645179275947 implements MigrationInterface {
 

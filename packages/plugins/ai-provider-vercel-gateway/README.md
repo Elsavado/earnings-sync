@@ -1,7 +1,7 @@
-# @gauzy/plugin-ai-provider-vercel-gateway
+# @irtranscripts/plugin-ai-provider-vercel-gateway
 
-Vercel AI Gateway provider plugin for the Ever Gauzy AI chat engine
-([`@gauzy/plugin-ai-chat`](../ai-chat)). On bootstrap it registers the
+Vercel AI Gateway provider plugin for the Ever IRTranscripts AI chat engine
+([`@irtranscripts/plugin-ai-chat`](../ai-chat)). On bootstrap it registers the
 `vercel-gateway` provider with the chat engine's `AiProviderRegistry`; models
 are created lazily through the ESM-only
 [`@ai-sdk/gateway`](https://www.npmjs.com/package/@ai-sdk/gateway) package.

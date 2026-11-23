@@ -233,15 +233,15 @@ jobs:
             const script = require('./.scripts/bump-version-electron.js')
             console.log(script.desktopTimer(false))
         env:
-          GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
+          IRTRANSCRIPTS_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
           PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
-          DESKTOP_TIMER_APP_NAME: 'gauzy-desktop-timer'
+          DESKTOP_TIMER_APP_NAME: 'irtranscripts-desktop-timer'
           # Demo electron releases go to the same repo
-          DESKTOP_TIMER_APP_REPO_NAME: 'ever-gauzy'
+          DESKTOP_TIMER_APP_REPO_NAME: 'ever-irtranscripts'
           DESKTOP_TIMER_APP_REPO_OWNER: 'ever-co'
-          COMPANY_SITE_LINK: 'https://gauzy.co'
-          DESKTOP_TIMER_APP_DESCRIPTION: 'Gauzy Desktop Timer'
-          DESKTOP_TIMER_APP_ID: 'com.ever.gauzydesktoptimer'
+          COMPANY_SITE_LINK: 'https://irtranscripts.com'
+          DESKTOP_TIMER_APP_DESCRIPTION: 'IRTranscripts Desktop Timer'
+          DESKTOP_TIMER_APP_ID: 'com.ever.irtranscriptsdesktoptimer'
 
       - name: Fix Node.js PATH for child processes
         shell: powershell
@@ -313,11 +313,11 @@ jobs:
           PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
           # Demo electron releases go to the same repo
           DESKTOP_TIMER_APP_REPO_OWNER: 'ever-co'          
-          DESKTOP_TIMER_APP_REPO_NAME: 'ever-gauzy'
-          DESKTOP_TIMER_APP_NAME: 'gauzy-desktop-timer'
-          DESKTOP_TIMER_APP_DESCRIPTION: 'Gauzy Desktop Timer'
-          DESKTOP_TIMER_APP_ID: 'com.ever.gauzydesktoptimer'
-          COMPANY_SITE_LINK: 'https://gauzy.co'          
+          DESKTOP_TIMER_APP_REPO_NAME: 'ever-irtranscripts'
+          DESKTOP_TIMER_APP_NAME: 'irtranscripts-desktop-timer'
+          DESKTOP_TIMER_APP_DESCRIPTION: 'IRTranscripts Desktop Timer'
+          DESKTOP_TIMER_APP_ID: 'com.ever.irtranscriptsdesktoptimer'
+          COMPANY_SITE_LINK: 'https://irtranscripts.com'          
 
       - name: Scrub registry credentials
         if: always()

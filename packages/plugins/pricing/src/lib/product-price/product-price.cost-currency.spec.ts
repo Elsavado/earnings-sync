@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { FindOperator } from 'typeorm';
-import { Money, RequestContext } from '@gauzy/core';
+import { Money, RequestContext } from '@irtranscripts/core';
 import { PriceBaseSource, PriceComputeMode, PriceSource, PriceStatus } from '../pricing.types';
 import { ProductPriceService } from './product-price.service';
 

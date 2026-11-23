@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
 import { Transform, TransformFnParams } from 'class-transformer';
-import { IAccountDeletionRequestInput, LanguagesEnum } from '@gauzy/contracts';
+import { IAccountDeletionRequestInput, LanguagesEnum } from '@irtranscripts/contracts';
 
 /**
  * Body of `POST /account-deletion/request`. Only `email` is required; the other fields brand the email
@@ -24,7 +24,7 @@ export class RequestAccountDeletionDTO implements IAccountDeletionRequestInput {
 
 	/**
 	 * The language of the emails. Any short string is accepted and an unknown one is ignored (English is used):
-	 * a request forwarded by another site (a product website) must not fail validation over a locale Gauzy lacks.
+	 * a request forwarded by another site (a product website) must not fail validation over a locale IRTranscripts lacks.
 	 */
 	@ApiPropertyOptional({ enum: LanguagesEnum })
 	@IsOptional()

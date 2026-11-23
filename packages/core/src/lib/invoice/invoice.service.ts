@@ -11,8 +11,8 @@ import {
 	IOrganization,
 	InvoiceStats,
 	LanguagesEnum
-} from '@gauzy/contracts';
-import { isPlainObject } from '@gauzy/utils';
+} from '@irtranscripts/contracts';
+import { isPlainObject } from '@irtranscripts/utils';
 import { addDecimalStrings, normalizeDecimalString } from '../money/decimal';
 import { signPurposeToken, TokenPurposeEnum } from '../auth/purpose-token';
 import { MultiORMEnum } from './../core/utils';

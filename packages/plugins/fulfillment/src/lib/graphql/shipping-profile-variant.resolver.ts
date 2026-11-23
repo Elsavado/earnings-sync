@@ -1,7 +1,7 @@
 import { Args, ID, Mutation, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { FEATURE_GRAPHQL, FeatureFlagGuard, PermissionGuard, Permissions, TenantPermissionGuard } from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+import { FEATURE_GRAPHQL, FeatureFlagGuard, PermissionGuard, Permissions, TenantPermissionGuard } from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { ShippingProfileVariant } from '../shipping-profile-variant/shipping-profile-variant.entity';
 import { ShippingProfileVariantService } from '../shipping-profile-variant/shipping-profile-variant.service';
 import { FULFILLMENT_PERMISSIONS } from '../fulfillment.permissions';

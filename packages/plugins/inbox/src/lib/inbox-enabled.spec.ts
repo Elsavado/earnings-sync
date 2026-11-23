@@ -10,9 +10,9 @@ describe('isInboxEnabled', () => {
 		['TRUE', 'TRUE', false, 1],
 		['1', '1', false, 1],
 		['yes', 'yes', false, 1]
-	])('GAUZY_INBOX_ENABLED %s → %s, %i warning(s), never echoing the value', (_name, value, enabled, warnings) => {
+	])('IRTRANSCRIPTS_INBOX_ENABLED %s → %s, %i warning(s), never echoing the value', (_name, value, enabled, warnings) => {
 		const warn = jest.fn();
-		expect(isInboxEnabled({ GAUZY_INBOX_ENABLED: value }, warn)).toBe(enabled);
+		expect(isInboxEnabled({ IRTRANSCRIPTS_INBOX_ENABLED: value }, warn)).toBe(enabled);
 		expect(warn).toHaveBeenCalledTimes(warnings);
 		for (const [message] of warn.mock.calls) {
 			if (value) expect(message).not.toContain(`"${value}" `);

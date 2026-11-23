@@ -1,7 +1,7 @@
 import { Injectable, Inject, NotFoundException, forwardRef } from '@nestjs/common';
 import { UpdateResult, DeepPartial } from 'typeorm';
-import { RequestContext, sanitizeRichHtml } from '@gauzy/core';
-import { ID, IHelpCenterArticle } from '@gauzy/contracts';
+import { RequestContext, sanitizeRichHtml } from '@irtranscripts/core';
+import { ID, IHelpCenterArticle } from '@irtranscripts/contracts';
 import { HelpCenterArticleVersion } from './help-center-article-version.entity';
 import { HelpCenterArticleService } from './help-center-article.service';
 import { TypeOrmHelpCenterArticleVersionRepository } from './repository/type-orm-help-center-article-version.repository';

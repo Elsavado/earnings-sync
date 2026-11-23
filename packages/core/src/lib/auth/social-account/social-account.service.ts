@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { DeepPartial } from 'typeorm';
-import { ISocialAccount, ISocialAccountBase, IUser, ProviderEnum } from '@gauzy/contracts';
+import { ISocialAccount, ISocialAccountBase, IUser, ProviderEnum } from '@irtranscripts/contracts';
 import { UserService } from '../../user/user.service';
 import { TenantAwareCrudService } from '../../core/crud';
 import { MultiORMEnum } from '../../core/utils';

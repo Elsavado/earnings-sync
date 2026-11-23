@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IAuthResponse, IUser } from '@gauzy/contracts';
+import { IAuthResponse, IUser } from '@irtranscripts/contracts';
 import { NbAuthResult, NbAuthStrategy, NbAuthStrategyClass } from '@nebular/auth';
 import { BehaviorSubject, EMPTY, Observable, defer, firstValueFrom, from, of, switchMap, take } from 'rxjs';
 import { catchError, filter, finalize, map, tap } from 'rxjs/operators';

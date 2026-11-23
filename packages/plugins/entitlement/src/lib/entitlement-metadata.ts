@@ -1,4 +1,4 @@
-import { JsonData } from '@gauzy/contracts';
+import { JsonData } from '@irtranscripts/contracts';
 
 /**
  * Reads a `metadata` column as a plain object.

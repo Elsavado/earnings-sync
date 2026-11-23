@@ -2,14 +2,14 @@ import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 /**
- * `@gauzy/core` boots the whole application graph from its barrel, so it is doubled at the module boundary: the base
+ * `@irtranscripts/core` boots the whole application graph from its barrel, so it is doubled at the module boundary: the base
  * the catalog services inherit is reduced to the switch it states. The organization boundary itself — who it
  * confines, and how every read, write and delete of the base keeps to it, a delete of a row outside it answering
  * `affected: 0` — is proven against real stores on both ORMs in core
  * (`tenant-aware-crud.service.organization-boundary.spec.ts`). What is proven here is that the catalog services ask
  * for it. **The catalog base under test is the real one.**
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	class TenantAwareCrudService {
 		/** Off in the platform's base: a service applies the boundary only when it says so. */
 		protected appliesOrganizationBoundary(): boolean {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
-import { DocumentKindEnum, DocumentKnowledgeStatusEnum, ID, IDocument } from '@gauzy/contracts';
+import { DocumentKindEnum, DocumentKnowledgeStatusEnum, ID, IDocument } from '@irtranscripts/contracts';
 import { DocumentsService } from './documents.service';
 
 /** Children fetched per branch — the query DTO caps `take` at 100. */

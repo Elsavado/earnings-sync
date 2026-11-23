@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Query, UseGuards, UsePipes } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { IPagination, ID } from '@gauzy/contracts';
+import { IPagination, ID } from '@irtranscripts/contracts';
 import { BaseQueryDTO, CrudController } from '../core/crud';
 import { UUIDValidationPipe, UseValidationPipe, AbstractValidationPipe } from '../shared/pipes';
 import { Permissions } from '../shared/decorators';

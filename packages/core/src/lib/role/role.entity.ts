@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsNotEmpty, IsOptional } from 'class-validator';
-import { RolesEnum, IRolePermission, IRole } from '@gauzy/contracts';
+import { RolesEnum, IRolePermission, IRole } from '@irtranscripts/contracts';
 import { RolePermission, TenantBaseEntity } from '../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMOneToMany } from './../core/decorators/entity';
 import { MikroOrmRoleRepository } from './repository/mikro-orm-role.repository';

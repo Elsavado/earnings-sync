@@ -1,5 +1,5 @@
-import { ID, PluginBillingStatus } from '@gauzy/contracts';
-import { MultiORMEnum, parseFindOptionsRelations, RequestContext } from '@gauzy/core';
+import { ID, PluginBillingStatus } from '@irtranscripts/contracts';
+import { MultiORMEnum, parseFindOptionsRelations, RequestContext } from '@irtranscripts/core';
 import { Injectable } from '@nestjs/common';
 import { Between, LessThan, UpdateResult } from 'typeorm';
 import {

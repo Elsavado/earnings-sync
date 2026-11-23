@@ -24,8 +24,8 @@ export class ApiService extends ServerTask {
 	private publishedPasswordsReported = false;
 
 	/**
-	 * @param allowLanAccess - Whether this app may listen on the network (Gauzy Server and Gauzy API
-	 *   Server, as their LAN access setting says). Gauzy Desktop's integrated server passes false and
+	 * @param allowLanAccess - Whether this app may listen on the network (IRTranscripts Server and IRTranscripts API
+	 *   Server, as their LAN access setting says). IRTranscripts Desktop's integrated server passes false and
 	 *   always listens on the loopback address.
 	 */
 	constructor(

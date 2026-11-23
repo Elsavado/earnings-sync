@@ -1,7 +1,7 @@
 import { JoinColumn, RelationId } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, Length } from 'class-validator';
-import { CurrencyCode, ID } from '@gauzy/contracts';
+import { CurrencyCode, ID } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	ColumnNumericTransformerPipe,
@@ -10,7 +10,7 @@ import {
 	MultiORMEntity,
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { OrderLineInvoiceDirection } from '../order.types';
 import { OrderLine } from '../order-line/order-line.entity';
 import { MikroOrmOrderLineInvoiceRepository } from './repository/mikro-orm-order-line-invoice.repository';

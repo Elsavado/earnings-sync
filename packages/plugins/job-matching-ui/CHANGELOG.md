@@ -1,3 +1,3 @@
-# Changelog for @gauzy/plugin-job-matching-ui
+# Changelog for @irtranscripts/plugin-job-matching-ui
 
 ## [Unreleased]

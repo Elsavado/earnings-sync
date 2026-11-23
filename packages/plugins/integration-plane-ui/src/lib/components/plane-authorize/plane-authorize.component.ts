@@ -7,18 +7,18 @@ import { NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
 import { filter, tap, take } from 'rxjs';
-import { IntegrationEnum, IIntegrationTenant, IOrganization } from '@gauzy/contracts';
-import { ErrorHandlingService, IntegrationsService, IPlaneSetupResponse, PlaneService, Store } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { IntegrationEnum, IIntegrationTenant, IOrganization } from '@irtranscripts/contracts';
+import { ErrorHandlingService, IntegrationsService, IPlaneSetupResponse, PlaneService, Store } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { INTEGRATION_PLANE_PAGE_LINK } from '../../integration-plane.routes';
 import { PlaneApiKeyDialogComponent } from '../api-key-dialog/api-key-dialog.component';
 
 const URL_PATTERN = /^https?:\/\/.+/;
 
-/** Global hosted Ever Gauzy PM UI URLs shown (read-only) in shared mode. */
-const SHARED_PLANE_WEB_URL = 'https://pm.gauzy.co';
+/** Global hosted Ever IRTranscripts PM UI URLs shown (read-only) in shared mode. */
+const SHARED_PLANE_WEB_URL = 'https://pm.irtranscripts.com';
 const SHARED_PLANE_ADMIN_URL = ''; // admin (god-mode) not offered in shared mode
-const SHARED_PLANE_SPACE_URL = 'https://pm-space.gauzy.co';
+const SHARED_PLANE_SPACE_URL = 'https://pm-space.irtranscripts.com';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

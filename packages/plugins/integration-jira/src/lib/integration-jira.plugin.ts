@@ -1,6 +1,6 @@
 import * as chalk from 'chalk';
-import { environment } from '@gauzy/config';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@gauzy/plugin';
+import { environment } from '@irtranscripts/config';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@irtranscripts/plugin';
 import { JiraModule } from './jira.module';
 import { JiraModuleOptions } from './jira.types';
 import { parseOptions } from './jira.helpers';

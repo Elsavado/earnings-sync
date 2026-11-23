@@ -1,4 +1,4 @@
-import { BaseEntityEnum, DocumentKindEnum } from '@gauzy/contracts';
+import { BaseEntityEnum, DocumentKindEnum } from '@irtranscripts/contracts';
 import { ENTITY_ICONS, ENTITY_LINKS, ENTITY_TITLES, favoriteIcon } from './entities-mapping';
 
 const ID = 'aaaaaaaa-1111-4111-8111-111111111111';
@@ -10,7 +10,7 @@ const ID = 'aaaaaaaa-1111-4111-8111-111111111111';
  * is an estimate) picks the right one.
  *
  * That every target is a route the app really serves is checked against the router configuration by
- * `apps/gauzy/src/app/pages/favorite-links.routes.spec.ts`.
+ * `apps/irtranscripts/src/app/pages/favorite-links.routes.spec.ts`.
  */
 describe('favorite entity links', () => {
 	describe('Task', () => {

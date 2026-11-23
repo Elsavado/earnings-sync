@@ -1,5 +1,5 @@
 import * as remoteMain from '@electron/remote/main';
-import { WindowManager, RegisteredWindow, store } from '@gauzy/desktop-core';
+import { WindowManager, RegisteredWindow, store } from '@irtranscripts/desktop-core';
 import { BrowserWindow, Menu } from 'electron';
 import { setLaunchPathAndLoad } from './utils/desktop-window-utils';
 
@@ -65,7 +65,7 @@ export async function createAboutWindow(filePath: string, preloadPath?: string, 
  */
 function handleShowEvent(window: Electron.BrowserWindow): void {
 	window.on('show', () => {
-		const aboutMenuItem = Menu.getApplicationMenu()?.getMenuItemById('gauzy-about');
+		const aboutMenuItem = Menu.getApplicationMenu()?.getMenuItemById('irtranscripts-about');
 		if (aboutMenuItem) {
 			aboutMenuItem.enabled = false;
 		}
@@ -81,7 +81,7 @@ function handleShowEvent(window: Electron.BrowserWindow): void {
  */
 function handleCloseEvent(window: Electron.BrowserWindow): void {
 	window.on('close', (event) => {
-		const aboutMenuItem = Menu.getApplicationMenu()?.getMenuItemById('gauzy-about');
+		const aboutMenuItem = Menu.getApplicationMenu()?.getMenuItemById('irtranscripts-about');
 		if (aboutMenuItem) {
 			aboutMenuItem.enabled = true;
 		}

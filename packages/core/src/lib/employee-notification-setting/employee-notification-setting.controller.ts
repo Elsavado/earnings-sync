@@ -14,7 +14,7 @@ import {
 	UseGuards
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
-import { ID, IPagination } from '@gauzy/contracts';
+import { ID, IPagination } from '@irtranscripts/contracts';
 import { PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { Permissions } from '../shared/decorators';
 import { UUIDValidationPipe, UseValidationPipe } from '../shared/pipes';

@@ -1,8 +1,8 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { VideosService } from '../../services/videos.service';
 import { GetVideoCountQuery } from '../get-video-count.query';
-import { RequestContext } from '@gauzy/core';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { RequestContext } from '@irtranscripts/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { BadRequestException } from '@nestjs/common';
 
 /**

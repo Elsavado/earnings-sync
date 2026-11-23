@@ -1,7 +1,7 @@
 import { BadRequestException, CallHandler, ExecutionContext, ForbiddenException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { of } from 'rxjs';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../context';
 import {
 	SENSITIVE_RELATIONS_KEY,

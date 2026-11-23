@@ -2,8 +2,8 @@ import { DataSource } from 'typeorm';
 import { Proposal } from './proposal.entity';
 import { faker } from '@faker-js/faker';
 import * as moment from 'moment';
-import { OrganizationContact, Tag } from '@gauzy/core';
-import { IEmployee, IOrganization, ITenant, ProposalStatusEnum } from '@gauzy/contracts';
+import { OrganizationContact, Tag } from '@irtranscripts/core';
+import { IEmployee, IOrganization, ITenant, ProposalStatusEnum } from '@irtranscripts/contracts';
 
 /**
  * Creates default proposals for organizations.

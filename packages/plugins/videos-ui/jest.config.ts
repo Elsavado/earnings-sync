@@ -14,7 +14,7 @@ export default {
 	},
 	// `@ngneat/effects` and `@datorama/akita` ship ESM from plain `.js` entries; the `.mjs`-only
 	// exception left them untransformed, so any suite reaching the video store/effects failed to
-	// LOAD with "Unexpected token". Same fix as @gauzy/plugin-docs-ui.
+	// LOAD with "Unexpected token". Same fix as @irtranscripts/plugin-docs-ui.
 	// `transformIgnorePatterns` is inherited from the root `jest.preset.js` (the ESM-only packages plus
 	// every `.mjs` bundle). Do not redefine it here: a project key REPLACES the preset list, and the one
 	// that used to sit here carried only the `.mjs` exception, so @datorama/akita, @ngneat/* and

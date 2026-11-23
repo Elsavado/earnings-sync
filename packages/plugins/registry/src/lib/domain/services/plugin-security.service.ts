@@ -1,4 +1,4 @@
-import { PluginSourceType } from '@gauzy/contracts';
+import { PluginSourceType } from '@irtranscripts/contracts';
 import {
 	Injectable,
 	InternalServerErrorException,
@@ -160,8 +160,8 @@ export class PluginSecurityService {
 						url: source.url || '',
 						integrity: source.integrity || ''
 					};
-				case PluginSourceType.GAUZY:
-					return { type: PluginSourceType.GAUZY };
+				case PluginSourceType.IRTRANSCRIPTS:
+					return { type: PluginSourceType.IRTRANSCRIPTS };
 				case PluginSourceType.NPM:
 					return {
 						type: PluginSourceType.NPM,

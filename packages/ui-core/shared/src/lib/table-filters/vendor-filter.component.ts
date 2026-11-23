@@ -1,6 +1,6 @@
 import { Component, OnChanges, type SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { DefaultFilter } from 'angular2-smart-table';
-import { IOrganizationVendor } from '@gauzy/contracts';
+import { IOrganizationVendor } from '@irtranscripts/contracts';
 
 @Component({
     selector: 'ga-vendor-select-filter',

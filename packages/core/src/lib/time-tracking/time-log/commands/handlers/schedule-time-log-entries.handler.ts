@@ -1,8 +1,8 @@
 import { ICommandHandler, CommandHandler } from '@nestjs/cqrs';
 import { Brackets, SelectQueryBuilder, WhereExpressionBuilder } from 'typeorm';
 import * as moment from 'moment';
-import { isEmpty } from '@gauzy/utils';
-import { ID, ITimeLog, ITimeSlot } from '@gauzy/contracts';
+import { isEmpty } from '@irtranscripts/utils';
+import { ID, ITimeLog, ITimeSlot } from '@irtranscripts/contracts';
 import { prepareSQLQuery as p } from './../../../../database/database.helper';
 import { MultiORM, MultiORMEnum, getORMType } from './../../../../core/utils';
 import { TimeLog } from './../../time-log.entity';

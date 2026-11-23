@@ -13,10 +13,10 @@ import {
 	ID,
 	IDocument,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { ComponentEnum, distinctUntilChange } from '@gauzy/ui-core/common';
-import { Store, ToastrService } from '@gauzy/ui-core/core';
-import { IPaginationBase, PaginationFilterBaseComponent } from '@gauzy/ui-core/shared';
+} from '@irtranscripts/contracts';
+import { ComponentEnum, distinctUntilChange } from '@irtranscripts/ui-core/common';
+import { Store, ToastrService } from '@irtranscripts/ui-core/core';
+import { IPaginationBase, PaginationFilterBaseComponent } from '@irtranscripts/ui-core/shared';
 import { DocumentsActions } from '../../+state/documents.actions';
 import { DocumentsQuery } from '../../+state/documents.query';
 import { DocumentsStore } from '../../+state/documents.store';

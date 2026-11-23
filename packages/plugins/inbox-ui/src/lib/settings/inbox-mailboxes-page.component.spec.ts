@@ -9,8 +9,8 @@ import {
 	InboxMailboxOwnerTypeEnum,
 	InboxMailboxPurposeEnum,
 	InboxProviderAccountStatusEnum
-} from '@gauzy/contracts';
-import { Store, ToastrService } from '@gauzy/ui-core/core';
+} from '@irtranscripts/contracts';
+import { Store, ToastrService } from '@irtranscripts/ui-core/core';
 import { InboxDirectoryService } from '../services/inbox-directory.service';
 import { InboxEmailSettingsService } from '../services/inbox-email-settings.service';
 import { InboxMailboxesPageComponent } from './inbox-mailboxes-page.component';
@@ -157,15 +157,15 @@ describe('InboxMailboxesPageComponent', () => {
 		served([custom]);
 		const record = {
 			recordType: 'TXT' as const,
-			recordName: '_gauzy-inbox.acme.test',
-			recordValue: 'gauzy-inbox-verify=abc',
+			recordName: '_irtranscripts-inbox.acme.test',
+			recordValue: 'irtranscripts-inbox-verify=abc',
 			status: InboxMailboxDomainStatusEnum.PENDING
 		};
 		api.mailboxVerification.mockReturnValue(of(record));
 		const { component, fixture, find } = render();
 		fixture.detectChanges();
 		expect(api.mailboxVerification).toHaveBeenCalledWith('billing', 'org-1');
-		expect(find('dns-billing')?.textContent).toContain('gauzy-inbox-verify=abc');
+		expect(find('dns-billing')?.textContent).toContain('irtranscripts-inbox-verify=abc');
 		expect(find('mailbox-billing')?.textContent).toContain('Resend (acme.test)');
 
 		api.verifyMailbox.mockReturnValue(of({ ...record, status: InboxMailboxDomainStatusEnum.VERIFIED }));

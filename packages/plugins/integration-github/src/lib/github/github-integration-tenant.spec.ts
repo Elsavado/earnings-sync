@@ -1,11 +1,11 @@
 import { ForbiddenException } from '@nestjs/common';
 
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	IntegrationTenantService: class IntegrationTenantService {},
 	RequestContext: { currentTenantId: jest.fn() }
 }));
 
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { GithubMiddleware } from './github.middleware';
 import { GithubIntegrationTenantGuard } from './github-integration-tenant.guard';
 

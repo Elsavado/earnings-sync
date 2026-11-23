@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { assertCallerOwnsUpload } from '@gauzy/core';
+import { assertCallerOwnsUpload } from '@irtranscripts/core';
 import { IVideo } from '../../video.model';
 import { VideosService } from '../../services/videos.service';
 import { UpdateVideoCommand } from '../update-video.command';

@@ -1,5 +1,5 @@
 import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 
 /**
  * Refuses a GitHub integration request whose loaded integration belongs to another tenant

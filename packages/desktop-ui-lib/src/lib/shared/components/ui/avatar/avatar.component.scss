@@ -89,14 +89,14 @@
 		font-size: 14px;
 		font-weight: 600;
 		line-height: 16px;
-		color: nb-theme(gauzy-text-contact);
+		color: nb-theme(irtranscripts-text-contact);
 	}
 
 	.caption {
 		font-size: 11px;
 		font-weight: 400;
 		line-height: 11px;
-		color: var(--gauzy-text-color-2);
+		color: var(--irtranscripts-text-color-2);
 	}
 
 	@include avatarSizeVariant(48px);
@@ -130,7 +130,7 @@
 	.link-text {
 		font-size: 14px;
 		font-weight: 600;
-		color: var(--gauzy-text-color-1) !important;
+		color: var(--irtranscripts-text-color-1) !important;
 	}
 
 	&.activity {

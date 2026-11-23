@@ -1,7 +1,7 @@
 // cspell:ignore IOLU
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { FindOperator } from 'typeorm';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { COUPON_ALPHABET, CouponService } from './coupon.service';
 import { PromotionUsageStatus } from '../promotion.types';
 

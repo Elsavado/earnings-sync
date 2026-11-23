@@ -1,14 +1,14 @@
 /**
  * The failure counter under test is the kernel's own `LoginAttemptService`, taken from its module; the other names
- * the service imports from `@gauzy/core` (two entity classes and the password hasher, which the fixtures replace)
+ * the service imports from `@irtranscripts/core` (two entity classes and the password hasher, which the fixtures replace)
  * are stand-ins. Loading the real barrel booted the whole core module graph in this spec: it failed to load on a
  * core source this app's test config does not compile (category.seed.ts imports a JSON file), and the controllers
  * it had evaluated by then had already started loading `class-validator` for their `ValidationPipe`s, which then
  * ran after the environment was torn down and exited the process.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { LoginAttemptScope, LoginAttemptService } = jest.requireActual(
-		'@gauzy/core/src/lib/auth/login-attempt.service'
+		'@irtranscripts/core/src/lib/auth/login-attempt.service'
 	);
 	return {
 		Employee: class Employee {},
@@ -19,12 +19,12 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-import { environment } from '@gauzy/config';
-import { LoginAttemptService } from '@gauzy/core';
+import { environment } from '@irtranscripts/config';
+import { LoginAttemptService } from '@irtranscripts/core';
 import { OAuthUserService } from './oauth-user.service';
 
 /**
- * The MCP OAuth login form (mcpauth) checks Gauzy passwords against the production database. It had no per-account
+ * The MCP OAuth login form (mcpauth) checks IRTranscripts passwords against the production database. It had no per-account
  * failure counter, only a per-address rate limit: a guesser spreading attempts over many addresses could try
  * passwords for any email without end. Failures now count in the counter the API's own login uses.
  */

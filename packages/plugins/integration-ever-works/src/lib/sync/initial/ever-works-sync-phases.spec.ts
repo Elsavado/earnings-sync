@@ -2,7 +2,7 @@
  * The pure parts of G-P1-10: phase order, parents-first import order, initial event ids (stable per
  * record version), the lag arithmetic and the conflict values.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	return {
 		ColumnIndex: decorator,
@@ -96,20 +96,20 @@ describe('status and conflicts helpers', () => {
 		expect(behind('5', null)).toBe('5');
 	});
 
-	it('a conflict carries both values in Gauzy terms and the winner; "use the other value" picks the loser', () => {
-		const gauzyWins = mergeField({ kind: 'scalar' }, 'A', 'G', 'E', '2026-10-16T10:00:02Z', '2026-10-16T10:00:01Z');
-		const details = conflictFromMerge('title', gauzyWins, { gauzyAt: '2026-10-16T10:00:02Z' });
-		expect(details).toMatchObject({ field: 'title', gauzyValue: 'G', everWorksValue: 'E', winner: 'gauzy' });
+	it('a conflict carries both values in IRTranscripts terms and the winner; "use the other value" picks the loser', () => {
+		const irtranscriptsWins = mergeField({ kind: 'scalar' }, 'A', 'G', 'E', '2026-10-16T10:00:02Z', '2026-10-16T10:00:01Z');
+		const details = conflictFromMerge('title', irtranscriptsWins, { irtranscriptsAt: '2026-10-16T10:00:02Z' });
+		expect(details).toMatchObject({ field: 'title', irtranscriptsValue: 'G', everWorksValue: 'E', winner: 'irtranscripts' });
 		expect(otherValue({ ...(details as NonNullable<typeof details>) })).toBe('E');
 		const everWorksWins = mergeField({ kind: 'scalar' }, 'A', 'G', 'E', null, null);
-		const other = conflictFromMerge('status', everWorksWins, { gauzyField: 'taskStatus' });
-		expect(other).toMatchObject({ gauzyField: 'taskStatus', gauzyValue: 'G', everWorksValue: 'E', winner: 'ever_works' });
+		const other = conflictFromMerge('status', everWorksWins, { irtranscriptsField: 'taskStatus' });
+		expect(other).toMatchObject({ irtranscriptsField: 'taskStatus', irtranscriptsValue: 'G', everWorksValue: 'E', winner: 'ever_works' });
 		expect(otherValue(other as NonNullable<typeof other>)).toBe('G');
 		expect(conflictFromMerge('title', mergeField({ kind: 'scalar' }, 'A', 'G', 'A'))).toBeNull();
 	});
 
 	it('reads only well-formed conflict details, page sizes and page cursors', () => {
-		expect(parseDetails('{"field":"name","winner":"gauzy","gauzyValue":1,"everWorksValue":2}')).toMatchObject({ field: 'name' });
+		expect(parseDetails('{"field":"name","winner":"irtranscripts","irtranscriptsValue":1,"everWorksValue":2}')).toMatchObject({ field: 'name' });
 		expect(parseDetails('{"field":"name","winner":"nobody"}')).toBeNull();
 		expect(parseDetails('not json')).toBeNull();
 		expect(clampLimit('500', 50, 200)).toBe(200);

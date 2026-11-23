@@ -5,7 +5,7 @@
 import '../core/entities/internal';
 
 import { getMetadataArgsStorage } from 'typeorm';
-import { BaseEntityEnum, PermissionsEnum } from '@gauzy/contracts';
+import { BaseEntityEnum, PermissionsEnum } from '@irtranscripts/contracts';
 import { Candidate, Employee, Equipment, Expense, Income, Invoice, Payment, Product } from '../core/entities/internal';
 import { RequestContext } from '../core/context';
 import { TenantAwareCrudService } from '../core/crud';

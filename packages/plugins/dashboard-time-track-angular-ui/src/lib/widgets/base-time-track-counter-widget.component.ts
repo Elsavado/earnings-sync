@@ -2,9 +2,9 @@ import { computed, Directive, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { combineLatest, of, Subject } from 'rxjs';
 import { catchError, filter, map, startWith, switchMap, tap } from 'rxjs/operators';
-import { ICountsStatistics } from '@gauzy/contracts';
-import { IDashboardWidgetContext, TimesheetStatisticsCacheService } from '@gauzy/ui-core/core';
-import { BaseDashboardWidgetComponent } from '@gauzy/ui-core/shared';
+import { ICountsStatistics } from '@irtranscripts/contracts';
+import { IDashboardWidgetContext, TimesheetStatisticsCacheService } from '@irtranscripts/ui-core/core';
+import { BaseDashboardWidgetComponent } from '@irtranscripts/ui-core/shared';
 import {
 	isCurrentWeekRange,
 	RangePeriod,

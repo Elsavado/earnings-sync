@@ -1,5 +1,5 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a subscription route needs and none of which is
  * available outside a running application. The seam is therefore doubled at the module boundary,
  * exactly as the package's service specs do, and everything the assertions are actually about is the
@@ -15,7 +15,7 @@
  * publishes it as an `ETag` while a route that has not opted in publishes nothing, and that the
  * GraphQL mutations mirror the routes they stand for under the same scope names.
  */
-jest.mock('@gauzy/common', () => ({
+jest.mock('@irtranscripts/common', () => ({
 	/** A no-op decorator factory: the feature gate is not what these cases are about. */
 	FeatureFlag: () => () => undefined
 }));
@@ -23,17 +23,17 @@ jest.mock('@gauzy/common', () => ({
 // The interceptor's injected store is substituted at its own module, one seam below the barrel: the
 // store's class reaches the ORM and the entity graph, neither of which a case about a retry key needs.
 // The interceptor itself — the logic every case is about — is the kernel's real one.
-jest.mock('@gauzy/core/src/lib/idempotency/idempotency.service', () => ({
+jest.mock('@irtranscripts/core/src/lib/idempotency/idempotency.service', () => ({
 	IdempotencyService: class IdempotencyService {}
 }));
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: no controller here is mapped onto a Nest application. */
 	const decorator = () => () => undefined;
 	// The metadata key a route's declaration is read from, and the property the guard leaves its accepted
 	// version on. Both come from the kernel module the barrel re-exports them from, so the substituted
 	// barrel cannot hand the cases a value the decorators and the guard do not actually write.
-	const concurrency = jest.requireActual('@gauzy/core/src/lib/concurrency/version.util');
+	const concurrency = jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util');
 
 	class CrudController {
 		constructor(protected readonly service: any) {}
@@ -109,26 +109,26 @@ jest.mock('@gauzy/core', () => {
 			currentEmployeeId: () => null,
 			hasPermission: () => false
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
-		isUniqueViolation: jest.requireActual('@gauzy/core/src/lib/core/errors/unique-violation').isUniqueViolation,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
+		isUniqueViolation: jest.requireActual('@irtranscripts/core/src/lib/core/errors/unique-violation').isUniqueViolation,
 		// The conventions themselves, and the machinery that enforces them: the metadata the decorators
 		// write is what the guard and the interceptors below read, so a double of either would assert
 		// nothing about this package's routes.
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
-		IDEMPOTENT_METADATA_KEY: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.policy')
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		IDEMPOTENT_METADATA_KEY: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.policy')
 			.IDEMPOTENT_METADATA_KEY,
-		IdempotencyInterceptor: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.interceptor')
+		IdempotencyInterceptor: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.interceptor')
 			.IdempotencyInterceptor,
-		Versioned: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned.decorator').Versioned,
-		VersionGuard: jest.requireActual('@gauzy/core/src/lib/concurrency/version.guard').VersionGuard,
-		VersionInterceptor: jest.requireActual('@gauzy/core/src/lib/concurrency/version.interceptor')
+		Versioned: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned.decorator').Versioned,
+		VersionGuard: jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.guard').VersionGuard,
+		VersionInterceptor: jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.interceptor')
 			.VersionInterceptor,
-		versionExpectationOf: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write').versionExpectationOf,
+		versionExpectationOf: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write').versionExpectationOf,
 		VERSIONED_METADATA_KEY: concurrency.VERSIONED_METADATA_KEY,
 		VERSION_EXPECTATION_PROPERTY: concurrency.VERSION_EXPECTATION_PROPERTY,
 		// The refusals a case asserts on are the platform's own classes for the same reason.
-		ApiException: jest.requireActual('@gauzy/core/src/lib/core/errors/api-exception').ApiException,
-		ApiErrorCode: jest.requireActual('@gauzy/core/src/lib/core/errors/api-error-codes').ApiErrorCode
+		ApiException: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-exception').ApiException,
+		ApiErrorCode: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-error-codes').ApiErrorCode
 	};
 });
 
@@ -149,7 +149,7 @@ import {
 	VERSIONED_METADATA_KEY,
 	VersionGuard,
 	VersionInterceptor
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 
 /** The version the guard accepted for the subscription every case acts on. */
 const acceptedVersion: IVersionExpectation = { wildcard: false, versions: [1] };

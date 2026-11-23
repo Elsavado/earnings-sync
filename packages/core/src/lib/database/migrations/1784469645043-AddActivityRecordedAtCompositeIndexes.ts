@@ -1,5 +1,5 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 import * as chalk from 'chalk';
 
 export class AddActivityRecordedAtCompositeIndexes1784469645043 implements MigrationInterface {

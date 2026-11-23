@@ -1,8 +1,8 @@
 import { ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { environment as env } from '@gauzy/config';
-import { PERMISSIONS_METADATA, PUBLIC_METHOD_METADATA } from '@gauzy/constants';
-import { ID, PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { environment as env } from '@irtranscripts/config';
+import { PERMISSIONS_METADATA, PUBLIC_METHOD_METADATA } from '@irtranscripts/constants';
+import { ID, PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 import { Cache } from 'cache-manager';
 import { RequestContext } from './../../core/context';
 import { RolePermissionService } from '../../role-permission/role-permission.service';

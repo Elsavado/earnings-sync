@@ -1,4 +1,4 @@
-import { ITaskSizeCreateInput } from '@gauzy/contracts';
+import { ITaskSizeCreateInput } from '@irtranscripts/contracts';
 import { IntersectionType, PartialType } from '@nestjs/swagger';
 import { TenantOrganizationBaseDTO } from '../../../core/dto';
 import { TaskSize } from '../size.entity';

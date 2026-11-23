@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 import { NbButtonModule, NbComponentStatus, NbProgressBarModule } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { ITasksStatistics } from '@gauzy/contracts';
-import { progressStatus } from '@gauzy/ui-core/common';
-import { IDashboardWidgetContext } from '@gauzy/ui-core/core';
-import { DurationFormatPipe } from '@gauzy/ui-core/shared';
+import { ITasksStatistics } from '@irtranscripts/contracts';
+import { progressStatus } from '@irtranscripts/ui-core/common';
+import { IDashboardWidgetContext } from '@irtranscripts/ui-core/core';
+import { DurationFormatPipe } from '@irtranscripts/ui-core/shared';
 import { BaseTimeTrackListWidgetComponent } from './base-time-track-list-widget.component';
 import { TimeTrackWidgetStateComponent } from './time-track-widget-state.component';
 

@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { DocumentSettingsDTO } from '../dto';
 
 export class UpdateDocumentSettingsCommand implements ICommand {

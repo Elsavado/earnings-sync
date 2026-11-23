@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiHeader, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
-import { Public } from '@gauzy/common';
+import { Public } from '@irtranscripts/common';
 import { EverAsyncRateLimitGuard } from './ever-async-rate-limit.guard';
 import { EverAsyncConnectorScope, EverAsyncIntegrationService } from './ever-async-integration.service';
 

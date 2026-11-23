@@ -1,10 +1,10 @@
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 import { validateApplicationSecrets } from './validate-secrets';
 
 /**
  * Regression suite for GHSA-39j7-x845-4w3c / GHSA-chm8-2ggf-pgjq.
  *
- * `@gauzy/config` no longer falls back to a published literal when a secret is unset (outside
+ * `@irtranscripts/config` no longer falls back to a published literal when a secret is unset (outside
  * DEMO): it substitutes a random per-process value. The startup guard must still see that as
  * "not configured" and refuse a production boot, exactly as it did for the literal. It also checks
  * every key against the ONE shared published list, so a literal shipped for another key (or by the
@@ -15,14 +15,14 @@ import { validateApplicationSecrets } from './validate-secrets';
 describe('validateApplicationSecrets', () => {
 	const KEYS = ['JWT_SECRET', 'JWT_REFRESH_TOKEN_SECRET', 'JWT_VERIFICATION_TOKEN_SECRET', 'EXPRESS_SESSION_SECRET'];
 	const MANAGED = ['NODE_ENV', 'DEMO', 'ALLOW_INSECURE_JWT_SECRET', ...KEYS];
-	const REGISTRY = Symbol.for('@gauzy/config:generated-secrets');
+	const REGISTRY = Symbol.for('@irtranscripts/config:generated-secrets');
 
 	/** The pre-fix predicate: weak only when empty or equal to that key's OWN literal. */
 	const PRE_FIX_DEFAULTS: Record<string, string> = {
 		JWT_SECRET: 'secretKey',
 		JWT_REFRESH_TOKEN_SECRET: 'refreshSecretKey',
 		JWT_VERIFICATION_TOKEN_SECRET: 'verificationSecretKey',
-		EXPRESS_SESSION_SECRET: 'gauzy'
+		EXPRESS_SESSION_SECRET: 'irtranscripts'
 	};
 	const preFixIsWeak = (key: string) => {
 		const current = String((env()[key] as string | undefined) ?? process.env[key] ?? '').trim();
@@ -112,7 +112,7 @@ describe('validateApplicationSecrets', () => {
 		});
 
 		it('still refuses each key’s own literal and whitespace-only values', () => {
-			setSecret('EXPRESS_SESSION_SECRET', 'gauzy');
+			setSecret('EXPRESS_SESSION_SECRET', 'irtranscripts');
 			setSecret('JWT_VERIFICATION_TOKEN_SECRET', '   ');
 
 			expect(() => validateApplicationSecrets()).toThrow(/JWT_VERIFICATION_TOKEN_SECRET, EXPRESS_SESSION_SECRET/);

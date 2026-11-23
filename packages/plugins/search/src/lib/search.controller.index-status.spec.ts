@@ -3,7 +3,7 @@
  * GraphQL `searchIndexStatus` field goes through: a caller with SEARCH_VIEW was told the size and freshness of the
  * index of entities they may not view.
  */
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	FeatureFlagGuard: class FeatureFlagGuard {},
 	PermissionGuard: class PermissionGuard {},
 	Permissions: () => () => undefined,

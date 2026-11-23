@@ -7,7 +7,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import { IsBoolean, IsInt, IsObject, IsOptional, IsUUID, Min } from 'class-validator';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 
 /**
  * ChannelWarehouse request DTO validation.

@@ -1,13 +1,13 @@
 import { Body, Controller, Delete, Get, Header, HttpCode, HttpStatus, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ID, PermissionsEnum } from '@gauzy/contracts';
-import { PermissionGuard, Permissions, TenantPermissionGuard, UseValidationPipe, UUIDValidationPipe } from '@gauzy/core';
+import { ID, PermissionsEnum } from '@irtranscripts/contracts';
+import { PermissionGuard, Permissions, TenantPermissionGuard, UseValidationPipe, UUIDValidationPipe } from '@irtranscripts/core';
 import { EVER_WORKS_ROUTE_PREFIX } from '../ever-works.constants';
 import { EverWorksCreateMappingDto, EverWorksUpdateMappingDto } from './dto/ever-works-mapping.dto';
 import { EverWorksMappingService } from './ever-works-mapping.service';
 
 /**
- * `/api/integration/ever-works/mappings*` (plan 06 G-P1-4): one Gauzy organization ↔ one pinned Ever
+ * `/api/integration/ever-works/mappings*` (plan 06 G-P1-4): one IRTranscripts organization ↔ one pinned Ever
  * Works organization, its settings and sync toggles. Same guards and organization-membership check as
  * the connection routes.
  */

@@ -1,4 +1,4 @@
-import { IGetExpenseInput, ReportGroupFilterEnum } from "@gauzy/contracts";
+import { IGetExpenseInput, ReportGroupFilterEnum } from "@irtranscripts/contracts";
 import { IntersectionType } from "@nestjs/mapped-types";
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import { IsEnum, IsOptional, IsUUID } from "class-validator";

@@ -1,7 +1,7 @@
-# @gauzy/plugin-ai-provider-groq
+# @irtranscripts/plugin-ai-provider-groq
 
-Groq provider plugin for the Ever Gauzy AI chat engine
-([`@gauzy/plugin-ai-chat`](../ai-chat)). On bootstrap it registers the
+Groq provider plugin for the Ever IRTranscripts AI chat engine
+([`@irtranscripts/plugin-ai-chat`](../ai-chat)). On bootstrap it registers the
 `groq` provider with the chat engine's `AiProviderRegistry`. Chat models are
 created lazily through the ESM-only
 [`@ai-sdk/openai-compatible`](https://www.npmjs.com/package/@ai-sdk/openai-compatible)

@@ -9,8 +9,8 @@ import {
 	ITaskView,
 	JsonData,
 	VisibilityLevelEnum
-} from '@gauzy/contracts';
-import { isMySQL, isPostgres } from '@gauzy/config';
+} from '@irtranscripts/contracts';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
 import { IsBoolean, IsEnum, IsNotEmpty, IsObject, IsOptional, IsString, IsUUID } from 'class-validator';
 import {
 	OrganizationProject,

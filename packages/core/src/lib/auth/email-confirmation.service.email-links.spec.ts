@@ -1,6 +1,6 @@
 import '../core/entities/internal';
 
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 import { EmailConfirmationService } from './email-confirmation.service';
 
 /**

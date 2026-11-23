@@ -1,10 +1,10 @@
 /**
  * Two module boundaries are doubled here, for the same reason as the package's other suites.
  *
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which recording a refund needs and none of which is available
  * outside a running application; its nested `uuid` is ESM-only, so reading one entity would fail under
- * jest. `@gauzy/config` reads the process environment at import time. Both are therefore doubled at the
+ * jest. `@irtranscripts/config` reads the process environment at import time. Both are therefore doubled at the
  * module boundary, and **the services under test are the real ones**: the refund entry point, the
  * refund service it records and settles through, the capture service it measures the refundable figure
  * with, the reason service it validates the governed reason against and the collection service the
@@ -12,7 +12,7 @@
  * context, the entity base classes and the two ORM constants are substituted, and the money kernel is
  * pulled through the seam with `requireActual`.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
@@ -93,13 +93,13 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
-		compareDecimalStrings: jest.requireActual('@gauzy/core/src/lib/money/decimal').compareDecimalStrings,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
+		compareDecimalStrings: jest.requireActual('@irtranscripts/core/src/lib/money/decimal').compareDecimalStrings,
 		// The affected-row reader is the platform's own, pulled through the seam rather than written
 		// again here: the approval this entry point settles through decides whether its compare-and-swap
 		// was refused from whatever the driver answered the `UPDATE` with, and a double that understood
 		// a different set of shapes would pass this suite while the four supported drivers disagreed.
-		readAffectedRows: jest.requireActual('@gauzy/core/src/lib/database/database.helper').readAffectedRows,
+		readAffectedRows: jest.requireActual('@irtranscripts/core/src/lib/database/database.helper').readAffectedRows,
 		BaseEvent: class {},
 		EventBus: class {},
 		Payment: class Payment {},
@@ -119,7 +119,7 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	isMySQL: () => false,
 	isPostgres: () => false,
 	DatabaseTypeEnum: {
@@ -133,7 +133,7 @@ jest.mock('@gauzy/config', () => ({
 
 import { BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { FindOperator } from 'typeorm';
-import { Payment, RequestContext } from '@gauzy/core';
+import { Payment, RequestContext } from '@irtranscripts/core';
 import { PaymentCapture } from '../payment-capture/payment-capture.entity';
 import { PaymentCaptureService } from '../payment-capture/payment-capture.service';
 import { PaymentCollection } from '../payment-collection/payment-collection.entity';

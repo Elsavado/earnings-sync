@@ -1,4 +1,4 @@
-import { CurrenciesEnum, DefaultValueDateTypeEnum } from '@gauzy/contracts';
+import { CurrenciesEnum, DefaultValueDateTypeEnum } from '@irtranscripts/contracts';
 
 export const DEFAULT_EVER_ORGANIZATIONS = [
 	{
@@ -24,7 +24,7 @@ export const DEFAULT_ORGANIZATIONS = [
 		name: 'Default Company',
 		currency: CurrenciesEnum.USD,
 		defaultValueDateType: DefaultValueDateTypeEnum.TODAY,
-		imageUrl: 'assets/images/logos/logo_Gauzy.svg',
+		imageUrl: 'assets/images/logos/logo_IRTranscripts.svg',
 		isDefault: true,
 		totalEmployees: 1
 	}

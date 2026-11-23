@@ -1,5 +1,5 @@
 {
-	"name": "@gauzy/egress-audit-inputs",
+	"name": "@irtranscripts/egress-audit-inputs",
 	"private": true,
 	"description": "The egress audit harness for this directory's config, and the ESLint the import-boundary test runs its rule with (installed by .github/workflows/egress-audit.yml with npm ci; not a workspace).",
 	"type": "module",

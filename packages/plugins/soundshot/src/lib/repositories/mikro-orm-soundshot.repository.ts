@@ -1,4 +1,4 @@
-import { MikroOrmBaseEntityRepository } from '@gauzy/core';
+import { MikroOrmBaseEntityRepository } from '@irtranscripts/core';
 import { Injectable } from '@nestjs/common';
 import { Soundshot } from '../entity/soundshot.entity';
 

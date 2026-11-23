@@ -1,6 +1,6 @@
 .plan-card {
-	background: var(--gauzy-card-1);
-	border: 2px solid var(--gauzy-card-2);
+	background: var(--irtranscripts-card-1);
+	border: 2px solid var(--irtranscripts-card-2);
 	border-radius: var(--border-radius);
 	padding: 24px;
 	cursor: pointer;
@@ -13,13 +13,13 @@
 
 	&:hover:not(.disabled) {
 		border-color: var(--color-primary-400);
-		box-shadow: var(--gauzy-shadow);
+		box-shadow: var(--irtranscripts-shadow);
 		transform: translateY(-4px);
 	}
 
 	&.selected {
 		border-color: var(--color-primary-500);
-		background-color: var(--gauzy-card-1);
+		background-color: var(--irtranscripts-card-1);
 		box-shadow: 0 0 0 4px var(--color-primary-transparent-200);
 	}
 
@@ -48,7 +48,7 @@
 	&.disabled {
 		opacity: 0.6;
 		cursor: not-allowed;
-		background: var(--gauzy-card-2);
+		background: var(--irtranscripts-card-2);
 	}
 }
 
@@ -68,7 +68,7 @@
 	font-size: 20px;
 	font-weight: 700;
 	margin: 0 0 8px 0;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 }
 
 .plan-price {
@@ -106,7 +106,7 @@
 }
 
 .plan-description {
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 	margin-bottom: 24px;
 	font-size: 14px;
 	line-height: 1.5;
@@ -129,7 +129,7 @@
 	gap: 10px;
 	padding: 6px 0;
 	font-size: 14px;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 
 	.feature-check {
 		color: var(--color-success-500);

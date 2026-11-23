@@ -1,6 +1,6 @@
-# Ever Gauzy Server Application
+# Ever IRTranscripts Server Application
 
-Ever Gauzy Server is a cross-platform application built with [nstudio/electron](https://github.com/nstudio/xplat).
+Ever IRTranscripts Server is a cross-platform application built with [nstudio/electron](https://github.com/nstudio/xplat).
 
 ---
 
@@ -49,9 +49,9 @@ build execute app
 build:desktop:windows:quick
 ```
 
-uninstall gauzy desktop macOS
+uninstall irtranscripts desktop macOS
 
 ```bash
 - delete app data
-$ rm -rf ~/Library/Application Support/gauzy-server
+$ rm -rf ~/Library/Application Support/irtranscripts-server
 ```

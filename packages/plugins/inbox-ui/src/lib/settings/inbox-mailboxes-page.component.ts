@@ -22,8 +22,8 @@ import {
 	InboxMailboxDomainStatusEnum,
 	InboxMailboxKindEnum,
 	IOrganization
-} from '@gauzy/contracts';
-import { Store, ToastrService } from '@gauzy/ui-core/core';
+} from '@irtranscripts/contracts';
+import { Store, ToastrService } from '@irtranscripts/ui-core/core';
 import { IInboxDirectoryEntry, InboxDirectoryService } from '../services/inbox-directory.service';
 import { InboxEmailSettingsService } from '../services/inbox-email-settings.service';
 import { apiErrorMessage, InboxSettingsView, viewOfLoadError } from './inbox-settings.helpers';
@@ -51,9 +51,9 @@ export interface IInboxMailboxRow {
  * Settings → Inbox → Mailboxes (`/pages/settings/inbox-mailboxes`, plan 04 §5.1, G-P4-1; `INBOX_MAILBOX_MANAGE`): the
  * selected organization's mailboxes, shared (organization, team) and personal (employee).
  *
- * - **Platform addresses** are allocated by the API on the server's platform domain (`GAUZY_INBOX_DOMAIN`, read from
+ * - **Platform addresses** are allocated by the API on the server's platform domain (`IRTRANSCRIPTS_INBOX_DOMAIN`, read from
  *   the API — the page names no domain of its own); a server without one creates custom-domain mailboxes only.
- * - **Custom domains**: the DNS TXT record that proves the domain (`_gauzy-inbox.<domain>`) and its status, a "Check
+ * - **Custom domains**: the DNS TXT record that proves the domain (`_irtranscripts-inbox.<domain>`) and its status, a "Check
  *   DNS now" action, and the provider account the domain's mail is received through.
  * - **Forwarding**: the platform address the user forwards an existing mailbox to.
  * - **Shared mailboxes**: their members (READER / MANAGER). **Default** mailbox per owner, active / inactive, relay

@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
-import { DecimalString, ID } from '@gauzy/contracts';
+import { DecimalString, ID } from '@irtranscripts/contracts';
 import {
 	RequestContext,
 	STORAGE_SCALE,
@@ -8,7 +8,7 @@ import {
 	formatDecimalUnits,
 	normalizeDecimalString,
 	toUnitsAtScale
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { GiftCardTransaction } from './gift-card-transaction.entity';
 import { TypeOrmGiftCardTransactionRepository } from './repository/type-orm-gift-card-transaction.repository';
 import { MikroOrmGiftCardTransactionRepository } from './repository/mikro-orm-gift-card-transaction.repository';

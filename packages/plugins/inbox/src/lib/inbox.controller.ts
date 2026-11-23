@@ -12,14 +12,14 @@ import {
 	UseGuards
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ID, PermissionsEnum } from '@gauzy/contracts';
+import { ID, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	PermissionGuard,
 	Permissions,
 	TenantPermissionGuard,
 	UseValidationPipe,
 	UUIDValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { InboxItemQueryDTO, InboxMarkAllReadDTO, InboxReplyDTO, InboxStateDTO } from './dto/inbox.dto';
 import { INBOX_ROUTE_PREFIX } from './inbox.constants';
 import { InboxService } from './inbox.service';

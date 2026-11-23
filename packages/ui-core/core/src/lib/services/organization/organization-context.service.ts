@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { IAuthResponse, IOrganization } from '@gauzy/contracts';
+import { IAuthResponse, IOrganization } from '@irtranscripts/contracts';
 import { Store } from '../store/store.service';
 import { AuthService } from '../auth/auth.service';
 import { ToastrService } from '../notification/toastr.service';

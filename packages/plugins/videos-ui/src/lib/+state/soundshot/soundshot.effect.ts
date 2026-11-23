@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ErrorHandlingService, ToastrService } from '@gauzy/ui-core/core';
+import { ErrorHandlingService, ToastrService } from '@irtranscripts/ui-core/core';
 import { createEffect, ofType } from '@ngneat/effects';
 import { Actions } from '@ngneat/effects-ng';
 import { EMPTY, catchError, finalize, switchMap, tap } from 'rxjs';

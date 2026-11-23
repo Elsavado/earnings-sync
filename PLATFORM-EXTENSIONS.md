@@ -1,6 +1,6 @@
 # Platform extensions — branch notes
 
-This branch adds a commerce capability set to Ever Gauzy: **16 plugin packages**
+This branch adds a commerce capability set to Ever IRTranscripts: **16 plugin packages**
 (catalog, pricing, tax, inventory, warehouse, cart, order, payment, promotion,
 fulfillment, returns, subscription, purchasing, entitlement, marketplace,
 search) plus the **platform kernels** they build on — the plugin framework and
@@ -100,11 +100,11 @@ for a reason a reviewer can weigh rather than an oversight:
 ## Where the design lives
 
 The programme's design documents and its handover are **not in this repository**
-— they sit beside the checkout at `research/gauzy-ecommerce/docs/` (27
+— they sit beside the checkout at `research/irtranscripts-ecommerce/docs/` (27
 documents: the domain model, the database schema, the API specification, the
 money/tax/pricing/inventory/order specifications, the GraphQL specification, the
 naming doctrine, the rollout plan and the task breakdown) and
-`docs/handoffs/HANDOVER-2026-09-20-gauzy-platform-extensions.md`. A reviewer
+`docs/handoffs/HANDOVER-2026-09-20-irtranscripts-platform-extensions.md`. A reviewer
 reading only this repository sees the code without its reasoning.
 
 Two records of the design's promises do live here, because a gate keeps each
@@ -112,7 +112,7 @@ one true against the composed schema:
 [`tools/scripts/design-name-triage.md`](tools/scripts/design-name-triage.md)
 — every root field the design named and nothing served, with its decision
 (`tools/scripts/design-name-triage-check.mjs`), published at
-[docs.gauzy.co](https://docs.gauzy.co/platform-extensions/design-name-triage/).
+[docs.irtranscripts.com](https://docs.irtranscripts.com/platform-extensions/design-name-triage/).
 
 ## Verifying it
 
@@ -139,8 +139,8 @@ foreach ($g in Get-ChildItem tools/scripts/*check*.mjs) { node $g }
 
 The desktop and server applications build from the same tree:
 `yarn build:package:all:prod:once` is the strict library gate CI runs, and
-`npx nx build desktop`, `desktop-timer`, `agent`, `gauzy-server`,
-`gauzy-api-server` and `server-mcp` each build against it once
+`npx nx build desktop`, `desktop-timer`, `agent`, `irtranscripts-server`,
+`irtranscripts-api-server` and `server-mcp` each build against it once
 `yarn config:prod` and the matching `config:<app>:prod` have generated the
 environment files (a fresh checkout has none, which is why a bare
 `nx build desktop` fails on `environment.prod.ts` rather than on any source).

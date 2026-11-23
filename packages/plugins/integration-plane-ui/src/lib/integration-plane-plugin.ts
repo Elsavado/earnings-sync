@@ -1,5 +1,5 @@
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PluginUiDefinition } from '@gauzy/plugin-ui';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PluginUiDefinition } from '@irtranscripts/plugin-ui';
 import { IntegrationPlaneUiModule } from './integration-plane-ui.module';
 import { INTEGRATION_PLANE_PAGE_ROUTE } from './integration-plane.routes';
 

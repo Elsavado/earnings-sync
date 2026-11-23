@@ -6,7 +6,7 @@ import {
 	authGuard,
 	DEFAULT_AUTH_CONNECTION_GUARD_CONFIG,
 	noAuthGuard
-} from '@gauzy/desktop-ui-lib';
+} from '@irtranscripts/desktop-ui-lib';
 
 const routes: Routes = [
 	{
@@ -17,65 +17,65 @@ const routes: Routes = [
 	// Public routes (no authentication required)
 	{
 		path: 'setup',
-		loadComponent: () => import('@gauzy/desktop-ui-lib').then((m) => m.SetupComponent)
+		loadComponent: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.SetupComponent)
 	},
 	{
 		path: 'splash-screen',
-		loadComponent: () => import('@gauzy/desktop-ui-lib').then((m) => m.SplashScreenComponent)
+		loadComponent: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.SplashScreenComponent)
 	},
 	{
 		path: 'server-down',
-		loadComponent: () => import('@gauzy/desktop-ui-lib').then((m) => m.ServerDownPage)
+		loadComponent: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.ServerDownPage)
 	},
 	{
 		path: 'about',
-		loadComponent: () => import('@gauzy/desktop-ui-lib').then((m) => m.AboutComponent)
+		loadComponent: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.AboutComponent)
 	},
 	{
 		path: 'settings',
-		loadComponent: () => import('@gauzy/desktop-ui-lib').then((m) => m.SettingsComponent)
+		loadComponent: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.SettingsComponent)
 	},
 
 	// Auth routes (only for logged-out users)
 	{
 		path: 'auth',
 		canActivate: [noAuthGuard],
-		loadChildren: () => import('@gauzy/desktop-ui-lib').then((m) => m.AuthModule)
+		loadChildren: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.AuthModule)
 	},
 
 	// Protected routes (require authentication and connection)
 	{
 		path: 'time-tracker',
 		canActivate: [authGuard, authConnectionGuard],
-		loadComponent: () => import('@gauzy/desktop-ui-lib').then((m) => m.TimeTrackerComponent),
-		loadChildren: () => import('@gauzy/desktop-ui-lib').then((m) => m.RecapModule)
+		loadComponent: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.TimeTrackerComponent),
+		loadChildren: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.RecapModule)
 	},
 	{
 		path: 'plugins',
 		canActivate: [authConnectionGuard],
-		loadChildren: () => import('@gauzy/desktop-ui-lib').then((m) => m.PluginRoutingModule)
+		loadChildren: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.PluginRoutingModule)
 	},
 
 	// Utility routes (require authentication but may work offline)
 	{
 		path: 'screen-capture',
-		loadComponent: () => import('@gauzy/desktop-ui-lib').then((m) => m.ScreenCaptureComponent)
+		loadComponent: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.ScreenCaptureComponent)
 	},
 	{
 		path: 'always-on',
-		loadComponent: () => import('@gauzy/desktop-ui-lib').then((m) => m.AlwaysOnComponent)
+		loadComponent: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.AlwaysOnComponent)
 	},
 	{
 		path: 'updater',
-		loadComponent: () => import('@gauzy/desktop-ui-lib').then((m) => m.UpdaterComponent)
+		loadComponent: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.UpdaterComponent)
 	},
 	{
 		path: 'viewer',
-		loadComponent: () => import('@gauzy/desktop-ui-lib').then((m) => m.ImageViewerComponent)
+		loadComponent: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.ImageViewerComponent)
 	},
 	{
 		path: 'log-history',
-		loadComponent: () => import('@gauzy/desktop-ui-lib').then((m) => m.AuditTrailLoggerComponent)
+		loadComponent: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.AuditTrailLoggerComponent)
 	},
 
 	// Wildcard - redirect to default

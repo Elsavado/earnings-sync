@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-posthog
+ * Public API Surface of @irtranscripts/plugin-posthog
  */
 export * from './lib/posthog.plugin';
 export * from './lib/posthog.service';

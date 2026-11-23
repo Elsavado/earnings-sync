@@ -2,7 +2,7 @@ import '../entities/internal';
 
 import { ForbiddenException } from '@nestjs/common';
 import { EntityMetadata } from 'typeorm';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../context';
 import { BaseEntity } from '../entities/internal';
 import { MultiORMEnum } from '../utils';

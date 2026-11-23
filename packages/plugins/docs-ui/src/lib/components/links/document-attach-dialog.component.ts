@@ -12,9 +12,9 @@ import {
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Subject, catchError, debounceTime, distinctUntilChanged, firstValueFrom, of, switchMap, tap } from 'rxjs';
-import { BaseEntityEnum, DocumentKindEnum, ID, IDocument, IDocumentLink } from '@gauzy/contracts';
-import { Store, ToastrService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { BaseEntityEnum, DocumentKindEnum, ID, IDocument, IDocumentLink } from '@irtranscripts/contracts';
+import { Store, ToastrService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { DOCS_SEARCH_DEBOUNCE_MS } from '../../docs.constants';
 import { DocumentsService } from '../../services/documents.service';
 

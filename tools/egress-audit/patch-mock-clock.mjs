@@ -36,7 +36,7 @@ export const PATCHED_VERSIONS = ['1.0.0-rc.7'];
 export const BEFORE = '    const arrival = Math.max(this.arrivals.get(key) ?? now, now);';
 
 export const AFTER = [
-	'    // Patched by Gauzy (tools/egress-audit/patch-mock-clock.mjs): an arrival remembered more than a',
+	'    // Patched by IRTranscripts (tools/egress-audit/patch-mock-clock.mjs): an arrival remembered more than a',
 	'    // whole window ahead of the clock means the clock was moved back; the bucket starts afresh.',
 	'    const remembered = this.arrivals.get(key);',
 	'    const arrival = Math.max(remembered !== undefined && remembered - now > windowS ? now : (remembered ?? now), now);'

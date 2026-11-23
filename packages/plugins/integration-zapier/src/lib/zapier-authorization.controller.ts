@@ -13,12 +13,12 @@ import {
 	Res,
 	UnauthorizedException
 } from '@nestjs/common';
-import { ConfigService } from '@gauzy/config';
+import { ConfigService } from '@irtranscripts/config';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Response } from 'express';
-import { Public } from '@gauzy/common';
-import { IntegrationEnum } from '@gauzy/contracts';
-import { buildQueryString } from '@gauzy/utils';
+import { Public } from '@irtranscripts/common';
+import { IntegrationEnum } from '@irtranscripts/contracts';
+import { buildQueryString } from '@irtranscripts/utils';
 import { ZapierService } from './zapier.service';
 
 @ApiTags('Zapier OAuth2 Authorization')
@@ -151,7 +151,7 @@ export class ZapierAuthorizationController {
 			// Validate client credentials against server-side config (shared across all tenants)
 			this.zapierService.validateServerClientCredentials(body.client_id, body.client_secret);
 
-			// Resolve the correct tenant integration by the Gauzy-issued auth code
+			// Resolve the correct tenant integration by the IRTranscripts-issued auth code
 			const integration = await this.zapierService.findIntegrationByAuthCode(body.code);
 
 			// Validate and consume the authorization code (single-use)
@@ -201,8 +201,8 @@ export class ZapierAuthorizationController {
 			// Validate client credentials against server-side config (shared across all tenants)
 			this.zapierService.validateServerClientCredentials(body.client_id, body.client_secret);
 
-			// Resolve the correct tenant integration by the Gauzy-issued refresh token
-			const integration = await this.zapierService.findIntegrationByGauzyRefreshToken(body.refresh_token);
+			// Resolve the correct tenant integration by the IRTranscripts-issued refresh token
+			const integration = await this.zapierService.findIntegrationByIRTranscriptsRefreshToken(body.refresh_token);
 			if (!integration.id) {
 				throw new BadRequestException('Invalid refresh token');
 			}
@@ -299,7 +299,7 @@ export class ZapierAuthorizationController {
 				return {
 					id: integration.id,
 					name: IntegrationEnum.ZAPIER,
-					email: `zapier-integration@${integration.tenantId || 'gauzy'}`
+					email: `zapier-integration@${integration.tenantId || 'irtranscripts'}`
 				};
 			} catch {
 				// No IntegrationTenant yet — fall through to JWT-only verification
@@ -311,7 +311,7 @@ export class ZapierAuthorizationController {
 			return {
 				id: decoded.id,
 				name: IntegrationEnum.ZAPIER,
-				email: `zapier-integration@${decoded.tenantId || 'gauzy'}`
+				email: `zapier-integration@${decoded.tenantId || 'irtranscripts'}`
 			};
 		} catch (error) {
 			this.logger.error('Zapier connection info failed', error);

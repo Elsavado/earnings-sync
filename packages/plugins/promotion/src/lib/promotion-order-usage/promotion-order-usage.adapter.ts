@@ -1,5 +1,5 @@
 import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
-import { DecimalString, ID } from '@gauzy/contracts';
+import { DecimalString, ID } from '@irtranscripts/contracts';
 import { PROMOTION_USAGE_LIMIT_EXCEEDED, PromotionService } from '../promotion/promotion.service';
 import { PromotionUsageService } from '../promotion-usage/promotion-usage.service';
 import { PromotionUsageStatus } from '../promotion.types';

@@ -1,4 +1,4 @@
-import { RegisteredWindow } from '@gauzy/desktop-core';
+import { RegisteredWindow } from '@irtranscripts/desktop-core';
 import { ipcMain } from 'electron';
 import { TranslateService } from '../../translation';
 import { IConfigStore, IWindowService } from '../interfaces';

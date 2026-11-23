@@ -4,8 +4,8 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { filter } from 'rxjs/operators';
-import { DocumentKindEnum, ID, IDocument, PermissionsEnum } from '@gauzy/contracts';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { DocumentKindEnum, ID, IDocument, PermissionsEnum } from '@irtranscripts/contracts';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { sanitizeMediaUrl } from '../../editor/read-only/safe-url.util';
 import {
 	buildDocsActionMenu,

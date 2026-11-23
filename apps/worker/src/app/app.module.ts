@@ -7,9 +7,9 @@ import {
 	MentionModule,
 	TokenModule,
 	WebhookMaintenanceModule
-} from '@gauzy/core';
-import { PluginModule } from '@gauzy/plugin';
-import { SchedulerModule } from '@gauzy/scheduler';
+} from '@irtranscripts/core';
+import { PluginModule } from '@irtranscripts/plugin';
+import { SchedulerModule } from '@irtranscripts/scheduler';
 import { Module } from '@nestjs/common';
 import { WorkerJobsModule } from './worker-jobs.module';
 import { SchedulerLedgerBootstrap } from './scheduler-ledger.bootstrap';

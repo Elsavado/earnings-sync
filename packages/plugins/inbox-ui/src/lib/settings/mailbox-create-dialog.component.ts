@@ -22,7 +22,7 @@ import {
 } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { ID, IInboxProviderAccount, InboxMailboxKindEnum, InboxMailboxOwnerTypeEnum } from '@gauzy/contracts';
+import { ID, IInboxProviderAccount, InboxMailboxKindEnum, InboxMailboxOwnerTypeEnum } from '@irtranscripts/contracts';
 import { IInboxDirectoryEntry, InboxDirectoryService } from '../services/inbox-directory.service';
 import { IInboxCreatedMailbox, InboxEmailSettingsService } from '../services/inbox-email-settings.service';
 import { apiErrorMessage } from './inbox-settings.helpers';
@@ -47,7 +47,7 @@ type DirectoryState = 'idle' | 'loading' | 'ready' | 'error';
 
 /**
  * "Add mailbox" (Settings → Inbox → Mailboxes, plan 04 §5.1, G-P4-1): who owns it (the organization, a team or an
- * employee), how it receives — an address on the platform domain (`GAUZY_INBOX_DOMAIN`, allocated by the API as
+ * employee), how it receives — an address on the platform domain (`IRTRANSCRIPTS_INBOX_DOMAIN`, allocated by the API as
  * `<name>.<organization>@<domain>`), an address on the organization's own domain (proven by a DNS TXT record, received
  * through a provider account) or a platform address an existing mailbox forwards to — and its sender allowlist.
  * The dialog saves by itself, so a refusal of the API is shown here with everything typed kept.

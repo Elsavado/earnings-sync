@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/swagger';
-import { IOfficialHolidayUpdateInput } from '@gauzy/contracts';
+import { IOfficialHolidayUpdateInput } from '@irtranscripts/contracts';
 import { CreateOfficialHolidayDTO } from './create-official-holiday.dto';
 
 /**

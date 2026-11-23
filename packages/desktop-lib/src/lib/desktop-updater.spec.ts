@@ -16,7 +16,7 @@ import { CdnUpdate } from './strategies/concretes/cdn-update';
 jest.mock(
 	'electron',
 	() => ({
-		app: { getVersion: () => '111.44.45', getName: () => 'gauzy-server' },
+		app: { getVersion: () => '111.44.45', getName: () => 'irtranscripts-server' },
 		ipcMain: { on: jest.fn(), once: jest.fn() },
 		BrowserWindow: class {}
 	}),
@@ -116,7 +116,7 @@ jest.mock('./decorators', () => {
 });
 
 const HOUR = 60 * 60 * 1000;
-const CONFIG = { owner: 'ever-co', repository: 'ever-gauzy-server', typeRelease: 'releases' };
+const CONFIG = { owner: 'ever-co', repository: 'ever-irtranscripts-server', typeRelease: 'releases' };
 const FEED = 'https://github.com/ever-co/ever-gauzy-server/releases/download/';
 const ALL_FILES = [
 	'latest-x64.yml',

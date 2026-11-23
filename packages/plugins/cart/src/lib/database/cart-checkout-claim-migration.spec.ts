@@ -6,11 +6,11 @@
  * missing, nothing is issued where they are already there, `down` drops exactly what `up` added, and a
  * dialect the file has no statements for is refused.
  *
- * `@gauzy/core` is doubled at the module boundary for the reason the package's other suites state.
+ * `@irtranscripts/core` is doubled at the module boundary for the reason the package's other suites state.
  */
-jest.mock('@gauzy/core', () => ({}));
+jest.mock('@irtranscripts/core', () => ({}));
 
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 import { ALL_CART_MIGRATIONS } from './cart-migrations';
 import { AddCartCheckoutClaimColumns1791000000781 } from './migrations/1791000000781-AddCartCheckoutClaimColumns';
 

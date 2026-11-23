@@ -1,5 +1,5 @@
 // The controller alone: its decorators' packages and the pipeline (which needs a database) are doubled.
-jest.mock('@gauzy/common', () => ({ Public: () => () => undefined }));
+jest.mock('@irtranscripts/common', () => ({ Public: () => () => undefined }));
 jest.mock('./inbox-inbound.service', () => ({ InboxInboundService: class {} }));
 
 import 'reflect-metadata';

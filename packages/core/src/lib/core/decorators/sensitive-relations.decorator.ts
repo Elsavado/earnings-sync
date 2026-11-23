@@ -1,5 +1,5 @@
 import { SetMetadata } from '@nestjs/common';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 
 export const SENSITIVE_RELATIONS_KEY = 'SENSITIVE_RELATIONS_CONFIG';
 export const SENSITIVE_RELATIONS_ROOT_KEY = 'SENSITIVE_RELATIONS_ROOT_KEY';

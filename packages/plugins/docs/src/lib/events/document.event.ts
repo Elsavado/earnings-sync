@@ -1,5 +1,5 @@
-import { IDocumentCreateInput, IDocumentUpdateInput } from '@gauzy/contracts';
-import { BaseEntityEvent, BaseEntityEventType, RequestContext } from '@gauzy/core';
+import { IDocumentCreateInput, IDocumentUpdateInput } from '@irtranscripts/contracts';
+import { BaseEntityEvent, BaseEntityEventType, RequestContext } from '@irtranscripts/core';
 import { Document } from '../entities/document.entity';
 
 type DocumentInputTypes = IDocumentCreateInput | IDocumentUpdateInput;

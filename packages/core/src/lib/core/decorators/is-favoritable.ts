@@ -1,4 +1,4 @@
-import { BaseEntityEnum } from '@gauzy/contracts';
+import { BaseEntityEnum } from '@irtranscripts/contracts';
 import { SetMetadata } from '@nestjs/common';
 
 export const FAVORITE_SERVICE = 'FAVORITE_SERVICE';

@@ -1,5 +1,5 @@
-import { FulfillmentDirection, FulfillmentStatusDetail, ID } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { FulfillmentDirection, FulfillmentStatusDetail, ID } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 
 /**
  * What decides whether a shipment's rows may be removed outright.

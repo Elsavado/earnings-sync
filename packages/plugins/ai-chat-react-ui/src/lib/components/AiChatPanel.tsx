@@ -13,8 +13,8 @@ import {
 	lastAssistantMessageIsCompleteWithApprovalResponses,
 	lastAssistantMessageIsCompleteWithToolCalls
 } from 'ai';
-import { useInjector } from '@gauzy/ui-react';
-import { AgentPageBridgeService, ChatSidebarService, Store } from '@gauzy/ui-core/core';
+import { useInjector } from '@irtranscripts/ui-react';
+import { AgentPageBridgeService, ChatSidebarService, Store } from '@irtranscripts/ui-core/core';
 import {
 	AI_CHAT_KEY_REJECTED_CODE,
 	AI_CHAT_RATE_LIMIT_CODE,
@@ -23,8 +23,8 @@ import {
 	PermissionsEnum,
 	type IAiChatRateLimitEnvelope,
 	type IAiSpeechErrorBody
-} from '@gauzy/contracts';
-import { environment } from '@gauzy/ui-config';
+} from '@irtranscripts/contracts';
+import { environment } from '@irtranscripts/ui-config';
 import { executeClientTool, isClientTool } from '../chat-client-tools';
 import { useAngularSignal } from '../use-angular-signal';
 import { useChatTranslate } from '../use-chat-translate';
@@ -100,7 +100,7 @@ function newConversationId(): string {
  * slot: `Menu | Chat | Page content (canvas)`.
  *
  * Built on the Vercel AI SDK (`useChat` from @ai-sdk/react v4 / AI SDK 7):
- * - streams from the Gauzy backend (`POST /api/ai-chat`) with the user's
+ * - streams from the IRTranscripts backend (`POST /api/ai-chat`) with the user's
  *   own JWT, so the agent can only see and do what the user can;
  * - executes client ("canvas") tools in the browser — open_page /
  *   read_page / fill_form / submit_form — via the Angular bridge services;

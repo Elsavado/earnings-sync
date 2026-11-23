@@ -4,9 +4,9 @@
  * that equals one of these is public, so anyone can forge access, refresh, verification, invite and
  * share tokens or session cookies with it (GHSA-39j7-x845-4w3c, GHSA-chm8-2ggf-pgjq).
  *
- * This is the ONE list shared by the API config resolver (`@gauzy/config`), the API startup guard
- * (`validateApplicationSecrets` in `@gauzy/core`) and the desktop secret provisioning
- * (`@gauzy/desktop-lib`). Compare with {@link isKnownDefaultSecret}, not with `includes()`: the
+ * This is the ONE list shared by the API config resolver (`@irtranscripts/config`), the API startup guard
+ * (`validateApplicationSecrets` in `@irtranscripts/core`) and the desktop secret provisioning
+ * (`@irtranscripts/desktop-lib`). Compare with {@link isKnownDefaultSecret}, not with `includes()`: the
  * match is case-insensitive and ignores surrounding whitespace.
  */
 export const KNOWN_DEFAULT_SECRETS: ReadonlyArray<string> = Object.freeze([
@@ -14,7 +14,7 @@ export const KNOWN_DEFAULT_SECRETS: ReadonlyArray<string> = Object.freeze([
 	'secretKey',
 	'refreshSecretKey',
 	'verificationSecretKey',
-	'gauzy',
+	'irtranscripts',
 	// Desktop build defaults (.scripts/env.ts DESKTOP_JWT_*), baked into every desktop app.
 	'refreshTokenSecretKey',
 	// MCP auth templates (.env.sample / .env.compose / .env.docker) and config-manager fallback.

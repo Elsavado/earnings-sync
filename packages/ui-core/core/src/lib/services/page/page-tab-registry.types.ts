@@ -1,7 +1,7 @@
 import { TemplateRef, Type } from '@angular/core';
 import { NbRouteTab } from '@nebular/theme';
-import { I18nService } from '@gauzy/ui-core/i18n';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { I18nService } from '@irtranscripts/ui-core/i18n';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { PageTabsetPageId } from '../../common/component-registry.types';
 
 /**

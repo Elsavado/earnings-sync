@@ -12,7 +12,7 @@ import {
 	PermissionsEnum,
 	ITasksStatistics,
 	ITaskEmployeesStatistics
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { Permissions } from './../../shared/decorators';
 import {
 	canViewTrackedData,

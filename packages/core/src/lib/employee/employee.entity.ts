@@ -51,7 +51,7 @@ import {
 	IComment,
 	IOrganizationSprint,
 	IEmployeeAvailability
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	EmbeddedColumn,

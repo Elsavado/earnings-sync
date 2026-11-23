@@ -2,8 +2,8 @@ import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { EntityRepositoryType } from "@mikro-orm/core";
 import { IsNotEmpty, IsObject, IsOptional, IsString } from "class-validator";
-import { isMySQL, isPostgres } from "@gauzy/config";
-import { ISharedEntity, IShareRule, JsonData } from "@gauzy/contracts";
+import { isMySQL, isPostgres } from "@irtranscripts/config";
+import { ISharedEntity, IShareRule, JsonData } from "@irtranscripts/contracts";
 import { BasePerEntityType } from "../core/entities/internal";
 import { ColumnIndex, MultiORMColumn, MultiORMEntity } from "../core/decorators/entity";
 import { MikroOrmSharedEntityRepository } from "./repository/mikro-orm-shared-entity.repository";

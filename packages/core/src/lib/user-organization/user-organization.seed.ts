@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm';
-import { IOrganization, IUser, IUserOrganization, ISeedUsers, ITenant } from '@gauzy/contracts';
-import { chunks } from '@gauzy/utils';
+import { IOrganization, IUser, IUserOrganization, ISeedUsers, ITenant } from '@irtranscripts/contracts';
+import { chunks } from '@irtranscripts/utils';
 import { UserOrganization } from './user-organization.entity';
 
 export const createDefaultUsersOrganizations = async (

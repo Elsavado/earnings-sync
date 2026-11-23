@@ -13,8 +13,8 @@ import {
 	IOrganizationStrategicSignals,
 	OrganizationStrategicStateEnum,
 	OrganizationStrategicVisibilityScopeEnum
-} from '@gauzy/contracts';
-import { isMySQL, isPostgres } from '@gauzy/config';
+} from '@irtranscripts/contracts';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
 import { Employee, Goal, OrganizationProject, OrganizationTeam, TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToMany, MultiORMManyToOne, MultiORMOneToMany } from '../core/decorators/entity';
 import { MikroOrmOrganizationStrategicInitiativeRepository } from './repository/mikro-orm-organization-strategic-initiative.repository';

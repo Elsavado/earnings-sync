@@ -1,13 +1,13 @@
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 /**
- * The Ever ID sign-in links of Gauzy users: `zitadel_account` (issuer + subject ↔ one Gauzy user per tenant), created
+ * The Ever ID sign-in links of IRTranscripts users: `zitadel_account` (issuer + subject ↔ one IRTranscripts user per tenant), created
  * by the core migration `1790000018000-AuthZitadel` and written by the Ever ID sign-in plugin only after the person
  * proved control of both sides (an e-mail match alone never creates one).
  */
 export const EVER_ID_ACCOUNT_TABLE = 'zitadel_account';
 
-/** One Ever ID identity: the subject at its issuer (Ever Works `everIdSubjects`, Gauzy `zitadel_account`). */
+/** One Ever ID identity: the subject at its issuer (Ever Works `everIdSubjects`, IRTranscripts `zitadel_account`). */
 export interface EverIdIdentity {
 	issuer: string;
 	subject: string;
@@ -18,7 +18,7 @@ export type EverWorksMatchSource = 'ever_id' | 'verified_email' | 'manual';
 
 /**
  * The key an identity is matched on: the exact subject at the issuer, the issuer compared without trailing slashes
- * (Gauzy stores issuers without them; an OIDC issuer may be written either way).
+ * (IRTranscripts stores issuers without them; an OIDC issuer may be written either way).
  */
 export function everIdKey(identity: EverIdIdentity): string {
 	let issuer = (identity.issuer ?? '').trim();
@@ -27,7 +27,7 @@ export function everIdKey(identity: EverIdIdentity): string {
 }
 
 /**
- * Ever ID matches (plan 01 §3, step 1): the Ever Works members whose Ever ID identities resolve to exactly one Gauzy
+ * Ever ID matches (plan 01 §3, step 1): the Ever Works members whose Ever ID identities resolve to exactly one IRTranscripts
  * person, where no other member resolves to that person. A member whose identities lead to several people, or a
  * person several members lead to, is not matched: the verified e-mail suggestion and the admin decide those.
  *
@@ -35,8 +35,8 @@ export function everIdKey(identity: EverIdIdentity): string {
  * another member also leads to is never matched with one of them.
  *
  * @param members the unpaired members, with their `everIdSubjects`
- * @param usersByIdentity Gauzy user ids by {@link everIdKey}
- * @param personOfUser the Gauzy person (employee id) of a Gauzy user, for the people that may be paired
+ * @param usersByIdentity IRTranscripts user ids by {@link everIdKey}
+ * @param personOfUser the IRTranscripts person (employee id) of a IRTranscripts user, for the people that may be paired
  * @param exclude members that claim but are not matched (declined by an admin, deactivated)
  * @returns the person of each matched member, by Ever Works user id
  */

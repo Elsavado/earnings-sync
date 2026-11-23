@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { createServer } from 'node:net';
 import { DataSource } from 'typeorm';
-import { EverInstanceEvents, EverInstanceService, EverOperatorService } from '@gauzy/plugin-ever-instance';
+import { EverInstanceEvents, EverInstanceService, EverOperatorService } from '@irtranscripts/plugin-ever-instance';
 import { EverStatsBuilder } from './ever-stats-builder.service';
 import { EverStatsCollector } from './ever-stats-collector.service';
 import { readEverStatsConfig } from './ever-stats-config';
@@ -123,7 +123,7 @@ suite('against the Ever Platform mock', () => {
 
 	it('on: a fresh one-user installation with only the URL set sends a report the platform accepts, and nothing else', async () => {
 		const env = { EVER_STATS_API_URL: MOCK as string, EVER_STATS_SEND_INTERVAL_S: '5' };
-		expect(readEverStatsConfig(env)).toMatchObject({ installSource: 'self-hosted', country: 'ZZ', serves: ['gauzy'], intervalS: 5 });
+		expect(readEverStatsConfig(env)).toMatchObject({ installSource: 'self-hosted', country: 'ZZ', serves: ['irtranscripts'], intervalS: 5 });
 		const { accepted, stored } = await runOn(env, 30_000);
 		expect(accepted).toBe(true);
 		const recorded = await calls();

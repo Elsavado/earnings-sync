@@ -1,4 +1,4 @@
-import { ITagType } from '@gauzy/contracts';
+import { ITagType } from '@irtranscripts/contracts';
 
 /**
  * Represents the default tag types used throughout the application.

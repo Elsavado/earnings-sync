@@ -18,7 +18,7 @@ import {
 	ID,
 	IOrganizationContact,
 	JsonData
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { Country, OrganizationContact, TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { ColumnIndex, JsonColumn, MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from '../core/decorators/entity';
 import { ColumnNumericTransformerPipe } from '../shared/pipes';

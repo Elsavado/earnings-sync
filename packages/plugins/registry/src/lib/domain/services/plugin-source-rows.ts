@@ -1,4 +1,4 @@
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 /** Who a new plugin source row belongs to: decided by the server, never read from the request. */
 export interface IPluginSourceOwner {

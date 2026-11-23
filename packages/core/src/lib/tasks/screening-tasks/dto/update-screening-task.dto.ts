@@ -1,5 +1,5 @@
 import { IntersectionType, OmitType } from '@nestjs/swagger';
-import { IScreeningTaskUpdateInput } from '@gauzy/contracts';
+import { IScreeningTaskUpdateInput } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../../core/dto';
 import { ScreeningTask } from '../screening-task.entity';
 

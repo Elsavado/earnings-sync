@@ -1,5 +1,5 @@
 import { IntersectionType, PartialType, PickType } from '@nestjs/swagger';
-import { IDailyPlanUpdateInput } from '@gauzy/contracts';
+import { IDailyPlanUpdateInput } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../../core/dto';
 import { DailyPlan } from '../daily-plan.entity';
 import { CreateDailyPlanDTO } from './create-daily-plan.dto';

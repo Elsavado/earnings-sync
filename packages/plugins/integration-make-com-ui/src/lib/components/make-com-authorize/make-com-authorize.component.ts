@@ -2,12 +2,12 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { tap, catchError, filter } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
-import { MakeComService, ToastrService, Store } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { MakeComService, ToastrService, Store } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { TranslateService } from '@ngx-translate/core';
-import { IOrganization, IIntegrationTenant, IntegrationEnum } from '@gauzy/contracts';
+import { IOrganization, IIntegrationTenant, IntegrationEnum } from '@irtranscripts/contracts';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IntegrationsService } from '@gauzy/ui-core/core';
+import { IntegrationsService } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

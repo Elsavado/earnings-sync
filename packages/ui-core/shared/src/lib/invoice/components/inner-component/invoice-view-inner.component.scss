@@ -1,5 +1,5 @@
 @use 'themes' as *;
-@use 'gauzy/_gauzy-table-hub' as ga-hub;
+@use 'irtranscripts/_irtranscripts-table-hub' as ga-hub;
 
 // The item grid's panel: the recessed surface it always had, now with the
 // hairline and corner every other panel in the app carries, and an even inset
@@ -8,8 +8,8 @@
   margin-top: 1rem;
   padding: 0.75rem;
   border-radius: var(--border-radius, 0.5rem);
-  box-shadow: inset 0 0 0 1px var(--gauzy-overlay-border-color, rgba(126, 126, 143, 0.18));
-  background-color: nb-theme(gauzy-card-2);
+  box-shadow: inset 0 0 0 1px var(--irtranscripts-overlay-border-color, rgba(126, 126, 143, 0.18));
+  background-color: nb-theme(irtranscripts-card-2);
   // NOTE: `max-height: 17.5rem` is a flat 280px cap on the item list whatever the
   // window, so an invoice of more than about eight lines scrolls internally while
   // the card around it still has room. Left alone deliberately: the cap is also
@@ -55,8 +55,8 @@
 // page takes. This component is a DOCUMENT — it renders the invoice body on the
 // invoice view page and again behind a public share link — so the two pieces of
 // that bundle which say "this is a list" are deliberately left off: the
-// `surface()` ring and `gauzy-card-1` fill (the `.table` block above keeps its
-// own `gauzy-card-2` panel) and the toolbar scale (there is no toolbar here).
+// `surface()` ring and `irtranscripts-card-1` fill (the `.table` block above keeps its
+// own `irtranscripts-card-2` panel) and the toolbar scale (there is no toolbar here).
 :host {
   @include ga-hub.density-tokens();
 }
@@ -82,7 +82,7 @@
     font-size: 14px;
     font-weight: 600;
     line-height: 1.25rem;
-    color: var(--gauzy-text-color-1, inherit);
+    color: var(--irtranscripts-text-color-1, inherit);
   }
 
   // Field labels ("Estimate Date:", "From:", "Tax:") — muted, so the values they
@@ -91,12 +91,12 @@
     font-size: 12px;
     font-weight: 600 !important;
     line-height: 1rem;
-    color: var(--gauzy-text-color-2, rgba(126, 126, 143, 1));
+    color: var(--irtranscripts-text-color-2, rgba(126, 126, 143, 1));
   }
 
   // The heading block keeps its own line; `h4` carries the record number.
   .font-weight-bold h4 {
-    color: var(--gauzy-text-color-1, inherit);
+    color: var(--irtranscripts-text-color-1, inherit);
   }
 
   // Bootstrap's 3rem between blocks and 0.5rem between rows, at this scale.
@@ -127,8 +127,8 @@
 // After the `density-tokens()` include above, not before: that mixin sets these
 // same tokens on `:host`, so an earlier block of equal specificity loses to it.
 :host {
-  --gauzy-table-cell-padding-y: 0.5rem;
-  --gauzy-table-header-padding-y: 0.5rem;
+  --irtranscripts-table-cell-padding-y: 0.5rem;
+  --irtranscripts-table-header-padding-y: 0.5rem;
 }
 
 // ── The figures under the grid ───────────────────────────────────────────────
@@ -154,7 +154,7 @@
     font-size: 12px;
     font-weight: 600;
     line-height: 1rem;
-    color: var(--gauzy-text-color-2, rgba(126, 126, 143, 1));
+    color: var(--irtranscripts-text-color-2, rgba(126, 126, 143, 1));
   }
 
   p {
@@ -184,7 +184,7 @@
     font-size: 12px;
     font-weight: 600;
     line-height: 1rem;
-    color: var(--gauzy-text-color-2, rgba(126, 126, 143, 1));
+    color: var(--irtranscripts-text-color-2, rgba(126, 126, 143, 1));
   }
 
   dd {
@@ -193,7 +193,7 @@
     line-height: 1rem;
     // Money, so the digits line up down the column.
     font-variant-numeric: tabular-nums;
-    color: var(--gauzy-text-color-1, inherit);
+    color: var(--irtranscripts-text-color-1, inherit);
   }
 }
 
@@ -201,14 +201,14 @@
 .total-row-grand {
   margin-top: 0.25rem;
   padding-top: 0.5rem;
-  border-top: 1px solid var(--gauzy-border-default-color, rgba(126, 126, 143, 0.18));
+  border-top: 1px solid var(--irtranscripts-border-default-color, rgba(126, 126, 143, 0.18));
 
   dt,
   dd {
     font-size: 0.875rem;
     font-weight: 600;
     line-height: 1.25rem;
-    color: var(--gauzy-text-color-1, inherit);
+    color: var(--irtranscripts-text-color-1, inherit);
   }
 }
 
@@ -241,14 +241,14 @@
     font-size: 12px;
     font-weight: 600;
     line-height: 1rem;
-    color: var(--gauzy-text-color-2, rgba(126, 126, 143, 1));
+    color: var(--irtranscripts-text-color-2, rgba(126, 126, 143, 1));
   }
 
   dd {
     margin: 0;
     font-size: 12px;
     line-height: 1rem;
-    color: var(--gauzy-text-color-1, inherit);
+    color: var(--irtranscripts-text-color-1, inherit);
   }
 }
 

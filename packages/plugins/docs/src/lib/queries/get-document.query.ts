@@ -1,5 +1,5 @@
 import { IQuery } from '@nestjs/cqrs';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 export class GetDocumentQuery implements IQuery {
 	public static readonly type = '[Documents] Get One';

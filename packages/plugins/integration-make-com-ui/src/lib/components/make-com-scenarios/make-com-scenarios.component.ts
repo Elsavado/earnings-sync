@@ -2,9 +2,9 @@ import { Component, OnInit, ChangeDetectionStrategy, computed, inject, signal } 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { tap, catchError, finalize, switchMap } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
-import { IMakeComScenario, IMakeComSetupStatus } from '@gauzy/contracts';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { MakeComStoreService, ToastrService } from '@gauzy/ui-core/core';
+import { IMakeComScenario, IMakeComSetupStatus } from '@irtranscripts/contracts';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { MakeComStoreService, ToastrService } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

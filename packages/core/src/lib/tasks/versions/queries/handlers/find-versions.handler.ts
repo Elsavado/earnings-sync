@@ -1,5 +1,5 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { IPagination, ITaskVersion } from '@gauzy/contracts';
+import { IPagination, ITaskVersion } from '@irtranscripts/contracts';
 import { TaskVersionService } from '../../version.service';
 import { FindVersionsQuery } from '../find-versions.query';
 

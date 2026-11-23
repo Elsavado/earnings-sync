@@ -4,8 +4,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NbDialogService } from '@nebular/theme';
 import { combineLatest, from, of, Subject } from 'rxjs';
 import { catchError, distinctUntilChanged, filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
-import { BonusTypeEnum, EmployeeStatisticsHistoryEnum, ID, IMonthAggregatedEmployeeStatistics } from '@gauzy/contracts';
-import { EmployeeStatisticsService, ErrorHandlingService, IDashboardWidgetContext } from '@gauzy/ui-core/core';
+import { BonusTypeEnum, EmployeeStatisticsHistoryEnum, ID, IMonthAggregatedEmployeeStatistics } from '@irtranscripts/contracts';
+import { EmployeeStatisticsService, ErrorHandlingService, IDashboardWidgetContext } from '@irtranscripts/ui-core/core';
 import { CurrencyPositionPipe } from '../../../pipes/currency-position.pipe';
 import { BaseDashboardWidgetComponent } from '../../widget-host/base-dashboard-widget.component';
 // Deliberately the CHART family's cache: both widget families project the very

@@ -1,8 +1,8 @@
 import { BadGatewayException, BadRequestException, ConflictException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 import { DataSource, EntityManager, In, MoreThan, Not } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { IntegrationTenant, OrganizationProject, OrganizationTeam, RequestContext, Task } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { IntegrationTenant, OrganizationProject, OrganizationTeam, RequestContext, Task } from '@irtranscripts/core';
 import { EverWorksApiError, EverWorksClient } from '../../client/ever-works-client';
 import type { EverWorksListPage } from '../../client/ever-works-client.types';
 import { EverWorksConnection, EverWorksConnectionStatus } from '../../connection/ever-works-connection.entity';
@@ -57,10 +57,10 @@ export interface EverWorksSyncPhaseState {
 	pages?: number;
 	/** Set once the import part is complete (the export part may still be running). */
 	imported?: boolean;
-	/** The export checkpoint: the last Gauzy id queued (keyset), and whether the export is complete. */
+	/** The export checkpoint: the last IRTranscripts id queued (keyset), and whether the export is complete. */
 	exportCursor?: string | null;
 	exportDone?: boolean;
-	/** Initial events stored, already stored (the same snapshot), and Gauzy records queued for Ever Works. */
+	/** Initial events stored, already stored (the same snapshot), and IRTranscripts records queued for Ever Works. */
 	queued: number;
 	duplicates: number;
 	exported: number;
@@ -96,11 +96,11 @@ export interface EverWorksSyncPhasePreview {
 	supported: boolean;
 	note: string | null;
 	everWorks: { total: number; linked: number; truncated: boolean } | null;
-	gauzy: { total: number; linked: number } | null;
+	irtranscripts: { total: number; linked: number } | null;
 	/** Records the run creates on each side. */
-	creates: { inGauzy: number; inEverWorks: number };
+	creates: { inIRTranscripts: number; inEverWorks: number };
 	/** Records that are only paired on their tab (people, teams, works): never created by the run. */
-	toPair: { everWorks: number; gauzy: number } | null;
+	toPair: { everWorks: number; irtranscripts: number } | null;
 }
 
 export interface EverWorksSyncPreview {
@@ -121,7 +121,7 @@ export const PHASE_MAX_ATTEMPTS = 5;
 export const REPLAY_BATCH = 1_000;
 /** Records per list page read by an import. */
 export const LIST_PAGE_SIZE = 500;
-/** Gauzy records read per export page. */
+/** IRTranscripts records read per export page. */
 export const EXPORT_PAGE_SIZE = 500;
 
 const isOver = (deadline: number) => Date.now() >= deadline;
@@ -134,7 +134,7 @@ const isOver = (deadline: number) => Date.now() >= deadline;
  *   (parents first), task edges (inside the task records), comments (the last 200 per synced task),
  *   inbox, docs. Each phase reads its list route in full and stores every record as an **initial
  *   event** (`receivedVia = 'initial'`), which the aggregate's handler applies like a live event: one
- *   writer per connection, version check, loop guard. A phase then queues the Gauzy records in scope
+ *   writer per connection, version check, loop guard. A phase then queues the IRTranscripts records in scope
  *   for Ever Works where its direction writes there (teams: the paired ones; tasks: every task in
  *   scope; the pusher's snapshot diff makes unchanged ones no-ops). A phase waits until its records are
  *   applied before the next one starts, so dependencies (agents before tasks) are in place.
@@ -688,7 +688,7 @@ export class EverWorksInitialSyncService implements EverWorksSyncSweeper {
 	// ── Export (G → EW) ────────────────────────────────────────────────────────────────────────────
 
 	/**
-	 * Queues the Gauzy records of a phase for Ever Works (the pusher recomputes and diffs each one):
+	 * Queues the IRTranscripts records of a phase for Ever Works (the pusher recomputes and diffs each one):
 	 * paired teams (unpaired ones are paired or created on the Teams tab), and every task in scope. In
 	 * id order from `state.exportCursor`, within the sweep's budget; true once every record is queued.
 	 */
@@ -704,27 +704,27 @@ export class EverWorksInitialSyncService implements EverWorksSyncSweeper {
 			const after = state.exportCursor ?? null;
 			const ids = spec.name === 'teams' ? await this.pairedTeams(context, after) : spec.name === 'tasks' ? await this.tasksInScope(context, after) : [];
 			if (!ids.length) return true;
-			for (const [index, gauzyId] of ids.entries()) {
+			for (const [index, irtranscriptsId] of ids.entries()) {
 				if (index % 50 === 0 && (isOver(deadline) || (stillOwner && !(await stillOwner())))) return false;
-				if (await this.queue.enqueue({ tenantId: context.tenantId, organizationId: context.organizationId, entityType, gauzyId, op: 'upsert' })) state.exported++;
-				state.exportCursor = gauzyId;
+				if (await this.queue.enqueue({ tenantId: context.tenantId, organizationId: context.organizationId, entityType, irtranscriptsId, op: 'upsert' })) state.exported++;
+				state.exportCursor = irtranscriptsId;
 			}
 		}
 	}
 
-	/** The next Gauzy teams paired through this mapping, in id order after `after`. */
+	/** The next IRTranscripts teams paired through this mapping, in id order after `after`. */
 	private async pairedTeams(context: EverWorksMappingContext, after: string | null): Promise<ID[]> {
 		const rows = await this.dataSource.getRepository(EverWorksEntityLink).find({
 			where: {
 				integrationTenantId: context.integrationTenantId,
 				entityType: EverWorksLinkType.TEAM,
 				state: Not(EverWorksLinkState.UNLINKED),
-				...(after ? { gauzyId: MoreThan(after) } : {})
+				...(after ? { irtranscriptsId: MoreThan(after) } : {})
 			} as never,
-			order: { gauzyId: 'ASC' } as never,
+			order: { irtranscriptsId: 'ASC' } as never,
 			take: EXPORT_PAGE_SIZE
 		});
-		return rows.map((row) => row.gauzyId as ID);
+		return rows.map((row) => row.irtranscriptsId as ID);
 	}
 
 	/**
@@ -733,7 +733,7 @@ export class EverWorksInitialSyncService implements EverWorksSyncSweeper {
 	 */
 	private async tasksInScope(context: EverWorksMappingContext, after: string | null, take = EXPORT_PAGE_SIZE): Promise<ID[]> {
 		const syncUnlinked = this.setting(context.mapping, EverWorksSettingName.SYNC_UNLINKED_PROJECT_TASKS) !== 'false';
-		const projectIds = syncUnlinked ? null : (await this.links(context, EverWorksLinkType.PROJECT_WORK)).map((link) => link.gauzyId as ID);
+		const projectIds = syncUnlinked ? null : (await this.links(context, EverWorksLinkType.PROJECT_WORK)).map((link) => link.irtranscriptsId as ID);
 		if (projectIds && !projectIds.length) return [];
 		const rows: Task[] = await this.dataSource.getRepository(Task).find({
 			select: { id: true } as never,
@@ -964,8 +964,8 @@ export class EverWorksInitialSyncService implements EverWorksSyncSweeper {
 			supported: plan.import || plan.export || !!plan.done,
 			note: plan.note,
 			everWorks: null,
-			gauzy: null,
-			creates: { inGauzy: 0, inEverWorks: 0 },
+			irtranscripts: null,
+			creates: { inIRTranscripts: 0, inEverWorks: 0 },
 			toPair: null
 		};
 		if (direction === 'off' || spec.kind === 'included' || spec.kind === 'children' || !spec.list) {
@@ -988,17 +988,17 @@ export class EverWorksInitialSyncService implements EverWorksSyncSweeper {
 		const unlinked = records.length - linkedCount;
 		preview.everWorks = { total: records.length, linked: linkedCount, truncated: listed.truncated };
 		if (spec.name === 'members') {
-			preview.toPair = { everWorks: unlinked, gauzy: 0 };
+			preview.toPair = { everWorks: unlinked, irtranscripts: 0 };
 			return preview;
 		}
 		if (spec.name === 'teams' || spec.name === 'works') {
-			const gauzyTotal =
+			const irtranscriptsTotal =
 				spec.name === 'teams'
 					? await this.dataSource.getRepository(OrganizationTeam).count({ where: { tenantId: context.tenantId, organizationId: context.organizationId, isArchived: false } as never })
 					: await this.dataSource.getRepository(OrganizationProject).count({ where: { tenantId: context.tenantId, organizationId: context.organizationId, isArchived: false } as never });
-			const linkedGauzy = links.length;
-			preview.gauzy = { total: gauzyTotal, linked: linkedGauzy };
-			preview.toPair = { everWorks: unlinked, gauzy: Math.max(0, gauzyTotal - linkedGauzy) };
+			const linkedIRTranscripts = links.length;
+			preview.irtranscripts = { total: irtranscriptsTotal, linked: linkedIRTranscripts };
+			preview.toPair = { everWorks: unlinked, irtranscripts: Math.max(0, irtranscriptsTotal - linkedIRTranscripts) };
 			return preview;
 		}
 		// What a run would create is what has no link at all: a record whose link stopped syncing (deleted on the
@@ -1007,20 +1007,20 @@ export class EverWorksInitialSyncService implements EverWorksSyncSweeper {
 		const neverLinked = records.filter((record) => !known.has(idOf(record))).length;
 		if (spec.name === 'missions') {
 			// Missions that predate the mapping wait for the Initiatives tab; the run creates none of them.
-			preview.toPair = { everWorks: neverLinked, gauzy: 0 };
+			preview.toPair = { everWorks: neverLinked, irtranscripts: 0 };
 			return preview;
 		}
-		if (plan.import) preview.creates.inGauzy = neverLinked;
+		if (plan.import) preview.creates.inIRTranscripts = neverLinked;
 		if (spec.name === 'tasks') {
 			// Idea tasks sync as Ever Works ideas (their own phase), never as tasks.
 			const ideas = new Set(await this.ideaTasksOf(context));
 			const inScope = (await this.allTasksInScope(context)).filter((id) => !ideas.has(id));
-			const linkedGauzy = new Set(links.map((link) => link.gauzyId));
-			// A Gauzy task whose link stopped syncing is skipped by the push, as on the Ever Works side (review #11047).
-			const stoppedGauzy = new Set((await this.stoppedLinks(context, EverWorksLinkType.TASK)).map((link) => link.gauzyId));
-			const linkedInScope = inScope.filter((id) => linkedGauzy.has(id)).length;
-			preview.gauzy = { total: inScope.length, linked: linkedInScope };
-			if (plan.export) preview.creates.inEverWorks = inScope.filter((id) => !linkedGauzy.has(id) && !stoppedGauzy.has(id)).length;
+			const linkedIRTranscripts = new Set(links.map((link) => link.irtranscriptsId));
+			// A IRTranscripts task whose link stopped syncing is skipped by the push, as on the Ever Works side (review #11047).
+			const stoppedIRTranscripts = new Set((await this.stoppedLinks(context, EverWorksLinkType.TASK)).map((link) => link.irtranscriptsId));
+			const linkedInScope = inScope.filter((id) => linkedIRTranscripts.has(id)).length;
+			preview.irtranscripts = { total: inScope.length, linked: linkedInScope };
+			if (plan.export) preview.creates.inEverWorks = inScope.filter((id) => !linkedIRTranscripts.has(id) && !stoppedIRTranscripts.has(id)).length;
 		}
 		return preview;
 	}
@@ -1120,5 +1120,5 @@ export class EverWorksInitialSyncService implements EverWorksSyncSweeper {
 	}
 }
 
-/** Phases that queue Gauzy records for Ever Works (the others are one way, link only, or wait for their items). */
+/** Phases that queue IRTranscripts records for Ever Works (the others are one way, link only, or wait for their items). */
 const EXPORTED_PHASES = new Set<EverWorksSyncPhaseName>(['teams', 'tasks']);

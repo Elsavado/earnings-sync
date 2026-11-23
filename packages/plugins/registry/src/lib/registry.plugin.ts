@@ -1,4 +1,4 @@
-import { IOnPluginBootstrap, IOnPluginDestroy, GauzyCorePlugin as Plugin } from '@gauzy/plugin';
+import { IOnPluginBootstrap, IOnPluginDestroy, IRTranscriptsCorePlugin as Plugin } from '@irtranscripts/plugin';
 import * as chalk from 'chalk';
 import { entities } from './domain/entities';
 import { PluginRegistryModule } from './plugin-registry.module';

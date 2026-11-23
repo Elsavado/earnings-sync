@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { ArrayNotEmpty, IsArray, ValidateNested } from 'class-validator';
-import { IProcessTrackingDataBulkInput, ITrackingSession } from '@gauzy/contracts';
+import { IProcessTrackingDataBulkInput, ITrackingSession } from '@irtranscripts/contracts';
 import { ProcessTrackingDataDTO } from './process-tracking-data.dto';
 
 /**

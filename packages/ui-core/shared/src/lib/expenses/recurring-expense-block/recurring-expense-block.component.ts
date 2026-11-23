@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import moment from 'moment';
-import { defaultDateFormat } from '@gauzy/ui-core/core';
+import { defaultDateFormat } from '@irtranscripts/ui-core/core';
 import {
 	IOrganization,
 	RecurringExpenseDefaultCategoriesEnum,
 	IRecurringExpenseModel,
 	IEmployee
-} from '@gauzy/contracts';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/contracts';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 
 @Component({
 	selector: 'ga-recurring-expense-block',

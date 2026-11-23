@@ -1,6 +1,6 @@
 import { Args, Mutation, Parent, Query, ResolveField, Resolver, Subscription } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { DecimalString, ID, PermissionsEnum } from '@gauzy/contracts';
+import { DecimalString, ID, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	deliverPayloadAsIs,
 	EventBus,
@@ -10,8 +10,8 @@ import {
 	Permissions,
 	TenantPermissionGuard,
 	tenantScopedEventStream
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { PromotionPermission } from '../../promotion.permissions';
 import { assertMayPublishOnCreate } from '../../promotion/promotion-publish';
 import { ICampaign, ICoupon, IPromotion, IPromotionAction, IPromotionUsage } from '../../promotion.types';

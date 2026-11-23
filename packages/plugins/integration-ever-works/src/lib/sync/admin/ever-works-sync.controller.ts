@@ -1,15 +1,15 @@
 import { Body, Controller, Get, Header, HttpCode, HttpStatus, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiProperty, ApiTags } from '@nestjs/swagger';
 import { IsIn } from 'class-validator';
-import { ID, PermissionsEnum } from '@gauzy/contracts';
-import { PermissionGuard, Permissions, TenantPermissionGuard, UseValidationPipe, UUIDValidationPipe } from '@gauzy/core';
+import { ID, PermissionsEnum } from '@irtranscripts/contracts';
+import { PermissionGuard, Permissions, TenantPermissionGuard, UseValidationPipe, UUIDValidationPipe } from '@irtranscripts/core';
 import { EVER_WORKS_ROUTE_PREFIX } from '../../ever-works.constants';
 import { EverWorksConflictsService } from '../conflicts/ever-works-conflicts.service';
 import { EverWorksInitialSyncService } from '../initial/ever-works-initial-sync.service';
 import { EverWorksSyncStatusService } from './ever-works-sync-status.service';
 
 export class EverWorksResolveConflictDto {
-	@ApiProperty({ enum: ['keep', 'use_other'], description: '`keep` accepts the merged value; `use_other` writes the value that lost into the Gauzy record.' })
+	@ApiProperty({ enum: ['keep', 'use_other'], description: '`keep` accepts the merged value; `use_other` writes the value that lost into the IRTranscripts record.' })
 	@IsIn(['keep', 'use_other'])
 	readonly resolution!: 'keep' | 'use_other';
 }
@@ -115,7 +115,7 @@ export class EverWorksSyncController {
 	@HttpCode(HttpStatus.OK)
 	@UseValidationPipe({ whitelist: true })
 	@Header('Cache-Control', 'no-store')
-	@ApiOperation({ summary: 'Resolve a conflict: keep the merged value, or use the other value (written into the Gauzy record and pushed).' })
+	@ApiOperation({ summary: 'Resolve a conflict: keep the merged value, or use the other value (written into the IRTranscripts record and pushed).' })
 	resolve(
 		@Param('integrationTenantId', UUIDValidationPipe) id: ID,
 		@Param('conflictId', UUIDValidationPipe) conflictId: ID,

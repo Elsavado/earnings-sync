@@ -8,8 +8,8 @@ import {
 	SellerHoldReason,
 	SellerTransactionKind,
 	SellerTransactionStatus
-} from '@gauzy/contracts';
-import { EventOutboxService, Money, RequestContext } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { EventOutboxService, Money, RequestContext } from '@irtranscripts/core';
 import { SellerTransaction } from './seller-transaction.entity';
 import { MikroOrmSellerTransactionRepository } from './repository/mikro-orm-seller-transaction.repository';
 import { TypeOrmSellerTransactionRepository } from './repository/type-orm-seller-transaction.repository';

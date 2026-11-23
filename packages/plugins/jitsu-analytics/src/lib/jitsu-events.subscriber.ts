@@ -9,8 +9,8 @@ import {
 	getMetadataArgsStorage
 } from 'typeorm';
 import * as chalk from 'chalk';
-import { BaseEntityEventSubscriber, ExportEntityClass, redactForExport } from '@gauzy/core';
-import { environment } from '@gauzy/config';
+import { BaseEntityEventSubscriber, ExportEntityClass, redactForExport } from '@irtranscripts/core';
+import { environment } from '@irtranscripts/config';
 import { createJitsu } from './jitsu-helper';
 import {
 	BoundedEventQueue,

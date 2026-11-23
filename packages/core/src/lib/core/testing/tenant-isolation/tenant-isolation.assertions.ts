@@ -1,5 +1,5 @@
 import { NotFoundException } from '@nestjs/common';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { RequestContext } from '../../context';
 import { TenantAwareCrudService } from '../../crud/tenant-aware-crud.service';
 import { TenantBaseEntity } from '../../entities/internal';

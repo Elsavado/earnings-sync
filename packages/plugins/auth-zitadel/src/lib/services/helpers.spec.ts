@@ -1,6 +1,6 @@
-import { environment } from '@gauzy/config';
-import { TokenPurposeEnum, verifyPurposeToken } from '@gauzy/core';
-import type { User } from '@gauzy/core';
+import { environment } from '@irtranscripts/config';
+import { TokenPurposeEnum, verifyPurposeToken } from '@irtranscripts/core';
+import type { User } from '@irtranscripts/core';
 import { ZitadelClaimsService } from './zitadel-claims.service';
 import { safeRedirect } from './zitadel-flow.service';
 import { maskSubject } from './zitadel-link.service';
@@ -124,7 +124,7 @@ describe('Ever ID plugin helpers', () => {
 		expect('current_teams' in workspaces[0]).toBe(false);
 	});
 
-	it('adds a team list only to the workspaces Gauzy returned one for', () => {
+	it('adds a team list only to the workspaces IRTranscripts returned one for', () => {
 		const service = new ZitadelWorkspaceService(null as never, null as never);
 		const users = ['user-1', 'user-2'].map(
 			(id) => ({ id, email: 'person@example.test', tenantId: `tenant-${id}`, tenant: { id: `tenant-${id}`, name: id } }) as unknown as User
@@ -136,7 +136,7 @@ describe('Ever ID plugin helpers', () => {
 	});
 
 	it('hands out workspace tokens that live only as long as the session binding window', () => {
-		// 15 minutes (shorter only when Gauzy's own access tokens are shorter), not the 24 h default.
+		// 15 minutes (shorter only when IRTranscripts's own access tokens are shorter), not the 24 h default.
 		expect(workspaceTokenTtlSeconds()).toBe(Math.min(SESSION_BIND_WINDOW_MS / 1000, Number(environment.JWT_TOKEN_EXPIRATION_TIME)));
 		const service = new ZitadelWorkspaceService(null as never, null as never);
 		const user = { id: 'user-1', email: 'person@example.test', tenantId: 'tenant-1', tenant: { id: 'tenant-1' } } as unknown as User;

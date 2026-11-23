@@ -1,4 +1,4 @@
-import { IChangelog } from '@gauzy/contracts';
+import { IChangelog } from '@irtranscripts/contracts';
 
 /**
  * Platform-level changelog content used both by the fresh-DB seed
@@ -18,7 +18,7 @@ export const INITIAL_CHANGELOG_TEMPLATE: IChangelog[] = [
 		content:
 			'Chat with an AI agent that knows your workspace: it can navigate pages, read data, fill forms and answer questions — with voice dictation and file attachments built in.',
 		isFeature: false,
-		learnMoreUrl: 'https://docs.gauzy.co/features/ai-agent-chat',
+		learnMoreUrl: 'https://docs.irtranscripts.com/features/ai-agent-chat',
 		imageUrl: ''
 	},
 	{
@@ -28,7 +28,7 @@ export const INITIAL_CHANGELOG_TEMPLATE: IChangelog[] = [
 		isFeature: false,
 		content:
 			'Upload, organize and share company files and wiki pages — and attach any document to the AI chat to discuss it.',
-		learnMoreUrl: 'https://docs.gauzy.co/features/documents/overview',
+		learnMoreUrl: 'https://docs.irtranscripts.com/features/documents/overview',
 		imageUrl: ''
 	},
 	{
@@ -38,7 +38,7 @@ export const INITIAL_CHANGELOG_TEMPLATE: IChangelog[] = [
 		isFeature: false,
 		content:
 			'Build your own dashboards: drag & drop widgets from the palette, configure each one, and switch between named layouts.',
-		learnMoreUrl: 'https://docs.gauzy.co/features/dashboard-widgets',
+		learnMoreUrl: 'https://docs.irtranscripts.com/features/dashboard-widgets',
 		imageUrl: ''
 	},
 	{
@@ -48,7 +48,7 @@ export const INITIAL_CHANGELOG_TEMPLATE: IChangelog[] = [
 		isFeature: false,
 		content:
 			'Redesigned navigation, denser tables, refreshed dark themes and a full-height AI chat column across the whole app.',
-		learnMoreUrl: 'https://gauzy.co/',
+		learnMoreUrl: 'https://irtranscripts.com/',
 		imageUrl: ''
 	},
 	{
@@ -58,7 +58,7 @@ export const INITIAL_CHANGELOG_TEMPLATE: IChangelog[] = [
 		isFeature: true,
 		content:
 			'An embedded AI assistant that knows your workspace: chat, dictate, attach documents and let it do the clicking for you.',
-		learnMoreUrl: 'https://docs.gauzy.co/features/ai-agent-chat',
+		learnMoreUrl: 'https://docs.irtranscripts.com/features/ai-agent-chat',
 		imageUrl: 'assets/images/features/macbook-2.png'
 	},
 	{
@@ -68,7 +68,7 @@ export const INITIAL_CHANGELOG_TEMPLATE: IChangelog[] = [
 		isFeature: true,
 		content:
 			'ERP, CRM, HRM, ATS and project management with integrated time tracking — one open platform.',
-		learnMoreUrl: 'https://gauzy.co/',
+		learnMoreUrl: 'https://irtranscripts.com/',
 		imageUrl: 'assets/images/features/macbook-1.png'
 	},
 	{
@@ -77,7 +77,7 @@ export const INITIAL_CHANGELOG_TEMPLATE: IChangelog[] = [
 		date: new Date('2026-07-01T00:00:00.000Z'),
 		isFeature: true,
 		content: 'AGPL-licensed and free to self-host, with documentation covering every feature.',
-		learnMoreUrl: 'https://docs.gauzy.co/',
+		learnMoreUrl: 'https://docs.irtranscripts.com/',
 		imageUrl: ''
 	}
 ];

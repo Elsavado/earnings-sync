@@ -1,6 +1,6 @@
-# Ever Gauzy Desktop Application
+# Ever IRTranscripts Desktop Application
 
-Ever Gauzy Desktop is a cross-platform application built with [nstudio/electron](https://github.com/nstudio/xplat) for seamless integration with Gauzy. 
+Ever IRTranscripts Desktop is a cross-platform application built with [nstudio/electron](https://github.com/nstudio/xplat) for seamless integration with IRTranscripts. 
 
 ---
 

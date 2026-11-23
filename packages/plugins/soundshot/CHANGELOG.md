@@ -1,3 +1,3 @@
-# Changelog for @gauzy/plugin-soundshot
+# Changelog for @irtranscripts/plugin-soundshot
 
 ## [Unreleased]

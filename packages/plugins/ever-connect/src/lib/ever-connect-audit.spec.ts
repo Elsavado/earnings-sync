@@ -4,7 +4,7 @@ import { AUDIT_ACTIONS, AuditEntryRefusedError, EverConnectAuditService } from '
 /**
  * The audit records each action with ids and states only: a `details` key outside the allow-list,
  * or a value that looks like an address, is refused; and the service has no way to change a row
- * (rows are removed only with a deleted Gauzy organization or tenant).
+ * (rows are removed only with a deleted IRTranscripts organization or tenant).
  */
 describe('Ever Platform audit entries', () => {
 	it.each(AUDIT_ACTIONS.map((action) => [action]))('%s with id-only details is accepted', (action) => {

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
-import { dialectOf, insertIgnore, placeholder, quote, runSql, SqlDialect, toNumber } from '@gauzy/plugin-ever-instance';
+import { dialectOf, insertIgnore, placeholder, quote, runSql, SqlDialect, toNumber } from '@irtranscripts/plugin-ever-instance';
 import { STATS_REPORTS_KEPT } from './ever-stats.constants';
 
 /** What happened to a report. */

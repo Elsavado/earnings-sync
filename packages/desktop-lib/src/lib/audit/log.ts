@@ -2,9 +2,9 @@ import { AuditLogService, AuditLogTO, AuditLog } from '../offline';
 import {
 	TLogLevel,
 	TServiceName,
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { IPaginationResult } from '../interfaces';
-import { sendToChildWindow } from '@gauzy/desktop-window';
+import { sendToChildWindow } from '@irtranscripts/desktop-window';
 
 export class AuditLogHandler {
 	private static instance: AuditLogHandler;

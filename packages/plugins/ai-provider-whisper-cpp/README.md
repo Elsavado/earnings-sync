@@ -1,7 +1,7 @@
-# @gauzy/plugin-ai-provider-whisper-cpp
+# @irtranscripts/plugin-ai-provider-whisper-cpp
 
-**Local** speech-to-text provider plugin for the Ever Gauzy AI chat engine
-([`@gauzy/plugin-ai-chat`](../ai-chat)) backed by
+**Local** speech-to-text provider plugin for the Ever IRTranscripts AI chat engine
+([`@irtranscripts/plugin-ai-chat`](../ai-chat)) backed by
 [whisper.cpp](https://github.com/ggml-org/whisper.cpp)'s `whisper-server` — a
 tiny, dependency-free HTTP server that runs OpenAI Whisper (ggml) models on CPU,
 Apple Silicon or CUDA. No cloud account, no API key.
@@ -35,7 +35,7 @@ converting them with ffmpeg; without it whisper-server only accepts 16 kHz WAV.)
 Or with Docker: `docker run --rm -p 8080:8080 -v ./models:/models ghcr.io/ggml-org/whisper.cpp:main
 ./build/bin/whisper-server -m /models/ggml-base.en.bin --host 0.0.0.0 --port 8080 --convert`.
 
-Then point Gauzy at it: **Settings → AI Providers → Add AI Voice Provider →
+Then point IRTranscripts at it: **Settings → AI Providers → Add AI Voice Provider →
 whisper.cpp**, base URL `http://localhost:8080` (prefilled), leave the API key
 empty, tick "Use as default voice provider".
 

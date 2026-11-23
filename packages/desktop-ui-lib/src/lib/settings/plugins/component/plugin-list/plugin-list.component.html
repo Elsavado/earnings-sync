@@ -67,7 +67,7 @@
 				nbButton
 			>
 				<nb-icon
-					*gauzySpinnerButton="activating || deactivating"
+					*irtranscriptsSpinnerButton="activating || deactivating"
 					[icon]="selected.isActivate ? 'close-circle-outline' : 'checkmark-circle-outline'"
 				></nb-icon>
 				<span class="btn-text">{{
@@ -84,7 +84,7 @@
 				aria-label="Uninstall plugin"
 				nbButton
 			>
-				<nb-icon *gauzySpinnerButton="uninstalling" status="danger" icon="slash-outline"></nb-icon>
+				<nb-icon *irtranscriptsSpinnerButton="uninstalling" status="danger" icon="slash-outline"></nb-icon>
 				<span class="btn-text">{{ 'BUTTONS.UNINSTALL' | translate }}</span>
 			</button>
 		</div>

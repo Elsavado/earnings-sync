@@ -1,7 +1,7 @@
 {
-	"name": "@gauzy/plugin-docs-ui",
+	"name": "@irtranscripts/plugin-docs-ui",
 	"version": "0.1.0",
-	"description": "A UI plugin providing the Documents hub (folders, wiki pages, uploaded files, review queue and AI knowledge surfaces) within the Gauzy ecosystem.",
+	"description": "A UI plugin providing the Documents hub (folders, wiki pages, uploaded files, review queue and AI knowledge surfaces) within the IRTranscripts ecosystem.",
 	"author": {
 		"name": "Ever Co. LTD",
 		"email": "ever@ever.co",
@@ -33,10 +33,10 @@
 		"@angular/forms": "22.2.2",
 		"@angular/router": "22.2.2",
 		"@floating-ui/dom": "^1.8.0",
-		"@gauzy/contracts": "^0.1.0",
-		"@gauzy/plugin-ui": "^0.1.0",
-		"@gauzy/ui-config": "^0.1.0",
-		"@gauzy/ui-core": "^0.1.0",
+		"@irtranscripts/contracts": "^0.1.0",
+		"@irtranscripts/plugin-ui": "^0.1.0",
+		"@irtranscripts/ui-config": "^0.1.0",
+		"@irtranscripts/ui-core": "^0.1.0",
 		"@nebular/theme": "^18.0.0",
 		"@ng-select/ng-select": "^24.2.1",
 		"@ngneat/effects-ng": "3.1.4",
@@ -94,7 +94,7 @@
 		"jest-preset-angular": "17.0.2"
 	},
 	"keywords": [
-		"gauzy",
+		"irtranscripts",
 		"documents",
 		"document-management",
 		"wiki",

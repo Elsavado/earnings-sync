@@ -1,9 +1,9 @@
 import { Injector } from '@angular/core';
 import { Routes } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { defineDeclarativePlugin, PluginRouteInput, PluginUiDefinition } from '@gauzy/plugin-ui';
-import { NavigationBuilderService, NavMenuBuilderService, PermissionsGuard } from '@gauzy/ui-core/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { defineDeclarativePlugin, PluginRouteInput, PluginUiDefinition } from '@irtranscripts/plugin-ui';
+import { NavigationBuilderService, NavMenuBuilderService, PermissionsGuard } from '@irtranscripts/ui-core/core';
 import {
 	INBOX_HEADER_ACTION_ID,
 	INBOX_LINK,
@@ -121,7 +121,7 @@ export const INBOX_SETTINGS_NAV_ITEMS = [
 /**
  * Adds the Settings → Inbox entries once the API confirmed it serves the Inbox email features to the signed-in user
  * (`InboxEmailAvailabilityService`: asked only where the Inbox itself is served, the same check as the nav entry and
- * the badge), and hides them again when that changes. Elsewhere (`GAUZY_INBOX_EMAIL_ENABLED` unset, the default) the
+ * the badge), and hides them again when that changes. Elsewhere (`IRTRANSCRIPTS_INBOX_EMAIL_ENABLED` unset, the default) the
  * settings menu looks exactly as before; the routes still exist and the pages then say the email features are off.
  */
 export function registerInboxSettingsEntryPoints(injector: Injector): Subscription {
@@ -160,8 +160,8 @@ export const INBOX_NAV_SECTION = {
 
 /**
  * Adds the nav entry and the header badge once the API serves the Inbox to the signed-in user, and takes them
- * away again when that changes (signed out, another user). Where the API does not load `@gauzy/plugin-inbox`
- * (`GAUZY_INBOX_ENABLED` unset, the default) neither appears, so the app looks exactly as before; the route
+ * away again when that changes (signed out, another user). Where the API does not load `@irtranscripts/plugin-inbox`
+ * (`IRTRANSCRIPTS_INBOX_ENABLED` unset, the default) neither appears, so the app looks exactly as before; the route
  * still exists and the page then says the Inbox is off.
  *
  * The nav builder has no way to remove a section, so the entry is hidden (`data.hide`) while the Inbox is not
@@ -212,10 +212,10 @@ const declarative = defineDeclarativePlugin('inbox', {
 });
 
 /**
- * Inbox UI plugin (`@gauzy/plugin-inbox-ui`, plan 04 §1, G-P3-2): `/pages/inbox` (All, Decisions, Email,
+ * Inbox UI plugin (`@irtranscripts/plugin-inbox-ui`, plan 04 §1, G-P3-2): `/pages/inbox` (All, Decisions, Email,
  * Notifications, Archived), the header badge (counts polled every 60 s) and the nav entry; Settings → Inbox →
  * Providers (G-P4-2) and Mailboxes and "My mailbox" (G-P4-1) where the API serves the Inbox email features. Registered in
- * `apps/gauzy/src/plugin-ui.config.ts`; shows nothing but the route unless the API serves the Inbox.
+ * `apps/irtranscripts/src/plugin-ui.config.ts`; shows nothing but the route unless the API serves the Inbox.
  */
 export const InboxUiPlugin: PluginUiDefinition = {
 	...declarative,

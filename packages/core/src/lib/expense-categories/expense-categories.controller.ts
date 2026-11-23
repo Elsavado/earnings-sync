@@ -1,7 +1,7 @@
 import { Controller, UseGuards, Get, Query, Put, Param, Body, Post } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ID, IExpenseCategory, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IExpenseCategory, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { CrudController, BaseQueryDTO } from './../core/crud';
 import { Permissions } from './../shared/decorators';
 import { PermissionGuard, TenantPermissionGuard } from './../shared/guards';

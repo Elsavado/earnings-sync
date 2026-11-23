@@ -1,14 +1,14 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { Subject, Subscription } from 'rxjs';
 import { DataSource, EventSubscriber } from 'typeorm';
-import { BaseEntityEnum, EntitySubscriptionTypeEnum, ID } from '@gauzy/contracts';
-import { BaseEntityEventSubscriber, Comment, EntitySubscription, RequestContext, TaskLinkedIssue } from '@gauzy/core';
+import { BaseEntityEnum, EntitySubscriptionTypeEnum, ID } from '@irtranscripts/contracts';
+import { BaseEntityEventSubscriber, Comment, EntitySubscription, RequestContext, TaskLinkedIssue } from '@irtranscripts/core';
 import { EverWorksEntityLink, EverWorksLinkType } from '../sync/entities/ever-works-sync.entities';
 import { EverWorksSyncContext } from '../sync/ever-works-sync.context';
 import { EverWorksOutboundQueue } from '../sync/outbound/ever-works-outbound.queue';
 import { runDetached } from '../sync/outbound/ever-works-detached';
 
-/** A Gauzy task's watchers or linked issues changed. */
+/** A IRTranscripts task's watchers or linked issues changed. */
 export interface EverWorksTaskSignal {
 	tenantId: ID;
 	organizationId: ID;
@@ -93,7 +93,7 @@ export class EverWorksTaskLinkedIssueSubscriber extends BaseEntityEventSubscribe
 }
 
 /**
- * A Gauzy comment was written, edited or deleted. An edit is a partial save (the id and the changed fields,
+ * A IRTranscripts comment was written, edited or deleted. An edit is a partial save (the id and the changed fields,
  * often not the comment's task), so what is missing is read when the signal is drained.
  */
 export interface EverWorksCommentSignal {
@@ -105,7 +105,7 @@ export interface EverWorksCommentSignal {
 	actorUserId: ID | null;
 }
 
-/** Outbound trigger 2 for task comments (Gauzy has no comment event the plugin can use). */
+/** Outbound trigger 2 for task comments (IRTranscripts has no comment event the plugin can use). */
 export const EVER_WORKS_COMMENT_SIGNALS = new Subject<EverWorksCommentSignal>();
 
 /** A comment on a task: written, edited (also resolved), soft-deleted or deleted. */
@@ -171,7 +171,7 @@ export class EverWorksTaskEdgeCapture implements OnModuleInit, OnModuleDestroy {
 					tenantId: change.tenantId,
 					organizationId: change.organizationId,
 					entityType: EverWorksLinkType.TASK,
-					gauzyId: change.taskId,
+					irtranscriptsId: change.taskId,
 					op: 'upsert',
 					actorUserId: change.actorUserId
 				})
@@ -187,7 +187,7 @@ export class EverWorksTaskEdgeCapture implements OnModuleInit, OnModuleDestroy {
 									tenantId: scope.tenantId,
 									organizationId: scope.organizationId,
 									entityType: EverWorksLinkType.COMMENT,
-									gauzyId: change.commentId,
+									irtranscriptsId: change.commentId,
 									op: scope.deleted ? 'delete' : 'upsert',
 									actorUserId: change.actorUserId
 								})
@@ -211,7 +211,7 @@ export class EverWorksTaskEdgeCapture implements OnModuleInit, OnModuleDestroy {
 			if (row.entity !== BaseEntityEnum.Task || !row.tenantId || !row.organizationId) return null;
 			return { tenantId: row.tenantId as ID, organizationId: row.organizationId as ID, deleted: change.deleted || !!(row as { deletedAt?: Date | null }).deletedAt };
 		}
-		const link = await this.dataSource.getRepository(EverWorksEntityLink).findOne({ where: { entityType: EverWorksLinkType.COMMENT, gauzyId: change.commentId } as never });
+		const link = await this.dataSource.getRepository(EverWorksEntityLink).findOne({ where: { entityType: EverWorksLinkType.COMMENT, irtranscriptsId: change.commentId } as never });
 		return link?.tenantId && link.organizationId ? { tenantId: link.tenantId as ID, organizationId: link.organizationId as ID, deleted: true } : null;
 	}
 

@@ -1,4 +1,4 @@
 /**
- * Public API Surface of @gauzy/plugin-videos
+ * Public API Surface of @irtranscripts/plugin-videos
  */
 export * from './lib/videos.plugin';

@@ -10,7 +10,7 @@
  * the caller states the question in its own vocabulary and this package decides what the numbers on
  * this side mean.
  */
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 /** One line’s stock question: which variant, at which location. */
 export interface IStockAvailabilityQuery {

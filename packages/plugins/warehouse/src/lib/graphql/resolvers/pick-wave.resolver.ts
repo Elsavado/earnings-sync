@@ -1,8 +1,8 @@
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { ID } from '@gauzy/contracts';
-import { FEATURE_GRAPHQL, FeatureFlagGuard, Idempotent, PermissionGuard, Permissions, TenantPermissionGuard } from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+import { ID } from '@irtranscripts/contracts';
+import { FEATURE_GRAPHQL, FeatureFlagGuard, Idempotent, PermissionGuard, Permissions, TenantPermissionGuard } from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { PickListService } from '../../pick-list/pick-list.service';
 import { PickList } from '../../pick-list/pick-list.entity';
 import { WarehouseFeatures } from '../../warehouse.features';

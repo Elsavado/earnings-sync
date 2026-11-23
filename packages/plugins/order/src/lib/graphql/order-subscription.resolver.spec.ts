@@ -9,23 +9,23 @@
  *
  * **The kernel is the real one where isolation lives**: `tenantScopedTopicStream`, `GraphqlPubSub`,
  * `RequestContext` over a real CLS store and the permission decorator are required from the kernel's sources;
- * the rest of `@gauzy/core` is doubled at the module boundary, as this package's other suites do, because its
+ * the rest of `@irtranscripts/core` is doubled at the module boundary, as this package's other suites do, because its
  * barrel boots the application graph. `OrderService` is doubled: the read is asserted to be stated in the
  * subscriber's scope.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { SetMetadata } = require('@nestjs/common');
-	const { PERMISSIONS_METADATA } = require('@gauzy/constants');
-	const subscription = jest.requireActual('@gauzy/core/src/lib/graphql/subscriptions/plugin-subscription');
+	const { PERMISSIONS_METADATA } = require('@irtranscripts/constants');
+	const subscription = jest.requireActual('@irtranscripts/core/src/lib/graphql/subscriptions/plugin-subscription');
 
 	return {
-		FEATURE_GRAPHQL: jest.requireActual('@gauzy/core/src/lib/feature/graphql-feature.code').FEATURE_GRAPHQL,
+		FEATURE_GRAPHQL: jest.requireActual('@irtranscripts/core/src/lib/feature/graphql-feature.code').FEATURE_GRAPHQL,
 		FeatureFlagGuard: class FeatureFlagGuard {},
 		PermissionGuard: class PermissionGuard {},
 		TenantPermissionGuard: class TenantPermissionGuard {},
 		Permissions: (...permissions: string[]) => SetMetadata(PERMISSIONS_METADATA, permissions),
-		GraphqlPubSub: jest.requireActual('@gauzy/core/src/lib/graphql/subscriptions/graphql-pubsub.service').GraphqlPubSub,
-		RequestContext: jest.requireActual('@gauzy/core/src/lib/core/context/request-context').RequestContext,
+		GraphqlPubSub: jest.requireActual('@irtranscripts/core/src/lib/graphql/subscriptions/graphql-pubsub.service').GraphqlPubSub,
+		RequestContext: jest.requireActual('@irtranscripts/core/src/lib/core/context/request-context').RequestContext,
 		deliverPayloadAsIs: subscription.deliverPayloadAsIs,
 		tenantScopedTopicStream: subscription.tenantScopedTopicStream,
 		declareStreamedEvents: subscription.declareStreamedEvents,
@@ -43,8 +43,8 @@ import { AsyncLocalStorage } from 'async_hooks';
 import { ClsService } from 'nestjs-cls';
 import { Kind, ObjectTypeExtensionNode, print } from 'graphql';
 import { SUBSCRIPTION_OPTIONS_METADATA } from '@nestjs/graphql/dist/graphql.constants';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { FEATURE_GRAPHQL, GraphqlPubSub, RequestContext, deliverPayloadAsIs } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { FEATURE_GRAPHQL, GraphqlPubSub, RequestContext, deliverPayloadAsIs } from '@irtranscripts/core';
 import { ORDER_PERMISSIONS } from '../order.permissions';
 import { ORDER_STREAMED_EVENTS } from '../order-streamed-events';
 import { orderSchemaExtensions } from './schema-extensions';

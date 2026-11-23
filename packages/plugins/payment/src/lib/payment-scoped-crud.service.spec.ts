@@ -27,12 +27,12 @@
  * its deletion date, so a fixture with exactly those columns is the whole of what the eight services act
  * on here, and one fixture table is shared by all of them.
  *
- * `@gauzy/core`'s barrel is doubled for the reason the package's other service specs state — it boots
+ * `@irtranscripts/core`'s barrel is doubled for the reason the package's other service specs state — it boots
  * the whole application graph — and the three members this suite is about are the kernel's own: the
  * CRUD base, the MikroORM repository base, and the request context's two readers, which answer with the
  * caller this suite states.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the payment entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
@@ -40,12 +40,12 @@ jest.mock('@gauzy/core', () => {
 
 	return {
 		// The kernel's own CRUD base: the soft-delete pair under test is its code, not a double's.
-		CrudService: jest.requireActual('@gauzy/core/src/lib/core/crud/crud.service').CrudService,
+		CrudService: jest.requireActual('@irtranscripts/core/src/lib/core/crud/crud.service').CrudService,
 		// The kernel's own guard against a criterion that selects nothing, which the scoped delete runs first.
-		assertCriteriaHasPredicate: jest.requireActual('@gauzy/core/src/lib/core/crud/criteria.helper')
+		assertCriteriaHasPredicate: jest.requireActual('@irtranscripts/core/src/lib/core/crud/criteria.helper')
 			.assertCriteriaHasPredicate,
 		MikroOrmBaseEntityRepository: jest.requireActual(
-			'@gauzy/core/src/lib/core/repository/mikro-orm-base-entity.repository'
+			'@irtranscripts/core/src/lib/core/repository/mikro-orm-base-entity.repository'
 		).MikroOrmBaseEntityRepository,
 		RequestContext: {
 			currentTenantId: () => mockCaller.tenantId,
@@ -73,7 +73,7 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		BaseEvent: class {},
 		EventBus: class {},
 		Payment: class Payment {},
@@ -88,7 +88,7 @@ import { Column, DataSource, DeleteDateColumn, Entity as TypeOrmEntity, PrimaryC
 import { Entity as MikroEntity, MikroORM, PrimaryKey, Property } from '@mikro-orm/core';
 import { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
 import { SoftDeletable, SoftDeleteHandler } from 'mikro-orm-soft-delete';
-import { CrudService, MikroOrmBaseEntityRepository } from '@gauzy/core';
+import { CrudService, MikroOrmBaseEntityRepository } from '@irtranscripts/core';
 import { PaymentCaptureService } from './payment-capture/payment-capture.service';
 import { PaymentCollectionService } from './payment-collection/payment-collection.service';
 import { PaymentProviderService } from './payment-provider/payment-provider.service';

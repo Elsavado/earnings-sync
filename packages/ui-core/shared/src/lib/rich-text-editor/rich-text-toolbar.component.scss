@@ -1,15 +1,15 @@
 // Toolbar chrome: one quiet row on the editor's own surface. 28px icon buttons
 // that only tint on hover, an accent tint for the active marks, short dividers,
 // and borderless dropdowns. The fallbacks keep it working in the Electron apps,
-// which do not load the Gauzy custom properties.
+// which do not load the IRTranscripts custom properties.
 
 :host {
   display: block;
 
   --rte-button-size: 1.75rem;
   --rte-icon-size: 1rem;
-  --rte-hairline: var(--gauzy-border-default-color, var(--border-basic-color-3));
-  --rte-hover: var(--gauzy-hover-tint, var(--background-basic-color-3));
+  --rte-hairline: var(--irtranscripts-border-default-color, var(--border-basic-color-3));
+  --rte-hover: var(--irtranscripts-hover-tint, var(--background-basic-color-3));
   --rte-active: color-mix(in srgb, var(--color-primary-default) 16%, transparent);
   --rte-radius: 0.375rem;
 }

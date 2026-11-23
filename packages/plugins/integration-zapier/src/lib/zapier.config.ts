@@ -33,13 +33,13 @@ export const ZAPIER_OAUTH_SCOPES = 'zap zap:all zap:account:all zap:write authen
  */
 export const ZAPIER_TOKEN_EXPIRATION_TIME = process.env['NODE_ENV'] === 'production' ? 7200 : 36000;
 
-/** URL for initiating OAuth authorization flow with Gauzy */
+/** URL for initiating OAuth authorization flow with IRTranscripts */
 export const ZAPIER_AUTHORIZATION_URL = `${process.env['API_BASE_URL']}/api/integration/zapier/oauth/authorize`;
 
 /** URL for OAuth callback after user authorization */
 export const ZAPIER_CALLBACK_URL = `${process.env['API_BASE_URL']}/api/integration/zapier/oauth/callback`;
 
-/** URL for obtaining OAuth access tokens from Gauzy */
+/** URL for obtaining OAuth access tokens from IRTranscripts */
 export const ZAPIER_TOKEN_URL = `${process.env['API_BASE_URL']}/api/integration/zapier/oauth/token`;
 
 /** URL for redirecting users after OAuth authorization */

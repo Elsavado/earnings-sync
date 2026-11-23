@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ICountsStatistics, IGetCountsStatistics, IGetTimeLogInput, ReportDayData } from '@gauzy/contracts';
+import { ICountsStatistics, IGetCountsStatistics, IGetTimeLogInput, ReportDayData } from '@irtranscripts/contracts';
 import { Observable } from 'rxjs';
 import { RequestQuery } from '../../+state/request/request.query';
 import { Store, TimeTrackerDateManager, ToastrNotificationService } from '../../../services';

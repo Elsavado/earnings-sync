@@ -11,7 +11,7 @@
  *   re-pricing. They now go through `addLine` / `setShippingMethod`, the call `addCartLine` /
  *   `setCartShippingMethod` make, under the cart's version.
  *
- * The controllers and resolvers are the real ones; the services are stubs, and `@gauzy/core`'s barrel is
+ * The controllers and resolvers are the real ones; the services are stubs, and `@irtranscripts/core`'s barrel is
  * doubled for the reason the package's other suites give (it boots the application graph). `@Permissions`
  * is the kernel's own, so the grants compared are the metadata the guard reads.
  */
@@ -29,7 +29,7 @@ jest.mock('../commerce-checkout-session/commerce-checkout-session.service', () =
 	CommerceCheckoutSessionService: class CommerceCheckoutSessionService {}
 }));
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: nothing here is mapped onto a database. */
 	const decorator = () => () => undefined;
 
@@ -56,30 +56,30 @@ jest.mock('@gauzy/core', () => {
 		MultiORMManyToOne: decorator,
 		JsonColumn: decorator,
 		VersionedColumn: decorator,
-		Permissions: jest.requireActual('@gauzy/core/src/lib/shared/decorators/permissions.decorator').Permissions,
+		Permissions: jest.requireActual('@irtranscripts/core/src/lib/shared/decorators/permissions.decorator').Permissions,
 		UseValidationPipe: decorator,
 		PermissionGuard: class {},
 		TenantPermissionGuard: class {},
 		FeatureFlagGuard: class {},
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
-		IDEMPOTENT_METADATA_KEY: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.policy')
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		IDEMPOTENT_METADATA_KEY: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.policy')
 			.IDEMPOTENT_METADATA_KEY,
-		VERSIONED_METADATA_KEY: jest.requireActual('@gauzy/core/src/lib/concurrency/version.util')
+		VERSIONED_METADATA_KEY: jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util')
 			.VERSIONED_METADATA_KEY,
 		// The real decorator mounts the guard and interceptor, which reach the entity graph; what is read
 		// here is the metadata it writes, on the kernel's own key.
 		Versioned: (options: any = {}) =>
 			require('@nestjs/common').SetMetadata(
-				jest.requireActual('@gauzy/core/src/lib/concurrency/version.util').VERSIONED_METADATA_KEY,
+				jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util').VERSIONED_METADATA_KEY,
 				options
 			),
-		versionExpectationOf: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		versionExpectationOf: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.versionExpectationOf,
-		formatEntityTag: jest.requireActual('@gauzy/core/src/lib/concurrency/version.util').formatEntityTag,
-		parseEntityVersion: jest.requireActual('@gauzy/core/src/lib/concurrency/version.util').parseEntityVersion,
-		connectionFromOffsetPage: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		formatEntityTag: jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util').formatEntityTag,
+		parseEntityVersion: jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util').parseEntityVersion,
+		connectionFromOffsetPage: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.connectionFromOffsetPage,
-		resolveConnectionWindow: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		resolveConnectionWindow: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.resolveConnectionWindow,
 		GraphqlConnection: class {},
 		ColumnNumericTransformerPipe: class {
@@ -103,9 +103,9 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-import { CommerceCartStatus } from '@gauzy/contracts';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { VERSIONED_METADATA_KEY } from '@gauzy/core';
+import { CommerceCartStatus } from '@irtranscripts/contracts';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { VERSIONED_METADATA_KEY } from '@irtranscripts/core';
 import { CART_PERMISSIONS } from '../cart.permissions';
 import { CommerceCartController } from './commerce-cart.controller';
 import { CommerceCartService } from './commerce-cart.service';

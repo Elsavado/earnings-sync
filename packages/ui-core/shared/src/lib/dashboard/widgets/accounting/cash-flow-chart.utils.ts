@@ -1,4 +1,4 @@
-import { IChartEmployeeStatistic } from '@gauzy/contracts';
+import { IChartEmployeeStatistic } from '@irtranscripts/contracts';
 import { ChartUtil } from '../../../report/charts/line-chart/chart-utils';
 import { IChartData } from '../../../report/charts/line-chart/ichart.interface';
 import { IEmployeeChartPalette } from '../charts/employee-chart.utils';

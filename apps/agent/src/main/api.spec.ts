@@ -12,14 +12,14 @@ const mockFetch = jest.fn();
 jest.mock('node-fetch', () => ({ __esModule: true, default: (...args: unknown[]) => mockFetch(...args) }));
 jest.mock('electron', () => ({ screen: {} }));
 jest.mock('../environments/environment', () => ({ environment: {} }), { virtual: true });
-jest.mock('@gauzy/desktop-lib', () => ({
+jest.mock('@irtranscripts/desktop-lib', () => ({
 	LocalStore: { getStore: (key: string) => mockStore[key], updateAuthSetting: jest.fn() }
 }));
-jest.mock('@gauzy/desktop-activity', () => ({
+jest.mock('@irtranscripts/desktop-activity', () => ({
 	TimeLogSourceEnum: { DESKTOP: 'DESKTOP' },
 	TimeLogType: { TRACKED: 'TRACKED' }
 }));
-jest.mock('@gauzy/contracts', () => ({ TaskStatusEnum: { IN_PROGRESS: 'in-progress' } }));
+jest.mock('@irtranscripts/contracts', () => ({ TaskStatusEnum: { IN_PROGRESS: 'in-progress' } }));
 jest.mock('./agent-logger', () => ({
 	AgentLogger: { getInstance: () => ({ info: jest.fn(), warn: jest.fn(), error: jest.fn() }) }
 }));

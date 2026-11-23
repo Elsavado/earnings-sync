@@ -1,4 +1,4 @@
-import { isBetterSqlite3 } from '@gauzy/config';
+import { isBetterSqlite3 } from '@irtranscripts/config';
 import { BadRequestException, Inject, UnauthorizedException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { randomUUID } from 'node:crypto';

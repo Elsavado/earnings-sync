@@ -1,6 +1,6 @@
 import { EntityManager as MikroOrmEntityManager } from '@mikro-orm/core';
 import { EntityManager as TypeOrmEntityManager } from 'typeorm';
-import { ID, JsonData } from '@gauzy/contracts';
+import { ID, JsonData } from '@irtranscripts/contracts';
 import { MultiORMEnum } from '../core/utils';
 import { Operation } from './operation.entity';
 

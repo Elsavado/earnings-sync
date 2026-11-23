@@ -6,7 +6,7 @@ import { getStartEndIntervals } from '../../../time-slot/utils';
 import { decode, Data } from 'clarity-decode';
 import { RequestContext } from '../../../../core/context';
 import { MultiORM, MultiORMEnum, getORMType } from '../../../../core/utils';
-import { ICustomActivity, ITrackingSession, ITrackingPayload, ITimeSlot } from '@gauzy/contracts';
+import { ICustomActivity, ITrackingSession, ITrackingPayload, ITimeSlot } from '@irtranscripts/contracts';
 import { TimeSlot } from '../../../time-slot/time-slot.entity';
 import { TimeSlotService } from '../../../time-slot/time-slot.service';
 import { CreateTimeSlotCommand } from '../../../time-slot/commands';

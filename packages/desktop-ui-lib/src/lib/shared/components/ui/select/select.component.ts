@@ -7,7 +7,7 @@ import { NgTemplateOutlet, UpperCasePipe } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-    selector: 'gauzy-select',
+    selector: 'irtranscripts-select',
     templateUrl: './select.component.html',
     styleUrls: ['./select.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

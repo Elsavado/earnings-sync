@@ -1,14 +1,14 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NbDateService, NbDialogRef } from '@nebular/theme';
-import { IEmployee, ITimeOffPolicy, IOrganization, StatusTypesEnum, IUser } from '@gauzy/contracts';
+import { IEmployee, ITimeOffPolicy, IOrganization, StatusTypesEnum, IUser } from '@irtranscripts/contracts';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { debounceTime, filter, first, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import moment from 'moment';
 import Holidays from 'date-holidays';
-import { CompareDateValidator, EmployeesService, Store, ToastrService } from '@gauzy/ui-core/core';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
-import { environment as ENV } from '@gauzy/ui-config';
+import { CompareDateValidator, EmployeesService, Store, ToastrService } from '@irtranscripts/ui-core/core';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
+import { environment as ENV } from '@irtranscripts/ui-config';
 import { FormHelpers } from '../../forms/helpers';
 
 @UntilDestroy({ checkProperties: true })

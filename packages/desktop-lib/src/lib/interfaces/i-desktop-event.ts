@@ -1,4 +1,4 @@
-import { ActivityWatchEventType } from '@gauzy/contracts';
+import { ActivityWatchEventType } from '@irtranscripts/contracts';
 
 export interface IDesktopEvent {
 	id?: number;

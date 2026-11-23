@@ -1,7 +1,7 @@
 {
-	"name": "@gauzy/plugin-sentry",
+	"name": "@irtranscripts/plugin-sentry",
 	"version": "0.1.0",
-	"description": "Gauzy Sentry Plugin - Seamless integration with Sentry for advanced error tracking and monitoring in Gauzy Platform.",
+	"description": "IRTranscripts Sentry Plugin - Seamless integration with Sentry for advanced error tracking and monitoring in IRTranscripts Platform.",
 	"author": {
 		"name": "Ever Co. LTD",
 		"email": "ever@ever.co",
@@ -31,9 +31,9 @@
 		"@nestjs/core": "^12.0.0"
 	},
 	"dependencies": {
-		"@gauzy/config": "^0.1.0",
-		"@gauzy/core": "^0.1.0",
-		"@gauzy/plugin": "^0.1.0",
+		"@irtranscripts/config": "^0.1.0",
+		"@irtranscripts/core": "^0.1.0",
+		"@irtranscripts/plugin": "^0.1.0",
 		"@nestjs/graphql": "^14.0.3",
 		"@sentry/node": "11.4.0",
 		"@sentry/core": "11.4.0",
@@ -48,7 +48,7 @@
 		"typescript": "~6.0.3"
 	},
 	"keywords": [
-		"gauzy",
+		"irtranscripts",
 		"sentry",
 		"plugin",
 		"error-tracking",

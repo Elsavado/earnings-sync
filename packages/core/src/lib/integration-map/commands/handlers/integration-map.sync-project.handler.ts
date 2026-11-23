@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler, CommandBus } from '@nestjs/cqrs';
-import { IIntegrationMap, IntegrationEntity } from '@gauzy/contracts';
+import { IIntegrationMap, IntegrationEntity } from '@irtranscripts/contracts';
 import { RequestContext } from './../../../core/context';
 import { IntegrationMapSyncProjectCommand } from './../integration-map.sync-project.command';
 import { IntegrationMapSyncEntityCommand } from './../integration-map.sync-entity.command';
@@ -46,7 +46,7 @@ export class IntegrationMapSyncProjectHandler implements ICommandHandler<Integra
 
 			return this._commandBus.execute(
 				new IntegrationMapSyncEntityCommand({
-					gauzyId: project.id,
+					irtranscriptsId: project.id,
 					integrationId,
 					sourceId,
 					entity: IntegrationEntity.PROJECT,
@@ -57,7 +57,7 @@ export class IntegrationMapSyncProjectHandler implements ICommandHandler<Integra
 
 		// Update the mapped project; its update errors reach the caller
 		const updated = await this._commandBus
-			.execute(new OrganizationProjectUpdateCommand(projectMap.gauzyId, entity))
+			.execute(new OrganizationProjectUpdateCommand(projectMap.irtranscriptsId, entity))
 			.catch(nullIfNotFound);
 		if (updated) {
 			return projectMap;
@@ -68,7 +68,7 @@ export class IntegrationMapSyncProjectHandler implements ICommandHandler<Integra
 		return await this._commandBus.execute(
 			new IntegrationMapSyncEntityCommand({
 				id: projectMap.id,
-				gauzyId: project.id,
+				irtranscriptsId: project.id,
 				integrationId,
 				sourceId,
 				entity: IntegrationEntity.PROJECT,

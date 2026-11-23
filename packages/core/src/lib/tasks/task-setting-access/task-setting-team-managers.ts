@@ -1,5 +1,5 @@
 import { In } from 'typeorm';
-import { ID, RolesEnum } from '@gauzy/contracts';
+import { ID, RolesEnum } from '@irtranscripts/contracts';
 
 /** A team membership, as far as deciding whether it manages the team goes. */
 export interface ITeamManagerMembership {

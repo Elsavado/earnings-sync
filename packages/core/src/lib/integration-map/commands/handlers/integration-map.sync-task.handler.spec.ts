@@ -1,7 +1,7 @@
 import '../../../core/entities/internal';
 
 import { NotFoundException } from '@nestjs/common';
-import { IntegrationEntity } from '@gauzy/contracts';
+import { IntegrationEntity } from '@irtranscripts/contracts';
 import { RequestContext } from '../../../core/context';
 import { TaskCreateCommand, TaskUpdateCommand } from '../../../tasks/commands';
 import { IntegrationMapSyncEntityCommand } from '../integration-map.sync-entity.command';
@@ -35,7 +35,7 @@ describe('IntegrationMapSyncTaskHandler', () => {
 	afterEach(() => jest.restoreAllMocks());
 
 	it('rejects when the update of the mapped task fails, creating nothing', async () => {
-		const integrationMap = { id: 'map-1', gauzyId: 'task-1' };
+		const integrationMap = { id: 'map-1', irtranscriptsId: 'task-1' };
 		const integrationMapService = { findOneByWhereOptions: jest.fn().mockResolvedValue(integrationMap) };
 		const taskService = { findOneByIdString: jest.fn().mockResolvedValue({ id: 'task-1' }) };
 		const { execute, handler } = setup(integrationMapService, taskService);
@@ -50,7 +50,7 @@ describe('IntegrationMapSyncTaskHandler', () => {
 	});
 
 	it('updates the mapped task and returns the existing map', async () => {
-		const integrationMap = { id: 'map-1', gauzyId: 'task-1' };
+		const integrationMap = { id: 'map-1', irtranscriptsId: 'task-1' };
 		const integrationMapService = { findOneByWhereOptions: jest.fn().mockResolvedValue(integrationMap) };
 		const taskService = { findOneByIdString: jest.fn().mockResolvedValue({ id: 'task-1' }) };
 		const { execute, handler } = setup(integrationMapService, taskService);
@@ -74,7 +74,7 @@ describe('IntegrationMapSyncTaskHandler', () => {
 		expect(create.input).toBe(entity);
 		expect(map).toBeInstanceOf(IntegrationMapSyncEntityCommand);
 		expect(map.input).toMatchObject({
-			gauzyId: 'task-new',
+			irtranscriptsId: 'task-new',
 			entity: IntegrationEntity.TASK,
 			sourceId: '42',
 			integrationId: 'integration-1',
@@ -84,7 +84,7 @@ describe('IntegrationMapSyncTaskHandler', () => {
 	});
 
 	it('re-creates the task under the mapped id when the mapped task no longer exists', async () => {
-		const integrationMap = { id: 'map-1', gauzyId: 'task-1' };
+		const integrationMap = { id: 'map-1', irtranscriptsId: 'task-1' };
 		const integrationMapService = { findOneByWhereOptions: jest.fn().mockResolvedValue(integrationMap) };
 		const taskService = { findOneByIdString: jest.fn().mockRejectedValue(new NotFoundException('The requested record was not found')) };
 		const { execute, handler } = setup(integrationMapService, taskService);

@@ -5,7 +5,7 @@ import { IAiChatProviderDefinition } from './provider.types';
  * AiProviderRegistry
  *
  * Process-wide registry of AI providers. Provider plugins
- * (`@gauzy/plugin-ai-provider-*`) call {@link AiProviderRegistry.register}
+ * (`@irtranscripts/plugin-ai-provider-*`) call {@link AiProviderRegistry.register}
  * from their `onPluginBootstrap`; the chat engine reads the registry at
  * request time.
  *

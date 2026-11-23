@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, HttpCode, HttpStatus, Param, Post, Put, UseGuards, UsePipes } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import {
 	AbstractValidationPipe,
 	CrudController,
@@ -10,7 +10,7 @@ import {
 	TenantPermissionGuard,
 	UUIDValidationPipe,
 	UseValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { OrderHistory } from './order-history.entity';
 import { OrderHistoryService } from './order-history.service';
 import { ORDER_PERMISSIONS } from '../order.permissions';

@@ -3,14 +3,14 @@ import { TaskRenderComponent } from '../task-render.component';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ITaskPriority, ITaskSize } from '@gauzy/contracts';
+import { ITaskPriority, ITaskSize } from '@irtranscripts/contracts';
 import {NbDialogService, NbPopoverDirective} from '@nebular/theme';
 import {TaskDetailComponent} from "../task-detail/task-detail.component";
 import { TaskBadgeViewComponent } from '../task-badge-view/task-badge-view.component';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
-    selector: 'gauzy-task-render-cell',
+    selector: 'irtranscripts-task-render-cell',
     templateUrl: './task-render-cell.component.html',
     styleUrls: ['./task-render-cell.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,

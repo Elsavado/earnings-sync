@@ -1,6 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
-import { RolesEnum } from '@gauzy/contracts';
-import { RequestContext, TenantAwareCrudService } from '@gauzy/core';
+import { RolesEnum } from '@irtranscripts/contracts';
+import { RequestContext, TenantAwareCrudService } from '@irtranscripts/core';
 import { ExchangeRateService } from './exchange-rate/exchange-rate.service';
 import { inCallerOrganization } from './organization-scope';
 import { PriceListService } from './price-list/price-list.service';

@@ -3,9 +3,9 @@ import { Location } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, of, Subject } from 'rxjs';
-import { IOrganization } from '@gauzy/contracts';
-import { environment } from '@gauzy/ui-config';
-import { ErrorHandlingService, Store, ToastrService } from '@gauzy/ui-core/core';
+import { IOrganization } from '@irtranscripts/contracts';
+import { environment } from '@irtranscripts/ui-config';
+import { ErrorHandlingService, Store, ToastrService } from '@irtranscripts/ui-core/core';
 import {
 	EverAsyncService,
 	IEverAsyncSettingsResponse,
@@ -13,17 +13,17 @@ import {
 } from '../../services/ever-async.service';
 import { EverAsyncConnectComponent } from './ever-async-connect.component';
 
-jest.mock('@gauzy/ui-config', () => ({ environment: { API_BASE_URL: 'https://api.gauzy.example' } }));
-jest.mock('@gauzy/ui-core/core', () => ({ Store: class {}, ErrorHandlingService: class {}, ToastrService: class {} }));
-jest.mock('@gauzy/ui-core/i18n', () => ({
+jest.mock('@irtranscripts/ui-config', () => ({ environment: { API_BASE_URL: 'https://api.gauzy.example' } }));
+jest.mock('@irtranscripts/ui-core/core', () => ({ Store: class {}, ErrorHandlingService: class {}, ToastrService: class {} }));
+jest.mock('@irtranscripts/ui-core/i18n', () => ({
 	TranslationBaseComponent: class {
 		getTranslation(key: string) {
 			return key;
 		}
 	}
 }));
-jest.mock('@gauzy/ui-core/common', () => ({ API_PREFIX: '/api' }));
-jest.mock('@gauzy/contracts', () => ({ PermissionsEnum: { INTEGRATION_EDIT: 'edit', INTEGRATION_ADD: 'add' } }));
+jest.mock('@irtranscripts/ui-core/common', () => ({ API_PREFIX: '/api' }));
+jest.mock('@irtranscripts/contracts', () => ({ PermissionsEnum: { INTEGRATION_EDIT: 'edit', INTEGRATION_ADD: 'add' } }));
 
 describe('EverAsyncConnectComponent request lifetime', () => {
 	const orgA = { id: 'organization-a' } as IOrganization;
@@ -166,9 +166,9 @@ describe('EverAsyncConnectComponent request lifetime', () => {
 
 	it('uses the configured API base and lets the Async connector add /api', () => {
 		environment.API_BASE_URL = 'https://api.gauzy.example/';
-		expect(component.gauzyApiUrl).toBe('https://api.gauzy.example');
+		expect(component.irtranscriptsApiUrl).toBe('https://api.gauzy.example');
 		expect(component.connectorConfig).toContain('base_url = "https://api.gauzy.example"');
 		environment.API_BASE_URL = '';
-		expect(component.gauzyApiUrl).toBe(window.location.origin);
+		expect(component.irtranscriptsApiUrl).toBe(window.location.origin);
 	});
 });

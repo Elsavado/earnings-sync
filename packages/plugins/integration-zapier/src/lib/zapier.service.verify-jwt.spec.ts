@@ -1,6 +1,6 @@
-// `@gauzy/core`'s barrel drags in the whole entity graph (pre-existing circular import). This spec
+// `@irtranscripts/core`'s barrel drags in the whole entity graph (pre-existing circular import). This spec
 // only needs the token helpers, loaded from their own file, and stand-ins for the DI classes.
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const helpers = jest.requireActual('../../../../core/src/lib/auth/purpose-token');
 	class Stub {}
 	return {
@@ -18,7 +18,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 import { UnauthorizedException } from '@nestjs/common';
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 import { sign, verify } from 'jsonwebtoken';
 import { ZapierService } from './zapier.service';
 

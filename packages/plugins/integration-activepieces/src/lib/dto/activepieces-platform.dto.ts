@@ -35,7 +35,7 @@ export class LinkActivepiecesTenantProjectDto {
  * DTO for the operator's list of the platform's projects (`GET /integration/activepieces/platform/projects`).
  */
 export class ListActivepiecesPlatformProjectsQueryDto {
-	@ApiPropertyOptional({ description: 'Filter by external id', type: String, example: 'gauzy-tenant-<tenantId>' })
+	@ApiPropertyOptional({ description: 'Filter by external id', type: String, example: 'irtranscripts-tenant-<tenantId>' })
 	@IsOptional()
 	@IsString()
 	@Transform(trim)

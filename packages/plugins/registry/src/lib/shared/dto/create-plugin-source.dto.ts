@@ -1,4 +1,4 @@
-import { PluginOSArch, PluginOSType, PluginSourceType } from '@gauzy/contracts';
+import { PluginOSArch, PluginOSType, PluginSourceType } from '@irtranscripts/contracts';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { ArrayMaxSize, ArrayMinSize, IsArray, IsNotEmptyObject } from 'class-validator';

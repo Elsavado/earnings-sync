@@ -13,7 +13,7 @@ import {
 	UsePipes
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ID, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	AbstractValidationPipe,
 	BaseQueryDTO,
@@ -25,7 +25,7 @@ import {
 	TenantPermissionGuard,
 	UseValidationPipe,
 	UUIDValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { PaymentSession } from './payment-session.entity';
 import { PaymentSessionService } from './payment-session.service';
 import { CreatePaymentSessionDTO, UpdatePaymentSessionDTO } from './dto';

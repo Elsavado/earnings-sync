@@ -20,7 +20,7 @@ class RpOwner {
 	@ManyToOne(() => RpTenant, { nullable: true })
 	tenant?: RpTenant;
 
-	// The Gauzy shape: a relation id that is ALSO the foreign-key column.
+	// The IRTranscripts shape: a relation id that is ALSO the foreign-key column.
 	@RelationId((it: RpOwner) => it.tenant)
 	@Column({ type: 'varchar', nullable: true })
 	tenantId?: string;

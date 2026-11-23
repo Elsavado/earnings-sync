@@ -124,7 +124,7 @@ jobs:
         env:
           RELEASE_TAG: ${{ steps.resolve.outputs.tag }}
           RELEASE_OWNER: 'ever-co'
-          RELEASE_REPO: 'ever-gauzy-mcp-server'
+          RELEASE_REPO: 'ever-irtranscripts-mcp-server'
           RELEASE_TYPE: 'release'
         with:
           # The PAT the build jobs publish with; this job's own GITHUB_TOKEN is read-only.
@@ -270,14 +270,14 @@ jobs:
             const script = require('./.scripts/bump-version-electron.js')
             console.log(script.servermcp(true))
         env:
-          GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
+          IRTRANSCRIPTS_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
           PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
-          DESKTOP_MCP_SERVER_APP_NAME: 'gauzy-mcp-server'
-          DESKTOP_MCP_SERVER_REPO_NAME: 'ever-gauzy-mcp-server'
+          DESKTOP_MCP_SERVER_APP_NAME: 'irtranscripts-mcp-server'
+          DESKTOP_MCP_SERVER_REPO_NAME: 'ever-irtranscripts-mcp-server'
           DESKTOP_MCP_SERVER_REPO_OWNER: 'ever-co'
-          COMPANY_SITE_LINK: 'https://gauzy.co'
-          DESKTOP_MCP_SERVER_APP_DESCRIPTION: 'Gauzy MCP Server'
-          DESKTOP_MCP_SERVER_APP_ID: 'com.ever.gauzymcpserver'
+          COMPANY_SITE_LINK: 'https://irtranscripts.com'
+          DESKTOP_MCP_SERVER_APP_DESCRIPTION: 'IRTranscripts MCP Server'
+          DESKTOP_MCP_SERVER_APP_ID: 'com.ever.irtranscriptsmcpserver'
 
       - name: Ensure dist directory exists
         shell: bash
@@ -287,7 +287,7 @@ jobs:
         # Snap Store channel: prod ('apps') releases to 'stable', stage ('stage-apps') to 'edge' (the
         # electron-builder default). yarn appends these flags to the script's last command, the
         # electron-builder call. Override snap.publish only: a -c.publish override lands in the GitHub entry.
-        run: 'yarn build:gauzy-mcp-server:linux:release:gh:x64 -c.snap.publish.provider=snapStore -c.snap.publish.channels=stable'
+        run: 'yarn build:irtranscripts-mcp-server:linux:release:gh:x64 -c.snap.publish.provider=snapStore -c.snap.publish.channels=stable'
         env:
           USE_HARD_LINKS: false
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -527,14 +527,14 @@ jobs:
             const script = require('./.scripts/bump-version-electron.js')
             console.log(script.servermcp(true))
         env:
-          GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
+          IRTRANSCRIPTS_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
           PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
-          DESKTOP_MCP_SERVER_APP_NAME: 'gauzy-mcp-server'
-          DESKTOP_MCP_SERVER_REPO_NAME: 'ever-gauzy-mcp-server'
+          DESKTOP_MCP_SERVER_APP_NAME: 'irtranscripts-mcp-server'
+          DESKTOP_MCP_SERVER_REPO_NAME: 'ever-irtranscripts-mcp-server'
           DESKTOP_MCP_SERVER_REPO_OWNER: 'ever-co'
-          COMPANY_SITE_LINK: 'https://gauzy.co'
-          DESKTOP_MCP_SERVER_APP_DESCRIPTION: 'Gauzy MCP Server'
-          DESKTOP_MCP_SERVER_APP_ID: 'com.ever.gauzymcpserver'
+          COMPANY_SITE_LINK: 'https://irtranscripts.com'
+          DESKTOP_MCP_SERVER_APP_DESCRIPTION: 'IRTranscripts MCP Server'
+          DESKTOP_MCP_SERVER_APP_ID: 'com.ever.irtranscriptsmcpserver'
 
       - name: Ensure dist directory exists
         shell: bash
@@ -544,7 +544,7 @@ jobs:
         # Snap Store channel: prod ('apps') releases to 'stable', stage ('stage-apps') to 'edge' (the
         # electron-builder default). yarn appends these flags to the script's last command, the
         # electron-builder call. Override snap.publish only: a -c.publish override lands in the GitHub entry.
-        run: 'yarn build:gauzy-mcp-server:linux:release:gh:arm64 -c.snap.publish.provider=snapStore -c.snap.publish.channels=stable'
+        run: 'yarn build:irtranscripts-mcp-server:linux:release:gh:arm64 -c.snap.publish.provider=snapStore -c.snap.publish.channels=stable'
         env:
           USE_HARD_LINKS: false
           USE_SYSTEM_FPM: true
@@ -724,14 +724,14 @@ jobs:
             const script = require('./.scripts/bump-version-electron.js')
             console.log(script.servermcp(true))
         env:
-          GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
+          IRTRANSCRIPTS_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
           PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
-          DESKTOP_MCP_SERVER_APP_NAME: 'gauzy-mcp-server'
-          DESKTOP_MCP_SERVER_REPO_NAME: 'ever-gauzy-mcp-server'
+          DESKTOP_MCP_SERVER_APP_NAME: 'irtranscripts-mcp-server'
+          DESKTOP_MCP_SERVER_REPO_NAME: 'ever-irtranscripts-mcp-server'
           DESKTOP_MCP_SERVER_REPO_OWNER: 'ever-co'
-          COMPANY_SITE_LINK: 'https://gauzy.co'
-          DESKTOP_MCP_SERVER_APP_DESCRIPTION: 'Gauzy MCP Server'
-          DESKTOP_MCP_SERVER_APP_ID: 'com.ever.gauzymcpserver'
+          COMPANY_SITE_LINK: 'https://irtranscripts.com'
+          DESKTOP_MCP_SERVER_APP_DESCRIPTION: 'IRTranscripts MCP Server'
+          DESKTOP_MCP_SERVER_APP_ID: 'com.ever.irtranscriptsmcpserver'
 
       - name: Prepare Apple API Key
         run: |
@@ -772,7 +772,7 @@ jobs:
           grep -q "Developer ID Application" /tmp/identities.txt
 
       - name: Build Server
-        run: 'yarn build:gauzy-mcp-server:mac:release'
+        run: 'yarn build:irtranscripts-mcp-server:mac:release'
         env:
           USE_HARD_LINKS: false
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -810,7 +810,7 @@ jobs:
         with:
           token: ${{ secrets.GH_TOKEN }}
           owner: 'ever-co'
-          repo: 'ever-gauzy-mcp-server'
+          repo: 'ever-irtranscripts-mcp-server'
           tag: ${{ needs.check-release-tag.outputs.tag }}
           app-package-json: 'apps/server-mcp/src/package.json'
 
@@ -1055,14 +1055,14 @@ jobs:
           AZURE_CERT_PROFILE_NAME: ${{ secrets.AZURE_CERT_PROFILE_NAME }}
           AZURE_CODE_SIGNING_ACCOUNT: ${{ vars.AZURE_CODE_SIGNING_ACCOUNT || 'ever' }}
           AZURE_CODE_SIGNING_ENDPOINT: ${{ vars.AZURE_CODE_SIGNING_ENDPOINT || 'https://eus.codesigning.azure.net/' }}
-          GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
+          IRTRANSCRIPTS_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
           PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
-          DESKTOP_MCP_SERVER_APP_NAME: 'gauzy-mcp-server'
-          DESKTOP_MCP_SERVER_REPO_NAME: 'ever-gauzy-mcp-server'
+          DESKTOP_MCP_SERVER_APP_NAME: 'irtranscripts-mcp-server'
+          DESKTOP_MCP_SERVER_REPO_NAME: 'ever-irtranscripts-mcp-server'
           DESKTOP_MCP_SERVER_REPO_OWNER: 'ever-co'
-          COMPANY_SITE_LINK: 'https://gauzy.co'
-          DESKTOP_MCP_SERVER_APP_DESCRIPTION: 'Gauzy MCP Server'
-          DESKTOP_MCP_SERVER_APP_ID: 'com.ever.gauzymcpserver'
+          COMPANY_SITE_LINK: 'https://irtranscripts.com'
+          DESKTOP_MCP_SERVER_APP_DESCRIPTION: 'IRTranscripts MCP Server'
+          DESKTOP_MCP_SERVER_APP_ID: 'com.ever.irtranscriptsmcpserver'
 
       - name: Fix Node.js PATH for child processes
         shell: powershell
@@ -1121,7 +1121,7 @@ jobs:
 
       - name: Build Server
         shell: cmd
-        run: 'yarn build:gauzy-mcp-server:windows:release:gh:x64'
+        run: 'yarn build:irtranscripts-mcp-server:windows:release:gh:x64'
         env:
           USE_HARD_LINKS: false
           ELECTRON_BUILDER_CACHE: ${{ github.workspace }}\.cache\electron-builder
@@ -1414,14 +1414,14 @@ jobs:
           # "SignTool failed with exit code 3", taking the whole build down. Without
           # WINDOWS_PUBLISHER_NAME the bump script emits no signer, so ARM64 builds
           # unsigned and succeeds; electron-updater verification stays off for it. x64 signs.
-          GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
+          IRTRANSCRIPTS_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
           PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
-          DESKTOP_MCP_SERVER_APP_NAME: 'gauzy-mcp-server'
-          DESKTOP_MCP_SERVER_REPO_NAME: 'ever-gauzy-mcp-server'
+          DESKTOP_MCP_SERVER_APP_NAME: 'irtranscripts-mcp-server'
+          DESKTOP_MCP_SERVER_REPO_NAME: 'ever-irtranscripts-mcp-server'
           DESKTOP_MCP_SERVER_REPO_OWNER: 'ever-co'
-          COMPANY_SITE_LINK: 'https://gauzy.co'
-          DESKTOP_MCP_SERVER_APP_DESCRIPTION: 'Gauzy MCP Server'
-          DESKTOP_MCP_SERVER_APP_ID: 'com.ever.gauzymcpserver'
+          COMPANY_SITE_LINK: 'https://irtranscripts.com'
+          DESKTOP_MCP_SERVER_APP_DESCRIPTION: 'IRTranscripts MCP Server'
+          DESKTOP_MCP_SERVER_APP_ID: 'com.ever.irtranscriptsmcpserver'
 
       - name: Fix Node.js PATH for child processes
         shell: powershell
@@ -1476,7 +1476,7 @@ jobs:
 
       - name: Build Server MCP
         shell: cmd
-        run: yarn build:gauzy-mcp-server:windows:release:gh:arm64
+        run: yarn build:irtranscripts-mcp-server:windows:release:gh:arm64
         env:
           USE_HARD_LINKS: false
           ELECTRON_BUILDER_CACHE: ${{ github.workspace }}\.cache\electron-builder

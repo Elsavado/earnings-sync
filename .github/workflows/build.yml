@@ -294,7 +294,7 @@ jobs:
           --health-interval 5s --health-timeout 5s --health-retries 12
       # cspell:words mysqladmin umigration pmigration corepack
       # MySQL for the database suites of the anonymous usage statistics plugins, which run on all
-      # three engines Gauzy supports (SQLite in memory, Postgres and MySQL here).
+      # three engines IRTranscripts supports (SQLite in memory, Postgres and MySQL here).
       mysql:
         image: public.ecr.aws/docker/library/mysql:8.4@sha256:6ea90827b1100f8f2ae306a539f86d2c264a26ed435a2a9f75551dd5c3aeb242
         env:
@@ -379,7 +379,7 @@ jobs:
         run: node --experimental-vm-modules node_modules/jest/bin/jest.js -c packages/plugins/integration-ever-works/jest.config.ts --runInBand
 
       - name: Test the Inbox plugin
-        # The switch (only GAUZY_INBOX_ENABLED=true loads it), the source-handler registry, and on a real
+        # The switch (only IRTRANSCRIPTS_INBOX_ENABLED=true loads it), the source-handler registry, and on a real
         # SQLite database the migrations (up, up again, down), the role grants, the recipient-scoped reads,
         # replies through a source handler (claimed once, released on refusal) and the source writes.
         run: node --experimental-vm-modules node_modules/jest/bin/jest.js -c packages/plugins/inbox/jest.config.ts --runInBand
@@ -560,7 +560,7 @@ jobs:
         run: .github/scripts/restore-node-modules.sh
 
       - name: Build web
-        run: yarn build:gauzy:prod:ci
+        run: yarn build:irtranscripts:prod:ci
 
       - name: Test the Ever Works integration UI plugin
         # The Angular specs of Integrations > Ever Works (plan 06 G-P1-11/12): the "not switched on" gate,

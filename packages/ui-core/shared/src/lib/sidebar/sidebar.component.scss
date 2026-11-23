@@ -15,7 +15,7 @@
 }
 
 .sidebar {
-  background-color: var(--gauzy-card-2);
+  background-color: var(--irtranscripts-card-2);
   border-radius: var(--border-radius);
 }
 
@@ -66,13 +66,13 @@
 .base {
   // The trailing `(0 0 0 / 15%)` left behind by an old find-and-replace made the
   // whole declaration invalid, so this panel drew no edge in any theme.
-  box-shadow: var(--gauzy-shadow);
+  box-shadow: var(--irtranscripts-shadow);
   border-radius: var(--border-radius);
   padding: 10px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  color: var(--gauzy-text-color-1);
+  color: var(--irtranscripts-text-color-1);
 }
 
 .icons {
@@ -108,12 +108,12 @@
 .child {
   min-width: 264px;
   margin-left: -26px;
-  background-color: var(--gauzy-card-3);
+  background-color: var(--irtranscripts-card-3);
 }
 
 :host .parent {
   min-width: 272px;
-  background-color: var(--gauzy-card-3);
+  background-color: var(--irtranscripts-card-3);
   @include nb-ltr(margin-left, -16px);
   @include nb-rtl(margin-right, -16px);
 }
@@ -126,7 +126,7 @@
 .childout {
   margin-left: 3px;
   min-width: 240px;
-  background-color: var(--gauzy-card-1);
+  background-color: var(--irtranscripts-card-1);
 }
 
 :host ::ng-deep {
@@ -136,7 +136,7 @@
       top: 10px;
       @include nb-ltr(left, 220px);
       @include nb-rtl(right, 220px);
-      border: solid var(--gauzy-text-color-1);
+      border: solid var(--irtranscripts-text-color-1);
       ;
       border-width: 0 2px 2px 0;
       display: inline-block;

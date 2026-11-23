@@ -1,6 +1,6 @@
-import { CurrencyCode, DecimalString, ID } from '@gauzy/contracts';
+import { CurrencyCode, DecimalString, ID } from '@irtranscripts/contracts';
 import { DeepPartial } from 'typeorm';
-import { TenantOrganizationBaseEntity } from '@gauzy/core';
+import { TenantOrganizationBaseEntity } from '@irtranscripts/core';
 import { TaxRate } from './tax-rate/tax-rate.entity';
 
 /**

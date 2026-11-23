@@ -1,4 +1,4 @@
-import { IKeyResultUpdate } from '@gauzy/contracts';
+import { IKeyResultUpdate } from '@irtranscripts/contracts';
 import { IntersectionType, OmitType, PartialType, PickType } from '@nestjs/swagger';
 import { KeyresultUpdateDTO } from './keyresult-update.dto';
 

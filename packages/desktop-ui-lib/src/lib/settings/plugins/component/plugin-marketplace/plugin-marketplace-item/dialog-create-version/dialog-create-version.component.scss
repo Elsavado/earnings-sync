@@ -1,4 +1,4 @@
-@use 'gauzy/_gauzy-dialogs' as *;
+@use 'irtranscripts/_irtranscripts-dialogs' as *;
 
 // Custom variables
 $card-border-radius: 0.75rem;
@@ -17,7 +17,7 @@ $transition-speed: 0.2s;
   width: 600px;
   margin: 0 auto;
   height: 78vh;
-  background: var(--gauzy-card-1);
+  background: var(--irtranscripts-card-1);
   border: 1px solid rgba(0, 0, 0, 0.08);
 
   nb-card-header {
@@ -26,7 +26,7 @@ $transition-speed: 0.2s;
     justify-content: space-between;
     padding: 1.5rem;
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    background: var(--gauzy-card-1);
+    background: var(--irtranscripts-card-1);
 
     .header-content {
       display: flex;
@@ -67,7 +67,7 @@ $transition-speed: 0.2s;
             margin: 0;
             font-weight: 600;
             font-size: 1.0625rem;
-            color: var(--gauzy-text-color-1);
+            color: var(--irtranscripts-text-color-1);
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
@@ -88,14 +88,14 @@ $transition-speed: 0.2s;
         cursor: pointer;
 
         nb-icon {
-          color: var(--gauzy-text-color-2);
+          color: var(--irtranscripts-text-color-2);
         }
 
         &:hover {
           background-color: rgba(0, 0, 0, 0.05);
 
           nb-icon {
-            color: var(--gauzy-text-color-1);
+            color: var(--irtranscripts-text-color-1);
           }
         }
       }
@@ -128,7 +128,7 @@ $transition-speed: 0.2s;
           margin: 0;
           font-weight: 600;
           font-size: 0.9375rem;
-          color: var(--gauzy-text-color-1);
+          color: var(--irtranscripts-text-color-1);
         }
       }
     }
@@ -224,7 +224,7 @@ $transition-speed: 0.2s;
     background: transparent;
   }
 
-  gauzy-version-selector {
+  irtranscripts-version-selector {
     nb-select {
       button {
         border-radius: calc(var(--border-radius) * 1);
@@ -239,7 +239,7 @@ $transition-speed: 0.2s;
   gap: 0.75rem;
   padding: 1.5rem;
   border-top: 1px solid rgba(0, 0, 0, 0.08);
-  background: var(--gauzy-card-1);
+  background: var(--irtranscripts-card-1);
 
   .previous-button {
     border-radius: calc(var(--border-radius) * 1.25);
@@ -285,9 +285,9 @@ $transition-speed: 0.2s;
 
       .step {
         .label-index {
-          background: var(--gauzy-card-2);
+          background: var(--irtranscripts-card-2);
           border: 2px solid rgba(0, 0, 0, 0.08);
-          color: var(--gauzy-text-color-2);
+          color: var(--irtranscripts-text-color-2);
         }
 
         &.selected .label-index {
@@ -298,11 +298,11 @@ $transition-speed: 0.2s;
         }
 
         .label {
-          color: var(--gauzy-text-color-2);
+          color: var(--irtranscripts-text-color-2);
         }
 
         &.selected .label {
-          color: var(--gauzy-text-color-1);
+          color: var(--irtranscripts-text-color-1);
           font-weight: 600;
         }
       }
@@ -330,9 +330,9 @@ $transition-speed: 0.2s;
   position: relative;
   padding: 1.5rem;
   border-radius: calc(var(--border-radius) * 1.5);
-  background: var(--gauzy-card-1);
+  background: var(--irtranscripts-card-1);
   border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: var(--gauzy-shadow);
+  box-shadow: var(--irtranscripts-shadow);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   margin-bottom: 1rem;
@@ -356,7 +356,7 @@ $transition-speed: 0.2s;
   &.cdk-drag-preview {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
     transform: scale(1.02) rotate(1deg);
-    background: var(--gauzy-card-1);
+    background: var(--irtranscripts-card-1);
   }
 }
 
@@ -403,7 +403,7 @@ $transition-speed: 0.2s;
   h5 {
     margin: 0;
     font-weight: 600;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
     font-size: 1.1rem;
   }
 }
@@ -426,29 +426,29 @@ $transition-speed: 0.2s;
   padding: 3rem;
   border: 2px dashed rgba(0, 0, 0, 0.15);
   border-radius: calc(var(--border-radius) * 1.5);
-  background: var(--gauzy-card-2);
+  background: var(--irtranscripts-card-2);
   transition: all 0.3s ease;
 
   &:hover {
     border-color: var(--color-primary-default);
-    background: var(--gauzy-card-1);
+    background: var(--irtranscripts-card-1);
   }
 
   .empty-icon {
     font-size: 3rem;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
     margin-bottom: 1rem;
   }
 
   h5 {
     margin: 0.5rem 0;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
     font-weight: 600;
   }
 
   p {
     margin: 0;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
   }
 }
 
@@ -457,7 +457,7 @@ $transition-speed: 0.2s;
   position: relative;
   padding: 2rem;
   border-radius: calc(var(--border-radius) * 1.5);
-  background: var(--gauzy-card-2);
+  background: var(--irtranscripts-card-2);
   border: 2px dashed rgba(0, 0, 0, 0.15);
   text-align: center;
   cursor: pointer;
@@ -466,10 +466,10 @@ $transition-speed: 0.2s;
   width: 482px;
 
   &:hover {
-    background: var(--gauzy-card-1);
+    background: var(--irtranscripts-card-1);
     border-color: var(--color-primary-default);
     transform: translateY(-2px);
-    box-shadow: var(--gauzy-shadow);
+    box-shadow: var(--irtranscripts-shadow);
 
     .add-icon {
       transform: scale(1.1);
@@ -484,20 +484,20 @@ $transition-speed: 0.2s;
 
   .add-icon {
     font-size: 2.5rem;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
     margin-bottom: 1rem;
     transition: all 0.3s ease;
   }
 
   h5 {
     margin: 0.5rem 0;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
     font-weight: 600;
   }
 
   p {
     margin: 0;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
   }
 }
 
@@ -508,7 +508,7 @@ $transition-speed: 0.2s;
   left: 0;
   width: 100%;
   height: 100%;
-  background: var(--gauzy-card-1);
+  background: var(--irtranscripts-card-1);
   z-index: 10;
   padding: 1.5rem;
   border-radius: calc(var(--border-radius) * 1.5);
@@ -525,7 +525,7 @@ $transition-speed: 0.2s;
   h5 {
     margin: 0;
     font-size: 1.2rem;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
     font-weight: 600;
   }
 }
@@ -539,7 +539,7 @@ $transition-speed: 0.2s;
 .source-option {
   padding: 1.5rem 1rem;
   border-radius: calc(var(--border-radius) * 1.25);
-  background: var(--gauzy-card-2);
+  background: var(--irtranscripts-card-2);
   border: 1px solid rgba(0, 0, 0, 0.08);
   text-align: center;
   cursor: pointer;
@@ -585,7 +585,7 @@ $transition-speed: 0.2s;
 /* Drag & Drop Styles */
 .cdk-drag-placeholder {
   opacity: 0.5;
-  background: var(--gauzy-card-2);
+  background: var(--irtranscripts-card-2);
   border: 2px dashed var(--color-primary-default);
   border-radius: calc(var(--border-radius) * 1.5);
 }
@@ -596,5 +596,5 @@ $transition-speed: 0.2s;
 
 /* Sources Container */
 .sources-container {
-  background: var(--gauzy-card-1);
+  background: var(--irtranscripts-card-1);
 }

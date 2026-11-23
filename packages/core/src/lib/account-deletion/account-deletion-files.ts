@@ -1,5 +1,5 @@
 import { EntityManager } from 'typeorm';
-import { FileStorageProvider, ID } from '@gauzy/contracts';
+import { FileStorageProvider, ID } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { FileStorage } from '../core/file-storage';
 import { queryUnlessSchemaLacks, sqlPlaceholder } from '../user/user-authorship';

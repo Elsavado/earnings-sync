@@ -1,7 +1,7 @@
 import '../core/entities/internal';
 
 import { AsyncLocalStorage } from 'node:async_hooks';
-import { IUser } from '@gauzy/contracts';
+import { IUser } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { CrudService } from '../core/crud/crud.service';
 import { asTenantUser, createTenantFixture } from '../core/testing/tenant-isolation/tenant-isolation.fixtures';

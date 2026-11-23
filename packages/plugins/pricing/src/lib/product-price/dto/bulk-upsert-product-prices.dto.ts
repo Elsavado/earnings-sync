@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { ArrayNotEmpty, IsArray, IsBoolean, IsEnum, IsOptional, ValidateNested } from 'class-validator';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 import { PriceBulkMode } from '../../pricing.types';
 import { ProductPriceBulkItemDTO } from './product-price-bulk-item.dto';
 

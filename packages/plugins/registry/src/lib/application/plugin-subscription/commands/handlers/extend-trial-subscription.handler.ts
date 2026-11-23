@@ -1,4 +1,4 @@
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { PluginSubscriptionService } from '../../../../domain';

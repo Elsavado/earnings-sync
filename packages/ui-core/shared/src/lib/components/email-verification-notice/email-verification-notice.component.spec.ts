@@ -4,8 +4,8 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideTranslateService, TranslatePipe } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, Subject, of, throwError } from 'rxjs';
-import { IUser } from '@gauzy/contracts';
-import { AuthService, Store } from '@gauzy/ui-core/core';
+import { IUser } from '@irtranscripts/contracts';
+import { AuthService, Store } from '@irtranscripts/ui-core/core';
 import { EmailVerificationNoticeComponent } from './email-verification-notice.component';
 
 /**

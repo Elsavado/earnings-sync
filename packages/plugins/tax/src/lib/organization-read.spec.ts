@@ -1,6 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
-import { RolesEnum } from '@gauzy/contracts';
-import { RequestContext, TenantAwareCrudService } from '@gauzy/core';
+import { RolesEnum } from '@irtranscripts/contracts';
+import { RequestContext, TenantAwareCrudService } from '@irtranscripts/core';
 import { TaxCategoryService } from './tax-category/tax-category.service';
 import { TaxRatePartService } from './tax-rate-part/tax-rate-part.service';
 import { TaxRateService } from './tax-rate/tax-rate.service';

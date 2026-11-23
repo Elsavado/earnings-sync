@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { ActorTypeEnum } from '@gauzy/contracts';
+import { ActorTypeEnum } from '@irtranscripts/contracts';
 import { ActorTypeTransformer } from './actor-type-transform';
 
 /**
@@ -38,7 +38,7 @@ describe('ActorTypeTransformer', () => {
 });
 
 /**
- * The MCP server does not depend on `@gauzy/contracts`, so it keeps its own copy of the actor-type
+ * The MCP server does not depend on `@irtranscripts/contracts`, so it keeps its own copy of the actor-type
  * vocabulary for tool input validation (`get_activity_logs` and friends). A copy that lags the contract
  * refuses a valid filter, so the copies are read here and held to the contract's values.
  */

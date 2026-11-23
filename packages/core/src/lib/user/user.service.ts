@@ -40,9 +40,9 @@ import {
 	PermissionsEnum,
 	RolesEnum,
 	UserStats
-} from '@gauzy/contracts';
-import { isBetterSqlite3, isSqlite } from '@gauzy/config';
-import { isNotEmpty } from '@gauzy/utils';
+} from '@irtranscripts/contracts';
+import { isBetterSqlite3, isSqlite } from '@irtranscripts/config';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { prepareSQLQuery as p } from './../database/database.helper';
 import { TenantAwareCrudService } from './../core/crud';
 import { RequestContext } from './../core/context';
@@ -1491,7 +1491,7 @@ export class UserService extends TenantAwareCrudService<User> {
 	}
 
 	/**
-	 * To permanently delete your account from your Gauzy app:
+	 * To permanently delete your account from your IRTranscripts app:
 	 *
 	 * @param userId
 	 * @param options

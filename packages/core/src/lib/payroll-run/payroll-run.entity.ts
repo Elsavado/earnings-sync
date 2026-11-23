@@ -11,7 +11,7 @@ import {
 	Length,
 	MaxLength
 } from 'class-validator';
-import { ID, IPayrollItem, IPayrollRun, IUser, PayrollFrequencyEnum, PayrollRunStatusEnum } from '@gauzy/contracts';
+import { ID, IPayrollItem, IPayrollRun, IUser, PayrollFrequencyEnum, PayrollRunStatusEnum } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseEntity, User } from '../core/entities/internal';
 import {
 	ColumnIndex,

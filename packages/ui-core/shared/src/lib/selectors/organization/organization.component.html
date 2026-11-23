@@ -19,7 +19,7 @@
 
 		The flag is still needed, since the searchable, addTag and close-class bindings all
 		read it, so it stays as a mirror FED BY ng-select rather than a second source of
-		truth fighting it. The gauzyOutside directive went away with the manual state:
+		truth fighting it. The irtranscriptsOutside directive went away with the manual state:
 		ng-select dismisses itself on an outside click once it owns that state. Avoiding
 		that directive here is a bonus — it declares its output as an emitter of MouseEvent
 		but actually emits a boolean, and the old handler worked only because of the
@@ -75,7 +75,7 @@
 	-->
 	<ng-select
 		#select
-		class="gauzy-entity-select organization-entity-select"
+		class="irtranscripts-entity-select organization-entity-select"
 		[ngClass]="panelClass"
 		[addTag]="(hasEditOrganization$ | async) && addTag && isOpen ? createNew : null"
 		[searchable]="isOpen"

@@ -1,4 +1,4 @@
-import { StatusTypesEnum } from '@gauzy/contracts';
+import { StatusTypesEnum } from '@irtranscripts/contracts';
 import { ICommand } from '@nestjs/cqrs';
 
 export class TimeOffStatusCommand implements ICommand {

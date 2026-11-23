@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { NbDialogRef } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 
 /**
  * Manual review request dialog (`01-ux-spec.md` §11 / backend `RequestReviewDTO`).

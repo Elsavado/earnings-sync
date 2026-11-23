@@ -13,7 +13,7 @@ import {
 	UsePipes
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	AbstractValidationPipe,
 	CrudController,
@@ -23,7 +23,7 @@ import {
 	TenantPermissionGuard,
 	UseValidationPipe,
 	UUIDValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { Promotion } from './promotion.entity';
 import { IPromotionEvaluationContext, PromotionService } from './promotion.service';
 import { CreatePromotionDTO, DeactivatePromotionDTO, ReplacePromotionActionsDTO, UpdatePromotionDTO } from './dto';

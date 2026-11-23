@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 export class CreateProductReviewTable1720852356593 implements MigrationInterface {
 	name = 'CreateProductReviewTable1720852356593';

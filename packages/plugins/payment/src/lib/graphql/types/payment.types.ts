@@ -8,7 +8,7 @@ import {
 	PaymentAccountVerificationStatus,
 	PaymentMethodTokenStatus,
 	PaymentMethodTokenType
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	IPaymentCapture,
 	IPaymentCollection,

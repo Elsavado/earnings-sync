@@ -1,5 +1,5 @@
 @use 'themes' as *;
-@use 'gauzy/_gauzy-overrides' as *;
+@use 'irtranscripts/_irtranscripts-overrides' as *;
 
 /*
  * ── Project form ──────────────────────────────────────────────────────────────
@@ -7,7 +7,7 @@
  * Shared by the Add and Edit project pages. One hairline panel: the underline
  * tabs of the project and employee pages, sectioned two-column fields like the
  * Add Organization dialog, and an action bar that sticks to the bottom of the
- * page while the panel is in view. Paints only with the shared gauzy-* and
+ * page while the panel is in view. Paints only with the shared irtranscripts-* and
  * theme tokens, so every registered theme follows.
  */
 
@@ -22,7 +22,7 @@ $panel-x: 2.5rem;
 $panel-x-narrow: 1rem;
 $narrow: 767.98px;
 
-$hairline: 1px solid var(--gauzy-border-default-color);
+$hairline: 1px solid var(--irtranscripts-border-default-color);
 
 // Given a bounded height by its page, the tabs and the action bar stay put and
 // only the open section scrolls. Without one (a stacked narrow layout) the
@@ -32,8 +32,8 @@ $hairline: 1px solid var(--gauzy-border-default-color);
 	flex-direction: column;
 	min-height: 0;
 
-	// Filled inputs, selects and labels, as in every other Gauzy form
-	@include input-appearance($default-height, var(--gauzy-sidebar-background-4));
+	// Filled inputs, selects and labels, as in every other IRTranscripts form
+	@include input-appearance($default-height, var(--irtranscripts-sidebar-background-4));
 }
 
 .project-form {
@@ -41,9 +41,9 @@ $hairline: 1px solid var(--gauzy-border-default-color);
 	flex: 1 1 auto;
 	flex-direction: column;
 	min-height: 0;
-	background-color: var(--gauzy-card-1);
+	background-color: var(--irtranscripts-card-1);
 	border-radius: nb-theme(border-radius);
-	box-shadow: inset 0 0 0 1px var(--gauzy-border-default-color);
+	box-shadow: inset 0 0 0 1px var(--irtranscripts-border-default-color);
 }
 
 /* ── Tabs ─────────────────────────────────────────────────────────────────── */
@@ -78,7 +78,7 @@ $hairline: 1px solid var(--gauzy-border-default-color);
 	font-weight: 500;
 	line-height: 1.25rem;
 	white-space: nowrap;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 	cursor: pointer;
 	transition: color 0.12s ease-in-out;
 
@@ -99,11 +99,11 @@ $hairline: 1px solid var(--gauzy-border-default-color);
 	}
 
 	&:hover {
-		color: var(--gauzy-text-color-1);
+		color: var(--irtranscripts-text-color-1);
 	}
 
 	&:focus-visible {
-		outline: 2px solid var(--gauzy-action-info-text);
+		outline: 2px solid var(--irtranscripts-action-info-text);
 		outline-offset: -2px;
 	}
 
@@ -217,9 +217,9 @@ nb-toggle ::ng-deep label {
 // description and an optional link, and either a switch on the right or the
 // card's fields underneath. What a switch turns on opens inside the same card.
 .setting-card {
-	border-radius: var(--gauzy-radius-sm);
-	background-color: var(--gauzy-card-1);
-	box-shadow: inset 0 0 0 1px var(--gauzy-border-default-color);
+	border-radius: var(--irtranscripts-radius-sm);
+	background-color: var(--irtranscripts-card-1);
+	box-shadow: inset 0 0 0 1px var(--irtranscripts-border-default-color);
 }
 
 .setting-card__row {
@@ -236,7 +236,7 @@ nb-toggle ::ng-deep label {
 	justify-content: center;
 	width: 2rem;
 	height: 2rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 
 	nb-icon {
 		width: 1.125rem;
@@ -264,7 +264,7 @@ nb-toggle ::ng-deep label {
 .setting-card__description {
 	font-size: 0.75rem;
 	line-height: 1rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 }
 
 .setting-card__link {
@@ -409,7 +409,7 @@ $logo-size: 10rem;
 	border-radius: nb-theme(border-radius);
 	overflow: hidden;
 	border: $hairline;
-	background-color: var(--gauzy-sidebar-background-3);
+	background-color: var(--irtranscripts-sidebar-background-3);
 	cursor: pointer;
 }
 
@@ -487,7 +487,7 @@ $logo-size: 10rem;
 		width: 1rem;
 		height: 1rem;
 		border-radius: 0.25rem;
-		box-shadow: inset 0 0 0 1px var(--gauzy-border-default-color);
+		box-shadow: inset 0 0 0 1px var(--irtranscripts-border-default-color);
 		transform: translateY(-50%);
 		pointer-events: none;
 	}
@@ -511,7 +511,7 @@ $logo-size: 10rem;
 	gap: $gap-sm;
 	padding: $gap-md $panel-x;
 	border-top: $hairline;
-	background-color: var(--gauzy-card-1);
+	background-color: var(--irtranscripts-card-1);
 	border-radius: 0 0 nb-theme(border-radius) nb-theme(border-radius);
 
 	@media (max-width: $narrow) {

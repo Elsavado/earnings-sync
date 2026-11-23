@@ -3,7 +3,7 @@
  *
  * The mapping lives in a pure module precisely so this suite can exercise it
  * without instantiating `DocsBrowsePageComponent`, which reaches the
- * `@gauzy/ui-core/shared` barrel through its base class.
+ * `@irtranscripts/ui-core/shared` barrel through its base class.
  */
 import { DOCS_BROWSE_OVERLAY_SELECTOR, docsBrowseShortcutOf } from './docs-browse-shortcuts';
 

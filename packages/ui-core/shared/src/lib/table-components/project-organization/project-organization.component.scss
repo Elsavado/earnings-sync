@@ -3,7 +3,7 @@
 nb-badge {
     // Same text→chip separation token as the NotesWithTags family, so a
     // density change moves every stacked-badge cell together.
-    margin-top: var(--gauzy-table-chip-block-gap, 0.25rem);
+    margin-top: var(--irtranscripts-table-chip-block-gap, 0.25rem);
     position: relative;
 }
 

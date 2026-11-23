@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { createStore, withProps } from '@ngneat/elf';
-import { ID, IDocument } from '@gauzy/contracts';
+import { ID, IDocument } from '@irtranscripts/contracts';
 import { DOCS_DEFAULT_PAGE_SIZE } from '../docs.constants';
 import { IDocumentFacets } from '../models/docs-api.model';
 import { createInitialDocsFilterState, DocsFilterState } from '../models/docs-filter.model';

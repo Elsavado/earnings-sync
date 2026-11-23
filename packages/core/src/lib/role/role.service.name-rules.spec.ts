@@ -5,7 +5,7 @@
 import '../core/entities/internal';
 
 import { BadRequestException, ForbiddenException } from '@nestjs/common';
-import { RolesEnum } from '@gauzy/contracts';
+import { RolesEnum } from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from '../core/crud/tenant-aware-crud.service';
 import { RequestContext } from '../core/context';
 import { RoleController } from './role.controller';

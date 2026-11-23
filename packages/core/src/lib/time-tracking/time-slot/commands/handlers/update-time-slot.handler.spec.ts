@@ -2,7 +2,7 @@
 import '../../../../core/entities/internal';
 
 import { FindOperator } from 'typeorm';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../../../core/context';
 import { UpdateTimeSlotCommand } from '../update-time-slot.command';
 import { UpdateTimeSlotHandler, UPDATABLE_TIME_SLOT_FIELDS } from './update-time-slot.handler';

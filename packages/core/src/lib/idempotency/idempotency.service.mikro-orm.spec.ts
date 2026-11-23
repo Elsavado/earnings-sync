@@ -1,6 +1,6 @@
 import { LockMode } from '@mikro-orm/core';
-import * as gauzyConfig from '@gauzy/config';
-import { IIdempotencyStartInput, IdempotencyOutcome, IdempotencyStatus } from '@gauzy/contracts';
+import * as irtranscriptsConfig from '@irtranscripts/config';
+import { IIdempotencyStartInput, IdempotencyOutcome, IdempotencyStatus } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context/request-context';
 import { MultiORMEnum } from '../core/utils';
 import { IdempotencyService } from './idempotency.service';
@@ -22,8 +22,8 @@ import { TypeOrmIdempotencyKeyRepository } from './repository/type-orm-idempoten
  * can assert that nothing reached it.
  */
 
-jest.mock('@gauzy/config', () => {
-	const actual = jest.requireActual('@gauzy/config');
+jest.mock('@irtranscripts/config', () => {
+	const actual = jest.requireActual('@irtranscripts/config');
 
 	return {
 		...actual,
@@ -32,9 +32,9 @@ jest.mock('@gauzy/config', () => {
 	};
 });
 
-const actualConfig = jest.requireActual('@gauzy/config') as typeof gauzyConfig;
-const isPostgresMock = gauzyConfig.isPostgres as unknown as jest.Mock;
-const isMySQLMock = gauzyConfig.isMySQL as unknown as jest.Mock;
+const actualConfig = jest.requireActual('@irtranscripts/config') as typeof irtranscriptsConfig;
+const isPostgresMock = irtranscriptsConfig.isPostgres as unknown as jest.Mock;
+const isMySQLMock = irtranscriptsConfig.isMySQL as unknown as jest.Mock;
 
 type Row = Record<string, any>;
 

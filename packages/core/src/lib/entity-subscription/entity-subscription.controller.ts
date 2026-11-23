@@ -2,7 +2,7 @@ import { CommandBus } from '@nestjs/cqrs';
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
-import { ID, IPagination, IEntitySubscription } from '@gauzy/contracts';
+import { ID, IPagination, IEntitySubscription } from '@irtranscripts/contracts';
 import { UseValidationPipe, UUIDValidationPipe } from './../shared/pipes';
 import { PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { CrudController, FindOptionsQueryDTO, BaseQueryDTO } from './../core/crud';

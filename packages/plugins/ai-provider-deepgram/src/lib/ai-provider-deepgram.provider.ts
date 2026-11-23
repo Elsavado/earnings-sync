@@ -1,4 +1,4 @@
-import { AiProviderEnum, IAiChatModel } from '@gauzy/contracts';
+import { AiProviderEnum, IAiChatModel } from '@irtranscripts/contracts';
 import {
 	IAiChatProviderDefinition,
 	IAiProviderCredentials,
@@ -6,7 +6,7 @@ import {
 	isPrivateAiProviderEndpointAllowed,
 	speechRequest,
 	trimTrailingSlash
-} from '@gauzy/plugin-ai-chat';
+} from '@irtranscripts/plugin-ai-chat';
 
 /** Stable provider id used by the registry, the UI and BYOK credentials. */
 const PROVIDER_ID = AiProviderEnum.DEEPGRAM;
@@ -73,7 +73,7 @@ const transcribeAudio = async (
  * Deepgram provider definition for the AI chat engine — SPEECH-TO-TEXT ONLY.
  *
  * Deepgram has no chat models, so `chatCapable` is `false` and `createModel` throws (the same
- * placeholder pattern as the Gauzy AI provider): the provider shows in the catalogue as a voice
+ * placeholder pattern as the IRTranscripts AI provider): the provider shows in the catalogue as a voice
  * provider, can be the tenant's voice default, and is never selectable for chat.
  */
 export const deepgramProviderDefinition: IAiChatProviderDefinition = {

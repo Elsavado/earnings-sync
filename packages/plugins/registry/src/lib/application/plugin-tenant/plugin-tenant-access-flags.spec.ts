@@ -1,6 +1,6 @@
-// `@gauzy/core` drags in the entity graph; the guard only asks the request context for the caller's grants.
+// `@irtranscripts/core` drags in the entity graph; the guard only asks the request context for the caller's grants.
 const mockGrants = new Set<string>();
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	RequestContext: {
 		hasPermission: (permission: string) => mockGrants.has(permission),
 		currentTenantId: () => 'tenant-a',
@@ -14,7 +14,7 @@ jest.mock('../../domain', () => ({
 }));
 
 import { ForbiddenException } from '@nestjs/common';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { CreatePluginTenantCommand } from './commands/create-plugin-tenant.command';
 import { UpdatePluginTenantCommand } from './commands/update-plugin-tenant.command';
 import { CreatePluginTenantCommandHandler } from './commands/handlers/create-plugin-tenant.handler';

@@ -2,7 +2,7 @@ import '../core/entities/internal';
 
 import { ForbiddenException } from '@nestjs/common';
 import { DataSource, EntityMetadata } from 'typeorm';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { TenantAwareCrudService } from '../core/crud';
 import { ManagedEmployeeService } from '../employee/managed-employee.service';

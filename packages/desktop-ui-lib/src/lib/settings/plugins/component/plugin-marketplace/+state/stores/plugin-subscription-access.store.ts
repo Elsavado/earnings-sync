@@ -3,7 +3,7 @@
 
 import { Injectable } from '@angular/core';
 import { EntityState, EntityStore, StoreConfig } from '@datorama/akita';
-import { IPluginSubscription, PluginScope } from '@gauzy/contracts';
+import { IPluginSubscription, PluginScope } from '@irtranscripts/contracts';
 import { IPluginSubscriptionAccessResponse } from '../../../../services/plugin-subscription-access.service';
 
 /**

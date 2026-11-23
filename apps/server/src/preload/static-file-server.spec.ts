@@ -15,21 +15,21 @@ interface Reply {
 }
 
 /**
- * The UI server of the Gauzy Server desktop app (it listens on `0.0.0.0` when the server is shared on the LAN).
+ * The UI server of the IRTranscripts Server desktop app (it listens on `0.0.0.0` when the server is shared on the LAN).
  * node-static 0.7.11 crashed on `GET /%00` and served `/../ui<x>/…` from a sibling `ui*` directory; serve-static must
  * refuse both and otherwise answer as node-static did.
  */
-describe('createStaticFileHandler (Gauzy Server UI)', () => {
+describe('createStaticFileHandler (IRTranscripts Server UI)', () => {
 	let base: string;
 	let root: string;
 	let server: http.Server;
 	let port: number;
 
 	beforeAll(async () => {
-		base = fs.mkdtempSync(path.join(os.tmpdir(), 'gauzy-ui-server-'));
+		base = fs.mkdtempSync(path.join(os.tmpdir(), 'irtranscripts-ui-server-'));
 		root = path.join(base, 'ui');
 		fs.mkdirSync(path.join(root, 'assets'), { recursive: true });
-		fs.writeFileSync(path.join(root, 'index.html'), '<html>gauzy ui</html>');
+		fs.writeFileSync(path.join(root, 'index.html'), '<html>irtranscripts ui</html>');
 		fs.writeFileSync(path.join(root, 'main.js'), 'console.log("ui");');
 		fs.writeFileSync(path.join(root, 'assets', 'index.html'), '<html>assets</html>');
 		// A sibling whose name starts with the root's name: node-static's prefix check let it through.
@@ -67,7 +67,7 @@ describe('createStaticFileHandler (Gauzy Server UI)', () => {
 	it('serves index.html for the root and the UI files with a one-hour cache', async () => {
 		const index = await request('/');
 		expect(index.status).toBe(200);
-		expect(index.body).toBe('<html>gauzy ui</html>');
+		expect(index.body).toBe('<html>irtranscripts ui</html>');
 
 		const script = await request('/main.js');
 		expect(script.status).toBe(200);

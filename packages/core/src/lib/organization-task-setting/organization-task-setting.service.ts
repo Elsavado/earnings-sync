@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { FindOptionsWhere } from 'typeorm';
-import { IOrganizationTaskSetting, IOrganizationTaskSettingFindInput } from '@gauzy/contracts';
+import { IOrganizationTaskSetting, IOrganizationTaskSettingFindInput } from '@irtranscripts/contracts';
 import { RequestContext } from './../core/context';
 import { TenantAwareCrudService } from '../core/crud';
 import { OrganizationTaskSetting } from './organization-task-setting.entity';

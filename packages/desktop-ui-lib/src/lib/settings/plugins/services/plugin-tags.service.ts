@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IPagination, ITag } from '@gauzy/contracts';
-import { API_PREFIX, toParams } from '@gauzy/ui-core/common';
+import { IPagination, ITag } from '@irtranscripts/contracts';
+import { API_PREFIX, toParams } from '@irtranscripts/ui-core/common';
 import { BehaviorSubject, map, Observable, shareReplay, tap } from 'rxjs';
 
 // Plugin-specific tag interfaces

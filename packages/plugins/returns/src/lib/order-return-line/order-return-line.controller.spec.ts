@@ -7,12 +7,12 @@
  * GraphQL field writes them. And a line a receipt was posted against keeps its quantities — the promise
  * `UpdateOrderReturnLineDTO` makes — so only its note and metadata may change.
  *
- * The controller is the real one over a stubbed service; `@gauzy/core` is doubled at the module boundary
+ * The controller is the real one over a stubbed service; `@irtranscripts/core` is doubled at the module boundary
  * for the reason the package's other suites give (its barrel boots the application graph).
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { SetMetadata } = require('@nestjs/common');
-	const { PERMISSIONS_METADATA } = require('@gauzy/constants');
+	const { PERMISSIONS_METADATA } = require('@irtranscripts/constants');
 	const decorator = () => () => undefined;
 
 	return {
@@ -38,7 +38,7 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-jest.mock('@gauzy/common', () => ({ FeatureFlag: () => () => undefined }));
+jest.mock('@irtranscripts/common', () => ({ FeatureFlag: () => () => undefined }));
 jest.mock('./order-return-line.service', () => ({ OrderReturnLineService: class OrderReturnLineService {} }));
 jest.mock('./order-return-line.entity', () => ({ OrderReturnLine: class OrderReturnLine {} }));
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IPlugin } from '@gauzy/contracts';
+import { IPlugin } from '@irtranscripts/contracts';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';

@@ -8,7 +8,7 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import { IsBoolean, IsDate, IsEnum, IsNumber, IsOptional, IsUUID, IsInt, Min } from 'class-validator';
 import { StockReservationStatus, StockReservationReferenceType } from './../../inventory.enums';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 
 /**
  * StockReservation request DTO validation.

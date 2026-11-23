@@ -1,4 +1,4 @@
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 
 export const DEFAULT_ORGANIZATION_TEAMS = [
 	{

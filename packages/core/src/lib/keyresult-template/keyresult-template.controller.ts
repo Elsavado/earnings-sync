@@ -13,7 +13,7 @@ import {
 	UsePipes
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { IKeyResultTemplate, IPagination, PermissionsEnum, ID } from '@gauzy/contracts';
+import { IKeyResultTemplate, IPagination, PermissionsEnum, ID } from '@irtranscripts/contracts';
 import { CrudController } from './../core/crud';
 import { KeyResultTemplate } from './keyresult-template.entity';
 import { KeyresultTemplateService } from './keyresult-template.service';

@@ -4,7 +4,7 @@
  * applies `@IsEmployeeBelongsToOrganization()`.
  */
 import '../../../core/entities/internal';
-import { RolesEnum } from '@gauzy/contracts';
+import { RolesEnum } from '@irtranscripts/contracts';
 import { InviteOrganizationContactHandler } from './invite.organization-contact.handler';
 import { InviteOrganizationContactCommand } from '../invite.organization-contact.command';
 

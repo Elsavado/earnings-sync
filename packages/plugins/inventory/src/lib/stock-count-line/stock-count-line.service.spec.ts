@@ -1,5 +1,5 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a variance report needs and none of which is
  * available outside a running application, and its nested `uuid` is ESM-only under jest. The barrel
  * is therefore doubled at the module boundary, as every other service suite in this package does,
@@ -9,7 +9,7 @@
  * that a valuation is arithmetic on the digits of two `numeric(20,6)` columns rather than on binary
  * floating point, so doubling that arithmetic would be doubling the thing under test.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
@@ -44,7 +44,7 @@ jest.mock('@gauzy/core', () => {
 		}
 	}
 
-	const decimal = jest.requireActual('@gauzy/core/src/lib/money/decimal');
+	const decimal = jest.requireActual('@irtranscripts/core/src/lib/money/decimal');
 
 	return {
 		TenantAwareCrudService,
@@ -85,7 +85,7 @@ jest.mock('@gauzy/core', () => {
 		// the strategy registry are the real ones too: a double of either would decide the digits under test.
 		STORAGE_SCALE: decimal.STORAGE_SCALE,
 		WORKING_SCALE: decimal.WORKING_SCALE,
-		roundingStrategies: jest.requireActual('@gauzy/core/src/lib/money/rounding').roundingStrategies,
+		roundingStrategies: jest.requireActual('@irtranscripts/core/src/lib/money/rounding').roundingStrategies,
 		RequestContext: {
 			currentUser: () => null,
 			currentUserId: () => null,
@@ -99,7 +99,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 import { FindOperator } from 'typeorm';
-import { ProductVariantPrice, RequestContext } from '@gauzy/core';
+import { ProductVariantPrice, RequestContext } from '@irtranscripts/core';
 import { StockCountLineService } from './stock-count-line.service';
 
 /**

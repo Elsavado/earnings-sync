@@ -1,7 +1,7 @@
 import { TranslateLoader } from './translate.loader';
 import { LocalStore } from '../desktop-store';
 import { TranslateEventManager } from './translate-event-manager';
-import { LanguagesEnum } from '@gauzy/contracts';
+import { LanguagesEnum } from '@irtranscripts/contracts';
 
 export class TranslateService {
 	private constructor() { }

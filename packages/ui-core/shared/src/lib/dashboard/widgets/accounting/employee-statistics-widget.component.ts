@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import { IEmployeeStatisticSum } from '@gauzy/contracts';
+import { IEmployeeStatisticSum } from '@irtranscripts/contracts';
 import { ComponentsModule } from '../../../components/components.module';
 import { TeamsWidgetStateComponent } from '../teams/teams-widget-state.component';
 import { BaseAccountingWidgetComponent } from './base-accounting-widget.component';

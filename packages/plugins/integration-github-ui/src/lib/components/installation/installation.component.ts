@@ -2,8 +2,8 @@ import { AfterViewInit, Component, OnInit, ChangeDetectionStrategy } from '@angu
 import { ActivatedRoute } from '@angular/router';
 import { filter, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { IGithubAppInstallInput, IIntegrationTenant, IOrganization } from '@gauzy/contracts';
-import { GithubService, Store } from '@gauzy/ui-core/core';
+import { IGithubAppInstallInput, IIntegrationTenant, IOrganization } from '@irtranscripts/contracts';
+import { GithubService, Store } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -159,7 +159,7 @@ export class GithubInstallationComponent implements AfterViewInit, OnInit {
 		window.opener?.dispatchEvent(event);
 
 		// Stay open: the reason usually needs an administrator to act on it (for example the GitHub App
-		// setting that lets Gauzy verify who installed it), so closing after two seconds would hide it.
+		// setting that lets IRTranscripts verify who installed it), so closing after two seconds would hide it.
 		console.log('Failed to install GitHub app: %s', this.errorMessage);
 	}
 

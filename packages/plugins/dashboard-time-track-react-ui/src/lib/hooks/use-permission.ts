@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { useInjector } from '@gauzy/ui-react';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { useInjector } from '@irtranscripts/ui-react';
 
 /**
  * Reactive `*ngxPermissionsOnly` for React: true while the current user holds `permission`.

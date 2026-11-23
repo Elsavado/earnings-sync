@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { IEmployee, IUser, PermissionsEnum } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
+import { IEmployee, IUser, PermissionsEnum } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
 import { Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { AvatarComponent, agentBadgeLabel } from './avatar.component';

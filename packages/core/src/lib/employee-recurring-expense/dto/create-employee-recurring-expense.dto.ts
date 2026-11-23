@@ -1,4 +1,4 @@
-import { IRecurringExpenseModel } from "@gauzy/contracts";
+import { IRecurringExpenseModel } from "@irtranscripts/contracts";
 import { IntersectionType } from "@nestjs/mapped-types";
 import { PartialType } from "@nestjs/swagger";
 import { EmployeeFeatureDTO } from "./../../employee/dto";

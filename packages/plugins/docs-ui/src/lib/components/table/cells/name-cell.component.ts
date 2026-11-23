@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { DocumentKindEnum, DocumentVisibilityEnum, IDocument } from '@gauzy/contracts';
+import { DocumentKindEnum, DocumentVisibilityEnum, IDocument } from '@irtranscripts/contracts';
 import { sanitizeMediaUrl } from '../../../editor/read-only/safe-url.util';
 
 /**
@@ -94,10 +94,10 @@ import { sanitizeMediaUrl } from '../../../editor/read-only/safe-url.util';
 				display: inline-flex;
 				align-items: center;
 				flex: 0 0 auto;
-				height: var(--gauzy-table-badge-height, 1.25rem);
-				padding: 0 var(--gauzy-table-chip-padding-x, 0.375rem);
+				height: var(--irtranscripts-table-badge-height, 1.25rem);
+				padding: 0 var(--irtranscripts-table-chip-padding-x, 0.375rem);
 				border-radius: var(--docs-radius, 0.375rem);
-				font-size: var(--gauzy-table-chip-font-size, 0.6875rem);
+				font-size: var(--irtranscripts-table-chip-font-size, 0.6875rem);
 				line-height: 1;
 				white-space: nowrap;
 				transform: none;

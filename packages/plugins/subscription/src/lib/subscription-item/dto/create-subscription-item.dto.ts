@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { SubscriptionItemDTO } from './subscription-item.dto';
 
 /**

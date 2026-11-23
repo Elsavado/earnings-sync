@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { IntegrationEnum, PermissionsEnum } from '@gauzy/contracts';
+import { IntegrationEnum, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	IntegrationEntitySettingResolver,
 	IntegrationResolver,
 	IntegrationSettingResolver,
 	PermissionsGuard
-} from '@gauzy/ui-core/core';
+} from '@irtranscripts/ui-core/core';
 import { IntegrationAIAuthorizationComponent } from './components/authorization/authorization.component';
 import { IntegrationAILayoutComponent } from './integration-ai.layout.component';
 import { IntegrationAIViewComponent } from './components/view/view.component';
@@ -38,7 +38,7 @@ const noSelectors = {
 								only: [PermissionsEnum.INTEGRATION_ADD],
 								redirectTo: '/pages/dashboard'
 							},
-							integration: IntegrationEnum.GAUZY_AI // Custom data associated with this route
+							integration: IntegrationEnum.IRTRANSCRIPTS_AI // Custom data associated with this route
 						},
 						resolve: {
 							integration: IntegrationResolver // Resolver to fetch data before activating the route

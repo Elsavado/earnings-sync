@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { isRegExp, isString, isUndefined } from 'underscore';
-import { replaceAll } from '@gauzy/ui-core/common';
+import { replaceAll } from '@irtranscripts/ui-core/common';
 
 @Pipe({
 	name: 'replace',

@@ -11,8 +11,8 @@ import { BadRequestException, ExecutionContext, HttpException, NotFoundException
 import { Reflector } from '@nestjs/core';
 import { buildSchema, printSchema } from 'graphql';
 import { SUBSCRIPTION_OPTIONS_METADATA } from '@nestjs/graphql/dist/graphql.constants';
-import { ChannelStatus, PermissionsEnum } from '@gauzy/contracts';
-import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@gauzy/constants';
+import { ChannelStatus, PermissionsEnum } from '@irtranscripts/contracts';
+import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { CursorCodec } from '../api/cursor';
 import { FeatureFlagGuard, PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { RegionResolver } from './region.resolver';
@@ -52,8 +52,8 @@ jest.mock('../core/context/request-context', () => ({
 	}
 }));
 
-jest.mock('@gauzy/config', () => ({
-	...jest.requireActual('@gauzy/config'),
+jest.mock('@irtranscripts/config', () => ({
+	...jest.requireActual('@irtranscripts/config'),
 	isPostgres: () => true,
 	isMySQL: () => false
 }));

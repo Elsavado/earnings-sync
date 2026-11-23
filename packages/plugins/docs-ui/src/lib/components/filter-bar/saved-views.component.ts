@@ -2,7 +2,7 @@ import { Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, On
 import { Params } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { DOCS_SAVED_VIEW_NAME_MAX, DOCS_SAVED_VIEWS_LIMIT } from '../../docs.constants';
 import { IDocsSavedView } from '../../models/docs-saved-view.model';
 import { DocsSavedViewsService } from '../../services/docs-saved-views.service';

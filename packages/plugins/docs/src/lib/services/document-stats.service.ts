@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { SelectQueryBuilder } from 'typeorm';
-import { DocumentReviewStatusEnum, DocumentStatusEnum, ID } from '@gauzy/contracts';
-import { RequestContext, prepareSQLQuery as p } from '@gauzy/core';
+import { DocumentReviewStatusEnum, DocumentStatusEnum, ID } from '@irtranscripts/contracts';
+import { RequestContext, prepareSQLQuery as p } from '@irtranscripts/core';
 import { GetDocumentsQueryDTO } from '../dto';
 import { Document } from '../entities/document.entity';
 import { TypeOrmDocumentRepository } from '../repositories/type-orm-document.repository';

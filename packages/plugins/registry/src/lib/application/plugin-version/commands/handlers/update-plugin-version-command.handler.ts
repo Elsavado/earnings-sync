@@ -1,4 +1,4 @@
-import { ID, IPluginSource, IPluginVersion, PluginSourceType } from '@gauzy/contracts';
+import { ID, IPluginSource, IPluginVersion, PluginSourceType } from '@irtranscripts/contracts';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { DataSource } from 'typeorm';
@@ -111,7 +111,7 @@ export class UpdatePluginVersionCommandHandler implements ICommandHandler<Update
 				scope: data.scope,
 				private: data.private
 			}),
-			...(data.type === PluginSourceType.GAUZY && data)
+			...(data.type === PluginSourceType.IRTRANSCRIPTS && data)
 		};
 
 		await this.sourceService.update(data.id, source);

@@ -119,7 +119,7 @@
 			"VIA_ENV": "Managed via server environment",
 			"UPDATED": "Updated {{date}}",
 			"EMPTY_TITLE": "No AI providers yet",
-			"EMPTY_PROVIDERS": "Gauzy AI · OpenRouter · Vercel AI Gateway · Anthropic · OpenAI · Gemini · Grok · Groq · Mistral · LocalAI · OpenAI-compatible — voice: Deepgram · ElevenLabs · Speaches · whisper.cpp"
+			"EMPTY_PROVIDERS": "IRTranscripts AI · OpenRouter · Vercel AI Gateway · Anthropic · OpenAI · Gemini · Grok · Groq · Mistral · LocalAI · OpenAI-compatible — voice: Deepgram · ElevenLabs · Speaches · whisper.cpp"
 		},
 		"CATALOG": {
 			"FILTER_ALL": "All",
@@ -142,7 +142,7 @@
 			"NO_PERMISSION_TITLE": "AI chat is configured, but hidden for your role",
 			"NO_PERMISSION_HINT": "Your role does not have AI chat access — ask an admin to enable the AI_CHAT_ACCESS permission.",
 			"GLOBALLY_DISABLED_TITLE": "AI chat is turned off on this server",
-			"GLOBALLY_DISABLED_HINT": "AI chat is disabled by server configuration (GAUZY_AI_CHAT_ENABLED). Ask your system administrator to enable it.",
+			"GLOBALLY_DISABLED_HINT": "AI chat is disabled by server configuration (IRTRANSCRIPTS_AI_CHAT_ENABLED). Ask your system administrator to enable it.",
 			"CREDENTIALS_UNUSABLE_TITLE": "Saved credentials cannot be used",
 			"CREDENTIALS_UNUSABLE_HINT": "A credential is saved, but the server cannot use it. Make sure the provider is enabled, then enter the API key again.",
 			"UNREACHABLE_TITLE": "AI chat status is unknown",

@@ -5,7 +5,7 @@ import {
 	IEmployeeRecurringExpense,
 	IPagination,
 	ID
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	BadRequestException,
 	Body,

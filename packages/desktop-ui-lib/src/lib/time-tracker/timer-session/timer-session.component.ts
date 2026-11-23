@@ -9,7 +9,7 @@ import { TimeTrackerService } from '../time-tracker.service';
 import { ElectronService } from '../../electron/services';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { ITimeLog, TimerActionTypeEnum, TimerSyncStateEnum } from '@gauzy/contracts';
+import { ITimeLog, TimerActionTypeEnum, TimerSyncStateEnum } from '@irtranscripts/contracts';
 import { TranslatePipe } from '@ngx-translate/core';
 
 export type SyncStatus = 'synced' | 'pending' | 'failed' | 'syncing' | 'removed' | 'running';
@@ -54,7 +54,7 @@ export const SYNC_CONFIG: Record<SyncStatus, { label: string; cssClass: string; 
 };
 
 @Component({
-	selector: 'gauzy-timer-session',
+	selector: 'irtranscripts-timer-session',
 	templateUrl: './timer-session.component.html',
 	styleUrls: ['./timer-session.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,4 +1,4 @@
-import { ICountry } from '@gauzy/contracts';
+import { ICountry } from '@irtranscripts/contracts';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { BaseEntity } from '../core/entities/internal';

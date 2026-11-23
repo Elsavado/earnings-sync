@@ -238,11 +238,11 @@ export type UsageStatisticsView = 'loading' | 'operator' | 'managed' | 'error';
 	`,
 	styles: [
 		`
-			/* Every custom property carries a fallback: --gauzy-* is undefined in the material themes. */
+			/* Every custom property carries a fallback: --irtranscripts-* is undefined in the material themes. */
 			:host {
-				--stats-border: var(--gauzy-border-default-color, var(--border-basic-color-3, rgba(126, 126, 143, 0.24)));
+				--stats-border: var(--irtranscripts-border-default-color, var(--border-basic-color-3, rgba(126, 126, 143, 0.24)));
 				--stats-muted: var(--text-hint-color, rgba(126, 126, 143, 1));
-				--stats-radius: var(--gauzy-radius-sm, 0.5rem);
+				--stats-radius: var(--irtranscripts-radius-sm, 0.5rem);
 				--stats-mono: var(--font-family-monospace, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
 				display: block;
 			}
@@ -399,7 +399,7 @@ export type UsageStatisticsView = 'loading' | 'operator' | 'managed' | 'error';
 			code {
 				padding: 0.0625rem 0.3125rem;
 				border-radius: 0.25rem;
-				background: var(--gauzy-hover-tint, rgba(126, 126, 143, 0.12));
+				background: var(--irtranscripts-hover-tint, rgba(126, 126, 143, 0.12));
 				font-family: var(--stats-mono);
 				font-size: 0.6875rem;
 				color: var(--text-basic-color);

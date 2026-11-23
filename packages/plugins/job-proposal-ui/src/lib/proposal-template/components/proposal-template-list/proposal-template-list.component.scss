@@ -1,7 +1,7 @@
-@use 'gauzy/_gauzy-table' as *;
-@use 'gauzy/_gauzy-cards' as *;
-@use 'gauzy/tabset-actions' as *;
-@use 'gauzy/_gauzy-table-hub' as ga-hub;
+@use 'irtranscripts/_irtranscripts-table' as *;
+@use 'irtranscripts/_irtranscripts-cards' as *;
+@use 'irtranscripts/tabset-actions' as *;
+@use 'irtranscripts/_irtranscripts-table-hub' as ga-hub;
 
 // ── Density tokens ───────────────────────────────────────────────────────────
 // The canonical list-page block Payments, Invoices/Estimates, Pipelines, Tasks,
@@ -19,7 +19,7 @@
 
   nb-card {
     height: 100%;
-    background-color: var(--gauzy-card-2);
+    background-color: var(--irtranscripts-card-2);
   }
 
   // The card body is this page's one definite-height box; everything under it is
@@ -51,20 +51,20 @@
       flex-direction: column;
       overflow: unset;
       border-radius: 0 0 var(--border-radius) var(--border-radius);
-      background-color: var(--gauzy-card-2);
+      background-color: var(--irtranscripts-card-2);
       @include nb-ltr(padding, 1rem 0.5rem 1rem 18px);
       @include nb-rtl(padding, 1rem 18px 1rem 0.5rem);
     }
   }
 
-  .gauzy-button-container {
+  .irtranscripts-button-container {
     // Buttons compacted to the table's scale (see the mixin).
     @include ga-hub.page-header-buttons();
 
     // Sits on the tab strip. The mixin reproduces the tab link's box so the
     // buttons centre on the strip, and — critically — lets pointer events
     // through the empty part of the row: this container is globally
-    // `width: 100%` (gauzy/_gauzy-table), so as a plain absolute overlay it
+    // `width: 100%` (irtranscripts/_irtranscripts-table), so as a plain absolute overlay it
     // swallowed every click on the tab labels underneath it.
     //
     // Its second precondition holds here without help: these two tabs are
@@ -83,7 +83,7 @@
 // keeps the two in step — a smaller label, not a shorter strip with the buttons
 // knocked off its centre line.
 :host ::ng-deep nb-tabset .tab-link {
-  --tabset-tab-text-font-size: var(--gauzy-table-header-font-size, 0.75rem);
+  --tabset-tab-text-font-size: var(--irtranscripts-table-header-font-size, 0.75rem);
 }
 
 // ── The table surface ────────────────────────────────────────────────────────

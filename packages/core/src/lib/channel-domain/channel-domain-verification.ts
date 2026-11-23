@@ -1,4 +1,4 @@
-import { IChannelDomain, ID } from '@gauzy/contracts';
+import { IChannelDomain, ID } from '@irtranscripts/contracts';
 import { ChannelDomainService } from './channel-domain.service';
 
 /**

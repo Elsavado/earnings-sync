@@ -8,7 +8,7 @@ import { Reflector } from '@nestjs/core';
 import { from, lastValueFrom } from 'rxjs';
 import type { MikroORM } from '@mikro-orm/core';
 import type { DataSource } from 'typeorm';
-import { IdempotencyStatus } from '@gauzy/contracts';
+import { IdempotencyStatus } from '@irtranscripts/contracts';
 
 /**
  * An idempotency key settled, replayed and released on the real stores, under `DB_ORM=mikro-orm` exactly as
@@ -33,7 +33,7 @@ import { IdempotencyStatus } from '@gauzy/contracts';
  *
  * **What is real here.** One better-sqlite3 database file, as the platform runs both ORMs on one database: the
  * `idempotency_key` table is created by its own TypeORM migrations, and the platform's own `IdempotencyKey`,
- * imported with every core entity under `DB_ORM=mikro-orm`, is mapped by MikroORM (configured as `@gauzy/config`
+ * imported with every core entity under `DB_ORM=mikro-orm`, is mapped by MikroORM (configured as `@irtranscripts/config`
  * configures it for SQLite) and by TypeORM, whose metadata is complete in both modes. The interceptor, the
  * service and the dual-ORM CRUD path they write through are the platform's own; only the HTTP request, the
  * route's metadata and the request context are stood in for. The same flow runs on TypeORM as the control, and
@@ -91,7 +91,7 @@ interface ISent {
 
 describe('an idempotency key on the real stores, under DB_ORM=mikro-orm as under TypeORM', () => {
 	const previousOrm = process.env.DB_ORM;
-	const databaseFile = join(tmpdir(), `gauzy-idempotency-${randomUUID()}.sqlite3`);
+	const databaseFile = join(tmpdir(), `irtranscripts-idempotency-${randomUUID()}.sqlite3`);
 
 	let platform: IPlatform;
 	let orm: MikroORM;
@@ -112,7 +112,7 @@ describe('an idempotency key on the real stores, under DB_ORM=mikro-orm as under
 		const { BetterSqliteDriver } = require('@mikro-orm/better-sqlite');
 		const { SoftDeleteHandler } = require('mikro-orm-soft-delete');
 		const { DataSource: TypeOrmDataSource } = require('typeorm');
-		const { MIKRO_ORM_AUTO_JOIN_REFS_FOR_FILTERS, TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } = require('@gauzy/config');
+		const { MIKRO_ORM_AUTO_JOIN_REFS_FOR_FILTERS, TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } = require('@irtranscripts/config');
 		const { CreateIdempotencyKeyTable1791000000010 } = require('../database/migrations/1791000000010-CreateIdempotencyKeyTable');
 		const { ScopeIdempotencyKeyByTenant1791000000557 } = require('../database/migrations/1791000000557-ScopeIdempotencyKeyByTenant');
 
@@ -149,7 +149,7 @@ describe('an idempotency key on the real stores, under DB_ORM=mikro-orm as under
 			await runner.release();
 		}
 
-		// MikroORM on the same file, configured as `@gauzy/config` configures it for SQLite — which includes joining
+		// MikroORM on the same file, configured as `@irtranscripts/config` configures it for SQLite — which includes joining
 		// only what a read populates (`MIKRO_ORM_AUTO_JOIN_REFS_FOR_FILTERS`), as TypeORM does. A key's relations (its
 		// tenant, its organization, the users who wrote it) are never loaded, so neither ORM reads past
 		// `idempotency_key`, and the store holds no other table.

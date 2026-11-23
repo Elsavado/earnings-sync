@@ -1,5 +1,5 @@
 import { FindManyOptions, FindOptionsWhere, ILike, IsNull, LessThanOrEqual, Like, MoreThan } from 'typeorm';
-import { LIKE_OPERATOR } from '@gauzy/core';
+import { LIKE_OPERATOR } from '@irtranscripts/core';
 
 /**
  * The predicates the tax listings narrow with, written so that both ORMs answer the same question.

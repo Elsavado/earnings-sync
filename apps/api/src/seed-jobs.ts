@@ -1,4 +1,4 @@
-import { seedJob } from '@gauzy/core';
+import { seedJob } from '@irtranscripts/core';
 import { pluginConfig } from './plugin.config';
 
 seedJob(pluginConfig).catch((error: any) => {

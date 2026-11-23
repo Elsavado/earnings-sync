@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { JoinColumn, RelationId } from 'typeorm';
 import { IsDate, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID, MaxLength } from 'class-validator';
-import { ID, JsonData } from '@gauzy/contracts';
+import { ID, JsonData } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	JsonColumn,
@@ -9,7 +9,7 @@ import {
 	MultiORMEntity,
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { EntitlementActivationStatus } from '../entitlement.enums';
 import { Entitlement } from '../entitlement/entitlement.entity';
 import { EntitlementKey } from '../entitlement-key/entitlement-key.entity';

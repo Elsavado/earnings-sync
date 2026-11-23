@@ -1,6 +1,6 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, EventEmitter, Input, ChangeDetectionStrategy } from '@angular/core';
-import { TaskStatusEnum } from '@gauzy/contracts';
+import { TaskStatusEnum } from '@irtranscripts/contracts';
 import { NbIconModule } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -12,7 +12,7 @@ import { TaskEstimateInputComponent } from './task-estimate-input/task-estimate-
 
 @UntilDestroy({ checkProperties: true })
 @Component({
-	selector: 'gauzy-task-estimate',
+	selector: 'irtranscripts-task-estimate',
 	templateUrl: './task-estimate.component.html',
 	styleUrls: ['./task-estimate.component.scss'],
 	changeDetection: ChangeDetectionStrategy.Eager,

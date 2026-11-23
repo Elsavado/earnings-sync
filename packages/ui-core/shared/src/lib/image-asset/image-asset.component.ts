@@ -1,11 +1,11 @@
 import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { IImageAsset } from '@gauzy/contracts';
+import { IImageAsset } from '@irtranscripts/contracts';
 import { NbDialogRef } from '@nebular/theme';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { ImageAssetService, ToastrService } from '@gauzy/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { ImageAssetService, ToastrService } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy()
 @Component({

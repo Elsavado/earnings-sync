@@ -2,7 +2,7 @@ import { computeCounterPoints, counterPointBackground } from './CounterPoint';
 import { computePopoverPosition } from './Popover';
 import { progressStatus } from '../helpers/progress-status';
 
-describe('CounterPoint — computeCounterPoints (gauzy-counter-point parity)', () => {
+describe('CounterPoint — computeCounterPoints (irtranscripts-counter-point parity)', () => {
 	it('uses a working day (86400) when total is 0 and normalises to 24 dots', () => {
 		const points = computeCounterPoints(0, 43200, '#0088FE');
 		expect(points).toHaveLength(24);
@@ -22,11 +22,11 @@ describe('CounterPoint — computeCounterPoints (gauzy-counter-point parity)', (
 		expect(counterPointBackground('#0088FE')).toBe('#0088FE');
 		expect(counterPointBackground('rgb(0, 214, 143)')).toBe('rgb(0, 214, 143)');
 		expect(counterPointBackground('success')).toBe('var(--color-success-default)');
-		expect(counterPointBackground('basic')).toBe('var(--gauzy-hover-tint)');
+		expect(counterPointBackground('basic')).toBe('var(--irtranscripts-hover-tint)');
 	});
 });
 
-describe('progressStatus (mirror of @gauzy/ui-core/common)', () => {
+describe('progressStatus (mirror of @irtranscripts/ui-core/common)', () => {
 	it('maps the four bands', () => {
 		expect(progressStatus(0)).toBe('danger');
 		expect(progressStatus(25)).toBe('danger');

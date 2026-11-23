@@ -7,8 +7,8 @@ import {
 	IGetMatchingCriterions,
 	IJobPreset,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { PermissionGuard, Permissions, TenantPermissionGuard, UseValidationPipe, UUIDValidationPipe } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { PermissionGuard, Permissions, TenantPermissionGuard, UseValidationPipe, UUIDValidationPipe } from '@irtranscripts/core';
 import { JobPresetService } from './job-preset.service';
 import { JobPreset } from './job-preset.entity';
 import { SaveEmployeePresetDTO, SaveJobPresetCriterionDTO } from './dto';

@@ -22,7 +22,7 @@
 //
 // ── Panels ──
 // The skeleton nests two or three levels of wrapper per row, and every level
-// used to paint its OWN `gauzy-card-1` panel with its own 10px of padding above
+// used to paint its OWN `irtranscripts-card-1` panel with its own 10px of padding above
 // and below — `.table-row` also carried a hard `height: 86px`. Three or four
 // edges of one colour inside each other is three or four edges the eye has to
 // resolve before it reaches a number, and the stacked padding left ~40px of
@@ -102,7 +102,7 @@ $report-budget-amount-width: 140px;
 
 // Colours for an `ng-select` standing in a report page header.
 //
-// `ng-select-overrides()` in `gauzy/_gauzy-overrides.scss` gives these controls
+// `ng-select-overrides()` in `irtranscripts/_irtranscripts-overrides.scss` gives these controls
 // their size, padding and radius but sets no colour at all, so they keep the
 // library's own theme: a WHITE trigger. On the dark themes that put near-white
 // text on a white pill — measured rgb(255, 255, 255) behind rgb(250, 250, 250)
@@ -121,7 +121,7 @@ $report-budget-amount-width: 140px;
 // reach here, rather than restyled app-wide from a single report's stylesheet.
 @mixin report-filter-select() {
 	.ng-select .ng-select-container {
-		background-color: nb-theme(gauzy-card-1) !important;
+		background-color: nb-theme(irtranscripts-card-1) !important;
 		color: nb-theme(text-basic-color);
 	}
 
@@ -149,7 +149,7 @@ $report-budget-amount-width: 140px;
 		overflow: hidden;
 		border: 1px solid nb-theme(border-basic-color-2);
 		border-radius: nb-theme(border-radius);
-		background-color: nb-theme(gauzy-card-1);
+		background-color: nb-theme(irtranscripts-card-1);
 		// Outranks Nebular's own `nb-card { box-shadow: var(--card-shadow) }`,
 		// which would otherwise draw a second, softer edge outside this one.
 		box-shadow: none;
@@ -179,7 +179,7 @@ $report-budget-amount-width: 140px;
 		// A tinted strip, so the group label reads as a band ACROSS the table
 		// rather than as a first line of content sharing the rows' surface.
 		//
-		// Not `gauzy-card-2`, which the row hover already uses — a header painted
+		// Not `irtranscripts-card-2`, which the row hover already uses — a header painted
 		// the same as a hovered row would look like one. `background-basic-color-2`
 		// is a step off the card in both themes without being a third colour:
 		// rgba(24, 24, 27, 1) on the dark card's rgba(18, 18, 20, 1), and #f7f9fc
@@ -192,8 +192,8 @@ $report-budget-amount-width: 140px;
 	}
 
 	// Transparent, so the card paints one surface from its header down to its
-	// last row. `report.scss` fills this with `gauzy-card-2`, which on the dark
-	// themes is a LIGHTER wash than `gauzy-card-1` — that is what made the body
+	// last row. `report.scss` fills this with `irtranscripts-card-2`, which on the dark
+	// themes is a LIGHTER wash than `irtranscripts-card-1` — that is what made the body
 	// read as a second panel sitting inside the card.
 	//
 	// Three inherited rules to undo besides the fill:
@@ -224,7 +224,7 @@ $report-budget-amount-width: 140px;
 		}
 	}
 
-	// `report.scss` paints the accordion body with `gauzy-sidebar-background-2`,
+	// `report.scss` paints the accordion body with `irtranscripts-sidebar-background-2`,
 	// a different surface again from the card it sits in, so an expanded group
 	// read as a panel inside a panel exactly as the nested row wrappers used to.
 	:host .card nb-accordion-item-body {
@@ -234,7 +234,7 @@ $report-budget-amount-width: 140px;
 
 	// ── Column header ───────────────────────────────────────────────────────
 
-	// Was a filled `gauzy-card-2` bar with an 8px radius floating inside the card
+	// Was a filled `irtranscripts-card-2` bar with an 8px radius floating inside the card
 	// — a third panel, for five words of label. A rule underneath does the same
 	// work without adding a surface.
 	.columns-header {
@@ -333,7 +333,7 @@ $report-budget-amount-width: 140px;
 	// it at once.
 	.table-row:hover > .table-inner-wrapper,
 	.activity-row:hover > .table-inner-wrapper {
-		background-color: nb-theme(gauzy-card-2);
+		background-color: nb-theme(irtranscripts-card-2);
 	}
 
 	// ── Cells ───────────────────────────────────────────────────────────────

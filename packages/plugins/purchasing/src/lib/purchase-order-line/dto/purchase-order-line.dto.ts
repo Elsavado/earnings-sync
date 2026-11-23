@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDate, IsObject, IsOptional, IsString, IsUUID } from 'class-validator';
-import { DecimalString, ID } from '@gauzy/contracts';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { DecimalString, ID } from '@irtranscripts/contracts';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 
 /**
  * One line of a purchase order as a caller sees it.

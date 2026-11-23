@@ -33,7 +33,7 @@ import {
 	PrimaryKey as MikroPrimaryKey,
 	Property as MikroProperty
 } from '@mikro-orm/core';
-import { PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { UserService } from './user.service';
 import { UserEmailChangedEvent } from './events/user-email-changed.event';

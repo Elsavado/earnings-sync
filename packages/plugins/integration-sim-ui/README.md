@@ -1,4 +1,4 @@
-# @gauzy/plugin-integration-sim-ui
+# @irtranscripts/plugin-integration-sim-ui
 
 This library was generated with [Nx](https://nx.dev).
 
@@ -15,7 +15,7 @@ After building your library with `yarn nx build plugin-integration-sim-ui`, go t
 Install the Integration SIM UI Plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-integration-sim-ui
+npm install @irtranscripts/plugin-integration-sim-ui
 # or
-yarn add @gauzy/plugin-integration-sim-ui
+yarn add @irtranscripts/plugin-integration-sim-ui
 ```

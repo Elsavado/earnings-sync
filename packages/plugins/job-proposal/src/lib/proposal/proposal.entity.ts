@@ -1,7 +1,7 @@
 import { JoinColumn, RelationId, JoinTable } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsOptional, IsUUID } from 'class-validator';
-import { IProposal, IEmployee, IOrganizationContact, ProposalStatusEnum, ID } from '@gauzy/contracts';
+import { IProposal, IEmployee, IOrganizationContact, ProposalStatusEnum, ID } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	Employee,
@@ -13,7 +13,7 @@ import {
 	Tag,
 	Taggable,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { MikroOrmProposalRepository } from './repository/mikro-orm-proposal.repository';
 
 @MultiORMEntity('proposal', { mikroOrmRepository: () => MikroOrmProposalRepository })

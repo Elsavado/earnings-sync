@@ -1,6 +1,6 @@
 import { BadRequestException, Logger } from '@nestjs/common';
 import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IOrganizationTeam } from '@gauzy/contracts';
+import { IOrganizationTeam } from '@irtranscripts/contracts';
 import { OrganizationTeamCreateCommand } from '../organization-team.create.command';
 import { OrganizationTeamService } from './../../organization-team.service';
 import { OrganizationTeamTaskPriorityBulkCreateCommand } from './../../../tasks/priorities/commands';

@@ -1,6 +1,6 @@
 import * as chalk from 'chalk';
-import { ApplicationPluginConfig } from '@gauzy/common';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@gauzy/plugin';
+import { ApplicationPluginConfig } from '@irtranscripts/common';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@irtranscripts/plugin';
 import { UpworkModule } from './upwork.module';
 
 @Plugin({

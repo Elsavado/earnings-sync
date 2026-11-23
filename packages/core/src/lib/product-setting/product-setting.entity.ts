@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { JoinColumn } from 'typeorm';
-import { IProductVariantSetting } from '@gauzy/contracts';
+import { IProductVariantSetting } from '@irtranscripts/contracts';
 import {
 	ProductVariant,
 	TenantOrganizationBaseEntity

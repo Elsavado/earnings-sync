@@ -1,7 +1,7 @@
 import { Controller, HttpStatus, Get, Query, Post, Body, Param, Delete, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { ID, IGetJobPresetCriterionInput, PermissionsEnum } from '@gauzy/contracts';
-import { GauzyAIService } from '@gauzy/plugin-integration-ai';
+import { ID, IGetJobPresetCriterionInput, PermissionsEnum } from '@irtranscripts/contracts';
+import { IRTranscriptsAIService } from '@irtranscripts/plugin-integration-ai';
 import {
 	EmployeeService,
 	PermissionGuard,
@@ -9,7 +9,7 @@ import {
 	TenantPermissionGuard,
 	UUIDValidationPipe,
 	UseValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { JobPresetService } from './job-preset.service';
 import { JobPreset } from './job-preset.entity';
 import { JobPresetUpworkJobSearchCriterion } from './job-preset-upwork-job-search-criterion.entity';
@@ -21,7 +21,7 @@ import { CreateJobPresetDTO, JobPresetQueryDTO, SaveJobPresetCriterionDTO } from
  * The routes are the job-matching page's, which the web app opens to `ORG_JOB_MATCHING_VIEW` alone, so the
  * class states that grant for every route, the writes included (no edit grant of its own exists). They used
  * to state no guard and no permission, so any member of the tenant (VIEWER, EMPLOYEE, CANDIDATE) could list
- * the presets (which also re-syncs every active employee to Gauzy AI), create one, or add and delete its
+ * the presets (which also re-syncs every active employee to IRTranscripts AI), create one, or add and delete its
  * criteria.
  */
 @ApiTags('JobSearchPreset')
@@ -32,7 +32,7 @@ export class JobSearchPresetController {
 	constructor(
 		private readonly jobPresetService: JobPresetService,
 		private readonly employeeService: EmployeeService,
-		private readonly gauzyAIService: GauzyAIService
+		private readonly irtranscriptsAIService: IRTranscriptsAIService
 	) {}
 
 	/**
@@ -58,7 +58,7 @@ export class JobSearchPresetController {
 
 		// Synchronize all active employees
 		const employees = await this.employeeService.findAllActive();
-		await this.gauzyAIService.syncEmployees(employees);
+		await this.irtranscriptsAIService.syncEmployees(employees);
 
 		// Retrieve all job presets based on the provided query parameters
 		return await this.jobPresetService.getAll(input);

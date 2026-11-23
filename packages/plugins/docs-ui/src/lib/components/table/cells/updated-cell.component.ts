@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { IDocument } from '@gauzy/contracts';
+import { IDocument } from '@irtranscripts/contracts';
 
 /**
  * `Updated` cell — one truncating line plus the full timestamp in a tooltip.

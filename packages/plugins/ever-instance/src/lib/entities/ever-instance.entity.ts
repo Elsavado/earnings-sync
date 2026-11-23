@@ -1,6 +1,6 @@
 import { PrimaryKey } from '@mikro-orm/core';
 import { PrimaryColumn } from 'typeorm';
-import { MultiORMColumn, MultiORMEntity, SkipExport } from '@gauzy/core';
+import { MultiORMColumn, MultiORMEntity, SkipExport } from '@irtranscripts/core';
 
 /**
  * The identity of this installation: one row, `id = 'self'`, shared by every API process that uses
@@ -21,7 +21,7 @@ import { MultiORMColumn, MultiORMEntity, SkipExport } from '@gauzy/core';
 @SkipExport()
 @MultiORMEntity('ever_instance')
 export class EverInstance {
-	// Both ORMs get the primary key whichever one is active, as Gauzy's base entity does: Gauzy
+	// Both ORMs get the primary key whichever one is active, as IRTranscripts's base entity does: IRTranscripts
 	// initializes both and each one refuses an entity without a primary key.
 	@PrimaryKey({ type: 'varchar', length: 16 })
 	@PrimaryColumn({ type: 'varchar', length: 16 })

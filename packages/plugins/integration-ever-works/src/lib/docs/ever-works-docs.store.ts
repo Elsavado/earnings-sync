@@ -12,9 +12,9 @@ import {
 	DocumentStatusEnum,
 	DocumentVisibilityEnum,
 	ID
-} from '@gauzy/contracts';
-import { IntegrationSetting } from '@gauzy/core';
-import { Document, DocumentLink, DocumentVersion } from '@gauzy/plugin-docs';
+} from '@irtranscripts/contracts';
+import { IntegrationSetting } from '@irtranscripts/core';
+import { Document, DocumentLink, DocumentVersion } from '@irtranscripts/plugin-docs';
 import { EverWorksSettingName } from '../ever-works-setting.enum';
 import type { EverWorksMappingContext } from '../mapping/ever-works-mapping-context.service';
 import {
@@ -54,7 +54,7 @@ export interface DocsAncestry {
 }
 
 /**
- * The Gauzy side of the docs sync: the Docs plugin's `document`, `document_version` and `document_link`
+ * The IRTranscripts side of the docs sync: the Docs plugin's `document`, `document_version` and `document_link`
  * rows, written through the repositories with the tenant and organization stated on every row (the
  * caller runs inside a request context of the attributed user, so `createdByUserId` / `updatedByUserId`
  * are right). The Docs plugin's own services are request-scoped to the signed-in user's permissions, and
@@ -453,7 +453,7 @@ export class EverWorksDocsStore {
 	/**
 	 * Stores the page's current content as a `DocumentVersion` (restorable from the page's history) and
 	 * moves the page's version counter on, as the Docs plugin's own snapshot does. `label` names the
-	 * snapshot (the conflict copy is "Gauzy edit (conflict)", plan 05 §3). Returns the version id, or
+	 * snapshot (the conflict copy is "IRTranscripts edit (conflict)", plan 05 §3). Returns the version id, or
 	 * `null` when the page has no content to keep.
 	 */
 	async snapshot(context: EverWorksMappingContext, page: Document, label?: string, force = false): Promise<ID | null> {

@@ -1,4 +1,4 @@
-import { isFunction } from '@gauzy/utils';
+import { isFunction } from '@irtranscripts/utils';
 
 /**
  * Reflect metadata key carrying the "never put this entity in an export archive" marker.

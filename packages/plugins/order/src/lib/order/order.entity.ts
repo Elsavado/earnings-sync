@@ -11,7 +11,7 @@ import {
 	IsUUID,
 	MaxLength
 } from 'class-validator';
-import { FulfillmentStatus, IOrder, ID, OrderStatus, OrderPaymentStatus } from '@gauzy/contracts';
+import { FulfillmentStatus, IOrder, ID, OrderStatus, OrderPaymentStatus } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	ColumnNumericTransformerPipe,
@@ -21,7 +21,7 @@ import {
 	MultiORMOneToMany,
 	TenantOrganizationBaseEntity,
 	VersionedColumn
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { OrderAddress } from '../order-address/order-address.entity';
 import { OrderChange } from '../order-change/order-change.entity';
 import { OrderCreditLine } from '../order-credit-line/order-credit-line.entity';

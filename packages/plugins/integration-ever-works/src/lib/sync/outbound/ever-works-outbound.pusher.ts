@@ -1,7 +1,7 @@
 import { Injectable, Logger, Optional } from '@nestjs/common';
 import { DataSource, In, LessThanOrEqual } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { IntegrationTenant } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { IntegrationTenant } from '@irtranscripts/core';
 import { EverWorksApiError, EverWorksNetworkError } from '../../client/ever-works-client';
 import { EverWorksConnection } from '../../connection/ever-works-connection.entity';
 import { EverWorksConnectionService } from '../../connection/ever-works-connection.service';
@@ -24,7 +24,7 @@ export interface EverWorksPushContext {
 }
 
 /**
- * Pushes one kind of Gauzy record to Ever Works (plan 03 §C.3; tasks in G-P1-9, teams in G-P1-7, …).
+ * Pushes one kind of IRTranscripts record to Ever Works (plan 03 §C.3; tasks in G-P1-9, teams in G-P1-7, …).
  * A handler loads the record fresh, normalises it, diffs it against its link's snapshot (nothing
  * changed → `skipped`: loop guard level 2), creates with `externalRef` + a deterministic
  * `Idempotency-Key` or patches with `If-Match`, and handles 412 / 409 itself.
@@ -42,7 +42,7 @@ export const OUTBOUND_CLAIM_MS = 10 * 60_000;
 /**
  * How long a change that failed `attempts` times (429 / 5xx / network) waits before its next push: 1 min, doubling,
  * at most 1 h. The {@link OUTBOUND_MAX_ATTEMPTS} attempts span about two hours, so an Ever Works deploy or a short
- * outage no longer dead-letters Gauzy edits (review F74: 2 s doubling gave up after about 4 minutes).
+ * outage no longer dead-letters IRTranscripts edits (review F74: 2 s doubling gave up after about 4 minutes).
  */
 export function outboundRetryDelayMs(attempts: number): number {
 	return Math.min(60 * 60_000, 60_000 * 2 ** Math.max(0, attempts - 1));
@@ -60,7 +60,7 @@ type PushResult = boolean | 'unauthorized';
  * network → retried with back-off (honouring `Retry-After`); after {@link OUTBOUND_MAX_ATTEMPTS} the
  * change is `dead` and logged. Another 4xx is a `failed` change with the contract's code.
  *
- * With the loop's lease `owner`, each push runs behind the lease fence (`withLeaseFence`): the Gauzy
+ * With the loop's lease `owner`, each push runs behind the lease fence (`withLeaseFence`): the IRTranscripts
  * writes a handler makes (a 412 merge or a 409 status written back, its link) check, in their own
  * transaction, that this process still holds the connection's lease. A push that outlived the lease
  * writes nothing more once another process holds it; its change is handed back (due at once, the
@@ -171,14 +171,14 @@ export class EverWorksOutboundPusher {
 		const settle = async (values: Record<string, unknown>): Promise<boolean> => {
 			const result = await repository.update(ours as never, values as never);
 			if (!result.affected) {
-				this.logger.warn(`Connection ${connection.id}: the claim on the ${change.entityType} change of ${change.gauzyId} lapsed; its result was dropped.`);
+				this.logger.warn(`Connection ${connection.id}: the claim on the ${change.entityType} change of ${change.irtranscriptsId} lapsed; its result was dropped.`);
 				return false;
 			}
 			return true;
 		};
 		try {
-			// Fenced: a Gauzy write of this push made after the lease moved is refused. The lease is also checked
-			// before the handler starts, since its Ever Works request goes out before its first Gauzy write.
+			// Fenced: a IRTranscripts write of this push made after the lease moved is refused. The lease is also checked
+			// before the handler starts, since its Ever Works request goes out before its first IRTranscripts write.
 			const outcome = await withLeaseFence(lease, async () => {
 				await assertLeaseFence();
 				return handler.push(change, { connection, mapping });
@@ -238,18 +238,18 @@ export class EverWorksOutboundPusher {
 					connectionId: connection.id as ID,
 					direction: 'outbound',
 					entityType: change.entityType,
-					gauzyId: change.gauzyId,
+					irtranscriptsId: change.irtranscriptsId,
 					action: retryable ? 'dead_letter' : 'push_refused',
 					status: 'error',
 					message: reason
 				});
-				this.logger.warn(`Connection ${connection.id}: the ${change.entityType} change of ${change.gauzyId} stopped (${reason.slice(0, 200)}).`);
+				this.logger.warn(`Connection ${connection.id}: the ${change.entityType} change of ${change.irtranscriptsId} stopped (${reason.slice(0, 200)}).`);
 				// Best effort: a notice must never stop the pusher.
 				await this.notifier
 					?.deadLetter(connection, {
 						direction: 'outbound',
 						entityType: change.entityType,
-						recordId: change.gauzyId,
+						recordId: change.irtranscriptsId,
 						reason
 					})
 					.catch((noticeError) =>

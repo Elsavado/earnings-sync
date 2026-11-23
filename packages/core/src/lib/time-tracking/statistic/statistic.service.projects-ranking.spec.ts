@@ -1,7 +1,7 @@
 import '../../core/entities/internal';
 
-import { DatabaseTypeEnum } from '@gauzy/config';
-import { IGetProjectsStatistics, IProjectsStatistics } from '@gauzy/contracts';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
+import { IGetProjectsStatistics, IProjectsStatistics } from '@irtranscripts/contracts';
 import { MultiORMEnum } from '../../core/utils';
 import { asTenantUser, createCrossTenantFixture } from '../../core/testing/tenant-isolation/tenant-isolation.fixtures';
 import { StatisticService, byDurationDesc } from './statistic.service';

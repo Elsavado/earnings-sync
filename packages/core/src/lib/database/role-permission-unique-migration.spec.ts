@@ -105,7 +105,7 @@ describe('AddRolePermissionUniqueIndex (SQLite)', () => {
 	beforeEach(async () => {
 		dbPath = path.join(
 			os.tmpdir(),
-			`gauzy-role-permission-unique-${process.pid}-${Date.now()}-${Math.random()}.sqlite3`
+			`irtranscripts-role-permission-unique-${process.pid}-${Date.now()}-${Math.random()}.sqlite3`
 		);
 		dataSource = new DataSource({
 			type: 'better-sqlite3',

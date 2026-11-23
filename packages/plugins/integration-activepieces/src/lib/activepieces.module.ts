@@ -1,7 +1,7 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
-import { ConfigModule } from '@gauzy/config';
+import { ConfigModule } from '@irtranscripts/config';
 import {
 	IntegrationEntitySettingModule,
 	IntegrationEntitySettingTiedModule,
@@ -14,7 +14,7 @@ import {
 	RoleModule,
 	RolePermissionModule,
 	UserModule
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { ACTIVEPIECES_API_URL } from './activepieces.config';
 import { ActivepiecesService } from './activepieces.service';
 import { ActivepiecesController } from './activepieces.controller';

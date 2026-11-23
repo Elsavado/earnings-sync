@@ -1,9 +1,9 @@
 /**
  * Two module boundaries are doubled here, and the reason is the same for both.
  *
- * `@gauzy/core` boots the whole application graph from its barrel — the configuration, the ORM, the
+ * `@irtranscripts/core` boots the whole application graph from its barrel — the configuration, the ORM, the
  * job registry, the module scanner — none of which an account resource needs and none of which is
- * available outside a running application. `@gauzy/config` reads the process environment at import
+ * available outside a running application. `@irtranscripts/config` reads the process environment at import
  * time. Both are therefore doubled at the module boundary, and **the resource under test is the real
  * one**: the controller and the lifecycle service it delegates to, over a stubbed kernel service.
  *
@@ -11,9 +11,9 @@
  * constants, so the assertions below are made against the metadata a guard actually reads rather than
  * against the decorator's prose. The card-data pipe is the package's own and runs for real.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { SetMetadata, UsePipes, ValidationPipe } = require('@nestjs/common');
-	const { PERMISSIONS_METADATA } = require('@gauzy/constants');
+	const { PERMISSIONS_METADATA } = require('@irtranscripts/constants');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
@@ -85,10 +85,10 @@ jest.mock('@gauzy/core', () => {
 		Permissions: (...permissions: string[]) => SetMetadata(PERMISSIONS_METADATA, permissions),
 		// Retry safety is left real: the kernel's own decorator writes the declaration, under the
 		// kernel's own metadata key, and the suite below drives the kernel's own interceptor over it.
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
 		// The account-holder resolver this suite also loads gates `methodTokens` with the platform's field
 		// decorator, evaluated when the class is defined; the real one only writes metadata, so it is used.
-		VisibleWith: jest.requireActual('@gauzy/core/src/lib/api/visible-with.decorator').VisibleWith,
+		VisibleWith: jest.requireActual('@irtranscripts/core/src/lib/api/visible-with.decorator').VisibleWith,
 		PaymentAccountHolder: class PaymentAccountHolder {},
 		PaymentMethodToken: class PaymentMethodToken {},
 		PaymentAccountHolderService: class PaymentAccountHolderService {},
@@ -113,7 +113,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 jest.mock(
-	'@gauzy/config',
+	'@irtranscripts/config',
 	() => ({
 		DatabaseTypeEnum: {
 			mongodb: 'mongodb',
@@ -131,7 +131,7 @@ jest.mock(
  * interceptor the retry suite below drives is the real one, and the store it calls is the in-memory
  * double that suite hands it.
  */
-jest.mock('@gauzy/core/src/lib/idempotency/idempotency.service', () => ({
+jest.mock('@irtranscripts/core/src/lib/idempotency/idempotency.service', () => ({
 	IdempotencyService: class IdempotencyService {}
 }));
 
@@ -146,10 +146,10 @@ import {
 import { METHOD_METADATA, PATH_METADATA, PIPES_METADATA } from '@nestjs/common/constants';
 import { Reflector } from '@nestjs/core';
 import { from, lastValueFrom } from 'rxjs';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionGuard, RequestContext, TenantPermissionGuard } from '@gauzy/core';
-import { IdempotencyInterceptor } from '@gauzy/core/src/lib/idempotency/idempotency.interceptor';
-import { IDEMPOTENT_METADATA_KEY } from '@gauzy/core/src/lib/idempotency/idempotency.policy';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionGuard, RequestContext, TenantPermissionGuard } from '@irtranscripts/core';
+import { IdempotencyInterceptor } from '@irtranscripts/core/src/lib/idempotency/idempotency.interceptor';
+import { IDEMPOTENT_METADATA_KEY } from '@irtranscripts/core/src/lib/idempotency/idempotency.policy';
 import { PaymentPermission } from '../payment.permissions';
 import { PAYMENT_METHOD_CARD_DATA_NOT_ACCEPTED, RejectCardDataPipe } from '../payment.card-data.pipe';
 import { PaymentAccountHolderController } from './payment-account-holder.controller';

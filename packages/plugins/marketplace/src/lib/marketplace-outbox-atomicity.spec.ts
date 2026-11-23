@@ -15,9 +15,9 @@
  * the committed store, that the write and its fact commit together; that a fact that cannot be appended takes the
  * write back with it; and that an append made outside a transaction is caught.
  *
- * `@gauzy/core` is doubled at the module boundary for the reason the package's other suites give.
+ * `@irtranscripts/core` is doubled at the module boundary for the reason the package's other suites give.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
@@ -58,12 +58,12 @@ jest.mock('@gauzy/core', () => {
 		EventBus: class {},
 		EventOutboxService: class {},
 		SequenceService: class {},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
-		compareDecimalStrings: jest.requireActual('@gauzy/core/src/lib/money/decimal').compareDecimalStrings,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
+		compareDecimalStrings: jest.requireActual('@irtranscripts/core/src/lib/money/decimal').compareDecimalStrings,
 		isUniqueViolation: (error: any) => Boolean(error?.code === '23505'),
-		operationOf: jest.requireActual('@gauzy/core/src/lib/api/bulk').operationOf,
-		ApiErrorCode: jest.requireActual('@gauzy/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
-		ApiException: jest.requireActual('@gauzy/core/src/lib/core/errors/api-exception').ApiException,
+		operationOf: jest.requireActual('@irtranscripts/core/src/lib/api/bulk').operationOf,
+		ApiErrorCode: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
+		ApiException: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-exception').ApiException,
 		Merchant: class {},
 		OrganizationContact: class {},
 		Product: class {},
@@ -81,7 +81,7 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	DatabaseTypeEnum: { sqlite: 'sqlite', betterSqlite3: 'better-sqlite3', postgres: 'postgres', mysql: 'mysql' }
 }));
 
@@ -92,8 +92,8 @@ import {
 	SellerStatus,
 	SellerTransactionStatus,
 	SellerVerificationStatus
-} from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { SellerService } from './seller/seller.service';
 import { SellerOfferingService } from './seller-offering/seller-offering.service';
 import { SellerPayoutService } from './seller-payout/seller-payout.service';

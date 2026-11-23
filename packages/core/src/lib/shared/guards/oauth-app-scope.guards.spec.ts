@@ -1,8 +1,8 @@
 import { ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { environment as env } from '@gauzy/config';
-import { PERMISSIONS_METADATA, ROLES_METADATA } from '@gauzy/constants';
-import { PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { environment as env } from '@irtranscripts/config';
+import { PERMISSIONS_METADATA, ROLES_METADATA } from '@irtranscripts/constants';
+import { PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 import { narrowPermissionsToOAuthAppScopes } from '../../auth/oauth-app-scope';
 import { RequestContext } from './../../core/context';
 import { PermissionGuard } from './permission.guard';

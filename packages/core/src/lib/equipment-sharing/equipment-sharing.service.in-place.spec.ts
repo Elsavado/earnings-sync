@@ -3,8 +3,8 @@ import '../core/entities/internal';
 
 import { BadRequestException, ForbiddenException } from '@nestjs/common';
 import { LockMode } from '@mikro-orm/core';
-import { isMySQL, isPostgres } from '@gauzy/config';
-import { ApprovalPolicyTypesStringEnum, RequestApprovalStatusTypesEnum, RolesEnum } from '@gauzy/contracts';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
+import { ApprovalPolicyTypesStringEnum, RequestApprovalStatusTypesEnum, RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { CrudService } from '../core/crud/crud.service';
 import { Employee, OrganizationTeam, RequestApproval } from '../core/entities/internal';
@@ -34,8 +34,8 @@ import { inPlaceSharingChange } from './in-place-update.helper';
  * blocks pin the statements each ORM arm sends.
  */
 
-jest.mock('@gauzy/config', () => ({
-	...jest.requireActual('@gauzy/config'),
+jest.mock('@irtranscripts/config', () => ({
+	...jest.requireActual('@irtranscripts/config'),
 	isPostgres: jest.fn(() => false),
 	isMySQL: jest.fn(() => false)
 }));

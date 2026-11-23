@@ -8,7 +8,7 @@ import {
 	IIntegrationTenantUpdateInput,
 	IPagination,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	ConnectionFilter,
 	ConnectionPageRequest,
@@ -16,7 +16,7 @@ import {
 	GraphqlConnection,
 	buildConnection
 } from '../api/graphql-connection';
-import { FeatureFlag } from '@gauzy/common';
+import { FeatureFlag } from '@irtranscripts/common';
 import { Permissions } from '../shared/decorators';
 import { FeatureFlagGuard, PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { FEATURE_GRAPHQL } from '../feature/graphql-feature.code';
@@ -232,7 +232,7 @@ export class IntegrationTenantResolver {
 	 * name another tenant. The answer is the row the store produced.
 	 *
 	 * **The settings are held to the route's allowlist** (SEC-E-03, GHSA-4rwq-65wh-45h4): a client may bring only the
-	 * settings a client may edit (the Gauzy AI keys). `installation_id`, OAuth tokens and account ids are written by
+	 * settings a client may edit (the IRTranscripts AI keys). `installation_id`, OAuth tokens and account ids are written by
 	 * the integrations themselves and trusted by the server; this field used to plant any of them.
 	 */
 	@Mutation('createIntegrationTenant')

@@ -1,4 +1,4 @@
-import { TimeLogSourceEnum } from '@gauzy/contracts';
+import { TimeLogSourceEnum } from '@irtranscripts/contracts';
 import {
 	BrowserExtensionTimerIcon,
 	DesktopTimerIcon,

@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NbComponentStatus, NbProgressBarModule } from '@nebular/theme';
 import { Observable } from 'rxjs';
-import { IProjectsStatistics } from '@gauzy/contracts';
-import { progressStatus } from '@gauzy/ui-core/common';
-import { IDashboardWidgetContext } from '@gauzy/ui-core/core';
-import { DurationFormatPipe } from '@gauzy/ui-core/shared';
+import { IProjectsStatistics } from '@irtranscripts/contracts';
+import { progressStatus } from '@irtranscripts/ui-core/common';
+import { IDashboardWidgetContext } from '@irtranscripts/ui-core/core';
+import { DurationFormatPipe } from '@irtranscripts/ui-core/shared';
 import { BaseTimeTrackListWidgetComponent } from './base-time-track-list-widget.component';
 import { TimeTrackWidgetStateComponent } from './time-track-widget-state.component';
 

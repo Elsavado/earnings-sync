@@ -1,6 +1,6 @@
 // cspell:ignore whsec
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — the configuration, the ORM, the
+ * `@irtranscripts/core` boots the whole application graph from its barrel — the configuration, the ORM, the
  * job registry, the module scanner — none of which a provider registry needs and none of which is
  * available outside a running application. The seam is therefore doubled at the module boundary,
  * exactly as the catalogue and inventory packages' service specs do, and **the service under test is
@@ -17,7 +17,7 @@
  * answers an `ITryRequest` carrying `success: false` instead of raising, which is what the two
  * registry reads below are written against.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
@@ -100,7 +100,7 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		BaseEvent: class {},
 		EventBus: class {},
 		Payment: class Payment {},
@@ -118,7 +118,7 @@ jest.mock('@gauzy/core', () => {
 
 import { NotFoundException } from '@nestjs/common';
 import { FindOperator } from 'typeorm';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { PaymentProviderService } from './payment-provider.service';
 
 /**

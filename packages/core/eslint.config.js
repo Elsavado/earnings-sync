@@ -12,7 +12,7 @@ const MJML_MESSAGE =
 // esquery regex literal; no '/' allowed inside. Matches `mjml`, `mjml-core`, `mjml-parser-xml` and their subpaths.
 const MJML_MODULE_REGEX = '/^mjml(-core|-parser-xml)?(?![A-Za-z0-9_.-])/';
 const restrictMjmlImports = {
-	name: 'gauzy/core/restrict-mjml-imports',
+	name: 'irtranscripts/core/restrict-mjml-imports',
 	files: ['**/*.ts', '**/*.js', '**/*.cts', '**/*.mts', '**/*.cjs', '**/*.mjs'],
 	ignores: ['**/src/lib/email-template/compile-mjml.ts'],
 	rules: {

@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { QueueJobHandler, QueueWorker, QueueWorkerHost } from '@gauzy/scheduler';
+import { QueueJobHandler, QueueWorker, QueueWorkerHost } from '@irtranscripts/scheduler';
 import { Job } from 'bullmq';
 import { CommerceCartService } from '../commerce-cart/commerce-cart.service';
 import {

@@ -1,7 +1,7 @@
 import {
 	CurrenciesEnum,
 	IOrganizationRecurringExpense
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { ApiProperty } from '@nestjs/swagger';
 import {
 	IsDate,

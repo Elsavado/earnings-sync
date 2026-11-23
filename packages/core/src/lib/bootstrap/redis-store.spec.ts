@@ -5,7 +5,7 @@ import { configureRedisSession } from './redis-store';
 jest.mock('redis', () => ({ createClient: jest.fn() }));
 jest.mock('connect-redis', () => ({ __esModule: true, default: jest.fn() }));
 jest.mock('express-session', () => jest.fn(() => jest.fn()));
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	environment: { production: false, EXPRESS_SESSION_SECRET: 'test-session-secret' }
 }));
 

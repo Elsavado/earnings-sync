@@ -5,7 +5,7 @@ import type {
 	PluginOSType,
 	IPluginSource as PluginSourceModel,
 	PluginSourceType
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 export interface IPluginSourceUpdate extends Partial<Omit<IPluginSource, 'storageProvider' | 'versions' | 'fullName'>> {
 	id: ID;
@@ -17,7 +17,7 @@ export interface IPluginSource extends PluginSourceModel {
 	// Business Logic Methods
 	isCdnSource(): boolean;
 	isNpmSource(): boolean;
-	isGauzySource(): boolean;
+	isIRTranscriptsSource(): boolean;
 	getDownloadUrl(): string | undefined;
 	getHumanReadableSize(): string;
 	supportsCurrentPlatform(currentOS: PluginOSType, currentArch: PluginOSArch): boolean;

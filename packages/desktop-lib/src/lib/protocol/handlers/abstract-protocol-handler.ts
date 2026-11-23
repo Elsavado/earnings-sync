@@ -1,4 +1,4 @@
-import { logger as log } from '@gauzy/desktop-core';
+import { logger as log } from '@irtranscripts/desktop-core';
 import { IProtocolHandler } from '../interfaces/protocol-handler.interface';
 
 /**
@@ -15,7 +15,7 @@ import { IProtocolHandler } from '../interfaces/protocol-handler.interface';
 export abstract class AbstractProtocolHandler implements IProtocolHandler {
 	/**
 	 * Identifies the deep-link action this handler serves.
-	 * Must match the `hostname` (or first path segment) of a `gauzy://` URL.
+	 * Must match the `hostname` (or first path segment) of a `irtranscripts://` URL.
 	 */
 	abstract readonly action: string;
 

@@ -1,4 +1,4 @@
-import { RegisteredWindow } from '@gauzy/desktop-core';
+import { RegisteredWindow } from '@irtranscripts/desktop-core';
 import { LocalStore } from '../../desktop-store';
 import { IConfigStore, IWindowService } from '../interfaces';
 import { MenuCommand } from './menu-command';

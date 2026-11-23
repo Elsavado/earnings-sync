@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { EmployeeKindEnum } from '@gauzy/contracts';
+import { EmployeeKindEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { GlobalStats } from './stats.types';
 import { EmployeeService } from '../employee/employee.service';

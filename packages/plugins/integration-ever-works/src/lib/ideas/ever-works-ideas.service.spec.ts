@@ -1,10 +1,10 @@
 /**
- * G-P2-3 Ideas ↔ Idea tasks against in-memory Gauzy stand-ins and the mock Ever Works API (real
+ * G-P2-3 Ideas ↔ Idea tasks against in-memory IRTranscripts stand-ins and the mock Ever Works API (real
  * client): an idea becomes an Idea task in the Ideas project, changes follow, private and deleted
- * ideas stop syncing; a Gauzy idea task becomes an Ever Works idea, edits are patched, cancelling
+ * ideas stop syncing; a IRTranscripts idea task becomes an Ever Works idea, edits are patched, cancelling
  * dismisses it, other status moves are not pushed, a type change unlinks it.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	const entity = (name: string) => ({ [name]: class {} })[name];
 	const command = (name: string) =>
@@ -73,7 +73,7 @@ jest.mock('@gauzy/core', () => {
 		})()
 	};
 });
-jest.mock('@gauzy/common', () => ({ Public: () => () => undefined }));
+jest.mock('@irtranscripts/common', () => ({ Public: () => () => undefined }));
 
 import 'reflect-metadata';
 import {
@@ -88,7 +88,7 @@ import {
 	TaskCreateCommand,
 	TaskStatus,
 	TaskUpdateCommand
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { EverWorksClient } from '../client/ever-works-client';
 import { EverWorksLinkState, EverWorksLinkType } from '../sync/entities/ever-works-sync.entities';
 import { MockEverWorksIdeas } from '../testing/mock-ever-works.ideas';
@@ -126,8 +126,8 @@ function setup(options: { ideas?: string } = {}) {
 	const linkService = {
 		byEw: async (m: string, type: string, ewId: string) =>
 			links.find((l) => l['integrationTenantId'] === m && l['entityType'] === type && l['ewId'] === ewId) ?? null,
-		byGauzy: async (m: string, type: string, gauzyId: string) =>
-			links.find((l) => l['integrationTenantId'] === m && l['entityType'] === type && l['gauzyId'] === gauzyId) ??
+		byIRTranscripts: async (m: string, type: string, irtranscriptsId: string) =>
+			links.find((l) => l['integrationTenantId'] === m && l['entityType'] === type && l['irtranscriptsId'] === irtranscriptsId) ??
 			null,
 		list: async (m: string, type: string) =>
 			links.filter((l) => l['integrationTenantId'] === m && l['entityType'] === type),
@@ -136,10 +136,10 @@ function setup(options: { ideas?: string } = {}) {
 			const existing = links.find(
 				(l) =>
 					l['entityType'] === input['entityType'] &&
-					(l['ewId'] === input['ewId'] || l['gauzyId'] === input['gauzyId'])
+					(l['ewId'] === input['ewId'] || l['irtranscriptsId'] === input['irtranscriptsId'])
 			);
 			const values = {
-				gauzyId: input['gauzyId'],
+				irtranscriptsId: input['irtranscriptsId'],
 				ewId: input['ewId'],
 				ewVersion: input['ewVersion'] ?? null,
 				snapshot: JSON.stringify(input['snapshot']),
@@ -162,12 +162,12 @@ function setup(options: { ideas?: string } = {}) {
 		},
 		unlink: async (link: Row) => void (link['state'] = EverWorksLinkState.UNLINKED)
 	};
-	const addLink = (entityType: EverWorksLinkType, gauzyId: string, ewId: string) =>
+	const addLink = (entityType: EverWorksLinkType, irtranscriptsId: string, ewId: string) =>
 		links.push({
 			id: `x-${ewId}`,
 			integrationTenantId: 'm1',
 			entityType,
-			gauzyId,
+			irtranscriptsId,
 			ewId,
 			ewVersion: null,
 			snapshot: null,
@@ -335,8 +335,8 @@ const envelope = (type: string, data: Row, version = 1, actor: Row = { type: 'us
 });
 const applyContext = { connection: { id: 'c1' }, event: {}, organizationId: 'o1' } as never;
 const pushContext = { connection: { id: 'c1' }, mapping: { id: 'm1' } } as never;
-const change = (gauzyId: string, op: 'upsert' | 'delete' = 'upsert') =>
-	({ id: 'ch', tenantId: 't1', organizationId: 'o1', gauzyId, op, actorUserId: null }) as never;
+const change = (irtranscriptsId: string, op: 'upsert' | 'delete' = 'upsert') =>
+	({ id: 'ch', tenantId: 't1', organizationId: 'o1', irtranscriptsId, op, actorUserId: null }) as never;
 const idea = {
 	id: 'ew-idea-1',
 	title: 'Customer portal',
@@ -372,7 +372,7 @@ describe('EverWorksIdeasService — EW → G', () => {
 		expect(tags[0]['name']).toBe('source:mission');
 		expect(resourceLinks[0]).toMatchObject({ entityId: task['id'], url: idea.webUrl });
 		expect(links.find((l) => l['entityType'] === EverWorksLinkType.IDEA_TASK)).toMatchObject({
-			gauzyId: task['id'],
+			irtranscriptsId: task['id'],
 			ewId: 'ew-idea-1',
 			lastDirection: 'inbound'
 		});
@@ -381,7 +381,7 @@ describe('EverWorksIdeasService — EW → G', () => {
 	it('only what changed in Ever Works is written; a failure is posted as a comment; an older event is skipped', async () => {
 		const { service, tasks, comments, commandBus } = setup();
 		await service.apply(envelope('idea.created', idea, 1) as never, applyContext);
-		tasks[0]['title'] = 'Renamed in Gauzy';
+		tasks[0]['title'] = 'Renamed in IRTranscripts';
 		commandBus.execute.mockClear();
 		await service.apply(
 			envelope(
@@ -391,7 +391,7 @@ describe('EverWorksIdeasService — EW → G', () => {
 			) as never,
 			applyContext
 		);
-		expect(tasks[0]).toMatchObject({ title: 'Renamed in Gauzy', status: 'blocked', taskStatusId: 'st-blocked' });
+		expect(tasks[0]).toMatchObject({ title: 'Renamed in IRTranscripts', status: 'blocked', taskStatusId: 'st-blocked' });
 		expect(comments[0]['comment']).toContain('Build ran out of budget');
 		expect(
 			await service.apply(envelope('idea.updated', { ...idea, title: 'Old' }, 2) as never, applyContext)
@@ -436,7 +436,7 @@ describe('EverWorksIdeasService — EW → G', () => {
 			1
 		);
 		expect(links.find((l) => l['entityType'] === EverWorksLinkType.IDEA_TASK)).toMatchObject({
-			gauzyId: tasks[0]['id'],
+			irtranscriptsId: tasks[0]['id'],
 			ewId: 'ew-idea-1'
 		});
 		// The id is derived from the mapping and the idea: the same on every retry, in any process.
@@ -445,13 +445,13 @@ describe('EverWorksIdeasService — EW → G', () => {
 		expect(again.tasks[0]['id']).toBe(tasks[0]['id']);
 	});
 
-	it('an idea made from a Gauzy task links back to that task instead of creating a twin', async () => {
+	it('an idea made from a IRTranscripts task links back to that task instead of creating a twin', async () => {
 		const { service, tasks } = setup();
 		tasks.push({ id: 'task-g', title: 'Portal', issueType: 'Idea', organizationId: 'o1', tenantId: 't1' });
 		await service.apply(
 			envelope('idea.created', {
 				...idea,
-				externalLinks: [{ source: 'gauzy', installationId: 'c1', externalId: 'task-g' }]
+				externalLinks: [{ source: 'irtranscripts', installationId: 'c1', externalId: 'task-g' }]
 			}) as never,
 			applyContext
 		);
@@ -473,8 +473,8 @@ describe('EverWorksIdeasService — EW → G', () => {
 		expect(projects).toHaveLength(0);
 	});
 
-	it('ideas switched to Gauzy → Ever Works only are not applied', async () => {
-		const { service, tasks } = setup({ ideas: 'gauzy_to_ew' });
+	it('ideas switched to IRTranscripts → Ever Works only are not applied', async () => {
+		const { service, tasks } = setup({ ideas: 'irtranscripts_to_ew' });
 		expect(await service.apply(envelope('idea.created', idea) as never, applyContext)).toMatchObject({
 			status: 'skipped'
 		});
@@ -503,7 +503,7 @@ describe('EverWorksIdeasService — G → EW', () => {
 			title: 'Portal',
 			description: 'Customer portal',
 			visibility: 'organization',
-			externalRef: { source: 'gauzy', externalId: 'task-g' }
+			externalRef: { source: 'irtranscripts', externalId: 'task-g' }
 		});
 		const link = links.find((l) => l['entityType'] === EverWorksLinkType.IDEA_TASK);
 		expect(ideas.ideas.get(link?.['ewId'])).toMatchObject({ source: 'external', status: 'pending' });
@@ -533,17 +533,17 @@ describe('EverWorksIdeasService — G → EW', () => {
 		expect(mock.requests.length).toBe(before);
 	});
 
-	it('a 412 keeps the newer Gauzy edit: Ever Works’ older title is not written over it, and the retry pushes it', async () => {
+	it('a 412 keeps the newer IRTranscripts edit: Ever Works’ older title is not written over it, and the retry pushes it', async () => {
 		const { service, ideas, tasks, links } = setup();
 		tasks.push(ideaTask());
 		await service.push(change('task-g'), pushContext);
 		const row = ideas.ideas.get(links[0]['ewId']) as Row;
-		// Ever Works changed the title (its event not applied yet); then a Gauzy user changed it too.
+		// Ever Works changed the title (its event not applied yet); then a IRTranscripts user changed it too.
 		Object.assign(row, { title: 'Portal (EW)', version: Number(row['version']) + 1 });
-		tasks[0]['title'] = 'Portal (Gauzy)';
+		tasks[0]['title'] = 'Portal (IRTranscripts)';
 		expect(await service.push(change('task-g'), pushContext)).toMatchObject({ status: 'pushed' });
-		expect(tasks[0]['title']).toBe('Portal (Gauzy)');
-		expect(row['title']).toBe('Portal (Gauzy)');
+		expect(tasks[0]['title']).toBe('Portal (IRTranscripts)');
+		expect(row['title']).toBe('Portal (IRTranscripts)');
 	});
 
 	it('a dismiss whose answer shows an Ever Works edit made meanwhile applies it, never skipping it as applied (review F86)', async () => {
@@ -551,7 +551,7 @@ describe('EverWorksIdeasService — G → EW', () => {
 		tasks.push(ideaTask());
 		await service.push(change('task-g'), pushContext);
 		const row = ideas.ideas.get(links[0]['ewId']) as Row;
-		// Ever Works renames the idea (its event not applied yet); then the task is cancelled in Gauzy.
+		// Ever Works renames the idea (its event not applied yet); then the task is cancelled in IRTranscripts.
 		Object.assign(row, { title: 'Portal (EW)', version: Number(row['version']) + 1 });
 		tasks[0]['status'] = 'cancelled';
 		expect(await service.push(change('task-g'), pushContext)).toMatchObject({ status: 'pushed' });
@@ -588,8 +588,8 @@ describe('EverWorksIdeasService — G → EW', () => {
 		expect(await service.push(change('task-g'), pushContext)).toMatchObject({ status: 'skipped' });
 	});
 
-	it('ideas syncing Gauzy → Ever Works only record that dismiss too, taking nothing into Gauzy (#11096 review)', async () => {
-		const { service, mock, ideas, tasks, links, log, commandBus } = setup({ ideas: 'gauzy_to_ew' });
+	it('ideas syncing IRTranscripts → Ever Works only record that dismiss too, taking nothing into IRTranscripts (#11096 review)', async () => {
+		const { service, mock, ideas, tasks, links, log, commandBus } = setup({ ideas: 'irtranscripts_to_ew' });
 		tasks.push(ideaTask({ projectId: 'p-1' }));
 		await service.push(change('task-g'), pushContext);
 		const row = ideas.ideas.get(links[0]['ewId']) as Row;
@@ -615,12 +615,12 @@ describe('EverWorksIdeasService — G → EW', () => {
 		expect(mock.requests.filter((r) => r.method === 'POST' && /\/dismiss$/.test(r.path))).toHaveLength(1);
 	});
 
-	it('Ever Works teams Gauzy cannot map are kept when Gauzy edits the idea', async () => {
+	it('Ever Works teams IRTranscripts cannot map are kept when IRTranscripts edits the idea', async () => {
 		const { service, ideas, tasks, links, mock } = setup();
 		tasks.push(ideaTask());
 		await service.push(change('task-g'), pushContext);
 		const ewId = links[0]['ewId'];
-		// Ever Works put the idea on a team Gauzy has no pair for (its event recorded it as unmapped).
+		// Ever Works put the idea on a team IRTranscripts has no pair for (its event recorded it as unmapped).
 		const row = ideas.ideas.get(ewId) as Row;
 		Object.assign(row, { teamIds: ['ew-unpaired'], visibility: 'team', version: Number(row['version']) + 1 });
 		await service.apply(envelope('idea.updated', { ...row }, Number(row['version'])) as never, applyContext);

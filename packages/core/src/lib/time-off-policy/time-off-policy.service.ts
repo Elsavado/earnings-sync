@@ -1,4 +1,4 @@
-import { ID, IEmployee, ITimeOffPolicyCreateInput, ITimeOffPolicyUpdateInput } from '@gauzy/contracts';
+import { ID, IEmployee, ITimeOffPolicyCreateInput, ITimeOffPolicyUpdateInput } from '@irtranscripts/contracts';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { In } from 'typeorm';
 import { RequestContext } from '../core/context';

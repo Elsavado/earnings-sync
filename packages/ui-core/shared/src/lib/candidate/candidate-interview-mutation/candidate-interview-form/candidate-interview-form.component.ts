@@ -13,12 +13,12 @@ import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { filter, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import moment from 'moment';
-import { IEmployee, IDateRange, ICandidateInterview, IOrganization } from '@gauzy/contracts';
-import { EmployeesService } from '@gauzy/ui-core/core';
+import { IEmployee, IDateRange, ICandidateInterview, IOrganization } from '@irtranscripts/contracts';
+import { EmployeesService } from '@irtranscripts/ui-core/core';
 import { NbDialogService } from '@nebular/theme';
 import { CandidateCalendarInfoComponent } from '../../candidate-calendar-info/candidate-calendar-info.component';
 import { firstValueFrom } from 'rxjs';
-import { Store } from '@gauzy/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

@@ -10,8 +10,8 @@ import {
 	IInboxProviderAccountRemoved,
 	IInboxProviderAccountUpdateInput,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
 import {
 	FEATURE_GRAPHQL,
 	FeatureFlagGuard,
@@ -19,7 +19,7 @@ import {
 	Permissions,
 	TenantPermissionGuard,
 	UUIDValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { validatedInboxInput } from '../../graphql/inbox.resolver';
 import {
 	CreateInboxProviderAccountDTO,

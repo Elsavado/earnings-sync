@@ -6,7 +6,7 @@ import moment from 'moment';
 import { firstValueFrom } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
 import {
 	IEmployee,
 	IOrganization,
@@ -17,15 +17,15 @@ import {
 	ITag,
 	ITask,
 	TaskStatusEnum
-} from '@gauzy/contracts';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/contracts';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import {
 	EmployeesService,
 	OrganizationProjectModuleService,
 	OrganizationTeamsService,
 	Store,
 	TasksService
-} from '@gauzy/ui-core/core';
+} from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

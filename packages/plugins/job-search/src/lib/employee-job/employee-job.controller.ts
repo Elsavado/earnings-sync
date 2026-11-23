@@ -13,7 +13,7 @@ import {
 	IUpdateEmployeeJobPostAppliedResult,
 	IVisibilityJobPostInput,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	UUIDValidationPipe,
 	UseValidationPipe,
@@ -22,7 +22,7 @@ import {
 	Employee,
 	TenantPermissionGuard,
 	PermissionGuard
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { EmployeeJobPostService } from './employee-job.service';
 import { EmployeeJobPost } from './employee-job.entity';
 import { UpdateEmployeeJobSearchStatusCommand } from './commands';

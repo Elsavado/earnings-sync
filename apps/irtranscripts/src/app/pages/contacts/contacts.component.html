@@ -1,0 +1,128 @@
+<nb-card [nbSpinner]="loading" nbSpinnerStatus="primary" nbSpinnerSize="large">
+	<nb-card-header class="d-flex flex-column pb-0">
+		<div class="main-header">
+			<h4>
+				<ngx-header-title>
+					{{ contactType + 's' | titlecase }}
+				</ngx-header-title>
+			</h4>
+		</div>
+		@if (!showAddCard) {
+			<div class="align-self-end">
+				<ngx-irtranscripts-button-action
+					[componentName]="viewComponentName"
+					[isDisable]="disableButton"
+					[buttonTemplate]="actionButtons"
+					[buttonTemplateVisible]="visible"
+				></ngx-irtranscripts-button-action>
+			</div>
+		}
+	</nb-card-header>
+	<nb-card-body [class.mutation]="showAddCard" class="custom-card">
+		@if (showAddCard) {
+			<ga-contact-mutation
+				class="w-100"
+				[contactType]="contactType"
+				[organizationContact]="selectedOrganizationContact"
+				[projectsWithoutOrganizationContacts]="projectsWithoutOrganizationContacts"
+				(canceled)="cancel()"
+				(addOrEditOrganizationContact)="addOrEditOrganizationContact($event)"
+			></ga-contact-mutation>
+		} @else if (dataLayoutStyle === componentLayoutStyleEnum.TABLE) {
+			<div class="table-scroll-container">
+				<angular2-smart-table
+					[class.ga-table-loading]="loading"
+					style="cursor: pointer"
+					(userRowSelect)="selectContact($event)"
+					[settings]="settingsSmartTable"
+					[source]="smartTableSource"
+				></angular2-smart-table>
+			</div>
+			<div class="pagination-container align-self-end">
+				@if (smartTableSource) {
+					<ngx-pagination [source]="smartTableSource"></ngx-pagination>
+				}
+			</div>
+		} @else {
+			<ga-card-grid
+				[loading]="loading"
+				[totalItems]="$safeNavigationMigration(pagination?.totalItems)"
+				(onSelectedItem)="selectContact($event)"
+				[settings]="settingsSmartTable"
+				[source]="organizationContacts"
+				(scroll)="onScroll()"
+			></ga-card-grid>
+		}
+	</nb-card-body>
+</nb-card>
+
+<ng-template #actionButtons>
+	@if (selectedOrganizationContact) {
+		<ngx-favorite-toggle
+			[entityType]="'OrganizationContact'"
+			[entityId]="selectedOrganizationContact.id"
+			[entityName]="selectedOrganizationContact.name"
+			size="small"
+			status="basic"
+			spacing="list"
+			[disabled]="disableButton"
+			[showLabel]="false"
+			(favoriteToggled)="onContactFavoriteToggled($event)"
+		></ngx-favorite-toggle>
+	}
+	<ng-template ngxPermissionsOnly="ORG_CONTACT_EDIT">
+		<div class="btn-group actions">
+			<ngx-contact-action
+				[rowData]="selectedOrganizationContact"
+				(updateResult)="onUpdateResult($event)"
+			></ngx-contact-action>
+
+			<button
+				nbButton
+				class="action secondary"
+				status="basic"
+				size="small"
+				[disabled]="!selectedOrganizationContact && disableButton"
+				(click)="navigateToContact(selectedOrganizationContact)"
+			>
+				<nb-icon class="mr-1" icon="eye-outline"></nb-icon>
+				{{ 'BUTTONS.VIEW' | translate }}
+			</button>
+			<button
+				nbButton
+				class="action primary"
+				status="basic"
+				size="small"
+				[disabled]="!selectedOrganizationContact && disableButton"
+				(click)="editOrganizationContact(selectedOrganizationContact)"
+			>
+				<nb-icon class="mr-1" icon="edit-outline"></nb-icon>
+				{{ 'BUTTONS.EDIT' | translate }}
+			</button>
+			<button
+				nbButton
+				class="action"
+				status="basic"
+				size="small"
+				[disabled]="!selectedOrganizationContact && disableButton"
+				(click)="removeOrganizationContact($safeNavigationMigration(selectedOrganizationContact?.id), $safeNavigationMigration(selectedOrganizationContact?.name))"
+				size="small"
+				[nbTooltip]="'BUTTONS.DELETE' | translate"
+			>
+				<nb-icon status="danger" icon="trash-2-outline"></nb-icon>
+			</button>
+		</div>
+	</ng-template>
+</ng-template>
+<ng-template #visible>
+	<ng-template ngxPermissionsOnly="ORG_CONTACT_EDIT">
+		<button (click)="invite()" nbButton class="action info" size="small" status="basic">
+			<nb-icon class="mr-1" icon="email-outline"></nb-icon>
+			{{ 'BUTTONS.INVITE' | translate }}
+		</button>
+		<button (click)="add()" nbButton class="action" size="small" status="success">
+			<nb-icon class="mr-1" icon="plus-outline"></nb-icon>
+			{{ 'BUTTONS.ADD' | translate }}
+		</button>
+	</ng-template>
+</ng-template>

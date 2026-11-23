@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsDate, IsOptional, IsString } from 'class-validator';
-import { IChangelog } from '@gauzy/contracts';
-import { MultiORMEntity, TenantOrganizationBaseEntity, MultiORMColumn } from '@gauzy/core';
+import { IChangelog } from '@irtranscripts/contracts';
+import { MultiORMEntity, TenantOrganizationBaseEntity, MultiORMColumn } from '@irtranscripts/core';
 import { MikroOrmChangelogRepository } from './repository/mikro-orm-changelog.repository';
 
 @MultiORMEntity('changelog', { mikroOrmRepository: () => MikroOrmChangelogRepository })

@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Job } from 'bullmq';
-import { QueueJobHandler, QueueWorker, QueueWorkerHost } from '@gauzy/scheduler';
+import { QueueJobHandler, QueueWorker, QueueWorkerHost } from '@irtranscripts/scheduler';
 import { WORKER_DEFAULT_QUEUE } from '../worker.constants';
 
 interface WorkerLifecyclePayload {

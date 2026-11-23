@@ -1,8 +1,8 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
-import { ID } from '@gauzy/contracts';
-import { FEATURE_GRAPHQL, FeatureFlagGuard, Idempotent, PermissionGuard, Permissions, TenantPermissionGuard } from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+import { ID } from '@irtranscripts/contracts';
+import { FEATURE_GRAPHQL, FeatureFlagGuard, Idempotent, PermissionGuard, Permissions, TenantPermissionGuard } from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { PurchasingFeatures } from '../../purchasing.features';
 import { asRouteBody, deleteOutcome, toFailedGoodsReceiptPayload, toGoodsReceiptPayload, toUserError } from '../wire';
 import { buildConnection, IPageSelection, resolvePageWindow } from '../pagination';

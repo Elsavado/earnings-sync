@@ -1,7 +1,7 @@
 import { DeleteResult, FindOptionsWhere, SaveOptions, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { ID } from '@gauzy/contracts';
-import { BaseEntity, CrudService, ITryRequest, RequestContext } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { BaseEntity, CrudService, ITryRequest, RequestContext } from '@irtranscripts/core';
 
 /**
  * The find options a read by identifier accepts, as the base class declares them.

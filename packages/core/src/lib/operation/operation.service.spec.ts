@@ -1,6 +1,6 @@
 import { ConflictException, NotFoundException } from '@nestjs/common';
 import { LockMode } from '@mikro-orm/core';
-import * as gauzyConfig from '@gauzy/config';
+import * as irtranscriptsConfig from '@irtranscripts/config';
 import { RequestContext } from '../core/context/request-context';
 import { MultiORMEnum } from '../core/utils';
 import { IOperationDefinition, IOperationStepDefinition, IStepRetryPolicy } from './operation.contract';
@@ -27,8 +27,8 @@ import { TypeOrmOperationStepRepository } from './repository/type-orm-operation-
  */
 
 // The dialect the row lock depends on is stated per case; every other case keeps the configured one.
-jest.mock('@gauzy/config', () => {
-	const actual = jest.requireActual('@gauzy/config');
+jest.mock('@irtranscripts/config', () => {
+	const actual = jest.requireActual('@irtranscripts/config');
 
 	return {
 		...actual,
@@ -37,9 +37,9 @@ jest.mock('@gauzy/config', () => {
 	};
 });
 
-const actualConfig = jest.requireActual('@gauzy/config') as typeof gauzyConfig;
-const isPostgresMock = gauzyConfig.isPostgres as unknown as jest.Mock;
-const isMySQLMock = gauzyConfig.isMySQL as unknown as jest.Mock;
+const actualConfig = jest.requireActual('@irtranscripts/config') as typeof irtranscriptsConfig;
+const isPostgresMock = irtranscriptsConfig.isPostgres as unknown as jest.Mock;
+const isMySQLMock = irtranscriptsConfig.isMySQL as unknown as jest.Mock;
 
 type Row = Record<string, any>;
 

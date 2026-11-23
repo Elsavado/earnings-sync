@@ -10,7 +10,7 @@ import {
 	UseGuards
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { IContactGroupMember, IContactGroupMemberFindInput, ID, PermissionsEnum } from '@gauzy/contracts';
+import { IContactGroupMember, IContactGroupMemberFindInput, ID, PermissionsEnum } from '@irtranscripts/contracts';
 import { paginateRows, resolveRestPage } from '../api/graphql-connection';
 import { UUIDValidationPipe, UseValidationPipe } from '../shared/pipes';
 import { Permissions } from '../shared/decorators';

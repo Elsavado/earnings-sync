@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin
+ * Public API Surface of @irtranscripts/plugin
  */
 export * from './lib/plugin';
 export * from './lib/plugin.helper';

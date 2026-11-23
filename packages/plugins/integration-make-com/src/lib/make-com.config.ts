@@ -7,7 +7,7 @@
 const { CLIENT_BASE_URL, API_BASE_URL } = process.env;
 
 /** Make authentication server URL */
-export const MAKE_BASE_URL = process.env.GAUZY_MAKE_BASE_URL ?? 'https://www.make.com';
+export const MAKE_BASE_URL = process.env.IRTRANSCRIPTS_MAKE_BASE_URL ?? 'https://www.make.com';
 
 /**
  * Resolve an env variable, falling back to a constructed or hardcoded default.
@@ -21,14 +21,14 @@ function resolveEnvUrl(envValue: string | undefined, constructed: string | undef
 
 /** Make post-install URL */
 export const MAKE_POST_INSTALL_URL = resolveEnvUrl(
-    process.env.GAUZY_MAKE_POST_INSTALL_URL,
+    process.env.IRTRANSCRIPTS_MAKE_POST_INSTALL_URL,
     CLIENT_BASE_URL ? `${CLIENT_BASE_URL}/#/pages/integrations/make` : undefined,
     'http://localhost:4200/#/pages/integrations/make'
 );
 
 /** Make OAuth redirect URL */
 export const MAKE_REDIRECT_URL = resolveEnvUrl(
-    process.env.GAUZY_MAKE_REDIRECT_URL,
+    process.env.IRTRANSCRIPTS_MAKE_REDIRECT_URL,
     API_BASE_URL ? `${API_BASE_URL}/api/integration/make-com/oauth/callback` : undefined,
     'http://localhost:3000/api/integration/make-com/oauth/callback'
 );

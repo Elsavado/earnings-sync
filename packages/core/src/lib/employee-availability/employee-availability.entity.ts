@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, IsDate, IsInt, IsOptional, IsEnum, IsUUID, Min, Max } from 'class-validator';
 import { JoinColumn, RelationId } from 'typeorm';
-import { AvailabilityStatusEnum, ID, IEmployee, IEmployeeAvailability } from '@gauzy/contracts';
+import { AvailabilityStatusEnum, ID, IEmployee, IEmployeeAvailability } from '@irtranscripts/contracts';
 import { Employee, TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from './../core/decorators/entity';
 import { AvailabilityStatusTransformer } from './pipes/employee-availability-status.pipe';

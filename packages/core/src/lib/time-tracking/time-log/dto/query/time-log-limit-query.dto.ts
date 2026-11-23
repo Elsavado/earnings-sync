@@ -1,4 +1,4 @@
-import { IGetTimeLogReportInput } from "@gauzy/contracts";
+import { IGetTimeLogReportInput } from "@irtranscripts/contracts";
 import { ApiPropertyOptional, OmitType } from "@nestjs/swagger";
 import { IsOptional } from "class-validator";
 import { TimeLogQueryDTO } from "./time-log-query.dto";

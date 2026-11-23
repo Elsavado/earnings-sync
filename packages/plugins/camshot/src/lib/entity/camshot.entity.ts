@@ -1,7 +1,7 @@
-import { ColumnIndex, Employee, MultiORMColumn, MultiORMManyToOne, TenantOrganizationBaseEntity, TimeSlot, User } from '@gauzy/core';
-import { MultiORMEntity } from '@gauzy/core';
+import { ColumnIndex, Employee, MultiORMColumn, MultiORMManyToOne, TenantOrganizationBaseEntity, TimeSlot, User } from '@irtranscripts/core';
+import { MultiORMEntity } from '@irtranscripts/core';
 import { ICamshot } from '../models/camshot.model';
-import { ITimeSlot, FileStorageProviderEnum, IUser, ID, IEmployee } from '@gauzy/contracts';
+import { ITimeSlot, FileStorageProviderEnum, IUser, ID, IEmployee } from '@irtranscripts/contracts';
 import { MikroOrmCamshotRepository } from '../repositories/mikro-orm-camshot.repository';
 import { IsDateString, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, IsUrl, IsUUID, Length, Matches, Max, Min, ValidateIf } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';

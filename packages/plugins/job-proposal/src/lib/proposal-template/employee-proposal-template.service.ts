@@ -6,8 +6,8 @@ import {
 	IEmployeeProposalTemplate,
 	IEmployeeProposalTemplateMakeDefaultInput,
 	IPagination
-} from '@gauzy/contracts';
-import { BaseQueryDTO, TenantAwareCrudService, sanitizeRichHtml } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { BaseQueryDTO, TenantAwareCrudService, sanitizeRichHtml } from '@irtranscripts/core';
 import { EmployeeProposalTemplate } from './employee-proposal-template.entity';
 import { MikroOrmEmployeeProposalTemplateRepository } from './repository/mikro-orm-employee-proposal-template.repository';
 import { TypeOrmEmployeeProposalTemplateRepository } from './repository/type-orm-employee-proposal-template.repository';
@@ -24,7 +24,7 @@ export class EmployeeProposalTemplateService extends TenantAwareCrudService<Empl
 	/**
 	 * Creates a proposal template, sanitizing the rich-text `content` HTML through the shared
 	 * server-side allowlist before persisting — the content is re-rendered in template views and
-	 * fed into Gauzy AI proposal generation (see `sanitizeRichHtml`).
+	 * fed into IRTranscripts AI proposal generation (see `sanitizeRichHtml`).
 	 *
 	 * @param entity - The proposal template data to persist.
 	 * @returns The persisted proposal template.

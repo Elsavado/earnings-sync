@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsEnum, IsOptional, IsString, MaxLength } from 'class-validator';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 import { PricePreferenceAttribute } from '../../pricing.types';
 
 /**

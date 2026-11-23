@@ -31,8 +31,8 @@ function completeSession(overrides: Record<string, any> = {}) {
 		created: Math.floor(Date.now() / 1000) - 60,
 		customer: 'cus_new',
 		customer_details: { email: 'Founder@NewCo.test' },
-		metadata: { ever_product: 'gauzy' },
-		subscription: { id: 'sub_new', status: 'trialing', metadata: { ever_product: 'gauzy' } },
+		metadata: { ever_product: 'irtranscripts' },
+		subscription: { id: 'sub_new', status: 'trialing', metadata: { ever_product: 'irtranscripts' } },
 		...overrides
 	};
 }
@@ -109,7 +109,7 @@ describe('TenantService.linkStripeCustomerFromCheckoutSession', () => {
 				decision: 'session-linked',
 				tenant: TENANT_ID,
 				customer: 'cus_new',
-				product: 'gauzy'
+				product: 'irtranscripts'
 			})
 		]);
 		expect(logLines.join('\n')).not.toMatch(/@/);

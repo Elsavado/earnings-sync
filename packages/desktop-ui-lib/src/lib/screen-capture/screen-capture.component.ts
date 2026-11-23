@@ -4,7 +4,7 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
 import { NbCardModule, NbLayoutModule } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BehaviorSubject, catchError, Observable, tap } from 'rxjs';
-import { GAUZY_ENV } from '../constants';
+import { IRTRANSCRIPTS_ENV } from '../constants';
 import { ElectronService } from '../electron/services';
 
 @UntilDestroy({ checkProperties: true })
@@ -23,7 +23,7 @@ export class ScreenCaptureComponent implements OnInit {
 	constructor(
 		private readonly electronService: ElectronService,
 		private domSanitizer: DomSanitizer,
-		@Inject(GAUZY_ENV)
+		@Inject(IRTRANSCRIPTS_ENV)
 		private readonly _environment: any,
 		private readonly _domSanitizer: DomSanitizer
 	) {
@@ -63,6 +63,6 @@ export class ScreenCaptureComponent implements OnInit {
 	}
 
 	public get logoUrl(): SafeResourceUrl {
-		return this._domSanitizer.bypassSecurityTrustResourceUrl(this._environment.GAUZY_DESKTOP_LOGO_512X512);
+		return this._domSanitizer.bypassSecurityTrustResourceUrl(this._environment.IRTRANSCRIPTS_DESKTOP_LOGO_512X512);
 	}
 }

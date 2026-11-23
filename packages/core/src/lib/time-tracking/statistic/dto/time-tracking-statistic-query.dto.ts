@@ -1,8 +1,8 @@
 import { ApiPropertyOptional, IntersectionType } from '@nestjs/swagger';
 import { Transform, TransformFnParams } from 'class-transformer';
 import { IsOptional } from 'class-validator';
-import { ITimeLogFilters, ITimeLogTodayFilters } from '@gauzy/contracts';
-import { parseToBoolean } from '@gauzy/utils';
+import { ITimeLogFilters, ITimeLogTodayFilters } from '@irtranscripts/contracts';
+import { parseToBoolean } from '@irtranscripts/utils';
 import { FiltersQueryDTO, SelectorsQueryDTO } from '../../../shared/dto';
 import { TodayDateRangeQueryDTO } from './today-date-range-query.dto';
 

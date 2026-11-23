@@ -1,4 +1,4 @@
-import { IRule, RuleOperator, RuleOwnerType, RuleScope, RuleValueType } from '@gauzy/contracts';
+import { IRule, RuleOperator, RuleOwnerType, RuleScope, RuleValueType } from '@irtranscripts/contracts';
 import { PatternRejection } from './rule.pattern-safety';
 import {
 	RULE_MATCHES_PATTERN_OPTIONS,

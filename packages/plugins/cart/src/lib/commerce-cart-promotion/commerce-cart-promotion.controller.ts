@@ -12,7 +12,7 @@ import {
 	UsePipes
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import {
 	AbstractValidationPipe,
 	CrudController,
@@ -22,7 +22,7 @@ import {
 	TenantPermissionGuard,
 	UUIDValidationPipe,
 	UseValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { CommerceCartPromotion } from './commerce-cart-promotion.entity';
 import { CommerceCartPromotionService } from './commerce-cart-promotion.service';
 import { CommerceCartService } from '../commerce-cart/commerce-cart.service';

@@ -1,12 +1,12 @@
 /**
  * One module boundary is doubled here, for the same reason and in the same way as the package's other
- * suites: `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM,
+ * suites: `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM,
  * the job registry, the module scanner — none of which filing one approval request needs and none of
  * which is available outside a running application. The service under test is the real one; the
  * approval machinery behind it is a double, because what this suite is about is the *request* this
  * package files, not the row the kernel writes for it.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/*
 	 * Both halves of the money layer the service reaches for are the platform's own, taken from the same
 	 * module rather than restated here: a double that answered differently would make this suite pass
@@ -15,7 +15,7 @@ jest.mock('@gauzy/core', () => {
 	 * the numeric columns hand over as a number — and a mock that omitted it made every call take the
 	 * refusal path, which is what this suite caught.
 	 */
-	const decimal = jest.requireActual('@gauzy/core/src/lib/money/decimal');
+	const decimal = jest.requireActual('@irtranscripts/core/src/lib/money/decimal');
 
 	return {
 		RequestApprovalService: class RequestApprovalService {},
@@ -39,8 +39,8 @@ jest.mock('@gauzy/core', () => {
 });
 
 import { BadRequestException } from '@nestjs/common';
-import { ApprovalPolicyTypesStringEnum } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { ApprovalPolicyTypesStringEnum } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { IPurchaseApprovalRequest } from '../purchasing.types';
 import { PurchaseApprovalService } from './purchase-approval.service';
 

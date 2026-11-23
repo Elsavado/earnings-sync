@@ -1,10 +1,10 @@
-# @gauzy/plugin-jobs-ui
+# @irtranscripts/plugin-jobs-ui
 
 This library was generated with [Nx](https://nx.dev).
 
 ## Overview
 
-The Plugin Jobs UI is a Gauzy plugin that provides the jobs section layout and routing. It groups child plugins (Job Employee, Job Matching, Job Search, Job Proposal Template) and is initialized before them in a top-down order.
+The Plugin Jobs UI is a IRTranscripts plugin that provides the jobs section layout and routing. It groups child plugins (Job Employee, Job Matching, Job Search, Job Proposal Template) and is initialized before them in a top-down order.
 
 ## Building
 
@@ -23,7 +23,7 @@ After building your library with `yarn nx build plugin-jobs-ui`, go to the dist 
 To install the Plugin Jobs UI, simply run the following command in your terminal:
 
 ```bash
-npm install @gauzy/plugin-jobs-ui
+npm install @irtranscripts/plugin-jobs-ui
 # or
-yarn add @gauzy/plugin-jobs-ui
+yarn add @irtranscripts/plugin-jobs-ui
 ```

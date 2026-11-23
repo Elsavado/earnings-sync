@@ -1,5 +1,5 @@
 import { EventSubscriber } from 'typeorm';
-import { sluggable } from '@gauzy/utils';
+import { sluggable } from '@irtranscripts/utils';
 import { getDummyImage } from '../core/utils';
 import { BaseEntityEventSubscriber } from '../core/entities/subscribers/base-entity-event.subscriber';
 import { OrganizationTeam } from './organization-team.entity';

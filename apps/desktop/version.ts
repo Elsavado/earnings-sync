@@ -1,12 +1,12 @@
 /**
  * @description
- * Current version of the Gauzy Desktop Application.
+ * Current version of the IRTranscripts Desktop Application.
  *
  * @example
  * ```
  * import { version } from './version';
  *
- * console.log('Gauzy Desktop Application Version:', version);
+ * console.log('IRTranscripts Desktop Application Version:', version);
  * ```
  *
  * @since 0.1.0

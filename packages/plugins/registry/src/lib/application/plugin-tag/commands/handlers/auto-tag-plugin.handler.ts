@@ -1,4 +1,4 @@
-import { TagService } from '@gauzy/core';
+import { TagService } from '@irtranscripts/core';
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { IPluginTagBulkCreateResponse } from '../../../../shared';

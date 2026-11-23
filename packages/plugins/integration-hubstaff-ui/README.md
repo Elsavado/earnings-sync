@@ -1,4 +1,4 @@
-# @gauzy/plugin-integration-hubstaff-ui
+# @irtranscripts/plugin-integration-hubstaff-ui
 
 This library was generated with [Nx](https://nx.dev).
 
@@ -19,7 +19,7 @@ After building your library with `yarn nx build plugin-integration-hubstaff-ui`,
 Install the Integration Hubstaff UI Plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-integration-hubstaff-ui
+npm install @irtranscripts/plugin-integration-hubstaff-ui
 # or
-yarn add @gauzy/plugin-integration-hubstaff-ui
+yarn add @irtranscripts/plugin-integration-hubstaff-ui
 ```

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Like } from 'typeorm';
-import { BaseEntityEnum, IPagination } from '@gauzy/contracts';
-import { isNotEmpty } from '@gauzy/utils';
+import { BaseEntityEnum, IPagination } from '@irtranscripts/contracts';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { TenantAwareCrudService } from './../core/crud';
 import { TypeOrmEquipmentRepository } from './repository/type-orm-equipment.repository';
 import { MikroOrmEquipmentRepository } from './repository/mikro-orm-equipment.repository';

@@ -1,10 +1,10 @@
 import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Response, Request } from 'express';
-import { FeatureFlagEnabledGuard, FeatureFlag, Public } from '@gauzy/common';
+import { FeatureFlagEnabledGuard, FeatureFlag, Public } from '@irtranscripts/common';
 import { SocialAuthService } from './../social-auth.service';
 import { IIncomingRequest, RequestCtx } from './../request-context.decorator';
-import { FeatureEnum } from '@gauzy/contracts';
+import { FeatureEnum } from '@irtranscripts/contracts';
 
 @UseGuards(FeatureFlagEnabledGuard, AuthGuard('google'))
 @FeatureFlag(FeatureEnum.FEATURE_GOOGLE_LOGIN)

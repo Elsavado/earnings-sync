@@ -1,4 +1,4 @@
-import { PluginSubscriptionStatus } from '@gauzy/contracts';
+import { PluginSubscriptionStatus } from '@irtranscripts/contracts';
 import { BadRequestException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { PluginSubscriptionService } from '../../../../domain';

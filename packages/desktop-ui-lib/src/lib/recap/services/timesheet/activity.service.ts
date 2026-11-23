@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IActivity, IGetActivitiesInput, IDailyActivity } from '@gauzy/contracts';
+import { IActivity, IGetActivitiesInput, IDailyActivity } from '@irtranscripts/contracts';
 import { firstValueFrom } from 'rxjs';
-import { API_PREFIX, toParams } from '@gauzy/ui-core/common';
+import { API_PREFIX, toParams } from '@irtranscripts/ui-core/common';
 
 @Injectable({
 	providedIn: 'root'

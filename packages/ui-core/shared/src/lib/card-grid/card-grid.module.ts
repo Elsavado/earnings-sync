@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NbButtonModule, NbCardModule, NbIconModule } from '@nebular/theme';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Store } from '@gauzy/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
 import { CardGridComponent } from './card-grid.component';
 import { CustomViewComponent } from './card-grid-custom.component';
 import { NoDataMessageModule } from '../smart-data-layout/no-data-message/no-data-message.module';

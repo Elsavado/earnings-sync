@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IPlugin } from '@gauzy/contracts';
+import { IPlugin } from '@irtranscripts/contracts';
 import { Actions } from '@ngneat/effects-ng';
 import { filter, Observable, Subject, takeUntil, tap } from 'rxjs';
 import { PluginSettingsActions } from '../../../+state';
@@ -11,7 +11,7 @@ import { AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-    selector: 'gauzy-plugin-settings-tab',
+    selector: 'irtranscripts-plugin-settings-tab',
     templateUrl: './settings-tab.component.html',
     styleUrls: ['./settings-tab.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

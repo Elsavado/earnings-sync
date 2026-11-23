@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler, CommandBus } from '@nestjs/cqrs';
-import { IntegrationEntity } from '@gauzy/contracts';
+import { IntegrationEntity } from '@irtranscripts/contracts';
 import { IntegrationMapSyncEntityCommand } from '../integration-map.sync-entity.command';
 import { IntegrationMapSyncTimeSlotCommand } from '../integration-map.sync-time-slot.command';
 import { IntegrationMapService } from '../../integration-map.service';
@@ -43,7 +43,7 @@ export class IntegrationMapSyncTimeSlotHandler
 			// after it skips every slot whose start already exists (TimeSlotBulkCreateHandler), so the activity
 			// submitted with the time log never replaced the zeros.
 			const { time_slot, starts_at, overall = 0, keyboard = 0, mouse = 0, tracked = 0 } = entity;
-			const gauzyTimeSlot = await this._commandBus.execute(
+			const irtranscriptsTimeSlot = await this._commandBus.execute(
 				new TimeSlotCreateCommand({
 					employeeId,
 					startedAt: starts_at,
@@ -57,7 +57,7 @@ export class IntegrationMapSyncTimeSlotHandler
 			);
 			return await this._commandBus.execute(
 				new IntegrationMapSyncEntityCommand({
-					gauzyId: gauzyTimeSlot.id,
+					irtranscriptsId: irtranscriptsTimeSlot.id,
 					integrationId,
 					sourceId,
 					entity: IntegrationEntity.TIME_SLOT,

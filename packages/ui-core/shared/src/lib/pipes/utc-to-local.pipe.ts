@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import moment from 'moment';
-import { toLocal } from '@gauzy/ui-core/common';
+import { toLocal } from '@irtranscripts/ui-core/common';
 
 @Pipe({
 	name: 'utcToLocal',

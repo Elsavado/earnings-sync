@@ -12,17 +12,17 @@ import {
 	IIntegrationTenant,
 	IOrganization,
 	IntegrationEntity
-} from '@gauzy/contracts';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { ReplacePipe } from '@gauzy/ui-core/shared';
+} from '@irtranscripts/contracts';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { ReplacePipe } from '@irtranscripts/ui-core/shared';
 import {
 	ErrorHandlingService,
-	GauzyAIService,
+	IRTranscriptsAIService,
 	IntegrationEntitySettingService,
 	IntegrationEntitySettingServiceStoreService,
 	Store,
 	ToastrService
-} from '@gauzy/ui-core/core';
+} from '@irtranscripts/ui-core/core';
 import { SettingTitlesEnum } from '../integration-setting-card/integration-setting-card.component';
 
 @UntilDestroy({ checkProperties: true })
@@ -59,7 +59,7 @@ export class IntegrationAIViewComponent extends TranslationBaseComponent impleme
 		private readonly _toastrService: ToastrService,
 		private readonly _integrationEntitySettingService: IntegrationEntitySettingService,
 		private readonly _integrationEntitySettingServiceStoreService: IntegrationEntitySettingServiceStoreService,
-		private readonly _gauzyAIService: GauzyAIService,
+		private readonly _irtranscriptsAIService: IRTranscriptsAIService,
 		private readonly _errorHandlingService: ErrorHandlingService
 	) {
 		super(translateService);
@@ -196,7 +196,7 @@ export class IntegrationAIViewComponent extends TranslationBaseComponent impleme
 
 					// Display a success toast message using the _toastrService.
 					if (messageKey) {
-						successMessageKey = `INTEGRATIONS.GAUZY_AI_PAGE.MESSAGE.${messageKey}_${
+						successMessageKey = `INTEGRATIONS.IRTRANSCRIPTS_AI_PAGE.MESSAGE.${messageKey}_${
 							sync ? 'ENABLED' : 'DISABLED'
 						}`;
 						this._toastrService.success(
@@ -233,7 +233,7 @@ export class IntegrationAIViewComponent extends TranslationBaseComponent impleme
 		// Get the integrationId from the current route snapshot
 		const integrationId = this._activatedRoute.snapshot.paramMap.get('id');
 
-		this._gauzyAIService
+		this._irtranscriptsAIService
 			.update(integrationId, {})
 			.pipe(
 				// Perform actions after the integration creation

@@ -4,7 +4,7 @@ import { resolveDesktopListenHost } from '../../config/desktop-listen-host';
 
 export class UiService extends ServerTask {
 	/**
-	 * @param allowLanAccess - Whether this app may listen on the network (Gauzy Server, as its LAN
+	 * @param allowLanAccess - Whether this app may listen on the network (IRTranscripts Server, as its LAN
 	 *   access setting says); otherwise the web UI listens on the loopback address only.
 	 */
 	constructor(

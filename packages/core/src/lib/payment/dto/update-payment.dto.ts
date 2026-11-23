@@ -1,5 +1,5 @@
 import { OmitType } from '@nestjs/swagger';
-import { IPaymentUpdateInput } from '@gauzy/contracts';
+import { IPaymentUpdateInput } from '@irtranscripts/contracts';
 import { PaymentDTO } from './payment.dto';
 
 /**

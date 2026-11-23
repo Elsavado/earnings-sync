@@ -8,7 +8,7 @@ $gap: 0.75rem;
 $section-gap: 1rem;
 $icon-button-size: 1.75rem;
 $label-width: 5.5rem;
-$divider: 1px solid var(--gauzy-border-default-color);
+$divider: 1px solid var(--irtranscripts-border-default-color);
 // The Recent Activities card's thumbnail and activity bar, as measured on the
 // dashboard at 1920px (the card's width flexes; this is its size there).
 $thumb-width: 15.625rem;
@@ -19,7 +19,7 @@ $activity-bar-width: 6rem;
 // under the title and the time-log fields go back to one pair per row.
 $compact-breakpoint: 52.5rem;
 
-@mixin text($size: 12px, $weight: 400, $color: var(--gauzy-text-color-1)) {
+@mixin text($size: 12px, $weight: 400, $color: var(--irtranscripts-text-color-1)) {
 	font-size: $size;
 	font-weight: $weight;
 	line-height: 1rem;
@@ -37,7 +37,7 @@ $compact-breakpoint: 52.5rem;
 	nb-card.slot-card {
 		margin: 0;
 		border: $divider;
-		background-color: var(--gauzy-card-1);
+		background-color: var(--irtranscripts-card-1);
 	}
 
 	// Title, summary, close on one row. The close button's own box provides the
@@ -78,7 +78,7 @@ $compact-breakpoint: 52.5rem;
 	}
 
 	.slot-subtitle {
-		@include text($color: var(--gauzy-text-color-2));
+		@include text($color: var(--irtranscripts-text-color-2));
 		font-variant-numeric: tabular-nums;
 	}
 
@@ -151,7 +151,7 @@ $compact-breakpoint: 52.5rem;
 	}
 
 	.summary-label {
-		@include text($color: var(--gauzy-text-color-2));
+		@include text($color: var(--irtranscripts-text-color-2));
 	}
 
 	// Each value row centred in the chip's height, so the values share a line too.
@@ -183,7 +183,7 @@ $compact-breakpoint: 52.5rem;
 			// The card's bar: Nebular's tiny size is 16px here.
 			::ng-deep .progress-container {
 				height: $progress-height;
-				background-color: var(--gauzy-card-2);
+				background-color: var(--irtranscripts-card-2);
 			}
 		}
 	}
@@ -206,11 +206,11 @@ $compact-breakpoint: 52.5rem;
 	}
 
 	.section-count {
-		@include text(11px, 600, var(--gauzy-text-color-2));
+		@include text(11px, 600, var(--irtranscripts-text-color-2));
 		min-width: 1.25rem;
 		padding: 0.125rem 0.375rem;
 		border-radius: 9999px;
-		background: var(--gauzy-sidebar-background-3);
+		background: var(--irtranscripts-sidebar-background-3);
 		text-align: center;
 		font-variant-numeric: tabular-nums;
 	}
@@ -237,7 +237,7 @@ $compact-breakpoint: 52.5rem;
 		overflow: hidden;
 		border: $divider;
 		border-radius: var(--border-radius);
-		background: var(--gauzy-hover-tint);
+		background: var(--irtranscripts-hover-tint);
 		cursor: zoom-in;
 
 		img {
@@ -307,7 +307,7 @@ $compact-breakpoint: 52.5rem;
 	}
 
 	.screenshot-time {
-		@include text($color: var(--gauzy-text-color-2));
+		@include text($color: var(--irtranscripts-text-color-2));
 		text-align: center;
 		font-variant-numeric: tabular-nums;
 	}
@@ -334,7 +334,7 @@ $compact-breakpoint: 52.5rem;
 		padding: 0.25rem 0.625rem;
 		border: $divider;
 		border-radius: 9999px;
-		background: var(--gauzy-card-2);
+		background: var(--irtranscripts-card-2);
 	}
 
 	.time-log {
@@ -355,7 +355,7 @@ $compact-breakpoint: 52.5rem;
 		gap: $gap;
 		padding: 0.5rem 0.5rem 0.5rem 1rem;
 		border-bottom: $divider;
-		background: var(--gauzy-card-2);
+		background: var(--irtranscripts-card-2);
 	}
 
 	.time-log-heading {
@@ -376,7 +376,7 @@ $compact-breakpoint: 52.5rem;
 		@include text(12px, 600);
 		padding: 0.125rem 0.5rem;
 		border-radius: var(--border-radius);
-		background: var(--gauzy-sidebar-background-3);
+		background: var(--irtranscripts-sidebar-background-3);
 		font-variant-numeric: tabular-nums;
 	}
 
@@ -425,7 +425,7 @@ $compact-breakpoint: 52.5rem;
 		}
 
 		dt {
-			@include text($color: var(--gauzy-text-color-2));
+			@include text($color: var(--irtranscripts-text-color-2));
 		}
 
 		dd {
@@ -442,14 +442,14 @@ $compact-breakpoint: 52.5rem;
 		}
 
 		.version {
-			@include text(11px, 600, var(--gauzy-text-color-2));
+			@include text(11px, 600, var(--irtranscripts-text-color-2));
 			padding: 0.0625rem 0.375rem;
 			border: $divider;
 			border-radius: 9999px;
 		}
 
 		.empty {
-			color: var(--gauzy-text-color-2);
+			color: var(--irtranscripts-text-color-2);
 		}
 	}
 

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { ROUTES } from '@angular/router';
-import { PageRouteRegistryService } from '@gauzy/ui-core/core';
+import { PageRouteRegistryService } from '@irtranscripts/ui-core/core';
 import { createPageLegalRoutes } from './page-legal.routes';
 import { CommonLegalModule } from './common-legal.module';
 

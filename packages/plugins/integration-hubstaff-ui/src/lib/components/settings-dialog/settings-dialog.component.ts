@@ -3,8 +3,8 @@ import { NbCalendarRange, NbDialogRef } from '@nebular/theme';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import * as moment from 'moment';
-import { IDateRangeActivityFilter, IntegrationEntity } from '@gauzy/contracts';
-import { HubstaffService } from '@gauzy/ui-core/core';
+import { IDateRangeActivityFilter, IntegrationEntity } from '@irtranscripts/contracts';
+import { HubstaffService } from '@irtranscripts/ui-core/core';
 
 @Component({
     selector: 'ngx-hubstaff-settings-dialog',

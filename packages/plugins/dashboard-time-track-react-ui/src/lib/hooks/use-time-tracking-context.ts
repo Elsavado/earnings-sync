@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { combineLatest } from 'rxjs';
 import { debounceTime, filter, map } from 'rxjs/operators';
-import { IDateRangePicker, IOrganization, ISelectedEmployee, IUser } from '@gauzy/contracts';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
-import { DateRangePickerBuilderService, Store } from '@gauzy/ui-core/core';
-import { TimeZoneService } from '@gauzy/ui-core/shared';
-import { useInjector, useObservable } from '@gauzy/ui-react';
+import { IDateRangePicker, IOrganization, ISelectedEmployee, IUser } from '@irtranscripts/contracts';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
+import { DateRangePickerBuilderService, Store } from '@irtranscripts/ui-core/core';
+import { TimeZoneService } from '@irtranscripts/ui-core/shared';
+import { useInjector, useObservable } from '@irtranscripts/ui-react';
 import {
 	buildStatisticsPayload,
 	isCurrentWeek,

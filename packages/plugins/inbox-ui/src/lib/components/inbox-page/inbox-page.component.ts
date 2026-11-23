@@ -25,7 +25,7 @@ import {
 	InboxItemKindEnum,
 	InboxItemSourceEnum,
 	InboxItemStatusEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { INBOX_MY_MAILBOX_LINK, INBOX_UI_PAGE_SIZE } from '../../inbox-ui.constants';
 import {
 	apiTabOf,
@@ -58,7 +58,7 @@ export function apiMessage(error: unknown): string | null {
  * and Archived; filters (kind, source, unread only, text); a list and the detail pane of the selected item.
  *
  * The page asks the API first. A 404 means this installation's API does not load the Inbox
- * (`GAUZY_INBOX_ENABLED` is not `true`, the default): the page says so and makes no other request.
+ * (`IRTRANSCRIPTS_INBOX_ENABLED` is not `true`, the default): the page says so and makes no other request.
  */
 @Component({
 	selector: 'ngx-inbox-page',

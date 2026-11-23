@@ -1,6 +1,6 @@
 import { ICommand } from '@nestjs/cqrs';
 import { FindOptionsWhere } from 'typeorm';
-import { IIntegrationTenant } from '@gauzy/contracts';
+import { IIntegrationTenant } from '@irtranscripts/contracts';
 import { IntegrationTenant } from '../integration-tenant.entity';
 
 export class IntegrationTenantUpdateOrCreateCommand implements ICommand {

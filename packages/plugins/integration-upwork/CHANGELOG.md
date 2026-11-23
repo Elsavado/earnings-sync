@@ -1,3 +1,3 @@
-# Changelog for @gauzy/plugin-integration-hubstaff
+# Changelog for @irtranscripts/plugin-integration-hubstaff
 
 ## [Unreleased]

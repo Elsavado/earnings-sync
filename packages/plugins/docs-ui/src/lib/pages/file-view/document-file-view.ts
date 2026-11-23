@@ -1,4 +1,4 @@
-import { DocumentKindEnum, IDocument } from '@gauzy/contracts';
+import { DocumentKindEnum, IDocument } from '@irtranscripts/contracts';
 import { DOCS_PAGE_LINK } from '../../docs.constants';
 import { DOCS_PAGE_FULL_VIEW } from '../page-editor/document-page-view';
 

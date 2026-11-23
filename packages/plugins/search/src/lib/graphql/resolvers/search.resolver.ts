@@ -7,7 +7,7 @@ import {
 	ISearchSuggestion,
 	SearchMatchMode,
 	SearchSortDirection
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	DEFAULT_CONNECTION_PAGE_SIZE,
 	FEATURE_GRAPHQL,
@@ -21,8 +21,8 @@ import {
 	connectionFromOffsetPage,
 	paginateRows,
 	resolveConnectionWindow
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { SearchService, decodeCursor } from '../../services/search.service';
 import { SearchPermissions } from '../../search.permissions';
 import { SearchFeatures } from '../../search.features';

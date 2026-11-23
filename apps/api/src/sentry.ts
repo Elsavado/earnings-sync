@@ -1,5 +1,5 @@
-import { environment } from '@gauzy/config';
-import { SentryPlugin, DefaultSentryIntegrations, parseSentryLogLevels } from '@gauzy/plugin-sentry';
+import { environment } from '@irtranscripts/config';
+import { SentryPlugin, DefaultSentryIntegrations, parseSentryLogLevels } from '@irtranscripts/plugin-sentry';
 import { version } from '../version';
 
 /**
@@ -27,7 +27,7 @@ export function initializeSentry(): typeof SentryPlugin | null {
 		// printed several SDK lines per request in every production pod.
 		debug: process.env.SENTRY_DEBUG === 'true',
 		environment: environment.production ? 'production' : 'development',
-		release: `gauzy@${version}`,
+		release: `irtranscripts@${version}`,
 		// Levels that become Sentry events (SENTRY_LOG_LEVELS, default `error`); the rest are breadcrumbs.
 		logLevels: parseSentryLogLevels(process.env.SENTRY_LOG_LEVELS),
 		integrations: [...DefaultSentryIntegrations],

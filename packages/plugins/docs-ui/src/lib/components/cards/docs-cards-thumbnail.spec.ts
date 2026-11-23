@@ -1,23 +1,23 @@
 /**
- * `@gauzy/ui-core/i18n` is a barrel over the whole app i18n module; the cards view only needs
+ * `@irtranscripts/ui-core/i18n` is a barrel over the whole app i18n module; the cards view only needs
  * `TranslationBaseComponent` to exist so the class can be constructed directly (no `TestBed`,
  * no Angular module graph) — same reason as `components/filter-bar/content-search-min.spec.ts`.
  */
 /**
- * `@gauzy/ui-core/core` is a barrel over the whole app core. `DocsCardsComponent` reaches it
+ * `@irtranscripts/ui-core/core` is a barrel over the whole app core. `DocsCardsComponent` reaches it
  * through `DocsRowActionsService`, and loading it for real drags unrelated services (and their
  * untranspiled ESM dependencies) into the CommonJS test runtime — which fails the suite at LOAD
  * time, so it reads as "no tests here" rather than "coverage is zero". Same stub-the-injected-
  * shapes approach as `components/actions/docs-row-actions.spec.ts`.
  */
-jest.mock('@gauzy/ui-core/core', () => ({
+jest.mock('@irtranscripts/ui-core/core', () => ({
 	Store: class Store {},
 	ToastrService: class ToastrService {},
 	FavoriteStoreService: class FavoriteStoreService {},
 	GenericFavoriteService: class GenericFavoriteService {}
 }));
 
-jest.mock('@gauzy/ui-core/i18n', () => ({
+jest.mock('@irtranscripts/ui-core/i18n', () => ({
 	TranslationBaseComponent: class {
 		constructor(public readonly translateService: unknown) {}
 		getTranslation(key: string): string {
@@ -28,7 +28,7 @@ jest.mock('@gauzy/ui-core/i18n', () => ({
 
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { DocumentKindEnum, ID, IDocument } from '@gauzy/contracts';
+import { DocumentKindEnum, ID, IDocument } from '@irtranscripts/contracts';
 import { DocsCardsComponent } from './docs-cards.component';
 
 /**

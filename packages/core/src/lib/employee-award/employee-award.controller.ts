@@ -13,7 +13,7 @@ import {
 	Get
 } from '@nestjs/common';
 import { DeleteResult, UpdateResult } from 'typeorm';
-import { IEmployeeAward, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { IEmployeeAward, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { EmployeeAward } from './employee-award.entity';
 import { EmployeeAwardService } from './employee-award.service';
 import { CrudController, BaseQueryDTO } from './../core/crud';

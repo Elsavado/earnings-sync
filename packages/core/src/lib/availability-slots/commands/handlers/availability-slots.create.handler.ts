@@ -1,6 +1,6 @@
 import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { pluck } from 'underscore';
-import { AvailabilityMergeType, IAvailabilitySlot } from '@gauzy/contracts';
+import { AvailabilityMergeType, IAvailabilitySlot } from '@irtranscripts/contracts';
 import { AvailabilitySlotsCreateCommand } from '../availability-slots.create.command';
 import { AvailabilitySlotsService } from '../../availability-slots.service';
 import { GetConflictAvailabilitySlotsCommand } from '../get-conflict-availability-slots.command';

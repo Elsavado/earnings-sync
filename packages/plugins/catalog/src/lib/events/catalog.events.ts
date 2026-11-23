@@ -1,5 +1,5 @@
-import { BaseEvent } from '@gauzy/core';
-import { ID } from '@gauzy/contracts';
+import { BaseEvent } from '@irtranscripts/core';
+import { ID } from '@irtranscripts/contracts';
 import { Collection } from '../collection/collection.entity';
 import { ProductChannel } from '../product-channel/product-channel.entity';
 

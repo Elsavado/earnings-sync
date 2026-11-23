@@ -1,7 +1,7 @@
 import { NotFoundException, ParseUUIDPipe, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { FeatureFlag } from '@gauzy/common';
-import { CurrencyCode, DecimalString } from '@gauzy/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
+import { CurrencyCode, DecimalString } from '@irtranscripts/contracts';
 import { PaymentTerm } from './payment-term.entity';
 import { IPaymentTermSchedule, PaymentTermService } from './payment-term.service';
 import { PAYMENT_TERM_PERMISSIONS } from './payment-term.permissions';

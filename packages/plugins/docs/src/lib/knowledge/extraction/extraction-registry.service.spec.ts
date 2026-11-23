@@ -1,4 +1,4 @@
-// The OCR service reaches the AI seam and, through it, the whole `@gauzy/core` module graph.
+// The OCR service reaches the AI seam and, through it, the whole `@irtranscripts/core` module graph.
 // These are pure resolution tests, and both OCR-capable extractors take it `@Optional()` —
 // stubbing it at the module boundary keeps the suite dependency-free AND exercises the
 // "no OCR available" shape, which is what a deployment with OCR switched off looks like.

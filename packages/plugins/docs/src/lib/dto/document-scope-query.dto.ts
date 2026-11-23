@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/swagger';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 
 /**
  * Optional organization scope for the single-document routes (`GET /documents/:id`,

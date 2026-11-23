@@ -13,14 +13,14 @@
  *
  * **Nothing the defect lives in is doubled here.** The services are the real ones over TypeORM repositories of an
  * in-memory better-sqlite3 database; the rows the ids name are real rows of tenant B, of tenant A and of no tenant.
- * `@gauzy/core` and `@gauzy/plugin-order` are doubled at the module boundary for the reasons the package's other suites
+ * `@irtranscripts/core` and `@irtranscripts/plugin-order` are doubled at the module boundary for the reasons the package's other suites
  * give, and the CRUD base is reduced to the tenant-scoped reads and writes the real one performs. Every refusal reads
  * the rows back, so a refusal that still wrote something fails too, and every column has a control.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
-	const decimals = jest.requireActual('@gauzy/core/src/lib/money/decimal');
-	const versionedWrite = jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write');
+	const decimals = jest.requireActual('@irtranscripts/core/src/lib/money/decimal');
+	const versionedWrite = jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write');
 
 	/** A no-op decorator factory: the entities are declared, and mapped below by fixture schemas. */
 	const decorator = () => () => undefined;
@@ -99,7 +99,7 @@ jest.mock('@gauzy/core', () => {
 		// The check under test is the platform's own, not a double of it.
 		assertPlainReferencesNotForeign: (...args: unknown[]) =>
 			jest
-				.requireActual('@gauzy/core/src/lib/core/crud/plain-reference-ownership.helper')
+				.requireActual('@irtranscripts/core/src/lib/core/crud/plain-reference-ownership.helper')
 				.assertPlainReferencesNotForeign(...args),
 		BaseEntity,
 		TenantBaseEntity: BaseEntity,
@@ -118,8 +118,8 @@ jest.mock('@gauzy/core', () => {
 		JsonColumn: decorator,
 		commitVersionedUpdate: versionedWrite.commitVersionedUpdate,
 		versionExpectationOf: versionedWrite.versionExpectationOf,
-		ApiException: jest.requireActual('@gauzy/core/src/lib/core/errors/api-exception').ApiException,
-		ApiErrorCode: jest.requireActual('@gauzy/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
+		ApiException: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-exception').ApiException,
+		ApiErrorCode: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
 		EventOutboxService: class {},
 		MultiORMEnum: { TypeORM: 'typeorm', MikroORM: 'mikro-orm' },
 		VERSION_EXPECTATION_PROPERTY: 'versionExpectation',
@@ -144,7 +144,7 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-jest.mock('@gauzy/plugin-order', () => ({
+jest.mock('@irtranscripts/plugin-order', () => ({
 	OrderLineService: class OrderLineService {},
 	OrderLine: class OrderLine {},
 	OrderTotalsService: class OrderTotalsService {},
@@ -157,7 +157,7 @@ const mockCaller: { tenantId: string | null } = { tenantId: null };
 import 'reflect-metadata';
 import { ForbiddenException } from '@nestjs/common';
 import { DataSource, EntitySchema } from 'typeorm';
-import { FulfillmentDirection } from '@gauzy/contracts';
+import { FulfillmentDirection } from '@irtranscripts/contracts';
 import { FulfillmentLine } from './fulfillment-line/fulfillment-line.entity';
 import { FulfillmentLineService } from './fulfillment-line/fulfillment-line.service';
 import { Fulfillment } from './fulfillment/fulfillment.entity';

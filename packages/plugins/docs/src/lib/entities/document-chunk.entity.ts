@@ -1,8 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsInt, IsNotEmpty, IsOptional, IsString, IsUUID, Min } from 'class-validator';
 import { JoinColumn, RelationId } from 'typeorm';
-import { ID, IDocumentChunk, IDocumentChunkMetadata } from '@gauzy/contracts';
-import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne, TenantOrganizationBaseEntity } from '@gauzy/core';
+import { ID, IDocumentChunk, IDocumentChunkMetadata } from '@irtranscripts/contracts';
+import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne, TenantOrganizationBaseEntity } from '@irtranscripts/core';
 import { MikroOrmDocumentChunkRepository } from '../repositories/mikro-orm-document-chunk.repository';
 import { Document } from './document.entity';
 

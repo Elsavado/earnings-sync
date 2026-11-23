@@ -1,5 +1,5 @@
 import { SetMetadata, Type } from '@nestjs/common';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 /**
  * How a task-setting write names the rows it touches, so {@link TaskSettingPermissionGuard} can tell which team it
@@ -27,7 +27,7 @@ export interface ITaskSettingWrite {
 	kind: TaskSettingWriteKind;
 }
 
-export const TASK_SETTING_WRITE_METADATA = 'gauzy:task-setting-write';
+export const TASK_SETTING_WRITE_METADATA = 'irtranscripts:task-setting-write';
 
 /**
  * Names the rows a task-setting write touches, for {@link TaskSettingPermissionGuard}: with it, a manager of the team

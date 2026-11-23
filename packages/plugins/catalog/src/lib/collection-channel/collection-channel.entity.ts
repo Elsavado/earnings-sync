@@ -1,8 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDateString, IsEnum, IsNotEmpty, IsOptional, IsUUID } from 'class-validator';
 import { JoinColumn, RelationId } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne, TenantOrganizationBaseEntity } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne, TenantOrganizationBaseEntity } from '@irtranscripts/core';
 import { PublicationStatus } from '../catalog.types';
 import { Collection } from '../collection/collection.entity';
 import { MikroOrmCollectionChannelRepository } from './repository/mikro-orm-collection-channel.repository';

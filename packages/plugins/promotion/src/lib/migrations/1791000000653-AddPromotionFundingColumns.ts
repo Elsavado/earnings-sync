@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 /**
  * Creates `promotion.fundingType`, `promotion.sellerFundingShare`, `promotion.sellerId` in the package that owns them (review R5-14).

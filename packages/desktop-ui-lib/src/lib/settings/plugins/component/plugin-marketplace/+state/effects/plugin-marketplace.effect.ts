@@ -14,7 +14,7 @@
  */
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { IPlugin } from '@gauzy/contracts';
+import { IPlugin } from '@irtranscripts/contracts';
 import { NbDialogService } from '@nebular/theme';
 import { createEffect, ofType } from '@ngneat/effects';
 import { Actions } from '@ngneat/effects-ng';

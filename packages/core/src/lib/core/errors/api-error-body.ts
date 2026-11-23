@@ -5,7 +5,7 @@ import { ApiException, reasonPhrase } from './api-exception';
  * The error body every surface returns, and the one function that renders it.
  *
  * `statusCode`, `error` and `message` keep the exact meaning and value they have on every existing
- * Gauzy error response; `code`, `details`, `timestamp`, `path` and `traceId` are added keys. A
+ * IRTranscripts error response; `code`, `details`, `timestamp`, `path` and `traceId` are added keys. A
  * client written against the three original keys therefore keeps working unchanged, and a client
  * that wants to branch on the failure rather than parse the sentence reads `code`.
  *

@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { DeepPartial, DeleteResult, FindManyOptions, FindOptionsWhere, In } from 'typeorm';
-import { ID, IPagination } from '@gauzy/contracts';
-import { LegacyFindOneOptions, RequestContext, TenantAwareCrudService } from '@gauzy/core';
+import { ID, IPagination } from '@irtranscripts/contracts';
+import { LegacyFindOneOptions, RequestContext, TenantAwareCrudService } from '@irtranscripts/core';
 import { confiningOrganizationId } from '../organization-boundary';
 import { assertPostalCodePattern, matchesPostalCode } from '../postal-code.matcher';
 import { TypeOrmTaxRateRepository } from '../tax-rate/repository/type-orm-tax-rate.repository';

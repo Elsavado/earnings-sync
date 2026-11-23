@@ -3,7 +3,7 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import { EntityRepositoryType } from '@mikro-orm/core';
 import { JoinColumn, RelationId } from 'typeorm';
 import { IsBoolean, IsDateString, IsEnum, IsOptional, IsString, IsUUID } from 'class-validator';
-import { ID, IEmployeeNotification, EmployeeNotificationTypeEnum, IEmployee } from '@gauzy/contracts';
+import { ID, IEmployeeNotification, EmployeeNotificationTypeEnum, IEmployee } from '@irtranscripts/contracts';
 import { BasePerEntityType, Employee } from '../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from '../core/decorators/entity';
 import { EmployeeNotificationTypeTransformer } from './employee-notification-type-transform';

@@ -17,7 +17,7 @@ import {
 	PluginSourceType,
 	PluginStatus,
 	PluginType
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	NbDateService,
 	NbDialogRef,
@@ -36,7 +36,7 @@ import { Actions } from '@ngneat/effects-ng';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { asapScheduler, filter, take, tap } from 'rxjs';
-import { patterns } from '@gauzy/constants';
+import { patterns } from '@irtranscripts/constants';
 import { PluginSourceActions } from '../+state/actions/plugin-source.action';
 import { PluginVersionQuery } from '../+state/queries/plugin-version.query';
 import { AlertComponent } from '../../../../../dialogs/alert/alert.component';

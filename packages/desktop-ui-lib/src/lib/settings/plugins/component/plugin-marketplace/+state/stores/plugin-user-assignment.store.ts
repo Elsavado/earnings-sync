@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store, StoreConfig } from '@datorama/akita';
-import { ID, IUser } from '@gauzy/contracts';
+import { ID, IUser } from '@irtranscripts/contracts';
 
 /**
  * Fine-grained operation loading flags.

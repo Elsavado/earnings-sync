@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 export class CreateProjectModuleTaskTable1727152443794 implements MigrationInterface {
 	name = 'CreateProjectModuleTaskTable1727152443794';

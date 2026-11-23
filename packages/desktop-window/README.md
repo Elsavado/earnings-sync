@@ -1,4 +1,4 @@
-# @gauzy/desktop-window
+# @irtranscripts/desktop-window
 
 This library was generated with [Nx](https://nx.dev).
 

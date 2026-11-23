@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable, Logger } from '@nestjs/common';
 import { In } from 'typeorm';
-import { DocumentVisibilityEnum, ID } from '@gauzy/contracts';
-import { isInstallationOperator, RequestContext, TenantSettingService } from '@gauzy/core';
+import { DocumentVisibilityEnum, ID } from '@irtranscripts/contracts';
+import { isInstallationOperator, RequestContext, TenantSettingService } from '@irtranscripts/core';
 import { getDocsConfig } from '../docs.config';
 import { DOCS_QUOTA_OPERATOR_ONLY, DOCS_SETTING_PREFIX, DOCS_SETTING_QUOTA_BYTES } from '../docs.constants';
 import { DocumentSettingsDTO, IDocumentSettings, IDocumentSettingsDefaults } from '../dto/document-settings.dto';
@@ -122,7 +122,7 @@ export class DocumentSettingsService {
 	 * Whether this deployment can actually answer a *vector* similarity query — i.e. the store
 	 * the registry would resolve right now is a vector store, not the lexical floor.
 	 *
-	 * Deliberately resolved rather than probed provider-by-provider: `GAUZY_DOCS_VECTOR_STORE`
+	 * Deliberately resolved rather than probed provider-by-provider: `IRTRANSCRIPTS_DOCS_VECTOR_STORE`
 	 * can pin a third-party store, and an unavailable pgvector falls through to `lexical`. The
 	 * capability block has to report what retrieval will really do, so it asks the same
 	 * `resolve()` the retrieval path asks (`false` ⇒ lexical-only degradation, per the spec's

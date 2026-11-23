@@ -22,7 +22,7 @@ jest.mock('../commerce-checkout-session/commerce-checkout-session.service', () =
 	CommerceCheckoutSessionService: class CommerceCheckoutSessionService {}
 }));
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { SetMetadata } = require('@nestjs/common');
 
 	/** A no-op decorator factory: nothing here is mapped onto a module graph. */
@@ -33,7 +33,7 @@ jest.mock('@gauzy/core', () => {
 	 * string literal: a spec that spelled it out would keep passing after the decorator and the guard
 	 * stopped agreeing on the key they use.
 	 */
-	const { VERSIONED_METADATA_KEY } = jest.requireActual('@gauzy/core/src/lib/concurrency/version.util');
+	const { VERSIONED_METADATA_KEY } = jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util');
 
 	/** Every base class the DTOs and entities extend, declared but never mapped onto anything. */
 	class BaseEntity {}
@@ -65,30 +65,30 @@ jest.mock('@gauzy/core', () => {
 		TenantBaseDTO: class {},
 		TenantOrganizationBaseDTO: class {},
 		MikroOrmBaseEntityRepository: class {},
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
-		IDEMPOTENT_METADATA_KEY: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.policy')
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		IDEMPOTENT_METADATA_KEY: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.policy')
 			.IDEMPOTENT_METADATA_KEY,
 		// The convention as a declaration read needs it: the metadata the real decorator records, on the
 		// same key. The decorator itself is not required, because it also applies the version guard —
 		// which injects the idempotency service, which extends the CRUD service, which imports the
-		// entity registry, so requiring it here loads `@gauzy/core` in an order where
+		// entity registry, so requiring it here loads `@irtranscripts/core` in an order where
 		// `class TenantAwareCrudService extends CrudService` runs before `CrudService` is defined. No
 		// guard runs in this suite; what it asserts is the metadata below.
 		Versioned: (options: unknown = {}) => SetMetadata(VERSIONED_METADATA_KEY, options),
-		versionExpectationOf: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		versionExpectationOf: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.versionExpectationOf,
 		// The connection helpers the list fields page and answer with, taken from the kernel rather than
 		// restated: a double that stubbed them would let a page drift from the contract in a suite that
 		// still passed, which is the whole class of defect this conversion removed.
-		connectionFromOffsetPage: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		connectionFromOffsetPage: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.connectionFromOffsetPage,
-		resolveConnectionWindow: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		resolveConnectionWindow: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.resolveConnectionWindow
 	};
 });
 
 import { print } from 'graphql';
-import { IDEMPOTENT_METADATA_KEY, VERSIONED_METADATA_KEY } from '@gauzy/core';
+import { IDEMPOTENT_METADATA_KEY, VERSIONED_METADATA_KEY } from '@irtranscripts/core';
 import { CommerceCartService } from '../commerce-cart/commerce-cart.service';
 import { CommerceCartResolver } from './commerce-cart.resolver';
 import { CommerceCartLineResolver } from './commerce-cart-line.resolver';

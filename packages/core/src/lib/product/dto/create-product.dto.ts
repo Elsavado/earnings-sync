@@ -7,7 +7,7 @@ import {
 	IProductOptionTranslatable,
 	IProductTranslation,
 	IProductTypeTranslatable
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { ProductDTO } from './product.dto';
 
 export class CreateProductDTO extends ProductDTO implements IProductCreateInput {

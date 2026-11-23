@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Header, HttpCode, HttpStatus, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiConflictResponse, ApiGoneResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
-import { Public } from '@gauzy/common';
-import { IAccountDeletionPreview, IAccountDeletionResult, PermissionsEnum } from '@gauzy/contracts';
+import { Public } from '@irtranscripts/common';
+import { IAccountDeletionPreview, IAccountDeletionResult, PermissionsEnum } from '@irtranscripts/contracts';
 import { Permissions } from '../shared/decorators';
 import { PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { UseValidationPipe } from '../shared/pipes';

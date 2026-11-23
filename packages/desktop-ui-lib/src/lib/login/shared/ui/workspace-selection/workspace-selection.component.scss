@@ -7,7 +7,7 @@
     flex-direction: column;
     height: 100%;
     width: 100%;
-    background: var(--gauzy-card-2);
+    background: var(--irtranscripts-card-2);
     border-radius: var(--border-radius);
     padding: 1rem;
   }
@@ -19,7 +19,7 @@
 
     h4 {
       font-size: 24px;
-      color: var(--gauzy-text-color-1);
+      color: var(--irtranscripts-text-color-1);
       font-weight: 600;
       letter-spacing: -1px;
 
@@ -29,7 +29,7 @@
     }
 
     p {
-      color: var(--gauzy-text-color-2);
+      color: var(--irtranscripts-text-color-2);
       font-weight: 500;
     }
   }
@@ -40,12 +40,12 @@
   }
 
   nb-card {
-    box-shadow: var(--gauzy-shadow);
-    background-color: var(--gauzy-card-2);
+    box-shadow: var(--irtranscripts-shadow);
+    background-color: var(--irtranscripts-card-2);
 
     .title {
       font-weight: 400;
-      color: var(--gauzy-text-color-1);
+      color: var(--irtranscripts-text-color-1);
       text-overflow: ellipsis;
       overflow: hidden;
       text-wrap: nowrap;
@@ -66,7 +66,7 @@
         }
 
         &:hover {
-          background-color: var(--gauzy-background-transparent-1);
+          background-color: var(--irtranscripts-background-transparent-1);
           border-bottom: 1px solid var(--border-primary-color-1);
           border-radius: var(--border-radius);
         }

@@ -8,11 +8,11 @@ export type ProgressBarSize = 'tiny' | 'small' | 'medium' | 'large' | 'giant';
 export interface ProgressBarProps {
 	/** Percentage 0–100 (clamped). */
 	value: number;
-	/** Nebular status; defaults to `progressStatus(value)` like the Gauzy dashboards. */
+	/** Nebular status; defaults to `progressStatus(value)` like the IRTranscripts dashboards. */
 	status?: NbStatus;
 	/** Nebular size token; defaults to `tiny`. */
 	size?: ProgressBarSize;
-	/** Explicit track height (overrides the size token) — Gauzy dashboards use 5px / 10px. */
+	/** Explicit track height (overrides the size token) — IRTranscripts dashboards use 5px / 10px. */
 	height?: string;
 	/** Renders the percentage text inside the bar (Nebular `displayValue`). */
 	displayValue?: boolean;

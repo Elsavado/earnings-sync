@@ -1,5 +1,5 @@
-import { IPagination } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { IPagination } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { PluginService, PluginVersionService } from '../../../../domain';
 import { IPluginVersion } from '../../../../shared';

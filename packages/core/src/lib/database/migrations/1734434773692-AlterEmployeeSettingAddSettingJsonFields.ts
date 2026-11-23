@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 export class AlterEmployeeSettingAddSettingJsonFields1734434773692 implements MigrationInterface {
 	name = 'AlterEmployeeSettingAddSettingJsonFields1734434773692';

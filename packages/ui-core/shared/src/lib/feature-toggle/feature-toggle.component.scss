@@ -5,10 +5,10 @@
  *
  * Same vocabulary as Settings → General: each feature is a "group" — a titled
  * panel with a hairline inset, its sub-features listed as rows below. 12px body,
- * 500 titles / 400 everything else, gauzy-* surface tokens, no shadows.
+ * 500 titles / 400 everything else, irtranscripts-* surface tokens, no shadows.
  */
 
-$hairline: var(--gauzy-border-default-color, var(--border-basic-color-3));
+$hairline: var(--irtranscripts-border-default-color, var(--border-basic-color-3));
 
 :host {
 	// Takes the height the Features tab set hands down, so the list below scrolls inside
@@ -24,14 +24,14 @@ $hairline: var(--gauzy-border-default-color, var(--border-basic-color-3));
 		margin: 0;
 		padding: 0;
 		border-radius: 0 0 nb-theme(border-radius) nb-theme(border-radius);
-		background: var(--gauzy-card-2, var(--background-basic-color-2));
+		background: var(--irtranscripts-card-2, var(--background-basic-color-2));
 	}
 
 	// Sits on the same surface as the groups below — one canvas under the tab strip.
 	.feature-page-header {
 		padding: 1rem 1rem 0;
 		border-bottom: 0;
-		background: var(--gauzy-card-2, var(--background-basic-color-2));
+		background: var(--irtranscripts-card-2, var(--background-basic-color-2));
 	}
 
 	.feature-page-title {
@@ -46,7 +46,7 @@ $hairline: var(--gauzy-border-default-color, var(--border-basic-color-3));
 		min-height: 0;
 		overflow: auto;
 		padding: 1rem 1rem 0;
-		background: var(--gauzy-card-2, var(--background-basic-color-2));
+		background: var(--irtranscripts-card-2, var(--background-basic-color-2));
 	}
 }
 
@@ -66,8 +66,8 @@ $hairline: var(--gauzy-border-default-color, var(--border-basic-color-3));
 	width: 100%;
 	margin-bottom: 1rem;
 	break-inside: avoid;
-	border-radius: var(--gauzy-radius-sm, 0.5rem);
-	background: var(--gauzy-card-1, var(--card-background-color));
+	border-radius: var(--irtranscripts-radius-sm, 0.5rem);
+	background: var(--irtranscripts-card-1, var(--card-background-color));
 	box-shadow: inset 0 0 0 1px $hairline;
 	font-size: 0.75rem;
 	color: var(--text-basic-color);
@@ -88,9 +88,9 @@ $hairline: var(--gauzy-border-default-color, var(--border-basic-color-3));
 	justify-content: center;
 	width: 2rem;
 	height: 2rem;
-	border-radius: var(--gauzy-radius-sm, 0.5rem);
+	border-radius: var(--irtranscripts-radius-sm, 0.5rem);
 	color: var(--text-hint-color);
-	background: var(--gauzy-card-2, var(--background-basic-color-2));
+	background: var(--irtranscripts-card-2, var(--background-basic-color-2));
 	box-shadow: inset 0 0 0 1px $hairline;
 
 	nb-icon {

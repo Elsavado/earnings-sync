@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult, UpdateResult } from 'typeorm';
-import { ID, IOfficialHoliday, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IOfficialHoliday, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { Permissions } from './../shared/decorators';
 import { PermissionGuard, TenantPermissionGuard } from './../shared/guards';
 import { UUIDValidationPipe, UseValidationPipe } from './../shared/pipes';

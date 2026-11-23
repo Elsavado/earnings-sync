@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { IBaseEntityWithMembers, IEditEntityByMemberInput, IEmployee, IOrganization } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
+import { IBaseEntityWithMembers, IEditEntityByMemberInput, IEmployee, IOrganization } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
 
 @Component({
     selector: 'ga-edit-employee-membership',

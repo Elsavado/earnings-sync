@@ -1,5 +1,5 @@
 import { JoinColumn, RelationId } from 'typeorm';
-import { IProductTypeTranslation } from '@gauzy/contracts';
+import { IProductTypeTranslation } from '@irtranscripts/contracts';
 import { ApiProperty } from '@nestjs/swagger';
 import { ProductType, TranslationBase } from '../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from './../core/decorators/entity';

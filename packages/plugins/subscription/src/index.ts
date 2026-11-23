@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-subscription
+ * Public API Surface of @irtranscripts/plugin-subscription
  */
 export * from './lib/subscription.plugin';
 export * from './lib/subscription.module';

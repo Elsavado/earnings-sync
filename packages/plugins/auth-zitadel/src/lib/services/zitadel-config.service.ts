@@ -1,5 +1,5 @@
 import { Inject, Injectable, Logger, NotFoundException, Optional } from '@nestjs/common';
-import { OidcIssuerConfig } from '@gauzy/auth';
+import { OidcIssuerConfig } from '@irtranscripts/auth';
 import { AUTH_ZITADEL_SETTINGS } from '../auth-zitadel.tokens';
 import { AuthZitadelSettings, ZitadelLinkMode, isEverHost, issuerProblem, stripTrailingSlashes } from '../auth-zitadel.config';
 import { EVER_CONNECT_CONFIG, EverConnectConfigPort } from '../ports/ever-connect-config.port';

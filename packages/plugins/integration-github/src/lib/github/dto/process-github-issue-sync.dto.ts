@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsArray, IsObject, IsOptional, IsUUID } from 'class-validator';
-import { ID, IGithubIssue, IGithubSyncIssuePayload, IOrganizationGithubRepository } from '@gauzy/contracts';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { ID, IGithubIssue, IGithubSyncIssuePayload, IOrganizationGithubRepository } from '@irtranscripts/contracts';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 
 /**
  * Data Transfer Object for processing GitHub issue synchronization.

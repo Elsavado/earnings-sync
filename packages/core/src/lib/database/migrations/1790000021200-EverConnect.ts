@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 /** A column: name, type per database, and whether it may be empty / its default. */
 interface Column {
@@ -62,7 +62,7 @@ const bool = (name: string, defaultValue?: boolean): Column => ({
 });
 
 /**
- * The tables of the Ever Platform connection plugin (`@gauzy/plugin-ever-connect`). Times are epoch
+ * The tables of the Ever Platform connection plugin (`@irtranscripts/plugin-ever-connect`). Times are epoch
  * milliseconds; ids are text (Ever Platform ids are ULIDs).
  */
 const TABLES: Table[] = [
@@ -120,7 +120,7 @@ const TABLES: Table[] = [
 			bigint('updatedAt', true),
 			bigint('unlinkedAt'),
 			// `<tenantId>|<organizationId>` while the link is live, NULL once unlinked: one live link per
-			// Gauzy organization (a unique index allows any number of NULLs on every database).
+			// IRTranscripts organization (a unique index allows any number of NULLs on every database).
 			varchar('liveKey', 80)
 		],
 		indexes: [
@@ -208,13 +208,13 @@ const TABLES: Table[] = [
 ];
 
 /**
- * Creates the six tables of the Ever Platform connection plugin (`@gauzy/plugin-ever-connect`):
+ * Creates the six tables of the Ever Platform connection plugin (`@irtranscripts/plugin-ever-connect`):
  *
  * - `ever_connect_connection`: the one-row connection of this installation (no credential: the
  *   connect key lives encrypted in `ever_instance`; the instance-wide entitlement document is
  *   stored encrypted);
- * - `ever_connect_link`: one row per Gauzy organization linked to an Ever organization (its
- *   entitlement document, encrypted; Gauzy's own `integration_tenant` row names the link);
+ * - `ever_connect_link`: one row per IRTranscripts organization linked to an Ever organization (its
+ *   entitlement document, encrypted; IRTranscripts's own `integration_tenant` row names the link);
  * - `ever_connect_integration`: the local state of each integration, per link or installation-wide;
  * - `ever_connect_policy`: the operator's allow or deny per integration;
  * - `ever_connect_audit`: the append-only record of what happened (ids and states only);

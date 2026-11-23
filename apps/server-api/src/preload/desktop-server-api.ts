@@ -1,5 +1,5 @@
 import { fork, ChildProcessWithoutNullStreams } from 'child_process';
-import { LocalStore, resolveDesktopListenHost } from '@gauzy/desktop-lib';
+import { LocalStore, resolveDesktopListenHost } from '@irtranscripts/desktop-lib';
 
 interface IEnvApi {
 	IS_ELECTRON: string;

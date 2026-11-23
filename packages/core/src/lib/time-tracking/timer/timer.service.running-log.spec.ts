@@ -1,8 +1,8 @@
 // Must stay first: see timer.service.spec.ts.
 import '../../core/entities/internal';
 
-import { DatabaseTypeEnum, defineConfig } from '@gauzy/config';
-import { ITimeLog, ITimerStatus, ITimerStatusInput, ITimerToggleInput, TimeLogSourceEnum } from '@gauzy/contracts';
+import { DatabaseTypeEnum, defineConfig } from '@irtranscripts/config';
+import { ITimeLog, ITimerStatus, ITimerStatusInput, ITimerToggleInput, TimeLogSourceEnum } from '@irtranscripts/contracts';
 import { FindOperator } from 'typeorm';
 import { MultiORMEnum } from '../../core/utils';
 import { asTenantUser, createTenantFixture } from '../../core/testing/tenant-isolation/tenant-isolation.fixtures';

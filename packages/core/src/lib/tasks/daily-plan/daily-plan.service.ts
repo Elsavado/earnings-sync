@@ -18,9 +18,9 @@ import {
 	IDailyPlanUpdateInput,
 	IPagination,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { isBetterSqlite3, isSqlite } from '@gauzy/config';
-import { isNotEmpty } from '@gauzy/utils';
+} from '@irtranscripts/contracts';
+import { isBetterSqlite3, isSqlite } from '@irtranscripts/config';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { prepareSQLQuery as p } from '../../database/database.helper';
 import { BaseQueryDTO, TenantAwareCrudService } from '../../core/crud';
 import { RequestContext } from '../../core/context/request-context';

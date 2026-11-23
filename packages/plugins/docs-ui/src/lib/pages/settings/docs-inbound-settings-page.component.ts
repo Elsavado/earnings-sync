@@ -23,10 +23,10 @@ import {
 	IDocumentInboundAddressUpdateInput,
 	IDocumentInboundDomainVerification,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
-import { Store, ToastrService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/contracts';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
+import { Store, ToastrService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import {
 	IDocsInboundDomainDialogResult,
 	InboundDomainDialogComponent
@@ -217,7 +217,7 @@ export class DocsInboundSettingsPageComponent extends TranslationBaseComponent i
 	 * Splits the wire rows into the two cards and fetches each custom domain's DNS record.
 	 *
 	 * One extra call per custom domain — a handful at most, and the record is only authoritative
-	 * server-side (the `_gauzy-docs` prefix is a backend constant). A failed probe leaves that
+	 * server-side (the `_irtranscripts-docs` prefix is a backend constant). A failed probe leaves that
 	 * row's `verification` at `null`, which the template renders as "record unavailable" instead
 	 * of failing the whole page.
 	 */

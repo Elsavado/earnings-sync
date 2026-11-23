@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { IPagination } from '@gauzy/contracts';
+import { IPagination } from '@irtranscripts/contracts';
 import { PluginTenantService } from '../../../../domain';
 import { IPluginTenant } from '../../../../shared';
 import { GetPluginTenantsByPluginQuery } from '../get-plugin-tenants-by-plugin.query';

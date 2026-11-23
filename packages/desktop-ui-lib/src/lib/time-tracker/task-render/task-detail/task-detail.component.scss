@@ -15,7 +15,7 @@
 }
 
 .task.number {
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 	padding: 1px 10px;
 	border-radius: 3px;
 	background: rgba(214, 214, 214, 1);
@@ -25,18 +25,18 @@
 
 .title-description,
 .title {
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 	font-weight: 600;
 }
 
 :host nb-card {
 	max-width: 640px;
-	background-color: var(--gauzy-card-1);
+	background-color: var(--irtranscripts-card-1);
 
 	nb-card-body {
 		@include nb-ltr(padding, 0.5rem 4px 1rem 1rem);
 		@include nb-rtl(padding, 0.5rem 1rem 1rem 4px);
-		background-color: var(--gauzy-card-2);
+		background-color: var(--irtranscripts-card-2);
 		min-width: 450px;
 	}
 
@@ -46,11 +46,11 @@
 
 	nb-card-footer {
 		padding: 0 1rem 1rem 1rem;
-		background-color: var(--gauzy-card-2);
+		background-color: var(--irtranscripts-card-2);
 	}
 }
 
-:host ::ng-deep gauzy-task-badge-view.task-badge {
+:host ::ng-deep irtranscripts-task-badge-view.task-badge {
 	font-size: 11px;
 }
 
@@ -95,7 +95,7 @@
 
 		i {
 			font-size: 11px;
-			color: var(--gauzy-text-color-2);
+			color: var(--irtranscripts-text-color-2);
 		}
 	}
 }

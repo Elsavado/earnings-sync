@@ -2,7 +2,7 @@
 import '../core/entities/internal';
 
 import { Logger } from '@nestjs/common';
-import { EmailStatusEnum, IUser, LanguagesEnum } from '@gauzy/contracts';
+import { EmailStatusEnum, IUser, LanguagesEnum } from '@irtranscripts/contracts';
 import { EmailService } from './email.service';
 
 /**
@@ -14,7 +14,7 @@ import { EmailService } from './email.service';
 
 const USER = {
 	id: 'user-1',
-	email: 'buyer+gauzy@corp.co',
+	email: 'buyer+irtranscripts@corp.co',
 	firstName: 'Jane',
 	lastName: 'Doe',
 	preferredLanguage: LanguagesEnum.ENGLISH

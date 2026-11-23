@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 export class CreateDashboardWidgetTable1735029860021 implements MigrationInterface {
 	name = 'CreateDashboardWidgetTable1735029860021';

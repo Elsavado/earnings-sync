@@ -21,7 +21,7 @@ import { AppController } from './app.controller';
  * and `getAppConfigs` — so the suite failed to COMPILE and every test in it silently never ran.
  */
 describe('AppController', () => {
-	const APP_NAME = 'Gauzy';
+	const APP_NAME = 'IRTranscripts';
 
 	/** Minimal `ConfigService` double: the controller only ever reads `app` and `setting`. */
 	const configValues: Record<string, unknown> = {
@@ -64,7 +64,7 @@ describe('AppController', () => {
 			const version = controller.getAppVersion();
 
 			expect(version.name).toBe('api');
-			// Both are baked in at Docker build time via GAUZY_APP_VERSION / GAUZY_APP_COMMIT and
+			// Both are baked in at Docker build time via IRTRANSCRIPTS_APP_VERSION / IRTRANSCRIPTS_APP_COMMIT and
 			// are empty when running from source, so assert the contract rather than the values.
 			expect(typeof version.version).toBe('string');
 			expect(typeof version.commit).toBe('string');

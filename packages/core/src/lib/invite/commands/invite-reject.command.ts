@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { IInviteRejectInput } from '@gauzy/contracts';
+import { IInviteRejectInput } from '@irtranscripts/contracts';
 
 /**
  * Reject invite command

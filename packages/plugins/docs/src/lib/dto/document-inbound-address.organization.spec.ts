@@ -5,10 +5,10 @@
  *   tenant>` and read — minting it on first read — that organization's platform capture address, the credential
  *   that drops mailed attachments into its documents;
  * - a DOCS_MANAGE holder could rotate, disable, re-allowlist or add a custom domain for another organization.
- * They now extend a partial `TenantOrganizationBaseDTO`, which carries that check. `@gauzy/core` boots the whole
+ * They now extend a partial `TenantOrganizationBaseDTO`, which carries that check. `@irtranscripts/core` boots the whole
  * application graph on import, so its base is stubbed here with a stand-in for the membership rule.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { IsIn, IsOptional } = jest.requireActual('class-validator');
 	class TenantOrganizationBaseDTO {
 		organizationId?: string;
@@ -21,7 +21,7 @@ jest.mock('@gauzy/core', () => {
 
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
-import { DocumentInboundAddressKindEnum } from '@gauzy/contracts';
+import { DocumentInboundAddressKindEnum } from '@irtranscripts/contracts';
 import {
 	CreateDocumentInboundAddressDTO,
 	DocumentInboundAddressQueryDTO,

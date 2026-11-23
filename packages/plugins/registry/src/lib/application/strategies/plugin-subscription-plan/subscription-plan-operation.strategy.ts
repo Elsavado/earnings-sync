@@ -1,4 +1,4 @@
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { CommandBus } from '@nestjs/cqrs';
 import {
 	CreatePluginSubscriptionPlanDTO,

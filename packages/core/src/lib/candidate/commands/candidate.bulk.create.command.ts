@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { ICandidateCreateInput, LanguagesEnum } from '@gauzy/contracts';
+import { ICandidateCreateInput, LanguagesEnum } from '@irtranscripts/contracts';
 
 export class CandidateBulkCreateCommand implements ICommand {
 	static readonly type = '[Candidate] Bulk Create';

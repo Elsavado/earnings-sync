@@ -4,8 +4,8 @@ import { SentryInterceptorOptions } from './sentry.interfaces';
 
 jest.mock('@sentry/node', () => ({}));
 jest.mock('@sentry/core', () => ({ httpRequestToRequestData: jest.fn() }));
-// SentryService only reads the current request's tenant settings from @gauzy/core.
-jest.mock('@gauzy/core', () => ({ RequestContext: { currentRequest: () => undefined } }));
+// SentryService only reads the current request's tenant settings from @irtranscripts/core.
+jest.mock('@irtranscripts/core', () => ({ RequestContext: { currentRequest: () => undefined } }));
 
 class EntityNotFoundError extends Error {}
 

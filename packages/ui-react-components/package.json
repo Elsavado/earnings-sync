@@ -1,7 +1,7 @@
 {
-	"name": "@gauzy/ui-react-components",
+	"name": "@irtranscripts/ui-react-components",
 	"version": "0.1.0",
-	"description": "Reusable React UI components (Card, CounterPoint, ProgressBar, Badge, Avatar, Spinner, Popover) and theme-adaptive design tokens for Gauzy dashboards.",
+	"description": "Reusable React UI components (Card, CounterPoint, ProgressBar, Badge, Avatar, Spinner, Popover) and theme-adaptive design tokens for IRTranscripts dashboards.",
 	"author": {
 		"name": "Ever Co. LTD",
 		"email": "ever@ever.co",
@@ -31,10 +31,10 @@
 		"@types/react-dom": "^19.3.0"
 	},
 	"keywords": [
-		"gauzy",
+		"irtranscripts",
 		"ui-react-components",
 		"react",
-		"ever-gauzy"
+		"ever-irtranscripts"
 	],
 	"engines": {
 		"node": ">=26",

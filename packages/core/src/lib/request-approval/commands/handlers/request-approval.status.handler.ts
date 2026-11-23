@@ -5,7 +5,7 @@ import {
 	ID,
 	StatusTypesEnum,
 	StatusTypesMapRequestApprovalEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { RequestContext } from '../../../core/context';
 import { isWithinOrganizationBoundary } from '../../../core/crud/organization-boundary';
 import { RequestApprovalStatusCommand } from '../request-approval.status.command';

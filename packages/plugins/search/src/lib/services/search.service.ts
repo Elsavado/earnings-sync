@@ -10,8 +10,8 @@ import {
 	ISearchSuggestion,
 	PermissionsEnum,
 	RolesEnum
-} from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { SearchIndexRegistry } from '../registry/search-index.registry';
 import { SearchProviderRegistry } from '../providers/search-provider.registry';
 import { SearchIndexerService } from './search-indexer.service';

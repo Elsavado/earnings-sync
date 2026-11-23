@@ -1,8 +1,8 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional } from 'class-validator';
 import { Transform, TransformFnParams } from 'class-transformer';
-import { parseToBoolean } from '@gauzy/utils';
-import { IFindMeUser } from '@gauzy/contracts';
+import { parseToBoolean } from '@irtranscripts/utils';
+import { IFindMeUser } from '@irtranscripts/contracts';
 import { RelationsQueryDTO } from './../../shared/dto';
 
 /**

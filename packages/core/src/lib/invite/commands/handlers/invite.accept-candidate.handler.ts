@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { BadRequestException, ConflictException } from '@nestjs/common';
-import { IInvite, IUser, RolesEnum } from '@gauzy/contracts';
+import { IInvite, IUser, RolesEnum } from '@irtranscripts/contracts';
 import { AuthService } from '../../../auth/auth.service';
 import { InviteService } from '../../invite.service';
 import { InviteAcceptCandidateCommand } from '../invite.accept-candidate.command';

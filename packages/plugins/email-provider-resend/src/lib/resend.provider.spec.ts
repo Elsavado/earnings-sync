@@ -1,8 +1,8 @@
 // cspell:ignore svix whsec
-// `@gauzy/plugin-inbox` is used from source with its real MIME parser and replay guard; `@gauzy/core` (whose barrel
+// `@irtranscripts/plugin-inbox` is used from source with its real MIME parser and replay guard; `@irtranscripts/core` (whose barrel
 // boots the application) is not needed by the parts used here.
-jest.mock('@gauzy/core', () => ({ EVER_REDIS_CLIENT: 'EVER_REDIS_CLIENT' }));
-jest.mock('@gauzy/plugin-inbox', () => ({
+jest.mock('@irtranscripts/core', () => ({ EVER_REDIS_CLIENT: 'EVER_REDIS_CLIENT' }));
+jest.mock('@irtranscripts/plugin-inbox', () => ({
 	...jest.requireActual('../../../inbox/src/lib/email/inbound/mime'),
 	InboundReplayGuard: jest.requireActual('../../../inbox/src/lib/email/inbound/replay-guard.service')
 		.InboundReplayGuard

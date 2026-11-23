@@ -1,8 +1,8 @@
 /**
- * `@gauzy/core` is a barrel over the whole server core; stubs stand in for the shapes this service uses.
+ * `@irtranscripts/core` is a barrel over the whole server core; stubs stand in for the shapes this service uses.
  * LIKE_OPERATOR is what core resolves on a non-PostgreSQL database (MySQL / SQLite).
  */
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	TenantAwareCrudService: class TenantAwareCrudService {
 		ormType = 'mikro-orm';
 		constructor(public readonly typeOrmRepository: any, public readonly mikroOrmRepository: any) {}
@@ -35,7 +35,7 @@ jest.mock('./repository/mikro-orm-help-center-article.repository', () => ({
 	MikroOrmHelpCenterArticleRepository: class MikroOrmHelpCenterArticleRepository {}
 }));
 
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { HelpCenterArticleService } from './help-center-article.service';
 
 /**

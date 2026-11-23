@@ -13,18 +13,18 @@ import { Router, RouterModule } from '@angular/router';
 import { akitaConfig, persistState } from '@datorama/akita';
 import {
 	ElectronService,
-	GAUZY_ENV,
-	GauzyStorageService,
+	IRTRANSCRIPTS_ENV,
+	IRTranscriptsStorageService,
 	LanguageModule,
 	LoggerService,
 	NgxDesktopThemeModule,
 	providePluginInitializers,
 	providePluginsEffects,
 	Store
-} from '@gauzy/desktop-ui-lib';
-import { environment as gauzyEnvironment } from '@gauzy/ui-config';
-import { provideI18n } from '@gauzy/ui-core/i18n';
-import { TablerIconsModule } from '@gauzy/ui-core/icons';
+} from '@irtranscripts/desktop-ui-lib';
+import { environment as irtranscriptsEnvironment } from '@irtranscripts/ui-config';
+import { provideI18n } from '@irtranscripts/ui-core/i18n';
+import { TablerIconsModule } from '@irtranscripts/ui-core/icons';
 import {
 	NbDialogModule,
 	NbDialogService,
@@ -79,9 +79,9 @@ bootstrapApplication(AppComponent, {
 		LoggerService,
 		Store,
 		provideAppInitializer(() => {
-			const storage = inject(GauzyStorageService);
+			const storage = inject(IRTranscriptsStorageService);
 			persistState({
-				key: '_gauzyStore',
+				key: '_irtranscriptsStore',
 				enableInNonBrowser: true,
 				storage
 			});
@@ -114,9 +114,9 @@ bootstrapApplication(AppComponent, {
 			iconLibraries.setDefaultPack('eva');
 		}),
 		{
-			provide: GAUZY_ENV,
+			provide: IRTRANSCRIPTS_ENV,
 			useValue: {
-				...gauzyEnvironment,
+				...irtranscriptsEnvironment,
 				...environment
 			}
 		},

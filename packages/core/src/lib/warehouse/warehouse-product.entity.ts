@@ -8,7 +8,7 @@ import {
 	IWarehouse,
 	IWarehouseProduct,
 	IWarehouseProductVariant
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsInt, IsOptional, IsString, IsUUID, MaxLength, Min } from 'class-validator';
 import {

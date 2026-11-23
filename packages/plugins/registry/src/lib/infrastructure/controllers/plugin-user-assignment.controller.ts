@@ -1,5 +1,5 @@
-import { ID, IPagination, PermissionsEnum } from '@gauzy/contracts';
-import { PermissionGuard, Permissions, RequestContext, TenantPermissionGuard, UUIDValidationPipe } from '@gauzy/core';
+import { ID, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
+import { PermissionGuard, Permissions, RequestContext, TenantPermissionGuard, UUIDValidationPipe } from '@irtranscripts/core';
 import {
 	Body,
 	Controller,

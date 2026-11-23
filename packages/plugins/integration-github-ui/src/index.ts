@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-integration-github-ui
+ * Public API Surface of @irtranscripts/plugin-integration-github-ui
  */
 export * from './lib/integration-github-ui.module';
 export * from './lib/github.config';

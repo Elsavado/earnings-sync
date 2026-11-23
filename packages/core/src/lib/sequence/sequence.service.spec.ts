@@ -1,5 +1,5 @@
-jest.mock('@gauzy/config', () => {
-	const actual = jest.requireActual('@gauzy/config');
+jest.mock('@irtranscripts/config', () => {
+	const actual = jest.requireActual('@irtranscripts/config');
 
 	// The dialect is decided once at boot from the environment; here it is decided per case so that
 	// the row-locked path and the embedded path are both exercised by this suite — and MySQL's, whose
@@ -47,7 +47,7 @@ jest.mock('./sequence.entity', () => {
 
 import { BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
 import { FindOperator, PessimisticLockTransactionRequiredError } from 'typeorm';
-import { SequenceResetPolicy } from '@gauzy/contracts';
+import { SequenceResetPolicy } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context/request-context';
 import { IdempotencyService } from '../idempotency/idempotency.service';
 import type { TypeOrmIdempotencyKeyRepository } from '../idempotency/repository/type-orm-idempotency-key.repository';
@@ -388,7 +388,7 @@ const ORGANIZATION = '6b1e0f2a-0000-4000-8000-00000000000a';
 const CHANNEL = '6b1e0f2a-0000-4000-8000-00000000000b';
 
 /** The dialect the mocked configuration reports, so a case can choose the path it exercises. */
-const dialect = (): { current: 'postgres' | 'mysql' | 'sqlite' } => (jest.requireMock('@gauzy/config') as any).dialect;
+const dialect = (): { current: 'postgres' | 'mysql' | 'sqlite' } => (jest.requireMock('@irtranscripts/config') as any).dialect;
 
 /** The service under test and the store it allocates from. */
 function seriesStore(

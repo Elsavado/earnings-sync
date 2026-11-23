@@ -1,7 +1,7 @@
 import { JoinColumn, RelationId, Tree, TreeChildren, TreeParent } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsEnum, IsInt, IsOptional, IsString, IsUUID, MaxLength, Min } from 'class-validator';
-import { ID, IImageAsset, IProductCategoryTranslatable } from '@gauzy/contracts';
+import { ID, IImageAsset, IProductCategoryTranslatable } from '@irtranscripts/contracts';
 import {
 	ImageAsset,
 	Product,

@@ -9,7 +9,7 @@ import {
 	wrap
 } from '@mikro-orm/core';
 import { SOFT_DELETABLE_FILTER } from 'mikro-orm-soft-delete';
-import { MultiORMEnum, convertTypeORMWhereToMikroORM, parseOrderOptions } from '@gauzy/core';
+import { MultiORMEnum, convertTypeORMWhereToMikroORM, parseOrderOptions } from '@irtranscripts/core';
 
 /**
  * How this package reads and edits its rows under `DB_ORM=mikro-orm`.

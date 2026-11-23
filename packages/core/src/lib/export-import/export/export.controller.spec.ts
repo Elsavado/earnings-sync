@@ -21,9 +21,9 @@ describe('ExportController', () => {
 	const buildService = () => ({
 		createExportJob: jest.fn(async () => ({
 			id: 'job-1',
-			workDir: '/tmp/gauzy-export-1',
-			csvDir: '/tmp/gauzy-export-1/csv',
-			archivePath: '/tmp/gauzy-export-1/job-1_export.zip',
+			workDir: '/tmp/irtranscripts-export-1',
+			csvDir: '/tmp/irtranscripts-export-1/csv',
+			archivePath: '/tmp/irtranscripts-export-1/job-1_export.zip',
 			archiveName: 'job-1_export.zip'
 		})),
 		exportTables: jest.fn(async () => true),
@@ -105,9 +105,9 @@ describe('ExportController', () => {
 			const id = `job-${++counter}`;
 			return {
 				id,
-				workDir: `/tmp/gauzy-export-${id}`,
-				csvDir: `/tmp/gauzy-export-${id}/csv`,
-				archivePath: `/tmp/gauzy-export-${id}/${id}_export.zip`,
+				workDir: `/tmp/irtranscripts-export-${id}`,
+				csvDir: `/tmp/irtranscripts-export-${id}/csv`,
+				archivePath: `/tmp/irtranscripts-export-${id}/${id}_export.zip`,
 				archiveName: `${id}_export.zip`
 			};
 		});

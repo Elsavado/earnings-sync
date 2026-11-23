@@ -14,7 +14,7 @@ import {
 	RelationId,
 	Repository
 } from 'typeorm';
-import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@gauzy/config';
+import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@irtranscripts/config';
 import { RequestContext } from '../context';
 import { MultiORMEnum } from '../utils';
 import { CrudService } from './crud.service';
@@ -546,7 +546,7 @@ describe.each([
 	],
 	[
 		'MySQL',
-		{ type: 'mysql', database: 'gauzy' },
+		{ type: 'mysql', database: 'irtranscripts' },
 		'EXISTS (SELECT 1 FROM `read_scope_tenant` `tenant_scope` WHERE `tenant_scope`.`id` = `ReadScopeRow`.`tenantId` AND `tenant_scope`.`deletedAt` IS NULL)'
 	]
 ] as const)('TenantAwareCrudService read scope on %s', (_label, options, predicate) => {

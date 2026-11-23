@@ -3,7 +3,7 @@ import { IntegrationMap } from './integration-map.entity';
 import { faker } from '@faker-js/faker';
 import { IntegrationTenant } from '../integration-tenant/integration-tenant.entity';
 import { Organization } from '../organization/organization.entity';
-import { IIntegrationMap, IntegrationEntity, ITenant } from '@gauzy/contracts';
+import { IIntegrationMap, IntegrationEntity, ITenant } from '@irtranscripts/contracts';
 
 export const createRandomIntegrationMap = async (
 	dataSource: DataSource,
@@ -36,7 +36,7 @@ export const createRandomIntegrationMap = async (
 				Object.values(IntegrationEntity)
 			);
 			integrationMap.sourceId = faker.string.uuid();
-			integrationMap.gauzyId = faker.string.uuid();
+			integrationMap.irtranscriptsId = faker.string.uuid();
 			integrationMaps.push(integrationMap);
 		}
 	}

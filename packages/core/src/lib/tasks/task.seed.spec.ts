@@ -20,7 +20,7 @@ jest.mock('@nestjs/axios', () => ({
 describe('createRandomTask when GitHub refuses the issues request', () => {
 	const tenant = { id: 'tenant-1' };
 	const organization = { id: 'org-1', tenantId: 'tenant-1' };
-	const project = { id: 'project-1', name: 'Gauzy Web' };
+	const project = { id: 'project-1', name: 'IRTranscripts Web' };
 
 	const fakeDataSource = () => {
 		const saved: any[] = [];

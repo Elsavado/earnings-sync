@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { ICustomSmtp, ICustomSmtpUpdateInput } from '@gauzy/contracts';
+import { ICustomSmtp, ICustomSmtpUpdateInput } from '@irtranscripts/contracts';
 
 export class CustomSmtpUpdateCommand implements ICommand {
 	static readonly type = '[Custom SMTP] Update';

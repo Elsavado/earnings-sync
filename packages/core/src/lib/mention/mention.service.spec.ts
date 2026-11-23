@@ -7,7 +7,7 @@ import {
 	EntitySubscriptionTypeEnum,
 	IUser,
 	NotificationActionTypeEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from '../core/crud';
 import { RequestContext } from '../core/context';
 import { CrudService } from '../core/crud/crud.service';

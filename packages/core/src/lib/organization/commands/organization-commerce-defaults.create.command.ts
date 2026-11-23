@@ -1,4 +1,4 @@
-import { IOrganization } from '@gauzy/contracts';
+import { IOrganization } from '@irtranscripts/contracts';
 import { ICommand } from '@nestjs/cqrs';
 
 /**

@@ -1,6 +1,6 @@
 import { ApiProperty, IntersectionType, PickType } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty } from 'class-validator';
-import { CurrenciesEnum, IOrganizationCreateInput } from '@gauzy/contracts';
+import { CurrenciesEnum, IOrganizationCreateInput } from '@irtranscripts/contracts';
 import { Organization } from './../organization.entity';
 import { OrganizationBonusesDTO } from './organization-bonuses.dto';
 import { OrganizationSettingDTO } from './organization-setting.dto';

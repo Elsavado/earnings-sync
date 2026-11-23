@@ -2,11 +2,11 @@
 kind: Service
 apiVersion: v1
 metadata:
-    name: gauzy-mcp-auth-demo-svc
+    name: irtranscripts-mcp-auth-demo-svc
 spec:
     type: ClusterIP
     selector:
-        app: gauzy-mcp-auth-demo
+        app: irtranscripts-mcp-auth-demo
     ports:
         - name: http
           protocol: TCP
@@ -17,27 +17,27 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: gauzy-mcp-auth-demo
+    name: irtranscripts-mcp-auth-demo
 spec:
     replicas: 1
     selector:
         matchLabels:
-            app: gauzy-mcp-auth-demo
+            app: irtranscripts-mcp-auth-demo
     template:
         metadata:
             labels:
-                app: gauzy-mcp-auth-demo
+                app: irtranscripts-mcp-auth-demo
         spec:
             securityContext:
                 seccompProfile:
                     type: RuntimeDefault
             containers:
-                - name: gauzy-demo-mcp
+                - name: irtranscripts-demo-mcp
                   securityContext:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
                       runAsNonRoot: false
-                  image: registry.digitalocean.com/ever/gauzy-mcp-auth-demo:latest
+                  image: registry.digitalocean.com/ever/irtranscripts-mcp-auth-demo:latest
                   resources:
                       requests:
                           cpu: '50m'
@@ -119,7 +119,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-    name: gauzy-mcp-auth-demo-ing
+    name: irtranscripts-mcp-auth-demo-ing
     namespace: default
     annotations:
         nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
@@ -128,17 +128,17 @@ metadata:
 spec:
     ingressClassName: nginx
     rules:
-        - host: mcpauthdemo.gauzy.co
+        - host: mcpauthdemo.irtranscripts.com
           http:
               paths:
                   - backend:
                         service:
-                            name: gauzy-mcp-auth-demo-svc
+                            name: irtranscripts-mcp-auth-demo-svc
                             port:
                                 number: 80
                     path: /
                     pathType: Prefix
     tls:
         - hosts:
-              - mcpauthdemo.gauzy.co
-          secretName: mcpauth.gauzy.co-tls
+              - mcpauthdemo.irtranscripts.com
+          secretName: mcpauth.irtranscripts.com-tls

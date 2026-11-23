@@ -1,6 +1,6 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, Optional } from '@nestjs/common';
-import { ID } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import {
 	IOrderClaimLineInput,
 	IOrderFulfillmentPort,

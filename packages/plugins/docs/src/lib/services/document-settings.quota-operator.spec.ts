@@ -1,6 +1,6 @@
 const mockCaller = { operator: false };
 
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	RequestContext: { currentTenantId: () => 'tenant-1' },
 	TenantSettingService: class TenantSettingService {},
 	isInstallationOperator: () => mockCaller.operator

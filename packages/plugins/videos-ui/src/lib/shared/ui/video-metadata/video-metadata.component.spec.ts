@@ -22,7 +22,7 @@ describe('VideoMetadataComponent', () => {
 			declarations: [VideoMetadataComponent, MockTranslatePipe],
 			// The component injects NbDialogRef (it is opened as a dialog); provide a minimal mock.
 			providers: [{ provide: NbDialogRef, useValue: { close: jest.fn() } }],
-			// The @else branch renders `ngx-no-data-message`, a Gauzy element not declared here;
+			// The @else branch renders `ngx-no-data-message`, a IRTranscripts element not declared here;
 			// NO_ERRORS_SCHEMA lets it render without pulling in its whole module.
 			schemas: [NO_ERRORS_SCHEMA]
 		}).compileComponents();

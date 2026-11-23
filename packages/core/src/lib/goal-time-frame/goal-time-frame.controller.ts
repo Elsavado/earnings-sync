@@ -13,7 +13,7 @@ import {
 	BadRequestException,
 	UsePipes
 } from '@nestjs/common';
-import { IGoalTimeFrame, IPagination, PermissionsEnum, ID } from '@gauzy/contracts';
+import { IGoalTimeFrame, IPagination, PermissionsEnum, ID } from '@irtranscripts/contracts';
 import { CrudController } from './../core/crud';
 import { GoalTimeFrame } from './goal-time-frame.entity';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';

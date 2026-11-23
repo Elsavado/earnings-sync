@@ -2,9 +2,9 @@ import { ChangeDetectorRef, Directive, inject, Input, OnInit, TemplateRef, ViewC
 import { filter, tap, map, switchMap, distinctUntilChanged } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import camelcase from 'camelcase';
-import { IOrganization, IUser } from '@gauzy/contracts';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
-import { Store } from '@gauzy/ui-core/core';
+import { IOrganization, IUser } from '@irtranscripts/contracts';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
+import { Store } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy()
 @Directive({

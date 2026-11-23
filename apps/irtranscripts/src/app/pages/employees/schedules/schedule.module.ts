@@ -1,0 +1,23 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ScheduleRoutingModule } from './schedule-routing.module';
+import { SharedModule } from '@irtranscripts/ui-core/shared';
+import { NbRouteTabsetModule, NbCardModule } from '@nebular/theme';
+import { LayoutComponent } from './layout/layout.component';
+import { TranslatePipe } from '@ngx-translate/core';
+import { AvailabilitySlotsService } from '@irtranscripts/ui-core/core';
+
+@NgModule({
+	declarations: [LayoutComponent],
+	exports: [],
+	imports: [
+		CommonModule,
+		ScheduleRoutingModule,
+		SharedModule,
+		NbRouteTabsetModule,
+		NbCardModule,
+		TranslatePipe
+	],
+	providers: [AvailabilitySlotsService]
+})
+export class ScheduleModule {}

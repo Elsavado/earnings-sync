@@ -6,9 +6,9 @@
 	display: flex;
 	align-items: center;
 	flex-wrap: nowrap;
-	gap: nb-theme(gauzy-people-gap);
+	gap: nb-theme(irtranscripts-people-gap);
 	min-width: 0;
-	line-height: nb-theme(gauzy-people-avatar-size);
+	line-height: nb-theme(irtranscripts-people-avatar-size);
 }
 
 .team {
@@ -17,12 +17,12 @@
 	gap: 0.25rem;
 	min-width: 0;
 	color: nb-theme(text-basic-color);
-	font-size: nb-theme(gauzy-people-font-size);
+	font-size: nb-theme(irtranscripts-people-font-size);
 }
 
 .team-name {
 	min-width: 0;
-	max-width: nb-theme(gauzy-people-name-max-width);
+	max-width: nb-theme(irtranscripts-people-name-max-width);
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -32,6 +32,6 @@
 .team-count {
 	flex: 0 0 auto;
 	color: nb-theme(text-hint-color);
-	font-size: nb-theme(gauzy-people-initials-font-size);
+	font-size: nb-theme(irtranscripts-people-initials-font-size);
 	font-weight: 600;
 }

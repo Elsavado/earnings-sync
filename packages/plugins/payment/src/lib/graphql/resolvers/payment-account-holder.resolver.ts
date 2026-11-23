@@ -1,6 +1,6 @@
 import { Optional, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
-import { ID, IPaymentAccountHolder, IPaymentMethodToken, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IPaymentAccountHolder, IPaymentMethodToken, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	FEATURE_GRAPHQL,
 	FeatureFlagGuard,
@@ -13,8 +13,8 @@ import {
 	VisibleWith,
 	IConnectionPageSelection,
 	resolveConnectionWindow
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { PaymentPermission } from '../../payment.permissions';
 import { assertNoCardData } from '../../payment.card-data.pipe';
 import { PaymentAccountHolderLifecycleService } from '../../payment-account-holder/payment-account-holder-lifecycle.service';

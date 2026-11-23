@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { UpdateResult } from "typeorm";
-import { ISharedEntity } from "@gauzy/contracts";
+import { ISharedEntity } from "@irtranscripts/contracts";
 import { SharedEntityUpdateCommand } from "../shared-entity.update.command";
 import { SharedEntityService } from "../../shared-entity.service";
 

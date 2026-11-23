@@ -1,7 +1,7 @@
 import { HttpClient, type HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ID, IPagination, IPlugin, IPluginInstallation, IPluginSource, IPluginVersion } from '@gauzy/contracts';
-import { API_PREFIX, toParams } from '@gauzy/ui-core/common';
+import { ID, IPagination, IPlugin, IPluginInstallation, IPluginSource, IPluginVersion } from '@irtranscripts/contracts';
+import { API_PREFIX, toParams } from '@irtranscripts/ui-core/common';
 import { catchError, map, Observable } from 'rxjs';
 import { Store } from '../../../services';
 import { PluginFormDataBuilder } from './builders/form-data.builder';

@@ -8,7 +8,7 @@ import { applyPluginTranslations, IPluginTranslateService } from './plugin-ui.he
  * `PluginUiModule.bootstrapDeclarativePlugins()` only runs `bootstrap` for plugins with no
  * `module`/`loadModule`, and `applyDeclarativeRegistrations()` — the entry point a module plugin
  * calls from `ngOnPluginBootstrap` — did routes/nav/tabs/extensions/widgets and nothing else.
- * `@gauzy/plugin-docs-ui` ships `translations: { en }` + `translationNamespace: 'DOCS'` behind a
+ * `@irtranscripts/plugin-docs-ui` ships `translations: { en }` + `translationNamespace: 'DOCS'` behind a
  * `module`, so every `DOCS.*` key in the Documents hub rendered as its raw key.
  *
  * These cover the seam itself: namespacing, the additive-only merge, and — the part that made the

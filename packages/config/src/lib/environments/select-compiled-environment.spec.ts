@@ -17,7 +17,7 @@ describe('compiledEnvironmentContent (what a production build copies into its ow
 	const file = (name: string): string => path.join(outputDirectory, name);
 
 	beforeEach(() => {
-		outputDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'gauzy-config-content-'));
+		outputDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'irtranscripts-config-content-'));
 		fs.writeFileSync(file('environment.js'), DEVELOPMENT);
 		fs.writeFileSync(file('environment.prod.js'), PRODUCTION);
 	});
@@ -49,7 +49,7 @@ describe('compiledEnvironmentContent (what a production build copies into its ow
 
 	it('refuses to run before the package is compiled', () => {
 		fs.rmSync(file('environment.prod.js'));
-		expect(() => compiledEnvironmentContent(outputDirectory, 'development')).toThrow(/compile @gauzy\/config/);
+		expect(() => compiledEnvironmentContent(outputDirectory, 'development')).toThrow(/compile @irtranscripts\/config/);
 	});
 });
 
@@ -70,7 +70,7 @@ describe('selectCompiledEnvironment', () => {
 	};
 
 	beforeEach(() => {
-		outputDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'gauzy-config-environments-'));
+		outputDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'irtranscripts-config-environments-'));
 		compile();
 	});
 
@@ -132,13 +132,13 @@ describe('selectCompiledEnvironment', () => {
 
 	it('refuses to run before the package is compiled', () => {
 		fs.rmSync(path.join(outputDirectory, 'environment.prod.js'));
-		expect(() => selectCompiledEnvironment(outputDirectory, 'production')).toThrow(/compile @gauzy\/config/);
+		expect(() => selectCompiledEnvironment(outputDirectory, 'production')).toThrow(/compile @irtranscripts\/config/);
 	});
 
 	it('refuses to restore when the preserved development compile is gone', () => {
 		selectCompiledEnvironment(outputDirectory, 'production');
 		fs.rmSync(path.join(outputDirectory, 'environment.dev.js'));
-		expect(() => selectCompiledEnvironment(outputDirectory, 'development')).toThrow(/recompile @gauzy\/config/);
+		expect(() => selectCompiledEnvironment(outputDirectory, 'development')).toThrow(/recompile @irtranscripts\/config/);
 	});
 });
 

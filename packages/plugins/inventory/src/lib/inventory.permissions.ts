@@ -8,8 +8,8 @@
  * `ORG_INVENTORY_PRODUCT_EDIT` — which are reused rather than replaced, so the screen that
  * already exists is not re-authorised by installing this package.
  */
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PluginPermissionContribution } from '@gauzy/plugin';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PluginPermissionContribution } from '@irtranscripts/plugin';
 
 /** The permission values this plugin guards its controllers with. */
 export const InventoryPermission = {

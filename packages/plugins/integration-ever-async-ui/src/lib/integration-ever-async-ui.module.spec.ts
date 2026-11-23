@@ -1,21 +1,21 @@
 import { Injector, runInInjectionContext } from '@angular/core';
-import { LoggerService, NavMenuBuilderService, PageRouteRegistryService } from '@gauzy/ui-core/core';
-import { PLUGIN_DEFINITION } from '@gauzy/plugin-ui';
+import { LoggerService, NavMenuBuilderService, PageRouteRegistryService } from '@irtranscripts/ui-core/core';
+import { PLUGIN_DEFINITION } from '@irtranscripts/plugin-ui';
 import { IntegrationEverAsyncUiModule } from './integration-ever-async-ui.module';
 
 // Exercise the actual shared registry and registration helper without loading
 // the entire application barrel or unrelated plugin services.
-jest.mock('@gauzy/ui-core/core', () => ({
+jest.mock('@irtranscripts/ui-core/core', () => ({
 	...jest.requireActual('../../../../ui-core/core/src/lib/services/page/page-route-registry.service'),
 	LoggerService: class {},
 	NavMenuBuilderService: class {},
 	PermissionsGuard: class {}
 }));
-jest.mock('@gauzy/plugin-ui', () => ({
+jest.mock('@irtranscripts/plugin-ui', () => ({
 	...jest.requireActual('../../../../plugin-ui/src/lib/plugin-ui.helper'),
 	...jest.requireActual('../../../../plugin-ui/src/lib/plugin-ui.types')
 }));
-jest.mock('@gauzy/contracts', () => ({ PermissionsEnum: { INTEGRATION_VIEW: 'view' } }));
+jest.mock('@irtranscripts/contracts', () => ({ PermissionsEnum: { INTEGRATION_VIEW: 'view' } }));
 jest.mock('./components/ever-async-connect/ever-async-connect.component', () => ({
 	EverAsyncConnectComponent: class {}
 }));

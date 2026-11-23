@@ -12,7 +12,7 @@ import {
 	Matches,
 	MaxLength
 } from 'class-validator';
-import { CurrencyCode, DecimalString, ID } from '@gauzy/contracts';
+import { CurrencyCode, DecimalString, ID } from '@irtranscripts/contracts';
 import { TaxDirection } from '../../tax.types';
 
 /**

@@ -10,7 +10,7 @@
 					"error",
 					{
 						"enforceBuildableLibDependency": true,
-						"allow": ["@gauzy/ui-core/*"]
+						"allow": ["@irtranscripts/ui-core/*"]
 					}
 				],
 				"@angular-eslint/directive-selector": [

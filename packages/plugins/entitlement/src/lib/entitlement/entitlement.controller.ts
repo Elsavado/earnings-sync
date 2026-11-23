@@ -15,8 +15,8 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
-import { ID, IPagination } from '@gauzy/contracts';
-import { FeatureFlag } from '@gauzy/common';
+import { ID, IPagination } from '@irtranscripts/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
 import {
 	AbstractValidationPipe,
 	BaseQueryDTO,
@@ -31,7 +31,7 @@ import {
 	UseValidationPipe,
 	Versioned,
 	versionExpectationOf
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { Entitlement } from './entitlement.entity';
 import { EntitlementKey } from '../entitlement-key/entitlement-key.entity';
 import { EntitlementActivation } from '../entitlement-activation/entitlement-activation.entity';

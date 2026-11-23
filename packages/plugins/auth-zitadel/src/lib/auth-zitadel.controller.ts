@@ -22,9 +22,9 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 import { Request, Response } from 'express';
-import { Public } from '@gauzy/common';
-import { LanguagesEnum } from '@gauzy/contracts';
-import { RequestContext, UseValidationPipe } from '@gauzy/core';
+import { Public } from '@irtranscripts/common';
+import { LanguagesEnum } from '@irtranscripts/contracts';
+import { RequestContext, UseValidationPipe } from '@irtranscripts/core';
 import {
 	BackchannelLogoutDTO,
 	ConfirmDTO,
@@ -131,7 +131,7 @@ export class AuthZitadelController {
 	}
 
 	/**
-	 * Completes a confirmed link with Gauzy's one-time e-mail code. 409 `handoff_busy` while another
+	 * Completes a confirmed link with IRTranscripts's one-time e-mail code. 409 `handoff_busy` while another
 	 * attempt checks a code for the same key; 410 once the key is used up or expired.
 	 */
 	@Public()
@@ -226,7 +226,7 @@ export class AuthZitadelController {
 		return this.links.preview(body.key, currentUserId());
 	}
 
-	/** Signed in: confirms the link (same-address accounts only with Gauzy's one-time e-mail code). */
+	/** Signed in: confirms the link (same-address accounts only with IRTranscripts's one-time e-mail code). */
 	@UseGuards(ZitadelConfiguredGuard)
 	@Post('/link/confirm')
 	@HttpCode(HttpStatus.OK)

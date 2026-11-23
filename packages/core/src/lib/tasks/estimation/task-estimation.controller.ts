@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, HttpCode, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ITaskEstimation, PermissionsEnum } from '@gauzy/contracts';
+import { ITaskEstimation, PermissionsEnum } from '@irtranscripts/contracts';
 import { PermissionGuard, TenantPermissionGuard } from './../../shared/guards';
 import { TaskEstimation } from './task-estimation.entity';
 import { TaskEstimationService } from './task-estimation.service';

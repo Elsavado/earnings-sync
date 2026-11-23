@@ -1,11 +1,11 @@
-import { PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 
 /**
  * Third-party OAuth-app tokens carry only the scopes the user approved (owner decision Q12, 2026-10-24).
  *
  * **What was wrong.** A user approves a registered OAuth client (the Zapier app, Ever Async, any client of the
- * `oauth_clients` registry) at `/integration/ever-gauzy/oauth/authorize` for the scopes it requested, and the
- * `/token` exchange then minted an ordinary Gauzy access token: the user's full role and permissions, the requested
+ * `oauth_clients` registry) at `/integration/ever-irtranscripts/oauth/authorize` for the scopes it requested, and the
+ * `/token` exchange then minted an ordinary IRTranscripts access token: the user's full role and permissions, the requested
  * scope echoed back and never enforced. The app could do everything the user can (a confused-deputy over-grant).
  *
  * **What is right now.** The exchange writes the approved scopes into the token ({@link OAUTH_APP_TOKEN_CLAIM}).
@@ -28,9 +28,9 @@ import { PermissionsEnum, RolesEnum } from '@gauzy/contracts';
  *
  * ## Scope → permission mapping
  *
- * The scopes below are the ones Gauzy's OAuth-app clients request today: the Zapier app
+ * The scopes below are the ones IRTranscripts's OAuth-app clients request today: the Zapier app
  * (`packages/plugins/integration-zapier/zapier/src/authentication.ts`: `zap zap:write authentication`) and Ever
- * Async's "Sign in with Ever Gauzy" (`profile email`). They are coarse, so they map to rules rather than to lists:
+ * Async's "Sign in with Ever IRTranscripts" (`profile email`). They are coarse, so they map to rules rather than to lists:
  *
  * | Scope | Rule | Grants (always intersected with the user's role) |
  * |-------|------|--------------------------------------------------|
@@ -86,7 +86,7 @@ export interface IOAuthAppTokenGrant {
 	scopes: string[];
 }
 
-/** How a scope maps onto Gauzy permissions. */
+/** How a scope maps onto IRTranscripts permissions. */
 export enum OAuthAppScopeRule {
 	/** Identity only: no permission. */
 	IDENTITY = 'identity',
@@ -97,7 +97,7 @@ export enum OAuthAppScopeRule {
 }
 
 /**
- * The scopes Gauzy understands and their rule. A Map, never a plain object: a scope named `constructor` or
+ * The scopes IRTranscripts understands and their rule. A Map, never a plain object: a scope named `constructor` or
  * `toString` must not resolve to something inherited.
  */
 export const OAUTH_APP_SCOPE_RULES: ReadonlyMap<string, OAuthAppScopeRule> = new Map<string, OAuthAppScopeRule>([
@@ -135,7 +135,7 @@ export const OAUTH_APP_RESERVED_PERMISSIONS: ReadonlySet<PermissionsEnum> = new 
 	PermissionsEnum.ORG_INVITE_EDIT,
 	// Organization switching mints a first-party token pair; the app stays in the organization it was approved in.
 	PermissionsEnum.CHANGE_SELECTED_ORGANIZATION,
-	// Mail the user receives or Gauzy sent them: sign-in codes and password-reset links travel there.
+	// Mail the user receives or IRTranscripts sent them: sign-in codes and password-reset links travel there.
 	PermissionsEnum.INBOX_VIEW,
 	PermissionsEnum.INBOX_MAILBOX_MANAGE,
 	PermissionsEnum.INBOX_MAILBOX_READ_ALL,
@@ -150,7 +150,7 @@ export const OAUTH_APP_RESERVED_PERMISSIONS: ReadonlySet<PermissionsEnum> = new 
 	PermissionsEnum.ACCESS_DELETE_ALL_DATA,
 	PermissionsEnum.IMPORT_ADD,
 	PermissionsEnum.EXPORT_ADD,
-	PermissionsEnum.MIGRATE_GAUZY_CLOUD
+	PermissionsEnum.MIGRATE_IRTRANSCRIPTS_CLOUD
 ]);
 
 /**

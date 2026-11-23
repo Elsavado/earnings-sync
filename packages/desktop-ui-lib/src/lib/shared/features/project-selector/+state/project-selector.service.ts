@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ID, IOrganizationProject, IOrganizationProjectCreateInput, ProjectOwnerEnum } from '@gauzy/contracts';
+import { ID, IOrganizationProject, IOrganizationProjectCreateInput, ProjectOwnerEnum } from '@irtranscripts/contracts';
 import { TranslateService } from '@ngx-translate/core';
 import { TimeTrackerService } from '../../../../time-tracker/time-tracker.service';
 import { SelectorService } from '../../../+state/selector.service';

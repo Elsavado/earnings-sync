@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsIn, IsNotEmpty, IsString, IsUUID, MaxLength, Matches } from 'class-validator';
 
-/** A workspace-scoped chat identity mapped to an employee in this Gauzy organization. */
+/** A workspace-scoped chat identity mapped to an employee in this IRTranscripts organization. */
 export class EverAsyncUserMappingDto {
 	@ApiProperty({ enum: ['slack', 'discord'] })
 	@IsIn(['slack', 'discord'])
@@ -23,7 +23,7 @@ export class EverAsyncUserMappingDto {
 	readonly chatUserId!: string;
 
 	@ApiProperty({
-		description: 'Gauzy employee id the chat user maps to',
+		description: 'IRTranscripts employee id the chat user maps to',
 		example: 'b1f2c3d4-0000-0000-0000-000000000000'
 	})
 	@IsNotEmpty()

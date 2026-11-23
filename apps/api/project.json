@@ -126,7 +126,7 @@
 			"options": {
 				"target": "node",
 				"compiler": "swc",
-				"outputPath": "dist/apps/gauzy-api-server/api",
+				"outputPath": "dist/apps/irtranscripts-api-server/api",
 				"main": "apps/api/src/main.ts",
 				"showCircularDependencies": false,
 				"sourceMap": true,
@@ -163,14 +163,14 @@
 				}
 			}
 		},
-		"gauzy-server-api": {
+		"irtranscripts-server-api": {
 			"executor": "@nx/webpack:webpack",
 			"outputs": ["{options.outputPath}"],
 			"defaultConfiguration": "development",
 			"options": {
 				"target": "node",
 				"compiler": "swc",
-				"outputPath": "dist/apps/gauzy-server/api",
+				"outputPath": "dist/apps/irtranscripts-server/api",
 				"main": "apps/api/src/main.ts",
 				"showCircularDependencies": false,
 				"sourceMap": true,

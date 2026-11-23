@@ -2,8 +2,8 @@ import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable, Logger, Optional } from '@nestjs/common';
 import { Cache } from 'cache-manager';
 import { randomBytes } from 'crypto';
-import { ID } from '@gauzy/contracts';
-import { EVER_REDIS_CLIENT } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { EVER_REDIS_CLIENT } from '@irtranscripts/core';
 
 /**
  * Server-side state recorded when a GitHub App installation flow is initiated by an authenticated

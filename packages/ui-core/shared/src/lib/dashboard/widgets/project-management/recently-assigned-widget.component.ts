@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
-import { ITask } from '@gauzy/contracts';
+import { ITask } from '@irtranscripts/contracts';
 import { TableComponentsModule } from '../../../table-components/table-components.module';
 import { TeamsWidgetStateComponent } from '../teams/teams-widget-state.component';
 import { BaseProjectManagementWidgetComponent } from './base-project-management-widget.component';

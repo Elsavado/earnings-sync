@@ -9,7 +9,7 @@ import {
 	HttpException
 } from '@nestjs/common';
 import { catchError, firstValueFrom, of } from 'rxjs';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { ZapierWebhookSubscription } from './zapier-webhook-subscription.entity';
 import { TypeOrmZapierWebhookSubscriptionRepository } from './repository/type-orm-zapier-webhook-subscription.repository';
 import { ITimerZapierWebhookData } from './zapier.types';

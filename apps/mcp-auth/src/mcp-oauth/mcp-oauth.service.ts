@@ -1,7 +1,7 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
-import { OAuth2AuthorizationServer, UserInfo, oAuth2ClientManager } from '@gauzy/auth';
+import { OAuth2AuthorizationServer, UserInfo, oAuth2ClientManager } from '@irtranscripts/auth';
 import { OAuthUserService } from '../user/oauth-user.service';
-import { IUser } from '@gauzy/contracts';
+import { IUser } from '@irtranscripts/contracts';
 
 /**
  * Extended user interface with additional fields that may be present
@@ -16,7 +16,7 @@ interface ExtendedMcpUser extends Omit<IUser, 'emailVerifiedAt'> {
 /**
  * MCP OAuth Service
  *
- * This service wires the generic OAuth2AuthorizationServer from @gauzy/auth
+ * This service wires the generic OAuth2AuthorizationServer from @irtranscripts/auth
  */
 @Injectable()
 export class McpOAuthService implements OnModuleInit {
@@ -65,7 +65,7 @@ export class McpOAuthService implements OnModuleInit {
 		this.oauthServer = new OAuth2AuthorizationServer({
 			issuer: process.env.MCP_AUTH_JWT_ISSUER || baseUrl,
 			baseUrl: baseUrl,
-			audience: process.env.MCP_AUTH_JWT_AUDIENCE || 'gauzy-mcp-api',
+			audience: process.env.MCP_AUTH_JWT_AUDIENCE || 'irtranscripts-mcp-api',
 			enableClientRegistration: true,
 			authorizationEndpoint: '/oauth2/authorize',
 			tokenEndpoint: '/oauth2/token',

@@ -3,11 +3,11 @@
  * relations (and filters) to the store as they came: any visitor could load every tenant's plugin settings with their
  * values, each tenant's plugin configuration and users, and the subscribers and billings of every subscription.
  */
-jest.mock('@gauzy/common', () => ({ Public: () => () => undefined }));
-// Everything the two controllers take from `@gauzy/core`. The category controller states a grant per route with
+jest.mock('@irtranscripts/common', () => ({ Public: () => () => undefined }));
+// Everything the two controllers take from `@irtranscripts/core`. The category controller states a grant per route with
 // `@Permissions` since the security sweep, so a stand-in without it failed the suite at load ("Permissions is not a
 // function"). What is read here is the options each read hands the query bus, so the decorators are no-ops.
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	return {
 		Permissions: decorator,

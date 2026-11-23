@@ -17,7 +17,7 @@ import {
 	ServerDataSource,
 	Store,
 	ToastrService
-} from '@gauzy/ui-core/core';
+} from '@irtranscripts/ui-core/core';
 import {
 	IEmployeeJobApplication,
 	IDateRangePicker,
@@ -36,16 +36,16 @@ import {
 	IntegrationEntity,
 	IEmployeeProposalTemplate,
 	LanguagesEnum
-} from '@gauzy/contracts';
-import { JobService } from '@gauzy/ui-core/core';
-import { I18nService } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/contracts';
+import { JobService } from '@irtranscripts/ui-core/core';
+import { I18nService } from '@irtranscripts/ui-core/i18n';
 import {
 	EmployeeLinksComponent,
 	IPaginationBase,
 	PaginationFilterBaseComponent,
 	getAdjustDateRangeFutureAllowed
-} from '@gauzy/ui-core/shared';
-import { API_PREFIX, distinctUntilChange, isNotEmpty, toUTC } from '@gauzy/ui-core/common';
+} from '@irtranscripts/ui-core/shared';
+import { API_PREFIX, distinctUntilChange, isNotEmpty, toUTC } from '@irtranscripts/ui-core/common';
 import { ApplyJobManuallyComponent } from '../apply-job-manually/apply-job-manually.component';
 import { JobTitleDescriptionDetailsComponent } from '../job-title-description-details/job-title-description-details.component';
 

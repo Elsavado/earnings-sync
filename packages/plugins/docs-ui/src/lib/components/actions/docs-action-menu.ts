@@ -1,5 +1,5 @@
 import { NbIconConfig, NbMenuItem } from '@nebular/theme';
-import { DocumentKindEnum, DocumentKnowledgeStatusEnum, ID, IDocument } from '@gauzy/contracts';
+import { DocumentKindEnum, DocumentKnowledgeStatusEnum, ID, IDocument } from '@irtranscripts/contracts';
 
 /**
  * Every action a document row can offer, in the tree context menu (`01-ux-spec.md`

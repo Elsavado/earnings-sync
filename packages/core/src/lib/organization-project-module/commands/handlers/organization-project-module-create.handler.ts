@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IOrganizationProjectModule } from '@gauzy/contracts';
+import { IOrganizationProjectModule } from '@irtranscripts/contracts';
 import { OrganizationProjectModuleCreateCommand } from '../organization-project-module-create.command';
 import { OrganizationProjectModuleService } from '../../organization-project-module.service';
 

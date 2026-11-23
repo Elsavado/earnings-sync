@@ -9,7 +9,7 @@ export type PluginUiConfigLoader = () => Promise<{ uiPluginConfig: PluginUiConfi
 
 /**
  * Loads, validates, and stores the application UI configuration,
- * making it available via `getPluginUiConfig()` from `@gauzy/plugin-ui`.
+ * making it available via `getPluginUiConfig()` from `@irtranscripts/plugin-ui`.
  *
  * Must be awaited **before** `platformBrowser().bootstrapModule()`
  * so that every Angular module, service, and component can safely

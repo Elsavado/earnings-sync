@@ -2,8 +2,8 @@ import { Body, Controller, Get, Param, Put, Query, UseGuards } from '@nestjs/com
 import { ApiBearerAuth, ApiOperation, ApiProperty, ApiPropertyOptional, ApiTags } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { ArrayMaxSize, IsArray, IsBoolean, IsString, IsUUID, MaxLength, ValidateIf, ValidateNested } from 'class-validator';
-import { ID, PermissionsEnum } from '@gauzy/contracts';
-import { PermissionGuard, Permissions, TenantPermissionGuard, UseValidationPipe, UUIDValidationPipe } from '@gauzy/core';
+import { ID, PermissionsEnum } from '@irtranscripts/contracts';
+import { PermissionGuard, Permissions, TenantPermissionGuard, UseValidationPipe, UUIDValidationPipe } from '@irtranscripts/core';
 import { EVER_WORKS_ROUTE_PREFIX } from '../ever-works.constants';
 import { EverWorksTeamsService } from './ever-works-teams.service';
 
@@ -13,7 +13,7 @@ export class EverWorksTeamLinkDto {
 	@MaxLength(64)
 	readonly ewTeamId!: string;
 
-	@ApiProperty({ description: 'Gauzy team id (an active team of this organization).' })
+	@ApiProperty({ description: 'IRTranscripts team id (an active team of this organization).' })
 	@IsUUID()
 	readonly teamId!: string;
 }
@@ -40,15 +40,15 @@ export class EverWorksTeamsDecisionDto {
 	@IsBoolean()
 	readonly acceptSuggestions?: boolean;
 
-	@ApiPropertyOptional({ type: [String], description: 'Ever Works team ids to create in Gauzy.' })
+	@ApiPropertyOptional({ type: [String], description: 'Ever Works team ids to create in IRTranscripts.' })
 	@ValidateIf((_o, v) => v !== undefined)
 	@IsArray()
 	@ArrayMaxSize(500)
 	@IsString({ each: true })
 	@MaxLength(64, { each: true })
-	readonly createInGauzy?: string[];
+	readonly createInIRTranscripts?: string[];
 
-	@ApiPropertyOptional({ type: [String], description: 'Gauzy team ids to create in Ever Works (top-level teams).' })
+	@ApiPropertyOptional({ type: [String], description: 'IRTranscripts team ids to create in Ever Works (top-level teams).' })
 	@ValidateIf((_o, v) => v !== undefined)
 	@IsArray()
 	@ArrayMaxSize(500)
@@ -69,7 +69,7 @@ export class EverWorksTeamsController {
 
 	@Get('/teams')
 	@Permissions(PermissionsEnum.INTEGRATION_VIEW)
-	@ApiOperation({ summary: 'Ever Works teams with their pairing or a same-name suggestion, and the unmatched Gauzy teams.' })
+	@ApiOperation({ summary: 'Ever Works teams with their pairing or a same-name suggestion, and the unmatched IRTranscripts teams.' })
 	list(@Param('integrationTenantId', UUIDValidationPipe) id: ID, @Query('organizationId') organizationId?: ID) {
 		return this.teams.teams(id, organizationId);
 	}

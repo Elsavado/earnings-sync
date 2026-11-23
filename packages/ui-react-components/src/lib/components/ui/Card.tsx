@@ -3,7 +3,7 @@ import { theme } from '../../theme';
 
 export interface CardProps {
 	children?: ReactNode;
-	/** 'default' = white card, 'accent' = tinted background (gauzy-card-2) */
+	/** 'default' = white card, 'accent' = tinted background (irtranscripts-card-2) */
 	variant?: 'default' | 'accent';
 	style?: CSSProperties;
 	className?: string;

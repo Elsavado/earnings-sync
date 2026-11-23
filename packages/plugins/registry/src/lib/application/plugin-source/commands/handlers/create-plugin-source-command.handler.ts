@@ -1,7 +1,7 @@
-import { IPluginSource } from '@gauzy/contracts';
+import { IPluginSource } from '@irtranscripts/contracts';
 import { NotFoundException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { PluginSource, PluginSourceService, PluginVersionService } from '../../../../domain';
 import { ownedSourceRow } from '../../../../domain/services/plugin-source-rows';
 import { CreatePluginSourceCommand } from '../../commands/create-plugin-source.command';

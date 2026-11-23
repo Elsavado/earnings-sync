@@ -1,7 +1,7 @@
 import { UnauthorizedException, BadRequestException, NotFoundException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { DeleteResult } from 'typeorm';
-import { RolesEnum, ID, IRole } from '@gauzy/contracts';
+import { RolesEnum, ID, IRole } from '@irtranscripts/contracts';
 import { RequestContext } from '../../../core/context';
 import { UserOrganizationDeleteCommand } from '../user-organization.delete.command';
 import { UserOrganization } from '../../user-organization.entity';

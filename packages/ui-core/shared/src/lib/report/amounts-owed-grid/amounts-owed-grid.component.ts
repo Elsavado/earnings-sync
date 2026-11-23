@@ -5,14 +5,14 @@ import {
 	ITimeLogFilters,
 	ReportGroupByFilter,
 	ReportGroupFilterEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
 import { filter, tap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
-import { DateRangePickerBuilderService, Store, TimesheetService } from '@gauzy/ui-core/core';
-import { distinctUntilChange, isEmpty } from '@gauzy/ui-core/common';
-import { BaseSelectorFilterComponent, TimeZoneService } from '../../timesheet/gauzy-filters';
+import { DateRangePickerBuilderService, Store, TimesheetService } from '@irtranscripts/ui-core/core';
+import { distinctUntilChange, isEmpty } from '@irtranscripts/ui-core/common';
+import { BaseSelectorFilterComponent, TimeZoneService } from '../../timesheet/irtranscripts-filters';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -75,7 +75,7 @@ export class AmountsOwedGridComponent extends BaseSelectorFilterComponent implem
 	}
 
 	/**
-	 * Get header selectors request and Gauzy timesheet filters request.
+	 * Get header selectors request and IRTranscripts timesheet filters request.
 	 */
 	prepareRequest(): void {
 		if (isEmpty(this.request) || isEmpty(this.filters)) {
@@ -93,7 +93,7 @@ export class AmountsOwedGridComponent extends BaseSelectorFilterComponent implem
 	}
 
 	/**
-	 * Updates Gauzy timesheet default filters and notifies subscribers about the change.
+	 * Updates IRTranscripts timesheet default filters and notifies subscribers about the change.
 	 *
 	 * @param filters - An object representing time log filters (ITimeLogFilters).
 	 */

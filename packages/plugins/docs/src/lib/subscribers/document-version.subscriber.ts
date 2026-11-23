@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { EventSubscriber } from 'typeorm';
-import { isBetterSqlite3, isSqlite } from '@gauzy/config';
-import { BaseEntityEventSubscriber } from '@gauzy/core';
+import { isBetterSqlite3, isSqlite } from '@irtranscripts/config';
+import { BaseEntityEventSubscriber } from '@irtranscripts/core';
 import { DocumentVersion } from '../entities/document-version.entity';
 
 /**
@@ -10,7 +10,7 @@ import { DocumentVersion } from '../entities/document-version.entity';
  * NOTE on the debounced PAGE snapshot capture: the platform subscriber abstraction
  * (`BaseEntityEventSubscriber.beforeEntityUpdate`) receives only the incoming payload — not the
  * loaded database entity — so the pre-update content needed for a snapshot is not available here.
- * The debounced capture (default window 10 minutes, env `GAUZY_DOCS_VERSION_DEBOUNCE_MINUTES`)
+ * The debounced capture (default window 10 minutes, env `IRTRANSCRIPTS_DOCS_VERSION_DEBOUNCE_MINUTES`)
  * therefore lives in `DocumentVersionService.captureSnapshotIfNeeded(...)`, invoked from the one
  * code path that changes PAGE content (`UpdateDocumentContentCommand`) and from version restore.
  */

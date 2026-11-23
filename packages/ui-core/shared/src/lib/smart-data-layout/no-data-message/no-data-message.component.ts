@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { SkeletonVariant } from '../../skeleton/skeleton.component';
 
 /**

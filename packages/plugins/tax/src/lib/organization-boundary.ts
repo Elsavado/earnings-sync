@@ -1,5 +1,5 @@
-import { ID, RolesEnum } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { ID, RolesEnum } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 
 /** The roles that reach every organization of their tenant. */
 const TENANT_ADMIN_ROLES: ReadonlyArray<RolesEnum> = Object.freeze([RolesEnum.SUPER_ADMIN, RolesEnum.ADMIN]);
@@ -12,7 +12,7 @@ const TENANT_ADMIN_ROLES: ReadonlyArray<RolesEnum> = Object.freeze([RolesEnum.SU
  * (`RequestContext.currentOrganizationId()`, the one they last switched to). The role is the one the user holds now,
  * as loaded for this request, never the claim frozen into the token.
  *
- * Kept apart from `write-rules.ts`, which stays free of `@gauzy/core` so its own spec loads without it.
+ * Kept apart from `write-rules.ts`, which stays free of `@irtranscripts/core` so its own spec loads without it.
  *
  * @returns The caller's organization, or `null` when the read is not confined: a tenant admin, or a read with no
  * organization in context (a job).

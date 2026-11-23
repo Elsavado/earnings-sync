@@ -2,8 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { defer, Observable, of, throwError, timer } from 'rxjs';
 import { catchError, distinctUntilChanged, map, retry, shareReplay, switchMap } from 'rxjs/operators';
-import { IUser } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
+import { IUser } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
 import { InboxUiService } from './inbox-ui.service';
 
 /** Attempts after a temporary failure, and the first delay (doubled each time: 5 s … 80 s). */
@@ -17,7 +17,7 @@ export function isFinalRefusal(error: HttpErrorResponse | null | undefined): boo
 
 /**
  * Whether this installation's API serves the Inbox to the signed-in user: asked once per user (the counts
- * route). The API loads `@gauzy/plugin-inbox` only when `GAUZY_INBOX_ENABLED=true`; elsewhere (the default,
+ * route). The API loads `@irtranscripts/plugin-inbox` only when `IRTRANSCRIPTS_INBOX_ENABLED=true`; elsewhere (the default,
  * production today) the route answers 404 and the app shows no Inbox entry and no badge at all. A user
  * without `INBOX_VIEW` gets 403: the same.
  */

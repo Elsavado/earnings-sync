@@ -2,7 +2,7 @@ import { AfterLoad } from 'typeorm';
 import { OnLoad } from '@mikro-orm/core';
 import { ApiProperty } from '@nestjs/swagger';
 import * as moment from 'moment';
-import { IPasswordReset } from '@gauzy/contracts';
+import { IPasswordReset } from '@irtranscripts/contracts';
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import { TenantBaseEntity } from './../core/entities/tenant-base.entity';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, VirtualMultiOrmColumn } from './../core/decorators/entity';

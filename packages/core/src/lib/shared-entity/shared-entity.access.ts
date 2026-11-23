@@ -1,6 +1,6 @@
 import { ForbiddenException } from '@nestjs/common';
 import { DataSource, EntityMetadata } from 'typeorm';
-import { ID, IShareRule, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IShareRule, PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { assertSensitiveRelationsAllowed } from '../core/util/sensitive-relations.helper';
 import { ManagedEmployeeService } from '../employee/managed-employee.service';

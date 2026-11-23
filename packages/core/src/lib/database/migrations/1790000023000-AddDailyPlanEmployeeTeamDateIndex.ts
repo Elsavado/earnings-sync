@@ -1,5 +1,5 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 import * as chalk from 'chalk';
 
 export class AddDailyPlanEmployeeTeamDateIndex1790000023000 implements MigrationInterface {

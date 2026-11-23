@@ -1,4 +1,4 @@
-# @gauzy/desktop-ui-lib
+# @irtranscripts/desktop-ui-lib
 
 This library was generated with [Nx](https://nx.dev).
 
@@ -19,7 +19,7 @@ After building your library with `yarn nx build desktop-ui-lib`, go to the dist 
 Install the Desktop UI Lib Library using your preferred package manager:
 
 ```bash
-npm install @gauzy/desktop-ui-lib
+npm install @irtranscripts/desktop-ui-lib
 # or
-yarn add @gauzy/desktop-ui-lib
+yarn add @irtranscripts/desktop-ui-lib
 ```

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { QueryEntity } from '@datorama/akita';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { map, Observable } from 'rxjs';
 import { IPluginToggleState, PluginToggleState, PluginToggleStore } from '../stores/plugin-toggle.store';
 

@@ -1,5 +1,5 @@
 import { ForbiddenException } from '@nestjs/common';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { SharedEntityService } from './shared-entity.service';
 import { SharedEntity } from './shared-entity.entity';

@@ -92,7 +92,7 @@ const HELP_CENTER_ARTICLE_CORPUS = [
 	'<blockquote><p>Changing the IdP signs every user out.</p></blockquote>',
 	'<p>Copy the ACS URL &amp; the entity ID &mdash; both are required. Use &quot;strict&quot; mode.</p>',
 	'<table><thead><tr><th>Field</th><th>Value</th></tr></thead>',
-	'<tbody><tr><td>ACS URL</td><td>https://api.gauzy.co/saml/acs</td></tr></tbody></table>',
+	'<tbody><tr><td>ACS URL</td><td>https://api.irtranscripts.com/saml/acs</td></tr></tbody></table>',
 	'<p>Questions? <a href="mailto:support@ever.co">Email support</a>.</p>',
 	'<p>Legacy note<br>Second line of the note.</p>'
 ].join('');

@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { IPagination } from '@gauzy/contracts';
-import { toParams } from '@gauzy/ui-core/common';
+import { IPagination } from '@irtranscripts/contracts';
+import { toParams } from '@irtranscripts/ui-core/common';
 import { ICrudService } from './icrud.service';
 
 export abstract class CrudService<T> implements ICrudService<T> {

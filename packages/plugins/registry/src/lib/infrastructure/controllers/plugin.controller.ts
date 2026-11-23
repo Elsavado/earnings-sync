@@ -1,6 +1,6 @@
-import { Public } from '@gauzy/common';
-import { HttpStatus, ID, IPagination } from '@gauzy/contracts';
-import { UseValidationPipe, UUIDValidationPipe } from '@gauzy/core';
+import { Public } from '@irtranscripts/common';
+import { HttpStatus, ID, IPagination } from '@irtranscripts/contracts';
+import { UseValidationPipe, UUIDValidationPipe } from '@irtranscripts/core';
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { QueryBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';

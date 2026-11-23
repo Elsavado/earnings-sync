@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsInt, IsOptional, IsString, MaxLength, Min } from 'class-validator';
-import { DecimalString, ISearchIndexDefinition, ISearchIndexField, JsonData } from '@gauzy/contracts';
+import { DecimalString, ISearchIndexDefinition, ISearchIndexField, JsonData } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { ColumnIndex, JsonArrayColumn, JsonColumn, MultiORMColumn, MultiORMEntity } from '../core/decorators/entity';
 import { MikroOrmSearchIndexDefinitionRepository } from './repository/mikro-orm-search-index-definition.repository';

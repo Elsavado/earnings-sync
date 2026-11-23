@@ -1,6 +1,6 @@
 import { Injectable, BadRequestException, NotFoundException, PayloadTooLargeException } from '@nestjs/common';
 import { Request } from 'express';
-import { HELP_CENTER_ARTICLE_MAX_BINARY_BYTES } from '@gauzy/constants';
+import { HELP_CENTER_ARTICLE_MAX_BINARY_BYTES } from '@irtranscripts/constants';
 import {
 	Brackets,
 	FindOptionsWhere,
@@ -19,8 +19,8 @@ import {
 	prepareSQLQuery as p,
 	LIKE_OPERATOR,
 	sanitizeRichHtml
-} from '@gauzy/core';
-import { isNotEmpty } from '@gauzy/utils';
+} from '@irtranscripts/core';
+import { isNotEmpty } from '@irtranscripts/utils';
 import {
 	ID,
 	IHelpCenterArticle,
@@ -29,7 +29,7 @@ import {
 	IHelpCenterArticleFiltering,
 	IHelpCenterArticleAdvancedFilter,
 	IPagination
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { HelpCenterArticle } from './help-center-article.entity';
 import { HelpCenterArticleVersion } from './help-center-article-version.entity';
 import { HelpCenterArticleVersionService } from './help-center-article-version.service';

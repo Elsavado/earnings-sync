@@ -1,4 +1,4 @@
-import { IPagination, IUser } from '@gauzy/contracts';
+import { IPagination, IUser } from '@irtranscripts/contracts';
 
 /**
  * The publisher a public plugin read (`GET /plugins`, `GET /plugins/:id`, no sign-in) shows.

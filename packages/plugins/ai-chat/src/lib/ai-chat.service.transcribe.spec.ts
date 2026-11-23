@@ -1,12 +1,12 @@
 import { ServiceUnavailableException } from '@nestjs/common';
-import { AiSpeechErrorCode } from '@gauzy/contracts';
+import { AiSpeechErrorCode } from '@irtranscripts/contracts';
 
-// Same module-boundary stubs as ai-chat.service.capability.spec.ts: @gauzy/core pulls the whole
+// Same module-boundary stubs as ai-chat.service.capability.spec.ts: @irtranscripts/core pulls the whole
 // bootstrap and the tool builders pull the ESM-only `ai` SDK; none of it is on the dictation path.
-jest.mock('@gauzy/core', () => ({ RequestContext: { currentTenantId: () => 'tenant-1' } }));
+jest.mock('@irtranscripts/core', () => ({ RequestContext: { currentTenantId: () => 'tenant-1' } }));
 jest.mock('./esm-loader', () => ({ loadAiSdk: jest.fn() }));
-jest.mock('./tools/gauzy-api-client', () => ({ GauzyApiClient: class {} }));
-jest.mock('./tools/gauzy-tools', () => ({ buildGauzyTools: jest.fn(), GAUZY_TOOLS_REQUIRING_APPROVAL: [] }));
+jest.mock('./tools/irtranscripts-api-client', () => ({ IRTranscriptsApiClient: class {} }));
+jest.mock('./tools/irtranscripts-tools', () => ({ buildIRTranscriptsTools: jest.fn(), IRTRANSCRIPTS_TOOLS_REQUIRING_APPROVAL: [] }));
 jest.mock('./tools/client-tools', () => ({ buildClientTools: jest.fn(), CLIENT_TOOLS_REQUIRING_APPROVAL: [] }));
 jest.mock('./tools/mcp-tools', () => ({ createMcpTools: jest.fn() }));
 jest.mock('./credentials/ai-provider-credential.service', () => ({ AiProviderCredentialService: class {} }));

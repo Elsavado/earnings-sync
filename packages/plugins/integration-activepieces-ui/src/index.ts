@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-integration-activepieces-ui
+ * Public API Surface of @irtranscripts/plugin-integration-activepieces-ui
  */
 export * from './lib/integration-activepieces-ui.module';
 export * from './lib/integration-activepieces.layout.component';

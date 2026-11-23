@@ -1,4 +1,4 @@
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 /** Token type of the platform's database-backed refresh tokens (the core refresh-token module's value). */
 export const PLATFORM_REFRESH_TOKEN_TYPE = 'REFRESH_TOKEN_TYPE';

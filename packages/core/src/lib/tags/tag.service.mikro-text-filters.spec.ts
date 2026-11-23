@@ -1,6 +1,6 @@
 import '../core/entities/internal';
 
-import * as config from '@gauzy/config';
+import * as config from '@irtranscripts/config';
 import { MySqlDriver } from '@mikro-orm/mysql';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { CrudService } from '../core/crud/crud.service';
@@ -8,15 +8,15 @@ import { MultiORMEnum } from '../core/utils';
 import { asTenantUser, createCrossTenantFixture } from '../core/testing/tenant-isolation/tenant-isolation.fixtures';
 import { TagService } from './tag.service';
 
-// `@gauzy/config` re-exports `getConfig` with `export *`, which compiles to a non-configurable getter, so
+// `@irtranscripts/config` re-exports `getConfig` with `export *`, which compiles to a non-configurable getter, so
 // `jest.spyOn(config, 'getConfig')` throws "Cannot redefine property". Mock the module instead (as
 // tag.service.find-tags-counters.spec.ts does); each test swaps the return value and `afterEach` puts the
 // real implementation back.
-jest.mock('@gauzy/config', () => {
-	const actual = jest.requireActual('@gauzy/config');
+jest.mock('@irtranscripts/config', () => {
+	const actual = jest.requireActual('@irtranscripts/config');
 	return { ...actual, getConfig: jest.fn(actual.getConfig) };
 });
-const actualGetConfig = jest.requireActual<typeof config>('@gauzy/config').getConfig;
+const actualGetConfig = jest.requireActual<typeof config>('@irtranscripts/config').getConfig;
 
 /**
  * The MikroORM tag queries filter by name / color / description. `$ilike` is PostgreSQL-only in MikroORM,

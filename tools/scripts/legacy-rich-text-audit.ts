@@ -38,7 +38,7 @@
  * 1. Restore a production-representative snapshot somewhere disposable. **Never point this
  *    at a live production database**: it is read-only (SELECT only, no writes anywhere in
  *    this file), but a full-table scan of nine columns on a busy primary is still rude.
- * 2. Point the standard Gauzy DB variables at the snapshot — the same names the API reads
+ * 2. Point the standard IRTranscripts DB variables at the snapshot — the same names the API reads
  *    (`packages/config/src/lib/database.ts`):
  *
  *      DB_TYPE=postgres DB_HOST=… DB_PORT=5432 DB_NAME=… DB_USER=… DB_PASS=… \
@@ -460,7 +460,7 @@ Options
   --json <path>          Write the machine-readable report there.
   -h, --help             This text.
 
-Database connection uses the standard Gauzy variables — DB_TYPE, DB_HOST, DB_PORT,
+Database connection uses the standard IRTranscripts variables — DB_TYPE, DB_HOST, DB_PORT,
 DB_NAME, DB_USER, DB_PASS, DB_SSL_MODE — against a production-representative SNAPSHOT.
 The script only ever issues SELECT statements.
 
@@ -597,7 +597,7 @@ async function connect(dbType: DbType): Promise<DataSource> {
 	if (dbType === 'sqlite' || dbType === 'better-sqlite3') {
 		const dataSource = new DataSourceCtor({
 			type: dbType,
-			database: process.env.DB_NAME || 'gauzy.sqlite3',
+			database: process.env.DB_NAME || 'irtranscripts.sqlite3',
 			...shared
 		} as never);
 		return dataSource.initialize();

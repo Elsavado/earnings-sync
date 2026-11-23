@@ -1,7 +1,7 @@
 {
-	"name": "@gauzy/mcp-server",
+	"name": "@irtranscripts/mcp-server",
 	"version": "0.1.0",
-	"description": "Ever Gauzy Platform MCP Server module",
+	"description": "Ever IRTranscripts Platform MCP Server module",
 	"author": {
 		"name": "Ever Co. LTD",
 		"email": "ever@ever.co",
@@ -72,7 +72,7 @@
 		"api",
 		"mcp",
 		"server",
-		"gauzy",
+		"irtranscripts",
 		"mcp-server"
 	],
 	"engines": {

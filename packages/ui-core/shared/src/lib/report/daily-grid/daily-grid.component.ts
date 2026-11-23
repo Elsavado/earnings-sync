@@ -10,11 +10,11 @@ import {
 	ITimeLogFilters,
 	ReportGroupByFilter,
 	ReportGroupFilterEnum
-} from '@gauzy/contracts';
-import { Environment, environment } from '@gauzy/ui-config';
-import { distinctUntilChange, isEmpty, progressStatus } from '@gauzy/ui-core/common';
-import { DateRangePickerBuilderService, Store, TimesheetService } from '@gauzy/ui-core/core';
-import { BaseSelectorFilterComponent, TimeZoneService } from '../../timesheet/gauzy-filters';
+} from '@irtranscripts/contracts';
+import { Environment, environment } from '@irtranscripts/ui-config';
+import { distinctUntilChange, isEmpty, progressStatus } from '@irtranscripts/ui-core/common';
+import { DateRangePickerBuilderService, Store, TimesheetService } from '@irtranscripts/ui-core/core';
+import { BaseSelectorFilterComponent, TimeZoneService } from '../../timesheet/irtranscripts-filters';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -100,7 +100,7 @@ export class DailyGridComponent extends BaseSelectorFilterComponent implements O
 
 	/**
 	 * Get header selectors request
-	 * Get gauzy timesheet filters request
+	 * Get irtranscripts timesheet filters request
 	 *
 	 * @returns
 	 */

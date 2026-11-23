@@ -12,8 +12,8 @@ import { MODULE_METADATA } from '@nestjs/common/constants';
 import { Reflector } from '@nestjs/core';
 import { PARAM_ARGS_METADATA } from '@nestjs/graphql';
 import { buildSchema, printSchema } from 'graphql';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@gauzy/constants';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import {
 	EmployeeTrackedDataGuard,
 	FeatureFlagGuard,
@@ -92,7 +92,7 @@ const MEMBERS = [
 ];
 
 /** What the projects read answers, one project per ranked row. */
-const PROJECTS = [{ id: PROJECT, name: 'Gauzy', duration: 90000, durationPercentage: 62.5 }];
+const PROJECTS = [{ id: PROJECT, name: 'IRTranscripts', duration: 90000, durationPercentage: 62.5 }];
 
 /** What the tasks read answers, durations included as the delivered aggregation leaves them. */
 const TASKS = [
@@ -114,7 +114,7 @@ const MANUAL_TIMES = [
 		duration: 3600,
 		employeeId: EMPLOYEE,
 		user: ACCOUNT,
-		project: { name: 'Gauzy', imageUrl: 'https://files.test/gauzy.png' }
+		project: { name: 'IRTranscripts', imageUrl: 'https://files.test/gauzy.png' }
 	}
 ];
 

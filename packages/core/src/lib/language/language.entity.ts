@@ -2,7 +2,7 @@ import { Unique as TypeOrmUnique } from 'typeorm';
 import { Unique as MikroOrmUnique } from '@mikro-orm/core';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional } from 'class-validator';
-import { ILanguage, IOrganizationLanguage } from '@gauzy/contracts';
+import { ILanguage, IOrganizationLanguage } from '@irtranscripts/contracts';
 import { BaseEntity, OrganizationLanguage } from '../core/entities/internal';
 import { MultiORMColumn, MultiORMEntity, MultiORMOneToMany } from './../core/decorators/entity';
 import { MikroOrmLanguageRepository } from './repository/mikro-orm-language.repository';

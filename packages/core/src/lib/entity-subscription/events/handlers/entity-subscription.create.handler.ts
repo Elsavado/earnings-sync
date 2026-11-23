@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
-import { IEntitySubscription } from '@gauzy/contracts';
+import { IEntitySubscription } from '@irtranscripts/contracts';
 import { CreateEntitySubscriptionEvent } from '../entity-subscription.create.event';
 import { EntitySubscriptionCreateCommand } from '../../commands';
 

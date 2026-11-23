@@ -10,7 +10,7 @@ import {
 	IOrganizationProject,
 	IProductTranslatable,
 	ITask
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	Employee,
 	Expense,

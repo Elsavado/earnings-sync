@@ -8,8 +8,8 @@ import {
 	MultiORMEntity,
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
-import { DecimalString, ID } from '@gauzy/contracts';
+} from '@irtranscripts/core';
+import { DecimalString, ID } from '@irtranscripts/contracts';
 import { MikroOrmGiftCardTransactionRepository } from './repository/mikro-orm-gift-card-transaction.repository';
 import { IGiftCard, IGiftCardTransaction, GiftCardTransactionType } from '../promotion.types';
 import { GiftCard } from '../gift-card/gift-card.entity';

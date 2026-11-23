@@ -8,7 +8,7 @@ import {
 	ApiNotFoundResponse
 } from '@nestjs/swagger';
 import { UpdateResult } from 'typeorm';
-import { ID, IEmailHistory, IPagination, LanguagesEnum, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IEmailHistory, IPagination, LanguagesEnum, PermissionsEnum } from '@irtranscripts/contracts';
 import { EmailHistory } from './email-history.entity';
 import { EmailHistoryService } from './email-history.service';
 import { LanguageDecorator, Permissions } from './../shared/decorators';

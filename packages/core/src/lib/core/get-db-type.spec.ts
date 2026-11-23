@@ -1,7 +1,7 @@
 import { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
 import { MySqlDriver } from '@mikro-orm/mysql';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 import { getDBType } from './utils';
 
 /**

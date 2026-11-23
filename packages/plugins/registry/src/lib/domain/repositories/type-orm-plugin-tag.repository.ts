@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { parseFindOptionsRelations } from '@gauzy/core';
+import { parseFindOptionsRelations } from '@irtranscripts/core';
 import { IPluginTag } from '../../shared';
 import { PluginTag } from '../entities/plugin-tag.entity';
 

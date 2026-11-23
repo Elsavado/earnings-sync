@@ -1,6 +1,6 @@
 // cspell:ignore SUBSCRIP
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a rights service needs and none of which is available
  * outside a running application. The seam is therefore doubled at the module boundary and **the
  * service under test is the real one**, together with the real pure rules it decides with
@@ -11,10 +11,10 @@
  * substituted by doubles that write the rows the parent then re-derives its counters from, so the
  * arithmetic the assertions read is the parent's own.
  *
- * `@gauzy/config` is read at import time by the row-lock helper the package shares, so it is doubled
+ * `@irtranscripts/config` is read at import time by the row-lock helper the package shares, so it is doubled
  * too.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
@@ -100,12 +100,12 @@ jest.mock('@gauzy/core', () => {
 		// The conditional write is the kernel's own, so the assertions below are about the statement it
 		// issues and the affected-row count it reads, not about a stub's idea of either; the refusal a
 		// transaction-scoped write raises is the kernel's exception for the same reason.
-		commitVersionedUpdate: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write').commitVersionedUpdate,
-		versionExpectationOf: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write').versionExpectationOf,
-		bumpVersion: jest.requireActual('@gauzy/core/src/lib/concurrency/version.util').bumpVersion,
-		parseEntityVersion: jest.requireActual('@gauzy/core/src/lib/concurrency/version.util').parseEntityVersion,
-		ApiException: jest.requireActual('@gauzy/core/src/lib/core/errors/api-exception').ApiException,
-		ApiErrorCode: jest.requireActual('@gauzy/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
+		commitVersionedUpdate: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write').commitVersionedUpdate,
+		versionExpectationOf: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write').versionExpectationOf,
+		bumpVersion: jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util').bumpVersion,
+		parseEntityVersion: jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util').parseEntityVersion,
+		ApiException: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-exception').ApiException,
+		ApiErrorCode: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
 		// The cross-tenant reference check a grant runs reads a real database; the grant's own refusal of another
 		// tenant's ids is asserted in `entitlement.service.grant-references.spec.ts`.
 		assertPlainReferencesNotForeign: async () => undefined,
@@ -122,7 +122,7 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	DatabaseTypeEnum: {
 		mongodb: 'mongodb',
 		sqlite: 'sqlite',
@@ -133,8 +133,8 @@ jest.mock('@gauzy/config', () => ({
 }));
 
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { RequestContext } from '@gauzy/core';
-import { ApiErrorCode } from '@gauzy/core/src/lib/core/errors/api-error-codes';
+import { RequestContext } from '@irtranscripts/core';
+import { ApiErrorCode } from '@irtranscripts/core/src/lib/core/errors/api-error-codes';
 import { Entitlement } from './entitlement.entity';
 import { EntitlementActivation } from '../entitlement-activation/entitlement-activation.entity';
 import { EntitlementKey } from '../entitlement-key/entitlement-key.entity';

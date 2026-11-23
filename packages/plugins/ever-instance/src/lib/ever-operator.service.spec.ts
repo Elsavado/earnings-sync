@@ -149,7 +149,7 @@ describe.each(TEST_TARGETS)('EverOperatorService on $name', (target) => {
 		const unconfirmed = await user(strangerTenant, 'SUPER_ADMIN', 'OPS@acme.test', '2026-05-01 00:00:00', { verified: false });
 		const confirmed = await user(strangerTenant, 'SUPER_ADMIN', 'ops@acme.test', '2026-05-02 00:00:00');
 		// An account created BEFORE the operator's, confirmed for another address, that changed its
-		// address to the listed one (Gauzy keeps the confirmation and the creation date).
+		// address to the listed one (IRTranscripts keeps the confirmation and the creation date).
 		const older = await user(await tenant(), 'SUPER_ADMIN', 'ops@acme.test', '2025-06-01 00:00:00');
 		const { instance, operator } = services({ EVER_OPERATOR_EMAILS: 'ops@acme.test' });
 		await instance.ensure();

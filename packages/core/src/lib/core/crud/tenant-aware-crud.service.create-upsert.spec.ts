@@ -3,8 +3,8 @@ import '../entities/internal';
 
 import { ForbiddenException } from '@nestjs/common';
 import { DataSource, EntitySchema, Repository } from 'typeorm';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@gauzy/config';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@irtranscripts/config';
 import { RequestContext } from '../context';
 import { MultiORMEnum } from '../utils';
 import { CrudService } from './crud.service';

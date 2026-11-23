@@ -1,4 +1,4 @@
-import { RegisteredWindow } from '@gauzy/desktop-core';
+import { RegisteredWindow } from '@irtranscripts/desktop-core';
 import { ipcMain, nativeImage, Tray } from 'electron';
 import * as path from 'node:path';
 import { PluginEventManager } from '../plugin-system/events/plugin-event.manager';

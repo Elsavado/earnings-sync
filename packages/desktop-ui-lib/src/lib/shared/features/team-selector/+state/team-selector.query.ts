@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IOrganizationTeam } from '@gauzy/contracts';
+import { IOrganizationTeam } from '@irtranscripts/contracts';
 import { filter, map, Observable, startWith } from 'rxjs';
 import { SelectorQuery } from '../../../+state/selector.query';
 import { TeamSelectorStore } from './team-selector.store';

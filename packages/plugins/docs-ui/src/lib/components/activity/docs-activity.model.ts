@@ -1,4 +1,4 @@
-import { ActionTypeEnum, ActorTypeEnum, IActivityLog } from '@gauzy/contracts';
+import { ActionTypeEnum, ActorTypeEnum, IActivityLog } from '@irtranscripts/contracts';
 import { employeeMentionLabel } from '../comments/document-comments.model';
 
 /**

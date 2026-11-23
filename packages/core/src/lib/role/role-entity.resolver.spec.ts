@@ -11,8 +11,8 @@ import { ExecutionContext, ForbiddenException, NotFoundException } from '@nestjs
 import { METHOD_METADATA, MODULE_METADATA } from '@nestjs/common/constants';
 import { Reflector } from '@nestjs/core';
 import { Kind, buildSchema, parse, printSchema } from 'graphql';
-import { PermissionsEnum, RolesEnum } from '@gauzy/contracts';
-import { FEATURE_METADATA, PERMISSIONS_METADATA, ROLES_METADATA } from '@gauzy/constants';
+import { PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
+import { FEATURE_METADATA, PERMISSIONS_METADATA, ROLES_METADATA } from '@irtranscripts/constants';
 import { CursorCodec } from '../api/cursor';
 import { RequestContext } from '../core/context';
 import { ApiException } from '../core/errors/api-exception';

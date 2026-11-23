@@ -1,13 +1,13 @@
 {
-	"name": "@gauzy/mcp-auth",
+	"name": "@irtranscripts/mcp-auth",
 	"version": "0.1.0",
-	"description": "MCP Authorization Server for Ever Gauzy Platform used as Identity Server",
+	"description": "MCP Authorization Server for Ever IRTranscripts Platform used as Identity Server",
 	"author": {
 		"name": "Ever Co. LTD",
 		"email": "ever@ever.co",
 		"url": "https://ever.co"
 	},
-	"homepage": "https://gauzy.co",
+	"homepage": "https://irtranscripts.com",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/ever-co/ever-gauzy.git"
@@ -26,9 +26,9 @@
 		"test": "node build/main.js --test"
 	},
 	"dependencies": {
-		"@gauzy/auth": "^0.1.0",
-		"@gauzy/core": "^0.1.0",
-		"@gauzy/contracts": "^0.1.0"
+		"@irtranscripts/auth": "^0.1.0",
+		"@irtranscripts/core": "^0.1.0",
+		"@irtranscripts/contracts": "^0.1.0"
 	},
 	"devDependencies": {
 		"@types/node": "^26.6.5",

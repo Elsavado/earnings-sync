@@ -2,9 +2,9 @@ import { isInstanceWideKey } from '../ever-connect.constants';
 import { INTEGRATIONS, IntegrationDefinition, IntegrationKey } from '../sdk';
 
 /**
- * The integrations Ever Gauzy offers, as data. What each one moves (its scope rows, purpose,
+ * The integrations Ever IRTranscripts offers, as data. What each one moves (its scope rows, purpose,
  * retention and frequency) comes from the Ever Platform SDK's definitions, the same data app.ever.co
- * renders its consent screen from; this file adds what is Gauzy's own:
+ * renders its consent screen from; this file adds what is IRTranscripts's own:
  *
  * - `scopeVersion` and `scopeSha256` pin the scope this release was reviewed with: when the SDK's
  *   scope changes, `definitions.drift.spec.ts` fails until the pin is updated (and a scope change
@@ -15,7 +15,7 @@ import { INTEGRATIONS, IntegrationDefinition, IntegrationKey } from '../sdk';
  *   the consent and accepts it locally;
  * - `appEverCoOnly`: consent only in app.ever.co.
  */
-export interface GauzyIntegrationDefinition {
+export interface IRTranscriptsIntegrationDefinition {
 	key: IntegrationKey;
 	scopeVersion: number;
 	scopeSha256: string;
@@ -29,7 +29,7 @@ const pin = (
 	scopeSha256: string,
 	available: boolean,
 	appEverCoOnly = false
-): GauzyIntegrationDefinition => ({
+): IRTranscriptsIntegrationDefinition => ({
 	key,
 	scopeVersion: 1,
 	scopeSha256,
@@ -38,8 +38,8 @@ const pin = (
 	appEverCoOnly
 });
 
-/** Every integration key Ever Gauzy offers, with its pinned scope. */
-export const GAUZY_INTEGRATIONS: ReadonlyArray<GauzyIntegrationDefinition> = Object.freeze([
+/** Every integration key Ever IRTranscripts offers, with its pinned scope. */
+export const IRTRANSCRIPTS_INTEGRATIONS: ReadonlyArray<IRTranscriptsIntegrationDefinition> = Object.freeze([
 	// The public address of this installation, sent only after a consent in app.ever.co and the
 	// operator's accept.
 	pin('instance_url', '4d49f2e6b58f02e7476680daad357fba6a3f0af18e7c1e393e8707d7ca120cf3', true, true),
@@ -57,9 +57,9 @@ export const GAUZY_INTEGRATIONS: ReadonlyArray<GauzyIntegrationDefinition> = Obj
 	pin('marketplace_installs', '467cea708e8881aa2a03feaeb6dedf08a7960c2b583c3f321628f0aaf399b3e6', false)
 ]);
 
-/** Gauzy's definition of `key`, or `null` when Gauzy does not offer it. */
-export function gauzyIntegration(key: string): GauzyIntegrationDefinition | null {
-	return GAUZY_INTEGRATIONS.find((definition) => definition.key === key) ?? null;
+/** IRTranscripts's definition of `key`, or `null` when IRTranscripts does not offer it. */
+export function irtranscriptsIntegration(key: string): IRTranscriptsIntegrationDefinition | null {
+	return IRTRANSCRIPTS_INTEGRATIONS.find((definition) => definition.key === key) ?? null;
 }
 
 /** The shared definition (what moves, why, how often), from the SDK. */
@@ -68,7 +68,7 @@ export function sharedDefinition(key: IntegrationKey): IntegrationDefinition {
 }
 
 /** Whether `key` is offered on this installation: `stats_link` is never offered on Ever Cloud. */
-export function offeredOn(definition: GauzyIntegrationDefinition, cloud: boolean): boolean {
+export function offeredOn(definition: IRTranscriptsIntegrationDefinition, cloud: boolean): boolean {
 	const availability = sharedDefinition(definition.key).availability;
 	return (cloud ? availability.cloud : availability.self_hosted) !== 'not_applicable';
 }

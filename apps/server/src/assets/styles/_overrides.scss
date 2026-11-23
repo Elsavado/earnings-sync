@@ -6,7 +6,7 @@
 
 /* Apply style on scrollbar for Firefox */
 * {
-  scrollbar-color: var(--gauzy-scrollbar) transparent;
+  scrollbar-color: var(--irtranscripts-scrollbar) transparent;
   scrollbar-width: thin;
 }
 
@@ -21,7 +21,7 @@
 }
 
 *::-webkit-scrollbar-thumb {
-  background: var(--gauzy-scrollbar);
+  background: var(--irtranscripts-scrollbar);
   border-radius: 1rem;
 }
 
@@ -39,17 +39,17 @@ body {
 
 .dashboard-card-scroll nb-card {
   background: var(--background-basic-color-1);
-  box-shadow: var(--gauzy-shadow);
+  box-shadow: var(--irtranscripts-shadow);
 }
 
 @mixin nb-overrides() {
   nb-route-tabset .route-tab.active .tab-link {
-    background: var(--gauzy-card-2);
+    background: var(--irtranscripts-card-2);
     margin-bottom: 1px;
   }
 
   nb-tabset .tab.active .tab-link {
-    background-color: var(--gauzy-card-2);
+    background-color: var(--irtranscripts-card-2);
     margin-bottom: 1px;
   }
 
@@ -69,7 +69,7 @@ body {
   }
 
   .h1 {
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
     font-size: 36px;
     font-weight: 400;
     line-height: 44px;
@@ -167,7 +167,7 @@ body {
         }
 
         &::-webkit-scrollbar-thumb {
-          background: var(--gauzy-scrollbar);
+          background: var(--irtranscripts-scrollbar);
           border-radius: 1rem;
         }
       }
@@ -175,7 +175,7 @@ body {
   }
 
   .ng-dropdown-panel {
-    background-color: var(--gauzy-card-5) !important;
+    background-color: var(--irtranscripts-card-5) !important;
 
     .scroll-host {
       scrollbar-width: thin;
@@ -189,7 +189,7 @@ body {
       }
 
       &::-webkit-scrollbar-thumb {
-        background: var(--gauzy-scrollbar);
+        background: var(--irtranscripts-scrollbar);
         border-radius: 1rem;
       }
     }
@@ -200,12 +200,12 @@ body {
 
     .angular2-smart-filter input {
       height: 32px;
-      background-color: var(--gauzy-sidebar-background-3) !important;
+      background-color: var(--irtranscripts-sidebar-background-3) !important;
       border: none !important;
     }
 
     .angular2-smart-filter .ng-select .ng-select-container {
-      background-color: var(--gauzy-sidebar-background-3) !important;
+      background-color: var(--irtranscripts-sidebar-background-3) !important;
       height: 32px;
       min-height: auto;
 
@@ -266,7 +266,7 @@ body {
 
   .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
     background: var(--background-basic-color-1);
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
     transition-duration: 0.15s;
     transition-property: border, background-color, color, box-shadow;
     transition-timing-function: ease-in;
@@ -280,7 +280,7 @@ body {
   }
 
   .ng-dropdown-panel .ng-dropdown-panel-items .ng-option-marked {
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
     background-color: var(--background-basic-color-1) !important;
   }
 
@@ -296,7 +296,7 @@ body {
 
   .ng-dropdown-panel {
     transform: translateY(10px);
-    box-shadow: var(--gauzy-shadow);
+    box-shadow: var(--irtranscripts-shadow);
     border-width: 0 !important;
 
     &.ng-select-bottom {
@@ -316,7 +316,7 @@ body {
   }
 
   .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-input > input {
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
   }
 
   .ng-select .ng-select-container {
@@ -341,11 +341,11 @@ body {
     color: var(--text-basic-color) !important;
   }
   .records {
-    box-shadow: var(--gauzy-shadow) !important;
+    box-shadow: var(--irtranscripts-shadow) !important;
     background: var(--background-basic-color-1) !important;
   }
   .profit-history {
-    box-shadow: var(--gauzy-shadow) !important;
+    box-shadow: var(--irtranscripts-shadow) !important;
     background: var(--background-basic-color-1) !important;
   }
   tr {
@@ -442,8 +442,8 @@ nb-card-body {
   }
 
   angular2-smart-table table tr th {
-    border-top: 1px solid var(--gauzy-border-table);
-    border-bottom: 1px solid var(--gauzy-border-table);
+    border-top: 1px solid var(--irtranscripts-border-table);
+    border-bottom: 1px solid var(--irtranscripts-border-table);
   }
 
   table thead th {
@@ -451,12 +451,12 @@ nb-card-body {
     border-right: none;
 
     &:first-child {
-      border-left: 1px solid var(--gauzy-border-table);
+      border-left: 1px solid var(--irtranscripts-border-table);
       border-radius: var(--border-radius) 0 0 var(--border-radius);
     }
 
     &:last-child {
-      border-right: 1px solid var(--gauzy-border-table);
+      border-right: 1px solid var(--irtranscripts-border-table);
       border-radius: 0 var(--border-radius) var(--border-radius) 0;
     }
   }
@@ -470,7 +470,7 @@ nb-card-body {
       border-left: none;
       border-right: none;
       border-top: none;
-      border-bottom: 1px solid var(--gauzy-border-table);
+      border-bottom: 1px solid var(--irtranscripts-border-table);
     }
   }
 
@@ -503,7 +503,7 @@ nb-card-body {
 }
 
 nb-tabset .tab.active .tab-link {
-  background-color: var(--gauzy-card-2);
+  background-color: var(--irtranscripts-card-2);
   border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
 angular2-smart-table {
@@ -572,7 +572,7 @@ angular2-smart-table {
   line-height: 16px;
   letter-spacing: 0em;
 
-  color: var(--gauzy-text-color-2);
+  color: var(--irtranscripts-text-color-2);
   width: auto;
   box-sizing: border-box;
   opacity: 0;
@@ -586,7 +586,7 @@ angular2-smart-table {
 
   position: absolute;
 
-  background: var(--gauzy-siderbar-background-5);
+  background: var(--irtranscripts-siderbar-background-5);
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
   border-radius: var(--border-radius);
   transform: translate(-16.75px, -118.5%);
@@ -595,7 +595,7 @@ angular2-smart-table {
   pointer-events: none;
 
   i {
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
   }
 }
 
@@ -628,7 +628,7 @@ angular2-smart-table {
 .ng-select {
   .ng-select-container {
     border-radius: var(--border-radius);
-    box-shadow: var(--gauzy-shadow) inset;
+    box-shadow: var(--irtranscripts-shadow) inset;
     height: 42px !important;
   }
 
@@ -668,7 +668,7 @@ angular2-smart-table table tr.angular2-smart-titles .angular2-smart-sort {
   font-weight: 600 !important;
   line-height: 15px;
   letter-spacing: 0em;
-  color: var(--gauzy-text-color-2) !important;
+  color: var(--irtranscripts-text-color-2) !important;
 }
 
 angular2-smart-table table tr.angular2-smart-titles th a.sort {
@@ -676,7 +676,7 @@ angular2-smart-table table tr.angular2-smart-titles th a.sort {
   font-weight: 600 !important;
   line-height: 15px;
   letter-spacing: 0em;
-  color: var(--gauzy-text-color-2) !important;
+  color: var(--irtranscripts-text-color-2) !important;
   display: flex;
   flex-direction: row-reverse;
   align-items: center;

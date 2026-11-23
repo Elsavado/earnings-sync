@@ -14,7 +14,7 @@ import {
 import { CommandBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FindOptionsWhere } from 'typeorm';
-import { ID, IOrganization, IOrganizationCreateInput, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IOrganization, IOrganizationCreateInput, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	BulkExecutor,
 	BulkOperation,

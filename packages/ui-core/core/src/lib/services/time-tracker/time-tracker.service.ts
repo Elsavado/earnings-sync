@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import moment from 'moment';
 import { StoreConfig, Store, Query } from '@datorama/akita';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { environment } from '@gauzy/ui-config';
+import { environment } from '@irtranscripts/ui-config';
 import {
 	ITimeLog,
 	ITimerToggleInput,
@@ -17,8 +17,8 @@ import {
 	TimeLogSourceEnum,
 	ITimerStatusInput,
 	ITimerPosition
-} from '@gauzy/contracts';
-import { API_PREFIX, BACKGROUND_SYNC_INTERVAL, buildHttpParams, toLocal, toUTC } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { API_PREFIX, BACKGROUND_SYNC_INTERVAL, buildHttpParams, toLocal, toUTC } from '@irtranscripts/ui-core/common';
 import { Store as AppStore } from '../store/store.service';
 import { ITimerSynced } from './interfaces';
 

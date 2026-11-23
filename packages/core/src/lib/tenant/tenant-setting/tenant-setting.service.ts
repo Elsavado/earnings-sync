@@ -11,7 +11,7 @@ import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity
 import { FindOptions } from '@mikro-orm/core';
 import { indexBy, keys, object, pluck } from 'underscore';
 import { S3Client, CreateBucketCommand, CreateBucketCommandInput, CreateBucketCommandOutput } from '@aws-sdk/client-s3';
-import { ID, ITenantSetting, IWasabiFileStorageProviderConfig } from '@gauzy/contracts';
+import { ID, ITenantSetting, IWasabiFileStorageProviderConfig } from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from './../../core/crud';
 import { IFindOneOptions, IPartialEntity } from '../../core/crud/icrud.service';
 import { refusalForStorageEndpoint, tenantStorageHttpsAgent } from '../../core/file-storage/storage-endpoint-policy';

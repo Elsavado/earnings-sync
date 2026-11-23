@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PluginStatus } from '@gauzy/contracts';
+import { PluginStatus } from '@irtranscripts/contracts';
 import { Observable, of } from 'rxjs';
 import {
 	IInstallationValidationContext,

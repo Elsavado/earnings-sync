@@ -1,9 +1,9 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel, none of which a membership service needs, so it
+ * `@irtranscripts/core` boots the whole application graph from its barrel, none of which a membership service needs, so it
  * is doubled at the module boundary; **the service under test is the real one**, over an in-memory datastore that
  * honours the `where` it is given — a double that ignored the scope would make every case below vacuous.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 
 	class BaseEntity {}
@@ -64,7 +64,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { ProductVariant, RequestContext } from '@gauzy/core';
+import { ProductVariant, RequestContext } from '@irtranscripts/core';
 import { Collection } from '../collection/collection.entity';
 import { CollectionVariant } from './collection-variant.entity';
 import { CollectionVariantService } from './collection-variant.service';

@@ -1,10 +1,10 @@
-@use 'gauzy/_gauzy-cards' as *;
+@use 'irtranscripts/_irtranscripts-cards' as *;
 
 :host {
   @include nb-card-overrides(auto, calc($default-card-height + 7.5rem), $default-radius);
 
   nb-card {
-    background: var(--gauzy-card-2);
+    background: var(--irtranscripts-card-2);
   }
 
   .card-header-title {
@@ -13,7 +13,7 @@
 }
 
 .main-content {
-  background: var(--gauzy-card-2);
+  background: var(--irtranscripts-card-2);
   font-size: 13px;
   line-height: 1.25rem;
 }
@@ -43,8 +43,8 @@
 }
 
 .panel {
-  background: var(--gauzy-card-1);
-  border: 1px solid var(--gauzy-border-default-color);
+  background: var(--irtranscripts-card-1);
+  border: 1px solid var(--irtranscripts-border-default-color);
   border-radius: var(--border-radius);
   padding: 1rem 1.25rem;
 }
@@ -52,19 +52,19 @@
 .panel-title {
   margin: 0 0 0.75rem;
   padding-bottom: 0.75rem;
-  border-bottom: 1px solid var(--gauzy-border-default-color);
+  border-bottom: 1px solid var(--irtranscripts-border-default-color);
   font-size: 11px;
   font-weight: 600;
   line-height: 1rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--gauzy-text-color-2);
+  color: var(--irtranscripts-text-color-2);
 }
 
 .rich-text {
   font-size: 14px;
   line-height: 1.5rem;
-  color: var(--gauzy-text-color-1);
+  color: var(--irtranscripts-text-color-1);
 }
 
 .empty {
@@ -83,14 +83,14 @@
     padding: 0.5rem 0;
 
     & + .field {
-      border-top: 1px dashed var(--gauzy-border-default-color);
+      border-top: 1px dashed var(--irtranscripts-border-default-color);
     }
   }
 
   dt {
     font-size: 12px;
     font-weight: 500;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
   }
 
   dd {
@@ -98,7 +98,7 @@
     font-size: 14px;
     font-weight: 500;
     line-height: 1.25rem;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
     overflow-wrap: anywhere;
   }
 }
@@ -148,7 +148,7 @@
     font-weight: 600;
     text-transform: uppercase;
     color: var(--color-primary-default);
-    background: var(--gauzy-hover-tint);
+    background: var(--irtranscripts-hover-tint);
   }
 }
 

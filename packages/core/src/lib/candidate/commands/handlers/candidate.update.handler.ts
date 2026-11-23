@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { BadRequestException } from '@nestjs/common';
-import { ICandidate, ICandidateUpdateInput } from '@gauzy/contracts';
+import { ICandidate, ICandidateUpdateInput } from '@irtranscripts/contracts';
 import { CandidateService } from '../../candidate.service';
 import { CandidateUpdateCommand } from '../candidate.update.command';
 import { ownContactPatch } from '../../../contact/profile-contact.helper';

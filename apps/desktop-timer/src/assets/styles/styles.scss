@@ -14,7 +14,7 @@
 // Files that DON'T need Bootstrap can use @use
 @use './overrides' as *;
 @use './material/material-overrides' as *;
-@use './gauzy/gauzy-overrides' as *;
+@use './irtranscripts/irtranscripts-overrides' as *;
 
 @use './site-menu.scss' as *;
 
@@ -202,7 +202,7 @@
 
   @include nb-overrides();
   @include material-overrides();
-  @include gauzy-overrides();
+  @include irtranscripts-overrides();
 }
 
 .toast-top-custom-title-bar {

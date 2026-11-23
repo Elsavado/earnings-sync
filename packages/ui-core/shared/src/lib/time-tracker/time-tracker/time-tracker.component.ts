@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { faStopwatch, faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
-import { Environment, environment } from '@gauzy/ui-config';
+import { Environment, environment } from '@irtranscripts/ui-config';
 import {
 	IOrganization,
 	IUser,
@@ -18,8 +18,8 @@ import {
 	TimeLogSourceEnum,
 	IEmployee,
 	ITimerToggleInput
-} from '@gauzy/contracts';
-import { distinctUntilChange, toLocal, toUTC } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { distinctUntilChange, toLocal, toUTC } from '@irtranscripts/ui-core/common';
 import {
 	ErrorHandlingService,
 	ITimerSynced,
@@ -27,7 +27,7 @@ import {
 	TimeTrackerService,
 	TimesheetService,
 	ToastrService
-} from '@gauzy/ui-core/core';
+} from '@irtranscripts/ui-core/core';
 import { TimeTrackerStatusService } from '../components/time-tracker-status/time-tracker-status.service';
 
 @UntilDestroy({ checkProperties: true })

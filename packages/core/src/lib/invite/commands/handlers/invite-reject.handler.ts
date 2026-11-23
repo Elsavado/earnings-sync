@@ -1,7 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { BadRequestException, ConflictException, HttpException, NotFoundException } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
-import { IInvite } from '@gauzy/contracts';
+import { IInvite } from '@irtranscripts/contracts';
 import { InviteRejectCommand } from '../invite-reject.command';
 import { InviteService } from '../../invite.service';
 

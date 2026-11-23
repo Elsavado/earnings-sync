@@ -23,7 +23,7 @@ jest.mock('../commerce-checkout-session/commerce-checkout-session.service', () =
 	CommerceCheckoutSessionService: class CommerceCheckoutSessionService {}
 }));
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
@@ -68,32 +68,32 @@ jest.mock('@gauzy/core', () => {
 		VersionedColumn: decorator,
 		// The permission and retry decorators are the kernel's own: what this suite compares between a
 		// route and the field that mirrors it is the metadata they write.
-		Permissions: jest.requireActual('@gauzy/core/src/lib/shared/decorators/permissions.decorator').Permissions,
+		Permissions: jest.requireActual('@irtranscripts/core/src/lib/shared/decorators/permissions.decorator').Permissions,
 		UseValidationPipe: decorator,
 		PermissionGuard: class {},
 		TenantPermissionGuard: class {},
 		// Every resolver class carries the platform's feature guard, so the double provides the class
 		// the resolver imports: an undefined guard handed to the real `@UseGuards` fails the suite.
 		FeatureFlagGuard: class {},
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
-		IDEMPOTENT_METADATA_KEY: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.policy')
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		IDEMPOTENT_METADATA_KEY: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.policy')
 			.IDEMPOTENT_METADATA_KEY,
 		// Rebuilt rather than required: the real decorator imports the version guard, the interceptor behind
 		// it and the idempotency service behind that, which reaches the entity graph. What the declarations
 		// under test read is the metadata it writes, so that is what the double writes — on the kernel's own
 		// key, taken from the kernel rather than restated as a string literal.
-		VERSIONED_METADATA_KEY: jest.requireActual('@gauzy/core/src/lib/concurrency/version.util')
+		VERSIONED_METADATA_KEY: jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util')
 			.VERSIONED_METADATA_KEY,
 		Versioned: (options: any = {}) =>
 			require('@nestjs/common').SetMetadata(
-				jest.requireActual('@gauzy/core/src/lib/concurrency/version.util').VERSIONED_METADATA_KEY,
+				jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util').VERSIONED_METADATA_KEY,
 				options
 			),
-		versionExpectationOf: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		versionExpectationOf: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.versionExpectationOf,
-		connectionFromOffsetPage: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		connectionFromOffsetPage: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.connectionFromOffsetPage,
-		resolveConnectionWindow: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		resolveConnectionWindow: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.resolveConnectionWindow,
 		GraphqlConnection: class {},
 		ColumnNumericTransformerPipe: class {
@@ -117,13 +117,13 @@ jest.mock('@gauzy/core', () => {
 		// The two decimal helpers the money DTOs reach: they are called inside a validator's `validate`,
 		// which nothing in this suite runs, so the double states the shape rather than the arithmetic.
 		normalizeDecimalString: (value: unknown) => String(value),
-		ApiException: jest.requireActual('@gauzy/core/src/lib/core/errors/api-exception').ApiException,
-		ApiErrorCode: jest.requireActual('@gauzy/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
+		ApiException: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-exception').ApiException,
+		ApiErrorCode: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
 		isValidDecimalString: () => true
 	};
 });
 
-import { CommerceCheckoutSessionStatus } from '@gauzy/contracts';
+import { CommerceCheckoutSessionStatus } from '@irtranscripts/contracts';
 import { CommerceCheckoutSessionResolver } from './commerce-checkout-session.resolver';
 import { CHECKOUT_STEP_MAX_LENGTH, assertCheckoutSessionMembers } from './filters';
 

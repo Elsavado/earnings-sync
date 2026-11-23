@@ -29,8 +29,8 @@ import {
 	TenantOrganizationBaseDTO,
 	TenantPermissionGuard,
 	UUIDValidationPipe
-} from '@gauzy/core';
-import { ID, IHelpCenterAuthor, IPagination, PermissionsEnum } from '@gauzy/contracts';
+} from '@irtranscripts/core';
+import { ID, IHelpCenterAuthor, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 
 @ApiTags('KnowledgeBaseAuthor')
 @UseGuards(AuthGuard('jwt'), TenantPermissionGuard)

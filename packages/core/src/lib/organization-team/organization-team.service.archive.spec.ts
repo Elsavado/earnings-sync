@@ -1,7 +1,7 @@
 import '../core/entities/internal';
 
 import { ForbiddenException } from '@nestjs/common';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { TenantAwareCrudService } from '../core/crud';
 import { OrganizationTeamService } from './organization-team.service';
@@ -15,7 +15,7 @@ import { OrganizationTeamService } from './organization-team.service';
 
 const TENANT = 'tenant-1';
 const ORGANIZATION = 'organization-1';
-const stored = { id: 'team-1', name: 'Gauzy', organizationId: ORGANIZATION, tenantId: TENANT };
+const stored = { id: 'team-1', name: 'IRTranscripts', organizationId: ORGANIZATION, tenantId: TENANT };
 
 let service: OrganizationTeamService;
 let permissions: PermissionsEnum[];
@@ -58,7 +58,7 @@ describe('OrganizationTeamService.setArchived', () => {
 		expect(Object.keys(saved).sort()).toEqual(['archivedAt', 'id', 'isArchived']);
 		expect(saved).toMatchObject({ id: 'team-1', isArchived: true });
 		expect(saved.archivedAt).toBeInstanceOf(Date);
-		expect(archived).toMatchObject({ id: 'team-1', name: 'Gauzy', isArchived: true });
+		expect(archived).toMatchObject({ id: 'team-1', name: 'IRTranscripts', isArchived: true });
 	});
 
 	it('unarchives the team, clearing the stamp', async () => {
@@ -117,7 +117,7 @@ describe('OrganizationTeamService.update — links to archived projects', () => 
 
 		// The edit form lists active projects only: it states a new one and leaves the active one out
 		await service.update('team-1', {
-			name: 'Gauzy',
+			name: 'IRTranscripts',
 			organizationId: ORGANIZATION,
 			projects: [{ id: 'project-new' }]
 		} as never);

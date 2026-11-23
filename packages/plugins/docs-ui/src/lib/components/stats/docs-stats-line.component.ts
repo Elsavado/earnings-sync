@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { catchError, filter, of, Subject, switchMap, tap } from 'rxjs';
-import { DocumentStatusEnum } from '@gauzy/contracts';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
-import { Store } from '@gauzy/ui-core/core';
+import { DocumentStatusEnum } from '@irtranscripts/contracts';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
+import { Store } from '@irtranscripts/ui-core/core';
 import { IDocumentStats } from '../../models/docs-api.model';
 import { humanizeBytes } from '../../models/docs-format.util';
 import { DocumentsService } from '../../services/documents.service';

@@ -7,7 +7,7 @@ import {
 	RolePermissionModule,
 	SequenceModule,
 	TenantSettingModule
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { resolvers } from './graphql/resolvers';
 import { GoodsReceiptLine } from './goods-receipt-line/goods-receipt-line.entity';
 import { GoodsReceiptLineController } from './goods-receipt-line/goods-receipt-line.controller';

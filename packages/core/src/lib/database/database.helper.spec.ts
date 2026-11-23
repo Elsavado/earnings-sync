@@ -13,7 +13,7 @@
  */
 let mockDialect: 'postgres' | 'mysql' | 'sqlite' = 'postgres';
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	isMySQL: () => mockDialect === 'mysql',
 	isPostgres: () => mockDialect === 'postgres'
 }));

@@ -18,7 +18,7 @@ import { CrudController } from './../core/crud';
 import { Skill } from './skill.entity';
 import { SkillService } from './skill.service';
 import { TenantPermissionGuard, PermissionGuard } from './../shared/guards';
-import { ID, PermissionsEnum } from '@gauzy/contracts';
+import { ID, PermissionsEnum } from '@irtranscripts/contracts';
 import { Permissions } from '../shared/decorators';
 import { AbstractValidationPipe, UUIDValidationPipe } from '../shared/pipes';
 import { TenantOrganizationBaseDTO } from '../core/dto';

@@ -1,8 +1,8 @@
 /**
- * Agents (G-P1-6): Ever Works agents become Gauzy employees of kind `agent` through the platform's
+ * Agents (G-P1-6): Ever Works agents become IRTranscripts employees of kind `agent` through the platform's
  * agent-provisioning path, one way, linked as AGENT; archived/deleted → archived, private → unlinked.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	const entity = (name: string) => ({ [name]: class {} })[name];
 	return {
@@ -32,12 +32,12 @@ jest.mock('@gauzy/core', () => {
 		RequestContext: { currentTenantId: () => null, currentUserId: () => null, currentOrganizationId: () => null }
 	};
 });
-jest.mock('@gauzy/common', () => ({ Public: () => () => undefined }));
+jest.mock('@irtranscripts/common', () => ({ Public: () => () => undefined }));
 
 import 'reflect-metadata';
 import { ServiceUnavailableException } from '@nestjs/common';
-import { EmployeeAgentSourceEnum } from '@gauzy/contracts';
-import { EmployeeAgentProfileService, EmployeeService, User } from '@gauzy/core';
+import { EmployeeAgentSourceEnum } from '@irtranscripts/contracts';
+import { EmployeeAgentProfileService, EmployeeService, User } from '@irtranscripts/core';
 import { EverWorksApiError } from '../client/ever-works-client';
 import { EverWorksLinkState, EverWorksLinkType } from '../sync/entities/ever-works-sync.entities';
 import { agentEmailDomain, EverWorksAgentsService, reportingDepths } from './ever-works-agents.service';
@@ -48,7 +48,7 @@ const context = {
 	integrationTenantId: 'm1',
 	connection: { id: 'c1' },
 	everWorksOrganizationSlug: 'acme',
-	directions: { agents: 'ew_to_gauzy' },
+	directions: { agents: 'ew_to_irtranscripts' },
 	isEnabled: true,
 	everWorksOrganizationId: 'ewo1'
 };
@@ -76,9 +76,9 @@ const envelope = (type: string, data: Record<string, unknown>, version = 2) => (
 });
 const applyContext = { connection: { id: 'c1' }, event: {}, organizationId: 'o1' } as never;
 
-function setup(options: { link?: { gauzyId: string; ewVersion: number | null; state?: string }; provisioning?: boolean; visible?: boolean } = {}) {
+function setup(options: { link?: { irtranscriptsId: string; ewVersion: number | null; state?: string }; provisioning?: boolean; visible?: boolean } = {}) {
 	const employeesRepo = {
-		findOne: jest.fn(async () => (options.link ? { id: options.link.gauzyId, userId: 'u1' } : null)),
+		findOne: jest.fn(async () => (options.link ? { id: options.link.irtranscriptsId, userId: 'u1' } : null)),
 		update: jest.fn(async () => ({ affected: 1 }))
 	};
 	const usersRepo = { update: jest.fn(async () => ({ affected: 1 })) };
@@ -89,7 +89,7 @@ function setup(options: { link?: { gauzyId: string; ewVersion: number | null; st
 		byEw: jest.fn(async (_m: string, _type: string, ewId: string) => (ewId === 'AG-1' && current ? { ...current } : null)),
 		record: jest.fn(async (input: Record<string, unknown>) => {
 			if (input['ewId'] === 'AG-1')
-				current = { ...(current ?? {}), gauzyId: input['gauzyId'], ewVersion: input['ewVersion'] ?? null, state: input['state'] ?? EverWorksLinkState.OK };
+				current = { ...(current ?? {}), irtranscriptsId: input['irtranscriptsId'], ewVersion: input['ewVersion'] ?? null, state: input['state'] ?? EverWorksLinkState.OK };
 		}),
 		unlink: jest.fn(async () => {
 			if (current) current = { ...current, state: EverWorksLinkState.UNLINKED };
@@ -141,12 +141,12 @@ describe('EverWorksAgentsService', () => {
 		});
 		expect(employeesRepo.update).toHaveBeenCalledWith({ id: 'e-new' }, expect.objectContaining({ isActive: true, isArchived: false }));
 		expect(links.record).toHaveBeenCalledWith(
-			expect.objectContaining({ entityType: EverWorksLinkType.AGENT, gauzyId: 'e-new', ewId: 'AG-1', ewVersion: 2, direction: 'inbound' })
+			expect.objectContaining({ entityType: EverWorksLinkType.AGENT, irtranscriptsId: 'e-new', ewId: 'AG-1', ewVersion: 2, direction: 'inbound' })
 		);
 	});
 
-	it('an archived agent is archived in Gauzy (never deleted), its profile rewritten from Ever Works', async () => {
-		const { service, employees, profiles, employeesRepo } = setup({ link: { gauzyId: 'e1', ewVersion: 1 } });
+	it('an archived agent is archived in IRTranscripts (never deleted), its profile rewritten from Ever Works', async () => {
+		const { service, employees, profiles, employeesRepo } = setup({ link: { irtranscriptsId: 'e1', ewVersion: 1 } });
 		await service.apply(envelope('agent.archived', agent) as never, applyContext);
 		expect(employees.createAgentEmployee).not.toHaveBeenCalled();
 		expect(profiles.upsertForEmployee).toHaveBeenCalledWith(expect.objectContaining({ id: 'e1' }), expect.objectContaining({ status: 'archived' }));
@@ -154,14 +154,14 @@ describe('EverWorksAgentsService', () => {
 	});
 
 	it('an event at or below the linked version is skipped and writes nothing', async () => {
-		const { service, employeesRepo, links } = setup({ link: { gauzyId: 'e1', ewVersion: 2 } });
+		const { service, employeesRepo, links } = setup({ link: { irtranscriptsId: 'e1', ewVersion: 2 } });
 		expect(await service.apply(envelope('agent.updated', agent, 2) as never, applyContext)).toMatchObject({ status: 'skipped' });
 		expect(employeesRepo.update).not.toHaveBeenCalled();
 		expect(links.record).not.toHaveBeenCalled();
 	});
 
 	it('an agent turned private is unlinked and no longer synced', async () => {
-		const { service, links, employeesRepo } = setup({ link: { gauzyId: 'e1', ewVersion: 1 } });
+		const { service, links, employeesRepo } = setup({ link: { irtranscriptsId: 'e1', ewVersion: 1 } });
 		const outcome = await service.apply(envelope('agent.visibility_changed', { id: 'AG-1', visibility: 'private' }) as never, applyContext);
 		expect(outcome).toMatchObject({ status: 'skipped' });
 		expect(links.unlink).toHaveBeenCalledTimes(1);
@@ -169,13 +169,13 @@ describe('EverWorksAgentsService', () => {
 	});
 
 	it('a stale public event after the private notice never brings the agent back; shared again, it resumes (review F19)', async () => {
-		const { service, links, employees, profiles, employeesRepo, link, remote } = setup({ link: { gauzyId: 'e1', ewVersion: 5 } });
+		const { service, links, employees, profiles, employeesRepo, link, remote } = setup({ link: { irtranscriptsId: 'e1', ewVersion: 5 } });
 		remote.visible = false;
 		expect(await service.apply(envelope('agent.visibility_changed', { id: 'AG-1', visibility: 'private' }, 7) as never, applyContext)).toMatchObject({
 			status: 'skipped'
 		});
 		// The private notice's version is kept on the ended link (a tombstone).
-		expect(link()).toMatchObject({ gauzyId: 'e1', ewVersion: 7, state: EverWorksLinkState.UNLINKED });
+		expect(link()).toMatchObject({ irtranscriptsId: 'e1', ewVersion: 7, state: EverWorksLinkState.UNLINKED });
 		// A late webhook or an import listed before the agent turned private: older, skipped.
 		expect(await service.apply(envelope('agent.updated', agent, 6) as never, applyContext)).toMatchObject({ status: 'skipped' });
 		// A newer event while it is still private (Ever Works answers 404) is skipped too.
@@ -190,13 +190,13 @@ describe('EverWorksAgentsService', () => {
 			status: 'applied'
 		});
 		expect(profiles.upsertForEmployee).toHaveBeenCalledWith(expect.objectContaining({ id: 'e1' }), expect.objectContaining({ externalId: 'AG-1' }));
-		expect(link()).toMatchObject({ gauzyId: 'e1', ewVersion: 9, state: EverWorksLinkState.OK });
+		expect(link()).toMatchObject({ irtranscriptsId: 'e1', ewVersion: 9, state: EverWorksLinkState.OK });
 		expect(links.unlink).toHaveBeenCalledTimes(1);
 	});
 
 	it('an agent never linked is read from Ever Works before it is provisioned: a private one is never created (review F19)', async () => {
 		const { service, employees, links, client } = setup({ visible: false });
-		// The private notice of an agent Gauzy never had leaves nothing to end; a stale created event comes later.
+		// The private notice of an agent IRTranscripts never had leaves nothing to end; a stale created event comes later.
 		expect(await service.apply(envelope('agent.visibility_changed', { id: 'AG-1', visibility: 'private' }, 7) as never, applyContext)).toMatchObject({
 			status: 'skipped'
 		});
@@ -210,13 +210,13 @@ describe('EverWorksAgentsService', () => {
 	});
 
 	it('a resync after the agent was shared again while offline restores it; a late archive event never overrides its current state (#11025 review)', async () => {
-		const { service, profiles, employeesRepo, link, remote } = setup({ link: { gauzyId: 'e1', ewVersion: 5 } });
+		const { service, profiles, employeesRepo, link, remote } = setup({ link: { irtranscriptsId: 'e1', ewVersion: 5 } });
 		remote.visible = false;
 		await service.apply(envelope('agent.visibility_changed', { id: 'AG-1', visibility: 'private' }, 7) as never, applyContext);
 		// Shared again while the feed was out of reach: the resync's initial event is an `agent.updated` at the current version.
 		Object.assign(remote, { visible: true, agent: { ...agent, version: 12, visibility: 'team' } });
 		expect(await service.apply(envelope('agent.updated', { ...agent, visibility: 'team' }, 12) as never, applyContext)).toEqual({ status: 'applied' });
-		expect(link()).toMatchObject({ gauzyId: 'e1', ewVersion: 12, state: EverWorksLinkState.OK });
+		expect(link()).toMatchObject({ irtranscriptsId: 'e1', ewVersion: 12, state: EverWorksLinkState.OK });
 		expect(profiles.upsertForEmployee).toHaveBeenCalledWith(expect.objectContaining({ id: 'e1' }), expect.objectContaining({ status: 'active' }));
 		// A never-linked agent archived and restored before its delayed archive event arrives: applied as it is now (active).
 		const fresh = setup();
@@ -251,8 +251,8 @@ describe('EverWorksAgentsService', () => {
 		await expect(service.importAll('m1' as never)).rejects.toThrow(/not synced/);
 	});
 
-	it('fields Ever Works cleared are cleared in Gauzy (manager, title, model, avatar, URL)', async () => {
-		const { service, profiles, usersRepo } = setup({ link: { gauzyId: 'e1', ewVersion: 1 } });
+	it('fields Ever Works cleared are cleared in IRTranscripts (manager, title, model, avatar, URL)', async () => {
+		const { service, profiles, usersRepo } = setup({ link: { irtranscriptsId: 'e1', ewVersion: 1 } });
 		await service.apply(envelope('agent.updated', { ...agent, title: null, modelId: null, avatar: null, webUrl: null, reportsToAgentId: null }) as never, applyContext);
 		const [, profile] = profiles.upsertForEmployee.mock.calls[0] as unknown as [unknown, Record<string, unknown>];
 		expect(profile).toMatchObject({ title: null, modelId: null, avatarUrl: null, externalUrl: null, reportsToEmployeeId: null });

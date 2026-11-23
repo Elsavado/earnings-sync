@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { ResolveFn } from '@angular/router';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 
 /**
  * The width of a widget in terms of grid columns.
@@ -38,7 +38,7 @@ export type WidgetCategory =
  *
  * Declared here (rather than importing the concrete interface) so the registry
  * types stay dependency-free; the concrete shape is `IDashboardWidgetContext`
- * in `@gauzy/ui-core/core`'s dashboard services.
+ * in `@irtranscripts/ui-core/core`'s dashboard services.
  */
 export type WidgetContextRequirement = 'organization' | 'dateRange' | 'employee' | 'project' | 'team';
 

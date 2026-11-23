@@ -13,10 +13,10 @@ export const OIDC_TRANSACTION_TTL_MS = 10 * 60 * 1000;
 export const OIDC_TRANSACTION_COOKIE_PATH = '/api/auth';
 
 /** JOSE `typ` of the transaction token, so no other token type can be replayed as a transaction. */
-const TRANSACTION_TYPE = 'gauzy-oidc-txn+jwt';
+const TRANSACTION_TYPE = 'irtranscripts-oidc-txn+jwt';
 
 /** Label of the key derivation; changing it invalidates every transaction in flight. */
-const KEY_DERIVATION_LABEL = 'gauzy-oidc-transaction-v1';
+const KEY_DERIVATION_LABEL = 'irtranscripts-oidc-transaction-v1';
 
 /** Upper bound of remembered (consumed) states per process. */
 export const MAX_CONSUMED_STATES = 10_000;

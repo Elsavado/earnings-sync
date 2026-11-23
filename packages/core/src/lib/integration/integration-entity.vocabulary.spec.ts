@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { IntegrationEntity, IntegrationEnum } from '@gauzy/contracts';
+import { IntegrationEntity, IntegrationEnum } from '@irtranscripts/contracts';
 
 /**
  * The GraphQL `IntegrationEntity` enum is a closed vocabulary declared by hand in

@@ -10,13 +10,13 @@ import {
 	randomBytes,
 	sign as edSign
 } from 'node:crypto';
-import { isKnownDefaultSecret } from '@gauzy/contracts';
+import { isKnownDefaultSecret } from '@irtranscripts/contracts';
 
 /**
  * The private keys of this installation are stored encrypted (AES-256-GCM). The encryption key is
  * derived with HKDF-SHA256 from, in this order:
  *
- * 1. `ENCRYPTION_KEY` (the variable Gauzy's encryption service reads), when it is set;
+ * 1. `ENCRYPTION_KEY` (the variable IRTranscripts's encryption service reads), when it is set;
  * 2. `JWT_SECRET`, when it is set (any value, a published default included: the statistics key
  *    authorizes nothing but anonymous reports, and the settings page warns about it);
  * 3. a fixed value from this public source, when neither is set (development, `DEMO=true` and
@@ -26,7 +26,7 @@ import { isKnownDefaultSecret } from '@gauzy/contracts';
  * A key stored under the fixed value is stored again under `JWT_SECRET` or `ENCRYPTION_KEY` once one
  * of them is set, and one stored under `JWT_SECRET` again under `ENCRYPTION_KEY`.
  *
- * Gauzy's own encryption service is deliberately not used: when `ENCRYPTION_KEY` is unset it makes
+ * IRTranscripts's own encryption service is deliberately not used: when `ENCRYPTION_KEY` is unset it makes
  * a random key per process, so a key stored with it could not be read after a restart.
  *
  * A stored key is `v1:<source>:<iv>:<tag>:<ciphertext>` (base64url), where `<source>` names the
@@ -96,7 +96,7 @@ const aad = (purpose: KeyPurpose) => Buffer.from(`ever_instance:${purpose}`, 'ut
  * Why this installation cannot keep the Ever Platform connect key (and the documents of that
  * connection) safely, or `null` when it can. Unlike the statistics key, the connect key authorizes
  * calls to Ever Platform, so it is stored only under `ENCRYPTION_KEY`, or under a `JWT_SECRET` that
- * is not one of the values published in the Gauzy repository; never under the fixed fallback.
+ * is not one of the values published in the IRTranscripts repository; never under the fixed fallback.
  */
 export type ConnectKeyMaterialProblem = 'no_secret' | 'jwt_secret_default' | 'encryption_key_default';
 

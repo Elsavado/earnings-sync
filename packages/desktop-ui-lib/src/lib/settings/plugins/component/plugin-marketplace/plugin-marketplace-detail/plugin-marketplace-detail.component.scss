@@ -6,7 +6,7 @@
 // are flat — one hairline per edge, no gradients, glows or hover lifts — so a
 // card reads as part of the same app as the pages around it.
 .plugin-card {
-  background: var(--gauzy-card-1);
+  background: var(--irtranscripts-card-1);
   border: 1px solid var(--border-basic-color-2);
   border-radius: var(--border-radius);
   padding: 16px;
@@ -237,7 +237,7 @@
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
-  color: var(--gauzy-text-color-1);
+  color: var(--irtranscripts-text-color-1);
   cursor: pointer;
   margin-bottom: 4px;
   display: flex;
@@ -288,7 +288,7 @@
   color: var(--text-hint-color);
 
   .plugin-version {
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
     font-weight: 600;
     font-variant-numeric: tabular-nums;
   }
@@ -336,7 +336,7 @@
 .status-badge.status-basic {
   background: transparent;
   border: 1px solid var(--border-basic-color-4);
-  color: var(--gauzy-text-color-1);
+  color: var(--irtranscripts-text-color-1);
 }
 
 // The coloured ones are a soft tint of their status with the text in the full
@@ -387,7 +387,7 @@
     font-weight: 500;
     background: transparent;
     border: 1px solid var(--border-basic-color-4);
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
 
     &.featured {
       border-color: var(--color-warning-default);
@@ -425,7 +425,7 @@
     font-size: 12px;
     line-height: 16px;
     font-weight: 600;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
 
     div.first {
       gap: 6px;
@@ -437,7 +437,7 @@
     }
 
     .price {
-      color: var(--gauzy-text-color-1);
+      color: var(--irtranscripts-text-color-1);
       font-weight: 600;
       font-variant-numeric: tabular-nums;
     }
@@ -494,7 +494,7 @@
     }
 
     .metric-value {
-      color: var(--gauzy-text-color-1);
+      color: var(--irtranscripts-text-color-1);
       font-variant-numeric: tabular-nums;
     }
   }
@@ -532,7 +532,7 @@
     }
 
     &:hover:not(:disabled) {
-      background: var(--gauzy-hover-tint);
+      background: var(--irtranscripts-hover-tint);
     }
 
     nb-icon {
@@ -608,7 +608,7 @@
         font-size: 12px;
         line-height: 16px;
         font-weight: 500;
-        color: var(--gauzy-text-color-1);
+        color: var(--irtranscripts-text-color-1);
         white-space: nowrap;
       }
     }

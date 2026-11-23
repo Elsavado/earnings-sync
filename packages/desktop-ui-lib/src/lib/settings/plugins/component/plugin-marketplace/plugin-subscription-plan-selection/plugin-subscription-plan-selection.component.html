@@ -63,9 +63,9 @@ hasExistingSubscription$ | async;
 			<!-- Current Subscription Alert -->
 			@if (hasExistingSubscription && currentSubscription) {
 			<nb-alert status="info" size="tiny" closable="false" class="current-subscription-alert">
-				<gauzy-subscription-status-badge
+				<irtranscripts-subscription-status-badge
 					[status]="currentSubscription.status"
-				></gauzy-subscription-status-badge>
+				></irtranscripts-subscription-status-badge>
 				<span>
 					You have an active
 					<strong>{{ currentSubscription.plan.type | titlecase }}</strong> subscription.
@@ -341,7 +341,7 @@ hasExistingSubscription$ | async;
 							type="button"
 							(click)="validatePromoCode()"
 							[disabled]="!subscriptionForm.get('promoCode')?.value || validatingPromo"
-							*gauzySpinnerButton="validatingPromo"
+							*irtranscriptsSpinnerButton="validatingPromo"
 						>
 							Apply
 						</button>
@@ -432,7 +432,7 @@ hasExistingSubscription$ | async;
 						error ||
 						!canInstallInEnvironment()
 					"
-					*gauzySpinnerButton="creating || updating"
+					*irtranscriptsSpinnerButton="creating || updating"
 					[nbTooltip]="
 						!canInstallInEnvironment()
 							? getEnvironmentMismatchTooltip()
@@ -466,7 +466,7 @@ hasExistingSubscription$ | async;
 						error ||
 						(!canInstallInEnvironment() && selectedPlanViewModel?.isFree)
 					"
-					*gauzySpinnerButton="creating || updating"
+					*irtranscriptsSpinnerButton="creating || updating"
 					[nbTooltip]="getEnvironmentMismatchTooltip()"
 					[nbTooltipDisabled]="canInstallInEnvironment()"
 					nbTooltipPlacement="top"

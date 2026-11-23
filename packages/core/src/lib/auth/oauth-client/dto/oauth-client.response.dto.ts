@@ -13,7 +13,7 @@
  *   plaintext and never returned by any read endpoint.
  */
 import { ApiProperty } from '@nestjs/swagger';
-import { IOAuthClient, IOAuthClientWithSecret } from '@gauzy/contracts';
+import { IOAuthClient, IOAuthClientWithSecret } from '@irtranscripts/contracts';
 import { OAuthClient } from '../oauth-client.entity';
 
 export class OAuthClientResponseDTO implements Partial<IOAuthClient> {

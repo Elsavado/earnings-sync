@@ -1,6 +1,6 @@
 import { EventSubscriber } from 'typeorm';
 import { faker } from '@faker-js/faker';
-import { sluggable } from '@gauzy/utils';
+import { sluggable } from '@irtranscripts/utils';
 import { localFileUrl } from '../../core/file-storage/file-storage';
 import { BaseEntityEventSubscriber } from '../../core/entities/subscribers/base-entity-event.subscriber';
 import { TaskPriority } from './priority.entity';

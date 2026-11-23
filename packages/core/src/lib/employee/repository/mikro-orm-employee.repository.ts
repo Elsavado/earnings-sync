@@ -1,4 +1,4 @@
-import { IEmployee, IEmployeeFindInput } from '@gauzy/contracts';
+import { IEmployee, IEmployeeFindInput } from '@irtranscripts/contracts';
 import { MikroOrmBaseEntityRepository } from '../../core/repository/mikro-orm-base-entity.repository';
 import { Employee } from '../employee.entity';
 

@@ -1,5 +1,5 @@
-import type { IOperation, IOperationError, IOperationStep, JsonData } from '@gauzy/contracts';
-import { OperationStatus, OperationStepStatus } from '@gauzy/contracts';
+import type { IOperation, IOperationError, IOperationStep, JsonData } from '@irtranscripts/contracts';
+import { OperationStatus, OperationStepStatus } from '@irtranscripts/contracts';
 
 /**
  * The async operation response convention.

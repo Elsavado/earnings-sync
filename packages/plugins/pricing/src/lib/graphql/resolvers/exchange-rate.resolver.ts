@@ -1,9 +1,9 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { FindOptionsWhere, In } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { FEATURE_GRAPHQL, FeatureFlagGuard, PermissionGuard, Permissions, TenantPermissionGuard } from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+import { ID } from '@irtranscripts/contracts';
+import { FEATURE_GRAPHQL, FeatureFlagGuard, PermissionGuard, Permissions, TenantPermissionGuard } from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { PRICING_PERMISSION_VALUES, pricingPermission } from '../../pricing.permissions';
 import { ExchangeRate } from '../../exchange-rate/exchange-rate.entity';
 import { ExchangeRateService } from '../../exchange-rate/exchange-rate.service';

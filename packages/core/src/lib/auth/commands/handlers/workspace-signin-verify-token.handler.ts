@@ -1,6 +1,6 @@
 import { UnauthorizedException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IAuthResponse } from '@gauzy/contracts';
+import { IAuthResponse } from '@irtranscripts/contracts';
 import { WorkspaceSigninVerifyTokenCommand } from '../workspace-signin-verify-token.command';
 import { AuthService } from '../../auth.service';
 

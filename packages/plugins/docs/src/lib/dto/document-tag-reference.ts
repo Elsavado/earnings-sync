@@ -6,12 +6,12 @@ import {
 	isUUID,
 	registerDecorator
 } from 'class-validator';
-import { ID, ITag } from '@gauzy/contracts';
+import { ID, ITag } from '@irtranscripts/contracts';
 
 /**
  * The two interchangeable ways a caller may express "these are the document's tags".
  *
- * `IDocumentCreateInput` (`@gauzy/contracts`) publishes `tags?: ITag[]`, while the request DTOs
+ * `IDocumentCreateInput` (`@irtranscripts/contracts`) publishes `tags?: ITag[]`, while the request DTOs
  * grew `tagIds?: ID[]` — and the document routes validate with `forbidNonWhitelisted: true`, so a
  * caller typed against the published interface got a 400 it had no way to diagnose. Both shapes
  * are accepted and folded together by {@link resolveTagIds}; neither is removed.

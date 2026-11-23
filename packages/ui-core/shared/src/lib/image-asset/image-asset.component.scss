@@ -1,4 +1,4 @@
-@use 'gauzy/_gauzy-dialogs' as *;
+@use 'irtranscripts/_irtranscripts-dialogs' as *;
 
 img {
   width: 100%;
@@ -13,10 +13,10 @@ label {
   line-height: 13px;
   letter-spacing: -0.01em;
   text-align: left;
-  color: var(--gauzy-text-color-2);
+  color: var(--irtranscripts-text-color-2);
 }
 
 .main {
-  background-color: var(--gauzy-card-1);
+  background-color: var(--irtranscripts-card-1);
   width: 645px;
 }

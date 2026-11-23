@@ -5,7 +5,7 @@ import {
 	app
 } from 'electron';
 import * as remoteMain from '@electron/remote/main';
-import { IConfig, logger as log, store } from '@gauzy/desktop-core';
+import { IConfig, logger as log, store } from '@irtranscripts/desktop-core';
 import {
 	LocalStore,
 	TranslateService,
@@ -15,7 +15,7 @@ import {
 	pluginListeners,
 	ProviderFactory,
 	DesktopOfflineModeHandler,
-} from '@gauzy/desktop-lib';
+} from '@irtranscripts/desktop-lib';
 import { getApiBaseUrl, delaySync, getAuthConfig, getAppSetting, updateProject } from '../util';
 import { startServer } from './app';
 import AppWindow, { WindowType } from '../window-manager';

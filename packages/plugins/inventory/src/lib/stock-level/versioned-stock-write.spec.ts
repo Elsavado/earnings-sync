@@ -2,7 +2,7 @@
  * The versioned write into stock: what a stated version protects, and what it does not.
  *
  * `applyMovement` is the single write path into stock, and it reaches storage through the kernel's
- * conditional write — `commitVersionedUpdate` from `@gauzy/core` — so a caller that read a level and
+ * conditional write — `commitVersionedUpdate` from `@irtranscripts/core` — so a caller that read a level and
  * stated the version it read is refused the moment the row has moved past that version, rather than
  * writing the decision it made about a value that no longer exists. The code under test is the real
  * ledger engine and the real `stock_movement` entity it writes; what is doubled is the package
@@ -26,7 +26,7 @@
  * real, so an update predicated on a version the row does not hold matches nothing and the engine's
  * conditional write is exercised rather than assumed.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/**
@@ -86,7 +86,7 @@ jest.mock('@gauzy/core', () => {
 
 	return {
 		// The statement helpers are pure and dialect-driven; loading the real module here would pull
-		// `@gauzy/config` and the request context into a suite that doubles the barrel on purpose.
+		// `@irtranscripts/config` and the request context into a suite that doubles the barrel on purpose.
 		quoteIdentifier: (identifier: string) => `"${identifier}"`,
 		prepareSQLQuery: (query: string) => query,
 		TenantAwareCrudService,
@@ -138,7 +138,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 jest.mock(
-	'@gauzy/config',
+	'@irtranscripts/config',
 	() => ({
 		isMySQL: () => false,
 		isPostgres: () => false,
@@ -154,7 +154,7 @@ jest.mock(
 );
 
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { Product, ProductVariant, WarehouseProduct, WarehouseProductVariant } from '@gauzy/core';
+import { Product, ProductVariant, WarehouseProduct, WarehouseProductVariant } from '@irtranscripts/core';
 import { StockMovementType, StockMovementReferenceType } from '../inventory.enums';
 import { StockMovement } from '../stock-movement/stock-movement.entity';
 import { StockLevelService } from './stock-level.service';

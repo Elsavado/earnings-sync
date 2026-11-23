@@ -1,22 +1,22 @@
 // cspell:ignore authserv
 /**
- * Gauzy Inbox — Cloudflare Email Worker (plan 04 §5.2, G-P4-3).
+ * IRTranscripts Inbox — Cloudflare Email Worker (plan 04 §5.2, G-P4-3).
  *
- * Cloudflare Email Routing hands every message for the platform mailbox domain (`GAUZY_INBOX_DOMAIN`, a catch-all
- * route) to this Worker, which posts it to the Gauzy API's generic inbound route
- * (`POST <GAUZY_INBOX_API_URL>/api/inbox/inbound/generic/platform`):
+ * Cloudflare Email Routing hands every message for the platform mailbox domain (`IRTRANSCRIPTS_INBOX_DOMAIN`, a catch-all
+ * route) to this Worker, which posts it to the IRTranscripts API's generic inbound route
+ * (`POST <IRTRANSCRIPTS_INBOX_API_URL>/api/inbox/inbound/generic/platform`):
  *
  *   { "raw": "<base64 RFC 5322>", "envelope": { "from": "…", "to": ["…"] }, "authenticationResults": "…" }
  *
- * signed with the platform secret (`GAUZY_INBOX_PLATFORM_SECRET`, at least 24 characters, the same value as the API's):
- * `X-Gauzy-Inbox-Signature: t=<unix seconds>,v1=<hex HMAC-SHA256 of "<t>.<body>">`. The API answers 202
+ * signed with the platform secret (`IRTRANSCRIPTS_INBOX_PLATFORM_SECRET`, at least 24 characters, the same value as the API's):
+ * `X-IRTranscripts-Inbox-Signature: t=<unix seconds>,v1=<hex HMAC-SHA256 of "<t>.<body>">`. The API answers 202
  * `{ accepted, duplicates, dropped }`.
  *
  * - Only Cloudflare's own verdicts are forwarded: the topmost authentication header (`Authentication-Results` or
- *   `ARC-Authentication-Results`), when its authserv-id is `GAUZY_INBOX_TRUSTED_AUTHSERV_ID` (default
+ *   `ARC-Authentication-Results`), when its authserv-id is `IRTRANSCRIPTS_INBOX_TRUSTED_AUTHSERV_ID` (default
  *   `mx.cloudflare.net`). A sender's own header, or an earlier hop's, lies below it and is never forwarded.
  * - Only the API's own acknowledgement (202 with its counters) counts as stored; a redirect is never followed.
- * - A message over `GAUZY_INBOX_MAX_MESSAGE_BYTES` (default 25 MB, as the API's) is rejected before it is read.
+ * - A message over `IRTRANSCRIPTS_INBOX_MAX_MESSAGE_BYTES` (default 25 MB, as the API's) is rejected before it is read.
  * - A delivery no mailbox took (nothing accepted, nothing a duplicate) is rejected: the sender gets a bounce.
  * - 413 and the API's other definite refusals reject the message; a network error, a 5xx, a 429, a 401 or a 404 (the
  *   platform route shut, or a secret mismatch: configuration, fixed on our side) throws, so the sending server keeps
@@ -25,7 +25,7 @@
  * No dependencies: Web Crypto, `fetch` and `Response` of the Workers runtime (also in Node 20+, where the tests run).
  */
 
-export const SIGNATURE_HEADER = 'x-gauzy-inbox-signature';
+export const SIGNATURE_HEADER = 'x-irtranscripts-inbox-signature';
 export const INBOUND_PATH = '/api/inbox/inbound/generic/platform';
 const DEFAULT_MAX_BYTES = 25 * 1024 * 1024;
 const DEFAULT_AUTHSERV_ID = 'mx.cloudflare.net';
@@ -44,21 +44,21 @@ export default {
 
 /** The Worker's settings, checked (a missing one throws: the sender retries while it is fixed). */
 export function settingsOf(env) {
-	const apiUrl = String(env?.GAUZY_INBOX_API_URL ?? '')
+	const apiUrl = String(env?.IRTRANSCRIPTS_INBOX_API_URL ?? '')
 		.trim()
 		.replace(/\/+$/, '');
-	const secret = String(env?.GAUZY_INBOX_PLATFORM_SECRET ?? '');
+	const secret = String(env?.IRTRANSCRIPTS_INBOX_PLATFORM_SECRET ?? '');
 	if (!/^https:\/\/[^/]+/.test(apiUrl))
-		throw new Error('GAUZY_INBOX_API_URL must be the https URL of the Gauzy API.');
+		throw new Error('IRTRANSCRIPTS_INBOX_API_URL must be the https URL of the IRTranscripts API.');
 	if (secret.length < MIN_SECRET_LENGTH) {
-		throw new Error(`GAUZY_INBOX_PLATFORM_SECRET must be set (at least ${MIN_SECRET_LENGTH} characters).`);
+		throw new Error(`IRTRANSCRIPTS_INBOX_PLATFORM_SECRET must be set (at least ${MIN_SECRET_LENGTH} characters).`);
 	}
-	const max = Number(env?.GAUZY_INBOX_MAX_MESSAGE_BYTES);
+	const max = Number(env?.IRTRANSCRIPTS_INBOX_MAX_MESSAGE_BYTES);
 	return {
 		apiUrl,
 		secret,
 		maxBytes: Number.isFinite(max) && max > 0 ? Math.floor(max) : DEFAULT_MAX_BYTES,
-		authservId: String(env?.GAUZY_INBOX_TRUSTED_AUTHSERV_ID || DEFAULT_AUTHSERV_ID)
+		authservId: String(env?.IRTRANSCRIPTS_INBOX_TRUSTED_AUTHSERV_ID || DEFAULT_AUTHSERV_ID)
 			.trim()
 			.toLowerCase()
 	};
@@ -106,7 +106,7 @@ export async function deliver(message, env, fetcher = fetch) {
 		const counted = (key) => Number.isInteger(result?.[key]) && result[key] >= 0;
 		if (response.status !== 202 || !counted('accepted') || !counted('duplicates') || !counted('dropped')) {
 			throw new Error(
-				`The Gauzy API answered ${response.status} without a delivery result; the sending server retries later.`
+				`The IRTranscripts API answered ${response.status} without a delivery result; the sending server retries later.`
 			);
 		}
 		if (result.accepted === 0 && result.duplicates === 0) {
@@ -118,7 +118,7 @@ export async function deliver(message, env, fetcher = fetch) {
 	if (response.status >= 400 && response.status < 500 && !RETRY_STATUSES.has(response.status)) {
 		return reject(message, `Refused by the inbox (${response.status})`);
 	}
-	throw new Error(`The Gauzy API answered ${response.status}; the sending server retries later.`);
+	throw new Error(`The IRTranscripts API answered ${response.status}; the sending server retries later.`);
 }
 
 function reject(message, reason) {

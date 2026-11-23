@@ -1,4 +1,4 @@
-import { CurrenciesEnum, ID, IEmployee, IEmployeeRecurringExpense } from '@gauzy/contracts';
+import { CurrenciesEnum, ID, IEmployee, IEmployeeRecurringExpense } from '@irtranscripts/contracts';
 import { Optional } from '@nestjs/common';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsNumber, IsString, Max, Min, IsDate, IsOptional } from 'class-validator';

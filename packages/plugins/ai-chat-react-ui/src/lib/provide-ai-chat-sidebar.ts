@@ -1,10 +1,10 @@
 import { EnvironmentProviders, inject, provideEnvironmentInitializer } from '@angular/core';
 import { combineLatest } from 'rxjs';
-import { PluginSettingsRegistryService } from '@gauzy/plugin-ui';
-import { AgentPageBridgeService, ChatSidebarService } from '@gauzy/ui-core/core';
+import { PluginSettingsRegistryService } from '@irtranscripts/plugin-ui';
+import { AgentPageBridgeService, ChatSidebarService } from '@irtranscripts/ui-core/core';
 import { AiChatAvailabilityService } from './ai-chat-availability.service';
 import { AiChatSidebarComponent } from './ai-chat-sidebar.component';
-import { GAUZY_PAGE_REGISTRY } from './page-registry';
+import { IRTRANSCRIPTS_PAGE_REGISTRY } from './page-registry';
 
 /** Plugin id passed to `defineDeclarativePlugin` — the key its settings are registered under. */
 export const AI_CHAT_REACT_UI_PLUGIN_ID = 'ai-chat-react-ui';
@@ -49,7 +49,7 @@ export function provideAiChatSidebar(): EnvironmentProviders {
 			defaultExpanded: true
 		});
 
-		pageBridge.registerPages(GAUZY_PAGE_REGISTRY);
+		pageBridge.registerPages(IRTRANSCRIPTS_PAGE_REGISTRY);
 
 		// Lives for the lifetime of the app (environment injector) — the chat
 		// availability must keep tracking login/permission/credential changes.

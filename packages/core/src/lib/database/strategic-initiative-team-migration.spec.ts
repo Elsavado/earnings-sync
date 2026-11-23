@@ -19,7 +19,7 @@ describe('CreateOrganizationStrategicInitiativeTeamTable1791000000731 on SQLite'
 	let dbPath: string;
 
 	beforeEach(async () => {
-		dbPath = path.join(os.tmpdir(), `gauzy-initiative-team-${process.pid}-${Date.now()}-${Math.random()}.sqlite3`);
+		dbPath = path.join(os.tmpdir(), `irtranscripts-initiative-team-${process.pid}-${Date.now()}-${Math.random()}.sqlite3`);
 		dataSource = new DataSource({
 			type: 'better-sqlite3',
 			database: dbPath,

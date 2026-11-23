@@ -1,0 +1,23 @@
+import { NgModule } from '@angular/core';
+import { NbButtonModule, NbCardModule, NbSpinnerModule } from '@nebular/theme';
+import { NgxPermissionsModule } from 'ngx-permissions';
+import { TranslatePipe } from '@ngx-translate/core';
+import { EmailVerificationNoticeComponent, SharedModule } from '@irtranscripts/ui-core/shared';
+import { BillingRoutingModule } from './billing-routing.module';
+import { BillingComponent } from './billing.component';
+
+const NB_MODULES = [NbButtonModule, NbCardModule, NbSpinnerModule];
+
+@NgModule({
+	imports: [
+		...NB_MODULES,
+		NgxPermissionsModule.forChild(),
+		TranslatePipe,
+		BillingRoutingModule,
+		SharedModule,
+		EmailVerificationNoticeComponent
+	],
+	declarations: [BillingComponent],
+	providers: []
+})
+export class BillingModule {}

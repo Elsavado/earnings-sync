@@ -106,8 +106,8 @@ export class AuthenticatedMenuStrategy implements IMenuStrategy {
 				.build()
 		);
 
-		// Main window (if gauzy)
-		if (appConfig.gauzyWindow) {
+		// Main window (if irtranscripts)
+		if (appConfig.irtranscriptsWindow) {
 			menu.push(
 				new MenuItemBuilder()
 					.withId('8')

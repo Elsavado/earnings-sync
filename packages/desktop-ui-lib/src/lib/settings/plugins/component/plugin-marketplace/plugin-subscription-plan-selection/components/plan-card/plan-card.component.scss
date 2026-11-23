@@ -6,13 +6,13 @@
   padding: 1.5rem;
   border: 1px solid var(--border-basic-color-3);
   border-radius: calc(var(--border-radius) * 2);
-  background: var(--gauzy-card-1);
+  background: var(--irtranscripts-card-1);
   cursor: pointer;
   transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
   height: 100%;
   min-height: 420px;
   max-height: unset;
-  // `--gauzy-shadow` is dropped from EVERY state in this block. The card's own
+  // `--irtranscripts-shadow` is dropped from EVERY state in this block. The card's own
   // 1px border is what marks its edge — and it is the thing that changes colour
   // per state — while on the dark canvas that token resolves to a 1px ring,
   // which sat immediately outside the border as a second hairline in all four
@@ -31,14 +31,14 @@
 
   &.selected {
     border-color: var(--color-primary-default);
-    background: linear-gradient(135deg, rgba(var(--color-primary-500-rgb, 51, 102, 255), 0.05), var(--gauzy-card-1));
+    background: linear-gradient(135deg, rgba(var(--color-primary-500-rgb, 51, 102, 255), 0.05), var(--irtranscripts-card-1));
     box-shadow: 0 0 0 3px rgba(var(--color-primary-500-rgb, 51, 102, 255), 0.15);
     animation: selectedPulse 0.45s ease;
   }
 
   &.current-plan {
     border-color: var(--color-success-default);
-    background: linear-gradient(135deg, rgba(var(--color-success-500-rgb, 0, 214, 143), 0.08), var(--gauzy-card-1));
+    background: linear-gradient(135deg, rgba(var(--color-success-500-rgb, 0, 214, 143), 0.08), var(--irtranscripts-card-1));
     cursor: not-allowed;
     box-shadow: 0 0 0 3px rgba(0, 214, 143, 0.12);
   }
@@ -78,7 +78,7 @@
 
   &.free {
     border-color: var(--color-success-default);
-    background: linear-gradient(to bottom, var(--gauzy-card-1), rgba(var(--color-success-default-rgb), 0.05));
+    background: linear-gradient(to bottom, var(--irtranscripts-card-1), rgba(var(--color-success-default-rgb), 0.05));
   }
 }
 
@@ -130,12 +130,12 @@
       .plan-name {
         font-size: 1.25rem;
         font-weight: 700;
-        color: var(--gauzy-text-color-1);
+        color: var(--irtranscripts-text-color-1);
       }
 
       .plan-subtitle {
         font-size: 0.875rem;
-        color: var(--gauzy-text-color-2);
+        color: var(--irtranscripts-text-color-2);
       }
     }
   }
@@ -171,18 +171,18 @@
     .price-amount {
       font-size: 2rem;
       font-weight: 700;
-      color: var(--gauzy-text-color-1);
+      color: var(--irtranscripts-text-color-1);
     }
 
     .price-period {
       font-size: 1rem;
-      color: var(--gauzy-text-color-2);
+      color: var(--irtranscripts-text-color-2);
     }
   }
 
   .setup-fee {
     font-size: 0.875rem;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
   }
 
   .discount {
@@ -195,7 +195,7 @@
     gap: 0.35rem;
     margin-top: 0.35rem;
     padding: 0.5rem 0.75rem;
-    background: var(--gauzy-card-2);
+    background: var(--irtranscripts-card-2);
     border-radius: calc(var(--border-radius) * 1.25);
     font-size: 0.875rem;
     color: var(--color-info-default);
@@ -207,7 +207,7 @@
 }
 
 .plan-description {
-  color: var(--gauzy-text-color-2);
+  color: var(--irtranscripts-text-color-2);
   font-size: 0.95rem;
   line-height: 1.5;
 
@@ -225,7 +225,7 @@
   .features-title {
     font-size: 0.875rem;
     font-weight: 700;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
   }
 
   .features-list {
@@ -241,7 +241,7 @@
       align-items: flex-start;
       gap: 0.5rem;
       font-size: 0.9rem;
-      color: var(--gauzy-text-color-1);
+      color: var(--irtranscripts-text-color-1);
 
       nb-icon {
         margin-top: 0.125rem;
@@ -266,7 +266,7 @@
   .limitations-title {
     font-size: 0.875rem;
     font-weight: 700;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
   }
 
   .limitations-list {
@@ -282,7 +282,7 @@
       align-items: flex-start;
       gap: 0.5rem;
       font-size: 0.875rem;
-      color: var(--gauzy-text-color-2);
+      color: var(--irtranscripts-text-color-2);
 
       nb-icon {
         margin-top: 0.125rem;

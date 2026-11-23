@@ -1,12 +1,12 @@
 /**
  * The webhook signature check against the contract's shared test vectors (ever-works
  * `docs/specs/features/integrations-api-v1/contract/webhook-signature-vectors.json`, copied into
- * `testing/contract/`): Gauzy's `verifyWebhookSignature` — the function the webhook route calls —
+ * `testing/contract/`): IRTranscripts's `verifyWebhookSignature` — the function the webhook route calls —
  * must reproduce `expected` for every vector, including the malformed ones (rejected, never thrown).
  * The mock Ever Works server's deliveries must verify the same way, and the contract's example
  * envelopes must pass the engine's envelope check.
  */
-// The function itself, from its source: `@gauzy/core`'s barrel boots the whole application.
+// The function itself, from its source: `@irtranscripts/core`'s barrel boots the whole application.
 // eslint-disable-next-line @nx/enforce-module-boundaries -- a spec reads the one core function it checks, not the barrel
 import { verifyWebhookSignature } from '../../../../../../core/src/lib/webhook/webhook-signature';
 import { readFileSync } from 'node:fs';

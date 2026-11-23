@@ -1,5 +1,5 @@
 import { EntityManager } from 'typeorm';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { Entitlement } from './entitlement/entitlement.entity';
 import { EntitlementActivation } from './entitlement-activation/entitlement-activation.entity';
 import { EntitlementKey } from './entitlement-key/entitlement-key.entity';

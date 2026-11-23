@@ -10,12 +10,12 @@ import { serializeEmbeddedTransactions } from './../../database/embedded-transac
 import { pruneTypeOrmSkeletonMetadata } from './../../database/typeorm-skeleton-metadata';
 import * as chalk from 'chalk';
 import * as moment from 'moment';
-import { environment as env, ConfigService, DatabaseTypeEnum } from '@gauzy/config';
-import { IEmployee, IOrganization, IOrganizationProject, IRole, ITenant, IUser } from '@gauzy/contracts';
+import { environment as env, ConfigService, DatabaseTypeEnum } from '@irtranscripts/config';
+import { IEmployee, IOrganization, IOrganizationProject, IRole, ITenant, IUser } from '@irtranscripts/contracts';
 import { validateSeedCredentials } from '../../bootstrap/validate-secrets';
 import { removeGeneratedFiles } from './utils';
 import { MigrationLockingDataSource } from '../../database/migration-run-lock';
-import { getPluginModules, hasLifecycleMethod, PluginLifecycleMethods } from '@gauzy/plugin';
+import { getPluginModules, hasLifecycleMethod, PluginLifecycleMethods } from '@irtranscripts/plugin';
 import { createRoles } from '../../role/role.seed';
 import { createDefaultSkills } from '../../skills/skill.seed';
 import { createLanguages } from '../../language/language.seed';
@@ -326,7 +326,7 @@ export class SeedDataService {
 		try {
 			// Do not change, and keep it just before the "Started" line: the desktop apps read the emails of
 			// the three default accounts from it, to show each next to the password they generated for it
-			// (DESKTOP_API_SEED_ACCOUNTS_MARKER in @gauzy/desktop-lib). They are the accounts this seed
+			// (DESKTOP_API_SEED_ACCOUNTS_MARKER in @irtranscripts/desktop-lib). They are the accounts this seed
 			// creates, so the desktop apps keep no copy of the defaults.
 			console.log(
 				`Database Default Seed Accounts: ${JSON.stringify({
@@ -336,7 +336,7 @@ export class SeedDataService {
 				})}`
 			);
 			// Do not change: the desktop apps watch for this line to mark the passwords they generated as
-			// in use (DESKTOP_API_SEED_STARTED_MARKER in @gauzy/desktop-lib). From here on the seed may
+			// in use (DESKTOP_API_SEED_STARTED_MARKER in @irtranscripts/desktop-lib). From here on the seed may
 			// create the accounts, and a seed that fails after that leaves them with those passwords.
 			console.log('Database Default Seed Started');
 
@@ -364,7 +364,7 @@ export class SeedDataService {
 			await this.closeConnection();
 
 			// Do not change: the desktop apps watch for this line to show the passwords they generated for
-			// the seeded accounts (DESKTOP_API_SEED_COMPLETED_MARKER in @gauzy/desktop-lib).
+			// the seeded accounts (DESKTOP_API_SEED_COMPLETED_MARKER in @irtranscripts/desktop-lib).
 			console.log('Database Default Seed Completed');
 		} catch (error) {
 			this.handleError(error);
@@ -1701,7 +1701,7 @@ export class SeedDataService {
 		await new Promise((resolve) => {
 			const assetOptions = this.configService.assetOptions;
 			const dir = env.isElectron
-				? path.join(path.resolve(env.gauzyUserPath, ...['public']), 'screenshots')
+				? path.join(path.resolve(env.irtranscriptsUserPath, ...['public']), 'screenshots')
 				: path.join(assetOptions.assetPublicPath, 'screenshots');
 
 			// delete old generated screenshots

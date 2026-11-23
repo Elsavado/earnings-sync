@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { ITaskRender } from '../task-render.component';
-import { ITag, ITaskPriority, ITaskSize, ITaskStatus } from '@gauzy/contracts';
+import { ITag, ITaskPriority, ITaskSize, ITaskStatus } from '@irtranscripts/contracts';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { NbDialogRef, NbCardModule } from '@nebular/theme';
 import { TaskBadgeViewComponent } from '../task-badge-view/task-badge-view.component';
 
 @Component({
-    selector: 'gauzy-task-detail',
+    selector: 'irtranscripts-task-detail',
     templateUrl: './task-detail.component.html',
     styleUrls: ['./task-detail.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,

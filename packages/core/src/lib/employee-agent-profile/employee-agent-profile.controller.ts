@@ -1,6 +1,6 @@
 import { Controller, Get, HttpStatus, NotFoundException, Param, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ID, PermissionsEnum } from '@gauzy/contracts';
+import { ID, PermissionsEnum } from '@irtranscripts/contracts';
 import { Permissions } from '../shared/decorators';
 import { PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { UUIDValidationPipe } from '../shared/pipes';

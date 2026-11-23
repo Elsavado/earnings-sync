@@ -6,10 +6,10 @@ import { Observable, of } from 'rxjs';
 import { NB_AUTH_OPTIONS, NbAuthOptions, NbAuthResult, NbAuthService, NbRegisterComponent } from '@nebular/auth';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
-import { patterns } from '@gauzy/constants';
-import { ITermsAcceptanceDocument } from '@gauzy/contracts';
-import { API_PREFIX } from '@gauzy/ui-core/common';
-import { AuthService, readRegisterError, isCheckoutSessionId, rememberCheckoutSession } from '@gauzy/ui-core/core';
+import { patterns } from '@irtranscripts/constants';
+import { ITermsAcceptanceDocument } from '@irtranscripts/contracts';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
+import { AuthService, readRegisterError, isCheckoutSessionId, rememberCheckoutSession } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -161,7 +161,7 @@ export class NgxRegisterComponent extends NbRegisterComponent implements OnInit 
 	}
 
 	/**
-	 * Prefills the form after an Ever ID sign-in found no Gauzy account. The verified name and e-mail
+	 * Prefills the form after an Ever ID sign-in found no IRTranscripts account. The verified name and e-mail
 	 * are fetched with the one-time key from the URL (the URL itself carries nothing personal). When the
 	 * Ever ID sign-in plugin is not enabled the request simply fails and the form stays empty.
 	 *

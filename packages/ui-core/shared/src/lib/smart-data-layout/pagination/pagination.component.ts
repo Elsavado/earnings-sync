@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter, Input, OnInit, ChangeDetectionStrategy
 import { Subject } from 'rxjs';
 import { debounceTime, tap } from 'rxjs/operators';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

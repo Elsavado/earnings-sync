@@ -10,7 +10,7 @@
   }
 
   &:hover {
-    box-shadow: var(--gauzy-shadow);
+    box-shadow: var(--irtranscripts-shadow);
     transform: translateY(-2px);
   }
 
@@ -44,7 +44,7 @@
       flex-direction: column;
       gap: 0.25rem;
       font-size: 0.875rem;
-      color: var(--gauzy-text-color-2);
+      color: var(--irtranscripts-text-color-2);
 
       nb-icon {
         margin-right: 0.25rem;

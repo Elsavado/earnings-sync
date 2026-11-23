@@ -1,6 +1,6 @@
 /**
  * The module boundaries are doubled for the reason the package's other resolver spec states:
- * `@gauzy/core` boots the whole application graph from its barrel and `@gauzy/config` reads the
+ * `@irtranscripts/core` boots the whole application graph from its barrel and `@irtranscripts/config` reads the
  * environment at import time, neither of which a resolver needs.
  *
  * Two things are deliberately real, because the assertion is about them: the resolver itself, and the
@@ -8,9 +8,9 @@
  * is the value `PermissionGuard` reads in production — `getAllAndOverride(PERMISSIONS_METADATA, [handler,
  * class])` — rather than a copy of it.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { SetMetadata } = require('@nestjs/common');
-	const { PERMISSIONS_METADATA } = require('@gauzy/constants');
+	const { PERMISSIONS_METADATA } = require('@irtranscripts/constants');
 
 	class BaseEntity {}
 
@@ -31,23 +31,23 @@ jest.mock('@gauzy/core', () => {
 		// The retry declaration the mutations carry is the kernel's own decorator, as it is in the
 		// production graph: a double would make the resolver import a different function than the one
 		// the interceptor reads.
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
 		// The connection helpers the list fields page and answer with, taken from the kernel rather than
 		// restated: a double that stubbed them would let a page drift from the contract in a suite that
 		// still passed, which is the whole class of defect the conversion removed.
-		connectionFromPage: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection').connectionFromPage,
-		connectionFromOffsetPage: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		connectionFromPage: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection').connectionFromPage,
+		connectionFromOffsetPage: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.connectionFromOffsetPage,
-		resolveConnectionWindow: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		resolveConnectionWindow: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.resolveConnectionWindow,
 		// The cursor the window reads is the kernel's own, so the spec mints one with the same codec the
 		// endpoint does rather than with a literal — a literal would keep passing after the encoding changed.
-		encodeOffsetCursor: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection').encodeOffsetCursor,
-		paginateRows: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection').paginateRows
+		encodeOffsetCursor: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection').encodeOffsetCursor,
+		paginateRows: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection').paginateRows
 	};
 });
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	DatabaseTypeEnum: {
 		mongodb: 'mongodb',
 		sqlite: 'sqlite',
@@ -62,8 +62,8 @@ jest.mock('@gauzy/config', () => ({
 jest.mock('../../refund/refund.service', () => ({ RefundService: class RefundService {} }));
 jest.mock('../../refund-line/refund-line.service', () => ({ RefundLineService: class RefundLineService {} }));
 
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { FeatureFlagGuard, PermissionGuard, TenantPermissionGuard, encodeOffsetCursor } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { FeatureFlagGuard, PermissionGuard, TenantPermissionGuard, encodeOffsetCursor } from '@irtranscripts/core';
 import { ObjectTypeDefinitionNode, ObjectTypeExtensionNode } from 'graphql';
 import { PaymentPermission } from '../../payment.permissions';
 import { schemaExtensions } from '../schema-extensions';

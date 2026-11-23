@@ -2,9 +2,9 @@ import { Component, OnDestroy, Input, ChangeDetectionStrategy } from '@angular/c
 import { NbDialogRef } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { ToastrService } from '@gauzy/ui-core/core';
-import { CandidateCriterionsRatingService, CandidateFeedbacksService } from '@gauzy/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { ToastrService } from '@irtranscripts/ui-core/core';
+import { CandidateCriterionsRatingService, CandidateFeedbacksService } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

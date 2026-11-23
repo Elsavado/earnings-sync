@@ -1,5 +1,5 @@
 import * as chalk from 'chalk';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@gauzy/plugin';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@irtranscripts/plugin';
 import { PaymentModule, ALL_PAYMENT_ENTITIES } from './payment.module';
 import { PAYMENT_PERMISSIONS } from './payment.permissions';
 import { PAYMENT_FEATURES } from './payment.features';

@@ -50,9 +50,9 @@
 					"moment-duration-format",
 					"rxjs",
 					"rxjs/operators",
-					"@gauzy/desktop-ui-lib",
-					"@gauzy/ui-config",
-					"@gauzy/ui-core/i18n"
+					"@irtranscripts/desktop-ui-lib",
+					"@irtranscripts/ui-config",
+					"@irtranscripts/ui-core/i18n"
 				]
 			},
 			"configurations": {

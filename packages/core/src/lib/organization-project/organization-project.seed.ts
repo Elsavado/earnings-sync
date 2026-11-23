@@ -9,8 +9,8 @@ import {
 	ProjectStatusEnum,
 	RolesEnum,
 	TaskListTypeEnum
-} from '@gauzy/contracts';
-import { DatabaseTypeEnum } from '@gauzy/config';
+} from '@irtranscripts/contracts';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 import { DEFAULT_ORGANIZATION_PROJECTS } from './default-organization-projects';
 import {
 	Employee,

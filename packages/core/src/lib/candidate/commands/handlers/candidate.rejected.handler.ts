@@ -1,7 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { BadRequestException, ConflictException } from '@nestjs/common';
-import { CandidateStatusEnum, ICandidate, LanguagesEnum } from '@gauzy/contracts';
-import { environment } from '@gauzy/config';
+import { CandidateStatusEnum, ICandidate, LanguagesEnum } from '@irtranscripts/contracts';
+import { environment } from '@irtranscripts/config';
 import { CandidateService } from '../../candidate.service';
 import { CandidateRejectedCommand } from '../candidate.rejected.command';
 import { EmailService } from './../../../email-send/email.service';

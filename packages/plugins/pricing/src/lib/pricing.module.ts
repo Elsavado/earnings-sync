@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RolePermissionModule } from '@gauzy/core';
+import { RolePermissionModule } from '@irtranscripts/core';
 import { ExchangeRate } from './exchange-rate/exchange-rate.entity';
 import { ExchangeRateController } from './exchange-rate/exchange-rate.controller';
 import { ExchangeRateService } from './exchange-rate/exchange-rate.service';

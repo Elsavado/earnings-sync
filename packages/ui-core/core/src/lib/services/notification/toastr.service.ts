@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
-import { I18nService } from '@gauzy/ui-core/i18n';
+import { I18nService } from '@irtranscripts/ui-core/i18n';
 
 @Injectable({
 	providedIn: 'root'

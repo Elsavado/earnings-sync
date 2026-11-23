@@ -1,4 +1,4 @@
-import { IGetProfileActivity } from '@gauzy/contracts';
+import { IGetProfileActivity } from '@irtranscripts/contracts';
 import {
 	buildProfileActivityDayBuckets,
 	buildProfileActivityResponse,

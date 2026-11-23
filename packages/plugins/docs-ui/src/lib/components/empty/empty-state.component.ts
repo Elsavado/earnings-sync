@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { DOCS_PERMISSIONS } from '../../docs-permission-groups';
 
 export type DocsEmptyVariant = 'first-run' | 'empty-folder' | 'no-results' | 'review-empty' | 'error';

@@ -130,8 +130,8 @@ export class MockEverWorksMissions {
 		const ref = input['externalRef'] as
 			| { source?: string; installationId?: string | null; externalId?: string; externalUrl?: string | null }
 			| undefined;
-		if (ref && ref.source !== 'gauzy')
-			return MockEverWorksServer.error(400, 'validation_failed', 'externalRef.source must be "gauzy".');
+		if (ref && ref.source !== 'irtranscripts')
+			return MockEverWorksServer.error(400, 'validation_failed', 'externalRef.source must be "irtranscripts".');
 		if (ref?.externalId) {
 			const existing = this.visible(context).find((mission) =>
 				((mission['externalLinks'] as Array<Record<string, unknown>>) ?? []).some(

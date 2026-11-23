@@ -10,7 +10,7 @@ import { ITeamDashboardTeam } from './teams-dashboard.types';
  * The full per-team overview: one card per team, each showing the team's
  * headline numbers AND the members behind them.
  *
- * This is the masonry section of the legacy Teams dashboard (`gauzy-all-team`),
+ * This is the masonry section of the legacy Teams dashboard (`irtranscripts-all-team`),
  * the view a user lands on before drilling into a single team. It is the
  * composition of the two narrower Teams widgets — `ga-team-summary-card` for the
  * heading and `ga-team-member-row` for the people — reused verbatim rather than

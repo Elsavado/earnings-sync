@@ -1,5 +1,5 @@
 import { IntersectionType, PartialType, PickType } from '@nestjs/swagger';
-import { BaseQueryDTO, TenantOrganizationBaseDTO } from '@gauzy/core';
+import { BaseQueryDTO, TenantOrganizationBaseDTO } from '@irtranscripts/core';
 
 /**
  * Query params for `GET /documents/:id/versions`.

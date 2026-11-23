@@ -5,7 +5,7 @@
  */
 import '../core/entities/internal';
 import { ForbiddenException } from '@nestjs/common';
-import { InvitationTypeEnum, PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { InvitationTypeEnum, PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { TenantAwareCrudService } from '../core/crud';
 import { InviteService } from './invite.service';
@@ -47,7 +47,7 @@ describe('InviteService - invitation tokens follow the role ceiling, by the stor
 		const service: InviteService = Object.create(InviteService.prototype);
 		Object.assign(service, {
 			logger: { warn: jest.fn(), error: jest.fn(), log: jest.fn() },
-			configService: { get: () => 'https://app.gauzy.co' },
+			configService: { get: () => 'https://app.irtranscripts.com' },
 			emailService,
 			userService,
 			roleService: { find: jest.fn(async () => Object.values(ROLES)) },

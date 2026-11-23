@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NbDialogRef } from '@nebular/theme';
-import { IImageAsset } from '@gauzy/contracts';
+import { IImageAsset } from '@irtranscripts/contracts';
 
 @Component({
     selector: 'ga-attach-receipt',

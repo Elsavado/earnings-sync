@@ -1,5 +1,5 @@
 import { IQuery } from '@nestjs/cqrs';
-import { BaseQueryDTO } from '@gauzy/core';
+import { BaseQueryDTO } from '@irtranscripts/core';
 import { DocumentCategory } from '../entities/document-category.entity';
 
 export class GetDocumentCategoriesQuery implements IQuery {

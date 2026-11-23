@@ -6,9 +6,9 @@ import {
 	ILogRequest,
 	ILogRequestPage,
 	IOSInfo
-} from '@gauzy/contracts';
-import { AkitaStorageEngine, WindowManager, logger as log } from '@gauzy/desktop-core';
-import { ScreenCaptureNotification } from '@gauzy/desktop-window';
+} from '@irtranscripts/contracts';
+import { AkitaStorageEngine, WindowManager, logger as log } from '@irtranscripts/desktop-core';
+import { ScreenCaptureNotification } from '@irtranscripts/desktop-window';
 import { BrowserWindow, app, desktopCapturer, ipcMain, screen, systemPreferences, shell } from 'electron';
 import * as moment from 'moment';
 import * as _ from 'underscore';
@@ -45,7 +45,7 @@ import { pluginListeners } from './plugin-system';
 import { AkitaStorageHandler } from './storage/akita-storage.handler';
 import { RemoteTrackingSleep } from './strategies';
 import { TranslateService } from './translation';
-import { ActivityWindow } from '@gauzy/desktop-activity';
+import { ActivityWindow } from '@irtranscripts/desktop-activity';
 import { DesktopPermissionHandler } from './utilities/desktop-permission-handler';
 import { runTccutil, getAppId, getOSInfo } from './utilities/util';
 import { exportAuditLogs } from './utilities/export-log';
@@ -177,7 +177,7 @@ export function ipcMainHandler(store, startServer, knex, config, timeTrackerWind
 			log.info('Return Time Sheet');
 
 			await getTimerHandler().processWithQueue(
-				`gauzy-queue`,
+				`irtranscripts-queue`,
 				{
 					type: 'update-timer-time-slot',
 					data: {
@@ -199,7 +199,7 @@ export function ipcMainHandler(store, startServer, knex, config, timeTrackerWind
 			log.info('Return Toggle API');
 
 			await getTimerHandler().processWithQueue(
-				`gauzy-queue`,
+				`irtranscripts-queue`,
 				{
 					type: 'update-timer-time-slot',
 					data: {
@@ -935,7 +935,7 @@ export function ipcTimer(
 
 		try {
 			await getTimerHandler().processWithQueue(
-				`gauzy-queue`,
+				`irtranscripts-queue`,
 				{
 					type: ActivityWatchEventTableList.WINDOW,
 					data: collections
@@ -955,7 +955,7 @@ export function ipcTimer(
 
 		try {
 			await getTimerHandler().processWithQueue(
-				`gauzy-queue`,
+				`irtranscripts-queue`,
 				{
 					type: ActivityWatchEventTableList.AFK,
 					data: collections
@@ -975,7 +975,7 @@ export function ipcTimer(
 
 		try {
 			await getTimerHandler().processWithQueue(
-				`gauzy-queue`,
+				`irtranscripts-queue`,
 				{
 					type: ActivityWatchEventTableList.FIREFOX,
 					data: collections
@@ -995,7 +995,7 @@ export function ipcTimer(
 
 		try {
 			await getTimerHandler().processWithQueue(
-				`gauzy-queue`,
+				`irtranscripts-queue`,
 				{
 					type: ActivityWatchEventTableList.CHROME,
 					data: collections
@@ -1021,7 +1021,7 @@ export function ipcTimer(
 	ActivityWatchEventManager.onRemoveLocalData(async (_, value: any) => {
 		try {
 			await getTimerHandler().processWithQueue(
-				`gauzy-queue`,
+				`irtranscripts-queue`,
 				{
 					type: 'remove-window-events'
 				},
@@ -1054,7 +1054,7 @@ export function ipcTimer(
 		if (!collections.length) return;
 		try {
 			await getTimerHandler().processWithQueue(
-				`gauzy-queue`,
+				`irtranscripts-queue`,
 				{
 					type: ActivityWatchEventTableList.EDGE,
 					data: collections
@@ -1071,7 +1071,7 @@ export function ipcTimer(
 		try {
 			if (arg.idsWakatime && arg.idsWakatime.length > 0) {
 				await getTimerHandler().processWithQueue(
-					`gauzy-queue`,
+					`irtranscripts-queue`,
 					{
 						type: 'remove-wakatime-events',
 						data: arg.idsWakatime
@@ -1141,7 +1141,7 @@ export function ipcTimer(
 			log.info(`Return To Timeslot Last Timeslot ID: ${timeSlotId} and Timer ID: ${timerId}`);
 			LocalStore.updateAdditionalSetting({ timeSlotId });
 			await getTimerHandler().processWithQueue(
-				`gauzy-queue`,
+				`irtranscripts-queue`,
 				{
 					type: 'update-timer-time-slot',
 					data: {

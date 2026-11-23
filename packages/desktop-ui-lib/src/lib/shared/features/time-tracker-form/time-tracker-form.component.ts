@@ -13,7 +13,7 @@ import { NoteComponent } from '../note/note.component';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'gauzy-time-tracker-form',
+    selector: 'irtranscripts-time-tracker-form',
     templateUrl: './time-tracker-form.component.html',
     styleUrls: ['./time-tracker-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

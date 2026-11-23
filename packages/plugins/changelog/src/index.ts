@@ -1,4 +1,4 @@
 /**
- * Public API Surface of @gauzy/plugin-changelog
+ * Public API Surface of @irtranscripts/plugin-changelog
  */
 export * from './lib/changelog.plugin';

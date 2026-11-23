@@ -1,6 +1,6 @@
 import { Injector } from '@angular/core';
 import { Router } from '@angular/router';
-import { GAUZY_ENV } from './constants/app.constants';
+import { IRTRANSCRIPTS_ENV } from './constants/app.constants';
 import { ServerConnectionService } from './services/server-connection.service';
 import { Store } from './services/store.service';
 
@@ -19,7 +19,7 @@ export function serverConnectionFactory(
 	injector: Injector
 ): () => Promise<void> {
 	// Retrieve environment configuration
-	const environment: any = injector.get(GAUZY_ENV);
+	const environment: any = injector.get(IRTRANSCRIPTS_ENV);
 	const url = environment.API_BASE_URL;
 
 	return async () => {

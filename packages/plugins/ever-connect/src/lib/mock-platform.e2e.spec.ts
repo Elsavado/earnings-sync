@@ -9,14 +9,14 @@ import { join } from 'node:path';
 import { ClsModule, ClsService } from 'nestjs-cls';
 import * as request from 'supertest';
 import { DataSource } from 'typeorm';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionGuard, RequestContext, RequestContextMiddleware, RolePermissionModule, TenantPermissionGuard } from '@gauzy/core';
-import { EVER_INSTANCE_ENV } from '@gauzy/plugin-ever-instance';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionGuard, RequestContext, RequestContextMiddleware, RolePermissionModule, TenantPermissionGuard } from '@irtranscripts/core';
+import { EVER_INSTANCE_ENV } from '@irtranscripts/plugin-ever-instance';
 import { EVER_CONNECT_FETCH } from './ever-connect.constants';
 import {
 	EverConnectOrganizationDeletionSubscriber,
 	EverConnectTenantDeletionSubscriber,
-	GAUZY_OWNER_DELETED
+	IRTRANSCRIPTS_OWNER_DELETED
 } from './ever-connect-deletion.subscriber';
 import { EverConnectModule } from './ever-connect.module';
 import { EverConnectScheduler } from './ever-connect-scheduler.service';
@@ -138,7 +138,7 @@ class TestPermissionGuard implements CanActivate {
 	}
 }
 
-/** Gauzy's role permission module needs the ORMs; the test permission guard stands in for it. */
+/** IRTranscripts's role permission module needs the ORMs; the test permission guard stands in for it. */
 @Module({})
 class TestRolePermissionModule {}
 
@@ -320,7 +320,7 @@ suite('Ever Platform connection against the mock platform', () => {
 		]);
 		expect(body).toMatchObject({
 			code: 'EVC-TEST-0000-0001',
-			product: 'gauzy',
+			product: 'irtranscripts',
 			install_source: 'self-hosted',
 			kind: 'self_hosted',
 			return_origins: ['http://localhost:4200']
@@ -496,7 +496,7 @@ suite('Ever Platform connection against the mock platform', () => {
 			).status
 		).toBe(200);
 
-		// Removing a link: Ever Platform is told, the Gauzy record is archived.
+		// Removing a link: Ever Platform is told, the IRTranscripts record is archived.
 		const removed = await call(
 			'delete',
 			`/api/ever-connect/links/${linked.body.integration_tenant_id}?organizationId=${zephyr.organizationId}`,
@@ -559,7 +559,7 @@ suite('Ever Platform connection against the mock platform', () => {
 		for (const entry of await calls()) {
 			expect(ALLOWED_ROWS).toContain(entry.row);
 			expect(entry.status).not.toBe(422);
-			expect(entry.user_agent).toMatch(/^ever-connect-sdk\/[^ ]+ \(gauzy\/0\.0\.0\)$/);
+			expect(entry.user_agent).toMatch(/^ever-connect-sdk\/[^ ]+ \(irtranscripts\/0\.0\.0\)$/);
 		}
 	});
 
@@ -733,7 +733,7 @@ suite('Ever Platform connection against the mock platform', () => {
 		expect(await keyId()).toBeNull();
 	});
 
-	it('a deleted Gauzy organization or tenant: its link is removed on Ever Platform and here, and its rows go', async () => {
+	it('a deleted IRTranscripts organization or tenant: its link is removed on Ever Platform and here, and its rows go', async () => {
 		app = await start(environment());
 		await connectAcme();
 		const linked = await call('post', `/api/ever-connect/links?organizationId=${zephyr.organizationId}`, 'stranger', {
@@ -750,7 +750,7 @@ suite('Ever Platform connection against the mock platform', () => {
 		expect(await rowsOf('ever_connect_link', zephyr.tenantId)).toBe(1);
 		expect(await rowsOf('ever_connect_audit', zephyr.tenantId)).toBeGreaterThan(0);
 
-		// Gauzy deletes Zephyr's organization (soft delete, no entity event here): the next heartbeat
+		// IRTranscripts deletes Zephyr's organization (soft delete, no entity event here): the next heartbeat
 		// finds it before it reads anything for that organization.
 		await dataSource.query(
 			`UPDATE ${q('better-sqlite3', 'organization')} SET ${q('better-sqlite3', 'deletedAt')} = datetime('now') WHERE ${q('better-sqlite3', 'id')} = ?`,
@@ -775,7 +775,7 @@ suite('Ever Platform connection against the mock platform', () => {
 			acme.tenantId
 		]);
 		const signals: number[] = [];
-		const subscription = GAUZY_OWNER_DELETED.subscribe(() => signals.push(1));
+		const subscription = IRTRANSCRIPTS_OWNER_DELETED.subscribe(() => signals.push(1));
 		await new EverConnectTenantDeletionSubscriber().afterEntityDelete();
 		await new EverConnectOrganizationDeletionSubscriber().afterEntitySoftRemove();
 		subscription.unsubscribe();

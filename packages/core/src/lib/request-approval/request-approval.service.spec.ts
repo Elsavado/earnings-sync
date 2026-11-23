@@ -1,16 +1,16 @@
 import '../core/entities/internal';
 
-// `@gauzy/config` re-exports its database helpers through `export *` (non-configurable getters under
+// `@irtranscripts/config` re-exports its database helpers through `export *` (non-configurable getters under
 // CommonJS), so they are replaced through a module factory rather than spied on.
-jest.mock('@gauzy/config', () => ({
-	...jest.requireActual('@gauzy/config'),
+jest.mock('@irtranscripts/config', () => ({
+	...jest.requireActual('@irtranscripts/config'),
 	isMySQL: jest.fn(),
 	isPostgres: jest.fn(),
 	isSqlite: jest.fn(),
 	isBetterSqlite3: jest.fn()
 }));
 
-import { isBetterSqlite3, isMySQL, isPostgres, isSqlite } from '@gauzy/config';
+import { isBetterSqlite3, isMySQL, isPostgres, isSqlite } from '@irtranscripts/config';
 import { CrudService } from '../core/crud/crud.service';
 import { MultiORMEnum } from '../core/utils';
 import { asTenantUser, createTenantFixture } from '../core/testing/tenant-isolation/tenant-isolation.fixtures';

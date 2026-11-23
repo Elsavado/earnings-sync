@@ -1,1 +1,1 @@
-# @gauzy/plugin-sentry
+# @irtranscripts/plugin-sentry

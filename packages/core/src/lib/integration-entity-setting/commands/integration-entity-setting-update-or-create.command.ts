@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { IIntegrationEntitySetting, IIntegrationTenant } from '@gauzy/contracts';
+import { IIntegrationEntitySetting, IIntegrationTenant } from '@irtranscripts/contracts';
 
 export class IntegrationEntitySettingUpdateOrCreateCommand implements ICommand {
 	static readonly type = '[Integration Entity Setting] Update Or Create By Integration';

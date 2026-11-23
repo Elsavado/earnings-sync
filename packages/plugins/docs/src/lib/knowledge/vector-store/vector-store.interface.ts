@@ -1,4 +1,4 @@
-import { BaseEntityEnum, DocumentKindEnum, ID, IDocumentChunkMetadata } from '@gauzy/contracts';
+import { BaseEntityEnum, DocumentKindEnum, ID, IDocumentChunkMetadata } from '@irtranscripts/contracts';
 
 /**
  * The vector-store provider seam of the Documents knowledge subsystem.

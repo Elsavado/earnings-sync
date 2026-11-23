@@ -1,8 +1,8 @@
 {
-	"name": "gauzy-api-server",
+	"name": "irtranscripts-api-server",
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
 	"projectType": "application",
-	"prefix": "gauzy",
+	"prefix": "irtranscripts",
 	"sourceRoot": "apps/server-api/src",
 	"tags": [],
 	"implicitDependencies": [],
@@ -19,7 +19,7 @@
 				"customWebpackConfig": {
 					"path": "apps/server-api/config/custom-webpack.config.js"
 				},
-				"outputPath": "dist/apps/gauzy-api-server",
+				"outputPath": "dist/apps/irtranscripts-api-server",
 				"index": "apps/server-api/src/index.html",
 				"main": "apps/server-api/src/main.ts",
 				"polyfills": "apps/server-api/src/polyfills.ts",

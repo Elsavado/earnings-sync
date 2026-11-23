@@ -22,7 +22,7 @@ import {
 	IEmployee,
 	ID,
 	CurrenciesEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	CandidateDocument,
 	CandidateEducation,

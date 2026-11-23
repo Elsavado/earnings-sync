@@ -1,6 +1,6 @@
 import '../core/entities/internal';
 
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { ManagedEmployeeService } from './managed-employee.service';
 

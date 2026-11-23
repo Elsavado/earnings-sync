@@ -1,4 +1,4 @@
-import { BaseEntityEnum, DocumentKindEnum } from '@gauzy/contracts';
+import { BaseEntityEnum, DocumentKindEnum } from '@irtranscripts/contracts';
 
 /**
  * Maps entity types to their corresponding FontAwesome icon classes
@@ -97,7 +97,7 @@ function invoiceLink(id: string, record?: IFavoriteRecord): string {
 /**
  * Where a sidebar favorite takes the user: the record's own full page wherever one exists (handover §4.P).
  *
- * Every target must be a route the app serves — `apps/gauzy/src/app/pages/favorite-links.routes.spec.ts`
+ * Every target must be a route the app serves — `apps/irtranscripts/src/app/pages/favorite-links.routes.spec.ts`
  * resolves each one against the real router configuration. Types that have no page of their own yet land
  * on the closest page that shows them; the backend only lets the types carrying `@FavoriteService` be
  * favorited at all (see `GlobalFavoriteDiscoveryService`).

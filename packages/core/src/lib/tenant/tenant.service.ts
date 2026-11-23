@@ -8,9 +8,9 @@ import {
 	ITenantUpdateInput,
 	IUser,
 	RolesEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { UpdateResult } from 'typeorm';
-import { ConfigService } from '@gauzy/config';
+import { ConfigService } from '@irtranscripts/config';
 import { MultiORMEnum } from '../core/utils';
 import { CrudService } from '../core/crud/crud.service';
 import { TenantFeatureOrganizationCreateCommand } from './commands';

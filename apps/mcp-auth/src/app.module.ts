@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@gauzy/config';
-import { createPlatformDataSource, PasswordHashModule } from '@gauzy/core';
+import { ConfigModule, ConfigService } from '@irtranscripts/config';
+import { createPlatformDataSource, PasswordHashModule } from '@irtranscripts/core';
 import { McpOAuthModule } from './mcp-oauth/mcp-oauth.module';
 
 /**

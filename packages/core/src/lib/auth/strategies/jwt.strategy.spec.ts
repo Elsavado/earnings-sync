@@ -1,6 +1,6 @@
 // cspell:ignore verif
 import { NotFoundException, ServiceUnavailableException, UnauthorizedException } from '@nestjs/common';
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 import { sign } from 'jsonwebtoken';
 import { DatabaseError } from 'pg';
 import { QueryFailedError } from 'typeorm';

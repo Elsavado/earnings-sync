@@ -6,8 +6,8 @@ import {
 	IIntegrationTenant,
 	IOrganizationGithubRepository,
 	IOrganizationGithubRepositoryIssue
-} from '@gauzy/contracts';
-import { IntegrationTenant, TenantOrganizationBaseEntity } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { IntegrationTenant, TenantOrganizationBaseEntity } from '@irtranscripts/core';
 import {
 	ColumnIndex,
 	MultiORMColumn,
@@ -15,7 +15,7 @@ import {
 	MultiORMManyToOne,
 	MultiORMOneToMany,
 	ColumnNumericTransformerPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { OrganizationGithubRepositoryIssue } from './issue/github-repository-issue.entity';
 import { MikroOrmOrganizationGithubRepositoryRepository } from './repository/mikro-orm-organization-github-repository.repository';
 

@@ -2,10 +2,10 @@
   width: 900px;
   height: 90vh;
   border-radius: calc(var(--border-radius) * 1.5);
-  box-shadow: var(--gauzy-shadow);
+  box-shadow: var(--irtranscripts-shadow);
 
   ::ng-deep nb-card-header {
-    background: linear-gradient(135deg, var(--gauzy-card-1) 0%, var(--gauzy-card-2) 100%);
+    background: linear-gradient(135deg, var(--irtranscripts-card-1) 0%, var(--irtranscripts-card-2) 100%);
     border-bottom: 2px solid var(--border-basic-color-3);
     padding: 1.5rem;
     gap: 1rem;
@@ -32,7 +32,7 @@
     flex: 1;
 
     .card-title {
-      color: var(--gauzy-text-color-1);
+      color: var(--irtranscripts-text-color-1);
       font-weight: 700;
       font-size: 1.25rem;
       letter-spacing: -0.01em;
@@ -40,7 +40,7 @@
 
     .card-subtitle {
       font-size: 0.875rem;
-      color: var(--gauzy-text-color-2);
+      color: var(--irtranscripts-text-color-2);
       font-weight: 500;
     }
   }
@@ -78,7 +78,7 @@
 
   .search-input {
     border-radius: calc(var(--border-radius) * 1.5);
-    background: var(--gauzy-card-2);
+    background: var(--irtranscripts-card-2);
     border: 1px solid var(--border-basic-color-3);
     transition: all 0.2s ease;
 
@@ -95,7 +95,7 @@
   gap: 0.5rem;
   margin-bottom: 1rem;
   padding: 0.75rem 1rem;
-  background: var(--gauzy-card-2);
+  background: var(--irtranscripts-card-2);
   border-radius: var(--border-radius);
   border-left: 3px solid var(--color-primary-default);
 
@@ -108,7 +108,7 @@
   .section-title {
     font-size: 1rem;
     font-weight: 700;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
     margin: 0;
     letter-spacing: -0.01em;
   }
@@ -121,14 +121,14 @@
     align-items: center;
     gap: 0.75rem;
     padding: 0.75rem 1rem;
-    background: var(--gauzy-card-2);
+    background: var(--irtranscripts-card-2);
     border-radius: calc(var(--border-radius) * 1.2);
     border: 1px solid var(--border-basic-color-3);
 
     .bulk-actions-label {
       font-size: 0.8125rem;
       font-weight: 600;
-      color: var(--gauzy-text-color-2);
+      color: var(--irtranscripts-text-color-2);
       text-transform: uppercase;
       letter-spacing: 0.4px;
       flex: 1;
@@ -136,12 +136,12 @@
   }
 
   .custom-table {
-    background: var(--gauzy-card-2);
+    background: var(--irtranscripts-card-2);
     display: flex;
     flex-direction: column;
     padding: 0.75rem;
     border-radius: calc(var(--border-radius) * 1.5);
-    box-shadow: var(--gauzy-shadow);
+    box-shadow: var(--irtranscripts-shadow);
     overflow: hidden;
 
     .table-scroll-container {
@@ -168,12 +168,12 @@
   justify-content: center;
   padding: 3rem 2rem;
   text-align: center;
-  background: var(--gauzy-card-2);
+  background: var(--irtranscripts-card-2);
   border-radius: calc(var(--border-radius) * 1.2);
 
   .loading-text {
     margin-top: 1rem;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
     font-weight: 600;
     font-size: 1rem;
   }
@@ -182,14 +182,14 @@
 .assignment-form {
   border-top: 2px solid var(--border-basic-color-3);
   margin-top: 1rem;
-  background: var(--gauzy-card-2);
+  background: var(--irtranscripts-card-2);
   padding: 1.5rem;
   border-radius: calc(var(--border-radius) * 1.2);
 
   ::ng-deep nb-form-field {
     textarea {
       border-radius: calc(var(--border-radius) * 1.2);
-      background: var(--gauzy-card-1);
+      background: var(--irtranscripts-card-1);
       border: 1px solid var(--border-basic-color-3);
       transition: all 0.2s ease;
 
@@ -201,7 +201,7 @@
 
     .label {
       font-weight: 700;
-      color: var(--gauzy-text-color-1);
+      color: var(--irtranscripts-text-color-1);
       margin-bottom: 0.75rem;
       font-size: 0.875rem;
       text-transform: uppercase;
@@ -248,7 +248,7 @@
     padding: 1rem 0;
 
     &.content-active {
-      background-color: var(--gauzy-card-2);
+      background-color: var(--irtranscripts-card-2);
     }
   }
   .tabset nb-badge {
@@ -268,7 +268,7 @@
 }
 
 // Spinner button styling
-::ng-deep .gauzy-spinner-button {
+::ng-deep .irtranscripts-spinner-button {
   nb-icon {
     animation: spin 1s linear infinite;
   }
@@ -295,20 +295,20 @@
   justify-content: center;
   padding: 3rem 2rem;
   text-align: center;
-  background: var(--gauzy-card-2);
+  background: var(--irtranscripts-card-2);
   border-radius: calc(var(--border-radius) * 1.2);
   border: 2px dashed var(--border-basic-color-3);
 
   .empty-icon {
     font-size: 2.5rem;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
     margin-bottom: 1rem;
     opacity: 0.5;
   }
 
   .empty-text {
     font-size: 0.9375rem;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
     margin: 0;
     font-weight: 500;
   }

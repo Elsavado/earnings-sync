@@ -31,8 +31,8 @@ import {
 	ProjectOwnerEnum,
 	ProjectStatusEnum,
 	TaskListTypeEnum
-} from '@gauzy/contracts';
-import { isMySQL } from '@gauzy/config';
+} from '@irtranscripts/contracts';
+import { isMySQL } from '@irtranscripts/config';
 import {
 	Activity,
 	Employee,

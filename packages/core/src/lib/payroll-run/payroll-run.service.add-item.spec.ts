@@ -4,7 +4,7 @@
 import '../core/entities/internal';
 
 import { DataSource, EntitySchema, Repository } from 'typeorm';
-import { EmployeeKindEnum, PayrollItemCategoryEnum, PayrollItemTypeEnum, PayrollRunStatusEnum } from '@gauzy/contracts';
+import { EmployeeKindEnum, PayrollItemCategoryEnum, PayrollItemTypeEnum, PayrollRunStatusEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { Employee } from '../core/entities/internal';
 import { PayrollItem } from '../payroll-item/payroll-item.entity';

@@ -1,6 +1,6 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { AnalyticsInterface, JitsuOptions } from '@jitsu/js';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { JITSU_MODULE_PROVIDER_CONFIG } from './jitsu.types';
 import { createJitsu } from './jitsu-helper';
 

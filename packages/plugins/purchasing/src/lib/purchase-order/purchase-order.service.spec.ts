@@ -1,11 +1,11 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a purchase-order service needs and none of which is
  * available outside a running application. The seam is therefore doubled at the module boundary,
  * exactly as the catalogue and inventory packages' service specs do, and **the services under test are
  * the real ones**: the order service and the real line service it derives its money through.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 	// The conditional write is the kernel's, doubled: the order service reaches it by name through this
 	// barrel, and a factory that answered `undefined` for it would fail every transition at the call
@@ -97,7 +97,7 @@ jest.mock('@gauzy/core', () => {
 		},
 		BaseEvent: class {},
 		EventBus: class {},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		Organization: class Organization {},
 		OrganizationVendor: class OrganizationVendor {},
 		ProductVariant: class ProductVariant {},
@@ -124,7 +124,7 @@ import {
 	ProductVariantPrice,
 	RequestContext,
 	Warehouse
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { PurchaseOrderStatus } from '../purchasing.types';
 import { VendorProductTermService } from '../vendor-product-term/vendor-product-term.service';
 import { PurchaseOrderLineService } from '../purchase-order-line/purchase-order-line.service';

@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 export class AlterBaseEntityAddArchivedAtField1725879899378 implements MigrationInterface {
 	name = 'AlterBaseEntityAddArchivedAtField1725879899378';
@@ -1609,10 +1609,10 @@ export class AlterBaseEntityAddArchivedAtField1725879899378 implements Migration
 		await queryRunner.query(`DROP INDEX "IDX_c79464c4ccf7e5195d69675c15"`);
 		await queryRunner.query(`DROP INDEX "IDX_e63f4791631e7572ca213ac4a4"`);
 		await queryRunner.query(
-			`CREATE TABLE "temporary_integration_map" ("id" varchar PRIMARY KEY NOT NULL, "createdAt" datetime NOT NULL DEFAULT (datetime('now')), "updatedAt" datetime NOT NULL DEFAULT (datetime('now')), "tenantId" varchar, "organizationId" varchar, "entity" varchar NOT NULL, "sourceId" varchar NOT NULL, "gauzyId" varchar NOT NULL, "integrationId" varchar NOT NULL, "isActive" boolean DEFAULT (1), "isArchived" boolean DEFAULT (0), "deletedAt" datetime, "archivedAt" datetime, CONSTRAINT "FK_c327ea26bda3d349a1eceb5658e" FOREIGN KEY ("integrationId") REFERENCES "integration_tenant" ("id") ON DELETE CASCADE ON UPDATE NO ACTION, CONSTRAINT "FK_eec3d6064578610ddc609dd360e" FOREIGN KEY ("tenantId") REFERENCES "tenant" ("id") ON DELETE CASCADE ON UPDATE NO ACTION, CONSTRAINT "FK_7022dafd72c1b92f7d506914411" FOREIGN KEY ("organizationId") REFERENCES "organization" ("id") ON DELETE CASCADE ON UPDATE CASCADE)`
+			`CREATE TABLE "temporary_integration_map" ("id" varchar PRIMARY KEY NOT NULL, "createdAt" datetime NOT NULL DEFAULT (datetime('now')), "updatedAt" datetime NOT NULL DEFAULT (datetime('now')), "tenantId" varchar, "organizationId" varchar, "entity" varchar NOT NULL, "sourceId" varchar NOT NULL, "irtranscriptsId" varchar NOT NULL, "integrationId" varchar NOT NULL, "isActive" boolean DEFAULT (1), "isArchived" boolean DEFAULT (0), "deletedAt" datetime, "archivedAt" datetime, CONSTRAINT "FK_c327ea26bda3d349a1eceb5658e" FOREIGN KEY ("integrationId") REFERENCES "integration_tenant" ("id") ON DELETE CASCADE ON UPDATE NO ACTION, CONSTRAINT "FK_eec3d6064578610ddc609dd360e" FOREIGN KEY ("tenantId") REFERENCES "tenant" ("id") ON DELETE CASCADE ON UPDATE NO ACTION, CONSTRAINT "FK_7022dafd72c1b92f7d506914411" FOREIGN KEY ("organizationId") REFERENCES "organization" ("id") ON DELETE CASCADE ON UPDATE CASCADE)`
 		);
 		await queryRunner.query(
-			`INSERT INTO "temporary_integration_map"("id", "createdAt", "updatedAt", "tenantId", "organizationId", "entity", "sourceId", "gauzyId", "integrationId", "isActive", "isArchived", "deletedAt") SELECT "id", "createdAt", "updatedAt", "tenantId", "organizationId", "entity", "sourceId", "gauzyId", "integrationId", "isActive", "isArchived", "deletedAt" FROM "integration_map"`
+			`INSERT INTO "temporary_integration_map"("id", "createdAt", "updatedAt", "tenantId", "organizationId", "entity", "sourceId", "irtranscriptsId", "integrationId", "isActive", "isArchived", "deletedAt") SELECT "id", "createdAt", "updatedAt", "tenantId", "organizationId", "entity", "sourceId", "irtranscriptsId", "integrationId", "isActive", "isArchived", "deletedAt" FROM "integration_map"`
 		);
 		await queryRunner.query(`DROP TABLE "integration_map"`);
 		await queryRunner.query(`ALTER TABLE "temporary_integration_map" RENAME TO "integration_map"`);
@@ -6668,10 +6668,10 @@ export class AlterBaseEntityAddArchivedAtField1725879899378 implements Migration
 		await queryRunner.query(`DROP INDEX "IDX_eec3d6064578610ddc609dd360"`);
 		await queryRunner.query(`ALTER TABLE "integration_map" RENAME TO "temporary_integration_map"`);
 		await queryRunner.query(
-			`CREATE TABLE "integration_map" ("id" varchar PRIMARY KEY NOT NULL, "createdAt" datetime NOT NULL DEFAULT (datetime('now')), "updatedAt" datetime NOT NULL DEFAULT (datetime('now')), "tenantId" varchar, "organizationId" varchar, "entity" varchar NOT NULL, "sourceId" varchar NOT NULL, "gauzyId" varchar NOT NULL, "integrationId" varchar NOT NULL, "isActive" boolean DEFAULT (1), "isArchived" boolean DEFAULT (0), "deletedAt" datetime, CONSTRAINT "FK_c327ea26bda3d349a1eceb5658e" FOREIGN KEY ("integrationId") REFERENCES "integration_tenant" ("id") ON DELETE CASCADE ON UPDATE NO ACTION, CONSTRAINT "FK_eec3d6064578610ddc609dd360e" FOREIGN KEY ("tenantId") REFERENCES "tenant" ("id") ON DELETE CASCADE ON UPDATE NO ACTION, CONSTRAINT "FK_7022dafd72c1b92f7d506914411" FOREIGN KEY ("organizationId") REFERENCES "organization" ("id") ON DELETE CASCADE ON UPDATE CASCADE)`
+			`CREATE TABLE "integration_map" ("id" varchar PRIMARY KEY NOT NULL, "createdAt" datetime NOT NULL DEFAULT (datetime('now')), "updatedAt" datetime NOT NULL DEFAULT (datetime('now')), "tenantId" varchar, "organizationId" varchar, "entity" varchar NOT NULL, "sourceId" varchar NOT NULL, "irtranscriptsId" varchar NOT NULL, "integrationId" varchar NOT NULL, "isActive" boolean DEFAULT (1), "isArchived" boolean DEFAULT (0), "deletedAt" datetime, CONSTRAINT "FK_c327ea26bda3d349a1eceb5658e" FOREIGN KEY ("integrationId") REFERENCES "integration_tenant" ("id") ON DELETE CASCADE ON UPDATE NO ACTION, CONSTRAINT "FK_eec3d6064578610ddc609dd360e" FOREIGN KEY ("tenantId") REFERENCES "tenant" ("id") ON DELETE CASCADE ON UPDATE NO ACTION, CONSTRAINT "FK_7022dafd72c1b92f7d506914411" FOREIGN KEY ("organizationId") REFERENCES "organization" ("id") ON DELETE CASCADE ON UPDATE CASCADE)`
 		);
 		await queryRunner.query(
-			`INSERT INTO "integration_map"("id", "createdAt", "updatedAt", "tenantId", "organizationId", "entity", "sourceId", "gauzyId", "integrationId", "isActive", "isArchived", "deletedAt") SELECT "id", "createdAt", "updatedAt", "tenantId", "organizationId", "entity", "sourceId", "gauzyId", "integrationId", "isActive", "isArchived", "deletedAt" FROM "temporary_integration_map"`
+			`INSERT INTO "integration_map"("id", "createdAt", "updatedAt", "tenantId", "organizationId", "entity", "sourceId", "irtranscriptsId", "integrationId", "isActive", "isArchived", "deletedAt") SELECT "id", "createdAt", "updatedAt", "tenantId", "organizationId", "entity", "sourceId", "irtranscriptsId", "integrationId", "isActive", "isArchived", "deletedAt" FROM "temporary_integration_map"`
 		);
 		await queryRunner.query(`DROP TABLE "temporary_integration_map"`);
 		await queryRunner.query(`CREATE INDEX "IDX_e63f4791631e7572ca213ac4a4" ON "integration_map" ("isArchived") `);

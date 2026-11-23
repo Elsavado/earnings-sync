@@ -1,10 +1,10 @@
 import { DataSource, In } from 'typeorm';
 import { OrganizationLanguage } from './organization-language.entity';
 import { faker } from '@faker-js/faker';
-import { IOrganization, IOrganizationLanguage, ITenant, LanguagesEnum } from '@gauzy/contracts';
+import { IOrganization, IOrganizationLanguage, ITenant, LanguagesEnum } from '@irtranscripts/contracts';
 import { Language } from '../language/language.entity';
 import { DEFAULT_LANGUAGE_LEVEL, DEFAULT_ORGANIZATION_LANGUAGES } from './default-organization-languages';
-import { isMySQL } from '@gauzy/config';
+import { isMySQL } from '@irtranscripts/config';
 
 export const createDefaultOrganizationLanguage = async (
 	dataSource: DataSource,

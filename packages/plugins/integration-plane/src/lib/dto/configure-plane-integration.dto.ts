@@ -6,7 +6,7 @@ import { IsIn, IsNotEmpty, IsOptional, IsString, IsUrl, ValidateIf } from 'class
  */
 export class ConfigurePlaneIntegrationDto {
 	@ApiPropertyOptional({
-		description: 'Integration mode: "shared" uses the global hosted Ever Gauzy PM UIs, "custom" uses tenant-provided URLs',
+		description: 'Integration mode: "shared" uses the global hosted Ever IRTranscripts PM UIs, "custom" uses tenant-provided URLs',
 		enum: ['shared', 'custom'],
 		example: 'shared'
 	})

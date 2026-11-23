@@ -50,15 +50,15 @@ test('an edited row of the generated table fails; padding by a formatter does no
 	assert.equal(normalised('| a   | b |\n| --- | --- |'), normalised('| a | b |\n| ----- | --- |'));
 });
 
-test('every Gauzy row of the contract is either made or listed as not made', () => {
+test('every IRTranscripts row of the contract is either made or listed as not made', () => {
 	const made = usedRows(contract.rows).map((u) => u.row.row);
 	const missing = notMade(contract.rows).map((n) => n.row.row);
-	const gauzy = contract.rows
-		.filter((r) => r.products.includes('gauzy') && r.phase <= CONFIG.phase)
+	const irtranscripts = contract.rows
+		.filter((r) => r.products.includes('irtranscripts') && r.phase <= CONFIG.phase)
 		.map((r) => r.row);
 	assert.deepEqual(
 		[...made, ...missing].sort((a, b) => a - b),
-		gauzy.sort((a, b) => a - b)
+		irtranscripts.sort((a, b) => a - b)
 	);
 	assert.deepEqual(readmeTable('| 5 | `POST /a`, `DELETE /b` | x |'), [
 		{ row: 5, requests: ['POST /a', 'DELETE /b'] }

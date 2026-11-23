@@ -18,7 +18,7 @@
 
   &.is-editing {
     // Make the frame legible while widgets are being arranged.
-    border: 1px dashed var(--gauzy-border-default-color);
+    border: 1px dashed var(--irtranscripts-border-default-color);
   }
 
   &.is-hidden {
@@ -51,15 +51,15 @@
   font-size: 0.8125rem;
   font-weight: 600;
   line-height: 1rem;
-  color: var(--gauzy-text-color-2);
+  color: var(--irtranscripts-text-color-2);
 }
 
 .widget-badge {
   flex: 0 0 auto;
   padding: 0 0.375rem;
   border-radius: nb-theme(border-radius);
-  background-color: var(--gauzy-card-2);
-  color: var(--gauzy-text-color-2);
+  background-color: var(--irtranscripts-card-2);
+  color: var(--irtranscripts-text-color-2);
   font-size: nb-theme(text-caption-2-font-size);
   line-height: 1.4;
   text-transform: uppercase;
@@ -169,7 +169,7 @@
   .placeholder-title {
     margin: 0;
     font-size: nb-theme(text-subtitle-2-font-size);
-    color: nb-theme(gauzy-text-color-1);
+    color: nb-theme(irtranscripts-text-color-1);
   }
 
   .placeholder-hint {
@@ -208,7 +208,7 @@
     border: none;
     border-radius: nb-theme(border-radius);
     background: transparent;
-    color: nb-theme(gauzy-text-color-1);
+    color: nb-theme(irtranscripts-text-color-1);
     font-size: nb-theme(text-button-tiny-font-size);
     text-align: start;
     cursor: pointer;
@@ -249,7 +249,7 @@
       border: 1px solid nb-theme(border-basic-color-4);
       border-radius: nb-theme(border-radius);
       background: transparent;
-      color: nb-theme(gauzy-text-color-2);
+      color: nb-theme(irtranscripts-text-color-2);
       font-size: nb-theme(text-caption-font-size);
       cursor: pointer;
 

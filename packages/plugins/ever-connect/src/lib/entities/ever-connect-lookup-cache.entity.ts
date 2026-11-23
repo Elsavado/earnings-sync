@@ -1,6 +1,6 @@
 import { PrimaryKey } from '@mikro-orm/core';
 import { PrimaryColumn } from 'typeorm';
-import { ColumnIndex, MultiORMColumn, MultiORMEntity, SkipExport } from '@gauzy/core';
+import { ColumnIndex, MultiORMColumn, MultiORMEntity, SkipExport } from '@irtranscripts/core';
 
 /**
  * Reserved for the counterparty check ("is this client or supplier on Ever Platform?"): salted

@@ -3,7 +3,7 @@ import { Controller, HttpStatus, Get, Query, UseGuards, Body, HttpCode, Put, Par
 import { CommandBus } from '@nestjs/cqrs';
 import { FindOptionsWhere } from 'typeorm';
 import { I18nLang } from 'nestjs-i18n';
-import { LanguagesEnum, IPagination, PermissionsEnum, ID } from '@gauzy/contracts';
+import { LanguagesEnum, IPagination, PermissionsEnum, ID } from '@irtranscripts/contracts';
 import { ProductTypeService } from './product-type.service';
 import { ProductType } from './product-type.entity';
 import { UUIDValidationPipe, UseValidationPipe } from './../shared/pipes';

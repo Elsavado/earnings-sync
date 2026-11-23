@@ -1,4 +1,4 @@
-import type { IAiProviderCredentials } from '@gauzy/plugin-ai-chat';
+import type { IAiProviderCredentials } from '@irtranscripts/plugin-ai-chat';
 import { deepgramProviderDefinition } from './ai-provider-deepgram.provider';
 
 // The SSRF egress guard resolves the provider host before the mocked `fetch` answers. Answer that

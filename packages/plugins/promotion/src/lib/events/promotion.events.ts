@@ -1,5 +1,5 @@
-import { BaseEvent } from '@gauzy/core';
-import { DecimalString, ID } from '@gauzy/contracts';
+import { BaseEvent } from '@irtranscripts/core';
+import { DecimalString, ID } from '@irtranscripts/contracts';
 import { Coupon } from '../coupon/coupon.entity';
 import { GiftCard } from '../gift-card/gift-card.entity';
 import { Promotion } from '../promotion/promotion.entity';

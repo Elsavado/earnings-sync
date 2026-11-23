@@ -61,12 +61,12 @@ describe('AgentFormBridgeService', () => {
 
 	describe('readPage', () => {
 		it('should find a simple form with its labeled inputs', () => {
-			document.title = 'Contacts – Gauzy';
+			document.title = 'Contacts – IRTranscripts';
 			renderContactForm();
 
 			const page = service.readPage();
 
-			expect(page.title).toBe('Contacts – Gauzy');
+			expect(page.title).toBe('Contacts – IRTranscripts');
 			expect(page.forms).toHaveLength(1);
 
 			const [form] = page.forms;

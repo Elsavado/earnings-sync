@@ -40,7 +40,7 @@ function pkgOf(url) {
 	}
 	if (u.startsWith('node:')) return 'node:' + u.slice(5).split('/')[0];
 	if (u.includes('/dist/apps/api/main.js')) return '(api bundle)';
-	if (u.includes('/packages/')) return '@gauzy/' + u.split('/packages/')[1].split('/')[0];
+	if (u.includes('/packages/')) return '@irtranscripts/' + u.split('/packages/')[1].split('/')[0];
 	return u.split('/').slice(-2).join('/');
 }
 

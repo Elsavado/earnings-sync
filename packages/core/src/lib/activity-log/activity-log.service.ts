@@ -9,9 +9,9 @@ import {
 	IActivityLogInput,
 	ID,
 	IPagination
-} from '@gauzy/contracts';
-import { isNotNullOrUndefined } from '@gauzy/utils';
-import { isBetterSqlite3, isSqlite } from '@gauzy/config';
+} from '@irtranscripts/contracts';
+import { isNotNullOrUndefined } from '@irtranscripts/utils';
+import { isBetterSqlite3, isSqlite } from '@irtranscripts/config';
 import { TenantAwareCrudService } from './../core/crud';
 import { RequestContext } from '../core/context';
 import { parseFindOptionsRelations } from '../core/utils';

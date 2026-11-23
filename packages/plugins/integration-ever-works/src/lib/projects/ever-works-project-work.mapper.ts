@@ -1,17 +1,17 @@
 import { createHash } from 'node:crypto';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { EVER_WORKS_LINK_SOURCE } from '../ever-works.constants';
 import type { EverWorksTeamScope } from '../teams/ever-works-team-scope';
 
-/** The repo-less Work kind a Gauzy project is created as in Ever Works (EW-P2-4). */
+/** The repo-less Work kind a IRTranscripts project is created as in Ever Works (EW-P2-4). */
 export const EVER_WORKS_PROJECT_WORK_KIND = 'project';
 
 /** Ever Works' limits on a work (contract v1 work DTO). */
 export const EVER_WORKS_WORK_NAME_MAX = 255;
 export const EVER_WORKS_WORK_WEBSITE_MAX = 2048;
 
-/** The fields of a Gauzy project a new Ever Works work is created from. */
-export interface GauzyProjectForWork {
+/** The fields of a IRTranscripts project a new Ever Works work is created from. */
+export interface IRTranscriptsProjectForWork {
 	id: ID;
 	name?: string | null;
 	description?: string | null;
@@ -21,12 +21,12 @@ export interface GauzyProjectForWork {
 /**
  * `POST /works` body (contract v1 B.6 "P2: `POST /works` with `kind:'project'`", CR-4): a repo-less
  * Work of kind `project`, scoped by the project's teams (D11: on a team → `team`, else
- * `organization`), linked back to the Gauzy project through `externalRef`. Only the shared fields of
+ * `organization`), linked back to the IRTranscripts project through `externalRef`. Only the shared fields of
  * plan 01 §10 are sent; Ever Works derives the slug, and its owner is the act-as user (or the
  * integration).
  */
 export function projectWorkCreateBody(
-	project: GauzyProjectForWork,
+	project: IRTranscriptsProjectForWork,
 	scope: EverWorksTeamScope,
 	connectionId: ID
 ): Record<string, unknown> {

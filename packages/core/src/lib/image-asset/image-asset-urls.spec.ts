@@ -13,7 +13,7 @@ jest.mock('uuid', () => {
  */
 import '../core/entities/internal';
 
-import { FileStorageProviderEnum } from '@gauzy/contracts';
+import { FileStorageProviderEnum } from '@irtranscripts/contracts';
 import { User } from '../user/user.entity';
 import { UserSubscriber } from '../user/user.subscriber';
 import { ImageAsset } from './image-asset.entity';

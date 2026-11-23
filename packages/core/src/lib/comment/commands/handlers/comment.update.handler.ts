@@ -1,7 +1,7 @@
 import { BadRequestException, HttpException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { UpdateResult } from 'typeorm';
-import { IComment } from '@gauzy/contracts';
+import { IComment } from '@irtranscripts/contracts';
 import { CommentService } from '../../comment.service';
 import { CommentUpdateCommand } from '../comment.update.command';
 

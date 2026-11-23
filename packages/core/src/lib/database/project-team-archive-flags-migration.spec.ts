@@ -14,7 +14,7 @@ describe('project and team archive flags migration on SQLite', () => {
 	let dbPath: string;
 
 	beforeEach(async () => {
-		dbPath = path.join(os.tmpdir(), `gauzy-archive-flags-${process.pid}-${Date.now()}-${Math.random()}.sqlite3`);
+		dbPath = path.join(os.tmpdir(), `irtranscripts-archive-flags-${process.pid}-${Date.now()}-${Math.random()}.sqlite3`);
 		dataSource = new DataSource({ type: 'better-sqlite3', database: dbPath, synchronize: false, logging: false });
 		await dataSource.initialize();
 

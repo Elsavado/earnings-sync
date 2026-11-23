@@ -23,7 +23,7 @@ import {
 	IOrganization,
 	ISelectedEmployee,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	DateRangePickerBuilderService,
 	EmployeeStore,
@@ -31,8 +31,8 @@ import {
 	NavigationService,
 	Store,
 	ToastrService
-} from '@gauzy/ui-core/core';
-import { distinctUntilChange, isNotEmpty } from '@gauzy/ui-core/common';
+} from '@irtranscripts/ui-core/core';
+import { distinctUntilChange, isNotEmpty } from '@irtranscripts/ui-core/common';
 import { TruncatePipe } from '../../pipes';
 import { ALL_EMPLOYEES_SELECTED } from './default-employee';
 import { entitySelectPanelClass } from '../entity-select-panel-class';

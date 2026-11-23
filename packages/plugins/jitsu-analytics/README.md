@@ -1,4 +1,4 @@
-# @gauzy/plugin-jitsu-analytics
+# @irtranscripts/plugin-jitsu-analytics
 
 ## Overview
 
@@ -28,7 +28,7 @@ After building your library with `yarn nx build plugin-jitsu-analytics`, go to t
 Install the Jitsu Analytics Plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-jitsu-analytics
+npm install @irtranscripts/plugin-jitsu-analytics
 # or
-yarn add @gauzy/plugin-jitsu-analytics
+yarn add @irtranscripts/plugin-jitsu-analytics
 ```

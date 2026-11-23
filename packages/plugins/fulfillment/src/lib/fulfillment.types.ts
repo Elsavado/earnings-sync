@@ -1,5 +1,5 @@
-import { DecimalString, FulfillmentStatusDetail, ID } from '@gauzy/contracts';
-import { IVersionExpectation, VERSION_EXPECTATION_PROPERTY } from '@gauzy/core';
+import { DecimalString, FulfillmentStatusDetail, ID } from '@irtranscripts/contracts';
+import { IVersionExpectation, VERSION_EXPECTATION_PROPERTY } from '@irtranscripts/core';
 
 /*
 |--------------------------------------------------------------------------

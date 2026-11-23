@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ConfigService } from '@nestjs/config';
 import { ExtractJwt } from 'passport-jwt';
 import { Strategy } from 'passport-linkedin-oauth2';
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 
 @Injectable()
 export class LinkedinStrategy extends PassportStrategy(Strategy, 'linkedin') {

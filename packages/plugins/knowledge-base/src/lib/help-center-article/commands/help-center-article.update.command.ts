@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { IHelpCenterArticleUpdate } from '@gauzy/contracts';
+import { IHelpCenterArticleUpdate } from '@irtranscripts/contracts';
 
 export class HelpCenterUpdateArticleCommand implements ICommand {
 	static readonly type = '[Article] Update';

@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PluginRouteInput } from '@gauzy/plugin-ui';
-import { PermissionsGuard } from '@gauzy/ui-core/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PluginRouteInput } from '@irtranscripts/plugin-ui';
+import { PermissionsGuard } from '@irtranscripts/ui-core/core';
 import { PlaneAuthorizeComponent } from './components/plane-authorize/plane-authorize.component';
 import { PlaneSettingsComponent } from './components/plane-settings/plane-settings.component';
 import { IntegrationPlaneLayoutComponent } from './integration-plane.layout.component';

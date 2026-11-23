@@ -1,5 +1,5 @@
 @use 'themes' as *;
-@use 'gauzy/_gauzy-table-hub' as ga-hub;
+@use 'irtranscripts/_irtranscripts-table-hub' as ga-hub;
 
 // The card layout is not a table row, so the table density contract stops here.
 //
@@ -11,7 +11,7 @@
 // card was being sized for a table row it is not in — chip text a step down,
 // its vertical inset gone.
 //
-// This hands every one of those tokens back to the app-wide `$gauzy-density`
+// This hands every one of those tokens back to the app-wide `$irtranscripts-density`
 // value, so a renderer inside a card reads exactly what it reads on a page that
 // never included `list-page()` at all.
 :host {
@@ -39,7 +39,7 @@
     margin-bottom: 0;
     border-radius: 0.5rem;
     background-color: nb-theme(background-basic-color-3);
-    box-shadow: var(--gauzy-shadow);
+    box-shadow: var(--irtranscripts-shadow);
     cursor: pointer;
 
     .card-body {
@@ -73,7 +73,7 @@
 		gap: 4px;
 
       .info-meta {
-        background-color: var(--gauzy-card-1);
+        background-color: var(--irtranscripts-card-1);
         padding: 6px 10px;
         border-radius: 4px;
         width: 88%;
@@ -82,14 +82,14 @@
           display: none;
         }
         &.active {
-          background-color: var(--gauzy-sidebar-background-4);
+          background-color: var(--irtranscripts-sidebar-background-4);
         }
       }
 
       .info-value {
         text-align: start;
         font-size: 1em;
-        background-color: var(--gauzy-card-1);
+        background-color: var(--irtranscripts-card-1);
         padding: 6px 10px;
         border-radius: 4px;
         width: 100%;
@@ -101,7 +101,7 @@
         }
 
         &.active {
-          background-color: var(--gauzy-sidebar-background-4);
+          background-color: var(--irtranscripts-sidebar-background-4);
         }
 
         .custom::ng-deep {
@@ -217,6 +217,6 @@
   button {
     border-radius: var(--border-radius);
     border: none;
-    box-shadow: var(--gauzy-shadow);
+    box-shadow: var(--irtranscripts-shadow);
   }
 }

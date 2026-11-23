@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-payment
+ * Public API Surface of @irtranscripts/plugin-payment
  */
 export * from './lib/payment.plugin';
 export * from './lib/payment.module';

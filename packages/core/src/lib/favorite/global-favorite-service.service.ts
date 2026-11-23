@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, InternalServerErrorException, OnModuleInit } from '@nestjs/common';
 import { DiscoveryService, MetadataScanner, Reflector } from '@nestjs/core';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
-import { BaseEntityEnum } from '@gauzy/contracts';
+import { BaseEntityEnum } from '@irtranscripts/contracts';
 import { FAVORITABLE_TYPE } from '../core/decorators/is-favoritable';
 
 @Injectable()

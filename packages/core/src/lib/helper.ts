@@ -1,7 +1,7 @@
 import { ServeStaticModuleOptions } from '@nestjs/serve-static';
 import * as path from 'path';
 import * as chalk from 'chalk';
-import { ConfigService, environment } from '@gauzy/config';
+import { ConfigService, environment } from '@irtranscripts/config';
 import { getApiPublicPath } from './core/util/path-util';
 import { publicAssetsCacheControl, resolvePublicAssetsMaxAgeSeconds } from './public-assets-cache';
 
@@ -23,7 +23,7 @@ export async function resolveServeStaticPath(config: ConfigService): Promise<Ser
 	console.log(chalk.green(`✔ Server Static Config -> publicDir: ${publicDir}`));
 
 	const assetPublicPath = environment.isElectron
-		? path.resolve(environment.gauzyUserPath, 'public') // Electron-specific path
+		? path.resolve(environment.irtranscriptsUserPath, 'public') // Electron-specific path
 		: config.assetOptions.assetPublicPath || publicDir;
 
 	console.log(chalk.green(`✔ Server Static Config -> rootPath: ${assetPublicPath}`));

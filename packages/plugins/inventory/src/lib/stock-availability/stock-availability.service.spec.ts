@@ -1,8 +1,8 @@
 /**
- * Two module boundaries are doubled here, for the reason the package’s other suites state: `@gauzy/core`
+ * Two module boundaries are doubled here, for the reason the package’s other suites state: `@irtranscripts/core`
  * boots the whole application graph from its barrel — configuration, the ORM, the job registry, the
  * module scanner — none of which a read of level rows needs and none of which is available outside a
- * running application, and `@gauzy/config` reads the process environment at import time. **The service
+ * running application, and `@irtranscripts/config` reads the process environment at import time. **The service
  * under test is the real one**, together with the real ledger engine it asks for a level’s policy and
  * the real decimal primitives it sums with: what is substituted is the entity identity the read names
  * and the repository double that answers the statements the read issues.
@@ -10,7 +10,7 @@
  * The engine is constructed with no connection at all. The only method this suite reaches is
  * `toAvailability`, which derives a policy from a row it is handed and touches no connection.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/**
 	 * The platform’s conditional write and its reader for the version a request accepted. The engine
 	 * under test reaches both through the barrel being replaced here, so the shared double answers for
@@ -30,7 +30,7 @@ jest.mock('@gauzy/core', () => {
 		) {}
 	}
 
-	const decimal = jest.requireActual('@gauzy/core/src/lib/money/decimal');
+	const decimal = jest.requireActual('@irtranscripts/core/src/lib/money/decimal');
 
 	return {
 		TenantAwareCrudService,
@@ -95,7 +95,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 jest.mock(
-	'@gauzy/config',
+	'@irtranscripts/config',
 	() => ({
 		DatabaseTypeEnum: {
 			mongodb: 'mongodb',
@@ -107,7 +107,7 @@ jest.mock(
 	})
 );
 
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { StockLevelService } from './../stock-level/stock-level.service';
 import { StockAvailabilityService } from './stock-availability.service';
 import { UNBOUNDED_SELLABLE } from './stock-availability.types';

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { CurrencyPosition } from '@gauzy/contracts';
+import { CurrencyPosition } from '@irtranscripts/contracts';
 
 @Pipe({
 	name: 'position',

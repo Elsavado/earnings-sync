@@ -1,13 +1,13 @@
 import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { ID, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	Permissions,
 	PermissionGuard,
 	TenantPermissionGuard,
 	UUIDValidationPipe,
 	UseValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { InventoryPermission } from './../inventory.permissions';
 import { isQueryFlagSet } from './../inventory.query';
 import { ChannelWarehouse } from './channel-warehouse.entity';

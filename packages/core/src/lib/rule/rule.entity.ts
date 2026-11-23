@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsEnum, IsInt, IsOptional, IsString, IsUUID, Min, MinLength } from 'class-validator';
-import { ID, IRule, RuleOperand, RuleOperator, RuleOwnerType, RuleScope, RuleValueType } from '@gauzy/contracts';
+import { ID, IRule, RuleOperand, RuleOperator, RuleOwnerType, RuleScope, RuleValueType } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { ColumnIndex, JsonColumn, MultiORMColumn, MultiORMEntity } from '../core/decorators/entity';
 import { MikroOrmRuleRepository } from './repository/mikro-orm-rule.repository';

@@ -1,6 +1,6 @@
 import { EventBus, QueryHandler, IQueryHandler } from '@nestjs/cqrs';
 import { Injectable } from '@nestjs/common';
-import { ITimerStatus } from '@gauzy/contracts';
+import { ITimerStatus } from '@irtranscripts/contracts';
 import { TimerStatusUpdatedEvent } from '../../events';
 import { TimerService } from '../../timer.service';
 import { GetTimerStatusQuery } from '../get-timer-status.query';

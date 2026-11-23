@@ -1,5 +1,5 @@
 import { EventSubscriber } from 'typeorm';
-import { DatabaseTypeEnum, getConfig } from '@gauzy/config';
+import { DatabaseTypeEnum, getConfig } from '@irtranscripts/config';
 import { getDummyImage, getORMType, MultiORMEnum, replacePlaceholders } from './../core/utils';
 import { OrganizationProject } from './organization-project.entity';
 import { BaseEntityEventSubscriber } from '../core/entities/subscribers/base-entity-event.subscriber';

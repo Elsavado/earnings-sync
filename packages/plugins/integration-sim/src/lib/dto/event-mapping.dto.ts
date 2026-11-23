@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsNotEmpty, IsIn, Matches } from 'class-validator';
 
 /**
- * Supported Gauzy event types that can trigger SIM workflows.
+ * Supported IRTranscripts event types that can trigger SIM workflows.
  */
 export const SIM_SUPPORTED_EVENTS = [
 	'timer.started',
@@ -66,7 +66,7 @@ export const SIM_EVENT_DESCRIPTIONS: Record<SimEventType, string> = {
 
 export class EventMappingDto {
 	@ApiProperty({
-		description: 'The Gauzy event type to map',
+		description: 'The IRTranscripts event type to map',
 		enum: SIM_SUPPORTED_EVENTS
 	})
 	@IsString()

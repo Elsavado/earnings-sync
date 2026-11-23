@@ -1,6 +1,6 @@
 import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { DeepPartial } from 'typeorm';
-import { IImageAsset } from '@gauzy/contracts';
+import { IImageAsset } from '@irtranscripts/contracts';
 import { RequestContext } from './../core/context';
 import { TenantAwareCrudService } from './../core/crud';
 import { MikroOrmImageAssetRepository } from './repository/mikro-orm-image-asset.repository';

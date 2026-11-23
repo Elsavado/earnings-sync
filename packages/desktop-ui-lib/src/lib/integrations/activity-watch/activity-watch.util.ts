@@ -1,4 +1,4 @@
-import { IActivityWatchBucketWatcherList } from '@gauzy/contracts';
+import { IActivityWatchBucketWatcherList } from '@irtranscripts/contracts';
 import { IParseBucketsResult } from './i-activity-watch';
 
 export class ActivityWatchUtil {

@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ChangeDetect
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Subject, filter, debounceTime, tap, firstValueFrom } from 'rxjs';
-import { DEFAULT_TIME_FORMATS } from '@gauzy/constants';
-import { IUser, ITag, IRole, IUserUpdateInput, RolesEnum, IImageAsset } from '@gauzy/contracts';
-import { patterns } from '@gauzy/constants';
+import { DEFAULT_TIME_FORMATS } from '@irtranscripts/constants';
+import { IUser, ITag, IRole, IUserUpdateInput, RolesEnum, IImageAsset } from '@irtranscripts/contracts';
+import { patterns } from '@irtranscripts/constants';
 import {
 	AuthService,
 	EmailValidator,
@@ -14,7 +14,7 @@ import {
 	Store,
 	ToastrService,
 	UsersService
-} from '@gauzy/ui-core/core';
+} from '@irtranscripts/ui-core/core';
 import { FormHelpers } from '../../forms/helpers';
 
 @UntilDestroy({ checkProperties: true })

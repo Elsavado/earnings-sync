@@ -1,8 +1,8 @@
 /**
- * The service imports only entity classes, the password hasher and the login failure counter from `@gauzy/core`;
+ * The service imports only entity classes, the password hasher and the login failure counter from `@irtranscripts/core`;
  * stand-ins keep the whole core module (and its entity graph) out of this spec.
  */
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	Employee: class Employee {},
 	User: class User {},
 	PasswordHashService: class PasswordHashService {},

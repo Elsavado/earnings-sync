@@ -5,7 +5,7 @@
  */
 import '../core/entities/internal';
 import { BadRequestException, ForbiddenException } from '@nestjs/common';
-import { RolesEnum } from '@gauzy/contracts';
+import { RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { InviteService } from './invite.service';
 

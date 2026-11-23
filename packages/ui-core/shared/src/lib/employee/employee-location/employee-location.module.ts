@@ -9,7 +9,7 @@ import {
 	NbInputModule
 } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
-import { CandidateStore, EmployeeStore } from '@gauzy/ui-core/core';
+import { CandidateStore, EmployeeStore } from '@irtranscripts/ui-core/core';
 import { LeafletMapModule, LocationFormModule } from '../../forms';
 import { EmployeeLocationComponent } from './employee-location.component';
 

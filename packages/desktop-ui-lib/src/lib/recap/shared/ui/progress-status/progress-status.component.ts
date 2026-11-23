@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { progressStatus } from '@gauzy/ui-core/common';
+import { progressStatus } from '@irtranscripts/ui-core/common';
 import { NbComponentOrCustomStatus, NbProgressBarModule } from '@nebular/theme';
 import { PercentPipe } from '@angular/common';
 

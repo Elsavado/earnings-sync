@@ -8,8 +8,8 @@ jest.mock('uuid', () => {
 });
 
 import { QueryRunner } from 'typeorm';
-import { gauzyToggleFeatures, DatabaseTypeEnum } from '@gauzy/config';
-import { FeatureEnum, IFeature } from '@gauzy/contracts';
+import { irtranscriptsToggleFeatures, DatabaseTypeEnum } from '@irtranscripts/config';
+import { FeatureEnum, IFeature } from '@irtranscripts/contracts';
 import {
 	COMMERCE_CATALOGUE,
 	DEFAULT_ENABLED_FEATURES,
@@ -186,10 +186,10 @@ describe('the commerce feature catalogue', () => {
 
 	it('still takes every pre-existing entry status from the configuration map', () => {
 		// additive only: an entry this change did not introduce keeps the status it had, which is
-		// `gauzyToggleFeatures[code]` — the value `feature.seed.ts` has always written for it
+		// `irtranscriptsToggleFeatures[code]` — the value `feature.seed.ts` has always written for it
 		defaultFeatures
 			.filter((entry) => !catalogueCodes.includes(entry.code))
-			.forEach((entry) => expect(entry.isEnabled).toBe(gauzyToggleFeatures[entry.code]));
+			.forEach((entry) => expect(entry.isEnabled).toBe(irtranscriptsToggleFeatures[entry.code]));
 	});
 });
 

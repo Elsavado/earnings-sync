@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { IInvite, ITermsAcceptanceDocument, IUserRegistrationInput, ITag, ITenant } from '@gauzy/contracts';
+import { IInvite, ITermsAcceptanceDocument, IUserRegistrationInput, ITag, ITenant } from '@irtranscripts/contracts';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthService, MatchValidator } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { FormHelpers } from '@gauzy/ui-core/shared';
+import { AuthService, MatchValidator } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { FormHelpers } from '@irtranscripts/ui-core/shared';
 
 @Component({
     selector: 'ga-accept-invite-form',

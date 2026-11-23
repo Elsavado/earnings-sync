@@ -4,10 +4,10 @@
  * `InboxService` method its REST route reaches (the reads, the state, the reply and mark-all-read), and the route's
  * DTO rules refuse what the route refuses.
  *
- * `@gauzy/core` is doubled at the module boundary (its barrel boots the whole application), as the plugin's other
+ * `@irtranscripts/core` is doubled at the module boundary (its barrel boots the whole application), as the plugin's other
  * suites do.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	const { SetMetadata, NotAcceptableException } = jest.requireActual('@nestjs/common');
 	return {
@@ -33,12 +33,12 @@ jest.mock('@gauzy/core', () => {
 		}
 	};
 });
-jest.mock('@gauzy/common', () => ({
+jest.mock('@irtranscripts/common', () => ({
 	FeatureFlag: (flag: string) => jest.requireActual('@nestjs/common').SetMetadata('feature', flag)
 }));
 // The plugin decorator records what the plugin declares (the real one loads the configuration package).
-jest.mock('@gauzy/plugin', () => ({
-	GauzyCorePlugin: (metadata: unknown) => (target: { declared?: unknown }) => {
+jest.mock('@irtranscripts/plugin', () => ({
+	IRTranscriptsCorePlugin: (metadata: unknown) => (target: { declared?: unknown }) => {
 		target.declared = metadata;
 	}
 }));
@@ -47,8 +47,8 @@ import 'reflect-metadata';
 import { BadRequestException } from '@nestjs/common';
 import { GUARDS_METADATA, MODULE_METADATA, ROUTE_ARGS_METADATA } from '@nestjs/common/constants';
 import { buildSchema, extendSchema, GraphQLObjectType } from 'graphql';
-import { InboxTabEnum, PermissionsEnum } from '@gauzy/contracts';
-import { UUIDValidationPipe } from '@gauzy/core';
+import { InboxTabEnum, PermissionsEnum } from '@irtranscripts/contracts';
+import { UUIDValidationPipe } from '@irtranscripts/core';
 import { InboxResolver, validatedInboxInput } from './inbox.resolver';
 import { inboxSchemaExtensions } from './inbox.schema';
 import { InboxReplyDTO, InboxStateDTO } from '../dto/inbox.dto';

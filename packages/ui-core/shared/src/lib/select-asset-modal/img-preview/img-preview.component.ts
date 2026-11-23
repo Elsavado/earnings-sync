@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { IImageAsset } from '@gauzy/contracts';
+import { IImageAsset } from '@irtranscripts/contracts';
 
 @Component({
     selector: 'ngx-img-preview',

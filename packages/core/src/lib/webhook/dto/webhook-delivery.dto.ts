@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, TransformFnParams, Type } from 'class-transformer';
 import { IsEnum, IsInt, IsOptional, IsString, IsUUID, Max, MaxLength, Min, ValidateNested } from 'class-validator';
-import { ID, WebhookDeliveryStatus } from '@gauzy/contracts';
+import { ID, WebhookDeliveryStatus } from '@irtranscripts/contracts';
 
 /**
  * The narrowing members of the delivery log.

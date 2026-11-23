@@ -18,7 +18,7 @@ export const DOCS_EDITOR_SCHEMA_VERSION = 1;
 /**
  * Ceiling for the CRDT snapshot sent as `contentBinary` (spec 05 §9.1 / §11).
  *
- * Mirrors the server's `GAUZY_DOCS_MAX_BINARY_BYTES` default (`docs.config.ts` →
+ * Mirrors the server's `IRTRANSCRIPTS_DOCS_MAX_BINARY_BYTES` default (`docs.config.ts` →
  * `DEFAULT_DOCS_MAX_BINARY_BYTES`, 10 MB). Measured on the raw update **before** base64, which
  * is what the server sizes; a document over the cap simply saves without the binary rather
  * than failing the whole content save.

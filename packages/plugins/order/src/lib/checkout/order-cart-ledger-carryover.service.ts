@@ -7,8 +7,8 @@ import {
 	ID,
 	ITaxLine,
 	TaxLineOwnerType
-} from '@gauzy/contracts';
-import { AdjustmentService, Money, TaxLineService } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { AdjustmentService, Money, TaxLineService } from '@irtranscripts/core';
 
 /**
  * Which order row each cart row became.

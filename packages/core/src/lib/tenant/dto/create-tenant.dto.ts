@@ -1,4 +1,4 @@
-import { ITenantCreateInput } from "@gauzy/contracts";
+import { ITenantCreateInput } from "@irtranscripts/contracts";
 import { ApiHideProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { IsBoolean, IsOptional, IsString, Matches } from "class-validator";
 import { CHECKOUT_SESSION_ID_PATTERN } from "../../shared/billing/billing-product";

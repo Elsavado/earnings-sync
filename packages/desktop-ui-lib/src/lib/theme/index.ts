@@ -7,17 +7,17 @@ import {
 } from '@nebular/theme';
 import { ThemeInitializerFactory } from './theme-initializer.factory';
 import {
-    GAUZY_DARK,
-    GAUZY_LIGHT
+    IRTRANSCRIPTS_DARK,
+    IRTRANSCRIPTS_LIGHT
 } from './styles';
 
 @NgModule({
     declarations: [],
     imports: [
         CommonModule,
-        NbThemeModule.forRoot({ name: GAUZY_LIGHT.name }, [
-            GAUZY_LIGHT,
-            GAUZY_DARK
+        NbThemeModule.forRoot({ name: IRTRANSCRIPTS_LIGHT.name }, [
+            IRTRANSCRIPTS_LIGHT,
+            IRTRANSCRIPTS_DARK
         ])
     ],
     providers: [

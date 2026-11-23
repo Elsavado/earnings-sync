@@ -1,5 +1,5 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a seat-counting service needs and none of which is
  * available outside a running application. The seam is therefore doubled at the module boundary and
  * **the service under test is the real one**: only the base classes, the request context, the two
@@ -10,10 +10,10 @@
  * key. The manager is a real (if tiny) transactional store, so "nothing was written" is asserted
  * against state rather than against a call log.
  *
- * `@gauzy/config` is read at import time by the row-lock helper the package shares, so it is doubled
+ * `@irtranscripts/config` is read at import time by the row-lock helper the package shares, so it is doubled
  * too — and its value decides whether the lock is taken, which one case below asserts.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
@@ -60,7 +60,7 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	DatabaseTypeEnum: {
 		mongodb: 'mongodb',
 		sqlite: 'sqlite',
@@ -71,7 +71,7 @@ jest.mock('@gauzy/config', () => ({
 }));
 
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { RequestContext, TenantAwareCrudService } from '@gauzy/core';
+import { RequestContext, TenantAwareCrudService } from '@irtranscripts/core';
 import { Entitlement } from '../entitlement/entitlement.entity';
 import { EntitlementActivation } from './entitlement-activation.entity';
 import { EntitlementKey } from '../entitlement-key/entitlement-key.entity';

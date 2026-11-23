@@ -1,5 +1,5 @@
 import { In, Repository } from 'typeorm';
-import { IActivity, ID } from '@gauzy/contracts';
+import { IActivity, ID } from '@irtranscripts/contracts';
 
 /**
  * Relation objects a client-supplied activity must not carry into a save: each one would let the

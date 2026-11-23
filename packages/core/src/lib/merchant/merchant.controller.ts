@@ -13,7 +13,7 @@ import {
 	BadRequestException
 } from '@nestjs/common';
 import { ApiResponse, ApiOperation } from '@nestjs/swagger';
-import { ID, IMerchant, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IMerchant, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { FindOptionsWhere } from 'typeorm';
 import { CrudController, BaseQueryDTO } from './../core/crud';
 import { UUIDValidationPipe, UseValidationPipe } from './../shared/pipes';

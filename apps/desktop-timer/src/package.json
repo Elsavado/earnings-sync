@@ -1,10 +1,10 @@
 {
-	"name": "gauzy-desktop-timer",
-	"productName": "Gauzy Desktop Timer",
+	"name": "irtranscripts-desktop-timer",
+	"productName": "IRTranscripts Desktop Timer",
 	"version": "0.1.0",
-	"description": "Gauzy Desktop Timer",
+	"description": "IRTranscripts Desktop Timer",
 	"license": "AGPL-3.0",
-	"homepage": "https://gauzy.co",
+	"homepage": "https://irtranscripts.com",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/ever-co/ever-gauzy.git"
@@ -20,9 +20,9 @@
 	},
 	"main": "index.js",
 	"build": {
-		"appId": "com.ever.gauzydesktoptimer",
+		"appId": "com.ever.irtranscriptsdesktoptimer",
 		"artifactName": "${name}-${arch}-${version}.${ext}",
-		"productName": "Gauzy Desktop Timer",
+		"productName": "IRTranscripts Desktop Timer",
 		"copyright": "Copyright © 2019-Present. Ever Co. LTD",
 		"beforeBuild": "tools/electron/before-build.js",
 		"afterSign": "tools/notarize.js",
@@ -45,7 +45,7 @@
 		"publish": [
 			{
 				"provider": "github",
-				"repo": "ever-gauzy-desktop-timer",
+				"repo": "ever-irtranscripts-desktop-timer",
 				"releaseType": "release"
 			}
 		],
@@ -90,7 +90,7 @@
 				"AppImage",
 				"flatpak"
 			],
-			"executableName": "gauzy-desktop-timer",
+			"executableName": "irtranscripts-desktop-timer",
 			"artifactName": "${name}-${arch}-${version}.${ext}",
 			"synopsis": "Desktop",
 			"category": "Development"
@@ -154,14 +154,14 @@
 		"@datorama/akita": "^8.0.1",
 		"@datorama/akita-ngdevtools": "^7.0.0",
 		"@electron/remote": "^2.1.3",
-		"@gauzy/contracts": "file:../../../dist/packages/contracts",
-		"@gauzy/constants": "file:../../../dist/packages/constants",
-		"@gauzy/common": "file:../../../dist/packages/common",
-		"@gauzy/desktop-core": "file:../../../dist/packages/desktop-core",
-		"@gauzy/desktop-activity": "file:../../../dist/packages/desktop-activity",
-		"@gauzy/desktop-lib": "file:../../../dist/packages/desktop-lib",
-		"@gauzy/desktop-window": "file:../../../dist/packages/desktop-window",
-		"@gauzy/ui-config": "file:../../../dist/packages/ui-config",
+		"@irtranscripts/contracts": "file:../../../dist/packages/contracts",
+		"@irtranscripts/constants": "file:../../../dist/packages/constants",
+		"@irtranscripts/common": "file:../../../dist/packages/common",
+		"@irtranscripts/desktop-core": "file:../../../dist/packages/desktop-core",
+		"@irtranscripts/desktop-activity": "file:../../../dist/packages/desktop-activity",
+		"@irtranscripts/desktop-lib": "file:../../../dist/packages/desktop-lib",
+		"@irtranscripts/desktop-window": "file:../../../dist/packages/desktop-window",
+		"@irtranscripts/ui-config": "file:../../../dist/packages/ui-config",
 		"@sentry/electron": "8.1.0",
 		"@sentry/node": "11.4.0",
 		"@sentry/profiling-node": "11.4.0",
@@ -196,14 +196,14 @@
 		"cheerio-select": "^2.1.0"
 	},
 	"resolutions": {
-		"@gauzy/contracts": "file:../../../dist/packages/contracts",
-		"@gauzy/constants": "file:../../../dist/packages/constants",
-		"@gauzy/common": "file:../../../dist/packages/common",
-		"@gauzy/desktop-core": "file:../../../dist/packages/desktop-core",
-		"@gauzy/desktop-activity": "file:../../../dist/packages/desktop-activity",
-		"@gauzy/desktop-lib": "file:../../../dist/packages/desktop-lib",
-		"@gauzy/desktop-window": "file:../../../dist/packages/desktop-window",
-		"@gauzy/ui-config": "file:../../../dist/packages/ui-config",
+		"@irtranscripts/contracts": "file:../../../dist/packages/contracts",
+		"@irtranscripts/constants": "file:../../../dist/packages/constants",
+		"@irtranscripts/common": "file:../../../dist/packages/common",
+		"@irtranscripts/desktop-core": "file:../../../dist/packages/desktop-core",
+		"@irtranscripts/desktop-activity": "file:../../../dist/packages/desktop-activity",
+		"@irtranscripts/desktop-lib": "file:../../../dist/packages/desktop-lib",
+		"@irtranscripts/desktop-window": "file:../../../dist/packages/desktop-window",
+		"@irtranscripts/ui-config": "file:../../../dist/packages/ui-config",
 		"knex": "3.3.0",
 		"uiohook-napi": "1.5.5",
 		"**/embedded-queue/nedb": "npm:@seald-io/nedb@^4.1.2",

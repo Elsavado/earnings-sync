@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { IProxyConfig, ISsl } from '@gauzy/contracts';
+import { IProxyConfig, ISsl } from '@irtranscripts/contracts';
 import { ISslFactory } from '../interfaces/i-server-factory';
 
 export class SslFactory implements ISslFactory {

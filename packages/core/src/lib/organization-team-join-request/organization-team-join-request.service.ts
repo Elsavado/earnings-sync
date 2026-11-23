@@ -19,8 +19,8 @@ import {
 } from 'typeorm';
 import { JwtPayload } from 'jsonwebtoken';
 import * as moment from 'moment';
-import { IAppIntegrationConfig } from '@gauzy/common';
-import { environment } from '@gauzy/config';
+import { IAppIntegrationConfig } from '@irtranscripts/common';
+import { environment } from '@irtranscripts/config';
 import {
 	ID,
 	IOrganizationTeamJoinRequest,
@@ -32,8 +32,8 @@ import {
 	OrganizationTeamJoinRequestStatusEnum,
 	PermissionsEnum,
 	RolesEnum
-} from '@gauzy/contracts';
-import { generateAlphaNumericCode } from '@gauzy/utils';
+} from '@irtranscripts/contracts';
+import { generateAlphaNumericCode } from '@irtranscripts/utils';
 import { TenantAwareCrudService } from './../core/crud';
 import { MultiORMEnum } from '../core/utils';
 import { RequestContext } from './../core/context';

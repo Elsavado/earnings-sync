@@ -1,4 +1,4 @@
-import { CurrencyPosition } from '@gauzy/contracts';
+import { CurrencyPosition } from '@irtranscripts/contracts';
 import { formatCurrencyAmount } from './invoice-currency.util';
 
 describe('formatCurrencyAmount', () => {

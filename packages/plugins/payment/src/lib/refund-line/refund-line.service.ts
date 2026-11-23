@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
-import { isMySQL } from '@gauzy/config';
-import { DecimalString, ID, IPagination } from '@gauzy/contracts';
-import { Money } from '@gauzy/core';
+import { isMySQL } from '@irtranscripts/config';
+import { DecimalString, ID, IPagination } from '@irtranscripts/contracts';
+import { Money } from '@irtranscripts/core';
 import { RefundLine } from './refund-line.entity';
 import { TypeOrmRefundLineRepository } from './repository/type-orm-refund-line.repository';
 import { MikroOrmRefundLineRepository } from './repository/mikro-orm-refund-line.repository';

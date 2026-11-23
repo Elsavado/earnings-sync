@@ -1,6 +1,6 @@
 import { Injectable, Logger, Optional } from '@nestjs/common';
 import { DataSource, In, LessThanOrEqual, MoreThan } from 'typeorm';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import type { EverWorksEventEnvelope } from '../../client/ever-works-client.types';
 import { EverWorksConnection } from '../../connection/ever-works-connection.entity';
 import { EverWorksNotifier } from '../../connection/ever-works-notifier.service';
@@ -17,7 +17,7 @@ export type EverWorksApplyOutcome =
 	| { status: 'skipped'; message: string }
 	| { status: 'deferred'; message: string; retryInMs?: number };
 
-/** The context a handler gets: the connection, the event row, and the mapped Gauzy organization. */
+/** The context a handler gets: the connection, the event row, and the mapped IRTranscripts organization. */
 export interface EverWorksApplyContext {
 	connection: EverWorksConnection;
 	event: EverWorksInboundEvent;
@@ -25,9 +25,9 @@ export interface EverWorksApplyContext {
 }
 
 /**
- * Applies one kind of Ever Works aggregate in Gauzy (tasks, teams, agents, …; plan items G-P1-6 to G-P1-9
+ * Applies one kind of Ever Works aggregate in IRTranscripts (tasks, teams, agents, …; plan items G-P1-6 to G-P1-9
  * register theirs). A handler resolves its dependencies, maps the DTO, runs the 3-way merge, writes
- * through Gauzy's services and updates its link — skipping events at or below the link's version.
+ * through IRTranscripts's services and updates its link — skipping events at or below the link's version.
  */
 export interface EverWorksInboundHandler {
 	readonly aggregateTypes: ReadonlyArray<string>;
@@ -60,7 +60,7 @@ export { EverWorksLeaseLostError } from '../ever-works-lease-fence';
  * - A handler whose link write was refused as older than the recorded version (`EverWorksStaleLinkError`,
  *   the link service's monotonic version) is `skipped` when that link is the event's own record.
  * - With the loop's lease owner, every handler runs behind the **lease fence** (`withLeaseFence`): each of
- *   its Gauzy writes checks, in the write's own transaction, that this process still holds the lease, so a
+ *   its IRTranscripts writes checks, in the write's own transaction, that this process still holds the lease, so a
  *   handler that outlived its lease writes nothing once another process holds it; the drain then stops and
  *   the event is left to the new holder.
  */
@@ -88,7 +88,7 @@ export class EverWorksInboundApplier {
 	/**
 	 * Processes up to `limit` due events of one connection; returns how many were settled. With `owner`
 	 * (the sync loop's lease holder) every outcome is written only while that process still holds the
-	 * connection's lease, and every handler's Gauzy writes are fenced on it; once it does not hold it, the
+	 * connection's lease, and every handler's IRTranscripts writes are fenced on it; once it does not hold it, the
 	 * drain stops (the next owner applies the event again, and handlers skip what their link's version
 	 * already covers).
 	 */
@@ -219,12 +219,12 @@ export class EverWorksInboundApplier {
 			await this.settle(connection, id, { status: EverWorksInboundStatus.DEAD, error: 'unreadable payload' }, owner);
 			return true;
 		}
-		if (envelope.origin?.tag === `gauzy:${connection.id}`) {
+		if (envelope.origin?.tag === `irtranscripts:${connection.id}`) {
 			await this.settle(connection, id, { status: EverWorksInboundStatus.SKIPPED, error: 'own origin', appliedAt: now }, owner);
 			return true;
 		}
 		if (!event.organizationId) {
-			await this.settle(connection, id, { status: EverWorksInboundStatus.SKIPPED, error: 'no mapped Gauzy organization', appliedAt: now }, owner);
+			await this.settle(connection, id, { status: EverWorksInboundStatus.SKIPPED, error: 'no mapped IRTranscripts organization', appliedAt: now }, owner);
 			return true;
 		}
 		const handler = this.handlers.get(event.aggregateType);

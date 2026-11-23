@@ -3,7 +3,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { EntityRepositoryType } from '@mikro-orm/core';
 import { JoinColumn, RelationId } from 'typeorm';
 import { IsDateString, IsEnum, IsNotEmpty, IsOptional, IsUUID } from 'class-validator';
-import { ID, IScreeningTask, ITask, ScreeningTaskStatusEnum } from '@gauzy/contracts';
+import { ID, IScreeningTask, ITask, ScreeningTaskStatusEnum } from '@irtranscripts/contracts';
 import { Task, TenantOrganizationBaseEntity } from '../../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMOneToOne } from '../../core/decorators/entity';
 import { MikroOrmScreeningTaskRepository } from './repository/mikro-orm-screening-task.repository';

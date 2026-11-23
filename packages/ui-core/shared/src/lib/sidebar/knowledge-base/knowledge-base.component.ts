@@ -2,10 +2,10 @@ import { Component, OnDestroy, Input, OnInit, ChangeDetectionStrategy } from '@a
 import { UntypedFormGroup, UntypedFormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
-import { HelpCenterActionEnum, HelpCenterFlagEnum, IHelpCenter, ILanguage } from '@gauzy/contracts';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { Store } from '@gauzy/ui-core/core';
-import { HelpCenterService } from '@gauzy/ui-core/core';
+import { HelpCenterActionEnum, HelpCenterFlagEnum, IHelpCenter, ILanguage } from '@irtranscripts/contracts';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { Store } from '@irtranscripts/ui-core/core';
+import { HelpCenterService } from '@irtranscripts/ui-core/core';
 
 @Component({
 	selector: 'ga-knowledge-base-mutation',

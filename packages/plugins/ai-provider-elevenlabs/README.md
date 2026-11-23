@@ -1,7 +1,7 @@
-# @gauzy/plugin-ai-provider-elevenlabs
+# @irtranscripts/plugin-ai-provider-elevenlabs
 
-ElevenLabs **speech-to-text** (Scribe) provider plugin for the Ever Gauzy AI
-chat engine ([`@gauzy/plugin-ai-chat`](../ai-chat)). On bootstrap it registers
+ElevenLabs **speech-to-text** (Scribe) provider plugin for the Ever IRTranscripts AI
+chat engine ([`@irtranscripts/plugin-ai-chat`](../ai-chat)). On bootstrap it registers
 the `elevenlabs` provider with the chat engine's `AiProviderRegistry` as a
 **voice-only** provider: it transcribes dictation for the AI chat but has no
 chat models (`chatCapable: false` — it can be the tenant's default voice

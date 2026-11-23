@@ -1,6 +1,6 @@
 import { faArrowTurnUp } from '@fortawesome/free-solid-svg-icons';
-import { TimeLogSourceEnum } from '@gauzy/contracts';
-import { TimerIcon } from '@gauzy/ui-core/core';
+import { TimeLogSourceEnum } from '@irtranscripts/contracts';
+import { TimerIcon } from '@irtranscripts/ui-core/core';
 
 export class UpworkTimerIcon extends TimerIcon {
 	constructor() {

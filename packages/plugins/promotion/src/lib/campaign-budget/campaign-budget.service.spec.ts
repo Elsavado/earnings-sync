@@ -1,6 +1,6 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { FindOperator } from 'typeorm';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { CampaignBudgetService, UNLIMITED_BUDGET_HEADROOM } from './campaign-budget.service';
 import { CampaignBudgetType } from '../promotion.types';
 

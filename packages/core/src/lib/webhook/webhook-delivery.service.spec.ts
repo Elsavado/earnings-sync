@@ -3,7 +3,7 @@ import { NotFoundException } from '@nestjs/common';
 import { createHmac } from 'node:crypto';
 import * as dnsPromises from 'node:dns/promises';
 import { validateSync } from 'class-validator';
-import { WebhookDeliveryStatus, WebhookHeader } from '@gauzy/contracts';
+import { WebhookDeliveryStatus, WebhookHeader } from '@irtranscripts/contracts';
 import { WebhookDelivery } from './webhook-delivery.entity';
 import { WebhookDeliveryService } from './webhook-delivery.service';
 import { WebhookSubscriptionService } from './webhook-subscription.service';
@@ -282,8 +282,8 @@ beforeEach(() => {
 	jest.useFakeTimers();
 	jest.setSystemTime(T0);
 
-	allowPrivateNetwork = process.env.GAUZY_WEBHOOK_ALLOW_PRIVATE_NETWORK;
-	delete process.env.GAUZY_WEBHOOK_ALLOW_PRIVATE_NETWORK;
+	allowPrivateNetwork = process.env.IRTRANSCRIPTS_WEBHOOK_ALLOW_PRIVATE_NETWORK;
+	delete process.env.IRTRANSCRIPTS_WEBHOOK_ALLOW_PRIVATE_NETWORK;
 
 	// Before it posts, an attempt resolves the endpoint's host for the rebinding check
 	// (`refusalForResolvedEndpoint`), and `receiver.example.test` is a name no resolver knows: a real lookup
@@ -298,9 +298,9 @@ afterEach(() => {
 	jest.restoreAllMocks();
 
 	if (allowPrivateNetwork === undefined) {
-		delete process.env.GAUZY_WEBHOOK_ALLOW_PRIVATE_NETWORK;
+		delete process.env.IRTRANSCRIPTS_WEBHOOK_ALLOW_PRIVATE_NETWORK;
 	} else {
-		process.env.GAUZY_WEBHOOK_ALLOW_PRIVATE_NETWORK = allowPrivateNetwork;
+		process.env.IRTRANSCRIPTS_WEBHOOK_ALLOW_PRIVATE_NETWORK = allowPrivateNetwork;
 	}
 });
 
@@ -501,7 +501,7 @@ describe('the endpoint check before an attempt', () => {
 
 	it('resolves nothing and calls the endpoint when private endpoints are allowed — control', async () => {
 		// Why the suite pins the switch off: with it on, the policy is skipped and no lookup is made at all.
-		process.env.GAUZY_WEBHOOK_ALLOW_PRIVATE_NETWORK = 'true';
+		process.env.IRTRANSCRIPTS_WEBHOOK_ALLOW_PRIVATE_NETWORK = 'true';
 		const calls = http(200);
 		const { service, table } = deliveries();
 		const row = delivery(table);

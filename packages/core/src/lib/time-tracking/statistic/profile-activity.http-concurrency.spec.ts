@@ -1,7 +1,7 @@
 jest.mock('dotenv', () => ({
 	config: jest.fn(() => ({ parsed: {} }))
 }));
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	ConfigService: class ConfigService {},
 	DatabaseTypeEnum: {
 		postgres: 'postgres',
@@ -68,8 +68,8 @@ import { isAbsolute, resolve } from 'node:path';
 import { CanActivate, Controller, ExecutionContext, Get, INestApplication } from '@nestjs/common';
 import { GUARDS_METADATA } from '@nestjs/common/constants';
 import { Test } from '@nestjs/testing';
-import { DatabaseTypeEnum } from '@gauzy/config';
-import { ID, IGetProfileActivity, IProfileActivity } from '@gauzy/contracts';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
+import { ID, IGetProfileActivity, IProfileActivity } from '@irtranscripts/contracts';
 import { DataSource, EntitySchema, Repository } from 'typeorm';
 import { MultiORMEnum } from '../../core/utils';
 import { TenantPermissionGuard } from '../../shared/guards';

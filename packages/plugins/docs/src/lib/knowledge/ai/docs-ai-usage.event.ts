@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 /**
  * Cost-accounting event emitted by every embedding and classification call site
@@ -9,7 +9,7 @@ import { ID } from '@gauzy/contracts';
  * enforcement. No prompt or document content is ever included in the event.
  *
  * Structurally compatible with the core event bus's `BaseEvent` (`id` + `createdAt`) —
- * the base class itself is not part of the public `@gauzy/core` surface.
+ * the base class itself is not part of the public `@irtranscripts/core` surface.
  */
 export class DocsAiUsageEvent {
 	/** Unique event id (BaseEvent shape). */

@@ -9,12 +9,12 @@ console.log('Using custom Webpack Config -> process.cwd: ' + process.cwd());
 /**
  * Custom Webpack configuration for the Worker app
  * Handles:
- * - Copying built @gauzy/* packages to dist/apps/worker/node_modules
+ * - Copying built @irtranscripts/* packages to dist/apps/worker/node_modules
  * - Configuring watch options for development with core source files
  */
 
 const distPackagesDir = path.resolve(__dirname, '../../../dist/packages');
-const targetNodeModulesDir = path.resolve(__dirname, '../../../dist/apps/worker/node_modules/@gauzy');
+const targetNodeModulesDir = path.resolve(__dirname, '../../../dist/apps/worker/node_modules/@irtranscripts');
 
 module.exports = composePlugins(
 	withNx({
@@ -43,14 +43,14 @@ module.exports = composePlugins(
 		};
 		config.devtool = 'source-map';
 
-		// ever-gauzy fix (worker CrashLoop): @nx/webpack's swc-loader (compiler-loaders.js)
+		// ever-irtranscripts fix (worker CrashLoop): @nx/webpack's swc-loader (compiler-loaders.js)
 		// configures `jsc` WITHOUT a `target`, so SWC falls back to its es3 default and
 		// lowers `class extends` to `_inherits`/`_call_super`. The worker's own
 		// app-source `WorkerLifecycleProcessor` then invokes the prebuilt, NATIVE
-		// `@gauzy/scheduler` `QueueWorkerHost` constructor as a plain function ->
+		// `@irtranscripts/scheduler` `QueueWorkerHost` constructor as a plain function ->
 		// "TypeError: Class constructor QueueWorkerHost cannot be invoked without 'new'"
 		// on boot (background jobs down). Pin the swc target so the worker's app classes
-		// stay native and match the prebuilt @gauzy/* packages (and @nestjs/bullmq's
+		// stay native and match the prebuilt @irtranscripts/* packages (and @nestjs/bullmq's
 		// WorkerHost), making the `super()` call a native class construction.
 		const setSwcTargetOnEntry = (entry) => {
 			if (entry && typeof entry === 'object' && String(entry.loader || '').includes('swc-loader')) {
@@ -75,9 +75,9 @@ module.exports = composePlugins(
 		// Generate copy patterns for built packages
 		// Logs timing to track performance
 		console.time('✔️ Copying all built package folders to dist node_modules');
-		// The production configuration ships @gauzy/config's environment.prod.ts (see getCopyPatterns).
+		// The production configuration ships @irtranscripts/config's environment.prod.ts (see getCopyPatterns).
 		const environment = ctx?.context?.configurationName === 'production' ? 'production' : 'development';
-		console.log(`   @gauzy/config environment for this build: ${environment}`);
+		console.log(`   @irtranscripts/config environment for this build: ${environment}`);
 		const packagePatterns = getCopyPatterns(distPackagesDir, targetNodeModulesDir, { environment });
 		console.timeEnd('✔️ Copying all built package folders to dist node_modules');
 

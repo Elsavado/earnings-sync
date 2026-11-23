@@ -26,7 +26,7 @@ import {
 	ITaskStatusFindInput,
 	ITaskStatusUpdateInput,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { TenantPermissionGuard } from './../../shared/guards';
 import { TaskSettingPermissionGuard, TaskSettingWrite } from '../task-setting-access';
 import { CountQueryDTO } from './../../shared/dto';

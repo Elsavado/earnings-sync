@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-public-layout-ui
+ * Public API Surface of @irtranscripts/plugin-public-layout-ui
  */
 export * from './lib/components/appointment-form/appointment-form.component';
 export * from './lib/components/confirm-appointment/confirm-appointment.component';

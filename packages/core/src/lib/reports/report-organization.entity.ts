@@ -1,6 +1,6 @@
 import { RelationId, JoinColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { IReport, IReportOrganization } from '@gauzy/contracts';
+import { IReport, IReportOrganization } from '@irtranscripts/contracts';
 import { Report, TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from './../core/decorators/entity';
 import { MikroOrmReportOrganizationRepository } from './repository/mikro-orm-report-organization.repository';

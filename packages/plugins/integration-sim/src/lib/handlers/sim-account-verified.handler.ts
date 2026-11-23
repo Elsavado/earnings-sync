@@ -1,6 +1,6 @@
 import { Injectable, Logger, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import { Subscription, filter, catchError, EMPTY, concatMap, from } from 'rxjs';
-import { EventBus, AccountVerifiedEvent } from '@gauzy/core';
+import { EventBus, AccountVerifiedEvent } from '@irtranscripts/core';
 import { SimService } from '../sim.service';
 import { SimEventName } from '../dto/event-mapping.dto';
 

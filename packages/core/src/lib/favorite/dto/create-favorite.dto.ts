@@ -1,5 +1,5 @@
 import { IntersectionType } from '@nestjs/swagger';
-import { IFavoriteCreateInput } from '@gauzy/contracts';
+import { IFavoriteCreateInput } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from './../../core/dto';
 import { Favorite } from '../favorite.entity';
 

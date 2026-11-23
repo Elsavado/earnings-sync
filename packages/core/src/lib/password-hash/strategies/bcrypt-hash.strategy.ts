@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { environment as env } from '@gauzy/config';
+import { environment as env } from '@irtranscripts/config';
 import { IPasswordHashStrategy } from '../interfaces';
 
 /**

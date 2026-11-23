@@ -1,7 +1,7 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Int, Query, Resolver } from '@nestjs/graphql';
-import { FeatureFlag } from '@gauzy/common';
-import { IPagination } from '@gauzy/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
+import { IPagination } from '@irtranscripts/contracts';
 import {
 	ConnectionFilter,
 	ConnectionPageRequest,

@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { JoinTable, Unique } from 'typeorm';
 import { IsBoolean, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
-import { IIntegration, IIntegrationType, ITag } from '@gauzy/contracts';
+import { IIntegration, IIntegrationType, ITag } from '@irtranscripts/contracts';
 import { ColumnNumericTransformerPipe } from './../shared/pipes';
 import { BaseEntity, Tag } from '../core/entities/internal';
 import { IntegrationType } from './integration-type.entity';

@@ -103,7 +103,7 @@
  * resolver's other collaborators are stubs of their own rather than copies of the one under test, so a
  * field that reached the wrong service is visible instead of passing on a shared double.
  *
- * The kernel barrel is doubled for the reason this package's other suites state: `@gauzy/core` boots
+ * The kernel barrel is doubled for the reason this package's other suites state: `@irtranscripts/core` boots
  * the whole application graph from its barrel, the demonstration database configuration among it, so a
  * suite that reads one controller through it pays for the platform. The inherited-route delegation this
  * suite drives is carried across as `CrudController` writes it — `delete(id)` calling
@@ -111,16 +111,16 @@
  * invention of this file.
  */
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { SetMetadata, UsePipes, ValidationPipe } = require('@nestjs/common');
-	const { PERMISSIONS_METADATA } = require('@gauzy/constants');
+	const { PERMISSIONS_METADATA } = require('@irtranscripts/constants');
 
 	// The kernel's own declarations and its conditional write, so the classes under test are declared
 	// with the platform's decorators rather than with no-ops.
-	const idempotency = jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.policy');
-	const versioned = jest.requireActual('@gauzy/core/src/lib/concurrency/versioned.decorator');
-	const versionedWrite = jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write');
-	const versionUtil = jest.requireActual('@gauzy/core/src/lib/concurrency/version.util');
+	const idempotency = jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.policy');
+	const versioned = jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned.decorator');
+	const versionedWrite = jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write');
+	const versionUtil = jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
@@ -179,7 +179,7 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		BaseEvent: class {},
 		EventBus: class {},
 		FeatureModule: class {},
@@ -204,7 +204,7 @@ jest.mock('@gauzy/core', () => {
 		UUIDValidationPipe: class UUIDValidationPipe {},
 		UseValidationPipe: (options: unknown) => UsePipes(new ValidationPipe(options as never)),
 		Permissions: (...permissions: string[]) => SetMetadata(PERMISSIONS_METADATA, permissions),
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
 		IDEMPOTENT_METADATA_KEY: idempotency.IDEMPOTENT_METADATA_KEY,
 		Versioned: versioned.Versioned,
 		// The key the decorator above writes, so the suite can read back what each surface declared.
@@ -219,7 +219,7 @@ jest.mock('@gauzy/core', () => {
 		UnitCategoryCode: {},
 		// The page window and the connection the list fields answer with are the kernel's own, so a
 		// resolver that is loaded here is loaded with the platform's helpers rather than with holes.
-		...jest.requireActual('@gauzy/core/src/lib/api/graphql-connection'),
+		...jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection'),
 		RequestContext: {
 			currentUser: () => null,
 			currentUserId: () => null,
@@ -231,9 +231,9 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-/** The feature-flag decorator is the only value these modules read from `@gauzy/common`. */
+/** The feature-flag decorator is the only value these modules read from `@irtranscripts/common`. */
 jest.mock(
-	'@gauzy/common',
+	'@irtranscripts/common',
 	() => ({
 		FeatureFlag: () => () => undefined
 	})
@@ -247,9 +247,9 @@ import {
 	ObjectTypeExtensionNode,
 	TypeNode
 } from 'graphql';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { IDEMPOTENT_METADATA_KEY, PermissionGuard, TenantPermissionGuard, VERSIONED_METADATA_KEY } from '@gauzy/core';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { IDEMPOTENT_METADATA_KEY, PermissionGuard, TenantPermissionGuard, VERSIONED_METADATA_KEY } from '@irtranscripts/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { WarehousePermissions } from '../../warehouse.permissions';
 import { CarrierManifestController } from '../../carrier-manifest/carrier-manifest.controller';
 import { UpdateCarrierManifestDTO } from '../../carrier-manifest/dto';

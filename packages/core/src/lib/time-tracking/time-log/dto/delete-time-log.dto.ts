@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ArrayNotEmpty } from 'class-validator';
-import { ID, IDeleteTimeLog } from '@gauzy/contracts';
+import { ID, IDeleteTimeLog } from '@irtranscripts/contracts';
 import { ForceDeleteBaseDTO } from '../../../core/dto';
 import { TimeLog } from '../time-log.entity';
 

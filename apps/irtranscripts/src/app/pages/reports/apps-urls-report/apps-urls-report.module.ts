@@ -1,0 +1,22 @@
+import { NgModule } from '@angular/core';
+import { NbIconModule, NbSpinnerModule, NbCardModule, NbSelectModule } from '@nebular/theme';
+import { TranslatePipe } from '@ngx-translate/core';
+import { ActivitiesReportGridModule, IRTranscriptsFiltersModule, SharedModule } from '@irtranscripts/ui-core/shared';
+import { AppsUrlsReportRoutingModule } from './apps-urls-report-routing.module';
+import { AppsUrlsReportComponent } from './apps-urls-report/apps-urls-report.component';
+
+@NgModule({
+	declarations: [AppsUrlsReportComponent],
+	imports: [
+		AppsUrlsReportRoutingModule,
+		SharedModule,
+		TranslatePipe,
+		NbIconModule,
+		NbSpinnerModule,
+		NbCardModule,
+		NbSelectModule,
+		ActivitiesReportGridModule,
+		IRTranscriptsFiltersModule
+	]
+})
+export class AppsUrlsReportModule {}

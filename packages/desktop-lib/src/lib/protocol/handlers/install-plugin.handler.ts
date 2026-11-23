@@ -2,7 +2,7 @@ import { AppWindowManager } from '../../app-window-manager';
 import { AbstractProtocolHandler } from './abstract-protocol-handler';
 
 /**
- * Handles the `gauzy://install-plugin` deep-link action.
+ * Handles the `irtranscripts://install-plugin` deep-link action.
  *
  * Expected query parameters:
  *  - `pluginId`      (required) — marketplace plugin identifier.

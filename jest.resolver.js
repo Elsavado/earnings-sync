@@ -12,7 +12,7 @@
  * Each copy has its own `TestBed` and its own injection tokens. `setupZoneTestEnv()` initialised the
  * root copy's TestBed while the spec used another one, so every TestBed spec failed with "Need to
  * call TestBed.initTestEnvironment() first" — in desktop, desktop-ui-lib, ui-core, plugin-jobs-ui,
- * gauzy-server and gauzy-api-server, on every run since the Unit Tests workflow was added.
+ * irtranscripts-server and irtranscripts-api-server, on every run since the Unit Tests workflow was added.
  *
  * The fix resolves `@angular/*` from the Jest project's `rootDir` whoever asks: the project's own
  * copy when it has one (the one it builds against), otherwise the next copy up the tree (the root

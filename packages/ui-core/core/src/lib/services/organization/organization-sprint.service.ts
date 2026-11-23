@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { ITask, IOrganizationSprint, IGetSprintsOptions } from '@gauzy/contracts';
+import { ITask, IOrganizationSprint, IGetSprintsOptions } from '@irtranscripts/contracts';
 import { tap, catchError } from 'rxjs/operators';
 import { firstValueFrom } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { API_PREFIX } from '@gauzy/ui-core/common';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { ToastrService } from '../notification';
 
 @Injectable({

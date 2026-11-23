@@ -10,7 +10,7 @@ import {
 	IOrganization,
 	IPagination,
 	ITenant
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { IssueType } from './issue-type.entity';
 import { TaskMetadataService } from './../task-metadata.service';
 import { DEFAULT_GLOBAL_ISSUE_TYPES } from './default-global-issue-types';

@@ -1,5 +1,5 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a validation service needs and none of which is
  * available outside a running application. The seam is therefore doubled at the module boundary, and
  * **the service under test is the real one**: only the base entity classes, the request context and
@@ -7,10 +7,10 @@
  * entitlement domain does with a verdict, not what the platform's evaluator computes — the evaluator
  * has its own suite.
  *
- * `@gauzy/config` is read at import time by the row-lock helper the package shares, so it is doubled
+ * `@irtranscripts/config` is read at import time by the row-lock helper the package shares, so it is doubled
  * too.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
@@ -56,7 +56,7 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	DatabaseTypeEnum: {
 		mongodb: 'mongodb',
 		sqlite: 'sqlite',
@@ -67,7 +67,7 @@ jest.mock('@gauzy/config', () => ({
 }));
 
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { EntitlementCheckReason } from '../entitlement.types';
 import { EntitlementKind, EntitlementKeyStatus, EntitlementStatus } from '../entitlement.enums';
 import { EntitlementCheckService } from './entitlement-check.service';

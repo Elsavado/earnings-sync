@@ -1,7 +1,7 @@
 import { JoinTable } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { IOrganizationPosition, ITag } from '@gauzy/contracts';
+import { IOrganizationPosition, ITag } from '@irtranscripts/contracts';
 import { Tag, TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToMany } from './../core/decorators/entity';
 import { MikroOrmOrganizationPositionRepository } from './repository/mikro-orm-organization-position.repository';

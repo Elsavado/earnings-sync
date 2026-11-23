@@ -1,7 +1,7 @@
-import { IMatchingCriterions, PermissionsEnum } from '@gauzy/contracts';
+import { IMatchingCriterions, PermissionsEnum } from '@irtranscripts/contracts';
 import { BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { RequestContext, TypeOrmEmployeeRepository } from '@gauzy/core';
+import { RequestContext, TypeOrmEmployeeRepository } from '@irtranscripts/core';
 import { JobPresetUpworkJobSearchCriterion } from '../../job-preset-upwork-job-search-criterion.entity';
 import { SavePresetCriterionCommand } from '../save-preset-criterion.command';
 import { TypeOrmJobPresetUpworkJobSearchCriterionRepository } from '../../repository/type-orm-job-preset-upwork-job-search-criterion.repository';

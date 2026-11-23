@@ -1,8 +1,8 @@
-import { KeyResultDeadlineEnum, KeyResultTypeEnum, KeyResultWeightEnum } from '@gauzy/contracts';
+import { KeyResultDeadlineEnum, KeyResultTypeEnum, KeyResultWeightEnum } from '@irtranscripts/contracts';
 
 /**
  * Goals ↔ Goal + KeyResults (plan 01 §6, plan 06 G-P2-1). Pure functions: the time-frame resolver, the
- * key results an Ever Works goal makes, and the Ever Works goal a Gauzy goal makes.
+ * key results an Ever Works goal makes, and the Ever Works goal a IRTranscripts goal makes.
  */
 
 /** A weighted success criterion of an Ever Works goal (contract v1 `goal.schema.json#/$defs/Criterion`). */
@@ -81,7 +81,7 @@ export interface EverWorksGoal {
 
 // ── Time frames ──────────────────────────────────────────────────────────────────────────────
 
-/** A Gauzy goal time frame (`goal_time_frame`). */
+/** A IRTranscripts goal time frame (`goal_time_frame`). */
 export interface GoalTimeFrameRow {
 	id?: string;
 	name: string;
@@ -107,7 +107,7 @@ const day = (value: Date | string) => {
 };
 
 /**
- * EW → G (plan 01 §6): the Gauzy time frame of an Ever Works deadline — the narrowest **active** time
+ * EW → G (plan 01 §6): the IRTranscripts time frame of an Ever Works deadline — the narrowest **active** time
  * frame that contains the date (by day), else a new quarter time frame `Q<n> <yyyy>` (`create`). `null`
  * for no or an invalid deadline (the goal keeps its time frame).
  */
@@ -139,7 +139,7 @@ export function weightBucket(normalised: number): KeyResultWeightEnum {
 	return KeyResultWeightEnum.INCREASE_BY_4X;
 }
 
-/** G → EW: a Gauzy key result weight as an Ever Works criterion weight. */
+/** G → EW: a IRTranscripts key result weight as an Ever Works criterion weight. */
 export function bucketWeight(weight: string | null | undefined): number {
 	const value = Number(weight);
 	return value === 2 || value === 4 ? value : 1;
@@ -157,7 +157,7 @@ export function isCurrencyUnit(unit: string | null | undefined): boolean {
  */
 export type KeyResultKey = string;
 
-/** A Gauzy key result as an Ever Works goal makes it (the shared fields; Gauzy-only fields are kept). */
+/** A IRTranscripts key result as an Ever Works goal makes it (the shared fields; IRTranscripts-only fields are kept). */
 export interface DesiredKeyResult {
 	key: KeyResultKey;
 	name: string;
@@ -175,8 +175,8 @@ export interface DesiredKeyResult {
 const clampProgress = (value: number) => Math.max(0, Math.min(100, Math.round(value)));
 const finite = (value: unknown): value is number => typeof value === 'number' && Number.isFinite(value);
 /**
- * A key result's target, start and current values are integer columns in Gauzy: an Ever Works value is
- * stored rounded (an explicit conversion; Ever Works keeps the exact value, and Gauzy only sends one back
+ * A key result's target, start and current values are integer columns in IRTranscripts: an Ever Works value is
+ * stored rounded (an explicit conversion; Ever Works keeps the exact value, and IRTranscripts only sends one back
  * when a person changed it).
  */
 const stored = (value: number) => Math.round(value);
@@ -263,8 +263,8 @@ export function keyResultsOfGoal(goal: EverWorksGoal): DesiredKeyResult[] {
 
 // ── G → EW ─────────────────────────────────────────────────────────────────────────────────────
 
-/** A Gauzy key result as the push reads it. `ewKey` is its key on the goal's link when it is linked. */
-export interface GauzyKeyResultRow {
+/** A IRTranscripts key result as the push reads it. `ewKey` is its key on the goal's link when it is linked. */
+export interface IRTranscriptsKeyResultRow {
 	id: string;
 	name: string;
 	type: string;
@@ -277,7 +277,7 @@ export interface GauzyKeyResultRow {
 	ewKey?: KeyResultKey | null;
 }
 
-/** The Ever Works side of a Gauzy goal, in the form both directions compare (the link snapshot). */
+/** The Ever Works side of a IRTranscripts goal, in the form both directions compare (the link snapshot). */
 export interface GoalShared {
 	title: string;
 	description: string | null;
@@ -323,24 +323,24 @@ function same(a: unknown, b: unknown): boolean {
 /** Ever Works' title limit (`CreateGoal.title`). */
 export const EVER_WORKS_GOAL_TITLE_MAX = 200;
 
-const numeric = (row: GauzyKeyResultRow) =>
+const numeric = (row: IRTranscriptsKeyResultRow) =>
 	row.type === KeyResultTypeEnum.NUMERICAL || row.type === KeyResultTypeEnum.CURRENCY;
-const isTrueFalse = (row: GauzyKeyResultRow) => row.type === KeyResultTypeEnum.TRUE_OR_FALSE;
-const keyId = (row: GauzyKeyResultRow, prefix: 'c' | 'd') =>
+const isTrueFalse = (row: IRTranscriptsKeyResultRow) => row.type === KeyResultTypeEnum.TRUE_OR_FALSE;
+const keyId = (row: IRTranscriptsKeyResultRow, prefix: 'c' | 'd') =>
 	row.ewKey?.startsWith(`${prefix}:`) ? row.ewKey.slice(2) : row.id;
 
 /**
- * G → EW (plan 01 §6): the Ever Works goal of a Gauzy goal and its key results. Numeric key results
+ * G → EW (plan 01 §6): the Ever Works goal of a IRTranscripts goal and its key results. Numeric key results
  * (`Numerical`, `Currency`) make a **metric** goal — the first sets the goal's own comparator, target,
  * unit and baseline; with more than one, each is a weighted criterion — else the goal is a **delivery**
  * goal. `True/False` key results are its Definition of Done (done when updated to 1 or 100 %). Task and
- * KPI key results stay in Gauzy. `null` when there is nothing Ever Works could hold yet (a delivery goal
+ * KPI key results stay in IRTranscripts. `null` when there is nothing Ever Works could hold yet (a delivery goal
  * needs at least one Definition-of-Done item): the goal is pushed once it has a key result.
  */
-export function gauzyGoalToEverWorks(
+export function irtranscriptsGoalToEverWorks(
 	goal: { name?: string | null; description?: string | null },
 	deadline: string | null,
-	keyResults: ReadonlyArray<GauzyKeyResultRow>,
+	keyResults: ReadonlyArray<IRTranscriptsKeyResultRow>,
 	teamIds: ReadonlyArray<string>,
 	existingKind?: 'metric' | 'delivery' | null
 ): GoalShared | null {
@@ -410,8 +410,8 @@ export function gauzyGoalToEverWorks(
 	return shared;
 }
 
-/** A Gauzy key result with what its link holds (what Ever Works made of it at the last sync). */
-export interface LinkedKeyResultRow extends GauzyKeyResultRow {
+/** A IRTranscripts key result with what its link holds (what Ever Works made of it at the last sync). */
+export interface LinkedKeyResultRow extends IRTranscriptsKeyResultRow {
 	snapshot?: Partial<KeyResultShared> | null;
 }
 
@@ -421,7 +421,7 @@ const text = (value: string | null | undefined, max: number) =>
 		.slice(0, max);
 
 /** A new numeric key result as a criterion (its direction from its start value). */
-function criterionOf(row: GauzyKeyResultRow): GoalCriterionShared {
+function criterionOf(row: IRTranscriptsKeyResultRow): GoalCriterionShared {
 	const from = finite(row.initialValue) ? row.initialValue : 0;
 	const unit = text(row.unit, 32);
 	return {
@@ -435,12 +435,12 @@ function criterionOf(row: GauzyKeyResultRow): GoalCriterionShared {
 }
 
 /**
- * A linked Gauzy goal in Ever Works' terms while the mapping does not sync key results (OQ4): its own fields (title,
+ * A linked IRTranscripts goal in Ever Works' terms while the mapping does not sync key results (OQ4): its own fields (title,
  * description, deadline, teams) over the last sync, and the fields Ever Works builds from key results (the metric,
- * the criteria, the Definition of Done) exactly as the last sync left them. Unlike `mergeGauzyGoal`, it needs no key
+ * the criteria, the Definition of Done) exactly as the last sync left them. Unlike `mergeIRTranscriptsGoal`, it needs no key
  * result: a goal whose key results never synced still pushes its own edits.
  */
-export function mergeGauzyGoalOwnFields(
+export function mergeIRTranscriptsGoalOwnFields(
 	goal: { name?: string | null; description?: string | null },
 	deadline: string | null,
 	teamIds: ReadonlyArray<string>,
@@ -463,14 +463,14 @@ export function mergeGauzyGoalOwnFields(
 
 /**
  * G → EW for a goal already in Ever Works: Ever Works' own goal, criteria and Definition of Done as last
- * synced, with **only what a person changed in Gauzy** since (each key result against its link): a
- * renamed key result or a new target, a changed weight or unit, a checked item. What Gauzy only holds
+ * synced, with **only what a person changed in IRTranscripts** since (each key result against its link): a
+ * renamed key result or a new target, a changed weight or unit, a checked item. What IRTranscripts only holds
  * rounded or bucketed (exact values, weights, directions, sources, windows, evidence) stays as Ever Works
- * has it. A key result deleted in Gauzy leaves; a new one joins (a second numeric one turns the goal's
+ * has it. A key result deleted in IRTranscripts leaves; a new one joins (a second numeric one turns the goal's
  * own metric into weighted criteria). `null` when Ever Works could not hold the result (a delivery goal
  * without a Definition of Done).
  */
-export function mergeGauzyGoal(
+export function mergeIRTranscriptsGoal(
 	goal: { name?: string | null; description?: string | null },
 	deadline: string | null,
 	rows: ReadonlyArray<LinkedKeyResultRow>,
@@ -545,7 +545,7 @@ export function mergeGauzyGoal(
 	return shared;
 }
 
-/** Whether Gauzy may send these criteria back: only the external source can be written (Ever Works answers 422 otherwise). */
+/** Whether IRTranscripts may send these criteria back: only the external source can be written (Ever Works answers 422 otherwise). */
 export function criteriaWritable(criteria: ReadonlyArray<GoalCriterionShared>): boolean {
 	return criteria.every((criterion) => !criterion.metricSource || criterion.metricSource.pluginId === 'external');
 }
@@ -591,7 +591,7 @@ export function everWorksGoalShared(goal: EverWorksGoal, before: Partial<GoalSha
 	};
 }
 
-/** The writes a Gauzy goal needs in Ever Works against the last sync: a `PATCH` body, and the sets to `PUT`. */
+/** The writes a IRTranscripts goal needs in Ever Works against the last sync: a `PATCH` body, and the sets to `PUT`. */
 export function goalPushPlan(
 	now: GoalShared,
 	before: Partial<GoalShared>

@@ -6,7 +6,7 @@ import {
 	InboxItemKindEnum,
 	InboxItemStatusEnum,
 	InboxTabEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { INBOX_EMPLOYEE_LINK, INBOX_PROJECT_LINK, INBOX_TASK_LINK } from './inbox-ui.constants';
 
 /** The page's tabs: the API's item tabs plus Notifications (read live from `/employee-notification`). */
@@ -165,7 +165,7 @@ export function replaceItem<T extends { id?: string }>(items: readonly T[], next
 
 /** The sources the plugin names (a translation key under `INBOX.SOURCE`); any other is shown as stated. */
 export function sourceLabelOf(source: string | null | undefined): string {
-	const known = ['EVER_WORKS', 'EMAIL', 'GAUZY', 'SYSTEM'];
+	const known = ['EVER_WORKS', 'EMAIL', 'IRTRANSCRIPTS', 'SYSTEM'];
 	return source && known.includes(source) ? `INBOX.SOURCE.${source}` : (source ?? '');
 }
 

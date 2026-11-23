@@ -1,4 +1,4 @@
-import { DecimalString, IBasePerTenantAndOrganizationEntityModel, ID, IPagination } from '@gauzy/contracts';
+import { DecimalString, IBasePerTenantAndOrganizationEntityModel, ID, IPagination } from '@irtranscripts/contracts';
 
 /**
  * The promotion domain's value sets and in-memory shapes.

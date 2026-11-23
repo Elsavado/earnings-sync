@@ -4,7 +4,7 @@ import {
 	IProductOptionTranslatable,
 	IProductOptionTranslation,
 	IProductOptionGroupTranslation
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { ProductService } from '../../../product/product.service';
 import { ProductOptionService } from '../../../product-option/product-option.service';
 import { Product } from '../../product.entity';

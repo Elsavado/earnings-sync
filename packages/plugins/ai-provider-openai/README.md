@@ -1,7 +1,7 @@
-# @gauzy/plugin-ai-provider-openai
+# @irtranscripts/plugin-ai-provider-openai
 
-OpenAI (GPT) provider plugin for the Ever Gauzy AI chat engine
-([`@gauzy/plugin-ai-chat`](../ai-chat)). On bootstrap it registers the
+OpenAI (GPT) provider plugin for the Ever IRTranscripts AI chat engine
+([`@irtranscripts/plugin-ai-chat`](../ai-chat)). On bootstrap it registers the
 `openai` provider with the chat engine's `AiProviderRegistry`; models are
 created lazily through the ESM-only [`@ai-sdk/openai`](https://www.npmjs.com/package/@ai-sdk/openai)
 package (Vercel AI SDK, Responses API).

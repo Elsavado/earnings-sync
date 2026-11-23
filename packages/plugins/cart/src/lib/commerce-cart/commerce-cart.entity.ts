@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsEmail, IsEnum, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, MaxLength } from 'class-validator';
-import { CommerceCartStatus, ICommerceCart, ID } from '@gauzy/contracts';
+import { CommerceCartStatus, ICommerceCart, ID } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	ColumnNumericTransformerPipe,
@@ -11,7 +11,7 @@ import {
 	MultiORMOneToMany,
 	TenantOrganizationBaseEntity,
 	VersionedColumn
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { CommerceCartLine } from '../commerce-cart-line/commerce-cart-line.entity';
 import { CommerceCartPromotion } from '../commerce-cart-promotion/commerce-cart-promotion.entity';
 import { CommerceCartShippingMethod } from '../commerce-cart-shipping-method/commerce-cart-shipping-method.entity';

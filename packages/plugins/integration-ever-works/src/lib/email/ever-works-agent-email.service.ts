@@ -8,7 +8,7 @@ import {
 	IInboxEmailHandoffListener,
 	IInboxEmailHandoffs,
 	INBOX_EMAIL_HANDOFFS
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import type { EverWorksInboundEmail, EverWorksInboundEmailResult } from '../client/ever-works-client.types';
 import { EverWorksConnection } from '../connection/ever-works-connection.entity';
 import { EverWorksConnectionService } from '../connection/ever-works-connection.service';
@@ -31,7 +31,7 @@ import { EverWorksOutboundQueue } from '../sync/outbound/ever-works-outbound.que
 /** The mailbox setting naming the Ever Works agent a mailbox is routed to (plan 04 §2 `inbox_mailbox.settings`). */
 export const EVER_WORKS_AGENT_MAILBOX_SETTING = 'everWorksAgentId';
 
-/** The scope `POST /email/inbound` needs (opt-in: not in the "Ever Gauzy" key preset, CR-11). */
+/** The scope `POST /email/inbound` needs (opt-in: not in the "Ever IRTranscripts" key preset, CR-11). */
 export const EVER_WORKS_EMAIL_WRITE_SCOPE = 'email:write';
 
 /** A message the Inbox email features of this process cannot read yet waits this long (another process may). */
@@ -47,7 +47,7 @@ export const AGENT_EMAIL_SWEEP_LIMIT = 500;
 /** `InboundEmail` limits (`requests.schema.json`). */
 const LIMITS = { address: 254, subject: 998, body: 2_000_000, list: 100, id: 255, attachments: 20, name: 255 } as const;
 
-/** The mailbox's routing target as stated (an Ever Works agent id, or the agent employee's Gauzy id), or `null`. */
+/** The mailbox's routing target as stated (an Ever Works agent id, or the agent employee's IRTranscripts id), or `null`. */
 export function agentOfMailbox(settings: Record<string, unknown> | null | undefined): string | null {
 	const value = settings?.[EVER_WORKS_AGENT_MAILBOX_SETTING];
 	return typeof value === 'string' && value.trim() ? value.trim() : null;
@@ -73,7 +73,7 @@ export function inboundEmailBody(agentId: string, email: IInboxEmailHandoff): Ev
 			messageId: email.messageId ? email.messageId.slice(0, LIMITS.id) : null,
 			inReplyTo: email.inReplyTo ? email.inReplyTo.slice(0, LIMITS.id) : null,
 			references: email.references.map((id) => id.slice(0, LIMITS.id)).slice(0, LIMITS.list),
-			// Metadata only: Ever Works records an attachment with its url and never fetches it (CR-11); Gauzy keeps
+			// Metadata only: Ever Works records an attachment with its url and never fetches it (CR-11); IRTranscripts keeps
 			// the files, so no url is offered.
 			attachments: email.attachments.slice(0, LIMITS.attachments).map((file) => ({
 				filename: (file.filename || 'attachment').slice(0, LIMITS.name),
@@ -85,16 +85,16 @@ export function inboundEmailBody(agentId: string, email: IInboxEmailHandoff): Ev
 }
 
 /**
- * The Ever Works agent email bridge, Gauzy → Ever Works (plan 04 §6, G-P4-6; contract CR-11): a Gauzy mailbox whose
+ * The Ever Works agent email bridge, IRTranscripts → Ever Works (plan 04 §6, G-P4-6; contract CR-11): a IRTranscripts mailbox whose
  * settings name an Ever Works agent (`settings.everWorksAgentId`: the agent's Ever Works id, or its agent employee's
- * Gauzy id) hands every message it receives to that agent — `POST /email/inbound`, where Ever Works stores it on
+ * IRTranscripts id) hands every message it receives to that agent — `POST /email/inbound`, where Ever Works stores it on
  * the agent's inbound address and dispatches it through the agent's inbound assignment (task-spawn or
  * conversation). The resulting Ever Works task syncs back like any task.
  *
  * - **Durable:** the Inbox's hand-off listener only enqueues an outbound change (`AGENT_EMAIL`, the message id);
  *   the pusher sends it with back-off, `Idempotency-Key` per message, and records the link (message ↔ Ever Works
  *   email), so a retry never delivers twice.
- * - **Opt-in on both sides (D9):** the Gauzy admin routes the mailbox; the key needs the opt-in `email:write`; Ever
+ * - **Opt-in on both sides (D9):** the IRTranscripts admin routes the mailbox; the key needs the opt-in `email:write`; Ever
  *   Works refuses an agent without an inbound assignment (`422 domain_rule`, a terminal refusal the sync log and
  *   the dead-letter notice show).
  * - Optional: where the Inbox email features are off, nothing registers and no change is ever queued.
@@ -142,7 +142,7 @@ export class EverWorksAgentEmailService
 			tenantId: email.tenantId,
 			organizationId: email.organizationId,
 			entityType: EverWorksLinkType.AGENT_EMAIL,
-			gauzyId: email.emailId
+			irtranscriptsId: email.emailId
 		});
 		if (!queued) this.logger.debug?.(`Inbox email ${email.emailId}: its organization has no Ever Works mapping.`);
 	}
@@ -176,15 +176,15 @@ export class EverWorksAgentEmailService
 			where: {
 				integrationTenantId: In(mappings),
 				entityType: EverWorksLinkType.AGENT_EMAIL,
-				gauzyId: In(ids)
+				irtranscriptsId: In(ids)
 			} as never,
-			select: { gauzyId: true } as never
+			select: { irtranscriptsId: true } as never
 		});
-		const covered = new Set(queued.map((row) => row.gauzyId as ID));
+		const covered = new Set(queued.map((row) => row.irtranscriptsId as ID));
 		for (const email of routed) {
 			if (covered.has(email.emailId)) continue;
 			const context = byOrganization.get(email.organizationId as ID) as EverWorksMappingContext;
-			if (await this.links.byGauzy(context.integrationTenantId, EverWorksLinkType.AGENT_EMAIL, email.emailId))
+			if (await this.links.byIRTranscripts(context.integrationTenantId, EverWorksLinkType.AGENT_EMAIL, email.emailId))
 				continue;
 			await this.delivered(email);
 		}
@@ -197,14 +197,14 @@ export class EverWorksAgentEmailService
 		if (!context || context.integrationTenantId !== pushContext.mapping.id)
 			return { status: 'skipped', message: 'no mapping for the organization' };
 		if (!context.isEnabled) return { status: 'skipped', message: 'the mapping is disabled' };
-		const emailId = change.gauzyId as ID;
-		const done = await this.links.byGauzy(context.integrationTenantId, EverWorksLinkType.AGENT_EMAIL, emailId);
+		const emailId = change.irtranscriptsId as ID;
+		const done = await this.links.byIRTranscripts(context.integrationTenantId, EverWorksLinkType.AGENT_EMAIL, emailId);
 		if (done) return { status: 'skipped', message: 'already handed to Ever Works' };
 		if (!this.handoffs) {
 			// The Inbox email features are not loaded in this process: a process that hosts them takes it.
 			return {
 				status: 'deferred',
-				message: 'the Gauzy Inbox email features are not loaded in this process',
+				message: 'the IRTranscripts Inbox email features are not loaded in this process',
 				retryInMs: AGENT_EMAIL_WAIT_MS
 			};
 		}
@@ -243,7 +243,7 @@ export class EverWorksAgentEmailService
 				organizationId: context.organizationId,
 				integrationTenantId: context.integrationTenantId,
 				entityType: EverWorksLinkType.AGENT_EMAIL,
-				gauzyId: emailId,
+				irtranscriptsId: emailId,
 				ewId: message.id,
 				ewVersion: typeof message.version === 'number' ? message.version : null,
 				ewUpdatedAt: message.updatedAt ?? null,
@@ -264,7 +264,7 @@ export class EverWorksAgentEmailService
 			connectionId: context.connection.id as ID,
 			direction: 'outbound',
 			entityType: EverWorksLinkType.AGENT_EMAIL,
-			gauzyId: emailId,
+			irtranscriptsId: emailId,
 			ewId: message?.id ?? null,
 			action: 'agent_email',
 			status: 'ok',
@@ -274,14 +274,14 @@ export class EverWorksAgentEmailService
 	}
 
 	/**
-	 * The Ever Works agent a mailbox names: its Ever Works id, or the Gauzy id of its agent employee — either way
+	 * The Ever Works agent a mailbox names: its Ever Works id, or the IRTranscripts id of its agent employee — either way
 	 * one paired with this organization (an `AGENT` link that is still synced).
 	 */
 	private async everWorksAgentOf(context: EverWorksMappingContext, routed: string): Promise<string | null> {
 		const byEw = await this.links.byEw(context.integrationTenantId, EverWorksLinkType.AGENT, routed);
 		if (byEw && byEw.state !== EverWorksLinkState.UNLINKED) return byEw.ewId;
-		const byGauzy = await this.links.byGauzy(context.integrationTenantId, EverWorksLinkType.AGENT, routed as ID);
-		return byGauzy && byGauzy.state !== EverWorksLinkState.UNLINKED ? byGauzy.ewId : null;
+		const byIRTranscripts = await this.links.byIRTranscripts(context.integrationTenantId, EverWorksLinkType.AGENT, routed as ID);
+		return byIRTranscripts && byIRTranscripts.state !== EverWorksLinkState.UNLINKED ? byIRTranscripts.ewId : null;
 	}
 
 	/** Whether the connection's key holds a scope (an unreadable list counts as holding none). */
@@ -307,12 +307,12 @@ export class EverWorksAgentEmailService
 			connectionId: context.connection.id as ID,
 			direction: 'outbound',
 			entityType: EverWorksLinkType.AGENT_EMAIL,
-			gauzyId: change.gauzyId as ID,
+			irtranscriptsId: change.irtranscriptsId as ID,
 			action: 'agent_email',
 			status: 'skipped',
 			message: reason
 		});
-		this.logger.warn(`Inbox email ${change.gauzyId}: not handed to Ever Works — ${reason}.`);
+		this.logger.warn(`Inbox email ${change.irtranscriptsId}: not handed to Ever Works — ${reason}.`);
 		return { status: 'skipped', message: reason };
 	}
 }

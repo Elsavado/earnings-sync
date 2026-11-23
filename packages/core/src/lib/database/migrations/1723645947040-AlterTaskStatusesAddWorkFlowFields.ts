@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 export class AlterTaskStatusesAddWorkFlowFields1723645947040 implements MigrationInterface {
 	name = 'AlterTaskStatusesAddWorkFlowFields1723645947040';

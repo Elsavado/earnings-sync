@@ -1,10 +1,10 @@
-// `@gauzy/core` and the domain drag in the entity graph; the handler only reads the caller from the request context.
-jest.mock('@gauzy/core', () => ({
+// `@irtranscripts/core` and the domain drag in the entity graph; the handler only reads the caller from the request context.
+jest.mock('@irtranscripts/core', () => ({
 	RequestContext: { currentUser: () => ({ id: 'user-a', employeeId: 'employee-a' }) }
 }));
 jest.mock('../../../../domain', () => ({ PluginInstallationService: class PluginInstallationService {} }));
 
-import { PluginInstallationStatus } from '@gauzy/contracts';
+import { PluginInstallationStatus } from '@irtranscripts/contracts';
 import { ForbiddenException } from '@nestjs/common';
 import { DeactivatePluginCommand } from '../deactivate-plugin.command';
 import { DeactivatePluginCommandHandler } from './deactivate-plugin-command.handler';

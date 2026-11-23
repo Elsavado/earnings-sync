@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProposalTemplateFormComponent } from './proposal-template-form.component';
 import { JobProposalTemplateModule } from '../../job-proposal-template.module';
-import { EmployeesService } from '@gauzy/ui-core/core';
+import { EmployeesService } from '@irtranscripts/ui-core/core';
 describe('ProposalTemplateFormComponent', () => {
 	let component: ProposalTemplateFormComponent;
 	let fixture: ComponentFixture<ProposalTemplateFormComponent>;

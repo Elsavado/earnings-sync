@@ -1,5 +1,5 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — the configuration, the ORM, the
+ * `@irtranscripts/core` boots the whole application graph from its barrel — the configuration, the ORM, the
  * job registry, the module scanner — none of which a capture ledger needs and none of which is
  * available outside a running application. The seam is therefore doubled at the module boundary,
  * exactly as the catalogue and inventory packages' service specs do, and **the services under test are
@@ -9,7 +9,7 @@
  * substituted, and the money kernel is pulled through the seam with `requireActual`, so every total
  * below is computed by the platform's own arithmetic.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
@@ -84,12 +84,12 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		// The affected-row reader is the platform's own, pulled through the seam rather than written
 		// again here: a capture decides whether its compare-and-swap was refused from whatever the
 		// driver answered the `UPDATE` with, and a double that understood a different set of shapes
 		// would pass this suite while the four supported drivers disagreed with it.
-		readAffectedRows: jest.requireActual('@gauzy/core/src/lib/database/database.helper').readAffectedRows,
+		readAffectedRows: jest.requireActual('@irtranscripts/core/src/lib/database/database.helper').readAffectedRows,
 		BaseEvent: class {},
 		EventBus: class {},
 		Payment: class Payment {},
@@ -112,7 +112,7 @@ jest.mock('@gauzy/core', () => {
  * quoting the reader leaves alone.
  */
 jest.mock(
-	'@gauzy/config',
+	'@irtranscripts/config',
 	() => ({
 		isMySQL: () => false,
 		isPostgres: () => false,
@@ -128,7 +128,7 @@ jest.mock(
 
 import { ConflictException, NotFoundException } from '@nestjs/common';
 import { FindOperator } from 'typeorm';
-import { Money, Payment, RequestContext } from '@gauzy/core';
+import { Money, Payment, RequestContext } from '@irtranscripts/core';
 import { PaymentCapturedEvent } from '../events';
 import { PaymentCollection } from '../payment-collection/payment-collection.entity';
 import { PaymentCollectionService } from '../payment-collection/payment-collection.service';
@@ -192,7 +192,7 @@ interface ITables {
 /**
  * The entity classes the capture service hands its transaction manager, resolved to tables.
  *
- * `Payment` is the class the mocked `@gauzy/core` above exports and `PaymentCapture` is this package's
+ * `Payment` is the class the mocked `@irtranscripts/core` above exports and `PaymentCapture` is this package's
  * own entity, and the service imports those same two, so the identity the manager is keyed by is the
  * identity it is handed.
  */

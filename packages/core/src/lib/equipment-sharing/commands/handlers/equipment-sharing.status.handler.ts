@@ -1,6 +1,6 @@
 import { ICommandHandler, CommandHandler } from '@nestjs/cqrs';
 import { NotFoundException } from '@nestjs/common';
-import { IEquipmentSharing } from '@gauzy/contracts';
+import { IEquipmentSharing } from '@irtranscripts/contracts';
 import { RequestApprovalService } from '../../../request-approval/request-approval.service';
 import { EquipmentSharingStatusCommand } from '../equipment-sharing.status.command';
 import { EquipmentSharingService } from '../../equipment-sharing.service';

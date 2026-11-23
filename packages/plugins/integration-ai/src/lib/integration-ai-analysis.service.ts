@@ -1,24 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { IntegrationEntity, IntegrationEnum, IScreenshot, UploadedFile } from '@gauzy/contracts';
+import { IntegrationEntity, IntegrationEnum, IScreenshot, UploadedFile } from '@irtranscripts/contracts';
 import {
 	ConnectionEntityManager,
 	IntegrationTenantService,
 	RequestContext,
 	Screenshot,
 	ScreenshotEvent
-} from '@gauzy/core';
-import { GauzyAIService, ImageAnalysisResult } from './gauzy-ai.service';
+} from '@irtranscripts/core';
+import { IRTranscriptsAIService, ImageAnalysisResult } from './irtranscripts-ai.service';
 
 @Injectable()
 export class IntegrationAIAnalysisService {
 	constructor(
 		private readonly _connectionEntityManager: ConnectionEntityManager,
 		private readonly _integrationTenantService: IntegrationTenantService,
-		private readonly _gauzyAIService: GauzyAIService
+		private readonly _irtranscriptsAIService: IRTranscriptsAIService
 	) {}
 
 	/**
-	 * Analyze screenshot using Gauzy AI service.
+	 * Analyze screenshot using IRTranscripts AI service.
 	 *
 	 * @param event The screenshot event containing necessary data.
 	 */
@@ -26,7 +26,7 @@ export class IntegrationAIAnalysisService {
 		const { entity, data, file } = event;
 		const user = RequestContext.currentUser();
 
-		// Analyze image using Gauzy AI service
+		// Analyze image using IRTranscripts AI service
 		await this.analyzeImage(entity, data, file, async (result: ImageAnalysisResult['data']['analysis']) => {
 			try {
 				if (result) {
@@ -51,7 +51,7 @@ export class IntegrationAIAnalysisService {
 	}
 
 	/**
-	 * Analyze an image using Gauzy AI service.
+	 * Analyze an image using IRTranscripts AI service.
 	 * @param input The screenshot input data.
 	 * @param data The image data buffer.
 	 * @param file The uploaded file information.
@@ -72,7 +72,7 @@ export class IntegrationAIAnalysisService {
 			const integration = await this._integrationTenantService.getIntegrationByOptions({
 				organizationId,
 				tenantId,
-				name: IntegrationEnum.GAUZY_AI
+				name: IntegrationEnum.IRTRANSCRIPTS_AI
 			});
 
 			// Check if integration exists
@@ -88,8 +88,8 @@ export class IntegrationAIAnalysisService {
 						entityType: IntegrationEntity.EMPLOYEE_PERFORMANCE
 					});
 
-					// Analyze image using Gauzy AI service
-					const [analysis] = await this._gauzyAIService.analyzeImage(data, file);
+					// Analyze image using IRTranscripts AI service
+					const [analysis] = await this._irtranscriptsAIService.analyzeImage(data, file);
 
 					if (!analysis.success) {
 						console.log('Screenshot/Image Analyze Failed. AI Integration Tenant: %s', integration);
@@ -102,7 +102,7 @@ export class IntegrationAIAnalysisService {
 
 					return analysis;
 				} catch (error) {
-					console.log('Error while getting Integration for Gauzy AI', error.message);
+					console.log('Error while getting Integration for IRTranscripts AI', error.message);
 					return null;
 				}
 			}

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, Input, OnChanges, OnInit } from '@angular/core';
 import type { SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IPlugin, IPluginSubscription, PluginStatus, PluginSubscriptionType } from '@gauzy/contracts';
+import { IPlugin, IPluginSubscription, PluginStatus, PluginSubscriptionType } from '@irtranscripts/contracts';
 import { NbBadgeModule, NbButtonModule, NbContextMenuModule, NbIconModule, NbMenuItem, NbMenuService, NbToggleModule, NbTooltipModule } from '@nebular/theme';
 import { Actions } from '@ngneat/effects-ng';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -325,7 +325,7 @@ export class PluginMarketplaceDetailComponent implements OnInit, OnChanges {
 	}
 
 	/**
-	 * Dispatch web-to-desktop installation via the gauzy:// deep link protocol.
+	 * Dispatch web-to-desktop installation via the irtranscripts:// deep link protocol.
 	 * The actual deep link logic is handled by PluginInstallationEffects.installFromWeb$.
 	 */
 	public installFromWeb(): void {

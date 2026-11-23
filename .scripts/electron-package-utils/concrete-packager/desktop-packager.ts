@@ -13,7 +13,7 @@ export class DesktopPackager extends BasePackager {
 			env.DESKTOP_APP_DESCRIPTION || pkg.build.productName;
 		pkg.build.linux.executableName =
 			env.DESKTOP_APP_NAME || pkg.build.linux.executableName;
-		const protocol = env.DESKTOP_APP_PROTOCOL || 'gauzy-desktop';
+		const protocol = env.DESKTOP_APP_PROTOCOL || 'irtranscripts-desktop';
 		return this.registerProtocol(pkg, protocol);
 	}
 }

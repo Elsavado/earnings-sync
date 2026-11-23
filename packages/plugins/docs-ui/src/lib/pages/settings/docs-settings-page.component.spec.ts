@@ -1,10 +1,10 @@
 /**
- * `@gauzy/ui-core/i18n`, `@gauzy/ui-core/core` and `@gauzy/ui-core/shared` are barrels
+ * `@irtranscripts/ui-core/i18n`, `@irtranscripts/ui-core/core` and `@irtranscripts/ui-core/shared` are barrels
  * over the whole app: importing them pulls Akita's untranspiled ESM (and every shared
  * component) into the CommonJS test runtime. The page is constructed directly with
  * doubles — no `TestBed`.
  */
-jest.mock('@gauzy/ui-core/i18n', () => ({
+jest.mock('@irtranscripts/ui-core/i18n', () => ({
 	TranslationBaseComponent: class {
 		constructor(public readonly translateService: unknown) {}
 		getTranslation(key: string): string {
@@ -12,11 +12,11 @@ jest.mock('@gauzy/ui-core/i18n', () => ({
 		}
 	}
 }));
-jest.mock('@gauzy/ui-core/core', () => ({ Store: class Store {}, ToastrService: class ToastrService {} }));
-jest.mock('@gauzy/ui-core/shared', () => ({ DeleteConfirmationComponent: class DeleteConfirmationComponent {} }));
+jest.mock('@irtranscripts/ui-core/core', () => ({ Store: class Store {}, ToastrService: class ToastrService {} }));
+jest.mock('@irtranscripts/ui-core/shared', () => ({ DeleteConfirmationComponent: class DeleteConfirmationComponent {} }));
 
 import { of } from 'rxjs';
-import { DocumentVisibilityEnum } from '@gauzy/contracts';
+import { DocumentVisibilityEnum } from '@irtranscripts/contracts';
 import { IDocumentSettings } from '../../models/docs-api.model';
 import { DocsSettingsPageComponent } from './docs-settings-page.component';
 

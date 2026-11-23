@@ -1,5 +1,5 @@
-import { PluginScope } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { PluginScope } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { FindOptionsWhere } from 'typeorm';
 import { PluginTenant, PluginTenantService } from '../../../../domain';

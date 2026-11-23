@@ -1,16 +1,16 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel, and the calendar and the
+ * `@irtranscripts/core` boots the whole application graph from its barrel, and the calendar and the
  * arithmetic of a subscription need none of it: the three names this module imports are taken from
  * their own source files, exactly as the service suites in this package do.
  */
-jest.mock('@gauzy/core', () => ({
-	Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
-	compareDecimalStrings: jest.requireActual('@gauzy/core/src/lib/money/decimal').compareDecimalStrings,
-	divideDecimalUnits: jest.requireActual('@gauzy/core/src/lib/money/decimal').divideDecimalUnits,
-	formatDecimalUnits: jest.requireActual('@gauzy/core/src/lib/money/decimal').formatDecimalUnits
+jest.mock('@irtranscripts/core', () => ({
+	Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
+	compareDecimalStrings: jest.requireActual('@irtranscripts/core/src/lib/money/decimal').compareDecimalStrings,
+	divideDecimalUnits: jest.requireActual('@irtranscripts/core/src/lib/money/decimal').divideDecimalUnits,
+	formatDecimalUnits: jest.requireActual('@irtranscripts/core/src/lib/money/decimal').formatDecimalUnits
 }));
 
-import { Money } from '@gauzy/core';
+import { Money } from '@irtranscripts/core';
 import { SubscriptionBillingPeriod } from './subscription.types';
 import {
 	addCalendarMonths,

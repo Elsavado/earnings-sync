@@ -14,7 +14,7 @@ jest.mock('../password-hash/password-hash.service', () => ({ PasswordHashService
 jest.mock('./../core/crud', () => ({ TenantAwareCrudService: class TenantAwareCrudService {} }));
 
 import { BadRequestException, ForbiddenException } from '@nestjs/common';
-import { PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { UserService } from './user.service';
 import { UserCreateHandler } from './commands/handlers/user.create.handler';

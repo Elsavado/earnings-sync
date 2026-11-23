@@ -2,7 +2,7 @@ import { ApiPropertyOptional, PickType } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsObject, IsOptional, ValidateNested } from 'class-validator';
 import { IntersectionType } from '@nestjs/mapped-types';
-import { IContact, IEmployeeUpdateInput } from '@gauzy/contracts';
+import { IContact, IEmployeeUpdateInput } from '@irtranscripts/contracts';
 import { EmploymentDTO } from './employment.dto';
 import { RelationalTagDTO } from './../../tags/dto';
 import { Employee } from './../employee.entity';

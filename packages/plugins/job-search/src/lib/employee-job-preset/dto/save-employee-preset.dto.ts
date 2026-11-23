@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { ArrayNotEmpty, IsArray, IsEnum, IsOptional, IsUUID } from 'class-validator';
-import { ID, IEmployeePresetInput, JobPostSourceEnum } from '@gauzy/contracts';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { ID, IEmployeePresetInput, JobPostSourceEnum } from '@irtranscripts/contracts';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 
 /**
  * POST /job-preset/employee body.

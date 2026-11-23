@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { FindManyOptions, In } from 'typeorm';
-import { DecimalString, ID, IPagination } from '@gauzy/contracts';
+import { DecimalString, ID, IPagination } from '@irtranscripts/contracts';
 import {
 	ProductVariantPrice,
 	RequestContext,
@@ -9,7 +9,7 @@ import {
 	formatDecimalUnits,
 	multiplyDecimalUnits,
 	parseDecimalString
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { toDecimalWire } from './../inventory.decimal';
 import { StockCountLine } from './stock-count-line.entity';
 import { TypeOrmStockCountLineRepository } from './repository/type-orm-stock-count-line.repository';

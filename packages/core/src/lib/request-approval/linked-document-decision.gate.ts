@@ -1,5 +1,5 @@
 import { ForbiddenException } from '@nestjs/common';
-import { ApprovalPolicyTypesStringEnum, PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { ApprovalPolicyTypesStringEnum, PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context/request-context';
 import { SHARING_DECISION_PERMISSIONS } from '../equipment-sharing/filed-status.helper';
 

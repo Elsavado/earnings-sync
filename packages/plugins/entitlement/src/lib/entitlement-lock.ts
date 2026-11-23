@@ -1,7 +1,7 @@
 import { EntityManager } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
-import { DatabaseTypeEnum, isMySQL, isPostgres } from '@gauzy/config';
+import { ID } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
+import { DatabaseTypeEnum, isMySQL, isPostgres } from '@irtranscripts/config';
 import { Entitlement } from './entitlement/entitlement.entity';
 import { IEntitlementScope } from './entitlement.types';
 import { isMikroOrmEntitlementManager } from './entitlement-persistence';

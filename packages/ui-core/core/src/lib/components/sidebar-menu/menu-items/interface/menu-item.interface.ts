@@ -1,5 +1,5 @@
 import { NbMenuItem } from '@nebular/theme';
-import { FeatureEnum, PermissionsEnum } from '@gauzy/contracts';
+import { FeatureEnum, PermissionsEnum } from '@irtranscripts/contracts';
 
 export interface IMenuItemFocusChangeEvent {
 	children: IMenuItem;

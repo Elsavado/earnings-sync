@@ -6,8 +6,8 @@
  */
 const deleteFile = jest.fn(async () => undefined);
 const getProvider = jest.fn((): unknown => ({ deleteFile }));
-jest.mock('@gauzy/config', () => ({ isSqlite: () => false, isBetterSqlite3: () => false }));
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/config', () => ({ isSqlite: () => false, isBetterSqlite3: () => false }));
+jest.mock('@irtranscripts/core', () => ({
 	FileStorage: class {
 		getProvider() {
 			return getProvider();

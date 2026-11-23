@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
-import { addCheckConstraint, dropCheckConstraint, ICheckConstraintDefinition } from '@gauzy/core';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
+import { addCheckConstraint, dropCheckConstraint, ICheckConstraintDefinition } from '@irtranscripts/core';
 
 /**
  * Adds the rule the purchasing chapter states about a receipt line.

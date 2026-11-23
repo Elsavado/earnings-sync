@@ -4,10 +4,10 @@
  * The routes ran behind the global `AuthGuard` alone, so any signed-in employee could subscribe a URL of their
  * own to `timer.status.changed` and receive every employee's time log as it was started or stopped.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	class PermissionGuard {}
 	const { SetMetadata } = jest.requireActual('@nestjs/common');
-	const { PERMISSIONS_METADATA } = jest.requireActual('@gauzy/constants');
+	const { PERMISSIONS_METADATA } = jest.requireActual('@irtranscripts/constants');
 
 	return {
 		PermissionGuard,
@@ -19,9 +19,9 @@ jest.mock('./zapier-webhook.service', () => ({ ZapierWebhookService: class {} })
 jest.mock('./zapier-webhook-subscription.entity', () => ({ ZapierWebhookSubscription: class {} }));
 
 import { GUARDS_METADATA } from '@nestjs/common/constants';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PermissionGuard } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PermissionGuard } from '@irtranscripts/core';
 import { ZapierWebhookController } from './zapier-webhook.controller';
 
 describe('ZapierWebhookController — the caller’s own permissions', () => {

@@ -9,8 +9,8 @@ import {
 	SellerHoldReason,
 	SellerTransactionKind,
 	SellerTransactionStatus
-} from '@gauzy/contracts';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 
 /**
  * A ledger row as the API accepts it.

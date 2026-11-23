@@ -1,4 +1,4 @@
-import { IInviteResendInput, LanguagesEnum } from '@gauzy/contracts';
+import { IInviteResendInput, LanguagesEnum } from '@irtranscripts/contracts';
 import { ICommand } from '@nestjs/cqrs';
 
 export class InviteResendCommand implements ICommand {

@@ -1,4 +1,4 @@
-import { PluginBillingPeriod, PluginBillingStatus } from '@gauzy/contracts';
+import { PluginBillingPeriod, PluginBillingStatus } from '@irtranscripts/contracts';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsDate, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, Max, Min } from 'class-validator';

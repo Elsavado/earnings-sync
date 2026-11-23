@@ -1,4 +1,4 @@
-import { IPagination } from '@gauzy/contracts';
+import { IPagination } from '@irtranscripts/contracts';
 import {
 	DEFAULT_CONNECTION_PAGE_SIZE,
 	GraphqlConnection,
@@ -8,7 +8,7 @@ import {
 	decodeOffsetCursor,
 	encodeOffsetCursor,
 	resolveConnectionWindow
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 
 /**
  * This package's connection helpers, which are the kernel's.

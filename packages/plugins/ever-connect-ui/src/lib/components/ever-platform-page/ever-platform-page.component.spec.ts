@@ -1,7 +1,7 @@
 // cspell:ignore abcdefghijk
 import { TestBed } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
-import { Store } from '@gauzy/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
 import { EverConnectStatus, EverConnectUiService } from '../../services/ever-connect.service';
 import { EverPlatformPageComponent } from './ever-platform-page.component';
 
@@ -139,14 +139,14 @@ describe('EverPlatformPageComponent', () => {
 			subject: 'link',
 			status: 'stale',
 			ladder: 'grace',
-			licence_ids: ['EVER-GAUZY-SB-1A2B3C4D'],
+			licence_ids: ['EVER-IRTRANSCRIPTS-SB-1A2B3C4D'],
 			seq: 4,
 			issued_at: '2026-10-01T00:00:00.000Z',
 			expires_at: '2026-10-08T00:00:00.000Z',
 			fetched_at: '2026-10-02T00:00:00.000Z',
 			handle: 'acme',
 			tier: 'paid',
-			plan: 'gauzy-team',
+			plan: 'irtranscripts-team',
 			features: { discoverability: true },
 			limits: {},
 			meters: {}
@@ -155,7 +155,7 @@ describe('EverPlatformPageComponent', () => {
 		api.status.mockReturnValue(of(STATUS));
 		const { el, find } = render();
 		const licences = Array.from(el.querySelectorAll('[data-test="licence"]'));
-		expect(licences.map((node) => node.getAttribute('data-licence'))).toEqual(['EVER-GAUZY-SB-1A2B3C4D']);
+		expect(licences.map((node) => node.getAttribute('data-licence'))).toEqual(['EVER-IRTRANSCRIPTS-SB-1A2B3C4D']);
 		expect(licences[0].textContent).toContain('EVER_CONNECT.ENTITLEMENTS.LICENCE_ACTIVE');
 		expect(el.textContent?.toLowerCase()).not.toContain('licence key');
 		expect(find('entitlement-grace')).not.toBeNull();

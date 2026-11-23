@@ -2,10 +2,10 @@ import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, ChangeDe
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FileItem, FileUploader, FileUploaderOptions } from 'ng2-file-upload';
 import { filter, tap } from 'rxjs/operators';
-import { IImageAsset, IOrganization, IUser } from '@gauzy/contracts';
-import { environment } from '@gauzy/ui-config';
-import { API_PREFIX, distinctUntilChange } from '@gauzy/ui-core/common';
-import { Store } from '@gauzy/ui-core/core';
+import { IImageAsset, IOrganization, IUser } from '@irtranscripts/contracts';
+import { environment } from '@irtranscripts/ui-config';
+import { API_PREFIX, distinctUntilChange } from '@irtranscripts/ui-core/common';
+import { Store } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy()
 @Component({

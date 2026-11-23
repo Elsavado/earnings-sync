@@ -1,6 +1,6 @@
-import { RegisteredWindow, WindowManager } from '@gauzy/desktop-core';
-import { TranslateService } from '@gauzy/desktop-lib';
-import { PluginMarketplaceWindow } from '@gauzy/desktop-window';
+import { RegisteredWindow, WindowManager } from '@irtranscripts/desktop-core';
+import { TranslateService } from '@irtranscripts/desktop-lib';
+import { PluginMarketplaceWindow } from '@irtranscripts/desktop-window';
 import { Menu, MenuItemConstructorOptions, nativeImage, shell, Tray } from 'electron';
 import * as path from 'path';
 import { MAIN_EVENT, MAIN_EVENT_TYPE } from '../constant';

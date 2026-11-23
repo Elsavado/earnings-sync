@@ -5,7 +5,7 @@
 		"module": "commonjs",
 		// Required for the `transformIgnorePatterns` exception in `jest.config.ts` to do anything:
 		// ts-jest hands a `.js` file back UNCHANGED when `allowJs` is false, so an ESM-only dependency
-		// of `@gauzy/core` would reach Jest as raw ESM and the suite would fail to load.
+		// of `@irtranscripts/core` would reach Jest as raw ESM and the suite would fail to load.
 		"allowJs": true,
 		"types": ["jest", "node"]
 	},

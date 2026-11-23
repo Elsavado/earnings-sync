@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IIncome, IIncomeCreateInput, IIncomeFindInput, IIncomeUpdateInput, IPagination } from '@gauzy/contracts';
-import { API_PREFIX, toParams } from '@gauzy/ui-core/common';
+import { IIncome, IIncomeCreateInput, IIncomeFindInput, IIncomeUpdateInput, IPagination } from '@irtranscripts/contracts';
+import { API_PREFIX, toParams } from '@irtranscripts/ui-core/common';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })

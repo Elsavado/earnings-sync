@@ -15,8 +15,8 @@ import {
 	Logger
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiParam } from '@nestjs/swagger';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PermissionGuard, Permissions, TenantPermissionGuard, UUIDValidationPipe } from '@gauzy/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PermissionGuard, Permissions, TenantPermissionGuard, UUIDValidationPipe } from '@irtranscripts/core';
 import { ActivepiecesService } from './activepieces.service';
 import {
 	CreateActivepiecesIntegrationDto,
@@ -28,7 +28,7 @@ import {
 	IActivepiecesConnection,
 	IActivepiecesConnectionModeStatus,
 	IActivepiecesConnectionsListResponse
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 /**
  * `TenantPermissionGuard` asks only whether ANY role of the tenant holds the permission a route states;

@@ -2,7 +2,7 @@ import '../core/entities/internal';
 
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
-import { EmployeeKindEnum } from '@gauzy/contracts';
+import { EmployeeKindEnum } from '@irtranscripts/contracts';
 import { CrudService } from '../core/crud/crud.service';
 import { MultiORMEnum } from '../core/utils';
 import { asTenantUser, createTenantFixture } from '../core/testing/tenant-isolation/tenant-isolation.fixtures';

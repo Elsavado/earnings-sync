@@ -1,6 +1,6 @@
 import { ApiProperty, PickType } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
-import { ISocialAccountBase, ProviderEnum } from '@gauzy/contracts';
+import { ISocialAccountBase, ProviderEnum } from '@irtranscripts/contracts';
 import { IncludeTeamsDTO } from '../../../user/dto/include-teams.dto';
 
 /**

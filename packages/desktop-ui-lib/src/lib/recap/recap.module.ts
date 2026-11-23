@@ -31,7 +31,7 @@ import { RequestStore } from './+state/request/request.store';
 import { recapRoutes } from './recap-routing.module';
 import { ActivityService, TimesheetService, TimesheetStatisticsService } from './services/timesheet';
 import { DateRangePickerModule } from './shared/features/date-range-picker/date-range-picker.module';
-import { GauzyFiltersModule } from './shared/features/gauzy-filters';
+import { IRTranscriptsFiltersModule } from './shared/features/irtranscripts-filters';
 
 @NgModule({
 	imports: [
@@ -48,7 +48,7 @@ import { GauzyFiltersModule } from './shared/features/gauzy-filters';
 		NbRouteTabsetModule,
 		PipeModule,
 		DateRangePickerModule,
-		GauzyFiltersModule,
+		IRTranscriptsFiltersModule,
 		NbBadgeModule,
 		NbToggleModule,
 		NbSpinnerModule,

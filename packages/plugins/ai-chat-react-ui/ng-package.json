@@ -8,12 +8,12 @@
 		"@ai-sdk/react",
 		"ai",
 		"streamdown",
-		"@gauzy/contracts",
-		"@gauzy/plugin-ui",
-		"@gauzy/ui-config",
-		"@gauzy/ui-core",
-		"@gauzy/ui-react",
-		"@gauzy/ui-react-components",
+		"@irtranscripts/contracts",
+		"@irtranscripts/plugin-ui",
+		"@irtranscripts/ui-config",
+		"@irtranscripts/ui-core",
+		"@irtranscripts/ui-react",
+		"@irtranscripts/ui-react-components",
 		"tslib"
 	]
 }

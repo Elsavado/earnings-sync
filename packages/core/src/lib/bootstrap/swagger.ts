@@ -14,8 +14,8 @@ import { SwaggerModule, DocumentBuilder, SwaggerDocumentOptions, SwaggerCustomOp
 export const setupSwagger = async (
 	app: INestApplication,
 	{
-		title = 'Gauzy API',
-		description = 'Gauzy API Documentation',
+		title = 'IRTranscripts API',
+		description = 'IRTranscripts API Documentation',
 		version = '1.0',
 		swaggerPath = 'swg',
 		scalarPath = 'docs',
@@ -31,7 +31,7 @@ export const setupSwagger = async (
 		},
 		externalDocs = {
 			description: 'Find more info here',
-			url: 'https://docs.gauzy.co'
+			url: 'https://docs.irtranscripts.com'
 		},
 		servers = [
 			{
@@ -39,11 +39,11 @@ export const setupSwagger = async (
 				description: 'Development Server'
 			},
 			{
-				url: 'https://apidemo.gauzy.co/api',
+				url: 'https://apidemo.irtranscripts.com/api',
 				description: 'Demo Server'
 			},
 			{
-				url: 'https://api.gauzy.co',
+				url: 'https://api.irtranscripts.com',
 				description: 'Production Server'
 			}
 		]

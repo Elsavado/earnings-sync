@@ -1,5 +1,5 @@
 import { registerAs } from '@nestjs/config';
-import { IMicrosoftConfig } from '@gauzy/common';
+import { IMicrosoftConfig } from '@irtranscripts/common';
 
 /**
  * Register Microsoft OAuth configuration using @nestjs/config

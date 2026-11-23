@@ -1,5 +1,5 @@
 /*
- * Public API Surface of @gauzy/plugin-ui
+ * Public API Surface of @irtranscripts/plugin-ui
  */
 export * from './lib/plugin-ui.types';
 export * from './lib/plugin-ui.interface';

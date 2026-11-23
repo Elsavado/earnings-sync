@@ -37,11 +37,11 @@ export const EVER_WORKS_SCOPES = [
 export type EverWorksScope = (typeof EVER_WORKS_SCOPES)[number];
 
 /**
- * The "Ever Gauzy" preset: every scope except `org:write` and `email:write`, which are opt-in when the
+ * The "Ever IRTranscripts" preset: every scope except `org:write` and `email:write`, which are opt-in when the
  * key is created (plan 02 §3). A key without some of these still connects; the missing ones are listed
  * so the admin can create a key with the preset.
  */
-export const EVER_GAUZY_PRESET_SCOPES: ReadonlyArray<EverWorksScope> = EVER_WORKS_SCOPES.filter(
+export const EVER_IRTRANSCRIPTS_PRESET_SCOPES: ReadonlyArray<EverWorksScope> = EVER_WORKS_SCOPES.filter(
 	(scope) => scope !== 'org:write' && scope !== 'email:write'
 );
 
@@ -178,7 +178,7 @@ export interface EverWorksInboxReplyResult {
 /** The longest reply text Ever Works takes (`requests.schema.json` `InboxReply`). */
 export const EVER_WORKS_INBOX_REPLY_MAX = 8000;
 
-/** One agent email (contract `email-message.schema.json`, CR-11), the fields the Gauzy bridge reads. */
+/** One agent email (contract `email-message.schema.json`, CR-11), the fields the IRTranscripts bridge reads. */
 export interface EverWorksEmailMessage {
 	id: string;
 	organizationId: string | null;
@@ -209,7 +209,7 @@ export interface EverWorksEmailMessage {
 	bodyOmitted?: boolean;
 }
 
-/** `POST /email/inbound` (`InboundEmail`, CR-11): a mail a Gauzy mailbox received, for an agent of the pinned org. */
+/** `POST /email/inbound` (`InboundEmail`, CR-11): a mail a IRTranscripts mailbox received, for an agent of the pinned org. */
 export interface EverWorksInboundEmail {
 	agentId: string;
 	message: {

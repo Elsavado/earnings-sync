@@ -8,7 +8,7 @@
  */
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	FEATURE_GRAPHQL,
 	FeatureFlagGuard,
@@ -21,8 +21,8 @@ import {
 	Versioned,
 	connectionFromOffsetPage,
 	resolveConnectionWindow
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { InventoryPermission } from './../inventory.permissions';
 import { StockAdjustmentStatus } from './../inventory.enums';
 import { StockAdjustment } from './../stock-adjustment/stock-adjustment.entity';

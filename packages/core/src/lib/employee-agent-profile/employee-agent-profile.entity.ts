@@ -9,7 +9,7 @@ import {
 	ID,
 	IEmployee,
 	IEmployeeAgentProfile
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { Employee, TenantOrganizationBaseEntity } from '../core/entities/internal';
 import {
 	ColumnIndex,
@@ -24,7 +24,7 @@ import { MikroOrmEmployeeAgentProfileRepository } from './repository/mikro-orm-e
 /**
  * The agent-specific facts of an agent employee (`employee.kind = 'agent'`), one row per employee.
  *
- * Part of the Gauzy ↔ Ever Works integration (G-P1-1). The employee row carries what an agent has in
+ * Part of the IRTranscripts ↔ Ever Works integration (G-P1-1). The employee row carries what an agent has in
  * common with a person — a name through its user, team and task membership, mentions — and this row
  * carries what only an agent has: the system it is managed by (`source`) and its identifier there
  * (`externalId`), its capabilities, model and runtime status. Integrations write it; people read it.
@@ -146,7 +146,7 @@ export class EmployeeAgentProfile extends TenantOrganizationBaseEntity implement
 	lastRunAt?: Date;
 
 	/**
-	 * Whether the agent is managed by its source system. A managed agent is read-only in Gauzy: its name
+	 * Whether the agent is managed by its source system. A managed agent is read-only in IRTranscripts: its name
 	 * and profile change in the source system and are synced in.
 	 */
 	@ApiPropertyOptional({ type: () => Boolean, default: false })

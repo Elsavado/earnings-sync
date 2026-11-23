@@ -1,2 +1,2 @@
-export * from './gauzy-editable-grid.component';
-export * from './gauzy-editable-grid.module';
+export * from './irtranscripts-editable-grid.component';
+export * from './irtranscripts-editable-grid.module';

@@ -9,7 +9,7 @@
   "provenance": {
     "harnessCommit": "eaf5097abf034cc4c3e1406382bcda31e78dda02",
     "buildCommit": "4024ab66c4ca0e95b1c11488a21c0a237935abba",
-    "command": "C:\\Coding\\Worktrees\\ever-gauzy-perf\\tools\\perf\\api-bench.mjs",
+    "command": "C:\\Coding\\Worktrees\\ever-irtranscripts-perf\\tools\\perf\\api-bench.mjs",
     "env": {
       "BASE": "http://localhost:3999/api",
       "EMAIL": "<redacted>",

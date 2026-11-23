@@ -1,4 +1,4 @@
-import { ITimeSlotStatistics } from '@gauzy/contracts';
+import { ITimeSlotStatistics } from '@irtranscripts/contracts';
 import { collectGalleryItems } from './gallery.utils';
 
 describe('gallery.utils — collectGalleryItems (ngxGallery appendItems parity)', () => {

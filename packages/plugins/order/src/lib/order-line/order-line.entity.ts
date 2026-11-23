@@ -11,7 +11,7 @@ import {
 	IsUUID,
 	MaxLength
 } from 'class-validator';
-import { ID, IOrderLine } from '@gauzy/contracts';
+import { ID, IOrderLine } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	ColumnNumericTransformerPipe,
@@ -21,7 +21,7 @@ import {
 	MultiORMManyToOne,
 	MultiORMOneToMany,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { OrderLineInvoiceStatus, OrderLineKind } from '../order.types';
 import { Order } from '../order/order.entity';
 import { OrderLineInvoice } from '../order-line-invoice/order-line-invoice.entity';

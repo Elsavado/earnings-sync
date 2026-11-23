@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable, NotFoundException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { FEATURE_METADATA } from '@gauzy/constants';
-import { FeatureEnum, IAuthenticationFlagFeatures } from '@gauzy/contracts';
+import { FEATURE_METADATA } from '@irtranscripts/constants';
+import { FeatureEnum, IAuthenticationFlagFeatures } from '@irtranscripts/contracts';
 import { featureFlagsOf, FeatureFlagMetadata } from '../decorators/feature-flag.decorator';
 
 /**

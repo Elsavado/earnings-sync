@@ -1,3 +1,3 @@
-# Changelog for @gauzy/desktop-core
+# Changelog for @irtranscripts/desktop-core
 
 ## [Unreleased]

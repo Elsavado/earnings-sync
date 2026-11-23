@@ -12,7 +12,7 @@
  * a different arrangement on each read, the freedom a real store has, so a walk only answers every row once
  * when the order the resolver states is closed by the row's identity.
  *
- * `@gauzy/core` is the real barrel here, as it is in `soft-delete.spec.ts` beside this file and for the
+ * `@irtranscripts/core` is the real barrel here, as it is in `soft-delete.spec.ts` beside this file and for the
  * reason `pricing/src/lib/graphql/pagination.spec.ts` gives: the kernel's `findAll` and its MikroORM option
  * parser are the code the order has to survive, and a double of them would assert this file's opinion of
  * them rather than the platform's behaviour. Only the two repositories each service holds are doubled, and
@@ -20,12 +20,12 @@
  * substitution, for the same reason, that `soft-delete.spec.ts` makes.
  */
 
-jest.mock('@gauzy/plugin-order', () => ({
+jest.mock('@irtranscripts/plugin-order', () => ({
 	OrderLineService: class OrderLineService {},
 	OrderTotalsService: class OrderTotalsService {}
 }));
 
-import { MultiORMEnum, RequestContext } from '@gauzy/core';
+import { MultiORMEnum, RequestContext } from '@irtranscripts/core';
 import { FulfillmentService } from '../fulfillment/fulfillment.service';
 import { ShippingOptionService } from '../shipping-option/shipping-option.service';
 import { ShippingProfileService } from '../shipping-profile/shipping-profile.service';

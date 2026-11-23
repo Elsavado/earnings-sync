@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
-import { TimerStatusUpdatedEvent } from '@gauzy/core';
+import { TimerStatusUpdatedEvent } from '@irtranscripts/core';
 import { SimService } from '../sim.service';
 import { SimEventName } from '../dto/event-mapping.dto';
 import { redactForSim } from './sim-task-scope';

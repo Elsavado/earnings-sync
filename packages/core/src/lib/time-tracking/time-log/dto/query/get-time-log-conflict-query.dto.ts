@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, TransformFnParams } from 'class-transformer';
 import { IsArray, IsDate, IsEnum, IsNotEmpty, IsOptional, IsUUID } from 'class-validator';
-import { ID, IGetTimeLogConflictInput } from '@gauzy/contracts';
+import { ID, IGetTimeLogConflictInput } from '@irtranscripts/contracts';
 import { moment } from './../../../../core/moment-extend';
 import { parseRelationsString } from './../../../../shared/dto';
 

@@ -1,5 +1,5 @@
-import type { ID, PluginStatus, PluginType } from '@gauzy/contracts';
-import { IPlugin as PluginModel } from '@gauzy/contracts';
+import type { ID, PluginStatus, PluginType } from '@irtranscripts/contracts';
+import { IPlugin as PluginModel } from '@irtranscripts/contracts';
 import type {
 	IPluginSubscriptionPlanCreateInput,
 	IPluginSubscriptionPlanUpdateInput

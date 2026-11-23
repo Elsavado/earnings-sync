@@ -2,7 +2,7 @@ import {
 	DocumentKnowledgeStatusEnum,
 	DocumentReviewReasonEnum,
 	DocumentReviewStatusEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { isBlockedByReviewCircuitBreaker, isRetrievable } from './retrieval-gate';
 
 /**

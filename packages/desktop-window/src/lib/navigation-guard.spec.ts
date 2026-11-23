@@ -20,7 +20,7 @@ jest.mock(
 
 import { guardNavigation, installNavigationGuard, isOwnFilePage, mayNavigate } from './navigation-guard';
 
-const APP_PAGE = 'file:///opt/Gauzy/resources/app.asar/dist/index.html#/time-tracker';
+const APP_PAGE = 'file:///opt/IRTranscripts/resources/app.asar/dist/index.html#/time-tracker';
 const API = 'https://api.example.com';
 
 /** A web contents stand-in: its preferences, the page it shows, and the `will-navigate` it registers. */
@@ -80,7 +80,7 @@ describe('a privileged desktop window follows no link out of its own pages', () 
 		const { contents, navigate } = contentsWith(TIMER_PREFERENCES);
 		guardNavigation(contents, { trustedUrls: () => [API, undefined] });
 
-		expect(navigate('file:///opt/Gauzy/resources/app.asar/dist/index.html#/settings')).toBe('followed');
+		expect(navigate('file:///opt/IRTranscripts/resources/app.asar/dist/index.html#/settings')).toBe('followed');
 		expect(navigate(`${API}/api/auth/google`)).toBe('followed');
 
 		const dev = contentsWith(TIMER_PREFERENCES, 'http://localhost:4200/#/time-tracker');

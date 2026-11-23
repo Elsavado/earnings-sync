@@ -1,5 +1,5 @@
 import { BadRequestException, ConflictException, ForbiddenException } from '@nestjs/common';
-import { ID, RequestApprovalStatusTypesEnum } from '@gauzy/contracts';
+import { ID, RequestApprovalStatusTypesEnum } from '@irtranscripts/contracts';
 
 /**
  * Who may answer a request approval, and what an answer does to it.

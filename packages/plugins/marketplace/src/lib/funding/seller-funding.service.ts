@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { AdjustmentFunding, AdjustmentOwnerType, DecimalString, ID } from '@gauzy/contracts';
+import { AdjustmentFunding, AdjustmentOwnerType, DecimalString, ID } from '@irtranscripts/contracts';
 import {
 	Adjustment,
 	AdjustmentService,
@@ -7,7 +7,7 @@ import {
 	addDecimalStrings,
 	formatDecimalUnits,
 	toUnitsAtScale
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 
 /** One order line's discounts, split by who bears them. */
 export interface ILineFunding {

@@ -15,7 +15,7 @@ import {
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CommandBus } from '@nestjs/cqrs';
 import { DeleteResult } from 'typeorm';
-import { PermissionsEnum, IProductTranslated, IImageAsset, IPagination, LanguagesEnum, ID } from '@gauzy/contracts';
+import { PermissionsEnum, IProductTranslated, IImageAsset, IPagination, LanguagesEnum, ID } from '@irtranscripts/contracts';
 import {
 	BulkExecutor,
 	BulkItemResult,

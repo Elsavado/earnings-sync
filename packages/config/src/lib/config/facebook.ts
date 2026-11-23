@@ -1,5 +1,5 @@
 import { registerAs } from '@nestjs/config';
-import { IFacebookConfig } from '@gauzy/common';
+import { IFacebookConfig } from '@irtranscripts/common';
 
 /**
  * Register Facebook OAuth configuration using @nestjs/config

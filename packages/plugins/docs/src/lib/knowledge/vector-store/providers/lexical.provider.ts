@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { ID } from '@gauzy/contracts';
-import { isPostgres } from '@gauzy/config';
-import { prepareSQLQuery as p } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { isPostgres } from '@irtranscripts/config';
+import { prepareSQLQuery as p } from '@irtranscripts/core';
 import { TypeOrmDocumentChunkRepository } from '../../../repositories/type-orm-document-chunk.repository';
 import { VECTOR_STORE_LEXICAL } from '../../knowledge.constants';
 import { applyRetrievalFilters } from '../../retrieval/retrieval-filters';

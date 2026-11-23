@@ -4,7 +4,7 @@ import type { UiBridgeFramework } from './ui-bridge/ui-bridge.interface';
 
 /**
  * Minimal shape for a plugin-contributed page route.
- * Compatible with PageRouteRegistryConfig from @gauzy/ui-core.
+ * Compatible with PageRouteRegistryConfig from @irtranscripts/ui-core.
  */
 export interface PluginRouteInput {
 	/** Location identifier (e.g. 'page-sections', 'jobs-sections'). */
@@ -52,7 +52,7 @@ export interface PluginRouteInput {
 
 /**
  * Minimal shape for a plugin-contributed nav section or item.
- * Compatible with NavMenuSectionItem from @gauzy/ui-core.
+ * Compatible with NavMenuSectionItem from @irtranscripts/ui-core.
  */
 export interface PluginNavItemInput {
 	id: string;
@@ -83,10 +83,10 @@ export type PluginNavContribution =
 
 /**
  * Minimal interface for reading translations in plugin callbacks (e.g. tabTitle).
- * Structurally compatible with I18nService from @gauzy/ui-core/i18n (duck typing).
+ * Structurally compatible with I18nService from @irtranscripts/ui-core/i18n (duck typing).
  *
  * Use this in plugin definitions instead of importing I18nService directly,
- * so plugins remain decoupled from @gauzy/ui-core.
+ * so plugins remain decoupled from @irtranscripts/ui-core.
  */
 export interface IPluginI18nService {
 	getTranslation(key: string, params?: Object): string;
@@ -94,7 +94,7 @@ export interface IPluginI18nService {
 
 /**
  * Minimal shape for a plugin-contributed page tab.
- * Compatible with PageTabRegistryConfig from @gauzy/ui-core.
+ * Compatible with PageTabRegistryConfig from @irtranscripts/ui-core.
  */
 export interface PluginTabInput {
 	/** Tabset id (e.g. 'dashboard-page', 'timesheet-page', 'job-employee-page'). */
@@ -126,10 +126,10 @@ export interface PluginTabInput {
 /**
  * A dashboard-builder widget contributed by a plugin.
  *
- * Structurally compatible with `WidgetRegistryConfig` from @gauzy/ui-core/core,
+ * Structurally compatible with `WidgetRegistryConfig` from @irtranscripts/ui-core/core,
  * declaring only the fields `WidgetRegistryService.registerOrReplaceWidget()`
  * validates at runtime. Every other `WidgetRegistryConfig` field (title, icon,
- * loadComponent, ...) rides along structurally. This keeps @gauzy/plugin-ui
+ * loadComponent, ...) rides along structurally. This keeps @irtranscripts/plugin-ui
  * dependency-free while still failing at COMPILE time on the mistakes the
  * registry would otherwise only catch at bootstrap.
  */
@@ -143,7 +143,7 @@ export interface PluginWidgetInput {
 }
 
 /**
- * Defines a UI plugin for the Gauzy application.
+ * Defines a UI plugin for the IRTranscripts application.
  *
  * Each plugin encapsulates an Angular module, its metadata, and a
  * location key used by the plugin registry to wire routes, navigation
@@ -174,7 +174,7 @@ export interface PluginUiDefinition {
 	 * Use for code-splitting heavy plugins.
 	 *
 	 * @example
-	 * loadModule: () => import('@gauzy/plugin-jobs-ui').then(m => m.JobsModule)
+	 * loadModule: () => import('@irtranscripts/plugin-jobs-ui').then(m => m.JobsModule)
 	 */
 	loadModule?: () => Promise<Type<any>>;
 
@@ -268,13 +268,13 @@ export interface PluginUiDefinition {
 	/**
 	 * Dashboard-builder widgets contributed by this plugin.
 	 *
-	 * Each entry is a `WidgetRegistryConfig` (from @gauzy/ui-core/core) and is
+	 * Each entry is a `WidgetRegistryConfig` (from @irtranscripts/ui-core/core) and is
 	 * published to the widget palette, so users can drop it onto any custom
 	 * dashboard canvas. Applied by `applyDeclarativeRegistrations()` when a
 	 * `widgetRegistry` service is available.
 	 *
 	 * Structurally typed (rather than importing `WidgetRegistryConfig`) to keep
-	 * @gauzy/plugin-ui free of a build-time dependency on the widget registry,
+	 * @irtranscripts/plugin-ui free of a build-time dependency on the widget registry,
 	 * while still catching at compile time the three fields the registry
 	 * validates at runtime.
 	 */

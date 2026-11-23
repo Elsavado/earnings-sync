@@ -2,7 +2,7 @@ import { NbDialogConfig } from '@nebular/theme';
 import { DOCUMENT_CONTENT_SEARCH_MIN_CHARS } from './models/docs-api.model';
 
 /**
- * Shared constants for the Documents hub UI (`@gauzy/plugin-docs-ui`).
+ * Shared constants for the Documents hub UI (`@irtranscripts/plugin-docs-ui`).
  */
 
 /** Route location id where other plugins can contribute Documents sub-pages. */
@@ -86,10 +86,10 @@ export const DOCS_PREVIEW_DIALOG_CONFIG: Partial<NbDialogConfig> = {
 };
 
 /** localStorage key — tree column collapsed state. */
-export const DOCS_TREE_COLLAPSED_KEY = 'gauzy_docs_tree_collapsed';
+export const DOCS_TREE_COLLAPSED_KEY = 'irtranscripts_docs_tree_collapsed';
 
 /** localStorage key — per-user table column visibility (`01-ux-spec.md` §4.1). */
-export const DOCS_TABLE_COLUMNS_KEY = 'gauzy_docs_columns';
+export const DOCS_TABLE_COLUMNS_KEY = 'irtranscripts_docs_columns';
 
 /**
  * Viewport width (px) below which the table drops its low-priority columns by
@@ -106,7 +106,7 @@ export const DOCS_NARROW_BREAKPOINT_PX = 992;
 export const DOCS_REVIEW_TOAST_DURATION_MS = 10000;
 
 /** localStorage key prefix — recently opened document ids (per organization). */
-export const DOCS_RECENTS_KEY_PREFIX = 'gauzy_docs_recents_';
+export const DOCS_RECENTS_KEY_PREFIX = 'irtranscripts_docs_recents_';
 
 /** Number of recent documents kept in the tree "Recents" section. */
 export const DOCS_RECENTS_LIMIT = 10;
@@ -117,7 +117,7 @@ export const DOCS_RECENTS_LIMIT = 10;
  * scoped per organization exactly like the recents list above (a browser
  * profile is one user).
  */
-export const DOCS_SAVED_VIEWS_KEY_PREFIX = 'gauzy_docs_saved_views_';
+export const DOCS_SAVED_VIEWS_KEY_PREFIX = 'irtranscripts_docs_saved_views_';
 
 /** Cap on stored saved views per organization (localStorage is a shared 5 MB budget). */
 export const DOCS_SAVED_VIEWS_LIMIT = 20;

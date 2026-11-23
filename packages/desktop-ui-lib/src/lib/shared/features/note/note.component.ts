@@ -9,7 +9,7 @@ import { TextAreaComponent } from '../../components/ui/text-area/text-area.compo
 import { AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'gauzy-note',
+    selector: 'irtranscripts-note',
     templateUrl: './note.component.html',
     styleUrls: ['./note.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

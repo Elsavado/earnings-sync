@@ -4,7 +4,7 @@ import {
 	IPluginSubscription as PluginSubscriptionModel,
 	IPluginSubscriptionPlan as PluginSubscriptionPlanModel,
 	PluginSubscriptionStatus
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 /**
  * Interface for plugin subscription plans

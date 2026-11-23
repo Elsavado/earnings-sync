@@ -2,7 +2,7 @@ import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Cache } from 'cache-manager';
 import { Utils, wrap } from '@mikro-orm/core';
-import { ID, IRole, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IRole, PermissionsEnum } from '@irtranscripts/contracts';
 import { IAuthenticatedUser } from '../core/context/types';
 import { getORMType, MultiORM, MultiORMEnum, parseTypeORMFindToMikroOrm } from '../core/utils';
 import { Role } from './role.entity';

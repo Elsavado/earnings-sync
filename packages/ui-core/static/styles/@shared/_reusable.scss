@@ -4,7 +4,7 @@
 
 $button-color: #fa754e;
 $wrapper-padding: 30px;
-$register-background-light-color: nb-theme(gauzy-card-1);
+$register-background-light-color: nb-theme(irtranscripts-card-1);
 
 @keyframes spin {
   0% {
@@ -16,7 +16,7 @@ $register-background-light-color: nb-theme(gauzy-card-1);
 }
 
 .card {
-  background: nb-theme(gauzy-card-1);
+  background: nb-theme(irtranscripts-card-1);
 }
 
 // Queries
@@ -232,12 +232,12 @@ $register-background-light-color: nb-theme(gauzy-card-1);
   ::ng-deep .input-full-width {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 0.5px 0.5px 0.5px inset;
     border-radius: nb-theme(border-radius);
-    background-color: nb-theme(gauzy-input-background) !important;
+    background-color: nb-theme(irtranscripts-input-background) !important;
     border: unset;
   }
 
   ::ng-deep ngx-register .register-wrapper .input-full-width {
-    background-color: nb-theme(gauzy-input-background) !important;
+    background-color: nb-theme(irtranscripts-input-background) !important;
   }
 
   ::ng-deep ngx-register .register-wrapper.dark .input-full-width {

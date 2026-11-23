@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler, CommandBus } from '@nestjs/cqrs';
-import { ITag, IntegrationEntity } from '@gauzy/contracts';
+import { ITag, IntegrationEntity } from '@irtranscripts/contracts';
 import { RequestContext } from '../../../core/context';
 import { TagCreateCommand, TagUpdateCommand } from '../../../tags/commands';
 import { TagService } from '../../../tags/tag.service';
@@ -53,7 +53,7 @@ export class IntegrationMapSyncLabelHandler implements ICommandHandler<Integrati
 			);
 			await this._commandBus.execute(
 				new IntegrationMapSyncEntityCommand({
-					gauzyId: tag.id,
+					irtranscriptsId: tag.id,
 					entity: IntegrationEntity.LABEL,
 					integrationId,
 					sourceId,
@@ -65,15 +65,15 @@ export class IntegrationMapSyncLabelHandler implements ICommandHandler<Integrati
 		}
 
 		// Try to find the corresponding tag
-		const mappedTag = await this._tagService.findOneByIdString(integrationMap.gauzyId).catch(nullIfNotFound);
+		const mappedTag = await this._tagService.findOneByIdString(integrationMap.irtranscriptsId).catch(nullIfNotFound);
 		if (mappedTag) {
 			// Update the corresponding tag with the new input data
-			return await this._commandBus.execute(new TagUpdateCommand(integrationMap.gauzyId, entity));
+			return await this._commandBus.execute(new TagUpdateCommand(integrationMap.irtranscriptsId, entity));
 		}
 		// The mapped tag is gone: re-create it under the mapped id
 		return await this._commandBus.execute(
 			new TagCreateCommand({
-				id: integrationMap.gauzyId,
+				id: integrationMap.irtranscriptsId,
 				name,
 				color,
 				description,

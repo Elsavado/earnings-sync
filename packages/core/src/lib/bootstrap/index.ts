@@ -40,8 +40,8 @@ import * as path from 'node:path';
 import { graphqlEndpointPath, installBodyParsers } from './body-parsers';
 import { IncomingMessage } from 'node:http';
 import { EntitySubscriberInterface } from 'typeorm';
-import { ApplicationPluginConfig } from '@gauzy/common';
-import { getConfig, defineConfig, environment } from '@gauzy/config';
+import { ApplicationPluginConfig } from '@irtranscripts/common';
+import { getConfig, defineConfig, environment } from '@irtranscripts/config';
 import {
 	getEntitiesFromPlugins,
 	getMigrationsFromPlugins,
@@ -49,7 +49,7 @@ import {
 	getSubscribersFromPlugins,
 	isDynamicModule,
 	orderPluginMigrations
-} from '@gauzy/plugin';
+} from '@irtranscripts/plugin';
 import { MultiORMEnum, getORMType } from '../core/utils';
 import { ApiExceptionFilter, DatabaseErrorFilter } from '../core/errors';
 import { RequestContextMiddleware } from '../core/context';
@@ -279,7 +279,7 @@ export async function bootstrap(pluginConfig?: Partial<ApplicationPluginConfig>)
 				? undefined // use Helmet's strict default CSP in production
 				: false, // disable CSP in dev/stage so Swagger/Scalar inline scripts work
 			crossOriginResourcePolicy: {
-				// Prod default: same-site lets *.gauzy.co (e.g. app.gauzy.co) embed API-served assets like
+				// Prod default: same-site lets *.irtranscripts.com (e.g. app.irtranscripts.com) embed API-served assets like
 				// /public icons, while still blocking third-party origins; relaxed in dev/stage — resources
 				// served from API. Overridable because a deployment may legitimately serve its API and web
 				// app from two DIFFERENT sites (e.g. *.onrender.com, a public suffix), where 'same-site'

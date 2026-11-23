@@ -1,7 +1,7 @@
 import { ActivityWatchEventTableList, IActivityWatchEventService } from './i-activity-watch-event-service';
 import { IDesktopEvent } from '../../interfaces';
 import { ActivityWatchDAO } from './dao-layer';
-import { ActivityWatchEventType } from '@gauzy/contracts';
+import { ActivityWatchEventType } from '@irtranscripts/contracts';
 
 export class ActivityWatchFirefoxService implements IActivityWatchEventService {
 	private readonly firefoxDAO: IActivityWatchEventService;

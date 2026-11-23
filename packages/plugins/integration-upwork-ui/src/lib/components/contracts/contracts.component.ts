@@ -7,10 +7,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Cell } from 'angular2-smart-table';
 import * as moment from 'moment';
-import { IEngagement } from '@gauzy/contracts';
-import { ErrorHandlingService, ToastrService, UpworkStoreService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { DateViewComponent } from '@gauzy/ui-core/shared';
+import { IEngagement } from '@irtranscripts/contracts';
+import { ErrorHandlingService, ToastrService, UpworkStoreService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { DateViewComponent } from '@irtranscripts/ui-core/shared';
 import { SyncDataSelectionComponent } from '../sync-data-selection/sync-data-selection.component';
 
 @UntilDestroy()

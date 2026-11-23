@@ -1,3 +1,3 @@
-# Changelog for @gauzy/plugin-maintenance-ui
+# Changelog for @irtranscripts/plugin-maintenance-ui
 
 ## [Unreleased]

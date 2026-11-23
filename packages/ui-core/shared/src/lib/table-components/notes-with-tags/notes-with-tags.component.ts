@@ -1,11 +1,11 @@
 import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ComponentLayoutStyleEnum } from '@gauzy/contracts';
+import { ComponentLayoutStyleEnum } from '@irtranscripts/contracts';
 import { Color } from '@kurkle/color';
 import { NbThemeService } from '@nebular/theme';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Rgba } from 'ngx-color-picker';
 import { TranslateService } from '@ngx-translate/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 
 @Component({
     selector: 'ga-notes-with-tags',

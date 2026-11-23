@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult, UpdateResult } from 'typeorm';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import {
 	AbstractValidationPipe,
 	CrudController,
@@ -23,7 +23,7 @@ import {
 	TenantPermissionGuard,
 	UseValidationPipe,
 	UUIDValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { PRICING_PERMISSION_VALUES, pricingPermission } from '../pricing.permissions';
 import { IResolvedPrice } from '../pricing.types';
 import { ProductPrice } from './product-price.entity';

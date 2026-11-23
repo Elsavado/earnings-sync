@@ -2,17 +2,17 @@ import { Inject, Injectable, NestMiddleware } from '@nestjs/common';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { Request, Response, NextFunction } from 'express';
-import { IIntegrationSetting, IntegrationEnum } from '@gauzy/contracts';
-import { arrayToObject, isNotEmpty } from '@gauzy/utils';
-import { IntegrationTenantService } from '@gauzy/core';
+import { IIntegrationSetting, IntegrationEnum } from '@irtranscripts/contracts';
+import { arrayToObject, isNotEmpty } from '@irtranscripts/utils';
+import { IntegrationTenantService } from '@irtranscripts/core';
 import { RequestConfigProvider } from './request-config.provider';
 
 /**
  * The `tenantId` claim of the request's bearer token, read without verifying the token, or undefined.
  *
  * This middleware runs before authentication, and it used to take the tenant from the `tenant-id` header or the body:
- * a signed-in user of one tenant who named another tenant there had that tenant's Gauzy AI and OpenAI keys loaded for
- * the request, and the job routes then called Gauzy AI with them. The token's own claim names the caller's tenant. It
+ * a signed-in user of one tenant who named another tenant there had that tenant's IRTranscripts AI and OpenAI keys loaded for
+ * the request, and the job routes then called IRTranscripts AI with them. The token's own claim names the caller's tenant. It
  * is only decoded here, as `TenantSettingsMiddleware` does: every route this middleware serves runs after the
  * AuthGuard has verified the token, so the keys of a tenant named by a forged token never reach a handler.
  *
@@ -73,11 +73,11 @@ export class IntegrationAIMiddleware implements NestMiddleware {
 			if (isNotEmpty(tenantId) && isNotEmpty(organizationId)) {
 				if (this.logging) {
 					console.log(
-						`Getting Gauzy AI integration settings from Cache for tenantId: ${tenantId}, organizationId: ${organizationId}`
+						`Getting IRTranscripts AI integration settings from Cache for tenantId: ${tenantId}, organizationId: ${organizationId}`
 					);
 				}
 
-				const cacheKey = `integrationTenantSettings_${tenantId}_${organizationId}_${IntegrationEnum.GAUZY_AI}`;
+				const cacheKey = `integrationTenantSettings_${tenantId}_${organizationId}_${IntegrationEnum.IRTRANSCRIPTS_AI}`;
 
 				// Fetch integration settings from cache
 				let integrationTenantSettings: IIntegrationSetting[] = await this.cacheManager.get(cacheKey);
@@ -85,7 +85,7 @@ export class IntegrationAIMiddleware implements NestMiddleware {
 				if (!integrationTenantSettings) {
 					if (this.logging) {
 						console.log(
-							`Gauzy AI integration settings NOT loaded from Cache for tenantId: ${tenantId}, organizationId: ${organizationId}`
+							`IRTranscripts AI integration settings NOT loaded from Cache for tenantId: ${tenantId}, organizationId: ${organizationId}`
 						);
 					}
 
@@ -93,7 +93,7 @@ export class IntegrationAIMiddleware implements NestMiddleware {
 					const fromDb = await this._integrationTenantService.getIntegrationTenantSettings({
 						tenantId,
 						organizationId,
-						name: IntegrationEnum.GAUZY_AI
+						name: IntegrationEnum.IRTRANSCRIPTS_AI
 					});
 
 					if (fromDb && fromDb.settings) {
@@ -104,14 +104,14 @@ export class IntegrationAIMiddleware implements NestMiddleware {
 
 						if (this.logging) {
 							console.log(
-								`Gauzy AI integration settings loaded from DB and stored in Cache for tenantId: ${tenantId}, organizationId: ${organizationId}`
+								`IRTranscripts AI integration settings loaded from DB and stored in Cache for tenantId: ${tenantId}, organizationId: ${organizationId}`
 							);
 						}
 					}
 				} else {
 					if (this.logging) {
 						console.log(
-							`Gauzy AI integration settings loaded from Cache for tenantId: ${tenantId}, organizationId: ${organizationId}`
+							`IRTranscripts AI integration settings loaded from Cache for tenantId: ${tenantId}, organizationId: ${organizationId}`
 						);
 					}
 				}

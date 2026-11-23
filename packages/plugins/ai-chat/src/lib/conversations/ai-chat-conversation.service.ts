@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { FindOptionsWhere } from 'typeorm';
-import { TenantAwareCrudService } from '@gauzy/core';
+import { TenantAwareCrudService } from '@irtranscripts/core';
 import { AiChatConversation } from './ai-chat-conversation.entity';
 import { MikroOrmAiChatConversationRepository } from './repositories/mikro-orm-ai-chat-conversation.repository';
 import { TypeOrmAiChatConversationRepository } from './repositories/type-orm-ai-chat-conversation.repository';

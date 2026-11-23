@@ -1,4 +1,4 @@
-import { IApprovalPolicy } from '@gauzy/contracts';
+import { IApprovalPolicy } from '@irtranscripts/contracts';
 import { ICommand } from '@nestjs/cqrs';
 import { BaseQueryDTO } from './../../core/crud';
 

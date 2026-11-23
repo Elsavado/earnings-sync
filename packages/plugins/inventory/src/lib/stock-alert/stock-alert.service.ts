@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { FindManyOptions } from 'typeorm';
-import { ID, IPagination } from '@gauzy/contracts';
-import { RequestContext, WarehouseProductVariant } from '@gauzy/core';
+import { ID, IPagination } from '@irtranscripts/contracts';
+import { RequestContext, WarehouseProductVariant } from '@irtranscripts/core';
 import { InventoryErrorCode, inventoryError } from './../inventory.errors';
 import { StockAlert } from './stock-alert.entity';
 import { TypeOrmStockAlertRepository } from './repository/type-orm-stock-alert.repository';

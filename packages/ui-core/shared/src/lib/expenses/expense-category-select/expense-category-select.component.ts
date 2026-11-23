@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy, Input, forwardRef, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
-import { IExpenseCategory, IOrganization, IOrganizationExpenseCategory, IOrganizationVendor } from '@gauzy/contracts';
+import { IExpenseCategory, IOrganization, IOrganizationExpenseCategory, IOrganizationVendor } from '@irtranscripts/contracts';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, filter, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ErrorHandlingService, OrganizationExpenseCategoriesService, ToastrService } from '@gauzy/ui-core/core';
-import { Store } from '@gauzy/ui-core/core';
-import { removeDuplicatesByProperty } from '@gauzy/ui-core/common';
+import { ErrorHandlingService, OrganizationExpenseCategoriesService, ToastrService } from '@irtranscripts/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
+import { removeDuplicatesByProperty } from '@irtranscripts/ui-core/common';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

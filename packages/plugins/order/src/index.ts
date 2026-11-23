@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-order
+ * Public API Surface of @irtranscripts/plugin-order
  */
 export * from './lib/order.plugin';
 export * from './lib/order.module';

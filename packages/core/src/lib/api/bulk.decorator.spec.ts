@@ -1,4 +1,4 @@
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { BULK_OPERATION_METADATA, BulkOperation, bulkOptionsOf, readBulkOperation } from './bulk.decorator';
 
 /**

@@ -31,10 +31,10 @@ jest.mock('./import-archive-file-name', () => ({
 	generateImportArchiveFileName: () => '.import-00000000-0000-4000-8000-000000000000.zip'
 }));
 
-import { ImportStatusEnum, ImportTypeEnum } from '@gauzy/contracts';
+import { ImportStatusEnum, ImportTypeEnum } from '@irtranscripts/contracts';
 import { ImportController } from './import.controller';
 
-const EXTRACT_PATH = '/tmp/gauzy-import-abc123';
+const EXTRACT_PATH = '/tmp/irtranscripts-import-abc123';
 const KEY = 'import/import-1757000000-123.zip';
 
 /**
@@ -121,7 +121,7 @@ describe('ImportController', () => {
 	it('gives concurrent imports their own extraction directories', async () => {
 		const service = buildService();
 		let counter = 0;
-		service.createExtractDirectory = jest.fn(async () => `/tmp/gauzy-import-${++counter}`);
+		service.createExtractDirectory = jest.fn(async () => `/tmp/irtranscripts-import-${++counter}`);
 		service.unzipAndParse = jest.fn(async () => {
 			await new Promise((resolve) => setTimeout(resolve, 5));
 		});

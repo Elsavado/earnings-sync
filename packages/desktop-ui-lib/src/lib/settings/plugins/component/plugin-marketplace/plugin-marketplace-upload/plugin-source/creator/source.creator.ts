@@ -1,5 +1,5 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { IPluginSource, PluginOSArch, PluginOSType, PluginSourceType } from '@gauzy/contracts';
+import { IPluginSource, PluginOSArch, PluginOSType, PluginSourceType } from '@irtranscripts/contracts';
 
 export abstract class SourceCreator {
 	public abstract createSource(source?: IPluginSource): FormGroup;

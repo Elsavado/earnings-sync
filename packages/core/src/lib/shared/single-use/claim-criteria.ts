@@ -1,5 +1,5 @@
 import { MoreThanOrEqual } from 'typeorm';
-import { ID, InviteStatusEnum } from '@gauzy/contracts';
+import { ID, InviteStatusEnum } from '@irtranscripts/contracts';
 
 /**
  * WHERE clauses for the single-use token and code claims.

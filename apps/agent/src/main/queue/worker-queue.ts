@@ -1,7 +1,7 @@
 import { app } from "electron";
-import { DesktopQueue, IQueueUpdatePayload } from "@gauzy/desktop-activity";
+import { DesktopQueue, IQueueUpdatePayload } from "@irtranscripts/desktop-activity";
 import * as path from 'path';
-import { ITimeslotQueuePayload, ITimerCallbackPayload, IScreenshotQueuePayload } from "@gauzy/desktop-activity";
+import { ITimeslotQueuePayload, ITimerCallbackPayload, IScreenshotQueuePayload } from "@irtranscripts/desktop-activity";
 import { QueueAudit } from "./audit-queue";
 import { ApiService } from '../api';
 import { SyncManager } from './sync-manager';

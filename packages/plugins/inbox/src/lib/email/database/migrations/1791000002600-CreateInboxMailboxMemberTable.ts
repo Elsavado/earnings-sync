@@ -35,7 +35,7 @@ export const INBOX_MAILBOX_MEMBER_FOREIGN_KEYS: EmailTableForeignKey[] = [
 /**
  * `inbox_mailbox_member` (plan 04 §2, G-P4-2): the users of a shared mailbox; unique on `(mailboxId, userId)`.
  *
- * Registered only where `GAUZY_INBOX_ENABLED=true` and `GAUZY_INBOX_EMAIL_ENABLED=true` load the Inbox email plugin.
+ * Registered only where `IRTRANSCRIPTS_INBOX_ENABLED=true` and `IRTRANSCRIPTS_INBOX_EMAIL_ENABLED=true` load the Inbox email plugin.
  * Idempotent on every dialect (a re-run issues no DDL and repairs what a failed run left out), serialised on
  * Postgres, reversible (`down` drops the table).
  */

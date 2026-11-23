@@ -21,7 +21,7 @@
                 height: 100%;
                 object-fit: cover;
                 border-radius: var(--border-radius);
-                box-shadow: var(--gauzy-shadow);
+                box-shadow: var(--irtranscripts-shadow);
             }
         }
 
@@ -46,7 +46,7 @@
             // row and came out at the same full-strength white as the name above
             // it — two lines of equal weight where only one is the subject.
             //
-            // `gauzy-text-color-2` is the same token the avatar chip's own
+            // `irtranscripts-text-color-2` is the same token the avatar chip's own
             // `.caption` uses. The two components sit side by side in every one of
             // these tables, each a title over a secondary line, so they now read as
             // one pattern instead of disagreeing about which of the two matters.
@@ -56,7 +56,7 @@
                 font-weight: 400;
                 line-height: 13px;
                 letter-spacing: 0em;
-                color: var(--gauzy-text-color-2);
+                color: var(--irtranscripts-text-color-2);
             }
         }
     }

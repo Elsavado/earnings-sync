@@ -1,4 +1,4 @@
-import { isClassInstance, isNotEmpty, isObject } from '@gauzy/utils';
+import { isClassInstance, isNotEmpty, isObject } from '@irtranscripts/utils';
 
 /**
  * Checks if value is needs to be wrap with specific character.

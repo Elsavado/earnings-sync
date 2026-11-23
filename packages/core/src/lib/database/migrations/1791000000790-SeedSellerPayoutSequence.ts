@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
 import { v4 as uuidv4 } from 'uuid';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 /** The databases this migration runs on. Both SQLite drivers share one entry. */
 type Dialect = 'postgres' | 'sqlite' | 'mysql';
@@ -44,7 +44,7 @@ export class SeedSellerPayoutSequence1791000000790 implements MigrationInterface
 	private readonly advisoryLockKey = 1791000000790;
 
 	/** The MySQL named lock of this migration (MySQL refuses names over 64 characters). */
-	readonly mysqlLockName = `gauzy:migration:${this.advisoryLockKey}`;
+	readonly mysqlLockName = `irtranscripts:migration:${this.advisoryLockKey}`;
 
 	public async up(queryRunner: QueryRunner): Promise<void> {
 		console.log(chalk.yellow(this.name + ' start running!'));

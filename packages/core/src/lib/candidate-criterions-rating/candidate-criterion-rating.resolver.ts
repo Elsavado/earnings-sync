@@ -1,7 +1,7 @@
 import { CommandBus } from '@nestjs/cqrs';
 import { NotFoundException, UseGuards } from '@nestjs/common';
 import { Args, ID, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { ID as Id, ICandidateCriterionsRating, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID as Id, ICandidateCriterionsRating, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	ConnectionFilter,
 	ConnectionPageRequest,
@@ -9,7 +9,7 @@ import {
 	GraphqlConnection,
 	buildConnection
 } from '../api/graphql-connection';
-import { FeatureFlag } from '@gauzy/common';
+import { FeatureFlag } from '@irtranscripts/common';
 import { Permissions } from '../shared/decorators';
 import { FeatureFlagGuard, PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { FEATURE_GRAPHQL } from '../feature/graphql-feature.code';

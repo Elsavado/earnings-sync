@@ -1,4 +1,4 @@
-import { IActivitiesStatistics } from '@gauzy/contracts';
+import { IActivitiesStatistics } from '@irtranscripts/contracts';
 import { IStatisticItem } from '../../ui/statistic/statistic.component';
 
 export class ActivityStatisticsAdapter implements IStatisticItem {

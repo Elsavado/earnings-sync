@@ -12,7 +12,7 @@ function mockClass() {
 function mockModule() {
 	return new Proxy({ __esModule: true }, { get: (module, name) => module[name] ?? mockClass() });
 }
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	assertPlainReferencesNotForeign: jest.requireActual(
 		'../../../../../core/src/lib/core/crud/plain-reference-ownership.helper'
 	).assertPlainReferencesNotForeign,

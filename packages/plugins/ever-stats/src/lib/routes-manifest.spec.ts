@@ -1,7 +1,7 @@
 import { Controller, Get, Type } from '@nestjs/common';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { Public } from '@gauzy/common';
+import { Public } from '@irtranscripts/common';
 import { EverStatsModule } from './ever-stats.module';
 import { collectPublicRoutes } from './routes-manifest';
 
@@ -10,11 +10,11 @@ const MANIFEST = join(__dirname, '../../ever-connect.routes.json');
 /**
  * `ever-connect.routes.json` declares every route of this module that answers without
  * authentication. It must equal the routes the module registers when every optional route is mounted
- * (`EVER_STATS_SERVES=gauzy,teams`). `UPDATE_ROUTES_MANIFEST=1` rewrites the method and path list;
+ * (`EVER_STATS_SERVES=irtranscripts,teams`). `UPDATE_ROUTES_MANIFEST=1` rewrites the method and path list;
  * the descriptions stay hand-written.
  */
 describe('route manifest', () => {
-	const registered = () => collectPublicRoutes(EverStatsModule.register({ EVER_STATS_SERVES: 'gauzy,teams' }).controllers as Array<Type<unknown>>);
+	const registered = () => collectPublicRoutes(EverStatsModule.register({ EVER_STATS_SERVES: 'irtranscripts,teams' }).controllers as Array<Type<unknown>>);
 
 	it('declares exactly the public routes the module registers', () => {
 		const manifest = JSON.parse(readFileSync(MANIFEST, 'utf8'));
@@ -42,7 +42,7 @@ describe('route manifest', () => {
 				return {};
 			}
 		}
-		const withPlanted = collectPublicRoutes([...(EverStatsModule.register({ EVER_STATS_SERVES: 'gauzy,teams' }).controllers as Array<Type<unknown>>), PlantedController]);
+		const withPlanted = collectPublicRoutes([...(EverStatsModule.register({ EVER_STATS_SERVES: 'irtranscripts,teams' }).controllers as Array<Type<unknown>>), PlantedController]);
 		const manifest = JSON.parse(readFileSync(MANIFEST, 'utf8'));
 		expect(withPlanted).not.toEqual(manifest.public_endpoints.map((e: { method: string; path: string }) => ({ method: e.method, path: e.path })));
 		expect(withPlanted).toContainEqual({ method: 'GET', path: '/api/ever-stats/debug' });

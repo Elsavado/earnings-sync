@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Header, HttpCode, HttpStatus, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ID, PermissionsEnum } from '@gauzy/contracts';
-import { PermissionGuard, Permissions, TenantPermissionGuard, UseValidationPipe, UUIDValidationPipe } from '@gauzy/core';
+import { ID, PermissionsEnum } from '@irtranscripts/contracts';
+import { PermissionGuard, Permissions, TenantPermissionGuard, UseValidationPipe, UUIDValidationPipe } from '@irtranscripts/core';
 import { EVER_WORKS_ROUTE_PREFIX } from '../ever-works.constants';
 import { EverWorksConnectDto, EverWorksKeyDto } from './dto/ever-works-connection.dto';
 import { EverWorksConnectionService } from './ever-works-connection.service';

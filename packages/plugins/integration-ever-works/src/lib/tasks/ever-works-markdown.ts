@@ -1,12 +1,12 @@
 /**
- * Rich text between Ever Works (Markdown / plain text: task descriptions and task chat) and Gauzy
+ * Rich text between Ever Works (Markdown / plain text: task descriptions and task chat) and IRTranscripts
  * (sanitised rich HTML: `task.description`, comments), plan 01 §7. Pure functions, no dependencies.
  *
- * Both directions cover what people and agents write in Ever Works and what Gauzy's editor produces
+ * Both directions cover what people and agents write in Ever Works and what IRTranscripts's editor produces
  * (`RICH_HTML_SANITIZE_OPTIONS`): paragraphs and line breaks, headings, emphasis, strikethrough, inline
  * code and code blocks, links and images (only `http(s)` and `mailto` targets), bullet, numbered and
  * nested lists, quotes, rules and tables. Anything else degrades to its text; nothing is executed or
- * fetched. Gauzy sanitises the HTML again on every write.
+ * fetched. IRTranscripts sanitises the HTML again on every write.
  *
  * The conversion is deterministic, so a value converted once converts to itself again: the engine
  * compares each side with its own last-synced value (plan 01 principle 4, lossy fields never flap).
@@ -19,7 +19,7 @@ export function escapeHtml(text: string): string {
 	return text.replace(/[&<>"']/g, (char) => HTML_ESCAPES[char] ?? char);
 }
 
-/** A link or image target Gauzy and Ever Works both accept: absolute `http(s)`, or `mailto` for links. */
+/** A link or image target IRTranscripts and Ever Works both accept: absolute `http(s)`, or `mailto` for links. */
 export function isSafeUrl(url: string, allowMailto = true): boolean {
 	const value = url.trim();
 	if (value.length > 2048) return false;
@@ -245,7 +245,7 @@ function renderBlocks(source: ReadonlyArray<string>, depth: number): string[] {
 	return out;
 }
 
-/** Ever Works Markdown (or plain text) → Gauzy rich HTML. Empty in, empty out. */
+/** Ever Works Markdown (or plain text) → IRTranscripts rich HTML. Empty in, empty out. */
 export function markdownToHtml(markdown: string | null | undefined): string {
 	const text = normaliseMarkdown(markdown);
 	if (!text) return '';
@@ -275,7 +275,7 @@ function decodeEntities(text: string): string {
 	});
 }
 
-/** A tolerant parser for the HTML Gauzy stores (already sanitised, so well formed in practice). */
+/** A tolerant parser for the HTML IRTranscripts stores (already sanitised, so well formed in practice). */
 export function parseHtml(html: string): HtmlNode {
 	const root: HtmlNode = { tag: '#root', attributes: {}, children: [] };
 	const stack: HtmlNode[] = [root];
@@ -506,7 +506,7 @@ function renderBlockNodes(nodes: ReadonlyArray<HtmlNode | string>, depth = 0): s
 	return out;
 }
 
-/** Gauzy rich HTML → Ever Works Markdown. Empty in, empty out. */
+/** IRTranscripts rich HTML → Ever Works Markdown. Empty in, empty out. */
 export function htmlToMarkdown(html: string | null | undefined): string {
 	const source = String(html ?? '').replace(/\u0000/g, '');
 	if (!source.trim()) return '';

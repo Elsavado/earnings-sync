@@ -6,13 +6,13 @@ const logger = new Logger('Version');
 
 /**
  * @description
- * Current version of the Ever Gauzy Server.
+ * Current version of the Ever IRTranscripts Server.
  *
  * @example
  * ```
  * import { version } from './version';
  *
- * console.log('Ever Gauzy Server MCP Version:', version);
+ * console.log('Ever IRTranscripts Server MCP Version:', version);
  * ```
  *
  * @since 0.1.0
@@ -65,8 +65,8 @@ export const version: string = getVersion();
 // Additional version info
 export const versionInfo = {
 	version,
-	name: 'Gauzy MCP Server',
-	description: 'Model Context Protocol server for Ever Gauzy',
+	name: 'IRTranscripts MCP Server',
+	description: 'Model Context Protocol server for Ever IRTranscripts',
 	author: 'Ever Co. LTD',
 	license: 'AGPL-3.0'
 };

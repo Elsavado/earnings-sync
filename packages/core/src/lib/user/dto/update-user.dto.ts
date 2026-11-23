@@ -1,6 +1,6 @@
 import { ApiPropertyOptional, IntersectionType, PartialType, PickType } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
-import { IUserUpdateInput } from '@gauzy/contracts';
+import { IUserUpdateInput } from '@irtranscripts/contracts';
 import { User } from '../user.entity';
 import { CreateUserDTO } from './create-user.dto';
 

@@ -1,5 +1,5 @@
 import { Injectable, OnModuleInit, Optional } from '@nestjs/common';
-import { declareStreamedEvents, GraphqlSubscriptionConsumer, SubscriptionCatalogue } from '@gauzy/core';
+import { declareStreamedEvents, GraphqlSubscriptionConsumer, SubscriptionCatalogue } from '@irtranscripts/core';
 
 /**
  * The return facts `Subscription.events` may select: the seven lifecycle moves the return service appends

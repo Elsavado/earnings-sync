@@ -9,7 +9,7 @@ import {
 
 /**
  * Minimal Stripe lookup used to decide whether an email is entitled to register on a hosted Ever
- * deployment (app.gauzy.co and friends).
+ * deployment (app.irtranscripts.com and friends).
  *
  * Deliberately implemented against Stripe's REST API with `fetch` rather than the `stripe` SDK, so
  * that self-hosted installs gain no new dependency for a feature they never use. The two calls
@@ -140,7 +140,7 @@ export class StripeSubscriptionService {
 	/**
 	 * The Stripe key this deployment may actually use, or undefined if it must not bill at all.
 	 *
-	 * Read straight from the process environment rather than `@gauzy/config`, because the *absence*
+	 * Read straight from the process environment rather than `@irtranscripts/config`, because the *absence*
 	 * of this value is the feature switch: nothing else in the platform should have to know that
 	 * billing exists, and a fork with no Stripe account must behave exactly as it does today.
 	 *
@@ -148,12 +148,12 @@ export class StripeSubscriptionService {
 	 * getting either wrong is charging somebody real money from an environment that should not:
 	 *
 	 *  - **A demo deployment never bills.** `DEMO=true` disables billing outright, even if a key is
-	 *    present. demo.gauzy.co resets daily and is handed round freely; nothing there should reach a
+	 *    present. demo.irtranscripts.com resets daily and is handed round freely; nothing there should reach a
 	 *    payment provider.
 	 *  - **A live key needs a second, deliberate opt-in.** Any live credential — `sk_live_` *or* the
 	 *    restricted `rk_live_` an operator might reasonably prefer — is honoured only when
 	 *    `STRIPE_LIVE_MODE=true` is also set. Copying a production secret bundle onto staging is an
-	 *    ordinary mistake; silently taking real payments from stage.gauzy.co because of it is not an
+	 *    ordinary mistake; silently taking real payments from stage.irtranscripts.com because of it is not an
 	 *    ordinary consequence. Staging uses a test key and needs no opt-in.
 	 */
 	private get secretKey(): string | undefined {
@@ -169,13 +169,13 @@ export class StripeSubscriptionService {
 		}
 
 		// A deployment that cannot say which product it bills for must not bill at all. Falling back to
-		// the default would, on the Ever Teams deployment, quietly start treating Gauzy purchases as
+		// the default would, on the Ever Teams deployment, quietly start treating IRTranscripts purchases as
 		// Teams ones — so an unusable BILLING_PRODUCT switches billing off, loudly, instead.
 		const { invalid } = resolveBillingProduct();
 		if (invalid !== undefined) {
 			this.warnOnce(
 				'product',
-				`BILLING_PRODUCT="${invalid}" is not a catalog product key (e.g. "gauzy", "teams"). Billing is disabled ` +
+				`BILLING_PRODUCT="${invalid}" is not a catalog product key (e.g. "irtranscripts", "teams"). Billing is disabled ` +
 					'until it is corrected.'
 			);
 			return undefined;
@@ -237,7 +237,7 @@ export class StripeSubscriptionService {
 	}
 
 	/**
-	 * The Ever product this deployment bills for: `BILLING_PRODUCT`, default `gauzy`.
+	 * The Ever product this deployment bills for: `BILLING_PRODUCT`, default `irtranscripts`.
 	 *
 	 * Every read of the shared Stripe account is scoped to it — the webhook, the signup paywall, the
 	 * lazy tenant link and the billing pages all count only this product's subscriptions. Null when the
@@ -263,7 +263,7 @@ export class StripeSubscriptionService {
 	 * A usable Stripe key is configured on a non-demo deployment, but `BILLING_PRODUCT` is not a
 	 * catalog key, so billing is off (see `secretKey`).
 	 *
-	 * The signup paywall must not fail OPEN on a typo: on app.gauzy.co that would turn a config slip
+	 * The signup paywall must not fail OPEN on a typo: on app.irtranscripts.com that would turn a config slip
 	 * into free, unpaid signup. So in this state the paywall stays on and nobody is entitled — signup
 	 * is refused, loudly, until the variable is fixed, which is the same direction
 	 * `BILLING_SIGNUP_PAYWALL` fails in.
@@ -513,7 +513,7 @@ export class StripeSubscriptionService {
 	 * Whether this customer holds a subscription to THIS deployment's product in an entitling status.
 	 *
 	 * The product half is what stops a Teams, Platform, Works or GitHands subscription on the shared
-	 * account from passing the Gauzy paywall or being linked to a Gauzy tenant.
+	 * account from passing the IRTranscripts paywall or being linked to a IRTranscripts tenant.
 	 */
 	private async hasEntitlingSubscription(
 		key: string,

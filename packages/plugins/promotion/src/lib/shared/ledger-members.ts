@@ -1,5 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
-import { restatesStoredValue } from '@gauzy/common';
+import { restatesStoredValue } from '@irtranscripts/common';
 
 /** How a refusal of {@link withoutRestatedMembers} names what was refused. */
 export interface ILedgerMemberRefusal {

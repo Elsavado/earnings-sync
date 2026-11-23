@@ -1,6 +1,6 @@
 import { ConflictException, Injectable, Logger } from '@nestjs/common';
-import { DocumentKindEnum, DocumentKnowledgeStatusEnum, DocumentStatusEnum, ID, IDocument } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { DocumentKindEnum, DocumentKnowledgeStatusEnum, DocumentStatusEnum, ID, IDocument } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { getDocsConfig } from '../docs.config';
 import { DOCS_NOT_INDEXABLE, DOCS_NOT_READY } from '../docs.constants';
 import { BulkKnowledgeReindexDTO, ReindexDocumentKnowledgeDTO } from '../dto';

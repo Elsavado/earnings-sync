@@ -1,4 +1,4 @@
-import { FileStorageProviderEnum, ID, IEmployee, ITimeSlot, IUser } from '@gauzy/contracts';
+import { FileStorageProviderEnum, ID, IEmployee, ITimeSlot, IUser } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	Employee,
@@ -8,7 +8,7 @@ import {
 	TenantOrganizationBaseEntity,
 	TimeSlot,
 	User
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Exclude, Transform } from 'class-transformer';
 import {

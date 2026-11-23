@@ -1,11 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { describeEmailSendError } from './email-send-error';
 
 /**
  * The email transport seam (plan 04 §5.5, G-P4-5).
  *
- * Gauzy sends over SMTP: the organization's Custom SMTP, then the tenant's, then the `MAIL_*` settings. A provider
+ * IRTranscripts sends over SMTP: the organization's Custom SMTP, then the tenant's, then the `MAIL_*` settings. A provider
  * plugin (Resend, Postmark, Mailgun, SendGrid, Amazon SES, ...) can supply an API transport instead, through a
  * resolver registered here. `EmailSendService` asks the registry first and falls back to that SMTP chain when no
  * resolver answers, so an installation with no resolver registered (every one today: each provider plugin is

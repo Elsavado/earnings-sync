@@ -8,9 +8,9 @@ import 'reflect-metadata';
 
 import { NotFoundException, UseGuards } from '@nestjs/common';
 import { Args, ID, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { FeatureFlag } from '@gauzy/common';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { ID as Id, ITrackingSessionResponse, PermissionsEnum } from '@gauzy/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { ID as Id, ITrackingSessionResponse, PermissionsEnum } from '@irtranscripts/contracts';
 import { Permissions } from '../../shared/decorators';
 import {
 	FeatureFlagGuard,

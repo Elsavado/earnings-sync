@@ -1,5 +1,5 @@
-import { environment } from '@gauzy/config';
-import { PosthogPlugin } from '@gauzy/plugin-posthog';
+import { environment } from '@irtranscripts/config';
+import { PosthogPlugin } from '@irtranscripts/plugin-posthog';
 
 /**
  * Initializes and configures the PostHog plugin for analytics and performance tracking.

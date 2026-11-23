@@ -4,9 +4,9 @@ import { EMPTY, Observable, from } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ID } from '@gauzy/contracts';
-import { EmployeeAppointmentService, ErrorHandlingService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { ID } from '@irtranscripts/contracts';
+import { EmployeeAppointmentService, ErrorHandlingService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 
 @UntilDestroy()
 @Component({

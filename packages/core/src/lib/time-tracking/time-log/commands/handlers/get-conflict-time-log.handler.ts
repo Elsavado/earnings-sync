@@ -1,6 +1,6 @@
 import { ICommandHandler, CommandHandler } from '@nestjs/cqrs';
 import * as moment from 'moment';
-import { ConfigService, DatabaseTypeEnum } from '@gauzy/config';
+import { ConfigService, DatabaseTypeEnum } from '@irtranscripts/config';
 import { prepareSQLQuery as p } from './../../../../database/database.helper';
 import { TimeLog } from './../../time-log.entity';
 import { IGetConflictTimeLogCommand } from '../get-conflict-time-log.command';

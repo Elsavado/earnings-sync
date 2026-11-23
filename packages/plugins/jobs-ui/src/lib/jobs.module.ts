@@ -5,9 +5,9 @@ import {
 	IOnPluginUiBootstrap,
 	IOnPluginUiDestroy,
 	PLUGIN_DEFINITION
-} from '@gauzy/plugin-ui';
-import { LoggerService, NavMenuBuilderService, PageRouteRegistryService } from '@gauzy/ui-core/core';
-import { SharedModule } from '@gauzy/ui-core/shared';
+} from '@irtranscripts/plugin-ui';
+import { LoggerService, NavMenuBuilderService, PageRouteRegistryService } from '@irtranscripts/ui-core/core';
+import { SharedModule } from '@irtranscripts/ui-core/shared';
 import { JobLayoutComponent } from './components/job-layout/job-layout.component';
 import { getJobsRoutes } from './job.routes';
 

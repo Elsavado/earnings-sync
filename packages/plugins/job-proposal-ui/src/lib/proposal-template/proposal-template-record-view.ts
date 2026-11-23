@@ -1,7 +1,7 @@
 import { Injector } from '@angular/core';
-import { IEmployeeProposalTemplate } from '@gauzy/contracts';
-import { ProposalTemplateService } from '@gauzy/ui-core/core';
-import { IRecordViewRouteData, IRecordViewScope, IRecordViewSection } from '@gauzy/ui-core/shared';
+import { IEmployeeProposalTemplate } from '@irtranscripts/contracts';
+import { ProposalTemplateService } from '@irtranscripts/ui-core/core';
+import { IRecordViewRouteData, IRecordViewScope, IRecordViewSection } from '@irtranscripts/ui-core/shared';
 
 /**
  * A proposal template, described for `ngx-record-view`. Shared by the templates drawer and the template's

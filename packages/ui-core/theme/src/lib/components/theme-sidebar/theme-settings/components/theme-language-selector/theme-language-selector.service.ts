@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { LanguagesEnum } from '@gauzy/contracts';
+import { LanguagesEnum } from '@irtranscripts/contracts';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter, from, tap } from 'rxjs';
 import { NbLayoutDirection, NbLayoutDirectionService } from '@nebular/theme';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
-import { ElectronService, Store } from '@gauzy/ui-core/core';
-import { I18nService } from '@gauzy/ui-core/i18n';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
+import { ElectronService, Store } from '@irtranscripts/ui-core/core';
+import { I18nService } from '@irtranscripts/ui-core/i18n';
 
 @UntilDestroy({ checkProperties: true })
 @Injectable({

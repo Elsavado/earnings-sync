@@ -20,8 +20,8 @@ import {
 	ID,
 	PermissionsEnum,
 	RolesEnum
-} from '@gauzy/contracts';
-import { isNotEmpty } from '@gauzy/utils';
+} from '@irtranscripts/contracts';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { TimeOffRequest } from './time-off-request.entity';
 import { RequestApproval } from '../request-approval/request-approval.entity';
 import { Employee, TimeOffPolicy } from '../core/entities/internal';

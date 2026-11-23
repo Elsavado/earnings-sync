@@ -5,8 +5,8 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { DeepPartial } from 'typeorm';
 import { catchError, firstValueFrom, lastValueFrom, map, switchMap } from 'rxjs';
 import * as moment from 'moment';
-import { environment as env } from '@gauzy/config';
-import { isEmpty, isNotEmpty, isObject } from '@gauzy/utils';
+import { environment as env } from '@irtranscripts/config';
+import { isEmpty, isNotEmpty, isObject } from '@irtranscripts/utils';
 import {
 	IIntegrationTenant,
 	IntegrationEnum,
@@ -36,7 +36,7 @@ import {
 	IHubstaffProjectResponse,
 	IHubstaffTimeSlotActivity,
 	IHubstaffLogFromTimeSlots
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	EmployeeCreateCommand,
 	EmployeeGetCommand,
@@ -62,7 +62,7 @@ import {
 	DEFAULT_ENTITY_SETTINGS,
 	PROJECT_TIED_ENTITIES,
 	mergeOverlappingDateRanges
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { HUBSTAFF_AUTHORIZATION_URL } from './hubstaff.config';
 
 /**
@@ -568,7 +568,7 @@ export class HubstaffService {
 						clientBudget['budget'] = budget[clientBudget['budgetType']];
 					}
 
-					const gauzyClient = await this._commandBus.execute(
+					const irtranscriptsClient = await this._commandBus.execute(
 						new OrganizationContactCreateCommand({
 							name,
 							organizationId,
@@ -580,7 +580,7 @@ export class HubstaffService {
 					);
 					return await this._commandBus.execute(
 						new IntegrationMapSyncEntityCommand({
-							gauzyId: gauzyClient.id,
+							irtranscriptsId: irtranscriptsClient.id,
 							integrationId,
 							sourceId: id,
 							entity: IntegrationEntity.CLIENT,
@@ -625,7 +625,7 @@ export class HubstaffService {
 					await this._commandBus.execute(
 						new IntegrationMapSyncScreenshotCommand({
 							entity: {
-								employeeId: employee ? employee.gauzyId : null,
+								employeeId: employee ? employee.irtranscriptsId : null,
 								...screenshot
 							},
 							sourceId: id,
@@ -769,7 +769,7 @@ export class HubstaffService {
 						new IntegrationMapSyncTimeSlotCommand({
 							entity: {
 								...timeslot,
-								employeeId: employee.gauzyId
+								employeeId: employee.irtranscriptsId
 							},
 							sourceId: timeslot.id.toString(),
 							integrationId,
@@ -834,8 +834,8 @@ export class HubstaffService {
 						new IntegrationMapSyncTimeLogCommand({
 							entity: {
 								projectId,
-								employeeId: employee.gauzyId,
-								taskId: record ? record.gauzyId : null,
+								employeeId: employee.irtranscriptsId,
+								taskId: record ? record.irtranscriptsId : null,
 								logType,
 								startedAt,
 								stoppedAt,
@@ -926,7 +926,7 @@ export class HubstaffService {
 			}
 			return await this._commandBus.execute(
 				new IntegrationMapSyncEntityCommand({
-					gauzyId: employee.id,
+					irtranscriptsId: employee.id,
 					integrationId,
 					sourceId: user.id,
 					entity: IntegrationEntity.EMPLOYEE,
@@ -977,7 +977,7 @@ export class HubstaffService {
 	 *
 	 * @param {string} sourceId - The ID of the organization in the third-party integration.
 	 * @param {string} integrationId - The ID of the integration.
-	 * @param {string} gauzyId - The ID of the local organization in Gauzy.
+	 * @param {string} irtranscriptsId - The ID of the local organization in IRTranscripts.
 	 * @param {string} token - The access token for authentication with the third-party API.
 	 * @returns {Promise<IIntegrationMap[]>} - A promise that resolves to the synchronized projects.
 	 * @throws {BadRequestException} - Throws a bad request exception if the sync operation fails.
@@ -985,7 +985,7 @@ export class HubstaffService {
 	private async _handleProjects(
 		sourceId: string,
 		integrationId: string,
-		gauzyId: string,
+		irtranscriptsId: string,
 		token: string
 	): Promise<IIntegrationMap[]> {
 		try {
@@ -998,7 +998,7 @@ export class HubstaffService {
 			}));
 			return await this.syncProjects({
 				integrationId,
-				organizationId: gauzyId,
+				organizationId: irtranscriptsId,
 				projects: projectMap,
 				token
 			});
@@ -1012,7 +1012,7 @@ export class HubstaffService {
 	 *
 	 * @param {string} sourceId - The ID of the organization in the third-party integration.
 	 * @param {string} integrationId - The ID of the integration.
-	 * @param {string} gauzyId - The ID of the local organization in Gauzy.
+	 * @param {string} irtranscriptsId - The ID of the local organization in IRTranscripts.
 	 * @param {string} token - The access token for authentication with the third-party API.
 	 * @returns {Promise<IIntegrationMap[]>} - A promise that resolves to the synchronized clients.
 	 * @throws {BadRequestException} - Throws a bad request exception if the sync operation fails.
@@ -1020,14 +1020,14 @@ export class HubstaffService {
 	private async _handleClients(
 		sourceId: string,
 		integrationId: string,
-		gauzyId: string,
+		irtranscriptsId: string,
 		token: string
 	): Promise<IIntegrationMap[]> {
 		try {
 			const { clients } = await this.fetchIntegration(`organizations/${sourceId}/clients?status=active`, token);
 			return await this.syncClients({
 				integrationId,
-				organizationId: gauzyId,
+				organizationId: irtranscriptsId,
 				clients
 			});
 		} catch (error) {
@@ -1038,10 +1038,10 @@ export class HubstaffService {
 	/**
 	 * Handles synchronization of tasks from a third-party integration with the local system.
 	 *
-	 * @param {any[]} projectsMap - Array of projects mapped with sourceId and gauzyId.
+	 * @param {any[]} projectsMap - Array of projects mapped with sourceId and irtranscriptsId.
 	 * @param {string} integrationId - The ID of the integration.
 	 * @param {string} token - The access token for authentication with the third-party API.
-	 * @param {string} gauzyId - The ID of the local organization in Gauzy.
+	 * @param {string} irtranscriptsId - The ID of the local organization in IRTranscripts.
 	 * @returns {Promise<IIntegrationMap[][]>} - A promise that resolves to an array of synchronized tasks.
 	 * @throws {BadRequestException} - Throws a bad request exception if the sync operation fails.
 	 */
@@ -1049,7 +1049,7 @@ export class HubstaffService {
 		projectsMap: any[],
 		integrationId: string,
 		token: string,
-		gauzyId: string
+		irtranscriptsId: string
 	): Promise<IIntegrationMap[][]> {
 		try {
 			const tasksMap = await Promise.all(
@@ -1058,8 +1058,8 @@ export class HubstaffService {
 					return await this.syncTasks({
 						integrationId,
 						tasks,
-						projectId: project.gauzyId,
-						organizationId: gauzyId
+						projectId: project.irtranscriptsId,
+						organizationId: irtranscriptsId
 					});
 				})
 			);
@@ -1077,7 +1077,7 @@ export class HubstaffService {
 	 * @param {string} param0.projectId - The ID of the project associated with the activities.
 	 * @param {object[]} param0.activities - Array of URL activities to sync.
 	 * @param {string} param0.token - Access token for authentication with the third-party API.
-	 * @param {string} param0.organizationId - The ID of the local organization in Gauzy.
+	 * @param {string} param0.organizationId - The ID of the local organization in IRTranscripts.
 	 * @returns {Promise<IIntegrationMap[]>} - A promise that resolves to an array of synchronized integration maps.
 	 * @throws {BadRequestException} - Throws a bad request exception if the sync operation fails.
 	 */
@@ -1116,8 +1116,8 @@ export class HubstaffService {
 						time,
 						date,
 						projectId,
-						employeeId: employee ? employee.gauzyId : null,
-						taskId: task ? task.gauzyId : null,
+						employeeId: employee ? employee.irtranscriptsId : null,
+						taskId: task ? task.irtranscriptsId : null,
 						organizationId,
 						activityTimestamp: time_slot
 					};
@@ -1142,7 +1142,7 @@ export class HubstaffService {
 	 * @param {IIntegrationMap[]} projectsMap - Array of projects to sync URL activities for.
 	 * @param {string} integrationId - The ID of the integration.
 	 * @param {string} token - Access token for authentication with the third-party API.
-	 * @param {string} organizationId - The ID of the local organization in Gauzy.
+	 * @param {string} organizationId - The ID of the local organization in IRTranscripts.
 	 * @param {IDateRangeActivityFilter} dateRange - Date range filter for activities.
 	 * @returns {Promise<any[]>} - A promise that resolves to an array of mapped URL activities.
 	 * @throws {BadRequestException} - Throws a bad request exception if the sync operation fails.
@@ -1161,7 +1161,7 @@ export class HubstaffService {
 
 			const urlActivitiesMapped = await Promise.all(
 				projectsMap.map(async (project) => {
-					const { gauzyId, sourceId } = project;
+					const { irtranscriptsId, sourceId } = project;
 					const syncedActivities = {
 						urlActivities: []
 					};
@@ -1191,7 +1191,7 @@ export class HubstaffService {
 					const activities = [].concat.apply([], syncedActivities.urlActivities);
 					return await this.syncUrlActivities({
 						integrationId,
-						projectId: gauzyId,
+						projectId: irtranscriptsId,
 						activities,
 						token,
 						organizationId
@@ -1212,7 +1212,7 @@ export class HubstaffService {
 	 * @param {string} param0.projectId - The ID of the project associated with the activities.
 	 * @param {any[]} param0.activities - Array of application activities to sync.
 	 * @param {string} param0.token - Access token for authentication with the third-party API.
-	 * @param {string} param0.organizationId - The ID of the local organization in Gauzy.
+	 * @param {string} param0.organizationId - The ID of the local organization in IRTranscripts.
 	 * @returns {Promise<IIntegrationMap[]>} - A promise that resolves to an array of integration mappings.
 	 * @throws {BadRequestException} - Throws a bad request exception if the sync operation fails.
 	 */
@@ -1258,8 +1258,8 @@ export class HubstaffService {
 						time,
 						date,
 						projectId,
-						employeeId: employee ? employee.gauzyId : null,
-						taskId: task ? task.gauzyId : null,
+						employeeId: employee ? employee.irtranscriptsId : null,
+						taskId: task ? task.irtranscriptsId : null,
 						organizationId,
 						activityTimestamp: time_slot
 					};
@@ -1286,7 +1286,7 @@ export class HubstaffService {
 	 * @param {IIntegrationMap[]} projectsMap - Array of projects to sync application activities for.
 	 * @param {string} integrationId - The ID of the integration.
 	 * @param {string} token - Access token for authentication with the third-party API.
-	 * @param {string} organizationId - The ID of the local organization in Gauzy.
+	 * @param {string} organizationId - The ID of the local organization in IRTranscripts.
 	 * @param {IDateRangeActivityFilter} dateRange - Date range filter for activities to sync.
 	 * @returns {Promise<any[]>} - A promise that resolves to an array of mapped application activities.
 	 * @throws {BadRequestException} - Throws a bad request exception if the sync operation fails.
@@ -1306,7 +1306,7 @@ export class HubstaffService {
 			// Map application activities for each project and sync
 			const appActivitiesMapped = await Promise.all(
 				projectsMap.map(async (project) => {
-					const { gauzyId, sourceId } = project;
+					const { irtranscriptsId, sourceId } = project;
 					const syncedActivities = {
 						applicationActivities: []
 					};
@@ -1343,7 +1343,7 @@ export class HubstaffService {
 					// Sync activities with local database
 					return await this.syncAppActivities({
 						integrationId,
-						projectId: gauzyId,
+						projectId: irtranscriptsId,
 						activities,
 						token,
 						organizationId
@@ -1364,7 +1364,7 @@ export class HubstaffService {
 	 * @param {IIntegrationMap[]} projectsMap - Array of projects to sync activities for.
 	 * @param {string} integrationId - The ID of the integration.
 	 * @param {string} token - Access token for authentication with the third-party API.
-	 * @param {string} organizationId - The ID of the local organization in Gauzy.
+	 * @param {string} organizationId - The ID of the local organization in IRTranscripts.
 	 * @param {IDateRangeActivityFilter} dateRange - Date range filter for activities to sync.
 	 * @returns {Promise<IIntegrationMap[]>} - A promise that resolves to an array of integrated time logs.
 	 * @throws {HttpException|BadRequestException} - Throws an HTTP exception or bad request exception if the sync operation fails.
@@ -1403,7 +1403,7 @@ export class HubstaffService {
 					token,
 					integrationId,
 					organizationId,
-					project.gauzyId
+					project.irtranscriptsId
 				);
 
 				// Collect integrated time logs
@@ -1426,7 +1426,7 @@ export class HubstaffService {
 	 * @param {IIntegrationMap[]} projectsMap - Array of projects to sync screenshots activities for.
 	 * @param {string} integrationId - The ID of the integration.
 	 * @param {string} token - Access token for authentication with the third-party API.
-	 * @param {string} organizationId - The ID of the local organization in Gauzy.
+	 * @param {string} organizationId - The ID of the local organization in IRTranscripts.
 	 * @param {IDateRangeActivityFilter} dateRange - Date range filter for screenshots activities to sync.
 	 * @returns {Promise<IIntegrationMap[][]>} - A promise that resolves to an array of arrays of integrated screenshots activities.
 	 * @throws {BadRequestException} - Throws a bad request exception with a detailed error message if the sync operation fails.
@@ -1500,7 +1500,7 @@ export class HubstaffService {
 	 *
 	 * @param {Object} params - Parameters object containing integration details and synchronization configurations.
 	 * @param {string} params.integrationId - The ID of the integration.
-	 * @param {string} params.gauzyId - The ID of the local organization in Gauzy.
+	 * @param {string} params.irtranscriptsId - The ID of the local organization in IRTranscripts.
 	 * @param {string} params.sourceId - The ID of the organization/source in the external system.
 	 * @param {string} params.token - Access token for authentication with the third-party API.
 	 * @param {IDateRangeActivityFilter} params.dateRange - Date range filter for activities to sync.
@@ -1509,13 +1509,13 @@ export class HubstaffService {
 	 */
 	async autoSync({
 		integrationId,
-		gauzyId,
+		irtranscriptsId,
 		sourceId,
 		token,
 		dateRange
 	}: {
 		integrationId: string;
-		gauzyId: string;
+		irtranscriptsId: string;
 		sourceId: string;
 		token: string;
 		dateRange: IDateRangeActivityFilter;
@@ -1541,7 +1541,7 @@ export class HubstaffService {
 						const projectsMap: IIntegrationMap[] = await this._handleProjects(
 							sourceId,
 							integrationId,
-							gauzyId,
+							irtranscriptsId,
 							token
 						);
 
@@ -1552,7 +1552,7 @@ export class HubstaffService {
 							(res) => res.entity === IntegrationEntity.TASK
 						);
 						if (isObject(taskSetting) && taskSetting.sync) {
-							tasks = await this._handleTasks(projectsMap, integrationId, token, gauzyId);
+							tasks = await this._handleTasks(projectsMap, integrationId, token, irtranscriptsId);
 						}
 
 						/**
@@ -1566,21 +1566,21 @@ export class HubstaffService {
 								projectsMap,
 								integrationId,
 								token,
-								gauzyId,
+								irtranscriptsId,
 								dateRange
 							);
 							activities.application = await this._handleAppActivities(
 								projectsMap,
 								integrationId,
 								token,
-								gauzyId,
+								irtranscriptsId,
 								dateRange
 							);
 							activities.urls = await this._handleUrlActivities(
 								projectsMap,
 								integrationId,
 								token,
-								gauzyId,
+								irtranscriptsId,
 								dateRange
 							);
 						}
@@ -1596,13 +1596,13 @@ export class HubstaffService {
 								projectsMap,
 								integrationId,
 								token,
-								gauzyId,
+								irtranscriptsId,
 								dateRange
 							);
 						}
 						return { tasks, projectsMap, activities, screenshots };
 					case IntegrationEntity.CLIENT:
-						const clients = await this._handleClients(sourceId, integrationId, gauzyId, token);
+						const clients = await this._handleClients(sourceId, integrationId, irtranscriptsId, token);
 						return { clients };
 				}
 			})
@@ -1615,7 +1615,7 @@ export class HubstaffService {
 		// that cannot be made is logged and the run answers what it imported, as it always did.
 		try {
 			await this._integrationTenantSyncService.recordSyncCompleted(integrationId, {
-				organizationId: gauzyId,
+				organizationId: irtranscriptsId,
 				counts: hubstaffSyncCounts(integratedMaps as Array<Record<string, unknown>>)
 			});
 		} catch (error) {

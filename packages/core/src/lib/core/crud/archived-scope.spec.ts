@@ -65,7 +65,7 @@ describe('archivedScopeOfFilter', () => {
 	});
 
 	it('reads the default for any other filter, or none', () => {
-		expect(archivedScopeOfFilter({ name: { ilike: '%gauzy%' } })).toEqual({});
+		expect(archivedScopeOfFilter({ name: { ilike: '%irtranscripts%' } })).toEqual({});
 		expect(archivedScopeOfFilter(undefined)).toEqual({});
 	});
 });

@@ -1,7 +1,7 @@
 import { Controller, UseGuards, Put, HttpStatus, Body, Get, Query, Param, HttpException } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CommandBus } from '@nestjs/cqrs';
-import { ID, ITimesheet, PermissionsEnum } from '@gauzy/contracts';
+import { ID, ITimesheet, PermissionsEnum } from '@irtranscripts/contracts';
 import { TimeSheetService } from './timesheet.service';
 import { PermissionGuard, TenantPermissionGuard } from './../../shared/guards';
 import { UUIDValidationPipe, UseValidationPipe } from './../../shared/pipes';

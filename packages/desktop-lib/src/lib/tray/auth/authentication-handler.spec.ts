@@ -4,8 +4,8 @@
  * that cannot be saved must reject it (the renderer then sends the user to sign in again), while the sign-in's
  * fire-and-forget `auth_success` keeps going on as before.
  */
-jest.mock('@gauzy/desktop-core', () => ({ RegisteredWindow: { TIMER: 'timer' } }));
-jest.mock('@gauzy/desktop-window', () => ({ getApiBaseUrl: () => 'http://localhost:3000' }));
+jest.mock('@irtranscripts/desktop-core', () => ({ RegisteredWindow: { TIMER: 'timer' } }));
+jest.mock('@irtranscripts/desktop-window', () => ({ getApiBaseUrl: () => 'http://localhost:3000' }));
 jest.mock('../../app-window-manager', () => ({ AppWindowManager: { getInstance: () => ({}) } }));
 jest.mock('../../offline', () => ({
 	User: class {

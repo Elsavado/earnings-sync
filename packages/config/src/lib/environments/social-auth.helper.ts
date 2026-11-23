@@ -4,7 +4,7 @@
  * routes (`/auth/signin.email.social`, `/auth/signup.link.account`).
  *
  * A bare provider access token only proves that SOME application was authorized by the provider
- * account. Before it can stand in for a Gauzy login, the API has to confirm it was issued to one
+ * account. Before it can stand in for a IRTranscripts login, the API has to confirm it was issued to one
  * of OUR OAuth clients (GHSA-58x4-7mw9-gmqg); these lists are that allow-list. Introspecting a
  * GitHub or Facebook token requires the client secret of the app it was issued to, so those
  * entries are `clientId` + `clientSecret` pairs.
@@ -75,20 +75,20 @@ const uniqueApps = (apps: ISocialAuthOAuthApp[]): ISocialAuthOAuthApp[] => {
 /**
  * Builds the social sign-in allow-list.
  *
- * Defaults to Gauzy's own OAuth apps, i.e. the very clients the passport strategies already use
- * (`GOOGLE_CLIENT_ID`, `GAUZY_GITHUB_OAUTH_CLIENT_ID`/`_SECRET`, `FACEBOOK_CLIENT_ID`/`_SECRET`).
+ * Defaults to IRTranscripts's own OAuth apps, i.e. the very clients the passport strategies already use
+ * (`GOOGLE_CLIENT_ID`, `IRTRANSCRIPTS_GITHUB_OAUTH_CLIENT_ID`/`_SECRET`, `FACEBOOK_CLIENT_ID`/`_SECRET`).
  * Other first-party clients (for example Ever Teams) are ADDED with:
  *
- * - `GAUZY_SOCIAL_AUTH_GOOGLE_CLIENT_IDS`: comma-separated Google client ids
- * - `GAUZY_SOCIAL_AUTH_GITHUB_APPS`: comma-separated `clientId:clientSecret` pairs
- * - `GAUZY_SOCIAL_AUTH_FACEBOOK_APPS`: comma-separated `appId:appSecret` pairs
+ * - `IRTRANSCRIPTS_SOCIAL_AUTH_GOOGLE_CLIENT_IDS`: comma-separated Google client ids
+ * - `IRTRANSCRIPTS_SOCIAL_AUTH_GITHUB_APPS`: comma-separated `clientId:clientSecret` pairs
+ * - `IRTRANSCRIPTS_SOCIAL_AUTH_FACEBOOK_APPS`: comma-separated `appId:appSecret` pairs
  *
  * A provider with no configured client rejects every token (fail closed).
  */
 export const resolveSocialAuthClients = (env: NodeJS.ProcessEnv = process.env): ISocialAuthClientsConfig => {
 	const ownGoogle = clean(env['GOOGLE_CLIENT_ID']);
 	const ownGithub = parseSocialAuthApps(
-		`${env['GAUZY_GITHUB_OAUTH_CLIENT_ID'] ?? ''}:${env['GAUZY_GITHUB_OAUTH_CLIENT_SECRET'] ?? ''}`
+		`${env['IRTRANSCRIPTS_GITHUB_OAUTH_CLIENT_ID'] ?? ''}:${env['IRTRANSCRIPTS_GITHUB_OAUTH_CLIENT_SECRET'] ?? ''}`
 	);
 	const ownFacebook = parseSocialAuthApps(
 		`${env['FACEBOOK_CLIENT_ID'] ?? ''}:${env['FACEBOOK_CLIENT_SECRET'] ?? ''}`
@@ -99,15 +99,15 @@ export const resolveSocialAuthClients = (env: NodeJS.ProcessEnv = process.env): 
 			clientIds: Array.from(
 				new Set([
 					...(ownGoogle ? [ownGoogle] : []),
-					...parseSocialAuthClientIds(env['GAUZY_SOCIAL_AUTH_GOOGLE_CLIENT_IDS'])
+					...parseSocialAuthClientIds(env['IRTRANSCRIPTS_SOCIAL_AUTH_GOOGLE_CLIENT_IDS'])
 				])
 			)
 		},
 		github: {
-			apps: uniqueApps([...ownGithub, ...parseSocialAuthApps(env['GAUZY_SOCIAL_AUTH_GITHUB_APPS'])])
+			apps: uniqueApps([...ownGithub, ...parseSocialAuthApps(env['IRTRANSCRIPTS_SOCIAL_AUTH_GITHUB_APPS'])])
 		},
 		facebook: {
-			apps: uniqueApps([...ownFacebook, ...parseSocialAuthApps(env['GAUZY_SOCIAL_AUTH_FACEBOOK_APPS'])])
+			apps: uniqueApps([...ownFacebook, ...parseSocialAuthApps(env['IRTRANSCRIPTS_SOCIAL_AUTH_FACEBOOK_APPS'])])
 		}
 	};
 };

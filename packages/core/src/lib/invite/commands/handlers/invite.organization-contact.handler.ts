@@ -6,7 +6,7 @@ import {
 	RolesEnum,
 	ID,
 	IUser
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { UserService } from '../../../user/user.service';
 import { InviteOrganizationContactCommand } from '../invite.organization-contact.command';
 import { OrganizationContactService } from '../../../organization-contact/organization-contact.service';

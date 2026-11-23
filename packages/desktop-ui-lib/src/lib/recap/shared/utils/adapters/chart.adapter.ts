@@ -1,4 +1,4 @@
-import { ITimeSlot } from '@gauzy/contracts';
+import { ITimeSlot } from '@irtranscripts/contracts';
 import * as moment from 'moment';
 import 'moment-duration-format';
 

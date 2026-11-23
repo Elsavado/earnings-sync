@@ -7,7 +7,7 @@ import {
 	ICandidateTechnologies,
 	ICandidatePersonalQualities,
 	ICandidate
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	Candidate,
 	CandidateFeedback,

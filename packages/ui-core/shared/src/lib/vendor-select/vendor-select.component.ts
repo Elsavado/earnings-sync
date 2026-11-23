@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy, Input, forwardRef, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
-import { IOrganization, IOrganizationVendor } from '@gauzy/contracts';
+import { IOrganization, IOrganizationVendor } from '@irtranscripts/contracts';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, filter, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ErrorHandlingService, ToastrService } from '@gauzy/ui-core/core';
-import { Store } from '@gauzy/ui-core/core';
-import { OrganizationVendorsService } from '@gauzy/ui-core/core';
+import { ErrorHandlingService, ToastrService } from '@irtranscripts/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
+import { OrganizationVendorsService } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

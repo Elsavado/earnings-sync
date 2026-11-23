@@ -1,4 +1,4 @@
-import { PluginBillingStatus } from '@gauzy/contracts';
+import { PluginBillingStatus } from '@irtranscripts/contracts';
 import { BadRequestException, Logger, NotFoundException } from '@nestjs/common';
 import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import {

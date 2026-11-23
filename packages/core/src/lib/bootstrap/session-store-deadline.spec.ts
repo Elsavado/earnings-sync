@@ -7,7 +7,7 @@ import { resolveSaveUninitialized } from './redis-store';
 
 jest.mock('redis', () => ({ createClient: jest.fn() }));
 jest.mock('connect-redis', () => ({ __esModule: true, RedisStore: jest.fn() }));
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	environment: { production: false, EXPRESS_SESSION_SECRET: 'test-session-secret' }
 }));
 

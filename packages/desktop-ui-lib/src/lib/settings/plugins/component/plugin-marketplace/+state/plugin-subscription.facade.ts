@@ -8,7 +8,7 @@ import {
 	IPluginSubscriptionPlan,
 	IPluginSubscriptionUpdateInput,
 	PluginSubscriptionType
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { PlanActionType } from '../plugin-subscription-plan-selection/services/plan-comparison.service';
 import { PluginPlanComparisonActions } from './actions/plugin-plan-comparison.action';
 import { PluginPlanActions } from './actions/plugin-plan.action';

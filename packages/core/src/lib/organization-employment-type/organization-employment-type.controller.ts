@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common';
 import { DeepPartial } from 'typeorm';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { ID, IOrganizationEmploymentType, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IOrganizationEmploymentType, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { CrudController } from './../core/crud';
 import { OrganizationEmploymentType } from './organization-employment-type.entity';
 import { OrganizationEmploymentTypeService } from './organization-employment-type.service';

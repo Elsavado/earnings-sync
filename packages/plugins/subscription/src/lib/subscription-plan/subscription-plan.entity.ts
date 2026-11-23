@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString, IsUUID, MaxLength, Min } from 'class-validator';
-import { CurrencyCode, DecimalString, ID } from '@gauzy/contracts';
-import { ColumnIndex, JsonColumn, MultiORMColumn, MultiORMEntity, TenantOrganizationBaseEntity } from '@gauzy/core';
+import { CurrencyCode, DecimalString, ID } from '@irtranscripts/contracts';
+import { ColumnIndex, JsonColumn, MultiORMColumn, MultiORMEntity, TenantOrganizationBaseEntity } from '@irtranscripts/core';
 import { ISubscriptionPlan, SubscriptionBillingPeriod } from '../subscription.types';
 import { MikroOrmSubscriptionPlanRepository } from './repository/mikro-orm-subscription-plan.repository';
 

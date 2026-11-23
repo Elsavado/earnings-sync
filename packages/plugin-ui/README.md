@@ -1,6 +1,6 @@
-# @gauzy/plugin-ui
+# @irtranscripts/plugin-ui
 
-Core UI plugin infrastructure for the Gauzy platform. Provides the types, lifecycle interfaces, Angular module, registries, and React bridge needed to build and register UI plugins.
+Core UI plugin infrastructure for the IRTranscripts platform. Provides the types, lifecycle interfaces, Angular module, registries, and React bridge needed to build and register UI plugins.
 
 ---
 
@@ -34,7 +34,7 @@ Core UI plugin infrastructure for the Gauzy platform. Provides the types, lifecy
 ## Installation
 
 ```bash
-yarn add @gauzy/plugin-ui
+yarn add @irtranscripts/plugin-ui
 # peer deps
 yarn add @angular/core @angular/common react react-dom
 ```
@@ -48,8 +48,8 @@ Call `PluginUiModule.init()` once in your root bootstrap module. Pass the three 
 ```typescript
 // bootstrap.module.ts
 import { NgModule } from '@angular/core';
-import { PluginUiModule, PLUGIN_UI_CONFIG, getPluginUiConfig, setPluginUiConfig } from '@gauzy/plugin-ui';
-import { NavMenuBuilderService, PageRouteRegistryService, PageTabRegistryService } from '@gauzy/ui-core/core';
+import { PluginUiModule, PLUGIN_UI_CONFIG, getPluginUiConfig, setPluginUiConfig } from '@irtranscripts/plugin-ui';
+import { NavMenuBuilderService, PageRouteRegistryService, PageTabRegistryService } from '@irtranscripts/ui-core/core';
 import { uiPluginConfig } from './plugin-ui.config';
 import { AppModule } from './app.module';
 import { AppComponent } from './app.component';
@@ -78,8 +78,8 @@ Then define your active plugins in a config file:
 
 ```typescript
 // plugin-ui.config.ts
-import { PluginUiConfig } from '@gauzy/plugin-ui';
-import { MyPlugin } from '@gauzy/plugin-my-ui';
+import { PluginUiConfig } from '@irtranscripts/plugin-ui';
+import { MyPlugin } from '@irtranscripts/plugin-my-ui';
 
 export const uiPluginConfig: PluginUiConfig = {
   defaultLanguage: 'en',
@@ -100,7 +100,7 @@ Use `defineDeclarativePlugin` when your plugin only needs to register routes, ta
 
 ```typescript
 // my-plugin.ts
-import { defineDeclarativePlugin, PluginRouteInput } from '@gauzy/plugin-ui';
+import { defineDeclarativePlugin, PluginRouteInput } from '@irtranscripts/plugin-ui';
 import { MY_ROUTE } from './my-plugin.routes';
 
 export const MyPlugin = defineDeclarativePlugin('my-plugin', {
@@ -150,8 +150,8 @@ import {
   IOnPluginUiDestroy,
   applyDeclarativeRegistrations,
   PLUGIN_DEFINITION,
-} from '@gauzy/plugin-ui';
-import { NavMenuBuilderService, PageRouteRegistryService } from '@gauzy/ui-core/core';
+} from '@irtranscripts/plugin-ui';
+import { NavMenuBuilderService, PageRouteRegistryService } from '@irtranscripts/ui-core/core';
 
 @NgModule({})
 export class MyPluginModule implements IOnPluginUiBootstrap, IOnPluginUiDestroy {
@@ -175,7 +175,7 @@ export class MyPluginModule implements IOnPluginUiBootstrap, IOnPluginUiDestroy 
 
 ```typescript
 // my-plugin.ts
-import { definePlugin } from '@gauzy/plugin-ui';
+import { definePlugin } from '@irtranscripts/plugin-ui';
 import { MyPluginModule } from './my-plugin.module';
 
 export const MyPlugin = definePlugin('my-plugin', MyPluginModule, {
@@ -200,7 +200,7 @@ export const MyPlugin: PluginUiDefinition = {
   id: 'my-plugin',
   location: 'my-sections',
   loadModule: () =>
-    import('@gauzy/plugin-my-ui').then((m) => m.MyPluginModule),
+    import('@irtranscripts/plugin-my-ui').then((m) => m.MyPluginModule),
 };
 ```
 
@@ -212,7 +212,7 @@ Use `definePluginGroup` to create a parent plugin that groups child plugins unde
 
 ```typescript
 // jobs-plugin.ts
-import { definePluginGroup } from '@gauzy/plugin-ui';
+import { definePluginGroup } from '@irtranscripts/plugin-ui';
 import { JobsModule } from './jobs.module';
 import { JobEmployeePlugin } from './job-employee/job-employee.plugin';
 import { JobSearchPlugin } from './job-search/job-search.plugin';
@@ -421,7 +421,7 @@ tabs: [
 ### Extensions
 
 ```typescript
-import { defineReactExtension } from '@gauzy/plugin-ui';
+import { defineReactExtension } from '@irtranscripts/plugin-ui';
 import { MyReactWidget } from './components/MyReactWidget';
 
 extensions: [
@@ -475,7 +475,7 @@ export const MyPlugin = defineDeclarativePlugin('my-plugin', {
 
 ## React Bridge
 
-`@gauzy/plugin-ui` includes a React-Angular bridge that lets you render React components inside Angular templates, and access Angular services from React.
+`@irtranscripts/plugin-ui` includes a React-Angular bridge that lets you render React components inside Angular templates, and access Angular services from React.
 
 ### Rendering React inside Angular
 
@@ -483,7 +483,7 @@ export const MyPlugin = defineDeclarativePlugin('my-plugin', {
 
 ```typescript
 import { Component } from '@angular/core';
-import { ReactHostDirective } from '@gauzy/plugin-ui';
+import { ReactHostDirective } from '@irtranscripts/plugin-ui';
 import { MyReactWidget } from './components/MyReactWidget';
 
 @Component({
@@ -505,7 +505,7 @@ export class MyAngularComponent {
 #### Using `LazyReactHostDirective` (lazy component)
 
 ```typescript
-import { LazyReactHostDirective } from '@gauzy/plugin-ui';
+import { LazyReactHostDirective } from '@irtranscripts/plugin-ui';
 
 @Component({
   standalone: true,
@@ -533,8 +533,8 @@ Use the `useInjector` hook to access any Angular service from within a React com
 ```tsx
 // MyReactWidget.tsx
 import React from 'react';
-import { useInjector } from '@gauzy/ui-react';
-import { TimesheetStatisticsService } from '@gauzy/ui-core/core';
+import { useInjector } from '@irtranscripts/ui-react';
+import { TimesheetStatisticsService } from '@irtranscripts/ui-core/core';
 
 export function MyReactWidget() {
   const injector = useInjector();
@@ -557,7 +557,7 @@ export function MyReactWidget() {
 Use `usePluginEvents` to subscribe to or emit events across plugin boundaries via the `PluginEventBusService`.
 
 ```tsx
-import { usePluginEvents } from '@gauzy/plugin-ui';
+import { usePluginEvents } from '@irtranscripts/plugin-ui';
 
 export function MyReactWidget() {
   const { emit, subscribe } = usePluginEvents();
@@ -586,7 +586,7 @@ Page extension slots let plugins inject components into pre-defined areas of the
 ### Using a slot in a host template
 
 ```typescript
-import { PageExtensionSlotComponent } from '@gauzy/plugin-ui';
+import { PageExtensionSlotComponent } from '@irtranscripts/plugin-ui';
 
 @Component({
   standalone: true,
@@ -601,7 +601,7 @@ export class DashboardComponent {}
 ### Registering a React component as an extension
 
 ```typescript
-import { defineReactExtension, PAGE_EXTENSION_SLOTS } from '@gauzy/plugin-ui';
+import { defineReactExtension, PAGE_EXTENSION_SLOTS } from '@irtranscripts/plugin-ui';
 import { MyWidget } from './MyWidget';
 
 // In your plugin definition:

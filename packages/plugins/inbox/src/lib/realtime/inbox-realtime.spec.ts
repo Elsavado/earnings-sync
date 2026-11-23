@@ -3,12 +3,12 @@
  * the outbox when an item is created — addressed to its recipients and without its content — and never fails the
  * Inbox write. The last cases run `InboxService` on SQLite (the plugin's migrations), as the database suite does.
  *
- * `@gauzy/core` is doubled at the module boundary (its barrel boots the whole application).
+ * `@irtranscripts/core` is doubled at the module boundary (its barrel boots the whole application).
  */
 const mockDeclared: unknown[][] = [];
 const mockCaller: { tenantId: string | null; userId: string | null } = { tenantId: null, userId: null };
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	class BaseEntity {}
 	class SubscriptionCatalogue {}
@@ -37,8 +37,8 @@ import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { DataSource, EntitySchema } from 'typeorm';
-import { InboxItemKindEnum, InboxItemSourceEnum } from '@gauzy/contracts';
-import { EventOutboxService, GraphqlSubscriptionConsumer, SubscriptionCatalogue } from '@gauzy/core';
+import { InboxItemKindEnum, InboxItemSourceEnum } from '@irtranscripts/contracts';
+import { EventOutboxService, GraphqlSubscriptionConsumer, SubscriptionCatalogue } from '@irtranscripts/core';
 import { INBOX_MIGRATIONS } from '../database/inbox-migrations';
 import { InboxItem } from '../entities/inbox-item.entity';
 import { InboxItemRecipient } from '../entities/inbox-item-recipient.entity';
@@ -250,7 +250,7 @@ describe('InboxService announces created items (SQLite)', () => {
 	let appended: Appended[];
 
 	beforeAll(() => {
-		directory = mkdtempSync(join(tmpdir(), 'gauzy-inbox-realtime-'));
+		directory = mkdtempSync(join(tmpdir(), 'irtranscripts-inbox-realtime-'));
 	});
 
 	afterAll(() => {

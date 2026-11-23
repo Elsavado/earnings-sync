@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { IZapierEndpoint, IZapierWebhook } from '@gauzy/contracts';
+import { IZapierEndpoint, IZapierWebhook } from '@irtranscripts/contracts';
 
 @Injectable({
 	providedIn: 'root'

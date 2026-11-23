@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { createHmac } from 'node:crypto';
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 import { RequestContext } from '../core/context/request-context';
 import {
 	LOGIN_ATTEMPT_RESERVATION_MS,
@@ -164,7 +164,7 @@ describe('LoginAttemptService', () => {
 		});
 
 		it('attributes a check outside the request context to the request it is given (MCP OAuth login)', async () => {
-			// The MCP OAuth server checks Gauzy passwords on its own Express app: no request context there.
+			// The MCP OAuth server checks IRTranscripts passwords on its own Express app: no request context there.
 			currentRequest = null;
 			const request = (ip: string) => {
 				const headers: Record<string, string> = {};

@@ -1,5 +1,5 @@
 import { OmitType, PartialType } from '@nestjs/mapped-types';
-import { WithoutInitializers } from '@gauzy/common';
+import { WithoutInitializers } from '@irtranscripts/common';
 import { PAYMENT_COLLECTION_SERVER_OWNED_MEMBERS } from '../../payment.types';
 import { CreatePaymentCollectionDTO } from './create-payment-collection.dto';
 

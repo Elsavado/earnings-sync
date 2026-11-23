@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 /** The databases this migration runs on. Both SQLite drivers share one entry. */
 type Dialect = 'postgres' | 'sqlite' | 'mysql';
@@ -17,7 +17,7 @@ const COLUMN: Readonly<{ name: string } & Record<Dialect, string>> = {
 };
 
 /**
- * Adds `task.syncScope` (nullable text): which integrations may sync a task out of Gauzy (`TaskSyncScopeEnum` —
+ * Adds `task.syncScope` (nullable text): which integrations may sync a task out of IRTranscripts (`TaskSyncScopeEnum` —
  * `all`, `ever-platform` or `none`).
  *
  * Until now every enabled integration decided by its own rules alone (GitHub: a project with a synced repository,
@@ -46,7 +46,7 @@ export class AddTaskSyncScope1791000003410 implements MigrationInterface {
 	 * The MySQL named lock of this migration. MySQL refuses lock names over 64 characters, so the name carries the
 	 * timestamp rather than the class name.
 	 */
-	readonly mysqlLockName = `gauzy:migration:${this.advisoryLockKey}`;
+	readonly mysqlLockName = `irtranscripts:migration:${this.advisoryLockKey}`;
 
 	public async up(queryRunner: QueryRunner): Promise<void> {
 		console.log(chalk.yellow(this.name + ' start running!'));

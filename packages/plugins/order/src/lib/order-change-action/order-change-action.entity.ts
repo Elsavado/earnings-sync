@@ -1,7 +1,7 @@
 import { JoinColumn } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsEnum, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, MaxLength } from 'class-validator';
-import { ID, IOrderChangeAction, OrderChangeActionType } from '@gauzy/contracts';
+import { ID, IOrderChangeAction, OrderChangeActionType } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	ColumnNumericTransformerPipe,
@@ -10,7 +10,7 @@ import {
 	MultiORMEntity,
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { OrderChange } from '../order-change/order-change.entity';
 import { MikroOrmOrderChangeActionRepository } from './repository/mikro-orm-order-change-action.repository';
 

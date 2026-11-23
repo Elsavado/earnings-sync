@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { NbButtonModule, NbCardModule, NbDialogRef, NbIconModule } from '@nebular/theme';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { IDocumentInboundAddressSecret } from '@gauzy/contracts';
-import { ToastrService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { IDocumentInboundAddressSecret } from '@irtranscripts/contracts';
+import { ToastrService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 
 /**
  * One-time reveal of an inbound address's relay secret.

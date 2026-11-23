@@ -4,7 +4,7 @@ import { DataSource, EntitySchema, Repository } from 'typeorm';
 import { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
 import { Entity, ManyToOne, MikroORM, PrimaryKey, Property } from '@mikro-orm/core';
 import { SoftDeletable, SoftDeleteHandler } from 'mikro-orm-soft-delete';
-import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@gauzy/config';
+import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@irtranscripts/config';
 import { RequestContext } from '../core/context';
 import { CrudService } from '../core/crud/crud.service';
 import { MultiORMEnum } from '../core/utils';

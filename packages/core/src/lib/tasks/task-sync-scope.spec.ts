@@ -1,4 +1,4 @@
-import { isTaskSyncAllowed, TaskSyncScopeEnum } from '@gauzy/contracts';
+import { isTaskSyncAllowed, TaskSyncScopeEnum } from '@irtranscripts/contracts';
 
 describe('isTaskSyncAllowed', () => {
 	it('lets every integration sync a task without a scope (existing tasks)', () => {

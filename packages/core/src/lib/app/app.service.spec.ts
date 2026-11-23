@@ -11,7 +11,7 @@
  */
 import '../core/entities/internal';
 import { Test, TestingModule } from '@nestjs/testing';
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 import { SeedDataService } from '../core/seeds/seed-data.service';
 import { UserService } from '../user/user.service';
 import { AppService } from './app.service';

@@ -11,9 +11,9 @@ import {
 	IEmployee,
 	IOrganizationTeam,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { EmployeesService, OrganizationTeamsService, Store, ToastrService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/contracts';
+import { EmployeesService, OrganizationTeamsService, Store, ToastrService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import {
 	DOCS_SHARE_ACCESS_LEVELS,
 	DOCS_SHARE_ERROR_CODES,

@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, HttpCode, HttpStatus, Param, Post, Put, UseGuards, UsePipes } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	AbstractValidationPipe,
 	CrudController,
@@ -10,7 +10,7 @@ import {
 	TenantPermissionGuard,
 	UseValidationPipe,
 	UUIDValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { GiftCardTransaction } from './gift-card-transaction.entity';
 import { GiftCardTransactionService } from './gift-card-transaction.service';
 import { CreateGiftCardTransactionDTO, UpdateGiftCardTransactionDTO } from './dto';

@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { DeepPartial } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { ProductRelationType } from '../catalog.types';
 import { ProductRelation } from './product-relation.entity';
 import { MikroOrmProductRelationRepository } from './repository/mikro-orm-product-relation.repository';

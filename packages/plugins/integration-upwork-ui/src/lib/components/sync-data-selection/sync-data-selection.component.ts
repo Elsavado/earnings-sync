@@ -4,9 +4,9 @@ import { NbDialogRef } from '@nebular/theme';
 import { tap, catchError } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ISelectedEmployee, IEngagement } from '@gauzy/contracts';
-import { ErrorHandlingService, ToastrService, UpworkStoreService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { ISelectedEmployee, IEngagement } from '@irtranscripts/contracts';
+import { ErrorHandlingService, ToastrService, UpworkStoreService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 
 @UntilDestroy()
 @Component({

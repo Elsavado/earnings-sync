@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { NbButtonModule, NbIconModule } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
-import { EmployeeStatisticsHistoryEnum } from '@gauzy/contracts';
+import { EmployeeStatisticsHistoryEnum } from '@irtranscripts/contracts';
 import { InfoBlockModule } from '../../info-block/info-block.module';
 
 /**

@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { Brackets, FindOptionsRelations, SelectQueryBuilder } from 'typeorm';
-import { isNotEmpty } from '@gauzy/utils';
-import { IPagination, ITag, ITagFindInput } from '@gauzy/contracts';
-import { getConfig } from '@gauzy/config';
+import { isNotEmpty } from '@irtranscripts/utils';
+import { IPagination, ITag, ITagFindInput } from '@irtranscripts/contracts';
+import { getConfig } from '@irtranscripts/config';
 import { RequestContext } from '../core/context';
 import { TenantAwareCrudService } from '../core/crud';
 import { mikroOrmContains, MultiORMEnum, parseFindOptionsRelations } from '../core/utils';

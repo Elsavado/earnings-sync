@@ -9,8 +9,8 @@ import {
 	IOrganizationTeamStatisticInput,
 	ITask,
 	ITimerStatus
-} from '@gauzy/contracts';
-import { parseToBoolean } from '@gauzy/utils';
+} from '@irtranscripts/contracts';
+import { parseToBoolean } from '@irtranscripts/utils';
 import { parseFindOptionsRelations } from '../../core/utils';
 import { OrganizationTeam, Task } from './../../core/entities/internal';
 import { StatisticService } from './../../time-tracking/statistic';

@@ -6,7 +6,7 @@ import {
 	IInboxProviderAccount,
 	InboxProviderAccountScopeEnum,
 	InboxProviderAccountStatusEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { InboxEmailSettingsService } from '../services/inbox-email-settings.service';
 import { InboxProviderAccountDialogComponent } from './provider-account-dialog.component';
 

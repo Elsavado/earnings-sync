@@ -16,7 +16,7 @@ import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CrudController } from './../core/crud';
 import { KeyResultUpdate } from './keyresult-update.entity';
 import { KeyResultUpdateService } from './keyresult-update.service';
-import { IKeyResultUpdate } from '@gauzy/contracts';
+import { IKeyResultUpdate } from '@irtranscripts/contracts';
 import { ParseJsonPipe, UUIDValidationPipe, UseValidationPipe } from './../shared/pipes';
 import { CommandBus } from '@nestjs/cqrs';
 import { KeyResultUpdateBulkDeleteCommand } from './commands';

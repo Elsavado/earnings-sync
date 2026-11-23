@@ -1,5 +1,5 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
-import { getConfig } from '@gauzy/config';
+import { getConfig } from '@irtranscripts/config';
 import {
 	PluginFeatureContribution,
 	PluginPermissionContribution,
@@ -7,7 +7,7 @@ import {
 	getFeaturesFromPlugins,
 	getPermissionsFromPlugins,
 	getSettingsFromPlugins
-} from '@gauzy/plugin';
+} from '@irtranscripts/plugin';
 
 /**
  * Registry of the permissions contributed by the plugins an installation has loaded.

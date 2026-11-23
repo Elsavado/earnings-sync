@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { JoinColumn, RelationId } from 'typeorm';
 import { IsOptional, IsEnum, IsString, IsUUID } from 'class-validator';
-import { IGoal, GoalLevelEnum, IKeyResult, IOrganizationTeam, IEmployee, ID, IOrganizationStrategicInitiative } from '@gauzy/contracts';
+import { IGoal, GoalLevelEnum, IKeyResult, IOrganizationTeam, IEmployee, ID, IOrganizationStrategicInitiative } from '@irtranscripts/contracts';
 import {
 	Employee,
 	KeyResult,

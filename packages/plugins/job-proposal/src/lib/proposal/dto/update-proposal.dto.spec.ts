@@ -6,10 +6,10 @@
  * `UpdateProposalDTO` the route's `ValidationPipe({ transform: true })` builds - so editing a proposal's content
  * moved an `ACCEPTED` proposal back to `SENT`.
  *
- * `@gauzy/core` is doubled (its barrel boots the application graph); `WithoutInitializers` comes from
- * `@gauzy/common`, real.
+ * `@irtranscripts/core` is doubled (its barrel boots the application graph); `WithoutInitializers` comes from
+ * `@irtranscripts/common`, real.
  */
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	TenantOrganizationBaseDTO: class {},
 	RelationalTagDTO: class {}
 }));

@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDateString, IsEnum, IsInt, IsOptional, IsString, IsUUID, Min } from 'class-validator';
-import { EventOutboxStatus, ID, IEventOutbox, JsonData } from '@gauzy/contracts';
+import { EventOutboxStatus, ID, IEventOutbox, JsonData } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { ColumnIndex, JsonColumn, MultiORMColumn, MultiORMEntity } from '../core/decorators/entity';
 import { ColumnNumericTransformerPipe } from '../shared/pipes';

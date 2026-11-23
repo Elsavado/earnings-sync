@@ -37,7 +37,7 @@ import * as fsp from 'node:fs/promises';
 import * as os from 'node:os';
 import * as path from 'node:path';
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
-import { PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 import { ImportService } from './import.service';
 import { ImportEntityFieldMapOrCreateCommand } from './commands';
 import { ImportRecordFindOrFailCommand, ImportRecordUpdateOrCreateCommand } from '../import-record';

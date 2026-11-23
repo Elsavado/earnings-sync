@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ID, IUser } from '@gauzy/contracts';
+import { ID, IUser } from '@irtranscripts/contracts';
 import { Actions } from '@ngneat/effects-ng';
 import { combineLatest, map, Observable } from 'rxjs';
 import { AvailableUsersActions } from '../actions/available-users.actions';

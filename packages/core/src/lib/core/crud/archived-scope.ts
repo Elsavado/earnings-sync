@@ -1,5 +1,5 @@
 import { In } from 'typeorm';
-import { parseToBoolean } from '@gauzy/utils';
+import { parseToBoolean } from '@irtranscripts/utils';
 
 /**
  * The archive states a list read answers, from the `isArchived` its caller states.

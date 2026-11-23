@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Query } from '@datorama/akita';
 import { Observable } from 'rxjs';
 
-import { ID, IPluginSource } from '@gauzy/contracts';
+import { ID, IPluginSource } from '@irtranscripts/contracts';
 import { IPluginSourceState, PluginSourceStore } from '../stores/plugin-source.store';
 
 @Injectable({ providedIn: 'root' })

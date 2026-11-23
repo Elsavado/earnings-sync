@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IPasswordReset } from '@gauzy/contracts';
+import { IPasswordReset } from '@irtranscripts/contracts';
 import { PasswordResetGetCommand } from './../password-reset.get.command';
 import { PasswordResetService } from './../../password-reset.service';
 

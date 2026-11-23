@@ -69,7 +69,7 @@ describe('provider form webhooks', () => {
 		}
 
 		afterEach(() => {
-			delete process.env['GAUZY_INBOX_MAX_MESSAGE_BYTES'];
+			delete process.env['IRTRANSCRIPTS_INBOX_MAX_MESSAGE_BYTES'];
 		});
 
 		it('keeps a multipart or text body as the raw bytes', () => {
@@ -90,7 +90,7 @@ describe('provider form webhooks', () => {
 			expect(next).toHaveBeenCalledWith();
 			expect(json.listenerCount('data')).toBe(0);
 
-			process.env['GAUZY_INBOX_MAX_MESSAGE_BYTES'] = '10';
+			process.env['IRTRANSCRIPTS_INBOX_MAX_MESSAGE_BYTES'] = '10';
 			const big = request('text/plain; charset=UTF-8');
 			const refused = jest.fn();
 			new InboundRawBodyMiddleware().use(big as never, {}, refused);

@@ -1,4 +1,4 @@
-import { TokenPurposeEnum, verifyPurposeToken } from '@gauzy/core';
+import { TokenPurposeEnum, verifyPurposeToken } from '@irtranscripts/core';
 import { TestBrowser, ZitadelTestApp, createZitadelTestApp } from '../fixtures/zitadel-test-app';
 
 // The first use of `jose` (an ES module that ts-jest compiles on load) and key generation can take
@@ -34,7 +34,7 @@ describe('Token route for first-party clients (HTTP, against a mock OpenID Provi
 	it.each([
 		['a foreign audience', { aud: 'someone-else', azp: 'someone-else' }],
 		['an operator client of another instance', { aud: ['teams-web', 'inst-1234'], azp: 'inst-1234' }],
-		['this product\'s own web client', { aud: 'gauzy-web-test', azp: 'gauzy-web-test' }],
+		['this product\'s own web client', { aud: 'irtranscripts-web-test', azp: 'irtranscripts-web-test' }],
 		['an expired token', { aud: 'teams-web', exp: Math.floor(Date.now() / 1000) - 600 }],
 		['another issuer', { aud: 'teams-web', iss: 'http://127.0.0.1:1' }]
 	])('refuses %s with a bare 401', async (_name, claims) => {
@@ -93,7 +93,7 @@ describe('Token route for first-party clients (HTTP, against a mock OpenID Provi
 		const foreign = await t.issuer.sign({ iss: t.issuer.issuer, sub: 'teams-user', aud: ['teams-web'], client_id: 'inst-99', iat: now, exp: now + 300 });
 		expect((await post({ access_token: foreign })).status).toBe(401);
 
-		// A token minted for another resource does not open Gauzy, even when an allowed client asked for it.
+		// A token minted for another resource does not open IRTranscripts, even when an allowed client asked for it.
 		const otherResource = await t.issuer.sign({
 			iss: t.issuer.issuer,
 			sub: 'teams-user',
@@ -153,9 +153,9 @@ describe('Token route for first-party clients (HTTP, against a mock OpenID Provi
 			});
 			expect(response.status).toBe(200);
 			expect(await response.json()).toEqual({ confirm_required: true, handoff: expect.any(String) });
-			expect(t.gauzyAuth.sentCodes).toEqual(['branded@example.test']);
-			// No https: the company link is left to Gauzy's default; the magic link is never taken from a request.
-			expect(t.gauzyAuth.sentInputs).toEqual([
+			expect(t.irtranscriptsAuth.sentCodes).toEqual(['branded@example.test']);
+			// No https: the company link is left to IRTranscripts's default; the magic link is never taken from a request.
+			expect(t.irtranscriptsAuth.sentInputs).toEqual([
 				{
 					appName: 'Ever Teams',
 					appLogo: 'https://teams.example.test/logo.png',
@@ -166,10 +166,10 @@ describe('Token route for first-party clients (HTTP, against a mock OpenID Provi
 			]);
 		});
 
-		it('sends the code with Gauzy\'s own branding when the app sends none', async () => {
+		it('sends the code with IRTranscripts\'s own branding when the app sends none', async () => {
 			t.accounts.addUser({ email: 'plain@example.test' });
 			expect((await post({ id_token: await teamsIdToken('plain', 'plain@example.test') })).status).toBe(200);
-			expect(t.gauzyAuth.sentInputs).toEqual([{}]);
+			expect(t.irtranscriptsAuth.sentInputs).toEqual([{}]);
 		});
 
 		it('answers the confirmation of a key from the token route with each workspace\'s team list', async () => {
@@ -177,7 +177,7 @@ describe('Token route for first-party clients (HTTP, against a mock OpenID Provi
 			const two = t.accounts.addUser({ email: 'teams.person@example.test', tenantName: 'Two' });
 			const { handoff } = await (await post({ id_token: await teamsIdToken('teams-person', 'teams.person@example.test') })).json();
 
-			const confirmed = await browser.post(`${t.baseUrl}/api/auth/zitadel/confirm`, { handoff, code: t.gauzyAuth.code });
+			const confirmed = await browser.post(`${t.baseUrl}/api/auth/zitadel/confirm`, { handoff, code: t.irtranscriptsAuth.code });
 			expect(confirmed.status).toBe(200);
 			const response = await confirmed.json();
 			expect(response.total_workspaces).toBe(2);
@@ -188,7 +188,7 @@ describe('Token route for first-party clients (HTTP, against a mock OpenID Provi
 				[one.id]: [{ team_id: `team-of-${one.id}`, team_name: 'Team' }],
 				[two.id]: [{ team_id: `team-of-${two.id}`, team_name: 'Team' }]
 			});
-			expect(t.gauzyAuth.teamRequests).toEqual([true]);
+			expect(t.irtranscriptsAuth.teamRequests).toEqual([true]);
 		});
 	});
 });

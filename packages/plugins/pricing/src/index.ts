@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-pricing
+ * Public API Surface of @irtranscripts/plugin-pricing
  *
  * The package exports its plugin class — what the host application registers — together with the four
  * entities and services that own the pricing tables. A capability further up the stack (a cart, a

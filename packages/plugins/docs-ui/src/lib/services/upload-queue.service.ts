@@ -2,7 +2,7 @@ import { HttpEventType } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Actions } from '@ngneat/effects-ng';
 import { BehaviorSubject, catchError, Observable, of, Subject, Subscription, timer } from 'rxjs';
-import { DocumentKnowledgeStatusEnum, DocumentStatusEnum, ID, IDocument } from '@gauzy/contracts';
+import { DocumentKnowledgeStatusEnum, DocumentStatusEnum, ID, IDocument } from '@irtranscripts/contracts';
 import { DocumentsActions } from '../+state/documents.actions';
 import { DocumentsQuery } from '../+state/documents.query';
 import {

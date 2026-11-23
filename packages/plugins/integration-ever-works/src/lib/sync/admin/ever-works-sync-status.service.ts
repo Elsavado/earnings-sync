@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Brackets, DataSource } from 'typeorm';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { EverWorksConnectionStatus } from '../../connection/ever-works-connection.entity';
 import { EverWorksConnectionService } from '../../connection/ever-works-connection.service';
 import type { EverWorksDirection, EverWorksDomain } from '../../mapping/ever-works-mapping.defaults';
@@ -34,7 +34,7 @@ export interface EverWorksSyncStatusView {
 		lastWebhookAt: Date | null;
 		resyncRequested: boolean;
 	};
-	/** Ever Works' feed head against what Gauzy has read and applied (`behind` = head − last applied). */
+	/** Ever Works' feed head against what IRTranscripts has read and applied (`behind` = head − last applied). */
 	lag: { head: string | null; readUpTo: string | null; lastApplied: string | null; behind: string | null; headError: string | null };
 	inbound: Record<'pending' | 'deferred' | 'failed' | 'dead', number>;
 	outbound: Record<'pending' | 'pushing' | 'deferred' | 'failed' | 'dead', number>;
@@ -53,7 +53,7 @@ export interface EverWorksSyncLogEntryView {
 	createdAt: Date | null;
 	direction: string;
 	entityType: string | null;
-	gauzyId: ID | null;
+	irtranscriptsId: ID | null;
 	ewId: string | null;
 	action: string;
 	status: string;
@@ -172,7 +172,7 @@ export class EverWorksSyncStatusService {
 				createdAt: ((row as { createdAt?: Date }).createdAt as Date) ?? null,
 				direction: row.direction,
 				entityType: row.entityType ?? null,
-				gauzyId: (row.gauzyId as ID) ?? null,
+				irtranscriptsId: (row.irtranscriptsId as ID) ?? null,
 				ewId: row.ewId ?? null,
 				action: row.action,
 				status: row.status,
@@ -280,7 +280,7 @@ export class EverWorksSyncStatusService {
 			: null;
 	}
 
-	/** The highest feed position Gauzy applied (or settled) for this mapping's organization. */
+	/** The highest feed position IRTranscripts applied (or settled) for this mapping's organization. */
 	private async lastAppliedSeq(context: EverWorksMappingContext): Promise<string | null> {
 		const row = await this.dataSource
 			.getRepository(EverWorksInboundEvent)

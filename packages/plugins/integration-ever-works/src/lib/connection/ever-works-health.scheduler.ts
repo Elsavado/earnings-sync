@@ -1,6 +1,6 @@
 import { Inject, Injectable, Logger, OnApplicationBootstrap, OnApplicationShutdown, Optional } from '@nestjs/common';
 import { DataSource, IsNull, LessThan } from 'typeorm';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { isEverWorksEnabled } from '../ever-works-enabled';
 import { EVER_WORKS_ENV } from '../ever-works.tokens';
 import { EverWorksConnection, EverWorksConnectionStatus } from './ever-works-connection.entity';

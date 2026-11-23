@@ -1,10 +1,10 @@
-// `@gauzy/core` drags in the whole entity graph: the middleware only needs the integration tenant service's type.
-jest.mock('@gauzy/core', () => ({ IntegrationTenantService: class IntegrationTenantService {} }));
+// `@irtranscripts/core` drags in the whole entity graph: the middleware only needs the integration tenant service's type.
+jest.mock('@irtranscripts/core', () => ({ IntegrationTenantService: class IntegrationTenantService {} }));
 
 import { bearerTenantId, IntegrationAIMiddleware } from './integration-ai.middleware';
 
 /**
- * The middleware loads a tenant's Gauzy AI and OpenAI keys for the job routes before authentication runs. It took
+ * The middleware loads a tenant's IRTranscripts AI and OpenAI keys for the job routes before authentication runs. It took
  * the tenant from the `tenant-id` header or the body, so a user of one tenant could have another tenant's keys used
  * for their requests. It now reads the tenant from the bearer token's own claim.
  */

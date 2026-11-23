@@ -1,6 +1,6 @@
 import * as chalk from 'chalk';
-import { SeederModule, skipExport } from '@gauzy/core';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy, IOnPluginSeedable } from '@gauzy/plugin';
+import { SeederModule, skipExport } from '@irtranscripts/core';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy, IOnPluginSeedable } from '@irtranscripts/plugin';
 import { DocsModule } from './docs.module';
 import { ALL_DOC_ENTITIES, DocumentChunk, DocumentIndexState } from './entities';
 import { DocsRecoveryService } from './knowledge/queue/docs-recovery.service';

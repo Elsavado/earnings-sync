@@ -1,5 +1,5 @@
-import { HttpStatus, ID } from '@gauzy/contracts';
-import { PermissionGuard, TenantPermissionGuard, UUIDValidationPipe, UseValidationPipe } from '@gauzy/core';
+import { HttpStatus, ID } from '@irtranscripts/contracts';
+import { PermissionGuard, TenantPermissionGuard, UUIDValidationPipe, UseValidationPipe } from '@irtranscripts/core';
 import { BadRequestException, Body, Controller, Param, Patch, UseGuards } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import {

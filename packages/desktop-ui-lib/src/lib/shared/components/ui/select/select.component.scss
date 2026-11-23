@@ -4,16 +4,16 @@
 }
 
 .black-bold-text {
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 	font-weight: 600;
 }
 
 .gray-bold-text {
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 	font-weight: 600;
 }
 
-$input-background-color: var(--gauzy-card-1);
+$input-background-color: var(--irtranscripts-card-1);
 $height: 42px;
 
 :host {
@@ -38,7 +38,7 @@ $height: 42px;
 		font-weight: 600;
 		line-height: 13px;
 		letter-spacing: -0.01em;
-		color: var(--gauzy-text-color-2);
+		color: var(--irtranscripts-text-color-2);
 	}
 
 	::ng-deep textarea {
@@ -64,12 +64,12 @@ $height: 42px;
 		&:focus,
 		&:active,
 		&:visited {
-			box-shadow: var(--gauzy-shadow) inset !important;
+			box-shadow: var(--irtranscripts-shadow) inset !important;
 		}
 	}
 
 	.ng-select .ng-select-container {
-		box-shadow: var(--gauzy-shadow) inset !important;
+		box-shadow: var(--irtranscripts-shadow) inset !important;
 	}
 }
 
@@ -80,7 +80,7 @@ $height: 42px;
 .common-template img {
 	margin-right: 5px;
 	border-radius: calc(var(--border-radius) * 1 / 2);
-	box-shadow: var(--gauzy-shadow);
+	box-shadow: var(--irtranscripts-shadow);
 }
 
 :host {
@@ -98,7 +98,7 @@ $height: 42px;
 		img {
 			margin-right: 5px;
 			border-radius: calc(var(--border-radius) * 1 / 2);
-			box-shadow: var(--gauzy-shadow);
+			box-shadow: var(--irtranscripts-shadow);
 		}
 	}
 

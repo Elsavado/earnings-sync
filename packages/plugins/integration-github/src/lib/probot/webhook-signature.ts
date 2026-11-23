@@ -23,7 +23,7 @@ export const GITHUB_SIGNATURE_HEADER = 'x-hub-signature-256';
  *
  * @param payload - The raw request body bytes, exactly as received.
  * @param header - The value of the `x-hub-signature-256` request header.
- * @param secret - The webhook secret configured in the GitHub App (`GAUZY_GITHUB_WEBHOOK_SECRET`).
+ * @param secret - The webhook secret configured in the GitHub App (`IRTRANSCRIPTS_GITHUB_WEBHOOK_SECRET`).
  * @returns `true` only when the header is a well-formed `sha256=` signature that matches.
  */
 export function verifyGithubWebhookSignature(payload: Buffer, header: string, secret: string): boolean {

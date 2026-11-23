@@ -1,7 +1,7 @@
 import { CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn, RelationId } from 'typeorm';
 import { PrimaryKey, Property } from '@mikro-orm/core';
 import { SoftDeletable } from 'mikro-orm-soft-delete';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from '../../decorators/entity';
 import { PersistenceInvariantTenant } from './persistence-invariant-tenant.entity';
 

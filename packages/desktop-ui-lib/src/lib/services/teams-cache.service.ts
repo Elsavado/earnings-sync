@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IOrganizationTeam, IPagination } from '@gauzy/contracts';
+import { IOrganizationTeam, IPagination } from '@irtranscripts/contracts';
 import { StorageService, Store } from '../services';
 import { AbstractCacheService } from './abstract-cache.service';
 

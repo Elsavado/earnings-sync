@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { FindOptionsWhere, IsNull } from 'typeorm';
-import { FeatureEnum, ID, IFeature, IPagination } from '@gauzy/contracts';
-import { gauzyToggleFeatures } from '@gauzy/config';
+import { FeatureEnum, ID, IFeature, IPagination } from '@irtranscripts/contracts';
+import { irtranscriptsToggleFeatures } from '@irtranscripts/config';
 import { Feature } from './feature.entity';
 import { FeatureOrganization } from './feature-organization.entity';
 import { isFeatureEnabledByDefault } from './feature-default-state';
@@ -138,7 +138,7 @@ export class FeatureService extends CrudService<Feature> {
 	 * @returns The configured value, `false` when the deployment's configuration does not name the code.
 	 */
 	private configuredFeatureState(flag: FeatureEnum): boolean {
-		return !!gauzyToggleFeatures[flag];
+		return !!irtranscriptsToggleFeatures[flag];
 	}
 
 	/**

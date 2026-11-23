@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/ui-auth
+ * Public API Surface of @irtranscripts/ui-auth
  */
 export * from './lib/auth.module';
 export * from './lib/auth.routes';

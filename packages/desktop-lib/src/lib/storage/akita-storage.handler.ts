@@ -1,4 +1,4 @@
-import { AkitaStorageEngine } from '@gauzy/desktop-core';
+import { AkitaStorageEngine } from '@irtranscripts/desktop-core';
 import { ipcMain } from 'electron';
 
 export class AkitaStorageHandler {

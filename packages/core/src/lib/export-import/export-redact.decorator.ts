@@ -1,4 +1,4 @@
-import { isFunction } from '@gauzy/utils';
+import { isFunction } from '@irtranscripts/utils';
 import { maskSecret } from '../core/decorators/is-secret';
 
 /**

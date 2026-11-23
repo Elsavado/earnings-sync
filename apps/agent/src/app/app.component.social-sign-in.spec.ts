@@ -5,9 +5,9 @@
  * several workspaces goes to the shared workspace picker.
  *
  * The component is built directly with stand-ins: the library entry points are mocked down to the tokens it names, as
- * loading `@gauzy/desktop-ui-lib` for real pulls every desktop feature module into a spec that uses none of them.
+ * loading `@irtranscripts/desktop-ui-lib` for real pulls every desktop feature module into a spec that uses none of them.
  */
-jest.mock('@gauzy/desktop-ui-lib', () => ({
+jest.mock('@irtranscripts/desktop-ui-lib', () => ({
 	ActivityWatchElectronService: class ActivityWatchElectronService {},
 	AuthService: class AuthService {},
 	AuthStrategy: class AuthStrategy {},

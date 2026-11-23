@@ -1,5 +1,5 @@
 import { IntersectionType, PartialType } from '@nestjs/swagger';
-import { IIssueTypeCreateInput } from '@gauzy/contracts';
+import { IIssueTypeCreateInput } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../../core/dto';
 import { IssueType } from '../issue-type.entity';
 

@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { IIntegrationTenantCreateInput } from '@gauzy/contracts';
+import { IIntegrationTenantCreateInput } from '@irtranscripts/contracts';
 
 export class IntegrationTenantCreateCommand implements ICommand {
 	static readonly type = '[Integration] Create Integration';

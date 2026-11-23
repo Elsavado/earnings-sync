@@ -1,4 +1,4 @@
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 
 // The strategy only needs these for DI metadata; loading the real modules drags in the whole core
 // entity graph, which cannot be required in isolation (pre-existing circular import).

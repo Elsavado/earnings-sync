@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ITask, ITasksStatistics, TaskStatusEnum } from '@gauzy/contracts';
+import { ITask, ITasksStatistics, TaskStatusEnum } from '@irtranscripts/contracts';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { TimeTrackerService } from '../../../../time-tracker/time-tracker.service';

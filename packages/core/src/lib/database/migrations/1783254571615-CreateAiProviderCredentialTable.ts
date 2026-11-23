@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 export class CreateAiProviderCredentialTable1783254571615 implements MigrationInterface {
 	name = 'CreateAiProviderCredentialTable1783254571615';

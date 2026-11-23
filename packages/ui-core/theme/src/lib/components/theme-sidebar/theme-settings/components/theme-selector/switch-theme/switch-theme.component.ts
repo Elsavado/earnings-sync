@@ -1,14 +1,14 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { ThemeSelectorComponent } from '../theme-selector.component';
 import { NbThemeService } from '@nebular/theme';
-import { Store } from '@gauzy/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
 import { SwitchThemeService } from './switch-theme.service';
 import { ActivatedRoute } from '@angular/router';
 import { filter, tap } from 'rxjs/operators';
 import { untilDestroyed } from '@ngneat/until-destroy';
 
 @Component({
-    selector: 'gauzy-switch-theme',
+    selector: 'irtranscripts-switch-theme',
     templateUrl: './switch-theme.component.html',
     styleUrls: ['./switch-theme.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,

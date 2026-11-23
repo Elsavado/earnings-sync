@@ -1,4 +1,4 @@
-import { PluginBillingPeriod, PluginScope, PluginSubscriptionStatus } from '@gauzy/contracts';
+import { PluginBillingPeriod, PluginScope, PluginSubscriptionStatus } from '@irtranscripts/contracts';
 import { BadRequestException } from '@nestjs/common';
 import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { FindOptionsWhere } from 'typeorm';

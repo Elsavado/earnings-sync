@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { DeepPartial } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { Product, RequestContext } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { Product, RequestContext } from '@irtranscripts/core';
 import { assertAllInCallerScope } from '../catalog.scope';
 import { Collection } from '../collection/collection.entity';
 import { CollectionProduct } from './collection-product.entity';

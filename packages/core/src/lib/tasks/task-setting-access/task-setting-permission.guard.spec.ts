@@ -8,7 +8,7 @@ import '../../core/entities/internal';
 import { ExecutionContext, NotFoundException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { FindOperator } from 'typeorm';
-import { IUser, PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { IUser, PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../core/context';
 import { IssueTypeController } from '../issue-type/issue-type.controller';
 import { IssueTypeService } from '../issue-type/issue-type.service';

@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-catalog
+ * Public API Surface of @irtranscripts/plugin-catalog
  */
 export * from './lib/catalog.plugin';
 export * from './lib/catalog.module';

@@ -1,5 +1,5 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — the configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — the configuration, the ORM, the job
  * registry, the module scanner — none of which a reason lookup needs and none of which is available
  * outside a running application. The seam is therefore doubled at the module boundary, exactly as the
  * catalogue and inventory packages' service specs do, and **the service under test is the real one**:
@@ -13,7 +13,7 @@
  * `success: false`. `createReason` asks "is this code free?" through the second half, because a free
  * code is how every reason in the taxonomy started.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
@@ -95,7 +95,7 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		BaseEvent: class {},
 		EventBus: class {},
 		Payment: class Payment {},
@@ -112,7 +112,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 import { NotFoundException } from '@nestjs/common';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { RefundReasonService } from './refund-reason.service';
 
 /**

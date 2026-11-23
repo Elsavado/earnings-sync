@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { In, FindOptionsWhere } from 'typeorm';
-import { IPagination, IProductVariant } from '@gauzy/contracts';
+import { IPagination, IProductVariant } from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from './../core/crud';
 import { ProductVariant } from './product-variant.entity';
 import { MikroOrmProductVariantRepository } from './repository/mikro-orm-product-variant.repository';

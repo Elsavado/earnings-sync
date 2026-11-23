@@ -1,14 +1,14 @@
 import moment from 'moment-timezone';
-import { IActivitiesStatistics, IMembersStatistics, IOrganization } from '@gauzy/contracts';
+import { IActivitiesStatistics, IMembersStatistics, IOrganization } from '@irtranscripts/contracts';
 
 /*
- * `@gauzy/ui-core/common` and `@gauzy/ui-core/shared` are Angular barrels (hundreds of components,
+ * `@irtranscripts/ui-core/common` and `@irtranscripts/ui-core/shared` are Angular barrels (hundreds of components,
  * Swiper, CKEditor…) — far too heavy for a helper spec. The two functions the payload builder
  * takes from them are re-declared here with their real one-line bodies
  * (`shared-utils.ts#toUtcOffset` / `#isNotEmpty`, `date-picker.utils.ts#getAdjustDateRangeFutureAllowed`
  * reduced to its identity branch), so this spec exercises OUR payload assembly, not their internals.
  */
-jest.mock('@gauzy/ui-core/common', () => {
+jest.mock('@irtranscripts/ui-core/common', () => {
 	const m = jest.requireActual('moment-timezone');
 	return {
 		toUtcOffset: (date: unknown, timezone?: string) => {
@@ -18,7 +18,7 @@ jest.mock('@gauzy/ui-core/common', () => {
 		isNotEmpty: (item: unknown) => Array.isArray(item) && item.filter(Boolean).length > 0
 	};
 });
-jest.mock('@gauzy/ui-core/shared', () => {
+jest.mock('@irtranscripts/ui-core/shared', () => {
 	const m = jest.requireActual('moment-timezone');
 	return {
 		getAdjustDateRangeFutureAllowed: (request: { startDate: unknown; endDate: unknown }) => ({

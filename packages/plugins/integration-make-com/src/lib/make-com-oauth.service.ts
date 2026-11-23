@@ -11,7 +11,7 @@ import {
 import { HttpService } from '@nestjs/axios';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
-import { ConfigService } from '@gauzy/config';
+import { ConfigService } from '@irtranscripts/config';
 import { CommandBus } from '@nestjs/cqrs';
 import { AxiosError } from 'axios';
 import { firstValueFrom, catchError } from 'rxjs';
@@ -20,7 +20,7 @@ import {
 	IntegrationEnum,
 	IIntegrationEntitySetting,
 	IntegrationEntity,
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	IntegrationService,
 	IntegrationSettingService,
@@ -29,7 +29,7 @@ import {
 	RequestContext,
 	DEFAULT_ENTITY_SETTINGS,
 	PROJECT_TIED_ENTITIES,
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { MAKE_BASE_URL, MAKE_DEFAULT_SCOPES } from './make-com.config';
 import { IMakeComOAuthTokens, MakeSettingName } from './interfaces/make-com.model';
 import { MakeComService } from './make-com.service';

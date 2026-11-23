@@ -13,8 +13,8 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { DEFAULT_SCREENSHOT_FREQUENCY_OPTIONS } from '@gauzy/constants';
-import { IOSInfo, LanguagesEnum } from '@gauzy/contracts';
+import { DEFAULT_SCREENSHOT_FREQUENCY_OPTIONS } from '@irtranscripts/constants';
+import { IOSInfo, LanguagesEnum } from '@irtranscripts/contracts';
 import {
 	NbAccordionModule,
 	NbButtonModule,
@@ -39,7 +39,7 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { BehaviorSubject, Observable, filter, firstValueFrom, tap } from 'rxjs';
 import { AuthStrategy } from '../auth';
-import { GAUZY_ENV } from '../constants';
+import { IRTRANSCRIPTS_ENV } from '../constants';
 import { AboutComponent } from '../dialogs/about/about.component';
 import { SpinnerButtonDirective } from '../directives/spinner-button.directive';
 import { ElectronService } from '../electron/services';
@@ -120,10 +120,10 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	appName: string = this.electronService.remote.app.getName();
 	menus = [];
-	gauzyIcon: SafeResourceUrl =
+	irtranscriptsIcon: SafeResourceUrl =
 		this.isDesktopTimer || this.isServer || this.isAgent
-			? './assets/images/logos/logo_Gauzy.svg'
-			: '../assets/images/logos/logo_Gauzy.svg';
+			? './assets/images/logos/logo_IRTranscripts.svg'
+			: '../assets/images/logos/logo_IRTranscripts.svg';
 
 	private _monitorsOption$: BehaviorSubject<any> = new BehaviorSubject([
 		{
@@ -247,18 +247,18 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 			title: 'Github',
 			fields: [
 				{
-					name: 'GAUZY_GITHUB_OAUTH_CLIENT_ID',
-					field: 'GAUZY_GITHUB_OAUTH_CLIENT_ID',
+					name: 'IRTRANSCRIPTS_GITHUB_OAUTH_CLIENT_ID',
+					field: 'IRTRANSCRIPTS_GITHUB_OAUTH_CLIENT_ID',
 					value: ''
 				},
 				{
-					name: 'GAUZY_GITHUB_OAUTH_CLIENT_SECRET',
-					field: 'GAUZY_GITHUB_OAUTH_CLIENT_SECRET',
+					name: 'IRTRANSCRIPTS_GITHUB_OAUTH_CLIENT_SECRET',
+					field: 'IRTRANSCRIPTS_GITHUB_OAUTH_CLIENT_SECRET',
 					value: ''
 				},
 				{
-					name: 'GAUZY_GITHUB_OAUTH_CALLBACK_URL',
-					field: 'GAUZY_GITHUB_OAUTH_CALLBACK_URL',
+					name: 'IRTRANSCRIPTS_GITHUB_OAUTH_CALLBACK_URL',
+					field: 'IRTRANSCRIPTS_GITHUB_OAUTH_CALLBACK_URL',
 					value: ''
 				}
 			]
@@ -559,7 +559,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 		private _translateService: TranslateService,
 		@Optional()
 		private _authStrategy: AuthStrategy,
-		@Inject(GAUZY_ENV)
+		@Inject(IRTRANSCRIPTS_ENV)
 		private readonly _environment: any,
 		private readonly _domSanitizer: DomSanitizer,
 		private readonly _languageElectronService: LanguageElectronService,
@@ -595,7 +595,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 		this.companyName = this._environment.COMPANY_NAME;
 		this.companySite = this._environment.COMPANY_SITE_NAME;
 		this.companyLink = this._environment.COMPANY_LINK;
-		this.gauzyIcon = this._domSanitizer.bypassSecurityTrustResourceUrl(this._environment.PLATFORM_LOGO);
+		this.irtranscriptsIcon = this._domSanitizer.bypassSecurityTrustResourceUrl(this._environment.PLATFORM_LOGO);
 		this.handleIpcEvent = this.handleIpcEvent.bind(this);
 	}
 
@@ -1096,10 +1096,10 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 			case this.config.isLocalServer:
 				this.config.serverType = 'Integrated';
 				break;
-			case !this.config.isLocalServer && this.config.serverUrl !== 'https://api.gauzy.co':
+			case !this.config.isLocalServer && this.config.serverUrl !== 'https://api.irtranscripts.com':
 				this.config.serverType = 'Custom';
 				break;
-			case !this.config.isLocalServer && this.config.serverUrl === 'https://api.gauzy.co':
+			case !this.config.isLocalServer && this.config.serverUrl === 'https://api.irtranscripts.com':
 				this.config.serverType = 'Live';
 				break;
 			default:
@@ -1201,7 +1201,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 				break;
 			case this.serverTypes.live:
 				this.config.isLocalServer = false;
-				this.config.serverUrl = 'https://api.gauzy.co';
+				this.config.serverUrl = 'https://api.irtranscripts.com';
 				break;
 			default:
 				break;
@@ -1265,7 +1265,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	public openLink() {
-		const url = 'https://gauzy.co';
+		const url = 'https://irtranscripts.com';
 		this.electronService.shell.openExternal(url);
 	}
 

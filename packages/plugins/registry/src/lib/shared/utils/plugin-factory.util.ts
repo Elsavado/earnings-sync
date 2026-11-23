@@ -1,4 +1,4 @@
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { CreatePluginDTO } from '../dto/create-plugin.dto';
 import { PluginVersionDTO } from '../dto/plugin-version.dto';
 import { PluginSourceDTO } from '../dto/plugin-source.dto';

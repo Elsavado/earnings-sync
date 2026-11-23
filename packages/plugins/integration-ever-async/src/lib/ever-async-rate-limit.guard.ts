@@ -18,7 +18,7 @@ export class EverAsyncRateLimitGuard implements CanActivate {
 		const http = context.switchToHttp();
 		const request = http.getRequest<Request>();
 		const response = http.getResponse<Response>();
-		// Gauzy trusts all forwarding headers, so only the socket peer is safe before authentication.
+		// IRTranscripts trusts all forwarding headers, so only the socket peer is safe before authentication.
 		// Requests through the same reverse proxy share this configurable per-process budget.
 		const client = request.socket.remoteAddress || 'unknown';
 		const now = Date.now();

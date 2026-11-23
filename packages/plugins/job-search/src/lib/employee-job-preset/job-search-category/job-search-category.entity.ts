@@ -1,8 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { JobPostSourceEnum, IJobSearchCategory, ID } from '@gauzy/contracts';
-import { isMySQL } from '@gauzy/config';
-import { ColumnIndex, MultiORMColumn, MultiORMEntity, TenantOrganizationBaseEntity } from '@gauzy/core';
+import { JobPostSourceEnum, IJobSearchCategory, ID } from '@irtranscripts/contracts';
+import { isMySQL } from '@irtranscripts/config';
+import { ColumnIndex, MultiORMColumn, MultiORMEntity, TenantOrganizationBaseEntity } from '@irtranscripts/core';
 import { MikroOrmJobSearchCategoryRepository } from './repository/mikro-orm-job-search-category.repository';
 
 @MultiORMEntity('job_search_category', { mikroOrmRepository: () => MikroOrmJobSearchCategoryRepository })

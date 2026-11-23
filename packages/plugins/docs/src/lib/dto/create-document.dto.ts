@@ -18,8 +18,8 @@ import {
 	IDocumentCreateInput,
 	ITag,
 	JsonData
-} from '@gauzy/contracts';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 import { IsTagReferenceArray } from './document-tag-reference';
 
 /**
@@ -100,7 +100,7 @@ export class CreateDocumentDTO extends TenantOrganizationBaseDTO implements IDoc
 	 *
 	 * 🛑 Declaring only `tagIds` while the contracts interface promised `tags` made the two sides
 	 * incoherent: these routes validate with `forbidNonWhitelisted: true`, so the next caller
-	 * typed against `@gauzy/contracts` would have got a 400 naming a property its own interface
+	 * typed against `@irtranscripts/contracts` would have got a 400 naming a property its own interface
 	 * told it to send. Only the `id` of each entry is read — assigning an existing tag is the
 	 * operation, and a document write never creates a tag as a side effect.
 	 */

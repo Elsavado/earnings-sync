@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { BookmarkQueryParamsResolver } from '@gauzy/ui-core/core';
-import { DateRangePickerResolver } from '@gauzy/ui-core/shared';
+import { BookmarkQueryParamsResolver } from '@irtranscripts/ui-core/core';
+import { DateRangePickerResolver } from '@irtranscripts/ui-core/shared';
 import { VideoPageComponent } from './pages/video-page/video-page.component';
 import { VideoDetailPageComponent } from './pages/video-detail-page/video-detail-page.component';
 

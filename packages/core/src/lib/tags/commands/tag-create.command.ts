@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { ITagCreateInput } from '@gauzy/contracts';
+import { ITagCreateInput } from '@irtranscripts/contracts';
 
 export class TagCreateCommand implements ICommand {
 	static readonly type = '[Tag] Create Task';

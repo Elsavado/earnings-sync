@@ -10,8 +10,8 @@ import {
 	MultiORMManyToOne,
 	Payment,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
-import { DecimalString, ID } from '@gauzy/contracts';
+} from '@irtranscripts/core';
+import { DecimalString, ID } from '@irtranscripts/contracts';
 import { MikroOrmPaymentCaptureRepository } from './repository/mikro-orm-payment-capture.repository';
 import { IPaymentCapture } from '../payment.types';
 

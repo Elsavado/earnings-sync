@@ -20,8 +20,8 @@ import {
 	IInboxProviderAccountCreateInput,
 	IInboxProviderAccountRemoved,
 	IInboxProviderAccountUpdateInput
-} from '@gauzy/contracts';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 
 const INBOX = `${API_PREFIX}/inbox`;
 const ACCOUNTS = `${INBOX}/provider-accounts`;
@@ -43,10 +43,10 @@ function id(value: ID): string {
 }
 
 /**
- * The Inbox email management routes of the API (`@gauzy/plugin-inbox`, plan 04 §3, §5): the email provider plugins
+ * The Inbox email management routes of the API (`@irtranscripts/plugin-inbox`, plan 04 §3, §5): the email provider plugins
  * and their accounts (`/api/inbox/providers`, `/api/inbox/provider-accounts*`, `INBOX_MAILBOX_MANAGE`) and the
  * mailboxes (`/api/inbox/mailboxes*`; `/mine` needs `INBOX_VIEW` only). They exist only where the API loads the Inbox
- * email features (`GAUZY_INBOX_ENABLED=true` and `GAUZY_INBOX_EMAIL_ENABLED=true`): elsewhere every call answers 404.
+ * email features (`IRTRANSCRIPTS_INBOX_ENABLED=true` and `IRTRANSCRIPTS_INBOX_EMAIL_ENABLED=true`): elsewhere every call answers 404.
  *
  * Secrets are write-only: the API never answers a stored one (only which are set, `secretsSet`), and a secret it
  * generates is answered once, by the call that created it. This service passes them through and keeps none.

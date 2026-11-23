@@ -1,4 +1,4 @@
-import { IntegrationEnum } from '@gauzy/contracts';
+import { IntegrationEnum } from '@irtranscripts/contracts';
 
 /** Persisted names are stable; connector secrets are stored only as salted scrypt digests. */
 export enum EverAsyncSettingName {

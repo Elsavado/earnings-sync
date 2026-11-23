@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsInt, IsNotEmpty, IsNumber, IsOptional, IsUUID, Max, Min } from 'class-validator';
-import { ID, ITimeOffBalanceCarryForwardInput } from '@gauzy/contracts';
+import { ID, ITimeOffBalanceCarryForwardInput } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from './../../core/dto';
 
 /**

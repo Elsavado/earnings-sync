@@ -8,7 +8,7 @@ import { NbAlertModule, NbButtonModule, NbCardModule, NbInputModule, NbTabsetMod
 import { TranslatePipe } from '@ngx-translate/core';
 import { combineLatest, forkJoin, merge, Observable, of, Subject } from 'rxjs';
 import { catchError, distinctUntilChanged, finalize, map, switchMap, takeUntil } from 'rxjs/operators';
-import { Store } from '@gauzy/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
 import type {
 	EverWorksConflict,
 	EverWorksConnection,
@@ -266,7 +266,7 @@ type Loaded =
 												<th>{{ 'EVER_WORKS.SETTINGS.WHEN' | translate }}</th>
 												<th>{{ 'EVER_WORKS.SETTINGS.RECORD' | translate }}</th>
 												<th>{{ 'EVER_WORKS.SETTINGS.FIELD' | translate }}</th>
-												<th>{{ 'EVER_WORKS.REVIEW.GAUZY' | translate }}</th>
+												<th>{{ 'EVER_WORKS.REVIEW.IRTRANSCRIPTS' | translate }}</th>
 												<th>{{ 'EVER_WORKS.REVIEW.EVER_WORKS' | translate }}</th>
 												<th></th>
 											</tr>
@@ -277,7 +277,7 @@ type Loaded =
 													<td>{{ conflict.createdAt | date: 'medium' }}</td>
 													<td>{{ conflict.entityType }}</td>
 													<td>{{ conflict.details?.field || '—' }}</td>
-													<td [class.winner]="conflict.details?.winner === 'gauzy'">{{ show(conflict.details?.gauzyValue) }}</td>
+													<td [class.winner]="conflict.details?.winner === 'irtranscripts'">{{ show(conflict.details?.irtranscriptsValue) }}</td>
 													<td [class.winner]="conflict.details?.winner === 'ever_works'">{{ show(conflict.details?.everWorksValue) }}</td>
 													<td>
 														@if (conflict.resolved) {

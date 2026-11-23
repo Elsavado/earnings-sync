@@ -3,9 +3,9 @@
   height: 90vh;
   overflow: hidden;
   position: relative;
-  background: var(--gauzy-card-1);
+  background: var(--irtranscripts-card-1);
   border-radius: calc(var(--border-radius) * 2);
-  // No `--gauzy-shadow`: it is a 1px ring on the dark canvas and this dialog
+  // No `--irtranscripts-shadow`: it is a 1px ring on the dark canvas and this dialog
   // already draws a 1px `--border-basic-color-3` border.
   border: 1px solid var(--border-basic-color-3);
 
@@ -25,12 +25,12 @@
     animation: fadeIn 0.2s ease-out;
 
     .keyboard-hints-content {
-      background: var(--gauzy-card-1);
+      background: var(--irtranscripts-card-1);
       border-radius: calc(var(--border-radius) * 2);
       padding: 1.5rem;
       max-width: 400px;
       width: 90%;
-      box-shadow: var(--gauzy-shadow);
+      box-shadow: var(--irtranscripts-shadow);
       animation: slideInDown 0.3s ease-out;
 
       .hints-header {
@@ -46,7 +46,7 @@
           margin: 0;
           font-size: 1.1rem;
           font-weight: 600;
-          color: var(--gauzy-text-color-1);
+          color: var(--irtranscripts-text-color-1);
 
           nb-icon {
             font-size: 1.3rem;
@@ -65,24 +65,24 @@
           align-items: center;
           justify-content: space-between;
           padding: 0.75rem;
-          background: var(--gauzy-card-2);
+          background: var(--irtranscripts-card-2);
           border-radius: calc(var(--border-radius) * 1.25);
           transition: all 0.2s ease;
 
           &:hover {
-            background: color-mix(in srgb, var(--gauzy-card-2) 70%, transparent);
+            background: color-mix(in srgb, var(--irtranscripts-card-2) 70%, transparent);
             transform: translateX(4px);
           }
 
           kbd {
-            background: var(--gauzy-card-1);
+            background: var(--irtranscripts-card-1);
             border: 1px solid var(--border-basic-color-3);
             border-radius: calc(var(--border-radius) * 0.75);
             padding: 0.25rem 0.5rem;
             font-family: monospace;
             font-size: 0.85rem;
             font-weight: 600;
-            color: var(--gauzy-text-color-1);
+            color: var(--irtranscripts-text-color-1);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             min-width: 2rem;
             text-align: center;
@@ -90,7 +90,7 @@
           }
 
           span {
-            color: var(--gauzy-text-color-2);
+            color: var(--irtranscripts-text-color-2);
             font-size: 0.9rem;
           }
         }
@@ -111,7 +111,7 @@
 
         .plugin-icon {
           font-size: 2rem;
-          color: var(--gauzy-text-color-2);
+          color: var(--irtranscripts-text-color-2);
         }
 
         .plugin-details {
@@ -121,12 +121,12 @@
             margin: 0 0 0.25rem 0;
             font-size: 1.25rem;
             font-weight: 600;
-            color: var(--gauzy-text-color-1);
+            color: var(--irtranscripts-text-color-1);
           }
 
           .plugin-description {
             margin: 0;
-            color: var(--gauzy-text-color-2);
+            color: var(--irtranscripts-text-color-2);
             font-size: 0.9rem;
           }
         }
@@ -194,7 +194,7 @@
           margin: 0;
           font-size: 1rem;
           font-weight: 500;
-          color: var(--gauzy-text-color-1);
+          color: var(--irtranscripts-text-color-1);
         }
       }
 
@@ -204,9 +204,9 @@
         .skeleton-title,
         .skeleton-subtitle {
           background: linear-gradient(90deg,
-              color-mix(in srgb, var(--gauzy-card-2) 75%, transparent) 0%,
-              var(--gauzy-card-1) 50%,
-              color-mix(in srgb, var(--gauzy-card-2) 75%, transparent) 100%);
+              color-mix(in srgb, var(--irtranscripts-card-2) 75%, transparent) 0%,
+              var(--irtranscripts-card-1) 50%,
+              color-mix(in srgb, var(--irtranscripts-card-2) 75%, transparent) 100%);
           background-size: 200% 100%;
           animation: shimmer 1.5s infinite;
           border-radius: calc(var(--border-radius) * 0.75);
@@ -230,7 +230,7 @@
         gap: 1rem;
 
         .skeleton-plan-card {
-          background: var(--gauzy-card-1);
+          background: var(--irtranscripts-card-1);
           border: 1px solid var(--border-basic-color-3);
           border-radius: calc(var(--border-radius) * 1.75);
           padding: 1.5rem;
@@ -239,9 +239,9 @@
           .skeleton-card-price,
           .skeleton-feature {
             background: linear-gradient(90deg,
-                color-mix(in srgb, var(--gauzy-card-2) 75%, transparent) 0%,
-                var(--gauzy-card-1) 50%,
-                color-mix(in srgb, var(--gauzy-card-2) 75%, transparent) 100%);
+                color-mix(in srgb, var(--irtranscripts-card-2) 75%, transparent) 0%,
+                var(--irtranscripts-card-1) 50%,
+                color-mix(in srgb, var(--irtranscripts-card-2) 75%, transparent) 100%);
             background-size: 200% 100%;
             animation: shimmer 1.5s infinite;
             border-radius: calc(var(--border-radius) * 0.75);
@@ -291,7 +291,7 @@
 
       .loading-text {
         margin: 0;
-        color: var(--gauzy-text-color-2);
+        color: var(--irtranscripts-text-color-2);
       }
     }
 
@@ -312,18 +312,18 @@
             font-size: 1.2rem;
             font-weight: 600;
             margin: 0 0 0.5rem 0;
-            color: var(--gauzy-text-color-1);
+            color: var(--irtranscripts-text-color-1);
           }
 
           .error-message {
             font-size: 0.95rem;
-            color: var(--gauzy-text-color-2);
+            color: var(--irtranscripts-text-color-2);
             margin: 0 0 1rem 0;
           }
 
           .error-suggestions {
             text-align: left;
-            background: var(--gauzy-card-2);
+            background: var(--irtranscripts-card-2);
             padding: 1rem;
             border-radius: calc(var(--border-radius) * 1.25);
             margin-top: 1rem;
@@ -339,7 +339,7 @@
 
               li {
                 margin-bottom: 0.25rem;
-                color: var(--gauzy-text-color-2);
+                color: var(--irtranscripts-text-color-2);
               }
             }
           }
@@ -403,7 +403,7 @@
         margin: 0 0 1rem 0;
         font-size: 1.1rem;
         font-weight: 600;
-        color: var(--gauzy-text-color-1);
+        color: var(--irtranscripts-text-color-1);
 
         nb-icon {
           font-size: 1.2rem;
@@ -418,7 +418,7 @@
 
         .empty-state-icon {
           font-size: 4rem;
-          color: var(--gauzy-text-color-2);
+          color: var(--irtranscripts-text-color-2);
           opacity: 0.6;
           margin-bottom: 1rem;
         }
@@ -427,12 +427,12 @@
           font-size: 1.25rem;
           font-weight: 600;
           margin: 0 0 0.5rem 0;
-          color: var(--gauzy-text-color-1);
+          color: var(--irtranscripts-text-color-1);
         }
 
         .empty-state-message {
           font-size: 0.95rem;
-          color: var(--gauzy-text-color-2);
+          color: var(--irtranscripts-text-color-2);
           margin: 0 0 1.5rem 0;
           max-width: 400px;
           margin-left: auto;
@@ -451,7 +451,7 @@
           gap: 0.75rem;
           margin-bottom: 1rem;
           padding: 0.75rem 1rem;
-          background: var(--gauzy-card-2);
+          background: var(--irtranscripts-card-2);
           border: 1px solid var(--border-basic-color-3);
           border-radius: calc(var(--border-radius) * 1.5);
 
@@ -463,9 +463,9 @@
             border-radius: calc(var(--border-radius) * 1.25);
             font-size: 0.85rem;
             font-weight: 600;
-            color: var(--gauzy-text-color-1);
-            background: var(--gauzy-card-1);
-            box-shadow: var(--gauzy-shadow);
+            color: var(--irtranscripts-text-color-1);
+            background: var(--irtranscripts-card-1);
+            box-shadow: var(--irtranscripts-shadow);
 
             nb-icon {
               font-size: 1rem;
@@ -481,8 +481,8 @@
 
             &.hint {
               border: 1px dashed var(--border-basic-color-4);
-              color: var(--gauzy-text-color-2);
-              background: color-mix(in srgb, var(--gauzy-card-2) 65%, transparent);
+              color: var(--irtranscripts-text-color-2);
+              background: color-mix(in srgb, var(--irtranscripts-card-2) 65%, transparent);
             }
           }
         }
@@ -602,7 +602,7 @@
             // Upgrade plan styling
             &.is-upgrade:not(.selected):not(.disabled) {
               border-color: var(--color-success-default);
-              background: linear-gradient(to bottom right, var(--gauzy-card-1), rgba(0, 214, 143, 0.03));
+              background: linear-gradient(to bottom right, var(--irtranscripts-card-1), rgba(0, 214, 143, 0.03));
 
               &:hover {
                 border-color: var(--color-success-default);
@@ -614,7 +614,7 @@
             // Downgrade plan styling
             &.is-downgrade:not(.selected):not(.disabled) {
               border-color: var(--color-warning-default);
-              background: linear-gradient(to bottom right, var(--gauzy-card-1), rgba(255, 170, 0, 0.03));
+              background: linear-gradient(to bottom right, var(--irtranscripts-card-1), rgba(255, 170, 0, 0.03));
 
               &:hover {
                 border-color: var(--color-warning-default);
@@ -631,7 +631,7 @@
             padding: 1.5rem;
             cursor: pointer;
             transition: all 0.2s ease;
-            background: var(--gauzy-card-1);
+            background: var(--irtranscripts-card-1);
 
             &:hover {
               border-color: var(--color-primary-default);
@@ -698,7 +698,7 @@
                 .plan-name {
                   font-size: 1.1rem;
                   font-weight: 600;
-                  color: var(--gauzy-text-color-1);
+                  color: var(--irtranscripts-text-color-1);
                 }
               }
 
@@ -734,18 +734,18 @@
                 .price-amount {
                   font-size: 1.75rem;
                   font-weight: 700;
-                  color: var(--gauzy-text-color-1);
+                  color: var(--irtranscripts-text-color-1);
                 }
 
                 .price-period {
                   font-size: 0.9rem;
-                  color: var(--gauzy-text-color-2);
+                  color: var(--irtranscripts-text-color-2);
                 }
               }
 
               .setup-fee {
                 font-size: 0.85rem;
-                color: var(--gauzy-text-color-2);
+                color: var(--irtranscripts-text-color-2);
                 margin-bottom: 0.5rem;
               }
 
@@ -769,7 +769,7 @@
               p {
                 margin: 0;
                 font-size: 0.9rem;
-                color: var(--gauzy-text-color-2);
+                color: var(--irtranscripts-text-color-2);
                 line-height: 1.4;
               }
             }
@@ -781,7 +781,7 @@
                 font-size: 0.9rem;
                 font-weight: 600;
                 margin: 0 0 0.5rem 0;
-                color: var(--gauzy-text-color-1);
+                color: var(--irtranscripts-text-color-1);
               }
 
               .features-list {
@@ -811,7 +811,7 @@
                 font-size: 0.9rem;
                 font-weight: 600;
                 margin: 0 0 0.5rem 0;
-                color: var(--gauzy-text-color-1);
+                color: var(--irtranscripts-text-color-1);
               }
 
               .limitations-list {
@@ -867,7 +867,7 @@
             .info-icon-small {
               font-size: 0.9rem;
               margin-left: 0.25rem;
-              color: var(--gauzy-text-color-2);
+              color: var(--irtranscripts-text-color-2);
               cursor: help;
               transition: color 0.2s ease;
 
@@ -877,7 +877,7 @@
             }
 
             span {
-              color: var(--gauzy-text-color-1);
+              color: var(--irtranscripts-text-color-1);
             }
 
             strong {
@@ -893,7 +893,7 @@
 
         nb-checkbox {
           font-size: 0.9rem;
-          color: var(--gauzy-text-color-2);
+          color: var(--irtranscripts-text-color-2);
         }
       }
 
@@ -904,7 +904,7 @@
         .section-title {
           .info-icon {
             font-size: 1rem;
-            color: var(--gauzy-text-color-2);
+            color: var(--irtranscripts-text-color-2);
             cursor: help;
             transition: color 0.2s ease;
 
@@ -981,7 +981,7 @@
         margin-bottom: 2rem;
 
         .preview-card {
-          background: var(--gauzy-card-2);
+          background: var(--irtranscripts-card-2);
           border: 1px solid var(--border-basic-color-3);
           border-radius: calc(var(--border-radius) * 1.25);
           padding: 1rem;
@@ -998,12 +998,12 @@
 
             .item-label {
               font-weight: 500;
-              color: var(--gauzy-text-color-2);
+              color: var(--irtranscripts-text-color-2);
             }
 
             .item-value {
               font-weight: 600;
-              color: var(--gauzy-text-color-1);
+              color: var(--irtranscripts-text-color-1);
             }
 
             &.discount {
@@ -1037,7 +1037,7 @@
       // Terms Section
       .terms-section {
         padding: 1rem;
-        background: var(--gauzy-card-2);
+        background: var(--irtranscripts-card-2);
         border-radius: calc(var(--border-radius) * 1.25);
         border: 1px solid var(--border-basic-color-3);
         transition: border-color 0.2s ease;
@@ -1085,7 +1085,7 @@
   .dialog-footer {
     padding: 1rem 1.5rem;
     border-top: 1px solid var(--divider-color);
-    background: var(--gauzy-card-2);
+    background: var(--irtranscripts-card-2);
 
     .footer-actions {
       display: flex;

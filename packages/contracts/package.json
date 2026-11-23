@@ -1,7 +1,7 @@
 {
-	"name": "@gauzy/contracts",
+	"name": "@irtranscripts/contracts",
 	"version": "0.1.0",
-	"description": "Ever Gauzy Platform Contracts module",
+	"description": "Ever IRTranscripts Platform Contracts module",
 	"author": {
 		"name": "Ever Co. LTD",
 		"email": "ever@ever.co",
@@ -27,7 +27,7 @@
 		"lib:watch": "yarn nx build contracts --watch"
 	},
 	"dependencies": {
-		"@gauzy/constants": "^0.1.0",
+		"@irtranscripts/constants": "^0.1.0",
 		"tslib": "^2.8.1"
 	},
 	"devDependencies": {
@@ -41,7 +41,7 @@
 		"contracts",
 		"shared-module",
 		"common-module",
-		"ever-gauzy",
+		"ever-irtranscripts",
 		"platform",
 		"open-source",
 		"enterprise",

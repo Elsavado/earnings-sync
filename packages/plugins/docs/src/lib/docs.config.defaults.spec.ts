@@ -1,8 +1,8 @@
 import {
-	ENV_GAUZY_DOCS_AI_ENABLED,
-	ENV_GAUZY_DOCS_INBOUND_EMAIL_ENABLED,
-	ENV_GAUZY_DOCS_OCR_ENABLED,
-	ENV_GAUZY_DOCS_QUEUE_ENABLED
+	ENV_IRTRANSCRIPTS_DOCS_AI_ENABLED,
+	ENV_IRTRANSCRIPTS_DOCS_INBOUND_EMAIL_ENABLED,
+	ENV_IRTRANSCRIPTS_DOCS_OCR_ENABLED,
+	ENV_IRTRANSCRIPTS_DOCS_QUEUE_ENABLED
 } from './docs.constants';
 import { getDocsConfig, isDocsQueueEnabled } from './docs.config';
 
@@ -16,10 +16,10 @@ import { getDocsConfig, isDocsQueueEnabled } from './docs.config';
  */
 describe('Documents sub-feature defaults', () => {
 	const KEYS = [
-		ENV_GAUZY_DOCS_AI_ENABLED,
-		ENV_GAUZY_DOCS_OCR_ENABLED,
-		ENV_GAUZY_DOCS_INBOUND_EMAIL_ENABLED,
-		ENV_GAUZY_DOCS_QUEUE_ENABLED
+		ENV_IRTRANSCRIPTS_DOCS_AI_ENABLED,
+		ENV_IRTRANSCRIPTS_DOCS_OCR_ENABLED,
+		ENV_IRTRANSCRIPTS_DOCS_INBOUND_EMAIL_ENABLED,
+		ENV_IRTRANSCRIPTS_DOCS_QUEUE_ENABLED
 	];
 
 	const saved: Record<string, string | undefined> = {};
@@ -65,17 +65,17 @@ describe('Documents sub-feature defaults', () => {
 
 	describe('explicit opt-out still wins', () => {
 		it.each<[string, 'aiEnabled' | 'ocrEnabled' | 'inboundEmailEnabled']>([
-			[ENV_GAUZY_DOCS_AI_ENABLED, 'aiEnabled'],
-			[ENV_GAUZY_DOCS_OCR_ENABLED, 'ocrEnabled'],
-			[ENV_GAUZY_DOCS_INBOUND_EMAIL_ENABLED, 'inboundEmailEnabled']
+			[ENV_IRTRANSCRIPTS_DOCS_AI_ENABLED, 'aiEnabled'],
+			[ENV_IRTRANSCRIPTS_DOCS_OCR_ENABLED, 'ocrEnabled'],
+			[ENV_IRTRANSCRIPTS_DOCS_INBOUND_EMAIL_ENABLED, 'inboundEmailEnabled']
 		])('%s=false turns %s off', (key, field) => {
 			process.env[key] = 'false';
 
 			expect(getDocsConfig()[field]).toBe(false);
 		});
 
-		it('GAUZY_DOCS_QUEUE_ENABLED=true is still honoured for a process that really has a Bull root', () => {
-			process.env[ENV_GAUZY_DOCS_QUEUE_ENABLED] = 'true';
+		it('IRTRANSCRIPTS_DOCS_QUEUE_ENABLED=true is still honoured for a process that really has a Bull root', () => {
+			process.env[ENV_IRTRANSCRIPTS_DOCS_QUEUE_ENABLED] = 'true';
 
 			expect(isDocsQueueEnabled()).toBe(true);
 		});

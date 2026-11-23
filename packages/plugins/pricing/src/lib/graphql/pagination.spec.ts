@@ -18,12 +18,12 @@
  *   does to a real read. A list ordered by `priority` alone repeats rows across pages under it; the same list
  *   closed by `id` walks every row exactly once.
  *
- * `@gauzy/core` is the real barrel here, as it is in this package's service suites: the kernel's `findAll`
+ * `@irtranscripts/core` is the real barrel here, as it is in this package's service suites: the kernel's `findAll`
  * and its MikroORM option parser are the code under test, so doubling them would assert this file's
  * opinion of them rather than the platform's behaviour.
  */
 
-import { MultiORMEnum, RequestContext } from '@gauzy/core';
+import { MultiORMEnum, RequestContext } from '@irtranscripts/core';
 import { PriceListService } from '../price-list/price-list.service';
 import { PriceListResolver } from './resolvers/price-list.resolver';
 import { ConnectionReadOrder, totalOrder } from './pagination';

@@ -14,7 +14,7 @@ import { CommandBus } from '@nestjs/cqrs';
 import { ApiBadRequestResponse, ApiBody, ApiOkResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 import { I18nLang } from 'nestjs-i18n';
-import { Public } from '@gauzy/common';
+import { Public } from '@irtranscripts/common';
 import {
 	IAuthResponse,
 	ISocialAccount,
@@ -23,8 +23,8 @@ import {
 	IUserSigninWorkspaceResponse,
 	LanguagesEnum,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { parseToBoolean } from '@gauzy/utils';
+} from '@irtranscripts/contracts';
+import { parseToBoolean } from '@irtranscripts/utils';
 import { RequestContext } from '../core/context';
 import { UseValidationPipe } from '../shared/pipes';
 import { User as IUser } from '../user/user.entity';

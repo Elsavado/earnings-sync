@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource, EventSubscriber } from 'typeorm';
-import { BaseEntityEventSubscriber, FileStorage } from '@gauzy/core';
+import { BaseEntityEventSubscriber, FileStorage } from '@irtranscripts/core';
 import { Video } from '../entities/video.entity';
 
 @Injectable()

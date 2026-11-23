@@ -1,6 +1,6 @@
-# Ever Gauzy Desktop Timer Application
+# Ever IRTranscripts Desktop Timer Application
 
-Ever Gauzy Desktop Timer is a cross-platform application built with [nstudio/electron](https://github.com/nstudio/xplat) for seamless integration with Gauzy. 
+Ever IRTranscripts Desktop Timer is a cross-platform application built with [nstudio/electron](https://github.com/nstudio/xplat) for seamless integration with IRTranscripts. 
 
 ---
 

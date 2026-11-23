@@ -1,9 +1,9 @@
-import { LanguagesEnum } from '@gauzy/contracts';
+import { LanguagesEnum } from '@irtranscripts/contracts';
 
 /**
  * Language code → country flag asset mapping for the system languages (LanguagesEnum).
  * Emoji flags don't render on Windows, so small SVG flags are vendored under
- * apps/gauzy/src/assets/images/flags.
+ * apps/irtranscripts/src/assets/images/flags.
  */
 const LANGUAGE_FLAG_COUNTRIES: Record<string, string> = {
 	[LanguagesEnum.ENGLISH]: 'gb',

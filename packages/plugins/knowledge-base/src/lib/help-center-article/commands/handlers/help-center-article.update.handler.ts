@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { HelpCenterUpdateArticleCommand } from '../help-center-article.update.command';
 import { HelpCenterArticleService } from './../../help-center-article.service';
 

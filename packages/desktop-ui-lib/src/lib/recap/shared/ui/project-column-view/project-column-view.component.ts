@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { IOrganizationProject } from '@gauzy/contracts';
-import { DEFAULT_SVG } from '@gauzy/ui-core/common';
+import { IOrganizationProject } from '@irtranscripts/contracts';
+import { DEFAULT_SVG } from '@irtranscripts/ui-core/common';
 
 @Component({
     selector: 'ga-project-column-view',

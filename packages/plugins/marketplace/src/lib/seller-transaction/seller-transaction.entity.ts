@@ -12,7 +12,7 @@ import {
 	SellerHoldReason,
 	SellerTransactionKind,
 	SellerTransactionStatus
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	JsonColumn,
@@ -21,7 +21,7 @@ import {
 	MultiORMManyToOne,
 	MultiORMOneToMany,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { MikroOrmSellerTransactionRepository } from './repository/mikro-orm-seller-transaction.repository';
 import { Seller } from '../seller/seller.entity';
 import { SellerPayoutLine } from '../seller-payout-line/seller-payout-line.entity';

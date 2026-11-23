@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { AccountDeletionOutcomeEnum } from '@gauzy/contracts';
+import { AccountDeletionOutcomeEnum } from '@irtranscripts/contracts';
 import { NgxDeleteAccountConfirmComponent } from './delete-account-confirm.component';
 
 const TOKEN = 'a'.repeat(43);

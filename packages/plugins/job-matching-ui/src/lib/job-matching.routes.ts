@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PageRouteRegistryConfig, PermissionsGuard } from '@gauzy/ui-core/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PageRouteRegistryConfig, PermissionsGuard } from '@irtranscripts/ui-core/core';
 import { JobMatchingComponent } from './components/job-matching/job-matching.component';
 
 /** Path for the job matching tab under /pages/jobs. */

@@ -2,7 +2,7 @@
  * Server-resolved breadcrumb mapping (`00-product-spec.md` §6.9 R-TRE-01 +
  * `08-permissions-security.md` §3.2).
  */
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import type { IDocumentPathSegment } from '../../services/documents.service';
 import { toDocsBreadcrumb } from './docs-breadcrumb.util';
 

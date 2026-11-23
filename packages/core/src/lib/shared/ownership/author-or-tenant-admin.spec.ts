@@ -1,5 +1,5 @@
 import { ForbiddenException } from '@nestjs/common';
-import { IUser, RolesEnum } from '@gauzy/contracts';
+import { IUser, RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../core/context';
 import {
 	assertCallerIsAuthorOrTenantAdmin,

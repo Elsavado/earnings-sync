@@ -4,9 +4,9 @@ services:
     container_name: db
     restart: always
     environment:
-      POSTGRES_DB: ${DB_NAME:-gauzy}
+      POSTGRES_DB: ${DB_NAME:-irtranscripts}
       POSTGRES_USER: ${DB_USER:-postgres}
-      POSTGRES_PASSWORD: ${DB_PASS:-gauzy_password}
+      POSTGRES_PASSWORD: ${DB_PASS:-irtranscripts_password}
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} || exit 1']
       interval: 10s
@@ -39,8 +39,8 @@ services:
     links:
       - db:${DB_HOST:-db}
     # volumes:
-    # - webapp_node_modules:/srv/gauzy/node_modules
-    # - api_node_modules:/srv/gauzy/apps/api/node_modules
+    # - webapp_node_modules:/srv/irtranscripts/node_modules
+    # - api_node_modules:/srv/irtranscripts/apps/api/node_modules
     ports:
       - '3000:${API_PORT:-3000}'
     networks:
@@ -67,7 +67,7 @@ services:
       api:
         condition: service_started
     # volumes:
-    # - webapp_node_modules:/srv/gauzy/node_modules
+    # - webapp_node_modules:/srv/irtranscripts/node_modules
     ports:
       - '4200:${UI_PORT:-4200}'
     networks:

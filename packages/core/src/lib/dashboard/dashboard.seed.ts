@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { IDashboard, IEmployee, IOrganization, ITenant } from '@gauzy/contracts';
+import { IDashboard, IEmployee, IOrganization, ITenant } from '@irtranscripts/contracts';
 import { Dashboard } from './dashboard.entity';
 
 /**

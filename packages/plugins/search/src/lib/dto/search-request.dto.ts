@@ -20,7 +20,7 @@ import {
 	SearchMatchMode,
 	SearchReindexScope,
 	SearchSortDirection
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { SEARCH_SETTING_DEFAULTS } from '../search.settings';
 
 /** Reads a numeric parameter, leaving an absent one absent. */

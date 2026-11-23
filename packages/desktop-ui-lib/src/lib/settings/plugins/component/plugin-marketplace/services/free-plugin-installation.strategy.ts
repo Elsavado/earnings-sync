@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IPlugin } from '@gauzy/contracts';
+import { IPlugin } from '@irtranscripts/contracts';
 import { EMPTY, Observable, of } from 'rxjs';
 import { IInstallationPreparationResult, IPluginInstallationStrategy } from './plugin-installation-strategy.interface';
 

@@ -1,8 +1,8 @@
-import { logger as log } from '@gauzy/desktop-core';
+import { logger as log } from '@irtranscripts/desktop-core';
 import { IProtocolHandler } from './interfaces/protocol-handler.interface';
 
 /**
- * Routes incoming `gauzy://` deep-link URLs to the correct handler using the
+ * Routes incoming `irtranscripts://` deep-link URLs to the correct handler using the
  *
  * Registered handlers are evaluated in insertion order; the first one whose
  * `canHandle()` returns `true` receives the request.
@@ -60,7 +60,7 @@ export class ProtocolRouter {
 	 * Non-retriable failures (invalid URL, no registered handler) are logged
 	 * and discarded — they are never queued.
 	 *
-	 * @param rawUrl The raw `gauzy://…` string received from the OS.
+	 * @param rawUrl The raw `irtranscripts://…` string received from the OS.
 	 */
 	async route(rawUrl: string): Promise<void> {
 		log.info('[ProtocolRouter] Routing deep link:', rawUrl);
@@ -152,11 +152,11 @@ export class ProtocolRouter {
 	}
 
 	/**
-	 * Extracts the action segment from a `gauzy://` URL.
+	 * Extracts the action segment from a `irtranscripts://` URL.
 	 *
 	 * Examples:
-	 *  - `gauzy://install-plugin?foo=bar`  → `"install-plugin"`
-	 *  - `gauzy:////install-plugin`        → `"install-plugin"`
+	 *  - `irtranscripts://install-plugin?foo=bar`  → `"install-plugin"`
+	 *  - `irtranscripts:////install-plugin`        → `"install-plugin"`
 	 *
 	 * Centralized here (DRY) — previously this logic was inlined inside the
 	 * `handleDeepLink` function.

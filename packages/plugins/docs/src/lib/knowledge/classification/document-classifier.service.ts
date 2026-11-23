@@ -4,8 +4,8 @@ import {
 	DocumentReviewReasonEnum,
 	DocumentReviewStatusEnum,
 	DocumentSourceEnum
-} from '@gauzy/contracts';
-import { isBetterSqlite3, isSqlite } from '@gauzy/config';
+} from '@irtranscripts/contracts';
+import { isBetterSqlite3, isSqlite } from '@irtranscripts/config';
 import { getDocsConfig } from '../../docs.config';
 import { Document } from '../../entities/document.entity';
 import { TypeOrmDocumentCategoryRepository } from '../../repositories/type-orm-document-category.repository';

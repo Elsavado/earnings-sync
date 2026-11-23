@@ -1,8 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { TenantSettingService } from '@gauzy/core';
-import { ID } from '@gauzy/contracts';
-import { IPosthogConfig } from '@gauzy/common';
-import { environment } from '@gauzy/config';
+import { TenantSettingService } from '@irtranscripts/core';
+import { ID } from '@irtranscripts/contracts';
+import { IPosthogConfig } from '@irtranscripts/common';
+import { environment } from '@irtranscripts/config';
 import { PosthogModuleOptions } from './posthog.interfaces';
 
 /**

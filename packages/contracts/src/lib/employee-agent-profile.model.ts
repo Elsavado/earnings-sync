@@ -57,7 +57,7 @@ export interface IEmployeeAgentProfile extends IBasePerTenantAndOrganizationEnti
 	/** When the agent last ran. */
 	lastRunAt?: Date;
 	/**
-	 * Whether the agent is managed by its source system. A managed agent is read-only in Gauzy: its name and
+	 * Whether the agent is managed by its source system. A managed agent is read-only in IRTranscripts: its name and
 	 * profile are changed in the source system and synced in.
 	 */
 	managedExternally?: boolean;

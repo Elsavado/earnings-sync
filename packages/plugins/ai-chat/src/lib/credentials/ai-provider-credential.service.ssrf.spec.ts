@@ -1,9 +1,9 @@
 import { BadRequestException } from '@nestjs/common';
 
-// Module-boundary stubs, same shape as the other ai-chat service specs: `@gauzy/core` pulls the
+// Module-boundary stubs, same shape as the other ai-chat service specs: `@irtranscripts/core` pulls the
 // whole bootstrap and entity graph, and the repositories pull TypeORM decorators — none of which the
 // base-URL guard touches.
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	RequestContext: { currentTenantId: () => 'tenant-1' },
 	// The CRUD base the service calls through `super.create` / `super.update`; each delegates to an
 	// instance spy the test installs, so a refused write is observable as "never reached the base".

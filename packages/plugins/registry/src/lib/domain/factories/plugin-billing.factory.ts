@@ -1,4 +1,4 @@
-import { PluginBillingPeriod, PluginBillingStatus } from '@gauzy/contracts';
+import { PluginBillingPeriod, PluginBillingStatus } from '@irtranscripts/contracts';
 import { Injectable, Logger } from '@nestjs/common';
 import { IPluginBillingCreateInput } from '../../shared/models/plugin-billing.model';
 

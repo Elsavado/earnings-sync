@@ -1,7 +1,7 @@
-// `@gauzy/core` pulls the whole bootstrap graph; only `RequestContext` is on the path under
+// `@irtranscripts/core` pulls the whole bootstrap graph; only `RequestContext` is on the path under
 // test, so it is stubbed AT THE MODULE BOUNDARY — hoisted above the imports.
 const deleteFile = jest.fn(async () => undefined);
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	RequestContext: {
 		currentTenantId: jest.fn(() => 'tenant-1'),
 		currentOrganizationId: jest.fn(() => 'org-1'),
@@ -15,14 +15,14 @@ jest.mock('@gauzy/core', () => ({
 }));
 
 import { BadRequestException, ForbiddenException } from '@nestjs/common';
-import { assertCurrentUserBelongsToOrganization, RequestContext } from '@gauzy/core';
+import { assertCurrentUserBelongsToOrganization, RequestContext } from '@irtranscripts/core';
 import { AiChatAttachmentSavedEvent } from './ai-chat-attachment.event';
 import { AiChatAttachmentService } from './ai-chat-attachment.service';
 
 /**
  * Chat attachment capture (`07-ai-knowledge.md` §17.1 / `10-implementation-plan.md` §7.1 P2).
  *
- * `@gauzy/plugin-docs` has shipped a `ChatCaptureSubscriber` that feature-detects
+ * `@irtranscripts/plugin-docs` has shipped a `ChatCaptureSubscriber` that feature-detects
  * `AiChatAttachmentSavedEvent` on this package — and, because nothing here ever exported or
  * published it, that subscriber was a permanent no-op: every `onModuleInit` logged one debug line
  * and returned. These tests pin the two things that made it real.

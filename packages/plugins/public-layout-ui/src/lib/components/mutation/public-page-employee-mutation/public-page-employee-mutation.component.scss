@@ -12,8 +12,8 @@
 $gap-lg: 1rem;
 $gap-md: 0.75rem;
 $gap-sm: 0.5rem;
-$hairline: 1px solid var(--gauzy-border-default-color);
-$radius: var(--gauzy-radius-sm, 0.5rem);
+$hairline: 1px solid var(--irtranscripts-border-default-color);
+$radius: var(--irtranscripts-radius-sm, 0.5rem);
 
 // Header (with the tabs) and footer stay put; only the body scrolls between them.
 nb-card.dialog {
@@ -24,7 +24,7 @@ nb-card.dialog {
 	max-height: calc(100vh - 4rem);
 	margin: 0;
 	overflow: hidden;
-	background-color: var(--gauzy-card-1);
+	background-color: var(--irtranscripts-card-1);
 }
 
 /* ── Header ──────────────────────────────────────────────────────────────── */
@@ -57,13 +57,13 @@ nb-card.dialog {
 	font-size: 1rem;
 	font-weight: 600;
 	line-height: 1.5rem;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 }
 
 .dialog-subtitle {
 	font-size: 0.8125rem;
 	line-height: 1.25rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 }
 
 .dialog-close {
@@ -77,7 +77,7 @@ nb-card.dialog {
 	border: 0;
 	border-radius: $radius;
 	background: transparent;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 	cursor: pointer;
 
 	nb-icon {
@@ -87,8 +87,8 @@ nb-card.dialog {
 	}
 
 	&:hover {
-		background-color: var(--gauzy-hover-tint);
-		color: var(--gauzy-text-color-1);
+		background-color: var(--irtranscripts-hover-tint);
+		color: var(--irtranscripts-text-color-1);
 	}
 }
 
@@ -115,7 +115,7 @@ nb-card.dialog {
 	font-size: 0.8125rem;
 	font-weight: 500;
 	line-height: 1.25rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 	white-space: nowrap;
 	cursor: pointer;
 
@@ -136,7 +136,7 @@ nb-card.dialog {
 	}
 
 	&:hover {
-		color: var(--gauzy-text-color-1);
+		color: var(--irtranscripts-text-color-1);
 	}
 
 	&:focus-visible {
@@ -160,7 +160,7 @@ nb-card.dialog {
 	min-height: 0;
 	padding: $gap-lg 1.25rem;
 	overflow-y: auto;
-	background-color: var(--gauzy-card-2);
+	background-color: var(--irtranscripts-card-2);
 }
 
 /*
@@ -174,7 +174,7 @@ nb-card.dialog {
 	.ng-select .ng-select-container,
 	ga-rich-text-editor .rich-text-editor,
 	ga-rich-text-editor .rich-text-editor__content {
-		background-color: var(--gauzy-card-1) !important;
+		background-color: var(--irtranscripts-card-1) !important;
 	}
 }
 
@@ -202,8 +202,8 @@ nb-card.dialog {
 .section {
 	padding: $gap-lg 1.25rem;
 	border-radius: $radius;
-	background-color: var(--gauzy-card-1);
-	box-shadow: inset 0 0 0 1px var(--gauzy-border-default-color);
+	background-color: var(--irtranscripts-card-1);
+	box-shadow: inset 0 0 0 1px var(--irtranscripts-border-default-color);
 }
 
 .section-title {
@@ -213,14 +213,14 @@ nb-card.dialog {
 	line-height: 1rem;
 	letter-spacing: 0.04em;
 	text-transform: uppercase;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 }
 
 .section-help {
 	margin: 0 0 $gap-sm;
 	font-size: 0.8125rem;
 	line-height: 1.25rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 }
 
 .grid {
@@ -246,7 +246,7 @@ nb-card.dialog {
 	font-size: 0.75rem;
 	font-weight: 600;
 	line-height: 1rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 }
 
 .empty {
@@ -254,7 +254,7 @@ nb-card.dialog {
 	font-size: 0.8125rem;
 	font-style: italic;
 	line-height: 1.25rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 }
 
 /* ── Awards ──────────────────────────────────────────────────────────────── */
@@ -300,13 +300,13 @@ nb-card.dialog {
 	flex: 1 1 auto;
 	min-width: 0;
 	font-size: 0.875rem;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 }
 
 .award-year {
 	flex: 0 0 auto;
 	font-size: 0.8125rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 	font-variant-numeric: tabular-nums;
 }
 
@@ -321,7 +321,7 @@ nb-card.dialog {
 	border: 0;
 	border-radius: $radius;
 	background: transparent;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 	cursor: pointer;
 
 	nb-icon {
@@ -343,7 +343,7 @@ nb-card.dialog {
 	gap: $gap-md;
 	padding: $gap-md;
 	border-radius: $radius;
-	background-color: var(--gauzy-card-2);
+	background-color: var(--irtranscripts-card-2);
 }
 
 .add-award-actions {
@@ -411,7 +411,7 @@ nb-card.dialog {
 	::ng-deep .text {
 		font-size: 0.8125rem;
 		font-weight: 400;
-		color: var(--gauzy-text-color-1);
+		color: var(--irtranscripts-text-color-1);
 	}
 }
 
@@ -424,7 +424,7 @@ nb-card.dialog {
 	gap: $gap-sm;
 	padding: $gap-md 1.25rem;
 	border-top: $hairline;
-	background-color: var(--gauzy-card-1);
+	background-color: var(--irtranscripts-card-1);
 }
 
 /* ── Narrow viewports ────────────────────────────────────────────────────── */

@@ -12,12 +12,12 @@
  * is the kernel's own `CrudService`, taken from its module; the repositories are a TypeORM repository over an
  * in-memory better-sqlite3 database and the kernel's `MikroOrmBaseEntityRepository` over an in-memory better-sqlite
  * database with the production soft-delete extension — the harness of `payment-scoped-crud.service.spec.ts`, whose
- * reasons (a fixture table rather than the payment entities; `@gauzy/core`'s barrel doubled) apply unchanged. The
+ * reasons (a fixture table rather than the payment entities; `@irtranscripts/core`'s barrel doubled) apply unchanged. The
  * one thing restated is `CrudController`, in the shape the kernel declares its three routes: `delete` hands the id
  * to the service's `delete`, and the lifecycle pair hands it the rest parameter as the kernel does. So "the row is
  * still there, retired" is read back from the database, not from a double's call log.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities and routes are declared but never mapped or served here. */
 	const decorator = () => () => undefined;
 
@@ -25,11 +25,11 @@ jest.mock('@gauzy/core', () => {
 
 	return {
 		// The kernel's own CRUD base: the retirement under test is its code, not a double's.
-		CrudService: jest.requireActual('@gauzy/core/src/lib/core/crud/crud.service').CrudService,
-		assertCriteriaHasPredicate: jest.requireActual('@gauzy/core/src/lib/core/crud/criteria.helper')
+		CrudService: jest.requireActual('@irtranscripts/core/src/lib/core/crud/crud.service').CrudService,
+		assertCriteriaHasPredicate: jest.requireActual('@irtranscripts/core/src/lib/core/crud/criteria.helper')
 			.assertCriteriaHasPredicate,
 		MikroOrmBaseEntityRepository: jest.requireActual(
-			'@gauzy/core/src/lib/core/repository/mikro-orm-base-entity.repository'
+			'@irtranscripts/core/src/lib/core/repository/mikro-orm-base-entity.repository'
 		).MikroOrmBaseEntityRepository,
 		// The three routes the kernel's `CrudController` declares, in the shape it declares them.
 		CrudController: class CrudController {
@@ -87,7 +87,7 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		BaseEvent: class {},
 		EventBus: class {},
 		Payment: class Payment {},
@@ -102,7 +102,7 @@ import { Column, DataSource, DeleteDateColumn, Entity as TypeOrmEntity, PrimaryC
 import { Entity as MikroEntity, MikroORM, PrimaryKey, Property } from '@mikro-orm/core';
 import { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
 import { SoftDeletable, SoftDeleteHandler } from 'mikro-orm-soft-delete';
-import { CrudService, MikroOrmBaseEntityRepository } from '@gauzy/core';
+import { CrudService, MikroOrmBaseEntityRepository } from '@irtranscripts/core';
 import { PaymentCollectionController } from './payment-collection/payment-collection.controller';
 import { PaymentCollectionService } from './payment-collection/payment-collection.service';
 import { PaymentWebhookEventController } from './payment-webhook-event/payment-webhook-event.controller';

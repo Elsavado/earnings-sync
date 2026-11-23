@@ -4,14 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NbAlertModule, NbButtonModule, NbInputModule } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
-import { IWorkspaceResponse } from '@gauzy/contracts';
+import { IWorkspaceResponse } from '@irtranscripts/contracts';
 import { EverIdWorkspacesComponent } from '../components/ever-id-workspaces.component';
 import { AuthZitadelUiService, EverIdWorkspaceResponse } from '../services/auth-zitadel-ui.service';
 import { EverIdSignInService } from '../services/ever-id-sign-in.service';
 
 /**
  * `#/auth/ever-id/confirm?handoff=…`: an Ever ID matched an existing account by its verified e-mail.
- * Gauzy has e-mailed its own one-time code to that address; the Ever ID is connected only after the
+ * IRTranscripts has e-mailed its own one-time code to that address; the Ever ID is connected only after the
  * code is entered here.
  */
 @Component({

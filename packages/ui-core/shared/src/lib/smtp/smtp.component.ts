@@ -1,14 +1,14 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, type SimpleChanges, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormBuilder, FormControl, UntypedFormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { ActivatedRoute, Data } from '@angular/router';
-import { ICustomSmtp, IOrganization, IUser, PermissionsEnum, SMTPSecureEnum } from '@gauzy/contracts';
+import { ICustomSmtp, IOrganization, IUser, PermissionsEnum, SMTPSecureEnum } from '@irtranscripts/contracts';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
 import { filter, pairwise, tap } from 'rxjs/operators';
-import { patterns } from '@gauzy/constants';
-import { Store } from '@gauzy/ui-core/core';
-import { CustomSmtpService, ToastrService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { patterns } from '@irtranscripts/constants';
+import { Store } from '@irtranscripts/ui-core/core';
+import { CustomSmtpService, ToastrService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { FormHelpers } from '../forms/helpers';
 
 @UntilDestroy({ checkProperties: true })

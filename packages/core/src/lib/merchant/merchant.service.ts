@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { IMerchant } from '@gauzy/contracts';
+import { IMerchant } from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from './../core/crud';
 import { Merchant } from './merchant.entity';
 import { MikroOrmMerchantRepository } from './repository/mikro-orm-merchant.repository';

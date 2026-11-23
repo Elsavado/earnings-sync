@@ -10,7 +10,7 @@ import {
 	ChangeDetectionStrategy,
 	reflectComponentType
 } from '@angular/core';
-import { ComponentLayoutStyleEnum } from '@gauzy/contracts';
+import { ComponentLayoutStyleEnum } from '@irtranscripts/contracts';
 
 const RESERVED_INPUTS = ['value', 'rowData', 'layout'];
 

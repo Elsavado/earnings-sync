@@ -1,3 +1,3 @@
-# Changelog for @gauzy/plugin-posthog
+# Changelog for @irtranscripts/plugin-posthog
 
 ## [Unreleased]

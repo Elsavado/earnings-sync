@@ -1,4 +1,4 @@
-import { CurrencyPosition } from '@gauzy/contracts';
+import { CurrencyPosition } from '@irtranscripts/contracts';
 
 /**
  * Renders an amount next to its currency code on the side the organization's "Currency Position"

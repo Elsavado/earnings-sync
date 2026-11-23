@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsDateString, IsInt, IsNotEmpty, IsString, IsUUID, MaxLength, Min } from 'class-validator';
 import { JoinColumn, RelationId } from 'typeorm';
-import { ID, IDocumentIndexState } from '@gauzy/contracts';
-import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne, TenantOrganizationBaseEntity } from '@gauzy/core';
+import { ID, IDocumentIndexState } from '@irtranscripts/contracts';
+import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne, TenantOrganizationBaseEntity } from '@irtranscripts/core';
 import { MikroOrmDocumentIndexStateRepository } from '../repositories/mikro-orm-document-index-state.repository';
 import { Document } from './document.entity';
 
@@ -11,7 +11,7 @@ import { Document } from './document.entity';
 @ColumnIndex('IDX_document_index_state_model', ['tenantId', 'organizationId', 'embeddingModel'])
 export class DocumentIndexState extends TenantOrganizationBaseEntity implements IDocumentIndexState {
 	/**
-	 * Model id used at index time (e.g. the value of `GAUZY_DOCS_EMBEDDING_MODEL`).
+	 * Model id used at index time (e.g. the value of `IRTRANSCRIPTS_DOCS_EMBEDDING_MODEL`).
 	 * Indexed so a model-flip sweep is one indexed scan.
 	 */
 	@ApiProperty({ type: () => String })

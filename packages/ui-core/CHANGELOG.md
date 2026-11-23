@@ -1,3 +1,3 @@
-# Changelog for @gauzy/ui-core
+# Changelog for @irtranscripts/ui-core
 
 ## [Unreleased]

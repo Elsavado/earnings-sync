@@ -11,8 +11,8 @@ import {
 	MaxLength,
 	Min
 } from 'class-validator';
-import { CurrencyCode } from '@gauzy/contracts';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { CurrencyCode } from '@irtranscripts/contracts';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 import { TaxAmountType, TaxPartType } from '../../tax.types';
 
 /**

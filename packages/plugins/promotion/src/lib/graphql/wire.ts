@@ -1,6 +1,6 @@
 import { HttpException } from '@nestjs/common';
-import { DecimalString } from '@gauzy/contracts';
-import { formatDecimalUnits, STORAGE_SCALE, toUnitsAtScale } from '@gauzy/core';
+import { DecimalString } from '@irtranscripts/contracts';
+import { formatDecimalUnits, STORAGE_SCALE, toUnitsAtScale } from '@irtranscripts/core';
 import { IUserError } from './types';
 
 /**

@@ -26,7 +26,7 @@ describe('EVER_CONNECT_ENABLED', () => {
 });
 
 describe('readEverConnectConfig', () => {
-	it('defaults: api.ever.co, self-hosted, long poll, nothing denied, no code, gauzy only', () => {
+	it('defaults: api.ever.co, self-hosted, long poll, nothing denied, no code, irtranscripts only', () => {
 		const config = readEverConnectConfig({});
 		expect(config).toEqual({
 			apiUrl: 'https://api.ever.co',
@@ -35,7 +35,7 @@ describe('readEverConnectConfig', () => {
 			feedMode: 'longpoll',
 			deny: [],
 			connectCode: null,
-			serves: ['gauzy'],
+			serves: ['irtranscripts'],
 			version: '0.0.0',
 			returnOrigin: null,
 			returnUrl: null,
@@ -144,7 +144,7 @@ describe('readEverConnectConfig', () => {
 		expect(readEverConnectConfig({ CLIENT_BASE_URL: 'https://u:p@app.example.test' }).returnOrigin).toBeNull();
 	});
 
-	it('the release: major.minor.patch of GAUZY_APP_VERSION only', () => {
+	it('the release: major.minor.patch of IRTRANSCRIPTS_APP_VERSION only', () => {
 		expect(releaseVersion('v111.47.0-4-gbb20466')).toBe('111.47.0');
 		expect(releaseVersion('111.48.1')).toBe('111.48.1');
 		expect(releaseVersion('acme-build')).toBe('0.0.0');
@@ -152,8 +152,8 @@ describe('readEverConnectConfig', () => {
 	});
 
 	it('the paired Teams web app: EVER_STATS_SERVES', () => {
-		expect(readEverConnectConfig({ EVER_STATS_SERVES: 'gauzy,teams' }).serves).toEqual(['gauzy', 'teams']);
-		expect(readEverConnectConfig({ EVER_STATS_SERVES: 'teams,other' }).serves).toEqual(['gauzy']);
+		expect(readEverConnectConfig({ EVER_STATS_SERVES: 'irtranscripts,teams' }).serves).toEqual(['irtranscripts', 'teams']);
+		expect(readEverConnectConfig({ EVER_STATS_SERVES: 'teams,other' }).serves).toEqual(['irtranscripts']);
 	});
 
 	it('the connect code is kept as given (checked when it is used)', () => {

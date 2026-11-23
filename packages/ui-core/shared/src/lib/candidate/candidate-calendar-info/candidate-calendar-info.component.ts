@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { NbDialogRef } from '@nebular/theme';
-import { CandidateInterviewService, Store } from '@gauzy/ui-core/core';
+import { CandidateInterviewService, Store } from '@irtranscripts/ui-core/core';
 import { firstValueFrom } from 'rxjs';
 import { debounceTime, filter, tap } from 'rxjs/operators';
 import { FullCalendarComponent } from '@fullcalendar/angular';
@@ -12,8 +12,8 @@ import timeGrigPlugin from '@fullcalendar/timegrid';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import moment from 'moment';
-import { IOrganization } from '@gauzy/contracts';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
+import { IOrganization } from '@irtranscripts/contracts';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

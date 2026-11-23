@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, TransformFnParams } from 'class-transformer';
 import { IsInt, IsOptional, IsString, Length, Max, Min } from 'class-validator';
-import { IOfficialHolidayFindInput } from '@gauzy/contracts';
+import { IOfficialHolidayFindInput } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from './../../core/dto';
 
 /**

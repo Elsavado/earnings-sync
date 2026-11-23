@@ -8,7 +8,7 @@
 const mockOrm = { type: 'typeorm' };
 const mockDialect = { type: 'better-sqlite3' };
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	isMySQL: () => mockDialect.type === 'mysql',
 	isPostgres: () => mockDialect.type === 'postgres'
 }));
@@ -17,20 +17,20 @@ jest.mock('@gauzy/config', () => ({
  * The cart barrel re-exports the cart plugin, which imports the catalogue and the rest of the marketplace;
  * the totals service reaches it only for the calculator, and the totals service is a double here.
  */
-jest.mock('@gauzy/plugin-cart', () => ({ TotalsCalculator: class {} }));
+jest.mock('@irtranscripts/plugin-cart', () => ({ TotalsCalculator: class {} }));
 
 /**
- * `@gauzy/core` boots the whole application graph from its barrel, so it is doubled at the module boundary
+ * `@irtranscripts/core` boots the whole application graph from its barrel, so it is doubled at the module boundary
  * as the package's other suites double it. **The services under test are the real ones**: the change service
  * and the fulfilment service whose single statement it now moves the counters through. The base CRUD class is
  * the one piece of the platform restated, over an in-memory table, because the change row is not what these
  * cases are about.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
-	const statements = jest.requireActual('@gauzy/core/src/lib/database/database.helper');
-	const decimal = jest.requireActual('@gauzy/core/src/lib/money/decimal');
-	const versions = jest.requireActual('@gauzy/core/src/lib/concurrency/version.util');
+	const statements = jest.requireActual('@irtranscripts/core/src/lib/database/database.helper');
+	const decimal = jest.requireActual('@irtranscripts/core/src/lib/money/decimal');
+	const versions = jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
@@ -104,13 +104,13 @@ jest.mock('@gauzy/core', () => {
 			}
 		},
 		...decimal,
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		// The comparison a confirmation makes before it applies anything, and the refusal it raises, are the
 		// kernel's own: what these cases assert is which row that comparison is made against.
 		matchesExpectation: versions.matchesExpectation,
 		parseEntityVersion: versions.parseEntityVersion,
-		ApiException: jest.requireActual('@gauzy/core/src/lib/core/errors/api-exception').ApiException,
-		ApiErrorCode: jest.requireActual('@gauzy/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
+		ApiException: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-exception').ApiException,
+		ApiErrorCode: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
 		commitVersionedUpdate: jest.fn(),
 		versionExpectationOf: jest.fn(),
 		AdjustmentService: class {},
@@ -136,8 +136,8 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-import { OrderChangeActionType, OrderChangeStatus, OrderChangeType, OrderStatus } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { OrderChangeActionType, OrderChangeStatus, OrderChangeType, OrderStatus } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { OrderLineFulfillmentService } from '../order-line-fulfillment/order-line-fulfillment.service';
 import { OrderChangeService } from './order-change.service';
 

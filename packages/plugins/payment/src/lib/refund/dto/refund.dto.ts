@@ -12,8 +12,8 @@ import {
 	MaxLength,
 	ValidateNested
 } from 'class-validator';
-import { DecimalString } from '@gauzy/contracts';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { DecimalString } from '@irtranscripts/contracts';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 import { RefundStatus } from '../../payment.types';
 import { IsDecimalAmount } from '../../payment.validators';
 import { RefundLineDTO } from '../../refund-line/dto/refund-line.dto';

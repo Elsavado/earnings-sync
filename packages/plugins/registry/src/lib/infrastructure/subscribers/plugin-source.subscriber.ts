@@ -1,5 +1,5 @@
-import { FileStorageProviderEnum, IPluginSource, PluginSourceType } from '@gauzy/contracts';
-import { BaseEntityEventSubscriber, FileStorage } from '@gauzy/core';
+import { FileStorageProviderEnum, IPluginSource, PluginSourceType } from '@irtranscripts/contracts';
+import { BaseEntityEventSubscriber, FileStorage } from '@irtranscripts/core';
 import { Logger } from '@nestjs/common';
 import { DataSource, EventSubscriber, InsertEvent, RemoveEvent } from 'typeorm';
 import { PluginSource } from '../../domain/entities/plugin-source.entity';
@@ -20,7 +20,7 @@ export class PluginSourceSubscriber extends BaseEntityEventSubscriber<PluginSour
 	public override async beforeInsert(event: InsertEvent<PluginSource>): Promise<void> {
 		const entity = event.entity;
 
-		if (entity.type !== PluginSourceType.GAUZY) {
+		if (entity.type !== PluginSourceType.IRTRANSCRIPTS) {
 			return;
 		}
 
@@ -51,7 +51,7 @@ export class PluginSourceSubscriber extends BaseEntityEventSubscriber<PluginSour
 			return;
 		}
 
-		if (entity.type !== PluginSourceType.GAUZY) {
+		if (entity.type !== PluginSourceType.IRTRANSCRIPTS) {
 			return;
 		}
 
@@ -120,7 +120,7 @@ export class PluginSourceSubscriber extends BaseEntityEventSubscriber<PluginSour
 				}
 				break;
 
-			case PluginSourceType.GAUZY:
+			case PluginSourceType.IRTRANSCRIPTS:
 				typeSpecificPart = source.fileName ? `file-${source.fileName.replace('.zip', '')}` : 'uploaded-file';
 				break;
 

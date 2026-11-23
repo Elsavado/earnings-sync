@@ -1,5 +1,5 @@
 {
-	"name": "@gauzy/plugin-camshot",
+	"name": "@irtranscripts/plugin-camshot",
 	"version": "0.1.0",
 	"description": "This plugin provides functionality to upload and manage camera shots",
 	"author": {
@@ -27,9 +27,9 @@
 		"lib:watch": "yarn nx build plugin-camshot --watch"
 	},
 	"dependencies": {
-		"@gauzy/contracts": "^0.1.0",
-		"@gauzy/core": "^0.1.0",
-		"@gauzy/plugin": "^0.1.0",
+		"@irtranscripts/contracts": "^0.1.0",
+		"@irtranscripts/core": "^0.1.0",
+		"@irtranscripts/plugin": "^0.1.0",
 		"tslib": "^2.8.1"
 	},
 	"devDependencies": {
@@ -46,7 +46,7 @@
 		"media-upload",
 		"camshot-library",
 		"plugin",
-		"gauzy",
+		"irtranscripts",
 		"camshot-plugin",
 		"camshot-plugins"
 	],

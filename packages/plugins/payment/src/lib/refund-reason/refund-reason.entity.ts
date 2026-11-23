@@ -8,8 +8,8 @@ import {
 	MultiORMManyToOne,
 	MultiORMOneToMany,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
-import { ID } from '@gauzy/contracts';
+} from '@irtranscripts/core';
+import { ID } from '@irtranscripts/contracts';
 import { MikroOrmRefundReasonRepository } from './repository/mikro-orm-refund-reason.repository';
 import { IRefundReason } from '../payment.types';
 

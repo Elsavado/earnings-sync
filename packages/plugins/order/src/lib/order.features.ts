@@ -1,4 +1,4 @@
-import { PluginFeatureContribution, PluginSettingContribution } from '@gauzy/plugin';
+import { PluginFeatureContribution, PluginSettingContribution } from '@irtranscripts/plugin';
 
 /**
  * The feature flags this plugin declares.

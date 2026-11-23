@@ -1,7 +1,7 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Query, Resolver } from '@nestjs/graphql';
-import { IEmailCheckResponse } from '@gauzy/contracts';
-import { FeatureFlag, Public } from '@gauzy/common';
+import { IEmailCheckResponse } from '@irtranscripts/contracts';
+import { FeatureFlag, Public } from '@irtranscripts/common';
 import { ApiKeyAuthGuard } from '../shared/guards/api-key-auth.guard';
 import { FeatureFlagGuard } from '../shared/guards';
 import { FEATURE_GRAPHQL } from '../feature/graphql-feature.code';

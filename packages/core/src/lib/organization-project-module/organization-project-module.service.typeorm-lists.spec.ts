@@ -1,8 +1,8 @@
 import '../core/entities/internal';
 
 import { DataSource, EntitySchema, Repository } from 'typeorm';
-import { IOrganizationProjectModuleFindInput, PermissionsEnum } from '@gauzy/contracts';
-import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@gauzy/config';
+import { IOrganizationProjectModuleFindInput, PermissionsEnum } from '@irtranscripts/contracts';
+import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@irtranscripts/config';
 import { RequestContext } from '../core/context';
 import { CrudService } from '../core/crud/crud.service';
 import { MultiORMEnum } from '../core/utils';

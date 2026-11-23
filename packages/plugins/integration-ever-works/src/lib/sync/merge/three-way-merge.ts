@@ -1,7 +1,7 @@
 /**
  * The 3-way merge per field (plan 03 §C.5). Pure functions.
  *
- * `S` is the snapshot (the last agreed value), `G` the current Gauzy value and `E` the incoming Ever
+ * `S` is the snapshot (the last agreed value), `G` the current IRTranscripts value and `E` the incoming Ever
  * Works value. Only one side changed → take it. Both changed to the same value → no-op. Both changed:
  * scalars and rich text → last writer wins (tie → Ever Works), logged as a conflict, and for rich text
  * the losing version is kept by the caller (a comment or a document version); sets → (S − removed by
@@ -18,12 +18,12 @@ export interface FieldSpec {
 export interface FieldMergeResult<T = unknown> {
 	value: T;
 	/** Who the merged value came from. */
-	source: 'none' | 'gauzy' | 'ever_works' | 'both' | 'merged';
+	source: 'none' | 'irtranscripts' | 'ever_works' | 'both' | 'merged';
 	/** Both sides changed to different values. */
 	conflict: boolean;
 	/** For a conflict on a scalar or rich text: the value that lost (kept by the caller). */
 	loser?: T;
-	loserSide?: 'gauzy' | 'ever_works';
+	loserSide?: 'irtranscripts' | 'ever_works';
 }
 
 /** Deep equality for JSON-like values (arrays in order, objects by key). */
@@ -51,80 +51,80 @@ export function sameSet(a: ReadonlyArray<string> | null | undefined, b: Readonly
 }
 
 /** (S − removed by either side) ∪ added by either side, in a stable order (snapshot order, then additions). */
-export function mergeSets(snapshot: ReadonlyArray<string>, gauzy: ReadonlyArray<string>, everWorks: ReadonlyArray<string>): string[] {
+export function mergeSets(snapshot: ReadonlyArray<string>, irtranscripts: ReadonlyArray<string>, everWorks: ReadonlyArray<string>): string[] {
 	const s = new Set(snapshot);
-	const g = new Set(gauzy);
+	const g = new Set(irtranscripts);
 	const e = new Set(everWorks);
 	const kept = snapshot.filter((value) => g.has(value) && e.has(value));
-	const added = [...gauzy, ...everWorks].filter((value) => !s.has(value));
+	const added = [...irtranscripts, ...everWorks].filter((value) => !s.has(value));
 	return [...new Set([...kept, ...added])];
 }
 
 /**
- * Merges one field. `gauzyAt` / `everWorksAt` are the change times used for last-writer-wins (Gauzy's
+ * Merges one field. `irtranscriptsAt` / `everWorksAt` are the change times used for last-writer-wins (IRTranscripts's
  * `updatedAt`, Ever Works' event `occurredAt`); a tie, or a missing time, goes to Ever Works.
  */
 export function mergeField<T>(
 	spec: FieldSpec,
 	snapshot: T,
-	gauzy: T,
+	irtranscripts: T,
 	everWorks: T,
-	gauzyAt?: Date | string | null,
+	irtranscriptsAt?: Date | string | null,
 	everWorksAt?: Date | string | null
 ): FieldMergeResult<T> {
 	if (spec.kind === 'set') {
 		const s = (snapshot as unknown as string[]) ?? [];
-		const g = (gauzy as unknown as string[]) ?? [];
+		const g = (irtranscripts as unknown as string[]) ?? [];
 		const e = (everWorks as unknown as string[]) ?? [];
 		const gChanged = !sameSet(s, g);
 		const eChanged = !sameSet(s, e);
 		if (!gChanged && !eChanged) return { value: snapshot, source: 'none', conflict: false };
-		if (gChanged && !eChanged) return { value: gauzy, source: 'gauzy', conflict: false };
+		if (gChanged && !eChanged) return { value: irtranscripts, source: 'irtranscripts', conflict: false };
 		if (!gChanged && eChanged) return { value: everWorks, source: 'ever_works', conflict: false };
 		if (sameSet(g, e)) return { value: everWorks, source: 'both', conflict: false };
 		return { value: mergeSets(s, g, e) as unknown as T, source: 'merged', conflict: false };
 	}
-	const gChanged = !sameValue(snapshot, gauzy);
+	const gChanged = !sameValue(snapshot, irtranscripts);
 	const eChanged = !sameValue(snapshot, everWorks);
 	if (!gChanged && !eChanged) return { value: snapshot, source: 'none', conflict: false };
-	if (gChanged && !eChanged) return { value: gauzy, source: 'gauzy', conflict: false };
+	if (gChanged && !eChanged) return { value: irtranscripts, source: 'irtranscripts', conflict: false };
 	if (!gChanged && eChanged) return { value: everWorks, source: 'ever_works', conflict: false };
-	if (sameValue(gauzy, everWorks)) return { value: everWorks, source: 'both', conflict: false };
-	const g = gauzyAt ? new Date(gauzyAt).getTime() : Number.NaN;
+	if (sameValue(irtranscripts, everWorks)) return { value: everWorks, source: 'both', conflict: false };
+	const g = irtranscriptsAt ? new Date(irtranscriptsAt).getTime() : Number.NaN;
 	const e = everWorksAt ? new Date(everWorksAt).getTime() : Number.NaN;
-	const gauzyWins = Number.isFinite(g) && (!Number.isFinite(e) || g > e);
-	return gauzyWins
-		? { value: gauzy, source: 'gauzy', conflict: true, loser: everWorks, loserSide: 'ever_works' }
-		: { value: everWorks, source: 'ever_works', conflict: true, loser: gauzy, loserSide: 'gauzy' };
+	const irtranscriptsWins = Number.isFinite(g) && (!Number.isFinite(e) || g > e);
+	return irtranscriptsWins
+		? { value: irtranscripts, source: 'irtranscripts', conflict: true, loser: everWorks, loserSide: 'ever_works' }
+		: { value: everWorks, source: 'ever_works', conflict: true, loser: irtranscripts, loserSide: 'irtranscripts' };
 }
 
 /** Merges a record of fields; returns the merged values, the conflicts and what each side must apply. */
 export function mergeRecord<R extends Record<string, unknown>>(
 	specs: Record<keyof R & string, FieldSpec>,
 	snapshot: Partial<R>,
-	gauzy: Partial<R>,
+	irtranscripts: Partial<R>,
 	everWorks: Partial<R>,
-	times: { gauzyAt?: Date | string | null; everWorksAt?: Date | string | null } = {}
+	times: { irtranscriptsAt?: Date | string | null; everWorksAt?: Date | string | null } = {}
 ): {
 	merged: Partial<R>;
 	conflicts: Array<{ field: keyof R & string; result: FieldMergeResult }>;
-	/** Fields whose merged value differs from Gauzy's (apply them in Gauzy). */
-	toGauzy: Array<keyof R & string>;
+	/** Fields whose merged value differs from IRTranscripts's (apply them in IRTranscripts). */
+	toIRTranscripts: Array<keyof R & string>;
 	/** Fields whose merged value differs from Ever Works' (push them). */
 	toEverWorks: Array<keyof R & string>;
 } {
 	const merged: Partial<R> = {};
 	const conflicts: Array<{ field: keyof R & string; result: FieldMergeResult }> = [];
-	const toGauzy: Array<keyof R & string> = [];
+	const toIRTranscripts: Array<keyof R & string> = [];
 	const toEverWorks: Array<keyof R & string> = [];
 	for (const field of Object.keys(specs) as Array<keyof R & string>) {
 		const spec = specs[field];
-		const result = mergeField(spec, snapshot[field], gauzy[field], everWorks[field], times.gauzyAt, times.everWorksAt);
+		const result = mergeField(spec, snapshot[field], irtranscripts[field], everWorks[field], times.irtranscriptsAt, times.everWorksAt);
 		merged[field] = result.value as R[typeof field];
 		if (result.conflict) conflicts.push({ field, result });
 		const same = spec.kind === 'set' ? (a: unknown, b: unknown) => sameSet(a as string[], b as string[]) : sameValue;
-		if (!same(result.value, gauzy[field])) toGauzy.push(field);
+		if (!same(result.value, irtranscripts[field])) toIRTranscripts.push(field);
 		if (!same(result.value, everWorks[field])) toEverWorks.push(field);
 	}
-	return { merged, conflicts, toGauzy, toEverWorks };
+	return { merged, conflicts, toIRTranscripts, toEverWorks };
 }

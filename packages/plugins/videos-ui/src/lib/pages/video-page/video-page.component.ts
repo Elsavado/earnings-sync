@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { IGetTimeSlotInput, ITimeLogFilters } from '@gauzy/contracts';
-import { distinctUntilChange, isEmpty } from '@gauzy/ui-core/common';
-import { DateRangePickerBuilderService, Store, TimesheetFilterService } from '@gauzy/ui-core/core';
-import { BaseSelectorFilterComponent, GauzyFiltersComponent, TimeZoneService } from '@gauzy/ui-core/shared';
+import { IGetTimeSlotInput, ITimeLogFilters } from '@irtranscripts/contracts';
+import { distinctUntilChange, isEmpty } from '@irtranscripts/ui-core/common';
+import { DateRangePickerBuilderService, Store, TimesheetFilterService } from '@irtranscripts/ui-core/core';
+import { BaseSelectorFilterComponent, IRTranscriptsFiltersComponent, TimeZoneService } from '@irtranscripts/ui-core/shared';
 import { Actions } from '@ngneat/effects-ng';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
@@ -26,7 +26,7 @@ export class VideoPageComponent extends BaseSelectorFilterComponent implements O
 	private readonly take = 10;
 	filters: ITimeLogFilters = this.request;
 
-	@ViewChild(GauzyFiltersComponent) gauzyFiltersComponent: GauzyFiltersComponent;
+	@ViewChild(IRTranscriptsFiltersComponent) irtranscriptsFiltersComponent: IRTranscriptsFiltersComponent;
 	datePickerConfig$: Observable<any> = this.dateRangePickerBuilderService.datePickerConfig$;
 
 	constructor(
@@ -66,7 +66,7 @@ export class VideoPageComponent extends BaseSelectorFilterComponent implements O
 	}
 
 	public filtersChange(filters: ITimeLogFilters): void {
-		if (this.gauzyFiltersComponent.saveFilters) {
+		if (this.irtranscriptsFiltersComponent.saveFilters) {
 			this.timesheetFilterService.filter = filters;
 		}
 		this.filters = { ...filters };

@@ -1,5 +1,5 @@
-import { IPlugin } from '@gauzy/contracts';
-import { LegacyFindOneOptions } from '@gauzy/core';
+import { IPlugin } from '@irtranscripts/contracts';
+import { LegacyFindOneOptions } from '@irtranscripts/core';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsArray, IsBoolean, IsObject, IsOptional } from 'class-validator';
 

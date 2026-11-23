@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ITask } from '@gauzy/contracts';
+import { ITask } from '@irtranscripts/contracts';
 import { NbDialogService, NbButtonModule, NbIconModule } from '@nebular/theme';
 import { filter, Observable, of, tap } from 'rxjs';
 import { ElectronService } from '../../../electron/services';

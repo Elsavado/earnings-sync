@@ -1,5 +1,5 @@
 import { faUsers } from '@fortawesome/free-solid-svg-icons';
-import { TimeLogSourceEnum } from '@gauzy/contracts';
+import { TimeLogSourceEnum } from '@irtranscripts/contracts';
 import { TimerIcon } from '../interfaces';
 
 export class TeamTimerIcon extends TimerIcon {

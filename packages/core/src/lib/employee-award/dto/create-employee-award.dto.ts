@@ -1,4 +1,4 @@
-import { IEmployeeAwardCreateInput } from "@gauzy/contracts";
+import { IEmployeeAwardCreateInput } from "@irtranscripts/contracts";
 import { IntersectionType } from "@nestjs/mapped-types";
 import { IsNotEmpty } from "class-validator";
 import { TenantOrganizationBaseDTO } from "./../../core/dto";

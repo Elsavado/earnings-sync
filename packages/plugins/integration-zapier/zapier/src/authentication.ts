@@ -1,8 +1,8 @@
 /**
- * Zapier authentication configuration for OAuth2 integration with Gauzy
+ * Zapier authentication configuration for OAuth2 integration with IRTranscripts
  */
 import { ZObject, Bundle } from 'zapier-platform-core';
-const appName = process.env.APP_NAME || 'Gauzy';
+const appName = process.env.APP_NAME || 'IRTranscripts';
 
 export const authentication = {
 	/** Specifies OAuth2 as the authentication type */
@@ -43,12 +43,12 @@ export const authentication = {
 	oauth2Config: {
 		/**
 		 * Authorization URL — uses the multi-app OAuth provider at
-		 * /api/integration/ever-gauzy/oauth/authorize which redirects to
-		 * the Gauzy consent page where the user logs in and approves access.
+		 * /api/integration/ever-irtranscripts/oauth/authorize which redirects to
+		 * the IRTranscripts consent page where the user logs in and approves access.
 		 */
 		authorizeUrl: {
 			method: 'GET',
-			url: `${process.env.API_BASE_URL}/api/integration/ever-gauzy/oauth/authorize`,
+			url: `${process.env.API_BASE_URL}/api/integration/ever-irtranscripts/oauth/authorize`,
 			params: {
 				client_id: '{{process.env.CLIENT_ID}}',
 				state: '{{bundle.inputData.state}}',
@@ -62,7 +62,7 @@ export const authentication = {
 		 */
 		getAccessToken: {
 			method: 'POST',
-			url: `${process.env.API_BASE_URL}/api/integration/ever-gauzy/oauth/token`,
+			url: `${process.env.API_BASE_URL}/api/integration/ever-irtranscripts/oauth/token`,
 			body: {
 				code: '{{bundle.inputData.code}}',
 				client_id: '{{process.env.CLIENT_ID}}',
@@ -76,7 +76,7 @@ export const authentication = {
 			}
 		},
 		/**
-		 * OAuth2 scopes required for the integration. Gauzy holds the access token to them
+		 * OAuth2 scopes required for the integration. IRTranscripts holds the access token to them
 		 * (OAUTH_APP_TOKEN_SCOPE_ENFORCEMENT, packages/core/src/lib/auth/oauth-app-scope.ts), always within
 		 * the approving user's own role:
 		 * - `zap`: the read permissions — the organization, team, project, task and timer-status triggers;

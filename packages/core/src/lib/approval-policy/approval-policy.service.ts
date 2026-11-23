@@ -7,8 +7,8 @@ import {
 	IRequestApprovalFindInput,
 	IPagination,
 	IApprovalPolicyCreateInput
-} from '@gauzy/contracts';
-import { parseToBoolean } from '@gauzy/utils';
+} from '@irtranscripts/contracts';
+import { parseToBoolean } from '@irtranscripts/utils';
 import { ApprovalPolicy } from './approval-policy.entity';
 import { BaseQueryDTO, TenantAwareCrudService } from './../core/crud';
 import { RequestContext } from './../core/context';

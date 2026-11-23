@@ -1,4 +1,4 @@
-import { PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 
 export const DEFAULT_ROLE_PERMISSIONS = [
 	{
@@ -194,7 +194,7 @@ export const DEFAULT_ROLE_PERMISSIONS = [
 			PermissionsEnum.ORG_PRODUCT_CATEGORIES_VIEW,
 			PermissionsEnum.ORG_PRODUCT_CATEGORIES_EDIT,
 			PermissionsEnum.VIEW_ALL_ACCOUNTING_TEMPLATES,
-			PermissionsEnum.MIGRATE_GAUZY_CLOUD,
+			PermissionsEnum.MIGRATE_IRTRANSCRIPTS_CLOUD,
 			PermissionsEnum.INVENTORY_GALLERY_ADD,
 			PermissionsEnum.INVENTORY_GALLERY_VIEW,
 			PermissionsEnum.INVENTORY_GALLERY_EDIT,
@@ -660,7 +660,7 @@ export const DEFAULT_ROLE_PERMISSIONS = [
 			PermissionsEnum.ORG_PRODUCT_CATEGORIES_VIEW,
 			PermissionsEnum.ORG_PRODUCT_CATEGORIES_EDIT,
 			PermissionsEnum.VIEW_ALL_ACCOUNTING_TEMPLATES,
-			PermissionsEnum.MIGRATE_GAUZY_CLOUD,
+			PermissionsEnum.MIGRATE_IRTRANSCRIPTS_CLOUD,
 			PermissionsEnum.INVENTORY_GALLERY_ADD,
 			PermissionsEnum.INVENTORY_GALLERY_VIEW,
 			PermissionsEnum.INVENTORY_GALLERY_EDIT,

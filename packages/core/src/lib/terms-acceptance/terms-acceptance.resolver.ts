@@ -1,8 +1,8 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import type { AcceptanceRecord } from 'terms-acceptance';
-import { FeatureFlag, Public } from '@gauzy/common';
-import { ITermsAcceptanceClaim, ITermsAcceptanceDocument, PermissionsEnum } from '@gauzy/contracts';
+import { FeatureFlag, Public } from '@irtranscripts/common';
+import { ITermsAcceptanceClaim, ITermsAcceptanceDocument, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	ConnectionFilter,
 	ConnectionPageRequest,

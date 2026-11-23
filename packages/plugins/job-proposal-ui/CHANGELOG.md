@@ -1,3 +1,3 @@
-# Changelog for @gauzy/plugin-job-proposal-ui
+# Changelog for @irtranscripts/plugin-job-proposal-ui
 
 ## [Unreleased]

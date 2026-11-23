@@ -1,12 +1,12 @@
 /*
- * Public API Surface of @gauzy/plugin-ai-chat
+ * Public API Surface of @irtranscripts/plugin-ai-chat
  */
 export { AiChatPlugin } from './lib/ai-chat.plugin';
 export { AiChatModule } from './lib/ai-chat.module';
 export { AiChatService } from './lib/ai-chat.service';
 export { AiChatController } from './lib/ai-chat.controller';
 
-// Provider SPI — implemented by @gauzy/plugin-ai-provider-* plugins
+// Provider SPI — implemented by @irtranscripts/plugin-ai-provider-* plugins
 export { AiProviderRegistry } from './lib/provider-registry';
 export { BaseAiProviderPlugin } from './lib/base-ai-provider.plugin';
 export type {
@@ -42,7 +42,7 @@ export type {
 	SpeechProviderErrorKind
 } from './lib/speech';
 
-// Chat-tool extension SPI — other plugins (e.g. @gauzy/plugin-docs) contribute per-turn tools
+// Chat-tool extension SPI — other plugins (e.g. @irtranscripts/plugin-docs) contribute per-turn tools
 export { AiChatToolRegistry } from './lib/tools/tool-registry';
 export type {
 	AiChatDataPartWriter,
@@ -91,7 +91,7 @@ export { AiProviderCredential } from './lib/credentials/ai-provider-credential.e
 export { AiProviderCredentialService } from './lib/credentials/ai-provider-credential.service';
 export { AiProviderCredentialModule } from './lib/credentials/ai-provider-credential.module';
 
-// Chat attachments — the event `@gauzy/plugin-docs` captures into the Documents hub.
+// Chat attachments — the event `@irtranscripts/plugin-docs` captures into the Documents hub.
 // 🛑 `AiChatAttachmentSavedEvent` is resolved BY NAME at runtime by that plugin's
 // `ChatCaptureSubscriber`; removing or renaming this export silently disables chat capture.
 export { AiChatAttachmentSavedEvent } from './lib/attachments/ai-chat-attachment.event';

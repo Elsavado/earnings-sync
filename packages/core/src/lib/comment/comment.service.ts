@@ -9,7 +9,7 @@ import {
 	ICommentUpdateInput,
 	ID,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from './../core/crud';
 import { IFindOneOptions } from '../core/crud/icrud.service';
 import { LegacyFindOneOptions } from '../core/utils';

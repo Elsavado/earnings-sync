@@ -7,14 +7,14 @@
  * only as "is a URL", it pointed anywhere the API pod can reach — cloud metadata, the Kubernetes
  * API, another namespace (GHSA-w3mx-m5cr-3gxp).
  *
- * The host-class rules themselves are NOT re-implemented here: `@gauzy/utils` already carries the
+ * The host-class rules themselves are NOT re-implemented here: `@irtranscripts/utils` already carries the
  * audited predicates the Make.com and Zapier webhook guards use, so this module composes them and
  * adds only what is specific to a provider base URL. Nothing in here touches Node built-ins, so it
  * stays importable from the provider-helpers entry point the provider plugins map onto; the
  * DNS-resolving half lives next door in `ssrf-safe-fetch.ts`.
  */
 
-import { getUnsafeOutboundUrlReason, isPrivateOrLoopbackHost } from '@gauzy/utils';
+import { getUnsafeOutboundUrlReason, isPrivateOrLoopbackHost } from '@irtranscripts/utils';
 import type { IAiProviderCredentials } from '../provider.types';
 
 /**
@@ -26,7 +26,7 @@ import type { IAiProviderCredentials } from '../provider.types';
  * reaching the operator's internal network. Addresses the OPERATOR chose — a `*_BASE_URL` environment
  * value — is not tenant input and does not need it (see {@link isPrivateAiProviderEndpointAllowed}).
  */
-export const ALLOW_PRIVATE_BASE_URLS_ENV = 'GAUZY_AI_CHAT_ALLOW_PRIVATE_BASE_URLS';
+export const ALLOW_PRIVATE_BASE_URLS_ENV = 'IRTRANSCRIPTS_AI_CHAT_ALLOW_PRIVATE_BASE_URLS';
 
 /**
  * Host substituted for a private one when re-asking the shared guard about an opted-in URL.

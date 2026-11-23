@@ -1,6 +1,6 @@
-# Ever Gauzy API Server Application
+# Ever IRTranscripts API Server Application
 
-Ever Gauzy API Server is a cross-platform application built with [nstudio/electron](https://github.com/nstudio/xplat).
+Ever IRTranscripts API Server is a cross-platform application built with [nstudio/electron](https://github.com/nstudio/xplat).
 
 ---
 

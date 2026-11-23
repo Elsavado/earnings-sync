@@ -2,8 +2,8 @@ import { redactUrlSecrets } from './redact-url-secrets';
 
 describe('redactUrlSecrets', () => {
 	it('redacts tokens in the fragment of hash-routed URLs', () => {
-		expect(redactUrlSecrets('https://app.gauzy.co/#/auth/delete-account/confirm?token=abc_DEF-123')).toBe(
-			'https://app.gauzy.co/#/auth/delete-account/confirm?token=[redacted]'
+		expect(redactUrlSecrets('https://app.irtranscripts.com/#/auth/delete-account/confirm?token=abc_DEF-123')).toBe(
+			'https://app.irtranscripts.com/#/auth/delete-account/confirm?token=[redacted]'
 		);
 	});
 

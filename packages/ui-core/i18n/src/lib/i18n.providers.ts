@@ -61,7 +61,7 @@ export const DEFAULT_I18N_OPTIONS: Required<Omit<I18nProviderOptions, 'customLoa
  * @example
  * ```typescript
  * // In app.config.ts (app has no LanguageInterceptor)
- * import { provideI18n } from '@gauzy/ui-core/i18n';
+ * import { provideI18n } from '@irtranscripts/ui-core/i18n';
  *
  * export const appConfig: ApplicationConfig = {
  *   providers: [
@@ -80,7 +80,7 @@ export const DEFAULT_I18N_OPTIONS: Required<Omit<I18nProviderOptions, 'customLoa
  * @example
  * ```typescript
  * // Simple usage with defaults (language set imperatively after bootstrap)
- * import { provideI18n } from '@gauzy/ui-core/i18n';
+ * import { provideI18n } from '@irtranscripts/ui-core/i18n';
  *
  * export const appConfig: ApplicationConfig = {
  *   providers: [

@@ -1,4 +1,4 @@
-import { ISelectedDateRange, ITimeLogFilters, WeekDaysEnum } from '@gauzy/contracts';
+import { ISelectedDateRange, ITimeLogFilters, WeekDaysEnum } from '@irtranscripts/contracts';
 import * as momentDefault from 'moment';
 import { extendMoment } from 'moment-range';
 import { IDateRangePicker, TimePeriod } from './date-picker.interface';
@@ -88,7 +88,7 @@ export function isWallClockDate(value: unknown): value is WallClockDate {
  * The picked day lives in the WALL-CLOCK fields of the library's dayjs objects; 6.x tagged them as UTC,
  * 22.x tags them local. Rebuilding a local moment from those fields gives the picked day for both, for
  * every UTC offset and across DST switches. Mirrors the helper of the web date range picker
- * (`@gauzy/ui-core/shared`).
+ * (`@irtranscripts/ui-core/shared`).
  *
  * @param date A dayjs object or moment (read by its wall clock), or a `Date` (taken as is).
  * @returns The local moment, or `null` for a missing or invalid date.

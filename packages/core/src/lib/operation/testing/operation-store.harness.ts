@@ -1,7 +1,7 @@
 import { DataSource, EntitySchema } from 'typeorm';
 import { EntityCaseNamingStrategy, EntitySchema as MikroOrmEntitySchema, MikroORM, Type } from '@mikro-orm/core';
 import { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
-import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@gauzy/config';
+import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@irtranscripts/config';
 import { MikroOrmBaseEntityRepository } from '../../core/repository/mikro-orm-base-entity.repository';
 import { MultiORMEnum } from '../../core/utils';
 import { Operation } from '../operation.entity';

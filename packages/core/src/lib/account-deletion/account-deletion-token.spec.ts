@@ -47,11 +47,11 @@ describe('account deletion token helpers', () => {
 	});
 
 	it('keeps the token inside the fragment of a hash-routed URL', () => {
-		expect(buildAccountDeletionLink('https://app.gauzy.co/#/auth/delete-account/confirm', 'abc')).toBe(
-			'https://app.gauzy.co/#/auth/delete-account/confirm?token=abc'
+		expect(buildAccountDeletionLink('https://app.irtranscripts.com/#/auth/delete-account/confirm', 'abc')).toBe(
+			'https://app.irtranscripts.com/#/auth/delete-account/confirm?token=abc'
 		);
-		expect(buildAccountDeletionLink('https://app.gauzy.co/#/auth/delete-account/confirm?lang=fr', 'abc')).toBe(
-			'https://app.gauzy.co/#/auth/delete-account/confirm?lang=fr&token=abc'
+		expect(buildAccountDeletionLink('https://app.irtranscripts.com/#/auth/delete-account/confirm?lang=fr', 'abc')).toBe(
+			'https://app.irtranscripts.com/#/auth/delete-account/confirm?lang=fr&token=abc'
 		);
 	});
 

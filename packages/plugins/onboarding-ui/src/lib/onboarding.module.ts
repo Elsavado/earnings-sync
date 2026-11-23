@@ -10,9 +10,9 @@ import {
 	PageRouteRegistryService,
 	RoleGuard,
 	TenantService
-} from '@gauzy/ui-core/core';
-import { EmailVerificationNoticeComponent, OrganizationsStepFormModule } from '@gauzy/ui-core/shared';
-import { ThemeModule, ThemeSelectorModule, ThemeSettingsModule } from '@gauzy/ui-core/theme';
+} from '@irtranscripts/ui-core/core';
+import { EmailVerificationNoticeComponent, OrganizationsStepFormModule } from '@irtranscripts/ui-core/shared';
+import { ThemeModule, ThemeSelectorModule, ThemeSettingsModule } from '@irtranscripts/ui-core/theme';
 import { createOnboardingRoutes } from './onboarding.routes';
 import { OnboardingComponent } from './components/onboarding.component';
 import { TenantOnboardingComponent } from './components/tenant-onboarding/tenant-onboarding.component';

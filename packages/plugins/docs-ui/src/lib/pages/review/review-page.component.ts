@@ -12,10 +12,10 @@ import {
 	ID,
 	IDocument,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
-import { Store, ToastrService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/contracts';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
+import { Store, ToastrService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { DocumentsActions } from '../../+state/documents.actions';
 import { DOCS_PREVIEW_DIALOG_CONFIG } from '../../docs.constants';
 import { DocsPreviewModalComponent } from '../../components/preview/docs-preview-modal.component';

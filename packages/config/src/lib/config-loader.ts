@@ -1,5 +1,5 @@
-import { ApplicationPluginConfig } from '@gauzy/common';
-import { deepMerge } from '@gauzy/utils';
+import { ApplicationPluginConfig } from '@irtranscripts/common';
+import { deepMerge } from '@irtranscripts/utils';
 import { defaultConfiguration } from './default-config';
 
 let currentAppConfig: ApplicationPluginConfig = { ...defaultConfiguration };
@@ -32,5 +32,5 @@ export function getConfig(): Readonly<ApplicationPluginConfig> {
  */
 export function resetConfig(): void {
 	currentAppConfig = { ...defaultConfiguration };
-	console.log('Gauzy Config Reset to Defaults');
+	console.log('IRTranscripts Config Reset to Defaults');
 }

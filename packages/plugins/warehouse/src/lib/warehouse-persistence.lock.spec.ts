@@ -10,8 +10,8 @@
  * These cases prove that the call is accepted and answers the row on the embedded dialect, and what each ORM is asked
  * for on a server one. The waiting itself needs a server database, and is not faked here.
  */
-jest.mock('@gauzy/core', () => {
-	const utils = jest.requireActual('@gauzy/core/src/lib/core/utils');
+jest.mock('@irtranscripts/core', () => {
+	const utils = jest.requireActual('@irtranscripts/core/src/lib/core/utils');
 
 	return {
 		MultiORMEnum: utils.MultiORMEnum,

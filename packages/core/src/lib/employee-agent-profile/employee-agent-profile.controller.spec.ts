@@ -2,8 +2,8 @@ import '../core/entities/internal';
 
 import { NotFoundException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { EmployeeAgentProfileController } from './employee-agent-profile.controller';
 import { EmployeeAgentProfileService } from './employee-agent-profile.service';
 import { OrganizationBelongsToUserConstraint } from '../shared/validators/constraints/organization-belongs-to-user.constraint';

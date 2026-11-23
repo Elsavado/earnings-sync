@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Between, FindManyOptions } from 'typeorm';
 import * as moment from 'moment';
-import { IApiCallLog, IPagination } from '@gauzy/contracts';
+import { IApiCallLog, IPagination } from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from './../core/crud';
 import { ApiCallLog } from './api-call-log.entity';
 import { MikroOrmApiCallLogRepository } from './repository/mikro-orm-api-call-log.repository';

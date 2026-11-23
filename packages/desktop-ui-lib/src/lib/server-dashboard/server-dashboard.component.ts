@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { GAUZY_ENV } from '../constants';
+import { IRTRANSCRIPTS_ENV } from '../constants';
 import { ElectronService } from '../electron/services';
 import { LanguageElectronService } from '../language/language-electron.service';
 import { LanguageSelectorService } from '../language/language-selector.service';
@@ -37,7 +37,7 @@ export class ServerDashboardComponent implements OnInit, AfterViewInit {
 	@ViewChild('logBox') logBox: ElementRef;
 	@ViewChild('logServer') logAccordion;
 	active_index: any;
-	gauzyIcon: SafeResourceUrl = './assets/images/logos/logo_Gauzy.svg';
+	irtranscriptsIcon: SafeResourceUrl = './assets/images/logos/logo_IRTranscripts.svg';
 	running = false;
 	loading = false;
 	restart = false;
@@ -59,7 +59,7 @@ export class ServerDashboardComponent implements OnInit, AfterViewInit {
 		private _languageSelectorService: LanguageSelectorService,
 		private languageElectronService: LanguageElectronService,
 		private _ngZone: NgZone,
-		@Inject(GAUZY_ENV)
+		@Inject(IRTRANSCRIPTS_ENV)
 		private readonly _environment: any,
 		private readonly _domSanitizer: DomSanitizer
 	) {
@@ -105,7 +105,7 @@ export class ServerDashboardComponent implements OnInit, AfterViewInit {
 			this._cdr.detectChanges();
 		});
 
-		this.gauzyIcon = this._domSanitizer.bypassSecurityTrustResourceUrl(this._environment.PLATFORM_LOGO);
+		this.irtranscriptsIcon = this._domSanitizer.bypassSecurityTrustResourceUrl(this._environment.PLATFORM_LOGO);
 	}
 	ngAfterViewInit(): void {
 		this.electronService.ipcRenderer.on('dashboard_ready', (event, arg) => {
@@ -134,7 +134,7 @@ export class ServerDashboardComponent implements OnInit, AfterViewInit {
 			icon: ''
 		};
 		this.logIsOpen = true;
-		this.electronService.ipcRenderer.send('run_gauzy_server');
+		this.electronService.ipcRenderer.send('run_irtranscripts_server');
 		this.electronService.ipcRenderer.send('expand_window');
 		this.isExpandWindow = true;
 		this.styles.btnStart = 'button-big';
@@ -149,7 +149,7 @@ export class ServerDashboardComponent implements OnInit, AfterViewInit {
 			icon: ''
 		};
 		this.logIsOpen = true;
-		this.electronService.ipcRenderer.send('stop_gauzy_server');
+		this.electronService.ipcRenderer.send('stop_irtranscripts_server');
 		this._cdr.detectChanges();
 	}
 

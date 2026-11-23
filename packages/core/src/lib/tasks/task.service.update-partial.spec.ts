@@ -1,6 +1,6 @@
 import '../core/entities/internal';
 
-import { IUser } from '@gauzy/contracts';
+import { IUser } from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from '../core/crud';
 import { asTenantUser, createTenantFixture } from '../core/testing/tenant-isolation/tenant-isolation.fixtures';
 import { TaskService } from './task.service';

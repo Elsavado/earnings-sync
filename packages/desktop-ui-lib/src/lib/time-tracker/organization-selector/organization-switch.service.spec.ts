@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { IAuthResponse, IOrganization } from '@gauzy/contracts';
+import { IAuthResponse, IOrganization } from '@irtranscripts/contracts';
 import { BehaviorSubject, of, Subject, throwError } from 'rxjs';
 import { OrganizationSwitchService, TIMER_RELOAD_TIMEOUT } from './organization-switch.service';
 

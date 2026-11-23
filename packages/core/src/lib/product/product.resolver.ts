@@ -8,7 +8,7 @@ import {
 	IProductCreateInput,
 	LanguagesEnum,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	ConnectionFilter,
 	ConnectionPageRequest,
@@ -18,7 +18,7 @@ import {
 } from '../api/graphql-connection';
 import { BulkExecutor, IBulkItemContext } from '../api/bulk-executor.service';
 import { toBulkItemOutcomes } from '../api/bulk';
-import { FeatureFlag } from '@gauzy/common';
+import { FeatureFlag } from '@irtranscripts/common';
 import { RequestContext } from '../core/context/request-context';
 import { Idempotent } from '../idempotency/idempotent.decorator';
 import { Permissions } from '../shared/decorators';

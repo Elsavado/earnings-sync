@@ -12,7 +12,7 @@ import {
 	UsePipes
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { ID, IOrganizationVendor, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IOrganizationVendor, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { CrudController, BaseQueryDTO } from './../core/crud';
 import { OrganizationVendorService } from './organization-vendor.service';
 import { OrganizationVendor } from './organization-vendor.entity';

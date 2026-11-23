@@ -4,7 +4,7 @@ import {
 	IRecurringExpenseModel,
 	StartDateUpdateTypeEnum,
 	ID
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { Between, FindOptionsWhere, Not } from 'typeorm';
 import { CrudService } from '../../core/crud';
 import { getLastDayOfMonth } from '../../core/utils';

@@ -1,4 +1,4 @@
-import { CurrencyCode, DecimalString, ID } from '@gauzy/contracts';
+import { CurrencyCode, DecimalString, ID } from '@irtranscripts/contracts';
 
 /**
  * The pricing vocabulary.

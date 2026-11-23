@@ -6,7 +6,7 @@ import {
 	IRelationalUser,
 	ISoundshot as ISoundshotContract,
 	ITimeSlot
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 export interface ISoundshot extends ISoundshotContract, IBasePerTenantAndOrganizationEntityModel, IRelationalUser {
 	fileKey?: string;

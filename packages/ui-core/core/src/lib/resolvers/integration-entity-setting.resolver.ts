@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, ResolveFn } from '@angular/router';
 import { Observable, EMPTY, map } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { IIntegrationEntitySetting, IPagination } from '@gauzy/contracts';
+import { IIntegrationEntitySetting, IPagination } from '@irtranscripts/contracts';
 import { IntegrationEntitySettingService } from '../services/integration/integration-entity-setting.service';
 
 /**

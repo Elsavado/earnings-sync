@@ -1,7 +1,7 @@
 import { IntersectionType, OmitType, PartialType } from "@nestjs/mapped-types";
-import { IProposalCreateInput } from "@gauzy/contracts";
-import { WithoutInitializers } from "@gauzy/common";
-import { RelationalTagDTO } from "@gauzy/core";
+import { IProposalCreateInput } from "@irtranscripts/contracts";
+import { WithoutInitializers } from "@irtranscripts/common";
+import { RelationalTagDTO } from "@irtranscripts/core";
 import { ProposalDTO } from "./proposal.dto";
 
 /**

@@ -5,10 +5,10 @@ import {
 	IPagination,
 	IProductCategoryTranslatable,
 	IProductCategoryTranslated
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { firstValueFrom, Observable } from 'rxjs';
-import { toParams } from '@gauzy/ui-core/common';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { toParams } from '@irtranscripts/ui-core/common';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 
 @Injectable()
 export class ProductCategoryService {

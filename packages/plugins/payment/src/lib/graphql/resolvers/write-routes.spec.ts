@@ -59,7 +59,7 @@
  * without a database behind it.
  */
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	DatabaseTypeEnum: {
 		mongodb: 'mongodb',
 		sqlite: 'sqlite',
@@ -98,7 +98,7 @@ jest.mock('../../payment-method-token/payment-method-token-lifecycle.service', (
 	PaymentMethodTokenLifecycleService: class PaymentMethodTokenLifecycleService {}
 }));
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
@@ -141,12 +141,12 @@ jest.mock('@gauzy/core', () => {
 		// The two decorators whose metadata this suite compares between a route and the field that mirrors
 		// it are the kernel's own, because a double that wrote nothing would let "the route declares no
 		// scope either" pass on two absences.
-		Permissions: jest.requireActual('@gauzy/core/src/lib/shared/decorators/permissions.decorator').Permissions,
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
-		Versioned: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned.decorator').Versioned,
-		IDEMPOTENT_METADATA_KEY: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.policy')
+		Permissions: jest.requireActual('@irtranscripts/core/src/lib/shared/decorators/permissions.decorator').Permissions,
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		Versioned: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned.decorator').Versioned,
+		IDEMPOTENT_METADATA_KEY: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.policy')
 			.IDEMPOTENT_METADATA_KEY,
-		VERSIONED_METADATA_KEY: jest.requireActual('@gauzy/core/src/lib/concurrency/version.util')
+		VERSIONED_METADATA_KEY: jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util')
 			.VERSIONED_METADATA_KEY,
 		UseValidationPipe: decorator,
 		PermissionGuard: class PermissionGuard {},
@@ -163,9 +163,9 @@ jest.mock('@gauzy/core', () => {
 		// The connection helpers the list fields page and answer with are the kernel's own, taken from the
 		// kernel rather than restated: `connection.ts` reaches `connectionFromOffsetPage` through this
 		// barrel, so a double that dropped it would fail the import rather than an assertion.
-		connectionFromOffsetPage: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		connectionFromOffsetPage: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.connectionFromOffsetPage,
-		resolveConnectionWindow: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		resolveConnectionWindow: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.resolveConnectionWindow,
 		// The kernel classes the controllers and the two stored-instrument resolvers name in their
 		// constructor signatures — TypeScript emits them as the injection metadata, so they have to exist.
@@ -203,10 +203,10 @@ import { FieldDefinitionNode, InputObjectTypeDefinitionNode, InputValueDefinitio
 	ObjectTypeExtensionNode,
 	TypeNode
 } from 'graphql';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { FeatureFlagGuard, IDEMPOTENT_METADATA_KEY, PermissionGuard, TenantPermissionGuard,
 	VERSIONED_METADATA_KEY
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { PaymentPermission } from '../../payment.permissions';
 import { PaymentSessionController } from '../../payment-session/payment-session.controller';
 import { UpdatePaymentSessionDTO } from '../../payment-session/dto';

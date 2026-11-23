@@ -6,7 +6,7 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, In } from 'typeorm';
 import { filter, map, some } from 'underscore';
-import { ConfigService } from '@gauzy/config';
+import { ConfigService } from '@irtranscripts/config';
 import { MultiORMEnum, getORMType } from '../../core/utils';
 import {
 	Activity,

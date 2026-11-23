@@ -1,5 +1,5 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
-import { IActivityLog, IPagination } from '@gauzy/contracts';
+import { IActivityLog, IPagination } from '@irtranscripts/contracts';
 import { Permissions } from '../shared/decorators';
 import { PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { UseValidationPipe } from '../shared/pipes';

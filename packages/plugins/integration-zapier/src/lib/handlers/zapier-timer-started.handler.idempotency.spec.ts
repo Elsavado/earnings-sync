@@ -1,14 +1,14 @@
 import { delay, of, switchMap, throwError, timer } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
 import { Logger } from '@nestjs/common';
-import { ITimeLog } from '@gauzy/contracts';
-import { TimerStartedEvent } from '@gauzy/core';
+import { ITimeLog } from '@irtranscripts/contracts';
+import { TimerStartedEvent } from '@irtranscripts/core';
 import { ZapierTimerStartedHandler } from './zapier-timer-started.handler';
 import { ZapierWebhookService } from '../zapier-webhook.service';
 import { TypeOrmZapierWebhookSubscriptionRepository } from '../repository/type-orm-zapier-webhook-subscription.repository';
 
 /**
- * TASK 4 (background job idempotency) — a third example alongside `@gauzy/core`'s
+ * TASK 4 (background job idempotency) — a third example alongside `@irtranscripts/core`'s
  * `token-cleanup.idempotency.spec.ts` (positive control) and
  * `employee-notification.idempotency.spec.ts` (a found-and-fixed gap). This one is the
  * highest-value finding from that investigation: duplicate delivery to an EXTERNAL system, not

@@ -3,8 +3,8 @@ import { createServer } from 'node:net';
 import { INestApplication } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
-import { OidcModule } from '@gauzy/auth';
-import { environment } from '@gauzy/config';
+import { OidcModule } from '@irtranscripts/auth';
+import { environment } from '@irtranscripts/config';
 import { AuthKeycloakController } from '../auth-keycloak.controller';
 import { MockKeycloakRealm } from '../fixtures/mock-keycloak-realm';
 import { KeycloakSignInService } from '../keycloak-sign-in.service';
@@ -14,8 +14,8 @@ import { SOCIAL_SIGN_IN, SocialSignInPort } from '../social-sign-in.port';
 // longer than Jest's 5 s default on a busy machine.
 jest.setTimeout(60_000);
 
-const REALM = 'gauzy-test';
-const CLIENT_ID = 'gauzy-keycloak-test';
+const REALM = 'irtranscripts-test';
+const CLIENT_ID = 'irtranscripts-keycloak-test';
 
 async function freePort(): Promise<number> {
 	return new Promise((resolve) => {
@@ -28,7 +28,7 @@ async function freePort(): Promise<number> {
 	});
 }
 
-/** Gauzy's social sign-in: a verified e-mail of an existing user signs in, anything else registers. */
+/** IRTranscripts's social sign-in: a verified e-mail of an existing user signs in, anything else registers. */
 class FakeSocialSignIn implements SocialSignInPort {
 	readonly users = new Set<string>();
 	readonly calls: Array<Array<{ value: string; verified: boolean }>> = [];
@@ -36,7 +36,7 @@ class FakeSocialSignIn implements SocialSignInPort {
 	async validateOAuthLoginEmail(emails: Array<{ value: string; verified: boolean }>) {
 		this.calls.push(emails);
 		const match = emails.find((email) => email.verified && this.users.has(email.value));
-		return { success: !!match, authData: { jwt: match ? 'gauzy-access-token' : null, userId: match ? 'user-1' : null } };
+		return { success: !!match, authData: { jwt: match ? 'irtranscripts-access-token' : null, userId: match ? 'user-1' : null } };
 	}
 
 	async routeRedirect(success: boolean, auth: { jwt: string; userId: string }, res: unknown) {
@@ -99,7 +99,7 @@ describe('Keycloak sign-in (HTTP, against a mock Keycloak realm)', () => {
 
 	async function get(url: string): Promise<Response> {
 		const response = await fetch(url, { redirect: 'manual', headers: cookie ? { cookie } : {} });
-		const setCookie = response.headers.getSetCookie().find((value) => value.startsWith('gauzy_keycloak_txn='));
+		const setCookie = response.headers.getSetCookie().find((value) => value.startsWith('irtranscripts_keycloak_txn='));
 		if (setCookie) {
 			cookie = setCookie.split(';')[0];
 		}
@@ -133,13 +133,13 @@ describe('Keycloak sign-in (HTTP, against a mock Keycloak realm)', () => {
 		expect(location.searchParams.get('nonce')).toBeTruthy();
 		expect(location.searchParams.get('scope')).toBe('openid email profile');
 		expect(location.searchParams.get('redirect_uri')).toBe(`${baseUrl}/api/auth/keycloak/callback`);
-		expect(cookie).toMatch(/^gauzy_keycloak_txn=/);
+		expect(cookie).toMatch(/^irtranscripts_keycloak_txn=/);
 	});
 
 	it('signs a verified e-mail of an existing user in through the existing social sign-in', async () => {
 		social.users.add('kc.user@example.test');
 		const landing = await signIn({ sub: 'kc-1', email: 'kc.user@example.test', email_verified: true });
-		expect(landing).toBe(`${environment.clientBaseUrl}/#/sign-in/success?jwt=gauzy-access-token&userId=user-1`);
+		expect(landing).toBe(`${environment.clientBaseUrl}/#/sign-in/success?jwt=irtranscripts-access-token&userId=user-1`);
 		expect(social.calls).toEqual([[{ value: 'kc.user@example.test', verified: true }]]);
 	});
 
@@ -148,7 +148,7 @@ describe('Keycloak sign-in (HTTP, against a mock Keycloak realm)', () => {
 		expect(landing).toBe(`${environment.clientBaseUrl}/#/auth/register`);
 	});
 
-	it('refuses an unverified e-mail without asking Gauzy to sign anyone in', async () => {
+	it('refuses an unverified e-mail without asking IRTranscripts to sign anyone in', async () => {
 		social.users.add('kc.user@example.test');
 		const landing = await signIn({ sub: 'kc-3', email: 'kc.user@example.test', email_verified: false });
 		expect(landing).toBe(`${environment.clientBaseUrl}/#/auth/login?error=email_unverified`);

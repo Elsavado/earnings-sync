@@ -39,7 +39,7 @@ const createAuthState = (): IAuthState => ({
 
 export class AuthManager {
 	private static instance: AuthManager;
-	// Process-wide login: the stdio login, or on HTTP/WebSocket the GAUZY_AUTO_LOGIN account callers may fall back to
+	// Process-wide login: the stdio login, or on HTTP/WebSocket the IRTRANSCRIPTS_AUTO_LOGIN account callers may fall back to
 	private readonly processState: IAuthState = createAuthState();
 	// Logins of HTTP/WebSocket sessions and OAuth subjects, by auth key
 	private readonly keyedStates = new Map<string, IAuthState>();
@@ -162,7 +162,7 @@ export class AuthManager {
 		}
 
 		try {
-			// The configured credentials are the GAUZY_AUTO_LOGIN account of whoever runs the server. A keyed caller that
+			// The configured credentials are the IRTRANSCRIPTS_AUTO_LOGIN account of whoever runs the server. A keyed caller that
 			// may not share that account (one from another machine, see `isLocalCaller`) does not get it by logging in
 			// without credentials of its own either: `test_api_connection` logs in that way.
 			const useConfigured = authKey === undefined || mayShareAutoLogin();
@@ -182,7 +182,7 @@ export class AuthManager {
 				logger.log(`🔑 Attempting login for: ${credentials.email}`);
 			}
 
-			// Use the correct Gauzy API endpoint
+			// Use the correct IRTranscripts API endpoint
 			const response: IAuthResponse = await this.apiClient.post('/api/auth/login', credentials);
 
 			if (response?.token && response?.refresh_token) {
@@ -314,7 +314,7 @@ export class AuthManager {
 				logger.log('🔄 Refreshing access token...');
 			}
 
-			// Use the correct Gauzy API endpoint
+			// Use the correct IRTranscripts API endpoint
 			const response = await this.apiClient.post('/api/auth/refresh-token', {
 				refresh_token: state.tokenData.refreshToken
 			});
@@ -469,7 +469,7 @@ export class AuthManager {
 	}
 
 	/**
-	 * Whether the process-wide login is the account configured through GAUZY_AUTO_LOGIN,
+	 * Whether the process-wide login is the account configured through IRTRANSCRIPTS_AUTO_LOGIN,
 	 * the only one that may be shared with callers that have not logged in themselves
 	 */
 	public isSharedAutoLoginIdentity(): boolean {

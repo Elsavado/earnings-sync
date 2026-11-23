@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 export class AddTimeSlotSessionEntity1757149401754 implements MigrationInterface {
 	name = 'AddTimeSlotSessionEntity1757149401754';

@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-tax
+ * Public API Surface of @irtranscripts/plugin-tax
  */
 export * from './lib/tax.plugin';
 export * from './lib/tax.module';

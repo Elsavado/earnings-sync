@@ -4,7 +4,7 @@ import {
 	StatusTypesMapRequestApprovalEnum,
 	ApprovalPolicyTypesStringEnum,
 	RequestApprovalStatusTypesEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { TimeOffRequest } from '../../time-off-request.entity';
 import { RequestApprovalService } from '../../../request-approval/request-approval.service';
 import { TimeOffCreateCommand } from '../time-off.create.command';

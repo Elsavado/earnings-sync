@@ -95,7 +95,7 @@ describe('extractImportArchive', () => {
 		const archive = zip([
 			{ name: 'user.csv', content: 'id,email\nrow-a,alice@example.com\n' },
 			{ name: 'import-history.csv', content: 'id\n' },
-			{ name: 'gauzy-export.json', content: '{"format":"gauzy-export","version":1}' },
+			{ name: 'irtranscripts-export.json', content: '{"format":"irtranscripts-export","version":1}' },
 			{ name: 'notes.txt', content: 'not a table' },
 			{ name: 'nested/tag.csv', content: 'id\n' },
 			{ name: '../escape.csv', content: 'id\n' }
@@ -104,7 +104,7 @@ describe('extractImportArchive', () => {
 		await extractImportArchive(archive, extractPath, LIMITS);
 
 		expect((await fsp.readdir(extractPath)).sort()).toEqual([
-			'gauzy-export.json',
+			'irtranscripts-export.json',
 			'import-history.csv',
 			'user.csv'
 		]);

@@ -1,4 +1,4 @@
-import { IDocumentChunkMetadata } from '@gauzy/contracts';
+import { IDocumentChunkMetadata } from '@irtranscripts/contracts';
 import { getTokenCounter, ITokenCounter, TokenCounterKind } from './token-counter';
 
 /**

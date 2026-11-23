@@ -8,7 +8,7 @@ import {
 	RegisteredWindow,
 	localStore,
 	store
-} from '@gauzy/desktop-core';
+} from '@irtranscripts/desktop-core';
 
 export class ScreenCaptureNotification extends BaseWindow implements IBaseWindow {
 	private static readonly WIDTH: number = 310;

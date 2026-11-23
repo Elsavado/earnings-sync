@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { SchedulerModule } from '@gauzy/scheduler';
+import { SchedulerModule } from '@irtranscripts/scheduler';
 import { EventOutboxModule } from './event-outbox.module';
 import { EventOutboxDispatchScheduler } from './event-outbox-dispatch.scheduler';
 import { EventOutboxDispatchWorker } from './event-outbox-dispatch.worker';

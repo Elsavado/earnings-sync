@@ -2,7 +2,7 @@ import '../core/entities/internal';
 
 import { NotFoundException } from '@nestjs/common';
 import { DataSource, EntitySchema, Repository } from 'typeorm';
-import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@gauzy/config';
+import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@irtranscripts/config';
 import { RequestContext } from '../core/context';
 import { CrudService } from '../core/crud/crud.service';
 import { MultiORMEnum } from '../core/utils';
@@ -14,7 +14,7 @@ import { EmailTemplateService } from './email-template.service';
  *
  * `EmailTemplateService` is a plain `CrudService`: `softRemove(id)` / `softRecover(id)` resolve the row by id alone.
  * The REST routes were fixed to pass the caller's tenant (GHSA-44pv-34gx-q9p4); the GraphQL fields were not — any
- * tenant admin (every self-registered owner on app.gauzy.co) could withdraw the platform's GLOBAL password-reset,
+ * tenant admin (every self-registered owner on app.irtranscripts.com) could withdraw the platform's GLOBAL password-reset,
  * invite and verification templates, and every tenant without its own copy then got those e-mails empty; another
  * tenant's own templates could be withdrawn or restored the same way.
  *

@@ -1,4 +1,4 @@
-import { IntegrationEntity } from '@gauzy/contracts';
+import { IntegrationEntity } from '@irtranscripts/contracts';
 
 /**
  * Default entity settings for AI integrations.

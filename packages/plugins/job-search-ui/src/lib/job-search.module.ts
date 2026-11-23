@@ -11,15 +11,15 @@ import {
 	IOnPluginUiDestroy,
 	PluginUiDefinition,
 	PLUGIN_DEFINITION
-} from '@gauzy/plugin-ui';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
+} from '@irtranscripts/plugin-ui';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
 import {
 	IntegrationEntitySettingServiceStoreService,
 	LoggerService,
 	NavMenuBuilderService,
 	PageRouteRegistryService
-} from '@gauzy/ui-core/core';
+} from '@irtranscripts/ui-core/core';
 import {
 	SmartDataViewLayoutModule,
 	DialogsModule,
@@ -29,7 +29,7 @@ import {
 	SelectorsModule,
 	SharedModule,
 	StatusBadgeModule
-} from '@gauzy/ui-core/shared';
+} from '@irtranscripts/ui-core/shared';
 import { getJobSearchRoutes, JOB_SEARCH_PAGE_LINK } from './job-search.routes';
 import { JobSearchComponent } from './components/job-search/job-search.component';
 import { COMPONENTS } from './components';

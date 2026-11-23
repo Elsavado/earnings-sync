@@ -11,7 +11,7 @@
  * compared against is the delegation the platform really makes rather than a restatement of it.
  *
  * This package reaches the kernel's real barrel already — the `with-deleted` spec beside this one
- * imports three of these resolvers — so the reason the sibling packages give for doubling `@gauzy/core`
+ * imports three of these resolvers — so the reason the sibling packages give for doubling `@irtranscripts/core`
  * does not apply here: `transformIgnorePatterns` in this package's jest config transforms the ESM-only
  * dependencies the entity graph pulls in.
  */
@@ -23,8 +23,8 @@ import {
 	ObjectTypeExtensionNode,
 	TypeNode
 } from 'graphql';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionGuard, TenantPermissionGuard } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionGuard, TenantPermissionGuard } from '@irtranscripts/core';
 import { PromotionPermission } from '../../promotion.permissions';
 import { PromotionNotice } from '../../promotion.types';
 import { PromotionController } from '../../promotion/promotion.controller';

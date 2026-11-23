@@ -16,7 +16,7 @@
  * the owner looks for it; for any other order (MikroORM, a hand-built object) the previous timer hop remains the
  * fallback, so the copied URL can never be missed.
  */
-const URLS_READY = Symbol.for('gauzy.imageAsset.urlsReady');
+const URLS_READY = Symbol.for('irtranscripts.imageAsset.urlsReady');
 
 /**
  * Record that `asset`'s URLs are being resolved by `ready`. The property is a non-enumerable symbol, so it is never

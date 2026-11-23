@@ -15,7 +15,7 @@ import {
 	EmployeeSettingDataOperationEnum,
 	IEmployeeSettingDataOperation,
 	IEmployeeSettingDataPatchInput
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../core/dto';
 import {
 	MAX_EMPLOYEE_SETTING_DATA_OPERATIONS,

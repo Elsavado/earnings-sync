@@ -14,7 +14,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
-import { ID, IPagination } from '@gauzy/contracts';
+import { ID, IPagination } from '@irtranscripts/contracts';
 import {
 	AbstractValidationPipe,
 	BaseQueryDTO,
@@ -25,7 +25,7 @@ import {
 	TenantPermissionGuard,
 	UUIDValidationPipe,
 	UseValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { ORDER_PERMISSIONS } from '../order.permissions';
 import { ILineInvoicePosition } from '../order.types';
 import { OrderLineInvoice } from './order-line-invoice.entity';

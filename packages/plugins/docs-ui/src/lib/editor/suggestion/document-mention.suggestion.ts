@@ -3,7 +3,7 @@ import { PluginKey } from '@tiptap/pm/state';
 import { mergeAttributes } from '@tiptap/core';
 import Mention from '@tiptap/extension-mention';
 import { firstValueFrom } from 'rxjs';
-import { DocumentKindEnum } from '@gauzy/contracts';
+import { DocumentKindEnum } from '@irtranscripts/contracts';
 import { DocumentsService } from '../../services/documents.service';
 import { SuggestionHostService } from './suggestion-host.service';
 import { ISuggestionItem } from './suggestion-list.component';

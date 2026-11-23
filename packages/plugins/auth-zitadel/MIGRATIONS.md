@@ -2,7 +2,7 @@
 {
   "MD043": {
     "headings": [
-      "# Migrations of @gauzy/plugin-auth-zitadel",
+      "# Migrations of @irtranscripts/plugin-auth-zitadel",
       "## Properties",
       "## Rollback"
     ]
@@ -10,7 +10,7 @@
 }
 -->
 
-# Migrations of @gauzy/plugin-auth-zitadel
+# Migrations of @irtranscripts/plugin-auth-zitadel
 
 Plugins cannot carry their own migrations yet, so the tables of this plugin
 are created by a migration in core's migration folder. It moves into the
@@ -35,7 +35,7 @@ It creates `zitadel_account`, `zitadel_organization`, `zitadel_session` and
   `organization` take a brief lock on those tables; `lock_timeout` is 10 s,
   and a boot that times out simply retries on the next start.
 - `zitadel_account` and `zitadel_session` reference `user` with
-  `ON DELETE CASCADE`: deleting a Gauzy user deletes that user's Ever ID
+  `ON DELETE CASCADE`: deleting a IRTranscripts user deletes that user's Ever ID
   links and session records with it.
 - The tables exist whether or not the plugin is enabled; they stay empty
   until it is.

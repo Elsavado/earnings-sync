@@ -1,5 +1,5 @@
 import { IntersectionType, PickType } from '@nestjs/swagger';
-import { ITimerToggleInput } from '@gauzy/contracts';
+import { ITimerToggleInput } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from './../../../core/dto';
 import { TimeLog } from '../../time-log/time-log.entity';
 

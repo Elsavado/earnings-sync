@@ -12,11 +12,11 @@ import {
 	ITimeSlot,
 	PermissionsEnum,
 	TimeFormatEnum
-} from '@gauzy/contracts';
-import { TimeLogsLabel, isNotEmpty, progressStatus } from '@gauzy/ui-core/common';
-import { Store, TimesheetService, ToastrService } from '@gauzy/ui-core/core';
+} from '@irtranscripts/contracts';
+import { TimeLogsLabel, isNotEmpty, progressStatus } from '@irtranscripts/ui-core/common';
+import { Store, TimesheetService, ToastrService } from '@irtranscripts/ui-core/core';
 import { ViewTimeLogModalComponent } from '../../view-time-log-modal';
-import { TimeZoneService } from '../../gauzy-filters/timezone-filter';
+import { TimeZoneService } from '../../irtranscripts-filters/timezone-filter';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

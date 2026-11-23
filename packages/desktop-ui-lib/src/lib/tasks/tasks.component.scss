@@ -1,4 +1,4 @@
-@use 'gauzy/_gauzy-dialogs' as *;
+@use 'irtranscripts/_irtranscripts-dialogs' as *;
 
 :host {
   nb-card {
@@ -6,7 +6,7 @@
     margin: auto;
 
     nb-card-body {
-      background-color: var(--gauzy-card-2);
+      background-color: var(--irtranscripts-card-2);
       @include nb-rtl(padding, 0.5rem 1rem 0.5rem 0.5rem);
       @include nb-ltr(padding, 0.5rem 0.5rem 0.5rem 1rem);
 
@@ -99,7 +99,7 @@ h5 {
     img {
       margin-right: 5px;
       border-radius: calc(var(--border-radius) * 2 / 3);
-      box-shadow: var(--gauzy-shadow);
+      box-shadow: var(--irtranscripts-shadow);
     }
   }
 
@@ -142,7 +142,7 @@ input {
 }
 
 [nbInput] {
-  box-shadow: var(--gauzy-shadow) inset;
+  box-shadow: var(--irtranscripts-shadow) inset;
   padding: 10px;
 }
 
@@ -157,12 +157,12 @@ input {
     &:focus,
     &:active,
     &:visited {
-      box-shadow: var(--gauzy-shadow) inset !important;
+      box-shadow: var(--irtranscripts-shadow) inset !important;
     }
   }
 
   .ng-select .ng-select-container {
-    box-shadow: var(--gauzy-shadow) inset !important;
+    box-shadow: var(--irtranscripts-shadow) inset !important;
   }
 
   .ng-select .ng-select-container .ng-value-container {

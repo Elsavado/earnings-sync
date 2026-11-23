@@ -1,7 +1,7 @@
 import * as chalk from 'chalk';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@gauzy/plugin';
-import { InventoryPlugin } from '@gauzy/plugin-inventory';
-import { OrderPlugin } from '@gauzy/plugin-order';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@irtranscripts/plugin';
+import { InventoryPlugin } from '@irtranscripts/plugin-inventory';
+import { OrderPlugin } from '@irtranscripts/plugin-order';
 import { ALL_FULFILLMENT_ENTITIES } from './entities';
 import { FulfillmentModule } from './fulfillment.module';
 import { ALL_FULFILLMENT_MIGRATIONS } from './database/fulfillment-migrations';

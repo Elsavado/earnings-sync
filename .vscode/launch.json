@@ -17,7 +17,7 @@
 			"type": "node",
 			"request": "launch",
 			"name": "Launch Program",
-			"program": "${workspaceFolder}\\start:gauzy",
+			"program": "${workspaceFolder}\\start:irtranscripts",
 			"preLaunchTask": "tsc: build - tsconfig.json",
 			"outFiles": ["${workspaceFolder}/dist/out-tsc/**/*.js"]
 		},

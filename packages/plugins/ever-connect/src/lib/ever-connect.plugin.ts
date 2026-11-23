@@ -1,5 +1,5 @@
-import { GauzyCorePlugin as Plugin } from '@gauzy/plugin';
-import { EverInstance } from '@gauzy/plugin-ever-instance';
+import { IRTranscriptsCorePlugin as Plugin } from '@irtranscripts/plugin';
+import { EverInstance } from '@irtranscripts/plugin-ever-instance';
 import { EVER_CONNECT_ENTITIES } from './entities';
 import {
 	EverConnectOrganizationDeletionSubscriber,
@@ -18,7 +18,7 @@ const entities =
 
 /**
  * Ever Platform connection: connects this installation to Ever Platform with a connect code from
- * app.ever.co, links Gauzy organizations to Ever organizations, and holds the state of each
+ * app.ever.co, links IRTranscripts organizations to Ever organizations, and holds the state of each
  * integration (nothing moves for one unless an administrator consented to it in app.ever.co).
  *
  * Off by default. Loaded only with `EVER_CONNECT_ENABLED=true`; otherwise it is not part of the API
@@ -27,7 +27,7 @@ const entities =
 @Plugin({
 	imports: [EverConnectModule.register()],
 	entities: [...entities],
-	// A deleted Gauzy tenant or organization: its link is removed and its rows go with it.
+	// A deleted IRTranscripts tenant or organization: its link is removed and its rows go with it.
 	subscribers: [EverConnectOrganizationDeletionSubscriber, EverConnectTenantDeletionSubscriber]
 })
 export class EverConnectPlugin {}

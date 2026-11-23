@@ -14,7 +14,7 @@ import {
 	UsePipes
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { DecimalString, IPagination, ID } from '@gauzy/contracts';
+import { DecimalString, IPagination, ID } from '@irtranscripts/contracts';
 import { BaseQueryDTO, CrudController } from '../core/crud';
 import { UUIDValidationPipe, UseValidationPipe, AbstractValidationPipe } from '../shared/pipes';
 import { Permissions } from '../shared/decorators';

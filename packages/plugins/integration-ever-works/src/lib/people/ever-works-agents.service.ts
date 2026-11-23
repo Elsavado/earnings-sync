@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable, Logger, ServiceUnavailableException } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import { DataSource } from 'typeorm';
-import { EmployeeAgentSourceEnum, ID, IAgentEmployeeCreateInput, IEmployeeAgentProfileInput } from '@gauzy/contracts';
-import { Employee, EmployeeAgentProfileService, EmployeeService, User } from '@gauzy/core';
+import { EmployeeAgentSourceEnum, ID, IAgentEmployeeCreateInput, IEmployeeAgentProfileInput } from '@irtranscripts/contracts';
+import { Employee, EmployeeAgentProfileService, EmployeeService, User } from '@irtranscripts/core';
 import { EverWorksApiError } from '../client/ever-works-client';
 import type { EverWorksEventEnvelope, EverWorksListPage } from '../client/ever-works-client.types';
 import { EverWorksConnectionService } from '../connection/ever-works-connection.service';
@@ -53,11 +53,11 @@ export function agentEmailDomain(env: Record<string, string | undefined> = proce
 }
 
 /**
- * Agents (plan 01 §4, G-P1-6): each Ever Works agent of a mapped organization becomes a Gauzy employee of
+ * Agents (plan 01 §4, G-P1-6): each Ever Works agent of a mapped organization becomes a IRTranscripts employee of
  * kind `agent` with an `employee_agent_profile` (`source='ever_works'`, `managedExternally=true`),
  * created through the platform's agent-provisioning path (no password, no welcome email, no invite) and
- * linked as `AGENT`. One way, Ever Works → Gauzy: Ever Works owns its agents; their profile is rewritten
- * from Ever Works on every change, so an edit made in Gauzy does not survive and is never pushed. An
+ * linked as `AGENT`. One way, Ever Works → IRTranscripts: Ever Works owns its agents; their profile is rewritten
+ * from Ever Works on every change, so an edit made in IRTranscripts does not survive and is never pushed. An
  * archived or deleted agent is archived (`isActive=false`, `isArchived=true`), never deleted.
  */
 @Injectable()
@@ -123,13 +123,13 @@ export class EverWorksAgentsService implements EverWorksInboundHandler {
 		const links = (await this.links.list(context.integrationTenantId, EverWorksLinkType.AGENT)).filter((link) => link.state !== EverWorksLinkState.UNLINKED);
 		if (!links.length) return [];
 		const employees = await this.dataSource.getRepository(Employee).find({
-			where: links.map((l) => ({ id: l.gauzyId, tenantId: context.tenantId })),
+			where: links.map((l) => ({ id: l.irtranscriptsId, tenantId: context.tenantId })),
 			withDeleted: true
 		});
 		return links.map((link) => {
 			const snapshot = this.links.snapshot<{ name: string; status: string }>(link);
-			const employee = employees.find((e) => e.id === link.gauzyId);
-			return { ewAgentId: link.ewId, employeeId: link.gauzyId as ID, name: snapshot.name ?? null, status: snapshot.status ?? null, isActive: !!employee?.isActive };
+			const employee = employees.find((e) => e.id === link.irtranscriptsId);
+			return { ewAgentId: link.ewId, employeeId: link.irtranscriptsId as ID, name: snapshot.name ?? null, status: snapshot.status ?? null, isActive: !!employee?.isActive };
 		});
 	}
 
@@ -157,7 +157,7 @@ export class EverWorksAgentsService implements EverWorksInboundHandler {
 						organizationId: context.organizationId,
 						integrationTenantId: context.integrationTenantId,
 						entityType: EverWorksLinkType.AGENT,
-						gauzyId: link.gauzyId as ID,
+						irtranscriptsId: link.irtranscriptsId as ID,
 						ewId: envelope.aggregate.id,
 						ewVersion: version,
 						direction: 'inbound',
@@ -173,7 +173,7 @@ export class EverWorksAgentsService implements EverWorksInboundHandler {
 		if (!link || link.state === EverWorksLinkState.UNLINKED) {
 			// An agent not linked yet, or ended as private (any event newer than its tombstone: shared again, a resync),
 			// is read from Ever Works first and applied as it is now. Ever Works never answers a private agent, so an
-			// event or list entry older than a private notice Gauzy had nothing to end for never brings it in.
+			// event or list entry older than a private notice IRTranscripts had nothing to end for never brings it in.
 			const current = await this.fetchAgent(context, envelope.aggregate.id);
 			if (!current) return { status: 'skipped', message: 'the agent is not visible in Ever Works (private or gone)' };
 			if (current.visibility !== undefined && !isSyncedVisibility(current.visibility)) {
@@ -214,7 +214,7 @@ export class EverWorksAgentsService implements EverWorksInboundHandler {
 			status: archived ? 'archived' : agent.status,
 			scope: agent.scope,
 			scopeTargetId: agent.scopeTargetId,
-			reportsToEmployeeId: (reportsTo?.gauzyId as ID) ?? null,
+			reportsToEmployeeId: (reportsTo?.irtranscriptsId as ID) ?? null,
 			modelId: agent.modelId ?? null,
 			avatarUrl: imageUrl ?? null,
 			lastRunAt: agent.lastRunAt ? new Date(agent.lastRunAt) : null,
@@ -222,7 +222,7 @@ export class EverWorksAgentsService implements EverWorksInboundHandler {
 			externalUrl: agent.webUrl && /^https:\/\//.test(agent.webUrl) ? agent.webUrl : null
 		} as unknown as Partial<IEmployeeAgentProfileInput>;
 		let employee: Employee | null = link
-			? await this.dataSource.getRepository(Employee).findOne({ where: { id: link.gauzyId, tenantId: context.tenantId }, withDeleted: true })
+			? await this.dataSource.getRepository(Employee).findOne({ where: { id: link.irtranscriptsId, tenantId: context.tenantId }, withDeleted: true })
 			: null;
 		let created = false;
 		if (!employee) {
@@ -253,7 +253,7 @@ export class EverWorksAgentsService implements EverWorksInboundHandler {
 			organizationId: context.organizationId,
 			integrationTenantId: context.integrationTenantId,
 			entityType: EverWorksLinkType.AGENT,
-			gauzyId: employeeId,
+			irtranscriptsId: employeeId,
 			ewId: agent.id,
 			ewVersion: agent.version ?? null,
 			ewUpdatedAt: agent.updatedAt ?? null,

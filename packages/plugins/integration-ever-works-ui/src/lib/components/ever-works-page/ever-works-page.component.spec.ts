@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject, of, Subject, throwError } from 'rxjs';
-import { Store } from '@gauzy/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
 import { EverWorksMapping, EverWorksStatus, EverWorksUiService } from '../../services/ever-works.service';
 import { Router } from '@angular/router';
 import { EVER_WORKS_NEW_KEY_PATH, EVER_WORKS_WEBHOOK_WARNING, EverWorksPageComponent, webhookWarningOf } from './ever-works-page.component';

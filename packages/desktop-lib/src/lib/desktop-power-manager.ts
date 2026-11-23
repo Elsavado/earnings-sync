@@ -1,4 +1,4 @@
-import { logger } from '@gauzy/desktop-core';
+import { logger } from '@irtranscripts/desktop-core';
 import { BrowserWindow, powerMonitor } from 'electron';
 import { TrackingSleep } from './contexts';
 import { LocalStore } from './desktop-store';

@@ -11,7 +11,7 @@
 		font-weight: 500;
 		line-height: 1rem;
 		letter-spacing: -0.009em;
-		color: nb-theme(gauzy-text-color-2);
+		color: nb-theme(irtranscripts-text-color-2);
 		margin-bottom: 0.375rem;
 	}
 
@@ -20,12 +20,12 @@
 		font-weight: 400;
 		line-height: 2rem;
 		letter-spacing: 0em;
-		color: nb-theme(gauzy-text-color-1);
+		color: nb-theme(irtranscripts-text-color-1);
 		margin-bottom: 0;
 	}
 
 	.block-amount {
-		color: var(--gauzy-action-success-text);
+		color: var(--irtranscripts-action-success-text);
 		font-weight: 500;
 	}
 }

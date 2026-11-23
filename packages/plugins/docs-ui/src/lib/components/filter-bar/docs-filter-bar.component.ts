@@ -8,8 +8,8 @@ import {
 	DocumentStatusEnum,
 	ID,
 	ITag
-} from '@gauzy/contracts';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/contracts';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { DocsPresetCounts } from '../../+state/documents.store';
 import { DOCS_CONTENT_SEARCH_MIN_CHARS } from '../../docs.constants';
 import { IDocumentFacetBucket, IDocumentFacets } from '../../models/docs-api.model';

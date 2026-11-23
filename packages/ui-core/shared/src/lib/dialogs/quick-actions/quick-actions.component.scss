@@ -30,7 +30,7 @@
     grid-template-columns: repeat(3, 1fr);
 
     .group-container {
-        background: var(--gauzy-card-2);
+        background: var(--irtranscripts-card-2);
         padding: 10px 20px;
         border-radius: var(--border-radius);
         margin: 0.5rem;
@@ -38,7 +38,7 @@
         .group-header {
             font-weight: bold;
             font-size: 1rem;
-            color: var(--gauzy-text-color-2);
+            color: var(--irtranscripts-text-color-2);
             margin-top: 0.5rem;
         }
     }

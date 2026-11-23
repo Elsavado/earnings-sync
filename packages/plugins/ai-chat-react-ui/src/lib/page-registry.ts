@@ -1,19 +1,19 @@
-import { PermissionsEnum } from '@gauzy/contracts';
-import { IAgentPageInfo } from '@gauzy/ui-core/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { IAgentPageInfo } from '@irtranscripts/ui-core/core';
 
 /**
- * Curated registry of Gauzy pages the AI agent can open ("canvas" navigation).
+ * Curated registry of IRTranscripts pages the AI agent can open ("canvas" navigation).
  *
  * Every `path` is grounded in the real route tree built by
- * `apps/gauzy/src/app/pages/pages.routes.ts` (plus the per-feature routing
+ * `apps/irtranscripts/src/app/pages/pages.routes.ts` (plus the per-feature routing
  * modules it lazy-loads and the plugin routes registered at bootstrap, e.g.
  * the Jobs plugins). Titles and permission keys mirror the main navigation
- * menu (`BaseNavMenuComponent` in `@gauzy/ui-core/core`).
+ * menu (`BaseNavMenuComponent` in `@irtranscripts/ui-core/core`).
  *
  * Only parameterless list/overview pages are listed — routes that require an
  * `:id` segment (edit/view pages) are intentionally omitted.
  */
-export const GAUZY_PAGE_REGISTRY: IAgentPageInfo[] = [
+export const IRTRANSCRIPTS_PAGE_REGISTRY: IAgentPageInfo[] = [
 	// ── Dashboard & time tracking ────────────────────────────────
 	{
 		path: '/pages/dashboard',

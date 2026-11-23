@@ -37,7 +37,7 @@ const API_ACTIONS: Record<string, string> = { CREATED: 'Created', UPDATED: 'Upda
 const toApiAction = (action: string) => {
 	const apiAction = API_ACTIONS[action];
 	if (!apiAction) {
-		throw new Error(`The Gauzy API logs only the CREATED, UPDATED and DELETED actions, not ${action}.`);
+		throw new Error(`The IRTranscripts API logs only the CREATED, UPDATED and DELETED actions, not ${action}.`);
 	}
 	return apiAction;
 };
@@ -342,7 +342,7 @@ export const registerActivityLogTools = (server: McpServer) => {
 		async () => {
 			try {
 				throw new Error(
-					'The Gauzy API only lists activity logs. Use get_activity_logs or get_activity_logs_by_entity.'
+					'The IRTranscripts API only lists activity logs. Use get_activity_logs or get_activity_logs_by_entity.'
 				);
 			} catch (error) {
 				logger.error('Error fetching activity log:', sanitizeForLogging(error));
@@ -377,7 +377,7 @@ export const registerActivityLogTools = (server: McpServer) => {
 		},
 		async () => {
 			try {
-				throw new Error('The Gauzy API records activity logs itself and has no route to create one.');
+				throw new Error('The IRTranscripts API records activity logs itself and has no route to create one.');
 			} catch (error) {
 				logger.error('Error creating activity log:', sanitizeForLogging(error));
 				throw new Error(`Failed to create activity log: ${sanitizeErrorMessage(error)}`);
@@ -660,7 +660,7 @@ export const registerActivityLogTools = (server: McpServer) => {
 					throw new Error('Deletion not confirmed. Set confirm parameter to true to proceed.');
 				}
 
-				throw new Error('The Gauzy API keeps activity logs and has no route to delete them.');
+				throw new Error('The IRTranscripts API keeps activity logs and has no route to delete them.');
 			} catch (error) {
 				logger.error('Error deleting activity logs:', sanitizeForLogging(error));
 				throw new Error(`Failed to delete activity logs: ${sanitizeErrorMessage(error)}`);

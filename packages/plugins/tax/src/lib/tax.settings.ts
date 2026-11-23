@@ -1,4 +1,4 @@
-import { PluginSettingContribution } from '@gauzy/plugin';
+import { PluginSettingContribution } from '@irtranscripts/plugin';
 
 /**
  * The settings the tax plugin reads.

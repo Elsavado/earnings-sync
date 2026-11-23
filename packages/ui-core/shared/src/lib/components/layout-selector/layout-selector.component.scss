@@ -9,12 +9,12 @@
 }
 
 [nbButton].primary.size-small.icon-start.icon-end.appearance-filled {
-  box-shadow:  var(--gauzy-shadow) inset;
+  box-shadow:  var(--irtranscripts-shadow) inset;
   background: rgba(126, 126, 143, 1);
   color: white;
 }
 
 [nbButton].basic.size-small.icon-start.icon-end.appearance-filled{
-  box-shadow:  var(--gauzy-shadow);
-  background: var(--gauzy-card-2);
+  box-shadow:  var(--irtranscripts-shadow);
+  background: var(--irtranscripts-card-2);
 }

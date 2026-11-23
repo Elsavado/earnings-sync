@@ -1,4 +1,4 @@
-import { IOptionsSelect } from '@gauzy/contracts';
+import { IOptionsSelect } from '@irtranscripts/contracts';
 
 export class ServerSourceConf {
 	protected static readonly SORT_FIELD_KEY = 'orderBy';

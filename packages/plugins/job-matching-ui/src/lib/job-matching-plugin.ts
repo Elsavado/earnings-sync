@@ -1,5 +1,5 @@
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PluginRouteInput, PluginUiDefinition } from '@gauzy/plugin-ui';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PluginRouteInput, PluginUiDefinition } from '@irtranscripts/plugin-ui';
 import { JobMatchingModule } from './job-matching.module';
 import { JOB_MATCHING_PAGE_ROUTE } from './job-matching.routes';
 

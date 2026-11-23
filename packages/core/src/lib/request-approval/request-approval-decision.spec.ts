@@ -1,5 +1,5 @@
 import { ConflictException, ForbiddenException } from '@nestjs/common';
-import { RequestApprovalStatusTypesEnum } from '@gauzy/contracts';
+import { RequestApprovalStatusTypesEnum } from '@irtranscripts/contracts';
 import {
 	answerRequestApproval,
 	IAnswerableRequestApproval,

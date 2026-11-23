@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { firstValueFrom, Observable } from 'rxjs';
-import { IUser } from '@gauzy/contracts';
+import { IUser } from '@irtranscripts/contracts';
 import { ErrorHandlingService, UsersService } from '../services';
 import { OnboardingResolver } from './onboarding.resolver';
 

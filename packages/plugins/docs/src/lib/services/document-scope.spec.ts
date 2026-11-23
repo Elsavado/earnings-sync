@@ -11,7 +11,7 @@
  * 3. `canWrite` was unit-tested but called from no production path, so a `VIEW`-share grantee
  *    could mutate a document they were only allowed to read.
  *
- * `@gauzy/core` boots the whole application graph on import, so the framework seams are mocked
+ * `@irtranscripts/core` boots the whole application graph on import, so the framework seams are mocked
  * at the module boundary; the service under test is the real one.
  */
 const sanitizeRichHtmlMock = jest.fn((html: string) => `sanitized(${html})`);
@@ -24,7 +24,7 @@ const requestContext = {
 	permissions: [] as string[]
 };
 
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	FavoriteService: () => () => undefined,
 	EventBus: class {},
 	MentionService: class {},
@@ -50,7 +50,7 @@ jest.mock('@gauzy/core', () => ({
 	// Mock drift, found while working on TASK 9 of the improvement roadmap: `document.service.ts`
 	// calls the real `parseFindOptionsRelations` (converts the legacy string-array `relations`
 	// form TypeORM >= 1.0 rejects into its object form — see the big comment on
-	// `findOneWithinScope`), but this hand-written `@gauzy/core` mock never grew that export, so
+	// `findOneWithinScope`), but this hand-written `@irtranscripts/core` mock never grew that export, so
 	// EVERY call to `findOneScoped(id, ['parent' | 'children'])` threw `... is not a function`
 	// before reaching the fake repository — the three "joined relations are scoped too" tests
 	// below never actually ran the scoping logic they exist to pin. This is a simplified replica
@@ -71,7 +71,7 @@ jest.mock('./document-settings.service', () => ({ DocumentSettingsService: class
 jest.mock('../dto', () => ({}));
 
 import { BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
-import { BaseEntityEnum, DocumentVisibilityEnum, PermissionsEnum } from '@gauzy/contracts';
+import { BaseEntityEnum, DocumentVisibilityEnum, PermissionsEnum } from '@irtranscripts/contracts';
 import { DOCS_ORGANIZATION_REQUIRED, DOCS_WRITE_FORBIDDEN } from '../docs.constants';
 import { DocumentService } from './document.service';
 

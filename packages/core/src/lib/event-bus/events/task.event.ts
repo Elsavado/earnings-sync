@@ -1,4 +1,4 @@
-import { ITaskCreateInput, ITaskUpdateInput } from '@gauzy/contracts';
+import { ITaskCreateInput, ITaskUpdateInput } from '@irtranscripts/contracts';
 import { RequestContext } from '../../core/context';
 import { Task } from '../../core/entities/internal';
 import { BaseEntityEvent, BaseEntityEventType } from '../base-entity-event';

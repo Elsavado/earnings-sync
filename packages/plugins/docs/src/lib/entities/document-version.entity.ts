@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDateString, IsNotEmpty, IsOptional, IsString, IsUUID, MaxLength } from 'class-validator';
 import { JoinColumn, RelationId } from 'typeorm';
-import { ID, IDocument, IDocumentVersion, IEmployee, JsonData } from '@gauzy/contracts';
+import { ID, IDocument, IDocumentVersion, IEmployee, JsonData } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	Employee,
@@ -9,7 +9,7 @@ import {
 	MultiORMEntity,
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { MikroOrmDocumentVersionRepository } from '../repositories/mikro-orm-document-version.repository';
 import { binaryColumnType, jsonColumnType } from './column-types';
 import { Document } from './document.entity';

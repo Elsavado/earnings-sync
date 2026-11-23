@@ -2,8 +2,8 @@ import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, 
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { CommandBus } from "@nestjs/cqrs";
 import { DeleteResult, FindOptionsWhere } from "typeorm";
-import { Public } from "@gauzy/common";
-import { ID, IPagination } from "@gauzy/contracts";
+import { Public } from "@irtranscripts/common";
+import { ID, IPagination } from "@irtranscripts/contracts";
 import { UseValidationPipe, UUIDValidationPipe } from "../shared/pipes";
 import { TenantPermissionGuard } from "../shared/guards";
 import { BaseQueryDTO, CrudController } from "../core/crud";

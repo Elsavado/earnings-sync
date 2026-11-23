@@ -2,7 +2,7 @@ import { CommandHandler, ICommandHandler, EventBus } from '@nestjs/cqrs';
 import { Injectable } from '@nestjs/common';
 import { StopTimerCommand } from '../../commands';
 import { TimerStoppedEvent } from '../../events';
-import { ITimeLog } from '@gauzy/contracts';
+import { ITimeLog } from '@irtranscripts/contracts';
 import { TimerService } from '../../timer.service';
 
 @Injectable()

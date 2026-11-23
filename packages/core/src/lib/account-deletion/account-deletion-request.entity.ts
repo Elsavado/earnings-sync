@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-import { IAccountDeletionRequest } from '@gauzy/contracts';
+import { IAccountDeletionRequest } from '@irtranscripts/contracts';
 import { BaseEntity } from '../core/entities/base.entity';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity } from '../core/decorators/entity';
 import { ExportRedacted } from '../export-import/export-redact.decorator';

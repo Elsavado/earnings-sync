@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
-import { IPagination, IOrder, OrderChangeType } from '@gauzy/contracts';
+import { IPagination, IOrder, OrderChangeType } from '@irtranscripts/contracts';
 import {
 	AbstractValidationPipe,
 	BaseQueryDTO,
@@ -29,7 +29,7 @@ import {
 	UseValidationPipe,
 	Versioned,
 	versionExpectationOf
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { Order } from './order.entity';
 import { IOrderApprovalRequested, OrderService } from './order.service';
 import { ORDER_PERMISSIONS } from '../order.permissions';

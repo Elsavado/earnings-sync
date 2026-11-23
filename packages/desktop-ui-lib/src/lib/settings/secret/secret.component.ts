@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, NgZone, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { IDesktopSecret } from '@gauzy/contracts';
+import { IDesktopSecret } from '@irtranscripts/contracts';
 import { ElectronService } from '../../electron/services/electron/electron.service';
 import { NbCardModule, NbToggleModule, NbIconModule, NbTooltipModule, NbInputModule, NbButtonModule } from '@nebular/theme';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-    selector: 'gauzy-secret',
+    selector: 'irtranscripts-secret',
     templateUrl: './secret.component.html',
     styleUrls: ['./secret.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,

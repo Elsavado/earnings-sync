@@ -1,5 +1,5 @@
 import { AbstractControl, ValidatorFn } from '@angular/forms';
-import { isNotEmpty } from '@gauzy/ui-core/common';
+import { isNotEmpty } from '@irtranscripts/ui-core/common';
 
 /**
  * custom validator to check that two fields match

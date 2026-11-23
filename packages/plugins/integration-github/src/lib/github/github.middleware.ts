@@ -2,9 +2,9 @@ import { Inject, Injectable, Logger, NestMiddleware } from '@nestjs/common';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { Request, Response, NextFunction } from 'express';
-import { IIntegrationSetting, IntegrationEnum } from '@gauzy/contracts';
-import { IntegrationTenantService } from '@gauzy/core';
-import { arrayToObject, isNotEmpty } from '@gauzy/utils';
+import { IIntegrationSetting, IntegrationEnum } from '@irtranscripts/contracts';
+import { IntegrationTenantService } from '@irtranscripts/core';
+import { arrayToObject, isNotEmpty } from '@irtranscripts/utils';
 
 /**
  * A request-supplied value as one bounded log fragment: line breaks and other control characters
@@ -55,7 +55,7 @@ export class GithubMiddleware implements NestMiddleware {
 						let integrationTenantSettings: IIntegrationSetting[] = await this.cacheManager.get(cacheKey);
 
 						if (!integrationTenantSettings) {
-							this.logger.debug(`Gauzy integration settings not in cache for ${scope}`);
+							this.logger.debug(`IRTranscripts integration settings not in cache for ${scope}`);
 
 							const fromDb = await this._integrationTenantService.findOneByIdString(integrationId, {
 								where: {
@@ -79,10 +79,10 @@ export class GithubMiddleware implements NestMiddleware {
 								const ttl = 5 * 60 * 1000; // 5 min caching period for GitHub Integration Tenant Settings
 								await this.cacheManager.set(cacheKey, integrationTenantSettings, ttl);
 
-								this.logger.debug(`Gauzy integration settings loaded from DB and cached for ${scope}`);
+								this.logger.debug(`IRTranscripts integration settings loaded from DB and cached for ${scope}`);
 							}
 						} else {
-							this.logger.debug(`Gauzy integration settings loaded from cache for ${scope}`);
+							this.logger.debug(`IRTranscripts integration settings loaded from cache for ${scope}`);
 						}
 
 						if (integrationTenantSettings && integrationTenantSettings.length > 0) {

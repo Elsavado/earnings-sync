@@ -1,5 +1,5 @@
 import { NotFoundException } from '@nestjs/common';
-import { ID, PermissionsEnum } from '@gauzy/contracts';
+import { ID, PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../context';
 
 /** A record that records who uploaded it, rather than which employee it belongs to. */

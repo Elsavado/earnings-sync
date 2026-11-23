@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IUser } from '@gauzy/contracts';
+import { IUser } from '@irtranscripts/contracts';
 import { NbDialogRef } from '@nebular/theme';
 import { Subject, takeUntil } from 'rxjs';
 import { PluginSubscriptionAccessFacade } from '../../+state/plugin-subscription-access.facade';
 
 @Component({
-	selector: 'gauzy-plugin-user-assignment-dialog',
+	selector: 'irtranscripts-plugin-user-assignment-dialog',
 	templateUrl: './plugin-user-assignment-dialog.component.html',
 	styleUrls: ['./plugin-user-assignment-dialog.component.scss'],
 	changeDetection: ChangeDetectionStrategy.Eager,

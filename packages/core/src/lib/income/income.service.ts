@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { FindManyOptions, Between, In, Raw } from 'typeorm';
 import * as moment from 'moment';
-import { BaseEntityEnum, ID, IDateRangePicker, IIncome, IPagination } from '@gauzy/contracts';
+import { BaseEntityEnum, ID, IDateRangePicker, IIncome, IPagination } from '@irtranscripts/contracts';
 import { BaseQueryDTO, TenantAwareCrudService } from './../core/crud';
 import { LIKE_OPERATOR } from '../core/util';
 import { Income } from './income.entity';

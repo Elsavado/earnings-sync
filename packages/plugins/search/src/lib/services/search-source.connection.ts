@@ -1,7 +1,7 @@
 import { Injectable, Logger, Optional } from '@nestjs/common';
 import { MikroORM } from '@mikro-orm/core';
 import { DataSource, EntityMetadata, In, MoreThanOrEqual } from 'typeorm';
-import { getORMType, MultiORMEnum } from '@gauzy/core';
+import { getORMType, MultiORMEnum } from '@irtranscripts/core';
 import { SearchSourceRow } from './search-document.builder';
 
 /**

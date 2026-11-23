@@ -8,7 +8,7 @@ import {
 	IPagination,
 	PermissionsEnum,
 	RequestApprovalStatusTypesEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { CrudController, BaseQueryDTO } from './../core/crud';
 import { EquipmentSharing } from './equipment-sharing.entity';
 import { EquipmentSharingService } from './equipment-sharing.service';

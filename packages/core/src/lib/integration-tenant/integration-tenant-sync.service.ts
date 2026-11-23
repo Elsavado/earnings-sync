@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException, OnModuleInit, Optional } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
 import { EntityManager as MikroOrmEntityManager } from '@mikro-orm/core';
-import { ID, IOutboxWriteInput } from '@gauzy/contracts';
+import { ID, IOutboxWriteInput } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context/request-context';
 import { MultiORMEnum, convertTypeORMWhereToMikroORM, getORMType } from '../core/utils';
 import { EventOutboxService } from '../event-outbox/event-outbox.service';

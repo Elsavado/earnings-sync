@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { AuditQueueService } from '@gauzy/desktop-lib';
+import { AuditQueueService } from '@irtranscripts/desktop-lib';
 export type AuditStatus = 'waiting' | 'running' | 'succeeded' | 'failed' | 'cancelled';
 import AppWindow from '../window-manager';
 

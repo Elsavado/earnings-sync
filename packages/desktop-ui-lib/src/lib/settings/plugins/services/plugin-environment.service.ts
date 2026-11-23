@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { IPlugin, PluginType } from '@gauzy/contracts';
+import { IPlugin, PluginType } from '@irtranscripts/contracts';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrNotificationService } from '../../../services/toastr-notification.service';
 import { PluginElectronService } from './plugin-electron.service';

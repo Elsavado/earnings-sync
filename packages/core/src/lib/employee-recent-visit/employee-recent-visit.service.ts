@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { EventBus } from '@nestjs/cqrs';
 import { FindOptionsWhere } from 'typeorm';
-import { BaseEntityEnum, ID, IEmployeeRecentVisit, IPagination } from '@gauzy/contracts';
+import { BaseEntityEnum, ID, IEmployeeRecentVisit, IPagination } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { TenantAwareCrudService } from '../core/crud';
 import { EmployeeRecentVisitEvent } from './events/employee-recent-visit.event';

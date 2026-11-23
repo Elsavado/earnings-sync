@@ -11,15 +11,15 @@
  * installation **without** the marketplace (the worker's), and one **with** it (the API's), where the marketplace's
  * tick runs first and the owners' ticks must be no-ops.
  */
-jest.mock('@gauzy/config', () => jest.requireActual('@gauzy/config/src/lib/database-helpers'));
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/config', () => jest.requireActual('@irtranscripts/config/src/lib/database-helpers'));
+jest.mock('@irtranscripts/core', () => ({
 	// Only the PostgreSQL and MySQL branches state constraints; the embedded branch never calls it.
 	addCheckConstraint: async () => undefined
 }));
 
 import 'reflect-metadata';
 import { DataSource, MigrationInterface, QueryRunner } from 'typeorm';
-import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@gauzy/config';
+import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@irtranscripts/config';
 import { CreateAdjustmentTables1791000000060 } from '../../../../../core/src/lib/database/migrations/1791000000060-CreateAdjustmentTables';
 import { AddAdjustmentSellerColumns1791000000651 } from '../../../../../core/src/lib/database/migrations/1791000000651-AddAdjustmentSellerColumns';
 import { CreatePricingTables1791000000120 } from '../../../../pricing/src/lib/database/migrations/1791000000120-CreatePricingTables';

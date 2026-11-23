@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DailyStatisticsComponent } from './daily-statistics.component';
 import { DailyStatisticsModule } from '../daily-statistics.module';
-import { EmployeesService } from '@gauzy/ui-core/core';
+import { EmployeesService } from '@irtranscripts/ui-core/core';
 describe('DailyStatisticsComponent', () => {
 	let component: DailyStatisticsComponent;
 	let fixture: ComponentFixture<DailyStatisticsComponent>;

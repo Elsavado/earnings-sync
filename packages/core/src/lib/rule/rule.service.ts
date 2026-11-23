@@ -9,7 +9,7 @@ import {
 	RuleOwnerType,
 	RuleScope,
 	RuleValueType
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { CrudService } from '../core/crud/crud.service';
 import { RequestContext } from '../core/context/request-context';
 import { Rule } from './rule.entity';

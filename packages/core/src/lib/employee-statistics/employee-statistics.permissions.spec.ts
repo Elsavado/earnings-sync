@@ -6,8 +6,8 @@ import '../core/entities/internal';
 
 import { ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { ID, PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { ID, PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { DEFAULT_ROLE_PERMISSIONS } from '../role-permission/default-role-permissions';
 import { PermissionGuard } from '../shared/guards/permission.guard';

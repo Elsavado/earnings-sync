@@ -35,7 +35,7 @@ describe('Ever Cloud confirmed sign-up (HTTP, against a mock OpenID Provider)', 
 			const unconfirmed = await browser.post(`${t.baseUrl}/api/auth/zitadel/signup`, { handoff, confirm: false });
 			expect(unconfirmed.status).toBe(400);
 			expect(t.accounts.users).toHaveLength(0);
-			expect(t.gauzyAuth.registered).toHaveLength(0);
+			expect(t.irtranscriptsAuth.registered).toHaveLength(0);
 		});
 
 		it('creates exactly one account and one sign-up link after the confirmation', async () => {
@@ -46,7 +46,7 @@ describe('Ever Cloud confirmed sign-up (HTTP, against a mock OpenID Provider)', 
 			expect(created.status).toBe(200);
 			const response = await created.json();
 			expect(response.total_workspaces).toBe(1);
-			expect(t.gauzyAuth.registered).toEqual([{ user: { email: 'new.person@example.test', firstName: 'Ann', lastName: 'Person' } }]);
+			expect(t.irtranscriptsAuth.registered).toEqual([{ user: { email: 'new.person@example.test', firstName: 'Ann', lastName: 'Person' } }]);
 			expect(t.accounts.users).toHaveLength(1);
 			expect(t.accounts.users[0].emailVerifiedAt).toBeInstanceOf(Date);
 			expect(t.accounts.links).toEqual([expect.objectContaining({ linkMethod: 'signup', userId: t.accounts.users[0].id })]);
@@ -82,10 +82,10 @@ describe('Ever Cloud confirmed sign-up (HTTP, against a mock OpenID Provider)', 
 			const later = await signIn('buyer', { email: 'buyer@example.test' });
 			expect(later).toMatch('/#/auth/ever-id?handoff=');
 			expect(t.accounts.users).toHaveLength(1);
-			expect(t.gauzyAuth.registered).toHaveLength(1);
+			expect(t.irtranscriptsAuth.registered).toHaveLength(1);
 		});
 
-		it('requires every document Gauzy currently requires before creating anything', async () => {
+		it('requires every document IRTranscripts currently requires before creating anything', async () => {
 			const terms = { documentId: 'terms', version: '2', sha256: 'a'.repeat(64), locale: 'en' };
 			const privacy = { documentId: 'privacy', version: '1', sha256: 'b'.repeat(64), locale: 'en' };
 			t.terms.required = [terms, privacy].map((document) => ({ ...document, url: '/legal', title: document.documentId }) as never);
@@ -102,11 +102,11 @@ describe('Ever Cloud confirmed sign-up (HTTP, against a mock OpenID Provider)', 
 				terms: [{ ...terms, version: '1' }, privacy]
 			});
 			expect(olderVersion.status).toBe(400);
-			expect(t.gauzyAuth.registered).toHaveLength(0);
+			expect(t.irtranscriptsAuth.registered).toHaveLength(0);
 
 			const accepted = await browser.post(`${t.baseUrl}/api/auth/zitadel/signup`, { handoff, confirm: true, terms: [terms, privacy] });
 			expect(accepted.status).toBe(200);
-			expect(t.gauzyAuth.registered).toEqual([expect.objectContaining({ terms: [terms, privacy] })]);
+			expect(t.irtranscriptsAuth.registered).toEqual([expect.objectContaining({ terms: [terms, privacy] })]);
 		});
 
 		it('keeps a confirmed sign-up resumable when a step fails, and never registers twice', async () => {
@@ -115,19 +115,19 @@ describe('Ever Cloud confirmed sign-up (HTTP, against a mock OpenID Provider)', 
 
 			const failed = await browser.post(`${t.baseUrl}/api/auth/zitadel/signup`, { handoff: hashParam(landing, 'handoff'), confirm: true });
 			expect(failed.status).toBe(500);
-			expect(t.gauzyAuth.registered).toHaveLength(1);
+			expect(t.irtranscriptsAuth.registered).toHaveLength(1);
 			expect(t.accounts.links).toHaveLength(0);
 			failOnce.mockRestore();
 
 			// The next Ever ID sign-in finishes the sign-up with the account that already exists.
 			const back = await signIn('new-person', { email: 'new.person@example.test' });
 			expect(back).toMatch(`${TEST_CLIENT_BASE_URL}/#/auth/ever-id?handoff=`);
-			expect(t.gauzyAuth.registered).toHaveLength(1);
+			expect(t.irtranscriptsAuth.registered).toHaveLength(1);
 			expect(t.accounts.users).toHaveLength(1);
 			expect(t.accounts.links).toEqual([expect.objectContaining({ linkMethod: 'signup', userId: t.accounts.users[0].id })]);
 		});
 
-		it('answers signup_required on the token route for a person new to Gauzy', async () => {
+		it('answers signup_required on the token route for a person new to IRTranscripts', async () => {
 			const idToken = await t.issuer.sign(t.issuer.idTokenClaims('teams-person', { aud: 'teams-web', azp: 'teams-web' }));
 			const response = await browser.post(`${t.baseUrl}/api/auth/zitadel/token`, { id_token: idToken });
 			expect(response.status).toBe(404);
@@ -147,7 +147,7 @@ describe('Ever Cloud confirmed sign-up (HTTP, against a mock OpenID Provider)', 
 				url,
 				effectiveDate: '2026-08-02'
 			});
-			t.terms.required = [document('tos:gauzy', '/legal/tos'), document('privacy:gauzy', '/legal/privacy')];
+			t.terms.required = [document('tos:irtranscripts', '/legal/tos'), document('privacy:irtranscripts', '/legal/privacy')];
 			const landing = await signIn('new-person', { email: 'new.person@example.test' });
 
 			const details = await browser.post(
@@ -158,8 +158,8 @@ describe('Ever Cloud confirmed sign-up (HTTP, against a mock OpenID Provider)', 
 			expect(details.status).toBe(200);
 			const { terms } = await details.json();
 			expect(terms).toEqual([
-				{ ...document('tos:gauzy', ''), url: `${TEST_CLIENT_BASE_URL}/#/legal/terms` },
-				{ ...document('privacy:gauzy', ''), url: `${TEST_CLIENT_BASE_URL}/#/legal/privacy` }
+				{ ...document('tos:irtranscripts', ''), url: `${TEST_CLIENT_BASE_URL}/#/legal/terms` },
+				{ ...document('privacy:irtranscripts', ''), url: `${TEST_CLIENT_BASE_URL}/#/legal/privacy` }
 			]);
 			expect(t.terms.locales).toEqual(['fr']);
 		});
@@ -168,7 +168,7 @@ describe('Ever Cloud confirmed sign-up (HTTP, against a mock OpenID Provider)', 
 			const landing = await signIn('new-person', { email: 'new.person@example.test' });
 			const handoff = hashParam(landing, 'handoff');
 			const pause = manualPause();
-			t.gauzyAuth.beforeRegister = pause.wait;
+			t.irtranscriptsAuth.beforeRegister = pause.wait;
 
 			const first = browser.post(`${t.baseUrl}/api/auth/zitadel/signup`, { handoff, confirm: true });
 			await pause.reached;
@@ -182,7 +182,7 @@ describe('Ever Cloud confirmed sign-up (HTTP, against a mock OpenID Provider)', 
 
 			pause.release();
 			expect((await first).status).toBe(200);
-			expect(t.gauzyAuth.registered).toHaveLength(1);
+			expect(t.irtranscriptsAuth.registered).toHaveLength(1);
 			expect((await browser.post(`${t.baseUrl}/api/auth/zitadel/signup`, { handoff, confirm: true })).status).toBe(410);
 			expect((await browser.post(`${t.baseUrl}/api/auth/zitadel/signup/details`, { handoff })).status).toBe(410);
 		});
@@ -192,7 +192,7 @@ describe('Ever Cloud confirmed sign-up (HTTP, against a mock OpenID Provider)', 
 			const keyB = hashParam(await signIn('new-person', { email: 'new.person@example.test' }), 'handoff');
 			expect(keyA).not.toBe(keyB);
 			const pause = manualPause();
-			t.gauzyAuth.beforeRegister = pause.wait;
+			t.irtranscriptsAuth.beforeRegister = pause.wait;
 
 			const first = browser.post(`${t.baseUrl}/api/auth/zitadel/signup`, { handoff: keyA, confirm: true });
 			await pause.reached;
@@ -205,7 +205,7 @@ describe('Ever Cloud confirmed sign-up (HTTP, against a mock OpenID Provider)', 
 			const later = await browser.post(`${t.baseUrl}/api/auth/zitadel/signup`, { handoff: keyB, confirm: true });
 			expect(later.status).toBe(200);
 			expect((await later.json()).total_workspaces).toBe(1);
-			expect(t.gauzyAuth.registered).toHaveLength(1);
+			expect(t.irtranscriptsAuth.registered).toHaveLength(1);
 			expect(t.accounts.users).toHaveLength(1);
 			expect(t.accounts.links).toHaveLength(1);
 		});
@@ -219,7 +219,7 @@ describe('Ever Cloud confirmed sign-up (HTTP, against a mock OpenID Provider)', 
 
 			const again = await browser.post(`${t.baseUrl}/api/auth/zitadel/signup`, { handoff: keyB, confirm: true });
 			expect(again.status).toBe(200);
-			expect(t.gauzyAuth.registered).toHaveLength(1);
+			expect(t.irtranscriptsAuth.registered).toHaveLength(1);
 			expect(t.accounts.users).toHaveLength(1);
 			expect(t.accounts.links).toEqual([expect.objectContaining({ linkMethod: 'signup', userId: t.accounts.users[0].id })]);
 		});
@@ -244,7 +244,7 @@ describe('Ever Cloud confirmed sign-up (HTTP, against a mock OpenID Provider)', 
 
 			const other = hashParam(await signIn('other-person', { email: 'other.person@example.test' }), 'handoff');
 			expect((await browser.post(`${t.baseUrl}/api/auth/zitadel/signup/details`, { handoff: other })).status).toBe(200);
-			expect(t.gauzyAuth.registered).toHaveLength(0);
+			expect(t.irtranscriptsAuth.registered).toHaveLength(0);
 		});
 	});
 
@@ -268,8 +268,8 @@ describe('Ever Cloud confirmed sign-up (HTTP, against a mock OpenID Provider)', 
 			// The account's verified address matches, but it is the account this sign-up created: no code.
 			const back = await signIn('new-person', { email: 'new.person@example.test' });
 			expect(back).toMatch(`${TEST_CLIENT_BASE_URL}/#/auth/ever-id?handoff=`);
-			expect(t.gauzyAuth.sentCodes).toEqual([]);
-			expect(t.gauzyAuth.registered).toHaveLength(1);
+			expect(t.irtranscriptsAuth.sentCodes).toEqual([]);
+			expect(t.irtranscriptsAuth.registered).toHaveLength(1);
 			expect(t.accounts.links).toEqual([expect.objectContaining({ linkMethod: 'signup', userId: t.accounts.users[0].id })]);
 		});
 

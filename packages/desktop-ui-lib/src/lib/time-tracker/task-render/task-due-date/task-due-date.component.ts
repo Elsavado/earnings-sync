@@ -3,7 +3,7 @@ import * as moment from 'moment';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-    selector: 'gauzy-task-due-date',
+    selector: 'irtranscripts-task-due-date',
     templateUrl: './task-due-date.component.html',
     styleUrls: ['./task-due-date.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,

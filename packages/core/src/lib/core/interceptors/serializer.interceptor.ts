@@ -2,7 +2,7 @@ import { Injectable, ExecutionContext, CallHandler, ClassSerializerInterceptor, 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { instanceToPlain } from 'class-transformer';
-import { RolesEnum } from '@gauzy/contracts';
+import { RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from './../../core/context';
 
 @Injectable()

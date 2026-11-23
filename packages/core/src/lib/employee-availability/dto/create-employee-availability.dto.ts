@@ -1,5 +1,5 @@
 import { IntersectionType, PickType } from '@nestjs/swagger';
-import { IEmployeeAvailabilityCreateInput } from '@gauzy/contracts';
+import { IEmployeeAvailabilityCreateInput } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../core/dto';
 import { EmployeeAvailability } from '../employee-availability.entity';
 

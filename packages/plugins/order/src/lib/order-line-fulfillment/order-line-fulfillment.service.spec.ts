@@ -12,7 +12,7 @@ const mockDialect = { type: 'better-sqlite3' };
 
 /** The dialect probes the kernel's statement helpers read, answering for the dialect the case chose. */
 jest.mock(
-	'@gauzy/config',
+	'@irtranscripts/config',
 	() => ({
 		isMySQL: () => mockDialect.type === 'mysql',
 		isPostgres: () => mockDialect.type === 'postgres'
@@ -21,22 +21,22 @@ jest.mock(
 
 /**
  * One module boundary is doubled here, for the same reason and in the same way as the package's
- * other suites: `@gauzy/core` boots the whole application graph from its barrel — configuration,
+ * other suites: `@irtranscripts/core` boots the whole application graph from its barrel — configuration,
  * the ORM, the job registry, the module scanner — none of which a read of two columns needs and
  * none of which is available outside a running application. The service under test is the real one,
  * and so are the two entities it reads through, which is why the store below answers with the
  * numbers a `numeric(20,6)` column reads back as rather than with a text value the transformer would
  * never produce.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
 	class BaseEntity {}
 
-	// The kernel's own statement helpers, reading the dialect through the `@gauzy/config` double above.
-	const statements = jest.requireActual('@gauzy/core/src/lib/database/database.helper');
-	const decimal = jest.requireActual('@gauzy/core/src/lib/money/decimal');
+	// The kernel's own statement helpers, reading the dialect through the `@irtranscripts/config` double above.
+	const statements = jest.requireActual('@irtranscripts/core/src/lib/database/database.helper');
+	const decimal = jest.requireActual('@irtranscripts/core/src/lib/money/decimal');
 
 	return {
 		BaseEntity,
@@ -61,7 +61,7 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		// The decimal kernel, whole: the counter's delta is read at the column's scale before it is sent,
 		// and a double that omitted a helper would make the code under test call nothing — which fails the
 		// suite for a reason that is not its own.
@@ -93,8 +93,8 @@ jest.mock('@gauzy/core', () => {
 });
 
 import { NotFoundException } from '@nestjs/common';
-import { FulfillmentStatus, OrderStatus } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { FulfillmentStatus, OrderStatus } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { OrderStateMachine } from '../order-state-machine/order-state-machine';
 import { OrderLineFulfillmentService } from './order-line-fulfillment.service';
 

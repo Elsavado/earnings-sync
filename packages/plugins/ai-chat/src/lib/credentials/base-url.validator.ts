@@ -15,7 +15,7 @@ import { getUnsafeAiProviderBaseUrlReason } from '../ssrf';
  *
  * Plain `http:` and private addresses are not refused outright as a matter of policy: self-hosted
  * model servers (LocalAI, Speaches, vLLM, Ollama, whisper.cpp) legitimately run on `localhost` or a
- * LAN. Those deployments opt in with `GAUZY_AI_CHAT_ALLOW_PRIVATE_BASE_URLS=true`; the default is
+ * LAN. Those deployments opt in with `IRTRANSCRIPTS_AI_CHAT_ALLOW_PRIVATE_BASE_URLS=true`; the default is
  * deny, which is what shared hosting needs.
  *
  * @param baseUrl - The provider base URL being stored.

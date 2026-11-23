@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { FindOptionsWhere } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { IReturnLeg, IReturnLegRequest } from '../fulfillment.types';
 import { FulfillmentService } from '../fulfillment/fulfillment.service';
 import { ShippingOption } from '../shipping-option/shipping-option.entity';

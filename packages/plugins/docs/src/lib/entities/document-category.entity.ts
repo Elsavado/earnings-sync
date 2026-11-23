@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
-import { IDocument, IDocumentCategory } from '@gauzy/contracts';
-import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToMany, TenantOrganizationBaseEntity } from '@gauzy/core';
+import { IDocument, IDocumentCategory } from '@irtranscripts/contracts';
+import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToMany, TenantOrganizationBaseEntity } from '@irtranscripts/core';
 import { MikroOrmDocumentCategoryRepository } from '../repositories/mikro-orm-document-category.repository';
 import { Document } from './document.entity';
 

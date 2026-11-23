@@ -1,4 +1,4 @@
-import { IPagination } from '@gauzy/contracts';
+import { IPagination } from '@irtranscripts/contracts';
 import { BadRequestException } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { PluginTenantService } from '../../../../domain';

@@ -3,7 +3,7 @@ import {
 	IExpenseReportGroupByDate,
 	IExpenseReportGroupByEmployee,
 	IExpenseReportGroupByProject
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { Injectable } from '@nestjs/common';
 import * as moment from 'moment';
 import { chain } from 'underscore';

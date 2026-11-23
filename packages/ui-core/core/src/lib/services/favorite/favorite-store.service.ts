@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest, from, of, Subject, Subscription } from 'rxjs';
 import { catchError, filter, startWith, switchMap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { BaseEntityEnum, IFavorite, PermissionsEnum } from '@gauzy/contracts';
+import { BaseEntityEnum, IFavorite, PermissionsEnum } from '@irtranscripts/contracts';
 import { FavoriteService } from './favorite.service';
 import { Store } from '../store/store.service';
 import { NavMenuSectionItem } from '../nav-builder/nav-builder-types';

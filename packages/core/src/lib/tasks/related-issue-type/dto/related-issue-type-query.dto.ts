@@ -1,4 +1,4 @@
-import { ITaskRelatedIssueTypeFindInput } from '@gauzy/contracts';
+import { ITaskRelatedIssueTypeFindInput } from '@irtranscripts/contracts';
 import { IntersectionType, PartialType, PickType } from '@nestjs/swagger';
 import { TenantOrganizationBaseDTO } from '../../../core/dto';
 import { TaskRelatedIssueType } from '../related-issue-type.entity';

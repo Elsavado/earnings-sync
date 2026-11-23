@@ -7,8 +7,8 @@ jest.mock('./../../shared/guards', () => ({
 jest.mock('./import-history.service', () => ({ ImportHistoryService: class ImportHistoryService {} }));
 
 import { GUARDS_METADATA, PATH_METADATA } from '@nestjs/common/constants';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { PermissionGuard, TenantPermissionGuard } from './../../shared/guards';
 import { ImportHistoryController } from './import-history.controller';
 

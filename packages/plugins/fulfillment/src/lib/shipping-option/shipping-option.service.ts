@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { DeepPartial, FindOptionsWhere } from 'typeorm';
-import { ID, IPagination, ShippingPriceType } from '@gauzy/contracts';
-import { RequestContext, commitVersionedUpdate } from '@gauzy/core';
+import { ID, IPagination, ShippingPriceType } from '@irtranscripts/contracts';
+import { RequestContext, commitVersionedUpdate } from '@irtranscripts/core';
 import { ShippingOption } from './shipping-option.entity';
 import { TypeOrmShippingOptionRepository } from './repository/type-orm-shipping-option.repository';
 import { MikroOrmShippingOptionRepository } from './repository/mikro-orm-shipping-option.repository';

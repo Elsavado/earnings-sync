@@ -32,8 +32,8 @@ import {
 	ID,
 	IEmployee,
 	EntitySubscriptionTypeEnum
-} from '@gauzy/contracts';
-import { isNotEmpty, parseToBoolean } from '@gauzy/utils';
+} from '@irtranscripts/contracts';
+import { isNotEmpty, parseToBoolean } from '@irtranscripts/utils';
 import { FavoriteService } from '../core/decorators';
 import { Employee, OrganizationTeamEmployee } from '../core/entities/internal';
 import {

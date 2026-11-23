@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { UnauthorizedException, BadRequestException } from '@nestjs/common';
-import { IRole, IUser, PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { IRole, IUser, PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 import { AuthRegisterCommand } from '../auth.register.command';
 import { AuthService } from '../../auth.service';
 import { getORMType, MultiORMEnum } from '../../../core/utils';

@@ -1,5 +1,5 @@
-import { IScreenshot, ITimeSlotStatistics } from '@gauzy/contracts';
-import type { GalleryItem } from '@gauzy/ui-core/shared';
+import { IScreenshot, ITimeSlotStatistics } from '@irtranscripts/contracts';
+import type { GalleryItem } from '@irtranscripts/ui-core/shared';
 
 /**
  * Flattens the screenshots of every time slot into gallery items — what each `ngxGallery`

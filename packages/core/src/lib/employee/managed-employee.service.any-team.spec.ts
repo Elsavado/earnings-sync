@@ -1,7 +1,7 @@
 import '../core/entities/internal';
 
 import { Equal, In, IsNull, Or } from 'typeorm';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { ManagedEmployeeService } from './managed-employee.service';
 

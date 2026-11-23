@@ -4,7 +4,7 @@ import { Body, Controller, UseGuards, Delete, HttpCode, HttpStatus, Param, Post,
 import { ProductOption } from './product-option.entity';
 import { ProductOptionService } from './product-option.service';
 import { TenantPermissionGuard, PermissionGuard } from './../shared/guards';
-import { ID, PermissionsEnum } from '@gauzy/contracts';
+import { ID, PermissionsEnum } from '@irtranscripts/contracts';
 import { Permissions } from '../shared/decorators';
 import { AbstractValidationPipe, UUIDValidationPipe } from '../shared/pipes';
 import { TenantOrganizationBaseDTO } from '../core/dto';

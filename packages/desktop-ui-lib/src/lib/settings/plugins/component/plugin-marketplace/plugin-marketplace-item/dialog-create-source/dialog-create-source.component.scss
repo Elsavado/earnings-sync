@@ -1,4 +1,4 @@
-@use 'gauzy/_gauzy-dialogs' as *;
+@use 'irtranscripts/_irtranscripts-dialogs' as *;
 
 // Custom variables
 $card-border-radius: 0.75rem;
@@ -17,7 +17,7 @@ $transition-speed: 0.2s;
   width: 600px;
   margin: 0 auto;
   height: 78vh;
-  background: var(--gauzy-card-1);
+  background: var(--irtranscripts-card-1);
   border: 1px solid rgba(0, 0, 0, 0.08);
 
   nb-card-header {
@@ -26,7 +26,7 @@ $transition-speed: 0.2s;
     justify-content: space-between;
     padding: 1.5rem;
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    background: var(--gauzy-card-1);
+    background: var(--irtranscripts-card-1);
 
     .header-content {
       display: flex;
@@ -67,7 +67,7 @@ $transition-speed: 0.2s;
             margin: 0;
             font-weight: 600;
             font-size: 1.0625rem;
-            color: var(--gauzy-text-color-1);
+            color: var(--irtranscripts-text-color-1);
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
@@ -88,14 +88,14 @@ $transition-speed: 0.2s;
         cursor: pointer;
 
         nb-icon {
-          color: var(--gauzy-text-color-2);
+          color: var(--irtranscripts-text-color-2);
         }
 
         &:hover {
           background-color: rgba(0, 0, 0, 0.05);
 
           nb-icon {
-            color: var(--gauzy-text-color-1);
+            color: var(--irtranscripts-text-color-1);
           }
         }
       }
@@ -125,7 +125,7 @@ $transition-speed: 0.2s;
           margin: 0;
           font-weight: 600;
           font-size: 0.9375rem;
-          color: var(--gauzy-text-color-1);
+          color: var(--irtranscripts-text-color-1);
         }
       }
     }
@@ -141,7 +141,7 @@ $transition-speed: 0.2s;
   nb-card-footer {
     padding: 1.25rem 1.5rem;
     border-top: 1px solid rgba(0, 0, 0, 0.08);
-    background: var(--gauzy-card-1);
+    background: var(--irtranscripts-card-1);
   }
 }
 
@@ -273,7 +273,7 @@ $transition-speed: 0.2s;
     background: transparent;
   }
 
-  gauzy-version-selector {
+  irtranscripts-version-selector {
     nb-select {
       button {
         border-radius: calc(var(--border-radius) * 1);

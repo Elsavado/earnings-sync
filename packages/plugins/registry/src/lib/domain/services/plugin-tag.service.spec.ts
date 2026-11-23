@@ -1,7 +1,7 @@
-// `@gauzy/core`, the entity and the repositories drag in the entity graph. The service only needs the caller from
+// `@irtranscripts/core`, the entity and the repositories drag in the entity graph. The service only needs the caller from
 // the request context, the ORM enum, and a base class that answers TypeORM as the registry's own does.
 const mockContext = { tenantId: 'tenant-a' as string | null, organizationId: null as string | null };
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	MultiORMEnum: { TypeORM: 'typeorm', MikroORM: 'mikro-orm' },
 	RequestContext: {
 		currentTenantId: () => mockContext.tenantId,

@@ -1,4 +1,4 @@
-import { IContact } from '@gauzy/contracts';
+import { IContact } from '@irtranscripts/contracts';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { ContactCreateCommand } from '../contact-create.commant';
 import { ContactService } from '../../contact.service';

@@ -1,8 +1,8 @@
 import { inject } from '@angular/core';
 import { ResolveFn, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { catchError, EMPTY, Observable } from 'rxjs';
-import { IEmployee } from '@gauzy/contracts';
-import { EmployeesService, ErrorHandlingService } from '@gauzy/ui-core/core';
+import { IEmployee } from '@irtranscripts/contracts';
+import { EmployeesService, ErrorHandlingService } from '@irtranscripts/ui-core/core';
 
 /**
  * Resolves the public employee data based on the provided route parameters.

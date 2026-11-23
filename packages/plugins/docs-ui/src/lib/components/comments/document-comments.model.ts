@@ -1,4 +1,4 @@
-import { IComment, ID, IEmployee } from '@gauzy/contracts';
+import { IComment, ID, IEmployee } from '@irtranscripts/contracts';
 
 /**
  * Pure helpers behind the document comment thread. They are deliberately free of

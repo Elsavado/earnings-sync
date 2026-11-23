@@ -12,7 +12,7 @@ import {
 	MaxLength,
 	Min
 } from 'class-validator';
-import { DecimalString, ID, IWarehouse } from '@gauzy/contracts';
+import { DecimalString, ID, IWarehouse } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	JsonColumn,
@@ -22,7 +22,7 @@ import {
 	MultiORMOneToMany,
 	TenantOrganizationBaseEntity,
 	Warehouse
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { IWarehouseBin, IWarehouseZone, WarehouseZoneType } from '../warehouse.types';
 import { WarehouseBin } from '../warehouse-bin/warehouse-bin.entity';
 import { MikroOrmWarehouseZoneRepository } from './repository/mikro-orm-warehouse-zone.repository';

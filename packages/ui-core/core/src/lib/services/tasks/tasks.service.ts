@@ -3,9 +3,9 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { firstValueFrom, Observable, throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
-import { ITask, IGetTaskOptions, IGetTaskByEmployeeOptions, IPagination, IEmployee } from '@gauzy/contracts';
-import { API_PREFIX, toParams } from '@gauzy/ui-core/common';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { ITask, IGetTaskOptions, IGetTaskByEmployeeOptions, IPagination, IEmployee } from '@irtranscripts/contracts';
+import { API_PREFIX, toParams } from '@irtranscripts/ui-core/common';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { ToastrService } from '../notification';
 
 @Injectable({

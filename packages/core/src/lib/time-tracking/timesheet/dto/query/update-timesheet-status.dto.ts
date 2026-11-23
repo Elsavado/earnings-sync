@@ -1,6 +1,6 @@
 import { ApiProperty, IntersectionType, PickType } from '@nestjs/swagger';
 import { ArrayNotEmpty } from 'class-validator';
-import { ID, IUpdateTimesheetStatusInput } from '@gauzy/contracts';
+import { ID, IUpdateTimesheetStatusInput } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from './../../../../core/dto';
 import { Timesheet } from '../../timesheet.entity';
 

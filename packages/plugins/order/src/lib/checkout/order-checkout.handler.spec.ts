@@ -10,10 +10,10 @@
  * The two collaborators are doubled at the module boundary: the cart package's barrel and the order service
  * would load the whole application graph, and the handler only calls them.
  */
-jest.mock('@gauzy/plugin-cart', () => ({ CommerceCart: class {}, CommerceCartService: class {} }));
+jest.mock('@irtranscripts/plugin-cart', () => ({ CommerceCart: class {}, CommerceCartService: class {} }));
 jest.mock('../order/order.service', () => ({ OrderService: class {} }));
 
-import { CommerceCartStatus, OrderStatus } from '@gauzy/contracts';
+import { CommerceCartStatus, OrderStatus } from '@irtranscripts/contracts';
 import { OrderCheckoutHandler } from './order-checkout.handler';
 
 /** The handler over doubled collaborators, with the cart it reads and the placed order the cart already has. */

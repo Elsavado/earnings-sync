@@ -1,7 +1,7 @@
-// `@gauzy/core` and the registry domain drag in the whole entity graph: stand-ins are enough for these handlers.
+// `@irtranscripts/core` and the registry domain drag in the whole entity graph: stand-ins are enough for these handlers.
 const mockCaller = { userId: 'publisher-1' as string | null };
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	function stub(this: unknown) {
 		return new.target ? undefined : () => undefined;
 	}

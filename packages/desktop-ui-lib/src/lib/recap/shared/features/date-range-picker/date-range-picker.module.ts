@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { WeekDaysEnum } from '@gauzy/contracts';
+import { WeekDaysEnum } from '@irtranscripts/contracts';
 import { NbButtonModule, NbIconModule, NbInputModule } from '@nebular/theme';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslatePipe } from '@ngx-translate/core';

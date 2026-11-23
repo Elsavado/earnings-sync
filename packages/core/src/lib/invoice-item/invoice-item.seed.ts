@@ -1,8 +1,8 @@
 import { DataSource } from 'typeorm';
 import { InvoiceItem } from './invoice-item.entity';
 import { faker } from '@faker-js/faker';
-import { IInvoiceItem, InvoiceTypeEnum, IOrganization, ITenant } from '@gauzy/contracts';
-import { getRandomElement } from '@gauzy/utils';
+import { IInvoiceItem, InvoiceTypeEnum, IOrganization, ITenant } from '@irtranscripts/contracts';
+import { getRandomElement } from '@irtranscripts/utils';
 import { Employee, Expense, Invoice, OrganizationProject, Product, Task } from './../core/entities/internal';
 
 /**

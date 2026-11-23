@@ -1,8 +1,8 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { Subscription } from 'rxjs';
 import { DataSource } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { BaseEntityEventTypeEnum, EventBus, IntegrationSetting, RequestContext, TaskEvent } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { BaseEntityEventTypeEnum, EventBus, IntegrationSetting, RequestContext, TaskEvent } from '@irtranscripts/core';
 import { EverWorksSettingName } from '../ever-works-setting.enum';
 import { EverWorksEntityLink, EverWorksLinkType } from '../sync/entities/ever-works-sync.entities';
 import { EverWorksSyncContext } from '../sync/ever-works-sync.context';
@@ -14,7 +14,7 @@ import { runDetached } from '../sync/outbound/ever-works-detached';
 const IDEA_TYPE_CACHE_MS = 30_000;
 
 /**
- * Outbound trigger for ideas (plan 03 §C.2): a Gauzy `TaskEvent` of an **idea task** — a task of the
+ * Outbound trigger for ideas (plan 03 §C.2): a IRTranscripts `TaskEvent` of an **idea task** — a task of the
  * "Idea" issue type, or one linked as an idea whose type changed away or that was deleted — enqueues an
  * `IDEA_TASK` change. Other tasks are left to the task sync.
  *
@@ -94,14 +94,14 @@ export class EverWorksIdeaTaskCapture implements OnModuleInit, OnModuleDestroy {
 			// Not an idea now: only a task linked as one matters (its type changed away, or it was deleted).
 			const linked = await this.dataSource
 				.getRepository(EverWorksEntityLink)
-				.count({ where: { integrationTenantId, entityType: EverWorksLinkType.IDEA_TASK, gauzyId: taskId } });
+				.count({ where: { integrationTenantId, entityType: EverWorksLinkType.IDEA_TASK, irtranscriptsId: taskId } });
 			if (!linked) return;
 		}
 		await this.queue.enqueue({
 			tenantId,
 			organizationId,
 			entityType: EverWorksLinkType.IDEA_TASK,
-			gauzyId: taskId,
+			irtranscriptsId: taskId,
 			op: deleted ? 'delete' : 'upsert',
 			actorUserId
 		});

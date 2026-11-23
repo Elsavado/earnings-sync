@@ -8,7 +8,7 @@ import {
 	ValidationArguments,
 	registerDecorator
 } from 'class-validator';
-import { IOrganization, IBasePerTenantAndOrganizationEntityModel, ID } from '@gauzy/contracts';
+import { IOrganization, IBasePerTenantAndOrganizationEntityModel, ID } from '@irtranscripts/contracts';
 import { TenantBaseDTO } from './tenant-base.dto';
 import { IsOrganizationBelongsToUser } from './../../shared/validators';
 

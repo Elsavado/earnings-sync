@@ -1,10 +1,10 @@
 import { GoneException, HttpException, HttpStatus, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
-import { OidcValidatedIdToken } from '@gauzy/auth';
-import { IAppIntegrationConfig } from '@gauzy/common';
-import { ID, IUserSigninWorkspaceResponse, LanguagesEnum } from '@gauzy/contracts';
-import { User } from '@gauzy/core';
+import { OidcValidatedIdToken } from '@irtranscripts/auth';
+import { IAppIntegrationConfig } from '@irtranscripts/common';
+import { ID, IUserSigninWorkspaceResponse, LanguagesEnum } from '@irtranscripts/contracts';
+import { User } from '@irtranscripts/core';
 import { handoffBusy } from '../http/zitadel-retry';
-import { GAUZY_AUTH, GauzyAuthPort } from '../ports/gauzy-auth.port';
+import { IRTRANSCRIPTS_AUTH, IRTranscriptsAuthPort } from '../ports/irtranscripts-auth.port';
 import { ZitadelAccountService, ZitadelIdentity } from './zitadel-account.service';
 import { ZitadelClaimHints, ZitadelClaimsService } from './zitadel-claims.service';
 import { ZitadelConfigService } from './zitadel-config.service';
@@ -16,7 +16,7 @@ import { ZitadelSigninWorkspaceResponse, ZitadelTeamList, ZitadelWorkspaceServic
 /** Wrong one-time codes accepted for one pending confirmation before it is discarded. */
 export const MAX_CONFIRM_ATTEMPTS = 5;
 
-/** The team list Gauzy returned for each workspace of a code check (`current_teams`), by user id. */
+/** The team list IRTranscripts returned for each workspace of a code check (`current_teams`), by user id. */
 function teamListsByUser(checked: IUserSigninWorkspaceResponse): Map<ID, ZitadelTeamList> {
 	const teams = new Map<ID, ZitadelTeamList>();
 	for (const workspace of checked.workspaces) {
@@ -32,7 +32,7 @@ function teamListsByUser(checked: IUserSigninWorkspaceResponse): Map<ID, Zitadel
 export type ZitadelSigninChannel = 'browser' | 'token';
 
 /**
- * How the requesting first-party app presents itself in Gauzy's one-time code e-mail. Only display
+ * How the requesting first-party app presents itself in IRTranscripts's one-time code e-mail. Only display
  * fields: a link that would carry the code is never taken from a request.
  */
 export type ZitadelEmailBranding = Partial<
@@ -43,7 +43,7 @@ export type ZitadelEmailBranding = Partial<
 export interface ZitadelDecideOptions {
 	/** A web app path to open after signing in (browser channel, validated when the sign-in started). */
 	redirect?: string;
-	/** Branding of the requesting app for Gauzy's one-time code e-mail (token channel). */
+	/** Branding of the requesting app for IRTranscripts's one-time code e-mail (token channel). */
 	branding?: ZitadelEmailBranding;
 }
 
@@ -52,7 +52,7 @@ export type ZitadelHandoffRecord =
 	| { kind: 'workspaces'; response: ZitadelSigninWorkspaceResponse }
 	| { kind: 'register'; prefill: { email: string; firstName?: string; lastName?: string } };
 
-/** A pending confirmed link (Gauzy's one-time e-mail code was sent). */
+/** A pending confirmed link (IRTranscripts's one-time e-mail code was sent). */
 export interface ZitadelConfirmRecord {
 	identity: ZitadelIdentity;
 	email: string;
@@ -79,13 +79,13 @@ export type ZitadelSigninOutcome =
  * Decides what an Ever ID sign-in leads to, once the token is verified.
  *
  * 1. The identity is linked: sign in to those workspaces (minus the ones an organization rule blocks).
- *    A confirmed sign-up whose account Gauzy already created (and that a failed step left unlinked)
+ *    A confirmed sign-up whose account IRTranscripts already created (and that a failed step left unlinked)
  *    is finished here as well.
- * 2. No link, `confirmed` mode (Ever Cloud) and active users own the verified e-mail: Gauzy sends its
+ * 2. No link, `confirmed` mode (Ever Cloud) and active users own the verified e-mail: IRTranscripts sends its
  *    own one-time e-mail code; the link is written only after the code is entered.
  * 3. No link, Ever Cloud with the sign-up path on: the person may create a workspace, after an
  *    explicit confirmation (a confirmed sign-up waiting for checkout resumes here).
- * 4. Otherwise nothing is linked and nothing is created: the person is offered Gauzy's register page.
+ * 4. Otherwise nothing is linked and nothing is created: the person is offered IRTranscripts's register page.
  *
  * An e-mail match alone never links anything, and nothing personal is ever put in a URL.
  */
@@ -99,7 +99,7 @@ export class ZitadelSigninService {
 		private readonly store: ZitadelStoreService,
 		private readonly signup: ZitadelSignupService,
 		private readonly events: ZitadelEventsService,
-		@Inject(GAUZY_AUTH) private readonly gauzyAuth: GauzyAuthPort
+		@Inject(IRTRANSCRIPTS_AUTH) private readonly irtranscriptsAuth: IRTranscriptsAuthPort
 	) {}
 
 	/**
@@ -142,7 +142,7 @@ export class ZitadelSigninService {
 			if (rows.length) {
 				const email = rows[0].email;
 				const sameAddress = rows.filter((row) => row.email === email);
-				await this.gauzyAuth.sendWorkspaceSigninCode({ ...options.branding, email }, this.locale(sameAddress[0]));
+				await this.irtranscriptsAuth.sendWorkspaceSigninCode({ ...options.branding, email }, this.locale(sameAddress[0]));
 				const key = this.store.newKey();
 				const record: ZitadelConfirmRecord = {
 					identity,
@@ -208,7 +208,7 @@ export class ZitadelSigninService {
 	}
 
 	/**
-	 * Completes a confirmed link with Gauzy's one-time e-mail code.
+	 * Completes a confirmed link with IRTranscripts's one-time e-mail code.
 	 *
 	 * @throws 409 `handoff_busy` while another attempt checks a code for this key (the key stays
 	 *   valid); GoneException for an unknown key or after five wrong codes; UnauthorizedException for
@@ -235,12 +235,12 @@ export class ZitadelSigninService {
 			throw new GoneException();
 		}
 
-		// For the token route, Gauzy's own code check also returns each workspace's team list (as its
+		// For the token route, IRTranscripts's own code check also returns each workspace's team list (as its
 		// e-mail code sign-in does for the same client), so no extra lookup is made here.
 		const includeTeams = record.channel === 'token';
 		let checked: IUserSigninWorkspaceResponse;
 		try {
-			checked = await this.gauzyAuth.signinWorkspacesByMagicCode({ email: record.email, code: String(code ?? '') }, includeTeams);
+			checked = await this.irtranscriptsAuth.signinWorkspacesByMagicCode({ email: record.email, code: String(code ?? '') }, includeTeams);
 		} catch (error) {
 			throw await this.failedCodeCheck(key, record, error);
 		}
@@ -262,7 +262,7 @@ export class ZitadelSigninService {
 	}
 
 	/**
-	 * Counts a failed code check (Gauzy's own rate limit is not a wrong guess: it is passed on and costs
+	 * Counts a failed code check (IRTranscripts's own rate limit is not a wrong guess: it is passed on and costs
 	 * no attempt), puts the record back unless the attempts are used up, and returns what to answer.
 	 */
 	private async failedCodeCheck(key: string, record: ZitadelConfirmRecord, error: unknown): Promise<HttpException> {

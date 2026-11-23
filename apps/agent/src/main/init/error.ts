@@ -4,7 +4,7 @@ import {
 	ErrorReport,
 	ErrorReportRepository,
 	DialogErrorHandler
-} from '@gauzy/desktop-lib';
+} from '@irtranscripts/desktop-lib';
 const report = new ErrorReport(new ErrorReportRepository(process.env.REPO_OWNER, process.env.REPO_NAME));
 const eventErrorManager = ErrorEventManager.instance;
 

@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AuditLogService } from '../services';
-import { ILogItems } from '@gauzy/contracts';
+import { ILogItems } from '@irtranscripts/contracts';
 import { ElectronService } from '../electron/services';
 
 @Injectable({ providedIn: 'root' })

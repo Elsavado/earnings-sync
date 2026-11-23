@@ -7,12 +7,12 @@ import {
 	PermissionsEnum,
 	ID,
 	IOrganizationTeamFindInput
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { combineLatest, from, map, Observable, of, Subject, switchMap } from 'rxjs';
 import { catchError, filter, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { distinctUntilChange, isNotEmpty } from '@gauzy/ui-core/common';
+import { distinctUntilChange, isNotEmpty } from '@irtranscripts/ui-core/common';
 import {
 	ErrorHandlingService,
 	NavigationService,
@@ -20,7 +20,7 @@ import {
 	OrganizationTeamsService,
 	Store,
 	ToastrService
-} from '@gauzy/ui-core/core';
+} from '@irtranscripts/ui-core/core';
 import { ALL_TEAM_SELECTED } from './default-team';
 import { entitySelectPanelClass } from '../../entity-select-panel-class';
 

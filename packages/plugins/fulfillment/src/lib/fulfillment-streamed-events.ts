@@ -1,5 +1,5 @@
 import { Injectable, OnModuleInit, Optional } from '@nestjs/common';
-import { declareStreamedEvents, GraphqlSubscriptionConsumer, SubscriptionCatalogue } from '@gauzy/core';
+import { declareStreamedEvents, GraphqlSubscriptionConsumer, SubscriptionCatalogue } from '@irtranscripts/core';
 
 /**
  * The shipment facts `Subscription.events` may select: created, shipped, in transit, delivered, canceled —

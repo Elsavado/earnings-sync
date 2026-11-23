@@ -1,4 +1,4 @@
-import { ID, UpdateEmployeeJobsStatistics } from '@gauzy/contracts';
+import { ID, UpdateEmployeeJobsStatistics } from '@irtranscripts/contracts';
 import { ICommand } from '@nestjs/cqrs';
 
 export class UpdateEmployeeJobSearchStatusCommand implements ICommand {

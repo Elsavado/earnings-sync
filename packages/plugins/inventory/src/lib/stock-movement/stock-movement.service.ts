@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { FindManyOptions } from 'typeorm';
-import { ID, IPagination } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { ID, IPagination } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { StockMovement } from './stock-movement.entity';
 import { TypeOrmStockMovementRepository } from './repository/type-orm-stock-movement.repository';
 import { MikroOrmStockMovementRepository } from './repository/mikro-orm-stock-movement.repository';

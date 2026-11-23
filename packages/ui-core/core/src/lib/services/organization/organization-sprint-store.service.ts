@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { IOrganizationSprint, IGetSprintsOptions, ITask } from '@gauzy/contracts';
+import { IOrganizationSprint, IGetSprintsOptions, ITask } from '@irtranscripts/contracts';
 import { tap, take, map, switchMap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { SprintService } from './organization-sprint.service';

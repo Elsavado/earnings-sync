@@ -1,4 +1,4 @@
-# @gauzy/plugin-integration-upwork-ui
+# @irtranscripts/plugin-integration-upwork-ui
 
 This library was generated with [Nx](https://nx.dev).
 
@@ -19,7 +19,7 @@ After building your library with `yarn nx build plugin-integration-upwork-ui`, g
 Install the Integration Upwork UI Plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-integration-upwork-ui
+npm install @irtranscripts/plugin-integration-upwork-ui
 # or
-yarn add @gauzy/plugin-integration-upwork-ui
+yarn add @irtranscripts/plugin-integration-upwork-ui
 ```

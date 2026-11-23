@@ -1,5 +1,5 @@
 /**
- * Public API of @gauzy/plugin-ever-stats: anonymous usage statistics.
+ * Public API of @irtranscripts/plugin-ever-stats: anonymous usage statistics.
  */
 export * from './lib/entities';
 export * from './lib/ever-stats.constants';

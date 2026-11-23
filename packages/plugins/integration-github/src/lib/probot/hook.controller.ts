@@ -1,6 +1,6 @@
 import { Controller, HttpCode, HttpStatus, Post, Req, Type } from '@nestjs/common';
 import { ApiExcludeController } from '@nestjs/swagger';
-import { Public } from '@gauzy/common';
+import { Public } from '@irtranscripts/common';
 import { Request } from 'express';
 import { IGithubWebhookRequest, ProbotDiscovery } from './probot.discovery';
 

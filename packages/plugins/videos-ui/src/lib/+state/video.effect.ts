@@ -6,7 +6,7 @@ import { VideoService } from '../shared/services/video.service';
 import { VideoActions } from './video.action';
 import { VideoStore } from './video.store';
 import { VideoQuery } from './video.query';
-import { ErrorHandlingService, ToastrService } from '@gauzy/ui-core/core';
+import { ErrorHandlingService, ToastrService } from '@irtranscripts/ui-core/core';
 import { WebShareService } from '../shared/services/web-share.service';
 import { DownloadQueueService } from '../shared/services/download/download-queue.service';
 

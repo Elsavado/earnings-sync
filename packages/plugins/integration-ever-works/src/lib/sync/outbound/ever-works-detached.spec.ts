@@ -12,11 +12,11 @@ import { EVER_WORKS_TEAM_SIGNALS, EverWorksTeamCapture } from '../../teams/ever-
 
 /**
  * The capture drains run outside the context of the write that signalled them (local e2e, 2026-10-18): on SQLite the
- * embedded transaction queue of `@gauzy/core` tracks which code owns the connection in an `AsyncLocalStorage`, and a
+ * embedded transaction queue of `@irtranscripts/core` tracks which code owns the connection in an `AsyncLocalStorage`, and a
  * fire-and-forget enqueue that kept the committed write's ownership wedged the API. The stand-in here is any
  * `AsyncLocalStorage` set around the write: the work a drain starts must not see it.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	return {
 		ColumnIndex: decorator,
@@ -46,7 +46,7 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-/** The write's context: the stand-in for the transaction claim and the request context of `@gauzy/core`. */
+/** The write's context: the stand-in for the transaction claim and the request context of `@irtranscripts/core`. */
 const mockWrite = new AsyncLocalStorage<{ name: string; tenantId: string; userId: string }>();
 const WRITE = { name: 'write-transaction', tenantId: 't1', userId: 'u1' };
 const write = {
@@ -154,7 +154,7 @@ describe('the capture drains enqueue outside the signalling write', () => {
 			);
 			await flush();
 			expect(queue.enqueue).toHaveBeenCalledWith(
-				expect.objectContaining({ gauzyId: 'task-1', tenantId: 't1', actorUserId: 'u1' })
+				expect.objectContaining({ irtranscriptsId: 'task-1', tenantId: 't1', actorUserId: 'u1' })
 			);
 			expect(seen).toEqual([undefined, undefined]);
 		} finally {

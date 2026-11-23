@@ -2,16 +2,16 @@ import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectionStrategy } 
 import { UntypedFormGroup } from '@angular/forms';
 import { NbDialogRef, NbStepperComponent } from '@nebular/theme';
 import { filter, firstValueFrom, tap } from 'rxjs';
-import { IEmployee, IUser, IEmployeeCreateInput, CrudActionEnum, IOrganization } from '@gauzy/contracts';
+import { IEmployee, IUser, IEmployeeCreateInput, CrudActionEnum, IOrganization } from '@irtranscripts/contracts';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
 import {
 	EmployeeStore,
 	EmployeesService,
 	ErrorHandlingService,
 	OrganizationsService,
 	Store
-} from '@gauzy/ui-core/core';
+} from '@irtranscripts/ui-core/core';
 import { BasicInfoFormComponent } from '../../user/forms';
 
 @UntilDestroy({ checkProperties: true })

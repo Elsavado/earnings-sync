@@ -24,7 +24,7 @@
  * - it **scopes the count to the reason's own tenant and organization**, so the refusal is about this
  *   reason rather than about a count that reached across tenants.
  *
- * `@gauzy/core` is doubled at the module boundary, exactly as this package's other service specs do it:
+ * `@irtranscripts/core` is doubled at the module boundary, exactly as this package's other service specs do it:
  * the barrel boots the whole application graph — configuration, the ORM, the job registry — none of
  * which a lookup service needs. **The service under test is the real one**, and so is the base class's
  * `delete`, which is written here as `CrudService.delete` writes it — the criteria, and the repository's
@@ -32,7 +32,7 @@
  * file.
  */
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
@@ -73,7 +73,7 @@ jest.mock('@gauzy/core', () => {
 		},
 		BaseEvent: class {},
 		EventBus: class {},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		SequenceService: class SequenceService {},
 		Warehouse: class Warehouse {},
 		RequestContext: {
@@ -88,7 +88,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 import { NotFoundException } from '@nestjs/common';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { OrderReturnReasonService } from './order-return-reason.service';
 
 type Row = Record<string, any>;

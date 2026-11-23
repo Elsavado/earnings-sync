@@ -1,5 +1,5 @@
 import { BadRequestException, createParamDecorator, ExecutionContext, Logger } from '@nestjs/common';
-import { FileStorageProviderEnum, UploadedFile } from '@gauzy/contracts';
+import { FileStorageProviderEnum, UploadedFile } from '@irtranscripts/contracts';
 import { FileStorage } from './file-storage';
 
 const logger = new Logger('UploadedFileStorage');

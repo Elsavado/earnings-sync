@@ -16,8 +16,8 @@ import { Throttle } from '@nestjs/throttler';
 import { Response } from 'express';
 import * as path from 'path';
 import { v4 as uuid } from 'uuid';
-import { FeatureFlag } from '@gauzy/common';
-import { FeatureEnum, ID, IDocument, PermissionsEnum, UploadedFile } from '@gauzy/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
+import { FeatureEnum, ID, IDocument, PermissionsEnum, UploadedFile } from '@irtranscripts/contracts';
 import {
 	FeatureFlagGuard,
 	FileStorage,
@@ -28,7 +28,7 @@ import {
 	UseValidationPipe,
 	UUIDValidationPipe,
 	toSafeStorageExtension
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { docsRateLimit, getDocsConfig } from '../docs.config';
 import { DOCS_UPLOAD_MAX_FILES } from '../docs.constants';
 import { IDocumentUploadResponse, ReplaceDocumentFileDTO, ReprocessDocumentDTO, UploadDocumentsDTO } from '../dto';

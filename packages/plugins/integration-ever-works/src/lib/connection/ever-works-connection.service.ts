@@ -11,12 +11,12 @@ import {
 } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 import { DataSource, EntityManager } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { IntegrationSetting, IntegrationTenant, Tenant } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { IntegrationSetting, IntegrationTenant, Tenant } from '@irtranscripts/core';
 import { EverWorksApiError, EverWorksClient, EverWorksNetworkError, EverWorksUrlError, normaliseApiBaseUrl } from '../client/ever-works-client';
 import { EverWorksClientFactory } from '../client/ever-works-client.factory';
 import {
-	EVER_GAUZY_PRESET_SCOPES,
+	EVER_IRTRANSCRIPTS_PRESET_SCOPES,
 	EVER_WORKS_REQUIRED_SCOPES,
 	EverWorksWebhookSubscription,
 	EverWorksWhoami
@@ -31,7 +31,7 @@ import { EverWorksAuthMode, EverWorksConnection, EverWorksConnectionStatus } fro
 import { EverWorksNotifier } from './ever-works-notifier.service';
 import { EverWorksSecretBox, EverWorksSecretError } from './ever-works-secret-box';
 
-/** The events the Gauzy webhook subscribes to: every P1–P3 domain (catalog wildcards, B.4). */
+/** The events the IRTranscripts webhook subscribes to: every P1–P3 domain (catalog wildcards, B.4). */
 export const EVER_WORKS_WEBHOOK_EVENTS = [
 	'organization.*',
 	'agent.*',
@@ -47,7 +47,7 @@ export const EVER_WORKS_WEBHOOK_EVENTS = [
 
 /**
  * Agent mail (`email.message.*`, CR-11), added to the subscription while a mapping through the connection mirrors it
- * (its `agentEmail` direction is `ew_to_gauzy`, G-P4-6), so it arrives by webhook and not only through the feed.
+ * (its `agentEmail` direction is `ew_to_irtranscripts`, G-P4-6), so it arrives by webhook and not only through the feed.
  */
 export const EVER_WORKS_EMAIL_WEBHOOK_EVENTS = ['email.*'];
 
@@ -67,13 +67,13 @@ export interface EverWorksKeyValidation {
 	tenant: { id: string; slug: string };
 	organizations: EverWorksPinnedOrganization[];
 	scopes: string[];
-	/** Scopes of the "Ever Gauzy" preset the key lacks: the matching data does not sync. */
+	/** Scopes of the "Ever IRTranscripts" preset the key lacks: the matching data does not sync. */
 	missingScopes: string[];
 	/** Scopes the connection cannot work without (the change feed, the webhook). */
 	missingRequiredScopes: string[];
 	apiVersion: string;
 	compatible: boolean;
-	/** The integration the key was made for (`ever-gauzy`), when Ever Works states it; a key of another kind is refused. */
+	/** The integration the key was made for (`ever-irtranscripts`), when Ever Works states it; a key of another kind is refused. */
 	integrationKind: string | null;
 	feedHead: string;
 	limits: { readsPerMin: number; writesPerMin: number };
@@ -164,10 +164,10 @@ export class EverWorksConnectionService {
 		const validation = this.describe(apiBaseUrl, dto.apiKey, whoami);
 		if (!validation.compatible) {
 			throw new BadRequestException(
-				`This Ever Works speaks integration API v${validation.apiVersion}; Gauzy speaks v${EVER_WORKS_CONTRACT_VERSION}.`
+				`This Ever Works speaks integration API v${validation.apiVersion}; IRTranscripts speaks v${EVER_WORKS_CONTRACT_VERSION}.`
 			);
 		}
-		this.assertGauzyKey(validation);
+		this.assertIRTranscriptsKey(validation);
 		// A subscription the disconnect could not delete (Ever Works was unreachable then): deleted once this commits.
 		const orphan: { subscriptionId: string | null; apiKeyEncrypted: string | null } = { subscriptionId: null, apiKeyEncrypted: null };
 		const saved = await this.transaction(scope.tenantId, async (manager) => {
@@ -263,9 +263,9 @@ export class EverWorksConnectionService {
 			throw new BadRequestException('The new key belongs to another Ever Works tenant. Disconnect and connect again instead.');
 		}
 		if (!validation.compatible) {
-			throw new BadRequestException(`The Ever Works API version changed to v${validation.apiVersion}; Gauzy speaks v${EVER_WORKS_CONTRACT_VERSION}.`);
+			throw new BadRequestException(`The Ever Works API version changed to v${validation.apiVersion}; IRTranscripts speaks v${EVER_WORKS_CONTRACT_VERSION}.`);
 		}
-		this.assertGauzyKey(validation);
+		this.assertIRTranscriptsKey(validation);
 		// A webhook subscription belongs to the key that made it: under another key it can no longer be
 		// managed, and it stops when the old key is revoked. It moves to the new key below.
 		const moved: { subscriptionId: string | null; apiKeyEncrypted: string | null } = { subscriptionId: null, apiKeyEncrypted: null };
@@ -383,10 +383,10 @@ export class EverWorksConnectionService {
 					url,
 					events,
 					organizationIds,
-					excludeOriginTags: [`gauzy:${connection.id}`],
-					description: `Ever Gauzy (connection ${connection.id})`
+					excludeOriginTags: [`irtranscripts:${connection.id}`],
+					description: `Ever IRTranscripts (connection ${connection.id})`
 				},
-				`gauzy:${connection.id}:webhook:${randomUUID()}`
+				`irtranscripts:${connection.id}:webhook:${randomUUID()}`
 			)
 		);
 		if (!subscription?.id || typeof subscription.secret !== 'string' || subscription.secret.length < 32) {
@@ -464,7 +464,7 @@ export class EverWorksConnectionService {
 
 	/**
 	 * The events a connection's webhook subscribes to: every P1–P3 domain, and agent mail while one of the active
-	 * mappings through the connection mirrors it (its `agentEmail` direction is `ew_to_gauzy`).
+	 * mappings through the connection mirrors it (its `agentEmail` direction is `ew_to_irtranscripts`).
 	 */
 	private async webhookEvents(connection: EverWorksConnection): Promise<string[]> {
 		const mappings = await this.dataSource.getRepository(IntegrationTenant).find({
@@ -475,7 +475,7 @@ export class EverWorksConnectionService {
 			const setting = (name: EverWorksSettingName) => mapping.settings?.find((s) => s.settingsName === name)?.settingsValue ?? '';
 			if (setting(EverWorksSettingName.CONNECTION_ID) !== connection.id) return false;
 			try {
-				return (JSON.parse(setting(EverWorksSettingName.ENTITY_DIRECTIONS) || '{}') as Record<string, unknown>)['agentEmail'] === 'ew_to_gauzy';
+				return (JSON.parse(setting(EverWorksSettingName.ENTITY_DIRECTIONS) || '{}') as Record<string, unknown>)['agentEmail'] === 'ew_to_irtranscripts';
 			} catch {
 				return false;
 			}
@@ -603,7 +603,7 @@ export class EverWorksConnectionService {
 				lastError = 'tenant_changed: the key now answers for another Ever Works tenant';
 			} else if (whoami) {
 				next = keepPaused ? EverWorksConnectionStatus.PAUSED : EverWorksConnectionStatus.ERROR;
-				lastError = `api_version: Ever Works speaks integration API v${String(whoami.apiVersion)}; Gauzy speaks v${EVER_WORKS_CONTRACT_VERSION}`;
+				lastError = `api_version: Ever Works speaks integration API v${String(whoami.apiVersion)}; IRTranscripts speaks v${EVER_WORKS_CONTRACT_VERSION}`;
 			} else if (failure instanceof EverWorksApiError && failure.status === 401) {
 				// An admin pause stays a pause (review F57): the key still has to be replaced and the admin is told so, but
 				// a new key (`rotateKey` keeps PAUSED) must not restart a sync the admin stopped.
@@ -700,7 +700,7 @@ export class EverWorksConnectionService {
 			ewTenant: { id: connection.ewTenantId, slug: connection.ewTenantSlug ?? null },
 			key: { id: connection.keyId ?? null, name: connection.keyName ?? null, prefix: connection.keyPrefix ?? null },
 			scopes,
-			missingScopes: EVER_GAUZY_PRESET_SCOPES.filter((scope) => !scopes.includes(scope)),
+			missingScopes: EVER_IRTRANSCRIPTS_PRESET_SCOPES.filter((scope) => !scopes.includes(scope)),
 			pinnedOrganizations: this.pins(connection),
 			apiVersion: connection.apiVersion ?? null,
 			webhook: {
@@ -733,12 +733,12 @@ export class EverWorksConnectionService {
 		}
 	}
 
-	/** Where Ever Works delivers this connection's webhooks (the public API address of this Gauzy). */
+	/** Where Ever Works delivers this connection's webhooks (the public API address of this IRTranscripts). */
 	webhookUrl(connectionId: ID): string {
-		const base = this.config.gauzyApiUrl;
+		const base = this.config.irtranscriptsApiUrl;
 		if (!base) {
 			throw new BadRequestException(
-				'The webhook needs the public HTTPS address of this Gauzy API (API_BASE_URL); the change feed keeps syncing without it.'
+				'The webhook needs the public HTTPS address of this IRTranscripts API (API_BASE_URL); the change feed keeps syncing without it.'
 			);
 		}
 		return `${base}/api${EVER_WORKS_ROUTE_PREFIX}/webhooks/${connectionId}`;
@@ -757,7 +757,7 @@ export class EverWorksConnectionService {
 			tenant: { id: whoami.tenant.id, slug: whoami.tenant.slug },
 			organizations: this.normalisePins(whoami),
 			scopes,
-			missingScopes: EVER_GAUZY_PRESET_SCOPES.filter((scope) => !scopes.includes(scope)),
+			missingScopes: EVER_IRTRANSCRIPTS_PRESET_SCOPES.filter((scope) => !scopes.includes(scope)),
 			missingRequiredScopes: EVER_WORKS_REQUIRED_SCOPES.filter((scope) => !scopes.includes(scope)),
 			apiVersion: String(whoami.apiVersion ?? ''),
 			compatible: String(whoami.apiVersion) === EVER_WORKS_CONTRACT_VERSION,
@@ -772,10 +772,10 @@ export class EverWorksConnectionService {
 	 * source and refuses this plugin's `externalRef.source`, so every create would dead-letter while the connection
 	 * looks healthy. A key whose kind Ever Works does not state is accepted.
 	 */
-	private assertGauzyKey(validation: EverWorksKeyValidation): void {
+	private assertIRTranscriptsKey(validation: EverWorksKeyValidation): void {
 		if (validation.integrationKind && validation.integrationKind !== EVER_WORKS_INTEGRATION_KIND) {
 			throw new BadRequestException(
-				`This Ever Works key was made for the "${validation.integrationKind}" integration; create an Ever Gauzy (${EVER_WORKS_INTEGRATION_KIND}) integration key.`
+				`This Ever Works key was made for the "${validation.integrationKind}" integration; create an Ever IRTranscripts (${EVER_WORKS_INTEGRATION_KIND}) integration key.`
 			);
 		}
 	}
@@ -809,7 +809,7 @@ export class EverWorksConnectionService {
 	}
 
 	/**
-	 * Deletes a webhook subscription Gauzy no longer uses, best effort. A subscription belongs to the key
+	 * Deletes a webhook subscription IRTranscripts no longer uses, best effort. A subscription belongs to the key
 	 * that made it, so each key is tried in turn; a 404 means "not this key's" (or gone). Never throws.
 	 */
 	private async deleteUnusedWebhook(subscriptionId: string, clients: Array<() => EverWorksClient>, context: string): Promise<boolean> {
@@ -902,7 +902,7 @@ export class EverWorksConnectionService {
 		}
 	}
 
-	/** Runs a call to Ever Works and maps its failure to an answer for the admin (never a 401: that would sign Gauzy out). */
+	/** Runs a call to Ever Works and maps its failure to an answer for the admin (never a 401: that would sign IRTranscripts out). */
 	private async call<T>(work: () => Promise<T>): Promise<T> {
 		try {
 			return await work();

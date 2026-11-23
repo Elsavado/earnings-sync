@@ -11,9 +11,9 @@ const providerStub = {
 	deleteFile: jest.fn(async () => undefined)
 };
 
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	// The real storage read helper (dependency-free), so the specs read what the providers really return.
-	...jest.requireActual('@gauzy/core/src/lib/core/file-storage/helpers/stored-file-content'),
+	...jest.requireActual('@irtranscripts/core/src/lib/core/file-storage/helpers/stored-file-content'),
 	FileStorage: class {
 		getProvider() {
 			return providerStub;
@@ -34,7 +34,7 @@ jest.mock('./document-processing.service', () => ({ DocumentProcessingService: c
 jest.mock('../dto', () => ({}));
 
 import { BadRequestException } from '@nestjs/common';
-import { DocumentSourceEnum } from '@gauzy/contracts';
+import { DocumentSourceEnum } from '@irtranscripts/contracts';
 import { DOCS_QUOTA_EXCEEDED } from '../docs.constants';
 import { DocumentUploadService } from './document-upload.service';
 

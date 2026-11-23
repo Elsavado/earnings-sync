@@ -6,21 +6,21 @@
 }
 
 .account-panel {
-  @include gauzy-panel-surface();
+  @include irtranscripts-panel-surface();
   display: flex;
   flex-direction: column;
   width: 17.5rem;
   max-width: calc(100vw - 1.5rem);
   max-height: calc(100vh - 6rem);
-  @include gauzy-panel-scroll();
+  @include irtranscripts-panel-scroll();
   padding: $panel-pad;
   box-sizing: border-box;
 }
 
 .panel-header {
-  @include gauzy-panel-header();
+  @include irtranscripts-panel-header();
 
-  gauzy-user {
+  irtranscripts-user {
     flex: 1 1 auto;
     min-width: 0;
 
@@ -31,7 +31,7 @@
 }
 
 .panel-close {
-  @include gauzy-panel-close();
+  @include irtranscripts-panel-close();
 }
 
 .panel-section {
@@ -41,15 +41,15 @@
 }
 
 .panel-overline {
-  @include gauzy-panel-overline();
+  @include irtranscripts-panel-overline();
 }
 
 .panel-divider {
-  @include gauzy-panel-divider();
+  @include irtranscripts-panel-divider();
 }
 
 .panel-row {
-  @include gauzy-panel-row();
+  @include irtranscripts-panel-row();
   font-family: inherit;
 
   ::ng-deep strong {
@@ -69,7 +69,7 @@
 }
 
 .control-row {
-  @include gauzy-panel-control-row();
+  @include irtranscripts-panel-control-row();
 
   .theme {
     width: 100%;
@@ -77,7 +77,7 @@
 }
 
 .panel-footer {
-  @include gauzy-panel-footer();
+  @include irtranscripts-panel-footer();
 
   .download-label {
     white-space: nowrap;

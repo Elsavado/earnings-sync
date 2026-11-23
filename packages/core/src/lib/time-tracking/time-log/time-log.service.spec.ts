@@ -13,7 +13,7 @@ import '../../core/entities/internal';
 import { AsyncLocalStorage } from 'async_hooks';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
-import { IGetTimeLogReportInput, IManualTimeInput } from '@gauzy/contracts';
+import { IGetTimeLogReportInput, IManualTimeInput } from '@irtranscripts/contracts';
 import { moment } from '../../core/moment-extend';
 import { getDateRangeFormat, MultiORMEnum } from '../../core/utils';
 import { ManagedEmployeeService } from '../../employee/managed-employee.service';
@@ -27,7 +27,7 @@ import { TypeOrmEmployeeRepository } from '../../employee/repository/type-orm-em
 import { TypeOrmTimeLogRepository } from './repository/type-orm-time-log.repository';
 import { RequestContext } from '../../core/context';
 import { ForbiddenException } from '@nestjs/common';
-import { TimeLogSourceEnum, TimeLogType } from '@gauzy/contracts';
+import { TimeLogSourceEnum, TimeLogType } from '@irtranscripts/contracts';
 import {
 	DeleteTimeSpanCommand,
 	TimeLogCreateCommand,

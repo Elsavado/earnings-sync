@@ -10,8 +10,8 @@ import {
 	IUserUiPreferences,
 	IUserUiPreferencesUpdateInput,
 	IUserUpdateInput
-} from '@gauzy/contracts';
-import { API_PREFIX, buildHttpParams } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { API_PREFIX, buildHttpParams } from '@irtranscripts/ui-core/common';
 import { Store } from '../store/store.service';
 import { cloneJson, RecentAnswers } from '../recent-answers';
 

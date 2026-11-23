@@ -1,4 +1,4 @@
-import { IBasePerTenantAndOrganizationEntityModel } from '@gauzy/contracts';
+import { IBasePerTenantAndOrganizationEntityModel } from '@irtranscripts/contracts';
 
 /**
  * ActivePieces OAuth token response interface
@@ -218,7 +218,7 @@ export interface IActivepiecesProject {
 	ownerId: string;
 	created: string;
 	updated: string;
-	/** The id the platform's owner gave the project (`gauzy-tenant-<tenantId>` for a Gauzy tenant's project). */
+	/** The id the platform's owner gave the project (`irtranscripts-tenant-<tenantId>` for a IRTranscripts tenant's project). */
 	externalId?: string | null;
 	platformId?: string;
 }
@@ -301,7 +301,7 @@ export interface IActivepiecesMcpTool {
  * Activepieces MCP 2.0 (November 2025) keeps one MCP server per project (`/v1/projects/:projectId/mcp-server`), with
  * no name, agent or tool list of its own: it serves the project's flows (`flows`) except the tools disabled for it
  * (`disabledTools`, and the platform's `platformDisabledTools`). `name`, `agentId` and `tools` are those of the
- * servers the legacy `/v1/mcp-servers` routes answered (`GAUZY_ACTIVEPIECES_MCP_API=legacy`).
+ * servers the legacy `/v1/mcp-servers` routes answered (`IRTRANSCRIPTS_ACTIVEPIECES_MCP_API=legacy`).
  */
 export interface IActivepiecesMcpServer {
 	id: string;

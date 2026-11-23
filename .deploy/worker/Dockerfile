@@ -1,4 +1,4 @@
-# Ever Gauzy Platform Worker
+# Ever IRTranscripts Platform Worker
 #
 # Requires BuildKit (Docker 23+/buildx): uses RUN --mount stage bind mounts and build
 # secrets so the multi-GB node_modules trees never land in persisted layers (issue #9791).
@@ -15,7 +15,7 @@
 # orchestrator environment (k8s manifests / docker-compose env_file) — it is deliberately
 # NOT declared here. Only neutral literal defaults are baked into the image below.
 #
-# NOTE: every new @gauzy workspace package must be added in THREE places in this file
+# NOTE: every new @irtranscripts workspace package must be added in THREE places in this file
 # (and mirrored in the api/webapp Dockerfiles): the dependencies stage COPY, the
 # prod-dependencies stage COPY, and the production stage per-package node_modules copy.
 
@@ -58,14 +58,14 @@ RUN set -- --fetch-retries=5 --fetch-retry-mintimeout=20000 --fetch-retry-maxtim
     set -- "$@" --registry "$VERDACCIO_REGISTRY"; \
     fi && \
     npm install --quiet node-gyp@10.2.0 -g "$@" && npm install yarn -g --force "$@" && npm install --quiet ts-node@10.9.2 -g "$@"
-RUN mkdir /srv/gauzy && chown -R node:node /srv/gauzy
+RUN mkdir /srv/irtranscripts && chown -R node:node /srv/irtranscripts
 
 COPY wait .deploy/worker/entrypoint.prod.sh .deploy/worker/entrypoint.compose.sh /
 RUN chmod +x /wait /entrypoint.compose.sh /entrypoint.prod.sh && dos2unix /entrypoint.prod.sh && dos2unix /entrypoint.compose.sh
 
 USER node:node
 
-WORKDIR /srv/gauzy
+WORKDIR /srv/irtranscripts
 
 COPY --chown=node:node apps/worker/package.json ./apps/worker/
 
@@ -120,7 +120,7 @@ COPY --chown=node:node packages/plugins/ai-provider-anthropic/package.json ./pac
 COPY --chown=node:node packages/plugins/ai-provider-openai/package.json ./packages/plugins/ai-provider-openai/
 COPY --chown=node:node packages/plugins/ai-provider-openrouter/package.json ./packages/plugins/ai-provider-openrouter/
 COPY --chown=node:node packages/plugins/ai-provider-vercel-gateway/package.json ./packages/plugins/ai-provider-vercel-gateway/
-COPY --chown=node:node packages/plugins/ai-provider-gauzy-ai/package.json ./packages/plugins/ai-provider-gauzy-ai/
+COPY --chown=node:node packages/plugins/ai-provider-irtranscripts-ai/package.json ./packages/plugins/ai-provider-irtranscripts-ai/
 COPY --chown=node:node packages/plugins/ai-provider-gemini/package.json ./packages/plugins/ai-provider-gemini/
 COPY --chown=node:node packages/plugins/ai-provider-grok/package.json ./packages/plugins/ai-provider-grok/
 COPY --chown=node:node packages/plugins/ai-provider-groq/package.json ./packages/plugins/ai-provider-groq/
@@ -208,11 +208,11 @@ RUN set -- --fetch-retries=5 --fetch-retry-mintimeout=20000 --fetch-retry-maxtim
     set -- "$@" --registry "$VERDACCIO_REGISTRY"; \
     fi && \
     npm install --quiet node-gyp@10.2.0 -g "$@" && npm install yarn -g --force "$@" && npm install --quiet ts-node@10.9.2 -g "$@"
-RUN mkdir /srv/gauzy && chown -R node:node /srv/gauzy
+RUN mkdir /srv/irtranscripts && chown -R node:node /srv/irtranscripts
 
 USER node:node
 
-WORKDIR /srv/gauzy
+WORKDIR /srv/irtranscripts
 
 COPY --chown=node:node apps/worker/package.json ./apps/worker/
 
@@ -267,7 +267,7 @@ COPY --chown=node:node packages/plugins/ai-provider-anthropic/package.json ./pac
 COPY --chown=node:node packages/plugins/ai-provider-openai/package.json ./packages/plugins/ai-provider-openai/
 COPY --chown=node:node packages/plugins/ai-provider-openrouter/package.json ./packages/plugins/ai-provider-openrouter/
 COPY --chown=node:node packages/plugins/ai-provider-vercel-gateway/package.json ./packages/plugins/ai-provider-vercel-gateway/
-COPY --chown=node:node packages/plugins/ai-provider-gauzy-ai/package.json ./packages/plugins/ai-provider-gauzy-ai/
+COPY --chown=node:node packages/plugins/ai-provider-irtranscripts-ai/package.json ./packages/plugins/ai-provider-irtranscripts-ai/
 COPY --chown=node:node packages/plugins/ai-provider-gemini/package.json ./packages/plugins/ai-provider-gemini/
 COPY --chown=node:node packages/plugins/ai-provider-grok/package.json ./packages/plugins/ai-provider-grok/
 COPY --chown=node:node packages/plugins/ai-provider-groq/package.json ./packages/plugins/ai-provider-groq/
@@ -325,9 +325,9 @@ RUN --mount=type=secret,id=VERDACCIO_TOKEN,uid=1000 \
 # We remove Angular modules as it's not used in Workers
 RUN rm -r node_modules/@angular
 
-# Exclude @gauzy directories before copying because we copy
+# Exclude @irtranscripts directories before copying because we copy
 # those within custom webpack in apps/worker/config/custom-webpack.config.js
-# RUN rm -r node_modules/@gauzy
+# RUN rm -r node_modules/@irtranscripts
 
 FROM node:26.12.1-alpine3.24 AS development
 
@@ -343,10 +343,10 @@ RUN set -- --fetch-retries=5 --fetch-retry-mintimeout=20000 --fetch-retry-maxtim
 
 USER node:node
 
-WORKDIR /srv/gauzy
+WORKDIR /srv/irtranscripts
 
 COPY --chown=node:node --from=dependencies /wait /entrypoint.prod.sh /entrypoint.compose.sh /
-COPY --chown=node:node --from=dependencies /srv/gauzy .
+COPY --chown=node:node --from=dependencies /srv/irtranscripts .
 COPY . .
 
 FROM node:26.12.1-alpine3.24 AS build
@@ -361,17 +361,17 @@ RUN set -- --fetch-retries=5 --fetch-retry-mintimeout=20000 --fetch-retry-maxtim
     fi && \
     npm install -g yarn@1.22.22 "$@"
 
-WORKDIR /srv/gauzy
+WORKDIR /srv/irtranscripts
 
 RUN mkdir dist
 
 # Per-package node_modules created by the workspace install in the dependencies stage
 # (non-hoisted deps + .bin shims). Node module resolution needs them next to each
 # package/app source, and the production stage re-nests packages/*/node_modules under
-# node_modules/@gauzy/<pkg>. These trees are small (<1GB total) — unlike the root
+# node_modules/@irtranscripts/<pkg>. These trees are small (<1GB total) — unlike the root
 # node_modules, which is bind-mounted below instead of being copied into a layer.
-COPY --chown=node:node --from=dependencies /srv/gauzy/packages ./packages
-COPY --chown=node:node --from=dependencies /srv/gauzy/apps ./apps
+COPY --chown=node:node --from=dependencies /srv/irtranscripts/packages ./packages
+COPY --chown=node:node --from=dependencies /srv/irtranscripts/apps ./apps
 
 # Full source from the build context (root/per-package node_modules and dist are
 # .dockerignore'd, so this merges source files over the trees copied above).
@@ -398,14 +398,14 @@ ENV NX_BRANCH=${NX_BRANCH}
 # The multi-GB root node_modules is bind-mounted from the dependencies stage for this RUN
 # only — it never lands in a persisted layer (this was the main cause of the 44GB+
 # build-time disk footprint, see issue #9791). `rw` allows transient cache writes into
-# the mount, which are discarded after the step. The @gauzy/* symlinks inside the mount
-# resolve to /srv/gauzy/packages|apps on this stage's fs — that is why the source COPYs
+# the mount, which are discarded after the step. The @irtranscripts/* symlinks inside the mount
+# resolve to /srv/irtranscripts/packages|apps on this stage's fs — that is why the source COPYs
 # above must happen before this RUN.
 # The nx local task cache (.nx/cache — NOT disabled by CI=true) is written to the stage
 # fs and would duplicate every build output into this layer, so it is deleted in the
 # same RUN. (The Angular CLI disk cache IS disabled under CI.)
 # NX_CLOUD_ACCESS_TOKEN is an optional build secret (inert while NX_NO_CLOUD=true).
-RUN --mount=type=bind,from=dependencies,source=/srv/gauzy/node_modules,target=/srv/gauzy/node_modules,rw \
+RUN --mount=type=bind,from=dependencies,source=/srv/irtranscripts/node_modules,target=/srv/irtranscripts/node_modules,rw \
     --mount=type=secret,id=NX_CLOUD_ACCESS_TOKEN,uid=1000 \
     export NX_CLOUD_ACCESS_TOKEN="$(cat /run/secrets/NX_CLOUD_ACCESS_TOKEN 2>/dev/null || true)" && \
     if [ "$NODE_ENV" = "production" ]; then \
@@ -415,13 +415,13 @@ RUN --mount=type=bind,from=dependencies,source=/srv/gauzy/node_modules,target=/s
     fi && \
     rm -rf ./.nx
 
-# Exclude @gauzy directories before copying because we copy
+# Exclude @irtranscripts directories before copying because we copy
 # those within custom webpack in apps/worker/config/custom-webpack.config.js
-# RUN rm -r dist/apps/worker/node_modules/@gauzy
+# RUN rm -r dist/apps/worker/node_modules/@irtranscripts
 
 FROM node:26.12.1-alpine3.24 AS production
 
-WORKDIR /srv/gauzy
+WORKDIR /srv/irtranscripts
 
 COPY --chown=node:node --from=dependencies /wait /entrypoint.prod.sh /entrypoint.compose.sh ./
 
@@ -440,86 +440,86 @@ COPY --chown=node:node apps/worker/public apps/worker/public
 # docker container rebuilds, we will not have images unless we copy them during docker build manually here.
 COPY --chown=node:node apps/worker/src/assets/seed apps/worker/public
 
-COPY --chown=node:node --from=build /srv/gauzy/dist/apps/worker .
+COPY --chown=node:node --from=build /srv/irtranscripts/dist/apps/worker .
 
 # Assemble the runtime node_modules in a SINGLE layer, reading the source trees through
 # bind mounts so they are never duplicated into this image:
 #  1. merge the production node_modules from prod-dependencies with cp -rn (no-clobber:
-#     the webpack-built @gauzy packages already inside dist/apps/worker/node_modules WIN —
+#     the webpack-built @irtranscripts packages already inside dist/apps/worker/node_modules WIN —
 #     this precedence is load-bearing, see custom-webpack.config.js);
 #  2. re-nest each workspace package's own node_modules (its non-hoisted deps from the
-#     workspace install) under node_modules/@gauzy/<pkg> — required for Node module
+#     workspace install) under node_modules/@irtranscripts/<pkg> — required for Node module
 #     resolution at runtime. Wakatime plugin is intentionally absent (Desktop Apps only).
-RUN --mount=type=bind,from=prod-dependencies,source=/srv/gauzy/node_modules,target=/mnt/prod_node_modules \
-    --mount=type=bind,from=build,source=/srv/gauzy/packages,target=/mnt/packages \
+RUN --mount=type=bind,from=prod-dependencies,source=/srv/irtranscripts/node_modules,target=/mnt/prod_node_modules \
+    --mount=type=bind,from=build,source=/srv/irtranscripts/packages,target=/mnt/packages \
     mkdir -p ./node_modules && \
     cp -rn /mnt/prod_node_modules/* ./node_modules/ && \
-    cp -r /mnt/packages/auth/node_modules ./node_modules/@gauzy/auth/ && \
-    cp -r /mnt/packages/common/node_modules ./node_modules/@gauzy/common/ && \
-    cp -r /mnt/packages/utils/node_modules ./node_modules/@gauzy/utils/ && \
-    cp -r /mnt/packages/config/node_modules ./node_modules/@gauzy/config/ && \
-    cp -r /mnt/packages/contracts/node_modules ./node_modules/@gauzy/contracts/ && \
-    cp -r /mnt/packages/core/node_modules ./node_modules/@gauzy/core/ && \
-    cp -r /mnt/packages/scheduler/node_modules ./node_modules/@gauzy/scheduler/ && \
-    cp -r /mnt/packages/plugins/changelog/node_modules ./node_modules/@gauzy/plugin-changelog/ && \
-    cp -r /mnt/packages/plugins/integration-activepieces/node_modules ./node_modules/@gauzy/plugin-integration-activepieces/ && \
-    cp -r /mnt/packages/plugins/integration-ai/node_modules ./node_modules/@gauzy/plugin-integration-ai/ && \
-    cp -r /mnt/packages/plugins/integration-github/node_modules ./node_modules/@gauzy/plugin-integration-github/ && \
-    cp -r /mnt/packages/plugins/integration-hubstaff/node_modules ./node_modules/@gauzy/plugin-integration-hubstaff/ && \
-    cp -r /mnt/packages/plugins/integration-jira/node_modules ./node_modules/@gauzy/plugin-integration-jira/ && \
-    cp -r /mnt/packages/plugins/integration-make-com/node_modules ./node_modules/@gauzy/plugin-integration-make-com/ && \
-    cp -r /mnt/packages/plugins/integration-sim/node_modules ./node_modules/@gauzy/plugin-integration-sim/ && \
-    cp -r /mnt/packages/plugins/integration-plane/node_modules ./node_modules/@gauzy/plugin-integration-plane/ && \
-    if [ -d /mnt/packages/plugins/integration-ever-async/node_modules ]; then cp -r /mnt/packages/plugins/integration-ever-async/node_modules ./node_modules/@gauzy/plugin-integration-ever-async/; fi && \
-    if [ -d /mnt/packages/plugins/integration-ever-works/node_modules ]; then cp -r /mnt/packages/plugins/integration-ever-works/node_modules ./node_modules/@gauzy/plugin-integration-ever-works/; fi && \
-    if [ -d /mnt/packages/plugins/inbox/node_modules ]; then cp -r /mnt/packages/plugins/inbox/node_modules ./node_modules/@gauzy/plugin-inbox/; fi && \
-    if [ -d /mnt/packages/plugins/email-provider-resend/node_modules ]; then cp -r /mnt/packages/plugins/email-provider-resend/node_modules ./node_modules/@gauzy/plugin-email-provider-resend/; fi && \
-    if [ -d /mnt/packages/plugins/email-provider-postmark/node_modules ]; then cp -r /mnt/packages/plugins/email-provider-postmark/node_modules ./node_modules/@gauzy/plugin-email-provider-postmark/; fi && \
-    if [ -d /mnt/packages/plugins/email-provider-mailgun/node_modules ]; then cp -r /mnt/packages/plugins/email-provider-mailgun/node_modules ./node_modules/@gauzy/plugin-email-provider-mailgun/; fi && \
-    if [ -d /mnt/packages/plugins/email-provider-sendgrid/node_modules ]; then cp -r /mnt/packages/plugins/email-provider-sendgrid/node_modules ./node_modules/@gauzy/plugin-email-provider-sendgrid/; fi && \
-    if [ -d /mnt/packages/plugins/email-provider-ses/node_modules ]; then cp -r /mnt/packages/plugins/email-provider-ses/node_modules ./node_modules/@gauzy/plugin-email-provider-ses/; fi && \
-    if [ -d /mnt/packages/plugins/auth-keycloak/node_modules ]; then cp -r /mnt/packages/plugins/auth-keycloak/node_modules ./node_modules/@gauzy/plugin-auth-keycloak/; fi && \
-    if [ -d /mnt/packages/plugins/auth-zitadel/node_modules ]; then cp -r /mnt/packages/plugins/auth-zitadel/node_modules ./node_modules/@gauzy/plugin-auth-zitadel/; fi && \
-    if [ -d /mnt/packages/plugins/ever-instance/node_modules ]; then cp -r /mnt/packages/plugins/ever-instance/node_modules ./node_modules/@gauzy/plugin-ever-instance/; fi && \
-    if [ -d /mnt/packages/plugins/ever-stats/node_modules ]; then cp -r /mnt/packages/plugins/ever-stats/node_modules ./node_modules/@gauzy/plugin-ever-stats/; fi && \
-    if [ -d /mnt/packages/plugins/ever-connect/node_modules ]; then cp -r /mnt/packages/plugins/ever-connect/node_modules ./node_modules/@gauzy/plugin-ever-connect/; fi && \
-    cp -r /mnt/packages/plugins/integration-upwork/node_modules ./node_modules/@gauzy/plugin-integration-upwork/ && \
-    cp -r /mnt/packages/plugins/integration-zapier/node_modules ./node_modules/@gauzy/plugin-integration-zapier/ && \
-    cp -r /mnt/packages/plugins/jitsu-analytics/node_modules ./node_modules/@gauzy/plugin-jitsu-analytics/ && \
-    cp -r /mnt/packages/plugins/job-proposal/node_modules ./node_modules/@gauzy/plugin-job-proposal/ && \
-    cp -r /mnt/packages/plugins/job-search/node_modules ./node_modules/@gauzy/plugin-job-search/ && \
-    cp -r /mnt/packages/plugins/knowledge-base/node_modules ./node_modules/@gauzy/plugin-knowledge-base/ && \
-    cp -r /mnt/packages/plugins/camshot/node_modules ./node_modules/@gauzy/plugin-camshot/ && \
-    cp -r /mnt/packages/plugins/product-reviews/node_modules ./node_modules/@gauzy/plugin-product-reviews/ && \
-    cp -r /mnt/packages/plugins/sentry-tracing/node_modules ./node_modules/@gauzy/plugin-sentry/ && \
-    cp -r /mnt/packages/plugins/posthog/node_modules ./node_modules/@gauzy/plugin-posthog/ && \
-    cp -r /mnt/packages/plugins/videos/node_modules ./node_modules/@gauzy/plugin-videos/ && \
-    cp -r /mnt/packages/plugins/soundshot/node_modules ./node_modules/@gauzy/plugin-soundshot/ && \
-    cp -r /mnt/packages/plugins/registry/node_modules ./node_modules/@gauzy/plugin-registry/ && \
-    cp -r /mnt/packages/plugins/ai-chat/node_modules ./node_modules/@gauzy/plugin-ai-chat/ && \
-    cp -r /mnt/packages/plugins/ai-provider-anthropic/node_modules ./node_modules/@gauzy/plugin-ai-provider-anthropic/ && \
-    cp -r /mnt/packages/plugins/ai-provider-openai/node_modules ./node_modules/@gauzy/plugin-ai-provider-openai/ && \
-    cp -r /mnt/packages/plugins/ai-provider-openrouter/node_modules ./node_modules/@gauzy/plugin-ai-provider-openrouter/ && \
-    cp -r /mnt/packages/plugins/ai-provider-vercel-gateway/node_modules ./node_modules/@gauzy/plugin-ai-provider-vercel-gateway/ && \
-    cp -r /mnt/packages/plugins/ai-provider-gauzy-ai/node_modules ./node_modules/@gauzy/plugin-ai-provider-gauzy-ai/ && \
-    cp -r /mnt/packages/plugins/ai-provider-gemini/node_modules ./node_modules/@gauzy/plugin-ai-provider-gemini/ && \
-    cp -r /mnt/packages/plugins/ai-provider-grok/node_modules ./node_modules/@gauzy/plugin-ai-provider-grok/ && \
-    cp -r /mnt/packages/plugins/ai-provider-groq/node_modules ./node_modules/@gauzy/plugin-ai-provider-groq/ && \
-    cp -r /mnt/packages/plugins/ai-provider-mistral/node_modules ./node_modules/@gauzy/plugin-ai-provider-mistral/ && \
-    cp -r /mnt/packages/plugins/ai-provider-deepgram/node_modules ./node_modules/@gauzy/plugin-ai-provider-deepgram/ && \
-    cp -r /mnt/packages/plugins/ai-provider-elevenlabs/node_modules ./node_modules/@gauzy/plugin-ai-provider-elevenlabs/ && \
-    cp -r /mnt/packages/plugins/ai-provider-speaches/node_modules ./node_modules/@gauzy/plugin-ai-provider-speaches/ && \
-    cp -r /mnt/packages/plugins/ai-provider-localai/node_modules ./node_modules/@gauzy/plugin-ai-provider-localai/ && \
-    cp -r /mnt/packages/plugins/ai-provider-whisper-cpp/node_modules ./node_modules/@gauzy/plugin-ai-provider-whisper-cpp/ && \
-    cp -r /mnt/packages/plugins/ai-provider-openai-compatible/node_modules ./node_modules/@gauzy/plugin-ai-provider-openai-compatible/ && \
-    cp -r /mnt/packages/plugins/docs/node_modules ./node_modules/@gauzy/plugin-docs/ && \
-    if [ -d /mnt/packages/plugins/catalog/node_modules ]; then cp -r /mnt/packages/plugins/catalog/node_modules ./node_modules/@gauzy/plugin-catalog/; fi && \
-    if [ -d /mnt/packages/plugins/pricing/node_modules ]; then cp -r /mnt/packages/plugins/pricing/node_modules ./node_modules/@gauzy/plugin-pricing/; fi && \
-    if [ -d /mnt/packages/plugins/tax/node_modules ]; then cp -r /mnt/packages/plugins/tax/node_modules ./node_modules/@gauzy/plugin-tax/; fi && \
-    if [ -d /mnt/packages/plugins/inventory/node_modules ]; then cp -r /mnt/packages/plugins/inventory/node_modules ./node_modules/@gauzy/plugin-inventory/; fi && \
-    if [ -d /mnt/packages/plugins/cart/node_modules ]; then cp -r /mnt/packages/plugins/cart/node_modules ./node_modules/@gauzy/plugin-cart/; fi && \
-    if [ -d /mnt/packages/plugins/order/node_modules ]; then cp -r /mnt/packages/plugins/order/node_modules ./node_modules/@gauzy/plugin-order/; fi && \
-    if [ -d /mnt/packages/plugins/subscription/node_modules ]; then cp -r /mnt/packages/plugins/subscription/node_modules ./node_modules/@gauzy/plugin-subscription/; fi
+    cp -r /mnt/packages/auth/node_modules ./node_modules/@irtranscripts/auth/ && \
+    cp -r /mnt/packages/common/node_modules ./node_modules/@irtranscripts/common/ && \
+    cp -r /mnt/packages/utils/node_modules ./node_modules/@irtranscripts/utils/ && \
+    cp -r /mnt/packages/config/node_modules ./node_modules/@irtranscripts/config/ && \
+    cp -r /mnt/packages/contracts/node_modules ./node_modules/@irtranscripts/contracts/ && \
+    cp -r /mnt/packages/core/node_modules ./node_modules/@irtranscripts/core/ && \
+    cp -r /mnt/packages/scheduler/node_modules ./node_modules/@irtranscripts/scheduler/ && \
+    cp -r /mnt/packages/plugins/changelog/node_modules ./node_modules/@irtranscripts/plugin-changelog/ && \
+    cp -r /mnt/packages/plugins/integration-activepieces/node_modules ./node_modules/@irtranscripts/plugin-integration-activepieces/ && \
+    cp -r /mnt/packages/plugins/integration-ai/node_modules ./node_modules/@irtranscripts/plugin-integration-ai/ && \
+    cp -r /mnt/packages/plugins/integration-github/node_modules ./node_modules/@irtranscripts/plugin-integration-github/ && \
+    cp -r /mnt/packages/plugins/integration-hubstaff/node_modules ./node_modules/@irtranscripts/plugin-integration-hubstaff/ && \
+    cp -r /mnt/packages/plugins/integration-jira/node_modules ./node_modules/@irtranscripts/plugin-integration-jira/ && \
+    cp -r /mnt/packages/plugins/integration-make-com/node_modules ./node_modules/@irtranscripts/plugin-integration-make-com/ && \
+    cp -r /mnt/packages/plugins/integration-sim/node_modules ./node_modules/@irtranscripts/plugin-integration-sim/ && \
+    cp -r /mnt/packages/plugins/integration-plane/node_modules ./node_modules/@irtranscripts/plugin-integration-plane/ && \
+    if [ -d /mnt/packages/plugins/integration-ever-async/node_modules ]; then cp -r /mnt/packages/plugins/integration-ever-async/node_modules ./node_modules/@irtranscripts/plugin-integration-ever-async/; fi && \
+    if [ -d /mnt/packages/plugins/integration-ever-works/node_modules ]; then cp -r /mnt/packages/plugins/integration-ever-works/node_modules ./node_modules/@irtranscripts/plugin-integration-ever-works/; fi && \
+    if [ -d /mnt/packages/plugins/inbox/node_modules ]; then cp -r /mnt/packages/plugins/inbox/node_modules ./node_modules/@irtranscripts/plugin-inbox/; fi && \
+    if [ -d /mnt/packages/plugins/email-provider-resend/node_modules ]; then cp -r /mnt/packages/plugins/email-provider-resend/node_modules ./node_modules/@irtranscripts/plugin-email-provider-resend/; fi && \
+    if [ -d /mnt/packages/plugins/email-provider-postmark/node_modules ]; then cp -r /mnt/packages/plugins/email-provider-postmark/node_modules ./node_modules/@irtranscripts/plugin-email-provider-postmark/; fi && \
+    if [ -d /mnt/packages/plugins/email-provider-mailgun/node_modules ]; then cp -r /mnt/packages/plugins/email-provider-mailgun/node_modules ./node_modules/@irtranscripts/plugin-email-provider-mailgun/; fi && \
+    if [ -d /mnt/packages/plugins/email-provider-sendgrid/node_modules ]; then cp -r /mnt/packages/plugins/email-provider-sendgrid/node_modules ./node_modules/@irtranscripts/plugin-email-provider-sendgrid/; fi && \
+    if [ -d /mnt/packages/plugins/email-provider-ses/node_modules ]; then cp -r /mnt/packages/plugins/email-provider-ses/node_modules ./node_modules/@irtranscripts/plugin-email-provider-ses/; fi && \
+    if [ -d /mnt/packages/plugins/auth-keycloak/node_modules ]; then cp -r /mnt/packages/plugins/auth-keycloak/node_modules ./node_modules/@irtranscripts/plugin-auth-keycloak/; fi && \
+    if [ -d /mnt/packages/plugins/auth-zitadel/node_modules ]; then cp -r /mnt/packages/plugins/auth-zitadel/node_modules ./node_modules/@irtranscripts/plugin-auth-zitadel/; fi && \
+    if [ -d /mnt/packages/plugins/ever-instance/node_modules ]; then cp -r /mnt/packages/plugins/ever-instance/node_modules ./node_modules/@irtranscripts/plugin-ever-instance/; fi && \
+    if [ -d /mnt/packages/plugins/ever-stats/node_modules ]; then cp -r /mnt/packages/plugins/ever-stats/node_modules ./node_modules/@irtranscripts/plugin-ever-stats/; fi && \
+    if [ -d /mnt/packages/plugins/ever-connect/node_modules ]; then cp -r /mnt/packages/plugins/ever-connect/node_modules ./node_modules/@irtranscripts/plugin-ever-connect/; fi && \
+    cp -r /mnt/packages/plugins/integration-upwork/node_modules ./node_modules/@irtranscripts/plugin-integration-upwork/ && \
+    cp -r /mnt/packages/plugins/integration-zapier/node_modules ./node_modules/@irtranscripts/plugin-integration-zapier/ && \
+    cp -r /mnt/packages/plugins/jitsu-analytics/node_modules ./node_modules/@irtranscripts/plugin-jitsu-analytics/ && \
+    cp -r /mnt/packages/plugins/job-proposal/node_modules ./node_modules/@irtranscripts/plugin-job-proposal/ && \
+    cp -r /mnt/packages/plugins/job-search/node_modules ./node_modules/@irtranscripts/plugin-job-search/ && \
+    cp -r /mnt/packages/plugins/knowledge-base/node_modules ./node_modules/@irtranscripts/plugin-knowledge-base/ && \
+    cp -r /mnt/packages/plugins/camshot/node_modules ./node_modules/@irtranscripts/plugin-camshot/ && \
+    cp -r /mnt/packages/plugins/product-reviews/node_modules ./node_modules/@irtranscripts/plugin-product-reviews/ && \
+    cp -r /mnt/packages/plugins/sentry-tracing/node_modules ./node_modules/@irtranscripts/plugin-sentry/ && \
+    cp -r /mnt/packages/plugins/posthog/node_modules ./node_modules/@irtranscripts/plugin-posthog/ && \
+    cp -r /mnt/packages/plugins/videos/node_modules ./node_modules/@irtranscripts/plugin-videos/ && \
+    cp -r /mnt/packages/plugins/soundshot/node_modules ./node_modules/@irtranscripts/plugin-soundshot/ && \
+    cp -r /mnt/packages/plugins/registry/node_modules ./node_modules/@irtranscripts/plugin-registry/ && \
+    cp -r /mnt/packages/plugins/ai-chat/node_modules ./node_modules/@irtranscripts/plugin-ai-chat/ && \
+    cp -r /mnt/packages/plugins/ai-provider-anthropic/node_modules ./node_modules/@irtranscripts/plugin-ai-provider-anthropic/ && \
+    cp -r /mnt/packages/plugins/ai-provider-openai/node_modules ./node_modules/@irtranscripts/plugin-ai-provider-openai/ && \
+    cp -r /mnt/packages/plugins/ai-provider-openrouter/node_modules ./node_modules/@irtranscripts/plugin-ai-provider-openrouter/ && \
+    cp -r /mnt/packages/plugins/ai-provider-vercel-gateway/node_modules ./node_modules/@irtranscripts/plugin-ai-provider-vercel-gateway/ && \
+    cp -r /mnt/packages/plugins/ai-provider-irtranscripts-ai/node_modules ./node_modules/@irtranscripts/plugin-ai-provider-irtranscripts-ai/ && \
+    cp -r /mnt/packages/plugins/ai-provider-gemini/node_modules ./node_modules/@irtranscripts/plugin-ai-provider-gemini/ && \
+    cp -r /mnt/packages/plugins/ai-provider-grok/node_modules ./node_modules/@irtranscripts/plugin-ai-provider-grok/ && \
+    cp -r /mnt/packages/plugins/ai-provider-groq/node_modules ./node_modules/@irtranscripts/plugin-ai-provider-groq/ && \
+    cp -r /mnt/packages/plugins/ai-provider-mistral/node_modules ./node_modules/@irtranscripts/plugin-ai-provider-mistral/ && \
+    cp -r /mnt/packages/plugins/ai-provider-deepgram/node_modules ./node_modules/@irtranscripts/plugin-ai-provider-deepgram/ && \
+    cp -r /mnt/packages/plugins/ai-provider-elevenlabs/node_modules ./node_modules/@irtranscripts/plugin-ai-provider-elevenlabs/ && \
+    cp -r /mnt/packages/plugins/ai-provider-speaches/node_modules ./node_modules/@irtranscripts/plugin-ai-provider-speaches/ && \
+    cp -r /mnt/packages/plugins/ai-provider-localai/node_modules ./node_modules/@irtranscripts/plugin-ai-provider-localai/ && \
+    cp -r /mnt/packages/plugins/ai-provider-whisper-cpp/node_modules ./node_modules/@irtranscripts/plugin-ai-provider-whisper-cpp/ && \
+    cp -r /mnt/packages/plugins/ai-provider-openai-compatible/node_modules ./node_modules/@irtranscripts/plugin-ai-provider-openai-compatible/ && \
+    cp -r /mnt/packages/plugins/docs/node_modules ./node_modules/@irtranscripts/plugin-docs/ && \
+    if [ -d /mnt/packages/plugins/catalog/node_modules ]; then cp -r /mnt/packages/plugins/catalog/node_modules ./node_modules/@irtranscripts/plugin-catalog/; fi && \
+    if [ -d /mnt/packages/plugins/pricing/node_modules ]; then cp -r /mnt/packages/plugins/pricing/node_modules ./node_modules/@irtranscripts/plugin-pricing/; fi && \
+    if [ -d /mnt/packages/plugins/tax/node_modules ]; then cp -r /mnt/packages/plugins/tax/node_modules ./node_modules/@irtranscripts/plugin-tax/; fi && \
+    if [ -d /mnt/packages/plugins/inventory/node_modules ]; then cp -r /mnt/packages/plugins/inventory/node_modules ./node_modules/@irtranscripts/plugin-inventory/; fi && \
+    if [ -d /mnt/packages/plugins/cart/node_modules ]; then cp -r /mnt/packages/plugins/cart/node_modules ./node_modules/@irtranscripts/plugin-cart/; fi && \
+    if [ -d /mnt/packages/plugins/order/node_modules ]; then cp -r /mnt/packages/plugins/order/node_modules ./node_modules/@irtranscripts/plugin-order/; fi && \
+    if [ -d /mnt/packages/plugins/subscription/node_modules ]; then cp -r /mnt/packages/plugins/subscription/node_modules ./node_modules/@irtranscripts/plugin-subscription/; fi
 
 RUN mkdir /import && chown node:node /import && touch ormlogs.log && chown node:node ormlogs.log && chown node:node wait && \
     chmod +x wait entrypoint.compose.sh entrypoint.prod.sh && chown -R node:node apps/
@@ -539,10 +539,10 @@ ENV NODE_OPTIONS="--max-old-space-size=12288"
 ENV NODE_ENV=production
 
 # Deployed release version (git tag) + commit SHA — kept in sync with the API image.
-ARG GAUZY_APP_VERSION
-ARG GAUZY_APP_COMMIT
-ENV GAUZY_APP_VERSION=${GAUZY_APP_VERSION}
-ENV GAUZY_APP_COMMIT=${GAUZY_APP_COMMIT}
+ARG IRTRANSCRIPTS_APP_VERSION
+ARG IRTRANSCRIPTS_APP_COMMIT
+ENV IRTRANSCRIPTS_APP_VERSION=${IRTRANSCRIPTS_APP_VERSION}
+ENV IRTRANSCRIPTS_APP_COMMIT=${IRTRANSCRIPTS_APP_COMMIT}
 
 ENV API_HOST=api
 ENV API_PORT=3000

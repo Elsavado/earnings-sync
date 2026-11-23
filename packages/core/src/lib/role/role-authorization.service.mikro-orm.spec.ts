@@ -11,7 +11,7 @@ import {
 import { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
 import { SoftDeletable, SoftDeleteHandler } from 'mikro-orm-soft-delete';
 import { DeleteDateColumn, PrimaryGeneratedColumn, RelationId } from 'typeorm';
-import { IFindMembersInput, IRole, PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { IFindMembersInput, IRole, PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 import { IAuthenticatedUser } from '../core/context/types';
 import { CrudService } from '../core/crud/crud.service';
 import { MultiORMColumn, MultiORMEntity, MultiORMManyToOne, MultiORMOneToMany } from '../core/decorators/entity';

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ICandidateInterviewersCreateInput, ID } from '@gauzy/contracts';
+import { ICandidateInterviewersCreateInput, ID } from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from './../core/crud';
 import { IPartialEntity } from './../core/crud/icrud.service';
 import { TypeOrmCandidateInterviewersRepository } from './repository/type-orm-candidate-interviewers.repository';

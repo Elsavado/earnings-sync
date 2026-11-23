@@ -5,7 +5,7 @@
 import '../../../core/entities/internal';
 
 import { ConflictException } from '@nestjs/common';
-import { CandidateStatusEnum, CurrenciesEnum, RolesEnum } from '@gauzy/contracts';
+import { CandidateStatusEnum, CurrenciesEnum, RolesEnum } from '@irtranscripts/contracts';
 import { CandidateHiredCommand } from '../candidate.hired.command';
 import { CandidateHiredHandler } from './candidate.hired.handler';
 

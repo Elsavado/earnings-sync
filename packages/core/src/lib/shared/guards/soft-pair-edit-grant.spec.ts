@@ -11,7 +11,7 @@ import { HttpStatus, RequestMethod } from '@nestjs/common';
 import { RESOLVER_NAME_METADATA } from '@nestjs/graphql/dist/graphql.constants';
 import { Kind, ObjectTypeExtensionNode, parse, print } from 'graphql';
 import { GUARDS_METADATA, HTTP_CODE_METADATA, METHOD_METADATA, PATH_METADATA } from '@nestjs/common/constants';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { CrudController } from '../../core/crud';
 import { AddressRoleController } from '../../address-role/address-role.controller';
 import { ChannelController } from '../../channel/channel.controller';

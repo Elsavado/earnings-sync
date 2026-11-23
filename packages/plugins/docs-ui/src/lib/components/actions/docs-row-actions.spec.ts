@@ -1,9 +1,9 @@
 /**
- * `@gauzy/ui-core/core` is a barrel over the whole app core — importing it pulls
+ * `@irtranscripts/ui-core/core` is a barrel over the whole app core — importing it pulls
  * Akita's untranspiled ESM into the CommonJS test runtime. Only the injected
  * shapes matter here, so stubs stand in for the classes.
  */
-jest.mock('@gauzy/ui-core/core', () => ({
+jest.mock('@irtranscripts/ui-core/core', () => ({
 	Store: class Store {},
 	ToastrService: class ToastrService {},
 	FavoriteStoreService: class FavoriteStoreService {},
@@ -11,7 +11,7 @@ jest.mock('@gauzy/ui-core/core', () => ({
 }));
 
 import { of, Subject } from 'rxjs';
-import { DocumentKindEnum, ID, IDocument } from '@gauzy/contracts';
+import { DocumentKindEnum, ID, IDocument } from '@irtranscripts/contracts';
 import { DocsDeleteDialogComponent } from '../../dialogs/delete-dialog.component';
 import { DocsRowActionsService } from './docs-row-actions.service';
 import { IDocsActionTarget } from './docs-action-menu';

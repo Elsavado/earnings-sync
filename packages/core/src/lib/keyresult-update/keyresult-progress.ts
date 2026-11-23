@@ -1,4 +1,4 @@
-import { IKeyResult, KeyResultTypeEnum, KpiOperatorEnum } from '@gauzy/contracts';
+import { IKeyResult, KeyResultTypeEnum, KpiOperatorEnum } from '@irtranscripts/contracts';
 
 /** Where a progress update moves its key result: the value it now stands at, and the percentage that is. */
 export interface IKeyResultProgress {

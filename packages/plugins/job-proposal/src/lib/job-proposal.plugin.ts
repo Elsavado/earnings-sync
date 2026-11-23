@@ -1,6 +1,6 @@
 import * as chalk from 'chalk';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy, IOnPluginSeedable } from '@gauzy/plugin';
-import { ApplicationPluginConfig } from '@gauzy/common';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy, IOnPluginSeedable } from '@irtranscripts/plugin';
+import { ApplicationPluginConfig } from '@irtranscripts/common';
 import { Proposal } from './proposal/proposal.entity';
 import { ProposalModule } from './proposal/proposal.module';
 import { EmployeeProposalTemplateModule } from './proposal-template/employee-proposal-template.module';

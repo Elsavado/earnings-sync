@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { IntegrationEnum, PermissionsEnum } from '@gauzy/contracts';
-import { IntegrationResolver, PermissionsGuard } from '@gauzy/ui-core/core';
+import { IntegrationEnum, PermissionsEnum } from '@irtranscripts/contracts';
+import { IntegrationResolver, PermissionsGuard } from '@irtranscripts/ui-core/core';
 import { GithubWizardComponent } from './components/wizard/wizard.component';
 import { GithubInstallationComponent } from './components/installation/installation.component';
 import { IntegrationGithubLayoutComponent } from './integration-github.layout.component';

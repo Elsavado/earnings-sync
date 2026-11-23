@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, TransformFnParams } from 'class-transformer';
 import { IsDateString, IsEnum, IsInt, IsNotEmpty, IsOptional, IsUUID, Max, Min } from 'class-validator';
-import { ID, IPayrollRunFindInput, PayrollFrequencyEnum, PayrollRunStatusEnum } from '@gauzy/contracts';
+import { ID, IPayrollRunFindInput, PayrollFrequencyEnum, PayrollRunStatusEnum } from '@irtranscripts/contracts';
 import { IsOrganizationBelongsToUser } from './../../shared/validators';
 
 /**

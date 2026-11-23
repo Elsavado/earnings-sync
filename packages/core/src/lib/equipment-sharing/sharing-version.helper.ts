@@ -1,5 +1,5 @@
 import { HttpStatus } from '@nestjs/common';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { parseEntityVersion } from '../concurrency/version.util';
 import { ApiErrorCode } from '../core/errors/api-error-codes';
 import { ApiException } from '../core/errors/api-exception';

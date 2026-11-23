@@ -40,10 +40,10 @@
 		},
 		"externalLinks": [
 			{
-				"source": "gauzy",
+				"source": "irtranscripts",
 				"installationId": "5c04e2b1-7f3a-4d9e-b6a8-2e1f0c9d8b7a",
 				"externalId": "6a1b2c3d-4e5f-4a6b-8c7d-9e0f1a2b3c4d",
-				"externalUrl": "https://app.gauzy.co/#/pages/tasks/6a1b2c3d-4e5f-4a6b-8c7d-9e0f1a2b3c4d"
+				"externalUrl": "https://app.irtranscripts.com/#/pages/tasks/6a1b2c3d-4e5f-4a6b-8c7d-9e0f1a2b3c4d"
 			}
 		],
 		"teamIds": ["d6a8c0e2-4f5b-4c93-9dce-3f4a5b6c7d89"],
@@ -52,7 +52,7 @@
 		"description": "Serve `GET /events` with keyset paging.",
 		"status": "in_progress",
 		"priority": "p1",
-		"labels": ["integration", "gauzy"],
+		"labels": ["integration", "irtranscripts"],
 		"workId": "2ae2a4c6-8d9f-4ad7-9b02-7d8e9fabbccd",
 		"missionId": null,
 		"ideaId": null,

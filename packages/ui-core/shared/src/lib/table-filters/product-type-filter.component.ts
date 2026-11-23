@@ -1,6 +1,6 @@
 import { Component, OnChanges, type SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { DefaultFilter } from 'angular2-smart-table';
-import { IProductTypeTranslated } from '@gauzy/contracts';
+import { IProductTypeTranslated } from '@irtranscripts/contracts';
 
 @Component({
 	selector: 'ga-product-type-select-filter',

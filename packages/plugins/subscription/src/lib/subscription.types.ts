@@ -1,4 +1,4 @@
-import { CurrencyCode, DecimalString, IBasePerTenantAndOrganizationEntityModel, ID } from '@gauzy/contracts';
+import { CurrencyCode, DecimalString, IBasePerTenantAndOrganizationEntityModel, ID } from '@irtranscripts/contracts';
 
 /**
  * Subscriptions: a plan, the agreement it produces, the lines each cycle bills and the record of

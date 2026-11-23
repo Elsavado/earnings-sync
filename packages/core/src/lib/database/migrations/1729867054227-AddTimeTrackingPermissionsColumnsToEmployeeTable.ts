@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 export class AddTimeTrackingPermissionsColumnsToEmployeeTable1729867054227 implements MigrationInterface {
 	name = 'AddTimeTrackingPermissionsColumnsToEmployeeTable1729867054227';

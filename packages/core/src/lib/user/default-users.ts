@@ -1,5 +1,5 @@
-import { ComponentLayoutStyleEnum, LanguagesEnum } from '@gauzy/contracts';
-import { environment } from '@gauzy/config';
+import { ComponentLayoutStyleEnum, LanguagesEnum } from '@irtranscripts/contracts';
+import { environment } from '@irtranscripts/config';
 
 export const DEFAULT_SUPER_ADMINS = [
 	{

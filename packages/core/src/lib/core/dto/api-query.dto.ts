@@ -2,7 +2,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import { IsOptional, Max, Min, ValidateNested } from 'class-validator';
-import { parseToBoolean } from '@gauzy/utils';
+import { parseToBoolean } from '@irtranscripts/utils';
 import { API_QUERY_LIMITS } from '../../api/query-ast';
 
 /**

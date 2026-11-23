@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Logger } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IDashboard } from '@gauzy/contracts';
+import { IDashboard } from '@irtranscripts/contracts';
 import { DashboardService } from '../../dashboard.service';
 import { DashboardCreateCommand } from '../dashboard.create.command';
 

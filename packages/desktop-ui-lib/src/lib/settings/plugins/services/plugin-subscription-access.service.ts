@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IPluginSubscription, PluginScope, PluginSubscriptionStatus } from '@gauzy/contracts';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { IPluginSubscription, PluginScope, PluginSubscriptionStatus } from '@irtranscripts/contracts';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 import { Observable } from 'rxjs';
 
 /**

@@ -1,9 +1,9 @@
 import { BadRequestException } from '@nestjs/common';
-import { getUnsafeOutboundUrlReason } from '@gauzy/utils';
-import { createSsrfSafeHttpsAgent } from '@gauzy/core';
+import { getUnsafeOutboundUrlReason } from '@irtranscripts/utils';
+import { createSsrfSafeHttpsAgent } from '@irtranscripts/core';
 
 // Re-exported so existing importers of this module keep working; the implementation now lives in
-// @gauzy/core so the Zapier plugin shares it rather than carrying a second copy.
+// @irtranscripts/core so the Zapier plugin shares it rather than carrying a second copy.
 export { createSsrfSafeHttpsAgent };
 
 /**

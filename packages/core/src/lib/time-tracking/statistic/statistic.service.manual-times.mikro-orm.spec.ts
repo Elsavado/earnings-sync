@@ -1,7 +1,7 @@
 import '../../core/entities/internal';
 
 import { knex as createKnex, Knex } from 'knex';
-import { IGetManualTimesStatistics, IManualTimesStatistics } from '@gauzy/contracts';
+import { IGetManualTimesStatistics, IManualTimesStatistics } from '@irtranscripts/contracts';
 import { MultiORMEnum } from '../../core/utils';
 import { asTenantUser, createCrossTenantFixture } from '../../core/testing/tenant-isolation/tenant-isolation.fixtures';
 import { StatisticService } from './statistic.service';
@@ -57,7 +57,7 @@ describe('StatisticService.manualTimes on MikroORM', () => {
 				user_firstName: 'Ever',
 				user_lastName: 'Agent',
 				user_imageUrl: 'agent.png',
-				project_name: 'Gauzy',
+				project_name: 'IRTranscripts',
 				project_imageUrl: null,
 				employee_id: 'E1',
 				employee_kind: 'agent'

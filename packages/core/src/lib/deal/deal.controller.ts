@@ -7,7 +7,7 @@ import {
 	ApiResponse,
 	ApiTags
 } from '@nestjs/swagger';
-import { ID, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { Deal } from './deal.entity';
 import { DealService } from './deal.service';
 import { CrudController, FindOptionsQueryDTO, BaseQueryDTO } from '../core/crud';

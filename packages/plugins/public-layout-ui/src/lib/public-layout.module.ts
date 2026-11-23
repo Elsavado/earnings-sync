@@ -24,7 +24,7 @@ import {
 import { TranslatePipe } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPermissionsModule } from 'ngx-permissions';
-import { LanguagesService, PageRouteRegistryService, SkillsService } from '@gauzy/ui-core/core';
+import { LanguagesService, PageRouteRegistryService, SkillsService } from '@irtranscripts/ui-core/core';
 import {
 	AppointmentCalendarModule,
 	CurrencyModule,
@@ -40,8 +40,8 @@ import {
 	TableComponentsModule,
 	TagsColorInputModule,
 	WorkInProgressModule
-} from '@gauzy/ui-core/shared';
-import { ThemeModule } from '@gauzy/ui-core/theme';
+} from '@irtranscripts/ui-core/shared';
+import { ThemeModule } from '@irtranscripts/ui-core/theme';
 import { COMPONENTS } from './components';
 import { SanitizeHtmlPipe } from './pipes';
 import { createPublicLayoutRoutes } from './public-layout.routes';

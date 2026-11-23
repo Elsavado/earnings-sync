@@ -4,14 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EMPTY } from 'rxjs';
 import { tap, filter, catchError, map, distinctUntilChanged } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { IIntegrationTenant, IOrganization, IntegrationEnum } from '@gauzy/contracts';
+import { IIntegrationTenant, IOrganization, IntegrationEnum } from '@irtranscripts/contracts';
 import {
 	ActivepiecesService,
 	IntegrationsService,
 	Store,
 	ToastrService
-} from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { TranslateService } from '@ngx-translate/core';
 
 @UntilDestroy({ checkProperties: true })

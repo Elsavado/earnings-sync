@@ -1,16 +1,16 @@
 /**
- * G-P2-2 Missions ↔ Strategic Initiatives: the pure mappers (plan 01 §9) — status both ways (Gauzy only
+ * G-P2-2 Missions ↔ Strategic Initiatives: the pure mappers (plan 01 §9) — status both ways (IRTranscripts only
  * ever finishes a mission, never activates it), leadership and drafts, the Ever Works side of an
  * initiative, the push plan and the create body.
  */
 import {
 	OrganizationStrategicPerceivedMomentumEnum as Momentum,
 	OrganizationStrategicStateEnum as State
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	everWorksMissionShared,
-	gauzyInitiativeOf,
-	gauzyInitiativeShared,
+	irtranscriptsInitiativeOf,
+	irtranscriptsInitiativeShared,
 	initiativeEligibility,
 	initiativeStateToMission,
 	missionCreateBody,
@@ -50,7 +50,7 @@ describe('mission ↔ initiative status', () => {
 
 describe('the Ever Works side of an initiative', () => {
 	it('takes the title (≤ 200), the intent (or the title), teams, works (keeping Ever Works’ relation) and primary goals', () => {
-		const shared = gauzyInitiativeShared(
+		const shared = irtranscriptsInitiativeShared(
 			{ title: 'T'.repeat(210), intent: '' },
 			['ew-t2', 'ew-t1'],
 			['w2', 'w1'],
@@ -64,17 +64,17 @@ describe('the Ever Works side of an initiative', () => {
 			{ workId: 'w1', relation: 'operates' },
 			{ workId: 'w2', relation: 'improves' }
 		]);
-		// Gauzy never picks the mission's primary goal: there is none in the last sync, so none here.
+		// IRTranscripts never picks the mission's primary goal: there is none in the last sync, so none here.
 		expect(shared.goals).toEqual([{ goalId: 'g1', isPrimary: false }]);
 		expect(shared.status).toBe('paused');
 	});
 
-	it('keeps what Ever Works has that Gauzy cannot show, and Ever Works’ primary goal', () => {
+	it('keeps what Ever Works has that IRTranscripts cannot show, and Ever Works’ primary goal', () => {
 		const before = {
 			goals: [{ goalId: 'g-primary', isPrimary: true }],
 			works: [{ workId: 'w-unpaired', relation: 'created' }]
 		};
-		const shared = gauzyInitiativeShared(
+		const shared = irtranscriptsInitiativeShared(
 			{ title: 'Win SMB', intent: 'Grow' },
 			[],
 			[],
@@ -105,7 +105,7 @@ describe('the Ever Works side of an initiative', () => {
 			goals: [],
 			status: 'paused'
 		});
-		const now = gauzyInitiativeShared({ title: 'Win SMB', intent: 'Grow' }, [], ['w1'], [], before);
+		const now = irtranscriptsInitiativeShared({ title: 'Win SMB', intent: 'Grow' }, [], ['w1'], [], before);
 		expect(missionPushPlan(now, before, null)).toEqual({ patch: null, works: false, goals: false });
 		expect(missionPushPlan({ ...now, teamIds: ['ew-t1'] }, before, null).patch).toEqual({
 			teamIds: ['ew-t1'],
@@ -124,7 +124,7 @@ describe('the Ever Works side of an initiative', () => {
 
 	it('the create body has no status or type (Ever Works creates it paused and one-shot), linked back', () => {
 		const body = missionCreateBody(
-			gauzyInitiativeShared({ title: 'Win SMB', intent: 'Grow' }, ['ew-t1'], [], []),
+			irtranscriptsInitiativeShared({ title: 'Win SMB', intent: 'Grow' }, ['ew-t1'], [], []),
 			'c1',
 			'init-1'
 		);
@@ -133,11 +133,11 @@ describe('the Ever Works side of an initiative', () => {
 			description: 'Grow',
 			teamIds: ['ew-t1'],
 			visibility: 'team',
-			externalRef: { source: 'gauzy', installationId: 'c1', externalId: 'init-1' }
+			externalRef: { source: 'irtranscripts', installationId: 'c1', externalId: 'init-1' }
 		});
 		expect(
-			gauzyInitiativeOf(
-				{ id: 'm1', externalLinks: [{ source: 'gauzy', installationId: 'c1', externalId: 'init-1' }] },
+			irtranscriptsInitiativeOf(
+				{ id: 'm1', externalLinks: [{ source: 'irtranscripts', installationId: 'c1', externalId: 'init-1' }] },
 				'c1'
 			)
 		).toBe('init-1');

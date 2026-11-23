@@ -1,6 +1,6 @@
 import { createPublicKey, verify } from 'node:crypto';
 import { DataSource } from 'typeorm';
-import { EverInstanceEvents, EverInstanceService } from '@gauzy/plugin-ever-instance';
+import { EverInstanceEvents, EverInstanceService } from '@irtranscripts/plugin-ever-instance';
 import { EverStatsBuilder } from './ever-stats-builder.service';
 import { EverStatsCollector } from './ever-stats-collector.service';
 import { EverStatsConfig } from './ever-stats-config';
@@ -12,7 +12,7 @@ import { CORE_TABLES, createCoreTables, dropTables, migrateUp, openTestDataSourc
 
 const ENV = { JWT_SECRET: 'a-strong-jwt-secret-for-tests' };
 const DAY = 86_400_000;
-const CONFIG: EverStatsConfig = { apiUrl: 'http://mock-platform:8080', country: 'ZZ', serves: ['gauzy'], intervalS: 86_400, installSource: 'self-hosted' };
+const CONFIG: EverStatsConfig = { apiUrl: 'http://mock-platform:8080', country: 'ZZ', serves: ['irtranscripts'], intervalS: 86_400, installSource: 'self-hosted' };
 
 interface Call {
 	url: string;
@@ -238,7 +238,7 @@ describe.each(TEST_TARGETS)('EverStatsScheduler on $name', (target) => {
 		expect(await service(a).last()).toBeNull();
 	});
 
-	it('a 400, 413 or 415 parks the module for at most 7 days; a 422 until the Gauzy release changes', async () => {
+	it('a 400, 413 or 415 parks the module for at most 7 days; a 422 until the IRTranscripts release changes', async () => {
 		const clock = new FakeClock(Date.UTC(2026, 9, 15, 10));
 		const calls: Call[] = [];
 		const { scheduler } = setup(clock, calls, [400, 422]);
@@ -250,7 +250,7 @@ describe.each(TEST_TARGETS)('EverStatsScheduler on $name', (target) => {
 		clock.at += 30 * DAY;
 		expect((await scheduler.runSlot('send_now')).skipped).toBe('blocked');
 		expect(calls).toHaveLength(2);
-		// The next Gauzy release sends again, without a change of the module's own version.
+		// The next IRTranscripts release sends again, without a change of the module's own version.
 		const upgraded = setup(clock, calls, [], { release: 'v111.48.0' });
 		expect((await upgraded.scheduler.runSlot('send_now')).reports[0]).toMatchObject({ status: 'sent', httpStatus: 202 });
 	});

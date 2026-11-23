@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NbPopoverDirective, NbTabComponent } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Angular2SmartTableComponent, Cell } from 'angular2-smart-table';
-import { SyncTags } from '@gauzy/constants';
+import { SyncTags } from '@irtranscripts/constants';
 import {
 	GithubRepositoryStatusEnum,
 	HttpStatus,
@@ -21,15 +21,15 @@ import {
 	IOrganizationProject,
 	IUser,
 	TaskStatusEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	ErrorHandlingService,
 	GithubService,
 	OrganizationProjectsService,
 	Store,
 	ToastrService
-} from '@gauzy/ui-core/core';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
+} from '@irtranscripts/ui-core/core';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
 import {
 	ClickableLinkComponent,
 	ProjectComponent,
@@ -41,7 +41,7 @@ import {
 	IPaginationBase,
 	HashNumberPipe,
 	StatusBadgeComponent
-} from '@gauzy/ui-core/shared';
+} from '@irtranscripts/ui-core/shared';
 
 export enum SyncTabsEnum {
 	AUTO_SYNC = 'AUTO_SYNC',
@@ -605,7 +605,7 @@ export class GithubViewComponent extends PaginationFilterBaseComponent implement
 							organizationId,
 							tenantId,
 							customFields: { repositoryId },
-							syncTag: SyncTags.GAUZY
+							syncTag: SyncTags.IRTRANSCRIPTS
 						});
 						const issues$ = this._githubService.autoSyncIssues(integrationId, repository, {
 							projectId,
@@ -692,7 +692,7 @@ export class GithubViewComponent extends PaginationFilterBaseComponent implement
 							organizationId,
 							tenantId,
 							customFields: { repositoryId },
-							syncTag: SyncTags.GAUZY
+							syncTag: SyncTags.IRTRANSCRIPTS
 						})
 					),
 					mergeMap(() =>

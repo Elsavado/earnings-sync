@@ -1,4 +1,4 @@
-import { IOrganizationTaskSettingUpdateInput } from '@gauzy/contracts';
+import { IOrganizationTaskSettingUpdateInput } from '@irtranscripts/contracts';
 import { OrganizationTaskSettingDTO } from './organization-task-setting.dto';
 
 /**

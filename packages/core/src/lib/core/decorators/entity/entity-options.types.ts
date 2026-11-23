@@ -1,6 +1,6 @@
 import { EntityOptions as TypeEntityOptions } from 'typeorm';
 import { EntityOptions as MikroEntityOptions } from '@mikro-orm/core';
-import { Type } from '@gauzy/common';
+import { Type } from '@irtranscripts/common';
 
 /**
  * Options for defining MikroORM entities.

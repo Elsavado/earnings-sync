@@ -1,4 +1,4 @@
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	environment: { jitsu: { serverHost: '', serverWriteKey: '' } }
 }));
 jest.mock('node-fetch', () => ({ __esModule: true, default: jest.fn(async () => ({ ok: true })) }));

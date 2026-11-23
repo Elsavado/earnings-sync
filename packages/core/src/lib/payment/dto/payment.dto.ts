@@ -1,5 +1,5 @@
 import { IntersectionType, PartialType, PickType } from '@nestjs/swagger';
-import { IPayment } from '@gauzy/contracts';
+import { IPayment } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from './../../core/dto';
 import { Payment } from '../payment.entity';
 import { EmployeeFeatureDTO } from '../../employee/dto';

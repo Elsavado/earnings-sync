@@ -1,7 +1,7 @@
 import '../core/entities/internal';
 
 import { SOFT_DELETABLE_FILTER } from 'mikro-orm-soft-delete';
-import { BroadcastVisibilityModeEnum, PermissionsEnum } from '@gauzy/contracts';
+import { BroadcastVisibilityModeEnum, PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { CrudService } from '../core/crud/crud.service';
 import { MultiORMEnum } from '../core/utils';

@@ -1,6 +1,6 @@
 import { Entity as MikroOrmEntity } from '@mikro-orm/core';
 import { Entity as TypeOrmEntity } from 'typeorm';
-import { isPlainObject } from '@gauzy/utils';
+import { isPlainObject } from '@irtranscripts/utils';
 import { MikroOrmEntityOptions, TypeOrmEntityOptions } from './entity-options.types';
 import { parseMikroOrmEntityOptions } from './entity.helper';
 

@@ -1,7 +1,7 @@
 import '../core/entities/internal';
 
 import { NotFoundException } from '@nestjs/common';
-import { EmailTemplateEnum, LanguagesEnum } from '@gauzy/contracts';
+import { EmailTemplateEnum, LanguagesEnum } from '@irtranscripts/contracts';
 import { CrudService } from '../core/crud/crud.service';
 import { EmailTemplateService } from './email-template.service';
 

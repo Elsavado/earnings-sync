@@ -1,7 +1,7 @@
 import { In, FindOptionsWhere, DeleteResult } from 'typeorm';
-import { IHelpCenterAuthor } from '@gauzy/contracts';
+import { IHelpCenterAuthor } from '@irtranscripts/contracts';
 import { Injectable } from '@nestjs/common';
-import { isNotEmpty } from '@gauzy/utils';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { HelpCenterAuthor } from './help-center-author.entity';
 import { TypeOrmHelpCenterAuthorRepository } from './repository/type-orm-help-center-author.repository';
 import { MikroOrmHelpCenterAuthorRepository } from './repository/mikro-orm-help-center-author.repository';

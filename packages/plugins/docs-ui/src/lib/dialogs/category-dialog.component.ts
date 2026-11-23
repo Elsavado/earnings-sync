@@ -3,7 +3,7 @@ import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core
 import { FormsModule } from '@angular/forms';
 import { NbButtonModule, NbCardModule, NbDialogRef, NbInputModule } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
-import { IDocumentCategory } from '@gauzy/contracts';
+import { IDocumentCategory } from '@irtranscripts/contracts';
 
 /** What the dialog resolves with on confirm (`null` on cancel). */
 export type IDocsCategoryDialogResult = Pick<IDocumentCategory, 'name' | 'color' | 'description'>;

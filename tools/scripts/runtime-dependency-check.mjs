@@ -15,7 +15,7 @@
  *
  *   1. reads the manifests its `prod-dependencies` stage copies (`COPY … <dir>/package.json …`) plus the root's —
  *      what the image INSTALLS;
- *   2. follows the `@gauzy/*` imports from the image's app (`apps/api`, `apps/worker`) through the workspaces' sources —
+ *   2. follows the `@irtranscripts/*` imports from the image's app (`apps/api`, `apps/worker`) through the workspaces' sources —
  *      what the image LOADS. The two differ: the worker's webpack build copies the commerce plugins it loads, but its
  *      Dockerfile installs none of their manifests;
  *   3. reads every value import of the non-test sources of each loaded workspace (`<dir>/src/**`): `import … from`,

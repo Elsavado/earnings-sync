@@ -1,4 +1,4 @@
-import { CurrenciesEnum, ID, PluginBillingPeriod, PluginSubscriptionType } from '@gauzy/contracts';
+import { CurrenciesEnum, ID, PluginBillingPeriod, PluginSubscriptionType } from '@irtranscripts/contracts';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import {

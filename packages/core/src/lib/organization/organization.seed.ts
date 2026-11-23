@@ -3,7 +3,7 @@ import * as moment from 'moment';
 import * as timezone from 'moment-timezone';
 import { DataSource } from 'typeorm';
 import { faker } from '@faker-js/faker';
-import { DEFAULT_DATE_FORMATS } from '@gauzy/constants';
+import { DEFAULT_DATE_FORMATS } from '@irtranscripts/constants';
 import {
 	DefaultValueDateTypeEnum,
 	BonusTypeEnum,
@@ -14,9 +14,9 @@ import {
 	ITenant,
 	ISkill,
 	IContact
-} from '@gauzy/contracts';
-import { environment as env } from '@gauzy/config';
-import { getRandomElement } from '@gauzy/utils';
+} from '@irtranscripts/contracts';
+import { environment as env } from '@irtranscripts/config';
+import { getRandomElement } from '@irtranscripts/utils';
 import { getDummyImage } from '../core/utils';
 import { Contact, Organization, Skill } from '../core/entities/internal';
 

@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { NbMenuItem, NbSidebarState, NbLayoutModule, NbSidebarModule, NbMenuModule } from '@nebular/theme';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { GAUZY_ENV } from '../constants';
+import { IRTRANSCRIPTS_ENV } from '../constants';
 import { IpcService } from './services/ipc.service';
 import { TasksService } from './services/tasks-service';
 import { RouterOutlet } from '@angular/router';
@@ -26,7 +26,7 @@ export class AgentDashboardComponent implements OnInit, OnDestroy {
 			icon: 'cloud-upload-outline'
 		}
 	];
-	gauzyIcon: SafeResourceUrl;
+	irtranscriptsIcon: SafeResourceUrl;
 	styles = {
 		btnStart: 'button-small',
 		icon: 'margin-icon-small'
@@ -34,21 +34,21 @@ export class AgentDashboardComponent implements OnInit, OnDestroy {
 
 	constructor(
 		private domSanitizer: DomSanitizer,
-		@Inject(GAUZY_ENV)
+		@Inject(IRTRANSCRIPTS_ENV)
 		private readonly _environment: Record<string, any>,
 		private _ipcService: IpcService,
 		private _tasksService: TasksService
 	) {
-		this.gauzyIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(this._environment.PLATFORM_LOGO);
+		this.irtranscriptsIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(this._environment.PLATFORM_LOGO);
 	}
 
 	onSidebarStateChange(newState: NbSidebarState) {
 		if (newState === 'compacted') {
-			this.gauzyIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-				this._environment.GAUZY_DESKTOP_LOGO_512X512
+			this.irtranscriptsIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
+				this._environment.IRTRANSCRIPTS_DESKTOP_LOGO_512X512
 			);
 		} else {
-			this.gauzyIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(this._environment.PLATFORM_LOGO);
+			this.irtranscriptsIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(this._environment.PLATFORM_LOGO);
 		}
 	}
 

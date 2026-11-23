@@ -3,7 +3,7 @@ import '../../../../core/entities/internal';
 
 import { ForbiddenException } from '@nestjs/common';
 import { FindOperator } from 'typeorm';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../../../core/context';
 import { BulkActivitiesSaveCommand } from '../bulk-activities-save.command';
 import { BulkActivitiesSaveHandler } from './bulk-activities-save.handler';

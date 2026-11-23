@@ -13,15 +13,15 @@ import {
 	InvitationExpirationEnum,
 	IRole,
 	IOrganizationTeam
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { firstValueFrom } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { NbTagComponent, NbTagInputAddEvent, NbTagInputDirective } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthService, EmailValidator, InviteService, RoleService } from '@gauzy/ui-core/core';
-import { Store } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { AuthService, EmailValidator, InviteService, RoleService } from '@irtranscripts/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { FormHelpers } from '../../../forms/helpers';
 
 @UntilDestroy({ checkProperties: true })

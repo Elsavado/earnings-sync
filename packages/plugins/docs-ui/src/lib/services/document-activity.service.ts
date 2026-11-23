@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BaseEntityEnum, IActivityLog, ID, IPagination } from '@gauzy/contracts';
-import { API_PREFIX, toParams } from '@gauzy/ui-core/common';
-import { Store } from '@gauzy/ui-core/core';
+import { BaseEntityEnum, IActivityLog, ID, IPagination } from '@irtranscripts/contracts';
+import { API_PREFIX, toParams } from '@irtranscripts/ui-core/common';
+import { Store } from '@irtranscripts/ui-core/core';
 
 /** Author identity + the user block behind it — everything a timeline row renders. */
 const ACTIVITY_RELATIONS = ['employee', 'employee.user'];

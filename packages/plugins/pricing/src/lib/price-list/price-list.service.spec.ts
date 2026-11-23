@@ -1,6 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
 import { FindOperator } from 'typeorm';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { PriceListStatus, PriceListType, PriceStatus, PriceSource } from '../pricing.types';
 import { ProductPriceService } from '../product-price/product-price.service';
 import { PriceListService } from './price-list.service';

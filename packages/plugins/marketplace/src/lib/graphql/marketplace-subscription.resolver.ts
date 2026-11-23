@@ -1,6 +1,6 @@
 import { Args, Context, ID, Resolver, Subscription } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	FEATURE_GRAPHQL,
 	FeatureFlagGuard,
@@ -12,8 +12,8 @@ import {
 	TenantPermissionGuard,
 	deliverPayloadAsIs,
 	tenantScopedTopicStream
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { MarketplaceFeatures } from '../marketplace.features';
 import { MARKETPLACE_STREAMED_EVENTS } from '../marketplace-streamed-events';
 import { Seller } from '../seller/seller.entity';

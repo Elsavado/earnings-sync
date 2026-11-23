@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { IIntegrationMapSyncEntity, ITimeLog } from '@gauzy/contracts';
+import { IIntegrationMapSyncEntity, ITimeLog } from '@irtranscripts/contracts';
 
 export class IntegrationMapSyncTimeLogCommand implements ICommand {
 	static readonly type = '[Integration Map] Sync TimeLog';

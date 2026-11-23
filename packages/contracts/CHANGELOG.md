@@ -1,3 +1,3 @@
-# Changelog for @gauzy/contracts
+# Changelog for @irtranscripts/contracts
 
 ## [Unreleased]

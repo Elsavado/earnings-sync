@@ -1,5 +1,5 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a plan service needs and none of which is available
  * outside a running application. The seam is therefore doubled at the module boundary, exactly as the
  * catalogue and inventory packages' service specs do, and **the service under test is the real one**:
@@ -7,7 +7,7 @@
  * layer are involved, and `isUniqueViolation` is the platform's own — the whole point of the race case
  * below is which errors it recognises.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
@@ -93,10 +93,10 @@ jest.mock('@gauzy/core', () => {
 		},
 		BaseEvent: class {},
 		EventBus: class {},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		// The plan's discount is range-checked on its digits (`normalizeDiscountFraction`), by the platform's own comparison.
-		compareDecimalStrings: jest.requireActual('@gauzy/core/src/lib/money/decimal').compareDecimalStrings,
-		isUniqueViolation: jest.requireActual('@gauzy/core/src/lib/core/errors/unique-violation').isUniqueViolation,
+		compareDecimalStrings: jest.requireActual('@irtranscripts/core/src/lib/money/decimal').compareDecimalStrings,
+		isUniqueViolation: jest.requireActual('@irtranscripts/core/src/lib/core/errors/unique-violation').isUniqueViolation,
 		SequenceService: class SequenceService {},
 		RequestContext: {
 			currentUser: () => null,
@@ -111,7 +111,7 @@ jest.mock('@gauzy/core', () => {
 
 import { ConflictException, NotFoundException } from '@nestjs/common';
 import { FindOperator } from 'typeorm';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { SubscriptionBillingPeriod, SubscriptionStatus } from '../subscription.types';
 import { SubscriptionPlanService } from './subscription-plan.service';
 

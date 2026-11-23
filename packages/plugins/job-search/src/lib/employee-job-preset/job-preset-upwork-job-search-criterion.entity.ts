@@ -7,8 +7,8 @@ import {
 	IJobSearchCategory,
 	IJobSearchOccupation,
 	JobPostTypeEnum
-} from '@gauzy/contracts';
-import { MultiORMColumn, MultiORMEntity, MultiORMManyToOne, TenantOrganizationBaseEntity } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { MultiORMColumn, MultiORMEntity, MultiORMManyToOne, TenantOrganizationBaseEntity } from '@irtranscripts/core';
 import { MikroOrmJobPresetUpworkJobSearchCriterionRepository } from './repository/mikro-orm-job-preset-upwork-job-search-criterion.repository';
 import { JobPreset } from './job-preset.entity';
 import { JobSearchOccupation } from './job-search-occupation/job-search-occupation.entity';

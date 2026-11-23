@@ -1,4 +1,4 @@
-import { IOrganization, ITenant } from '@gauzy/contracts';
+import { IOrganization, ITenant } from '@irtranscripts/contracts';
 import { DataSource } from 'typeorm';
 import { faker } from '@faker-js/faker';
 import { DEFAULT_SKILLS } from './default-skills';

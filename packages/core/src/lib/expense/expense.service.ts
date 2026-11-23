@@ -11,8 +11,8 @@ import {
 	IGetExpenseInput,
 	IPagination,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { isNotEmpty } from '@gauzy/utils';
+} from '@irtranscripts/contracts';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { Expense } from './expense.entity';
 import { TenantAwareCrudService } from './../core/crud';
 import { RequestContext } from '../core/context';

@@ -2,12 +2,12 @@
  * Review of #11096: the connection's organization relation is `ON DELETE SET NULL` in the entity too (migration
  * 1791000003100 sets it on the foreign key), so a schema built with `DB_SYNCHRONIZE=true` keeps the connection when
  * its organization is deleted, as a migrated one does. Read from the metadata TypeORM builds the table from (the real
- * `@gauzy/core` decorators, no double).
+ * `@irtranscripts/core` decorators, no double).
  */
 import 'reflect-metadata';
 import { getMetadataArgsStorage } from 'typeorm';
 import { MetadataUtils } from 'typeorm/metadata-builder/MetadataUtils';
-import { TenantBaseEntity } from '@gauzy/core';
+import { TenantBaseEntity } from '@irtranscripts/core';
 import { EverWorksConnection } from './ever-works-connection.entity';
 
 jest.setTimeout(120_000);

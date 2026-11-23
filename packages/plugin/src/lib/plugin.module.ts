@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import * as chalk from 'chalk';
-import { ConfigModule, ConfigService, getConfig } from '@gauzy/config';
+import { ConfigModule, ConfigService, getConfig } from '@irtranscripts/config';
 import { PluginLifecycleMethods } from './plugin.interface';
 import { getPluginModules, hasLifecycleMethod } from './plugin.helper';
 

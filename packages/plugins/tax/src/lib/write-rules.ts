@@ -1,6 +1,6 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { DeleteResult, UpdateResult } from 'typeorm';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 /**
  * Write rules of the tax package that the REST DTOs state and the GraphQL inputs cannot (R2-G34).

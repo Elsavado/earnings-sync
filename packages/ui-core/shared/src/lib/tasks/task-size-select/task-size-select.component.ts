@@ -12,13 +12,13 @@ import {
 	ITaskSizeFindInput,
 	PermissionsEnum,
 	TaskSizeEnum
-} from '@gauzy/contracts';
-import { distinctUntilChange, sluggable } from '@gauzy/ui-core/common';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/contracts';
+import { distinctUntilChange, sluggable } from '@irtranscripts/ui-core/common';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ToastrService } from '@gauzy/ui-core/core';
-import { Store } from '@gauzy/ui-core/core';
-import { TaskSizesService } from '@gauzy/ui-core/core';
+import { ToastrService } from '@irtranscripts/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
+import { TaskSizesService } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

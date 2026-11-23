@@ -1,26 +1,26 @@
 /**
  * A fixed configuration, so these cases do not depend on whichever `.env` the runner loaded. It is
- * what the app.gauzy.co API runs with (CLIENT_BASE_URL and APP_MAGIC_SIGN_URL set, the other links
+ * what the app.irtranscripts.com API runs with (CLIENT_BASE_URL and APP_MAGIC_SIGN_URL set, the other links
  * derived); `useTeamsDeployment` switches it to the api.ever.team one.
  */
-const GAUZY_DEPLOYMENT = {
-	clientBaseUrl: 'https://app.gauzy.co',
+const IRTRANSCRIPTS_DEPLOYMENT = {
+	clientBaseUrl: 'https://app.irtranscripts.com',
 	appIntegrationConfig: {
-		appName: 'Gauzy',
-		appLogo: 'https://app.gauzy.co/assets/images/logos/logo_Gauzy.png',
-		appSignature: 'Gauzy Team',
-		appLink: 'https://app.gauzy.co/',
-		appEmailConfirmationUrl: 'https://app.gauzy.co/#/auth/confirm-email',
-		appMagicSignUrl: 'https://app.gauzy.co/#/auth/magic-sign-in',
+		appName: 'IRTranscripts',
+		appLogo: 'https://app.irtranscripts.com/assets/images/logos/logo_Gauzy.png',
+		appSignature: 'IRTranscripts Team',
+		appLink: 'https://app.irtranscripts.com/',
+		appEmailConfirmationUrl: 'https://app.irtranscripts.com/#/auth/confirm-email',
+		appMagicSignUrl: 'https://app.irtranscripts.com/#/auth/magic-sign-in',
 		companyLink: 'https://ever.co',
 		companyName: 'Ever Co. LTD'
 	}
 };
-const mockEnvironment = JSON.parse(JSON.stringify(GAUZY_DEPLOYMENT));
+const mockEnvironment = JSON.parse(JSON.stringify(IRTRANSCRIPTS_DEPLOYMENT));
 
-jest.mock('@gauzy/config', () => ({ environment: mockEnvironment }));
+jest.mock('@irtranscripts/config', () => ({ environment: mockEnvironment }));
 
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 import {
 	allowedEmailBaseUrl,
 	allowedEmailLink,
@@ -32,16 +32,16 @@ import {
 
 afterEach(() => {
 	// Restored in place: the module under test holds on to these very objects.
-	mockEnvironment.clientBaseUrl = GAUZY_DEPLOYMENT.clientBaseUrl;
-	Object.assign(mockEnvironment.appIntegrationConfig, GAUZY_DEPLOYMENT.appIntegrationConfig);
+	mockEnvironment.clientBaseUrl = IRTRANSCRIPTS_DEPLOYMENT.clientBaseUrl;
+	Object.assign(mockEnvironment.appIntegrationConfig, IRTRANSCRIPTS_DEPLOYMENT.appIntegrationConfig);
 });
 
-/** The api.ever.team deployment: same API code, its own CLIENT_BASE_URL, Gauzy's sign-in page. */
+/** The api.ever.team deployment: same API code, its own CLIENT_BASE_URL, IRTranscripts's sign-in page. */
 function useTeamsDeployment() {
 	mockEnvironment.clientBaseUrl = 'https://app.ever.team';
 	mockEnvironment.appIntegrationConfig.appLink = 'https://app.ever.team/';
 	mockEnvironment.appIntegrationConfig.appEmailConfirmationUrl = 'https://app.ever.team/#/auth/confirm-email';
-	mockEnvironment.appIntegrationConfig.appMagicSignUrl = 'https://app.gauzy.co/#/auth/magic-sign-in';
+	mockEnvironment.appIntegrationConfig.appMagicSignUrl = 'https://app.irtranscripts.com/#/auth/magic-sign-in';
 }
 
 describe('email link origin allowlist', () => {
@@ -96,7 +96,7 @@ describe('email link origin allowlist', () => {
 		}
 		// The company site is a footer link, not a front end: it is not a place a code may be sent to.
 		expect(isAllowedEmailLink('https://ever.co/x', allowed)).toBe(false);
-		expect([...allowed]).toEqual(['https://app.gauzy.co']);
+		expect([...allowed]).toEqual(['https://app.irtranscripts.com']);
 	});
 
 	it('on the Ever Teams API deployment, allows Ever Teams and its configured sign-in page only', () => {
@@ -107,16 +107,16 @@ describe('email link origin allowlist', () => {
 		expect(isAllowedEmailLink('https://app.ever.team/auth/passcode', allowed)).toBe(true);
 		expect(isAllowedEmailLink('https://app.ever.team/verify-email', allowed)).toBe(true);
 		expect(isAllowedEmailLink('https://app.ever.team/auth/accept-invite', allowed)).toBe(true);
-		// Its APP_MAGIC_SIGN_URL points at the Gauzy web app.
-		expect(isAllowedEmailLink('https://app.gauzy.co/#/auth/magic-sign-in', allowed)).toBe(true);
+		// Its APP_MAGIC_SIGN_URL points at the IRTranscripts web app.
+		expect(isAllowedEmailLink('https://app.irtranscripts.com/#/auth/magic-sign-in', allowed)).toBe(true);
 		expect(isAllowedEmailLink('https://attacker.example/auth/passcode', allowed)).toBe(false);
-		expect(new Set(allowed)).toEqual(new Set(['https://app.ever.team', 'https://app.gauzy.co']));
+		expect(new Set(allowed)).toEqual(new Set(['https://app.ever.team', 'https://app.irtranscripts.com']));
 	});
 
 	it('does not let an unparseable configured link widen the list', () => {
 		// What the config produces when CLIENT_BASE_URL is unset: `${undefined}/#/auth/...`.
 		mockEnvironment.appIntegrationConfig.appMagicSignUrl = 'undefined/#/auth/magic-sign-in';
-		expect([...allowedEmailLinkOrigins({})]).toEqual(['https://app.gauzy.co']);
+		expect([...allowedEmailLinkOrigins({})]).toEqual(['https://app.irtranscripts.com']);
 	});
 });
 
@@ -208,7 +208,7 @@ describe('allowedEmailLink', () => {
 
 describe('allowedEmailBaseUrl', () => {
 	const TEAMS = { EMAIL_LINK_ALLOWED_ORIGINS: 'https://app.ever.team' };
-	const FALLBACK = 'https://app.gauzy.co';
+	const FALLBACK = 'https://app.irtranscripts.com';
 
 	it('keeps an allowed origin, reduced to scheme://host[:port][/path] without a trailing slash', () => {
 		expect(allowedEmailBaseUrl('https://app.ever.team', FALLBACK, TEAMS)).toBe('https://app.ever.team');

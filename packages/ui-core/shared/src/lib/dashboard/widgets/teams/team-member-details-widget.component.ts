@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
 import { NbBadgeModule, NbComponentStatus, NbProgressBarModule } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
-import { progressStatus } from '@gauzy/ui-core/common';
+import { progressStatus } from '@irtranscripts/ui-core/common';
 import { ComponentsModule } from '../../../components/components.module';
 import { DurationFormatPipe } from '../../../pipes/duration-format.pipe';
 import { BaseTeamsWidgetComponent } from './base-teams-widget.component';
@@ -15,7 +15,7 @@ import { toPercentage } from './teams-widget.utils';
  * estimate, and the member's activity percentage.
  *
  * On the legacy page this only appeared after clicking into a single team
- * (`gauzy-team-member` in its NON-classic mode, behind the team card's arrow
+ * (`irtranscripts-team-member` in its NON-classic mode, behind the team card's arrow
  * button). A canvas has no such navigation, so the widget renders every team in
  * scope at once and labels each member with their team; pinning it to one team
  * is what the placement's team scope is for.

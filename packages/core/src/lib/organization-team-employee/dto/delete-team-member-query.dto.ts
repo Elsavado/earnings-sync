@@ -1,5 +1,5 @@
 import { IntersectionType, PickType } from '@nestjs/swagger';
-import { IOrganizationTeamEmployeeFindInput } from '@gauzy/contracts';
+import { IOrganizationTeamEmployeeFindInput } from '@irtranscripts/contracts';
 import { DeleteQueryDTO } from './../../shared/dto';
 import { OrganizationTeamEmployee } from './../../core/entities/internal';
 

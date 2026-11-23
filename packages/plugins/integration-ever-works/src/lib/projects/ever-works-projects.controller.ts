@@ -2,8 +2,8 @@ import { Body, Controller, Get, Param, Put, Query, UseGuards } from '@nestjs/com
 import { ApiBearerAuth, ApiOperation, ApiProperty, ApiPropertyOptional, ApiTags } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { ArrayMaxSize, IsArray, IsBoolean, IsString, IsUUID, MaxLength, ValidateIf, ValidateNested } from 'class-validator';
-import { ID, PermissionsEnum } from '@gauzy/contracts';
-import { PermissionGuard, Permissions, TenantPermissionGuard, UseValidationPipe, UUIDValidationPipe } from '@gauzy/core';
+import { ID, PermissionsEnum } from '@irtranscripts/contracts';
+import { PermissionGuard, Permissions, TenantPermissionGuard, UseValidationPipe, UUIDValidationPipe } from '@irtranscripts/core';
 import { EVER_WORKS_ROUTE_PREFIX } from '../ever-works.constants';
 import { EverWorksProjectsService } from './ever-works-projects.service';
 
@@ -13,7 +13,7 @@ export class EverWorksProjectLinkDto {
 	@MaxLength(64)
 	readonly ewWorkId!: string;
 
-	@ApiProperty({ description: 'Gauzy project id (an active project of this organization).' })
+	@ApiProperty({ description: 'IRTranscripts project id (an active project of this organization).' })
 	@IsUUID()
 	readonly projectId!: string;
 }
@@ -40,17 +40,17 @@ export class EverWorksProjectsDecisionDto {
 	@IsBoolean()
 	readonly acceptSuggestions?: boolean;
 
-	@ApiPropertyOptional({ type: [String], description: 'Ever Works work ids to create a Gauzy project from.' })
+	@ApiPropertyOptional({ type: [String], description: 'Ever Works work ids to create a IRTranscripts project from.' })
 	@ValidateIf((_o, v) => v !== undefined)
 	@IsArray()
 	@ArrayMaxSize(500)
 	@IsString({ each: true })
 	@MaxLength(64, { each: true })
-	readonly createInGauzy?: string[];
+	readonly createInIRTranscripts?: string[];
 
 	@ApiPropertyOptional({
 		type: [String],
-		description: 'Gauzy project ids to create in Ever Works as repo-less works of kind `project` (G-P2-5; needs Ever Works project works switched on).'
+		description: 'IRTranscripts project ids to create in Ever Works as repo-less works of kind `project` (G-P2-5; needs Ever Works project works switched on).'
 	})
 	@ValidateIf((_o, v) => v !== undefined)
 	@IsArray()

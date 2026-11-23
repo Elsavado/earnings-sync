@@ -1,6 +1,6 @@
 import { Inject, Injectable, ConsoleLogger, LogLevel, OnApplicationShutdown } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { SENTRY_MODULE_OPTIONS } from './sentry.constants';
 import { SentryModuleOptions } from './sentry.interfaces';
 

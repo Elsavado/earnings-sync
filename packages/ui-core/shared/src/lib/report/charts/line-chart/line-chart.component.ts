@@ -28,8 +28,8 @@ import {
 } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import AnnotationPlugin, { AnnotationPluginOptions } from 'chartjs-plugin-annotation';
-import { DEFAULT_STANDARD_WORK_HOURS_PER_DAY } from '@gauzy/constants';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { DEFAULT_STANDARD_WORK_HOURS_PER_DAY } from '@irtranscripts/constants';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { ChartUtil } from './chart-utils';
 
 @UntilDestroy({ checkProperties: true })

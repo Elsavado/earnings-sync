@@ -1,5 +1,5 @@
 import { ValueTransformer } from 'typeorm';
-import { EmployeeSettingTypeEnum } from '@gauzy/contracts';
+import { EmployeeSettingTypeEnum } from '@irtranscripts/contracts';
 
 /**
  * EmployeeSettingTypeTransformerPipe handles the conversion between the enum string values

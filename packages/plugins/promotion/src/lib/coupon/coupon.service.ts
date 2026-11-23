@@ -3,7 +3,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { randomBytes } from 'crypto';
 import { FindOptionsWhere, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { DecimalString, ID, IPagination } from '@gauzy/contracts';
+import { DecimalString, ID, IPagination } from '@irtranscripts/contracts';
 import {
 	booleanLiteral,
 	currentTimestampExpression,
@@ -12,7 +12,7 @@ import {
 	readAffectedRows,
 	RequestContext,
 	toPositionalStatement
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { CouponRedeemedEvent } from '../events';
 import { Coupon } from './coupon.entity';
 import { Promotion } from '../promotion/promotion.entity';

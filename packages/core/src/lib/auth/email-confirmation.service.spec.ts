@@ -1,8 +1,8 @@
 import '../core/entities/internal';
 
 import { BadRequestException, HttpStatus, Logger, ServiceUnavailableException } from '@nestjs/common';
-import { environment } from '@gauzy/config';
-import { IUser } from '@gauzy/contracts';
+import { environment } from '@irtranscripts/config';
+import { IUser } from '@irtranscripts/contracts';
 import { EmailConfirmationService } from './email-confirmation.service';
 
 /**
@@ -10,11 +10,11 @@ import { EmailConfirmationService } from './email-confirmation.service';
  *
  * - The link encodes the address, so a plus-addressed user can verify (a raw `+` reads back as a space).
  * - A caller-supplied confirmation URL is only honoured on an origin the deployment serves; otherwise
- *   a resend could point a genuine Gauzy email at someone else's server and hand them the token.
+ *   a resend could point a genuine IRTranscripts email at someone else's server and hand them the token.
  * - A resend the provider refused is reported (503) instead of answered with "OK".
  */
 
-const USER = { id: 'user-1', email: 'jane+gauzy@corp.co', emailVerifiedAt: null } as unknown as IUser;
+const USER = { id: 'user-1', email: 'jane+irtranscripts@corp.co', emailVerifiedAt: null } as unknown as IUser;
 
 function makeService(
 	options: { sent?: boolean; sendThrows?: boolean; user?: IUser; stored?: boolean; verified?: boolean } = {}
@@ -61,7 +61,7 @@ describe('EmailConfirmationService', () => {
 
 			// Only the query matters here (CLIENT_BASE_URL is unset under jest, so the base is no URL).
 			const link = { searchParams: new URLSearchParams(linkSent(emailService).split('?')[1]) };
-			expect(link.searchParams.get('email')).toBe('jane+gauzy@corp.co');
+			expect(link.searchParams.get('email')).toBe('jane+irtranscripts@corp.co');
 			expect(link.searchParams.get('token')).toBeTruthy();
 		});
 

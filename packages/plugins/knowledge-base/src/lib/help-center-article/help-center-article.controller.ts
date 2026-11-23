@@ -1,4 +1,4 @@
-import { PermissionsEnum, IHelpCenterArticle, ID, IPagination, IHelpCenterArticleFiltering } from '@gauzy/contracts';
+import { PermissionsEnum, IHelpCenterArticle, ID, IPagination, IHelpCenterArticleFiltering } from '@irtranscripts/contracts';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import {
 	Body,
@@ -30,7 +30,7 @@ import {
 	UseValidationPipe,
 	UUIDValidationPipe,
 	BaseQueryDTO
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { HelpCenterArticle } from './help-center-article.entity';
 import { HelpCenterArticleService } from './help-center-article.service';
 import { KnowledgeBaseCategoryBulkDeleteCommand } from './commands';

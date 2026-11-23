@@ -1,0 +1,6 @@
+@use 'irtranscripts/_irtranscripts-dialogs' as *;
+
+:host nb-card {
+  background-color: nb-theme(irtranscripts-card-1);
+  width: 645px;
+}

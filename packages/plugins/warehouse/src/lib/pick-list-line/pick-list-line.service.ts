@@ -1,8 +1,8 @@
 import { BadRequestException, Inject, Injectable, Logger, NotFoundException, Optional } from '@nestjs/common';
 import { EntityManager as TypeOrmEntityManager, FindOptionsWhere, ObjectLiteral, Repository, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { DecimalString, ID } from '@gauzy/contracts';
-import { EventOutboxService, RequestContext } from '@gauzy/core';
+import { DecimalString, ID } from '@irtranscripts/contracts';
+import { EventOutboxService, RequestContext } from '@irtranscripts/core';
 import { PickList } from '../pick-list/pick-list.entity';
 import { TypeOrmPickListRepository } from '../pick-list/repository/type-orm-pick-list.repository';
 import {

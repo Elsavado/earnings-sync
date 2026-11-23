@@ -1,6 +1,6 @@
 import { AsyncPipe } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { IPlugin } from '@gauzy/contracts';
+import { IPlugin } from '@irtranscripts/contracts';
 import {
 	NbAlertModule,
 	NbBadgeModule,
@@ -54,11 +54,11 @@ export interface PluginUserRow {
  * - No manual subscriptions (UntilDestroy handles cleanup)
  *
  * @example
- * <gauzy-plugin-user-management-tab></gauzy-plugin-user-management-tab>
+ * <irtranscripts-plugin-user-management-tab></irtranscripts-plugin-user-management-tab>
  */
 @UntilDestroy()
 @Component({
-	selector: 'gauzy-plugin-user-management-tab',
+	selector: 'irtranscripts-plugin-user-management-tab',
 	templateUrl: './user-management-tab.component.html',
 	styleUrls: ['./user-management-tab.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,

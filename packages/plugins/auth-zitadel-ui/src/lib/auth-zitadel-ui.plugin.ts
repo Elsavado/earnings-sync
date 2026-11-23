@@ -1,5 +1,5 @@
-import { defineDeclarativePlugin, PluginNavItemInput, PluginRouteInput } from '@gauzy/plugin-ui';
-import { NoAuthGuard } from '@gauzy/ui-core/core';
+import { defineDeclarativePlugin, PluginNavItemInput, PluginRouteInput } from '@irtranscripts/plugin-ui';
+import { NoAuthGuard } from '@irtranscripts/ui-core/core';
 import en from '../i18n/en.json';
 import { CONNECTED_IDENTITIES_LINK, CONNECTED_IDENTITIES_PATH, isEverIdSettingsVisible } from './ever-id-ui.state';
 
@@ -11,7 +11,7 @@ export const EVER_ID_HANDOFF_ROUTE: PluginRouteInput = {
 	canActivate: [NoAuthGuard]
 };
 
-/** `#/auth/ever-id/confirm`: Gauzy's one-time e-mail code before a confirmed link. */
+/** `#/auth/ever-id/confirm`: IRTranscripts's one-time e-mail code before a confirmed link. */
 export const EVER_ID_CONFIRM_ROUTE: PluginRouteInput = {
 	location: 'auth-sections',
 	path: 'ever-id/confirm',
@@ -19,7 +19,7 @@ export const EVER_ID_CONFIRM_ROUTE: PluginRouteInput = {
 	canActivate: [NoAuthGuard]
 };
 
-/** `#/auth/ever-id/signup`: "Create a Gauzy workspace with this Ever ID" (Ever Cloud only). */
+/** `#/auth/ever-id/signup`: "Create a IRTranscripts workspace with this Ever ID" (Ever Cloud only). */
 export const EVER_ID_SIGNUP_ROUTE: PluginRouteInput = {
 	location: 'auth-sections',
 	path: 'ever-id/signup',
@@ -44,7 +44,7 @@ export const CONNECTED_IDENTITIES_ROUTE: PluginRouteInput = {
 };
 
 /**
- * Ever ID sign-in UI plugin (`@gauzy/plugin-auth-zitadel-ui`).
+ * Ever ID sign-in UI plugin (`@irtranscripts/plugin-auth-zitadel-ui`).
  *
  * Adds the pages the Ever ID sign-in redirects to and Settings > Connected identities. The settings
  * entry is shown only when the web app has an Ever ID sign-in link configured and the API reports the

@@ -1,18 +1,18 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 import { DataSource } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { IntegrationTenant } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { IntegrationTenant } from '@irtranscripts/core';
 import { EVER_WORKS_INTEGRATION_NAME } from '../../ever-works.constants';
 import { EverWorksSettingName } from '../../ever-works-setting.enum';
 import { EverWorksLinkType, EverWorksOutboundChange, EverWorksOutboundStatus } from '../entities/ever-works-sync.entities';
 
-/** A Gauzy change to push (a hint: the push recomputes the full state). */
+/** A IRTranscripts change to push (a hint: the push recomputes the full state). */
 export interface EverWorksOutboundTrigger {
 	tenantId: ID;
 	organizationId: ID;
 	entityType: EverWorksLinkType;
-	gauzyId: ID;
+	irtranscriptsId: ID;
 	op?: 'upsert' | 'delete';
 	changedFields?: string[];
 	actorUserId?: ID | null;
@@ -66,7 +66,7 @@ export class EverWorksOutboundQueue {
 		const integrationTenantId = await this.mappingFor(trigger.tenantId, trigger.organizationId, now.getTime());
 		if (!integrationTenantId) return false;
 		// One enqueue per record at a time in this process (the listener does not wait for the previous one).
-		const key = `${integrationTenantId}:${trigger.entityType}:${trigger.gauzyId}`;
+		const key = `${integrationTenantId}:${trigger.entityType}:${trigger.irtranscriptsId}`;
 		const previous = this.inFlight.get(key) ?? Promise.resolve();
 		const current = previous.catch(() => undefined).then(() => this.enqueueLocked(integrationTenantId, key, trigger, now));
 		this.inFlight.set(key, current);
@@ -94,7 +94,7 @@ export class EverWorksOutboundQueue {
 			}
 			const repository = manager.getRepository(EverWorksOutboundChange);
 			const pending = await repository.findOne({
-				where: { integrationTenantId, entityType: trigger.entityType, gauzyId: trigger.gauzyId, status: EverWorksOutboundStatus.PENDING }
+				where: { integrationTenantId, entityType: trigger.entityType, irtranscriptsId: trigger.irtranscriptsId, status: EverWorksOutboundStatus.PENDING }
 			});
 			if (pending) {
 				const hints = new Set<string>([...this.parse(pending.changedFieldsHint), ...(trigger.changedFields ?? [])]);
@@ -113,7 +113,7 @@ export class EverWorksOutboundQueue {
 			// due again after the debounce (review F22: a comment waiting for its task, or a child for its parent, queued a
 			// new row of the task every minute). The update is conditional, so a pusher that claimed it meanwhile wins.
 			const waiting = await repository.findOne({
-				where: { integrationTenantId, entityType: trigger.entityType, gauzyId: trigger.gauzyId, status: EverWorksOutboundStatus.DEFERRED },
+				where: { integrationTenantId, entityType: trigger.entityType, irtranscriptsId: trigger.irtranscriptsId, status: EverWorksOutboundStatus.DEFERRED },
 				order: { availableAt: 'ASC' }
 			});
 			if (waiting) {
@@ -138,7 +138,7 @@ export class EverWorksOutboundQueue {
 				organizationId: trigger.organizationId,
 				integrationTenantId,
 				entityType: trigger.entityType,
-				gauzyId: trigger.gauzyId,
+				irtranscriptsId: trigger.irtranscriptsId,
 				op: trigger.op ?? 'upsert',
 				changedFieldsHint: JSON.stringify(trigger.changedFields ?? []),
 				actorUserId: trigger.actorUserId ?? null,

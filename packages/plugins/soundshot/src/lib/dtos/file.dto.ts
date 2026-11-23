@@ -1,4 +1,4 @@
-import { FileStorageProviderEnum, UploadedFile } from '@gauzy/contracts';
+import { FileStorageProviderEnum, UploadedFile } from '@irtranscripts/contracts';
 import { ApiProperty } from '@nestjs/swagger';
 import {
 	IsEnum,

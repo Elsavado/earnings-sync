@@ -2,8 +2,8 @@ import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Put, Query, U
 import { ApiBearerAuth, ApiOperation, ApiProperty, ApiPropertyOptional, ApiTags } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { ArrayMaxSize, IsArray, IsBoolean, IsString, IsUUID, MaxLength, ValidateIf, ValidateNested } from 'class-validator';
-import { ID, PermissionsEnum } from '@gauzy/contracts';
-import { PermissionGuard, Permissions, TenantPermissionGuard, UseValidationPipe, UUIDValidationPipe } from '@gauzy/core';
+import { ID, PermissionsEnum } from '@irtranscripts/contracts';
+import { PermissionGuard, Permissions, TenantPermissionGuard, UseValidationPipe, UUIDValidationPipe } from '@irtranscripts/core';
 import { EVER_WORKS_ROUTE_PREFIX } from '../ever-works.constants';
 import { EverWorksAgentsService } from './ever-works-agents.service';
 import { EverWorksPeopleService } from './ever-works-people.service';
@@ -14,13 +14,13 @@ export class EverWorksPersonLinkDto {
 	@MaxLength(64)
 	readonly ewUserId!: string;
 
-	@ApiProperty({ description: 'Gauzy employee id (an active person of this organization).' })
+	@ApiProperty({ description: 'IRTranscripts employee id (an active person of this organization).' })
 	@IsUUID()
 	readonly employeeId!: string;
 }
 
-export class EverWorksInviteToGauzyDto {
-	@ApiProperty({ description: 'Ever Works user id of a member of the mapped organization with no Gauzy person yet.' })
+export class EverWorksInviteToIRTranscriptsDto {
+	@ApiProperty({ description: 'Ever Works user id of a member of the mapped organization with no IRTranscripts person yet.' })
 	@IsString()
 	@MaxLength(64)
 	readonly ewUserId!: string;
@@ -34,7 +34,7 @@ export class EverWorksInviteToGauzyDto {
 }
 
 export class EverWorksInviteToEverWorksDto {
-	@ApiProperty({ description: 'Gauzy employee id of an active person of this organization with no Ever Works member yet.' })
+	@ApiProperty({ description: 'IRTranscripts employee id of an active person of this organization with no Ever Works member yet.' })
 	@IsUUID()
 	readonly employeeId!: string;
 }
@@ -78,7 +78,7 @@ export class EverWorksPeopleController {
 
 	@Get('/people')
 	@Permissions(PermissionsEnum.INTEGRATION_VIEW)
-	@ApiOperation({ summary: 'Ever Works members with their link or a verified-email suggestion, and the unmatched Gauzy people.' })
+	@ApiOperation({ summary: 'Ever Works members with their link or a verified-email suggestion, and the unmatched IRTranscripts people.' })
 	listPeople(@Param('integrationTenantId', UUIDValidationPipe) id: ID, @Query('organizationId') organizationId?: ID) {
 		return this.people.people(id, organizationId);
 	}
@@ -91,15 +91,15 @@ export class EverWorksPeopleController {
 		return this.people.decide(id, dto, organizationId);
 	}
 
-	@Post('/people/invite-to-gauzy')
+	@Post('/people/invite-to-irtranscripts')
 	@Permissions(PermissionsEnum.INTEGRATION_EDIT)
 	@HttpCode(HttpStatus.OK)
 	@UseValidationPipe({ whitelist: true })
 	@ApiOperation({
-		summary: 'Invite an Ever Works member with no Gauzy person as an employee (the platform invite flow; needs ORG_INVITE_EDIT too).'
+		summary: 'Invite an Ever Works member with no IRTranscripts person as an employee (the platform invite flow; needs ORG_INVITE_EDIT too).'
 	})
-	inviteToGauzy(@Param('integrationTenantId', UUIDValidationPipe) id: ID, @Body() dto: EverWorksInviteToGauzyDto, @Query('organizationId') organizationId?: ID) {
-		return this.people.inviteToGauzy(id, { ewUserId: dto.ewUserId, roleId: dto.roleId as ID | undefined }, organizationId);
+	inviteToIRTranscripts(@Param('integrationTenantId', UUIDValidationPipe) id: ID, @Body() dto: EverWorksInviteToIRTranscriptsDto, @Query('organizationId') organizationId?: ID) {
+		return this.people.inviteToIRTranscripts(id, { ewUserId: dto.ewUserId, roleId: dto.roleId as ID | undefined }, organizationId);
 	}
 
 	@Post('/people/invite-to-ever-works')
@@ -107,7 +107,7 @@ export class EverWorksPeopleController {
 	@HttpCode(HttpStatus.OK)
 	@UseValidationPipe({ whitelist: true })
 	@ApiOperation({
-		summary: 'Invite a Gauzy person with no Ever Works member into the mapped Ever Works organization (needs ORG_INVITE_EDIT too).'
+		summary: 'Invite a IRTranscripts person with no Ever Works member into the mapped Ever Works organization (needs ORG_INVITE_EDIT too).'
 	})
 	inviteToEverWorks(@Param('integrationTenantId', UUIDValidationPipe) id: ID, @Body() dto: EverWorksInviteToEverWorksDto, @Query('organizationId') organizationId?: ID) {
 		return this.people.inviteToEverWorks(id, { employeeId: dto.employeeId as ID }, organizationId);

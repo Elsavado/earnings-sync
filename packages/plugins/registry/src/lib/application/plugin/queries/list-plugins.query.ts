@@ -1,4 +1,4 @@
-import { BaseQueryDTO } from '@gauzy/core';
+import { BaseQueryDTO } from '@irtranscripts/core';
 import { IQuery } from '@nestjs/cqrs';
 import { IPlugin } from '../../../shared';
 

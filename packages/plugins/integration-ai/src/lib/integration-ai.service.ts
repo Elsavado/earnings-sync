@@ -6,15 +6,15 @@ import {
 	IIntegrationTenant,
 	IIntegrationTenantUpdateInput,
 	IntegrationEnum
-} from '@gauzy/contracts';
-import { arrayToObject, isNotEmpty } from '@gauzy/utils';
+} from '@irtranscripts/contracts';
+import { arrayToObject, isNotEmpty } from '@irtranscripts/utils';
 import {
 	IntegrationService,
 	IntegrationTenantService,
 	IntegrationTenantUpdateOrCreateCommand,
 	RequestContext
-} from '@gauzy/core';
-import { GauzyAIService } from './gauzy-ai.service';
+} from '@irtranscripts/core';
+import { IRTranscriptsAIService } from './irtranscripts-ai.service';
 import { RequestConfigProvider } from './request-config.provider';
 import { DEFAULT_ENTITY_SETTINGS } from './integration-ai-entity-settings';
 
@@ -25,13 +25,13 @@ export class IntegrationAIService {
 	constructor(
 		private readonly _commandBus: CommandBus,
 		private readonly _requestConfigProvider: RequestConfigProvider,
-		private readonly _gauzyAIService: GauzyAIService,
+		private readonly _irtranscriptsAIService: IRTranscriptsAIService,
 		private readonly _integrationService: IntegrationService,
 		private readonly _integrationTenantService: IntegrationTenantService
 	) {}
 
 	/**
-	 * Creates a new integration tenant for Gauzy AI.
+	 * Creates a new integration tenant for IRTranscripts AI.
 	 * @param input - The input data for creating the integration tenant.
 	 * @returns A promise that resolves to the created integration tenant.
 	 */
@@ -44,9 +44,9 @@ export class IntegrationAIService {
 			const tenantId = RequestContext.currentTenantId() || input.tenantId;
 			const { organizationId } = input;
 
-			// Retrieve Gauzy AI integration from the database
+			// Retrieve IRTranscripts AI integration from the database
 			const integration = await this._integrationService.findOneByWhereOptions({
-				provider: IntegrationEnum.GAUZY_AI,
+				provider: IntegrationEnum.IRTRANSCRIPTS_AI,
 				isActive: true,
 				isArchived: false
 			});
@@ -62,13 +62,13 @@ export class IntegrationAIService {
 			const createdIntegration: IIntegrationTenant = await this._commandBus.execute(
 				new IntegrationTenantUpdateOrCreateCommand(
 					{
-						name: IntegrationEnum.GAUZY_AI,
-						integration: { provider: IntegrationEnum.GAUZY_AI },
+						name: IntegrationEnum.IRTRANSCRIPTS_AI,
+						integration: { provider: IntegrationEnum.IRTRANSCRIPTS_AI },
 						tenantId,
 						organizationId
 					},
 					{
-						name: IntegrationEnum.GAUZY_AI,
+						name: IntegrationEnum.IRTRANSCRIPTS_AI,
 						integration,
 						organizationId,
 						tenantId,
@@ -119,10 +119,10 @@ export class IntegrationAIService {
 			return createdIntegration;
 		} catch (error) {
 			// Handle errors and return an appropriate error response
-			this.logger.error('Error while creating Gauzy AI integration', error.message);
+			this.logger.error('Error while creating IRTranscripts AI integration', error.message);
 
 			throw new HttpException(
-				`Error while creating Gauzy AI integration: ${error.message}`,
+				`Error while creating IRTranscripts AI integration: ${error.message}`,
 				HttpStatus.BAD_REQUEST
 			);
 		}
@@ -136,7 +136,7 @@ export class IntegrationAIService {
 	 */
 	public async update(integrationId: ID, input: IIntegrationTenantUpdateInput): Promise<IIntegrationTenant> {
 		try {
-			// Retrieve Gauzy AI integration from the database
+			// Retrieve IRTranscripts AI integration from the database
 			const integration = await this._integrationTenantService.findOneByIdString(integrationId, {
 				relations: { settings: true }
 			});
@@ -163,10 +163,10 @@ export class IntegrationAIService {
 			return integration;
 		} catch (error) {
 			// Handle errors and return an appropriate error response
-			this.logger.error('Error while updating Gauzy AI integration', error.message);
+			this.logger.error('Error while updating IRTranscripts AI integration', error.message);
 
 			throw new HttpException(
-				`Error while updating Gauzy AI integration: ${error.message}`,
+				`Error while updating IRTranscripts AI integration: ${error.message}`,
 				HttpStatus.BAD_REQUEST
 			);
 		}
@@ -174,7 +174,7 @@ export class IntegrationAIService {
 
 	/**
 	 * Updates a tenant's API key by configuring the necessary parameters,
-	 * triggering the update in the Gauzy AI service, and handling any potential errors in a robust manner.
+	 * triggering the update in the IRTranscripts AI service, and handling any potential errors in a robust manner.
 	 */
 	async updateOneTenantApiKey({ apiKey, apiSecret, openAiSecretKey, openAiOrganizationId }): Promise<void> {
 		try {
@@ -186,8 +186,8 @@ export class IntegrationAIService {
 				...(isNotEmpty(openAiOrganizationId) && { openAiOrganizationId })
 			});
 
-			// Update Gauzy AI service with the new API key
-			await this._gauzyAIService.updateOneTenantApiKey({
+			// Update IRTranscripts AI service with the new API key
+			await this._irtranscriptsAIService.updateOneTenantApiKey({
 				apiKey,
 				apiSecret,
 				openAiSecretKey,

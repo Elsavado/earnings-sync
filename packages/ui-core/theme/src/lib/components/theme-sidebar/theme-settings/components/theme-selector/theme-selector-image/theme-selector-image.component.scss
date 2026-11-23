@@ -91,7 +91,7 @@
   gap: $panel-gap;
   width: 13.5rem;
   max-height: min(24rem, 60vh);
-  @include gauzy-panel-scroll();
+  @include irtranscripts-panel-scroll();
 }
 
 .theme-option {

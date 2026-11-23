@@ -1,6 +1,6 @@
 import { DataSource } from "typeorm";
-import { environment } from "@gauzy/config";
-import { FileStorageProviderEnum, ITenant } from "@gauzy/contracts";
+import { environment } from "@irtranscripts/config";
+import { FileStorageProviderEnum, ITenant } from "@irtranscripts/contracts";
 import { TenantSetting } from "./tenant-setting.entity";
 
 /**

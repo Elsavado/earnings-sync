@@ -1,6 +1,6 @@
-import { logger as log } from '@gauzy/desktop-core';
-import { InstallPluginHandler, LocalStore, ProtocolRouter, setupAkitaStorageHandler } from '@gauzy/desktop-lib';
-import { installNavigationGuard, installProviderSignIn } from '@gauzy/desktop-window';
+import { logger as log } from '@irtranscripts/desktop-core';
+import { InstallPluginHandler, LocalStore, ProtocolRouter, setupAkitaStorageHandler } from '@irtranscripts/desktop-lib';
+import { installNavigationGuard, installProviderSignIn } from '@irtranscripts/desktop-window';
 import { app, ipcMain } from 'electron';
 import * as path from 'path';
 import { environment } from './environments/environment';
@@ -9,7 +9,7 @@ import { getApiBaseUrl } from './main/util';
 import AppWindow from './main/window-manager';
 Object.assign(process.env, environment);
 
-const sqlite3filename = `${process.env.GAUZY_USER_PATH}/gauzy.sqlite3`;
+const sqlite3filename = `${process.env.IRTRANSCRIPTS_USER_PATH}/irtranscripts.sqlite3`;
 log.info(`Sqlite DB path: ${sqlite3filename}`);
 
 const args = process.argv.slice(1);
@@ -20,7 +20,7 @@ LocalStore.setFilePath({
 });
 
 // Register custom protocol for deep linking
-const appProtocol = process.env.PROTOCOL || 'gauzy-agent';
+const appProtocol = process.env.PROTOCOL || 'irtranscripts-agent';
 if (process.defaultApp) {
 	if (process.argv.length >= 2) {
 		app.setAsDefaultProtocolClient(appProtocol, process.execPath, [path.resolve(process.argv[1])]);

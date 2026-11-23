@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common';
 import { DeepPartial } from 'typeorm';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { IEmployeeLevel, IPagination, ID, PermissionsEnum } from '@gauzy/contracts';
+import { IEmployeeLevel, IPagination, ID, PermissionsEnum } from '@irtranscripts/contracts';
 import { CrudController } from './../core/crud';
 import { EmployeeLevel } from './employee-level.entity';
 import { EmployeeLevelService } from './employee-level.service';

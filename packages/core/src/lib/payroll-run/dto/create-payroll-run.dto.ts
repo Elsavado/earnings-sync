@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDateString, IsEnum, IsNotEmpty, IsOptional, IsString, Length, MaxLength } from 'class-validator';
-import { IPayrollRunCreateInput, PayrollFrequencyEnum } from '@gauzy/contracts';
+import { IPayrollRunCreateInput, PayrollFrequencyEnum } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from './../../core/dto';
 
 /**

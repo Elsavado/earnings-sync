@@ -2,9 +2,9 @@ import { Inject, Injectable, Logger, NestMiddleware, NotFoundException } from '@
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { Request, Response, NextFunction } from 'express';
-import { IIntegrationSetting, IntegrationEnum } from '@gauzy/contracts';
-import { IntegrationTenantService } from '@gauzy/core';
-import { arrayToObject, isNotEmpty } from '@gauzy/utils';
+import { IIntegrationSetting, IntegrationEnum } from '@irtranscripts/contracts';
+import { IntegrationTenantService } from '@irtranscripts/core';
+import { arrayToObject, isNotEmpty } from '@irtranscripts/utils';
 
 @Injectable()
 export class MakeComMiddleware implements NestMiddleware {

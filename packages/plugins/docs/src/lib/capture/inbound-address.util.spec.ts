@@ -16,10 +16,10 @@ import {
 describe('inbound address utils', () => {
 	describe('normalizeRecipientAddress', () => {
 		it('keeps the domain — the whole address identifies the tenant, not just the local part', () => {
-			expect(normalizeRecipientAddress('docs-abc123@inbound.gauzy.co')).toBe('docs-abc123@inbound.gauzy.co');
+			expect(normalizeRecipientAddress('docs-abc123@inbound.irtranscripts.com')).toBe('docs-abc123@inbound.irtranscripts.com');
 			// Same local part, different domain ⇒ a DIFFERENT address. The old parser conflated these.
 			expect(normalizeRecipientAddress('docs-abc123@attacker.example')).toBe('docs-abc123@attacker.example');
-			expect(normalizeRecipientAddress('docs-abc123@inbound.gauzy.co')).not.toBe(
+			expect(normalizeRecipientAddress('docs-abc123@inbound.irtranscripts.com')).not.toBe(
 				normalizeRecipientAddress('docs-abc123@attacker.example')
 			);
 		});

@@ -1,8 +1,8 @@
 import '../../core/entities/internal';
 
 import { knex as createKnex, Knex } from 'knex';
-import { DatabaseTypeEnum } from '@gauzy/config';
-import { IGetManualTimesStatistics, IGetProjectsStatistics } from '@gauzy/contracts';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
+import { IGetManualTimesStatistics, IGetProjectsStatistics } from '@irtranscripts/contracts';
 import { MultiORMEnum } from '../../core/utils';
 import { asTenantUser, createCrossTenantFixture } from '../../core/testing/tenant-isolation/tenant-isolation.fixtures';
 import { StatisticService } from './statistic.service';

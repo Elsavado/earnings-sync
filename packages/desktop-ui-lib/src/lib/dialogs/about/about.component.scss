@@ -1,14 +1,14 @@
 nb-card-body,
 nb-card-footer {
     padding: 1rem;
-    background-color: var(--gauzy-card-2);
+    background-color: var(--irtranscripts-card-2);
 }
 
 div.logo {
-    box-shadow: var(--gauzy-shadow);
+    box-shadow: var(--irtranscripts-shadow);
     width: fit-content;
     border-radius: calc(var(--border-radius) * 1.5);
-    background: var(--gauzy-card-1);
+    background: var(--irtranscripts-card-1);
 
     img {
         height: 64px;

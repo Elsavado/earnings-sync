@@ -1,7 +1,7 @@
 /**
  * Three module boundaries are doubled here, for the same reason and in the same way.
  *
- * `@gauzy/core` boots the whole application graph from its barrel, and `@gauzy/plugin-cart`'s barrel
+ * `@irtranscripts/core` boots the whole application graph from its barrel, and `@irtranscripts/plugin-cart`'s barrel
  * re-exports the cart plugin class, which imports the catalogue plugin, which imports the rest of the
  * marketplace — so reading one totals function would otherwise load every package on the platform.
  * Both seams are therefore doubled at the module boundary, exactly as the docs package's service
@@ -11,11 +11,11 @@
 /** The platform's cross-tenant reference check, which reads a real database: recorded, and answered per test. */
 const mockAssertReferences = jest.fn(async (..._args: unknown[]) => undefined);
 
-jest.mock('@gauzy/plugin-cart', () => ({
-	TotalsCalculator: jest.requireActual('@gauzy/plugin-cart/src/lib/totals/totals-calculator').TotalsCalculator
+jest.mock('@irtranscripts/plugin-cart', () => ({
+	TotalsCalculator: jest.requireActual('@irtranscripts/plugin-cart/src/lib/totals/totals-calculator').TotalsCalculator
 }));
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
@@ -100,10 +100,10 @@ jest.mock('@gauzy/core', () => {
 
 	return {
 		// The statement helpers are pure and dialect-driven; loading the real module here would pull
-		// `@gauzy/config` and the request context into a suite that doubles the barrel on purpose.
+		// `@irtranscripts/config` and the request context into a suite that doubles the barrel on purpose.
 		quoteIdentifier: (identifier: string) => `"${identifier}"`,
 		prepareSQLQuery: (query: string) => query,
-		...jest.requireActual('@gauzy/core/src/lib/money/decimal'),
+		...jest.requireActual('@irtranscripts/core/src/lib/money/decimal'),
 		CrudService,
 		TenantAwareCrudService,
 		BaseEntity,
@@ -120,15 +120,15 @@ jest.mock('@gauzy/core', () => {
 		Idempotent: decorator,
 		Versioned: decorator,
 		VersionedColumn: decorator,
-		commitVersionedUpdate: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		commitVersionedUpdate: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.commitVersionedUpdate,
-		versionExpectationOf: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		versionExpectationOf: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.versionExpectationOf,
 		// Added when the totals writer began retrying a wildcard write that lost the version race: it tells that
 		// refusal apart by this class and its code, and a double without them would turn any failure of a
 		// recomputation into a `TypeError` about the double.
-		ApiException: jest.requireActual('@gauzy/core/src/lib/core/errors/api-exception').ApiException,
-		ApiErrorCode: jest.requireActual('@gauzy/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
+		ApiException: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-exception').ApiException,
+		ApiErrorCode: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
 		ColumnNumericTransformerPipe: class {
 			to(value: unknown) {
 				return value;
@@ -138,7 +138,7 @@ jest.mock('@gauzy/core', () => {
 			}
 		},
 		assertPlainReferencesNotForeign: (...args: unknown[]) => mockAssertReferences(...args),
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		RequestContext: {
 			currentUser: () => null,
 			currentUserId: () => null,
@@ -163,7 +163,7 @@ import {
 	OrderPaymentStatus,
 	OrderStatus,
 	OrderTransactionType
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { OrderAddressService } from '../order-address/order-address.service';
 import { OrderHistoryService } from '../order-history/order-history.service';
 import { OrderLineService } from '../order-line/order-line.service';

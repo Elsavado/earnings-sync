@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Query } from '@datorama/akita';
-import { IUser } from '@gauzy/contracts';
+import { IUser } from '@irtranscripts/contracts';
 import { combineLatest, map, Observable } from 'rxjs';
 import { AvailableUsersState, AvailableUsersStore } from '../stores/available-users.store';
 

@@ -1,4 +1,4 @@
-import { environment } from '@gauzy/ui-config';
+import { environment } from '@irtranscripts/ui-config';
 import { everIdSignInLink, isEverIdSettingsVisible, resetEverIdUiState } from './ever-id-ui.state';
 
 describe('Connected identities menu entry', () => {

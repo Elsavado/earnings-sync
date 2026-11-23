@@ -1,6 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { assertCallerOwnsUpload } from '@gauzy/core';
+import { assertCallerOwnsUpload } from '@irtranscripts/core';
 import { GetSoundshotQuery } from '../get-soundshot.query';
 import { ISoundshot } from '../../models/soundshot.model';
 import { SoundshotService } from '../../services/soundshot.service';

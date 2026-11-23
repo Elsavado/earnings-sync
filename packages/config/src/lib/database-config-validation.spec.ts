@@ -404,7 +404,7 @@ describe('database.ts at import time', () => {
 			it('keep connections alive and name them, but keep none open and close idle ones after 10 s by default', () => {
 				const { dbTypeOrmConnectionConfig, dbMikroOrmConnectionConfig, dbKnexConnectionConfig } =
 					loadDatabaseConfig({ DB_TYPE: 'postgres' });
-				const expected = { keepAlive: true, keepAliveInitialDelayMillis: 10000, application_name: 'gauzy' };
+				const expected = { keepAlive: true, keepAliveInitialDelayMillis: 10000, application_name: 'irtranscripts' };
 				// A session-mode PgBouncer gives every open client connection a server connection of its own, so the
 				// defaults keep none open and release idle ones quickly (see DEFAULT_DB_IDLE_TIMEOUT_MS).
 				expect(dbTypeOrmConnectionConfig.extra).toMatchObject({

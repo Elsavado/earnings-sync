@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
-import { EmployeeKindEnum, ID, IEmployeeAgentProfileInput } from '@gauzy/contracts';
+import { EmployeeKindEnum, ID, IEmployeeAgentProfileInput } from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from '../core/crud/tenant-aware-crud.service';
 import { Employee } from '../core/entities/internal';
 import { findOneForUpdate } from '../employee/agent-employee';

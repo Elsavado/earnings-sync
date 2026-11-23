@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { JoinColumn, RelationId } from 'typeorm';
 import { IsBoolean, IsDate, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID, MaxLength } from 'class-validator';
-import { CurrencyCode, DecimalString, ID } from '@gauzy/contracts';
+import { CurrencyCode, DecimalString, ID } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	JsonColumn,
@@ -10,7 +10,7 @@ import {
 	MultiORMManyToOne,
 	MultiORMOneToMany,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { IOrderExchange, IOrderExchangeLine, IOrderReturn, OrderExchangeStatus } from '../returns.types';
 import { OrderExchangeLine } from '../order-exchange-line/order-exchange-line.entity';
 import { OrderReturn } from '../order-return/order-return.entity';

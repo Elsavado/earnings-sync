@@ -1,4 +1,4 @@
-import { seedEver } from '@gauzy/core';
+import { seedEver } from '@irtranscripts/core';
 import { pluginConfig } from './plugin.config';
 
 seedEver(pluginConfig).catch((error: any) => {

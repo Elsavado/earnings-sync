@@ -5,11 +5,11 @@
  * PRIVATE pages (content, extracted text) and files (the same storage key) back as the caller's own.
  * The copy now takes only the descendants the caller may read, and nothing below one it may not.
  */
-jest.mock('@gauzy/config', () => ({ isSqlite: () => false, isBetterSqlite3: () => false }));
+jest.mock('@irtranscripts/config', () => ({ isSqlite: () => false, isBetterSqlite3: () => false }));
 jest.mock('../entities/document.entity', () => ({ Document: class {} }));
 jest.mock('../repositories/type-orm-document.repository', () => ({ TypeOrmDocumentRepository: class {} }));
 
-import { DocumentKindEnum } from '@gauzy/contracts';
+import { DocumentKindEnum } from '@irtranscripts/contracts';
 import { DocumentTreeService } from './document-tree.service';
 
 const row = (overrides: Record<string, any>): any => ({

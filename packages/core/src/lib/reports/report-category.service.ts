@@ -1,6 +1,6 @@
 import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-import { environment as env } from '@gauzy/config';
-import { ID } from '@gauzy/contracts';
+import { environment as env } from '@irtranscripts/config';
+import { ID } from '@irtranscripts/contracts';
 import { CrudService } from '../core/crud';
 import { ReportCategory } from './report-category.entity';
 import { TypeOrmReportCategoryRepository } from './repository/type-orm-report-category.repository';

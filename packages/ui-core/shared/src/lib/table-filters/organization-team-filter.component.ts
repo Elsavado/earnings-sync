@@ -3,9 +3,9 @@ import { DefaultFilter } from 'angular2-smart-table';
 import { combineLatest, Subject } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { IOrganization, IOrganizationTeam, ISelectedEmployee } from '@gauzy/contracts';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
-import { OrganizationTeamsService, Store } from '@gauzy/ui-core/core';
+import { IOrganization, IOrganizationTeam, ISelectedEmployee } from '@irtranscripts/contracts';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
+import { OrganizationTeamsService, Store } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

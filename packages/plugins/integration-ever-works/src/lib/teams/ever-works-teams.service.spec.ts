@@ -2,7 +2,7 @@
  * Teams and record scope (G-P1-7): the D11 scope helpers, and the team handler both ways against
  * in-memory stand-ins (team rows, memberships, links, the Ever Works client).
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	const entity = (name: string) => ({ [name]: class {} })[name];
 	return {
@@ -24,14 +24,14 @@ jest.mock('@gauzy/core', () => {
 		RequestContext: { currentTenantId: () => null, currentUserId: () => null, currentOrganizationId: () => null }
 	};
 });
-jest.mock('@gauzy/common', () => ({ Public: () => () => undefined }));
+jest.mock('@irtranscripts/common', () => ({ Public: () => () => undefined }));
 
 import 'reflect-metadata';
-import { RolesEnum } from '@gauzy/contracts';
-import { IntegrationTenant, OrganizationTeam, OrganizationTeamEmployee, Role } from '@gauzy/core';
+import { RolesEnum } from '@irtranscripts/contracts';
+import { IntegrationTenant, OrganizationTeam, OrganizationTeamEmployee, Role } from '@irtranscripts/core';
 import { EverWorksApiError } from '../client/ever-works-client';
 import { EverWorksLinkState, EverWorksLinkType } from '../sync/entities/ever-works-sync.entities';
-import { emojiOf, gauzyTeamsFor, isSyncedVisibility, teamScopeFor } from './ever-works-team-scope';
+import { emojiOf, irtranscriptsTeamsFor, isSyncedVisibility, teamScopeFor } from './ever-works-team-scope';
 import { EverWorksTeamsService } from './ever-works-teams.service';
 
 describe('record scope (D11)', () => {
@@ -45,9 +45,9 @@ describe('record scope (D11)', () => {
 		expect(teamScopeFor(['g1', 'g3'], new Map([['g1', 'ew1']]))).toEqual({ waitingFor: 'g3' });
 	});
 
-	it('Ever Works teams Gauzy cannot map are returned to keep, never dropped', () => {
-		expect(gauzyTeamsFor(['ew1', 'ew9'], new Map([['ew1', 'g1']]))).toEqual({ teamIds: ['g1'], unmapped: ['ew9'] });
-		expect(gauzyTeamsFor(null, new Map())).toEqual({ teamIds: [], unmapped: [] });
+	it('Ever Works teams IRTranscripts cannot map are returned to keep, never dropped', () => {
+		expect(irtranscriptsTeamsFor(['ew1', 'ew9'], new Map([['ew1', 'g1']]))).toEqual({ teamIds: ['g1'], unmapped: ['ew9'] });
+		expect(irtranscriptsTeamsFor(null, new Map())).toEqual({ teamIds: [], unmapped: [] });
 	});
 
 	it('private records never sync; icons become a team emoji only when they are one', () => {
@@ -65,7 +65,7 @@ interface LinkRow {
 	id: string;
 	integrationTenantId: string;
 	entityType: string;
-	gauzyId: string;
+	irtranscriptsId: string;
 	ewId: string;
 	ewVersion: number | null;
 	snapshot: string | null;
@@ -87,13 +87,13 @@ function setup() {
 	const links: LinkRow[] = [];
 	const linkService = {
 		byEw: async (m: string, type: string, ewId: string) => links.find((l) => l.integrationTenantId === m && l.entityType === type && l.ewId === ewId) ?? null,
-		byGauzy: async (m: string, type: string, gauzyId: string) => links.find((l) => l.integrationTenantId === m && l.entityType === type && l.gauzyId === gauzyId) ?? null,
+		byIRTranscripts: async (m: string, type: string, irtranscriptsId: string) => links.find((l) => l.integrationTenantId === m && l.entityType === type && l.irtranscriptsId === irtranscriptsId) ?? null,
 		list: async (m: string, type: string) => links.filter((l) => l.integrationTenantId === m && l.entityType === type),
 		snapshot: (link: LinkRow | null) => (link?.snapshot ? JSON.parse(link.snapshot) : {}),
 		record: async (input: Record<string, any>) => {
-			const existing = links.find((l) => l.entityType === input['entityType'] && (l.ewId === input['ewId'] || l.gauzyId === input['gauzyId']));
+			const existing = links.find((l) => l.entityType === input['entityType'] && (l.ewId === input['ewId'] || l.irtranscriptsId === input['irtranscriptsId']));
 			const values = {
-				gauzyId: input['gauzyId'],
+				irtranscriptsId: input['irtranscriptsId'],
 				ewId: input['ewId'],
 				ewVersion: input['ewVersion'] ?? null,
 				snapshot: JSON.stringify(input['snapshot']),
@@ -106,8 +106,8 @@ function setup() {
 		remove: async () => undefined,
 		unlink: async (link: LinkRow) => void (link.state = EverWorksLinkState.UNLINKED)
 	};
-	const person = (gauzyId: string, ewId: string, type = EverWorksLinkType.MEMBER) =>
-		links.push({ id: `p-${ewId}`, integrationTenantId: 'm1', entityType: type, gauzyId, ewId, ewVersion: null, snapshot: null, ewOnly: null, state: 'ok' });
+	const person = (irtranscriptsId: string, ewId: string, type = EverWorksLinkType.MEMBER) =>
+		links.push({ id: `p-${ewId}`, integrationTenantId: 'm1', entityType: type, irtranscriptsId, ewId, ewVersion: null, snapshot: null, ewOnly: null, state: 'ok' });
 	const teams: Array<Record<string, any>> = [];
 	const memberships: Array<Record<string, any>> = [];
 	const matches = (row: Record<string, any>, where: Record<string, any>) => Object.entries(where).every(([k, v]) => row[k] === v);
@@ -167,7 +167,7 @@ const envelope = (type: string, data: Record<string, unknown>, version = 3) => (
 const applyContext = { connection: { id: 'c1' }, event: {}, organizationId: 'o1' } as never;
 
 describe('EverWorksTeamsService', () => {
-	it('a team created in Ever Works is created in Gauzy with its mapped members; unmapped members stay on the link', async () => {
+	it('a team created in Ever Works is created in IRTranscripts with its mapped members; unmapped members stay on the link', async () => {
 		const { service, person, teams, memberships, links } = setup();
 		person('emp-ann', 'ew-user-ann');
 		const outcome = await service.apply(
@@ -189,7 +189,7 @@ describe('EverWorksTeamsService', () => {
 		expect(teams[0]).toMatchObject({ name: 'Platform', emoji: '🚀', tenantId: 't1', organizationId: 'o1' });
 		expect(memberships).toEqual([expect.objectContaining({ organizationTeamId: teams[0]['id'], employeeId: 'emp-ann', isManager: true })]);
 		const link = links.find((l) => l.entityType === EverWorksLinkType.TEAM)!;
-		expect(link).toMatchObject({ gauzyId: teams[0]['id'], ewId: 'ew-team-1', ewVersion: 3 });
+		expect(link).toMatchObject({ irtranscriptsId: teams[0]['id'], ewId: 'ew-team-1', ewVersion: 3 });
 		const ewOnly = JSON.parse(link.ewOnly as string);
 		expect(ewOnly.parentTeamId).toBe('ew-parent'); // Ever Works nesting is preserved
 		expect(ewOnly.members).toHaveLength(2);
@@ -249,18 +249,18 @@ describe('EverWorksTeamsService', () => {
 		expect(JSON.parse(team().ewOnly as string).childVersions).toBeUndefined();
 	});
 
-	it('a Gauzy rename pushed between member events keeps their history: a delayed older one still applies (#11076 review)', async () => {
+	it('a IRTranscripts rename pushed between member events keeps their history: a delayed older one still applies (#11076 review)', async () => {
 		const { service, person, teams, memberships, client } = setup();
 		person('emp-ann', 'ew-user-ann');
 		person('emp-bob', 'ew-user-bob');
 		const ref = (memberId: string) => ({ teamId: 'ew-team-1', memberType: 'user', memberId, role: 'member' });
 		await service.apply(envelope('team.created', { name: 'Platform', members: [], resources: [] }, 3) as never, applyContext);
 		await service.apply(envelope('team.member.added', ref('ew-user-bob'), 5) as never, applyContext);
-		// Renamed in Gauzy: the PATCH answers v6, before Ann's add (v4) is delivered.
+		// Renamed in IRTranscripts: the PATCH answers v6, before Ann's add (v4) is delivered.
 		teams[0]['name'] = 'Platform team';
 		client.request.mockResolvedValueOnce({ id: 'ew-team-1', name: 'Platform team', version: 6 });
 		const pushContext = { connection: { id: 'c1' }, mapping: { id: 'm1' } } as never;
-		expect(await service.push({ id: 'p', tenantId: 't1', organizationId: 'o1', gauzyId: teams[0]['id'], op: 'upsert' } as never, pushContext)).toEqual({ status: 'pushed' });
+		expect(await service.push({ id: 'p', tenantId: 't1', organizationId: 'o1', irtranscriptsId: teams[0]['id'], op: 'upsert' } as never, pushContext)).toEqual({ status: 'pushed' });
 		expect(await service.apply(envelope('team.member.added', ref('ew-user-ann'), 4) as never, applyContext)).toEqual({ status: 'applied' });
 		expect(memberships.map((m) => m['employeeId']).sort()).toEqual(['emp-ann', 'emp-bob']);
 	});
@@ -274,11 +274,11 @@ describe('EverWorksTeamsService', () => {
 		const ref = (memberId: string) => ({ teamId: 'ew-team-1', ...member(memberId) });
 		await service.apply(envelope('team.created', { name: 'Platform', members: [member('ew-user-ann')], resources: [] }, 3) as never, applyContext);
 		await service.apply(envelope('team.member.added', ref('ew-user-bob'), 5) as never, applyContext);
-		// Cy joins in Gauzy: the PUT of the member set (Ann included) answers v6, before Ann's removal (v4) is delivered.
+		// Cy joins in IRTranscripts: the PUT of the member set (Ann included) answers v6, before Ann's removal (v4) is delivered.
 		memberships.push({ id: 'tm-cy', organizationTeamId: teams[0]['id'], employeeId: 'emp-cy', isManager: false });
 		client.request.mockResolvedValueOnce({ id: 'ew-team-1', name: 'Platform', version: 6, members: ['ew-user-ann', 'ew-user-bob', 'ew-user-cy'].map(member) });
 		const pushContext = { connection: { id: 'c1' }, mapping: { id: 'm1' } } as never;
-		expect(await service.push({ id: 'p', tenantId: 't1', organizationId: 'o1', gauzyId: teams[0]['id'], op: 'upsert' } as never, pushContext)).toEqual({ status: 'pushed' });
+		expect(await service.push({ id: 'p', tenantId: 't1', organizationId: 'o1', irtranscriptsId: teams[0]['id'], op: 'upsert' } as never, pushContext)).toEqual({ status: 'pushed' });
 		expect(client.request.mock.calls.map(([method]) => method)).toEqual(['PUT']);
 		expect(await service.apply(envelope('team.member.removed', { ...ref('ew-user-ann'), deleted: true }, 4) as never, applyContext)).toMatchObject({ status: 'skipped' });
 		expect(memberships.map((m) => m['employeeId']).sort()).toEqual(['emp-ann', 'emp-bob', 'emp-cy']);
@@ -291,27 +291,27 @@ describe('EverWorksTeamsService', () => {
 		expect(memberships.map((m) => m['employeeId']).sort()).toEqual(['emp-bob', 'emp-cy']);
 	});
 
-	it('a team deleted in Gauzy stops its pair: its member events are skipped, not dead-lettered (review F76)', async () => {
+	it('a team deleted in IRTranscripts stops its pair: its member events are skipped, not dead-lettered (review F76)', async () => {
 		const { service, person, teams, memberships, links } = setup();
 		await service.apply(envelope('team.created', { name: 'Platform', members: [], resources: [] }) as never, applyContext);
 		teams.splice(0, 1); // DELETE /organization-team/:id deletes the row
 		person('emp-ann', 'ew-user-ann');
 		expect(
 			await service.apply(envelope('team.member.added', { teamId: 'ew-team-1', memberType: 'user', memberId: 'ew-user-ann', role: 'member' }, 4) as never, applyContext)
-		).toEqual({ status: 'skipped', message: 'the Gauzy team is gone' });
+		).toEqual({ status: 'skipped', message: 'the IRTranscripts team is gone' });
 		expect(memberships).toHaveLength(0);
 		expect(links.find((l) => l.entityType === EverWorksLinkType.TEAM)?.state).toBe(EverWorksLinkState.UNLINKED);
 	});
 
-	it('the sweep stops the pair of a team deleted in Gauzy, and one failing team never stops the others (review F76)', async () => {
+	it('the sweep stops the pair of a team deleted in IRTranscripts, and one failing team never stops the others (review F76)', async () => {
 		const { service, person, teams, memberships, links, queue } = setup();
 		const eve = [{ memberType: 'user', memberId: 'ew-user-eve', role: 'member' }];
 		for (const id of ['ew-team-gone', 'ew-team-failing', 'ew-team-ok']) {
 			await service.apply({ ...envelope('team.created', { name: id, members: eve, resources: [] }), aggregate: { type: 'team', id, version: 3 } } as never, applyContext);
 		}
-		const gauzyOf = (ewId: string) => links.find((l) => l.entityType === EverWorksLinkType.TEAM && l.ewId === ewId)!.gauzyId;
-		teams.splice(teams.findIndex((row) => row['id'] === gauzyOf('ew-team-gone')), 1); // deleted in Gauzy
-		const failing = gauzyOf('ew-team-failing');
+		const irtranscriptsOf = (ewId: string) => links.find((l) => l.entityType === EverWorksLinkType.TEAM && l.ewId === ewId)!.irtranscriptsId;
+		teams.splice(teams.findIndex((row) => row['id'] === irtranscriptsOf('ew-team-gone')), 1); // deleted in IRTranscripts
+		const failing = irtranscriptsOf('ew-team-failing');
 		const push = memberships.push.bind(memberships);
 		memberships.push = (...rows: Array<Record<string, any>>) => {
 			if (rows.some((row) => row['organizationTeamId'] === failing)) throw new Error('a constraint refused the membership');
@@ -319,16 +319,16 @@ describe('EverWorksTeamsService', () => {
 		};
 		person('emp-eve', 'ew-user-eve'); // paired on the People tab: every team's unmapped Eve joins at the next sweep
 		await service.sweep({ id: 'c1', tenantId: 't1' } as never);
-		expect(memberships.map((m) => m['organizationTeamId'])).toEqual([gauzyOf('ew-team-ok')]);
+		expect(memberships.map((m) => m['organizationTeamId'])).toEqual([irtranscriptsOf('ew-team-ok')]);
 		expect(links.find((l) => l.ewId === 'ew-team-gone')?.state).toBe(EverWorksLinkState.UNLINKED);
-		expect(queue.enqueue).not.toHaveBeenCalledWith(expect.objectContaining({ gauzyId: gauzyOf('ew-team-gone') }));
+		expect(queue.enqueue).not.toHaveBeenCalledWith(expect.objectContaining({ irtranscriptsId: irtranscriptsOf('ew-team-gone') }));
 	});
 
 	it('a team resource of a work or task that no longer syncs never changes its team scope (review F78)', async () => {
 		const { service, links } = setup();
 		await service.apply(envelope('team.created', { name: 'Platform', members: [], resources: [] }) as never, applyContext);
 		// The work turned private in Ever Works: its pair is unlinked, yet the (non-private) team's resource event is served.
-		links.push({ id: 'w1', integrationTenantId: 'm1', entityType: EverWorksLinkType.PROJECT_WORK, gauzyId: 'p1', ewId: 'ew-work-private', ewVersion: 2, snapshot: null, ewOnly: null, state: EverWorksLinkState.UNLINKED });
+		links.push({ id: 'w1', integrationTenantId: 'm1', entityType: EverWorksLinkType.PROJECT_WORK, irtranscriptsId: 'p1', ewId: 'ew-work-private', ewVersion: 2, snapshot: null, ewOnly: null, state: EverWorksLinkState.UNLINKED });
 		const outcome = await service.apply(envelope('team.resource.added', { teamId: 'ew-team-1', resourceType: 'work', resourceId: 'ew-work-private' }, 4) as never, applyContext);
 		// The test data source has no query builder: a team scope write would throw here.
 		expect(outcome).toEqual({ status: 'applied', message: 'the work is no longer synced' });
@@ -336,7 +336,7 @@ describe('EverWorksTeamsService', () => {
 		expect(JSON.parse(team.ewOnly as string).resources).toEqual([{ resourceType: 'work', resourceId: 'ew-work-private' }]);
 	});
 
-	it('a Gauzy rename and a new member are pushed as a patch and a merged member set (Ever Works-only members kept)', async () => {
+	it('a IRTranscripts rename and a new member are pushed as a patch and a merged member set (Ever Works-only members kept)', async () => {
 		const { service, person, teams, memberships, links, client } = setup();
 		person('emp-ann', 'ew-user-ann');
 		person('emp-cy', 'ew-user-cy');
@@ -352,11 +352,11 @@ describe('EverWorksTeamsService', () => {
 			}) as never,
 			applyContext
 		);
-		// In Gauzy: renamed, and Cy joins as manager.
+		// In IRTranscripts: renamed, and Cy joins as manager.
 		teams[0]['name'] = 'Platform Core';
 		memberships.push({ id: 'tm-cy', organizationTeamId: teams[0]['id'], employeeId: 'emp-cy', isManager: true });
 		const outcome = await service.push(
-			{ id: 'ch1', tenantId: 't1', organizationId: 'o1', gauzyId: teams[0]['id'], op: 'upsert', entityType: EverWorksLinkType.TEAM } as never,
+			{ id: 'ch1', tenantId: 't1', organizationId: 'o1', irtranscriptsId: teams[0]['id'], op: 'upsert', entityType: EverWorksLinkType.TEAM } as never,
 			{ connection: { id: 'c1' }, mapping: { id: 'm1' } } as never
 		);
 		expect(outcome).toEqual({ status: 'pushed' });
@@ -376,10 +376,10 @@ describe('EverWorksTeamsService', () => {
 		expect(links.find((l) => l.entityType === EverWorksLinkType.TEAM)?.ewVersion).toBe(8);
 	});
 
-	it('nothing changed since the last sync → nothing is sent (loop guard 2); a Gauzy delete is not pushed', async () => {
+	it('nothing changed since the last sync → nothing is sent (loop guard 2); a IRTranscripts delete is not pushed', async () => {
 		const { service, teams, client } = setup();
 		await service.apply(envelope('team.created', { name: 'Platform', members: [], resources: [] }) as never, applyContext);
-		const change = { id: 'ch1', tenantId: 't1', organizationId: 'o1', gauzyId: teams[0]['id'], op: 'upsert', entityType: EverWorksLinkType.TEAM };
+		const change = { id: 'ch1', tenantId: 't1', organizationId: 'o1', irtranscriptsId: teams[0]['id'], op: 'upsert', entityType: EverWorksLinkType.TEAM };
 		expect(await service.push(change as never, { connection: { id: 'c1' }, mapping: { id: 'm1' } } as never)).toMatchObject({ status: 'skipped' });
 		expect(await service.push({ ...change, op: 'delete' } as never, { connection: { id: 'c1' }, mapping: { id: 'm1' } } as never)).toMatchObject({
 			status: 'skipped',
@@ -388,19 +388,19 @@ describe('EverWorksTeamsService', () => {
 		expect(client.request).not.toHaveBeenCalled();
 	});
 
-	it('a Gauzy team created after the mapping is created in Ever Works with its idempotency key; an older unpaired one waits', async () => {
+	it('a IRTranscripts team created after the mapping is created in Ever Works with its idempotency key; an older unpaired one waits', async () => {
 		const { service, teams, client, links } = setup();
 		teams.push({ id: 'g-new', name: 'New team', createdAt: new Date('2026-10-10T00:00:00Z') });
 		teams.push({ id: 'g-old', name: 'Old team', createdAt: new Date('2026-09-01T00:00:00Z') });
 		client.request.mockResolvedValueOnce({ id: 'ew-team-new', name: 'New team', version: 1, members: [] });
 		const pushContext = { connection: { id: 'c1' }, mapping: { id: 'm1' } } as never;
-		expect(await service.push({ id: 'a', tenantId: 't1', organizationId: 'o1', gauzyId: 'g-new', op: 'upsert' } as never, pushContext)).toMatchObject({ status: 'pushed' });
+		expect(await service.push({ id: 'a', tenantId: 't1', organizationId: 'o1', irtranscriptsId: 'g-new', op: 'upsert' } as never, pushContext)).toMatchObject({ status: 'pushed' });
 		const [method, path, options] = client.request.mock.calls[0];
 		expect([method, path]).toEqual(['POST', '/teams']);
-		expect(options?.['body']).toMatchObject({ name: 'New team', externalRef: { source: 'gauzy', installationId: 'c1', externalId: 'g-new' } });
+		expect(options?.['body']).toMatchObject({ name: 'New team', externalRef: { source: 'irtranscripts', installationId: 'c1', externalId: 'g-new' } });
 		expect(options?.['idempotencyKey']).toMatch(/^[0-9a-f]{64}$/);
-		expect(links.find((l) => l.gauzyId === 'g-new')?.ewId).toBe('ew-team-new');
-		expect(await service.push({ id: 'b', tenantId: 't1', organizationId: 'o1', gauzyId: 'g-old', op: 'upsert' } as never, pushContext)).toMatchObject({ status: 'skipped' });
+		expect(links.find((l) => l.irtranscriptsId === 'g-new')?.ewId).toBe('ew-team-new');
+		expect(await service.push({ id: 'b', tenantId: 't1', organizationId: 'o1', irtranscriptsId: 'g-old', op: 'upsert' } as never, pushContext)).toMatchObject({ status: 'skipped' });
 		expect(client.request).toHaveBeenCalledTimes(1);
 	});
 
@@ -413,18 +413,18 @@ describe('EverWorksTeamsService', () => {
 		});
 		teams.push({ id: 'g-new', name: 'New team', createdAt: new Date('2026-10-10T00:00:00Z') });
 		expect(
-			await service.push({ id: 'a', tenantId: 't1', organizationId: 'o1', gauzyId: 'g-new', op: 'upsert' } as never, { connection: { id: 'c1' }, mapping: { id: 'm1' } } as never)
+			await service.push({ id: 'a', tenantId: 't1', organizationId: 'o1', irtranscriptsId: 'g-new', op: 'upsert' } as never, { connection: { id: 'c1' }, mapping: { id: 'm1' } } as never)
 		).toMatchObject({ status: 'skipped', message: 'the mapping is disabled' });
 		expect(teams).toHaveLength(1);
 		expect(client.request).not.toHaveBeenCalled();
 	});
 
-	it('a Gauzy manager holding only the MANAGER role (as the platform makes them) is pushed as a lead', async () => {
+	it('a IRTranscripts manager holding only the MANAGER role (as the platform makes them) is pushed as a lead', async () => {
 		const { service, person, teams, memberships, client } = setup();
 		person('emp-ann', 'ew-user-ann');
 		await service.apply(envelope('team.created', { name: 'Platform', members: [], resources: [] }) as never, applyContext);
 		memberships.push({ id: 'tm-ann', organizationTeamId: teams[0]['id'], employeeId: 'emp-ann', isManager: false, role: { name: RolesEnum.MANAGER } });
-		await service.push({ id: 'c', tenantId: 't1', organizationId: 'o1', gauzyId: teams[0]['id'], op: 'upsert' } as never, { connection: { id: 'c1' }, mapping: { id: 'm1' } } as never);
+		await service.push({ id: 'c', tenantId: 't1', organizationId: 'o1', irtranscriptsId: teams[0]['id'], op: 'upsert' } as never, { connection: { id: 'c1' }, mapping: { id: 'm1' } } as never);
 		const put = client.request.mock.calls.find(([method]) => method === 'PUT');
 		expect(put?.[2]?.['body'].members).toEqual([{ memberType: 'user', memberId: 'ew-user-ann', role: 'lead' }]);
 	});
@@ -436,14 +436,14 @@ describe('EverWorksTeamsService', () => {
 		expect(memberships[0]).toMatchObject({ employeeId: 'emp-ann', isManager: true, roleId: 'role-manager' });
 	});
 
-	it('an inbound change keeps a Gauzy edit that is not pushed yet as a difference (it is pushed afterwards)', async () => {
+	it('an inbound change keeps a IRTranscripts edit that is not pushed yet as a difference (it is pushed afterwards)', async () => {
 		const { service, person, teams, memberships, client } = setup();
 		person('emp-ann', 'ew-user-ann');
 		person('emp-cy', 'ew-user-cy');
 		await service.apply(envelope('team.created', { name: 'Platform', members: [{ memberType: 'user', memberId: 'ew-user-ann', role: 'member' }], resources: [] }) as never, applyContext);
 		memberships.push({ id: 'tm-cy', organizationTeamId: teams[0]['id'], employeeId: 'emp-cy', isManager: false }); // queued, not pushed yet
 		await service.apply(envelope('team.member.updated', { teamId: 'ew-team-1', memberType: 'user', memberId: 'ew-user-ann', role: 'lead' }, 4) as never, applyContext);
-		await service.push({ id: 'c', tenantId: 't1', organizationId: 'o1', gauzyId: teams[0]['id'], op: 'upsert' } as never, { connection: { id: 'c1' }, mapping: { id: 'm1' } } as never);
+		await service.push({ id: 'c', tenantId: 't1', organizationId: 'o1', irtranscriptsId: teams[0]['id'], op: 'upsert' } as never, { connection: { id: 'c1' }, mapping: { id: 'm1' } } as never);
 		const put = client.request.mock.calls.find(([method]) => method === 'PUT');
 		expect(put?.[2]?.['body'].members).toEqual(
 			expect.arrayContaining([
@@ -453,7 +453,7 @@ describe('EverWorksTeamsService', () => {
 		);
 	});
 
-	it('on 412 the newer Ever Works state is applied to Gauzy first, then the push is merged on top of it', async () => {
+	it('on 412 the newer Ever Works state is applied to IRTranscripts first, then the push is merged on top of it', async () => {
 		const { service, person, teams, memberships, client, links } = setup();
 		person('emp-ann', 'ew-user-ann');
 		person('emp-dee', 'ew-user-dee');
@@ -472,8 +472,8 @@ describe('EverWorksTeamsService', () => {
 				resources: []
 			})
 			.mockResolvedValueOnce({ version: 10 });
-		expect(await service.push({ id: 'c', tenantId: 't1', organizationId: 'o1', gauzyId: teams[0]['id'], op: 'upsert' } as never, { connection: { id: 'c1' }, mapping: { id: 'm1' } } as never)).toEqual({ status: 'pushed' });
-		expect(memberships.map((m) => m['employeeId']).sort()).toEqual(['emp-ann', 'emp-dee']); // Dee, added in Ever Works meanwhile, joined in Gauzy
+		expect(await service.push({ id: 'c', tenantId: 't1', organizationId: 'o1', irtranscriptsId: teams[0]['id'], op: 'upsert' } as never, { connection: { id: 'c1' }, mapping: { id: 'm1' } } as never)).toEqual({ status: 'pushed' });
+		expect(memberships.map((m) => m['employeeId']).sort()).toEqual(['emp-ann', 'emp-dee']); // Dee, added in Ever Works meanwhile, joined in IRTranscripts
 		const retried = client.request.mock.calls[2];
 		expect([retried[0], retried[1], retried[2]?.['body'], retried[2]?.['ifMatchVersion']]).toEqual(['PATCH', '/teams/ew-team-1', { name: 'Platform Core' }, 9]);
 		expect(links.find((l) => l.entityType === EverWorksLinkType.TEAM)?.ewVersion).toBe(10);
@@ -492,7 +492,7 @@ describe('EverWorksTeamsService', () => {
 		expect(Object.fromEntries(memberships.map((m) => [m['employeeId'], m['isManager']]))).toEqual({ 'emp-a': false, 'emp-b': true });
 	});
 
-	it('a member Gauzy could not map joins once the person is paired (sweep), and a drifted member set queues a push', async () => {
+	it('a member IRTranscripts could not map joins once the person is paired (sweep), and a drifted member set queues a push', async () => {
 		const { service, person, teams, memberships, queue } = setup();
 		await service.apply(envelope('team.created', { name: 'Platform', members: [{ memberType: 'user', memberId: 'ew-user-eve', role: 'member' }], resources: [] }) as never, applyContext);
 		expect(memberships).toHaveLength(0);
@@ -500,9 +500,9 @@ describe('EverWorksTeamsService', () => {
 		await service.sweep({ id: 'c1', tenantId: 't1' } as never);
 		expect(memberships).toEqual([expect.objectContaining({ employeeId: 'emp-eve' })]);
 		expect(queue.enqueue).not.toHaveBeenCalled();
-		memberships.splice(0, 1); // removed in Gauzy by a bulk delete no hook sees
+		memberships.splice(0, 1); // removed in IRTranscripts by a bulk delete no hook sees
 		await service.sweep({ id: 'c1', tenantId: 't1' } as never);
-		expect(queue.enqueue).toHaveBeenCalledWith(expect.objectContaining({ entityType: EverWorksLinkType.TEAM, gauzyId: teams[0]['id'], op: 'upsert' }));
+		expect(queue.enqueue).toHaveBeenCalledWith(expect.objectContaining({ entityType: EverWorksLinkType.TEAM, irtranscriptsId: teams[0]['id'], op: 'upsert' }));
 	});
 
 	it('an admin undoing a pair is durable: the team is not paired or created again on its own', async () => {
@@ -510,14 +510,14 @@ describe('EverWorksTeamsService', () => {
 		teams.push({ id: 'g-new', name: 'New team', createdAt: new Date('2026-10-10T00:00:00Z') });
 		client.request.mockResolvedValueOnce({ id: 'ew-team-new', name: 'New team', version: 1, members: [] });
 		const pushContext = { connection: { id: 'c1' }, mapping: { id: 'm1' } } as never;
-		await service.push({ id: 'a', tenantId: 't1', organizationId: 'o1', gauzyId: 'g-new', op: 'upsert' } as never, pushContext);
+		await service.push({ id: 'a', tenantId: 't1', organizationId: 'o1', irtranscriptsId: 'g-new', op: 'upsert' } as never, pushContext);
 		client.request.mockResolvedValueOnce({ data: [{ id: 'ew-team-new', name: 'New team', members: [], resources: [] }], nextCursor: null, hasMore: false });
 		client.request.mockResolvedValueOnce({ data: [{ id: 'ew-team-new', name: 'New team', members: [], resources: [] }], nextCursor: null, hasMore: false });
 		await service.decide('m1' as never, { unlinks: ['ew-team-new'] });
-		expect(links.find((l) => l.gauzyId === 'g-new')?.state).toBe(EverWorksLinkState.UNLINKED);
+		expect(links.find((l) => l.irtranscriptsId === 'g-new')?.state).toBe(EverWorksLinkState.UNLINKED);
 		const calls = client.request.mock.calls.length;
 		teams[0]['name'] = 'New team renamed';
-		expect(await service.push({ id: 'b', tenantId: 't1', organizationId: 'o1', gauzyId: 'g-new', op: 'upsert' } as never, pushContext)).toMatchObject({ status: 'skipped' });
+		expect(await service.push({ id: 'b', tenantId: 't1', organizationId: 'o1', irtranscriptsId: 'g-new', op: 'upsert' } as never, pushContext)).toMatchObject({ status: 'skipped' });
 		expect(client.request.mock.calls.length).toBe(calls);
 	});
 
@@ -542,30 +542,30 @@ describe('EverWorksTeamsService', () => {
 		const team = links.find((l) => l.entityType === EverWorksLinkType.TEAM)!;
 		expect(JSON.parse(team.ewOnly as string).unmapped).toEqual(['user:ew-user-fay']);
 		expect(JSON.parse(team.snapshot as string).members.map((m: { employeeId: string }) => m.employeeId)).toEqual(['emp-eve', 'emp-fay']);
-		expect(queue.enqueue).not.toHaveBeenCalled(); // the snapshot is in step with Gauzy, so no drift push
+		expect(queue.enqueue).not.toHaveBeenCalled(); // the snapshot is in step with IRTranscripts, so no drift push
 	});
 
 	it('creating a team on the Teams tab follows the mapping switch and the teams direction', async () => {
 		const { service, teams, client, context } = setup();
 		teams.push({ id: 'g-1', name: 'Design', createdAt: new Date('2026-10-10T00:00:00Z') });
 		context.isEnabled = false;
-		await expect(service.decide('m1' as never, { createInGauzy: ['ew-team-1'] })).rejects.toThrow('The mapping is disabled');
+		await expect(service.decide('m1' as never, { createInIRTranscripts: ['ew-team-1'] })).rejects.toThrow('The mapping is disabled');
 		await expect(service.decide('m1' as never, { createInEverWorks: ['g-1' as never] })).rejects.toThrow('The mapping is disabled');
 		context.isEnabled = true;
-		context.directions.teams = 'gauzy_to_ew';
-		await expect(service.decide('m1' as never, { createInGauzy: ['ew-team-1'] })).rejects.toThrow('not synced from Ever Works');
-		context.directions.teams = 'ew_to_gauzy';
+		context.directions.teams = 'irtranscripts_to_ew';
+		await expect(service.decide('m1' as never, { createInIRTranscripts: ['ew-team-1'] })).rejects.toThrow('not synced from Ever Works');
+		context.directions.teams = 'ew_to_irtranscripts';
 		await expect(service.decide('m1' as never, { createInEverWorks: ['g-1' as never] })).rejects.toThrow('not pushed to Ever Works');
 		expect(teams).toHaveLength(1);
 		expect(client.request).not.toHaveBeenCalled();
 	});
 
-	it('on 412 with teams pushed one way, nothing is written to Gauzy: the push is merged on top of the newer Ever Works team', async () => {
+	it('on 412 with teams pushed one way, nothing is written to IRTranscripts: the push is merged on top of the newer Ever Works team', async () => {
 		const { service, person, teams, memberships, client, links, context } = setup();
 		person('emp-ann', 'ew-user-ann');
 		person('emp-dee', 'ew-user-dee');
 		await service.apply(envelope('team.created', { name: 'Platform', members: [{ memberType: 'user', memberId: 'ew-user-ann', role: 'member' }], resources: [] }) as never, applyContext);
-		context.directions.teams = 'gauzy_to_ew';
+		context.directions.teams = 'irtranscripts_to_ew';
 		teams[0]['name'] = 'Platform Core';
 		client.request
 			.mockRejectedValueOnce(new EverWorksApiError(412, 'version_mismatch', 'Stale version'))
@@ -580,8 +580,8 @@ describe('EverWorksTeamsService', () => {
 				resources: []
 			})
 			.mockResolvedValueOnce({ version: 10 });
-		expect(await service.push({ id: 'c', tenantId: 't1', organizationId: 'o1', gauzyId: teams[0]['id'], op: 'upsert' } as never, { connection: { id: 'c1' }, mapping: { id: 'm1' } } as never)).toEqual({ status: 'pushed' });
-		expect(memberships.map((m) => m['employeeId'])).toEqual(['emp-ann']); // Dee is not added in Gauzy
+		expect(await service.push({ id: 'c', tenantId: 't1', organizationId: 'o1', irtranscriptsId: teams[0]['id'], op: 'upsert' } as never, { connection: { id: 'c1' }, mapping: { id: 'm1' } } as never)).toEqual({ status: 'pushed' });
+		expect(memberships.map((m) => m['employeeId'])).toEqual(['emp-ann']); // Dee is not added in IRTranscripts
 		expect(teams[0]['name']).toBe('Platform Core');
 		const retried = client.request.mock.calls[2];
 		expect([retried[0], retried[1], retried[2]?.['body'], retried[2]?.['ifMatchVersion']]).toEqual(['PATCH', '/teams/ew-team-1', { name: 'Platform Core' }, 9]);
@@ -590,7 +590,7 @@ describe('EverWorksTeamsService', () => {
 		expect(JSON.parse(link.ewOnly as string).members).toHaveLength(2); // Ever Works' current member set stays on the link
 	});
 
-	it('accepting suggestions pairs the unambiguous ones and leaves a Gauzy team suggested twice for the admin', async () => {
+	it('accepting suggestions pairs the unambiguous ones and leaves a IRTranscripts team suggested twice for the admin', async () => {
 		const { service, teams, client, links } = setup();
 		teams.push({ id: 'g-backend', name: 'Backend', createdAt: new Date('2026-09-01T00:00:00Z') });
 		teams.push({ id: 'g-design', name: 'Design', createdAt: new Date('2026-09-01T00:00:00Z') });
@@ -604,7 +604,7 @@ describe('EverWorksTeamsService', () => {
 			hasMore: false
 		});
 		const view = await service.decide('m1' as never, { acceptSuggestions: true });
-		expect(links.filter((l) => l.entityType === EverWorksLinkType.TEAM).map((l) => [l.ewId, l.gauzyId])).toEqual([['ew-design', 'g-design']]);
+		expect(links.filter((l) => l.entityType === EverWorksLinkType.TEAM).map((l) => [l.ewId, l.irtranscriptsId])).toEqual([['ew-design', 'g-design']]);
 		expect(view.teams.find((row) => row.ewTeamId === 'ew-backend-web')).toMatchObject({ linkedTeamId: null, suggestion: { teamId: 'g-backend' } });
 	});
 });

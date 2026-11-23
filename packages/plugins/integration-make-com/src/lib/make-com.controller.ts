@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, UseGuards, BadRequestException, NotFoundException } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { TenantPermissionGuard, Permissions, PermissionGuard, RequestContext } from '@gauzy/core';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { TenantPermissionGuard, Permissions, PermissionGuard, RequestContext } from '@irtranscripts/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { MakeComService } from './make-com.service';
 import { IMakeComIntegrationSettings } from './interfaces/make-com.model';
 import { UpdateMakeComSettingsDTO } from './dto';

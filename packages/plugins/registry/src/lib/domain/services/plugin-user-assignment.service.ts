@@ -1,5 +1,5 @@
-import { IRole } from '@gauzy/contracts';
-import { MultiORMEnum, RequestContext, RoleService } from '@gauzy/core';
+import { IRole } from '@irtranscripts/contracts';
+import { MultiORMEnum, RequestContext, RoleService } from '@irtranscripts/core';
 import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { PluginTenantService } from './plugin-tenant.service';
 

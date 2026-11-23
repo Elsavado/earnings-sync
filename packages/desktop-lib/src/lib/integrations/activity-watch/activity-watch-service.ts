@@ -1,4 +1,4 @@
-import { IActivityWatchWebEvent, IActivityWatchWindowEvent, TimeLogSourceEnum } from '@gauzy/contracts';
+import { IActivityWatchWebEvent, IActivityWatchWindowEvent, TimeLogSourceEnum } from '@irtranscripts/contracts';
 import { ActivityWatchChromeService } from './activity-watch-chrome.service';
 import { ActivityWatchFirefoxService } from './activity-watch-firefox-service';
 import { ActivityWatchAfkService } from './activity-watch-afk-service';

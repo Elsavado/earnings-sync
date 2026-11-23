@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler, CommandBus } from '@nestjs/cqrs';
-import { IntegrationEntity } from '@gauzy/contracts';
+import { IntegrationEntity } from '@irtranscripts/contracts';
 import { ActivityCreateCommand, ActivityUpdateCommand } from './../../../time-tracking/activity/commands';
 import { IntegrationMapSyncActivityCommand } from './../integration-map.sync-activity.command';
 import { IntegrationMapSyncEntityCommand } from './../integration-map.sync-entity.command';
@@ -42,12 +42,12 @@ export class IntegrationMapSyncActivityHandler
 			.catch(nullIfNotFound);
 
 		if (!activityMap) {
-			const gauzyActivity = await this._commandBus.execute(
+			const irtranscriptsActivity = await this._commandBus.execute(
 				new ActivityCreateCommand(entity)
 			);
 			return await this._commandBus.execute(
 				new IntegrationMapSyncEntityCommand({
-					gauzyId: gauzyActivity.id,
+					irtranscriptsId: irtranscriptsActivity.id,
 					integrationId,
 					sourceId,
 					entity: IntegrationEntity.ACTIVITY,
@@ -57,9 +57,9 @@ export class IntegrationMapSyncActivityHandler
 			);
 		}
 
-		// A copy: the caller's entity is not ours to stamp with the Gauzy id
+		// A copy: the caller's entity is not ours to stamp with the IRTranscripts id
 		await this._commandBus.execute(
-			new ActivityUpdateCommand({ ...entity, id: activityMap.gauzyId })
+			new ActivityUpdateCommand({ ...entity, id: activityMap.irtranscriptsId })
 		);
 		return activityMap;
 	}

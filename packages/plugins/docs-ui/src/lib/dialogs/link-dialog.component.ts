@@ -13,7 +13,7 @@ import {
 	IOrganizationProject,
 	IOrganizationTeam,
 	ITask
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	EmployeesService,
 	InvoicesService,
@@ -23,8 +23,8 @@ import {
 	Store,
 	TasksService,
 	ToastrService
-} from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { DOCS_LINK_ENTITIES, IDocsLinkCandidate, IDocsLinkEntityDescriptor } from '../models/docs-link.model';
 import { DocumentsService } from '../services/documents.service';
 
@@ -34,7 +34,7 @@ import { DocumentsService } from '../services/documents.service';
  * type, pick a record, create the link. `DOCS_UPDATE` — the caller gates the
  * entry point, this dialog is never reachable without it.
  *
- * Records are loaded per entity type through the existing `@gauzy/ui-core/core`
+ * Records are loaded per entity type through the existing `@irtranscripts/ui-core/core`
  * services rather than embedding six different shared selector components: the
  * selectors disagree on value shape (`ISelectedEmployee` vs id vs entity), two
  * of them write global navigation state, and `ga-employee-multi-select` cannot

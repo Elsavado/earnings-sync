@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ID, IPagination, IUser } from '@gauzy/contracts';
+import { ID, IPagination, IUser } from '@irtranscripts/contracts';
 import { Observable } from 'rxjs';
 
 export interface PluginUserAssignment {

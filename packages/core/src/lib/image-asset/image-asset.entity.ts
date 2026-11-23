@@ -1,4 +1,4 @@
-import { FileStorageProvider, FileStorageProviderEnum, IEquipment, IImageAsset, IWarehouse } from '@gauzy/contracts';
+import { FileStorageProvider, FileStorageProviderEnum, IEquipment, IImageAsset, IWarehouse } from '@irtranscripts/contracts';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';

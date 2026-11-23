@@ -1,6 +1,6 @@
 import { createHash } from 'crypto';
 import { Injectable, Logger } from '@nestjs/common';
-import { DocumentKnowledgeStatusEnum } from '@gauzy/contracts';
+import { DocumentKnowledgeStatusEnum } from '@irtranscripts/contracts';
 import { DOCS_FEATURE_DISABLED_PARK_DELAY_MS } from '../../docs.constants';
 import { Document } from '../../entities/document.entity';
 import { DocsFeatureService } from '../../services/docs-feature.service';
@@ -39,7 +39,7 @@ import { DocsQueueService } from './docs-queue.service';
  *
  * **This is the ONE definition of every stage.** Two dispatchers drive it:
  *
- * - `DocsProcessingWorker` — the BullMQ worker host, when a `@gauzy/scheduler` root with
+ * - `DocsProcessingWorker` — the BullMQ worker host, when a `@irtranscripts/scheduler` root with
  *   queueing exists in the process (today: `apps/worker`).
  * - `DocsQueueService` inline mode — when it does not (today: `apps/api`, which never imports
  *   `SchedulerModule.forRoot`). Stages then run in-process, in the background.

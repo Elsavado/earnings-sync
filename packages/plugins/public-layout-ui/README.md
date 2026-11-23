@@ -1,10 +1,10 @@
-# @gauzy/plugin-public-layout-ui
+# @irtranscripts/plugin-public-layout-ui
 
-This library was generated with [Nx](https://nx.dev). It contains the public-layout UI Plugin for the Gauzy platform.
+This library was generated with [Nx](https://nx.dev). It contains the public-layout UI Plugin for the IRTranscripts platform.
 
 ## Features
 
-- **Public-layout UI Plugin:** Provides a user-friendly interface for public views and interactions in the Gauzy platform.
+- **Public-layout UI Plugin:** Provides a user-friendly interface for public views and interactions in the IRTranscripts platform.
 
 ## Building
 
@@ -19,7 +19,7 @@ Run `yarn nx test plugin-public-layout-ui` to execute the unit tests.
 Install the public-layout UI Plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-public-layout-ui
+npm install @irtranscripts/plugin-public-layout-ui
 # or
-yarn add @gauzy/plugin-public-layout-ui
+yarn add @irtranscripts/plugin-public-layout-ui
 ```

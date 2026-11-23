@@ -1,4 +1,4 @@
-# @gauzy/plugin-integration-plane-ui
+# @irtranscripts/plugin-integration-plane-ui
 
 This library was generated with [Nx](https://nx.dev).
 
@@ -15,7 +15,7 @@ After building your library with `yarn nx build plugin-integration-plane-ui`, go
 Install the Integration Plane UI Plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-integration-plane-ui
+npm install @irtranscripts/plugin-integration-plane-ui
 # or
-yarn add @gauzy/plugin-integration-plane-ui
+yarn add @irtranscripts/plugin-integration-plane-ui
 ```

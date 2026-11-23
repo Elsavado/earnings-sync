@@ -1,17 +1,17 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsIn, IsOptional, IsString } from 'class-validator';
 import { RelationId } from 'typeorm';
-import { ID, IUser } from '@gauzy/contracts';
-import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne, TenantBaseEntity, User } from '@gauzy/core';
+import { ID, IUser } from '@irtranscripts/contracts';
+import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne, TenantBaseEntity, User } from '@irtranscripts/core';
 
-/** How a link between an Ever ID and a Gauzy user was made. */
+/** How a link between an Ever ID and a IRTranscripts user was made. */
 export const ZITADEL_LINK_METHODS = ['explicit', 'confirmed', 'provisioned', 'signup'] as const;
 export type ZitadelLinkMethod = (typeof ZITADEL_LINK_METHODS)[number];
 
 /**
- * One link between an Ever ID (`issuer` + `subject`) and one Gauzy user row.
+ * One link between an Ever ID (`issuer` + `subject`) and one IRTranscripts user row.
  *
- * A person who works in several tenants has one Gauzy user per tenant, so one identity can own
+ * A person who works in several tenants has one IRTranscripts user per tenant, so one identity can own
  * several rows here. A row is written only after the person proved control of both sides
  * (`linkMethod`); an e-mail match alone never creates one.
  */
@@ -31,7 +31,7 @@ export class ZitadelAccount extends TenantBaseEntity {
 	@MultiORMColumn()
 	subject: string;
 
-	/** The Gauzy user this identity signs in as. */
+	/** The IRTranscripts user this identity signs in as. */
 	@MultiORMManyToOne(() => User, {
 		/** Database cascade action on delete: the link goes with the user. */
 		onDelete: 'CASCADE'

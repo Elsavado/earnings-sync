@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { IEmployeeAvailability } from '@gauzy/contracts';
+import { IEmployeeAvailability } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context/request-context';
 import { TenantAwareCrudService } from './../core/crud/tenant-aware-crud.service';
 import { TypeOrmEmployeeAvailabilityRepository } from './repository/type-orm-employee-availability.repository';

@@ -15,8 +15,8 @@ import {
 	Logger
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiParam, ApiQuery } from '@nestjs/swagger';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PermissionGuard, Permissions, TenantPermissionGuard, UUIDValidationPipe } from '@gauzy/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PermissionGuard, Permissions, TenantPermissionGuard, UUIDValidationPipe } from '@irtranscripts/core';
 import { SimService } from './sim.service';
 import { ConfigureSimIntegrationDto, ExecuteWorkflowDto, WorkflowExecutionQueryDto, EventMappingDto } from './dto';
 import { SIM_SUPPORTED_EVENTS, SimEventType } from './dto/event-mapping.dto';

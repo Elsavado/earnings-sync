@@ -17,14 +17,14 @@ function sub(overrides: Record<string, any> = {}) {
 		id: 'sub_g',
 		status: 'trialing',
 		created: 1_700_000_000,
-		metadata: { ever_product: 'gauzy' },
+		metadata: { ever_product: 'irtranscripts' },
 		items: {
 			data: [
 				{
 					id: 'si_g',
 					price: {
 						id: 'price_starter',
-						lookup_key: 'ever_gauzy_cloud_starter_annual',
+						lookup_key: 'ever_irtranscripts_cloud_starter_annual',
 						unit_amount: 0,
 						currency: 'usd',
 						recurring: { interval: 'year' }
@@ -43,7 +43,7 @@ function teams(overrides: Record<string, any> = {}) {
 	return sub({
 		id: 'sub_t',
 		status: 'active',
-		created: 1_800_000_000, // newer than the Gauzy one on purpose
+		created: 1_800_000_000, // newer than the IRTranscripts one on purpose
 		metadata: { ever_product: 'teams' },
 		items: {
 			data: [
@@ -63,20 +63,20 @@ function teams(overrides: Record<string, any> = {}) {
 	});
 }
 
-/** A Gauzy SELF-HOSTED license ($1,668/yr) — same product key, not the hosted plan. */
+/** A IRTranscripts SELF-HOSTED license ($1,668/yr) — same product key, not the hosted plan. */
 function selfHosted(overrides: Record<string, any> = {}) {
 	return sub({
 		id: 'sub_s',
 		status: 'active',
 		created: 1_900_000_000, // the newest on purpose
-		metadata: { ever_product: 'gauzy', ever_hosting: 'selfhosted' },
+		metadata: { ever_product: 'irtranscripts', ever_hosting: 'selfhosted' },
 		items: {
 			data: [
 				{
 					id: 'si_s',
 					price: {
 						id: 'price_s',
-						lookup_key: 'ever_gauzy_selfhosted_enterprise_annual',
+						lookup_key: 'ever_irtranscripts_selfhosted_enterprise_annual',
 						unit_amount: 166800,
 						currency: 'usd',
 						recurring: { interval: 'year' }
@@ -90,14 +90,14 @@ function selfHosted(overrides: Record<string, any> = {}) {
 
 const PAID_PRICE = {
 	id: 'price_pro',
-	lookup_key: 'ever_gauzy_cloud_small_business_annual',
+	lookup_key: 'ever_irtranscripts_cloud_small_business_annual',
 	unit_amount: 16680,
 	currency: 'usd',
 	recurring: { interval: 'year' }
 };
 const FREE_PRICE = {
 	id: 'price_free_monthly',
-	lookup_key: 'ever_gauzy_cloud_starter_monthly',
+	lookup_key: 'ever_irtranscripts_cloud_starter_monthly',
 	unit_amount: 0,
 	currency: 'usd',
 	recurring: { interval: 'month' }
@@ -187,10 +187,10 @@ afterEach(() => {
 const service = () => new BillingService(new StripeSubscriptionService());
 
 describe('BillingService — reads only this product', () => {
-	it('shows the Gauzy subscription even when a newer Teams one exists on the same customer', async () => {
+	it('shows the IRTranscripts subscription even when a newer Teams one exists on the same customer', async () => {
 		stubStripe({ subscriptions: [teams(), sub()], prices: {}, customer: {} });
 		const current = await service().getSubscription(CUSTOMER);
-		expect(current).toMatchObject({ id: 'sub_g', lookupKey: 'ever_gauzy_cloud_starter_annual' });
+		expect(current).toMatchObject({ id: 'sub_g', lookupKey: 'ever_irtranscripts_cloud_starter_annual' });
 	});
 
 	it('shows no subscription when the customer only holds another product', async () => {
@@ -198,7 +198,7 @@ describe('BillingService — reads only this product', () => {
 		await expect(service().getSubscription(CUSTOMER)).resolves.toBeNull();
 	});
 
-	it('a Dashboard-made subscription on an ever_gauzy_ price (no metadata) is still Gauzy', async () => {
+	it('a Dashboard-made subscription on an ever_irtranscripts_ price (no metadata) is still IRTranscripts', async () => {
 		stubStripe({ subscriptions: [sub({ metadata: {} })], prices: {}, customer: {} });
 		await expect(service().getSubscription(CUSTOMER)).resolves.toMatchObject({ id: 'sub_g' });
 	});
@@ -209,14 +209,14 @@ describe('BillingService — reads only this product', () => {
 		expect(posts()).toEqual([]);
 	});
 
-	it('isCustomerOfProduct: any-status Gauzy history counts; Teams-only does not', async () => {
+	it('isCustomerOfProduct: any-status IRTranscripts history counts; Teams-only does not', async () => {
 		stubStripe({ subscriptions: [teams()], prices: {}, customer: {} });
 		await expect(service().isCustomerOfProduct(CUSTOMER)).resolves.toBe(false);
 		stubStripe({ subscriptions: [teams(), sub({ status: 'canceled' })], prices: {}, customer: {} });
 		await expect(service().isCustomerOfProduct(CUSTOMER)).resolves.toBe(true);
 	});
 
-	it('a Gauzy SELF-HOSTED license is never shown, canceled or counted as the cloud plan', async () => {
+	it('a IRTranscripts SELF-HOSTED license is never shown, canceled or counted as the cloud plan', async () => {
 		stubStripe({ subscriptions: [selfHosted(), sub()], prices: {}, customer: {} });
 		await expect(service().getSubscription(CUSTOMER)).resolves.toMatchObject({ id: 'sub_g' });
 
@@ -252,7 +252,7 @@ describe('BillingService — reads only this product', () => {
 			subscription
 		});
 		// 150 NEWER foreign invoices: a per-customer listing would fill a whole Stripe page with them and
-		// never reach the Gauzy ones. Listing per subscription cannot be crowded out.
+		// never reach the IRTranscripts ones. Listing per subscription cannot be crowded out.
 		const foreign = Array.from({ length: 150 }, (_, i) => invoice(`in_teams_${i}`, 'sub_t', 1_900_000_000 + i));
 		stubStripe({
 			subscriptions: [teams(), sub(), sub({ id: 'sub_g_old', status: 'canceled', created: 1_600_000_000 })],
@@ -261,14 +261,14 @@ describe('BillingService — reads only this product', () => {
 			invoices: [
 				...foreign,
 				invoice('in_license', null, 1_950_000_000),
-				invoice('in_gauzy_old', 'sub_g_old', 1_600_000_100),
-				invoice('in_gauzy', 'sub_g', 1_700_000_100),
-				invoice('in_gauzy_renewal', 'sub_g', 1_731_536_100)
+				invoice('in_irtranscripts_old', 'sub_g_old', 1_600_000_100),
+				invoice('in_irtranscripts', 'sub_g', 1_700_000_100),
+				invoice('in_irtranscripts_renewal', 'sub_g', 1_731_536_100)
 			]
 		});
 		const invoices = await service().listInvoices(CUSTOMER);
-		expect(invoices.map((i) => i.id)).toEqual(['in_gauzy_renewal', 'in_gauzy', 'in_gauzy_old']);
-		// Asked per Gauzy subscription only — the Teams subscription's invoices are never requested.
+		expect(invoices.map((i) => i.id)).toEqual(['in_irtranscripts_renewal', 'in_irtranscripts', 'in_irtranscripts_old']);
+		// Asked per IRTranscripts subscription only — the Teams subscription's invoices are never requested.
 		const invoiceCalls = calls.filter((c) => c.path.startsWith('/invoices')).map((c) => c.path);
 		expect(invoiceCalls.sort()).toEqual([
 			'/invoices?subscription=sub_g&limit=24',
@@ -311,14 +311,14 @@ describe('BillingService.changePlan — product scope', () => {
 	it('refuses a target plan of another product without calling Stripe', async () => {
 		stubStripe({ subscriptions: [sub()], prices: {}, customer: {} });
 		await expect(
-			service().changePlan(CUSTOMER, 'ever_teams_cloud_starter_monthly', 'gauzy')
+			service().changePlan(CUSTOMER, 'ever_teams_cloud_starter_monthly', 'irtranscripts')
 		).rejects.toBeInstanceOf(BadRequestException);
 		expect(calls).toEqual([]);
 	});
 
 	it("refuses to re-price a customer whose only live subscription is another product's", async () => {
 		stubStripe({ subscriptions: [teams()], prices: { [FREE_PRICE.lookup_key]: FREE_PRICE }, customer: {} });
-		await expect(service().changePlan(CUSTOMER, FREE_PRICE.lookup_key, 'gauzy')).rejects.toBeInstanceOf(
+		await expect(service().changePlan(CUSTOMER, FREE_PRICE.lookup_key, 'irtranscripts')).rejects.toBeInstanceOf(
 			NotFoundException
 		);
 		expect(posts()).toEqual([]);
@@ -326,7 +326,7 @@ describe('BillingService.changePlan — product scope', () => {
 
 	it('never re-prices a self-hosted license: alone it is "no subscription", beside the cloud plan it is skipped', async () => {
 		stubStripe({ subscriptions: [selfHosted()], prices: { [FREE_PRICE.lookup_key]: FREE_PRICE }, customer: {} });
-		await expect(service().changePlan(CUSTOMER, FREE_PRICE.lookup_key, 'gauzy')).rejects.toBeInstanceOf(
+		await expect(service().changePlan(CUSTOMER, FREE_PRICE.lookup_key, 'irtranscripts')).rejects.toBeInstanceOf(
 			NotFoundException
 		);
 		expect(posts()).toEqual([]);
@@ -336,25 +336,25 @@ describe('BillingService.changePlan — product scope', () => {
 			prices: { [FREE_PRICE.lookup_key]: FREE_PRICE },
 			customer: {}
 		});
-		await service().changePlan(CUSTOMER, FREE_PRICE.lookup_key, 'gauzy');
+		await service().changePlan(CUSTOMER, FREE_PRICE.lookup_key, 'irtranscripts');
 		expect(posts().map((p) => p.path)).toEqual(['/subscriptions/sub_g']);
 	});
 
 	it('refuses a self-hosted target price without calling Stripe', async () => {
 		stubStripe({ subscriptions: [sub()], prices: {}, customer: {} });
 		await expect(
-			service().changePlan(CUSTOMER, 'ever_gauzy_selfhosted_enterprise_annual', 'gauzy')
+			service().changePlan(CUSTOMER, 'ever_irtranscripts_selfhosted_enterprise_annual', 'irtranscripts')
 		).rejects.toBeInstanceOf(BadRequestException);
 		expect(calls).toEqual([]);
 	});
 
-	it('re-prices the Gauzy subscription, never the Teams one beside it', async () => {
+	it('re-prices the IRTranscripts subscription, never the Teams one beside it', async () => {
 		stubStripe({
 			subscriptions: [teams(), sub()],
 			prices: { [FREE_PRICE.lookup_key]: FREE_PRICE },
 			customer: {}
 		});
-		await service().changePlan(CUSTOMER, FREE_PRICE.lookup_key, 'gauzy');
+		await service().changePlan(CUSTOMER, FREE_PRICE.lookup_key, 'irtranscripts');
 		expect(posts().map((p) => p.path)).toEqual(['/subscriptions/sub_g']);
 	});
 });
@@ -362,28 +362,28 @@ describe('BillingService.changePlan — product scope', () => {
 describe('BillingService.changePlan — the plan item, not the per-employee add-on', () => {
 	const SB_MONTHLY = {
 		id: 'price_sb_m',
-		lookup_key: 'ever_gauzy_cloud_small_business_monthly',
+		lookup_key: 'ever_irtranscripts_cloud_small_business_monthly',
 		unit_amount: 4900,
 		currency: 'usd',
 		recurring: { interval: 'month' }
 	};
 	const ENT_MONTHLY = {
 		id: 'price_ent_m',
-		lookup_key: 'ever_gauzy_cloud_enterprise_monthly',
+		lookup_key: 'ever_irtranscripts_cloud_enterprise_monthly',
 		unit_amount: 49900,
 		currency: 'usd',
 		recurring: { interval: 'month' }
 	};
 	const SEAT_SB = {
 		id: 'price_seat_sb_m',
-		lookup_key: 'seat_ever_gauzy_cloud_small_business_monthly',
+		lookup_key: 'seat_ever_irtranscripts_cloud_small_business_monthly',
 		unit_amount: 500,
 		currency: 'usd',
 		recurring: { interval: 'month' }
 	};
 	const SEAT_ENT = {
 		id: 'price_seat_ent_m',
-		lookup_key: 'seat_ever_gauzy_cloud_enterprise_monthly',
+		lookup_key: 'seat_ever_irtranscripts_cloud_enterprise_monthly',
 		unit_amount: 1000,
 		currency: 'usd',
 		recurring: { interval: 'month' }
@@ -405,7 +405,7 @@ describe('BillingService.changePlan — the plan item, not the per-employee add-
 			prices: { [ENT_MONTHLY.lookup_key]: ENT_MONTHLY, [SEAT_ENT.lookup_key]: SEAT_ENT },
 			customer: {}
 		});
-		const updated = await service().changePlan(CUSTOMER, ENT_MONTHLY.lookup_key, 'gauzy');
+		const updated = await service().changePlan(CUSTOMER, ENT_MONTHLY.lookup_key, 'irtranscripts');
 		expect(posts()).toHaveLength(1);
 		expect(body().get('items[0][id]')).toBe('si_plan');
 		expect(body().get('items[0][price]')).toBe(ENT_MONTHLY.id);
@@ -422,7 +422,7 @@ describe('BillingService.changePlan — the plan item, not the per-employee add-
 			prices: { [ENT_MONTHLY.lookup_key]: ENT_MONTHLY, [SEAT_ENT.lookup_key]: SEAT_ENT },
 			customer: {}
 		});
-		const updated = await service().changePlan(CUSTOMER, ENT_MONTHLY.lookup_key, 'gauzy');
+		const updated = await service().changePlan(CUSTOMER, ENT_MONTHLY.lookup_key, 'irtranscripts');
 		expect(body().get('items[0][id]')).toBe('si_plan');
 		expect(body().get('items[1][id]')).toBe('si_seat');
 		expect(updated.lookupKey).toBe(ENT_MONTHLY.lookup_key);
@@ -434,7 +434,7 @@ describe('BillingService.changePlan — the plan item, not the per-employee add-
 			prices: { [FREE_PRICE.lookup_key]: FREE_PRICE },
 			customer: {}
 		});
-		await expect(service().changePlan(CUSTOMER, FREE_PRICE.lookup_key, 'gauzy')).rejects.toBeInstanceOf(
+		await expect(service().changePlan(CUSTOMER, FREE_PRICE.lookup_key, 'irtranscripts')).rejects.toBeInstanceOf(
 			BadRequestException
 		);
 		expect(posts()).toEqual([]);
@@ -446,7 +446,7 @@ describe('BillingService.changePlan — the plan item, not the per-employee add-
 			prices: { [ENT_MONTHLY.lookup_key]: ENT_MONTHLY, [SEAT_ENT.lookup_key]: SEAT_ENT },
 			customer: {}
 		});
-		await service().changePlan(CUSTOMER, ENT_MONTHLY.lookup_key, 'gauzy');
+		await service().changePlan(CUSTOMER, ENT_MONTHLY.lookup_key, 'irtranscripts');
 		expect(body().get('items[0][id]')).toBe('si_g');
 		expect(body().has('items[1][id]')).toBe(false);
 	});
@@ -459,7 +459,7 @@ describe('BillingService.changePlan — CC02-13: a paid upgrade needs a card fir
 			prices: { [PAID_PRICE.lookup_key]: PAID_PRICE },
 			customer: { invoice_settings: { default_payment_method: null }, default_source: null }
 		});
-		await expect(service().changePlan(CUSTOMER, PAID_PRICE.lookup_key, 'gauzy')).rejects.toBeInstanceOf(
+		await expect(service().changePlan(CUSTOMER, PAID_PRICE.lookup_key, 'irtranscripts')).rejects.toBeInstanceOf(
 			PaymentMethodRequiredError
 		);
 		expect(posts()).toEqual([]);
@@ -472,7 +472,7 @@ describe('BillingService.changePlan — CC02-13: a paid upgrade needs a card fir
 			prices: { [PAID_PRICE.lookup_key]: PAID_PRICE },
 			customer: { invoice_settings: {} }
 		});
-		await expect(service().changePlan(CUSTOMER, PAID_PRICE.lookup_key, 'gauzy')).rejects.toBeInstanceOf(
+		await expect(service().changePlan(CUSTOMER, PAID_PRICE.lookup_key, 'irtranscripts')).rejects.toBeInstanceOf(
 			PaymentMethodRequiredError
 		);
 		expect(posts()).toEqual([]);
@@ -484,7 +484,7 @@ describe('BillingService.changePlan — CC02-13: a paid upgrade needs a card fir
 			prices: { [PAID_PRICE.lookup_key]: PAID_PRICE },
 			customer: { invoice_settings: { default_payment_method: 'pm_card' } }
 		});
-		const updated = await service().changePlan(CUSTOMER, PAID_PRICE.lookup_key, 'gauzy');
+		const updated = await service().changePlan(CUSTOMER, PAID_PRICE.lookup_key, 'irtranscripts');
 		expect(updated.lookupKey).toBe(PAID_PRICE.lookup_key);
 		expect(posts().map((p) => p.path)).toEqual(['/subscriptions/sub_g']);
 	});
@@ -495,14 +495,14 @@ describe('BillingService.changePlan — CC02-13: a paid upgrade needs a card fir
 			prices: { [PAID_PRICE.lookup_key]: PAID_PRICE },
 			customer: {}
 		});
-		await service().changePlan(CUSTOMER, PAID_PRICE.lookup_key, 'gauzy');
+		await service().changePlan(CUSTOMER, PAID_PRICE.lookup_key, 'irtranscripts');
 		expect(calls.some((c) => c.path === `/customers/${CUSTOMER}`)).toBe(false);
 		expect(posts()).toHaveLength(1);
 	});
 
 	it('a switch to another $0 plan needs no card', async () => {
 		stubStripe({ subscriptions: [sub()], prices: { [FREE_PRICE.lookup_key]: FREE_PRICE }, customer: {} });
-		await service().changePlan(CUSTOMER, FREE_PRICE.lookup_key, 'gauzy');
+		await service().changePlan(CUSTOMER, FREE_PRICE.lookup_key, 'irtranscripts');
 		expect(calls.some((c) => c.path === `/customers/${CUSTOMER}`)).toBe(false);
 		expect(posts()).toHaveLength(1);
 	});
@@ -511,11 +511,11 @@ describe('BillingService.changePlan — CC02-13: a paid upgrade needs a card fir
 		const tiered = {
 			...PAID_PRICE,
 			id: 'price_tiered',
-			lookup_key: 'ever_gauzy_cloud_enterprise_annual',
+			lookup_key: 'ever_irtranscripts_cloud_enterprise_annual',
 			unit_amount: null
 		};
 		stubStripe({ subscriptions: [sub()], prices: { [tiered.lookup_key]: tiered }, customer: {} });
-		await expect(service().changePlan(CUSTOMER, tiered.lookup_key, 'gauzy')).rejects.toBeInstanceOf(
+		await expect(service().changePlan(CUSTOMER, tiered.lookup_key, 'irtranscripts')).rejects.toBeInstanceOf(
 			PaymentMethodRequiredError
 		);
 		expect(posts()).toEqual([]);

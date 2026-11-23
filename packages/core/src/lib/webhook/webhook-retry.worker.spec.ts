@@ -50,8 +50,8 @@ import type { WebhookDeliveryService } from './webhook-delivery.service';
  * arguments is the point — the decorator is applied at load and only what it wrote is what a discovery
  * pass would read — and a wrong key surfaces as `undefined` at the assertion rather than as a pass.
  */
-const SCHEDULED_JOB_METADATA = 'gauzy:scheduler:job';
-const QUEUE_JOB_HANDLER_METADATA = 'gauzy:scheduler:queue-job-handler';
+const SCHEDULED_JOB_METADATA = 'irtranscripts:scheduler:job';
+const QUEUE_JOB_HANDLER_METADATA = 'irtranscripts:scheduler:queue-job-handler';
 
 /** The key `@nestjs/bullmq`'s `Processor` — which the scheduler's `QueueWorker` is — writes the queue under. */
 const PROCESSOR_METADATA = 'bullmq:processor_metadata';

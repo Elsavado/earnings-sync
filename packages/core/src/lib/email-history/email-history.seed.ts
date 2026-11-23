@@ -1,7 +1,7 @@
 import { DataSource, ILike, Not } from 'typeorm';
 import { faker } from '@faker-js/faker';
 import { EmailHistory } from './email-history.entity';
-import { IEmailHistory, IEmailTemplate, IOrganization, ITenant, IUser } from '@gauzy/contracts';
+import { IEmailHistory, IEmailTemplate, IOrganization, ITenant, IUser } from '@irtranscripts/contracts';
 import { EmailTemplate, User } from '../core/entities/internal';
 import { getEmailWithPostfix } from '../core/seeds/utils';
 

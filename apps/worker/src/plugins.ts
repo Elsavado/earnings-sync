@@ -1,13 +1,13 @@
-import { resolvePluginLoadOrder } from '@gauzy/plugin';
-import { CartPlugin } from '@gauzy/plugin-cart';
-import { CatalogPlugin } from '@gauzy/plugin-catalog';
-import { DocsPlugin } from '@gauzy/plugin-docs';
-import { InboxPlugin, isInboxEnabled } from '@gauzy/plugin-inbox';
-import { IntegrationEverWorksPlugin, isEverWorksEnabled } from '@gauzy/plugin-integration-ever-works';
-import { InventoryPlugin } from '@gauzy/plugin-inventory';
-import { OrderPlugin } from '@gauzy/plugin-order';
-import { PricingPlugin } from '@gauzy/plugin-pricing';
-import { TaxPlugin } from '@gauzy/plugin-tax';
+import { resolvePluginLoadOrder } from '@irtranscripts/plugin';
+import { CartPlugin } from '@irtranscripts/plugin-cart';
+import { CatalogPlugin } from '@irtranscripts/plugin-catalog';
+import { DocsPlugin } from '@irtranscripts/plugin-docs';
+import { InboxPlugin, isInboxEnabled } from '@irtranscripts/plugin-inbox';
+import { IntegrationEverWorksPlugin, isEverWorksEnabled } from '@irtranscripts/plugin-integration-ever-works';
+import { InventoryPlugin } from '@irtranscripts/plugin-inventory';
+import { OrderPlugin } from '@irtranscripts/plugin-order';
+import { PricingPlugin } from '@irtranscripts/plugin-pricing';
+import { TaxPlugin } from '@irtranscripts/plugin-tax';
 
 /**
  * The plugins the WORKER process hosts.
@@ -18,7 +18,7 @@ import { TaxPlugin } from '@gauzy/plugin-tax';
  * fire — **and the prerequisites those plugins declare**. Adding a plugin here starts its BullMQ
  * workers in this process — do not add one just because the API has it.
  *
- * 🛑 This module must never be imported statically from `main.ts`. `@gauzy/plugin-docs` decides
+ * 🛑 This module must never be imported statically from `main.ts`. `@irtranscripts/plugin-docs` decides
  * queue-mode vs in-process mode at MODULE-DEFINITION time (`isDocsQueueEnabled()` in
  * `docs.config.ts`, read by `docs.module.ts` when the file is first evaluated), so importing it
  * before `loadEnv()` has run would freeze that decision against an empty environment and the
@@ -110,7 +110,7 @@ export const plugins = resolvePluginLoadOrder([
 	 * poll, reconcile, dirty and orphan sweeps, the daily health check). A `@ScheduledJob` fires only in
 	 * this process, so a plugin that is not hosted here would never sync on its own.
 	 *
-	 * Its sync loop stays out of this process on its own (it logs why once): the sync's Gauzy writes go
+	 * Its sync loop stays out of this process on its own (it logs why once): the sync's IRTranscripts writes go
 	 * through core's task, project and employee services, which this module graph does not host, so the
 	 * loop runs where they are — the API — and the connection's lease never strands them here.
 	 *
@@ -125,7 +125,7 @@ export const plugins = resolvePluginLoadOrder([
 	 * and the sync writes Ever Works inbox items into the Inbox through its writer; without the Inbox here
 	 * those items would wait for the API. It owns no queue or schedule of its own.
 	 *
-	 * 🛑 Off unless `GAUZY_INBOX_ENABLED` is exactly `true` as well, so a worker is unchanged by default.
+	 * 🛑 Off unless `IRTRANSCRIPTS_INBOX_ENABLED` is exactly `true` as well, so a worker is unchanged by default.
 	 */
 	...(everWorksEnabled && isInboxEnabled(process.env, (message) => console.warn(message)) ? [InboxPlugin] : [])
 ]);

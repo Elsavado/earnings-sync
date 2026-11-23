@@ -5,7 +5,7 @@ import {
 	IOrganizationContact,
 	IProductTranslatable,
 	InvoiceTypeEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { Product } from '../product/product.entity';
 import { formatCurrencyAmount } from './invoice-currency.util';
 import { formatInvoiceDay } from './invoice-date.util';

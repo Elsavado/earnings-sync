@@ -7,20 +7,20 @@ import {
 	IOrganizationDepartment,
 	IOrganization,
 	IOrganizationTeam
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { NbDialogRef } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
 import { filter, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import {
 	OrganizationContactService,
 	OrganizationDepartmentsService,
 	OrganizationProjectsService,
 	OrganizationTeamsService,
 	ToastrService
-} from '@gauzy/ui-core/core';
-import { Store } from '@gauzy/ui-core/core';
+} from '@irtranscripts/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
 import { EmailInviteFormComponent } from '../forms/email-invite-form/email-invite-form.component';
 
 @UntilDestroy({ checkProperties: true })

@@ -9,7 +9,7 @@ import {
 	OnDestroy
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { DesktopSetupConfig, IDesktopSecret, IProxyConfig } from '@gauzy/contracts';
+import { DesktopSetupConfig, IDesktopSecret, IProxyConfig } from '@irtranscripts/contracts';
 import {
 	NbDialogService,
 	NbLayoutModule,
@@ -25,7 +25,7 @@ import {
 } from '@nebular/theme';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { AlertComponent } from '../../lib/dialogs/alert/alert.component';
-import { GAUZY_ENV } from '../constants';
+import { IRTRANSCRIPTS_ENV } from '../constants';
 import { ElectronService, LoggerService } from '../electron/services';
 import { LanguageElectronService } from '../language/language-electron.service';
 import { LanguageSelectorComponent } from '../language/language-selector.component';
@@ -78,18 +78,18 @@ export class SetupComponent implements OnInit, OnDestroy {
 		private _loggerServer: LoggerService,
 		private _translateService: TranslateService,
 		private _store: Store,
-		@Inject(GAUZY_ENV)
+		@Inject(IRTRANSCRIPTS_ENV)
 		private readonly _environment: any,
 		private readonly _domSanitizer: DomSanitizer,
 		private languageElectronService: LanguageElectronService,
 		private readonly _notifier: ToastrNotificationService
 	) {
 		electronService.ipcRenderer.on('setup-data', (_, arg) => {
-			this.desktopFeatures.gauzyPlatform = arg.gauzyWindow;
+			this.desktopFeatures.irtranscriptsPlatform = arg.irtranscriptsWindow;
 			this.desktopFeatures.timeTracking = arg.timeTrackerWindow;
 			this.connectivity.integrated = arg.isLocalServer;
-			this.connectivity.custom = !arg.isLocalServer && arg.serverUrl !== 'https://api.gauzy.co';
-			this.connectivity.live = arg.serverUrl && arg.serverUrl === 'https://api.gauzy.co';
+			this.connectivity.custom = !arg.isLocalServer && arg.serverUrl !== 'https://api.irtranscripts.com';
+			this.connectivity.live = arg.serverUrl && arg.serverUrl === 'https://api.irtranscripts.com';
 			this.thirdParty.activityWatch = arg.aw;
 			this.databaseDriver.sqlite = arg.db === 'sqlite';
 			this.databaseDriver.postgre = arg.db === 'postgres';
@@ -138,7 +138,7 @@ export class SetupComponent implements OnInit, OnDestroy {
 
 		electronService.ipcRenderer.send('reset_permissions');
 
-		this.gauzyIcon = this._domSanitizer.bypassSecurityTrustResourceUrl(this._environment.PLATFORM_LOGO);
+		this.irtranscriptsIcon = this._domSanitizer.bypassSecurityTrustResourceUrl(this._environment.PLATFORM_LOGO);
 		this.handleIpcEvent = this.handleIpcEvent.bind(this);
 	}
 	appName: string = this.electronService.remote.app.getName();
@@ -148,12 +148,12 @@ export class SetupComponent implements OnInit, OnDestroy {
 	awCheck = false;
 	awAPI: String = 'http://localhost:5600';
 	buttonSave = false;
-	gauzyIcon: SafeResourceUrl =
+	irtranscriptsIcon: SafeResourceUrl =
 		this.isDesktopTimer || this.isServer
-			? './assets/images/logos/logo_Gauzy.svg'
-			: '../assets/images/logos/logo_Gauzy.svg';
+			? './assets/images/logos/logo_IRTranscripts.svg'
+			: '../assets/images/logos/logo_IRTranscripts.svg';
 	desktopFeatures: any = {
-		gauzyPlatform: !this.isDesktopTimer,
+		irtranscriptsPlatform: !this.isDesktopTimer,
 		timeTracking: !this.isServer
 	};
 
@@ -174,8 +174,8 @@ export class SetupComponent implements OnInit, OnDestroy {
 	};
 
 	/**
-	 * Gauzy Server and Gauzy API Server only: whether other computers on the network (remote timers,
-	 * browsers) may connect. On by default, as these servers always were; Gauzy Desktop's integrated
+	 * IRTranscripts Server and IRTranscripts API Server only: whether other computers on the network (remote timers,
+	 * browsers) may connect. On by default, as these servers always were; IRTranscripts Desktop's integrated
 	 * server accepts connections from this computer only and has no such choice.
 	 */
 	lanAccess = true;
@@ -191,7 +191,7 @@ export class SetupComponent implements OnInit, OnDestroy {
 			port: '3000'
 		},
 		live: {
-			url: 'https://api.gauzy.co'
+			url: 'https://api.irtranscripts.com'
 		}
 	};
 
@@ -386,7 +386,7 @@ export class SetupComponent implements OnInit, OnDestroy {
 
 	getFeature() {
 		return {
-			gauzyWindow: this.desktopFeatures.gauzyPlatform,
+			irtranscriptsWindow: this.desktopFeatures.irtranscriptsPlatform,
 			timeTrackerWindow: this.desktopFeatures.timeTracking
 		};
 	}
@@ -395,7 +395,7 @@ export class SetupComponent implements OnInit, OnDestroy {
 		if (this.connectivity.integrated) {
 			this.onProgress = true;
 		}
-		const gauzyConfig: DesktopSetupConfig = {
+		const irtranscriptsConfig: DesktopSetupConfig = {
 			...this.getServerConfig(),
 			...this.getDataBaseConfig(),
 			...this.getThirdPartyConfig(),
@@ -406,24 +406,24 @@ export class SetupComponent implements OnInit, OnDestroy {
 		await this.electronService.ipcRenderer.invoke('PREFERRED_LANGUAGE', this.languageSelector.preferredLanguage);
 
 		if (this.isServer || this.isServerApi) {
-			this.electronService.ipcRenderer.send('start_server', gauzyConfig);
-			if (!gauzyConfig.isLocalServer) {
+			this.electronService.ipcRenderer.send('start_server', irtranscriptsConfig);
+			if (!irtranscriptsConfig.isLocalServer) {
 				this.electronService.ipcRenderer.send('app_is_init');
 			}
 			this.isSaving = false;
 			return;
 		}
 
-		if (gauzyConfig.isLocalServer) {
-			const isStarted = await this.electronService.ipcRenderer.invoke('START_SERVER', gauzyConfig);
+		if (irtranscriptsConfig.isLocalServer) {
+			const isStarted = await this.electronService.ipcRenderer.invoke('START_SERVER', irtranscriptsConfig);
 			if (isStarted) {
-				this.electronService.ipcRenderer.send('restart_app', gauzyConfig);
+				this.electronService.ipcRenderer.send('restart_app', irtranscriptsConfig);
 			}
 			this.isSaving = false;
 			return;
 		}
 
-		this.electronService.ipcRenderer.send('restart_app', gauzyConfig);
+		this.electronService.ipcRenderer.send('restart_app', irtranscriptsConfig);
 		this.isSaving = false;
 	}
 

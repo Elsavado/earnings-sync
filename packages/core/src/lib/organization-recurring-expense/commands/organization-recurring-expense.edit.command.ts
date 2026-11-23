@@ -1,4 +1,4 @@
-import { IRecurringExpenseEditInput as IExpenseEditInput } from '@gauzy/contracts';
+import { IRecurringExpenseEditInput as IExpenseEditInput } from '@irtranscripts/contracts';
 import { ICommand } from '@nestjs/cqrs';
 
 export class OrganizationRecurringExpenseEditCommand implements ICommand {

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, type HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { LanguagesEnum } from '@gauzy/contracts';
-import { I18nService } from '@gauzy/ui-core/i18n';
+import { LanguagesEnum } from '@irtranscripts/contracts';
+import { I18nService } from '@irtranscripts/ui-core/i18n';
 import { Store } from '../services/store';
 
 @Injectable()

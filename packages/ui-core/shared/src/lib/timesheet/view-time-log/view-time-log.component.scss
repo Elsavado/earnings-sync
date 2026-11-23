@@ -3,7 +3,7 @@
 // 12px like the tab it opens from (its only caller).
 $inset-x: 1rem;
 $icon-button-size: 1.75rem;
-$divider: 1px solid var(--gauzy-border-default-color);
+$divider: 1px solid var(--irtranscripts-border-default-color);
 
 :host {
   display: block;
@@ -86,7 +86,7 @@ $divider: 1px solid var(--gauzy-border-default-color);
     line-height: 1rem;
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
 
     // On a phone the popover narrows to the screen, and beside the duration and the
     // actions the range no longer fits on one line; the list would clip its end.
@@ -99,12 +99,12 @@ $divider: 1px solid var(--gauzy-border-default-color);
     flex: none;
     padding: 0.125rem 0.5rem;
     border-radius: var(--border-radius);
-    background: var(--gauzy-sidebar-background-3);
+    background: var(--irtranscripts-sidebar-background-3);
     font-size: 12px;
     font-weight: 600;
     line-height: 1rem;
     font-variant-numeric: tabular-nums;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
   }
 
   .time-log-actions {

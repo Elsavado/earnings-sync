@@ -18,10 +18,10 @@ import {
 	PermissionsEnum,
 	RolesEnum,
 	EntitySubscriptionTypeEnum
-} from '@gauzy/contracts';
-import { getConfig } from '@gauzy/config';
-import { CustomEmbeddedFieldConfig } from '@gauzy/common';
-import { isNotEmpty } from '@gauzy/utils';
+} from '@irtranscripts/contracts';
+import { getConfig } from '@irtranscripts/config';
+import { CustomEmbeddedFieldConfig } from '@irtranscripts/common';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { RelationsQueryDTO } from '../shared/dto';
 import { BaseQueryDTO, TenantAwareCrudService } from '../core/crud';
 import { archivedStates, withArchivedLinks, withArchivedScope } from '../core/crud/archived-scope';

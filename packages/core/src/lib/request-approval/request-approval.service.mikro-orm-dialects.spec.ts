@@ -2,7 +2,7 @@
 import '../core/entities/internal';
 
 import type { FindManyOptions } from 'typeorm';
-import { isMySQL, isPostgres } from '@gauzy/config';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
 import { RequestContext } from '../core/context';
 import { CrudService } from '../core/crud/crud.service';
 import { MultiORMEnum } from '../core/utils';
@@ -20,8 +20,8 @@ import { RequestApprovalService } from './request-approval.service';
  * own knex for the dialect and pins it.
  */
 
-jest.mock('@gauzy/config', () => ({
-	...jest.requireActual('@gauzy/config'),
+jest.mock('@irtranscripts/config', () => ({
+	...jest.requireActual('@irtranscripts/config'),
 	isPostgres: jest.fn(() => false),
 	isMySQL: jest.fn(() => false)
 }));

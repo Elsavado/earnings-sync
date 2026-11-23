@@ -1,4 +1,4 @@
-import { Public } from '@gauzy/common';
+import { Public } from '@irtranscripts/common';
 import { Body, Controller, Get, Logger, Post, Type } from '@nestjs/common';
 import { JiraModuleOptions } from './jira.types';
 

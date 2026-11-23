@@ -1,3 +1,3 @@
-# Changelog for @gauzy/config
+# Changelog for @irtranscripts/config
 
 ## [Unreleased]

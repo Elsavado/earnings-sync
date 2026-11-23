@@ -3,7 +3,7 @@ import '../entities/internal';
 
 import { ArgumentMetadata, ValidationPipe } from '@nestjs/common';
 import { PIPES_METADATA, ROUTE_ARGS_METADATA } from '@nestjs/common/constants';
-import { InvoiceStatusTypesEnum, InvoiceTypeEnum, TimeLogSourceEnum, TimeLogType } from '@gauzy/contracts';
+import { InvoiceStatusTypesEnum, InvoiceTypeEnum, TimeLogSourceEnum, TimeLogType } from '@irtranscripts/contracts';
 import { UpdateInvoiceDTO } from '../../invoice/dto/update-invoice.dto';
 import { CreateManualTimeLogDTO } from '../../time-tracking/time-log/dto/create-time-log.dto';
 import { UpdateManualTimeLogDTO } from '../../time-tracking/time-log/dto/update-time-log.dto';

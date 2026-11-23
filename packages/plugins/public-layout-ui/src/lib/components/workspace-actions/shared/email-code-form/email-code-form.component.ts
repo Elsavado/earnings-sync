@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormGroup, AbstractControl } from '@angular/forms';
-import { ALPHA_NUMERIC_CODE_LENGTH } from '@gauzy/constants';
+import { ALPHA_NUMERIC_CODE_LENGTH } from '@irtranscripts/constants';
 
 /**
  * Shared component for email and code input form.
@@ -22,7 +22,7 @@ export class EmailCodeFormComponent implements OnInit {
 	@Input() submitButtonText = 'BUTTONS.CONTINUE';
 	@Input() sendCodeButtonText = 'BUTTONS.SEND_CODE';
 	@Input() showForgotEmailLink = false;
-	@Input() forgotEmailLink = 'mailto:support@gauzy.co';
+	@Input() forgotEmailLink = 'mailto:support@irtranscripts.com';
 	@Input() showEditEmailButton = true;
 	@Input() descriptionText = 'LOGIN_PAGE.LOGIN_MAGIC.DESCRIPTION_TITLE';
 	@Input() successSentCodeTitle = 'LOGIN_PAGE.LOGIN_MAGIC.SUCCESS_SENT_CODE_TITLE';

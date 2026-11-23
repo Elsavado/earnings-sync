@@ -10,8 +10,8 @@ import {
 	DocumentVisibilityEnum,
 	FileStorageProviderEnum,
 	ID
-} from '@gauzy/contracts';
-import { FileStorage } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { FileStorage } from '@irtranscripts/core';
 import { getDocsConfig } from '../docs.config';
 import {
 	DOCS_INBOUND_DISABLED,
@@ -62,7 +62,7 @@ export interface IInboundEmailResponse {
 /**
  * Inbound-email capture (`07-ai-knowledge.md` §17.2).
  *
- * The whole channel is **on unless `GAUZY_DOCS_INBOUND_EMAIL_ENABLED=false`** — a disabled
+ * The whole channel is **on unless `IRTRANSCRIPTS_DOCS_INBOUND_EMAIL_ENABLED=false`** — a disabled
  * deployment answers 404 (the route does not exist as far as the world can tell). It is enabled
  * by default because gate 2 fails closed: a delivery without a valid HMAC signature or
  * per-address relay secret is rejected.
@@ -71,15 +71,15 @@ export interface IInboundEmailResponse {
  *
  * 1. **Feature switch** — env off ⇒ 404.
  * 2. **Authentication** — EITHER the deployment-wide HMAC signature the adapter verifies, OR a
- *    per-address relay secret in `x-gauzy-docs-address-secret`. Neither ⇒ 403, raised before the
+ *    per-address relay secret in `x-irtranscripts-docs-address-secret`. Neither ⇒ 403, raised before the
  *    unknown-address 404 so a caller with no secret cannot enumerate real capture addresses.
  * 3. **Recipient address match** — the whole address is looked up in `document_inbound_address`
  *    (unique index). Unknown, inactive, or an unverified custom domain ⇒ 404 — identical to
  *    "no such route", so probing cannot enumerate organizations.
  * 4. **SPF/DKIM** — when the provider reports verdicts, both must pass.
  * 4b. **Sender allowlist** — per-address; empty means "any sender that passed gate 4".
- * 5. **Size caps** — per message (`GAUZY_DOCS_INBOUND_MAX_MESSAGE_BYTES`) and per attachment
- *    (`GAUZY_DOCS_MAX_FILE_SIZE`).
+ * 5. **Size caps** — per message (`IRTRANSCRIPTS_DOCS_INBOUND_MAX_MESSAGE_BYTES`) and per attachment
+ *    (`IRTRANSCRIPTS_DOCS_MAX_FILE_SIZE`).
  * 6. **Attachments only** — the body is discarded; a message with no attachment is rejected.
  * 7. **Content sniffing** — the same magic-byte gauntlet the upload endpoint runs.
  *
@@ -132,7 +132,7 @@ export class InboundEmailService {
 		// Gate 2 — authentication. Two independent proofs are accepted:
 		//
 		//   (a) the deployment-wide HMAC signature the adapter verifies, and
-		//   (b) a per-address relay secret presented in `x-gauzy-docs-address-secret`.
+		//   (b) a per-address relay secret presented in `x-irtranscripts-docs-address-secret`.
 		//
 		// (b) exists because one global secret means a single leak lets an attacker post mail *as
 		// any tenant*. A per-address secret contains that to one organization. It is presented

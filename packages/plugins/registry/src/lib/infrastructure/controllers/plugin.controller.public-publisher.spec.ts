@@ -1,7 +1,7 @@
-// The registry's barrels drag in the entity graph through `@gauzy/core`; the public controller only needs its
+// The registry's barrels drag in the entity graph through `@irtranscripts/core`; the public controller only needs its
 // decorators and the queries it hands its options to.
-jest.mock('@gauzy/common', () => ({ Public: () => () => undefined }));
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/common', () => ({ Public: () => () => undefined }));
+jest.mock('@irtranscripts/core', () => ({
 	UseValidationPipe: () => () => undefined,
 	UUIDValidationPipe: class UUIDValidationPipe {}
 }));

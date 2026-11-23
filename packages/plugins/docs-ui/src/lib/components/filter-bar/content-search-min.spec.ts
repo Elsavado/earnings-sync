@@ -1,9 +1,9 @@
 /**
- * `@gauzy/ui-core/i18n` is a barrel over the whole app i18n module; the filter bar only
+ * `@irtranscripts/ui-core/i18n` is a barrel over the whole app i18n module; the filter bar only
  * needs `TranslationBaseComponent` to exist so the class can be constructed directly (no
  * `TestBed`, no Angular module graph).
  */
-jest.mock('@gauzy/ui-core/i18n', () => ({
+jest.mock('@irtranscripts/ui-core/i18n', () => ({
 	TranslationBaseComponent: class {
 		constructor(public readonly translateService: unknown) {}
 		getTranslation(key: string): string {

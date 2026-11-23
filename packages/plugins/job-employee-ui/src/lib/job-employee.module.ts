@@ -7,8 +7,8 @@ import {
 	IOnPluginUiDestroy,
 	PluginUiDefinition,
 	PLUGIN_DEFINITION
-} from '@gauzy/plugin-ui';
-import { LoggerService, NavMenuBuilderService, PageRouteRegistryService } from '@gauzy/ui-core/core';
+} from '@irtranscripts/plugin-ui';
+import { LoggerService, NavMenuBuilderService, PageRouteRegistryService } from '@irtranscripts/ui-core/core';
 import {
 	DynamicTabsModule,
 	NebularModule,
@@ -16,7 +16,7 @@ import {
 	SharedModule,
 	SmartDataViewLayoutModule,
 	TableComponentsModule
-} from '@gauzy/ui-core/shared';
+} from '@irtranscripts/ui-core/shared';
 import { JobEmployeeComponent } from './components/job-employee/job-employee.component';
 import { JobSearchStatusEditorComponent } from './components/job-search-status-editor/job-search-status-editor.component';
 import { JobSearchStoreService } from './providers/job-search-store.service';

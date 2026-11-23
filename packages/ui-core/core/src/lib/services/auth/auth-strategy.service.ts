@@ -7,8 +7,8 @@ import {
 	IUser,
 	IUserLoginInput,
 	LanguagesEnum
-} from '@gauzy/contracts';
-import { distinctUntilChange, isNotEmpty } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { distinctUntilChange, isNotEmpty } from '@irtranscripts/ui-core/common';
 import { NbAuthResult, NbAuthStrategy, NbAuthStrategyClass } from '@nebular/auth';
 import { CookieService } from 'ngx-cookie-service';
 import { EMPTY, Observable, Subject, from, of, tap } from 'rxjs';

@@ -1,14 +1,14 @@
 /**
- * Test-only in-memory stand-ins for the plugin's data access and Gauzy's authentication service.
+ * Test-only in-memory stand-ins for the plugin's data access and IRTranscripts's authentication service.
  * Excluded from the library build.
  */
 import { randomUUID } from 'node:crypto';
 import { UnauthorizedException } from '@nestjs/common';
-import { IUserSigninWorkspaceResponse } from '@gauzy/contracts';
-import { User } from '@gauzy/core';
+import { IUserSigninWorkspaceResponse } from '@irtranscripts/contracts';
+import { User } from '@irtranscripts/core';
 import { ZitadelAccount, ZitadelLinkMethod } from '../entities/zitadel-account.entity';
 import { ZitadelOrganization } from '../entities/zitadel-organization.entity';
-import { GauzyAuthPort, ZitadelRegistrationInput } from '../ports/gauzy-auth.port';
+import { IRTranscriptsAuthPort, ZitadelRegistrationInput } from '../ports/irtranscripts-auth.port';
 import { ZitadelIdentity } from '../services/zitadel-account.service';
 import { RELEASE_HOLD_SCRIPT } from '../services/zitadel-store.service';
 import { ZitadelSubscriptionCheck } from '../services/zitadel-subscription-gate.service';
@@ -156,8 +156,8 @@ export class InMemoryAccounts {
 	}
 }
 
-/** Gauzy's e-mail code and register path, recorded instead of performed. */
-export class FakeGauzyAuth implements GauzyAuthPort {
+/** IRTranscripts's e-mail code and register path, recorded instead of performed. */
+export class FakeIRTranscriptsAuth implements IRTranscriptsAuthPort {
 	readonly sentCodes: string[] = [];
 	/** Everything each code request carried besides the address (the requesting app's branding). */
 	readonly sentInputs: Array<Record<string, unknown>> = [];
@@ -169,7 +169,7 @@ export class FakeGauzyAuth implements GauzyAuthPort {
 	/** Awaited at the start of the next code check / registration (to hold a test attempt in flight). */
 	beforeCheck: (() => Promise<void>) | null = null;
 	beforeRegister: (() => Promise<void>) | null = null;
-	/** Like Gauzy, a code works only for the address it was sent to, only after it was sent, and once. */
+	/** Like IRTranscripts, a code works only for the address it was sent to, only after it was sent, and once. */
 	private readonly outstanding = new Set<string>();
 
 	constructor(private readonly accounts: InMemoryAccounts) {}
@@ -193,9 +193,9 @@ export class FakeGauzyAuth implements GauzyAuthPort {
 		const users = this.accounts.users.filter((user) => user.email === payload.email && user.isActive !== false);
 		return {
 			workspaces: users.map((user) => ({
-				token: 'gauzy-workspace-token',
+				token: 'irtranscripts-workspace-token',
 				user: toUser(user),
-				// Gauzy adds each workspace's teams when asked to (as `current_teams`).
+				// IRTranscripts adds each workspace's teams when asked to (as `current_teams`).
 				...(includeTeams ? { current_teams: [{ team_id: `team-of-${user.id}`, team_name: 'Team' }] } : {})
 			})),
 			confirmed_email: payload.email,
@@ -209,7 +209,7 @@ export class FakeGauzyAuth implements GauzyAuthPort {
 		this.beforeRegister = null;
 		await pause?.();
 		this.registered.push(input);
-		// Gauzy's register path creates a user without a tenant; the tenant comes from onboarding.
+		// IRTranscripts's register path creates a user without a tenant; the tenant comes from onboarding.
 		const user = this.accounts.addUser({ email: input.user.email, tenantId: null, emailVerifiedAt: null });
 		return { id: user.id, tenantId: null };
 	}
@@ -354,7 +354,7 @@ export class FakeRedis {
 	}
 }
 
-/** Gauzy's subscription gate, switchable per test. */
+/** IRTranscripts's subscription gate, switchable per test. */
 export class FakeSubscriptionGate {
 	allowed = true;
 	readonly checked: string[] = [];

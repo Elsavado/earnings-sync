@@ -1,6 +1,6 @@
 import { BadRequestException, createParamDecorator, ExecutionContext, Logger } from '@nestjs/common';
-import { FileStorageProviderEnum, UploadedFile } from '@gauzy/contracts';
-import { FileStorage } from '@gauzy/core';
+import { FileStorageProviderEnum, UploadedFile } from '@irtranscripts/contracts';
+import { FileStorage } from '@irtranscripts/core';
 import { FileProcessingStrategyFactory } from './file-processing-strategy.factory';
 import { FileProcessorContext } from './file-processor.context';
 

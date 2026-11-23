@@ -1,4 +1,4 @@
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
 import { PluginInstallationService } from '../../domain/services/plugin-installation.service';
 import { PluginSubscriptionAccessService } from '../../domain/services/plugin-subscription-access.service';

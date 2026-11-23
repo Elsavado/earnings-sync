@@ -14,7 +14,7 @@ import { NgxDraggableDomDirective } from 'ngx-draggable-dom';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslatePipe } from '@ngx-translate/core';
-import { TimeTrackerService } from '@gauzy/ui-core/core';
+import { TimeTrackerService } from '@irtranscripts/ui-core/core';
 import { TimeTrackerComponent } from './time-tracker/time-tracker.component';
 import { TimeTrackerStatusModule } from './components/time-tracker-status/time-tracker-status.module';
 import { SharedModule } from '../shared.module';

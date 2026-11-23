@@ -1,4 +1,4 @@
-name: Build and Publish Gauzy MCP Auth Image Prod
+name: Build and Publish IRTranscripts MCP Auth Image Prod
 
 on:
   push:
@@ -21,7 +21,7 @@ env:
   DOCKER_BUILD_SUMMARY: false
 
 jobs:
-  gauzy-mcp-auth:
+  irtranscripts-mcp-auth:
     runs-on: ${{ vars.RUNNER_LINUX_X64_8 || 'ubuntu-24.04' }}
     timeout-minutes: 300
     steps:
@@ -46,8 +46,8 @@ jobs:
           platforms: linux/amd64
           tags: |
             ghcr.io/ever-co/gauzy-mcp-auth:latest
-            everco/gauzy-mcp-auth:latest
-            registry.digitalocean.com/ever/gauzy-mcp-auth:latest
+            everco/irtranscripts-mcp-auth:latest
+            registry.digitalocean.com/ever/irtranscripts-mcp-auth:latest
           cache-from: type=registry,ref=ghcr.io/ever-co/gauzy-mcp-auth:latest
           cache-to: type=inline
           build-args: |
@@ -74,9 +74,9 @@ jobs:
       - name: Push to Docker Hub Registry
         run: |
           for attempt in 1 2 3 4 5; do
-            docker push everco/gauzy-mcp-auth:latest && break
+            docker push everco/irtranscripts-mcp-auth:latest && break
             [ "$attempt" = 5 ] && exit 1
-            echo "::warning::docker push everco/gauzy-mcp-auth:latest failed (attempt $attempt of 5), retrying in $((attempt * 15)) s"
+            echo "::warning::docker push everco/irtranscripts-mcp-auth:latest failed (attempt $attempt of 5), retrying in $((attempt * 15)) s"
             sleep $((attempt * 15))
           done
 
@@ -94,9 +94,9 @@ jobs:
         if: ${{ vars.DO_ENABLED == 'true' }}
         run: |
           for attempt in 1 2 3 4 5; do
-            docker push registry.digitalocean.com/ever/gauzy-mcp-auth:latest && break
+            docker push registry.digitalocean.com/ever/irtranscripts-mcp-auth:latest && break
             [ "$attempt" = 5 ] && exit 1
-            echo "::warning::docker push registry.digitalocean.com/ever/gauzy-mcp-auth:latest failed (attempt $attempt of 5), retrying in $((attempt * 15)) s"
+            echo "::warning::docker push registry.digitalocean.com/ever/irtranscripts-mcp-auth:latest failed (attempt $attempt of 5), retrying in $((attempt * 15)) s"
             sleep $((attempt * 15))
           done
 

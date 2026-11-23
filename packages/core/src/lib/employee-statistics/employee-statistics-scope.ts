@@ -1,7 +1,7 @@
 import { BadRequestException } from '@nestjs/common';
 import { isUUID } from 'class-validator';
 import { EntityManager } from 'typeorm';
-import { ID, IEmployee } from '@gauzy/contracts';
+import { ID, IEmployee } from '@irtranscripts/contracts';
 import {
 	assertCurrentUserBelongsToOrganization,
 	assertCurrentUserBelongsToSentOrganization,

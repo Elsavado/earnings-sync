@@ -1,9 +1,9 @@
 /// <reference path="./typings.d.ts" />
 import { Injectable, BadRequestException, Logger, NotFoundException } from '@nestjs/common';
 import type { SimStudioClient as SimStudioClientType } from 'simstudio-ts-sdk';
-import { IIntegrationSetting, IIntegrationTenant } from '@gauzy/contracts';
-import { ConfigService } from '@gauzy/config';
-import { IntegrationTenantService } from '@gauzy/core';
+import { IIntegrationSetting, IIntegrationTenant } from '@irtranscripts/contracts';
+import { ConfigService } from '@irtranscripts/config';
+import { IntegrationTenantService } from '@irtranscripts/core';
 import { SimSettingName } from './interfaces/sim.types';
 import { SIM_DEFAULT_BASE_URL } from './sim.config';
 
@@ -43,7 +43,7 @@ export class SimClientFactory {
 	 * Get or create a SIM client for the given integration tenant.
 	 * Clients are cached per integrationId for performance.
 	 *
-	 * Falls back to the global GAUZY_SIM_API_KEY if the tenant has no API key configured.
+	 * Falls back to the global IRTRANSCRIPTS_SIM_API_KEY if the tenant has no API key configured.
 	 */
 	async getClient(integrationId: string): Promise<SimStudioClientType> {
 		// Return cached client if available
@@ -95,13 +95,13 @@ export class SimClientFactory {
 			(s: IIntegrationSetting) => s.settingsName === SimSettingName.API_KEY
 		)?.settingsValue;
 
-		// 2. Fallback to global config (GAUZY_SIM_API_KEY)
+		// 2. Fallback to global config (IRTRANSCRIPTS_SIM_API_KEY)
 		if (!apiKey) {
 			const globalApiKey = this.configService.get('sim')?.apiKey;
 			if (globalApiKey) {
 				this.logger.warn(
 					`No tenant-specific SIM API key found for integration ${integrationId}. ` +
-						'Falling back to global GAUZY_SIM_API_KEY env variable.'
+						'Falling back to global IRTRANSCRIPTS_SIM_API_KEY env variable.'
 				);
 				apiKey = globalApiKey;
 			}
@@ -109,7 +109,7 @@ export class SimClientFactory {
 
 		if (!apiKey) {
 			throw new BadRequestException(
-				'SIM API key not configured. Set a per-tenant API key via setupIntegration or set GAUZY_SIM_API_KEY globally.'
+				'SIM API key not configured. Set a per-tenant API key via setupIntegration or set IRTRANSCRIPTS_SIM_API_KEY globally.'
 			);
 		}
 
@@ -147,7 +147,7 @@ export class SimClientFactory {
 			const globalApiKey = this.configService.get('sim')?.apiKey;
 			if (!globalApiKey) {
 				throw new BadRequestException(
-					'Global SIM API key not configured. Set GAUZY_SIM_API_KEY environment variable.'
+					'Global SIM API key not configured. Set IRTRANSCRIPTS_SIM_API_KEY environment variable.'
 				);
 			}
 
@@ -158,7 +158,7 @@ export class SimClientFactory {
 			});
 
 			this.clients.set(key, client);
-			this.logger.log('Default SIM client created using global GAUZY_SIM_API_KEY');
+			this.logger.log('Default SIM client created using global IRTRANSCRIPTS_SIM_API_KEY');
 
 			return client;
 		})();
@@ -182,7 +182,7 @@ export class SimClientFactory {
 	}
 
 	/**
-	 * Invalidate the cached default client (e.g. when GAUZY_SIM_API_KEY changes).
+	 * Invalidate the cached default client (e.g. when IRTRANSCRIPTS_SIM_API_KEY changes).
 	 */
 	invalidateDefaultClient(): void {
 		this.clients.delete(SimClientFactory.DEFAULT_CLIENT_KEY);

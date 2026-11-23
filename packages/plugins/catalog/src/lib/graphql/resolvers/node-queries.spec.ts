@@ -39,8 +39,8 @@
 
 import { RequestMethod } from '@nestjs/common';
 import { FieldDefinitionNode, ObjectTypeDefinitionNode, ObjectTypeExtensionNode, TypeNode } from 'graphql';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionGuard, TenantPermissionGuard } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionGuard, TenantPermissionGuard } from '@irtranscripts/core';
 import { CATALOG_PERMISSION_VALUES, catalogPermission } from '../../catalog.permissions';
 import { ProductRelationController } from '../../product-relation/product-relation.controller';
 import { ProductVariantMediaController } from '../../product-variant-media/product-variant-media.controller';

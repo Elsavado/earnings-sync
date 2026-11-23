@@ -1,7 +1,7 @@
 import { ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import { IsBoolean, IsEnum, IsInt, IsOptional, Min } from 'class-validator';
-import { DocumentVisibilityEnum } from '@gauzy/contracts';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { DocumentVisibilityEnum } from '@irtranscripts/contracts';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 import { IDocumentQuotaState } from '../services/quota.calculator';
 
 /**
@@ -41,7 +41,7 @@ export class DocumentSettingsDTO {
 
 	/**
 	 * Per-organization storage quota in bytes; `0` = unlimited (08 §5.7). Overrides the
-	 * deployment default `GAUZY_DOCS_ORG_QUOTA_BYTES`. Only the installation's operator (a super admin
+	 * deployment default `IRTRANSCRIPTS_DOCS_ORG_QUOTA_BYTES`. Only the installation's operator (a super admin
 	 * listed in `EVER_OPERATOR_USER_IDS`) may send it; anyone else is answered `403 DOCS_QUOTA_OPERATOR_ONLY`.
 	 */
 	@ApiPropertyOptional({ type: () => Number, minimum: 0 })

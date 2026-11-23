@@ -1,4 +1,4 @@
-import { DecimalString, RoundingMode } from '@gauzy/contracts';
+import { DecimalString, RoundingMode } from '@irtranscripts/contracts';
 import { formatDecimalUnits, parseDecimalString, pow10, toUnitsAtScale, WORKING_SCALE } from './decimal';
 
 /**

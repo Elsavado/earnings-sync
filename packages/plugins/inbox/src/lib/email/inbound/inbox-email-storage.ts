@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, relative, resolve, sep } from 'node:path';
-import { FileStorageProviderEnum } from '@gauzy/contracts';
-import { FileStorage, RequestContext } from '@gauzy/core';
+import { FileStorageProviderEnum } from '@irtranscripts/contracts';
+import { FileStorage, RequestContext } from '@irtranscripts/core';
 
 /** Where a stored file is. */
 export interface IInboxStoredFile {
@@ -43,24 +43,24 @@ function withDeploymentSettings<T>(work: () => Promise<T>): Promise<T> {
 export const INBOX_LOCAL_PROVIDER = 'INBOX_LOCAL';
 
 /**
- * The private directory email files are kept in when the installation stores files locally: Gauzy's local provider
+ * The private directory email files are kept in when the installation stores files locally: IRTranscripts's local provider
  * writes under the API's public asset root (served without authentication), which is no place for mail.
- * `GAUZY_INBOX_LOCAL_STORAGE_PATH`, else `<working directory>/storage/inbox` (put it on a persistent volume).
+ * `IRTRANSCRIPTS_INBOX_LOCAL_STORAGE_PATH`, else `<working directory>/storage/inbox` (put it on a persistent volume).
  */
 export function inboxLocalRoot(env: Record<string, string | undefined> = process.env): string {
-	const configured = (env['GAUZY_INBOX_LOCAL_STORAGE_PATH'] ?? '').trim();
+	const configured = (env['IRTRANSCRIPTS_INBOX_LOCAL_STORAGE_PATH'] ?? '').trim();
 	return resolve(configured || resolve(process.cwd(), 'storage', 'inbox'));
 }
 
 /**
- * Raw messages and attachments. With a remote provider (S3, Wasabi, DigitalOcean, Cloudinary) they go to Gauzy's
+ * Raw messages and attachments. With a remote provider (S3, Wasabi, DigitalOcean, Cloudinary) they go to IRTranscripts's
  * FileStorage under the message's tenant; with the local provider, to the Inbox's private directory instead (never the
  * public asset root), its folders created as needed. The provider is recorded with each file, so a later change of the
  * default provider still reads what was stored before. Email files are only ever served through the checked download
  * routes; no storage URL is answered by any route.
  *
  * Every email file is written and read with the **deployment's** storage settings (`FILE_PROVIDER`, `AWS_*` and co.),
- * never a tenant's own storage overrides: Gauzy's providers apply those from the caller's request, and a webhook or the
+ * never a tenant's own storage overrides: IRTranscripts's providers apply those from the caller's request, and a webhook or the
  * background worker has none, so a file written there would otherwise be looked for in another bucket by a download.
  */
 @Injectable()

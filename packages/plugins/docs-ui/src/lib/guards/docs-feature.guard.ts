@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router, UrlTree } from '@angular/router';
-import { FeatureEnum } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
+import { FeatureEnum } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
 
 /**
  * Defensive FEATURE_DOCUMENTS double-gate. Plugin activation gating protects

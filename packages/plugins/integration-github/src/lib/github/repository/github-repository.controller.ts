@@ -1,6 +1,6 @@
 import { Body, Controller, NotFoundException, Param, Post, Put, UseGuards } from '@nestjs/common';
-import { ID, IIntegrationMapSyncRepository, IOrganizationGithubRepository, PermissionsEnum } from '@gauzy/contracts';
-import { PermissionGuard, Permissions, TenantPermissionGuard, UUIDValidationPipe, UseValidationPipe } from '@gauzy/core';
+import { ID, IIntegrationMapSyncRepository, IOrganizationGithubRepository, PermissionsEnum } from '@irtranscripts/contracts';
+import { PermissionGuard, Permissions, TenantPermissionGuard, UUIDValidationPipe, UseValidationPipe } from '@irtranscripts/core';
 import { GithubRepositoryService } from './github-repository.service';
 import { UpdateGithubRepositoryDTO } from './dto';
 
@@ -15,7 +15,7 @@ export class GitHubRepositoryController {
 	constructor(private readonly _githubRepositoryService: GithubRepositoryService) {}
 
 	/**
-	 * Sync a GitHub repository with Gauzy using provided data.
+	 * Sync a GitHub repository with IRTranscripts using provided data.
 	 *
 	 * @param entity The data needed for synchronization.
 	 * @returns The synchronized integration map.

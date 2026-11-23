@@ -359,7 +359,7 @@ export class HttpTransport {
 				status: 'healthy',
 				timestamp: new Date().toISOString(),
 				transport: 'http',
-				server: 'gauzy-mcp-server',
+				server: 'irtranscripts-mcp-server',
 				...(this.authorizationConfig.enabled && {
 					authorization: {
 						enabled: true,
@@ -469,7 +469,7 @@ export class HttpTransport {
 					ipAddress: this.getClientIP(req),
 					userAgent: req.get('User-Agent'),
 					loginSource: 'http',
-					// Only a caller on this machine gets a session for the GAUZY_AUTO_LOGIN account
+					// Only a caller on this machine gets a session for the IRTRANSCRIPTS_AUTO_LOGIN account
 					autoAuthenticate: autoAuthenticate && this.callerIsLocal(req),
 					metadata: {
 						createdVia: 'http-endpoint',
@@ -827,7 +827,7 @@ export class HttpTransport {
 		transport: MockTransport,
 		userContext?: UserContext,
 		tokenInfo?: AuthorizedRequest['tokenInfo'],
-		/** Whether the caller is on this machine, so may act as the GAUZY_AUTO_LOGIN account (see isLocalCaller) */
+		/** Whether the caller is on this machine, so may act as the IRTRANSCRIPTS_AUTO_LOGIN account (see isLocalCaller) */
 		callerIsLocal = false
 	) {
 		try {
@@ -841,7 +841,7 @@ export class HttpTransport {
 							protocolVersion: PROTOCOL_VERSION,
 							capabilities: { tools: {} },
 							serverInfo: {
-								name: 'gauzy-mcp-server',
+								name: 'irtranscripts-mcp-server',
 								version: '0.1.0'
 							}
 						}
@@ -860,7 +860,7 @@ export class HttpTransport {
 				}
 
 				case 'tools/call': {
-					// Tools run with the Gauzy login of this session, or of this OAuth subject.
+					// Tools run with the IRTranscripts login of this session, or of this OAuth subject.
 					// A caller with neither gets a key for this call only: a login it runs is never seen by another
 					// caller and is kept only through the session the login tool creates.
 					const callerKey =
@@ -919,7 +919,7 @@ export class HttpTransport {
 	}
 
 	/**
-	 * @param sharesAutoLogin Whether the caller may act as the GAUZY_AUTO_LOGIN account when it has no login of its own.
+	 * @param sharesAutoLogin Whether the caller may act as the IRTRANSCRIPTS_AUTO_LOGIN account when it has no login of its own.
 	 */
 	private async callTool(
 		params: Record<string, unknown>,

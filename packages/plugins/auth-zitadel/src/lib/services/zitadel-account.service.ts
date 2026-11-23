@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, IsNull, Not, Repository } from 'typeorm';
-import { flagFeatures } from '@gauzy/common';
-import { ID } from '@gauzy/contracts';
-import { SocialAccount, User } from '@gauzy/core';
+import { flagFeatures } from '@irtranscripts/common';
+import { ID } from '@irtranscripts/contracts';
+import { SocialAccount, User } from '@irtranscripts/core';
 import { ZitadelAccount, ZitadelLinkMethod } from '../entities/zitadel-account.entity';
 import { ZitadelOrganization } from '../entities/zitadel-organization.entity';
 
@@ -16,7 +16,7 @@ export interface ZitadelIdentity {
 }
 
 /**
- * Data access of the plugin: links, the Gauzy users they point to, and the organization links that
+ * Data access of the plugin: links, the IRTranscripts users they point to, and the organization links that
  * carry sign-in rules. Every query names its own tenant / user scope explicitly; nothing relies on an
  * ambient request context (the sign-in routes are public).
  */
@@ -30,7 +30,7 @@ export class ZitadelAccountService {
 	) {}
 
 	/**
-	 * Active, non-archived Gauzy users linked to an identity, with their tenant.
+	 * Active, non-archived IRTranscripts users linked to an identity, with their tenant.
 	 */
 	async findLinkedUsers(issuer: string, subject: string): Promise<User[]> {
 		if (!issuer || !subject) {
@@ -49,7 +49,7 @@ export class ZitadelAccountService {
 
 	/**
 	 * Active users whose verified e-mail equals `email` (case-insensitive). Only these may be offered a
-	 * confirmed link, and only after Gauzy's own e-mail code proves the mailbox.
+	 * confirmed link, and only after IRTranscripts's own e-mail code proves the mailbox.
 	 */
 	async findVerifiedUsersByEmail(email: string): Promise<User[]> {
 		if (!email) {
@@ -72,7 +72,7 @@ export class ZitadelAccountService {
 	async findSiblings(user: Pick<User, 'id' | 'email'>, identity: ZitadelIdentity): Promise<User[]> {
 		const rows = await this.findVerifiedUsersByEmail(user.email);
 		const linked = new Set((await this.findLinkedUsers(identity.issuer, identity.subject)).map((row) => row.id));
-		// Only accounts stored with exactly the same address: Gauzy's one-time code, which proves them,
+		// Only accounts stored with exactly the same address: IRTranscripts's one-time code, which proves them,
 		// is matched against the stored address as written.
 		return rows.filter((row) => row.id !== user.id && row.email === user.email && !linked.has(row.id));
 	}
@@ -167,7 +167,7 @@ export class ZitadelAccountService {
 	}
 
 	/**
-	 * Whether the user could still sign in without Ever ID: a password, Gauzy's e-mail code (verified
+	 * Whether the user could still sign in without Ever ID: a password, IRTranscripts's e-mail code (verified
 	 * address and the feature on), or a social account.
 	 */
 	async hasOtherSignInMethod(userId: ID): Promise<boolean> {
@@ -185,7 +185,7 @@ export class ZitadelAccountService {
 		if (user.emailVerifiedAt && flagFeatures.FEATURE_MAGIC_LOGIN) {
 			return true;
 		}
-		// Only links Gauzy still accepts for sign-in count.
+		// Only links IRTranscripts still accepts for sign-in count.
 		const activeSocialLinks = await this.socialAccounts.count({
 			where: { userId, isActive: true, isArchived: false, providerAccountId: Not(IsNull()) }
 		});
@@ -195,7 +195,7 @@ export class ZitadelAccountService {
 	/**
 	 * Marks a freshly registered user's e-mail as verified (the identity provider verified it).
 	 *
-	 * Gauzy's register path leaves a self-registration inactive until its address is confirmed (owner
+	 * IRTranscripts's register path leaves a self-registration inactive until its address is confirmed (owner
 	 * decision 4); the provider's verification is that confirmation, so the account it just created is
 	 * activated with it. Only that state matches (inactive, no tenant yet, never confirmed), as in
 	 * `UserService.markEmailAsVerified`.

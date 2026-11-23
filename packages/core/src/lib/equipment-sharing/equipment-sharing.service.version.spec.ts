@@ -3,7 +3,7 @@ import '../core/entities/internal';
 
 import { NotFoundException } from '@nestjs/common';
 import { getMetadataArgsStorage } from 'typeorm';
-import { RequestApprovalStatusTypesEnum, RolesEnum } from '@gauzy/contracts';
+import { RequestApprovalStatusTypesEnum, RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { TenantAwareCrudService } from '../core/crud/tenant-aware-crud.service';
 import { ApiException } from '../core/errors/api-exception';

@@ -1,5 +1,5 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel, so it is doubled at the module boundary as
+ * `@irtranscripts/core` boots the whole application graph from its barrel, so it is doubled at the module boundary as
  * the package's other suites double it. The service under test is the real one, over a store double that
  * applies the order it is asked for and answers the rows that order leaves tied in a different order on every
  * read — which is what a database is free to do with them.
@@ -7,7 +7,7 @@
 /** The platform's cross-tenant reference check, which reads a real database: recorded, and answered per test. */
 const mockAssertReferences = jest.fn(async (..._args: unknown[]) => undefined);
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
@@ -40,7 +40,7 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		...jest.requireActual('@gauzy/core/src/lib/money/decimal'),
+		...jest.requireActual('@irtranscripts/core/src/lib/money/decimal'),
 		assertPlainReferencesNotForeign: (...args: unknown[]) => mockAssertReferences(...args),
 		RequestContext: {
 			currentUser: () => null,

@@ -640,7 +640,7 @@
 		"COPY_RECORD_VALUE": "Copy record value",
 		"COPY_SECRET": "Copy secret",
 		"CUSTOM": "Your own domains",
-		"CUSTOM_HINT": "Route a domain you own to Gauzy and pick your own mailbox name, so documents arrive at an address like docs@your-company.com.",
+		"CUSTOM_HINT": "Route a domain you own to IRTranscripts and pick your own mailbox name, so documents arrive at an address like docs@your-company.com.",
 		"NO_CUSTOM": "No domains of your own yet",
 		"ADD_DOMAIN": "Add a domain",
 		"DIALOG_TITLE": "Add an inbound domain",

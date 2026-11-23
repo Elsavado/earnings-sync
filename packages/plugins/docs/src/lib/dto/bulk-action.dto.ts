@@ -10,7 +10,7 @@ import {
 	MaxLength,
 	ValidateIf
 } from 'class-validator';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { DOCS_BULK_MAX_IDS } from '../docs.constants';
 
 /**

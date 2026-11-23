@@ -5,8 +5,8 @@
  * - `<nb-card>`, `<nb-card-header>`, `<nb-card-body>`, `<nb-list>`, `<nb-list-item>`, `<nb-icon>`
  *   are rendered as plain custom elements (React never upgrades them, Angular never sees them).
  *   Nebular emits its card/list/icon THEME rules against these tag names globally
- *   (`@nebular/theme/components/{card,list,icon}/_*.theme.scss`), and so do the Gauzy overrides
- *   (`packages/ui-core/static/styles/_overrides.scss`, `gauzy/_gauzy-cards.scss`), so paddings,
+ *   (`@nebular/theme/components/{card,list,icon}/_*.theme.scss`), and so do the IRTranscripts overrides
+ *   (`packages/ui-core/static/styles/_overrides.scss`, `irtranscripts/_irtranscripts-cards.scss`), so paddings,
  *   colours, dividers and the density metrics match without copying a single value. Only the
  *   components' encapsulated `:host` layout rules are missing; `styles.ts` re-declares those.
  * - `nbbutton=""` — Nebular's button theme is emitted with `[nbButton]` attribute selectors

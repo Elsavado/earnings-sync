@@ -14,17 +14,17 @@
  *
  * **The kernel's helpers are the real ones in the double below.** `resolveConnectionWindow` decides
  * the window, the caps and the refusals, and a hand-written stand-in here would let this suite agree
- * with itself about arithmetic the platform does not perform. `@gauzy/core` itself is doubled at the
+ * with itself about arithmetic the platform does not perform. `@irtranscripts/core` itself is doubled at the
  * module boundary, as every suite in this package doubles it: its barrel boots the whole application
  * graph — configuration, the ORM, the job registry — none of which a resolver needs, and its nested
  * `uuid` is ESM-only.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { SetMetadata } = require('@nestjs/common');
-	const { PERMISSIONS_METADATA } = require('@gauzy/constants');
+	const { PERMISSIONS_METADATA } = require('@irtranscripts/constants');
 	// Read through `requireActual`, which bypasses this factory: the connection contract is what the
 	// assertions below are about, so it has to be the kernel's own implementation.
-	const connection = jest.requireActual('@gauzy/core/src/lib/api/graphql-connection');
+	const connection = jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
@@ -45,10 +45,10 @@ jest.mock('@gauzy/core', () => {
 	return {
 		// The real decimal arithmetic, for the same reason the connection helpers are real: a service in
 		// this package's import graph sums quantities exactly, and a double that rounded would hide it.
-		...jest.requireActual('@gauzy/core/src/lib/money/decimal'),
+		...jest.requireActual('@irtranscripts/core/src/lib/money/decimal'),
 		// The rounding boundary a `Decimal` field is presented through, real for the same reason: the digits
 		// a client receives are what the assertions about those fields are about.
-		roundingStrategies: jest.requireActual('@gauzy/core/src/lib/money/rounding').roundingStrategies,
+		roundingStrategies: jest.requireActual('@irtranscripts/core/src/lib/money/rounding').roundingStrategies,
 		TenantAwareCrudService,
 		BaseEntity,
 		TenantBaseEntity: BaseEntity,
@@ -116,7 +116,7 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	DatabaseTypeEnum: {
 		mongodb: 'mongodb',
 		sqlite: 'sqlite',

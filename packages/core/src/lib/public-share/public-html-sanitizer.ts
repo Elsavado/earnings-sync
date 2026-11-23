@@ -16,7 +16,7 @@ import { sanitizeRichHtml } from '../core/html-sanitizer';
  * `RICH_HTML_SANITIZE_OPTIONS.allowedSchemes` is an allowlist of `http`/`https`/`mailto`/`tel`.
  *
  * Kept as a standalone pure helper rather than inlined in the two services for the same reason as
- * `assertContentSearchQueryLength` in `@gauzy/plugin-docs`: it is unit-testable without importing
+ * `assertContentSearchQueryLength` in `@irtranscripts/plugin-docs`: it is unit-testable without importing
  * `core/entities/internal`, which drags the whole entity graph (and its ESM-only transitive deps)
  * into the test run.
  *

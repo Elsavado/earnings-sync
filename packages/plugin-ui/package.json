@@ -1,7 +1,7 @@
 {
-	"name": "@gauzy/plugin-ui",
+	"name": "@irtranscripts/plugin-ui",
 	"version": "0.1.0",
-	"description": "Core UI plugin infrastructure for Gauzy (types, loader, lifecycle module, registry).",
+	"description": "Core UI plugin infrastructure for IRTranscripts (types, loader, lifecycle module, registry).",
 	"author": {
 		"name": "Ever Co. LTD",
 		"email": "ever@ever.co",
@@ -33,12 +33,12 @@
 		"jest-preset-angular": "17.0.2"
 	},
 	"keywords": [
-		"gauzy",
+		"irtranscripts",
 		"plugin-ui",
 		"angular",
 		"ui",
 		"plugin",
-		"ever-gauzy"
+		"ever-irtranscripts"
 	],
 	"engines": {
 		"node": ">=26",

@@ -1,5 +1,5 @@
 import { of } from 'rxjs';
-import { readRememberedCheckoutSession, rememberCheckoutSession } from '@gauzy/ui-core/core';
+import { readRememberedCheckoutSession, rememberCheckoutSession } from '@irtranscripts/ui-core/core';
 import { TenantOnboardingComponent } from './tenant-onboarding.component';
 
 /**

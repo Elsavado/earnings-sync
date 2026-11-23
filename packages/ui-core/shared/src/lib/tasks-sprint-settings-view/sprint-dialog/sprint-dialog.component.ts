@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import moment from 'moment';
-import { IOrganizationSprint } from '@gauzy/contracts';
+import { IOrganizationSprint } from '@irtranscripts/contracts';
 
 const DEFAULTS = {
 	name: 'Sprint',

@@ -1,8 +1,8 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException, Optional } from '@nestjs/common';
 import * as chalk from 'chalk';
 import { EntityManager } from 'typeorm';
-import { DecimalString, ID, IPagination } from '@gauzy/contracts';
-import { BaseEvent, EventBus, Money, Payment, readAffectedRows } from '@gauzy/core';
+import { DecimalString, ID, IPagination } from '@irtranscripts/contracts';
+import { BaseEvent, EventBus, Money, Payment, readAffectedRows } from '@irtranscripts/core';
 import { PaymentSession } from './payment-session.entity';
 import { TypeOrmPaymentSessionRepository } from './repository/type-orm-payment-session.repository';
 import { MikroOrmPaymentSessionRepository } from './repository/mikro-orm-payment-session.repository';

@@ -1,13 +1,13 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which an offering service needs and none of which is
  * available outside a running application. The seam is therefore doubled at the module boundary and
  * **the service under test is the real one**: only the base classes, the request context and the
  * entity mappings are substituted.
  *
- * `@gauzy/config` is read at import time by other packages of the workspace, so it is doubled too.
+ * `@irtranscripts/config` is read at import time by other packages of the workspace, so it is doubled too.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
@@ -58,17 +58,17 @@ jest.mock('@gauzy/core', () => {
 		BaseEvent: class {},
 		EventBus: class {},
 		EventOutboxService: class {},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		// The decimal comparison the commission bands and the settlement's discrepancy are decided by is
 		// the kernel's own, so the double hands over the real one: a comparison doubled here would agree
 		// with the service about arithmetic the platform never performs.
-		compareDecimalStrings: jest.requireActual('@gauzy/core/src/lib/money/decimal').compareDecimalStrings,
+		compareDecimalStrings: jest.requireActual('@irtranscripts/core/src/lib/money/decimal').compareDecimalStrings,
 		isUniqueViolation: (error: any) => Boolean(error?.code === '23505'),
 		// The batch path reads the operation an item declared and names a catalogue code when it refuses one,
 		// so the kernel's own reader and its own error classes answer rather than a second copy of either.
-		operationOf: jest.requireActual('@gauzy/core/src/lib/api/bulk').operationOf,
-		ApiErrorCode: jest.requireActual('@gauzy/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
-		ApiException: jest.requireActual('@gauzy/core/src/lib/core/errors/api-exception').ApiException,
+		operationOf: jest.requireActual('@irtranscripts/core/src/lib/api/bulk').operationOf,
+		ApiErrorCode: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
+		ApiException: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-exception').ApiException,
 		Merchant: class {},
 		OrganizationContact: class {},
 		Product: class {},
@@ -86,7 +86,7 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	DatabaseTypeEnum: {
 		mongodb: 'mongodb',
 		sqlite: 'sqlite',
@@ -97,8 +97,8 @@ jest.mock('@gauzy/config', () => ({
 }));
 
 import { BadRequestException, ConflictException, ForbiddenException, NotFoundException } from '@nestjs/common';
-import { CommissionBasis, OfferingStatus, SellerStatus } from '@gauzy/contracts';
-import { ApiErrorCode, ApiException, RequestContext } from '@gauzy/core';
+import { CommissionBasis, OfferingStatus, SellerStatus } from '@irtranscripts/contracts';
+import { ApiErrorCode, ApiException, RequestContext } from '@irtranscripts/core';
 import { Seller } from '../seller/seller.entity';
 import { SellerOffering } from './seller-offering.entity';
 import { SellerOfferingService } from './seller-offering.service';

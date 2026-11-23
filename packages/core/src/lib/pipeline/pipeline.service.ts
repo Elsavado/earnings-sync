@@ -1,7 +1,7 @@
 import { BadRequestException, HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { EntityNotFoundError, FindManyOptions, FindOneOptions, FindOptionsWhere, Raw, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { ID, IDeal, IPagination, IPipeline, IPipelineStage } from '@gauzy/contracts';
+import { ID, IDeal, IPagination, IPipeline, IPipelineStage } from '@irtranscripts/contracts';
 import { ConnectionEntityManager } from '../database/connection-entity-manager';
 import { Pipeline } from './pipeline.entity';
 import { Deal, PipelineStage } from './../core/entities/internal';

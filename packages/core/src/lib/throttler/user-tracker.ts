@@ -1,6 +1,6 @@
 import { JwtPayload, verify } from 'jsonwebtoken';
 import { ExtractJwt } from 'passport-jwt';
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 import { isAccessTokenPayload, isNonEmptyString, JWT_ALGORITHMS } from '../auth/purpose-token';
 
 /**

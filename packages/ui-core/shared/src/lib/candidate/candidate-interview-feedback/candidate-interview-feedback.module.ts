@@ -14,7 +14,7 @@ import {
 	CandidateCriterionsRatingService,
 	CandidatePersonalQualitiesService,
 	CandidateTechnologiesService
-} from '@gauzy/ui-core/core';
+} from '@irtranscripts/ui-core/core';
 import { CandidateInterviewFeedbackComponent } from './candidate-interview-feedback.component';
 import { StarRatingInputModule } from '../../star-rating/star-rating-input/star-rating-input.module';
 import { CandidateSelectModule } from '../selectors/candidate-select/candidate-select.module';

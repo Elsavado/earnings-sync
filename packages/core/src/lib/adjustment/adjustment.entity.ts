@@ -8,7 +8,7 @@ import {
 	DecimalString,
 	IAdjustment,
 	ID
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { ColumnIndex, JsonColumn, MultiORMColumn, MultiORMEntity } from '../core/decorators/entity';
 import { ColumnNumericTransformerPipe } from '../shared/pipes';

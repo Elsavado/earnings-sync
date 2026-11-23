@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Store } from '@gauzy/desktop-ui-lib';
+import { Store } from '@irtranscripts/desktop-ui-lib';
 
 @Injectable()
 export class AppModuleGuard {

@@ -1,6 +1,6 @@
 import '../nebular-jsx';
 import { type ReactNode } from 'react';
-import { Spinner } from '@gauzy/ui-react-components';
+import { Spinner } from '@irtranscripts/ui-react-components';
 
 export interface WindowCardProps {
 	/** Translated window title (`.window-header__title`). */

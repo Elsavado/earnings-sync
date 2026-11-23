@@ -1,6 +1,6 @@
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 // `import type` on purpose: this module stays pure, so it must not pull the HTTP
-// service (and through it the `@gauzy/ui-core/core` barrel) into its consumers.
+// service (and through it the `@irtranscripts/ui-core/core` barrel) into its consumers.
 import type { IDocumentPathSegment } from '../../services/documents.service';
 
 /**
@@ -9,7 +9,7 @@ import type { IDocumentPathSegment } from '../../services/documents.service';
  * Structurally identical to `IDocsCardsCrumb` (the cards view is where the crumb
  * row originated) and declared separately on purpose: this module is pure, and
  * importing the cards component here would drag an Angular component — and, via
- * its action menu, the whole `@gauzy/ui-core/core` barrel — into every consumer.
+ * its action menu, the whole `@irtranscripts/ui-core/core` barrel — into every consumer.
  */
 export interface IDocsBreadcrumbSegment {
 	id: ID | null;

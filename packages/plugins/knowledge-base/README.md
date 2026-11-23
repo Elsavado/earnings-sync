@@ -1,6 +1,6 @@
-# @gauzy/plugin-knowledge-base
+# @irtranscripts/plugin-knowledge-base
 
-This library was generated with [Nx](https://nx.dev). It contains the knowledge base for the Gauzy API platform.
+This library was generated with [Nx](https://nx.dev). It contains the knowledge base for the IRTranscripts API platform.
 
 ## Building
 
@@ -19,7 +19,7 @@ After building your library with `yarn nx build plugin-knowledge-base`, go to th
 Install the Knowledge Base Plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-knowledge-base
+npm install @irtranscripts/plugin-knowledge-base
 # or
-yarn add @gauzy/plugin-knowledge-base
+yarn add @irtranscripts/plugin-knowledge-base
 ```

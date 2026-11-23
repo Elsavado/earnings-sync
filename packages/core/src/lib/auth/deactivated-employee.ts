@@ -1,4 +1,4 @@
-import { IEmployee } from '@gauzy/contracts';
+import { IEmployee } from '@irtranscripts/contracts';
 
 /**
  * Whether a user's employee records make them a deactivated employee, who cannot sign in: they have

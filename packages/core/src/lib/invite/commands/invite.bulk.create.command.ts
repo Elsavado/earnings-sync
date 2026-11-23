@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { ICreateEmailInvitesInput, LanguagesEnum } from '@gauzy/contracts';
+import { ICreateEmailInvitesInput, LanguagesEnum } from '@irtranscripts/contracts';
 
 export class InviteBulkCreateCommand implements ICommand {
 	static readonly type = '[Invite Bulk] Create';

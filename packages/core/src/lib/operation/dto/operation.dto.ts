@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, TransformFnParams, Type } from 'class-transformer';
 import { IsEnum, IsInt, IsOptional, IsString, IsUUID, Max, MaxLength, Min, ValidateNested } from 'class-validator';
-import { ID, OperationStatus } from '@gauzy/contracts';
+import { ID, OperationStatus } from '@irtranscripts/contracts';
 
 /**
  * The filterable members of the operation list, in the flat spelling.

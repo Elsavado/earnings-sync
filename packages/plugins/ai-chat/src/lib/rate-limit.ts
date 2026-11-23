@@ -17,10 +17,10 @@ import {
 	AI_CHAT_RATE_LIMIT_CODE,
 	IAiChatKeyRejectedEnvelope,
 	IAiChatRateLimitEnvelope
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 /**
- * Re-exported for backend callers. The definitions live in @gauzy/contracts because the browser
+ * Re-exported for backend callers. The definitions live in @irtranscripts/contracts because the browser
  * needs the same runtime constant, and it must not import this plugin (that would pull NestJS into
  * the web bundle).
  */

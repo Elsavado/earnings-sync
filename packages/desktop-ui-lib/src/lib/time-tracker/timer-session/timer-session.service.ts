@@ -5,7 +5,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Store } from '../../services';
 import { API_PREFIX } from '../../constants';
 import moment from 'moment';
-import { ITimeLog } from '@gauzy/contracts';
+import { ITimeLog } from '@irtranscripts/contracts';
 
 @Injectable({ providedIn: 'root' })
 export class TimerSessionService {

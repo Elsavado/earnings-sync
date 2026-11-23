@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, type SimpleChanges } from '@angular/core';
-import { IPluginCategory } from '@gauzy/contracts';
+import { IPluginCategory } from '@irtranscripts/contracts';
 import { Actions } from '@ngneat/effects-ng';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { distinctUntilChanged, tap } from 'rxjs';
@@ -12,7 +12,7 @@ import { SelectComponent } from '../../../../../../shared/components/ui/select/s
 
 @UntilDestroy({ checkProperties: true })
 @Component({
-    selector: 'gauzy-category-selector',
+    selector: 'irtranscripts-category-selector',
     templateUrl: './category-selector.component.html',
     styleUrls: ['./category-selector.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

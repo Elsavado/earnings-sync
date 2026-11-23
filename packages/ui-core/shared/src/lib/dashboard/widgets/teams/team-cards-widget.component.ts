@@ -9,7 +9,7 @@ import { ITeamDashboardTeam } from './teams-dashboard.types';
  * working-now / working-today / not-working legend.
  *
  * Extracted from the masonry section of the legacy Teams dashboard (which merges
- * `gauzy-team-card` and the per-team header of `gauzy-all-team`). The member
+ * `irtranscripts-team-card` and the per-team header of `irtranscripts-all-team`). The member
  * rows those cards nest are widgets of their own — see `TeamMembersWidgetComponent`
  * for the flat list and `TeamOverviewWidgetComponent` for the nested masonry — so
  * this one stays readable at three columns.

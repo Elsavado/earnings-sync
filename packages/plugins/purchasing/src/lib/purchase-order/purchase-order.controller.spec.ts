@@ -1,8 +1,8 @@
 /**
- * The module boundaries are doubled for the reason this package's service specs state: `@gauzy/core`
+ * The module boundaries are doubled for the reason this package's service specs state: `@irtranscripts/core`
  * boots the whole application graph from its barrel — and its nested `uuid` is ESM-only, so reading one
- * entity under jest fails — while `@gauzy/config` reads the process environment at import time and
- * `@gauzy/common` is read by the feature-flag decorator.
+ * entity under jest fails — while `@irtranscripts/config` reads the process environment at import time and
+ * `@irtranscripts/common` is read by the feature-flag decorator.
  *
  * **Retry safety is the one seam left real.** `Idempotent`, its metadata key and the interceptor that
  * acts on it are pulled from the kernel's own modules with `requireActual`, so the declaration the route
@@ -12,10 +12,10 @@
  * The resource under test is the real purchase-order controller, reached through its own prototype
  * method, over stubbed services.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { SetMetadata, UsePipes, ValidationPipe } = require('@nestjs/common');
-	const { PERMISSIONS_METADATA } = require('@gauzy/constants');
-	const idempotency = jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.policy');
+	const { PERMISSIONS_METADATA } = require('@irtranscripts/constants');
+	const idempotency = jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.policy');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
@@ -101,7 +101,7 @@ jest.mock('@gauzy/core', () => {
 		Warehouse: class Warehouse {},
 		UseValidationPipe: (options: unknown) => UsePipes(new ValidationPipe(options as never)),
 		Permissions: (...permissions: string[]) => SetMetadata(PERMISSIONS_METADATA, permissions),
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
 		IDEMPOTENT_METADATA_KEY: idempotency.IDEMPOTENT_METADATA_KEY,
 		RequestContext: {
 			currentUser: () => null,
@@ -115,7 +115,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 jest.mock(
-	'@gauzy/common',
+	'@irtranscripts/common',
 	() => ({
 		FeatureFlag: () => () => undefined
 	})
@@ -126,16 +126,16 @@ jest.mock(
  * constructor signature is emitted as a value — so the interceptor cannot be loaded without the service
  * module, whose own import chain is the whole core entity graph.
  */
-jest.mock('@gauzy/core/src/lib/idempotency/idempotency.service', () => ({
+jest.mock('@irtranscripts/core/src/lib/idempotency/idempotency.service', () => ({
 	IdempotencyService: class IdempotencyService {}
 }));
 
 import { ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { from, lastValueFrom } from 'rxjs';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { IDEMPOTENT_METADATA_KEY } from '@gauzy/core/src/lib/idempotency/idempotency.policy';
-import { IdempotencyInterceptor } from '@gauzy/core/src/lib/idempotency/idempotency.interceptor';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { IDEMPOTENT_METADATA_KEY } from '@irtranscripts/core/src/lib/idempotency/idempotency.policy';
+import { IdempotencyInterceptor } from '@irtranscripts/core/src/lib/idempotency/idempotency.interceptor';
 import { PurchaseOrderController } from './purchase-order.controller';
 import { PurchaseOrderResolver } from '../graphql/resolvers/purchase-order.resolver';
 

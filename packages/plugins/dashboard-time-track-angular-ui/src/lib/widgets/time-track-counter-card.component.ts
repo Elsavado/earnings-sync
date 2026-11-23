@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { NbButtonModule, NbIconModule } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
-import { CounterPointComponent } from '@gauzy/ui-core/shared';
+import { CounterPointComponent } from '@irtranscripts/ui-core/shared';
 
 /**
  * Presentational body shared by the six Time Tracking counter widgets.
  *
  * It renders the inside of the legacy dashboard counter (large value plus the
- * `gauzy-counter-point` strip) and adds the two states a canvas-hosted widget
+ * `irtranscripts-counter-point` strip) and adds the two states a canvas-hosted widget
  * needs but the legacy page never had: a loading skeleton and a recoverable
  * error state.
  *

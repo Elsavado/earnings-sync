@@ -1,6 +1,6 @@
 import { NbResetPasswordComponent } from '@nebular/auth';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { patterns } from '@gauzy/constants';
+import { patterns } from '@irtranscripts/constants';
 
 @Component({
     selector: 'ngx-reset-password',

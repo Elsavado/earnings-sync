@@ -1,7 +1,7 @@
 import { Injector } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { NavigationBuilderService, NavMenuBuilderService } from '@gauzy/ui-core/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { NavigationBuilderService, NavMenuBuilderService } from '@irtranscripts/ui-core/core';
 import {
 	INBOX_HEADER_ACTION_ID,
 	INBOX_LINK,

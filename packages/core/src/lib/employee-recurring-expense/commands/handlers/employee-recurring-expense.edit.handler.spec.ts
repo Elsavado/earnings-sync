@@ -17,7 +17,7 @@
 import '../../../core/entities/internal';
 import '../../../core';
 
-import { StartDateUpdateTypeEnum } from '@gauzy/contracts';
+import { StartDateUpdateTypeEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../../core/context';
 import { EmployeeRecurringExpenseEditHandler } from './employee-recurring-expense.edit.handler';
 

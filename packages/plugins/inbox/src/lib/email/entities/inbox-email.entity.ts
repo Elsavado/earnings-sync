@@ -1,7 +1,7 @@
 // cspell:ignore dmarc
-import { isMySQL } from '@gauzy/config';
-import { ID, InboxEmailDirectionEnum, InboxEmailSpamVerdictEnum, InboxEmailStatusEnum } from '@gauzy/contracts';
-import { MultiORMColumn, MultiORMEntity, TenantOrganizationBaseEntity } from '@gauzy/core';
+import { isMySQL } from '@irtranscripts/config';
+import { ID, InboxEmailDirectionEnum, InboxEmailSpamVerdictEnum, InboxEmailStatusEnum } from '@irtranscripts/contracts';
+import { MultiORMColumn, MultiORMEntity, TenantOrganizationBaseEntity } from '@irtranscripts/core';
 import { MikroOrmInboxEmailRepository } from './inbox-email.repositories';
 
 /**

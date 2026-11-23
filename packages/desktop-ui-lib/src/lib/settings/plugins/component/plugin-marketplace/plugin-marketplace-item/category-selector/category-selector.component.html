@@ -2,7 +2,7 @@
 query.selectedCategory$ | async;
 
 <div class="category-selector-container">
-	<gauzy-select
+	<irtranscripts-select
 		class="w-100"
 		[selectedItem]="$safeNavigationMigration(selected?.id)"
 		[items]="categories"
@@ -27,5 +27,5 @@ query.selectedCategory$ | async;
 				}
 			</div>
 		</ng-template>
-	</gauzy-select>
+	</irtranscripts-select>
 </div>

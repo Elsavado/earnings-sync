@@ -14,7 +14,7 @@ import {
 } from '@nebular/theme';
 import { TreeModule } from '@ali-hm/angular-tree-component';
 import { TranslatePipe } from '@ngx-translate/core';
-import { HelpCenterService } from '@gauzy/ui-core/core';
+import { HelpCenterService } from '@irtranscripts/ui-core/core';
 import { AddIconModule } from './add-icon/add-icon.module';
 import { SidebarComponent } from './sidebar.component';
 import { KnowledgeBaseModule } from './knowledge-base/knowledge-base.module';

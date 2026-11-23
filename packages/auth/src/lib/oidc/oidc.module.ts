@@ -1,6 +1,6 @@
 import { DynamicModule, Module, Provider } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 import { OIDC_MODULE_OPTIONS, OidcModuleOptions } from './oidc-module.options';
 import { OidcClientService } from './oidc-client.service';
 import { OidcDiscoveryService } from './oidc-discovery.service';

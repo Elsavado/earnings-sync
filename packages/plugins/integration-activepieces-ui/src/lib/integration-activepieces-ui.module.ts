@@ -20,7 +20,7 @@ import {
 	NbTooltipModule
 } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
-import { SmartDataViewLayoutModule, SelectorsModule, SharedModule, TableComponentsModule } from '@gauzy/ui-core/shared';
+import { SmartDataViewLayoutModule, SelectorsModule, SharedModule, TableComponentsModule } from '@irtranscripts/ui-core/shared';
 import { IntegrationActivepiecesRoutes } from './integration-activepieces.routes';
 import { ActivepiecesAuthorizeComponent } from './components/activepieces-authorize/activepieces-authorize.component';
 import { IntegrationActivepiecesLayoutComponent } from './integration-activepieces.layout.component';

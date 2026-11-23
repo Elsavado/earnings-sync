@@ -11,8 +11,8 @@ import {
 } from '@angular/common/http';
 import { EMPTY, Observable, ReplaySubject, throwError, from } from 'rxjs';
 import { catchError, concatWith, ignoreElements, take, switchMap, finalize } from 'rxjs/operators';
-import { environment } from '@gauzy/ui-config';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { environment } from '@irtranscripts/ui-config';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 import { AuthService } from '../services/auth/auth.service';
 import { Store } from '../services/store/store.service';
 import { isAuthUrl, LOGIN_URL, loginReturnUrl } from '../auth/login-return-url';

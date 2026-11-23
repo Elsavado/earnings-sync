@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Query } from '@datorama/akita';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { map, Observable } from 'rxjs';
 import { IPlugin } from '../../services/plugin-loader.service';
 import { IPluginState, PluginStore } from './plugin.store';

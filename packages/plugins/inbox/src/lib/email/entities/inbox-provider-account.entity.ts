@@ -1,5 +1,5 @@
-import { InboxProviderAccountScopeEnum, InboxProviderAccountStatusEnum } from '@gauzy/contracts';
-import { ExportRedacted, MultiORMColumn, MultiORMEntity, TenantOrganizationBaseEntity } from '@gauzy/core';
+import { InboxProviderAccountScopeEnum, InboxProviderAccountStatusEnum } from '@irtranscripts/contracts';
+import { ExportRedacted, MultiORMColumn, MultiORMEntity, TenantOrganizationBaseEntity } from '@irtranscripts/core';
 import { MikroOrmInboxProviderAccountRepository } from './inbox-email.repositories';
 
 /**

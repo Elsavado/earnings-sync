@@ -1,4 +1,4 @@
-import type { ID } from '@gauzy/contracts';
+import type { ID } from '@irtranscripts/contracts';
 import { bulkOptionsOf } from '../api/bulk.decorator';
 import type { IBulkExecutionOptions } from '../api/bulk-executor.service';
 import type { BulkOperationKind, BulkRequest } from '../api/bulk';

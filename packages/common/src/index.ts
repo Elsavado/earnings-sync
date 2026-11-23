@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/common
+ * Public API Surface of @irtranscripts/common
  */
 export * from './lib/decorators';
 export * from './lib/enums';

@@ -42,7 +42,7 @@ jobs:
         run: doctl registry login --expiry-seconds 600
 
       - name: Save DigitalOcean kubeconfig with short-lived credentials
-        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-gauzy
+        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-irtranscripts
 
       - name: Generate TLS Secrets
         run: |
@@ -51,8 +51,8 @@ jobs:
           echo "${{ secrets.INGRESS_WEBAPP_CERT_KEY }}" | base64 --decode > ${HOME}/ingress.app.key
           echo "${{ secrets.INGRESS_API_CERT }}" | base64 --decode > ${HOME}/ingress.api.crt
           echo "${{ secrets.INGRESS_API_CERT_KEY }}" | base64 --decode > ${HOME}/ingress.api.key
-          kubectl create secret tls app.gauzy.co-tls --save-config --dry-run=client --cert=${HOME}/ingress.app.crt --key=${HOME}/ingress.app.key -o yaml | kubectl --context do-sfo2-k8s-gauzy apply -f -
-          kubectl create secret tls api.gauzy.co-tls --save-config --dry-run=client --cert=${HOME}/ingress.api.crt --key=${HOME}/ingress.api.key -o yaml | kubectl --context do-sfo2-k8s-gauzy apply -f -
+          kubectl create secret tls app.irtranscripts.com-tls --save-config --dry-run=client --cert=${HOME}/ingress.app.crt --key=${HOME}/ingress.app.key -o yaml | kubectl --context do-sfo2-k8s-irtranscripts apply -f -
+          kubectl create secret tls api.irtranscripts.com-tls --save-config --dry-run=client --cert=${HOME}/ingress.api.crt --key=${HOME}/ingress.api.key -o yaml | kubectl --context do-sfo2-k8s-irtranscripts apply -f -
 
       - name: Write PostgreSQL Certificate file
         run: |
@@ -62,7 +62,7 @@ jobs:
 
       - name: Apply k8s manifests changes in DigitalOcean k8s cluster (if any)
         run: |
-          envsubst < $GITHUB_WORKSPACE/.deploy/k8s/k8s-manifest.prod.yaml | kubectl --context do-sfo2-k8s-gauzy apply -f -
+          envsubst < $GITHUB_WORKSPACE/.deploy/k8s/k8s-manifest.prod.yaml | kubectl --context do-sfo2-k8s-irtranscripts apply -f -
         env:
           # below we are using GitHub secrets for both frontend and backend
           DB_TYPE: '${{ secrets.DB_TYPE }}'
@@ -135,8 +135,8 @@ jobs:
           INTEGRATED_USER_DEFAULT_PASS: '${{ secrets.INTEGRATED_USER_DEFAULT_PASS }}'
           UPWORK_REDIRECT_URL: '${{ secrets.UPWORK_REDIRECT_URL }}'
           FILE_PROVIDER: '${{ secrets.FILE_PROVIDER }}'
-          GAUZY_AI_GRAPHQL_ENDPOINT: '${{ secrets.GAUZY_AI_GRAPHQL_ENDPOINT }}'
-          GAUZY_AI_REST_ENDPOINT: '${{ secrets.GAUZY_AI_REST_ENDPOINT }}'
+          IRTRANSCRIPTS_AI_GRAPHQL_ENDPOINT: '${{ secrets.IRTRANSCRIPTS_AI_GRAPHQL_ENDPOINT }}'
+          IRTRANSCRIPTS_AI_REST_ENDPOINT: '${{ secrets.IRTRANSCRIPTS_AI_REST_ENDPOINT }}'
           UNLEASH_APP_NAME: '${{ secrets.UNLEASH_APP_NAME }}'
           UNLEASH_API_URL: '${{ secrets.UNLEASH_API_URL }}'
           UNLEASH_INSTANCE_ID: '${{ secrets.UNLEASH_INSTANCE_ID }}'
@@ -149,18 +149,18 @@ jobs:
           OTEL_PROVIDER: '${{ secrets.OTEL_PROVIDER }}'
           OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: '${{ secrets.OTEL_EXPORTER_OTLP_TRACES_ENDPOINT }}'
           OTEL_EXPORTER_OTLP_HEADERS: '${{ secrets.OTEL_EXPORTER_OTLP_HEADERS }}'
-          GAUZY_GITHUB_CLIENT_ID: '${{ secrets.GAUZY_GITHUB_CLIENT_ID }}'
-          GAUZY_GITHUB_CLIENT_SECRET: '${{ secrets.GAUZY_GITHUB_CLIENT_SECRET }}'
-          GAUZY_GITHUB_APP_PRIVATE_KEY: '${{ secrets.GAUZY_GITHUB_APP_PRIVATE_KEY }}'
-          GAUZY_GITHUB_WEBHOOK_URL: '${{ secrets.GAUZY_GITHUB_WEBHOOK_URL }}'
-          GAUZY_GITHUB_WEBHOOK_SECRET: '${{ secrets.GAUZY_GITHUB_WEBHOOK_SECRET }}'
-          GAUZY_GITHUB_APP_NAME: '${{ secrets.GAUZY_GITHUB_APP_NAME }}'
-          GAUZY_GITHUB_REDIRECT_URL: '${{ secrets.GAUZY_GITHUB_REDIRECT_URL }}'
-          GAUZY_GITHUB_POST_INSTALL_URL: '${{ secrets.GAUZY_GITHUB_POST_INSTALL_URL }}'
-          GAUZY_GITHUB_APP_ID: '${{ secrets.GAUZY_GITHUB_APP_ID }}'
-          GAUZY_GITHUB_OAUTH_CLIENT_ID: '${{ secrets.GAUZY_GITHUB_OAUTH_CLIENT_ID }}'
-          GAUZY_GITHUB_OAUTH_CLIENT_SECRET: '${{ secrets.GAUZY_GITHUB_OAUTH_CLIENT_SECRET }}'
-          GAUZY_GITHUB_OAUTH_CALLBACK_URL: '${{ secrets.GAUZY_GITHUB_OAUTH_CALLBACK_URL }}'
+          IRTRANSCRIPTS_GITHUB_CLIENT_ID: '${{ secrets.IRTRANSCRIPTS_GITHUB_CLIENT_ID }}'
+          IRTRANSCRIPTS_GITHUB_CLIENT_SECRET: '${{ secrets.IRTRANSCRIPTS_GITHUB_CLIENT_SECRET }}'
+          IRTRANSCRIPTS_GITHUB_APP_PRIVATE_KEY: '${{ secrets.IRTRANSCRIPTS_GITHUB_APP_PRIVATE_KEY }}'
+          IRTRANSCRIPTS_GITHUB_WEBHOOK_URL: '${{ secrets.IRTRANSCRIPTS_GITHUB_WEBHOOK_URL }}'
+          IRTRANSCRIPTS_GITHUB_WEBHOOK_SECRET: '${{ secrets.IRTRANSCRIPTS_GITHUB_WEBHOOK_SECRET }}'
+          IRTRANSCRIPTS_GITHUB_APP_NAME: '${{ secrets.IRTRANSCRIPTS_GITHUB_APP_NAME }}'
+          IRTRANSCRIPTS_GITHUB_REDIRECT_URL: '${{ secrets.IRTRANSCRIPTS_GITHUB_REDIRECT_URL }}'
+          IRTRANSCRIPTS_GITHUB_POST_INSTALL_URL: '${{ secrets.IRTRANSCRIPTS_GITHUB_POST_INSTALL_URL }}'
+          IRTRANSCRIPTS_GITHUB_APP_ID: '${{ secrets.IRTRANSCRIPTS_GITHUB_APP_ID }}'
+          IRTRANSCRIPTS_GITHUB_OAUTH_CLIENT_ID: '${{ secrets.IRTRANSCRIPTS_GITHUB_OAUTH_CLIENT_ID }}'
+          IRTRANSCRIPTS_GITHUB_OAUTH_CLIENT_SECRET: '${{ secrets.IRTRANSCRIPTS_GITHUB_OAUTH_CLIENT_SECRET }}'
+          IRTRANSCRIPTS_GITHUB_OAUTH_CALLBACK_URL: '${{ secrets.IRTRANSCRIPTS_GITHUB_OAUTH_CALLBACK_URL }}'
           JITSU_BROWSER_URL: '${{ secrets.JITSU_BROWSER_URL }}'
           JITSU_BROWSER_WRITE_KEY: '${{ secrets.JITSU_BROWSER_WRITE_KEY }}'
           MAGIC_CODE_EXPIRATION_TIME: '${{ secrets.MAGIC_CODE_EXPIRATION_TIME }}'
@@ -182,6 +182,6 @@ jobs:
       # note: for production we will use different strategy later
       - name: Restart Pods to pick up :latest tag version
         run: |
-          kubectl --context do-sfo2-k8s-gauzy rollout restart deployment/gauzy-prod-api
-          kubectl --context do-sfo2-k8s-gauzy rollout restart deployment/gauzy-prod-webapp
-          kubectl --context do-sfo2-k8s-gauzy rollout restart deployment/gauzy-prod-worker
+          kubectl --context do-sfo2-k8s-irtranscripts rollout restart deployment/irtranscripts-prod-api
+          kubectl --context do-sfo2-k8s-irtranscripts rollout restart deployment/irtranscripts-prod-webapp
+          kubectl --context do-sfo2-k8s-irtranscripts rollout restart deployment/irtranscripts-prod-worker

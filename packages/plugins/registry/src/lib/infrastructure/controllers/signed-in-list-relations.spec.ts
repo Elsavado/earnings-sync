@@ -3,7 +3,7 @@
  * joined without that scope: `relations[]=plugin.settings`, `plugin.pluginTenants.allowedUsers` or
  * `plugin.subscriptions.subscriber` on any of them loaded those rows for every tenant that uses the plugin.
  */
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	BaseQueryDTO: class BaseQueryDTO {},
 	FileStorage: class FileStorage {},
 	FileStorageFactory: { create: () => ({}) },
@@ -51,7 +51,7 @@ jest.mock('../../shared', () => ({
 	UpdatePluginVersionDTO: class UpdatePluginVersionDTO {}
 }));
 jest.mock('../storage', () => ({
-	GauzyStorageProvider: class GauzyStorageProvider {},
+	IRTranscriptsStorageProvider: class IRTranscriptsStorageProvider {},
 	UploadedPluginStorage: () => () => undefined
 }));
 

@@ -1,7 +1,7 @@
 import * as multer from 'multer';
 import { join, resolve } from 'node:path';
-import { FileStorageOption, UploadedFile } from '@gauzy/contracts';
-import { environment, getConfig } from '@gauzy/config';
+import { FileStorageOption, UploadedFile } from '@irtranscripts/contracts';
+import { environment, getConfig } from '@irtranscripts/config';
 import { getApiPublicPath } from '../../util/path-util';
 import { Provider } from './provider';
 
@@ -25,7 +25,7 @@ export class DebugProvider extends Provider<DebugProvider> {
 		this.config = {
 			rootPath:
 				(environment.isElectron
-					? resolve(environment.gauzyUserPath, 'public')
+					? resolve(environment.irtranscriptsUserPath, 'public')
 					: config.assetOptions?.assetPublicPath) || apiPublicPath,
 			baseUrl: environment.baseUrl
 		};

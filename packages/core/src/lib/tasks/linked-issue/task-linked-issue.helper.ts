@@ -1,4 +1,4 @@
-import { TaskRelatedIssuesRelationEnum } from '@gauzy/contracts';
+import { TaskRelatedIssuesRelationEnum } from '@irtranscripts/contracts';
 
 /**
  * Maps a task's related issue relation enum to a corresponding string description.

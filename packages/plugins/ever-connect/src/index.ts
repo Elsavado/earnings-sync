@@ -1,5 +1,5 @@
 /**
- * Public API of @gauzy/plugin-ever-connect: the Ever Platform connection.
+ * Public API of @irtranscripts/plugin-ever-connect: the Ever Platform connection.
  */
 export * from './lib/entities';
 export * from './lib/ever-connect.constants';

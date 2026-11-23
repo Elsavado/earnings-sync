@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
-import { ID, IPluginSource, IPluginVersion, PluginSourceType } from '@gauzy/contracts';
+import { ID, IPluginSource, IPluginVersion, PluginSourceType } from '@irtranscripts/contracts';
 import { NbDialogService } from '@nebular/theme';
 import { createEffect, ofType } from '@ngneat/effects';
 import { Actions } from '@ngneat/effects-ng';
@@ -164,7 +164,7 @@ export class PluginInstallationEffects {
 
 	private sourceInstallAction(pluginId: string, version: IPluginVersion, source: IPluginSource, authToken?: string) {
 		switch (source.type) {
-			case PluginSourceType.GAUZY:
+			case PluginSourceType.IRTRANSCRIPTS:
 			case PluginSourceType.CDN:
 				return PluginInstallationActions.install({
 					contextType: 'cdn',
@@ -203,7 +203,7 @@ export class PluginInstallationEffects {
 	);
 
 	/**
-	 * Handles web-to-desktop installation via the gauzy:// deep link protocol.
+	 * Handles web-to-desktop installation via the irtranscripts:// deep link protocol.
 	 *
 	 * Flow:
 	 * 1. Open app-selector dialog listing all supported desktop apps

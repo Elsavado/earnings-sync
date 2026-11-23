@@ -1,7 +1,7 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
-import { DatabaseTypeEnum } from '@gauzy/config';
-import { DecimalString, ID, IPagination } from '@gauzy/contracts';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
+import { DecimalString, ID, IPagination } from '@irtranscripts/contracts';
 import {
 	Money,
 	readAffectedRows,
@@ -9,7 +9,7 @@ import {
 	compareDecimalStrings,
 	normalizeDecimalString,
 	subtractDecimalStrings
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { PromotionUsage } from './promotion-usage.entity';
 import { TypeOrmPromotionUsageRepository } from './repository/type-orm-promotion-usage.repository';
 import { MikroOrmPromotionUsageRepository } from './repository/mikro-orm-promotion-usage.repository';

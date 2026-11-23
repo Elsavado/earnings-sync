@@ -1,6 +1,6 @@
 import '../../../core/entities/internal';
 
-import { IOrganizationUpdateInput } from '@gauzy/contracts';
+import { IOrganizationUpdateInput } from '@irtranscripts/contracts';
 import { asTenantUser, createTenantFixture } from '../../../core/testing/tenant-isolation/tenant-isolation.fixtures';
 import { OrganizationUpdateCommand } from '../organization.update.command';
 import { OrganizationUpdateHandler } from './organization.update.handler';

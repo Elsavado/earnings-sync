@@ -1,10 +1,10 @@
 import { createHash } from 'node:crypto';
 import { INTEGRATIONS } from '../sdk';
-import { GAUZY_INTEGRATIONS, gauzyIntegration, offeredOn, sharedDefinition } from './integration-definitions';
+import { IRTRANSCRIPTS_INTEGRATIONS, irtranscriptsIntegration, offeredOn, sharedDefinition } from './integration-definitions';
 
 /**
- * The scopes Gauzy shows (and app.ever.co consents to) are the definitions of the SDK's contracts
- * package (`@ever-co/connect-contracts`). Each key Gauzy offers pins the `scope_version` and the
+ * The scopes IRTranscripts shows (and app.ever.co consents to) are the definitions of the SDK's contracts
+ * package (`@ever-co/connect-contracts`). Each key IRTranscripts offers pins the `scope_version` and the
  * SHA-256 of the scope it was reviewed with; when a new package version changes a scope, this fails
  * until the pin is reviewed and updated. (The SDK's own build checks that a changed scope also gets
  * a new `scope_version`.)
@@ -28,15 +28,15 @@ export const scopeDigest = (scope: unknown): string =>
 		.digest('hex');
 
 describe('integration definitions', () => {
-	it('Gauzy offers exactly the SDK keys whose products include gauzy', () => {
-		const forGauzy = Object.values(INTEGRATIONS)
-			.filter((definition) => definition.products.includes('gauzy'))
+	it('IRTranscripts offers exactly the SDK keys whose products include irtranscripts', () => {
+		const forIRTranscripts = Object.values(INTEGRATIONS)
+			.filter((definition) => definition.products.includes('irtranscripts'))
 			.map((definition) => definition.key)
 			.sort();
-		expect(GAUZY_INTEGRATIONS.map((definition) => definition.key).sort()).toEqual(forGauzy);
+		expect(IRTRANSCRIPTS_INTEGRATIONS.map((definition) => definition.key).sort()).toEqual(forIRTranscripts);
 	});
 
-	it.each(GAUZY_INTEGRATIONS.map((definition) => [definition.key, definition] as const))(
+	it.each(IRTRANSCRIPTS_INTEGRATIONS.map((definition) => [definition.key, definition] as const))(
 		'%s: the pinned scope version and digest are the scope shipped',
 		(key, definition) => {
 			const shared = sharedDefinition(key);
@@ -47,29 +47,29 @@ describe('integration definitions', () => {
 
 	it('only instance_url and stats_link can be enabled in this release; lookup and discoverability are coming soon', () => {
 		expect(
-			GAUZY_INTEGRATIONS.filter((definition) => definition.available).map((definition) => definition.key)
+			IRTRANSCRIPTS_INTEGRATIONS.filter((definition) => definition.available).map((definition) => definition.key)
 		).toEqual(['instance_url', 'stats_link']);
-		expect(gauzyIntegration('counterparty_lookup')?.available).toBe(false);
-		expect(gauzyIntegration('counterparty_discoverable')?.available).toBe(false);
+		expect(irtranscriptsIntegration('counterparty_lookup')?.available).toBe(false);
+		expect(irtranscriptsIntegration('counterparty_discoverable')?.available).toBe(false);
 	});
 
 	it('the installation-wide keys are instance_url, stats_link, ever_id_login and webhooks', () => {
 		expect(
-			GAUZY_INTEGRATIONS.filter((definition) => definition.instanceWide)
+			IRTRANSCRIPTS_INTEGRATIONS.filter((definition) => definition.instanceWide)
 				.map((definition) => definition.key)
 				.sort()
 		).toEqual(['ever_id_login', 'instance_url', 'stats_link', 'webhooks']);
 	});
 
 	it('stats_link is never offered on Ever Cloud; billing_link only there', () => {
-		expect(offeredOn(gauzyIntegration('stats_link')!, true)).toBe(false);
-		expect(offeredOn(gauzyIntegration('stats_link')!, false)).toBe(true);
-		expect(offeredOn(gauzyIntegration('billing_link')!, false)).toBe(false);
+		expect(offeredOn(irtranscriptsIntegration('stats_link')!, true)).toBe(false);
+		expect(offeredOn(irtranscriptsIntegration('stats_link')!, false)).toBe(true);
+		expect(offeredOn(irtranscriptsIntegration('billing_link')!, false)).toBe(false);
 	});
 
 	it('a changed scope without a new scope_version fails (control)', () => {
 		const shared = sharedDefinition('stats_link');
 		const changed = [...shared.scope, { ...shared.scope[0], field_path: 'instance.something_else' }];
-		expect(scopeDigest(changed)).not.toBe(gauzyIntegration('stats_link')!.scopeSha256);
+		expect(scopeDigest(changed)).not.toBe(irtranscriptsIntegration('stats_link')!.scopeSha256);
 	});
 });

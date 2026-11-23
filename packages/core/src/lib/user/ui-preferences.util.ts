@@ -1,4 +1,4 @@
-import { IUserUiPreferences, IUserUiPreferencesUpdateInput } from '@gauzy/contracts';
+import { IUserUiPreferences, IUserUiPreferencesUpdateInput } from '@irtranscripts/contracts';
 
 /**
  * Upper bound (bytes of the serialized JSON) for one user's UI preferences blob.

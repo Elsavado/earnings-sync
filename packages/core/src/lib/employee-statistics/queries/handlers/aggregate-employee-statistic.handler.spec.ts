@@ -1,6 +1,6 @@
 import '../../../core/entities/internal';
 
-import { IEmployeeStatisticSum, IMonthAggregatedSplitExpense } from '@gauzy/contracts';
+import { IEmployeeStatisticSum, IMonthAggregatedSplitExpense } from '@irtranscripts/contracts';
 import { monthOf, shareOf } from '../../employee-statistics.service';
 import { recurringExpenseMonths, recurringExpenseStart } from '../../recurring-expense-start';
 import { AggregateOrganizationQueryHandler } from './aggregate-employee-statistic.handler';

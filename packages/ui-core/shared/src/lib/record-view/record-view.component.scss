@@ -6,7 +6,7 @@
 //
 // Every tint is a color-mix of a theme colour against `transparent`, so the
 // same rule works on the light canvas and on the dark one.
-$hairline: var(--gauzy-overlay-border-color, rgba(126, 126, 143, 0.18));
+$hairline: var(--irtranscripts-overlay-border-color, rgba(126, 126, 143, 0.18));
 
 :host {
   --rv-text: #{nb-theme(text-basic-color)};
@@ -340,11 +340,11 @@ button.record-tag {
   cursor: default;
 
   &:hover {
-    background: var(--gauzy-hover-tint, var(--rv-surface));
+    background: var(--irtranscripts-hover-tint, var(--rv-surface));
   }
 
   &:focus-visible {
-    outline: 2px solid var(--gauzy-action-info-text);
+    outline: 2px solid var(--irtranscripts-action-info-text);
     outline-offset: 2px;
   }
 }
@@ -363,10 +363,10 @@ button.record-tag {
 .record-team {
   min-width: 12rem;
   max-width: 16rem;
-  background-color: var(--gauzy-card-1);
+  background-color: var(--irtranscripts-card-1);
 
   &:focus-visible {
-    outline: 2px solid var(--gauzy-action-info-text);
+    outline: 2px solid var(--irtranscripts-action-info-text);
     outline-offset: -2px;
   }
 }
@@ -377,7 +377,7 @@ button.record-tag {
   justify-content: space-between;
   gap: 0.5rem;
   padding: 0.5rem 0.75rem;
-  border-bottom: 1px solid var(--gauzy-overlay-border-color, rgba(126, 126, 143, 0.18));
+  border-bottom: 1px solid var(--irtranscripts-overlay-border-color, rgba(126, 126, 143, 0.18));
 }
 
 .record-team-name {
@@ -386,7 +386,7 @@ button.record-tag {
   white-space: nowrap;
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--gauzy-text-color-1);
+  color: var(--irtranscripts-text-color-1);
 }
 
 .record-team-members {
@@ -417,15 +417,15 @@ button.record-tag {
     cursor: pointer;
 
     &:hover {
-      background-color: var(--gauzy-hover-tint);
+      background-color: var(--irtranscripts-hover-tint);
 
       .record-team-member-name {
-        color: var(--gauzy-action-info-text);
+        color: var(--irtranscripts-action-info-text);
       }
     }
 
     &:focus-visible {
-      outline: 2px solid var(--gauzy-action-info-text);
+      outline: 2px solid var(--irtranscripts-action-info-text);
       outline-offset: -2px;
     }
   }
@@ -436,7 +436,7 @@ button.record-tag {
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: 0.8125rem;
-  color: var(--gauzy-text-color-1);
+  color: var(--irtranscripts-text-color-1);
 }
 
 // ── Status ───────────────────────────────────────────────────────────────────

@@ -46,8 +46,8 @@ import {
 	IUser,
 	ITimeLogTodayFilters,
 	TimeFormatEnum
-} from '@gauzy/contracts';
-import { GuiDrag, distinctUntilChange, isNotEmpty, progressStatus, toUtcOffset } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { GuiDrag, distinctUntilChange, isNotEmpty, progressStatus, toUtcOffset } from '@irtranscripts/ui-core/common';
 import {
 	DateRangePickerBuilderService,
 	EmployeesService,
@@ -56,8 +56,8 @@ import {
 	Store,
 	TimesheetStatisticsService,
 	ToastrService
-} from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import {
 	ALL_EMPLOYEES_SELECTED,
 	GalleryService,
@@ -67,7 +67,7 @@ import {
 	WindowService,
 	WindowTemplateDirective,
 	getAdjustDateRangeFutureAllowed
-} from '@gauzy/ui-core/shared';
+} from '@irtranscripts/ui-core/shared';
 
 // Register Swiper custom elements globally
 register();

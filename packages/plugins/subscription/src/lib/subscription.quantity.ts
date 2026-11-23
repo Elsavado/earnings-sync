@@ -1,5 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
-import { DecimalString } from '@gauzy/contracts';
+import { DecimalString } from '@irtranscripts/contracts';
 
 /**
  * Exact quantity arithmetic for the subscription domain.

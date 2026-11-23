@@ -6,7 +6,7 @@ import {
 	IGetProjectsStatistics,
 	IGetTasksStatistics,
 	IGetTimeSlotInput
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { reduce } from 'underscore';
 import { Store, TimeTrackerDateManager, ToastrNotificationService } from '../../services';
 import { ActivityService, TimesheetService, TimesheetStatisticsService } from '../services/timesheet';

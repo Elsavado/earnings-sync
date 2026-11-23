@@ -1,4 +1,4 @@
-# @gauzy/plugin-integration-jira
+# @irtranscripts/plugin-integration-jira
 
 This library was generated with [Nx](https://nx.dev).
 
@@ -19,7 +19,7 @@ After building your library with `yarn nx build plugin-integration-jira`, go to 
 Install the Integration Jira Plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-integration-jira
+npm install @irtranscripts/plugin-integration-jira
 # or
-yarn add @gauzy/plugin-integration-jira
+yarn add @irtranscripts/plugin-integration-jira
 ```

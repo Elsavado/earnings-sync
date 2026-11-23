@@ -1,0 +1,15 @@
+.form-group {
+  display: flex;
+  flex-direction: column !important;
+  min-width: 20rem;
+  margin-bottom: 2rem;
+}
+
+nb-card-body {
+	// Fallback required: `--irtranscripts-card-2` is undefined in material-light and
+	// material-dark — `themes.scss` registers those two against Nebular's own
+	// parent themes, which carry no `irtranscripts-card-*` keys — and a `var()` with no
+	// fallback makes the browser discard the whole declaration, leaving the deal
+	// form's body unpainted there.
+	background-color: var(--irtranscripts-card-2, rgba(126, 126, 143, 0.08));
+}

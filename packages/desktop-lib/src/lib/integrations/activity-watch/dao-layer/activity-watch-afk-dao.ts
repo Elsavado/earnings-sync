@@ -1,6 +1,6 @@
 import { ActivityWatchDAO } from './activity-watch.dao';
 import { ActivityWatchEventTableList, IActivityWatchEventAfkCountService } from '../i-activity-watch-event-service';
-import { ActivityWatchEventType, ActivityWatchAfkEventStatus } from '@gauzy/contracts';
+import { ActivityWatchEventType, ActivityWatchAfkEventStatus } from '@irtranscripts/contracts';
 import { IDesktopEvent } from '../../../interfaces';
 
 export class ActivityWatchAfkDao extends ActivityWatchDAO implements IActivityWatchEventAfkCountService {

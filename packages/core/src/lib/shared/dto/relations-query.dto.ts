@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, TransformFnParams } from 'class-transformer';
 import { IsArray, IsOptional } from 'class-validator';
-import { IBaseRelationsEntityModel } from '@gauzy/contracts';
+import { IBaseRelationsEntityModel } from '@irtranscripts/contracts';
 
 /**
  * Parses a comma-separated relations string (or string array) into a

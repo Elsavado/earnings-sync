@@ -12,7 +12,7 @@ import {
 	UseGuards
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ID, IAddressBook, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IAddressBook, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { paginateRows, resolveRestPage } from '../api/graphql-connection';
 import { CrudController } from '../core/crud';
 import { UUIDValidationPipe, UseValidationPipe } from '../shared/pipes';

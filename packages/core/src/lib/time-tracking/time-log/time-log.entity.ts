@@ -15,8 +15,8 @@ import {
 	ITimeSlot,
 	IOrganizationTeam,
 	ID
-} from '@gauzy/contracts';
-import { isBetterSqlite3, isMySQL } from '@gauzy/config';
+} from '@irtranscripts/contracts';
+import { isBetterSqlite3, isMySQL } from '@irtranscripts/config';
 import {
 	Employee,
 	OrganizationContact,

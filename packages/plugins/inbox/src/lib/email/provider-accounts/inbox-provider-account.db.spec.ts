@@ -4,7 +4,7 @@
  * left out, a generated secret shown once), the organization / tenant scoping, the one default outbound account
  * per scope, and the transport resolver's order (named account → organization default → tenant default → none).
  *
- * `@gauzy/core` is doubled at the module boundary (its barrel boots the whole application), as the inbox suite does.
+ * `@irtranscripts/core` is doubled at the module boundary (its barrel boots the whole application), as the inbox suite does.
  */
 const mockCaller: {
 	tenantId: string | null;
@@ -15,7 +15,7 @@ const mockCaller: {
 
 const mockTransportRegistry = { register: jest.fn(), unregister: jest.fn() };
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	class BaseEntity {}
 	class UserOrganization {}
@@ -55,8 +55,8 @@ import {
 	InboxProviderAccountScopeEnum,
 	InboxProviderAccountStatusEnum,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { UserOrganization } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { UserOrganization } from '@irtranscripts/core';
 import { INBOX_EMAIL_MIGRATIONS } from '../database/inbox-email-migrations';
 import { InboxProviderAccount } from '../entities/inbox-provider-account.entity';
 import { InboxEmailScopeService } from '../inbox-email-scope.service';
@@ -170,7 +170,7 @@ describe('Email provider accounts on SQLite', () => {
 	};
 
 	beforeAll(() => {
-		directory = mkdtempSync(join(tmpdir(), 'gauzy-inbox-email-'));
+		directory = mkdtempSync(join(tmpdir(), 'irtranscripts-inbox-email-'));
 	});
 
 	afterAll(() => {

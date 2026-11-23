@@ -1,11 +1,11 @@
 import * as chalk from 'chalk';
 import {
-	GauzyCorePlugin as Plugin,
+	IRTranscriptsCorePlugin as Plugin,
 	IOnPluginBootstrap,
 	IOnPluginDestroy,
 	PluginSettingContribution
-} from '@gauzy/plugin';
-import { IUnitReference, registerUnitReferences } from '@gauzy/core';
+} from '@irtranscripts/plugin';
+import { IUnitReference, registerUnitReferences } from '@irtranscripts/core';
 import { ExchangeRate } from './exchange-rate/exchange-rate.entity';
 import { PriceList } from './price-list/price-list.entity';
 import { PricePreference } from './price-preference/price-preference.entity';
@@ -66,7 +66,7 @@ const PRICING_UNIT_REFERENCES: IUnitReference[] = [
 	{
 		table: 'product_price',
 		column: 'unitId',
-		owner: '@gauzy/plugin-pricing',
+		owner: '@irtranscripts/plugin-pricing',
 		description: 'The unit a price amount is stated per, which may be a unit of any family.'
 	}
 ];

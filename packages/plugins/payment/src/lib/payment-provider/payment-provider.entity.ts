@@ -10,8 +10,8 @@ import {
 	MultiORMEntity,
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
-import { ID } from '@gauzy/contracts';
+} from '@irtranscripts/core';
+import { ID } from '@irtranscripts/contracts';
 import { MikroOrmPaymentProviderRepository } from './repository/mikro-orm-payment-provider.repository';
 import { IPaymentProvider } from '../payment.types';
 

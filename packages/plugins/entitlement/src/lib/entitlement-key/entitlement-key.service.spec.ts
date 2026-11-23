@@ -1,16 +1,16 @@
 // cspell:ignore plaintex
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a credential service needs and none of which is
  * available outside a running application. The seam is therefore doubled at the module boundary and
  * **the service under test is the real one**, including the real key material module: the digest, the
  * ciphertext and the generators are the ones a deployment runs, because the assertions below are
  * about what those functions produce and never about whether they were called.
  *
- * `@gauzy/config` is read at import time by the row-lock helper the package shares, so it is doubled
+ * `@irtranscripts/config` is read at import time by the row-lock helper the package shares, so it is doubled
  * too.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
@@ -55,7 +55,7 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	DatabaseTypeEnum: {
 		mongodb: 'mongodb',
 		sqlite: 'sqlite',
@@ -66,7 +66,7 @@ jest.mock('@gauzy/config', () => ({
 }));
 
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { Entitlement } from '../entitlement/entitlement.entity';
 import { EntitlementActivation } from '../entitlement-activation/entitlement-activation.entity';
 import { EntitlementKey } from './entitlement-key.entity';

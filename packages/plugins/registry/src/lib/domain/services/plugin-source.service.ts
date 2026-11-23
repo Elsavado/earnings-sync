@@ -1,10 +1,10 @@
-import { MultiORMEnum, RequestContext } from '@gauzy/core';
+import { MultiORMEnum, RequestContext } from '@irtranscripts/core';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { IPluginSource } from '../../shared/models/plugin-source.model';
 import { PluginSource } from '../entities/plugin-source.entity';
 import { MikroOrmPluginSourceRepository } from '../repositories/mikro-orm-plugin-source.repository';
 import { TypeOrmPluginSourceRepository } from '../repositories/type-orm-plugin-source.repository';
-import { ID, PluginSourceType } from '@gauzy/contracts';
+import { ID, PluginSourceType } from '@irtranscripts/contracts';
 import { RegistryTenantAwareCrudService } from './registry-crud.service';
 import { ownedSourceRow } from './plugin-source-rows';
 
@@ -98,7 +98,7 @@ export class PluginSourceService extends RegistryTenantAwareCrudService<PluginSo
 				scope: data.scope,
 				private: data.private
 			}),
-			...(data.type === PluginSourceType.GAUZY && data)
+			...(data.type === PluginSourceType.IRTRANSCRIPTS && data)
 		};
 
 		await this.update(data.id, source);

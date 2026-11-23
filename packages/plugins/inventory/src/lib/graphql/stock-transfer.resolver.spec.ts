@@ -1,10 +1,10 @@
 /**
  * Two module boundaries are doubled here, and the reason is the same for both.
  *
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a GraphQL resolver needs and none of which is available
  * outside a running application; its nested `uuid` is ESM-only, so reading one entity would fail under
- * jest. `@gauzy/config` reads the process environment at import time. Both are therefore doubled at the
+ * jest. `@irtranscripts/config` reads the process environment at import time. Both are therefore doubled at the
  * module boundary, and **the surfaces under test are the real ones**: the transfer controller and the
  * transfer resolver, bound to a stubbed service so what each of them delegates to is asserted rather
  * than inferred.
@@ -16,9 +16,9 @@
  * `If-Match` with it, and a parser written here would let the suite agree with itself about a header
  * the platform does not parse that way.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { SetMetadata } = require('@nestjs/common');
-	const { PERMISSIONS_METADATA } = require('@gauzy/constants');
+	const { PERMISSIONS_METADATA } = require('@irtranscripts/constants');
 	const { parseIfMatch } = jest.requireActual('../../../../../core/src/lib/concurrency/version.util');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
@@ -95,15 +95,15 @@ jest.mock('@gauzy/core', () => {
 		},
 		// The three the package's list fields answer connections through. They are the kernel's own
 		// implementations rather than stand-ins written here, for the same reason the parser above is.
-		connectionFromOffsetPage: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		connectionFromOffsetPage: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.connectionFromOffsetPage,
-		resolveConnectionWindow: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		resolveConnectionWindow: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.resolveConnectionWindow,
-		paginateRows: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection').paginateRows
+		paginateRows: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection').paginateRows
 	};
 });
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	DatabaseTypeEnum: {
 		mongodb: 'mongodb',
 		sqlite: 'sqlite',
@@ -114,8 +114,8 @@ jest.mock('@gauzy/config', () => ({
 }));
 
 import { print } from 'graphql';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionGuard, TenantPermissionGuard } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionGuard, TenantPermissionGuard } from '@irtranscripts/core';
 import { StockTransferController } from '../stock-transfer/stock-transfer.controller';
 import { inventorySchemaExtensions } from './inventory.schema';
 import { StockTransferResolver } from './stock-transfer.resolver';

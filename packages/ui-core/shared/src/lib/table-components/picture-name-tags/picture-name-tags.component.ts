@@ -45,17 +45,17 @@ import { NotesWithTagsComponent } from '../notes-with-tags/notes-with-tags.compo
 			}
 
 			/* Chips inside a table cell — kept in step with the shared
-			   table-density tokens ($gauzy-density in themes.scss); the
+			   table-density tokens ($irtranscripts-density in themes.scss); the
 			   literals are CSS-var fallbacks only. The chips carry no margins:
 			   .badges-block owns chip spacing via flex gap. */
 			.color {
 				position: static;
 				display: inline-block;
-				font-size: var(--gauzy-table-chip-font-size, 0.6875rem);
+				font-size: var(--irtranscripts-table-chip-font-size, 0.6875rem);
 				font-weight: 600;
-				line-height: var(--gauzy-table-chip-line-height, 0.875rem);
+				line-height: var(--irtranscripts-table-chip-line-height, 0.875rem);
 				letter-spacing: 0em;
-				padding: var(--gauzy-table-chip-padding-y, 0.0625rem) var(--gauzy-table-chip-padding-x, 0.375rem);
+				padding: var(--irtranscripts-table-chip-padding-y, 0.0625rem) var(--irtranscripts-table-chip-padding-x, 0.375rem);
 			}
 
 			/* The one chip OUTSIDE the flex container: the standalone Default badge
@@ -63,8 +63,8 @@ import { NotesWithTagsComponent } from '../notes-with-tags/notes-with-tags.compo
 			   its own scoped margins (the values the chips carried before the gap
 			   migration). */
 			.default-badge {
-				margin-top: var(--gauzy-table-chip-gap, 0.1875rem);
-				margin-right: var(--gauzy-table-chip-gap, 0.1875rem);
+				margin-top: var(--irtranscripts-table-chip-gap, 0.1875rem);
+				margin-right: var(--irtranscripts-table-chip-gap, 0.1875rem);
 			}
 			.tags {
 				display: flex;

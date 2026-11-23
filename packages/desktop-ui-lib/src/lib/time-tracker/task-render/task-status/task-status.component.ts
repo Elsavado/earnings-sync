@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ITaskRender, TaskRenderComponent } from '../task-render.component';
-import { ITaskStatus, TaskStatusEnum } from '@gauzy/contracts';
+import { ITaskStatus, TaskStatusEnum } from '@irtranscripts/contracts';
 import { Store } from '../../../services';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -12,7 +12,7 @@ import { AsyncPipe } from '@angular/common';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
-    selector: 'gauzy-task-status',
+    selector: 'irtranscripts-task-status',
     templateUrl: './task-status.component.html',
     styleUrls: ['./task-status.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,

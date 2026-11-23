@@ -9,13 +9,13 @@ import {
 	IDocumentInboundAddressSecret,
 	IDocumentInboundAddressUpdateInput,
 	IDocumentInboundDomainVerification
-} from '@gauzy/contracts';
-import { API_PREFIX, toParams } from '@gauzy/ui-core/common';
-import { Store } from '@gauzy/ui-core/core';
+} from '@irtranscripts/contracts';
+import { API_PREFIX, toParams } from '@irtranscripts/ui-core/common';
+import { Store } from '@irtranscripts/ui-core/core';
 import { IDocumentInboundAddressCreateResult, IDocumentInboundAddressView } from '../models/docs-inbound.model';
 
 /**
- * HTTP client for the inbound email capture settings (`@gauzy/plugin-docs`,
+ * HTTP client for the inbound email capture settings (`@irtranscripts/plugin-docs`,
  * `DocumentInboundAddressController`). One method per endpoint, scoped to its consumer the
  * same way `document-activity.service.ts` is.
  *
@@ -76,7 +76,7 @@ export class DocumentInboundAddressService {
 	 * The DNS TXT record to publish and where verification currently stands.
 	 *
 	 * Read from the server rather than rebuilt client-side: the record NAME is derived from a
-	 * backend constant (`_gauzy-docs.<domain>`), and a UI that guessed it would keep telling
+	 * backend constant (`_irtranscripts-docs.<domain>`), and a UI that guessed it would keep telling
 	 * people to publish the wrong record the day that prefix changes.
 	 */
 	getVerification(id: ID): Observable<IDocumentInboundDomainVerification> {

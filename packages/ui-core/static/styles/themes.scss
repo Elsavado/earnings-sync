@@ -14,8 +14,8 @@
 // before this file's declarations run). Forwarded as well as used: several
 // stylesheets reach these maps THROUGH this file (`@use '../themes'`), and a
 // bare `@use ... as *` would keep the members private to it.
-@forward './gauzy-theme-maps';
-@use './gauzy-theme-maps' as *;
+@forward './irtranscripts-theme-maps';
+@use './irtranscripts-theme-maps' as *;
 
 
 $nb-themes: nb-register-theme(
@@ -36,40 +36,40 @@ $nb-themes: nb-register-theme(
     slide-out-background: #f7f9fc,
     slide-out-shadow-color: 0 4px 14px 0 #8f9bb3,
     slide-out-shadow-color-rtl: 0 4px 14px 0 #8f9bb3,
-    gauzy-text-contact: #323232,
+    irtranscripts-text-contact: #323232,
     accordion-padding: 0.625rem,
     actions-divider-style: none,
     sidebar-padding: 0.625rem,
     header-shadow: none,
-    gauzy-card-1: card-background-color,
-    gauzy-card-2: rgba(50, 50, 50, 0.03),
-    gauzy-card-3: rgba(255, 255, 255, 0.5),
-    gauzy-card-4: rgba(255, 255, 255, 0.75),
-    gauzy-card-5: rgba(248, 246, 254, 1),
-    gauzy-card-6: rgba(249, 249, 249, 1),
-    gauzy-input-background: rgba(255, 255, 255, 1),
-    gauzy-sidebar-background-1: #ebebeb,
-    gauzy-sidebar-background-2: rgba(251, 251, 251, 1),
+    irtranscripts-card-1: card-background-color,
+    irtranscripts-card-2: rgba(50, 50, 50, 0.03),
+    irtranscripts-card-3: rgba(255, 255, 255, 0.5),
+    irtranscripts-card-4: rgba(255, 255, 255, 0.75),
+    irtranscripts-card-5: rgba(248, 246, 254, 1),
+    irtranscripts-card-6: rgba(249, 249, 249, 1),
+    irtranscripts-input-background: rgba(255, 255, 255, 1),
+    irtranscripts-sidebar-background-1: #ebebeb,
+    irtranscripts-sidebar-background-2: rgba(251, 251, 251, 1),
     accordion-item-background-color: #fbfbfb,
-    gauzy-background-transparent: color-primary-transparent-default,
-    gauzy-background-transparent-1: color-primary-transparent-default,
-    gauzy-border-default-color: rgba(126, 126, 143, 0.1),
-    gauzy-border-table: gauzy-border-default-color,
-    gauzy-sidebar-background-3: rgba(126, 126, 143, 0.1),
-    gauzy-sidebar-background-4: rgba(126, 126, 143, 0.05),
-    gauzy-text-color-1: rgba(66, 66, 66, 1),
-    gauzy-text-color-2: rgba(126, 126, 143, 1),
-    gauzy-siderbar-background-5: rgb(237, 237, 238),
-    gauzy-shadow: 0px 1px 1px 0px rgb(0 0 0 / 15%),
-    gauzy-scrollbar: rgba(126, 126, 143, 0.1),
-    gauzy-primary-background: rgb(246, 250, 254),
+    irtranscripts-background-transparent: color-primary-transparent-default,
+    irtranscripts-background-transparent-1: color-primary-transparent-default,
+    irtranscripts-border-default-color: rgba(126, 126, 143, 0.1),
+    irtranscripts-border-table: irtranscripts-border-default-color,
+    irtranscripts-sidebar-background-3: rgba(126, 126, 143, 0.1),
+    irtranscripts-sidebar-background-4: rgba(126, 126, 143, 0.05),
+    irtranscripts-text-color-1: rgba(66, 66, 66, 1),
+    irtranscripts-text-color-2: rgba(126, 126, 143, 1),
+    irtranscripts-siderbar-background-5: rgb(237, 237, 238),
+    irtranscripts-shadow: 0px 1px 1px 0px rgb(0 0 0 / 15%),
+    irtranscripts-scrollbar: rgba(126, 126, 143, 0.1),
+    irtranscripts-primary-background: rgb(246, 250, 254),
     layout-padding: 24px 24px 0 12px,
     header-height: 4.5rem,
     button-filled-medium-padding: 0.4375rem 0.875rem,
     button-outline-medium-padding: 0.4375rem 0.875rem,
     button-filled-small-padding: 0.375rem 0.875rem,
     button-outline-small-padding: 0.375rem 0.875rem
-  ), $gauzy-shared-light),
+  ), $irtranscripts-shared-light),
   default,
   default
 );
@@ -97,29 +97,29 @@ $nb-themes: nb-register-theme(
     button-outline-medium-padding: 0.4375rem 0.875rem,
     sidebar-padding: 0.625rem,
     header-shadow: none,
-    gauzy-card-2: rgba(39, 39, 78, 0.5),
-    gauzy-card-1: card-background-color,
-    gauzy-card-3: rgba(5, 5, 5, 0.5),
-    gauzy-card-4: rgba(5, 5, 5, 0.25),
-    gauzy-card-5: rgb(4, 1, 9),
-    gauzy-input-background: rgba(230, 225, 254, 0.25),
-    gauzy-background-transparent: color-primary-transparent-default,
-    gauzy-siderbar-background-5: rgba(18, 18, 17, 0),
-    gauzy-sidebar-background-1: rgb(39, 39, 85),
-    gauzy-sidebar-background-2: rgb(45 47 86),
-    gauzy-border-default-color: rgba(255, 255, 255, 0.1),
-    gauzy-border-table: rgb(26 26 69 / 62%),
-    gauzy-sidebar-background-3: rgba(134, 126, 143, 0.1),
-    gauzy-sidebar-background-4: rgba(125, 114, 140, 0.05),
-    gauzy-shadow: 0px 1px 1px 0px rgb(0 0 0 / 35%),
-    gauzy-scrollbar: rgba(137, 126, 143, 0.25),
-    gauzy-primary-background: rgb(214, 200, 255),
-    gauzy-card-6: rgb(57, 52, 62),
+    irtranscripts-card-2: rgba(39, 39, 78, 0.5),
+    irtranscripts-card-1: card-background-color,
+    irtranscripts-card-3: rgba(5, 5, 5, 0.5),
+    irtranscripts-card-4: rgba(5, 5, 5, 0.25),
+    irtranscripts-card-5: rgb(4, 1, 9),
+    irtranscripts-input-background: rgba(230, 225, 254, 0.25),
+    irtranscripts-background-transparent: color-primary-transparent-default,
+    irtranscripts-siderbar-background-5: rgba(18, 18, 17, 0),
+    irtranscripts-sidebar-background-1: rgb(39, 39, 85),
+    irtranscripts-sidebar-background-2: rgb(45 47 86),
+    irtranscripts-border-default-color: rgba(255, 255, 255, 0.1),
+    irtranscripts-border-table: rgb(26 26 69 / 62%),
+    irtranscripts-sidebar-background-3: rgba(134, 126, 143, 0.1),
+    irtranscripts-sidebar-background-4: rgba(125, 114, 140, 0.05),
+    irtranscripts-shadow: 0px 1px 1px 0px rgb(0 0 0 / 35%),
+    irtranscripts-scrollbar: rgba(137, 126, 143, 0.25),
+    irtranscripts-primary-background: rgb(214, 200, 255),
+    irtranscripts-card-6: rgb(57, 52, 62),
     layout-padding: 24px 24px 0 12px,
     header-height: 4.5rem,
-    gauzy-text-color-1: rgba(255, 255, 255, 1),
-    gauzy-text-color-2: rgba(255, 255, 255, 0.5)
-  ), $gauzy-shared-dark),
+    irtranscripts-text-color-1: rgba(255, 255, 255, 1),
+    irtranscripts-text-color-2: rgba(255, 255, 255, 0.5)
+  ), $irtranscripts-shared-dark),
   cosmic,
   cosmic
 );
@@ -146,29 +146,29 @@ $nb-themes: nb-register-theme(
     button-filled-medium-padding: 0.4375rem 0.875rem,
     button-outline-medium-padding: 0.4375rem 0.875rem,
     sidebar-padding: 0.625rem,
-    gauzy-card-1: rgba(255, 255, 255, 1),
-    gauzy-card-2: rgba(50, 50, 50, 0.03),
-    gauzy-input-background: rgba(255, 255, 255, 1),
-    gauzy-background-transparent: color-primary-transparent-default,
-    gauzy-border-default-color: rgba(126, 126, 143, 0.1),
-    gauzy-border-table: gauzy-border-default-color,
-    gauzy-sidebar-background-1: #ebebeb,
-    gauzy-sidebar-background-2: rgba(251, 251, 251, 1),
-    gauzy-sidebar-background-3: rgba(126, 126, 143, 0.1),
-    gauzy-sidebar-background-4: rgba(126, 126, 143, 0.05),
-    gauzy-card-5: rgba(248, 246, 254, 1),
-    gauzy-text-color-1: rgba(66, 66, 66, 1),
-    gauzy-text-color-2: rgba(126, 126, 143, 1),
-    gauzy-card-3: rgba(255, 255, 255, 0.5),
-    gauzy-card-4: rgba(255, 255, 255, 0.75),
-    gauzy-siderbar-background-5: rgb(237, 237, 238),
-    gauzy-shadow: 0px 1px 1px 0px rgb(0 0 0 / 15%),
-    gauzy-scrollbar: rgba(126, 126, 143, 0.1),
-    gauzy-primary-background: rgb(246, 247, 254),
-    gauzy-card-6: rgba(249, 249, 249, 1),
+    irtranscripts-card-1: rgba(255, 255, 255, 1),
+    irtranscripts-card-2: rgba(50, 50, 50, 0.03),
+    irtranscripts-input-background: rgba(255, 255, 255, 1),
+    irtranscripts-background-transparent: color-primary-transparent-default,
+    irtranscripts-border-default-color: rgba(126, 126, 143, 0.1),
+    irtranscripts-border-table: irtranscripts-border-default-color,
+    irtranscripts-sidebar-background-1: #ebebeb,
+    irtranscripts-sidebar-background-2: rgba(251, 251, 251, 1),
+    irtranscripts-sidebar-background-3: rgba(126, 126, 143, 0.1),
+    irtranscripts-sidebar-background-4: rgba(126, 126, 143, 0.05),
+    irtranscripts-card-5: rgba(248, 246, 254, 1),
+    irtranscripts-text-color-1: rgba(66, 66, 66, 1),
+    irtranscripts-text-color-2: rgba(126, 126, 143, 1),
+    irtranscripts-card-3: rgba(255, 255, 255, 0.5),
+    irtranscripts-card-4: rgba(255, 255, 255, 0.75),
+    irtranscripts-siderbar-background-5: rgb(237, 237, 238),
+    irtranscripts-shadow: 0px 1px 1px 0px rgb(0 0 0 / 15%),
+    irtranscripts-scrollbar: rgba(126, 126, 143, 0.1),
+    irtranscripts-primary-background: rgb(246, 247, 254),
+    irtranscripts-card-6: rgba(249, 249, 249, 1),
     layout-padding: 24px 24px 0 12px,
     header-height: 4.5rem
-  ), $gauzy-shared-light),
+  ), $irtranscripts-shared-light),
   corporate,
   corporate
 );
@@ -191,36 +191,36 @@ $nb-themes: nb-register-theme(
     slide-out-background: linear-gradient(270deg, #222b45 0%, #151a30 100%),
     slide-out-shadow-color: 0 4px 14px 0 #8f9bb3,
     slide-out-shadow-color-rtl: 0 4px 14px 0 #8f9bb3,
-    gauzy-text-contact: #eeeeee,
+    irtranscripts-text-contact: #eeeeee,
     accordion-padding: 0.625rem,
     actions-divider-style: none,
     button-filled-medium-padding: 0.4375rem 0.875rem,
     button-outline-medium-padding: 0.4375rem 0.875rem,
     sidebar-padding: 0.625rem,
-    gauzy-card-2: rgba(16, 16, 20, 0.3),
-    gauzy-card-1: card-background-color,
-    gauzy-input-background: rgba(255, 255, 255, 0.15),
-    gauzy-sidebar-background-1: #131e34,
-    gauzy-sidebar-background-2: rgb(32 41 67),
-    accordion-item-background-color: gauzy-sidebar-background-2,
-    gauzy-background-transparent: color-primary-transparent-default,
-    gauzy-border-default-color: rgba(255, 255, 255, 0.1),
-    gauzy-border-table: rgba(16, 16, 20, 0.5),
-    gauzy-sidebar-background-3: rgba(126, 126, 143, 0.1),
-    gauzy-sidebar-background-4: rgba(126, 126, 143, 0.05),
-    gauzy-text-color-1: rgba(255, 255, 255, 1),
-    gauzy-text-color-2: rgba(255, 255, 255, 0.5),
-    gauzy-card-3: rgba(5, 5, 5, 0.5),
-    gauzy-card-4: rgba(5, 5, 5, 0.25),
-    gauzy-card-5: rgba(7, 9, 1, 1),
-    gauzy-siderbar-background-5: rgb(18, 18, 17),
-    gauzy-shadow: 0px 1px 1px 0px rgb(0 0 0 / 35%),
-    gauzy-scrollbar: rgba(126, 126, 143, 0.25),
-    gauzy-primary-background: rgb(58, 62, 75),
-    gauzy-card-6: rgba(52, 52, 62, 1),
+    irtranscripts-card-2: rgba(16, 16, 20, 0.3),
+    irtranscripts-card-1: card-background-color,
+    irtranscripts-input-background: rgba(255, 255, 255, 0.15),
+    irtranscripts-sidebar-background-1: #131e34,
+    irtranscripts-sidebar-background-2: rgb(32 41 67),
+    accordion-item-background-color: irtranscripts-sidebar-background-2,
+    irtranscripts-background-transparent: color-primary-transparent-default,
+    irtranscripts-border-default-color: rgba(255, 255, 255, 0.1),
+    irtranscripts-border-table: rgba(16, 16, 20, 0.5),
+    irtranscripts-sidebar-background-3: rgba(126, 126, 143, 0.1),
+    irtranscripts-sidebar-background-4: rgba(126, 126, 143, 0.05),
+    irtranscripts-text-color-1: rgba(255, 255, 255, 1),
+    irtranscripts-text-color-2: rgba(255, 255, 255, 0.5),
+    irtranscripts-card-3: rgba(5, 5, 5, 0.5),
+    irtranscripts-card-4: rgba(5, 5, 5, 0.25),
+    irtranscripts-card-5: rgba(7, 9, 1, 1),
+    irtranscripts-siderbar-background-5: rgb(18, 18, 17),
+    irtranscripts-shadow: 0px 1px 1px 0px rgb(0 0 0 / 35%),
+    irtranscripts-scrollbar: rgba(126, 126, 143, 0.25),
+    irtranscripts-primary-background: rgb(58, 62, 75),
+    irtranscripts-card-6: rgba(52, 52, 62, 1),
     layout-padding: 24px 24px 0 12px,
     header-height: 4.5rem
-  ), $gauzy-shared-dark),
+  ), $irtranscripts-shared-dark),
   dark,
   dark
 );
@@ -245,8 +245,8 @@ $nb-themes: nb-register-theme(
     accordion-padding: 0.625rem,
     button-filled-medium-padding: 0.4375rem 0.875rem,
     button-outline-medium-padding: 0.4375rem 0.875rem,
-    gauzy-primary-background: rgb(240, 235, 246)
-  ), $gauzy-shared-light),
+    irtranscripts-primary-background: rgb(240, 235, 246)
+  ), $irtranscripts-shared-light),
   material-light,
   material-light
 );
@@ -271,11 +271,11 @@ $nb-themes: nb-register-theme(
     accordion-padding: 0.625rem,
     button-filled-medium-padding: 0.4375rem 0.875rem,
     button-outline-medium-padding: 0.4375rem 0.875rem,
-    gauzy-primary-background: rgba(40, 10, 10, 1),
-    gauzy-sidebar-background-1: #2a2323,
-    gauzy-sidebar-background-2: rgb(51 51 51),
-    gauzy-border-table: rgb(37 37 59 / 16%)
-  ), $gauzy-shared-dark),
+    irtranscripts-primary-background: rgba(40, 10, 10, 1),
+    irtranscripts-sidebar-background-1: #2a2323,
+    irtranscripts-sidebar-background-2: rgb(51 51 51),
+    irtranscripts-border-table: rgb(37 37 59 / 16%)
+  ), $irtranscripts-shared-dark),
   material-dark,
   material-dark
 );
@@ -298,7 +298,7 @@ $nb-themes: nb-register-theme(
     background-basic-color-3: #f9f9f9,
     // ── Radius scale ──────────────────────────────────────────────────────
     // Three steps, and only three: 0.25rem for the tiny boxes (checkbox),
-    // `gauzy-radius-sm` (0.375rem, in $gauzy-density) for anything that reads as
+    // `irtranscripts-radius-sm` (0.375rem, in $irtranscripts-density) for anything that reads as
     // a control or a row (buttons, selects, tags, badges, menu rows), and
     // `border-radius` for the surfaces those things sit on (cards, panels,
     // overlays). What was here before was not a scale: `2rem` on a ~30px button
@@ -342,7 +342,7 @@ $nb-themes: nb-register-theme(
     font-family-primary: string.unquote('Inter, sans-serif'),
     font-family-secondary: string.unquote('Inter, sans-serif'),
     button-outline-text-transform: none,
-    gauzy-text-contact: #323232,
+    irtranscripts-text-contact: #323232,
     button-filled-medium-padding: 0.4375rem 0.875rem,
     button-outline-medium-padding: 0.4375rem 0.875rem,
     button-filled-small-padding: 0.375rem 0.875rem,
@@ -365,7 +365,7 @@ $nb-themes: nb-register-theme(
     // an `nb-card` rule in `_overrides.scss`, because Nebular emits its own
     // element-specificity `nb-card { box-shadow: var(--card-shadow) }` LATER in
     // the bundle and would overrule any such rule without an `!important`.
-    card-shadow: 0 0 0 1px var(--gauzy-overlay-border-color, rgba(126, 126, 143, 0.18)),
+    card-shadow: 0 0 0 1px var(--irtranscripts-overlay-border-color, rgba(126, 126, 143, 0.18)),
     tabset-divider-style: none,
     route-tabset-divider-style: none,
     tabset-divider-width: 0,
@@ -387,12 +387,12 @@ $nb-themes: nb-register-theme(
     // modern one, and white-on-danger goes from 4.0:1 to 4.8:1.
     color-danger-default: #dc2626,
     color-warning-default: rgba(255, 171, 45, 1),
-    gauzy-background-transparent: rgba(110, 73, 232, 0.5),
-    gauzy-background-transparent-1: rgba(110, 73, 232, 0.1),
+    irtranscripts-background-transparent: rgba(110, 73, 232, 0.5),
+    irtranscripts-background-transparent-1: rgba(110, 73, 232, 0.1),
     tag-filled-basic-background-color: rgba(126, 126, 143, 0.1),
     toggle-basic-background-color: rgba(126, 126, 143, 1),
-    background-basic-color-1: gauzy-card-1,
-    gauzy-primary-background: rgba(248, 246, 254, 1),
+    background-basic-color-1: irtranscripts-card-1,
+    irtranscripts-primary-background: rgba(248, 246, 254, 1),
     // Secondary text. The inherited `color-basic-600` (#8f9bb3, blue-grey)
     // measures 2.8:1 on white — under the 3:1 floor for large/secondary text,
     // and this token paints placeholders, `.action.secondary`, overlay captions
@@ -402,8 +402,8 @@ $nb-themes: nb-register-theme(
     // 1.8:1 before — a placeholder that was effectively invisible. 3.3:1 now,
     // still clearly weaker than a real value (`color-basic-800`, 14.0:1).
     input-basic-placeholder-text-color: rgba(113, 113, 122, 0.8),
-    input-basic-background-color: gauzy-card-1,
-    select-outline-basic-background-color: gauzy-card-1,
+    input-basic-background-color: irtranscripts-card-1,
+    select-outline-basic-background-color: irtranscripts-card-1,
     input-border-width: 0,
     select-outline-border-width: 0,
     select-outline-basic-border-color: transparent,
@@ -412,7 +412,7 @@ $nb-themes: nb-register-theme(
     // in flight. Nebular's default for every status is
     // `color-basic-transparent-200` = rgba(143, 155, 179, 0.16), a BLUE-GREY
     // tint — so a loading panel was a different colour from the same panel one
-    // frame later. This is `gauzy-card-1` at 72 %: the surface keeps its own
+    // frame later. This is `irtranscripts-card-1` at 72 %: the surface keeps its own
     // colour and the content below just fades back.
     // Nebular emits `nb-spinner.status-#{$status}` per status (see
     // `@nebular/theme/components/spinner/_spinner.component.theme.scss`), so
@@ -424,15 +424,15 @@ $nb-themes: nb-register-theme(
     spinner-warning-background-color: rgba(255, 255, 255, 0.72),
     spinner-danger-background-color: rgba(255, 255, 255, 0.72),
     spinner-control-background-color: rgba(255, 255, 255, 0.72),
-    // Gauzy
-    gauzy-card-1: rgba(255, 255, 255, 1),
+    // IRTranscripts
+    irtranscripts-card-1: rgba(255, 255, 255, 1),
     // Neutral near-white sidebar (zinc-100), shadcn-like
-    gauzy-sidebar-background-1: #f4f4f5,
+    irtranscripts-sidebar-background-1: #f4f4f5,
     // WCAG: >=4.5:1 for 13px menu labels on the #f4f4f5 sidebar
     // (inherited rgba(126,126,143) was only ~3.6:1)
-    gauzy-text-color-2: rgba(91, 91, 107, 1)
-  ), $gauzy-shared-light),
-  gauzy-light,
+    irtranscripts-text-color-2: rgba(91, 91, 107, 1)
+  ), $irtranscripts-shared-light),
+  irtranscripts-light,
   default
 );
 
@@ -450,15 +450,15 @@ $nb-themes: nb-register-theme(
     color-primary-900: #1a1038,
     color-primary-transparent-100: rgba(110, 73, 232, 0.1),
     // ── Radius scale ──────────────────────────────────────────────────────
-    // Same three steps as `gauzy-light` — see the note there. Metrics are kept
-    // byte-identical between the two gauzy themes on purpose: only colour is
+    // Same three steps as `irtranscripts-light` — see the note there. Metrics are kept
+    // byte-identical between the two irtranscripts themes on purpose: only colour is
     // allowed to differ.
     border-radius: 0.5rem,
     outline-width: 0.375rem,
     outline-color: color-basic-transparent-200,
     // Un-aliased from `background-basic-color-4`. That token is a near-black
     // SURFACE on this theme, so a scrollbar thumb painted with it disappeared
-    // into the canvas. Same value as `gauzy-scrollbar`, which is what the
+    // into the canvas. Same value as `irtranscripts-scrollbar`, which is what the
     // hand-written scrollbar rules in `_overrides.scss` already use.
     scrollbar-color: rgba(255, 255, 255, 0.14),
     scrollbar-background-color: background-basic-color-2,
@@ -513,7 +513,7 @@ $nb-themes: nb-register-theme(
     // an `nb-card` rule in `_overrides.scss`, because Nebular emits its own
     // element-specificity `nb-card { box-shadow: var(--card-shadow) }` LATER in
     // the bundle and would overrule any such rule without an `!important`.
-    card-shadow: 0 0 0 1px var(--gauzy-overlay-border-color, rgba(126, 126, 143, 0.18)),
+    card-shadow: 0 0 0 1px var(--irtranscripts-overlay-border-color, rgba(126, 126, 143, 0.18)),
     tabset-divider-style: none,
     route-tabset-divider-style: none,
     tabset-divider-width: 0,
@@ -524,7 +524,7 @@ $nb-themes: nb-register-theme(
     sidebar-shadow: none,
     // ── Dark canvas ───────────────────────────────────────────────────────
     // The page band (layout + header + footer) is the DARKEST surface, and it
-    // is deliberately NOT `gauzy-card-1` any more. That one alias used to paint
+    // is deliberately NOT `irtranscripts-card-1` any more. That one alias used to paint
     // eleven surfaces at once — page == header == footer == card == table row ==
     // dropdown == input == rgb(32, 32, 35) — with `card-border-style: none` on
     // top, so the whole UI collapsed onto a single flat grey. Panels now lift
@@ -537,36 +537,36 @@ $nb-themes: nb-register-theme(
     // into card / sidebar / popover / context-menu / option-list / smart-table /
     // calendar / chat backgrounds, so this is the single token that makes every
     // panel the panel colour at once.
-    background-basic-color-1: gauzy-card-1,
-    input-basic-background-color: gauzy-card-1,
+    background-basic-color-1: irtranscripts-card-1,
+    input-basic-background-color: irtranscripts-card-1,
     // One step ABOVE the panel — zebra rows, muted blocks, scrollbar track.
     // Was byte-identical to `background-basic-color-1`, i.e. a dead ramp step.
     background-basic-color-2: rgba(24, 24, 27, 1),
     smart-table-bg-active: rgba(255, 255, 255, 0.05),
-    // Recessed surface. Was aliased to `gauzy-card-3`, i.e. a translucent
+    // Recessed surface. Was aliased to `irtranscripts-card-3`, i.e. a translucent
     // overlay sitting in an opaque slot, which resolved differently depending on
     // what happened to be stacked behind it.
     background-basic-color-3: rgba(9, 9, 11, 1),
-    gauzy-primary-background: rgba(31, 31, 35, 1),
+    irtranscripts-primary-background: rgba(31, 31, 35, 1),
     // 2.1:1 before, on the panel — the least legible text in the app. 3.4:1 now,
     // and still far weaker than a real value (17.9:1).
     input-basic-placeholder-text-color: rgba(161, 161, 170, 0.6),
-    select-outline-basic-background-color: gauzy-card-1,
+    select-outline-basic-background-color: irtranscripts-card-1,
     input-border-width: 0,
     select-outline-border-width: 0,
     select-outline-basic-border-color: transparent,
     color-success-default: rgba(37, 184, 105, 1),
     color-info-default: rgba(0, 136, 254, 1),
-    // Same red-600 as `gauzy-light` — see the note there. Kept identical across
+    // Same red-600 as `irtranscripts-light` — see the note there. Kept identical across
     // the pair on purpose: a danger badge should not change hue with the theme,
     // and #dc2626 still clears the 3:1 graphic floor on the near-black canvas
     // (3.9:1) while carrying white text at 4.8:1.
     color-danger-default: #dc2626,
     color-warning-default: rgba(255, 171, 45, 1),
-    gauzy-background-transparent: rgba(110, 73, 232, 0.5),
+    irtranscripts-background-transparent: rgba(110, 73, 232, 0.5),
     // ── Loading veil ──────────────────────────────────────────────────────
-    // `gauzy-card-1` at 72 %, the dark counterpart of the same block in
-    // `gauzy-light` — see the note there. The inherited
+    // `irtranscripts-card-1` at 72 %, the dark counterpart of the same block in
+    // `irtranscripts-light` — see the note there. The inherited
     // `color-basic-transparent-200` is rgba(143, 155, 179, 0.16), a LIGHT
     // blue-grey, which over the rgb(18, 18, 20) panel composites to about
     // rgb(38, 40, 45): every table and card visibly brightened while it loaded
@@ -579,39 +579,39 @@ $nb-themes: nb-register-theme(
     spinner-danger-background-color: rgba(18, 18, 20, 0.72),
     spinner-control-background-color: rgba(18, 18, 20, 0.72),
     // Panel / card surface — one visible step above the near-black canvas.
-    gauzy-card-1: rgba(18, 18, 20, 1),
+    irtranscripts-card-1: rgba(18, 18, 20, 1),
     // Tints layered ON TOP of a panel. Inherited from the `dark` map these were
     // DARKENING overlays — rgba(16, 16, 20, 0.3) / rgba(5, 5, 5, 0.5) /
     // rgba(5, 5, 5, 0.25) — and a darkening overlay simply disappears on a
     // near-black canvas. Flipped to LIFTING (white at a low alpha) so they read
     // on the canvas and on every panel alike.
-    gauzy-card-2: rgba(255, 255, 255, 0.02),
-    gauzy-card-3: rgba(255, 255, 255, 0.04),
-    gauzy-card-4: rgba(255, 255, 255, 0.06),
+    irtranscripts-card-2: rgba(255, 255, 255, 0.02),
+    irtranscripts-card-3: rgba(255, 255, 255, 0.04),
+    irtranscripts-card-4: rgba(255, 255, 255, 0.06),
     // Opaque, on-hue near-blacks: the inherited rgb(7, 9, 1) (green-black) and
     // rgb(52, 52, 62) (blue-purple) both fought the neutral ramp.
-    gauzy-card-5: rgba(24, 24, 27, 1),
-    gauzy-card-6: rgba(31, 31, 35, 1),
+    irtranscripts-card-5: rgba(24, 24, 27, 1),
+    irtranscripts-card-6: rgba(31, 31, 35, 1),
     // Neutral (zinc-like) sidebar — no blue/purple tint, shadcn-like. Both rails
     // sit BELOW the canvas so the content column is the brightest thing on
     // screen; the menu rail used to be rgb(30, 30, 34), i.e. brighter than the
     // content it framed.
-    gauzy-sidebar-background-1: rgba(10, 10, 11, 1),
-    gauzy-sidebar-background-2: rgba(12, 12, 14, 1),
+    irtranscripts-sidebar-background-1: rgba(10, 10, 11, 1),
+    irtranscripts-sidebar-background-2: rgba(12, 12, 14, 1),
     // Interactive tints: menu-row hover, smart-table filter fill, stepper
     // connector. The inherited rgba(126, 126, 143, 0.1 / 0.05)
     // carried a blue cast on a strictly neutral ramp.
-    gauzy-sidebar-background-3: rgba(255, 255, 255, 0.06),
-    gauzy-sidebar-background-4: rgba(255, 255, 255, 0.03),
+    irtranscripts-sidebar-background-3: rgba(255, 255, 255, 0.06),
+    irtranscripts-sidebar-background-4: rgba(255, 255, 255, 0.03),
     // (the token-name typo is upstream — not renamed here) custom tooltip body
-    gauzy-siderbar-background-5: rgba(24, 24, 27, 1),
+    irtranscripts-siderbar-background-5: rgba(24, 24, 27, 1),
     // Hairlines. The inherited table border rgba(16, 16, 20, 0.5) DARKENS, which
     // is invisible on a near-black canvas — the table would have got *worse*
     // from the palette change alone. Both are white-at-low-alpha so one value
     // works on the canvas and on every panel.
-    gauzy-border-table: rgba(255, 255, 255, 0.07),
-    gauzy-border-default-color: rgba(255, 255, 255, 0.08),
-    gauzy-scrollbar: rgba(255, 255, 255, 0.14),
+    irtranscripts-border-table: rgba(255, 255, 255, 0.07),
+    irtranscripts-border-default-color: rgba(255, 255, 255, 0.08),
+    irtranscripts-scrollbar: rgba(255, 255, 255, 0.14),
     // ── Elevation → edge ──────────────────────────────────────────────────
     // Inherited from Nebular `dark`: `0 1px 1px 0 rgb(0 0 0 / 35%)`. A BLACK
     // drop shadow under a panel that sits on a near-black canvas is invisible,
@@ -622,11 +622,11 @@ $nb-themes: nb-register-theme(
     // A 1px RING instead, and deliberately the SAME line the cards, overlays,
     // controls and table actions already draw (`card-shadow` above,
     // `$card-hairline` in `_overrides.scss`, `$control-hairline` in
-    // `gauzy/_gauzy-overrides.scss`), so the app has one hairline weight rather
+    // `irtranscripts/_irtranscripts-overrides.scss`), so the app has one hairline weight rather
     // than two. Three properties make this a safe drop-in for every consumer:
     //   * it costs no layout box, so nothing reflows and nothing resizes;
     //   * the `inset` keyword is legal LAST in a shadow, so the ~30 stylesheets
-    //     that write `box-shadow: var(--gauzy-shadow) inset` still parse — they
+    //     that write `box-shadow: var(--irtranscripts-shadow) inset` still parse — they
     //     get the same hairline drawn on the inside of the box;
     //   * no consumer depended on the offset (the inherited value is a 1px-down,
     //     1px-blur hairline, i.e. already an edge rather than an elevation), and
@@ -637,7 +637,7 @@ $nb-themes: nb-register-theme(
     // legible against a white page and reads as intended, and swapping it for a
     // ring there would both flatten those surfaces and put a second line beside
     // the ~45 blocks that pair this token with a real `border`.
-    gauzy-shadow: 0 0 0 1px var(--gauzy-overlay-border-color, rgba(126, 126, 143, 0.18)),
+    irtranscripts-shadow: 0 0 0 1px var(--irtranscripts-overlay-border-color, rgba(126, 126, 143, 0.18)),
     // ── Text ramp ─────────────────────────────────────────────────────────
     // Inherited from Nebular `dark`: `text-basic-color` = #ffffff and
     // `text-hint-color` = color-basic-600 = #8f9bb3 — a BLUE-grey, and the
@@ -656,7 +656,7 @@ $nb-themes: nb-register-theme(
     text-basic-color: rgba(250, 250, 250, 1),
     text-hint-color: rgba(161, 161, 170, 1),
     text-disabled-color: rgba(161, 161, 170, 0.45),
-    gauzy-text-color-1: rgba(250, 250, 250, 1),
+    irtranscripts-text-color-1: rgba(250, 250, 250, 1),
     // ── Border ramp ───────────────────────────────────────────────────────
     // Inherited wholesale from Nebular `dark`: #222b45 / #192038 / #151a30 /
     // #101426 — hue ~225 degrees, i.e. a navy line drawn on a strictly neutral
@@ -677,7 +677,7 @@ $nb-themes: nb-register-theme(
     // dark chain is `color-basic-300` = #edf1f7 — a near-WHITE tooltip on a
     // near-black canvas. The app also ships a second, hand-rolled tooltip
     // (`.tooltip-container` in `_overrides.scss`) painted with
-    // `gauzy-siderbar-background-5`; these two now agree.
+    // `irtranscripts-siderbar-background-5`; these two now agree.
     tooltip-background-color: rgba(24, 24, 27, 1),
     tooltip-text-color: rgba(250, 250, 250, 1),
     // The secondary face, same value as `text-hint-color` above so the two
@@ -685,8 +685,8 @@ $nb-themes: nb-register-theme(
     // sidebar/menu labels, inactive tab labels and table header labels, while
     // `text-hint-color` paints placeholders and overlay captions — they are the
     // same tier of information and were two different colours.
-    gauzy-text-color-2: rgba(161, 161, 170, 1)
-  ), $gauzy-shared-dark),
-  gauzy-dark,
+    irtranscripts-text-color-2: rgba(161, 161, 170, 1)
+  ), $irtranscripts-shared-dark),
+  irtranscripts-dark,
   dark
 );

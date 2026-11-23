@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { CronExpression } from '@nestjs/schedule';
-import { ScheduledJob } from '@gauzy/scheduler';
+import { ScheduledJob } from '@irtranscripts/scheduler';
 import {
 	IDEMPOTENCY_CLEANUP_JOB,
 	IDEMPOTENCY_CLEANUP_SCHEDULE,

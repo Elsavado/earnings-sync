@@ -8,7 +8,7 @@
  */
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { DecimalString, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { DecimalString, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	FEATURE_GRAPHQL,
 	FeatureFlagGuard,
@@ -21,8 +21,8 @@ import {
 	Versioned,
 	connectionFromOffsetPage,
 	resolveConnectionWindow
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { toDecimalWire } from './../inventory.decimal';
 import { InventoryPermission } from './../inventory.permissions';
 import { StockCountMode, StockCountStatus } from './../inventory.enums';

@@ -1,8 +1,8 @@
-@use 'gauzy/_gauzy-dialogs' as *;
+@use 'irtranscripts/_irtranscripts-dialogs' as *;
 
 .card {
   border-radius: nb-theme(border-radius);
-  background-color: nb-theme(gauzy-card-1);
+  background-color: nb-theme(irtranscripts-card-1);
   &-body {
     min-width: 25rem;
 

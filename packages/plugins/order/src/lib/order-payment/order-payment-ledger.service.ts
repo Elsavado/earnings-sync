@@ -1,12 +1,12 @@
 import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { DeepPartial } from 'typeorm';
-import { ID, OrderTransactionType } from '@gauzy/contracts';
+import { ID, OrderTransactionType } from '@irtranscripts/contracts';
 import {
 	compareDecimalStrings,
 	isValidDecimalString,
 	normalizeDecimalString,
 	subtractDecimalStrings
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { Order } from '../order/order.entity';
 import { OrderService } from '../order/order.service';
 import { OrderTotalsService } from '../order-totals/order-totals.service';

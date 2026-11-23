@@ -233,15 +233,15 @@ jobs:
             const script = require('./.scripts/bump-version-electron.js')
             console.log(script.servermcp(false))
         env:
-          GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
+          IRTRANSCRIPTS_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
           PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
-          DESKTOP_MCP_SERVER_APP_NAME: 'gauzy-mcp-server'
+          DESKTOP_MCP_SERVER_APP_NAME: 'irtranscripts-mcp-server'
           # Demo electron releases go to the same repo
-          DESKTOP_MCP_SERVER_REPO_NAME: 'ever-gauzy'
+          DESKTOP_MCP_SERVER_REPO_NAME: 'ever-irtranscripts'
           DESKTOP_MCP_SERVER_REPO_OWNER: 'ever-co'
-          COMPANY_SITE_LINK: 'https://gauzy.co'
-          DESKTOP_MCP_SERVER_APP_DESCRIPTION: 'Gauzy MCP Server'
-          DESKTOP_MCP_SERVER_APP_ID: 'com.ever.gauzymcpserver'
+          COMPANY_SITE_LINK: 'https://irtranscripts.com'
+          DESKTOP_MCP_SERVER_APP_DESCRIPTION: 'IRTranscripts MCP Server'
+          DESKTOP_MCP_SERVER_APP_ID: 'com.ever.irtranscriptsmcpserver'
 
       - name: Fix Node.js PATH for child processes
         shell: powershell
@@ -291,7 +291,7 @@ jobs:
 
       - name: Build Server
         shell: cmd
-        run: 'yarn build:gauzy-mcp-server:windows:release:gh:x64'
+        run: 'yarn build:irtranscripts-mcp-server:windows:release:gh:x64'
         env:
           USE_HARD_LINKS: false
           ELECTRON_BUILDER_CACHE: ${{ github.workspace }}\.cache\electron-builder
@@ -309,11 +309,11 @@ jobs:
           PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
           # Demo electron releases go to the same repo
           DESKTOP_MCP_SERVER_REPO_OWNER: 'ever-co'
-          DESKTOP_MCP_SERVER_REPO_NAME: 'ever-gauzy'
-          DESKTOP_MCP_SERVER_APP_NAME: 'gauzy-mcp-server'
-          DESKTOP_MCP_SERVER_APP_DESCRIPTION: 'Gauzy MCP Server'
-          DESKTOP_MCP_SERVER_APP_ID: 'com.ever.gauzymcpserver'
-          COMPANY_SITE_LINK: 'https://gauzy.co'
+          DESKTOP_MCP_SERVER_REPO_NAME: 'ever-irtranscripts'
+          DESKTOP_MCP_SERVER_APP_NAME: 'irtranscripts-mcp-server'
+          DESKTOP_MCP_SERVER_APP_DESCRIPTION: 'IRTranscripts MCP Server'
+          DESKTOP_MCP_SERVER_APP_ID: 'com.ever.irtranscriptsmcpserver'
+          COMPANY_SITE_LINK: 'https://irtranscripts.com'
 
       - name: Scrub registry credentials
         if: always()

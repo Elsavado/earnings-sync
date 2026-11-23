@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IIntegrationEntitySetting, IIntegrationTenant, IPagination } from '@gauzy/contracts';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { IIntegrationEntitySetting, IIntegrationTenant, IPagination } from '@irtranscripts/contracts';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 
 @Injectable({
 	providedIn: 'root'

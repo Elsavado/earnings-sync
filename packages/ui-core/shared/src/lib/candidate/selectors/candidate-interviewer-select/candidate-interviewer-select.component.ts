@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { ICandidate, IEmployee } from '@gauzy/contracts';
+import { ICandidate, IEmployee } from '@irtranscripts/contracts';
 
 @UntilDestroy()
 @Component({

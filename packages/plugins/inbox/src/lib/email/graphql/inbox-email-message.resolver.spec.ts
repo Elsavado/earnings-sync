@@ -6,15 +6,15 @@
  * message's mailbox, as for the route), every field reaches the service method of its route, and the routes' DTO rules
  * refuse what the routes refuse. The raw-message and attachment downloads are byte streams and stay REST-only.
  */
-jest.mock('@gauzy/core', () => jest.requireActual('../testing/graphql-core-double').coreDouble());
-jest.mock('@gauzy/common', () => jest.requireActual('../testing/graphql-core-double').commonDouble());
-jest.mock('@gauzy/plugin', () => jest.requireActual('../testing/graphql-core-double').pluginDouble());
+jest.mock('@irtranscripts/core', () => jest.requireActual('../testing/graphql-core-double').coreDouble());
+jest.mock('@irtranscripts/common', () => jest.requireActual('../testing/graphql-core-double').commonDouble());
+jest.mock('@irtranscripts/plugin', () => jest.requireActual('../testing/graphql-core-double').pluginDouble());
 
 import 'reflect-metadata';
 import { BadRequestException } from '@nestjs/common';
 import { GUARDS_METADATA, MODULE_METADATA, ROUTE_ARGS_METADATA } from '@nestjs/common/constants';
 import { buildSchema, extendSchema, GraphQLObjectType, GraphQLSchema } from 'graphql';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { InboxEmailForwardDTO, InboxEmailReplyDTO } from '../emails/inbox-email.controller';
 import { MAX_OUTBOUND_RECIPIENTS, MAX_OUTBOUND_TEXT } from '../emails/inbox-email.service';
 import { InboxEmailModule } from '../inbox-email.module';

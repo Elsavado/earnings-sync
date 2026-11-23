@@ -1,5 +1,5 @@
 import * as chalk from 'chalk';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@gauzy/plugin';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@irtranscripts/plugin';
 import { CATALOG_FEATURES } from './catalog.features';
 import { CATALOG_PERMISSIONS } from './catalog.permissions';
 import { CatalogModule } from './catalog.module';

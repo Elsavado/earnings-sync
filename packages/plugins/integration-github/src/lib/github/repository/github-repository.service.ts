@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
-import { IIntegrationMapSyncRepository, IOrganizationGithubRepository } from '@gauzy/contracts';
-import { TenantAwareCrudService } from '@gauzy/core';
+import { IIntegrationMapSyncRepository, IOrganizationGithubRepository } from '@irtranscripts/contracts';
+import { TenantAwareCrudService } from '@irtranscripts/core';
 import { OrganizationGithubRepository } from './github-repository.entity';
 import { IntegrationSyncGithubRepositoryCommand } from '../commands/integration-sync-github-repository.command';
 import { MikroOrmOrganizationGithubRepositoryRepository } from './repository/mikro-orm-organization-github-repository.repository';

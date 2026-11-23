@@ -2,21 +2,21 @@
  * `StatsGuard` against the real `@FeatureFlag` decorator and a real `Reflector`.
  *
  * The guard gates the open-statistics route and its GraphQL mirror on flags read from the environment
- * (`gauzyToggleFeatures`) rather than from the feature catalogue. Two things are pinned here: stacked
+ * (`irtranscriptsToggleFeatures`) rather than from the feature catalogue. Two things are pinned here: stacked
  * flags are all required, now that the decorator accumulates them, and a refusal over GraphQL is a 404
  * like the route's — it used to read `method` and `url` off a request the GraphQL transport does not
  * have, and answered a `TypeError`.
  */
 import { ExecutionContext, NotFoundException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { FeatureFlag } from '@gauzy/common';
-import { FeatureEnum } from '@gauzy/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
+import { FeatureEnum } from '@irtranscripts/contracts';
 
 const mockToggles: Record<string, boolean> = {};
 
-jest.mock('@gauzy/config', () => ({
-	...jest.requireActual('@gauzy/config'),
-	get gauzyToggleFeatures() {
+jest.mock('@irtranscripts/config', () => ({
+	...jest.requireActual('@irtranscripts/config'),
+	get irtranscriptsToggleFeatures() {
 		return mockToggles;
 	}
 }));

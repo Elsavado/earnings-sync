@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-auth-zitadel-ui
+ * Public API Surface of @irtranscripts/plugin-auth-zitadel-ui
  */
 export * from './lib/auth-zitadel-ui.plugin';
 export * from './lib/ever-id-ui.state';

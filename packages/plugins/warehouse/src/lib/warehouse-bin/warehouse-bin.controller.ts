@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Query, UseGuards, UsePipes } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
-import { ID, IPagination } from '@gauzy/contracts';
+import { ID, IPagination } from '@irtranscripts/contracts';
 import {
 	AbstractValidationPipe,
 	BaseQueryDTO,
@@ -15,8 +15,8 @@ import {
 	UUIDValidationPipe,
 	UseValidationPipe,
 	Versioned
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { IBinReconciliationReport, IWarehouseBinCapacityCheck, IWarehousePutAwayResult, WAREHOUSE_LEVEL_VERSION_TARGET } from '../warehouse.types';
 import { WarehouseFeatures } from '../warehouse.features';
 import { WarehousePermissions } from '../warehouse.permissions';

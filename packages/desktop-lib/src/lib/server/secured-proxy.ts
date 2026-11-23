@@ -1,6 +1,6 @@
 import { IServerConfig, IServerFactory } from '../interfaces';
 import { BaseReverseProxy } from '../decorators';
-import { ISsl } from '@gauzy/contracts';
+import { ISsl } from '@irtranscripts/contracts';
 import { IpcMainEvent, ipcMain } from 'electron';
 import { IncomingMessage, ServerResponse } from 'http';
 import { ServerOptions } from 'http-proxy';

@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import * as moment from 'moment';
-import { MultiORM, MultiORMEnum, RequestContext, getORMType } from '@gauzy/core';
+import { MultiORM, MultiORMEnum, RequestContext, getORMType } from '@irtranscripts/core';
 import { Wakatime } from './wakatime.entity';
 import { TypeOrmWakatimeRepository } from './repository/type-orm-wakatime.repository';
 import { MikroOrmWakatimeRepository } from './repository/mikro-orm-wakatime.repository';

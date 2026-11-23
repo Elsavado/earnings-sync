@@ -1,5 +1,5 @@
 import { ForbiddenException } from '@nestjs/common';
-import { PermissionsEnum, StatusTypesEnum } from '@gauzy/contracts';
+import { PermissionsEnum, StatusTypesEnum } from '@irtranscripts/contracts';
 import {
 	filedTimeOffStatus,
 	requestedPolicyId,

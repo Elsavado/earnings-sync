@@ -86,7 +86,7 @@ const WITHDRAWN_AT = '2026-01-02 00:00:00.000';
 const sorted = (ids: string[]): string[] => [...ids].sort();
 
 describe('RequestApprovalService reads the same register on TypeORM and on MikroORM', () => {
-	const file = path.join(os.tmpdir(), `gauzy-request-approval-parity-${process.pid}-${Date.now()}.sqlite3`);
+	const file = path.join(os.tmpdir(), `irtranscripts-request-approval-parity-${process.pid}-${Date.now()}.sqlite3`);
 
 	let loaded: Row = {};
 	let dataSource: any;
@@ -144,7 +144,7 @@ describe('RequestApprovalService reads the same register on TypeORM and on Mikro
 				const {
 					MIKRO_ORM_AUTO_JOIN_REFS_FOR_FILTERS,
 					TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR
-				} = require('@gauzy/config');
+				} = require('@irtranscripts/config');
 
 				loaded = {
 					RequestApproval: entities.RequestApproval,
@@ -180,7 +180,7 @@ describe('RequestApprovalService reads the same register on TypeORM and on Mikro
 
 				// Discovery calls the relation callbacks, and the base entity reaches `User` through a `require` in
 				// them, so MikroORM is initialised inside this registry too. It joins only what a read populates, as
-				// the platform's MikroORM does (`@gauzy/config`, see `database-helpers.ts`) and as TypeORM does.
+				// the platform's MikroORM does (`@irtranscripts/config`, see `database-helpers.ts`) and as TypeORM does.
 				orm = await MikroORM.init({
 					driver: BetterSqliteDriver,
 					dbName: file,

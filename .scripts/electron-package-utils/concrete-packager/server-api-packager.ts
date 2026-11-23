@@ -13,7 +13,7 @@ export class ServerApiPackager extends BasePackager {
 			env.DESKTOP_API_SERVER_APP_DESCRIPTION || pkg.build.productName;
 		pkg.build.linux.executableName =
 			env.DESKTOP_API_SERVER_APP_NAME || pkg.build.linux.executableName;
-		const protocol = env.DESKTOP_API_SERVER_APP_PROTOCOL || 'gauzy-api-server';
+		const protocol = env.DESKTOP_API_SERVER_APP_PROTOCOL || 'irtranscripts-api-server';
 		return this.registerProtocol(pkg, protocol);
 	}
 }

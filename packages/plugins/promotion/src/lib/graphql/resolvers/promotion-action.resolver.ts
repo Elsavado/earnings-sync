@@ -1,8 +1,8 @@
 import { Args, Mutation, Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { DecimalString, ID, PermissionsEnum } from '@gauzy/contracts';
-import { FEATURE_GRAPHQL, FeatureFlagGuard, PermissionGuard, Permissions, TenantPermissionGuard } from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+import { DecimalString, ID, PermissionsEnum } from '@irtranscripts/contracts';
+import { FEATURE_GRAPHQL, FeatureFlagGuard, PermissionGuard, Permissions, TenantPermissionGuard } from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { PromotionPermission } from '../../promotion.permissions';
 import { IPromotion, IPromotionAction } from '../../promotion.types';
 import { PromotionService } from '../../promotion/promotion.service';

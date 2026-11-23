@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { IEmployee, PayPeriodEnum, ICandidate, ICurrency } from '@gauzy/contracts';
+import { IEmployee, PayPeriodEnum, ICandidate, ICurrency } from '@irtranscripts/contracts';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter, tap } from 'rxjs';
-import { Store } from '@gauzy/ui-core/core';
-import { CandidateStore, EmployeeStore } from '@gauzy/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
+import { CandidateStore, EmployeeStore } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

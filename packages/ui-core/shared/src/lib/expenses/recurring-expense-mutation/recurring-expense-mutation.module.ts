@@ -15,7 +15,7 @@ import {
 } from '@nebular/theme';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslatePipe } from '@ngx-translate/core';
-import { OrganizationsService } from '@gauzy/ui-core/core';
+import { OrganizationsService } from '@irtranscripts/ui-core/core';
 import { SelectorsModule } from '../../selectors/selectors.module';
 import { CurrencyModule } from '../../modules/currency/currency.module';
 import { RecurringExpenseMutationComponent } from './recurring-expense-mutation.component';

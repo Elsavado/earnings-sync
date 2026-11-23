@@ -13,7 +13,7 @@ import {
 	IUserOrganization,
 	PermissionsEnum,
 	TaskStatusEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	NbDialogRef,
 	NbCardModule,
@@ -38,7 +38,7 @@ import { ProjectSelectorComponent } from '../shared/features/project-selector/pr
 import { TeamSelectorComponent } from '../shared/features/team-selector/team-selector.component';
 import { NgSelectComponent, NgOptionTemplateDirective, NgLabelTemplateDirective } from '@ng-select/ng-select';
 import { TaskBadgeViewComponent } from '../time-tracker/task-render/task-badge-view/task-badge-view.component';
-import { RichTextEditorModule } from '@gauzy/ui-core/shared';
+import { RichTextEditorModule } from '@irtranscripts/ui-core/shared';
 import { SpinnerButtonDirective } from '../directives/spinner-button.directive';
 import { AsyncPipe } from '@angular/common';
 

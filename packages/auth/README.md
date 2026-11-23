@@ -1,10 +1,10 @@
-# @gauzy/auth
+# @irtranscripts/auth
 
-This library was generated with [Nx](https://nx.dev). It contains the authentication for the Gauzy API platform.
+This library was generated with [Nx](https://nx.dev). It contains the authentication for the IRTranscripts API platform.
 
 ## Overview
 
-This library provides a set of services and utilities for authentication and authorization in the Gauzy API platform.
+This library provides a set of services and utilities for authentication and authorization in the IRTranscripts API platform.
 
 ## Building
 
@@ -23,9 +23,9 @@ After building your library with `yarn nx build auth`, go to the dist folder `di
 To install the API auth Library, simply run the following command in your terminal:
 
 ```bash
-npm install @gauzy/auth
+npm install @irtranscripts/auth
 # or
-yarn add @gauzy/auth
+yarn add @irtranscripts/auth
 ```
 
 ## OpenID Connect client library
@@ -44,10 +44,10 @@ endpoints are ever called, and only asymmetric signatures (`RS256`, `ES256`,
 Additional sign-in methods live in plugins that build on this package rather
 than inside it:
 
-- `@gauzy/plugin-auth-keycloak` (`packages/plugins/auth-keycloak`): Keycloak
+- `@irtranscripts/plugin-auth-keycloak` (`packages/plugins/auth-keycloak`): Keycloak
   sign-in. The Keycloak passport strategy and guard moved there unchanged;
   `KEYCLOAK_*` settings keep their names.
-- `@gauzy/plugin-auth-zitadel` (`packages/plugins/auth-zitadel`): Ever ID
+- `@irtranscripts/plugin-auth-zitadel` (`packages/plugins/auth-zitadel`): Ever ID
   sign-in.
 
 Both are off unless an operator switches them on (`KEYCLOAK_ENABLED`,

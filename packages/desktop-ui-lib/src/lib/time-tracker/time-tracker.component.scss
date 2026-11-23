@@ -10,7 +10,7 @@
 .timer-container {
   @include nb-rtl(margin-right, -4px);
   @include nb-ltr(margin-left, -4px);
-  color: var(--gauzy-text-color-1);
+  color: var(--irtranscripts-text-color-1);
   font-size: 55px;
   font-weight: 600;
   border-radius: var(--button-rectangle-border-radius);
@@ -113,14 +113,14 @@
 
 .top-space {
   padding: 0 !important;
-  background-color: var(--gauzy-card-2);
+  background-color: var(--irtranscripts-card-2);
 }
 
 .screen-capture-label-left {
   text-align: left;
   font-size: 12px;
   font-weight: 500;
-  color: var(--gauzy-text-color-1);
+  color: var(--irtranscripts-text-color-1);
 }
 
 .screen-capture-label-right {
@@ -167,7 +167,7 @@
 .org-name {
   font-size: 14px;
   font-weight: 600;
-  background-color: var(--gauzy-background-transparent-1);
+  background-color: var(--irtranscripts-background-transparent-1);
   padding: 2px 4px;
   border-radius: 4px;
   color: var(--text-primary-color);
@@ -177,7 +177,7 @@
 .work-weekly {
   font-size: 12px;
   font-weight: 500;
-  color: var(--gauzy-text-color-2);
+  color: var(--irtranscripts-text-color-2);
 }
 
 :host {
@@ -186,7 +186,7 @@
   .work-weekly-duration {
     font-size: 14px;
     font-weight: 500;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
 
     small {
       position: absolute;
@@ -247,7 +247,7 @@ nb-card-body {
 
 .footer-button {
   position: relative;
-  color: var(--gauzy-text-color-2) !important;
+  color: var(--irtranscripts-text-color-2) !important;
   top: 0px;
   display: flex;
   align-items: center;
@@ -265,7 +265,7 @@ nb-card-body {
   cursor: pointer;
 
   &.icon {
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
     font-size: 14px;
   }
 }
@@ -295,7 +295,7 @@ nb-card-body {
   position: absolute !important;
   z-index: 999;
   top: 50%;
-  background-color: var(--gauzy-sidebar-background-3) !important;
+  background-color: var(--irtranscripts-sidebar-background-3) !important;
   border-radius: var(--border-radius);
   cursor: pointer;
   @include nb-rtl(left, -14px);
@@ -418,7 +418,7 @@ nb-card-body {
 }
 
 nb-card.dialog {
-  background-color: var(--gauzy-card-1);
+  background-color: var(--irtranscripts-card-1);
   width: 90%;
 
   nb-card-header {
@@ -428,7 +428,7 @@ nb-card.dialog {
   }
 }
 
-$input-background-color: var(--gauzy-card-1);
+$input-background-color: var(--irtranscripts-card-1);
 $height: 42px;
 
 :host {
@@ -453,7 +453,7 @@ $height: 42px;
     font-weight: 600;
     line-height: 13px;
     letter-spacing: -0.01em;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
   }
 
   ::ng-deep textarea {
@@ -488,12 +488,12 @@ $height: 42px;
     &:focus,
     &:active,
     &:visited {
-      box-shadow: var(--gauzy-shadow) inset !important;
+      box-shadow: var(--irtranscripts-shadow) inset !important;
     }
   }
 
   .ng-select .ng-select-container {
-    box-shadow: var(--gauzy-shadow) inset !important;
+    box-shadow: var(--irtranscripts-shadow) inset !important;
   }
 }
 
@@ -514,7 +514,7 @@ $height: 42px;
     img {
       margin-right: 5px;
       border-radius: calc(var(--border-radius) * 1 / 2);
-      box-shadow: var(--gauzy-shadow);
+      box-shadow: var(--irtranscripts-shadow);
     }
   }
 
@@ -545,7 +545,7 @@ img {
   background: var(--color-success-transparent-100);
   padding: 0 4px;
   border-radius: var(--border-radius);
-  color: var(--gauzy-text-color-1);
+  color: var(--irtranscripts-text-color-1);
 
   &.offline {
     background: var(--color-danger-transparent-100);
@@ -572,7 +572,7 @@ img {
   ::ng-deep {
     nb-toggle .text {
       font-size: 12px;
-      color: var(--gauzy-text-color-1);
+      color: var(--irtranscripts-text-color-1);
     }
   }
 }
@@ -595,7 +595,7 @@ img {
 }
 
 .sync {
-  color: var(--gauzy-text-color-2);
+  color: var(--irtranscripts-text-color-2);
   font-size: 14px;
 
   &.spin {
@@ -631,7 +631,7 @@ img {
 }
 
 .custom-table {
-  background-color: var(--gauzy-card-2);
+  background-color: var(--irtranscripts-card-2);
   margin: 0;
   display: flex;
   flex-direction: column;
@@ -691,18 +691,18 @@ img {
 }
 
 .gray-bold-text {
-  color: var(--gauzy-text-color-2);
+  color: var(--irtranscripts-text-color-2);
   font-weight: 600;
 }
 
 .black-bold-text {
-  color: var(--gauzy-text-color-1);
+  color: var(--irtranscripts-text-color-1);
   font-weight: 600;
 }
 
 ::ng-deep nb-tabset {
   nb-tab.content-active {
-    background-color: var(--gauzy-card-2);
+    background-color: var(--irtranscripts-card-2);
     border-radius: 0 var(--border-radius) var(--border-radius);
     height: calc(100vh - 6rem);
     padding: 1rem;
@@ -726,7 +726,7 @@ img {
 }
 
 .content-active {
-	background-color: var(--gauzy-card-2);
+	background-color: var(--irtranscripts-card-2);
 	border-radius: var(--border-radius);
 	padding: 1rem;
 	width: 900px;

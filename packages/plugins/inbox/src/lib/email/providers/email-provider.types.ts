@@ -5,7 +5,7 @@ import {
 	IEmailProviderConfigSchema,
 	IInboxProviderAccountCheck,
 	InboxProviderAccountScopeEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 /**
  * The provider plugin contract (plan 04 §5.2). Every email provider — Resend, Postmark, Mailgun, SendGrid, Amazon
@@ -147,7 +147,7 @@ export interface IEmailProviderPlugin {
 	readonly inbound?: IInboundEmailProvider;
 	/**
 	 * A nodemailer transport (a custom transport object, or transport options) that sends through the provider's API,
-	 * for the transport seam of `@gauzy/core` (plan 04 §5.5).
+	 * for the transport seam of `@irtranscripts/core` (plan 04 §5.5).
 	 */
 	createTransport?(account: IProviderAccountContext): unknown;
 	/** "Test connection": checks the account's credentials with the provider. Never throws a secret. */

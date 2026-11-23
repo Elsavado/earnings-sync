@@ -4,10 +4,10 @@ import { map, Observable, Subject } from 'rxjs';
 import { debounceTime, filter, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
-import { ContactType, IOrganization, IOrganizationContact, PermissionsEnum } from '@gauzy/contracts';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { Store } from '@gauzy/ui-core/core';
-import { OrganizationContactService, ErrorHandlingService, ToastrService } from '@gauzy/ui-core/core';
+import { ContactType, IOrganization, IOrganizationContact, PermissionsEnum } from '@irtranscripts/contracts';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { Store } from '@irtranscripts/ui-core/core';
+import { OrganizationContactService, ErrorHandlingService, ToastrService } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

@@ -1,7 +1,7 @@
 import { BaseEntityEnum, IBasePerTenantAndOrganizationEntityModel, ID } from './base-entity.model';
 
 /**
- * The Gauzy Inbox (`@gauzy/plugin-inbox`, plan 04 §2–4): one place for everything addressed to a user —
+ * The IRTranscripts Inbox (`@irtranscripts/plugin-inbox`, plan 04 §2–4): one place for everything addressed to a user —
  * questions, approvals and escalations that wait for them, notices, and (later) email. Each item has one
  * recipient row per user it is addressed to, which carries that user's own read / archive / snooze state.
  */
@@ -31,7 +31,7 @@ export const INBOX_DECISION_KINDS: readonly InboxItemKindEnum[] = [
 export enum InboxItemSourceEnum {
 	EVER_WORKS = 'EVER_WORKS',
 	EMAIL = 'EMAIL',
-	GAUZY = 'GAUZY',
+	IRTRANSCRIPTS = 'IRTRANSCRIPTS',
 	SYSTEM = 'SYSTEM'
 }
 
@@ -263,14 +263,14 @@ export interface IInboxSourceHandlerRegistry {
 	get(source: string): IInboxSourceHandler | undefined;
 }
 
-/** What other plugins call to put items into the inbox (no dependency on `@gauzy/plugin-inbox` needed). */
+/** What other plugins call to put items into the inbox (no dependency on `@irtranscripts/plugin-inbox` needed). */
 export interface IInboxItemWriter {
 	upsertExternal(input: IInboxItemUpsertInput): Promise<IInboxItemUpsertResult>;
 	create(input: IInboxItemUpsertInput): Promise<IInboxItemUpsertResult>;
 }
 
 /**
- * Injection tokens `@gauzy/plugin-inbox` provides when it is loaded. A plugin that feeds the inbox injects them
+ * Injection tokens `@irtranscripts/plugin-inbox` provides when it is loaded. A plugin that feeds the inbox injects them
  * with `@Optional() @Inject(…)`: when the inbox is off (the default), they are simply absent.
  */
 export const INBOX_SOURCE_HANDLER_REGISTRY = 'INBOX_SOURCE_HANDLER_REGISTRY';

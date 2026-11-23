@@ -1,6 +1,6 @@
-jest.mock('@gauzy/config', () => ({ isDevelopment: jest.fn() }));
+jest.mock('@irtranscripts/config', () => ({ isDevelopment: jest.fn() }));
 
-import { isDevelopment } from '@gauzy/config';
+import { isDevelopment } from '@irtranscripts/config';
 import { debugInDevelopment } from './debug-in-development';
 
 describe('debugInDevelopment', () => {

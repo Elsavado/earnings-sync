@@ -22,8 +22,8 @@
 import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { randomBytes } from 'node:crypto';
 import { FindManyOptions, IsNull } from 'typeorm';
-import { hashPassword, verifyPassword } from '@gauzy/utils';
-import { ID, IPagination, OAuthClientType, OAuthGrantType, RolesEnum } from '@gauzy/contracts';
+import { hashPassword, verifyPassword } from '@irtranscripts/utils';
+import { ID, IPagination, OAuthClientType, OAuthGrantType, RolesEnum } from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from '../../core/crud/tenant-aware-crud.service';
 import { RequestContext } from '../../core/context/request-context';
 import { OAuthClient } from './oauth-client.entity';
@@ -49,12 +49,12 @@ export class OAuthClientService extends TenantAwareCrudService<OAuthClient> {
 	// ---------------------------------------------------------------------------
 
 	/**
-	 * Generates a public client identifier in the form `gauzy_<base64url>`.
+	 * Generates a public client identifier in the form `irtranscripts_<base64url>`.
 	 * 32 bytes of entropy → ~43 base64url characters → fits comfortably in
 	 * the `varchar(64)` column with room for the prefix.
 	 */
 	private generateClientId(): string {
-		return `gauzy_${randomBytes(32).toString('base64url')}`;
+		return `irtranscripts_${randomBytes(32).toString('base64url')}`;
 	}
 
 	/**

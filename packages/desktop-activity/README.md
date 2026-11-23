@@ -1,4 +1,4 @@
-# @gauzy/desktop-activity
+# @irtranscripts/desktop-activity
 
 This library was generated with [Nx](https://nx.dev).
 
@@ -19,6 +19,6 @@ After building your library with `yarn nx build desktop-activity`, go to the dis
 Install the Desktop Activity Library using your preferred package manager:
 
 ```bash
-npm install @gauzy/desktop-activity
+npm install @irtranscripts/desktop-activity
 # or
-yarn add @gauzy/desktop-activity
+yarn add @irtranscripts/desktop-activity

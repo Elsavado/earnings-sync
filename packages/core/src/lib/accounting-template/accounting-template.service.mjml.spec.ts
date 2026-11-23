@@ -6,7 +6,7 @@ import * as path from 'path';
 import * as Handlebars from 'handlebars';
 // eslint-disable-next-line no-restricted-imports -- CONTROL arm only: the pre-fix compiler call
 import * as rawMjml2html from 'mjml';
-import { AccountingTemplateTypeEnum, LanguagesEnum } from '@gauzy/contracts';
+import { AccountingTemplateTypeEnum, LanguagesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 
 import * as compileMjmlModule from '../email-template/compile-mjml';
@@ -31,7 +31,7 @@ describe('AccountingTemplateService MJML compilation (GHSA-48h9-vwf5-h8m7)', () 
 		`<mjml><mj-body><mj-section><mj-column><mj-text>${text}</mj-text></mj-column></mj-section></mj-body></mjml>`;
 
 	beforeAll(() => {
-		dir = fs.mkdtempSync(path.join(os.tmpdir(), 'gauzy-accounting-'));
+		dir = fs.mkdtempSync(path.join(os.tmpdir(), 'irtranscripts-accounting-'));
 		secretFile = path.join(dir, '.env');
 		fs.writeFileSync(secretFile, `JWT_SECRET=${MARKER}`);
 	});

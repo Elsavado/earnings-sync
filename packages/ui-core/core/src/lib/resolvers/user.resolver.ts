@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { ResolveFn, Router } from '@angular/router';
 import { Observable, catchError, debounceTime, from, of, tap } from 'rxjs';
-import { IUser } from '@gauzy/contracts';
+import { IUser } from '@irtranscripts/contracts';
 import { ErrorHandlingService, UsersService } from '../services';
 
 /**

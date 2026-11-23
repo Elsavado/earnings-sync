@@ -1,6 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { assertCallerOwnsUpload } from '@gauzy/core';
+import { assertCallerOwnsUpload } from '@irtranscripts/core';
 import { DeleteResult } from 'typeorm';
 import { VideosService } from '../../services/videos.service';
 import { DeleteVideoCommand } from '../delete-video.command';

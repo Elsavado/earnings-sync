@@ -1,4 +1,4 @@
-import { ID, IEmployee } from '@gauzy/contracts';
+import { ID, IEmployee } from '@irtranscripts/contracts';
 
 /**
  * One task row of a team member, as rendered by the member-details widget.

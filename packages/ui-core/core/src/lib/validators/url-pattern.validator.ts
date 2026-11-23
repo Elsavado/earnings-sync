@@ -1,5 +1,5 @@
 import { AbstractControl, ValidatorFn } from '@angular/forms';
-import { patterns } from '@gauzy/constants';
+import { patterns } from '@irtranscripts/constants';
 
 export class UrlPatternValidator {
 	/**

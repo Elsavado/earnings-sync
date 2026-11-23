@@ -2,10 +2,10 @@ import { Brackets, DataSource, WhereExpressionBuilder } from 'typeorm';
 import { faker } from '@faker-js/faker';
 import { filter, uniq } from 'underscore';
 import { lastValueFrom, map } from 'rxjs';
-import { isNotEmpty } from '@gauzy/utils';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { HttpService } from '@nestjs/axios';
 import { AxiosResponse } from 'axios';
-import { IGetTaskOptions, IOrganization, ITag, ITenant } from '@gauzy/contracts';
+import { IGetTaskOptions, IOrganization, ITag, ITenant } from '@irtranscripts/contracts';
 import {
 	Organization,
 	OrganizationProject,

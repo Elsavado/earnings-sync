@@ -230,7 +230,7 @@ export class MockEverWorksKb {
 		if (scope.type === 'work' && !(KB_DOCUMENT_CLASSES as readonly string[]).includes(segments[0] ?? ''))
 			return MockEverWorksServer.error(400, 'validation_failed', 'A Work document path starts with a class folder.');
 		const ref = input['externalRef'] as { source?: string; installationId?: string | null; externalId?: string; externalUrl?: string | null } | undefined;
-		if (ref && ref.source !== 'gauzy') return MockEverWorksServer.error(400, 'validation_failed', 'externalRef.source must be "gauzy".');
+		if (ref && ref.source !== 'irtranscripts') return MockEverWorksServer.error(400, 'validation_failed', 'externalRef.source must be "irtranscripts".');
 		if (ref?.externalId) {
 			const existing = this.visibleDocuments(context).find((row) => ((row['externalLinks'] as Row[]) ?? []).some((link) => link['externalId'] === ref.externalId));
 			if (existing) return this.answer(context, existing, 200);
@@ -355,7 +355,7 @@ export class MockEverWorksKb {
 		const parentId = (input['parentId'] as string | null | undefined) ?? null;
 		if (parentId && !this.folderOf(context, parentId)) return MockEverWorksServer.error(404, 'not_found', 'No such folder.');
 		const ref = input['externalRef'] as { source?: string; externalId?: string } | undefined;
-		if (ref && ref.source !== 'gauzy') return MockEverWorksServer.error(400, 'validation_failed', 'externalRef.source must be "gauzy".');
+		if (ref && ref.source !== 'irtranscripts') return MockEverWorksServer.error(400, 'validation_failed', 'externalRef.source must be "irtranscripts".');
 		if (ref?.externalId) {
 			const existing = [...this.folders.values()].find(
 				(row) => row['organizationId'] === context.org?.id && ((row['externalLinks'] as Row[]) ?? []).some((link) => link['externalId'] === ref.externalId)

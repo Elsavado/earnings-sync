@@ -1,6 +1,6 @@
 import { CurrencyPipe } from '@angular/common';
 import { Pipe, PipeTransform, inject } from '@angular/core';
-import { CurrenciesEnum } from '@gauzy/contracts';
+import { CurrenciesEnum } from '@irtranscripts/contracts';
 
 @Pipe({
 	name: 'budget',

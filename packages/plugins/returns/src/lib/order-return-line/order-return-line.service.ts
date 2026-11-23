@@ -1,7 +1,7 @@
 import { BadRequestException, Inject, Injectable, Logger, NotFoundException, Optional } from '@nestjs/common';
 import { DeleteResult, FindOptionsWhere, In, Not, SaveOptions } from 'typeorm';
-import { DecimalString, ID } from '@gauzy/contracts';
-import { LegacyFindOneOptions, MultiORMEnum, RequestContext } from '@gauzy/core';
+import { DecimalString, ID } from '@irtranscripts/contracts';
+import { LegacyFindOneOptions, MultiORMEnum, RequestContext } from '@irtranscripts/core';
 import {
 	IOrderFulfillmentPort,
 	IOrderLineFulfillment,

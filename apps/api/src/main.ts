@@ -11,7 +11,7 @@ console.time(chalk.green(`✔ API Running`));
 
 console.log('Bootstrap Loading...');
 console.time('Bootstrap Time');
-import { bootstrap } from '@gauzy/core';
+import { bootstrap } from '@irtranscripts/core';
 console.timeEnd('Bootstrap Time');
 console.log('Bootstrap Loaded');
 

@@ -1,3 +1,3 @@
-# Changelog for @gauzy/ui-react
+# Changelog for @irtranscripts/ui-react
 
 ## [Unreleased]

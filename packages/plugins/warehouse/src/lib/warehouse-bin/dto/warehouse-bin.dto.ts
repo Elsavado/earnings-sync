@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsEnum, IsInt, IsNumberString, IsObject, IsOptional, IsString, IsUUID, MaxLength, Min } from 'class-validator';
-import { ID } from '@gauzy/contracts';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 import { WarehouseBinType } from '../../warehouse.types';
 
 /**

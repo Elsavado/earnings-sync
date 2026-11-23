@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-onboarding-ui
+ * Public API Surface of @irtranscripts/plugin-onboarding-ui
  */
 export * from './lib/onboarding.module';
 export * from './lib/onboarding.routes';

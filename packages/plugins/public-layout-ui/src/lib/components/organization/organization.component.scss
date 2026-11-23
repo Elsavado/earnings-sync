@@ -6,7 +6,7 @@
  * The company counterpart of the public employee profile, built from the same
  * parts: a cover band with the logo overlapping it, the name and banner, a strip
  * of the figures the organization chose to publish, then underline tabs over
- * hairline panels. Paints only with the shared gauzy-* and theme tokens, so the
+ * hairline panels. Paints only with the shared irtranscripts-* and theme tokens, so the
  * light and dark themes both follow.
  */
 
@@ -18,8 +18,8 @@ $gap-xs: 0.25rem;
 
 $logo: 6rem;
 $cover-height: 7rem;
-$hairline: 1px solid var(--gauzy-border-default-color);
-$radius: var(--gauzy-radius-sm, 0.5rem);
+$hairline: 1px solid var(--irtranscripts-border-default-color);
+$radius: var(--irtranscripts-radius-sm, 0.5rem);
 
 :host {
 	display: block;
@@ -50,8 +50,8 @@ nb-card-body.profile-body {
 .profile-header {
 	position: relative;
 	border-radius: $radius;
-	background-color: var(--gauzy-card-1);
-	box-shadow: inset 0 0 0 1px var(--gauzy-border-default-color);
+	background-color: var(--irtranscripts-card-1);
+	box-shadow: inset 0 0 0 1px var(--irtranscripts-border-default-color);
 	overflow: hidden;
 }
 
@@ -87,11 +87,11 @@ nb-card-body.profile-body {
 	width: $logo;
 	height: $logo;
 	border-radius: 1rem;
-	background-color: var(--gauzy-card-1);
+	background-color: var(--irtranscripts-card-1);
 	// A ring in the card colour separates the logo from the cover behind it.
 	box-shadow:
-		0 0 0 4px var(--gauzy-card-1),
-		inset 0 0 0 1px var(--gauzy-border-default-color);
+		0 0 0 4px var(--irtranscripts-card-1),
+		inset 0 0 0 1px var(--irtranscripts-border-default-color);
 
 	img {
 		width: 100%;
@@ -105,7 +105,7 @@ nb-card-body.profile-body {
 	font-size: 1.5rem;
 	font-weight: 600;
 	letter-spacing: 0.02em;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 }
 
 // Editors: the uploader's file input covers the whole logo, invisibly.
@@ -145,7 +145,7 @@ nb-card-body.profile-body {
 	height: 1.75rem;
 	border-radius: 50%;
 	background-color: nb-theme(color-primary-500);
-	box-shadow: 0 0 0 2px var(--gauzy-card-1);
+	box-shadow: 0 0 0 2px var(--irtranscripts-card-1);
 	color: #fff;
 	pointer-events: none;
 
@@ -180,7 +180,7 @@ nb-card-body.profile-body {
 	font-weight: 600;
 	line-height: 1.5rem;
 	letter-spacing: -0.01em;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 	overflow-wrap: anywhere;
 }
 
@@ -188,7 +188,7 @@ nb-card-body.profile-body {
 	margin: 0;
 	font-size: 0.8125rem;
 	line-height: 1.25rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 	overflow-wrap: anywhere;
 }
 
@@ -200,7 +200,7 @@ nb-card-body.profile-body {
 	margin-top: $gap-xs;
 	font-size: 0.75rem;
 	line-height: 1.25rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 }
 
 .meta-item {
@@ -252,14 +252,14 @@ nb-card-body.profile-body {
 		min-width: 0;
 		padding: $gap-md $gap-xl;
 		// Leading hairline; the first of each row falls outside and is clipped.
-		box-shadow: -1px 0 0 0 var(--gauzy-border-default-color);
+		box-shadow: -1px 0 0 0 var(--irtranscripts-border-default-color);
 	}
 
 	dt {
 		margin: 0;
 		font-size: 0.75rem;
 		line-height: 1rem;
-		color: var(--gauzy-text-color-2);
+		color: var(--irtranscripts-text-color-2);
 	}
 
 	dd {
@@ -267,7 +267,7 @@ nb-card-body.profile-body {
 		font-size: 0.875rem;
 		font-weight: 600;
 		line-height: 1.25rem;
-		color: var(--gauzy-text-color-1);
+		color: var(--irtranscripts-text-color-1);
 		font-variant-numeric: tabular-nums;
 		overflow-wrap: anywhere;
 	}
@@ -277,7 +277,7 @@ nb-card-body.profile-body {
 	margin-inline-start: 0.125rem;
 	font-size: 0.75rem;
 	font-weight: 400;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 }
 
 /* ── Tabs ────────────────────────────────────────────────────────────────── */
@@ -306,7 +306,7 @@ nb-card-body.profile-body {
 	font-size: 0.8125rem;
 	font-weight: 500;
 	line-height: 1.25rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 	cursor: pointer;
 	transition: color 0.15s ease;
 
@@ -323,7 +323,7 @@ nb-card-body.profile-body {
 	}
 
 	&:hover {
-		color: var(--gauzy-text-color-1);
+		color: var(--irtranscripts-text-color-1);
 	}
 
 	&:focus-visible {
@@ -354,10 +354,10 @@ nb-card-body.profile-body {
 	height: 1.25rem;
 	padding: 0 0.375rem;
 	border-radius: 999px;
-	background-color: var(--gauzy-hover-tint);
+	background-color: var(--irtranscripts-hover-tint);
 	font-size: 0.75rem;
 	font-weight: 500;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 	font-variant-numeric: tabular-nums;
 }
 
@@ -385,8 +385,8 @@ nb-card-body.profile-body {
 .panel {
 	padding: $gap-lg $gap-xl $gap-xl;
 	border-radius: $radius;
-	background-color: var(--gauzy-card-1);
-	box-shadow: inset 0 0 0 1px var(--gauzy-border-default-color);
+	background-color: var(--irtranscripts-card-1);
+	box-shadow: inset 0 0 0 1px var(--irtranscripts-border-default-color);
 }
 
 .panel--flush {
@@ -402,13 +402,13 @@ nb-card-body.profile-body {
 	font-size: 0.875rem;
 	font-weight: 600;
 	line-height: 1.25rem;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 
 	nb-icon {
 		width: 1rem;
 		height: 1rem;
 		font-size: 1rem;
-		color: var(--gauzy-text-color-2);
+		color: var(--irtranscripts-text-color-2);
 	}
 }
 
@@ -416,7 +416,7 @@ nb-card-body.profile-body {
 	margin: 0;
 	font-size: 0.8125rem;
 	line-height: 1.375rem;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 	white-space: pre-line;
 	overflow-wrap: anywhere;
 }
@@ -425,7 +425,7 @@ nb-card-body.profile-body {
 .rich-text {
 	font-size: 0.8125rem;
 	line-height: 1.375rem;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 	overflow-wrap: anywhere;
 
 	::ng-deep {
@@ -454,7 +454,7 @@ nb-card-body.profile-body {
 			font-size: 0.875rem;
 			font-weight: 600;
 			line-height: 1.25rem;
-			color: var(--gauzy-text-color-1);
+			color: var(--irtranscripts-text-color-1);
 		}
 
 		a {
@@ -468,7 +468,7 @@ nb-card-body.profile-body {
 	font-size: 0.8125rem;
 	font-style: italic;
 	line-height: 1.25rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 }
 
 .empty-state {
@@ -483,14 +483,14 @@ nb-card-body.profile-body {
 		width: 2rem;
 		height: 2rem;
 		font-size: 2rem;
-		color: var(--gauzy-text-color-2);
+		color: var(--irtranscripts-text-color-2);
 		opacity: 0.6;
 	}
 
 	p {
 		margin: 0;
 		font-size: 0.8125rem;
-		color: var(--gauzy-text-color-2);
+		color: var(--irtranscripts-text-color-2);
 	}
 }
 
@@ -535,16 +535,16 @@ nb-card-body.profile-body {
 	gap: 0.375rem;
 	padding: 0.25rem 0.75rem;
 	border-radius: 999px;
-	background-color: var(--gauzy-hover-tint);
+	background-color: var(--irtranscripts-hover-tint);
 	font-size: 0.75rem;
 	line-height: 1.25rem;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 }
 
 // Text in the text tokens; the swatch carries the skill's colour.
 .chip--outlined {
 	background-color: transparent;
-	box-shadow: inset 0 0 0 1px var(--gauzy-border-default-color);
+	box-shadow: inset 0 0 0 1px var(--irtranscripts-border-default-color);
 }
 
 .swatch {
@@ -552,7 +552,7 @@ nb-card-body.profile-body {
 	width: 0.5rem;
 	height: 0.5rem;
 	border-radius: 50%;
-	background-color: var(--gauzy-text-color-2);
+	background-color: var(--irtranscripts-text-color-2);
 }
 
 /* Client focus: a checked list, so an entry of any length wraps cleanly */
@@ -572,7 +572,7 @@ nb-card-body.profile-body {
 	gap: $gap-sm;
 	font-size: 0.8125rem;
 	line-height: 1.25rem;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 	overflow-wrap: anywhere;
 
 	// Sits on the first line of text, however many lines the entry runs to.
@@ -626,14 +626,14 @@ nb-card-body.profile-body {
 	font-size: 0.8125rem;
 	font-weight: 500;
 	line-height: 1.25rem;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 	overflow-wrap: anywhere;
 }
 
 .language-level {
 	font-size: 0.6875rem;
 	line-height: 1rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 }
 
 // Four short bars, filled in the primary colour up to the level.
@@ -647,7 +647,7 @@ nb-card-body.profile-body {
 	width: 0.875rem;
 	height: 0.25rem;
 	border-radius: 999px;
-	background-color: var(--gauzy-border-default-color);
+	background-color: var(--irtranscripts-border-default-color);
 
 	&.is-on {
 		background-color: nb-theme(color-primary-500);
@@ -672,7 +672,7 @@ nb-card-body.profile-body {
 	min-width: 0;
 	padding: $gap-md;
 	border-radius: $radius;
-	box-shadow: inset 0 0 0 1px var(--gauzy-border-default-color);
+	box-shadow: inset 0 0 0 1px var(--irtranscripts-border-default-color);
 }
 
 .award-icon {
@@ -706,7 +706,7 @@ nb-card-body.profile-body {
 	font-size: 0.8125rem;
 	font-weight: 500;
 	line-height: 1.25rem;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 	overflow: hidden;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 2;
@@ -719,7 +719,7 @@ nb-card-body.profile-body {
 	gap: 0.25rem;
 	font-size: 0.75rem;
 	line-height: 1rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 	font-variant-numeric: tabular-nums;
 
 	nb-icon {
@@ -767,9 +767,9 @@ nb-card-body.profile-body {
 	justify-content: center;
 	border-radius: 50%;
 	overflow: hidden;
-	background-color: var(--gauzy-active-tint);
+	background-color: var(--irtranscripts-active-tint);
 	font-weight: 600;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 
 	img {
 		width: 100%;
@@ -785,7 +785,7 @@ nb-card-body.profile-body {
 }
 
 .person-avatar--anonymous {
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 
 	nb-icon {
 		width: 1.25rem;
@@ -805,7 +805,7 @@ nb-card-body.profile-body {
 	font-size: 0.875rem;
 	font-weight: 600;
 	line-height: 1.375rem;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 	text-decoration: none;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -820,7 +820,7 @@ a.person-name:hover {
 .person-position {
 	font-size: 0.75rem;
 	line-height: 1.125rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -830,7 +830,7 @@ a.person-name:hover {
 	flex: 0 0 auto;
 	font-size: 0.875rem;
 	font-weight: 600;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 	font-variant-numeric: tabular-nums;
 }
 
@@ -840,7 +840,7 @@ a.person-name:hover {
 	margin: 0;
 	font-size: 0.75rem;
 	line-height: 1.25rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 	overflow: hidden;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 3;
@@ -853,12 +853,12 @@ a.person-name:hover {
 	flex-wrap: wrap;
 	gap: $gap-sm $gap-md;
 	font-size: 0.75rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 
 	.chip {
 		padding: 0.0625rem 0.5rem;
 		font-size: 0.75rem;
-		color: var(--gauzy-text-color-2);
+		color: var(--irtranscripts-text-color-2);
 	}
 }
 
@@ -905,7 +905,7 @@ a.person-name:hover {
 	min-width: 0;
 	font-size: 0.8125rem;
 	font-weight: 500;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 	overflow-wrap: anywhere;
 }
 
@@ -913,7 +913,7 @@ a.person-name:hover {
 	flex: 0 1 auto;
 	min-width: 0;
 	font-size: 0.75rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 }
 
 /* ── Narrow viewports ────────────────────────────────────────────────────── */

@@ -10,7 +10,7 @@ import {
 	IsUUID,
 	ValidateNested
 } from 'class-validator';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 /**
  * One line as it is received back.

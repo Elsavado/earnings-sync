@@ -1,5 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
-import { RequestContext, TenantAwareCrudService } from '@gauzy/core';
+import { RequestContext, TenantAwareCrudService } from '@irtranscripts/core';
 import { TaxCategoryService } from './tax-category/tax-category.service';
 import { TaxRateService } from './tax-rate/tax-rate.service';
 import { TaxRegimeService } from './tax-regime/tax-regime.service';

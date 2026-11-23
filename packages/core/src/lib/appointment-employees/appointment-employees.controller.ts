@@ -18,7 +18,7 @@ import {
 	HttpCode,
 	UsePipes
 } from '@nestjs/common';
-import { IAppointmentEmployee, ID, PermissionsEnum } from '@gauzy/contracts';
+import { IAppointmentEmployee, ID, PermissionsEnum } from '@irtranscripts/contracts';
 import { Permissions } from './../shared/decorators';
 import { AbstractValidationPipe, UUIDValidationPipe } from './../shared/pipes';
 import { PermissionGuard, TenantPermissionGuard } from './../shared/guards';

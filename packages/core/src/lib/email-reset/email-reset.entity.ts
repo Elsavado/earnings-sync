@@ -2,7 +2,7 @@ import { JoinColumn, RelationId } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEmail, IsOptional, IsUUID } from 'class-validator';
 import { Exclude } from 'class-transformer';
-import { ID, IEmailReset, IUser } from '@gauzy/contracts';
+import { ID, IEmailReset, IUser } from '@irtranscripts/contracts';
 import { TenantBaseEntity, User } from '../core/entities/internal';
 import {
 	ColumnIndex,

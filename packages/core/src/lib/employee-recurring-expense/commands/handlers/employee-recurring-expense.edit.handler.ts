@@ -3,7 +3,7 @@ import {
 	IRecurringExpenseModel,
 	IStartUpdateTypeInfo,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 import { RequestContext } from '../../../core/context';
 import { RecurringExpenseEditHandler } from '../../../shared';

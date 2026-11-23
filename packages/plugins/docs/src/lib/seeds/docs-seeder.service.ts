@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { randomInt } from 'crypto';
 import { DataSource } from 'typeorm';
-import { isBetterSqlite3, isSqlite } from '@gauzy/config';
+import { isBetterSqlite3, isSqlite } from '@irtranscripts/config';
 import {
 	DocumentKindEnum,
 	DocumentKnowledgeStatusEnum,
@@ -10,8 +10,8 @@ import {
 	DocumentVisibilityEnum,
 	IOrganization,
 	ITenant
-} from '@gauzy/contracts';
-import { SeedDataService, getDefaultOrganizations } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { SeedDataService, getDefaultOrganizations } from '@irtranscripts/core';
 import { Document } from '../entities/document.entity';
 import { DocumentCategory } from '../entities/document-category.entity';
 import { DEFAULT_DOCUMENT_CATEGORIES } from './default-categories';

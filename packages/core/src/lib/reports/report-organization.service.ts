@@ -1,4 +1,4 @@
-import { IOrganization, IReport, UpdateReportMenuInput } from '@gauzy/contracts';
+import { IOrganization, IReport, UpdateReportMenuInput } from '@irtranscripts/contracts';
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { RequestContext } from '../core/context';
 import { TenantAwareCrudService } from '../core/crud';

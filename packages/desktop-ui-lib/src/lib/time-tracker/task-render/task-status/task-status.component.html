@@ -1,25 +1,25 @@
 @if (taskStatus$ | async) {
-  <gauzy-task-badge-view
+  <irtranscripts-task-badge-view
     [nbPopover]="contextMenu"
     [taskBadge]="taskStatus$ | async"
     nbPopoverTrigger="hover"
-  ></gauzy-task-badge-view>
+  ></irtranscripts-task-badge-view>
 } @else {
-  <gauzy-task-badge-default
+  <irtranscripts-task-badge-default
     [nbPopover]="contextMenu"
     [taskBadge]="status$ | async"
     nbPopoverTrigger="hover"
-  ></gauzy-task-badge-default>
+  ></irtranscripts-task-badge-default>
 }
 
 <ng-template #contextMenu>
   <div class="view">
     @for (taskStatus of statuses$ | async; track taskStatus) {
-      <gauzy-task-badge-view
+      <irtranscripts-task-badge-view
         (click)="updateStatus(taskStatus)"
         [taskBadge]="taskStatus"
         class="status-view"
-      ></gauzy-task-badge-view>
+      ></irtranscripts-task-badge-view>
     }
   </div>
 </ng-template>

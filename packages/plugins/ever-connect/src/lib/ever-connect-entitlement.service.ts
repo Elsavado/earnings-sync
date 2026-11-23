@@ -72,7 +72,7 @@ export interface EntitlementSummary {
 	subject: 'instance' | 'link';
 	status: EntitlementStatus;
 	ladder: EntitlementLadder;
-	/** The licence certificate ids the document names (`EVER-GAUZY-SB-1A2B3C4D`): shown, never checked. */
+	/** The licence certificate ids the document names (`EVER-IRTRANSCRIPTS-SB-1A2B3C4D`): shown, never checked. */
 	licence_ids: string[];
 	seq: number | null;
 	issued_at: string | null;
@@ -86,7 +86,7 @@ export interface EntitlementSummary {
 	meters: Record<string, { used: number; period: string | null }>;
 }
 
-/** A link's document names another Gauzy tenant or organization than the one the link belongs to here. */
+/** A link's document names another IRTranscripts tenant or organization than the one the link belongs to here. */
 export class LinkBindingError extends Error {
 	readonly code = 'tenant_mismatch';
 	constructor() {
@@ -97,7 +97,7 @@ export class LinkBindingError extends Error {
 
 /**
  * Throws {@link LinkBindingError} unless the verified link document is bound to `owner` (its
- * `ever.tenant` names this Gauzy tenant and organization, when it names one).
+ * `ever.tenant` names this IRTranscripts tenant and organization, when it names one).
  */
 export function checkLinkBinding(
 	verified: VerifiedEntitlement,

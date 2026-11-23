@@ -1,4 +1,4 @@
-import { prepareSQLQuery as p } from '@gauzy/core';
+import { prepareSQLQuery as p } from '@irtranscripts/core';
 
 /**
  * The SQL mirror of the share overlay predicate (`document-access.predicate.ts`).

@@ -2,7 +2,7 @@ import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import * as jwt from 'jsonwebtoken';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { ApiCallLogService } from './api-call-log.service';
 import { ApiCallLog } from './api-call-log.entity';

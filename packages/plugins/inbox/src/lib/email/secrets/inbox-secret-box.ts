@@ -1,5 +1,5 @@
 import { createCipheriv, createDecipheriv, hkdfSync, randomBytes } from 'node:crypto';
-import { isKnownDefaultSecret } from '@gauzy/contracts';
+import { isKnownDefaultSecret } from '@irtranscripts/contracts';
 
 type Env = Record<string, string | undefined>;
 
@@ -28,11 +28,11 @@ export class InboxSecretError extends Error {
 			case 'encryption_key_malformed':
 				return 'ENCRYPTION_KEY is set but is not a base64-encoded 32-byte key; provider credentials cannot be stored. Generate one with `openssl rand -base64 32`.';
 			case 'encryption_key_default':
-				return 'ENCRYPTION_KEY is a value published in the Gauzy repository; provider credentials cannot be stored safely.';
+				return 'ENCRYPTION_KEY is a value published in the IRTranscripts repository; provider credentials cannot be stored safely.';
 			case 'no_secret':
 				return 'Set ENCRYPTION_KEY (a base64-encoded 32-byte key) on the API before adding an email provider account: its credentials are stored encrypted.';
 			case 'jwt_secret_default':
-				return 'ENCRYPTION_KEY is unset and JWT_SECRET is a value published in the Gauzy repository; set ENCRYPTION_KEY before adding an email provider account.';
+				return 'ENCRYPTION_KEY is unset and JWT_SECRET is a value published in the IRTranscripts repository; set ENCRYPTION_KEY before adding an email provider account.';
 			default:
 				return `A stored email provider credential cannot be read (${code}).`;
 		}
@@ -40,8 +40,8 @@ export class InboxSecretError extends Error {
 }
 
 const PREFIX = 'ib1';
-const HKDF_SALT = Buffer.from('gauzy-inbox', 'utf8');
-const HKDF_INFO = 'gauzy-inbox-secret-v1';
+const HKDF_SALT = Buffer.from('irtranscripts-inbox', 'utf8');
+const HKDF_INFO = 'irtranscripts-inbox-secret-v1';
 const REQUIRED_KEY_BYTES = 32;
 
 const set = (value: string | undefined): value is string => typeof value === 'string' && value.trim() !== '';

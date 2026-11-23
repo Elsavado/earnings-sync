@@ -1,6 +1,6 @@
 /**
- * Owner decision 8 (2026-10-22): the API Gauzy Desktop runs locally listens on 127.0.0.1 only; Gauzy
- * Server and Gauzy API Server listen on the network unless their LAN access setting is off.
+ * Owner decision 8 (2026-10-22): the API IRTranscripts Desktop runs locally listens on 127.0.0.1 only; IRTranscripts
+ * Server and IRTranscripts API Server listen on the network unless their LAN access setting is off.
  *
  * Before, `setApiConfig()` always passed API_HOST=0.0.0.0, overriding whatever the launcher set, so
  * every desktop app accepted connections from the whole network.
@@ -79,7 +79,7 @@ describe('ApiService', () => {
 	});
 
 	describe('listen address', () => {
-		it('Gauzy Desktop: 127.0.0.1, even with a stored lanAccess: true', async () => {
+		it('IRTranscripts Desktop: 127.0.0.1, even with a stored lanAccess: true', async () => {
 			const { started, child } = start(false, { lanAccess: true, port: 3000 });
 			listening(child);
 			await started;
@@ -144,7 +144,7 @@ describe('ApiService', () => {
 			expect(child.env.API_BASE_URL).toBe('http://192.168.1.20:3000');
 		});
 
-		it('Gauzy Desktop: a stored LAN host still gives a loopback base URL', async () => {
+		it('IRTranscripts Desktop: a stored LAN host still gives a loopback base URL', async () => {
 			const { started, child } = start(false, { host: '192.168.1.20', port: 3000 });
 			listening(child);
 			await started;

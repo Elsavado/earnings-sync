@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { Between, DeleteResult, FindOptionsWhere, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { ID, IOfficialHoliday, IOfficialHolidayFindInput, IPagination } from '@gauzy/contracts';
+import { ID, IOfficialHoliday, IOfficialHolidayFindInput, IPagination } from '@irtranscripts/contracts';
 import { RequestContext } from './../core/context';
 import { TenantAwareCrudService } from './../core/crud';
 import { LegacyFindOneOptions } from './../core/utils';

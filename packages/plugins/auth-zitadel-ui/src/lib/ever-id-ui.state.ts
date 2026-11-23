@@ -1,4 +1,4 @@
-import { environment } from '@gauzy/ui-config';
+import { environment } from '@irtranscripts/ui-config';
 
 /** Path of the settings page, relative to `/pages/settings`. */
 export const CONNECTED_IDENTITIES_PATH = 'connected-identities';

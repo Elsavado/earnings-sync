@@ -1,7 +1,7 @@
 import { UseGuards } from '@nestjs/common';
 import { Query, Resolver } from '@nestjs/graphql';
-import { FeatureFlag, Public } from '@gauzy/common';
-import { FeatureEnum } from '@gauzy/contracts';
+import { FeatureFlag, Public } from '@irtranscripts/common';
+import { FeatureEnum } from '@irtranscripts/contracts';
 import { FEATURE_GRAPHQL } from '../feature/graphql-feature.code';
 import { FeatureFlagGuard } from '../shared/guards';
 import { StatsGuard } from './stats.guard';

@@ -88,7 +88,7 @@ describe('WakatimeService under MikroORM', () => {
 		process.env.DB_ORM = 'mikro-orm';
 		try {
 			jest.isolateModules(() => {
-				jest.doMock('@gauzy/core', () => ({
+				jest.doMock('@irtranscripts/core', () => ({
 					MultiORMEnum: { TypeORM: 'typeorm', MikroORM: 'mikro-orm' },
 					getORMType: () => process.env.DB_ORM,
 					// A signed-in employee: `parameterSanitize` files heartbeats under the caller's own

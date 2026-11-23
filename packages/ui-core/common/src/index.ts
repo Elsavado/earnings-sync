@@ -1,5 +1,5 @@
 /*
- * Public API Surface of @gauzy/ui-core/common
+ * Public API Surface of @irtranscripts/ui-core/common
  */
 export * from './lib/common.module';
 export * from './lib/constants';

@@ -42,7 +42,7 @@ export const TEXT_COLORS = [
 	'#db2777'
 ];
 
-/** 5 highlight swatches from the Gauzy palette (spec 05 §5 Highlight). */
+/** 5 highlight swatches from the IRTranscripts palette (spec 05 §5 Highlight). */
 export const HIGHLIGHT_COLORS = ['#fef08a', '#bbf7d0', '#bfdbfe', '#fbcfe8', '#fed7aa'];
 
 type TurnInto =

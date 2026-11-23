@@ -1,4 +1,4 @@
-import { ICurrency, MoneySymbolPosition, RoundingMode } from '@gauzy/contracts';
+import { ICurrency, MoneySymbolPosition, RoundingMode } from '@irtranscripts/contracts';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsEnum, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength, Min } from 'class-validator';
 import { BaseEntity } from '../core/entities/internal';

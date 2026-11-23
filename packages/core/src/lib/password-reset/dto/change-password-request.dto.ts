@@ -1,4 +1,4 @@
-import { IChangePasswordRequest } from '@gauzy/contracts';
+import { IChangePasswordRequest } from '@irtranscripts/contracts';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, IsStrongPassword, MinLength } from 'class-validator';
 import { Match } from './../../shared/validators';

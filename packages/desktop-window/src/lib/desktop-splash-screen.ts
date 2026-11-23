@@ -5,7 +5,7 @@ import {
 	RegisteredWindow,
 	WindowConfig,
 	WindowManager
-} from '@gauzy/desktop-core';
+} from '@irtranscripts/desktop-core';
 
 /**
  * Represents the splash screen window in the application.

@@ -1,4 +1,4 @@
-import { DecimalString } from '@gauzy/contracts';
+import { DecimalString } from '@irtranscripts/contracts';
 import { CurrencyPrecision, DEFAULT_CURRENCY_DECIMALS, currencyPrecision } from './currency-precision';
 
 /**

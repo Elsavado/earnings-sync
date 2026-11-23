@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 import { RolePermissionUtils } from '../../role-permission/utils';
 
 export class RolePermissionsReload1644312012849 implements MigrationInterface {

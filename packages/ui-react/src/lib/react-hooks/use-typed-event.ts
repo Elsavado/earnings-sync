@@ -6,7 +6,7 @@ import {
 	type PluginEvent,
 	type TypedEventHandle,
 	type SubscribeOptions
-} from '@gauzy/plugin-ui';
+} from '@irtranscripts/plugin-ui';
 import { useInjector } from './use-injector';
 
 /**

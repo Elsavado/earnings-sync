@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsOptional, IsUUID } from 'class-validator';
-import { ActivepiecesConnectionMode } from '@gauzy/contracts';
+import { ActivepiecesConnectionMode } from '@irtranscripts/contracts';
 
 /**
  * DTO for choosing how the tenant reaches Activepieces (`POST /integration/activepieces/connection-mode`).

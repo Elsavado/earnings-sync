@@ -6,8 +6,8 @@
 import '../core/entities/internal';
 
 import { DataSource, EntitySchema, Repository } from 'typeorm';
-import { WebhookDeliveryStatus } from '@gauzy/contracts';
-import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@gauzy/config';
+import { WebhookDeliveryStatus } from '@irtranscripts/contracts';
+import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@irtranscripts/config';
 import { WebhookDeliveryService } from './webhook-delivery.service';
 import { WebhookSubscriptionService } from './webhook-subscription.service';
 import { WebhookTransport } from './webhook-transport';

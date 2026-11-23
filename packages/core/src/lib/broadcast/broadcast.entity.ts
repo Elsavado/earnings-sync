@@ -12,8 +12,8 @@ import {
 	ID,
 	IEmployee,
 	JsonData
-} from '@gauzy/contracts';
-import { isMySQL, isPostgres } from '@gauzy/config';
+} from '@irtranscripts/contracts';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
 import { BasePerEntityType, Employee } from '../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from '../core/decorators/entity';
 import { MikroOrmBroadcastRepository } from './repository/mikro-orm-broadcast.repository';

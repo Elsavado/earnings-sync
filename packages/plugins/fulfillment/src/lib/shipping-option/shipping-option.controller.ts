@@ -13,7 +13,7 @@ import {
 	UsePipes
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { IPagination } from '@gauzy/contracts';
+import { IPagination } from '@irtranscripts/contracts';
 import {
 	AbstractValidationPipe,
 	BaseQueryDTO,
@@ -25,7 +25,7 @@ import {
 	TenantPermissionGuard,
 	UUIDValidationPipe,
 	UseValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { ShippingOption } from './shipping-option.entity';
 import { IShippingEligibilityContext, ShippingOptionService } from './shipping-option.service';
 import { FULFILLMENT_PERMISSIONS } from '../fulfillment.permissions';

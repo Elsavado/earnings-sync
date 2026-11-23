@@ -2,7 +2,7 @@
 {
   "MD043": {
     "headings": [
-      "# @gauzy/plugin-auth-keycloak",
+      "# @irtranscripts/plugin-auth-keycloak",
       "## Switching it on",
       "## What it adds",
       "## How sign-in works",
@@ -13,9 +13,9 @@
 }
 -->
 
-# @gauzy/plugin-auth-keycloak
+# @irtranscripts/plugin-auth-keycloak
 
-Keycloak as an additional way to sign in to Ever Gauzy. Every existing
+Keycloak as an additional way to sign in to Ever IRTranscripts. Every existing
 sign-in method keeps working exactly as before.
 
 ## Switching it on
@@ -34,7 +34,7 @@ The plugin is loaded only when all of these are set on the API:
 - `KEYCLOAK_CALLBACK_URL` (optional): defaults to
   `<API_BASE_URL>/api/auth/keycloak/callback`.
 
-The `KEYCLOAK_*` names are the ones Gauzy has always used. The sample
+The `KEYCLOAK_*` names are the ones IRTranscripts has always used. The sample
 placeholder `XXXXXXX` never counts as configured.
 
 The login button appears when the web app also has `KEYCLOAK_AUTH_LINK` set
@@ -56,18 +56,18 @@ button and the API makes no request to Keycloak.
 
 The authorization code flow runs with PKCE, `state` and `nonce` (kept in a
 short-lived signed `HttpOnly` cookie), using the shared OpenID Connect
-library of `@gauzy/auth`. The ID token is verified against the realm's
+library of `@irtranscripts/auth`. The ID token is verified against the realm's
 published keys. Only an e-mail address Keycloak reports as verified is used:
-it signs the person in to the Gauzy account that owns that address, through
+it signs the person in to the IRTranscripts account that owns that address, through
 the same path the Google, GitHub and Microsoft sign-ins use. An address
-without a Gauzy account goes to the register page; nothing is created
+without a IRTranscripts account goes to the register page; nothing is created
 automatically.
 
 Keycloak must publish its OpenID configuration at
 `<issuer>/.well-known/openid-configuration` with that exact `issuer`, and
 its endpoints on the same origin. Request the `email` scope for the client.
 
-The Keycloak passport strategy and guard that used to sit in `@gauzy/auth`
+The Keycloak passport strategy and guard that used to sit in `@irtranscripts/auth`
 now live in this package, unchanged.
 
 ## Turning it off

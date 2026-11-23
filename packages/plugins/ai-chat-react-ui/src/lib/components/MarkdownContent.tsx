@@ -36,7 +36,7 @@ function MarkdownListItem({ className, children, node: _node, ...props }: Markdo
  * and hardened HTML handling out of the box.
  *
  * Styles come from `streamdown/styles.css` (loaded by the host app,
- * see apps/gauzy angular.json). Colors inherit from the chat theme.
+ * see apps/irtranscripts angular.json). Colors inherit from the chat theme.
  */
 export const MarkdownContent = memo(function MarkdownContent({ content, isStreaming }: MarkdownContentProps) {
 	const style: CSSProperties = {

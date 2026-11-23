@@ -1,6 +1,6 @@
 import { ApiPropertyOptional, IntersectionType, PickType } from '@nestjs/swagger';
 import { IsDateString, IsNumber, IsOptional, IsUUID } from 'class-validator';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { BaseQueryDTO } from '../../core/dto/base-query.dto';
 import { TenantOrganizationBaseDTO } from '../../core/dto/tenant-organization-base.dto';
 import { ApiCallLog } from '../api-call-log.entity';

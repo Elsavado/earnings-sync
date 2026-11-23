@@ -1,6 +1,6 @@
-# @gauzy/plugin-integration-upwork
+# @irtranscripts/plugin-integration-upwork
 
-This library was generated with [Nx](https://nx.dev). It contains the Upwork Integration plugin for the Gauzy platform.
+This library was generated with [Nx](https://nx.dev). It contains the Upwork Integration plugin for the IRTranscripts platform.
 
 ## Overview
 
@@ -23,7 +23,7 @@ After building your library with `yarn nx build plugin-integration-upwork`, go t
 Install the Integration Upwork plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-integration-upwork
+npm install @irtranscripts/plugin-integration-upwork
 # or
-yarn add @gauzy/plugin-integration-upwork
+yarn add @irtranscripts/plugin-integration-upwork
 ```

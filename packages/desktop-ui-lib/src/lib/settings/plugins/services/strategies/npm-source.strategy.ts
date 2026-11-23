@@ -1,4 +1,4 @@
-import { INPMSource, IPluginSource } from '@gauzy/contracts';
+import { INPMSource, IPluginSource } from '@irtranscripts/contracts';
 import { ISourceStrategy } from '../../shared/plugin.model';
 
 export class NpmSourceStrategy implements ISourceStrategy<INPMSource> {

@@ -26,8 +26,8 @@ import {
 	ITimeSlotStatistics,
 	PermissionsEnum,
 	TimeFormatEnum
-} from '@gauzy/contracts';
-import { EmployeesService, IDashboardWidgetContext, Store } from '@gauzy/ui-core/core';
+} from '@irtranscripts/contracts';
+import { EmployeesService, IDashboardWidgetContext, Store } from '@irtranscripts/ui-core/core';
 import {
 	ALL_EMPLOYEES_SELECTED,
 	ComponentsModule,
@@ -37,7 +37,7 @@ import {
 	ScreenshotsItemModule,
 	TimeZoneService,
 	UtcToLocalPipe
-} from '@gauzy/ui-core/shared';
+} from '@irtranscripts/ui-core/shared';
 import { BaseTimeTrackListWidgetComponent } from './base-time-track-list-widget.component';
 import { TimeTrackWidgetStateComponent } from './time-track-widget-state.component';
 

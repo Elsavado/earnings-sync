@@ -48,7 +48,7 @@ describe.each(TEST_TARGETS)('EverStatsCollector on $name', (target) => {
 		const collected = await collector().collect(SEPTEMBER, CANARY_NOW);
 		const built = new EverStatsBuilder().build({
 			identity: { instanceId: randomUUID() },
-			config: { country: 'ZZ', serves: ['gauzy'], installSource: 'self-hosted' },
+			config: { country: 'ZZ', serves: ['irtranscripts'], installSource: 'self-hosted' },
 			release: parseReleaseVersion('v111.47.0'),
 			period: SEPTEMBER,
 			final: false,

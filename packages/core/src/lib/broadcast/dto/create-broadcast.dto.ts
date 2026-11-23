@@ -1,5 +1,5 @@
 import { IntersectionType, OmitType } from '@nestjs/swagger';
-import { IBroadcastCreateInput } from '@gauzy/contracts';
+import { IBroadcastCreateInput } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../core/dto';
 import { Broadcast } from '../broadcast.entity';
 

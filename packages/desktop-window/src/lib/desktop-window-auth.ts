@@ -5,7 +5,7 @@ import {
 	DefaultWindow,
 	WindowConfig,
 	RegisteredWindow
-} from '@gauzy/desktop-core';
+} from '@irtranscripts/desktop-core';
 
 /**
  * Represents the Authentication  window in the application.

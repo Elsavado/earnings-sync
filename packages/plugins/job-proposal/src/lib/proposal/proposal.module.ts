@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CqrsModule } from '@nestjs/cqrs';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { RolePermissionModule, SeederModule } from '@gauzy/core';
+import { RolePermissionModule, SeederModule } from '@irtranscripts/core';
 import { Proposal } from './proposal.entity';
 import { ProposalController } from './proposal.controller';
 import { ProposalService } from './proposal.service';

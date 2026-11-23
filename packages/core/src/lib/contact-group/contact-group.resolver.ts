@@ -1,7 +1,7 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, ID, Int, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
-import { FeatureFlag } from '@gauzy/common';
-import { ContactGroupType, IContactGroup, ID as Id, PermissionsEnum } from '@gauzy/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
+import { ContactGroupType, IContactGroup, ID as Id, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	ConnectionFilter,
 	ConnectionPageRequest,

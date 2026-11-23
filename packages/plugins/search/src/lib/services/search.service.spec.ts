@@ -1,5 +1,5 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a query service needs and none of which is available
  * outside a running application. The seam is therefore doubled at the module boundary and **the query
  * path under test is the real one**: the real query service, the real declaration registry, the real
@@ -11,9 +11,9 @@
  * narrow together" and "one filter is a union across entity types" are assertions about results, not
  * about a call log.
  *
- * `@gauzy/config` is read at import time by the provider's dialect detection, so it is doubled too.
+ * `@irtranscripts/config` is read at import time by the provider's dialect detection, so it is doubled too.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
@@ -37,7 +37,7 @@ jest.mock('@gauzy/core', () => {
 		BaseEvent: class {},
 		EventBus: class {},
 		EventOutboxService: class {},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		isUniqueViolation: (error: any) => Boolean(error?.code === '23505'),
 		SearchDocument: class {},
 		SearchIndexDefinition: class {},
@@ -61,7 +61,7 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	DatabaseTypeEnum: {
 		mongodb: 'mongodb',
 		sqlite: 'sqlite',
@@ -77,8 +77,8 @@ import {
 	SearchFieldKind,
 	SearchFilterOperator,
 	SearchMatchMode
-} from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { SearchIndexRegistry } from '../registry/search-index.registry';
 import { DatabaseSearchProvider } from '../providers/database-search.provider';
 import { SearchProviderRegistry } from '../providers/search-provider.registry';

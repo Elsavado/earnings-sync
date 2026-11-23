@@ -3,7 +3,7 @@ import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NbCardModule, NbIconModule, NbFormFieldModule, NbInputModule, NbTooltipModule } from '@nebular/theme';
 
 @Component({
-    selector: 'gauzy-card-details-section',
+    selector: 'irtranscripts-card-details-section',
     templateUrl: './card-details-section.component.html',
     styleUrls: ['./card-details-section.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

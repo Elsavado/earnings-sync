@@ -15,7 +15,7 @@ import {
 	SellerVerificationStatus,
 	TaxCollectionMode,
 	TaxRegistrationScheme
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	JsonColumn,
@@ -27,7 +27,7 @@ import {
 	OrganizationContact,
 	TenantOrganizationBaseEntity,
 	User
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { MikroOrmSellerRepository } from './repository/mikro-orm-seller.repository';
 import { SellerOffering } from '../seller-offering/seller-offering.entity';
 import { SellerTransaction } from '../seller-transaction/seller-transaction.entity';

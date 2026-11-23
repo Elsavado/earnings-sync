@@ -1,4 +1,4 @@
-import { ID, IRole, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IRole, PermissionsEnum } from '@irtranscripts/contracts';
 import { IAuthenticatedUser } from '../../core/context/types';
 
 /**

@@ -23,7 +23,7 @@ import {
 	ITask,
 	ITaskView,
 	ProjectModuleStatusEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	OrganizationProject,
 	OrganizationSprint,

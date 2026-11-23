@@ -1,8 +1,8 @@
 import { randomUUID } from 'node:crypto';
 import { EntityManager as MikroOrmEntityManager, LockMode, QueryOrder, raw } from '@mikro-orm/core';
 import { SqlEntityManager } from '@mikro-orm/knex';
-import { isMySQL, isPostgres } from '@gauzy/config';
-import { EventOutboxStatus, ID, IOutboxWriteInput, JsonData } from '@gauzy/contracts';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
+import { EventOutboxStatus, ID, IOutboxWriteInput, JsonData } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context/request-context';
 import { EventDelivery } from './event-delivery.entity';
 import { EventOutbox } from './event-outbox.entity';

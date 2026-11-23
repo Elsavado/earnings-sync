@@ -17,7 +17,7 @@ import {
 } from '@nestjs/common';
 import { ApiHeader, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
-import { CommerceCartValidationMode, ICommerceCart } from '@gauzy/contracts';
+import { CommerceCartValidationMode, ICommerceCart } from '@irtranscripts/contracts';
 import {
 	AbstractValidationPipe,
 	CrudController,
@@ -30,7 +30,7 @@ import {
 	UseValidationPipe,
 	Versioned,
 	versionExpectationOf
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { CommerceCart } from './commerce-cart.entity';
 import { CommerceCartService } from './commerce-cart.service';
 import { CART_PERMISSIONS } from '../cart.permissions';

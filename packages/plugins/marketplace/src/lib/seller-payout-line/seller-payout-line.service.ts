@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable, MethodNotAllowedException, NotFoundException } from '@nestjs/common';
 import { DeleteResult, FindOptionsWhere } from 'typeorm';
-import { ID, IPagination } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { ID, IPagination } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { SellerPayoutLine } from './seller-payout-line.entity';
 import { MikroOrmSellerPayoutLineRepository } from './repository/mikro-orm-seller-payout-line.repository';
 import { TypeOrmSellerPayoutLineRepository } from './repository/type-orm-seller-payout-line.repository';

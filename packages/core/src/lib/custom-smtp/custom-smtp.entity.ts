@@ -1,8 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsEmail, IsNumber, IsOptional, IsString } from 'class-validator';
 import { Exclude, Expose } from 'class-transformer';
-import { ICustomSmtp } from '@gauzy/contracts';
-import { ISMTPConfig } from '@gauzy/common';
+import { ICustomSmtp } from '@irtranscripts/contracts';
+import { ISMTPConfig } from '@irtranscripts/common';
 import { TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { IsSecret } from './../core/decorators';
 import { MultiORMColumn, MultiORMEntity } from './../core/decorators/entity';

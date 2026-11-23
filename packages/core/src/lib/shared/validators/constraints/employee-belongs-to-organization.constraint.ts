@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
-import { ID, IEmployee } from '@gauzy/contracts';
-import { isEmpty } from '@gauzy/utils';
+import { ID, IEmployee } from '@irtranscripts/contracts';
+import { isEmpty } from '@irtranscripts/utils';
 import { RequestContext } from '../../../core/context';
 import { MultiORM, MultiORMEnum, getORMType } from '../../../core/utils';
 import { TypeOrmEmployeeRepository } from '../../../employee/repository/type-orm-employee.repository';

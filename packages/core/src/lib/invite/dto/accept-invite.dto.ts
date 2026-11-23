@@ -12,7 +12,7 @@ import {
 	MinLength,
 	ValidateNested
 } from 'class-validator';
-import { IInviteAcceptInput, IUser, LanguagesEnum } from '@gauzy/contracts';
+import { IInviteAcceptInput, IUser, LanguagesEnum } from '@irtranscripts/contracts';
 import { TermsAcceptanceClaimDTO } from './../../terms-acceptance/dto';
 
 /**

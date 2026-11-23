@@ -1,4 +1,4 @@
-jest.mock('@gauzy/common', () => ({ Public: () => () => undefined }));
+jest.mock('@irtranscripts/common', () => ({ Public: () => () => undefined }));
 
 import { Logger } from '@nestjs/common';
 import { getControllerClass } from './jira.controller';

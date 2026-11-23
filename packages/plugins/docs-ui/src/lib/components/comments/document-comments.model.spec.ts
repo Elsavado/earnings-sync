@@ -1,4 +1,4 @@
-import { IComment, ID, IEmployee } from '@gauzy/contracts';
+import { IComment, ID, IEmployee } from '@irtranscripts/contracts';
 import {
 	applyMentionPick,
 	buildCommentThread,

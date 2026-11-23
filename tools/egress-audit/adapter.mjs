@@ -1,4 +1,4 @@
-// Ever Gauzy's adapter for the Ever Platform egress audit (see README.md).
+// Ever IRTranscripts's adapter for the Ever Platform egress audit (see README.md).
 //
 // The audit's driver runs the API hooks inside the sealed audit network, so they reach the API by
 // its compose service name. The browser hooks (uiLogin, routeParams) run in the audit's browser,
@@ -16,7 +16,7 @@
 //   an Ever host: the plugin must not use it (no lookup, no request, no redirect to it).
 // - entitlement_ladder: entitlement documents dated so the stored one is in grace, then paused, one
 //   issued in the future (refused, the stored one kept) and one slightly ahead (accepted): the
-//   ladder follows, and Gauzy's own routes answer the same at every step.
+//   ladder follows, and IRTranscripts's own routes answer the same at every step.
 // - browser leg: sign in through the real sign-in page (the harness checks that the sign-in holds:
 //   a route that ends on the sign-in page faults the walk).
 
@@ -102,7 +102,7 @@ const MOCK_LINK_CODE = 'EVL-TEST-0000-0002';
  */
 const SIGN_IN_ON = {
 	ZITADEL_ISSUERS: 'https://auth.ever.co',
-	ZITADEL_CLIENT_ID: 'gauzy-egress-audit',
+	ZITADEL_CLIENT_ID: 'irtranscripts-egress-audit',
 	ZITADEL_CLIENT_SECRET: 'egress-audit-not-a-secret'
 };
 
@@ -194,7 +194,7 @@ async function connected(ctx) {
 	return session;
 }
 
-/** Each of Gauzy's own routes the ladder must leave alone, with its status. */
+/** Each of IRTranscripts's own routes the ladder must leave alone, with its status. */
 async function coreRoutes(session) {
 	const login = await session.fetch(`${session.baseUrl}/api/auth/login`, {
 		method: 'POST',
@@ -225,7 +225,7 @@ async function coreRoutes(session) {
  */
 const LOADED_BY_MISTAKE_WOULD_SHOW = {
 	EVER_STATS_API_URL: 'https://ever-audit-sink',
-	EVER_STATS_SERVES: 'gauzy,teams'
+	EVER_STATS_SERVES: 'irtranscripts,teams'
 };
 
 /**
@@ -237,7 +237,7 @@ const LOADED_BY_MISTAKE_WOULD_SHOW = {
 const LOADED_OFF = {
 	EVER_STATS_API_URL: 'https://ever-audit-sink',
 	EVER_STATS_SEND_INTERVAL_S: '300',
-	EVER_STATS_SERVES: 'gauzy,teams'
+	EVER_STATS_SERVES: 'irtranscripts,teams'
 };
 
 /** Signs in through the API as the seeded Super Admin; answers the bearer headers and the user. */
@@ -392,18 +392,18 @@ export default {
 	/**
 	 * entitlement_ladder: the mock platform's clock is moved so the documents it signs are dated in
 	 * the past or the future of the installation's clock. At each step the installation refreshes
-	 * on demand (a new document each time) and the ladder must follow; Gauzy's own routes must answer
+	 * on demand (a new document each time) and the ladder must follow; IRTranscripts's own routes must answer
 	 * as they did before the first step.
 	 */
 	async entitlementLadder(ctx) {
 		const session = await connected(ctx);
 		const org = session.organizationId;
 		const before = await coreRoutes(session);
-		ctx.log(`adapter: Gauzy's routes before: ${JSON.stringify(before)}`);
+		ctx.log(`adapter: IRTranscripts's routes before: ${JSON.stringify(before)}`);
 		const failing = Object.entries(before).filter(([, status]) => status < 200 || status >= 300);
 		if (failing.length) {
 			throw new Error(
-				`Gauzy's own routes must answer before the ladder starts: ${failing.map(([route, status]) => `${route} ${status}`).join('; ')}`
+				`IRTranscripts's own routes must answer before the ladder starts: ${failing.map(([route, status]) => `${route} ${status}`).join('; ')}`
 			);
 		}
 		const realNow = () => Math.floor(Date.now() / 1000);
@@ -468,11 +468,11 @@ export default {
 			const after = await coreRoutes(session);
 			if (JSON.stringify(after) !== JSON.stringify(before)) {
 				throw new Error(
-					`${step.name}: Gauzy's own routes changed: ${JSON.stringify(before)} then ${JSON.stringify(after)}`
+					`${step.name}: IRTranscripts's own routes changed: ${JSON.stringify(before)} then ${JSON.stringify(after)}`
 				);
 			}
 		}
-		ctx.log("adapter: the ladder followed every document and Gauzy's own routes answered the same at every step");
+		ctx.log("adapter: the ladder followed every document and IRTranscripts's own routes answered the same at every step");
 	},
 
 	/** Ids for the browser's routes (the user, the organization, the employee): never a token. */

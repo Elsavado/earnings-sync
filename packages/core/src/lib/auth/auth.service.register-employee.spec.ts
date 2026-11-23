@@ -5,7 +5,7 @@
  */
 import '../core/entities/internal';
 import { ForbiddenException } from '@nestjs/common';
-import { LanguagesEnum } from '@gauzy/contracts';
+import { LanguagesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { MultiORMEnum } from '../core/utils';
 import { AuthService } from './auth.service';

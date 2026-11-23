@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { NbMenuItem } from '@nebular/theme';
-import { IDocument } from '@gauzy/contracts';
+import { IDocument } from '@irtranscripts/contracts';
 import { DOCS_ACTION_MENU_CLASS } from '../../actions/docs-action-menu';
 
 /**

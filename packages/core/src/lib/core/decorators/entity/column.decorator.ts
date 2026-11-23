@@ -1,6 +1,6 @@
 import { PrimaryKey as MikroORMPrimaryKey, Property as MikroORMColumn } from '@mikro-orm/core';
 import { Column as TypeORMColumn } from 'typeorm';
-import { isObject } from '@gauzy/utils';
+import { isObject } from '@irtranscripts/utils';
 import { ColumnDataType, ColumnOptions } from './column-options.types';
 import { parseMikroOrmColumnOptions, resolveDbType } from './column.helper';
 import { MultiORMEnum, getORMType } from '../../utils';

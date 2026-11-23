@@ -1,7 +1,7 @@
 import { ICommandHandler, CommandHandler } from '@nestjs/cqrs';
 import { chain, pluck } from 'underscore';
 import * as moment from 'moment';
-import { IReportDayGroupByEmployee, ITimeLog } from '@gauzy/contracts';
+import { IReportDayGroupByEmployee, ITimeLog } from '@irtranscripts/contracts';
 import { GetTimeLogGroupByEmployeeCommand } from '../get-time-log-group-by-employee.command';
 import { calculateAverage, calculateAverageActivity } from './../../time-log.utils';
 

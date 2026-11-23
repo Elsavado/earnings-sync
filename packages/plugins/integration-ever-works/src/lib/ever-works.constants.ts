@@ -1,4 +1,4 @@
-import { IntegrationEnum } from '@gauzy/contracts';
+import { IntegrationEnum } from '@irtranscripts/contracts';
 
 /** The catalog name of the integration (`integration.name`, `integration_tenant.name`). */
 export const EVER_WORKS_INTEGRATION_NAME = IntegrationEnum.EVER_WORKS;
@@ -23,13 +23,13 @@ export const EVER_WORKS_ROUTE_PREFIX = '/integration/ever-works';
 
 /**
  * The `externalRef.source` (and `externalLinks[].source`) of every record this plugin links in Ever Works.
- * Ever Works derives a key's link source from its `integrationKind` — an `ever-gauzy` key links as `gauzy`
+ * Ever Works derives a key's link source from its `integrationKind` — an `ever-irtranscripts` key links as `irtranscripts`
  * (contract v1, CR-1) — and refuses any other value with `400 validation_failed` (`externalRef.source`).
  */
-export const EVER_WORKS_LINK_SOURCE = 'gauzy';
+export const EVER_WORKS_LINK_SOURCE = 'irtranscripts';
 
 /**
- * The `integrationKind` (`GET /whoami`) of an Ever Works key made for Ever Gauzy. A key of another kind links its
+ * The `integrationKind` (`GET /whoami`) of an Ever Works key made for Ever IRTranscripts. A key of another kind links its
  * records under another source, so every link write of this plugin would be refused (review F60).
  */
-export const EVER_WORKS_INTEGRATION_KIND = 'ever-gauzy';
+export const EVER_WORKS_INTEGRATION_KIND = 'ever-irtranscripts';

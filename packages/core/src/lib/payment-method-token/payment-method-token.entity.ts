@@ -9,7 +9,7 @@ import {
 	JsonData,
 	PaymentMethodTokenStatus,
 	PaymentMethodTokenType
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { ColumnIndex, JsonColumn, MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from '../core/decorators/entity';
 import { PaymentAccountHolder } from '../payment-account-holder/payment-account-holder.entity';

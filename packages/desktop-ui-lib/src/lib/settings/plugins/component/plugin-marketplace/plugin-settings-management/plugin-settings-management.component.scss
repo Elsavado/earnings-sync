@@ -8,15 +8,15 @@
   height: 90vh;
   display: flex;
   flex-direction: column;
-  background: var(--gauzy-card-1);
+  background: var(--irtranscripts-card-1);
   border-radius: calc(var(--border-radius) * 2);
-  box-shadow: var(--gauzy-shadow);
-  border: 1px solid var(--gauzy-card-2);
+  box-shadow: var(--irtranscripts-shadow);
+  border: 1px solid var(--irtranscripts-card-2);
 
   nb-card-header {
     padding: 24px;
-    border-bottom: 1px solid var(--gauzy-card-2);
-    background: var(--gauzy-card-1);
+    border-bottom: 1px solid var(--irtranscripts-card-2);
+    background: var(--irtranscripts-card-1);
 
     .header-wrapper {
       display: flex;
@@ -37,7 +37,7 @@
         justify-content: center;
         width: 48px;
         height: 48px;
-        background: var(--gauzy-card-2);
+        background: var(--irtranscripts-card-2);
         border-radius: calc(var(--border-radius) * 1.5);
         transition: all 0.3s ease;
         color: var(--color-primary-default);
@@ -59,14 +59,14 @@
           margin: 0 0 4px 0;
           font-size: 20px;
           font-weight: 600;
-          color: var(--gauzy-text-color-1);
+          color: var(--irtranscripts-text-color-1);
           line-height: 1.2;
         }
 
         .card-subtitle {
           margin: 0;
           font-size: 14px;
-          color: var(--gauzy-text-color-2);
+          color: var(--irtranscripts-text-color-2);
         }
       }
     }
@@ -90,7 +90,7 @@
 
   nb-card-body {
     padding: 24px;
-    background: var(--gauzy-card-2);
+    background: var(--irtranscripts-card-2);
     display: flex;
     flex-direction: column;
     gap: 24px;
@@ -103,8 +103,8 @@
 
   nb-card-footer {
     padding: 16px 24px;
-    border-top: 1px solid var(--gauzy-card-2);
-    background: var(--gauzy-card-1);
+    border-top: 1px solid var(--irtranscripts-card-2);
+    background: var(--irtranscripts-card-1);
 
     .footer-wrapper {
       display: flex;
@@ -159,11 +159,11 @@
 }
 
 .filter-controls {
-  background: var(--gauzy-card-1);
+  background: var(--irtranscripts-card-1);
   border-radius: calc(var(--border-radius) * 1.5);
   padding: 20px;
-  border: 1px solid var(--gauzy-card-2);
-  box-shadow: var(--gauzy-shadow);
+  border: 1px solid var(--irtranscripts-card-2);
+  box-shadow: var(--irtranscripts-shadow);
 
   .controls-header {
     display: flex;
@@ -171,7 +171,7 @@
     gap: 8px;
     margin-bottom: 16px;
     padding-bottom: 12px;
-    border-bottom: 1px solid var(--gauzy-card-2);
+    border-bottom: 1px solid var(--irtranscripts-card-2);
 
     .controls-icon {
       font-size: 18px;
@@ -183,7 +183,7 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1px;
-      color: var(--gauzy-text-color-2);
+      color: var(--irtranscripts-text-color-2);
     }
   }
 
@@ -210,10 +210,10 @@
 
   .settings-group-card {
     margin-bottom: 4px;
-    border: 1px solid var(--gauzy-card-2);
+    border: 1px solid var(--irtranscripts-card-2);
     border-radius: calc(var(--border-radius) * 1.5);
-    background: var(--gauzy-card-1);
-    box-shadow: var(--gauzy-shadow);
+    background: var(--irtranscripts-card-1);
+    box-shadow: var(--irtranscripts-shadow);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -221,8 +221,8 @@
 
     nb-card-header {
       padding: 16px 24px;
-      background: var(--gauzy-card-1);
-      border-bottom: 1px solid var(--gauzy-card-2);
+      background: var(--irtranscripts-card-1);
+      border-bottom: 1px solid var(--irtranscripts-card-2);
 
       .group-header {
         display: flex;
@@ -256,13 +256,13 @@
             margin: 0;
             font-size: 16px;
             font-weight: 600;
-            color: var(--gauzy-text-color-1);
+            color: var(--irtranscripts-text-color-1);
           }
 
           .group-description {
             margin: 4px 0 0;
             font-size: 13px;
-            color: var(--gauzy-text-color-2);
+            color: var(--irtranscripts-text-color-2);
           }
         }
       }
@@ -270,7 +270,7 @@
 
     nb-card-body {
       padding: 0;
-      background: var(--gauzy-card-1);
+      background: var(--irtranscripts-card-1);
       overflow: hidden;
       flex: 1;
     }
@@ -291,18 +291,18 @@
     }
 
     &::-webkit-scrollbar-thumb {
-      background: var(--gauzy-card-2);
+      background: var(--irtranscripts-card-2);
       border-radius: 3px;
     }
 
     &::-webkit-scrollbar-thumb:hover {
-      background: var(--gauzy-text-color-2);
+      background: var(--irtranscripts-text-color-2);
     }
   }
 
   .setting-item {
     padding: 20px 24px;
-    border-bottom: 1px solid var(--gauzy-card-2);
+    border-bottom: 1px solid var(--irtranscripts-card-2);
     transition: background-color 0.2s ease;
 
     &:last-child {
@@ -310,11 +310,11 @@
     }
 
     &:hover {
-      background: var(--gauzy-card-2);
+      background: var(--irtranscripts-card-2);
     }
 
     &.is-editing {
-      background: var(--gauzy-card-2);
+      background: var(--irtranscripts-card-2);
       border-left: 4px solid var(--color-primary-default);
       padding-left: 20px; // Compensate for border
     }
@@ -342,14 +342,14 @@
 
           .setting-icon {
             font-size: 18px;
-            color: var(--gauzy-text-color-2);
+            color: var(--irtranscripts-text-color-2);
           }
 
           .setting-label {
             margin: 0;
             font-size: 15px;
             font-weight: 600;
-            color: var(--gauzy-text-color-1);
+            color: var(--irtranscripts-text-color-1);
             cursor: pointer;
           }
 
@@ -370,7 +370,7 @@
         .setting-description {
           margin: 0;
           font-size: 13px;
-          color: var(--gauzy-text-color-2);
+          color: var(--irtranscripts-text-color-2);
           line-height: 1.5;
           padding-left: 30px; // Align with label text (icon width + gap)
         }
@@ -406,8 +406,8 @@
         align-items: center;
         gap: 12px;
         padding: 12px 16px;
-        background: var(--gauzy-card-1);
-        border: 1px solid var(--gauzy-card-2);
+        background: var(--irtranscripts-card-1);
+        border: 1px solid var(--irtranscripts-card-2);
         border-radius: var(--border-radius);
         cursor: pointer;
         transition: all 0.2s ease;
@@ -425,7 +425,7 @@
         .value-text {
           flex: 1;
           font-size: 14px;
-          color: var(--gauzy-text-color-1);
+          color: var(--irtranscripts-text-color-1);
           font-family: monospace; // For better readability of values
         }
 
@@ -450,10 +450,10 @@
       }
 
       .edit-form {
-        background: var(--gauzy-card-1);
+        background: var(--irtranscripts-card-1);
         padding: 16px;
         border-radius: var(--border-radius);
-        border: 1px solid var(--gauzy-card-2);
+        border: 1px solid var(--irtranscripts-card-2);
 
         nb-toggle {
           display: flex;
@@ -468,7 +468,7 @@
         .option-hint {
           display: block;
           font-size: 11px;
-          color: var(--gauzy-text-color-2);
+          color: var(--irtranscripts-text-color-2);
           margin-top: 2px;
         }
       }
@@ -497,8 +497,8 @@
 
         .default-value {
           font-size: 11px;
-          color: var(--gauzy-text-color-2);
-          background: var(--gauzy-card-2);
+          color: var(--irtranscripts-text-color-2);
+          background: var(--irtranscripts-card-2);
           padding: 2px 8px;
           border-radius: 4px;
         }
@@ -521,10 +521,10 @@
   }
 
   .skeleton-group {
-    border: 1px solid var(--gauzy-card-2);
+    border: 1px solid var(--irtranscripts-card-2);
     border-radius: calc(var(--border-radius) * 1.5);
     padding: 24px;
-    background: var(--gauzy-card-1);
+    background: var(--irtranscripts-card-1);
     display: flex;
     flex-direction: column;
     gap: 24px;
@@ -545,9 +545,9 @@
   gap: 16px;
   padding: 64px 24px;
   text-align: center;
-  background: var(--gauzy-card-1);
+  background: var(--irtranscripts-card-1);
   border-radius: calc(var(--border-radius) * 1.5);
-  border: 1px dashed var(--gauzy-card-2);
+  border: 1px dashed var(--irtranscripts-card-2);
 
   .empty-icon-wrapper {
     display: flex;
@@ -555,13 +555,13 @@
     justify-content: center;
     width: 80px;
     height: 80px;
-    background: var(--gauzy-card-2);
+    background: var(--irtranscripts-card-2);
     border-radius: 50%;
     margin-bottom: 8px;
 
     nb-icon {
       font-size: 40px;
-      color: var(--gauzy-text-color-2);
+      color: var(--irtranscripts-text-color-2);
     }
   }
 
@@ -569,13 +569,13 @@
     margin: 0;
     font-size: 18px;
     font-weight: 600;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
   }
 
   .empty-hint {
     margin: 0;
     font-size: 14px;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
     max-width: 400px;
     line-height: 1.5;
   }

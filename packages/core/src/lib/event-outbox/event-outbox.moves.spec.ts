@@ -1,5 +1,5 @@
 import { NotFoundException } from '@nestjs/common';
-import { EventOutboxStatus, ID } from '@gauzy/contracts';
+import { EventOutboxStatus, ID } from '@irtranscripts/contracts';
 
 /**
  * 🛑 This import must stay FIRST, before any import that pulls a core service.

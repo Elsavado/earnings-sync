@@ -10,7 +10,7 @@
  * over a pinned fallback because stale-but-real beats a guess.
  */
 
-import type { IAiChatModel } from '@gauzy/contracts';
+import type { IAiChatModel } from '@irtranscripts/contracts';
 import type { IAiChatModelList, IAiProviderCredentials } from './provider.types';
 import { ssrfSafeFetch } from './ssrf';
 import type { HostnameResolver } from './ssrf';
@@ -173,7 +173,7 @@ export function credentialCacheKey(credentials: IAiProviderCredentials | null): 
  * @param init.allowPrivateHost - Permit a private target. Pass
  *        `isPrivateAiProviderEndpointAllowed(credentials)`, which allows operator-chosen addresses and
  *        leaves everything a TENANT credential leads to — the URL it carries, or the provider default it
- *        falls back to — to the `GAUZY_AI_CHAT_ALLOW_PRIVATE_BASE_URLS` flag.
+ *        falls back to — to the `IRTRANSCRIPTS_AI_CHAT_ALLOW_PRIVATE_BASE_URLS` flag.
  * @param init.resolver - DNS resolver for the egress pre-flight; `dns.lookup` when unset (tests inject one).
  */
 export async function fetchCatalogueJson<T>(

@@ -1,6 +1,6 @@
-// `@gauzy/core`'s barrel drags in the whole entity graph (pre-existing circular import). Every name it
+// `@irtranscripts/core`'s barrel drags in the whole entity graph (pre-existing circular import). Every name it
 // gives this file is replaced by a stand-in; the service only reads the current tenant from it here.
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	function stub(this: unknown) {
 		// Called as a decorator factory: hand back a no-op decorator
 		return new.target ? undefined : () => undefined;

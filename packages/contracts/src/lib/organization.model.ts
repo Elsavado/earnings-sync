@@ -108,7 +108,7 @@ export interface IOrganization
 	daysUntilDue?: number;
 	accountingTemplates?: IAccountingTemplate[];
 	reportOrganizations?: IReportOrganization[];
-	/** Upwork Organization For Gauzy AI*/
+	/** Upwork Organization For IRTranscripts AI*/
 	upworkOrganizationId?: string;
 	upworkOrganizationName?: string;
 }
@@ -172,7 +172,7 @@ export interface IOrganizationCreateInput extends IContact, IRegisterAsEmployee,
 	isImporting?: boolean;
 	sourceId?: string;
 	userOrganizationSourceId?: string;
-	/** Upwork Organization For Gauzy AI*/
+	/** Upwork Organization For IRTranscripts AI*/
 	upworkOrganizationId?: string;
 	upworkOrganizationName?: string;
 }

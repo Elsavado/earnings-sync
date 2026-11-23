@@ -12,8 +12,8 @@ import {
 } from '@nebular/theme';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslatePipe } from '@ngx-translate/core';
-import { ApprovalPolicyService } from '@gauzy/ui-core/core';
-import { Store } from '@gauzy/ui-core/core';
+import { ApprovalPolicyService } from '@irtranscripts/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
 import { ApprovalPolicyMutationComponent } from './approval-policy-mutation.component';
 
 @NgModule({

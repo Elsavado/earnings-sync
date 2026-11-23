@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { RelationId, JoinColumn } from 'typeorm';
 import { IsNotEmpty, IsOptional, IsString, IsUUID, IsDateString } from 'class-validator';
-import { ID, IEmployee, ITimeSlot, ITimeSlotSession } from '@gauzy/contracts';
+import { ID, IEmployee, ITimeSlot, ITimeSlotSession } from '@irtranscripts/contracts';
 import { Employee, TenantOrganizationBaseEntity, TimeSlot } from './../../core/entities/internal';
 import {
 	ColumnIndex,

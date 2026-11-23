@@ -9,11 +9,11 @@
  * and never taken from a payload; the last case pins that.
  *
  * **Nothing the defect lives in is doubled but the CRUD base.** The services are the package's own; the database is an
- * in-memory better-sqlite3 connection; the users are real rows of tenant A, of tenant B and of no tenant. `@gauzy/core`
+ * in-memory better-sqlite3 connection; the users are real rows of tenant A, of tenant B and of no tenant. `@irtranscripts/core`
  * is doubled at the module boundary for the reason the package's other suites give, and its CRUD base is reduced to
  * the tenant-scoped reads and writes the real one performs. Every refusal reads the order back.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 	const { ApiErrorCode, commitVersionedUpdate } = require('./testing/versioned-write.double');
 
@@ -69,8 +69,8 @@ jest.mock('@gauzy/core', () => {
 	return {
 		ApiErrorCode,
 		commitVersionedUpdate,
-		readAffectedRows: jest.requireActual('@gauzy/core/src/lib/database/database.helper').readAffectedRows,
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		readAffectedRows: jest.requireActual('@irtranscripts/core/src/lib/database/database.helper').readAffectedRows,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		TenantAwareCrudService,
 		BaseEntity,
 		TenantBaseEntity: BaseEntity,
@@ -112,7 +112,7 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	isMySQL: () => false,
 	isPostgres: () => false,
 	DatabaseTypeEnum: {
@@ -134,7 +134,7 @@ const mockCaller: { tenantId: string | null; organizationId: string | null; user
 import 'reflect-metadata';
 import { NotFoundException } from '@nestjs/common';
 import { DataSource, EntitySchema } from 'typeorm';
-import { OrganizationVendor, User, Warehouse } from '@gauzy/core';
+import { OrganizationVendor, User, Warehouse } from '@irtranscripts/core';
 import { GoodsReceipt } from './goods-receipt/goods-receipt.entity';
 import { PurchaseOrderLine } from './purchase-order-line/purchase-order-line.entity';
 import { PurchaseOrderLineService } from './purchase-order-line/purchase-order-line.service';

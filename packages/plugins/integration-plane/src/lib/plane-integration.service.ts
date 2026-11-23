@@ -1,16 +1,16 @@
 import { HttpException, HttpStatus, Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { ID, IntegrationEnum, IIntegrationSetting, IIntegrationTenant } from '@gauzy/contracts';
-import { IntegrationService, IntegrationTenantService, RequestContext, TenantApiKeyService } from '@gauzy/core';
-import { ConfigService } from '@gauzy/config';
-import { generatePassword, generateSha256Hash } from '@gauzy/utils';
+import { ID, IntegrationEnum, IIntegrationSetting, IIntegrationTenant } from '@irtranscripts/contracts';
+import { IntegrationService, IntegrationTenantService, RequestContext, TenantApiKeyService } from '@irtranscripts/core';
+import { ConfigService } from '@irtranscripts/config';
+import { generatePassword, generateSha256Hash } from '@irtranscripts/utils';
 import { PlaneSettingName } from './plane-setting.enum';
 import { ConfigurePlaneIntegrationDto } from './dto/configure-plane-integration.dto';
 import { UpdatePlaneSettingsDto } from './dto/update-plane-settings.dto';
 
-/** Global hosted Ever Gauzy PM UI URLs used when the integration runs in "shared" mode. */
-const SHARED_PLANE_WEB_URL = 'https://pm.gauzy.co';
+/** Global hosted Ever IRTranscripts PM UI URLs used when the integration runs in "shared" mode. */
+const SHARED_PLANE_WEB_URL = 'https://pm.irtranscripts.com';
 const SHARED_PLANE_ADMIN_URL = ''; // admin (god-mode) not offered in shared mode
-const SHARED_PLANE_SPACE_URL = 'https://pm-space.gauzy.co';
+const SHARED_PLANE_SPACE_URL = 'https://pm-space.irtranscripts.com';
 
 @Injectable()
 export class PlaneIntegrationService {
@@ -427,12 +427,12 @@ export class PlaneIntegrationService {
 		const apiKey = settingsMap[PlaneSettingName.PLANE_API_KEY_VALUE] || '';
 		const apiSecret = settingsMap[PlaneSettingName.PLANE_API_SECRET_VALUE] || '';
 
-		// The externalBaseApiUrl is the Gauzy API URL including the /api prefix. The in-process proxy does
+		// The externalBaseApiUrl is the IRTranscripts API URL including the /api prefix. The in-process proxy does
 		// not use it: it calls this API over loopback (PlaneProxyService.getUpstreamUrl).
-		const gauzyApiBaseUrl = this.configService.get('baseUrl') || 'http://localhost:3000';
+		const irtranscriptsApiBaseUrl = this.configService.get('baseUrl') || 'http://localhost:3000';
 
 		return {
-			externalBaseApiUrl: `${gauzyApiBaseUrl}/api`,
+			externalBaseApiUrl: `${irtranscriptsApiBaseUrl}/api`,
 			apiKey,
 			apiSecret,
 			clientBaseUrl: settingsMap[PlaneSettingName.PLANE_WEB_URL] || '',

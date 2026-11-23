@@ -6,7 +6,7 @@
   max-height: 90vh;
   display: flex;
   flex-direction: column;
-  background: var(--gauzy-card-2);
+  background: var(--irtranscripts-card-2);
   border-radius: var(--border-radius);
   overflow: hidden;
   color: var(--text-basic-color);
@@ -54,7 +54,7 @@
     flex: 1;
     overflow: hidden;
     cursor: zoom-in;
-    background: var(--gauzy-card-2);
+    background: var(--irtranscripts-card-2);
     transition: background 0.3s ease;
     backdrop-filter: blur(10px);
 

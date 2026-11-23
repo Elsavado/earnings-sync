@@ -18,7 +18,7 @@ import {
 import { ApiOperation, ApiResponse, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { CommandBus } from '@nestjs/cqrs';
 import { DeleteResult, FindOptionsWhere, UpdateResult } from 'typeorm';
-import { ID, IPagination, IUser, IUserCreateInput, IUserUiPreferences, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IPagination, IUser, IUserCreateInput, IUserUiPreferences, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	BulkExecutor,
 	BulkOperation,
@@ -388,7 +388,7 @@ export class UserController extends CrudController<User> {
 	}
 
 	/**
-	 * To permanently delete your account from your Gauzy app:
+	 * To permanently delete your account from your IRTranscripts app:
 	 *
 	 * @param id
 	 * @returns

@@ -1,6 +1,6 @@
 import './nebular-jsx';
 import { forwardRef, type ButtonHTMLAttributes } from 'react';
-import type { NbStatus } from '@gauzy/ui-react-components';
+import type { NbStatus } from '@irtranscripts/ui-react-components';
 
 export type NbButtonAppearance = 'filled' | 'outline' | 'ghost' | 'hero';
 export type NbButtonSize = 'tiny' | 'small' | 'medium' | 'large' | 'giant';

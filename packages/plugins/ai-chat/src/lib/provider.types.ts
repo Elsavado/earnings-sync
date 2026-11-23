@@ -1,5 +1,5 @@
 import type { EmbeddingModel, LanguageModel } from 'ai';
-import { AiProviderConnectType, IAiChatModel } from '@gauzy/contracts';
+import { AiProviderConnectType, IAiChatModel } from '@irtranscripts/contracts';
 
 /**
  * Credentials resolved for a provider at request time.
@@ -67,14 +67,14 @@ export interface IAiSpeechCatalogue {
 
 /**
  * Contract implemented by AI provider plugins
- * (`@gauzy/plugin-ai-provider-anthropic`, `-openai`, `-openrouter`, …).
+ * (`@irtranscripts/plugin-ai-provider-anthropic`, `-openai`, `-openrouter`, …).
  *
  * A provider plugin registers one definition with the {@link AiProviderRegistry}
  * during its `onPluginBootstrap`. The chat engine resolves credentials
  * (tenant BYOK → env) and asks the definition for a `LanguageModel`.
  */
 export interface IAiChatProviderDefinition {
-	/** Stable provider id (see AiProviderEnum in @gauzy/contracts). */
+	/** Stable provider id (see AiProviderEnum in @irtranscripts/contracts). */
 	readonly id: string;
 	/** Human-readable name shown in the UI. */
 	readonly label: string;
@@ -217,7 +217,7 @@ export interface IAiChatProviderDefinition {
 	createModel(modelId: string, credentials: IAiProviderCredentials): Promise<LanguageModel>;
 	/**
 	 * Optional embedding capability, used by the Documents knowledge pipeline
-	 * (`@gauzy/plugin-docs`) for chunk and query embeddings.
+	 * (`@irtranscripts/plugin-docs`) for chunk and query embeddings.
 	 *
 	 * Providers that support text embeddings return a Vercel AI SDK `EmbeddingModel` for the
 	 * given model id and resolved credentials, following the same lazy-ESM import pattern as

@@ -7,7 +7,7 @@ export const DESKTOP_ALL_INTERFACES_HOST = '0.0.0.0';
 /** The part of the stored `configs` this module reads. */
 export interface DesktopLanAccessSetting {
 	/**
-	 * Gauzy Server and Gauzy API Server only: whether other computers on the network may connect to
+	 * IRTranscripts Server and IRTranscripts API Server only: whether other computers on the network may connect to
 	 * the API and the web UI. Set in the setup screen and in the settings.
 	 */
 	lanAccess?: unknown;
@@ -26,11 +26,11 @@ export function isDesktopLanAccessEnabled(setting?: DesktopLanAccessSetting | nu
 }
 
 /**
- * The address the API launched by a desktop app (and Gauzy Server's web UI server) listens on.
+ * The address the API launched by a desktop app (and IRTranscripts Server's web UI server) listens on.
  *
- * - Gauzy Desktop's integrated server and the Desktop Timer's local API (`allowLanAccess` false):
+ * - IRTranscripts Desktop's integrated server and the Desktop Timer's local API (`allowLanAccess` false):
  *   always the loopback address. Nothing on the network can reach them, whatever is stored.
- * - Gauzy Server and Gauzy API Server (`allowLanAccess` true): every interface, unless the user
+ * - IRTranscripts Server and IRTranscripts API Server (`allowLanAccess` true): every interface, unless the user
  *   turned LAN access off, then the loopback address.
  *
  * @param setting - The stored `configs`.

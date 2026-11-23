@@ -1,7 +1,7 @@
 import { DataSource } from 'typeorm';
 import * as path from 'path';
-import { environment as env, getConfig } from '@gauzy/config';
-import { FileStorageProviderEnum, IIssueType } from '@gauzy/contracts';
+import { environment as env, getConfig } from '@irtranscripts/config';
+import { FileStorageProviderEnum, IIssueType } from '@irtranscripts/contracts';
 import { ImageAsset } from './../../core/entities/internal';
 import { cleanAssets, copyAssets, getImageDimensions } from './../../core/seeds/utils';
 import { DEFAULT_GLOBAL_ISSUE_TYPES } from './default-global-issue-types';
@@ -41,7 +41,7 @@ export const createDefaultIssueTypes = async (
 
 	// Determine the base directory for assets
 	const assetPublicPath = isElectron
-		? path.resolve(env.gauzyUserPath, 'public')
+		? path.resolve(env.irtranscriptsUserPath, 'public')
 		: config.assetOptions?.assetPublicPath || publicDir; // Custom public directory path from configuration.
 
     try {

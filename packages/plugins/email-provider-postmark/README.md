@@ -1,15 +1,15 @@
 <!-- cspell:ignore DMARC -->
 
-# @gauzy/plugin-email-provider-postmark
+# @irtranscripts/plugin-email-provider-postmark
 
-[Postmark](https://postmarkapp.com) as an email provider of the Gauzy Inbox: receive with a Postmark inbound stream and
+[Postmark](https://postmarkapp.com) as an email provider of the IRTranscripts Inbox: receive with a Postmark inbound stream and
 send through the Postmark API. A copy of the Resend reference plugin (plan 04 §5.2, G-P4-7).
 
 ## Switch
 
 **Off by default.** The API lists the plugin only when `EMAIL_PROVIDER_POSTMARK_ENABLED=true` (exactly); any other
 value keeps it off and is logged once. It registers with the Inbox email provider registry, so it does something only
-where `GAUZY_INBOX_ENABLED=true` and `GAUZY_INBOX_EMAIL_ENABLED=true` too. No table, no route, no migration.
+where `IRTRANSCRIPTS_INBOX_ENABLED=true` and `IRTRANSCRIPTS_INBOX_EMAIL_ENABLED=true` too. No table, no route, no migration.
 
 ## Set up
 

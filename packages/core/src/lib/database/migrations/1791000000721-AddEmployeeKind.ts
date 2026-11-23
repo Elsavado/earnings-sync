@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 /** The databases this migration runs on. Both SQLite drivers share one entry. */
 type Dialect = 'postgres' | 'sqlite' | 'mysql';
@@ -21,7 +21,7 @@ const KIND_INDEX = 'IDX_bd5498b600e43bf3308fe5adc8';
 
 /**
  * Adds `employee.kind` (`varchar(16) NOT NULL DEFAULT 'human'`, indexed): what an employee row represents,
- * a person (`human`) or an agent (`agent`). Part of the Gauzy ↔ Ever Works integration (G-P1-1): Ever Works
+ * a person (`human`) or an agent (`agent`). Part of the IRTranscripts ↔ Ever Works integration (G-P1-1): Ever Works
  * agents become employees with `kind = 'agent'`, created only through `EmployeeService.createAgentEmployee`.
  *
  * Every existing row is a person, which is exactly what the default writes, so nothing is backfilled and no
@@ -140,7 +140,7 @@ export class AddEmployeeKind1791000000721 implements MigrationInterface {
  * concurrently run its checks and DDL one after the other. The lock is session-level and released in `finally`.
  */
 async function withMysqlNamedLock(queryRunner: QueryRunner, name: string, work: () => Promise<void>): Promise<void> {
-	const lockName = `gauzy:migration:${name}`;
+	const lockName = `irtranscripts:migration:${name}`;
 	const [row] = await queryRunner.query(`SELECT GET_LOCK(?, 120) AS \`acquired\``, [lockName]);
 	if (Number(row?.acquired) !== 1) {
 		throw new Error(`${name}: could not acquire the MySQL migration lock ${lockName}.`);

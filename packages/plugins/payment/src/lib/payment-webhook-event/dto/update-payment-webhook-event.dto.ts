@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { WithoutInitializers } from '@gauzy/common';
+import { WithoutInitializers } from '@irtranscripts/common';
 import { CreatePaymentWebhookEventDTO } from './create-payment-webhook-event.dto';
 
 /**

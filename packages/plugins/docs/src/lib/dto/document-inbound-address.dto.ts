@@ -5,8 +5,8 @@ import {
 	DocumentInboundAddressKindEnum,
 	IDocumentInboundAddressCreateInput,
 	IDocumentInboundAddressUpdateInput
-} from '@gauzy/contracts';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 
 /** Upper bound on allowlist entries — a settings field, not a mailing list. */
 const MAX_ALLOWLIST_ENTRIES = 200;

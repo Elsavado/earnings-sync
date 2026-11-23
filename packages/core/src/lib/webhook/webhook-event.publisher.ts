@@ -1,5 +1,5 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { ID, WebhookDeliveryStatus } from '@gauzy/contracts';
+import { ID, WebhookDeliveryStatus } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context/request-context';
 // Imported from the files that declare them rather than from the subscriptions barrel: a domain that
 // publishes needs the fan-out and the catalogue, not the hub, the consumer and the transport, and the

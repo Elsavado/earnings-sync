@@ -28,9 +28,9 @@ import {
 	IDocument,
 	IDocumentLink,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { Store, ToastrService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/contracts';
+import { Store, ToastrService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { DOCS_PAGE_LINK, DOCS_UPLOAD_ACCEPT } from '../../docs.constants';
 import { DocumentsService } from '../../services/documents.service';
 import { DocumentAttachDialogComponent } from './document-attach-dialog.component';

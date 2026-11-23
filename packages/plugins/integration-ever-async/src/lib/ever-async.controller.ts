@@ -13,14 +13,14 @@ import {
 	Header
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ID, PermissionsEnum } from '@gauzy/contracts';
+import { ID, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	Permissions,
 	UUIDValidationPipe,
 	UseValidationPipe,
 	PermissionGuard,
 	TenantPermissionGuard
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { EverAsyncIntegrationService } from './ever-async-integration.service';
 import { ConfigureEverAsyncIntegrationDto, UpdateEverAsyncSettingsDto, VerifyEverAsyncConnectionDto } from './dto';
 

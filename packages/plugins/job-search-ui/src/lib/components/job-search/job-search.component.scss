@@ -1,8 +1,8 @@
-@use 'gauzy/_gauzy-table' as *;
-@use 'gauzy/_gauzy-overrides' as *;
-@use 'gauzy/_gauzy-cards' as *;
-@use 'gauzy/tabset-actions' as *;
-@use 'gauzy/_gauzy-table-hub' as ga-hub;
+@use 'irtranscripts/_irtranscripts-table' as *;
+@use 'irtranscripts/_irtranscripts-overrides' as *;
+@use 'irtranscripts/_irtranscripts-cards' as *;
+@use 'irtranscripts/tabset-actions' as *;
+@use 'irtranscripts/_irtranscripts-table-hub' as ga-hub;
 
 :host {
   .form-group {
@@ -62,7 +62,7 @@
   }
   nb-card,
   nb-tab {
-    background-color: var(--gauzy-card-2);
+    background-color: var(--irtranscripts-card-2);
     margin-bottom: 0;
   }
 
@@ -84,7 +84,7 @@
 
 .sync-container {
   .sync {
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
     cursor: pointer;
     margin: 0 !important;
     &.spin {
@@ -112,7 +112,7 @@
 }
 
 // The three nav buttons ("Employees", "Matchings", "Proposals Template") sit in
-// the card header, outside `.gauzy-button-container`, so the mixin below never
+// the card header, outside `.irtranscripts-button-container`, so the mixin below never
 // reached them and they stayed a size larger than the action strip they sit
 // above. Same split as Invoices, and handled the same way: the mixin goes on
 // both blocks that hold a button.
@@ -120,14 +120,14 @@
   @include ga-hub.page-header-buttons();
 }
 
-:host .gauzy-button-container {
+:host .irtranscripts-button-container {
   // Buttons compacted to the table's scale (see the mixin).
   @include ga-hub.page-header-buttons();
 
   // Sits on the tab strip. The mixin reproduces the tab link's box so the
   // buttons centre on the strip, and — critically — lets pointer events
   // through the empty part of the row: this container is globally
-  // `width: 100%` (gauzy/_gauzy-table), so as a plain absolute overlay it
+  // `width: 100%` (irtranscripts/_irtranscripts-table), so as a plain absolute overlay it
   // swallowed every click on the tab labels underneath it.
   @include tabset-action-row(1rem);
 }
@@ -139,14 +139,14 @@
 .job-filters {
   margin-bottom: 1rem;
   nb-card {
-    background-color: var(--gauzy-card-3);
+    background-color: var(--irtranscripts-card-3);
     nb-card-body {
       border-radius: var(--border-radius);
     }
   }
-  @include input-appearance(42px, var(--gauzy-card-1));
+  @include input-appearance(42px, var(--irtranscripts-card-1));
   .selects {
-    @include input-appearance(2rem, var(--gauzy-card-4));
+    @include input-appearance(2rem, var(--irtranscripts-card-4));
   }
 }
 

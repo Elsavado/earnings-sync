@@ -6,10 +6,10 @@
  * left the pivot rows behind and a merge re-pointed no document. They must go through
  * `prepareSQLQuery` like the rest of the service.
  *
- * `@gauzy/core` boots the whole application graph on import, so the framework seams are mocked at
+ * `@irtranscripts/core` boots the whole application graph on import, so the framework seams are mocked at
  * the module boundary; `prepareSQLQuery` is stubbed with its MySQL behaviour.
  */
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	RequestContext: {
 		currentTenantId: () => 'tenant-1'
 	},

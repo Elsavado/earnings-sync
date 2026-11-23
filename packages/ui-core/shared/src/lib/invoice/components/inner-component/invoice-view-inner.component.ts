@@ -4,9 +4,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { tap } from 'rxjs/operators';
 import { LocalDataSource, Cell } from 'angular2-smart-table';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { DiscountTaxTypeEnum, IInvoice, IInvoiceItem, InvoiceTypeEnum } from '@gauzy/contracts';
-import { ErrorHandlingService, Store, TranslatableService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { DiscountTaxTypeEnum, IInvoice, IInvoiceItem, InvoiceTypeEnum } from '@irtranscripts/contracts';
+import { ErrorHandlingService, Store, TranslatableService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { CurrencyPositionPipe } from '../../../pipes/currency-position.pipe';
 
 @UntilDestroy({ checkProperties: true })

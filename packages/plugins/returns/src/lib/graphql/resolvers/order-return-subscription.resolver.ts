@@ -10,8 +10,8 @@ import {
 	TenantPermissionGuard,
 	deliverPayloadAsIs,
 	tenantScopedTopicStream
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { OrderReturn } from '../../order-return/order-return.entity';
 import { OrderReturnService } from '../../order-return/order-return.service';
 import { RETURNS_STREAMED_EVENTS } from '../../returns-streamed-events';

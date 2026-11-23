@@ -1,15 +1,15 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { Subject, Subscription } from 'rxjs';
-import { ID } from '@gauzy/contracts';
-import { BaseEntityEventTypeEnum, EventBus, RequestContext, TaskEvent } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { BaseEntityEventTypeEnum, EventBus, RequestContext, TaskEvent } from '@irtranscripts/core';
 import { EverWorksSyncContext } from '../ever-works-sync.context';
 import { EverWorksLinkType } from '../entities/ever-works-sync.entities';
 import { EverWorksOutboundQueue } from './ever-works-outbound.queue';
 import { runDetached } from './ever-works-detached';
 
 /**
- * Outbound trigger 1 (plan 03 §C.2): Gauzy's `TaskEvent` (created, updated and — with G-P1-1 — deleted)
- * enqueues a task change for the organization's Ever Works mapping. Plane edits arrive as ordinary Gauzy
+ * Outbound trigger 1 (plan 03 §C.2): IRTranscripts's `TaskEvent` (created, updated and — with G-P1-1 — deleted)
+ * enqueues a task change for the organization's Ever Works mapping. Plane edits arrive as ordinary IRTranscripts
  * task writes, so they are captured here too.
  *
  * Loop guard level 1: an event published while the inbound applier is writing
@@ -57,7 +57,7 @@ export class EverWorksTaskEventListener implements OnModuleInit, OnModuleDestroy
 						tenantId: trigger.tenantId,
 						organizationId: trigger.organizationId,
 						entityType: EverWorksLinkType.TASK,
-						gauzyId: trigger.taskId,
+						irtranscriptsId: trigger.taskId,
 						op: trigger.deleted ? 'delete' : 'upsert',
 						actorUserId: trigger.actorUserId
 					})

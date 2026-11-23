@@ -36,8 +36,8 @@ services:
       - minio:${MINIO_HOST:-minio}
       - opensearch:${ES_HOST:-opensearch}
     # volumes:
-    # - webapp_node_modules:/srv/gauzy/node_modules
-    # - api_node_modules:/srv/gauzy/apps/api/node_modules
+    # - webapp_node_modules:/srv/irtranscripts/node_modules
+    # - api_node_modules:/srv/irtranscripts/apps/api/node_modules
     ports:
       - '3000:${API_PORT:-3000}'
     networks:
@@ -76,7 +76,7 @@ services:
       api:
         condition: service_started
     # volumes:
-    # - webapp_node_modules:/srv/gauzy/node_modules
+    # - webapp_node_modules:/srv/irtranscripts/node_modules
     ports:
       - '4200:${UI_PORT:-4200}'
     networks:
@@ -90,7 +90,7 @@ services:
       NODE_ENV: ${NODE_ENV:-production}
       DB_HOST: db
       # Uploads stay in the api container with FILE_PROVIDER=LOCAL, so the API keeps consuming docs-processing.
-      GAUZY_DOCS_QUEUE_WORKER_ENABLED: 'false'
+      IRTRANSCRIPTS_DOCS_QUEUE_WORKER_ENABLED: 'false'
     env_file:
       - .env.compose
     entrypoint: './entrypoint.compose.sh'

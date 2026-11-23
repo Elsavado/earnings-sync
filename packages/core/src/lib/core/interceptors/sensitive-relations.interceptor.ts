@@ -6,7 +6,7 @@ import {
 	SENSITIVE_RELATIONS_ROOT_KEY,
 	SensitiveRelationConfig
 } from '../decorators/sensitive-relations.decorator';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../context';
 import { normalizeRelationsToPaths } from '../utils';
 import { getRequiredPermissionForRelation } from '../util/sensitive-relations.helper';

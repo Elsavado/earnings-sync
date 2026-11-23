@@ -14,8 +14,8 @@ import {
 	Min,
 	ValidateNested
 } from 'class-validator';
-import { ID, JsonData } from '@gauzy/contracts';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { ID, JsonData } from '@irtranscripts/contracts';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 
 /**
  * The `metadata` keys a content save may write.
@@ -85,7 +85,7 @@ export class UpdateDocumentContentDTO extends PartialType(TenantOrganizationBase
 	 * Base64-encoded CRDT state (`Y.encodeStateAsUpdate`) for realtime co-editing groundwork
 	 * (`05-editor-spec.md` §9.1 / `10-implementation-plan.md` §7.1 P6). Stored verbatim and served
 	 * back; never merged server-side in v1. Rejected with 400 `DOCS_CONTENT_BINARY_TOO_LARGE` above
-	 * `GAUZY_DOCS_MAX_BINARY_BYTES`.
+	 * `IRTRANSCRIPTS_DOCS_MAX_BINARY_BYTES`.
 	 */
 	@ApiPropertyOptional({ type: () => String, format: 'byte' })
 	@IsOptional()

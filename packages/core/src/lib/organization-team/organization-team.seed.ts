@@ -1,10 +1,10 @@
 import { DataSource } from 'typeorm';
 import { OrganizationTeam } from './organization-team.entity';
 import { OrganizationTeamEmployee } from '../organization-team-employee/organization-team-employee.entity';
-import { IEmployee, IOrganization, IRole, ITenant, RolesEnum } from '@gauzy/contracts';
+import { IEmployee, IOrganization, IRole, ITenant, RolesEnum } from '@irtranscripts/contracts';
 import * as _ from 'underscore';
 import { faker } from '@faker-js/faker';
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 import { DEFAULT_ORGANIZATION_TEAMS } from './default-organization-teams';
 import { Employee, User } from '../core/entities/internal';
 

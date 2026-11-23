@@ -1,4 +1,4 @@
-import { ComponentLayoutStyleEnum, LanguagesEnum } from '@gauzy/contracts';
+import { ComponentLayoutStyleEnum, LanguagesEnum } from '@irtranscripts/contracts';
 
 export const DEFAULT_CANDIDATES = [
 	{

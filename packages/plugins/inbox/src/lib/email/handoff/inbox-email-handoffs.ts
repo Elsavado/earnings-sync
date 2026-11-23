@@ -8,7 +8,7 @@ import {
 	IInboxEmailHandoffs,
 	InboxEmailDirectionEnum,
 	InboxEmailStatusEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { InboxEmail } from '../entities/inbox-email.entity';
 import { InboxEmailAttachment } from '../entities/inbox-email-attachment.entity';
 import { InboxMailbox } from '../entities/inbox-mailbox.entity';

@@ -1,0 +1,42 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import {
+	NbAccordionModule,
+	NbButtonModule,
+	NbCardModule,
+	NbIconModule,
+	NbInputModule,
+	NbSpinnerModule,
+	NbTabsetModule,
+	NbToggleModule
+} from '@nebular/theme';
+import { TranslatePipe } from '@ngx-translate/core';
+import { TenantService } from '@irtranscripts/ui-core/core';
+import { SharedModule } from '@irtranscripts/ui-core/shared';
+import { MonitoringComponent } from './monitoring.component';
+
+const routes: Routes = [
+	{
+		path: '',
+		component: MonitoringComponent
+	}
+];
+
+@NgModule({
+	imports: [
+		RouterModule.forChild(routes),
+		NbAccordionModule,
+		NbButtonModule,
+		NbCardModule,
+	NbIconModule,
+		NbInputModule,
+		NbSpinnerModule,
+		NbTabsetModule,
+		NbToggleModule,
+		TranslatePipe,
+		SharedModule
+	],
+	declarations: [MonitoringComponent],
+	providers: [TenantService]
+})
+export class MonitoringModule {}

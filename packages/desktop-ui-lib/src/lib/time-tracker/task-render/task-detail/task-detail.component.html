@@ -10,10 +10,10 @@
       <div class="task number">#{{ number }}</div>
       @for (tag of tags; track tag) {
         <div>
-          <gauzy-task-badge-view
+          <irtranscripts-task-badge-view
             [taskBadge]="tag"
             class="task-badge"
-          ></gauzy-task-badge-view>
+          ></irtranscripts-task-badge-view>
         </div>
       }
     </div>
@@ -29,23 +29,23 @@
       <div class="badges">
         @if (status) {
           <div>
-            <gauzy-task-badge-view
+            <irtranscripts-task-badge-view
               [taskBadge]="status"
-            ></gauzy-task-badge-view>
+            ></irtranscripts-task-badge-view>
           </div>
         }
         @if (priority) {
           <div>
-            <gauzy-task-badge-view
+            <irtranscripts-task-badge-view
               [taskBadge]="priority"
-            ></gauzy-task-badge-view>
+            ></irtranscripts-task-badge-view>
           </div>
         }
         @if (size) {
           <div>
-            <gauzy-task-badge-view
+            <irtranscripts-task-badge-view
               [taskBadge]="size"
-            ></gauzy-task-badge-view>
+            ></irtranscripts-task-badge-view>
           </div>
         }
       </div>

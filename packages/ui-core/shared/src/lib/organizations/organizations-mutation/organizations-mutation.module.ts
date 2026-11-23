@@ -15,7 +15,7 @@ import {
 } from '@nebular/theme';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslatePipe } from '@ngx-translate/core';
-import { OrganizationDepartmentsService } from '@gauzy/ui-core/core';
+import { OrganizationDepartmentsService } from '@irtranscripts/ui-core/core';
 import { OrganizationsMutationComponent } from './organizations-mutation.component';
 import { ImageUploaderModule } from '../../image-uploader/image-uploader.module';
 import { RemoveLodashModule } from '../../remove-lodash/remove-lodash.module';

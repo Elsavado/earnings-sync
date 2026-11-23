@@ -1,5 +1,5 @@
 import { useId } from 'react';
-import { useTranslation } from '@gauzy/ui-react';
+import { useTranslation } from '@irtranscripts/ui-react';
 import { NbButton } from '../NbButton';
 import { NbIcon } from '../NbIcon';
 

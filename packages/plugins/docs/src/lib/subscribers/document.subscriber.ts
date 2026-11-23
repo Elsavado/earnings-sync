@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { EventSubscriber } from 'typeorm';
-import { isBetterSqlite3, isSqlite } from '@gauzy/config';
-import { BaseEntityEventSubscriber, FileStorage } from '@gauzy/core';
+import { isBetterSqlite3, isSqlite } from '@irtranscripts/config';
+import { BaseEntityEventSubscriber, FileStorage } from '@irtranscripts/core';
 import { Document } from '../entities/document.entity';
 
 @EventSubscriber()

@@ -8,8 +8,8 @@ import {
 	MultiORMEntity,
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
-import { ID } from '@gauzy/contracts';
+} from '@irtranscripts/core';
+import { ID } from '@irtranscripts/contracts';
 import { MikroOrmPaymentWebhookEventRepository } from './repository/mikro-orm-payment-webhook-event.repository';
 import { IPaymentProvider, IPaymentWebhookEvent, PaymentWebhookEventStatus } from '../payment.types';
 import { PaymentProvider } from '../payment-provider/payment-provider.entity';

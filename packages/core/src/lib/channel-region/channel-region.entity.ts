@@ -1,7 +1,7 @@
 import { JoinColumn, RelationId } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsNotEmpty, IsUUID } from 'class-validator';
-import { IChannel, IChannelRegion, ID, IRegion } from '@gauzy/contracts';
+import { IChannel, IChannelRegion, ID, IRegion } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from '../core/decorators/entity';
 import { Channel } from '../channel/channel.entity';

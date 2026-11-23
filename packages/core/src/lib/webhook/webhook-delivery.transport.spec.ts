@@ -2,7 +2,7 @@ import * as dns from 'node:dns';
 import * as dnsPromises from 'node:dns/promises';
 import { createServer, IncomingMessage, Server, ServerResponse } from 'node:http';
 import { AddressInfo } from 'node:net';
-import { WebhookDeliveryStatus } from '@gauzy/contracts';
+import { WebhookDeliveryStatus } from '@irtranscripts/contracts';
 import { WebhookDeliveryService } from './webhook-delivery.service';
 import { pinnedWebhookLookup, WebhookEndpointRefusedError } from './webhook-endpoint-policy';
 import { WebhookTransport } from './webhook-transport';
@@ -96,7 +96,7 @@ let state: IReceiver | undefined;
 
 afterEach(async () => {
 	jest.restoreAllMocks();
-	delete process.env.GAUZY_WEBHOOK_ALLOW_PRIVATE_NETWORK;
+	delete process.env.IRTRANSCRIPTS_WEBHOOK_ALLOW_PRIVATE_NETWORK;
 	await close(state);
 	state = undefined;
 });
@@ -133,7 +133,7 @@ describe('the address checked is the address connected to (R1-04, R7-07)', () =>
 	it('connects through the pinned lookup when the installation allows private endpoints — control', async () => {
 		state = await receiver((_request, response) => response.end('ok'));
 		// The installation allows private endpoints, so the loopback receiver stands in for a partner.
-		process.env.GAUZY_WEBHOOK_ALLOW_PRIVATE_NETWORK = 'true';
+		process.env.IRTRANSCRIPTS_WEBHOOK_ALLOW_PRIVATE_NETWORK = 'true';
 		jest.spyOn(dns, 'lookup').mockImplementation(((
 			_host: string,
 			options: unknown,
@@ -155,7 +155,7 @@ describe('the address checked is the address connected to (R1-04, R7-07)', () =>
 
 describe('the receiver’s response is read up to the limit, then the connection is closed (R1-05, R7-08)', () => {
 	it('answers with the first four kilobytes of an endless body, long before the attempt times out', async () => {
-		process.env.GAUZY_WEBHOOK_ALLOW_PRIVATE_NETWORK = 'true';
+		process.env.IRTRANSCRIPTS_WEBHOOK_ALLOW_PRIVATE_NETWORK = 'true';
 		const chunk = Buffer.alloc(64 * 1024, 'x');
 		state = await receiver((_request, response) => {
 			response.writeHead(200, { 'Content-Type': 'text/plain' });
@@ -181,7 +181,7 @@ describe('the receiver’s response is read up to the limit, then the connection
 	}, 30_000);
 
 	it('keeps a short body whole and does not follow a redirect — control', async () => {
-		process.env.GAUZY_WEBHOOK_ALLOW_PRIVATE_NETWORK = 'true';
+		process.env.IRTRANSCRIPTS_WEBHOOK_ALLOW_PRIVATE_NETWORK = 'true';
 		state = await receiver((request, response) => {
 			if (request.url === '/moved') {
 				response.writeHead(302, { Location: `http://127.0.0.1:${state?.port}/hook` });
@@ -261,7 +261,7 @@ describe('the attempt’s own timeout', () => {
 	const request = (timeoutMs: number) => ({ headers: {}, body: '{}', timeoutMs, bodyLimit: LIMIT });
 
 	it('fails as an AbortError and closes the connection when the receiver never answers', async () => {
-		process.env.GAUZY_WEBHOOK_ALLOW_PRIVATE_NETWORK = 'true';
+		process.env.IRTRANSCRIPTS_WEBHOOK_ALLOW_PRIVATE_NETWORK = 'true';
 		state = await receiver(() => undefined);
 
 		const error = await new WebhookTransport()
@@ -274,7 +274,7 @@ describe('the attempt’s own timeout', () => {
 	});
 
 	it('fails as an AbortError when the body stalls below the limit', async () => {
-		process.env.GAUZY_WEBHOOK_ALLOW_PRIVATE_NETWORK = 'true';
+		process.env.IRTRANSCRIPTS_WEBHOOK_ALLOW_PRIVATE_NETWORK = 'true';
 		state = await receiver((_request, response) => {
 			response.writeHead(200);
 			response.write('partial');
@@ -289,7 +289,7 @@ describe('the attempt’s own timeout', () => {
 	});
 
 	it('answers a body of exactly the limit at once, even when the receiver then stalls', async () => {
-		process.env.GAUZY_WEBHOOK_ALLOW_PRIVATE_NETWORK = 'true';
+		process.env.IRTRANSCRIPTS_WEBHOOK_ALLOW_PRIVATE_NETWORK = 'true';
 		state = await receiver((_request, response) => {
 			response.writeHead(200);
 			response.write(Buffer.alloc(LIMIT, 'y'));

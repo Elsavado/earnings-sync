@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Equal, FindManyOptions, IsNull, Or } from 'typeorm';
-import { ID, IPagination } from '@gauzy/contracts';
-import { RequestContext, Warehouse } from '@gauzy/core';
+import { ID, IPagination } from '@irtranscripts/contracts';
+import { RequestContext, Warehouse } from '@irtranscripts/core';
 import { InventoryErrorCode, inventoryError } from './../inventory.errors';
 import { ChannelWarehouse } from './channel-warehouse.entity';
 import { TypeOrmChannelWarehouseRepository } from './repository/type-orm-channel-warehouse.repository';

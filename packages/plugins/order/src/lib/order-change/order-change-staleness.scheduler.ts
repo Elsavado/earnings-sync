@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { CronExpression } from '@nestjs/schedule';
-import { ScheduledJob } from '@gauzy/scheduler';
-import { ID } from '@gauzy/contracts';
+import { ScheduledJob } from '@irtranscripts/scheduler';
+import { ID } from '@irtranscripts/contracts';
 import { ORDER_CHANGE_STALE_HOURS } from '../order.types';
 import { OrderChangeService } from './order-change.service';
 

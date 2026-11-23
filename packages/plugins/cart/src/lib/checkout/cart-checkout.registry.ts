@@ -1,4 +1,4 @@
-import { ICommerceCart } from '@gauzy/contracts';
+import { ICommerceCart } from '@irtranscripts/contracts';
 
 /**
  * What a checkout handler is given when a cart is completed.

@@ -2,20 +2,20 @@
  * The subscription events `Subscription.events` may select.
  *
  * The kernel's catalogue and its `declareStreamedEvents` are the real ones — a stand-in would let the suite
- * agree with itself about which names are streamable — and `@gauzy/core` is otherwise doubled at the module
+ * agree with itself about which names are streamable — and `@irtranscripts/core` is otherwise doubled at the module
  * boundary, so the declaration is exercised without booting the application graph.
  */
-jest.mock('@gauzy/core', () => ({
-	declareStreamedEvents: jest.requireActual('@gauzy/core/src/lib/graphql/subscriptions/plugin-subscription')
+jest.mock('@irtranscripts/core', () => ({
+	declareStreamedEvents: jest.requireActual('@irtranscripts/core/src/lib/graphql/subscriptions/plugin-subscription')
 		.declareStreamedEvents,
-	SubscriptionCatalogue: jest.requireActual('@gauzy/core/src/lib/graphql/subscriptions/subscription-catalogue')
+	SubscriptionCatalogue: jest.requireActual('@irtranscripts/core/src/lib/graphql/subscriptions/subscription-catalogue')
 		.SubscriptionCatalogue,
 	GraphqlSubscriptionConsumer: class GraphqlSubscriptionConsumer {}
 }));
 
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { SubscriptionCatalogue } from '@gauzy/core';
+import { SubscriptionCatalogue } from '@irtranscripts/core';
 import { SUBSCRIPTION_STREAMED_EVENTS, SubscriptionStreamedEvents } from './subscription-streamed-events';
 
 describe('SubscriptionStreamedEvents', () => {

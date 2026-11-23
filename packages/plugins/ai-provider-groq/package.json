@@ -1,7 +1,7 @@
 {
-	"name": "@gauzy/plugin-ai-provider-groq",
+	"name": "@irtranscripts/plugin-ai-provider-groq",
 	"version": "0.1.0",
-	"description": "Ever Gauzy AI Chat provider plugin — registers Groq (OpenAI-compatible chat + Whisper speech-to-text) with the @gauzy/plugin-ai-chat provider registry",
+	"description": "Ever IRTranscripts AI Chat provider plugin — registers Groq (OpenAI-compatible chat + Whisper speech-to-text) with the @irtranscripts/plugin-ai-chat provider registry",
 	"author": {
 		"name": "Ever Co. LTD",
 		"email": "ever@ever.co",
@@ -27,9 +27,9 @@
 	},
 	"dependencies": {
 		"@ai-sdk/openai-compatible": "^3.0.68",
-		"@gauzy/contracts": "^0.1.0",
-		"@gauzy/plugin": "^0.1.0",
-		"@gauzy/plugin-ai-chat": "^0.1.0",
+		"@irtranscripts/contracts": "^0.1.0",
+		"@irtranscripts/plugin": "^0.1.0",
+		"@irtranscripts/plugin-ai-chat": "^0.1.0",
 		"chalk": "^4.1.0",
 		"tslib": "^2.8.1"
 	},
@@ -43,7 +43,7 @@
 		"@nestjs/core": "^12.0.0"
 	},
 	"keywords": [
-		"Ever Gauzy",
+		"Ever IRTranscripts",
 		"plugin",
 		"AI",
 		"chat",

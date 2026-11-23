@@ -13,8 +13,8 @@ import {
 	IMonthAggregatedEmployeeStatistics,
 	IMonthAggregatedEmployeeStatisticsFindInput,
 	IStatisticSum
-} from '@gauzy/contracts';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
 import { FeatureFlagGuard, PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { FEATURE_GRAPHQL } from '../feature/graphql-feature.code';
 import { EmployeeService } from '../employee/employee.service';

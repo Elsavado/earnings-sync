@@ -3,9 +3,9 @@ import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms
 import { NbDialogRef, NbThemeService } from '@nebular/theme';
 import { firstValueFrom } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { ITag, ITagType } from '@gauzy/contracts';
-import { Store, TagTypesService, ToastrService } from '@gauzy/ui-core/core';
-import { TagsService } from '@gauzy/ui-core/core';
+import { ITag, ITagType } from '@irtranscripts/contracts';
+import { Store, TagTypesService, ToastrService } from '@irtranscripts/ui-core/core';
+import { TagsService } from '@irtranscripts/ui-core/core';
 import { NotesWithTagsComponent } from '../table-components';
 
 @Component({

@@ -1,7 +1,7 @@
 import { ConflictException, Inject, Injectable, NotFoundException, Optional } from '@nestjs/common';
 import { EntityManager, IsNull } from 'typeorm';
-import { DatabaseTypeEnum } from '@gauzy/config';
-import { CurrencyCode, DecimalString, ID } from '@gauzy/contracts';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
+import { CurrencyCode, DecimalString, ID } from '@irtranscripts/contracts';
 import {
 	ApiErrorCode,
 	OrganizationVendor,
@@ -11,7 +11,7 @@ import {
 	User,
 	Warehouse,
 	commitVersionedUpdate
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import {
 	IPurchaseApprovalPort,
 	IPurchaseOrder,

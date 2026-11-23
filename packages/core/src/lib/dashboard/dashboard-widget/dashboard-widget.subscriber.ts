@@ -1,5 +1,5 @@
 import { EventSubscriber } from 'typeorm';
-import { isSqlite, isBetterSqlite3 } from '@gauzy/config';
+import { isSqlite, isBetterSqlite3 } from '@irtranscripts/config';
 import { BaseEntityEventSubscriber } from '../../core/entities/subscribers/base-entity-event.subscriber';
 import { DashboardWidget } from './dashboard-widget.entity';
 

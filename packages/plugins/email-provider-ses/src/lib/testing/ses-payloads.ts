@@ -1,6 +1,6 @@
 // cspell:ignore dmarc
 /** The account's topic (fixture values). */
-export const TOPIC_ARN = 'arn:aws:sns:eu-west-1:123456789012:gauzy-inbox';
+export const TOPIC_ARN = 'arn:aws:sns:eu-west-1:123456789012:irtranscripts-inbox';
 export const CERT_URL = 'https://sns.eu-west-1.amazonaws.com/SimpleNotificationService-fixture.pem';
 
 export const RAW_MIME = [

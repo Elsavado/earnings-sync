@@ -1,11 +1,11 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — the configuration, the ORM, the
+ * `@irtranscripts/core` boots the whole application graph from its barrel — the configuration, the ORM, the
  * job registry, the module scanner — none of which a facet service needs and none of which is
  * available outside a running application. The seam is therefore doubled at the module boundary,
  * exactly as the order and cart packages' service specs do, and **the service under test is the real
  * one**: only the base CRUD class, the request context and the entity base classes are substituted.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
@@ -125,7 +125,7 @@ jest.mock('@gauzy/core', () => {
 
 import { BadRequestException } from '@nestjs/common';
 import { FindOperator } from 'typeorm';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { TagProductVariant } from './tag-product-variant.entity';
 import { TagProductVariantService } from './tag-product-variant.service';
 

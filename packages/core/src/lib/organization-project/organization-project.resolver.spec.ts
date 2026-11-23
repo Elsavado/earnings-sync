@@ -10,8 +10,8 @@ import { join } from 'node:path';
 import { ExecutionContext, NotFoundException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { buildSchema, printSchema } from 'graphql';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@gauzy/constants';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { CursorCodec } from '../api/cursor';
 import { FeatureFlagGuard, PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { ProjectManagerOrPermissionGuard } from './guards/project-manager-or-permission.guard';
@@ -826,7 +826,7 @@ describe('OrganizationProjectResolver — one concept, two protocols, the same o
 			organizationId: ORGANIZATION,
 			isTasksAutoSync: true,
 			isTasksAutoSyncOnLabel: false,
-			syncTag: 'gauzy',
+			syncTag: 'irtranscripts',
 			customFields: { repositoryId: PROJECT }
 		});
 
@@ -837,7 +837,7 @@ describe('OrganizationProjectResolver — one concept, two protocols, the same o
 			organizationId: ORGANIZATION,
 			isTasksAutoSync: true,
 			isTasksAutoSyncOnLabel: false,
-			syncTag: 'gauzy',
+			syncTag: 'irtranscripts',
 			customFields: { repositoryId: PROJECT }
 		});
 	});

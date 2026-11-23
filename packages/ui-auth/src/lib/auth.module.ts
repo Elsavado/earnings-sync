@@ -25,9 +25,9 @@ import {
 	NoAuthGuard,
 	PageRouteRegistryService,
 	RoleService
-} from '@gauzy/ui-core/core';
-import { ThemeModule, ThemeSelectorModule } from '@gauzy/ui-core/theme';
-import { ChangelogEntryComponent, NgxFaqModule, PasswordFormFieldModule, SharedModule } from '@gauzy/ui-core/shared';
+} from '@irtranscripts/ui-core/core';
+import { ThemeModule, ThemeSelectorModule } from '@irtranscripts/ui-core/theme';
+import { ChangelogEntryComponent, NgxFaqModule, PasswordFormFieldModule, SharedModule } from '@irtranscripts/ui-core/shared';
 import { createAuthRoutes } from './auth.routes';
 import { AccountDeletionService } from './components/delete-account/account-deletion.service';
 import { NgxDeleteAccountComponent } from './components/delete-account/delete-account.component';

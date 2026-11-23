@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { EntityManager, SaveOptions } from 'typeorm';
-import { isMySQL, isPostgres } from '@gauzy/config';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
 import {
 	ID,
 	IPaymentMethodToken,
@@ -10,7 +10,7 @@ import {
 	PaymentAccountHolderStatus,
 	PaymentMethodTokenStatus,
 	PaymentMethodTokenType
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from '../core/crud/tenant-aware-crud.service';
 import { IFindOneOptions } from '../core/crud/icrud.service';
 import { RequestContext } from '../core/context/request-context';

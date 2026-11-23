@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, type Signal } from '@angu
 import { from, of } from 'rxjs';
 import { catchError, take } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { EmployeeStatisticsHistoryEnum } from '@gauzy/contracts';
+import { EmployeeStatisticsHistoryEnum } from '@irtranscripts/contracts';
 import { BaseHrInfoWidgetComponent } from './base-hr-info-widget.component';
 import { HrInfoCardComponent } from './hr-info-card.component';
 import { HR_BLOCK_COLORS } from './hr-statistics.utils';

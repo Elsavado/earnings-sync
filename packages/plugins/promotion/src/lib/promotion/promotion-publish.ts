@@ -1,6 +1,6 @@
 import { ForbiddenException } from '@nestjs/common';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { PromotionPermission } from '../promotion.permissions';
 import { PromotionStatus } from '../promotion.types';
 

@@ -75,7 +75,7 @@ export class ProbotDiscovery implements OnModuleInit, OnApplicationBootstrap, On
 				if (!this.config.webhookSecret?.trim()) {
 					console.warn(
 						chalk.yellow(
-							`GAUZY_GITHUB_WEBHOOK_SECRET is not set: GitHub webhook deliveries will be rejected (403). ` +
+							`IRTRANSCRIPTS_GITHUB_WEBHOOK_SECRET is not set: GitHub webhook deliveries will be rejected (403). ` +
 								`Set it to the webhook secret configured in the GitHub App.`
 						)
 					);

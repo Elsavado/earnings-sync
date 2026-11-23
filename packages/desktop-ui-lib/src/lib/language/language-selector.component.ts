@@ -1,7 +1,7 @@
 import { AsyncPipe } from '@angular/common';
 import { AfterViewInit, Component, Input, NgZone, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ILanguage, IUser, IUserUpdateInput, LanguagesEnum } from '@gauzy/contracts';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
+import { ILanguage, IUser, IUserUpdateInput, LanguagesEnum } from '@irtranscripts/contracts';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
 import { NbOptionModule, NbSelectModule } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
@@ -14,7 +14,7 @@ import { LanguageService } from './language.service';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
-    selector: 'gauzy-language-selector',
+    selector: 'irtranscripts-language-selector',
     templateUrl: './language-selector.component.html',
     styleUrls: ['./language-selector.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,

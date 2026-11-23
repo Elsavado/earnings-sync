@@ -3,7 +3,7 @@
  * only PLUGIN_VIEW: every role holds it by default, candidates and viewers included.
  */
 const mockGranted = new Set<string>();
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	PermissionGuard: class PermissionGuard {},
 	TenantPermissionGuard: class TenantPermissionGuard {},
 	Permissions: () => () => undefined,
@@ -22,7 +22,7 @@ jest.mock('../../application/plugin-tenant/commands', () => new Proxy({}, { get:
 jest.mock('../../application/plugin-tenant/queries', () => new Proxy({}, { get: () => class {} }));
 jest.mock('../../shared/dto', () => new Proxy({}, { get: () => class {} }));
 
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { PluginSettingController } from './plugin-setting.controller';
 import { PluginTenantController } from './plugin-tenant.controller';
 

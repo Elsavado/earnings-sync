@@ -37,17 +37,17 @@ describe('text budgets', () => {
 	it('drops headers from the last one until they fit, never the hold and the tag', () => {
 		const headers: Record<string, string> = { subject: 'Hello' };
 		for (let n = 0; n < 24; n++) headers[`x-long-${n}`] = 'é'.repeat(1000);
-		headers['x-gauzy-inbox-tag'] = 'invoices';
-		headers['x-gauzy-inbox-hold'] = 'virus';
+		headers['x-irtranscripts-inbox-tag'] = 'invoices';
+		headers['x-irtranscripts-inbox-hold'] = 'virus';
 		expect(jsonHeadersWithin(headers, null)).toBe(JSON.stringify(headers));
 		const kept = JSON.parse(
-			jsonHeadersWithin(headers, 10_000, ['x-gauzy-inbox-tag', 'x-gauzy-inbox-hold']) as string
+			jsonHeadersWithin(headers, 10_000, ['x-irtranscripts-inbox-tag', 'x-irtranscripts-inbox-hold']) as string
 		);
 		expect(Buffer.byteLength(JSON.stringify(kept))).toBeLessThanOrEqual(10_000);
 		expect(kept).toMatchObject({
 			subject: 'Hello',
-			'x-gauzy-inbox-tag': 'invoices',
-			'x-gauzy-inbox-hold': 'virus'
+			'x-irtranscripts-inbox-tag': 'invoices',
+			'x-irtranscripts-inbox-hold': 'virus'
 		});
 		expect(jsonHeadersWithin({}, 10)).toBeNull();
 	});

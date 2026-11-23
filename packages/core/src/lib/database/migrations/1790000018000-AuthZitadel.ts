@@ -1,13 +1,13 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 /**
- * Creates the four tables of the Ever ID sign-in plugin (`@gauzy/plugin-auth-zitadel`):
+ * Creates the four tables of the Ever ID sign-in plugin (`@irtranscripts/plugin-auth-zitadel`):
  *
- * - `zitadel_account`: links between an Ever ID (`issuer` + `subject`) and Gauzy users;
- * - `zitadel_organization`: links between Gauzy organizations and Ever Platform organizations;
- * - `zitadel_session`: Gauzy sessions opened through Ever ID, for back-channel logout;
+ * - `zitadel_account`: links between an Ever ID (`issuer` + `subject`) and IRTranscripts users;
+ * - `zitadel_organization`: links between IRTranscripts organizations and Ever Platform organizations;
+ * - `zitadel_session`: IRTranscripts sessions opened through Ever ID, for back-channel logout;
  * - `zitadel_logout_jti`: replay cache of back-channel logout tokens.
  *
  * The migration lives in core because plugins cannot carry migrations yet; the plugin's

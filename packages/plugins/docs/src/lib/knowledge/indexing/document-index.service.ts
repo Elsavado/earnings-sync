@@ -1,8 +1,8 @@
 import { createHash } from 'crypto';
 import { Injectable, Logger } from '@nestjs/common';
 import { IsNull } from 'typeorm';
-import { DocumentKnowledgeStatusEnum, ID } from '@gauzy/contracts';
-import { isBetterSqlite3, isSqlite } from '@gauzy/config';
+import { DocumentKnowledgeStatusEnum, ID } from '@irtranscripts/contracts';
+import { isBetterSqlite3, isSqlite } from '@irtranscripts/config';
 import { getDocsConfig } from '../../docs.config';
 import { DocumentChunk } from '../../entities/document-chunk.entity';
 import { DocumentIndexState } from '../../entities/document-index-state.entity';

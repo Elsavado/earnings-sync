@@ -1,7 +1,7 @@
 import { NotFoundException, UseGuards } from '@nestjs/common';
 import { Args, ID, Int, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
-import { FeatureFlag } from '@gauzy/common';
-import { ID as Id, JsonData, PermissionsEnum } from '@gauzy/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
+import { ID as Id, JsonData, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	ConnectionFilter,
 	ConnectionFieldKind,

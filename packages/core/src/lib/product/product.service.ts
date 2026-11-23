@@ -12,7 +12,7 @@ import {
 	IProductTranslated,
 	LanguagesEnum,
 	TranslatePropertyInput
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from './../core/crud';
 import { RequestContext } from './../core/context/request-context';
 import { ApiErrorCode } from './../core/errors/api-error-codes';

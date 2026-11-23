@@ -16,7 +16,7 @@ jest.mock('./database/migrations/1791000001100-CreateEverWorksConnection', () =>
 }));
 
 import 'reflect-metadata';
-import { getEntitiesFromPlugins, getMigrationsFromPlugins, getSubscribersFromPlugins } from '@gauzy/plugin';
+import { getEntitiesFromPlugins, getMigrationsFromPlugins, getSubscribersFromPlugins } from '@irtranscripts/plugin';
 import { EVER_WORKS_ENTITIES, EVER_WORKS_SUBSCRIBERS } from './ever-works.module';
 import { EVER_WORKS_MIGRATIONS, IntegrationEverWorksPlugin } from './integration-ever-works.plugin';
 

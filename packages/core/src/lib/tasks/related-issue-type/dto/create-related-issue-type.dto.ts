@@ -1,4 +1,4 @@
-import { ITaskRelatedIssueTypeCreateInput } from '@gauzy/contracts';
+import { ITaskRelatedIssueTypeCreateInput } from '@irtranscripts/contracts';
 import { IntersectionType, PartialType } from '@nestjs/swagger';
 import { TaskRelatedIssueType } from '../related-issue-type.entity';
 import { TenantOrganizationBaseDTO } from '../../../core/dto';

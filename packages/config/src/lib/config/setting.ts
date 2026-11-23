@@ -1,5 +1,5 @@
 import { registerAs } from '@nestjs/config';
-import { flagFeatures } from '@gauzy/common';
+import { flagFeatures } from '@irtranscripts/common';
 
 /**
  * Configuration for Feature Flags

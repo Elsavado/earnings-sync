@@ -9,9 +9,9 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, IsNull, Repository, SaveOptions } from 'typeorm';
 import * as chalk from 'chalk';
-import { isMySQL } from '@gauzy/config';
-import { CurrencyCode, DecimalString, ID, IPagination } from '@gauzy/contracts';
-import { BaseEvent, EventBus, LegacyFindOneOptions, Money, Payment, readAffectedRows } from '@gauzy/core';
+import { isMySQL } from '@irtranscripts/config';
+import { CurrencyCode, DecimalString, ID, IPagination } from '@irtranscripts/contracts';
+import { BaseEvent, EventBus, LegacyFindOneOptions, Money, Payment, readAffectedRows } from '@irtranscripts/core';
 import { Refund } from './refund.entity';
 import { RefundReason } from '../refund-reason/refund-reason.entity';
 import { TypeOrmRefundRepository } from './repository/type-orm-refund.repository';

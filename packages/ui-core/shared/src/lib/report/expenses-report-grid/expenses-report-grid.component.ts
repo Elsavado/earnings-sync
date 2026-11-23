@@ -9,10 +9,10 @@ import {
 	ITimeLogFilters,
 	ReportGroupByFilter,
 	ReportGroupFilterEnum
-} from '@gauzy/contracts';
-import { distinctUntilChange, isEmpty } from '@gauzy/ui-core/common';
-import { DateRangePickerBuilderService, ExpensesService, Store } from '@gauzy/ui-core/core';
-import { BaseSelectorFilterComponent, TimeZoneService } from '../../timesheet/gauzy-filters';
+} from '@irtranscripts/contracts';
+import { distinctUntilChange, isEmpty } from '@irtranscripts/ui-core/common';
+import { DateRangePickerBuilderService, ExpensesService, Store } from '@irtranscripts/ui-core/core';
+import { BaseSelectorFilterComponent, TimeZoneService } from '../../timesheet/irtranscripts-filters';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -73,7 +73,7 @@ export class ExpensesReportGridComponent extends BaseSelectorFilterComponent imp
 
 	/**
 	 * Get header selectors request
-	 * Get gauzy timesheet filters request
+	 * Get irtranscripts timesheet filters request
 	 *
 	 * @returns
 	 */

@@ -1,5 +1,5 @@
 import { Observable } from "rxjs/internal/Observable";
-import { IPagination } from "@gauzy/contracts";
+import { IPagination } from "@irtranscripts/contracts";
 
 export interface ICrudService<T> {
 

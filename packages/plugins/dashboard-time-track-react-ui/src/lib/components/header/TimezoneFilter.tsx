@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { TimeFormatEnum, TimeZoneEnum } from '@gauzy/contracts';
-import { useTranslation } from '@gauzy/ui-react';
-import { Popover } from '@gauzy/ui-react-components';
+import { TimeFormatEnum, TimeZoneEnum } from '@irtranscripts/contracts';
+import { useTranslation } from '@irtranscripts/ui-react';
+import { Popover } from '@irtranscripts/ui-react-components';
 import { useTimezoneFilter } from '../../hooks/use-timezone-filter';
 import { NbButton } from '../NbButton';
 import { NbIcon } from '../NbIcon';

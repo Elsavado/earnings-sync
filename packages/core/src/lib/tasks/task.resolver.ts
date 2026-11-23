@@ -1,8 +1,8 @@
 import { NotFoundException, UseGuards } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { Args, ID, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { FeatureFlag } from '@gauzy/common';
-import { IAdvancedTaskFiltering, ID as Id, IPagination, ITask, PermissionsEnum } from '@gauzy/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
+import { IAdvancedTaskFiltering, ID as Id, IPagination, ITask, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	ConnectionFilter,
 	ConnectionPageRequest,

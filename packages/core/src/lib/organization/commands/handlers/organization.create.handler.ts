@@ -1,7 +1,7 @@
 import { BadRequestException, Logger } from '@nestjs/common';
 import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { faker } from '@faker-js/faker';
-import { IOrganization, IUser, RolesEnum } from '@gauzy/contracts';
+import { IOrganization, IUser, RolesEnum } from '@irtranscripts/contracts';
 import { UserService } from '../../../user/user.service';
 import { UserOrganizationService } from '../../../user-organization/user-organization.services';
 import { OrganizationService } from '../../organization.service';

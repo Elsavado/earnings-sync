@@ -8,10 +8,10 @@ import {
 	Optional
 } from '@nestjs/common';
 import { DeleteResult, EntityManager, FindOptionsWhere, In, IsNull, UpdateResult } from 'typeorm';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { CurrencyCode, DecimalString, ID } from '@gauzy/contracts';
-import { readAffectedRows, RequestContext, SequenceService, TenantSettingService } from '@gauzy/core';
+import { CurrencyCode, DecimalString, ID } from '@irtranscripts/contracts';
+import { readAffectedRows, RequestContext, SequenceService, TenantSettingService } from '@irtranscripts/core';
 import {
 	GoodsReceiptStatus,
 	IGoodsReceiptInput,

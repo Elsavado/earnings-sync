@@ -13,7 +13,7 @@ import {
 	INBOX_DECISION_KINDS,
 	InboxItemKindEnum,
 	InboxItemStatusEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	escalationDetails,
 	INBOX_REPLY_MAX,

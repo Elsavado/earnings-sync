@@ -48,14 +48,14 @@ function generateTestJWT(payload = {}, secret = (process.env.MCP_AUTH_JWT_SECRET
     // JWT Header
     const useRS256 = !!devPrivateKey;
     const header = { alg: useRS256 ? 'RS256' : 'HS256', typ: 'JWT', ...(useRS256 ? { kid: 'dev-key' } : {}) };
-    if (process.env.MCP_DEBUG || process.env.GAUZY_MCP_DEBUG === 'true') {
+    if (process.env.MCP_DEBUG || process.env.IRTRANSCRIPTS_MCP_DEBUG === 'true') {
         console.log(`[generator] Using ${header.alg} (${useRS256 ? 'dev-private-key.pem found' : 'HMAC secret'})`);
     }
 
     // Default payload
     const now = Math.floor(Date.now() / 1000);
     const defaultPayload = {
-        iss: 'gauzy-dev-auth',           // Issuer
+        iss: 'irtranscripts-dev-auth',           // Issuer
         aud: 'http://localhost:3001/sse',    // Audience (your MCP server)
         sub: 'test-user-123',            // Subject (user ID)
         client_id: 'my-registered-client',   // OAuth client ID (must be registered first)

@@ -1,12 +1,12 @@
 /**
  * The adapter that answers the order's approval port with the platform's own approval machinery.
  *
- * `@gauzy/core`'s barrel is doubled at the module boundary for the reason the package's other suites give;
+ * `@irtranscripts/core`'s barrel is doubled at the module boundary for the reason the package's other suites give;
  * the decimal kernel is the real one, and the approval service is doubled with the calls the adapter makes,
  * so what the suite reads is exactly the request the adapter asks the platform to write and decide.
  */
-jest.mock('@gauzy/core', () => ({
-	...jest.requireActual('@gauzy/core/src/lib/money/decimal'),
+jest.mock('@irtranscripts/core', () => ({
+	...jest.requireActual('@irtranscripts/core/src/lib/money/decimal'),
 	RequestApprovalService: class {},
 	TenantOrganizationBaseEntity: class {},
 	RequestContext: { currentOrganizationId: () => 'organization-of-the-session' },
@@ -14,7 +14,7 @@ jest.mock('@gauzy/core', () => ({
 }));
 
 import { BadRequestException, ConflictException } from '@nestjs/common';
-import { ApprovalPolicyTypesStringEnum, RequestApprovalStatusTypesEnum } from '@gauzy/contracts';
+import { ApprovalPolicyTypesStringEnum, RequestApprovalStatusTypesEnum } from '@irtranscripts/contracts';
 import { OrderApprovalAdapter } from './order-approval.adapter';
 
 /** The approval service, as far as the adapter calls it. */

@@ -1,7 +1,7 @@
 import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormArray } from '@angular/forms';
-import { PluginSourceType } from '@gauzy/contracts';
+import { PluginSourceType } from '@irtranscripts/contracts';
 import { NbIconModule, NbButtonModule, NbTooltipModule } from '@nebular/theme';
 import { PluginSourceComponent } from '../../../component/plugin-marketplace/plugin-marketplace-upload/plugin-source/plugin-source.component';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -38,7 +38,7 @@ export class SourceContainerComponent {
 	public getSourceIcon(sourceType: PluginSourceType): string {
 		const sourceIcons = new Map<PluginSourceType, string>([
 			[PluginSourceType.CDN, 'layers-outline'],
-			[PluginSourceType.GAUZY, 'cube-outline'],
+			[PluginSourceType.IRTRANSCRIPTS, 'cube-outline'],
 			[PluginSourceType.NPM, 'code-outline']
 		]);
 		return sourceIcons.get(sourceType);

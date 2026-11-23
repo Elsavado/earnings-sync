@@ -2,8 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { catchError, distinctUntilChanged, map, retry, startWith, switchMap } from 'rxjs/operators';
-import { IOrganization, IRolePermission, IUser, PermissionsEnum } from '@gauzy/contracts';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { IOrganization, IRolePermission, IUser, PermissionsEnum } from '@irtranscripts/contracts';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 import { Store } from '../store/store.service';
 
 /**

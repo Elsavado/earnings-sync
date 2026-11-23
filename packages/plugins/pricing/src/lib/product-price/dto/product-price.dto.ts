@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsDateString, IsEnum, IsObject, IsOptional, IsString, IsUUID, Length } from 'class-validator';
-import { CurrencyCode, DecimalString, ID } from '@gauzy/contracts';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { CurrencyCode, DecimalString, ID } from '@irtranscripts/contracts';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 import { PriceBaseSource, PriceComputeMode, PriceStatus } from '../../pricing.types';
 
 /**

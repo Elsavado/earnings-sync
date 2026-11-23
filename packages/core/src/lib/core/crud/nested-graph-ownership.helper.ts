@@ -2,7 +2,7 @@
 import { BadRequestException, ForbiddenException } from '@nestjs/common';
 import { EntityManager, EntityMetadata } from 'typeorm';
 import { RelationMetadata } from 'typeorm/metadata/RelationMetadata';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 /**
  * How many levels of nested objects below the root are walked. Real payloads nest two or three

@@ -1,7 +1,7 @@
 import { CrudController, BaseQueryDTO } from './../core/crud';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Controller, UseGuards, HttpStatus, Get, Put, Param, Body, Query, Post, Delete, HttpCode, UsePipes } from '@nestjs/common';
-import { IEquipment, IPagination, ID, PermissionsEnum } from '@gauzy/contracts';
+import { IEquipment, IPagination, ID, PermissionsEnum } from '@irtranscripts/contracts';
 import { Equipment } from './equipment.entity';
 import { EquipmentService } from './equipment.service';
 import { TenantPermissionGuard, PermissionGuard } from './../shared/guards';

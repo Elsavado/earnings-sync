@@ -68,9 +68,9 @@
     </div>
     <div class="detail-right">
       @if (rowData?.projectUrl) {
-        <gauzy-external-link
+        <irtranscripts-external-link
           [rowData]="{ website: $safeNavigationMigration(rowData?.projectUrl) }"
-        ></gauzy-external-link>
+        ></irtranscripts-external-link>
       }
       @if (!rowData?.projectUrl) {
         <span>&mdash;</span>

@@ -1,7 +1,7 @@
-// `@gauzy/core` and the registry's services drag in the entity graph; the controller only needs the caller, the
+// `@irtranscripts/core` and the registry's services drag in the entity graph; the controller only needs the caller, the
 // route decorators and the two services it is handed.
 const mockCaller = { userId: 'subscriber-admin' as string | null, role: 'ADMIN' };
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	return {
 		RequestContext: {
@@ -20,7 +20,7 @@ jest.mock('../../domain/services/plugin-billing.service', () => ({
 }));
 jest.mock('../../domain/services/plugin.service', () => ({ PluginService: class PluginService {} }));
 
-import { PluginBillingStatus } from '@gauzy/contracts';
+import { PluginBillingStatus } from '@irtranscripts/contracts';
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { PluginBillingController } from './plugin-billing.controller';
 

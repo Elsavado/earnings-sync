@@ -1,6 +1,6 @@
 /**
- * The module boundaries are doubled for the reason the package's service specs state: `@gauzy/core`
- * boots the whole application graph from its barrel and `@gauzy/config` reads the environment at import
+ * The module boundaries are doubled for the reason the package's service specs state: `@irtranscripts/core`
+ * boots the whole application graph from its barrel and `@irtranscripts/config` reads the environment at import
  * time, neither of which a resource needs.
  *
  * **Retry safety is the one seam left real.** The `Idempotent` decorator, the metadata key it writes
@@ -11,9 +11,9 @@
  * The resource under test is the real one: the capture controller and the capture resolver over a
  * stubbed kernel service, with the real context and response doubles a Nest interceptor is handed.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { SetMetadata, UsePipes, ValidationPipe } = require('@nestjs/common');
-	const { PERMISSIONS_METADATA } = require('@gauzy/constants');
+	const { PERMISSIONS_METADATA } = require('@irtranscripts/constants');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
@@ -68,7 +68,7 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		BaseEvent: class {},
 		EventBus: class {},
 		Payment: class Payment {},
@@ -83,7 +83,7 @@ jest.mock('@gauzy/core', () => {
 		// line rather than a no-op: a route's pipes are otherwise not what this suite asserts.
 		UseValidationPipe: (options: unknown) => UsePipes(new ValidationPipe(options as never)),
 		Permissions: (...permissions: string[]) => SetMetadata(PERMISSIONS_METADATA, permissions),
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
 		RequestContext: {
 			currentUser: () => null,
 			currentUserId: () => null,
@@ -96,7 +96,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 jest.mock(
-	'@gauzy/config',
+	'@irtranscripts/config',
 	() => ({
 		DatabaseTypeEnum: {
 			mongodb: 'mongodb',
@@ -115,15 +115,15 @@ jest.mock(
  * doubled at its own module: the interceptor under test is the real one, and the store it calls is the
  * in-memory double the cases below hand it.
  */
-jest.mock('@gauzy/core/src/lib/idempotency/idempotency.service', () => ({
+jest.mock('@irtranscripts/core/src/lib/idempotency/idempotency.service', () => ({
 	IdempotencyService: class IdempotencyService {}
 }));
 
 import { ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { from, lastValueFrom } from 'rxjs';
-import { IdempotencyInterceptor } from '@gauzy/core/src/lib/idempotency/idempotency.interceptor';
-import { IDEMPOTENT_METADATA_KEY } from '@gauzy/core/src/lib/idempotency/idempotency.policy';
+import { IdempotencyInterceptor } from '@irtranscripts/core/src/lib/idempotency/idempotency.interceptor';
+import { IDEMPOTENT_METADATA_KEY } from '@irtranscripts/core/src/lib/idempotency/idempotency.policy';
 import { PaymentCaptureController } from './payment-capture.controller';
 import { PaymentCaptureResolver } from '../graphql/resolvers/payment-capture.resolver';
 

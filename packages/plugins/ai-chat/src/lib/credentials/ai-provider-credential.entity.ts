@@ -1,14 +1,14 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 import { IsBoolean, IsNotEmpty, IsOptional, IsString, IsUrl, Length, Matches } from 'class-validator';
-import { IAiProviderCredential } from '@gauzy/contracts';
+import { IAiProviderCredential } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	ExportRedacted,
 	MultiORMColumn,
 	MultiORMEntity,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { MikroOrmAiProviderCredentialRepository } from './repositories/mikro-orm-ai-provider-credential.repository';
 
 /**
@@ -25,7 +25,7 @@ import { MikroOrmAiProviderCredentialRepository } from './repositories/mikro-orm
 export class AiProviderCredential extends TenantOrganizationBaseEntity implements IAiProviderCredential {
 	/**
 	 * Provider identifier (see `AiProviderEnum` — e.g. 'anthropic', 'openai').
-	 * Providers registered by `@gauzy/plugin-ai-provider-*` plugins may use
+	 * Providers registered by `@irtranscripts/plugin-ai-provider-*` plugins may use
 	 * ids outside the enum, so this is stored as a plain string.
 	 */
 	@ApiProperty({ type: () => String, description: 'AI provider identifier (e.g. anthropic, openai)' })

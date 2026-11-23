@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { HttpStatus } from '@gauzy/contracts';
+import { HttpStatus } from '@irtranscripts/contracts';
 import { ToastrService } from './toastr.service';
 
 @Injectable({

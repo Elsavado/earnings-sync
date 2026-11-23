@@ -1,5 +1,5 @@
 // cspell:ignore unneutralize
-import { neutralizeSpreadsheetCell, unneutralizeSpreadsheetCell } from '@gauzy/utils';
+import { neutralizeSpreadsheetCell, unneutralizeSpreadsheetCell } from '@irtranscripts/utils';
 
 /**
  * Makes one export cell safe to open in a spreadsheet (GHSA-7xp5-j564-4752).
@@ -57,7 +57,7 @@ export function toSpreadsheetSafeCsvRow(row: Record<string, unknown>): Record<st
  *
  * 🛑 Only ever call this for an archive whose manifest says its cells were escaped (see
  * `usesSpreadsheetSafeCells` in `../export-manifest`). Applied to an archive nobody escaped — a dump
- * from an older Gauzy, a filled-in `/export/template`, a CSV set built by external tooling — it
+ * from an older IRTranscripts, a filled-in `/export/template`, a CSV set built by external tooling — it
  * would silently strip the leading quote from a legitimate value such as `'=x`.
  *
  * @param row - One row as parsed by `csv-parser`.

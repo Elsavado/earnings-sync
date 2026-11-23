@@ -1,5 +1,5 @@
-import { EmployeeStatisticsHistoryEnum, PermissionsEnum } from '@gauzy/contracts';
-import { WidgetRegistryConfig } from '@gauzy/ui-core/core';
+import { EmployeeStatisticsHistoryEnum, PermissionsEnum } from '@irtranscripts/contracts';
+import { WidgetRegistryConfig } from '@irtranscripts/ui-core/core';
 // The DEPENDENCY-FREE constants module, never a component or a `*.utils` file.
 // This file is reachable from the root bootstrap through
 // `provideCoreDashboardWidgets()`, so whatever it imports lands in the INITIAL

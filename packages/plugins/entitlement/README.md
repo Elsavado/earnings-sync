@@ -1,4 +1,4 @@
-# @gauzy/plugin-entitlement
+# @irtranscripts/plugin-entitlement
 
 ## Overview
 

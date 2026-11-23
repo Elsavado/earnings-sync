@@ -1,6 +1,6 @@
-# @gauzy/plugin-ever-instance: the identity of an installation
+# @irtranscripts/plugin-ever-instance: the identity of an installation
 
-A small library shared by the Ever Platform modules of Ever Gauzy (such as `@gauzy/plugin-ever-stats`). It has no route, no timer and makes no outbound request; a test (`no-outbound.spec.ts`) checks that its sources contain no HTTP client.
+A small library shared by the Ever Platform modules of Ever IRTranscripts (such as `@irtranscripts/plugin-ever-stats`). It has no route, no timer and makes no outbound request; a test (`no-outbound.spec.ts`) checks that its sources contain no HTTP client.
 
 ## What it holds
 
@@ -32,8 +32,8 @@ The stored value records which one was used. When a stronger one is set later (`
 
 `EverOperatorService.isOperator(user, role)`: a super admin, as the database holds the user now (not deleted, active, not archived), who is:
 
-- listed in `EVER_OPERATOR_USER_IDS` (Gauzy user ids, comma separated); or
-- listed in `EVER_OPERATOR_EMAILS` (comma separated, case-insensitive). Gauzy addresses are neither unique nor proven at registration or when changed, so an address names one account only: the account of the installation's first tenant (the oldest, deleted ones included) that holds it, when it is the only account of that tenant holding it (deleted ones included) and has confirmed an address. Nobody in another tenant can claim it, by registering or by changing an address; or
+- listed in `EVER_OPERATOR_USER_IDS` (IRTranscripts user ids, comma separated); or
+- listed in `EVER_OPERATOR_EMAILS` (comma separated, case-insensitive). IRTranscripts addresses are neither unique nor proven at registration or when changed, so an address names one account only: the account of the installation's first tenant (the oldest, deleted ones included) that holds it, when it is the only account of that tenant holding it (deleted ones included) and has confirmed an address. Nobody in another tenant can claim it, by registering or by changing an address; or
 - when neither list is set and the installation has exactly one tenant, its first super admin, pinned in `operatorUserId`. A pinned user who is deleted, deactivated, archived or no longer a super admin is replaced by the next super admin (compare and set, one audit line with both user ids).
 
 With more than one tenant and no list, nobody. With `EVER_INSTALL_SOURCE=cloud`, nobody.

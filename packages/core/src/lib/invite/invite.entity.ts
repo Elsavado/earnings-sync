@@ -8,7 +8,7 @@ import {
 	IRole,
 	IOrganizationTeam,
 	ID
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 import { IsEmail, IsEnum, IsNotEmpty, IsObject, IsOptional, IsString, IsUUID } from 'class-validator';

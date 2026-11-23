@@ -1,4 +1,4 @@
-import { AiProviderEnum, IAiChatModel } from '@gauzy/contracts';
+import { AiProviderEnum, IAiChatModel } from '@irtranscripts/contracts';
 import {
 	IAiChatModelList,
 	IAiChatProviderDefinition,
@@ -10,7 +10,7 @@ import {
 	keyedCatalogue,
 	mergeCatalogue,
 	prettifyModelId
-} from '@gauzy/plugin-ai-chat';
+} from '@irtranscripts/plugin-ai-chat';
 
 /** Stable provider id used by the registry, the UI and BYOK credentials. */
 const PROVIDER_ID = AiProviderEnum.GEMINI;
@@ -131,7 +131,7 @@ export const geminiProviderDefinition: IAiChatProviderDefinition = {
 
 	/**
 	 * Create a Gemini `EmbeddingModel` for the Documents knowledge pipeline
-	 * (`@gauzy/plugin-docs` chunk/query embeddings).
+	 * (`@irtranscripts/plugin-docs` chunk/query embeddings).
 	 *
 	 * Same lazy-ESM pattern as {@link createModel}; callers feature-detect this hook and
 	 * degrade to lexical-only retrieval when a provider does not implement it.

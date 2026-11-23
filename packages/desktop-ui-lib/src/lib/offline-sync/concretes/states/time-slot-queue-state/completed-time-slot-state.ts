@@ -1,4 +1,4 @@
-import { ITimeSlot } from '@gauzy/contracts';
+import { ITimeSlot } from '@irtranscripts/contracts';
 import { InProgressTimeSlotState } from '.';
 import { QueueState } from '../../../interfaces/queue-state';
 

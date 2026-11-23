@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 /**
  * A bounded, per-process limit on the public webhook route before any lookup (the
  * `EverAsyncRateLimitGuard` pattern), independent of optional global throttling. Keyed on the socket
- * peer: Gauzy trusts forwarding headers, so only the peer is safe before authentication. The default,
+ * peer: IRTranscripts trusts forwarding headers, so only the peer is safe before authentication. The default,
  * 1200 requests a minute, is adjustable with `EVER_WORKS_WEBHOOK_REQUESTS_PER_MINUTE` (1–50 000).
  */
 @Injectable()

@@ -1,4 +1,4 @@
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 /**
  * Record scope (owner decision D11, plan 01 §2a): a record's teams decide its scope, the same on both
@@ -7,22 +7,22 @@ import { ID } from '@gauzy/contracts';
  */
 export type EverWorksRecordVisibility = 'team' | 'organization';
 
-/** The scope of a Gauzy record as it is pushed: its mapped Ever Works teams and the visibility they imply. */
+/** The scope of a IRTranscripts record as it is pushed: its mapped Ever Works teams and the visibility they imply. */
 export interface EverWorksTeamScope {
 	visibility: EverWorksRecordVisibility;
 	teamIds: string[];
 }
 
 /**
- * G → EW. Every Gauzy team of the record must be linked first: a record whose team is not linked yet
+ * G → EW. Every IRTranscripts team of the record must be linked first: a record whose team is not linked yet
  * waits (`waitingFor`) instead of going out organization-wide by mistake (rule 4, "teams first").
  */
 export function teamScopeFor(
-	gauzyTeamIds: ReadonlyArray<ID>,
+	irtranscriptsTeamIds: ReadonlyArray<ID>,
 	everWorksTeamOf: ReadonlyMap<ID, string>
 ): { scope: EverWorksTeamScope; waitingFor?: undefined } | { scope?: undefined; waitingFor: ID } {
 	const teamIds: string[] = [];
-	for (const teamId of new Set(gauzyTeamIds)) {
+	for (const teamId of new Set(irtranscriptsTeamIds)) {
 		const ewTeamId = everWorksTeamOf.get(teamId);
 		if (!ewTeamId) return { waitingFor: teamId };
 		teamIds.push(ewTeamId);
@@ -31,14 +31,14 @@ export function teamScopeFor(
 }
 
 /**
- * EW → G. The Gauzy teams of an Ever Works record's `teamIds`; teams not linked (yet) are returned as
+ * EW → G. The IRTranscripts teams of an Ever Works record's `teamIds`; teams not linked (yet) are returned as
  * `unmapped`, for the record's link to keep (fields one side lacks are preserved, never nulled).
  */
-export function gauzyTeamsFor(everWorksTeamIds: ReadonlyArray<string> | null | undefined, gauzyTeamOf: ReadonlyMap<string, ID>): { teamIds: ID[]; unmapped: string[] } {
+export function irtranscriptsTeamsFor(everWorksTeamIds: ReadonlyArray<string> | null | undefined, irtranscriptsTeamOf: ReadonlyMap<string, ID>): { teamIds: ID[]; unmapped: string[] } {
 	const teamIds: ID[] = [];
 	const unmapped: string[] = [];
 	for (const ewTeamId of new Set(everWorksTeamIds ?? [])) {
-		const teamId = gauzyTeamOf.get(ewTeamId);
+		const teamId = irtranscriptsTeamOf.get(ewTeamId);
 		if (teamId) teamIds.push(teamId);
 		else unmapped.push(ewTeamId);
 	}
@@ -50,7 +50,7 @@ export function isSyncedVisibility(visibility: string | null | undefined): boole
 	return visibility !== 'private';
 }
 
-/** An Ever Works `avatarIcon` that Gauzy can show as a team emoji (one emoji, nothing else), or `null`. */
+/** An Ever Works `avatarIcon` that IRTranscripts can show as a team emoji (one emoji, nothing else), or `null`. */
 export function emojiOf(avatarIcon: string | null | undefined): string | null {
 	const value = (avatarIcon ?? '').trim();
 	if (!value || value.length > 16) return null;

@@ -1,6 +1,6 @@
 import { forwardRef, Inject } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IFeatureOrganization } from '@gauzy/contracts';
+import { IFeatureOrganization } from '@irtranscripts/contracts';
 import { FeatureOrganizationService } from './../../../feature/feature-organization.service';
 import { TenantFeatureOrganizationCreateCommand } from '../tenant-feature-organization.create.command';
 

@@ -1,4 +1,4 @@
-# @gauzy/plugin-job-matching-ui
+# @irtranscripts/plugin-job-matching-ui
 
 This library was generated with [Nx](https://nx.dev).
 
@@ -19,7 +19,7 @@ After building your library with `yarn nx build plugin-job-matching-ui`, go to t
 To install the Plugin Job Matching UI, simply run the following command in your terminal:
 
 ```bash
-npm install @gauzy/plugin-job-matching-ui
+npm install @irtranscripts/plugin-job-matching-ui
 # or
-yarn add @gauzy/plugin-job-matching-ui
+yarn add @irtranscripts/plugin-job-matching-ui
 ```

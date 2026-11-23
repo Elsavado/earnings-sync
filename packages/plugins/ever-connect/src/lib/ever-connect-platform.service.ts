@@ -1,5 +1,5 @@
 import { Inject, Injectable, Logger, Optional } from '@nestjs/common';
-import { EverInstanceService } from '@gauzy/plugin-ever-instance';
+import { EverInstanceService } from '@irtranscripts/plugin-ever-instance';
 import type { EverConnectConfig } from './ever-connect-config';
 import { EVER_CONNECT_ENV, EVER_CONNECT_FETCH, EVER_CONNECT_SETTINGS, PRODUCT } from './ever-connect.constants';
 import {

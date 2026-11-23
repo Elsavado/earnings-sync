@@ -1,7 +1,7 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { createHash, randomBytes } from 'node:crypto';
 import { DeleteResult, FindOptionsWhere, IsNull } from 'typeorm';
-import { ID, IWebhookSubscription, JsonData } from '@gauzy/contracts';
+import { ID, IWebhookSubscription, JsonData } from '@irtranscripts/contracts';
 import { EncryptionService } from '../common/encryption/encryption.service';
 import { CrudService } from '../core/crud/crud.service';
 import { RequestContext } from '../core/context/request-context';

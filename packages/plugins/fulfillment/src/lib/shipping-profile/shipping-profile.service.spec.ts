@@ -1,5 +1,5 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a set of shipping profiles needs and none of which is
  * available outside a running application. The seam is therefore doubled at the module boundary,
  * exactly as the sibling packages' service specs do, and **the services under test are the real
@@ -20,7 +20,7 @@
  * states the scope itself. Nothing in this service does: the organization is added by the base class,
  * and a suite that pretended otherwise would be asserting the double.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
@@ -152,7 +152,7 @@ jest.mock('@gauzy/core', () => {
 
 import { NotFoundException } from '@nestjs/common';
 import { FindOperator } from 'typeorm';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { ShippingProfileVariant } from '../shipping-profile-variant/shipping-profile-variant.entity';
 import { ShippingProfileVariantService } from '../shipping-profile-variant/shipping-profile-variant.service';
 import { ShippingProfileService } from './shipping-profile.service';

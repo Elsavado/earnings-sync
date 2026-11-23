@@ -228,13 +228,13 @@ export class ExtendedMcpServer extends McpServer {
 }
 
 /**
- * Creates and configures the Gauzy MCP Server
+ * Creates and configures the IRTranscripts MCP Server
  * @param sessionId - Optional session ID for session-aware operations
  */
 export function createMcpServer(sessionId?: string) {
 	const server = new ExtendedMcpServer(
 		{
-			name: 'gauzy-mcp-server',
+			name: 'irtranscripts-mcp-server',
 			version
 		},
 		{
@@ -248,9 +248,9 @@ export function createMcpServer(sessionId?: string) {
 		// Register all available tools (functions that can be called by the LLM)
 		registerAllMcpTools(server, sessionId);
 
-		logger.log('Gauzy MCP Server: All tools registered successfully');
+		logger.log('IRTranscripts MCP Server: All tools registered successfully');
 	} catch (error) {
-		logger.error('Error configuring Gauzy MCP Server', error instanceof Error ? error.stack : String(error));
+		logger.error('Error configuring IRTranscripts MCP Server', error instanceof Error ? error.stack : String(error));
 		throw error;
 	}
 
@@ -258,7 +258,7 @@ export function createMcpServer(sessionId?: string) {
 }
 
 /**
- * Creates and configures the Gauzy MCP Server with session manager initialization
+ * Creates and configures the IRTranscripts MCP Server with session manager initialization
  * This is the recommended way to create the server for production use
  */
 export async function createMcpServerAsync(sessionId?: string) {
@@ -333,12 +333,12 @@ if (isMainModule()) {
 
 	async function main() {
 		try {
-			logger.log('Starting Gauzy MCP Server for external clients...');
+			logger.log('Starting IRTranscripts MCP Server for external clients...');
 
 			const { transport } = await createAndStartMcpServer();
 			currentTransport = transport;
 
-			logger.log(`✅ Gauzy MCP Server running on ${transport.type} transport - version: ${version}`);
+			logger.log(`✅ IRTranscripts MCP Server running on ${transport.type} transport - version: ${version}`);
 
 			if (transport.type === 'http' && transport.url) {
 				logger.log(`🌐 HTTP transport available at: ${transport.url}`);
@@ -357,7 +357,7 @@ if (isMainModule()) {
 
 			logger.log('🎯 Server is ready to accept MCP requests from clients like Claude Desktop');
 		} catch (error) {
-			logger.error('Fatal error starting Gauzy MCP Server', error instanceof Error ? error.stack : String(error));
+			logger.error('Fatal error starting IRTranscripts MCP Server', error instanceof Error ? error.stack : String(error));
 			process.exit(1);
 		}
 	}

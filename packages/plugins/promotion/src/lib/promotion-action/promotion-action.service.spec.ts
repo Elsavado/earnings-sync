@@ -1,6 +1,6 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { FindOperator } from 'typeorm';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { PromotionActionService } from './promotion-action.service';
 import { PromotionActionAllocation, PromotionActionTargetType, PromotionActionType, PromotionType } from '../promotion.types';
 

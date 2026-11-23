@@ -3,7 +3,7 @@ import { HTTP_CODE_METADATA } from '@nestjs/common/constants';
 import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { Observable, from, lastValueFrom } from 'rxjs';
-import type { ID, JsonData } from '@gauzy/contracts';
+import type { ID, JsonData } from '@irtranscripts/contracts';
 import { executionRequest, executionResponse, readRequestHeader, setResponseHeader } from '../core/context/execution-context.util';
 import { ApiErrorCode } from '../core/errors/api-error-codes';
 import { ApiException, reasonPhrase } from '../core/errors/api-exception';

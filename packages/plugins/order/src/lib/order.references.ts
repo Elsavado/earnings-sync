@@ -7,9 +7,9 @@
  * mutations stored another tenant's ids as given. The customer is the one read back: the order's invoice is issued to
  * it, and the rights its lines grant are granted to it, and both load the contact.
  *
- * `OrderService` holds these columns to the caller's tenant with `assertPlainReferencesNotForeign` (`@gauzy/core`).
+ * `OrderService` holds these columns to the caller's tenant with `assertPlainReferencesNotForeign` (`@irtranscripts/core`).
  */
-import { PlainReferenceColumns } from '@gauzy/core';
+import { PlainReferenceColumns } from '@irtranscripts/core';
 
 /** The plain id columns of an order. */
 export const ORDER_REFERENCES: PlainReferenceColumns = {

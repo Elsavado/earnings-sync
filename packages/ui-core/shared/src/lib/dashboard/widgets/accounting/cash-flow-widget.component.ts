@@ -4,7 +4,7 @@ import { NbJSThemeOptions, NbThemeService } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
 import { combineLatest } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { IChartEmployeeStatistic } from '@gauzy/contracts';
+import { IChartEmployeeStatistic } from '@irtranscripts/contracts';
 import { LineChartModule } from '../../../report/charts/line-chart/line-chart.module';
 import { IChartData } from '../../../report/charts/line-chart/ichart.interface';
 // Reuses the chart palette the employee chart widgets already resolve: a

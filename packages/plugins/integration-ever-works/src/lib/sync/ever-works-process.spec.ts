@@ -1,5 +1,5 @@
 /**
- * The sync's Gauzy writes in any process (follow-up of G-P1-9): the tenant-scoped request context each
+ * The sync's IRTranscripts writes in any process (follow-up of G-P1-9): the tenant-scoped request context each
  * write opens, the context store attached where a process has none (the worker builds its module graph
  * without core's `AppModule`), a missing platform write path turned into a deferral, and the sync loop
  * staying out of a process that does not host the platform's write services.
@@ -11,7 +11,7 @@
  * The tests of one file share the module's "store confirmed" state, so they run in this order: the
  * refusals first, then the attach.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	type Store = { run: (options: unknown, fn: () => unknown) => unknown; get: (key: string) => unknown; set: (key: string, value: unknown) => void };
 	type Req = { user?: { id?: string; tenantId?: string; lastOrganizationId?: string } };
@@ -60,13 +60,13 @@ jest.mock('@gauzy/core', () => {
 		RequestContext
 	};
 });
-jest.mock('@gauzy/common', () => ({ Public: () => () => undefined }));
+jest.mock('@irtranscripts/common', () => ({ Public: () => () => undefined }));
 
 import 'reflect-metadata';
 import { CommandHandlerNotFoundException } from '@nestjs/cqrs';
 import { ClsServiceManager } from 'nestjs-cls';
-import { EmployeeService, OrganizationProjectService, RequestContext, TaskService } from '@gauzy/core';
-import { EverWorksNoRequestContextError, runAsGauzyUser } from './ever-works-actor';
+import { EmployeeService, OrganizationProjectService, RequestContext, TaskService } from '@irtranscripts/core';
+import { EverWorksNoRequestContextError, runAsIRTranscriptsUser } from './ever-works-actor';
 import { ensureRequestContextStore, EverWorksProcessCapability, isMissingWritePath, runInSyncRequestContext, syncRequestUser } from './ever-works-process';
 import { EverWorksSyncLoop } from './ever-works-sync.loop';
 
@@ -83,7 +83,7 @@ describe('the sync writes in any process', () => {
 		await expect(runInSyncRequestContext(syncRequestUser(scope as never, 'user-1' as never), work, unavailable)).rejects.toThrow('unavailable');
 		expect(work).not.toHaveBeenCalled();
 		// The record handlers see the error they defer on.
-		await expect(runAsGauzyUser({ ...scope, connection: {} } as never, 'user-1' as never, work)).rejects.toBeInstanceOf(EverWorksNoRequestContextError);
+		await expect(runAsIRTranscriptsUser({ ...scope, connection: {} } as never, 'user-1' as never, work)).rejects.toBeInstanceOf(EverWorksNoRequestContextError);
 		expect(work).not.toHaveBeenCalled();
 	});
 
@@ -158,11 +158,11 @@ describe('the sync writes in any process', () => {
 				return {};
 			}
 		};
-		expect(new EverWorksProcessCapability(moduleRef as never).canWriteGauzy()).toBe(true);
+		expect(new EverWorksProcessCapability(moduleRef as never).canWriteIRTranscripts()).toBe(true);
 		hosted.delete(TaskService);
 		hosted.delete(EmployeeService);
 		const worker = new EverWorksProcessCapability(moduleRef as never);
-		expect(worker.canWriteGauzy()).toBe(false);
+		expect(worker.canWriteIRTranscripts()).toBe(false);
 		expect(worker.missingWriteServices()).toEqual(['TaskService', 'EmployeeService']);
 	});
 

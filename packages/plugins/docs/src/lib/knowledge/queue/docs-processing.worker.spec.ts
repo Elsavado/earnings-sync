@@ -12,10 +12,10 @@
  * these tests drive it through `DocsProcessingWorker` — the BullMQ adapter — proving the
  * queue path still reaches the same code.
  *
- * `@gauzy/scheduler` and the collaborating services are mocked at the module boundary; the
+ * `@irtranscripts/scheduler` and the collaborating services are mocked at the module boundary; the
  * pipeline and worker under test are real.
  */
-jest.mock('@gauzy/scheduler', () => ({
+jest.mock('@irtranscripts/scheduler', () => ({
 	QueueWorker: () => () => undefined,
 	QueueJobHandler: () => () => undefined,
 	QueueWorkerHost: class {}
@@ -26,13 +26,13 @@ jest.mock('../classification/document-classifier.service', () => ({ DocumentClas
 jest.mock('../indexing/document-index.service', () => ({ DocumentIndexService: class {} }));
 jest.mock('./docs-recovery.service', () => ({ DocsRecoveryService: class {} }));
 jest.mock('./docs-queue.service', () => ({ DocsQueueService: class {} }));
-// The thumbnail service reaches `FileStorage` (and through it the whole `@gauzy/core` graph);
+// The thumbnail service reaches `FileStorage` (and through it the whole `@irtranscripts/core` graph);
 // these tests are about the knowledge-chain gate, so it is stubbed at the module boundary.
 jest.mock('../thumbnail/document-thumbnail.service', () => ({ DocumentThumbnailService: class {} }));
 jest.mock('../../services/docs-feature.service', () => ({ DocsFeatureService: class {} }));
 jest.mock('../../docs.config', () => ({ getDocsConfig: () => ({ queueConcurrency: 1 }) }));
 
-import { DocumentKnowledgeStatusEnum } from '@gauzy/contracts';
+import { DocumentKnowledgeStatusEnum } from '@irtranscripts/contracts';
 import { DOCS_JOB_CHUNK, DOCS_JOB_CLASSIFY } from './constants';
 import { DocsPipelineService } from './docs-pipeline.service';
 import { DocsProcessingWorker } from './docs-processing.worker';

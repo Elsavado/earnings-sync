@@ -18,8 +18,8 @@
  * "no organization stated" into "only rows that have no organization", which is a different question.
  */
 import { EntityManager, EntityTarget, ObjectLiteral } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { ProductVariant, RequestContext, Warehouse } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { ProductVariant, RequestContext, Warehouse } from '@irtranscripts/core';
 import { InventoryErrorCode, inventoryError } from './inventory.errors';
 
 /** The tenant and organization a request acts in; either member is absent when the request states none. */

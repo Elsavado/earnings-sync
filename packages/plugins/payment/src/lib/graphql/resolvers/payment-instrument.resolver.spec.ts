@@ -1,6 +1,6 @@
 /**
- * The module boundaries are doubled for the reason the package's service specs state: `@gauzy/core`
- * boots the whole application graph from its barrel and `@gauzy/config` reads the environment at
+ * The module boundaries are doubled for the reason the package's service specs state: `@irtranscripts/core`
+ * boots the whole application graph from its barrel and `@irtranscripts/config` reads the environment at
  * import time, neither of which a resolver needs.
  *
  * Three things are deliberately **real**, because they are what this suite is about:
@@ -13,7 +13,7 @@
  *   read is written by the code that writes it in production;
  * - the resolvers and the lifecycle services are the package's own, over a stubbed kernel.
  */
-jest.mock('@gauzy/core/src/lib/core/context/request-context', () => ({
+jest.mock('@irtranscripts/core/src/lib/core/context/request-context', () => ({
 	RequestContext: {
 		currentUser: () => null,
 		currentUserId: () => null,
@@ -25,9 +25,9 @@ jest.mock('@gauzy/core/src/lib/core/context/request-context', () => ({
 	}
 }));
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { SetMetadata } = require('@nestjs/common');
-	const { PERMISSIONS_METADATA } = require('@gauzy/constants');
+	const { PERMISSIONS_METADATA } = require('@irtranscripts/constants');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
@@ -78,18 +78,18 @@ jest.mock('@gauzy/core', () => {
 		Permissions: (...permissions: string[]) => SetMetadata(PERMISSIONS_METADATA, permissions),
 		// The retry declaration the mutations carry is written by the kernel's own decorator, so the
 		// assertions below read what the kernel's interceptor reads.
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
-		VisibleWith: jest.requireActual('@gauzy/core/src/lib/api/visible-with.decorator').VisibleWith,
-		FieldVisibility: jest.requireActual('@gauzy/core/src/lib/api/field-visibility.service').FieldVisibility,
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		VisibleWith: jest.requireActual('@irtranscripts/core/src/lib/api/visible-with.decorator').VisibleWith,
+		FieldVisibility: jest.requireActual('@irtranscripts/core/src/lib/api/field-visibility.service').FieldVisibility,
 		// The page-to-connection mapping is the kernel's, and this package's resolver reaches it through its
 		// own `toConnection` — so the double has to carry it, or the suite fails on a missing function rather
 		// than on an assertion. Same reasoning as the visible-with double above: the real one is used.
-		connectionFromPage: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection').connectionFromPage,
+		connectionFromPage: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection').connectionFromPage,
 		// The list fields resolve their window through the kernel too, now that they read the `page` their
 		// SDL declares — and map the page with the offset they read at, which is `connectionFromOffsetPage`.
-		connectionFromOffsetPage: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		connectionFromOffsetPage: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.connectionFromOffsetPage,
-		resolveConnectionWindow: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		resolveConnectionWindow: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.resolveConnectionWindow,
 		PaymentAccountHolder: class PaymentAccountHolder {},
 		PaymentMethodToken: class PaymentMethodToken {},
@@ -108,7 +108,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 jest.mock(
-	'@gauzy/config',
+	'@irtranscripts/config',
 	() => ({
 		DatabaseTypeEnum: {
 			mongodb: 'mongodb',
@@ -124,9 +124,9 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { BadRequestException } from '@nestjs/common';
 import { print } from 'graphql';
-import { PERMISSIONS_METADATA, VISIBLE_WITH_METADATA } from '@gauzy/constants';
-import { FeatureFlagGuard, FieldVisibility, PermissionGuard, TenantPermissionGuard } from '@gauzy/core';
-import { IDEMPOTENT_METADATA_KEY } from '@gauzy/core/src/lib/idempotency/idempotency.policy';
+import { PERMISSIONS_METADATA, VISIBLE_WITH_METADATA } from '@irtranscripts/constants';
+import { FeatureFlagGuard, FieldVisibility, PermissionGuard, TenantPermissionGuard } from '@irtranscripts/core';
+import { IDEMPOTENT_METADATA_KEY } from '@irtranscripts/core/src/lib/idempotency/idempotency.policy';
 import { PaymentPermission } from '../../payment.permissions';
 import { PAYMENT_METHOD_CARD_DATA_NOT_ACCEPTED } from '../../payment.card-data.pipe';
 import { PaymentAccountHolderLifecycleService } from '../../payment-account-holder/payment-account-holder-lifecycle.service';

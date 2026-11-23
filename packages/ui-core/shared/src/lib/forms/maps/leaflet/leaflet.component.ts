@@ -1,8 +1,8 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import * as L from 'leaflet';
 import { icon, LatLng, latLng, Layer, marker, tileLayer } from 'leaflet';
-import { environment } from '@gauzy/ui-config';
-import { convertPrecisionFloatDigit } from '@gauzy/ui-core/common';
+import { environment } from '@irtranscripts/ui-config';
+import { convertPrecisionFloatDigit } from '@irtranscripts/ui-core/common';
 
 @Component({
     selector: 'ga-leaflet-map',
@@ -48,7 +48,7 @@ export class LeafletMapComponent implements AfterViewInit {
 	}
 	get icon() {
 		// `leafelt` is NOT a typo to fix — it is the real directory name on disk
-		// (`apps/gauzy/src/assets/leafelt/`), copied verbatim into the build output.
+		// (`apps/irtranscripts/src/assets/leafelt/`), copied verbatim into the build output.
 		// A spelling pass "corrected" this once and every map marker 404'd, because
 		// none of the seven `<ga-leaflet-map>` call sites binds `[icon]`, so this
 		// default is always the one used. Rename the folder first if you want the

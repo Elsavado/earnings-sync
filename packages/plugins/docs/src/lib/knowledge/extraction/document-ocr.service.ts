@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as sharpModule from 'sharp';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { getDocsConfig } from '../../docs.config';
 import { DocsAiService, IResolvedChatModel } from '../ai/docs-ai.service';
 import { DocsTransientError } from '../errors';
@@ -40,7 +40,7 @@ export interface IDocumentOcrResult {
  * return `null`, and the calling extractor then throws the exact permanent error it threw
  * before OCR existed. A deployment that changes nothing sees no behavior change whatsoever.
  *
- * Cost safety: the page cap (`GAUZY_DOCS_OCR_MAX_PAGES`, default 20) is applied *before* any
+ * Cost safety: the page cap (`IRTRANSCRIPTS_DOCS_OCR_MAX_PAGES`, default 20) is applied *before* any
  * call is made, and every call — successful or not — emits the `docs-ocr` usage event the
  * classification and embedding paths already emit.
  */
@@ -87,7 +87,7 @@ export class DocumentOcrService {
 	}
 
 	/**
-	 * Transcribes a scanned PDF page by page, capped at `GAUZY_DOCS_OCR_MAX_PAGES`.
+	 * Transcribes a scanned PDF page by page, capped at `IRTRANSCRIPTS_DOCS_OCR_MAX_PAGES`.
 	 *
 	 * Per-page failures skip that page (with a visible note) rather than losing the document;
 	 * an all-pages-failed run is classified transient, per the spec.

@@ -3,7 +3,7 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Seller } from './seller/seller.entity';
 import { SellerOffering } from './seller-offering/seller-offering.entity';
 import { SellerTransaction } from './seller-transaction/seller-transaction.entity';
-import { AdjustmentModule, EventOutboxModule, GraphqlSubscriptionModule, RolePermissionModule } from '@gauzy/core';
+import { AdjustmentModule, EventOutboxModule, GraphqlSubscriptionModule, RolePermissionModule } from '@irtranscripts/core';
 import { Module } from '@nestjs/common';
 import { SellerModule } from './seller/seller.module';
 import { SellerOfferingModule } from './seller-offering/seller-offering.module';

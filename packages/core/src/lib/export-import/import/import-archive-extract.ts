@@ -16,17 +16,17 @@ function megabytes(name: string, fallback: number): number {
 
 /** How large an import archive, and what it unpacks to, may be. */
 export interface ImportArchiveLimits {
-	/** The uploaded archive (`GAUZY_IMPORT_MAX_ARCHIVE_MB`, default 256). */
+	/** The uploaded archive (`IRTRANSCRIPTS_IMPORT_MAX_ARCHIVE_MB`, default 256). */
 	maxArchiveBytes: number;
-	/** Everything it unpacks to, together (`GAUZY_IMPORT_MAX_EXTRACTED_MB`, default 2048). */
+	/** Everything it unpacks to, together (`IRTRANSCRIPTS_IMPORT_MAX_EXTRACTED_MB`, default 2048). */
 	maxExtractedBytes: number;
 	/** The entries of its central directory: one per table, and there are a few hundred tables. */
 	maxEntries: number;
 }
 
 export const IMPORT_ARCHIVE_LIMITS: Readonly<ImportArchiveLimits> = Object.freeze({
-	maxArchiveBytes: megabytes('GAUZY_IMPORT_MAX_ARCHIVE_MB', 256),
-	maxExtractedBytes: megabytes('GAUZY_IMPORT_MAX_EXTRACTED_MB', 2048),
+	maxArchiveBytes: megabytes('IRTRANSCRIPTS_IMPORT_MAX_ARCHIVE_MB', 256),
+	maxExtractedBytes: megabytes('IRTRANSCRIPTS_IMPORT_MAX_EXTRACTED_MB', 2048),
 	maxEntries: 2000
 });
 

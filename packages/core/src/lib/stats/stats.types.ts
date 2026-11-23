@@ -1,4 +1,4 @@
-import { InvoiceStats, PaymentStats, UserStats } from '@gauzy/contracts';
+import { InvoiceStats, PaymentStats, UserStats } from '@irtranscripts/contracts';
 
 /**
  * Interface representing global stats.

@@ -2,7 +2,7 @@ import { HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 import { In, LessThan } from 'typeorm';
 import { LockMode } from '@mikro-orm/core';
-import { isMySQL, isPostgres } from '@gauzy/config';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
 import {
 	ID,
 	IIdempotencyClaim,
@@ -12,7 +12,7 @@ import {
 	IPagination,
 	IdempotencyOutcome,
 	IdempotencyStatus
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { CrudService } from '../core/crud/crud.service';
 import { RequestContext } from '../core/context/request-context';
 import { MultiORMEnum } from '../core/utils';

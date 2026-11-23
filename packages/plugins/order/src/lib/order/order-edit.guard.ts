@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { ID, OrderStatus } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { ID, OrderStatus } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { TypeOrmOrderRepository } from './repository/type-orm-order.repository';
 
 /**

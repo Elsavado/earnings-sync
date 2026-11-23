@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { ITaskView } from '@gauzy/contracts';
+import { ITaskView } from '@irtranscripts/contracts';
 import { TaskViewService } from '../../view.service';
 import { TaskViewCreateCommand } from '../task-view-create.command';
 

@@ -1,5 +1,5 @@
-// Only the injected service's type is needed: keep the rest of @gauzy/core (database, seeds) out of this test
-jest.mock('@gauzy/core', () => ({
+// Only the injected service's type is needed: keep the rest of @irtranscripts/core (database, seeds) out of this test
+jest.mock('@irtranscripts/core', () => ({
 	IntegrationTenantService: class IntegrationTenantService {}
 }));
 

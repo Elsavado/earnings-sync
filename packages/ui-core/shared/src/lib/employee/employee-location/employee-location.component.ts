@@ -1,11 +1,11 @@
 import { OnInit, OnDestroy, Component, Input, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
-import { IEmployee, ICandidate } from '@gauzy/contracts';
+import { IEmployee, ICandidate } from '@irtranscripts/contracts';
 import { filter, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { LatLng } from 'leaflet';
-import { Store } from '@gauzy/ui-core/core';
-import { CandidateStore, EmployeeStore } from '@gauzy/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
+import { CandidateStore, EmployeeStore } from '@irtranscripts/ui-core/core';
 import { LeafletMapComponent, LocationFormComponent } from '../../forms';
 
 @UntilDestroy({ checkProperties: true })

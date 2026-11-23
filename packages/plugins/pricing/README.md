@@ -1,6 +1,6 @@
-# @gauzy/plugin-pricing
+# @irtranscripts/plugin-pricing
 
-The pricing capability of the Gauzy platform: price lists, product prices with
+The pricing capability of the IRTranscripts platform: price lists, product prices with
 quantity tiers and validity windows, tax-inclusivity preferences and
 foreign-exchange rates.
 
@@ -23,7 +23,7 @@ price list keeps pricing exactly as it did before.
 Every money column is `numeric(20,6)` with a sibling three-letter ISO currency
 column; rates are `numeric(9,6)` stored as fractions and the exchange rate is
 `numeric(20,10)`. Nothing is a float and no service does decimal arithmetic by
-hand: every calculation goes through the platform money helper in `@gauzy/core`,
+hand: every calculation goes through the platform money helper in `@irtranscripts/core`,
 which owns the precision, the rounding boundary and the guard rails
 (`minMarginPercent`, `maxDiscountPercent`).
 
@@ -46,9 +46,9 @@ folder `dist/packages/plugins/pricing` and run `npm publish`.
 Install the Pricing Plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-pricing
+npm install @irtranscripts/plugin-pricing
 # or
-yarn add @gauzy/plugin-pricing
+yarn add @irtranscripts/plugin-pricing
 ```
 
 Register the plugin in `apps/api/src/plugins.ts` alongside the other plugins.

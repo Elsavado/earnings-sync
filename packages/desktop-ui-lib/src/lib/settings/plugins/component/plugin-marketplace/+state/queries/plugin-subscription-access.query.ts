@@ -3,7 +3,7 @@
 
 import { Injectable } from '@angular/core';
 import { QueryEntity } from '@datorama/akita';
-import { PluginScope } from '@gauzy/contracts';
+import { PluginScope } from '@irtranscripts/contracts';
 import { Observable, map } from 'rxjs';
 import {
 	IPluginAccessState,

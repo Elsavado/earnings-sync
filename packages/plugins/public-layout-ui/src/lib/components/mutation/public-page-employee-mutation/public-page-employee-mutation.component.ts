@@ -15,7 +15,7 @@ import {
 	IEmployeeAward,
 	IEmployeeLevel,
 	IOrganization
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	EmployeeAwardService,
 	EmployeeLevelService,
@@ -23,8 +23,8 @@ import {
 	OrganizationEmploymentTypesService,
 	Store,
 	ToastrService
-} from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { RequestApprovalStatusTypesEnum } from '@gauzy/contracts';
+import { RequestApprovalStatusTypesEnum } from '@irtranscripts/contracts';
 import { EquipmentSharingMutationComponent } from './equipment-sharing-mutation.component';
 
 /**

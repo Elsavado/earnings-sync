@@ -1,4 +1,4 @@
-import { PluginPermissionContribution } from '@gauzy/plugin';
+import { PluginPermissionContribution } from '@irtranscripts/plugin';
 
 /**
  * The marketplace permission catalogue.

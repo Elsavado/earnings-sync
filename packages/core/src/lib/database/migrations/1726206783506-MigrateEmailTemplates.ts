@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { EmailTemplateEnum } from '@gauzy/contracts';
+import { EmailTemplateEnum } from '@irtranscripts/contracts';
 import { EmailTemplateUtils } from '../../email-template/utils';
 
 export class MigrateEmailTemplates1726206783506 implements MigrationInterface {

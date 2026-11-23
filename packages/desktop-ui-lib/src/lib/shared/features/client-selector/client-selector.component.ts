@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, forwardRef, OnInit, OnDestroy } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { IOrganizationContact } from '@gauzy/contracts';
+import { IOrganizationContact } from '@irtranscripts/contracts';
 import { combineLatest, concatMap, filter, map, Observable, tap } from 'rxjs';
 import { TimeTrackerQuery } from '../../../time-tracker/+state/time-tracker.query';
 import { AbstractSelectorComponent } from '../../components/abstract/selector.abstract';
@@ -13,7 +13,7 @@ import { SelectComponent } from '../../components/ui/select/select.component';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'gauzy-client-selector',
+    selector: 'irtranscripts-client-selector',
     templateUrl: './client-selector.component.html',
     styleUrls: ['./client-selector.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

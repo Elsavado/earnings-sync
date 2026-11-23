@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store, StoreConfig } from '@datorama/akita';
-import { IPlugin, IPluginSubscription, PluginStatus, PluginType } from '@gauzy/contracts';
+import { IPlugin, IPluginSubscription, PluginStatus, PluginType } from '@irtranscripts/contracts';
 
 // Filter interfaces
 export interface IPluginFilter {

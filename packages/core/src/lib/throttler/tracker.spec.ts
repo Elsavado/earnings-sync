@@ -1,5 +1,5 @@
 import { createHmac } from 'node:crypto';
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 import {
 	clientIpSecretOf,
 	EVER_CLIENT_IP_HEADER,

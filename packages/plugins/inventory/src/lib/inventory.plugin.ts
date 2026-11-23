@@ -1,6 +1,6 @@
 import * as chalk from 'chalk';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@gauzy/plugin';
-import { isSchedulerQueueRootEnabled } from '@gauzy/scheduler';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@irtranscripts/plugin';
+import { isSchedulerQueueRootEnabled } from '@irtranscripts/scheduler';
 import { InventoryModule } from './inventory.module';
 import { InventoryMaintenanceModule } from './inventory-maintenance.module';
 import { INVENTORY_FEATURES } from './inventory.features';
@@ -88,7 +88,7 @@ const pluginMetadata = {
 			ChannelWarehouseResolver
 		]
 	},
-	dependsOn: ['@gauzy/plugin-catalog']
+	dependsOn: ['@irtranscripts/plugin-catalog']
 };
 
 @Plugin(pluginMetadata)

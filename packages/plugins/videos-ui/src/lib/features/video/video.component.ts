@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { DeleteConfirmationComponent } from '@gauzy/ui-core/shared';
+import { DeleteConfirmationComponent } from '@irtranscripts/ui-core/shared';
 import { NbDialogService } from '@nebular/theme';
 import { Actions } from '@ngneat/effects-ng';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';

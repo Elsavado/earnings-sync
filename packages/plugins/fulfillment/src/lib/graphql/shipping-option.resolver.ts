@@ -1,6 +1,6 @@
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { IPagination, ShippingPriceType } from '@gauzy/contracts';
+import { IPagination, ShippingPriceType } from '@irtranscripts/contracts';
 import {
 	FEATURE_GRAPHQL,
 	FeatureFlagGuard,
@@ -11,8 +11,8 @@ import {
 	TenantPermissionGuard,
 	connectionFromOffsetPage,
 	resolveConnectionWindow
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { ShippingOption } from '../shipping-option/shipping-option.entity';
 import { IShippingEligibilityContext, ShippingOptionService } from '../shipping-option/shipping-option.service';
 import { ShippingProfile } from '../shipping-profile/shipping-profile.entity';

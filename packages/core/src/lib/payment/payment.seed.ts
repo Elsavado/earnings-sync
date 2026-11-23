@@ -2,9 +2,9 @@ import { DataSource } from 'typeorm';
 import * as moment from 'moment';
 import { faker } from '@faker-js/faker';
 import { chain } from 'underscore';
-import { environment as env } from '@gauzy/config';
-import { IEmployee, IOrganization, ITenant, PaymentMethodEnum } from '@gauzy/contracts';
-import { getRandomElement } from '@gauzy/utils';
+import { environment as env } from '@irtranscripts/config';
+import { IEmployee, IOrganization, ITenant, PaymentMethodEnum } from '@irtranscripts/contracts';
+import { getRandomElement } from '@irtranscripts/utils';
 import { Payment } from './payment.entity';
 import { Invoice, OrganizationProject, Tag, User } from './../core/entities/internal';
 

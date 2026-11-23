@@ -1,13 +1,13 @@
 // Forward so mixins/themes are available to importers
 @forward 'var';
-@forward 'gauzy/_gauzy-overrides';
+@forward 'irtranscripts/_irtranscripts-overrides';
 @use 'var' as *;
-@use 'gauzy/_gauzy-overrides' as *;
+@use 'irtranscripts/_irtranscripts-overrides' as *;
 
 :host {
   nb-card {
-    background-color: var(--gauzy-card-2);
-    @include input-appearance(42px, var(--gauzy-card-1));
+    background-color: var(--irtranscripts-card-2);
+    @include input-appearance(42px, var(--irtranscripts-card-1));
     ::ng-deep ngx-image-uploader input {
       height: 100% !important;
     }

@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IIntegration } from '@gauzy/contracts';
+import { IIntegration } from '@irtranscripts/contracts';
 import { IntegrationGetCommand } from './../integration.get.command';
 import { prepareSQLQuery as p } from './../../../database/database.helper';
 import { MultiORM, MultiORMEnum, getORMType, mikroOrmILike } from './../../../core/utils';

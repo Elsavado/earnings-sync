@@ -6,7 +6,7 @@
  * the built web app.
  *
  * Ever hosts are the `ever_owned` names of the harness's never-allowed list (`ever-hosts.json` of
- * `@ever-co/connect-tools`, installed here with `npm ci`) and every name under them. Gauzy names
+ * `@ever-co/connect-tools`, installed here with `npm ci`) and every name under them. IRTranscripts names
  * many of them on purpose (the product site, legal pages, documentation, demo accounts, download
  * links): those occurrences are recorded in `static-hostnames.baseline.json`, which may only shrink.
  *
@@ -14,7 +14,7 @@
  *       the files git tracks, outside the module directories (ALLOWED below), against the `code`
  *       part of the baseline: per file and host, never more occurrences than recorded
  *   node tools/egress-audit/static-hostnames.mjs --bundle <dir>
- *       every text file of a built web app (the `/srv/gauzy` of the web app image), against the
+ *       every text file of a built web app (the `/srv/irtranscripts` of the web app image), against the
  *       `bundle` part: never a host that is not recorded (file names and counts change with every
  *       build; a new host does not)
  *   node tools/egress-audit/static-hostnames.mjs --check-shrink <file>
@@ -42,7 +42,7 @@ export const BASELINE_FILE = join(HERE, 'static-hostnames.baseline.json');
  * prose (Markdown) and tests, and the external uptime monitor. Everything else is core code.
  *
  * The uptime monitor is named by its exact path. Like the tests, it never ships: it is a scheduled CI
- * job on a GitHub-hosted runner that probes Gauzy's own production hosts from outside, and its only
+ * job on a GitHub-hosted runner that probes IRTranscripts's own production hosts from outside, and its only
  * job is to name them, so a baseline that may only shrink would stop it from ever watching a new
  * one. The other workflows stay in the scan: they build and deploy the images, and a host they name
  * can end up inside one.
@@ -59,7 +59,7 @@ export const ALLOWED = [
 	'**/*.spec.ts',
 	'**/*.e2e-spec.ts',
 	'**/*.test.*',
-	'apps/gauzy-e2e/',
+	'apps/irtranscripts-e2e/',
 	'.github/workflows/external-uptime-monitor.yml',
 	// The legal documents vendored from the `@ever-co/legal` Markdown corpus by
 	// `packages/plugins/legal-ui/scripts/sync-legal-content.mjs` (`*.generated.ts`): prose the legal
@@ -186,7 +186,7 @@ export function readBaseline(file = BASELINE_FILE) {
 }
 
 const DESCRIPTION =
-	'Ever hosts (and Ever Platform base URL variables) that Gauzy code outside the Ever Platform modules named before the modules: the product site, legal pages, documentation, demo accounts, downloads. Written by `node tools/egress-audit/static-hostnames.mjs --write`; it may only shrink (checked against the base of every pull request). `code`: per tracked file and host, the occurrences; `bundle`: the hosts the built web app names.';
+	'Ever hosts (and Ever Platform base URL variables) that IRTranscripts code outside the Ever Platform modules named before the modules: the product site, legal pages, documentation, demo accounts, downloads. Written by `node tools/egress-audit/static-hostnames.mjs --write`; it may only shrink (checked against the base of every pull request). `code`: per tracked file and host, the occurrences; `bundle`: the hosts the built web app names.';
 
 function writeBaseline(next, file = BASELINE_FILE) {
 	const sorted = Object.fromEntries(

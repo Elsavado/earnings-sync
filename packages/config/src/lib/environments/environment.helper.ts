@@ -63,7 +63,7 @@ export const parseNonNegativeInt = (value: string | undefined, fallback: number)
  * `APP_LINK` when it holds a value; otherwise `CLIENT_BASE_URL` with a trailing slash; otherwise
  * `fallback`. Before this, an unset or empty `APP_LINK` went straight to the hard-coded fallback.
  * Every hosted deployment carries `APP_LINK` as an empty key, and the API loads `environment.ts`
- * (whose fallback is `http://localhost:4200/`), so every welcome email from app.gauzy.co linked its
+ * (whose fallback is `http://localhost:4200/`), so every welcome email from app.irtranscripts.com linked its
  * footer to localhost while the rest of the email used the real host.
  *
  * @param fallback - Used only when neither variable is set.

@@ -13,8 +13,8 @@ import {
 	SellerTransactionStatus,
 	SellerVerificationKind,
 	SellerVerificationStatus
-} from '@gauzy/contracts';
-import { EventOutboxService, Money, RequestContext, isUniqueViolation } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { EventOutboxService, Money, RequestContext, isUniqueViolation } from '@irtranscripts/core';
 import { Seller } from './seller.entity';
 import { MikroOrmSellerRepository } from './repository/mikro-orm-seller.repository';
 import { TypeOrmSellerRepository } from './repository/type-orm-seller.repository';

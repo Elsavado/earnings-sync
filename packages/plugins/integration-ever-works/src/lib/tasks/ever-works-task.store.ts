@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import { CommandBus } from '@nestjs/cqrs';
 import { DataSource, In, IsNull } from 'typeorm';
-import { ActorTypeEnum, BaseEntityEnum, EntitySubscriptionTypeEnum, ID, ITaskCreateInput, ITaskUpdateInput } from '@gauzy/contracts';
+import { ActorTypeEnum, BaseEntityEnum, EntitySubscriptionTypeEnum, ID, ITaskCreateInput, ITaskUpdateInput } from '@irtranscripts/contracts';
 import {
 	Comment,
 	Employee,
@@ -18,14 +18,14 @@ import {
 	TaskService,
 	TaskStatus,
 	TaskUpdateCommand
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { runInSyncRequestContext, syncRequestUser } from '../sync/ever-works-process';
-import { gauzyStatusSlug, resolveGauzyStatusRow } from '../sync/mappers/status-priority.mapper';
+import { irtranscriptsStatusSlug, resolveIRTranscriptsStatusRow } from '../sync/mappers/status-priority.mapper';
 import { edgesFromRows, LinkedIssueRow } from './ever-works-task.mapper';
 
-/** Who a Gauzy write made by the sync is attributed to (plan 01 §3, plan 03 §C.4 step 4). */
+/** Who a IRTranscripts write made by the sync is attributed to (plan 01 §3, plan 03 §C.4 step 4). */
 export interface EverWorksTaskActor {
-	/** The Gauzy user (the mapped person, the agent's user, or the admin who connected); `null` = none. */
+	/** The IRTranscripts user (the mapped person, the agent's user, or the admin who connected); `null` = none. */
 	userId: ID | null;
 	name: string;
 	/** An Ever Works agent wrote it: comments and activity carry `ActorTypeEnum.Agent`. */
@@ -56,7 +56,7 @@ export interface EverWorksTaskOption {
  */
 export class EverWorksRequestContextUnavailableError extends Error {
 	constructor() {
-		super('This process cannot make Gauzy task writes (no request context or no task commands); the sync retries it.');
+		super('This process cannot make IRTranscripts task writes (no request context or no task commands); the sync retries it.');
 		this.name = 'EverWorksRequestContextUnavailableError';
 	}
 }
@@ -65,12 +65,12 @@ export class EverWorksRequestContextUnavailableError extends Error {
  * Inbound writes stop on a synced task that was moved to another organization of the tenant (PUT /tasks/:id
  * accepts organizationId): the mapping's Ever Works data belongs to its own organization (review F23).
  */
-export const TASK_IN_ANOTHER_ORGANIZATION = 'the Gauzy task belongs to another organization now';
+export const TASK_IN_ANOTHER_ORGANIZATION = 'the IRTranscripts task belongs to another organization now';
 
 /** The relations every task read of the sync loads. */
 const TASK_RELATIONS = { members: true, teams: true, tags: true, project: true, taskStatus: true, taskPriority: true } as const;
 
-/** A tag colour from its name (Gauzy requires one), stable so a tag looks the same wherever it is made. */
+/** A tag colour from its name (IRTranscripts requires one), stable so a tag looks the same wherever it is made. */
 const TAG_COLOURS = ['#6E49E8', '#0BA5EC', '#12B76A', '#F79009', '#F04438', '#EE46BC', '#667085', '#2E90FA'];
 export function tagColourFor(name: string): string {
 	let hash = 0;
@@ -79,7 +79,7 @@ export function tagColourFor(name: string): string {
 }
 
 /**
- * The Gauzy side of the task sync: reads tasks with what the sync compares, writes them through the
+ * The IRTranscripts side of the task sync: reads tasks with what the sync compares, writes them through the
  * platform's own task commands (so numbering, sanitizing, subscriptions, mentions, activity and other
  * integrations behave as for any task write) inside a request context of the attributed user, and
  * resolves the rows a task points at (statuses, priorities, tags) in the task's scope.
@@ -93,7 +93,7 @@ export class EverWorksTaskStore {
 	) {}
 
 	/**
-	 * Runs Gauzy writes as `actor`, in the task's tenant and organization: the platform's services read the
+	 * Runs IRTranscripts writes as `actor`, in the task's tenant and organization: the platform's services read the
 	 * tenant, the user (`createdByUserId` / `updatedByUserId`) and the organization from the request context,
 	 * which a background sync does not have. No employee is set, so a task created by the sync does not get
 	 * the creator added as a member (plan 01 §7), and no permission is held.
@@ -159,7 +159,7 @@ export class EverWorksTaskStore {
 	async statusFor(scope: EverWorksTaskScope, everWorksStatus: string, fallbackSlug: string): Promise<EverWorksTaskOption> {
 		for (const rows of await this.scopedRows(TaskStatus, scope)) {
 			if (!rows.length) continue;
-			const row = resolveGauzyStatusRow(everWorksStatus, rows);
+			const row = resolveIRTranscriptsStatusRow(everWorksStatus, rows);
 			if (row) return { value: row.value, id: row.id as ID };
 			break;
 		}
@@ -170,7 +170,7 @@ export class EverWorksTaskStore {
 	async priorityFor(scope: EverWorksTaskScope, slug: string): Promise<EverWorksTaskOption> {
 		for (const rows of await this.scopedRows(TaskPriority, scope)) {
 			if (!rows.length) continue;
-			const row = rows.find((candidate) => gauzyStatusSlug(candidate.value ?? candidate.name) === slug);
+			const row = rows.find((candidate) => irtranscriptsStatusSlug(candidate.value ?? candidate.name) === slug);
 			if (row) return { value: row.value, id: row.id as ID };
 			break;
 		}

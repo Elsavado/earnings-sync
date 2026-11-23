@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, Matches, MaxLength } from 'class-validator';
-import { ITermsAcceptanceClaim } from '@gauzy/contracts';
+import { ITermsAcceptanceClaim } from '@irtranscripts/contracts';
 
 /**
  * One document a signup / invite-acceptance form says it displayed.
@@ -12,7 +12,7 @@ import { ITermsAcceptanceClaim } from '@gauzy/contracts';
  * rejected outright — recording it would produce evidence pointing at nothing.
  */
 export class TermsAcceptanceClaimDTO implements ITermsAcceptanceClaim {
-	@ApiProperty({ type: () => String, example: 'tos:gauzy' })
+	@ApiProperty({ type: () => String, example: 'tos:irtranscripts' })
 	@IsNotEmpty({ message: 'Terms acceptance requires a document id.' })
 	@IsString()
 	@MaxLength(255)

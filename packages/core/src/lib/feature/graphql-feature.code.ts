@@ -1,4 +1,4 @@
-import { FeatureEnum } from '@gauzy/contracts';
+import { FeatureEnum } from '@irtranscripts/contracts';
 
 /**
  * The capability that gates the GraphQL surface: the catalogue's own `FEATURE_GRAPHQL`, stated once.

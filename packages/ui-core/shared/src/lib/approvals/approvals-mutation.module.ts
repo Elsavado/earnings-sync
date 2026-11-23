@@ -12,8 +12,8 @@ import {
 } from '@nebular/theme';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslatePipe } from '@ngx-translate/core';
-import { ApprovalPolicyService, RequestApprovalService } from '@gauzy/ui-core/core';
-import { Store } from '@gauzy/ui-core/core';
+import { ApprovalPolicyService, RequestApprovalService } from '@irtranscripts/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
 import { RequestApprovalMutationComponent } from './approvals-mutation.component';
 import { EmployeeMultiSelectModule } from '../employee/employee-multi-select/employee-multi-select.module';
 import { TagsColorInputModule } from '../tags/tags-color-input/tags-color-input.module';

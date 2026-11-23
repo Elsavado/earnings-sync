@@ -6,7 +6,7 @@
 		"target": "es2016",
 		"types": ["jest", "node"],
 		"moduleResolution": "bundler",
-		// Matches @gauzy/plugin-docs-ui / packages/ui-core. Without esModuleInterop +
+		// Matches @irtranscripts/plugin-docs-ui / packages/ui-core. Without esModuleInterop +
 		// allowSyntheticDefaultImports, ts-jest interops the `jest-preset-angular` setup module
 		// and the specs against SEPARATE `@angular/core/testing` instances, so
 		// `setupZoneTestEnv()` initialized one TestBed while every component spec used another —

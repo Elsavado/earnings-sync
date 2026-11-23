@@ -14,9 +14,9 @@
       justify-content: space-between;
       gap: 1.5rem;
       padding: 1.5rem;
-      background: var(--gauzy-card-1);
+      background: var(--irtranscripts-card-1);
       border-radius: calc(var(--border-radius) * 1.5);
-      box-shadow: var(--gauzy-shadow);
+      box-shadow: var(--irtranscripts-shadow);
       border: 1px solid rgba(0, 0, 0, 0.06);
       transition: all 0.3s ease;
 
@@ -50,13 +50,13 @@
           .section-title {
             font-size: 1.125rem;
             font-weight: 600;
-            color: var(--gauzy-text-color-1);
+            color: var(--irtranscripts-text-color-1);
             margin: 0 0 0.375rem 0;
           }
 
           .section-description {
             font-size: 0.875rem;
-            color: var(--gauzy-text-color-2);
+            color: var(--irtranscripts-text-color-2);
             margin: 0;
             line-height: 1.5;
           }
@@ -84,10 +84,10 @@
     align-items: stretch;
     gap: 0;
     padding: 0;
-    background: var(--gauzy-card-1);
+    background: var(--irtranscripts-card-1);
     border-radius: calc(var(--border-radius) * 1.5);
     border: 1px solid rgba(0, 0, 0, 0.06);
-    box-shadow: var(--gauzy-shadow);
+    box-shadow: var(--irtranscripts-shadow);
     overflow: hidden;
     transition: all 0.3s ease;
 
@@ -158,7 +158,7 @@
 
         .stat-label {
           font-size: 0.75rem;
-          color: var(--gauzy-text-color-2);
+          color: var(--irtranscripts-text-color-2);
           text-transform: uppercase;
           letter-spacing: 0.5px;
           font-weight: 500;
@@ -167,7 +167,7 @@
         .stat-value {
           font-size: 1.75rem;
           font-weight: 700;
-          color: var(--gauzy-text-color-1);
+          color: var(--irtranscripts-text-color-1);
           line-height: 1;
         }
       }
@@ -193,7 +193,7 @@
       .section-title {
         font-size: 1.0625rem;
         font-weight: 600;
-        color: var(--gauzy-text-color-1);
+        color: var(--irtranscripts-text-color-1);
         margin: 0;
       }
     }
@@ -216,14 +216,14 @@
       align-items: center;
       gap: 0.75rem;
       padding: 0.75rem 1rem;
-      background: var(--gauzy-card-2);
+      background: var(--irtranscripts-card-2);
       border-radius: calc(var(--border-radius) * 1.2);
       border: 1px solid var(--border-basic-color-3);
 
       .bulk-actions-label {
         font-size: 0.8125rem;
         font-weight: 600;
-        color: var(--gauzy-text-color-2);
+        color: var(--irtranscripts-text-color-2);
         text-transform: uppercase;
         letter-spacing: 0.4px;
         flex: 1;
@@ -231,12 +231,12 @@
     }
 
     .custom-table {
-      background: var(--gauzy-card-2);
+      background: var(--irtranscripts-card-2);
       display: flex;
       flex-direction: column;
       padding: 0.75rem;
       border-radius: calc(var(--border-radius) * 1.5);
-      box-shadow: var(--gauzy-shadow);
+      box-shadow: var(--irtranscripts-shadow);
       overflow: hidden;
 
       .table-scroll-container {
@@ -267,7 +267,7 @@
   gap: 1rem;
 
   .loading-text {
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
     font-size: 0.9375rem;
   }
 }
@@ -280,7 +280,7 @@
   justify-content: center;
   padding: 4rem 2rem;
   text-align: center;
-  background: var(--gauzy-card-1);
+  background: var(--irtranscripts-card-1);
   border-radius: calc(var(--border-radius) * 1.5);
   border: 2px dashed var(--border-basic-color-3);
   animation: fadeIn 0.4s ease-out;
@@ -308,13 +308,13 @@
   .empty-state-title {
     font-size: 1.125rem;
     font-weight: 600;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
     margin: 0 0 0.5rem 0;
   }
 
   .empty-state-description {
     font-size: 0.875rem;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
     margin: 0 0 1.5rem 0;
     max-width: 400px;
     line-height: 1.6;
@@ -324,11 +324,11 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    box-shadow: var(--gauzy-shadow);
+    box-shadow: var(--irtranscripts-shadow);
     transition: all 0.2s ease;
 
     &:hover {
-      box-shadow: var(--gauzy-shadow-hover, 0 6px 16px rgba(0, 0, 0, 0.15));
+      box-shadow: var(--irtranscripts-shadow-hover, 0 6px 16px rgba(0, 0, 0, 0.15));
       transform: translateY(-2px);
     }
   }

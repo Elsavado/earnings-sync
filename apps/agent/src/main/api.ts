@@ -1,13 +1,13 @@
-import { LocalStore, TTimeSlot } from '@gauzy/desktop-lib';
+import { LocalStore, TTimeSlot } from '@irtranscripts/desktop-lib';
 import { getAuthConfig, getApiBaseUrl, TAuthConfig, TEmployeeResponse, updateAuthConfig, getProjectConfig } from './util';
 import fetch, { HeadersInit } from 'node-fetch';
 import * as moment from 'moment';
 import * as fs from 'node:fs';
 import * as FormData from 'form-data';
-import { TimeLogSourceEnum, TimeLogType } from '@gauzy/desktop-activity';
+import { TimeLogSourceEnum, TimeLogType } from '@irtranscripts/desktop-activity';
 import MainEvent from './events/events';
 import { MAIN_EVENT, MAIN_EVENT_TYPE } from '../constant';
-import { TaskStatusEnum, IBaseTaskProperties, ITaskStatus, IPagination } from '@gauzy/contracts';
+import { TaskStatusEnum, IBaseTaskProperties, ITaskStatus, IPagination } from '@irtranscripts/contracts';
 import { AgentLogger } from './agent-logger';
 import { TOrganizationScreenshotSetting } from './screenshot-interval';
 

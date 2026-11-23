@@ -1,4 +1,4 @@
-import { IOrganizationProject, ITask } from '@gauzy/contracts';
+import { IOrganizationProject, ITask } from '@irtranscripts/contracts';
 
 /**
  * Everything the Project Management widgets render, derived from ONE task page.

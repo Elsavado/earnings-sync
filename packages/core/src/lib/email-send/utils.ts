@@ -1,7 +1,7 @@
 import * as nodemailer from 'nodemailer';
-import { ISMTPConfig } from '@gauzy/common';
-import { environment } from '@gauzy/config';
-import { IVerifySMTPTransport } from '@gauzy/contracts';
+import { ISMTPConfig } from '@irtranscripts/common';
+import { environment } from '@irtranscripts/config';
+import { IVerifySMTPTransport } from '@irtranscripts/contracts';
 
 /**
  * Email utils functions.

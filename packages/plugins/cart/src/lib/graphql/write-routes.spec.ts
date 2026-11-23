@@ -35,7 +35,7 @@
  * the real one. The service is the seam the parity requirement is about: one stub per resource is what
  * makes "the same method with the same arguments" visible without a database behind it.
  *
- * `@gauzy/core`'s barrel is doubled at the module boundary for the reason this package's other suites
+ * `@irtranscripts/core`'s barrel is doubled at the module boundary for the reason this package's other suites
  * state — it boots the whole application graph, which no declaration here needs. The pieces of it this
  * suite actually compares are the kernel's own: `@Permissions` is required from its own module, because
  * the metadata it writes is what "states the route's permission" means and a double that wrote nothing
@@ -58,7 +58,7 @@ jest.mock('../commerce-checkout-session/commerce-checkout-session.service', () =
 	CommerceCheckoutSessionService: class CommerceCheckoutSessionService {}
 }));
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
@@ -103,31 +103,31 @@ jest.mock('@gauzy/core', () => {
 		VersionedColumn: decorator,
 		// The permission and retry decorators are the kernel's own: what this suite compares between a
 		// route and the field that mirrors it is the metadata they write.
-		Permissions: jest.requireActual('@gauzy/core/src/lib/shared/decorators/permissions.decorator').Permissions,
+		Permissions: jest.requireActual('@irtranscripts/core/src/lib/shared/decorators/permissions.decorator').Permissions,
 		UseValidationPipe: decorator,
 		PermissionGuard: class {},
 		TenantPermissionGuard: class {},
 		// Every resolver class carries the platform's feature guard, so the double provides the class
 		// the resolver imports: an undefined guard handed to the real `@UseGuards` fails the suite.
 		FeatureFlagGuard: class {},
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
-		IDEMPOTENT_METADATA_KEY: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.policy')
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		IDEMPOTENT_METADATA_KEY: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.policy')
 			.IDEMPOTENT_METADATA_KEY,
 		// Rebuilt rather than required: the real decorator imports the version guard, the interceptor behind
 		// it and the idempotency service behind that, which reaches the entity graph. What the declarations
 		// under test read is the metadata it writes, so that is what the double writes — on the kernel's own
 		// key, taken from the kernel rather than restated as a string literal.
-		VERSIONED_METADATA_KEY: jest.requireActual('@gauzy/core/src/lib/concurrency/version.util').VERSIONED_METADATA_KEY,
+		VERSIONED_METADATA_KEY: jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util').VERSIONED_METADATA_KEY,
 		Versioned: (options: any = {}) =>
 			require('@nestjs/common').SetMetadata(
-				jest.requireActual('@gauzy/core/src/lib/concurrency/version.util').VERSIONED_METADATA_KEY,
+				jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util').VERSIONED_METADATA_KEY,
 				options
 			),
-		versionExpectationOf: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		versionExpectationOf: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.versionExpectationOf,
-		connectionFromOffsetPage: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		connectionFromOffsetPage: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.connectionFromOffsetPage,
-		resolveConnectionWindow: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		resolveConnectionWindow: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.resolveConnectionWindow,
 		GraphqlConnection: class {},
 		ColumnNumericTransformerPipe: class {
@@ -157,8 +157,8 @@ jest.mock('@gauzy/core', () => {
 
 import { getMetadataStorage } from 'class-validator';
 import { FieldDefinitionNode, ObjectTypeDefinitionNode, ObjectTypeExtensionNode, TypeNode } from 'graphql';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { IDEMPOTENT_METADATA_KEY, PermissionGuard, TenantPermissionGuard, VERSIONED_METADATA_KEY } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { IDEMPOTENT_METADATA_KEY, PermissionGuard, TenantPermissionGuard, VERSIONED_METADATA_KEY } from '@irtranscripts/core';
 import { CART_PERMISSIONS } from '../cart.permissions';
 import { CommerceCartController } from '../commerce-cart/commerce-cart.controller';
 import { CommerceCartLineController } from '../commerce-cart-line/commerce-cart-line.controller';

@@ -6,10 +6,10 @@ import {
 	HttpException,
 	InternalServerErrorException
 } from '@nestjs/common';
-import { IntegrationEnum, IIntegration, IIntegrationSetting, IIntegrationTenant } from '@gauzy/contracts';
+import { IntegrationEnum, IIntegration, IIntegrationSetting, IIntegrationTenant } from '@irtranscripts/contracts';
 import type { WorkflowExecutionResult, AsyncExecutionResult } from 'simstudio-ts-sdk';
-import { ConfigService } from '@gauzy/config';
-import { IntegrationService, IntegrationTenantService, RequestContext } from '@gauzy/core';
+import { ConfigService } from '@irtranscripts/config';
+import { IntegrationService, IntegrationTenantService, RequestContext } from '@irtranscripts/core';
 import { SimClientFactory } from './sim-client.factory';
 import { SimRepositoryService } from './sim-repository.service';
 import { SimWorkflowExecution } from './sim-workflow-execution.entity';
@@ -65,14 +65,14 @@ export class SimService {
 				}
 			}
 
-			// 2. Fallback to global config (GAUZY_SIM_API_KEY environment variable)
+			// 2. Fallback to global config (IRTRANSCRIPTS_SIM_API_KEY environment variable)
 			const globalApiKey = this.configService.get('sim')?.apiKey;
 			if (globalApiKey) {
 				return globalApiKey;
 			}
 
 			throw new InternalServerErrorException(
-				'SIM API key is not configured. Set GAUZY_SIM_API_KEY or run setupIntegration first.'
+				'SIM API key is not configured. Set IRTRANSCRIPTS_SIM_API_KEY or run setupIntegration first.'
 			);
 		} catch (error: any) {
 			if (error instanceof HttpException) {
@@ -508,7 +508,7 @@ export class SimService {
 
 	/**
 	 * Set an event-to-workflow mapping for the current tenant.
-	 * When the specified Gauzy event fires, the mapped SIM workflow will be triggered automatically.
+	 * When the specified IRTranscripts event fires, the mapped SIM workflow will be triggered automatically.
 	 */
 	async setEventMapping(event: SimEventType, workflowId: string): Promise<void> {
 		const tenantId = RequestContext.currentTenantId();
@@ -645,7 +645,7 @@ export class SimService {
 	}
 
 	/**
-	 * Trigger a workflow from an internal Gauzy event.
+	 * Trigger a workflow from an internal IRTranscripts event.
 	 */
 	async triggerEventWorkflow(params: {
 		event: string;

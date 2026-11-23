@@ -8,11 +8,11 @@ import {
 	IOrganization,
 	StatusTypesEnum,
 	IImageAsset as IDocumentAsset
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { debounceTime, filter, first, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { CompareDateValidator, OrganizationDocumentsService, Store } from '@gauzy/ui-core/core';
-import { distinctUntilChange, isNotEmpty } from '@gauzy/ui-core/common';
+import { CompareDateValidator, OrganizationDocumentsService, Store } from '@irtranscripts/ui-core/core';
+import { distinctUntilChange, isNotEmpty } from '@irtranscripts/ui-core/common';
 import { EmployeeSelectorComponent } from '../../selectors/employee/employee.component';
 import { FormHelpers } from '../../forms/helpers';
 

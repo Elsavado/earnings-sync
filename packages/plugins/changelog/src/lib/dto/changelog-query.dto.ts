@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsOptional } from 'class-validator';
 import { Transform, TransformFnParams } from 'class-transformer';
-import { IChangelogFindInput } from '@gauzy/contracts';
+import { IChangelogFindInput } from '@irtranscripts/contracts';
 
 /**
  * Get changelog request DTO validation.

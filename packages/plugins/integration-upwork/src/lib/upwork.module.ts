@@ -1,6 +1,6 @@
 import { CqrsModule } from '@nestjs/cqrs';
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@gauzy/config';
+import { ConfigModule } from '@irtranscripts/config';
 import {
 	EmployeeModule,
 	ExpenseCategoriesModule,
@@ -15,8 +15,8 @@ import {
 	RolePermissionModule,
 	TimeSlotModule,
 	UserModule
-} from '@gauzy/core';
-import { ProposalModule } from '@gauzy/plugin-job-proposal';
+} from '@irtranscripts/core';
+import { ProposalModule } from '@irtranscripts/plugin-job-proposal';
 import { UpworkTransactionService } from './upwork-transaction.service';
 import { UpworkService } from './upwork.service';
 import { UpworkJobService } from './upwork-job.service';

@@ -1,4 +1,4 @@
-import { ISsl } from '@gauzy/contracts';
+import { ISsl } from '@irtranscripts/contracts';
 import { Express } from 'express';
 import { Server } from 'http';
 

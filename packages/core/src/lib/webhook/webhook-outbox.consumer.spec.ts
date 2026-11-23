@@ -41,7 +41,7 @@ import {
 	IEventConsumerContext,
 	IEventEnvelope,
 	WebhookDeliveryStatus
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { EventConsumerRegistry } from '../event-outbox/event-consumer.registry';
 import { EventOutboxService } from '../event-outbox/event-outbox.service';
 import { NON_SUBSCRIBABLE_EVENT_NAMES, SubscriptionCatalogue } from '../graphql/subscriptions/subscription-catalogue';

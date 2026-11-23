@@ -24,7 +24,7 @@ import {
 	SelectorsModule,
 	SharedModule,
 	TableComponentsModule
-} from '@gauzy/ui-core/shared';
+} from '@irtranscripts/ui-core/shared';
 import { IntegrationZapierRoutes } from './integration-zapier.routes';
 import { ZapierAuthorizeComponent } from './components/zapier-authorize/zapier-authorize.component';
 import { IntegrationZapierLayoutComponent } from './integration-zapier.layout.component';

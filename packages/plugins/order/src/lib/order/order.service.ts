@@ -20,8 +20,8 @@ import {
 	ICommerceCartShippingMethod,
 	OrderChangeStatus,
 	OrderStatus
-} from '@gauzy/contracts';
-import { Money, RequestContext, SequenceService, assertPlainReferencesNotForeign } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { Money, RequestContext, SequenceService, assertPlainReferencesNotForeign } from '@irtranscripts/core';
 import { Order } from './order.entity';
 import { ORDER_REFERENCES } from '../order.references';
 import { TypeOrmOrderRepository } from './repository/type-orm-order.repository';

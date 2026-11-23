@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import {
 	AbstractValidationPipe,
 	CrudController,
@@ -25,7 +25,7 @@ import {
 	UseValidationPipe,
 	Versioned,
 	versionExpectationOf
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { OrderChange } from './order-change.entity';
 import { OrderChangeService } from './order-change.service';
 import { OrderService } from '../order/order.service';

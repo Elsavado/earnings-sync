@@ -1,7 +1,7 @@
 // cspell:ignore searchvector
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { In, IsNull, SelectQueryBuilder } from 'typeorm';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 import {
 	ID,
 	ISearchDocument,
@@ -20,8 +20,8 @@ import {
 	SearchFilterOperator,
 	SearchMatchMode,
 	SearchSortDirection
-} from '@gauzy/contracts';
-import { RequestContext, SearchDocument, TypeOrmSearchDocumentRepository } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { RequestContext, SearchDocument, TypeOrmSearchDocumentRepository } from '@irtranscripts/core';
 import { SearchIndexRegistry } from '../registry/search-index.registry';
 import { SEARCH_SETTING_DEFAULTS } from '../search.settings';
 
@@ -72,7 +72,7 @@ const DEGRADED_CAPABILITY_TTL_MS = 5 * 60 * 1000;
  * entity and the id is a removal of every tenant's and every engine's copy of it. The scope is what
  * lets a caller that knows the other two members say so.
  *
- * `ISearchProvider.delete` in `@gauzy/contracts` still declares two parameters; the third is
+ * `ISearchProvider.delete` in `@irtranscripts/contracts` still declares two parameters; the third is
  * additive and optional, so a provider that ignores it — an external engine that has not been
  * widened yet — keeps satisfying the contract and keeps behaving exactly as it did.
  */

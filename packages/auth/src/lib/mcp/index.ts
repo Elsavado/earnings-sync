@@ -10,7 +10,7 @@
  * - JWT-based access tokens
  * - User authentication and consent management
  *
- * @module @gauzy/auth
+ * @module @irtranscripts/auth
  */
 
 // Server components

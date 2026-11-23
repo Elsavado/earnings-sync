@@ -8,8 +8,8 @@ import {
 	LockMode,
 	ReferenceKind
 } from '@mikro-orm/core';
-import { isMySQL, isPostgres } from '@gauzy/config';
-import { IAllocatedNumber, ID, ISequence, IdempotencyOutcome, JsonData, SequenceResetPolicy } from '@gauzy/contracts';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
+import { IAllocatedNumber, ID, ISequence, IdempotencyOutcome, JsonData, SequenceResetPolicy } from '@irtranscripts/contracts';
 import { CrudService } from '../core/crud/crud.service';
 import { RequestContext } from '../core/context/request-context';
 import { MultiORMEnum } from '../core/utils';

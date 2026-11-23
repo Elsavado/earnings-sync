@@ -5,10 +5,10 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
 import { catchError, distinctUntilChanged, forkJoin, of, switchMap, tap, throwError } from 'rxjs';
-import { ID, IOrganization, PermissionsEnum } from '@gauzy/contracts';
-import { environment } from '@gauzy/ui-config';
-import { ErrorHandlingService, Store, ToastrService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { ID, IOrganization, PermissionsEnum } from '@irtranscripts/contracts';
+import { environment } from '@irtranscripts/ui-config';
+import { ErrorHandlingService, Store, ToastrService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import {
 	EverAsyncService,
 	IEverAsyncOptions,
@@ -261,7 +261,7 @@ export class EverAsyncConnectComponent extends TranslationBaseComponent implemen
 		this.errors.handleError(error);
 	}
 
-	get gauzyApiUrl(): string {
+	get irtranscriptsApiUrl(): string {
 		// Match the API interceptor's configured base. The Async connector adds
 		// /api itself; this value is the deployment base, not an endpoint URL.
 		return new URL(environment.API_BASE_URL || window.location.origin, window.location.origin)
@@ -272,7 +272,7 @@ export class EverAsyncConnectComponent extends TranslationBaseComponent implemen
 	get connectorConfig(): string {
 		const settings = this.settings();
 		if (!settings) return '';
-		const apiUrl = this.gauzyApiUrl;
-		return `[connectors.gauzy]\nbase_url = ${JSON.stringify(apiUrl)}\napp_base_url = ${JSON.stringify(window.location.origin)}\nintegration_id = ${JSON.stringify(settings.integrationTenantId)}\ntenant_id = ${JSON.stringify(settings.tenantId)}\norganization_id = ${JSON.stringify(settings.organizationId)}\napi_key_env = "GAUZY_ASYNC_API_KEY"\napi_secret_env = "GAUZY_ASYNC_API_SECRET"\nasync_tenant_id = "YOUR_ASYNC_TENANT"\nchannel = "slack"\nworkspace = "YOUR_CHAT_WORKSPACE"`;
+		const apiUrl = this.irtranscriptsApiUrl;
+		return `[connectors.irtranscripts]\nbase_url = ${JSON.stringify(apiUrl)}\napp_base_url = ${JSON.stringify(window.location.origin)}\nintegration_id = ${JSON.stringify(settings.integrationTenantId)}\ntenant_id = ${JSON.stringify(settings.tenantId)}\norganization_id = ${JSON.stringify(settings.organizationId)}\napi_key_env = "IRTRANSCRIPTS_ASYNC_API_KEY"\napi_secret_env = "IRTRANSCRIPTS_ASYNC_API_SECRET"\nasync_tenant_id = "YOUR_ASYNC_TENANT"\nchannel = "slack"\nworkspace = "YOUR_CHAT_WORKSPACE"`;
 	}
 }

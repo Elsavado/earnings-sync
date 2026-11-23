@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsDateString, IsInt, IsNotEmpty, IsOptional, IsUUID, Min } from 'class-validator';
 import { JoinColumn, RelationId } from 'typeorm';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	MultiORMColumn,
@@ -9,7 +9,7 @@ import {
 	MultiORMManyToOne,
 	ProductVariant,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { Collection } from '../collection/collection.entity';
 import { MikroOrmCollectionVariantRepository } from './repository/mikro-orm-collection-variant.repository';
 

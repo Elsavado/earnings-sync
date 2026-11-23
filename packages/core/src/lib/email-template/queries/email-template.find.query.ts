@@ -1,4 +1,4 @@
-import { ICustomizeEmailTemplateFindInput, LanguagesEnum } from '@gauzy/contracts';
+import { ICustomizeEmailTemplateFindInput, LanguagesEnum } from '@irtranscripts/contracts';
 import { IQuery } from '@nestjs/cqrs';
 
 export class FindEmailTemplateQuery implements IQuery {

@@ -1,14 +1,14 @@
-// The dialect helpers read DB_TYPE once, when @gauzy/config loads; this file runs as the demo does (better-sqlite3), so
+// The dialect helpers read DB_TYPE once, when @irtranscripts/config loads; this file runs as the demo does (better-sqlite3), so
 // the entity subscriber serializes `data` to text exactly as it does there.
-jest.mock('@gauzy/config', () => {
+jest.mock('@irtranscripts/config', () => {
 	process.env.DB_TYPE = 'better-sqlite3';
-	return jest.requireActual('@gauzy/config');
+	return jest.requireActual('@irtranscripts/config');
 });
 
 import '../core/entities/internal';
 
 import { DataSource } from 'typeorm';
-import { EmployeeSettingDataOperationEnum } from '@gauzy/contracts';
+import { EmployeeSettingDataOperationEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { CrudService } from '../core/crud/crud.service';
 import { MultiORMEnum } from '../core/utils';

@@ -1,7 +1,7 @@
 /**
  * Published on every transfer transition.
  */
-import { BaseEvent } from '@gauzy/core';
+import { BaseEvent } from '@irtranscripts/core';
 import { StockTransfer } from './../stock-transfer/stock-transfer.entity';
 
 /** A transfer changed state. */

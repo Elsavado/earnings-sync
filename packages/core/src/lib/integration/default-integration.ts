@@ -1,5 +1,5 @@
-import { IntegrationEnum, IntegrationTypeEnum } from '@gauzy/contracts';
-import { sluggable } from '@gauzy/utils';
+import { IntegrationEnum, IntegrationTypeEnum } from '@irtranscripts/contracts';
+import { sluggable } from '@irtranscripts/utils';
 
 /**
  *
@@ -66,13 +66,13 @@ export const DEFAULT_SYSTEM_INTEGRATIONS = [
  */
 export const DEFAULT_AI_INTEGRATIONS = [
 	{
-		name: 'Gauzy AI',
-		imgSrc: 'gauzy-ai.svg',
+		name: 'IRTranscripts AI',
+		imgSrc: 'irtranscripts-ai.svg',
 		isComingSoon: false,
 		integrationTypesMap: <string[]>[IntegrationTypeEnum.ALL_INTEGRATIONS],
 		order: 3,
-		redirectUrl: sluggable(IntegrationEnum.GAUZY_AI),
-		provider: IntegrationEnum.GAUZY_AI
+		redirectUrl: sluggable(IntegrationEnum.IRTRANSCRIPTS_AI),
+		provider: IntegrationEnum.IRTRANSCRIPTS_AI
 	},
 	{
 		name: IntegrationEnum.SIM,

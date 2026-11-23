@@ -18,7 +18,7 @@ import {
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslatePipe } from '@ngx-translate/core';
 import { NgxPermissionsModule } from 'ngx-permissions';
-import { SmartDataViewLayoutModule, SharedModule } from '@gauzy/ui-core/shared';
+import { SmartDataViewLayoutModule, SharedModule } from '@irtranscripts/ui-core/shared';
 import { IntegrationHubstaffRoutes } from './integration-hubstaff.routes';
 import { IntegrationHubstaffLayoutComponent } from './integration-hubstaff.layout.component';
 import { HubstaffComponent } from './components/hubstaff/hubstaff.component';

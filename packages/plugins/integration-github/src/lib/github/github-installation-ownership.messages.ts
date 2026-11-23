@@ -1,4 +1,4 @@
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 
 /**
  * Why `POST /install` refused to bind an installation, keyed by the reason the post-install callback
@@ -16,7 +16,7 @@ export function githubInstallationRefusedMessage(reason?: string): string {
 		case 'unverifiable':
 			return (
 				'This GitHub installation could not be verified right now: GitHub was unreachable, or the API is missing ' +
-				'GAUZY_GITHUB_CLIENT_ID / GAUZY_GITHUB_CLIENT_SECRET. Please try connecting GitHub again, or contact an administrator.'
+				'IRTRANSCRIPTS_GITHUB_CLIENT_ID / IRTRANSCRIPTS_GITHUB_CLIENT_SECRET. Please try connecting GitHub again, or contact an administrator.'
 			);
 		default: {
 			const callbackUrl = `${environment.baseUrl}/api/integration/github/callback`;

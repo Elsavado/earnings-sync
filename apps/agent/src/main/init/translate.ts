@@ -1,4 +1,4 @@
-import { TranslateLoader } from '@gauzy/desktop-lib';
+import { TranslateLoader } from '@irtranscripts/desktop-lib';
 import * as path from 'path';
 /* Load translations */
 export default function InitAppTranslation() {

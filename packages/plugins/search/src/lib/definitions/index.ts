@@ -1,4 +1,4 @@
-import { ISearchIndexRegistration } from '@gauzy/contracts';
+import { ISearchIndexRegistration } from '@irtranscripts/contracts';
 import { PRODUCT_INDEX } from './product.definition';
 import { PRODUCT_VARIANT_INDEX } from './product-variant.definition';
 import { ORGANIZATION_CONTACT_INDEX } from './organization-contact.definition';

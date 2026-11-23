@@ -6,8 +6,8 @@ import '../core/entities/internal';
 
 import { NotFoundException } from '@nestjs/common';
 import { DataSource, EntitySchema, Repository } from 'typeorm';
-import { WebhookDeliveryStatus } from '@gauzy/contracts';
-import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@gauzy/config';
+import { WebhookDeliveryStatus } from '@irtranscripts/contracts';
+import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@irtranscripts/config';
 import { EncryptionService } from '../common/encryption/encryption.service';
 import { RequestContext } from '../core/context/request-context';
 import { WebhookDeliveryController } from './webhook-delivery.controller';

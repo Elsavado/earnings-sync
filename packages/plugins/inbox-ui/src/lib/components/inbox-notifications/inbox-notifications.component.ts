@@ -5,8 +5,8 @@ import { NbAlertModule, NbButtonModule, NbIconModule, NbListModule, NbSpinnerMod
 import { TranslatePipe } from '@ngx-translate/core';
 import { combineLatest, EMPTY, Subject } from 'rxjs';
 import { catchError, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
-import { IEmployeeNotification } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
+import { IEmployeeNotification } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
 import { INBOX_UI_PAGE_SIZE } from '../../inbox-ui.constants';
 import { InboxNotificationsService } from '../../services/inbox-ui.service';
 
@@ -18,7 +18,7 @@ interface NotificationScope {
 }
 
 /**
- * The Notifications tab (plan 04 §1): Gauzy's own `EmployeeNotification`s (mentions, assignments, comments),
+ * The Notifications tab (plan 04 §1): IRTranscripts's own `EmployeeNotification`s (mentions, assignments, comments),
  * read live from `/api/employee-notification` — the first Angular UI for them. Nothing is copied into the
  * inbox. A user without an employee record has no notifications.
  */

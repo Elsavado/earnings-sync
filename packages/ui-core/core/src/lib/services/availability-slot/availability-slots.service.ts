@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IAvailabilitySlot, IAvailabilitySlotsCreateInput, IAvailabilitySlotsFindInput } from '@gauzy/contracts';
+import { IAvailabilitySlot, IAvailabilitySlotsCreateInput, IAvailabilitySlotsFindInput } from '@irtranscripts/contracts';
 import { firstValueFrom } from 'rxjs';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 
 @Injectable()
 export class AvailabilitySlotsService {

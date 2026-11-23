@@ -1,7 +1,7 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Parent, ResolveField, Resolver } from '@nestjs/graphql';
-import { FeatureFlag } from '@gauzy/common';
-import { ContactGroupSource, IContactGroup, IContactGroupMember, ID as Id, PermissionsEnum } from '@gauzy/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
+import { ContactGroupSource, IContactGroup, IContactGroupMember, ID as Id, PermissionsEnum } from '@irtranscripts/contracts';
 import { Permissions } from '../shared/decorators';
 import { FeatureFlagGuard, PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { FEATURE_GRAPHQL } from '../feature/graphql-feature.code';

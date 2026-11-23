@@ -9,12 +9,12 @@
  * requires every one, which is the kernel's half and is pinned in the kernel's own specs. What is pinned
  * here is the plugin's half: the codes each class states, read off the decorator as it was applied.
  *
- * `@gauzy/common` is the real module except for the decorator, which records the code a class states and
+ * `@irtranscripts/common` is the real module except for the decorator, which records the code a class states and
  * otherwise does nothing: the guard that reads the metadata is not what these cases run. The controllers
  * and resolvers are the real classes over the real kernel barrel, as this package's route-parity spec
  * loads them.
  */
-jest.mock('@gauzy/common', () => {
+jest.mock('@irtranscripts/common', () => {
 	/**
 	 * Every feature code a class-level `@FeatureFlag` stated, by the class it was stated on.
 	 *
@@ -23,7 +23,7 @@ jest.mock('@gauzy/common', () => {
 	const declaredFeatureCodes = new Map<unknown, string[]>();
 
 	return {
-		...jest.requireActual('@gauzy/common'),
+		...jest.requireActual('@irtranscripts/common'),
 		declaredFeatureCodes,
 		FeatureFlag: (code: string) => (target: unknown, key?: unknown) => {
 			if (key === undefined) {
@@ -33,7 +33,7 @@ jest.mock('@gauzy/common', () => {
 	};
 });
 
-import { FEATURE_GRAPHQL } from '@gauzy/core/src/lib/feature/graphql-feature.code';
+import { FEATURE_GRAPHQL } from '@irtranscripts/core/src/lib/feature/graphql-feature.code';
 import { PurchasingFeatures } from '../../purchasing.features';
 import { GoodsReceiptController } from '../../goods-receipt/goods-receipt.controller';
 import { GoodsReceiptLineController } from '../../goods-receipt-line/goods-receipt-line.controller';
@@ -47,7 +47,7 @@ import { PurchaseOrderLineResolver } from './purchase-order-line.resolver';
 import { VendorProductTermResolver } from './vendor-product-term.resolver';
 
 describe('the plugin feature gate — every resolver states the code its REST controller states', () => {
-	const { declaredFeatureCodes } = jest.requireMock('@gauzy/common') as {
+	const { declaredFeatureCodes } = jest.requireMock('@irtranscripts/common') as {
 		declaredFeatureCodes: Map<unknown, string[]>;
 	};
 

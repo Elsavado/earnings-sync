@@ -1,5 +1,5 @@
 import { DataSource, EntitySchema, Repository } from 'typeorm';
-import { CrudService, RequestContext } from '@gauzy/core';
+import { CrudService, RequestContext } from '@irtranscripts/core';
 import { TenantScopedCrudService } from './tenant-scoped-crud.service';
 
 /**

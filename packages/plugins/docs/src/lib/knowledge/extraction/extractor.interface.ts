@@ -7,7 +7,7 @@
  * registry resolves providers in registration order, first match wins.
  */
 
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 /** Context handed to an extractor run (never the raw request — extractors are pure). */
 export interface IDocumentExtractionContext {
@@ -15,7 +15,7 @@ export interface IDocumentExtractionContext {
 	filename: string;
 	/** Sniffed canonical MIME of the buffer. */
 	mimeType: string;
-	/** Cap on the produced markdown length in characters (`GAUZY_DOCS_MAX_EXTRACTED_CHARS`). */
+	/** Cap on the produced markdown length in characters (`IRTRANSCRIPTS_DOCS_MAX_EXTRACTED_CHARS`). */
 	maxChars?: number;
 	/** P1 (M5) — request the OCR path where supported. */
 	forceOcr?: boolean;

@@ -1,8 +1,8 @@
-// `@gauzy/ui-core/shared` is a barrel over the whole app: importing it (the component pulls
+// `@irtranscripts/ui-core/shared` is a barrel over the whole app: importing it (the component pulls
 // `DeleteConfirmationComponent` from it) drags `selectors.module` → `ngx-daterangepicker-material`
 // → `dayjs/esm` — untranspiled ESM the CommonJS test runtime cannot parse. Stub the one symbol the
-// component actually uses so the suite can load (same approach as `@gauzy/plugin-docs-ui`).
-jest.mock('@gauzy/ui-core/shared', () => ({ DeleteConfirmationComponent: class DeleteConfirmationComponent {} }));
+// component actually uses so the suite can load (same approach as `@irtranscripts/plugin-docs-ui`).
+jest.mock('@irtranscripts/ui-core/shared', () => ({ DeleteConfirmationComponent: class DeleteConfirmationComponent {} }));
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -27,7 +27,7 @@ describe('VideoComponent', () => {
 				{ provide: NbDialogService, useValue: { open: jest.fn() } },
 				{ provide: Actions, useValue: { dispatch: jest.fn() } }
 			],
-			// The template renders Gauzy/plugin elements (`plug-video-skeleton`, `ngx-no-data-message`, …)
+			// The template renders IRTranscripts/plugin elements (`plug-video-skeleton`, `ngx-no-data-message`, …)
 			// not declared here; NO_ERRORS_SCHEMA lets them render without pulling their whole modules.
 			schemas: [NO_ERRORS_SCHEMA]
 		}).compileComponents();

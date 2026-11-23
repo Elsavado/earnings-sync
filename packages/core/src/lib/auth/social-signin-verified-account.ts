@@ -3,7 +3,7 @@
  *
  * A sign-in through an identity provider (Google, GitHub, Microsoft, Keycloak..., and Ever Teams'
  * `POST /auth/signin.email.social`) matches an account only when the provider reports the email verified AND the
- * Gauzy account has confirmed that address itself (owner decision 5). An unconfirmed account carrying the address
+ * IRTranscripts account has confirmed that address itself (owner decision 5). An unconfirmed account carrying the address
  * may have been registered by anyone: matching it put the address's owner in a workspace whose password someone
  * else holds.
  *

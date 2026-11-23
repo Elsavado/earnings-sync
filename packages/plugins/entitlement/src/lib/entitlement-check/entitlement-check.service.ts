@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { ObjectLiteral, Repository } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { RequestContext, RuleService, getORMType } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { RequestContext, RuleService, getORMType } from '@irtranscripts/core';
 import { Entitlement } from '../entitlement/entitlement.entity';
 import { EntitlementKey } from '../entitlement-key/entitlement-key.entity';
 import { EntitlementActivation } from '../entitlement-activation/entitlement-activation.entity';

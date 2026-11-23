@@ -3,8 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
 import { EMPTY, catchError, filter, tap, finalize, forkJoin, switchMap } from 'rxjs';
-import { SimService, SimStoreService, ISimSupportedEvent, ISimEventMapping, ToastrService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { SimService, SimStoreService, ISimSupportedEvent, ISimEventMapping, ToastrService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

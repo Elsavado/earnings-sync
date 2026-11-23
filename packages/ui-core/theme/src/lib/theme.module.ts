@@ -33,7 +33,7 @@ import {
 	OrganizationsService,
 	SelectorService,
 	UsersOrganizationsService
-} from '@gauzy/ui-core/core';
+} from '@irtranscripts/ui-core/core';
 import {
 	DirectivesModule,
 	EmailVerificationNoticeComponent,
@@ -41,8 +41,8 @@ import {
 	TimeTrackerModule,
 	TimeTrackerStatusModule,
 	WorkspacesModule
-} from '@gauzy/ui-core/shared';
-import { TablerIconsModule } from '@gauzy/ui-core/icons';
+} from '@irtranscripts/ui-core/shared';
+import { TablerIconsModule } from '@irtranscripts/ui-core/icons';
 import {
 	OneColumnLayoutComponent,
 	ThreeColumnsLayoutComponent,
@@ -52,8 +52,8 @@ import {
 import {
 	COSMIC_THEME,
 	DEFAULT_THEME,
-	GAUZY_DARK,
-	GAUZY_LIGHT,
+	IRTRANSCRIPTS_DARK,
+	IRTRANSCRIPTS_LIGHT,
 	MATERIAL_DARK_THEME,
 	MATERIAL_LIGHT_THEME
 } from './themes';
@@ -61,7 +61,7 @@ import { WindowModeBlockScrollService } from './services/window-mode-block-scrol
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ThemeSidebarModule } from './components/theme-sidebar/theme-sidebar.module';
-import { GauzyLogoComponent } from './components/gauzy-logo/gauzy-logo.component';
+import { IRTranscriptsLogoComponent } from './components/irtranscripts-logo/irtranscripts-logo.component';
 import { UserMenuComponent } from './components/user-menu/user-menu.component';
 import { UserComponent } from './components/user/user.component';
 import { WorkspaceMenuComponent } from './components/workspace-menu/workspace-menu.component';
@@ -111,7 +111,7 @@ const COMPONENTS = [
 	ThreeColumnsLayoutComponent,
 	TwoColumnsLayoutComponent,
 	PublicLayoutComponent,
-	GauzyLogoComponent,
+	IRTranscriptsLogoComponent,
 	UserMenuComponent,
 	UserComponent,
 	WorkspaceMenuComponent
@@ -142,15 +142,15 @@ export class ThemeModule {
 		return {
 			ngModule: ThemeModule,
 			providers: [
-				...NbThemeModule.forRoot({ name: GAUZY_LIGHT.name }, [
+				...NbThemeModule.forRoot({ name: IRTRANSCRIPTS_LIGHT.name }, [
 					DEFAULT_THEME,
 					COSMIC_THEME,
 					CORPORATE_THEME,
 					DARK_THEME,
 					MATERIAL_LIGHT_THEME,
 					MATERIAL_DARK_THEME,
-					GAUZY_LIGHT,
-					GAUZY_DARK
+					IRTRANSCRIPTS_LIGHT,
+					IRTRANSCRIPTS_DARK
 				]).providers,
 				WindowModeBlockScrollService
 			]

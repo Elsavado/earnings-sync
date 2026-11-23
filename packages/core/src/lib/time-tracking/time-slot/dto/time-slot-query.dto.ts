@@ -1,5 +1,5 @@
 import { IntersectionType } from '@nestjs/swagger';
-import { IGetTimeSlotInput } from '@gauzy/contracts';
+import { IGetTimeSlotInput } from '@irtranscripts/contracts';
 import { FiltersQueryDTO, RelationsQueryDTO, SelectorsQueryDTO } from '../../../shared/dto';
 
 /**

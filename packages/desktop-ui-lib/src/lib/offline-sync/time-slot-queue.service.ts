@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ITimeSlot } from '@gauzy/contracts';
+import { ITimeSlot } from '@irtranscripts/contracts';
 import { Observable, Observer } from 'rxjs';
 import { Updatable, ViewQueueStateUpdater } from './interfaces';
 

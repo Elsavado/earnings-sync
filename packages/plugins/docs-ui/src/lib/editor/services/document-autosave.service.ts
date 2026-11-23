@@ -1,7 +1,7 @@
 import { Injectable, NgZone, OnDestroy, inject } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
-import { ID, IDocument, JsonData } from '@gauzy/contracts';
+import { ID, IDocument, JsonData } from '@irtranscripts/contracts';
 import { IDocumentContentUpdateInput } from '../../models/docs-api.model';
 import { DocumentsService } from '../../services/documents.service';
 

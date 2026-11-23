@@ -16,7 +16,7 @@ import {
 import { FormerEmployeesInterceptor } from '../employee/former-employees.interceptor';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult, UpdateResult } from 'typeorm';
-import { ID, IOrganizationProjectModule, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IOrganizationProjectModule, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { UseValidationPipe, UUIDValidationPipe } from './../shared/pipes';
 import { PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { Permissions } from '../shared/decorators';

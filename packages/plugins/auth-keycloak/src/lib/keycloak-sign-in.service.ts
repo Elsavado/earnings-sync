@@ -8,12 +8,12 @@ import {
 	OidcTransactionCookieOptions,
 	OidcTransactionService,
 	isOidcError
-} from '@gauzy/auth';
-import { environment } from '@gauzy/config';
+} from '@irtranscripts/auth';
+import { environment } from '@irtranscripts/config';
 import { isMissingOrPlaceholder, isMissingOrSampleAuthServerUrl } from './auth-keycloak.config';
 
 /** Cookie that carries the Keycloak sign-in transaction between the start and the callback. */
-export const KEYCLOAK_TRANSACTION_COOKIE = 'gauzy_keycloak_txn';
+export const KEYCLOAK_TRANSACTION_COOKIE = 'irtranscripts_keycloak_txn';
 
 /** Scopes requested from Keycloak: the e-mail and its verification state come from the ID token. */
 export const KEYCLOAK_SCOPES = ['openid', 'email', 'profile'];
@@ -44,7 +44,7 @@ export type KeycloakSignInResult =
  *
  * The authorization code flow runs with PKCE, `state` and `nonce` kept in a signed cookie, and the
  * ID token is verified locally against the realm's published keys. Only a verified e-mail address is
- * handed on to Gauzy's existing social sign-in, which signs the person in to the account that owns
+ * handed on to IRTranscripts's existing social sign-in, which signs the person in to the account that owns
  * that address; nothing is created for an unknown address.
  */
 @Injectable()

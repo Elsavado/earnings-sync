@@ -3,7 +3,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { EntityRepositoryType } from '@mikro-orm/core';
 import { JoinColumn, RelationId } from 'typeorm';
 import { IsEnum, IsNotEmpty, IsObject, IsOptional, IsUUID } from 'class-validator';
-import { ActorTypeEnum, BaseEntityEnum, ID, IEmployee, IMention } from '@gauzy/contracts';
+import { ActorTypeEnum, BaseEntityEnum, ID, IEmployee, IMention } from '@irtranscripts/contracts';
 import { BasePerEntityType, Employee } from '../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from '../core/decorators/entity';
 import { ActorTypeTransformer } from '../shared/pipes';

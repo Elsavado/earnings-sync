@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-job-proposal-ui
+ * Public API Surface of @irtranscripts/plugin-job-proposal-ui
  */
 // Proposal Plugin
 export * from './lib/proposal/job-proposal-plugin';

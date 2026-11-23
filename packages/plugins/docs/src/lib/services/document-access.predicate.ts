@@ -1,4 +1,4 @@
-import { DocumentShareAccessEnum, DocumentVisibilityEnum, ID } from '@gauzy/contracts';
+import { DocumentShareAccessEnum, DocumentVisibilityEnum, ID } from '@irtranscripts/contracts';
 
 /**
  * The visibility + share composition rules of `08-permissions-security.md` §3 as PURE

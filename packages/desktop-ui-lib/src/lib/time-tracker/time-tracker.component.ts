@@ -25,8 +25,8 @@ import {
 	TaskStatusEnum,
 	TimerActionTypeEnum,
 	TimerSyncStateEnum,
-} from '@gauzy/contracts';
-import { compressImage, distinctUntilChange } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { compressImage, distinctUntilChange } from '@irtranscripts/ui-core/common';
 import {
 	NbBadgeModule,
 	NbButtonModule,
@@ -69,7 +69,7 @@ import {
 } from 'rxjs';
 import { AlwaysOnService, AlwaysOnStateEnum } from '../always-on/always-on.service';
 import { AuthStrategy } from '../auth';
-import { BLOCK_DELAY, GAUZY_ENV } from '../constants';
+import { BLOCK_DELAY, IRTRANSCRIPTS_ENV } from '../constants';
 import { ElectronService, LoggerService } from '../electron/services';
 import { ScreenCaptureWebRTCService } from '../electron/services/electron/screen-capture.service';
 import { ImageViewerService } from '../image-viewer/image-viewer.service';
@@ -253,7 +253,7 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 		private _translateService: TranslateService,
 		private _alwaysOnService: AlwaysOnService,
 		private _actions: Actions,
-		@Inject(GAUZY_ENV)
+		@Inject(IRTRANSCRIPTS_ENV)
 		private readonly _environment: any,
 		private readonly _activityWatchViewService: ActivityWatchViewService,
 		private readonly _languageElectronService: LanguageElectronService,

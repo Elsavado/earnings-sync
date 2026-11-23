@@ -2,7 +2,7 @@ import * as path from 'node:path';
 import * as ts from 'typescript';
 
 /**
- * The public API of `@gauzy/auth` may only grow. Apps and plugins import these names; removing or
+ * The public API of `@irtranscripts/auth` may only grow. Apps and plugins import these names; removing or
  * renaming one breaks them. This list is every name the package exported before the OpenID Connect
  * library was added (values and types alike).
  */
@@ -155,7 +155,7 @@ function compiledExportNames(): string[] {
 	return checker.getExportsOfModule(moduleSymbol).map((symbol) => symbol.getName());
 }
 
-describe('@gauzy/auth public API', () => {
+describe('@irtranscripts/auth public API', () => {
 	let compiled: string[];
 	let runtime: Record<string, unknown>;
 
@@ -185,7 +185,7 @@ describe('@gauzy/auth public API', () => {
 		expect(internalHelpers.filter((name) => compiled.includes(name))).toEqual([]);
 	});
 
-	it('no longer registers the Keycloak strategy by default (it moved to @gauzy/plugin-auth-keycloak)', () => {
+	it('no longer registers the Keycloak strategy by default (it moved to @irtranscripts/plugin-auth-keycloak)', () => {
 		const strategies = runtime['Strategies'] as Array<{ name: string }>;
 		const guards = runtime['AuthGuards'] as Array<{ name: string }>;
 		expect(strategies.map((strategy) => strategy.name)).not.toContain('KeycloakStrategy');

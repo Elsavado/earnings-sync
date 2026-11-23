@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { ICandidateCriterionsRating } from '@gauzy/contracts';
+import { ICandidateCriterionsRating } from '@irtranscripts/contracts';
 
 export class CandidateCriterionsRatingBulkUpdateCommand implements ICommand {
 	static readonly type = '[CandidateCriterionsRating] Update';

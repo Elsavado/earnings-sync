@@ -1,4 +1,4 @@
-import { IGoalTimeFrame, TimeFrameStatusEnum } from '@gauzy/contracts';
+import { IGoalTimeFrame, TimeFrameStatusEnum } from '@irtranscripts/contracts';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum } from 'class-validator';
 import { TenantOrganizationBaseEntity } from '../core/entities/internal';

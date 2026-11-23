@@ -1,5 +1,5 @@
 import { PickType } from '@nestjs/swagger';
-import { IBasePerTenantAndOrganizationEntityModel } from '@gauzy/contracts';
+import { IBasePerTenantAndOrganizationEntityModel } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../core/dto/tenant-organization-base.dto';
 
 /**

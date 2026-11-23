@@ -8,7 +8,7 @@ import { PLUGIN_TRANSLATE_DELEGATE, PLUGIN_TRANSLATE_STORE_DELEGATE } from '../p
  * `IPluginTranslateService` interface expected by `PluginUiModule`.
  *
  * Uses `PLUGIN_TRANSLATE_DELEGATE` and `PLUGIN_TRANSLATE_STORE_DELEGATE` tokens
- * so that `@gauzy/plugin-ui` does not depend on `@ngx-translate/core` directly.
+ * so that `@irtranscripts/plugin-ui` does not depend on `@ngx-translate/core` directly.
  * The host app provides:
  * ```typescript
  * { provide: PLUGIN_TRANSLATE_DELEGATE, useExisting: TranslateService },

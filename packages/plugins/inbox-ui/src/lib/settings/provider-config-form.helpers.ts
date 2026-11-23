@@ -3,7 +3,7 @@ import {
 	IEmailProviderConfigSchema,
 	IEmailProviderDescriptor,
 	IInboxProviderAccount
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 /**
  * The generic provider-account form (Settings → Inbox → Providers, G-P4-2): a provider plugin's `configSchema` (the

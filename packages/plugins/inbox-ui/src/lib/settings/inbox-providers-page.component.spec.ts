@@ -6,8 +6,8 @@ import {
 	IInboxProviderAccount,
 	InboxProviderAccountScopeEnum,
 	InboxProviderAccountStatusEnum
-} from '@gauzy/contracts';
-import { Store, ToastrService } from '@gauzy/ui-core/core';
+} from '@irtranscripts/contracts';
+import { Store, ToastrService } from '@irtranscripts/ui-core/core';
 import { InboxEmailSettingsService } from '../services/inbox-email-settings.service';
 import { InboxProvidersPageComponent } from './inbox-providers-page.component';
 import { InboxOneTimeSecretDialogComponent } from './one-time-secret-dialog.component';

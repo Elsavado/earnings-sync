@@ -1,0 +1,48 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import {
+	NbAccordionModule,
+	NbButtonModule,
+	NbCardModule,
+	NbIconModule,
+	NbInputModule,
+	NbRadioModule,
+	NbRouteTabsetModule,
+	NbSelectModule,
+	NbSpinnerModule,
+	NbToggleModule
+} from '@nebular/theme';
+import { TranslatePipe } from '@ngx-translate/core';
+import { LanguagesService, TenantService } from '@irtranscripts/ui-core/core';
+import { FeatureToggleModule, ImageUploaderModule, SharedModule } from '@irtranscripts/ui-core/shared';
+import { GeneralSettingRoutingModule } from './general-setting-routing.module';
+import { GeneralSettingComponent } from './general-setting.component';
+import { PersonalSettingsComponent } from './personal-settings/personal-settings.component';
+
+@NgModule({
+	imports: [
+		CommonModule,
+		ReactiveFormsModule,
+		RouterModule,
+		NbAccordionModule,
+		NbButtonModule,
+		NbCardModule,
+		NbIconModule,
+		NbInputModule,
+		NbRadioModule,
+		NbRouteTabsetModule,
+		NbSelectModule,
+		NbSpinnerModule,
+		NbToggleModule,
+		TranslatePipe,
+		GeneralSettingRoutingModule,
+		FeatureToggleModule,
+		ImageUploaderModule,
+		SharedModule
+	],
+	declarations: [GeneralSettingComponent, PersonalSettingsComponent],
+	providers: [LanguagesService, TenantService]
+})
+export class GeneralSettingModule {}

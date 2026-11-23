@@ -1,4 +1,4 @@
-import type { ID, IPluginCategory as PluginCategoryModel } from '@gauzy/contracts';
+import type { ID, IPluginCategory as PluginCategoryModel } from '@irtranscripts/contracts';
 import type { IPlugin } from './plugin.model';
 
 /**

@@ -15,8 +15,8 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource, EntityManager } from 'typeorm';
-import { ID, IPagination } from '@gauzy/contracts';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { ID, IPagination } from '@irtranscripts/contracts';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 import {
 	prepareSQLQuery,
 	Product,
@@ -27,7 +27,7 @@ import {
 	WarehouseProductVariant,
 	commitVersionedUpdate,
 	versionExpectationOf
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { StockMovement } from './../stock-movement/stock-movement.entity';
 import { StockMovementReferenceType, StockMovementType, StockReasonCode } from './../inventory.enums';
 import { InventoryErrorCode, invariantViolation, inventoryError } from './../inventory.errors';

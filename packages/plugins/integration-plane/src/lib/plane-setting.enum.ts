@@ -18,7 +18,7 @@ export enum PlaneSettingName {
 	/** The plain-text API key credential value (not a record ID) */
 	PLANE_API_KEY_VALUE = 'PLANE_API_KEY_VALUE',
 
-	/** The plain-text API secret (stored for proxy-to-Gauzy internal auth) */
+	/** The plain-text API secret (stored for proxy-to-IRTranscripts internal auth) */
 	PLANE_API_SECRET_VALUE = 'PLANE_API_SECRET_VALUE',
 
 	/** Whether the integration is enabled */

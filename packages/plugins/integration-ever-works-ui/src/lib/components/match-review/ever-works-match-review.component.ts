@@ -22,7 +22,7 @@ export const CREATE = '__create__';
 
 /**
  * The preselected choice of each unpaired row: its suggestion, unless the admin removed that pairing here,
- * or the same Gauzy record is suggested for several rows (same names: which one is meant is the admin's
+ * or the same IRTranscripts record is suggested for several rows (same names: which one is meant is the admin's
  * call, as the API's "accept every suggestion" also leaves it).
  */
 export function preselect(rows: ReadonlyArray<{ id: string; suggested: string | null }>, removed: ReadonlySet<string>): Record<string, string> {
@@ -33,10 +33,10 @@ export function preselect(rows: ReadonlyArray<{ id: string; suggested: string | 
 
 type Section = 'people' | 'agents' | 'teams' | 'projects' | 'initiatives';
 
-/** An invitation the admin is asked to confirm: to Gauzy for a member, to Ever Works for a Gauzy person. */
+/** An invitation the admin is asked to confirm: to IRTranscripts for a member, to Ever Works for a IRTranscripts person. */
 export interface EverWorksPendingInvite {
-	kind: 'gauzy' | 'everWorks';
-	/** The member's Ever Works user id (`gauzy`) or the person's employee id (`everWorks`). */
+	kind: 'irtranscripts' | 'everWorks';
+	/** The member's Ever Works user id (`irtranscripts`) or the person's employee id (`everWorks`). */
 	id: string;
 	name: string;
 	email: string;
@@ -45,7 +45,7 @@ export interface EverWorksPendingInvite {
 /** The Ever Works inbox item kinds the People tab names (plan 04 §4). */
 const DEFERRED_KINDS: ReadonlySet<string> = new Set(['question', 'approval', 'escalation', 'notice']);
 
-/** A Gauzy initiative in this state goes to Ever Works only once it is active (the API refuses a draft). */
+/** A IRTranscripts initiative in this state goes to Ever Works only once it is active (the API refuses a draft). */
 export const DRAFT_INITIATIVE = 'draft';
 
 /**
@@ -53,7 +53,7 @@ export const DRAFT_INITIATIVE = 'draft';
  * teams, projects ↔ works and initiatives ↔ missions. Only a shared Ever ID pairs people by itself; otherwise a
  * suggestion (a verified email, the same name or URL) is preselected and the admin confirms it, pairs by hand,
  * creates the record on the other side where the mapping allows it, or removes a pairing. On the People tab the
- * admin can also invite a member to Gauzy, or a Gauzy person to Ever Works, after a confirmation; each pairing
+ * admin can also invite a member to IRTranscripts, or a IRTranscripts person to Ever Works, after a confirmation; each pairing
  * shows how it was made. Used by the connect wizard and the settings page.
  */
 @Component({
@@ -75,7 +75,7 @@ export const DRAFT_INITIATIVE = 'draft';
 							<thead>
 								<tr>
 									<th>{{ 'EVER_WORKS.REVIEW.EVER_WORKS' | translate }}</th>
-									<th>{{ 'EVER_WORKS.REVIEW.GAUZY' | translate }}</th>
+									<th>{{ 'EVER_WORKS.REVIEW.IRTRANSCRIPTS' | translate }}</th>
 									<th>{{ 'EVER_WORKS.REVIEW.STATE' | translate }}</th>
 								</tr>
 							</thead>
@@ -103,19 +103,19 @@ export const DRAFT_INITIATIVE = 'draft';
 														<option [value]="employee.employeeId">{{ employee.name }}{{ employee.email ? ' — ' + employee.email : '' }}</option>
 													}
 												</select>
-												@if (row.gauzyInvite) {
-													<small class="invite-note" [attr.data-test]="'gauzy-invite-pending-' + row.ewUserId">{{ 'EVER_WORKS.REVIEW.INVITE.GAUZY_PENDING' | translate }}</small>
-												} @else if (canInviteToGauzy(row)) {
+												@if (row.irtranscriptsInvite) {
+													<small class="invite-note" [attr.data-test]="'irtranscripts-invite-pending-' + row.ewUserId">{{ 'EVER_WORKS.REVIEW.INVITE.IRTRANSCRIPTS_PENDING' | translate }}</small>
+												} @else if (canInviteToIRTranscripts(row)) {
 													<button
 														nbButton
 														ghost
 														size="tiny"
 														type="button"
-														[attr.data-test]="'invite-gauzy-' + row.ewUserId"
+														[attr.data-test]="'invite-irtranscripts-' + row.ewUserId"
 														[disabled]="busy.people"
-														(click)="askInviteToGauzy(row)"
+														(click)="askInviteToIRTranscripts(row)"
 													>
-														{{ 'EVER_WORKS.REVIEW.INVITE.TO_GAUZY' | translate }}
+														{{ 'EVER_WORKS.REVIEW.INVITE.TO_IRTRANSCRIPTS' | translate }}
 													</button>
 												}
 											}
@@ -142,7 +142,7 @@ export const DRAFT_INITIATIVE = 'draft';
 						</div>
 					}
 					@if (peopleToInviteToEverWorks().length) {
-						<h6>{{ 'EVER_WORKS.REVIEW.INVITE.GAUZY_PEOPLE' | translate }}</h6>
+						<h6>{{ 'EVER_WORKS.REVIEW.INVITE.IRTRANSCRIPTS_PEOPLE' | translate }}</h6>
 						<ul class="invite-list" data-test="ew-invite-list">
 							@for (employee of peopleToInviteToEverWorks(); track employee.employeeId) {
 								<li>
@@ -166,23 +166,23 @@ export const DRAFT_INITIATIVE = 'draft';
 						<div
 							class="invite-confirm"
 							role="dialog"
-							[attr.aria-label]="(invite.kind === 'gauzy' ? 'EVER_WORKS.REVIEW.INVITE.CONFIRM_GAUZY_TITLE' : 'EVER_WORKS.REVIEW.INVITE.CONFIRM_EVER_WORKS_TITLE') | translate"
+							[attr.aria-label]="(invite.kind === 'irtranscripts' ? 'EVER_WORKS.REVIEW.INVITE.CONFIRM_IRTRANSCRIPTS_TITLE' : 'EVER_WORKS.REVIEW.INVITE.CONFIRM_EVER_WORKS_TITLE') | translate"
 							data-test="invite-confirm"
 						>
 							<h6>
-								{{ (invite.kind === 'gauzy' ? 'EVER_WORKS.REVIEW.INVITE.CONFIRM_GAUZY_TITLE' : 'EVER_WORKS.REVIEW.INVITE.CONFIRM_EVER_WORKS_TITLE') | translate }}
+								{{ (invite.kind === 'irtranscripts' ? 'EVER_WORKS.REVIEW.INVITE.CONFIRM_IRTRANSCRIPTS_TITLE' : 'EVER_WORKS.REVIEW.INVITE.CONFIRM_EVER_WORKS_TITLE') | translate }}
 							</h6>
 							<p>
 								<strong>{{ invite.name }}</strong> — {{ invite.email }}
 							</p>
 							<dl>
 								<dt>{{ 'EVER_WORKS.REVIEW.INVITE.ORGANIZATION' | translate }}</dt>
-								<dd>{{ (invite.kind === 'gauzy' ? 'EVER_WORKS.REVIEW.INVITE.ORGANIZATION_GAUZY' : 'EVER_WORKS.REVIEW.INVITE.ORGANIZATION_EVER_WORKS') | translate }}</dd>
+								<dd>{{ (invite.kind === 'irtranscripts' ? 'EVER_WORKS.REVIEW.INVITE.ORGANIZATION_IRTRANSCRIPTS' : 'EVER_WORKS.REVIEW.INVITE.ORGANIZATION_EVER_WORKS') | translate }}</dd>
 								<dt>{{ 'EVER_WORKS.REVIEW.INVITE.ROLE' | translate }}</dt>
-								<dd>{{ (invite.kind === 'gauzy' ? 'EVER_WORKS.REVIEW.INVITE.ROLE_EMPLOYEE' : 'EVER_WORKS.REVIEW.INVITE.ROLE_MEMBER') | translate }}</dd>
+								<dd>{{ (invite.kind === 'irtranscripts' ? 'EVER_WORKS.REVIEW.INVITE.ROLE_EMPLOYEE' : 'EVER_WORKS.REVIEW.INVITE.ROLE_MEMBER') | translate }}</dd>
 							</dl>
 							<p>
-								<small>{{ (invite.kind === 'gauzy' ? 'EVER_WORKS.REVIEW.INVITE.CONFIRM_GAUZY_HINT' : 'EVER_WORKS.REVIEW.INVITE.CONFIRM_EVER_WORKS_HINT') | translate }}</small>
+								<small>{{ (invite.kind === 'irtranscripts' ? 'EVER_WORKS.REVIEW.INVITE.CONFIRM_IRTRANSCRIPTS_HINT' : 'EVER_WORKS.REVIEW.INVITE.CONFIRM_EVER_WORKS_HINT') | translate }}</small>
 							</p>
 							<div class="actions">
 								<button nbButton ghost type="button" data-test="invite-confirm-no" (click)="cancelInvite()">{{ 'EVER_WORKS.COMMON.CANCEL' | translate }}</button>
@@ -267,8 +267,8 @@ export const DRAFT_INITIATIVE = 'draft';
 											} @else {
 												<select class="form-control" [name]="'team-' + row.ewTeamId" [(ngModel)]="teamChoice[row.ewTeamId]" [disabled]="busy.teams">
 													<option value="">{{ 'EVER_WORKS.REVIEW.NOT_PAIRED_OPTION' | translate }}</option>
-													@if (canCreateTeamsInGauzy) {
-														<option [value]="create">{{ 'EVER_WORKS.REVIEW.CREATE_IN_GAUZY' | translate }}</option>
+													@if (canCreateTeamsInIRTranscripts) {
+														<option [value]="create">{{ 'EVER_WORKS.REVIEW.CREATE_IN_IRTRANSCRIPTS' | translate }}</option>
 													}
 													@for (team of teams.unmatchedTeams; track team.teamId) {
 														<option [value]="team.teamId">{{ team.name }}</option>
@@ -281,12 +281,12 @@ export const DRAFT_INITIATIVE = 'draft';
 								}
 							</tbody>
 						</table>
-						@if (unpairedGauzyTeams().length) {
-							<h6>{{ 'EVER_WORKS.REVIEW.UNMATCHED_GAUZY' | translate }}</h6>
+						@if (unpairedIRTranscriptsTeams().length) {
+							<h6>{{ 'EVER_WORKS.REVIEW.UNMATCHED_IRTRANSCRIPTS' | translate }}</h6>
 							@if (!canCreateTeamsInEverWorks) {
 								<p data-test="teams-not-created">{{ (mapping?.isEnabled === false ? 'EVER_WORKS.REVIEW.MAPPING_OFF_NO_CREATE' : 'EVER_WORKS.REVIEW.TEAMS_ONE_WAY') | translate }}</p>
 							}
-							@for (team of unpairedGauzyTeams(); track team.teamId) {
+							@for (team of unpairedIRTranscriptsTeams(); track team.teamId) {
 								<div>
 									<nb-checkbox
 										[name]="'create-ew-' + team.teamId"
@@ -340,7 +340,7 @@ export const DRAFT_INITIATIVE = 'draft';
 												<select class="form-control" [name]="'work-' + row.ewWorkId" [(ngModel)]="workChoice[row.ewWorkId]" [disabled]="busy.projects">
 													<option value="">{{ 'EVER_WORKS.REVIEW.NOT_PAIRED_OPTION' | translate }}</option>
 													@if (canCreateProjects) {
-														<option [value]="create">{{ 'EVER_WORKS.REVIEW.CREATE_IN_GAUZY' | translate }}</option>
+														<option [value]="create">{{ 'EVER_WORKS.REVIEW.CREATE_IN_IRTRANSCRIPTS' | translate }}</option>
 													}
 													@for (project of projects.unmatchedProjects; track project.projectId) {
 														<option [value]="project.projectId">{{ project.name }}</option>
@@ -396,7 +396,7 @@ export const DRAFT_INITIATIVE = 'draft';
 													<select class="form-control" [name]="'mission-' + row.ewMissionId" [(ngModel)]="missionChoice[row.ewMissionId]" [disabled]="busy.initiatives">
 														<option value="">{{ 'EVER_WORKS.REVIEW.NOT_PAIRED_OPTION' | translate }}</option>
 														@if (canCreateInitiatives) {
-															<option [value]="create">{{ 'EVER_WORKS.REVIEW.CREATE_IN_GAUZY' | translate }}</option>
+															<option [value]="create">{{ 'EVER_WORKS.REVIEW.CREATE_IN_IRTRANSCRIPTS' | translate }}</option>
 														}
 														@for (initiative of initiatives.unmatchedInitiatives; track initiative.initiativeId) {
 															<option [value]="initiative.initiativeId">{{ initiative.title }}</option>
@@ -410,12 +410,12 @@ export const DRAFT_INITIATIVE = 'draft';
 								</tbody>
 							</table>
 						}
-						@if (unpairedGauzyInitiatives().length) {
-							<h6>{{ 'EVER_WORKS.REVIEW.UNMATCHED_GAUZY' | translate }}</h6>
+						@if (unpairedIRTranscriptsInitiatives().length) {
+							<h6>{{ 'EVER_WORKS.REVIEW.UNMATCHED_IRTRANSCRIPTS' | translate }}</h6>
 							@if (!canCreateMissions) {
 								<p data-test="missions-not-created">{{ (mapping?.isEnabled === false ? 'EVER_WORKS.REVIEW.MAPPING_OFF_NO_CREATE' : 'EVER_WORKS.REVIEW.MISSIONS_ONE_WAY') | translate }}</p>
 							}
-							@for (initiative of unpairedGauzyInitiatives(); track initiative.initiativeId) {
+							@for (initiative of unpairedIRTranscriptsInitiatives(); track initiative.initiativeId) {
 								<div>
 									<nb-checkbox
 										[name]="'create-mission-' + initiative.initiativeId"
@@ -512,7 +512,7 @@ export class EverWorksMatchReviewComponent implements OnChanges {
 	errors: Record<Section, string | null> = { people: null, agents: null, teams: null, projects: null, initiatives: null };
 	/** The invitation waiting for the admin's confirmation, or `null`. */
 	inviting: EverWorksPendingInvite | null = null;
-	/** What each invitation did, as a translation key: `gauzy:<ewUserId>` and `ew:<employeeId>`. */
+	/** What each invitation did, as a translation key: `irtranscripts:<ewUserId>` and `ew:<employeeId>`. */
 	inviteResults: Record<string, string> = {};
 	/** Who each invitation was for ("name — email"), by the same key: the results stay listed whatever the rows do. */
 	private inviteWho: Record<string, string> = {};
@@ -559,8 +559,8 @@ export class EverWorksMatchReviewComponent implements OnChanges {
 		return at && !Number.isNaN(at.getTime()) ? at : null;
 	}
 
-	/** Gauzy teams paired with nothing and not chosen for an Ever Works team in this form. */
-	unpairedGauzyTeams(): Array<{ teamId: string; name: string }> {
+	/** IRTranscripts teams paired with nothing and not chosen for an Ever Works team in this form. */
+	unpairedIRTranscriptsTeams(): Array<{ teamId: string; name: string }> {
 		const chosen = new Set(Object.values(this.teamChoice));
 		return (this.teams?.unmatchedTeams ?? []).filter((team) => !chosen.has(team.teamId));
 	}
@@ -570,42 +570,42 @@ export class EverWorksMatchReviewComponent implements OnChanges {
 		return this.mapping?.effectiveDirections?.[domain] ?? this.mapping?.directions?.[domain];
 	}
 
-	/** Ever Works teams can be created in Gauzy: the mapping is on and teams sync from Ever Works (review F98). */
-	get canCreateTeamsInGauzy(): boolean {
+	/** Ever Works teams can be created in IRTranscripts: the mapping is on and teams sync from Ever Works (review F98). */
+	get canCreateTeamsInIRTranscripts(): boolean {
 		if (!this.mapping) return true;
 		const direction = this.directionOf('teams') ?? 'both';
-		return this.mapping.isEnabled && (direction === 'both' || direction === 'ew_to_gauzy');
+		return this.mapping.isEnabled && (direction === 'both' || direction === 'ew_to_irtranscripts');
 	}
 
-	/** Gauzy teams can be created in Ever Works: the mapping is on and teams sync to Ever Works (review F98). */
+	/** IRTranscripts teams can be created in Ever Works: the mapping is on and teams sync to Ever Works (review F98). */
 	get canCreateTeamsInEverWorks(): boolean {
 		if (!this.mapping) return true;
 		const direction = this.directionOf('teams') ?? 'both';
-		return this.mapping.isEnabled && (direction === 'both' || direction === 'gauzy_to_ew');
+		return this.mapping.isEnabled && (direction === 'both' || direction === 'irtranscripts_to_ew');
 	}
 
-	/** Works can be created as Gauzy projects: the mapping is on and works are linked (not off) (review F98). */
+	/** Works can be created as IRTranscripts projects: the mapping is on and works are linked (not off) (review F98). */
 	get canCreateProjects(): boolean {
 		if (!this.mapping) return true;
 		return this.mapping.isEnabled && (this.directionOf('works') ?? 'link_only') === 'link_only';
 	}
 
-	/** Missions can be created as Gauzy initiatives: the mapping is on and missions sync from Ever Works. */
+	/** Missions can be created as IRTranscripts initiatives: the mapping is on and missions sync from Ever Works. */
 	get canCreateInitiatives(): boolean {
 		if (!this.mapping) return true;
-		const direction = this.directionOf('missions') ?? 'ew_to_gauzy';
-		return this.mapping.isEnabled && (direction === 'both' || direction === 'ew_to_gauzy');
+		const direction = this.directionOf('missions') ?? 'ew_to_irtranscripts';
+		return this.mapping.isEnabled && (direction === 'both' || direction === 'ew_to_irtranscripts');
 	}
 
 	/** Initiatives can be created as Ever Works missions: the mapping is on and missions sync both ways. */
 	get canCreateMissions(): boolean {
 		if (!this.mapping) return true;
 		const direction = this.directionOf('missions');
-		return this.mapping.isEnabled && (direction === 'both' || direction === 'gauzy_to_ew');
+		return this.mapping.isEnabled && (direction === 'both' || direction === 'irtranscripts_to_ew');
 	}
 
-	/** Gauzy initiatives paired with nothing and not chosen for an Ever Works mission in this form. */
-	unpairedGauzyInitiatives(): Array<{ initiativeId: string; title: string; state: string }> {
+	/** IRTranscripts initiatives paired with nothing and not chosen for an Ever Works mission in this form. */
+	unpairedIRTranscriptsInitiatives(): Array<{ initiativeId: string; title: string; state: string }> {
 		const chosen = new Set(Object.values(this.missionChoice));
 		return (this.initiatives?.unmatchedInitiatives ?? []).filter((initiative) => !chosen.has(initiative.initiativeId));
 	}
@@ -630,15 +630,15 @@ export class EverWorksMatchReviewComponent implements OnChanges {
 	}
 
 	/**
-	 * A member can be invited to Gauzy: unpaired, active, with an e-mail Ever Works verified, no Gauzy person suggested
-	 * for them (that person is paired instead) and no Gauzy invitation still pending.
+	 * A member can be invited to IRTranscripts: unpaired, active, with an e-mail Ever Works verified, no IRTranscripts person suggested
+	 * for them (that person is paired instead) and no IRTranscripts invitation still pending.
 	 */
-	canInviteToGauzy(row: EverWorksPersonRow): boolean {
-		return !row.linkedEmployeeId && row.isActive && !!row.email && row.emailVerified && !row.suggestion && !row.gauzyInvite;
+	canInviteToIRTranscripts(row: EverWorksPersonRow): boolean {
+		return !row.linkedEmployeeId && row.isActive && !!row.email && row.emailVerified && !row.suggestion && !row.irtranscriptsInvite;
 	}
 
 	/**
-	 * Gauzy people who can be invited to Ever Works: unpaired, with an e-mail, and neither suggested for a member nor
+	 * IRTranscripts people who can be invited to Ever Works: unpaired, with an e-mail, and neither suggested for a member nor
 	 * chosen for one in this form (those are paired instead).
 	 */
 	peopleToInviteToEverWorks(): Array<{ employeeId: string; name: string; email: string }> {
@@ -651,8 +651,8 @@ export class EverWorksMatchReviewComponent implements OnChanges {
 			.map((employee) => ({ employeeId: employee.employeeId, name: employee.name, email: employee.email }));
 	}
 
-	askInviteToGauzy(row: EverWorksPersonRow): void {
-		this.inviting = { kind: 'gauzy', id: row.ewUserId, name: row.displayName || row.username, email: row.email ?? '' };
+	askInviteToIRTranscripts(row: EverWorksPersonRow): void {
+		this.inviting = { kind: 'irtranscripts', id: row.ewUserId, name: row.displayName || row.username, email: row.email ?? '' };
 		this.cdr.markForCheck();
 	}
 
@@ -680,10 +680,10 @@ export class EverWorksMatchReviewComponent implements OnChanges {
 		if (!invite) return;
 		this.inviting = null;
 		const id = this.id;
-		const key = invite.kind === 'gauzy' ? `gauzy:${invite.id}` : `ew:${invite.id}`;
+		const key = invite.kind === 'irtranscripts' ? `irtranscripts:${invite.id}` : `ew:${invite.id}`;
 		const sent: Observable<string> =
-			invite.kind === 'gauzy'
-				? this.api.inviteToGauzy(this.organizationId, id, { ewUserId: invite.id }).pipe(map((result) => result.status))
+			invite.kind === 'irtranscripts'
+				? this.api.inviteToIRTranscripts(this.organizationId, id, { ewUserId: invite.id }).pipe(map((result) => result.status))
 				: this.api.inviteToEverWorks(this.organizationId, id, { employeeId: invite.id }).pipe(map((result) => result.status));
 		this.run(
 			'people',
@@ -705,19 +705,19 @@ export class EverWorksMatchReviewComponent implements OnChanges {
 		const rows = (this.teams?.teams ?? []).filter((row) => !row.linkedTeamId && this.teamChoice[row.ewTeamId]);
 		const links = rows.filter((row) => this.teamChoice[row.ewTeamId] !== CREATE).map((row) => ({ ewTeamId: row.ewTeamId, teamId: this.teamChoice[row.ewTeamId] }));
 		// What the mapping does not allow is never sent: the API would refuse the whole save, pairs included (review F98).
-		const createInGauzy = this.canCreateTeamsInGauzy ? rows.filter((row) => this.teamChoice[row.ewTeamId] === CREATE).map((row) => row.ewTeamId) : [];
+		const createInIRTranscripts = this.canCreateTeamsInIRTranscripts ? rows.filter((row) => this.teamChoice[row.ewTeamId] === CREATE).map((row) => row.ewTeamId) : [];
 		const createInEverWorks = this.canCreateTeamsInEverWorks
-			? this.unpairedGauzyTeams()
+			? this.unpairedIRTranscriptsTeams()
 					.filter((team) => this.createInEverWorks[team.teamId])
 					.map((team) => team.teamId)
 			: [];
-		if (!links.length && !createInGauzy.length && !createInEverWorks.length) return;
+		if (!links.length && !createInIRTranscripts.length && !createInEverWorks.length) return;
 		if (this.refuseDuplicates('teams', links.map((link) => link.teamId))) return;
 		this.run(
 			'teams',
 			this.api.decideTeams(this.organizationId, this.id, {
 				...(links.length ? { links } : {}),
-				...(createInGauzy.length ? { createInGauzy } : {}),
+				...(createInIRTranscripts.length ? { createInIRTranscripts } : {}),
 				...(createInEverWorks.length ? { createInEverWorks } : {})
 			}),
 			(view) => this.setTeams(view)
@@ -739,12 +739,12 @@ export class EverWorksMatchReviewComponent implements OnChanges {
 		const rows = (this.projects?.works ?? []).filter((row) => !row.linkedProjectId && this.workChoice[row.ewWorkId]);
 		const links = rows.filter((row) => this.workChoice[row.ewWorkId] !== CREATE).map((row) => ({ ewWorkId: row.ewWorkId, projectId: this.workChoice[row.ewWorkId] }));
 		// Not sent when works are off or the mapping is: the API would refuse the pairs too (review F98).
-		const createInGauzy = this.canCreateProjects ? rows.filter((row) => this.workChoice[row.ewWorkId] === CREATE).map((row) => row.ewWorkId) : [];
-		if (!links.length && !createInGauzy.length) return;
+		const createInIRTranscripts = this.canCreateProjects ? rows.filter((row) => this.workChoice[row.ewWorkId] === CREATE).map((row) => row.ewWorkId) : [];
+		if (!links.length && !createInIRTranscripts.length) return;
 		if (this.refuseDuplicates('projects', links.map((link) => link.projectId))) return;
 		this.run(
 			'projects',
-			this.api.decideProjects(this.organizationId, this.id, { ...(links.length ? { links } : {}), ...(createInGauzy.length ? { createInGauzy } : {}) }),
+			this.api.decideProjects(this.organizationId, this.id, { ...(links.length ? { links } : {}), ...(createInIRTranscripts.length ? { createInIRTranscripts } : {}) }),
 			(view) => this.setProjects(view)
 		);
 	}
@@ -766,22 +766,22 @@ export class EverWorksMatchReviewComponent implements OnChanges {
 			.filter((row) => this.missionChoice[row.ewMissionId] !== CREATE)
 			.map((row) => ({ ewMissionId: row.ewMissionId, initiativeId: this.missionChoice[row.ewMissionId] }));
 		// What the mapping does not allow is never sent: the API would refuse the whole save, pairs included.
-		const createInGauzy = this.canCreateInitiatives
+		const createInIRTranscripts = this.canCreateInitiatives
 			? rows.filter((row) => this.missionChoice[row.ewMissionId] === CREATE).map((row) => row.ewMissionId)
 			: [];
-		// A draft stays in Gauzy until it is active (the API refuses it); its box is disabled, and never sent.
+		// A draft stays in IRTranscripts until it is active (the API refuses it); its box is disabled, and never sent.
 		const createInEverWorks = this.canCreateMissions
-			? this.unpairedGauzyInitiatives()
+			? this.unpairedIRTranscriptsInitiatives()
 					.filter((initiative) => this.createMissionInEverWorks[initiative.initiativeId] && initiative.state !== DRAFT_INITIATIVE)
 					.map((initiative) => initiative.initiativeId)
 			: [];
-		if (!links.length && !createInGauzy.length && !createInEverWorks.length) return;
+		if (!links.length && !createInIRTranscripts.length && !createInEverWorks.length) return;
 		if (this.refuseDuplicates('initiatives', links.map((link) => link.initiativeId))) return;
 		this.run(
 			'initiatives',
 			this.api.decideInitiatives(this.organizationId, this.id, {
 				...(links.length ? { links } : {}),
-				...(createInGauzy.length ? { createInGauzy } : {}),
+				...(createInIRTranscripts.length ? { createInIRTranscripts } : {}),
 				...(createInEverWorks.length ? { createInEverWorks } : {})
 			}),
 			(view) => this.setInitiatives(view)
@@ -875,9 +875,9 @@ export class EverWorksMatchReviewComponent implements OnChanges {
 		this.initiativesUnavailable = false;
 	}
 
-	/** A Gauzy record chosen for two Ever Works records is refused here, before the API refuses the whole save. */
-	private refuseDuplicates(section: 'people' | 'teams' | 'projects' | 'initiatives', gauzyIds: string[]): boolean {
-		if (new Set(gauzyIds).size === gauzyIds.length) return false;
+	/** A IRTranscripts record chosen for two Ever Works records is refused here, before the API refuses the whole save. */
+	private refuseDuplicates(section: 'people' | 'teams' | 'projects' | 'initiatives', irtranscriptsIds: string[]): boolean {
+		if (new Set(irtranscriptsIds).size === irtranscriptsIds.length) return false;
 		this.errors[section] = 'EVER_WORKS.REVIEW.DUPLICATE_CHOICE';
 		this.cdr.markForCheck();
 		return true;

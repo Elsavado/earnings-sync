@@ -1,7 +1,7 @@
 import '../core/entities/internal';
 
-import { environment as env } from '@gauzy/config';
-import { LanguagesEnum } from '@gauzy/contracts';
+import { environment as env } from '@irtranscripts/config';
+import { LanguagesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { EmailService } from './email.service';
 

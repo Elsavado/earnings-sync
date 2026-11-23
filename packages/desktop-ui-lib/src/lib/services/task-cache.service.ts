@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AbstractCacheService } from './abstract-cache.service';
-import { IPagination, ITask } from '@gauzy/contracts';
+import { IPagination, ITask } from '@irtranscripts/contracts';
 import { StorageService } from './storage.service';
 import { Store } from '../services';
 

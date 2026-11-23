@@ -1,4 +1,4 @@
-import { ITaskLinkedIssue } from '@gauzy/contracts';
+import { ITaskLinkedIssue } from '@irtranscripts/contracts';
 import { IntersectionType } from '@nestjs/swagger';
 import { TenantOrganizationBaseDTO } from '../../../core/dto';
 import { TaskLinkedIssue } from '../task-linked-issue.entity';

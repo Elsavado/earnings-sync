@@ -1,4 +1,4 @@
-import { IInvoiceUpdateInput, InvoiceTypeEnum } from "@gauzy/contracts";
+import { IInvoiceUpdateInput, InvoiceTypeEnum } from "@irtranscripts/contracts";
 import { IntersectionType } from "@nestjs/mapped-types";
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import { IsEnum, IsOptional } from "class-validator";

@@ -1,6 +1,6 @@
 import { PrimaryKey } from '@mikro-orm/core';
 import { PrimaryColumn } from 'typeorm';
-import { MultiORMColumn, MultiORMEntity, SkipExport } from '@gauzy/core';
+import { MultiORMColumn, MultiORMEntity, SkipExport } from '@irtranscripts/core';
 
 /**
  * One row (`id = 'sender'`) that lets a single API process send at a time when several share the
@@ -11,7 +11,7 @@ import { MultiORMColumn, MultiORMEntity, SkipExport } from '@gauzy/core';
 @SkipExport()
 @MultiORMEntity('ever_stats_lease')
 export class EverStatsLease {
-	// Both ORMs get the primary key whichever one is active (Gauzy initializes both).
+	// Both ORMs get the primary key whichever one is active (IRTranscripts initializes both).
 	@PrimaryKey({ type: 'varchar', length: 16 })
 	@PrimaryColumn({ type: 'varchar', length: 16 })
 	id: string;

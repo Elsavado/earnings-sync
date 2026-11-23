@@ -2,10 +2,10 @@
 kind: Service
 apiVersion: v1
 metadata:
-    name: gauzy-demo
+    name: irtranscripts-demo
 spec:
     selector:
-        app: gauzy-demo-webapp
+        app: irtranscripts-demo-webapp
     ports:
         - name: web
           protocol: TCP
@@ -15,10 +15,10 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-    name: gauzy-demo-api
+    name: irtranscripts-demo-api
 spec:
     selector:
-        app: gauzy-demo-api
+        app: irtranscripts-demo-api
     ports:
         - name: web
           protocol: TCP
@@ -28,16 +28,16 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: gauzy-demo-api
+    name: irtranscripts-demo-api
 spec:
     replicas: 1
     selector:
         matchLabels:
-            app: gauzy-demo-api
+            app: irtranscripts-demo-api
     template:
         metadata:
             labels:
-                app: gauzy-demo-api
+                app: irtranscripts-demo-api
         spec:
             affinity:
                 nodeAffinity:
@@ -58,7 +58,7 @@ spec:
             imagePullSecrets:
                 - name: ever-registry-docker-registry-credentials
             containers:
-                - name: gauzy-demo-api
+                - name: irtranscripts-demo-api
                   securityContext:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
@@ -89,12 +89,12 @@ spec:
                       - name: SENTRY_POSTGRES_TRACKING_ENABLED
                         value: '$SENTRY_POSTGRES_TRACKING_ENABLED'
                       - name: API_BASE_URL
-                        value: 'https://apidemocw.gauzy.co'
+                        value: 'https://apidemocw.irtranscripts.com'
                       - name: CLIENT_BASE_URL
-                        value: 'https://democw.gauzy.co'
+                        value: 'https://democw.irtranscripts.com'
                       # Signing/session secrets: never commit a value here, it is public (GHSA-39j7-x845-4w3c).
                       # Inject real ones from a secret store. Left empty, this DEMO=true API still
-                      # falls back to the published defaults in code (held, see resolveSecret in @gauzy/config).
+                      # falls back to the published defaults in code (held, see resolveSecret in @irtranscripts/config).
                       - name: EXPRESS_SESSION_SECRET
                         value: ''
                       - name: JWT_SECRET
@@ -129,16 +129,16 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: gauzy-demo-webapp
+    name: irtranscripts-demo-webapp
 spec:
     replicas: 1
     selector:
         matchLabels:
-            app: gauzy-demo-webapp
+            app: irtranscripts-demo-webapp
     template:
         metadata:
             labels:
-                app: gauzy-demo-webapp
+                app: irtranscripts-demo-webapp
         spec:
             affinity:
                 nodeAffinity:
@@ -156,7 +156,7 @@ spec:
             imagePullSecrets:
                 - name: ever-registry-docker-registry-credentials
             containers:
-                - name: gauzy-demo-webapp
+                - name: irtranscripts-demo-webapp
                   securityContext:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
@@ -166,9 +166,9 @@ spec:
                       - name: DEMO
                         value: 'true'
                       - name: API_BASE_URL
-                        value: 'https://apidemocw.gauzy.co'
+                        value: 'https://apidemocw.irtranscripts.com'
                       - name: CLIENT_BASE_URL
-                        value: 'https://democw.gauzy.co'
+                        value: 'https://democw.irtranscripts.com'
                       - name: SENTRY_DSN
                         value: '$SENTRY_DSN'
                       - name: CHATWOOT_SDK_TOKEN
@@ -187,16 +187,16 @@ spec:
                         value: '23.3332736'
                       - name: DEFAULT_CURRENCY
                         value: 'USD'
-                      - name: GAUZY_GITHUB_CLIENT_ID
-                        value: '$GAUZY_GITHUB_CLIENT_ID'
-                      - name: GAUZY_GITHUB_APP_NAME
-                        value: '$GAUZY_GITHUB_APP_NAME'
-                      - name: GAUZY_GITHUB_REDIRECT_URL
-                        value: '$GAUZY_GITHUB_REDIRECT_URL'
-                      - name: GAUZY_GITHUB_POST_INSTALL_URL
-                        value: '$GAUZY_GITHUB_POST_INSTALL_URL'
-                      - name: GAUZY_GITHUB_APP_ID
-                        value: '$GAUZY_GITHUB_APP_ID'
+                      - name: IRTRANSCRIPTS_GITHUB_CLIENT_ID
+                        value: '$IRTRANSCRIPTS_GITHUB_CLIENT_ID'
+                      - name: IRTRANSCRIPTS_GITHUB_APP_NAME
+                        value: '$IRTRANSCRIPTS_GITHUB_APP_NAME'
+                      - name: IRTRANSCRIPTS_GITHUB_REDIRECT_URL
+                        value: '$IRTRANSCRIPTS_GITHUB_REDIRECT_URL'
+                      - name: IRTRANSCRIPTS_GITHUB_POST_INSTALL_URL
+                        value: '$IRTRANSCRIPTS_GITHUB_POST_INSTALL_URL'
+                      - name: IRTRANSCRIPTS_GITHUB_APP_ID
+                        value: '$IRTRANSCRIPTS_GITHUB_APP_ID'
                       - name: JITSU_BROWSER_URL
                         value: '$JITSU_BROWSER_URL'
                       - name: JITSU_BROWSER_WRITE_KEY
@@ -225,47 +225,47 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-    name: gauzy-demo
+    name: irtranscripts-demo
     annotations:
         kubernetes.io/ingress.class: traefik-everco
         traefik.ingress.kubernetes.io/router.middlewares: tenant-acb888-ever-https-redirect@kubernetescrd
 spec:
     rules:
-        - host: democw.gauzy.co
+        - host: democw.irtranscripts.com
           http:
               paths:
                   - backend:
                         service:
-                            name: gauzy-demo
+                            name: irtranscripts-demo
                             port:
                                 number: 4200
                     path: /
                     pathType: Prefix
     tls:
         - hosts:
-              - democw.gauzy.co
-          secretName: democw.gauzy.co-tls
+              - democw.irtranscripts.com
+          secretName: democw.irtranscripts.com-tls
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-    name: gauzy-demo-api
+    name: irtranscripts-demo-api
     annotations:
         kubernetes.io/ingress.class: traefik-everco
         traefik.ingress.kubernetes.io/router.middlewares: tenant-acb888-ever-https-redirect@kubernetescrd
 spec:
     rules:
-        - host: apidemocw.gauzy.co
+        - host: apidemocw.irtranscripts.com
           http:
               paths:
                   - backend:
                         service:
-                            name: gauzy-demo-api
+                            name: irtranscripts-demo-api
                             port:
                                 number: 3000
                     path: /
                     pathType: Prefix
     tls:
         - hosts:
-              - apidemocw.gauzy.co
-          secretName: apidemocw.gauzy.co-tls
+              - apidemocw.irtranscripts.com
+          secretName: apidemocw.irtranscripts.com-tls

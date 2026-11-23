@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsBoolean, IsIn, IsInt, IsObject, IsOptional, Max, Min, ValidateNested } from 'class-validator';
-import { IAiChatUiPreferences, IUserUiPreferencesUpdateInput, UiPreferenceFeature } from '@gauzy/contracts';
+import { IAiChatUiPreferences, IUserUiPreferencesUpdateInput, UiPreferenceFeature } from '@irtranscripts/contracts';
 
 /**
  * Nested validation for the AI chat panel state.

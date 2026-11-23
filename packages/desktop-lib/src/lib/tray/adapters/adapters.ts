@@ -1,4 +1,4 @@
-import { RegisteredWindow, store, WindowManager } from '@gauzy/desktop-core';
+import { RegisteredWindow, store, WindowManager } from '@irtranscripts/desktop-core';
 import { BrowserWindow } from 'electron';
 import { LocalStore } from '../../desktop-store';
 import { UserService } from '../../offline';

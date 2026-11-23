@@ -2,7 +2,7 @@
 import '../core/entities/internal';
 
 import { BadRequestException, ForbiddenException } from '@nestjs/common';
-import { PermissionsEnum, RequestApprovalStatusTypesEnum, RolesEnum, StatusTypesEnum } from '@gauzy/contracts';
+import { PermissionsEnum, RequestApprovalStatusTypesEnum, RolesEnum, StatusTypesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { CrudService } from '../core/crud/crud.service';
 import { MultiORMEnum } from '../core/utils';

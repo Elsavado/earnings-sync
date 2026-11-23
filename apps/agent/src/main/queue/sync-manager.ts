@@ -1,5 +1,5 @@
-import { TimerService, ISequence, KbMouseActivityService, ScreenshotService, ScreenshotTO } from '@gauzy/desktop-lib';
-import { ITimeslotQueuePayload, ITimerCallbackPayload, IScreenshotQueuePayload } from "@gauzy/desktop-activity";
+import { TimerService, ISequence, KbMouseActivityService, ScreenshotService, ScreenshotTO } from '@irtranscripts/desktop-lib';
+import { ITimeslotQueuePayload, ITimerCallbackPayload, IScreenshotQueuePayload } from "@irtranscripts/desktop-activity";
 import { getAuthConfig } from '../util';
 import * as moment from 'moment';
 

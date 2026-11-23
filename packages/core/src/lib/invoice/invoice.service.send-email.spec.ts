@@ -1,4 +1,4 @@
-import { LanguagesEnum } from '@gauzy/contracts';
+import { LanguagesEnum } from '@irtranscripts/contracts';
 import { InvoiceService } from './invoice.service';
 
 /**

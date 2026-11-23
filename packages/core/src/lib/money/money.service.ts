@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CurrencyCode, DecimalString, IMoneyDisplayOptions, RoundingMode } from '@gauzy/contracts';
+import { CurrencyCode, DecimalString, IMoneyDisplayOptions, RoundingMode } from '@irtranscripts/contracts';
 import { CurrencyPrecision, currencyPrecision } from './currency-precision';
 import { Money } from './money';
 import { RoundingStrategy, RoundingStrategyRegistry, roundingStrategies } from './rounding';

@@ -1,6 +1,6 @@
 import '../core/entities/internal';
 
-import { IUser, PermissionsEnum } from '@gauzy/contracts';
+import { IUser, PermissionsEnum } from '@irtranscripts/contracts';
 import { CrudService } from '../core/crud/crud.service';
 import { MultiORMEnum } from '../core/utils';
 import { asTenantUser, createTenantFixture } from '../core/testing/tenant-isolation/tenant-isolation.fixtures';

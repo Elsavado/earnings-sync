@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Query } from '@datorama/akita';
 import { combineLatest, distinctUntilChanged, map, Observable } from 'rxjs';
 
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { PluginQuery } from '../../../+state/plugin.query';
 import { PluginElectronService } from '../../../../services/plugin-electron.service';
 import { IPlugin } from '../../../../services/plugin-loader.service';

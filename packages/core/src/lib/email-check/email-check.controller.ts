@@ -1,7 +1,7 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { Public } from '@gauzy/common';
-import { IEmailCheckResponse } from '@gauzy/contracts';
+import { Public } from '@irtranscripts/common';
+import { IEmailCheckResponse } from '@irtranscripts/contracts';
 import { ApiKeyAuthGuard } from '../shared/guards/api-key-auth.guard';
 import { CheckEmailDTO } from './dto/check-email.dto';
 import { EmailCheckService } from './email-check.service';

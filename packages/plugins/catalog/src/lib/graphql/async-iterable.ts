@@ -1,11 +1,11 @@
 import { Observable } from 'rxjs';
-import { observableToAsyncIterable } from '@gauzy/core';
+import { observableToAsyncIterable } from '@irtranscripts/core';
 
 /**
  * Adapts a platform event stream to the async iterable a GraphQL subscription has to return.
  *
  * @deprecated This package carried its own copy, and the streams built on it had no tenant predicate. The
- * adapter is the kernel's now: a subscription field returns `tenantScopedEventStream` from `@gauzy/core`,
+ * adapter is the kernel's now: a subscription field returns `tenantScopedEventStream` from `@irtranscripts/core`,
  * which holds every event to the subscriber's tenant, and `observableToAsyncIterable` is the unscoped
  * adapter it is built on. This name is kept, and delegates, so nothing that imports it breaks; nothing in
  * this package does any more.

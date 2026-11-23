@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 import { DataSource } from 'typeorm';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { DEFAULT_ROLE_PERMISSIONS } from '../role-permission/default-role-permissions';
 import { CoreRolePermissionsReload1791000000500 } from './migrations/1791000000500-CoreRolePermissionsReload';
 import { GrantManagerTaskSettingAndAvailabilityPermissions1791000000841 } from './migrations/1791000000841-GrantManagerTaskSettingAndAvailabilityPermissions';
@@ -131,7 +131,7 @@ describe('GrantManagerTaskSettingAndAvailabilityPermissions1791000000841 — the
 	beforeEach(async () => {
 		dbPath = path.join(
 			os.tmpdir(),
-			`gauzy-manager-task-setting-availability-${process.pid}-${Date.now()}-${Math.random()}.sqlite3`
+			`irtranscripts-manager-task-setting-availability-${process.pid}-${Date.now()}-${Math.random()}.sqlite3`
 		);
 		dataSource = new DataSource({
 			type: 'better-sqlite3',

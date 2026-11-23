@@ -1,8 +1,8 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { NotAcceptableException } from '@nestjs/common';
 import { In, Not, IsNull } from 'typeorm';
-import { ITimesheet } from '@gauzy/contracts';
-import { isEmpty } from '@gauzy/utils';
+import { ITimesheet } from '@irtranscripts/contracts';
+import { isEmpty } from '@irtranscripts/utils';
 import { EmailService } from './../../../../email-send/email.service';
 import { TimesheetSubmitCommand } from '../timesheet-submit.command';
 import { TimeSheetService } from '../../timesheet.service';

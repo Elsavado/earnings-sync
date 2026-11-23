@@ -89,7 +89,7 @@ describe('mcp-auth token introspection — who may ask, and about what', () => {
 		});
 
 		beforeEach(() => {
-			tokenManager = new OAuth2TokenManager('https://issuer.test', 'gauzy-mcp-api');
+			tokenManager = new OAuth2TokenManager('https://issuer.test', 'irtranscripts-mcp-api');
 			payloads = new Map();
 			(tokenManager as any).signToken = jest.fn(async (payload: TokenPayload) => {
 				const handle = `token-${payloads.size + 1}`;
@@ -171,7 +171,7 @@ describe('mcp-auth token introspection — who may ask, and about what', () => {
 			expect(responseBuilder.sendIntrospectionResponse.mock.calls[0][1]).toMatchObject({
 				active: true,
 				sub: 'user-1',
-				aud: 'gauzy-mcp-api'
+				aud: 'irtranscripts-mcp-api'
 			});
 		});
 

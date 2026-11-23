@@ -57,19 +57,19 @@ export const DOCS_INBOUND_SENDER_NOT_ALLOWED = 'DOCS_INBOUND_SENDER_NOT_ALLOWED'
 export const DOCS_INBOUND_NO_ATTACHMENTS = 'DOCS_INBOUND_NO_ATTACHMENTS';
 /** The submitted `contentJson` is not a schema-valid TipTap document (`08` §6.1). */
 export const DOCS_CONTENT_SCHEMA_INVALID = 'DOCS_CONTENT_SCHEMA_INVALID';
-/** The submitted `contentBinary` exceeds `GAUZY_DOCS_MAX_BINARY_BYTES` (`10` §7.1 P6). */
+/** The submitted `contentBinary` exceeds `IRTRANSCRIPTS_DOCS_MAX_BINARY_BYTES` (`10` §7.1 P6). */
 export const DOCS_CONTENT_BINARY_TOO_LARGE = 'DOCS_CONTENT_BINARY_TOO_LARGE';
 
 /**
  * Environment variable keys read by `docs.config.ts`.
  */
-export const ENV_GAUZY_DOCS_MAX_FILE_SIZE = 'GAUZY_DOCS_MAX_FILE_SIZE';
-export const ENV_GAUZY_DOCS_MAX_BINARY_BYTES = 'GAUZY_DOCS_MAX_BINARY_BYTES';
-export const ENV_GAUZY_DOCS_AI_ENABLED = 'GAUZY_DOCS_AI_ENABLED';
-export const ENV_GAUZY_DOCS_EMBEDDING_MODEL = 'GAUZY_DOCS_EMBEDDING_MODEL';
-export const ENV_GAUZY_DOCS_CLASSIFY_MODEL = 'GAUZY_DOCS_CLASSIFY_MODEL';
-export const ENV_GAUZY_DOCS_VERSION_DEBOUNCE_MINUTES = 'GAUZY_DOCS_VERSION_DEBOUNCE_MINUTES';
-export const ENV_GAUZY_DOCS_QUEUE_CONCURRENCY = 'GAUZY_DOCS_QUEUE_CONCURRENCY';
+export const ENV_IRTRANSCRIPTS_DOCS_MAX_FILE_SIZE = 'IRTRANSCRIPTS_DOCS_MAX_FILE_SIZE';
+export const ENV_IRTRANSCRIPTS_DOCS_MAX_BINARY_BYTES = 'IRTRANSCRIPTS_DOCS_MAX_BINARY_BYTES';
+export const ENV_IRTRANSCRIPTS_DOCS_AI_ENABLED = 'IRTRANSCRIPTS_DOCS_AI_ENABLED';
+export const ENV_IRTRANSCRIPTS_DOCS_EMBEDDING_MODEL = 'IRTRANSCRIPTS_DOCS_EMBEDDING_MODEL';
+export const ENV_IRTRANSCRIPTS_DOCS_CLASSIFY_MODEL = 'IRTRANSCRIPTS_DOCS_CLASSIFY_MODEL';
+export const ENV_IRTRANSCRIPTS_DOCS_VERSION_DEBOUNCE_MINUTES = 'IRTRANSCRIPTS_DOCS_VERSION_DEBOUNCE_MINUTES';
+export const ENV_IRTRANSCRIPTS_DOCS_QUEUE_CONCURRENCY = 'IRTRANSCRIPTS_DOCS_QUEUE_CONCURRENCY';
 /**
  * Master switch for BullMQ-backed pipeline dispatch. Defaults to whatever
  * `isSchedulerQueueRootEnabled()` says — i.e. ON exactly where a `SchedulerModule.forRoot()`
@@ -81,49 +81,49 @@ export const ENV_GAUZY_DOCS_QUEUE_CONCURRENCY = 'GAUZY_DOCS_QUEUE_CONCURRENCY';
  * `Worker requires a connection` while building the `@Processor` and the whole API fails to
  * boot. When off, the pipeline runs inline (see `DocsQueueService`).
  */
-export const ENV_GAUZY_DOCS_QUEUE_ENABLED = 'GAUZY_DOCS_QUEUE_ENABLED';
+export const ENV_IRTRANSCRIPTS_DOCS_QUEUE_ENABLED = 'IRTRANSCRIPTS_DOCS_QUEUE_ENABLED';
 
 /**
  * Consumer half of the queue gate: whether THIS process runs the `DocsProcessingWorker`
  * `@Processor` in addition to enqueueing. Defaults to true wherever
- * `GAUZY_DOCS_QUEUE_ENABLED` resolves on, so a single-process deployment still drains its own
+ * `IRTRANSCRIPTS_DOCS_QUEUE_ENABLED` resolves on, so a single-process deployment still drains its own
  * queue. Set to `false` on the API when a dedicated `apps/worker` is deployed — that makes the
  * API a pure producer and moves extraction/OCR/embedding off the request-serving pods.
  */
-export const ENV_GAUZY_DOCS_QUEUE_WORKER_ENABLED = 'GAUZY_DOCS_QUEUE_WORKER_ENABLED';
-export const ENV_GAUZY_DOCS_MAX_EXTRACTED_CHARS = 'GAUZY_DOCS_MAX_EXTRACTED_CHARS';
-export const ENV_GAUZY_DOCS_STUCK_THRESHOLD_MINUTES = 'GAUZY_DOCS_STUCK_THRESHOLD_MINUTES';
-export const ENV_GAUZY_DOCS_EMBEDDING_DIMS = 'GAUZY_DOCS_EMBEDDING_DIMS';
-export const ENV_GAUZY_DOCS_CHUNK_TOKENS = 'GAUZY_DOCS_CHUNK_TOKENS';
-export const ENV_GAUZY_DOCS_CHUNK_OVERLAP_TOKENS = 'GAUZY_DOCS_CHUNK_OVERLAP_TOKENS';
-export const ENV_GAUZY_DOCS_CLASSIFY_SAMPLE_CHARS = 'GAUZY_DOCS_CLASSIFY_SAMPLE_CHARS';
-export const ENV_GAUZY_DOCS_EMBED_BATCH_SIZE = 'GAUZY_DOCS_EMBED_BATCH_SIZE';
-export const ENV_GAUZY_DOCS_RETRIEVAL_TOPK_MAX = 'GAUZY_DOCS_RETRIEVAL_TOPK_MAX';
-export const ENV_GAUZY_DOCS_AUTO_REINDEX_ON_MODEL_CHANGE = 'GAUZY_DOCS_AUTO_REINDEX_ON_MODEL_CHANGE';
-export const ENV_GAUZY_DOCS_VECTOR_STORE = 'GAUZY_DOCS_VECTOR_STORE';
-export const ENV_GAUZY_DOCS_ORG_QUOTA_BYTES = 'GAUZY_DOCS_ORG_QUOTA_BYTES';
-export const ENV_GAUZY_DOCS_RETRIEVAL_LOG_ENABLED = 'GAUZY_DOCS_RETRIEVAL_LOG_ENABLED';
+export const ENV_IRTRANSCRIPTS_DOCS_QUEUE_WORKER_ENABLED = 'IRTRANSCRIPTS_DOCS_QUEUE_WORKER_ENABLED';
+export const ENV_IRTRANSCRIPTS_DOCS_MAX_EXTRACTED_CHARS = 'IRTRANSCRIPTS_DOCS_MAX_EXTRACTED_CHARS';
+export const ENV_IRTRANSCRIPTS_DOCS_STUCK_THRESHOLD_MINUTES = 'IRTRANSCRIPTS_DOCS_STUCK_THRESHOLD_MINUTES';
+export const ENV_IRTRANSCRIPTS_DOCS_EMBEDDING_DIMS = 'IRTRANSCRIPTS_DOCS_EMBEDDING_DIMS';
+export const ENV_IRTRANSCRIPTS_DOCS_CHUNK_TOKENS = 'IRTRANSCRIPTS_DOCS_CHUNK_TOKENS';
+export const ENV_IRTRANSCRIPTS_DOCS_CHUNK_OVERLAP_TOKENS = 'IRTRANSCRIPTS_DOCS_CHUNK_OVERLAP_TOKENS';
+export const ENV_IRTRANSCRIPTS_DOCS_CLASSIFY_SAMPLE_CHARS = 'IRTRANSCRIPTS_DOCS_CLASSIFY_SAMPLE_CHARS';
+export const ENV_IRTRANSCRIPTS_DOCS_EMBED_BATCH_SIZE = 'IRTRANSCRIPTS_DOCS_EMBED_BATCH_SIZE';
+export const ENV_IRTRANSCRIPTS_DOCS_RETRIEVAL_TOPK_MAX = 'IRTRANSCRIPTS_DOCS_RETRIEVAL_TOPK_MAX';
+export const ENV_IRTRANSCRIPTS_DOCS_AUTO_REINDEX_ON_MODEL_CHANGE = 'IRTRANSCRIPTS_DOCS_AUTO_REINDEX_ON_MODEL_CHANGE';
+export const ENV_IRTRANSCRIPTS_DOCS_VECTOR_STORE = 'IRTRANSCRIPTS_DOCS_VECTOR_STORE';
+export const ENV_IRTRANSCRIPTS_DOCS_ORG_QUOTA_BYTES = 'IRTRANSCRIPTS_DOCS_ORG_QUOTA_BYTES';
+export const ENV_IRTRANSCRIPTS_DOCS_RETRIEVAL_LOG_ENABLED = 'IRTRANSCRIPTS_DOCS_RETRIEVAL_LOG_ENABLED';
 /**
  * Master switch for provider-vision OCR (scanned PDFs + images). On by default, but OCR is a
  * per-page LLM call, so it only runs when the AI pipeline is enabled and a provider has
  * credentials. When off, a PDF with no usable text layer and an image upload both fail
  * permanently exactly as they did before OCR existed.
  */
-export const ENV_GAUZY_DOCS_OCR_ENABLED = 'GAUZY_DOCS_OCR_ENABLED';
+export const ENV_IRTRANSCRIPTS_DOCS_OCR_ENABLED = 'IRTRANSCRIPTS_DOCS_OCR_ENABLED';
 /** Hard cap on OCR'd pages per document — the cost fuse of the OCR path. */
-export const ENV_GAUZY_DOCS_OCR_MAX_PAGES = 'GAUZY_DOCS_OCR_MAX_PAGES';
+export const ENV_IRTRANSCRIPTS_DOCS_OCR_MAX_PAGES = 'IRTRANSCRIPTS_DOCS_OCR_MAX_PAGES';
 /**
  * Per-route rate limits (`08-permissions-security.md` §9), in requests per minute. They are
  * applied as named `@Throttle` overrides on the abuse-relevant routes only — plain CRUD reads
  * stay on the platform's global defaults.
  */
-export const ENV_GAUZY_DOCS_UPLOAD_RATE_LIMIT = 'GAUZY_DOCS_UPLOAD_RATE_LIMIT';
-export const ENV_GAUZY_DOCS_SEARCH_RATE_LIMIT = 'GAUZY_DOCS_SEARCH_RATE_LIMIT';
-export const ENV_GAUZY_DOCS_ADMIN_OPS_RATE_LIMIT = 'GAUZY_DOCS_ADMIN_OPS_RATE_LIMIT';
-export const ENV_GAUZY_DOCS_INBOUND_EMAIL_ENABLED = 'GAUZY_DOCS_INBOUND_EMAIL_ENABLED';
-export const ENV_GAUZY_DOCS_INBOUND_WEBHOOK_SECRET = 'GAUZY_DOCS_INBOUND_WEBHOOK_SECRET';
-export const ENV_GAUZY_DOCS_INBOUND_MAX_MESSAGE_BYTES = 'GAUZY_DOCS_INBOUND_MAX_MESSAGE_BYTES';
-export const ENV_GAUZY_DOCS_INBOUND_DOMAIN = 'GAUZY_DOCS_INBOUND_DOMAIN';
+export const ENV_IRTRANSCRIPTS_DOCS_UPLOAD_RATE_LIMIT = 'IRTRANSCRIPTS_DOCS_UPLOAD_RATE_LIMIT';
+export const ENV_IRTRANSCRIPTS_DOCS_SEARCH_RATE_LIMIT = 'IRTRANSCRIPTS_DOCS_SEARCH_RATE_LIMIT';
+export const ENV_IRTRANSCRIPTS_DOCS_ADMIN_OPS_RATE_LIMIT = 'IRTRANSCRIPTS_DOCS_ADMIN_OPS_RATE_LIMIT';
+export const ENV_IRTRANSCRIPTS_DOCS_INBOUND_EMAIL_ENABLED = 'IRTRANSCRIPTS_DOCS_INBOUND_EMAIL_ENABLED';
+export const ENV_IRTRANSCRIPTS_DOCS_INBOUND_WEBHOOK_SECRET = 'IRTRANSCRIPTS_DOCS_INBOUND_WEBHOOK_SECRET';
+export const ENV_IRTRANSCRIPTS_DOCS_INBOUND_MAX_MESSAGE_BYTES = 'IRTRANSCRIPTS_DOCS_INBOUND_MAX_MESSAGE_BYTES';
+export const ENV_IRTRANSCRIPTS_DOCS_INBOUND_DOMAIN = 'IRTRANSCRIPTS_DOCS_INBOUND_DOMAIN';
 
 /**
  * Defaults for the environment variables above.
@@ -173,7 +173,7 @@ export const DOCS_RATE_LIMIT_WINDOW_MS = 60_000;
  * `contentHtml`/`extractedText` row a candidate for a result set nobody can use, so the server
  * refuses it. `01-ux-spec.md` §5 states the same 3, and the client mirrors it verbatim in
  * `DOCUMENT_CONTENT_SEARCH_MIN_CHARS` / `DOCS_CONTENT_SEARCH_MIN_CHARS`
- * (`@gauzy/plugin-docs-ui`) — its search gate, its tooltip and this guard must agree, or the
+ * (`@irtranscripts/plugin-docs-ui`) — its search gate, its tooltip and this guard must agree, or the
  * UI invites a query the API rejects.
  */
 export const DOCS_CONTENT_SEARCH_MIN_CHARS = 3;
@@ -201,7 +201,7 @@ export const DOCS_JOB_REMOVE_ON_FAIL = 1000;
  * How many AI-heavy stages (`docs.classify`, `docs.embed`) one tenant may hold on a worker at a
  * time (`07-ai-knowledge.md` §3.1/§15 — "serialized per tenant").
  *
- * The worker concurrency (`GAUZY_DOCS_QUEUE_CONCURRENCY`) is a *process* budget and knows nothing
+ * The worker concurrency (`IRTRANSCRIPTS_DOCS_QUEUE_CONCURRENCY`) is a *process* budget and knows nothing
  * about who queued the work: without this cap one tenant's 500-file import fills every slot and
  * every other tenant's classification waits behind it — and, worse, monopolizes the shared
  * provider rate limit. A tenant at the cap does not block the worker: its job is moved back to
@@ -270,14 +270,14 @@ export const DOCS_SETTING_INBOUND_TOKEN = 'inboundToken';
 export const DOCS_INBOUND_SIGNATURE_TOLERANCE_MS = 300_000; // 5 minutes
 
 /** Header names read by the generic signed-webhook reference adapter. */
-export const DOCS_INBOUND_SIGNATURE_HEADER = 'x-gauzy-docs-signature';
-export const DOCS_INBOUND_TIMESTAMP_HEADER = 'x-gauzy-docs-timestamp';
+export const DOCS_INBOUND_SIGNATURE_HEADER = 'x-irtranscripts-docs-signature';
+export const DOCS_INBOUND_TIMESTAMP_HEADER = 'x-irtranscripts-docs-timestamp';
 
 /**
  * Header carrying a per-address relay secret, as an alternative proof to the deployment-wide HMAC
  * signature. Presented rather than used as an HMAC key because only the secret's SHA-256 is stored.
  */
-export const DOCS_INBOUND_ADDRESS_SECRET_HEADER = 'x-gauzy-docs-address-secret';
+export const DOCS_INBOUND_ADDRESS_SECRET_HEADER = 'x-irtranscripts-docs-address-secret';
 
 /**
  * Local-part prefix of a PLATFORM capture address: `docs-<token>@<platform domain>`.
@@ -287,10 +287,10 @@ export const DOCS_INBOUND_PLATFORM_LOCAL_PREFIX = 'docs-';
 
 /**
  * DNS label an organization publishes to prove it controls a custom inbound domain — the record
- * is `_gauzy-docs.<domain> IN TXT "gauzy-docs-verify=<token>"`. Underscore-prefixed so it cannot
+ * is `_irtranscripts-docs.<domain> IN TXT "irtranscripts-docs-verify=<token>"`. Underscore-prefixed so it cannot
  * collide with a real hostname.
  */
-export const DOCS_INBOUND_DOMAIN_TXT_PREFIX = '_gauzy-docs';
+export const DOCS_INBOUND_DOMAIN_TXT_PREFIX = '_irtranscripts-docs';
 
 /**
  * Ceiling on a domain-verification DNS lookup. A tenant-triggered lookup queries a name *they*

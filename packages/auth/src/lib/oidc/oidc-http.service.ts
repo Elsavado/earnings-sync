@@ -4,7 +4,7 @@ import { AxiosRequestConfig } from 'axios';
 import { firstValueFrom } from 'rxjs';
 
 /** User agent sent with every request the library makes. */
-export const OIDC_USER_AGENT = 'gauzy-oidc/1';
+export const OIDC_USER_AGENT = 'irtranscripts-oidc/1';
 
 /** Per-request timeout, milliseconds. */
 export const OIDC_HTTP_TIMEOUT_MS = 10_000;

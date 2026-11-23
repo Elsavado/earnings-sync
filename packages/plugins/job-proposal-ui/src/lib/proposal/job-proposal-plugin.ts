@@ -1,5 +1,5 @@
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PluginRouteInput, PluginUiDefinition } from '@gauzy/plugin-ui';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PluginRouteInput, PluginUiDefinition } from '@irtranscripts/plugin-ui';
 import { JobProposalModule } from './job-proposal.module';
 import { JOB_PROPOSAL_SALES_ROUTE } from './job-proposal.routes';
 

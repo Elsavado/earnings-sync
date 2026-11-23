@@ -1,5 +1,5 @@
 import { HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
-import { CurrencyCode, DecimalString, ID, JsonData } from '@gauzy/contracts';
+import { CurrencyCode, DecimalString, ID, JsonData } from '@irtranscripts/contracts';
 import { EntityManager } from 'typeorm';
 import { TenantAwareCrudService } from '../core/crud/tenant-aware-crud.service';
 import { RequestContext } from '../core/context/request-context';

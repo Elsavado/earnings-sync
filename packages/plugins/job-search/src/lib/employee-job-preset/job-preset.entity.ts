@@ -5,9 +5,9 @@ import {
 	IEmployeeUpworkJobsSearchCriterion,
 	IJobPresetUpworkJobSearchCriterion,
 	IJobPreset
-} from '@gauzy/contracts';
-import { Employee, TenantOrganizationBaseEntity } from '@gauzy/core';
-import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToMany, MultiORMOneToMany } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { Employee, TenantOrganizationBaseEntity } from '@irtranscripts/core';
+import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToMany, MultiORMOneToMany } from '@irtranscripts/core';
 import { MikroOrmJobPresetRepository } from './repository/mikro-orm-job-preset.repository';
 import { EmployeeUpworkJobsSearchCriterion } from './employee-upwork-jobs-search-criterion.entity';
 import { JobPresetUpworkJobSearchCriterion } from './job-preset-upwork-job-search-criterion.entity';

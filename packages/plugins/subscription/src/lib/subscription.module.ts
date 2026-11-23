@@ -8,7 +8,7 @@ import {
 	GraphqlSubscriptionModule,
 	IdempotencyModule,
 	RolePermissionModule
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { resolvers } from './graphql/resolvers';
 import { SubscriptionPlan } from './subscription-plan/subscription-plan.entity';
 import { SubscriptionPlanController } from './subscription-plan/subscription-plan.controller';

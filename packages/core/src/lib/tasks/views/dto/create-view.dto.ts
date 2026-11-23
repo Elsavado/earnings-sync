@@ -1,5 +1,5 @@
 import { IntersectionType, PartialType } from '@nestjs/swagger';
-import { ITaskViewCreateInput } from '@gauzy/contracts';
+import { ITaskViewCreateInput } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../../core/dto';
 import { TaskView } from '../view.entity';
 

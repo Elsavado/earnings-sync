@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { DocumentKindEnum, ID } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { DocumentKindEnum, ID } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { Document } from '../entities/document.entity';
 import { TypeOrmDocumentRepository } from '../repositories/type-orm-document.repository';
 import { DocumentAccessService } from './document-access.service';

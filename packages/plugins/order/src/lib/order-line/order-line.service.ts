@@ -1,7 +1,7 @@
 import { BadRequestException, Inject, Injectable, Logger, NotFoundException, Optional } from '@nestjs/common';
 import { DeepPartial, FindOptionsWhere } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { Money, RequestContext, addDecimalStrings, compareDecimalStrings } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { Money, RequestContext, addDecimalStrings, compareDecimalStrings } from '@irtranscripts/core';
 import { Order } from '../order/order.entity';
 import { TypeOrmOrderRepository } from '../order/repository/type-orm-order.repository';
 import { OrderLine } from './order-line.entity';

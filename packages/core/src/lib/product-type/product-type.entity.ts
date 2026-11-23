@@ -1,4 +1,4 @@
-import { ProductTypesIconsEnum } from '@gauzy/contracts';
+import { ProductTypesIconsEnum } from '@irtranscripts/contracts';
 import { ApiProperty } from '@nestjs/swagger';
 import {
 	Product,

@@ -1,10 +1,10 @@
 /**
- * `@gauzy/config` reads the process environment at import time, which a migration that only needs the
+ * `@irtranscripts/config` reads the process environment at import time, which a migration that only needs the
  * dialect enum does not — so the module is doubled at its boundary, exactly as this package's other
  * specs do, and **the migration under test is the real one**: its dialect routing, its statements and
  * its probes are the platform's, over a query runner that records what it was asked for.
  */
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	DatabaseTypeEnum: {
 		mongodb: 'mongodb',
 		sqlite: 'sqlite',
@@ -15,7 +15,7 @@ jest.mock('@gauzy/config', () => ({
 }));
 
 import { QueryRunner } from 'typeorm';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 import { AddOrderReturnVersionColumn1791000000590 } from './migrations/1791000000590-AddOrderReturnVersionColumn';
 
 /**

@@ -1,4 +1,4 @@
-import { IOrganization, LanguagesEnum } from '@gauzy/contracts';
+import { IOrganization, LanguagesEnum } from '@irtranscripts/contracts';
 import * as moment from 'moment';
 
 export class TimeTrackerDateManager {

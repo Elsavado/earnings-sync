@@ -1,6 +1,6 @@
 import { RelationId } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { ICandidateExperience, ICandidate, ID } from '@gauzy/contracts';
+import { ICandidateExperience, ICandidate, ID } from '@irtranscripts/contracts';
 import { Candidate, TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from './../core/decorators/entity';
 import { MikroOrmCandidateExperienceRepository } from './repository/mikro-orm-candidate-experience.repository';

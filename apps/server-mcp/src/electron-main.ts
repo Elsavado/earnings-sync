@@ -32,11 +32,11 @@ try {
 }
 
 // Import environment
-import { environment } from '@gauzy/mcp-server';
+import { environment } from '@irtranscripts/mcp-server';
 
 // Import MCP Server Manager from shared package
-import { McpServerManager } from '@gauzy/mcp-server';
-import { securityConfig } from '@gauzy/mcp-server';
+import { McpServerManager } from '@irtranscripts/mcp-server';
+import { securityConfig } from '@irtranscripts/mcp-server';
 
 // ES Module equivalent of __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -56,7 +56,7 @@ let isServerInitialized = false;
 // Only set specific environment variables that are needed
 if (environment.baseUrl) process.env.API_BASE_URL = environment.baseUrl;
 if (environment.apiTimeout) process.env.API_TIMEOUT = String(environment.apiTimeout);
-if (environment.debug !== undefined) process.env.GAUZY_MCP_DEBUG = String(environment.debug);
+if (environment.debug !== undefined) process.env.IRTRANSCRIPTS_MCP_DEBUG = String(environment.debug);
 
 // Set unlimited listeners
 try {
@@ -154,8 +154,8 @@ function initializeAppConfiguration(): void {
 		}
 
 		// the folder where all app data will be stored (e.g. sqlite DB, settings, cache, etc)
-		process.env.GAUZY_USER_PATH = app.getPath('userData');
-		log.info(`GAUZY_USER_PATH: ${process.env.GAUZY_USER_PATH}`);
+		process.env.IRTRANSCRIPTS_USER_PATH = app.getPath('userData');
+		log.info(`IRTRANSCRIPTS_USER_PATH: ${process.env.IRTRANSCRIPTS_USER_PATH}`);
 	} catch (error) {
 		log.error('Error initializing app configuration:', error);
 	}
@@ -263,7 +263,7 @@ async function createMainWindow(): Promise<void> {
 		minWidth: 600,
 		minHeight: 400,
 		show: false,
-		title: 'Gauzy MCP Server Desktop',
+		title: 'IRTranscripts MCP Server Desktop',
 		icon: process.platform === 'darwin'
 			? path.join(actualAppPath, 'icons', 'app.icns')
 			: process.platform === 'win32'

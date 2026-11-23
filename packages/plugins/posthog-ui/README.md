@@ -1,4 +1,4 @@
-# @gauzy/plugin-posthog-ui
+# @irtranscripts/plugin-posthog-ui
 
 ## Overview
 
@@ -23,9 +23,9 @@ The PostHog Angular Plugin seamlessly integrates your Angular applications with 
 Install the PostHog Angular Plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-posthog-ui posthog-js
+npm install @irtranscripts/plugin-posthog-ui posthog-js
 # or
-yarn add @gauzy/plugin-posthog-ui posthog-js
+yarn add @irtranscripts/plugin-posthog-ui posthog-js
 ```
 
 ## Configuration
@@ -38,7 +38,7 @@ Import the `PostHogModule` in your application module:
 // app.module.ts
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { PostHogModule } from '@gauzy/plugin-posthog-ui';
+import { PostHogModule } from '@irtranscripts/plugin-posthog-ui';
 import { environment } from '../environments/environment';
 
 @NgModule({
@@ -85,7 +85,7 @@ Inject the PostHog service or manager in your components:
 
 ```typescript
 import { Component } from '@angular/core';
-import { PostHogServiceManager } from '@gauzy/plugin-posthog-ui';
+import { PostHogServiceManager } from '@irtranscripts/plugin-posthog-ui';
 
 @Component({
 	selector: 'app-example',
@@ -164,7 +164,7 @@ Check if a feature flag is enabled:
 
 ```typescript
 import { Component, OnInit } from '@angular/core';
-import { PostHogServiceManager } from '@gauzy/plugin-posthog-ui';
+import { PostHogServiceManager } from '@irtranscripts/plugin-posthog-ui';
 
 @Component({
 	selector: 'app-feature',
@@ -306,7 +306,7 @@ The PostHog module includes a testing utility:
 
 ```typescript
 // test.module.ts
-import { PostHogModule } from '@gauzy/plugin-posthog-ui';
+import { PostHogModule } from '@irtranscripts/plugin-posthog-ui';
 
 @NgModule({
 	imports: [PostHogModule.forTesting()]

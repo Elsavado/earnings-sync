@@ -1,6 +1,6 @@
 import { Controller, Get, HttpCode, HttpStatus, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { IPagination, PermissionsEnum, WebhookDeliveryStatus } from '@gauzy/contracts';
+import { IPagination, PermissionsEnum, WebhookDeliveryStatus } from '@irtranscripts/contracts';
 import { paginateRows, resolveRestPage } from '../api/graphql-connection';
 import { UUIDValidationPipe, UseValidationPipe } from '../shared/pipes';
 import { Permissions } from '../shared/decorators';

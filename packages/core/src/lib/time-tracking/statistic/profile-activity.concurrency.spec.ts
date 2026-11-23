@@ -1,7 +1,7 @@
 jest.mock('dotenv', () => ({
 	config: jest.fn(() => ({ parsed: {} }))
 }));
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	ConfigService: class ConfigService {},
 	DatabaseTypeEnum: {
 		postgres: 'postgres',
@@ -51,8 +51,8 @@ jest.mock('../../employee/managed-employee.service', () => ({
 import * as dotenv from 'dotenv';
 
 import { monitorEventLoopDelay } from 'node:perf_hooks';
-import { DatabaseTypeEnum } from '@gauzy/config';
-import { ID, IGetProfileActivity, IProfileActivity } from '@gauzy/contracts';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
+import { ID, IGetProfileActivity, IProfileActivity } from '@irtranscripts/contracts';
 import { DataSource, EntitySchema, Repository } from 'typeorm';
 import { MultiORMEnum } from '../../core/utils';
 import { StatisticService } from './statistic.service';

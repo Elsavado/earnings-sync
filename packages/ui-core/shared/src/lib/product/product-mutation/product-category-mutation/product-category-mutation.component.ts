@@ -7,15 +7,15 @@ import {
 	IProductCategoryTranslatable,
 	IProductCategoryTranslation,
 	LanguagesEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { TranslateService } from '@ngx-translate/core';
 import { NbDialogRef } from '@nebular/theme';
 import { combineLatest } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { ProductCategoryService, Store, ToastrService } from '@gauzy/ui-core/core';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { ProductCategoryService, Store, ToastrService } from '@irtranscripts/ui-core/core';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

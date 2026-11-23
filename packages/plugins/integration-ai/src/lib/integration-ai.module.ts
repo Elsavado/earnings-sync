@@ -1,7 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
-import { IntegrationModule, IntegrationTenantModule, PluginCommonModule, RolePermissionModule } from '@gauzy/core';
-import { GauzyAIModule } from './gauzy-ai.module';
+import { IntegrationModule, IntegrationTenantModule, PluginCommonModule, RolePermissionModule } from '@irtranscripts/core';
+import { IRTranscriptsAIModule } from './irtranscripts-ai.module';
 import { IntegrationAIController } from './integration-ai.controller';
 import { IntegrationAIService } from './integration-ai.service';
 import { IntegrationAIMiddleware } from './integration-ai.middleware';
@@ -14,7 +14,7 @@ import { IntegrationAIAnalysisService } from './integration-ai-analysis.service'
 		RolePermissionModule,
 		IntegrationTenantModule,
 		IntegrationModule,
-		GauzyAIModule.forRoot(),
+		IRTranscriptsAIModule.forRoot(),
 		PluginCommonModule,
 		CqrsModule
 	],

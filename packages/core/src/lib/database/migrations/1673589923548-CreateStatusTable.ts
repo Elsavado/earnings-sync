@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from "chalk";
-import { DatabaseTypeEnum } from "@gauzy/config";
+import { DatabaseTypeEnum } from "@irtranscripts/config";
 
 export class CreateStatusTable1673589923548 implements MigrationInterface {
 	name = 'CreateStatusTable1673589923548';

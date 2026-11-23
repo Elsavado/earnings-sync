@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ValidationError } from 'class-validator';
-import { IGenerateApiKeyResponse, PermissionsEnum } from '@gauzy/contracts';
+import { IGenerateApiKeyResponse, PermissionsEnum } from '@irtranscripts/contracts';
 import { PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { Permissions } from '../shared/decorators';
 import { UseValidationPipe } from '../shared/pipes';

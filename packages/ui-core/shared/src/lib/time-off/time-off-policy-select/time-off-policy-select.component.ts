@@ -3,10 +3,10 @@ import { FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { filter, first, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
-import { IOrganization, ITimeOffPolicy } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
-import { TimeOffService } from '@gauzy/ui-core/core';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
+import { IOrganization, ITimeOffPolicy } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
+import { TimeOffService } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

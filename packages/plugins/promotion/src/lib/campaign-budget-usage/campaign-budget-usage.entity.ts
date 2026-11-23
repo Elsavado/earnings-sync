@@ -8,8 +8,8 @@ import {
 	MultiORMEntity,
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
-import { DecimalString, ID } from '@gauzy/contracts';
+} from '@irtranscripts/core';
+import { DecimalString, ID } from '@irtranscripts/contracts';
 import { MikroOrmCampaignBudgetUsageRepository } from './repository/mikro-orm-campaign-budget-usage.repository';
 import { ICampaignBudget, ICampaignBudgetUsage } from '../promotion.types';
 import { CampaignBudget } from '../campaign-budget/campaign-budget.entity';

@@ -1,6 +1,6 @@
 import { convertToParamMap, ParamMap } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { DocumentKindEnum, IDocument } from '@gauzy/contracts';
+import { DocumentKindEnum, IDocument } from '@irtranscripts/contracts';
 import { DocumentsActions } from '../../+state/documents.actions';
 import { DocumentFilePageComponent } from './document-file-page.component';
 

@@ -17,12 +17,12 @@ import {
 	ISelectedEmployee,
 	IUser,
 	JobPostSourceEnum
-} from '@gauzy/contracts';
-import { environment } from '@gauzy/ui-config';
-import { API_PREFIX, distinctUntilChange, isNotEmpty, sleep } from '@gauzy/ui-core/common';
-import { ErrorHandlingService, JobService, Store } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { EmployeeSelectorComponent, FormHelpers, RichTextEditorComponent } from '@gauzy/ui-core/shared';
+} from '@irtranscripts/contracts';
+import { environment } from '@irtranscripts/ui-config';
+import { API_PREFIX, distinctUntilChange, isNotEmpty, sleep } from '@irtranscripts/ui-core/common';
+import { ErrorHandlingService, JobService, Store } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { EmployeeSelectorComponent, FormHelpers, RichTextEditorComponent } from '@irtranscripts/ui-core/shared';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -261,7 +261,7 @@ export class ApplyJobManuallyComponent extends TranslationBaseComponent implemen
 	 * @param item
 	 */
 	onProposalTemplateChange(item: IEmployeeProposalTemplate | null): void {
-		/** Generate proposal using GauzyAI */
+		/** Generate proposal using IRTranscriptsAI */
 		this.proposalTemplate = item || null;
 
 		/** Patch proposal value inside form directive */
@@ -411,7 +411,7 @@ export class ApplyJobManuallyComponent extends TranslationBaseComponent implemen
 					// Stop making API calls as the desired parameter is found
 					if (isProposalGeneratedByAI) {
 						try {
-							/** If employee proposal generated successfully from Gauzy AI */
+							/** If employee proposal generated successfully from IRTranscripts AI */
 							if (isNotEmpty(application)) {
 								// Replace line breaks with spaces
 								const proposal = application.proposal

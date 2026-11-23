@@ -1,17 +1,17 @@
 import { BadRequestException } from '@nestjs/common';
-import { FulfillmentStatus, OrderPaymentStatus, OrderStatus } from '@gauzy/contracts';
+import { FulfillmentStatus, OrderPaymentStatus, OrderStatus } from '@irtranscripts/contracts';
 import { IOrderTransitionContext, OrderActor, OrderStateMachine } from './order-state-machine';
 
 /**
  * The decimal helpers the state machine compares money with, reached by path rather than through the
  * barrel.
  *
- * The class imports them from `@gauzy/core`, and loading that barrel would pull the whole package —
+ * The class imports them from `@irtranscripts/core`, and loading that barrel would pull the whole package —
  * including the bootstrap, which reaches an ESM-only dependency this suite's module registry cannot
  * load, so the suite would fail to run at all rather than fail an assertion. The module is the same
  * object either way: this suite is about the decision the state machine makes, not about the barrel.
  */
-jest.mock('@gauzy/core', () => jest.requireActual('@gauzy/core/src/lib/money/decimal'));
+jest.mock('@irtranscripts/core', () => jest.requireActual('@irtranscripts/core/src/lib/money/decimal'));
 
 /**
  * The order lifecycle, and the two statuses materialised from the order's own rows.

@@ -1,5 +1,5 @@
-import { IPagination, PermissionsEnum } from '@gauzy/contracts';
-import { PermissionGuard, Permissions, TenantPermissionGuard } from '@gauzy/core';
+import { IPagination, PermissionsEnum } from '@irtranscripts/contracts';
+import { PermissionGuard, Permissions, TenantPermissionGuard } from '@irtranscripts/core';
 import {
 	Body,
 	Controller,

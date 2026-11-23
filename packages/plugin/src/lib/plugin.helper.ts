@@ -1,7 +1,7 @@
 import { DynamicModule, Type } from '@nestjs/common';
 import { MODULE_METADATA } from '@nestjs/common/constants';
-import { getConfig } from '@gauzy/config';
-import { isNotEmpty } from '@gauzy/utils';
+import { getConfig } from '@irtranscripts/config';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { PLUGIN_METADATA } from './plugin-metadata';
 import { PluginLifecycleMethods } from './plugin.interface';
 import {
@@ -294,15 +294,15 @@ function pluginNamesOf(plugin: Type<any> | DynamicModule): string[] {
 	if (className) {
 		names.push(className);
 
-		// The package convention is `@gauzy/plugin-<kebab>` for the class `<Pascal>Plugin`, so the
+		// The package convention is `@irtranscripts/plugin-<kebab>` for the class `<Pascal>Plugin`, so the
 		// package name a plugin answers to is derived from its class rather than looked up.
 		const stem = className.replace(/Plugin$/, '');
 		if (stem) {
 			const kebab = stem.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
-			names.push(`@gauzy/plugin-${kebab}`);
+			names.push(`@irtranscripts/plugin-${kebab}`);
 			// The bare stem as well, because a dependency is written the way an author says it out
 			// loud: "promotion needs pricing" declares `dependsOn: ['pricing']` while the package is
-			// `@gauzy/plugin-pricing`. Both are the same plugin, and a declaration that resolves only
+			// `@irtranscripts/plugin-pricing`. Both are the same plugin, and a declaration that resolves only
 			// under one spelling turns a correct declaration into a boot failure.
 			names.push(kebab);
 		}

@@ -50,7 +50,7 @@ type ThemeVariables = Record<string, unknown> | undefined | null;
  * @returns A fully populated palette; never throws and never returns an empty colour.
  */
 export function resolveTeamStatusPalette(variables: ThemeVariables, element?: Element | null): ITeamStatusChartPalette {
-	// `chartjs` is the block every Gauzy theme declares for Chart.js specifically;
+	// `chartjs` is the block every IRTranscripts theme declares for Chart.js specifically;
 	// preferring its text colour keeps this widget consistent with the other charts.
 	const chartJs = (variables?.['chartjs'] ?? {}) as { textColor?: string };
 

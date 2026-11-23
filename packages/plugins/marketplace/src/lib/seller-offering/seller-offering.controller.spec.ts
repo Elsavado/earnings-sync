@@ -18,13 +18,13 @@
  * - **every item carries the seller scope the guard resolved**, so a seller-scoped caller reaches its own
  *   offerings through the batch exactly as it reaches them through the single-item routes.
  *
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which this seam needs, so it is doubled at the module boundary
  * exactly as the package's other specifications do. Three pieces are the kernel's own rather than a copy:
  * the retry-safety decorator and its interceptor, and the bulk decorator, its reader and the executor the
  * route runs — because those are what is under test here.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
@@ -96,35 +96,35 @@ jest.mock('@gauzy/core', () => {
 		ProductVariant: class {},
 		User: class {},
 		Warehouse: class {},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		// The decimal comparison the commission bands and the settlement's discrepancy are decided by is
 		// the kernel's own, so the double hands over the real one: a comparison doubled here would agree
 		// with the service about arithmetic the platform never performs.
-		compareDecimalStrings: jest.requireActual('@gauzy/core/src/lib/money/decimal').compareDecimalStrings,
+		compareDecimalStrings: jest.requireActual('@irtranscripts/core/src/lib/money/decimal').compareDecimalStrings,
 		isUniqueViolation: (error: any) => Boolean(error?.code === '23505'),
 		// The kernel is the subject here, so its own modules answer rather than a second copy of them.
-		ApiErrorCode: jest.requireActual('@gauzy/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
-		ApiException: jest.requireActual('@gauzy/core/src/lib/core/errors/api-exception').ApiException,
-		Permissions: jest.requireActual('@gauzy/core/src/lib/shared/decorators/permissions.decorator').Permissions,
+		ApiErrorCode: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
+		ApiException: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-exception').ApiException,
+		Permissions: jest.requireActual('@irtranscripts/core/src/lib/shared/decorators/permissions.decorator').Permissions,
 		PermissionGuard: class {},
 		TenantPermissionGuard: class {},
 		// The controllers carry the platform feature gate (R4-11); the double provides the class they import.
 		FeatureFlagGuard: class {},
 		UseValidationPipe: () => () => undefined,
 		UUIDValidationPipe: class {},
-		IDEMPOTENT_METADATA_KEY: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.policy')
+		IDEMPOTENT_METADATA_KEY: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.policy')
 			.IDEMPOTENT_METADATA_KEY,
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
-		IdempotencyInterceptor: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.interceptor')
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		IdempotencyInterceptor: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.interceptor')
 			.IdempotencyInterceptor,
-		BulkOperation: jest.requireActual('@gauzy/core/src/lib/api/bulk.decorator').BulkOperation,
-		readBulkOperation: jest.requireActual('@gauzy/core/src/lib/api/bulk.decorator').readBulkOperation,
-		bulkOptionsOf: jest.requireActual('@gauzy/core/src/lib/api/bulk.decorator').bulkOptionsOf,
-		BulkExecutor: jest.requireActual('@gauzy/core/src/lib/api/bulk-executor.service').BulkExecutor
+		BulkOperation: jest.requireActual('@irtranscripts/core/src/lib/api/bulk.decorator').BulkOperation,
+		readBulkOperation: jest.requireActual('@irtranscripts/core/src/lib/api/bulk.decorator').readBulkOperation,
+		bulkOptionsOf: jest.requireActual('@irtranscripts/core/src/lib/api/bulk.decorator').bulkOptionsOf,
+		BulkExecutor: jest.requireActual('@irtranscripts/core/src/lib/api/bulk-executor.service').BulkExecutor
 	};
 });
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	DatabaseTypeEnum: {
 		mongodb: 'mongodb',
 		sqlite: 'sqlite',
@@ -141,21 +141,21 @@ jest.mock('@gauzy/config', () => ({
  * the payout surface's specification doubles the kernel's key store: the executor is the real one here, and
  * the visibility it authorises through is the in-memory predicate the fixture builds.
  */
-jest.mock('@gauzy/core/src/lib/api/field-visibility.service', () => ({ FieldVisibility: class {} }));
+jest.mock('@irtranscripts/core/src/lib/api/field-visibility.service', () => ({ FieldVisibility: class {} }));
 
 /**
  * The interceptor names the kernel's key store in its constructor, and importing that class reaches the
  * persistence layer for the same reason. The fixture supplies the in-memory store below instead, so what
  * is under test is the kernel's *decision* and not how a key row is written.
  */
-jest.mock('@gauzy/core/src/lib/idempotency/idempotency.service', () => ({ IdempotencyService: class {} }));
+jest.mock('@irtranscripts/core/src/lib/idempotency/idempotency.service', () => ({ IdempotencyService: class {} }));
 
 import { ExecutionContext, RequestMethod } from '@nestjs/common';
 import { METHOD_METADATA, PATH_METADATA } from '@nestjs/common/constants';
 import { Reflector } from '@nestjs/core';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import type { ID, IIdempotencyClaim, IIdempotencyKey, JsonData } from '@gauzy/contracts';
-import { IdempotencyOutcome, IdempotencyStatus, PermissionsEnum } from '@gauzy/contracts';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import type { ID, IIdempotencyClaim, IIdempotencyKey, JsonData } from '@irtranscripts/contracts';
+import { IdempotencyOutcome, IdempotencyStatus, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	ApiErrorCode,
 	ApiException,
@@ -164,8 +164,8 @@ import {
 	IdempotencyInterceptor,
 	bulkOptionsOf,
 	readBulkOperation
-} from '@gauzy/core';
-import type { FieldVisibility, IdempotencyService } from '@gauzy/core';
+} from '@irtranscripts/core';
+import type { FieldVisibility, IdempotencyService } from '@irtranscripts/core';
 import { defer, lastValueFrom } from 'rxjs';
 import { SellerOfferingController } from './seller-offering.controller';
 import type { SellerOfferingService } from './seller-offering.service';

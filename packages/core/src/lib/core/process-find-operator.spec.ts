@@ -1,4 +1,4 @@
-import { defineConfig, resetConfig } from '@gauzy/config';
+import { defineConfig, resetConfig } from '@irtranscripts/config';
 import { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
 import { MySqlDriver } from '@mikro-orm/mysql';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
@@ -8,7 +8,7 @@ import { convertTypeORMWhereToMikroORM, processFindOperator } from './utils';
 /**
  * Configures the MikroORM driver that `isMikroOrmPostgres()` reads, through the config API itself.
  *
- * Not `jest.spyOn(config, 'getConfig')`: `@gauzy/config` re-exports it through `export *`, which
+ * Not `jest.spyOn(config, 'getConfig')`: `@irtranscripts/config` re-exports it through `export *`, which
  * compiles to a non-configurable getter, so the spy threw "Cannot redefine property: getConfig" and
  * these cases never reached an assertion.
  */

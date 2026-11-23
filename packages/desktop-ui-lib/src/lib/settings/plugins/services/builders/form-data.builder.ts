@@ -1,4 +1,4 @@
-import { IPlugin, IPluginSource, IPluginVersion } from '@gauzy/contracts';
+import { IPlugin, IPluginSource, IPluginVersion } from '@irtranscripts/contracts';
 import { Store } from '../../../../services';
 import { SourceStrategyFactory } from '../factories/source.factory';
 import { IPluginPlanCreateInput } from '../plugin-subscription.service';

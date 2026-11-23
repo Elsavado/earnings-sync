@@ -1,4 +1,4 @@
-# Ever Gauzy Platform UI
+# Ever IRTranscripts Platform UI
 #
 # Requires BuildKit (Docker 23+/buildx): uses RUN --mount stage bind mounts and build
 # secrets so the multi-GB node_modules trees never land in persisted layers (issue #9791).
@@ -43,7 +43,7 @@ RUN set -- --fetch-retries=5 --fetch-retry-mintimeout=20000 --fetch-retry-maxtim
 	fi && \
 	apk --update add bash && npm i -g npm@9 "$@" \
 	&& apk add --no-cache --virtual build-dependencies bind-tools curl tar xz jq python3 python3-dev py3-configobj py3-pip py3-setuptools dos2unix gcc g++ git make vips-dev && \
-	mkdir /srv/gauzy && chown -R node:node /srv/gauzy
+	mkdir /srv/irtranscripts && chown -R node:node /srv/irtranscripts
 
 # Verify the Node.js version
 RUN node --version
@@ -61,9 +61,9 @@ RUN chmod +x /wait /entrypoint.compose.sh /entrypoint.prod.sh && dos2unix /entry
 
 USER node:node
 
-WORKDIR /srv/gauzy
+WORKDIR /srv/irtranscripts
 
-COPY --chown=node:node apps/gauzy/package.json ./apps/gauzy/
+COPY --chown=node:node apps/irtranscripts/package.json ./apps/irtranscripts/
 
 COPY --chown=node:node packages/common/package.json ./packages/common/
 COPY --chown=node:node packages/utils/package.json ./packages/utils/
@@ -130,7 +130,7 @@ COPY --chown=node:node packages/plugins/dashboard-time-track-angular-ui/package.
 COPY --chown=node:node packages/plugins/dashboard-time-track-react-ui/package.json ./packages/plugins/dashboard-time-track-react-ui/
 COPY --chown=node:node packages/plugins/ai-chat-react-ui/package.json ./packages/plugins/ai-chat-react-ui/
 COPY --chown=node:node packages/plugins/docs-ui/package.json ./packages/plugins/docs-ui/
-# @gauzy/plugin-integration-ever-works depends on @gauzy/plugin-docs, which depends on @gauzy/plugin-ai-chat; without their
+# @irtranscripts/plugin-integration-ever-works depends on @irtranscripts/plugin-docs, which depends on @irtranscripts/plugin-ai-chat; without their
 # manifests yarn looks them up on npm and the install fails
 COPY --chown=node:node packages/plugins/docs/package.json ./packages/plugins/docs/
 COPY --chown=node:node packages/plugins/ai-chat/package.json ./packages/plugins/ai-chat/
@@ -206,10 +206,10 @@ RUN set -- --fetch-retries=5 --fetch-retry-mintimeout=20000 --fetch-retry-maxtim
 
 USER node:node
 
-WORKDIR /srv/gauzy
+WORKDIR /srv/irtranscripts
 
 COPY --chown=node:node --from=dependencies /wait /entrypoint.compose.sh /entrypoint.prod.sh /replacements.sed  /
-COPY --chown=node:node --from=dependencies /srv/gauzy .
+COPY --chown=node:node --from=dependencies /srv/irtranscripts .
 COPY . .
 
 FROM node:26.12.1-alpine3.24 AS build
@@ -224,17 +224,17 @@ RUN set -- --fetch-retries=5 --fetch-retry-mintimeout=20000 --fetch-retry-maxtim
 	fi && \
 	npm install -g yarn@1.22.22 "$@"
 
-WORKDIR /srv/gauzy
+WORKDIR /srv/irtranscripts
 
 RUN mkdir dist
 
 # Per-package node_modules created by the workspace install in the dependencies stage
-# (non-hoisted deps + .bin shims — apps/gauzy/node_modules notably carries the nohoisted
+# (non-hoisted deps + .bin shims — apps/irtranscripts/node_modules notably carries the nohoisted
 # @angular packages). Node module resolution needs them next to each package/app source.
 # These trees are small — unlike the root node_modules, which is bind-mounted below
 # instead of being copied into a layer.
-COPY --chown=node:node --from=dependencies /srv/gauzy/packages ./packages
-COPY --chown=node:node --from=dependencies /srv/gauzy/apps ./apps
+COPY --chown=node:node --from=dependencies /srv/irtranscripts/packages ./packages
+COPY --chown=node:node --from=dependencies /srv/irtranscripts/apps ./apps
 
 # Full source from the build context (root/per-package node_modules and dist are
 # .dockerignore'd, so this merges source files over the trees copied above).
@@ -249,17 +249,17 @@ ARG NODE_OPTIONS
 ARG NX_BRANCH
 
 # Deployed release version (git tag) + commit SHA. Baked into the Angular bundle
-# at build time by .scripts/configure.ts (env.GAUZY_APP_VERSION/COMMIT) so the
+# at build time by .scripts/configure.ts (env.IRTRANSCRIPTS_APP_VERSION/COMMIT) so the
 # footer shows them — they are image constants, not runtime-substituted.
-ARG GAUZY_APP_VERSION
-ARG GAUZY_APP_COMMIT
+ARG IRTRANSCRIPTS_APP_VERSION
+ARG IRTRANSCRIPTS_APP_COMMIT
 
 ENV NODE_OPTIONS=${NODE_OPTIONS:-"--max-old-space-size=30000"}
 ENV NODE_ENV=${NODE_ENV:-production}
 ENV DEMO=${DEMO:-false}
 
-ENV GAUZY_APP_VERSION=${GAUZY_APP_VERSION}
-ENV GAUZY_APP_COMMIT=${GAUZY_APP_COMMIT}
+ENV IRTRANSCRIPTS_APP_VERSION=${IRTRANSCRIPTS_APP_VERSION}
+ENV IRTRANSCRIPTS_APP_COMMIT=${IRTRANSCRIPTS_APP_COMMIT}
 
 ENV IS_DOCKER=true
 
@@ -270,21 +270,21 @@ ENV NX_BRANCH=${NX_BRANCH}
 # The multi-GB root node_modules is bind-mounted from the dependencies stage for this RUN
 # only — it never lands in a persisted layer (this was the main cause of the 44GB+
 # build-time disk footprint, see issue #9791). `rw` allows transient cache writes into
-# the mount, which are discarded after the step. The @gauzy/* symlinks inside the mount
-# resolve to /srv/gauzy/packages|apps on this stage's fs — that is why the source COPYs
+# the mount, which are discarded after the step. The @irtranscripts/* symlinks inside the mount
+# resolve to /srv/irtranscripts/packages|apps on this stage's fs — that is why the source COPYs
 # above must happen before this RUN. `yarn run config:*` (ts-node .scripts/configure.ts)
 # runs inside this same RUN and writes packages/ui-config environment files to the stage fs.
 # The nx local task cache (.nx/cache — NOT disabled by CI=true) is written to the stage
 # fs and would duplicate every build output into this layer, so it is deleted in the
 # same RUN. (The Angular CLI disk cache IS disabled under CI.)
 # NX_CLOUD_ACCESS_TOKEN is an optional build secret (inert while NX_NO_CLOUD=true).
-RUN --mount=type=bind,from=dependencies,source=/srv/gauzy/node_modules,target=/srv/gauzy/node_modules,rw \
+RUN --mount=type=bind,from=dependencies,source=/srv/irtranscripts/node_modules,target=/srv/irtranscripts/node_modules,rw \
 	--mount=type=secret,id=NX_CLOUD_ACCESS_TOKEN,uid=1000 \
 	export NX_CLOUD_ACCESS_TOKEN="$(cat /run/secrets/NX_CLOUD_ACCESS_TOKEN 2>/dev/null || true)" && \
 	if [ "$NODE_ENV" = "production" ]; then \
-	yarn build:gauzy:prod:docker; \
+	yarn build:irtranscripts:prod:docker; \
 	else \
-	yarn build:gauzy:dev:docker; \
+	yarn build:irtranscripts:dev:docker; \
 	fi && \
 	rm -rf ./.nx
 
@@ -292,12 +292,12 @@ FROM nginx:alpine AS production
 
 # USER nginx:nginx
 
-WORKDIR /srv/gauzy
+WORKDIR /srv/irtranscripts
 
 COPY --chown=nginx:nginx --from=dependencies /wait /entrypoint.compose.sh /entrypoint.prod.sh /replacements.sed ./
 COPY --chown=nginx:nginx .deploy/webapp/nginx.compose.conf /etc/nginx/conf.d/compose.conf.template
 COPY --chown=nginx:nginx .deploy/webapp/nginx.prod.conf /etc/nginx/conf.d/prod.conf.template
-COPY --chown=nginx:nginx --from=build /srv/gauzy/dist/apps/gauzy .
+COPY --chown=nginx:nginx --from=build /srv/irtranscripts/dist/apps/irtranscripts .
 
 RUN chmod +x wait entrypoint.compose.sh entrypoint.prod.sh && \
 	chmod a+rw /etc/nginx/conf.d/compose.conf.template /etc/nginx/conf.d/prod.conf.template
@@ -330,31 +330,31 @@ ENV GOOGLE_PLACE_AUTOCOMPLETE=false
 ENV DEFAULT_LATITUDE=42.6459136
 ENV DEFAULT_LONGITUDE=23.3332736
 ENV DEFAULT_CURRENCY=USD
-ENV GAUZY_CLOUD_APP="https://app.gauzy.co"
-ENV GAUZY_CLOUD_ENDPOINT="https://api.gauzy.co"
-ENV NO_INTERNET_LOGO="assets/images/logos/logo_Gauzy.svg"
+ENV IRTRANSCRIPTS_CLOUD_APP="https://app.irtranscripts.com"
+ENV IRTRANSCRIPTS_CLOUD_ENDPOINT="https://api.irtranscripts.com"
+ENV NO_INTERNET_LOGO="assets/images/logos/logo_IRTranscripts.svg"
 ENV FILE_PROVIDER="LOCAL"
-ENV PLATFORM_LOGO="assets/images/logos/logo_Gauzy.svg"
-ENV GAUZY_DESKTOP_LOGO_512X512="assets/icons/icon_512x512.png"
-ENV PLATFORM_PRIVACY_URL="https://gauzy.co/privacy"
-ENV PLATFORM_TOS_URL="https://gauzy.co/tos"
+ENV PLATFORM_LOGO="assets/images/logos/logo_IRTranscripts.svg"
+ENV IRTRANSCRIPTS_DESKTOP_LOGO_512X512="assets/icons/icon_512x512.png"
+ENV PLATFORM_PRIVACY_URL="https://irtranscripts.com/privacy"
+ENV PLATFORM_TOS_URL="https://irtranscripts.com/tos"
 ENV PROJECT_REPO="https://github.com/ever-co/ever-gauzy.git"
 ENV COMPANY_NAME="Ever Co. LTD"
 ENV COMPANY_LINK="https://ever.co"
-ENV COMPANY_SITE_NAME="Gauzy"
-ENV COMPANY_SITE_LINK="https://gauzy.co"
+ENV COMPANY_SITE_NAME="IRTranscripts"
+ENV COMPANY_SITE_LINK="https://irtranscripts.com"
 ENV COMPANY_GITHUB_LINK="https://github.com/ever-co"
 ENV COMPANY_GITLAB_LINK="https://gitlab.com/ever-co"
 ENV COMPANY_FACEBOOK_LINK="https://www.facebook.com/gauzyplatform"
 ENV COMPANY_TWITTER_LINK="https://twitter.com/gauzyplatform"
 ENV COMPANY_IN_LINK="https://www.linkedin.com/company/everhq"
-ENV PLATFORM_WEBSITE_URL="https://gauzy.co"
-ENV PLATFORM_WEBSITE_DOWNLOAD_URL="https://gauzy.co/downloads"
-ENV DESKTOP_APP_DOWNLOAD_LINK_APPLE="https://gauzy.co/downloads#desktop/apple"
-ENV DESKTOP_APP_DOWNLOAD_LINK_WINDOWS="https://gauzy.co/downloads#desktop/windows"
-ENV DESKTOP_APP_DOWNLOAD_LINK_LINUX="https://gauzy.co/downloads#desktop/linux"
-ENV MOBILE_APP_DOWNLOAD_LINK="https://gauzy.co/downloads#mobile"
-ENV EXTENSION_DOWNLOAD_LINK="https://gauzy.co/downloads#extensions"
+ENV PLATFORM_WEBSITE_URL="https://irtranscripts.com"
+ENV PLATFORM_WEBSITE_DOWNLOAD_URL="https://irtranscripts.com/downloads"
+ENV DESKTOP_APP_DOWNLOAD_LINK_APPLE="https://irtranscripts.com/downloads#desktop/apple"
+ENV DESKTOP_APP_DOWNLOAD_LINK_WINDOWS="https://irtranscripts.com/downloads#desktop/windows"
+ENV DESKTOP_APP_DOWNLOAD_LINK_LINUX="https://irtranscripts.com/downloads#desktop/linux"
+ENV MOBILE_APP_DOWNLOAD_LINK="https://irtranscripts.com/downloads#mobile"
+ENV EXTENSION_DOWNLOAD_LINK="https://irtranscripts.com/downloads#extensions"
 
 EXPOSE ${WEB_PORT}
 

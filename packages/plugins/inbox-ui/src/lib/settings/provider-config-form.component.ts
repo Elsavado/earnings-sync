@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input, model } from '@ang
 import { FormsModule } from '@angular/forms';
 import { NbCheckboxModule, NbInputModule, NbSelectModule, NbToggleModule } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
-import { IEmailProviderConfigSchema, IInboxProviderAccount } from '@gauzy/contracts';
+import { IEmailProviderConfigSchema, IInboxProviderAccount } from '@irtranscripts/contracts';
 import {
 	IProviderConfigError,
 	IProviderConfigField,

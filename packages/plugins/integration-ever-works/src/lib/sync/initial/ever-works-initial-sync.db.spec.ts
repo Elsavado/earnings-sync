@@ -11,7 +11,7 @@ const mockCaller: { tenantId: string | null; userId: string | null; organization
 	organizationId: null
 };
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	const entity = (name: string) => ({ [name]: class {} })[name];
 	class TaskUpdateCommand {
@@ -55,7 +55,7 @@ jest.mock('@gauzy/core', () => {
 		}
 	};
 });
-jest.mock('@gauzy/common', () => ({ Public: () => () => undefined }));
+jest.mock('@irtranscripts/common', () => ({ Public: () => () => undefined }));
 
 import 'reflect-metadata';
 import { randomBytes, randomUUID } from 'node:crypto';
@@ -76,7 +76,7 @@ import {
 	UserOrganization,
 	Employee,
 	EmployeeNotification
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { TestEverWorksClientFactory } from '../../client/ever-works-client.factory';
 import type { EverWorksHttpRequest } from '../../client/ever-works-transport';
 import { EverWorksConnection } from '../../connection/ever-works-connection.entity';
@@ -153,7 +153,7 @@ const pluginSchemas = [
 		disconnectedAt: date, leaseOwner: str(), leaseUntil: date, lastFeedPollAt: date, lastWebhookAt: date, resyncRequestedAt: date
 	}),
 	s('EverWorksEntityLink', EverWorksEntityLink, 'ever_works_entity_link', {
-		integrationTenantId: str(false), entityType: str(false), gauzyId: str(false), ewId: str(false), ewVersion: int(), ewUpdatedAt: date, gauzyUpdatedAt: date,
+		integrationTenantId: str(false), entityType: str(false), irtranscriptsId: str(false), ewId: str(false), ewVersion: int(), ewUpdatedAt: date, irtranscriptsUpdatedAt: date,
 		snapshot: txt(), ewOnly: txt(), lastDirection: str(), lastSyncedAt: date, state: str(false), lastError: txt()
 	}),
 	s('EverWorksInboundEvent', EverWorksInboundEvent, 'ever_works_inbound_event', {
@@ -162,11 +162,11 @@ const pluginSchemas = [
 		error: txt(), appliedAt: date
 	}),
 	s('EverWorksOutboundChange', EverWorksOutboundChange, 'ever_works_outbound_change', {
-		integrationTenantId: str(false), entityType: str(false), gauzyId: str(false), op: str(false), changedFieldsHint: txt(), actorUserId: str(), status: str(false),
+		integrationTenantId: str(false), entityType: str(false), irtranscriptsId: str(false), op: str(false), changedFieldsHint: txt(), actorUserId: str(), status: str(false),
 		attempts: int(false), availableAt: date, lastError: txt()
 	}),
 	s('EverWorksSyncLog', EverWorksSyncLog, 'ever_works_sync_log', {
-		integrationTenantId: str(), connectionId: str(), direction: str(false), entityType: str(), gauzyId: str(), ewId: str(), action: str(false), status: str(false),
+		integrationTenantId: str(), connectionId: str(), direction: str(false), entityType: str(), irtranscriptsId: str(), ewId: str(), action: str(false), status: str(false),
 		message: txt(), details: txt(), resolvedByUserId: str(), resolvedAt: date
 	}),
 	s('EverWorksSyncRun', EverWorksSyncRun, 'ever_works_sync_run', {
@@ -222,7 +222,7 @@ describe('Ever Works initial sync, resync and observability on SQLite', () => {
 	beforeAll(async () => {
 		process.env['ENCRYPTION_KEY'] = randomBytes(32).toString('base64');
 		dir = mkdtempSync(join(tmpdir(), 'ever-works-initial-'));
-		const file = join(dir, 'gauzy.sqlite');
+		const file = join(dir, 'irtranscripts.sqlite');
 		const core = new DataSource({ type: 'better-sqlite3', database: file, entities: coreSchemas, synchronize: true });
 		await core.initialize();
 		await core.destroy();
@@ -296,7 +296,7 @@ describe('Ever Works initial sync, resync and observability on SQLite', () => {
 			new TestEverWorksClientFactory(transport),
 			new EverWorksScopeService(dataSource),
 			new EverWorksNotifier(dataSource),
-			{ defaultApiUrl: null, appUrl: null, gauzyApiUrl: 'https://api.gauzy.example' }
+			{ defaultApiUrl: null, appUrl: null, irtranscriptsApiUrl: 'https://api.gauzy.example' }
 		);
 		store = new EverWorksInboundStore(dataSource);
 		log = new EverWorksSyncLogService(dataSource);
@@ -365,7 +365,7 @@ describe('Ever Works initial sync, resync and observability on SQLite', () => {
 			organizationId: A.organizationId,
 			integrationTenantId,
 			entityType: EverWorksLinkType.TEAM,
-			gauzyId: team.id,
+			irtranscriptsId: team.id,
 			ewId: 'ew-team-paired',
 			ewVersion: 2,
 			state: 'ok'
@@ -397,11 +397,11 @@ describe('Ever Works initial sync, resync and observability on SQLite', () => {
 		const byPhase = Object.fromEntries(preview.phases.map((p) => [p.phase, p]));
 		expect(byPhase['members']).toMatchObject({ supported: true, everWorks: { total: 1, linked: 0 }, toPair: { everWorks: 1 } });
 		// The private agent is never counted (nor imported).
-		expect(byPhase['agents']).toMatchObject({ supported: true, everWorks: { total: 2, linked: 0 }, creates: { inGauzy: 2, inEverWorks: 0 } });
-		expect(byPhase['teams']).toMatchObject({ supported: true, everWorks: { total: 2, linked: 1 }, gauzy: { total: 2, linked: 1 }, toPair: { everWorks: 1, gauzy: 1 } });
-		expect(byPhase['teams'].creates).toEqual({ inGauzy: 0, inEverWorks: 0 });
+		expect(byPhase['agents']).toMatchObject({ supported: true, everWorks: { total: 2, linked: 0 }, creates: { inIRTranscripts: 2, inEverWorks: 0 } });
+		expect(byPhase['teams']).toMatchObject({ supported: true, everWorks: { total: 2, linked: 1 }, irtranscripts: { total: 2, linked: 1 }, toPair: { everWorks: 1, irtranscripts: 1 } });
+		expect(byPhase['teams'].creates).toEqual({ inIRTranscripts: 0, inEverWorks: 0 });
 		// No task inbound handler in this test: tasks are only queued for Ever Works (both directions by default).
-		expect(byPhase['tasks']).toMatchObject({ supported: true, gauzy: { total: 2, linked: 0 }, creates: { inGauzy: 0, inEverWorks: 2 } });
+		expect(byPhase['tasks']).toMatchObject({ supported: true, irtranscripts: { total: 2, linked: 0 }, creates: { inIRTranscripts: 0, inEverWorks: 2 } });
 		expect(byPhase['works']).toMatchObject({ supported: false });
 		expect(byPhase['goals']).toMatchObject({ supported: false });
 		expect(await dataSource.getRepository(EverWorksInboundEvent).count()).toBe(0);
@@ -421,7 +421,7 @@ describe('Ever Works initial sync, resync and observability on SQLite', () => {
 		const preview = await initial.preview(integrationTenantId);
 		byPhase = Object.fromEntries(preview.phases.map((p) => [p.phase, p]));
 		expect(preview.directions).toMatchObject({ tasks: 'off', ideas: 'off', teams: 'both' });
-		expect(byPhase['tasks']).toMatchObject({ direction: 'off', supported: false, creates: { inGauzy: 0, inEverWorks: 0 } });
+		expect(byPhase['tasks']).toMatchObject({ direction: 'off', supported: false, creates: { inIRTranscripts: 0, inEverWorks: 0 } });
 		// A resync (the initial sync runs the same phases) reads and exports no task: by default it exports both.
 		const reads = listCalls['/tasks'] ?? 0;
 		const run = await initial.start(integrationTenantId, 'resync');
@@ -435,7 +435,7 @@ describe('Ever Works initial sync, resync and observability on SQLite', () => {
 	});
 
 	it('the dry run counts as creates only what a run creates (local e2e: idea tasks, stopped links)', async () => {
-		// An Idea task syncs as an Ever Works idea, never as a task; a record whose link stopped syncing (the Gauzy task
+		// An Idea task syncs as an Ever Works idea, never as a task; a record whose link stopped syncing (the IRTranscripts task
 		// was deleted, so Ever Works cancelled it) is known and is not created again.
 		// Every form the push treats as an idea (review on #11047): the name in any case, and the seeded type's id.
 		const ideaTypeId = randomUUID();
@@ -458,7 +458,7 @@ describe('Ever Works initial sync, resync and observability on SQLite', () => {
 			organizationId: A.organizationId,
 			integrationTenantId,
 			entityType: EverWorksLinkType.AGENT,
-			gauzyId: randomUUID(),
+			irtranscriptsId: randomUUID(),
 			ewId: 'agent-report',
 			ewVersion: 3,
 			state: 'unlinked'
@@ -466,11 +466,11 @@ describe('Ever Works initial sync, resync and observability on SQLite', () => {
 		const preview = await initial.preview(integrationTenantId);
 		const byPhase = Object.fromEntries(preview.phases.map((p) => [p.phase, p]));
 		// Two agents listed, none active-linked, one known through a stopped link: one is created.
-		expect(byPhase['agents']).toMatchObject({ everWorks: { total: 2, linked: 0 }, creates: { inGauzy: 1, inEverWorks: 0 } });
-		// Five Gauzy tasks, three of them ideas: two go to Ever Works as tasks.
-		expect(byPhase['tasks']).toMatchObject({ gauzy: { total: 2, linked: 0 }, creates: { inGauzy: 0, inEverWorks: 2 } });
+		expect(byPhase['agents']).toMatchObject({ everWorks: { total: 2, linked: 0 }, creates: { inIRTranscripts: 1, inEverWorks: 0 } });
+		// Five IRTranscripts tasks, three of them ideas: two go to Ever Works as tasks.
+		expect(byPhase['tasks']).toMatchObject({ irtranscripts: { total: 2, linked: 0 }, creates: { inIRTranscripts: 0, inEverWorks: 2 } });
 
-		// A Gauzy task whose link stopped syncing is not created again either (review on #11047).
+		// A IRTranscripts task whose link stopped syncing is not created again either (review on #11047).
 		const [stopped] = await dataSource.getRepository(Task).find({ where: { title: 'G task 1' } as never });
 		await dataSource.getRepository(EverWorksEntityLink).save({
 			id: randomUUID(),
@@ -478,13 +478,13 @@ describe('Ever Works initial sync, resync and observability on SQLite', () => {
 			organizationId: A.organizationId,
 			integrationTenantId,
 			entityType: EverWorksLinkType.TASK,
-			gauzyId: stopped.id,
+			irtranscriptsId: stopped.id,
 			ewId: 'ew-task-gone',
 			ewVersion: 2,
 			state: 'unlinked'
 		} as never);
 		const again = (await initial.preview(integrationTenantId)).phases.find((p) => p.phase === 'tasks');
-		expect(again).toMatchObject({ gauzy: { total: 2, linked: 0 }, creates: { inEverWorks: 1 } });
+		expect(again).toMatchObject({ irtranscripts: { total: 2, linked: 0 }, creates: { inEverWorks: 1 } });
 	});
 
 	it('runs the phases in order: agents parents first, paired teams refreshed and pushed, tasks queued, unsupported phases skipped', async () => {
@@ -673,7 +673,7 @@ describe('Ever Works initial sync, resync and observability on SQLite', () => {
 			organizationId: A.organizationId,
 			integrationTenantId,
 			entityType: EverWorksLinkType.TEAM,
-			gauzyId: team.id,
+			irtranscriptsId: team.id,
 			ewId: 'ew-team-new',
 			state: 'ok'
 		} as never);
@@ -876,17 +876,17 @@ describe('Ever Works initial sync, resync and observability on SQLite', () => {
 		await store.record(connection, env('e2', '2') as never, 'feed');
 		await dataSource.getRepository(EverWorksInboundEvent).update({ eventId: 'e1' } as never, { status: EverWorksInboundStatus.APPLIED } as never);
 		await dataSource.getRepository(EverWorksInboundEvent).update({ eventId: 'e2' } as never, { status: EverWorksInboundStatus.DEAD } as never);
-		await queue.enqueue({ tenantId: A.tenantId, organizationId: A.organizationId, entityType: EverWorksLinkType.TEAM, gauzyId: randomUUID() });
+		await queue.enqueue({ tenantId: A.tenantId, organizationId: A.organizationId, entityType: EverWorksLinkType.TEAM, irtranscriptsId: randomUUID() });
 		await conflicts.record({
 			tenantId: A.tenantId,
 			organizationId: A.organizationId,
 			integrationTenantId,
 			direction: 'inbound',
 			entityType: EverWorksLinkType.TEAM,
-			gauzyId: randomUUID(),
+			irtranscriptsId: randomUUID(),
 			ewId: 'ew-team-paired',
 			field: 'name',
-			gauzyValue: 'Platform',
+			irtranscriptsValue: 'Platform',
 			everWorksValue: 'Platform team',
 			winner: 'ever_works'
 		});
@@ -926,17 +926,17 @@ describe('Ever Works initial sync, resync and observability on SQLite', () => {
 	});
 
 	describe('conflicts', () => {
-		const teamConflict = async (gauzyId: string) =>
+		const teamConflict = async (irtranscriptsId: string) =>
 			conflicts.record({
 				tenantId: A.tenantId,
 				organizationId: A.organizationId,
 				integrationTenantId,
 				direction: 'inbound',
 				entityType: EverWorksLinkType.TEAM,
-				gauzyId,
+				irtranscriptsId,
 				ewId: 'ew-team-paired',
 				field: 'name',
-				gauzyValue: 'Platform',
+				irtranscriptsValue: 'Platform',
 				everWorksValue: 'Platform team',
 				winner: 'ever_works'
 			});
@@ -945,7 +945,7 @@ describe('Ever Works initial sync, resync and observability on SQLite', () => {
 			await teamConflict(randomUUID());
 			const open = await conflicts.list(integrationTenantId, {});
 			expect(open.items).toHaveLength(1);
-			expect(open.items[0]).toMatchObject({ resolved: false, canUseOther: true, details: { field: 'name', winner: 'ever_works', gauzyValue: 'Platform' } });
+			expect(open.items[0]).toMatchObject({ resolved: false, canUseOther: true, details: { field: 'name', winner: 'ever_works', irtranscriptsValue: 'Platform' } });
 			const resolved = await conflicts.resolve(integrationTenantId, open.items[0].id, 'keep');
 			expect(resolved).toMatchObject({ resolved: true, resolvedByUserId: A.userId, details: { resolution: 'keep' } });
 			await expect(conflicts.resolve(integrationTenantId, open.items[0].id, 'keep')).rejects.toBeInstanceOf(ConflictException);
@@ -953,18 +953,18 @@ describe('Ever Works initial sync, resync and observability on SQLite', () => {
 			expect((await conflicts.list(integrationTenantId, { state: 'resolved' })).items).toHaveLength(1);
 		});
 
-		it('"use the other value" writes the losing value into the Gauzy record and queues it for Ever Works', async () => {
+		it('"use the other value" writes the losing value into the IRTranscripts record and queues it for Ever Works', async () => {
 			const team = await dataSource.getRepository(OrganizationTeam).findOneOrFail({ where: { name: 'Platform' } as never });
 			await dataSource.getRepository(OrganizationTeam).update({ id: team.id } as never, { name: 'Platform team' } as never); // Ever Works won
 			await teamConflict(team.id as string);
 			const [conflict] = (await conflicts.list(integrationTenantId, {})).items;
 			await conflicts.resolve(integrationTenantId, conflict.id, 'use_other');
 			expect((await dataSource.getRepository(OrganizationTeam).findOneOrFail({ where: { id: team.id } as never })).name).toBe('Platform');
-			expect(await dataSource.getRepository(EverWorksOutboundChange).count({ where: { entityType: EverWorksLinkType.TEAM, gauzyId: team.id } as never })).toBe(1);
+			expect(await dataSource.getRepository(EverWorksOutboundChange).count({ where: { entityType: EverWorksLinkType.TEAM, irtranscriptsId: team.id } as never })).toBe(1);
 		});
 
 		it('a failing write gives the claim back: the conflict stays open', async () => {
-			await teamConflict(randomUUID()); // its Gauzy team does not exist: the write fails
+			await teamConflict(randomUUID()); // its IRTranscripts team does not exist: the write fails
 			const [conflict] = (await conflicts.list(integrationTenantId, {})).items;
 			await expect(conflicts.resolve(integrationTenantId, conflict.id, 'use_other')).rejects.toBeTruthy();
 			const [again] = (await conflicts.list(integrationTenantId, {})).items;
@@ -981,7 +981,7 @@ describe('Ever Works initial sync, resync and observability on SQLite', () => {
 			expect(results.filter((r) => r.status === 'fulfilled')).toHaveLength(1);
 			const resolved = (await conflicts.list(integrationTenantId, { state: 'resolved' })).items[0];
 			const name = (await dataSource.getRepository(OrganizationTeam).findOneOrFail({ where: { id: team.id } as never })).name;
-			// The value in Gauzy matches the resolution that won.
+			// The value in IRTranscripts matches the resolution that won.
 			expect(name).toBe(resolved.details?.resolution === 'use_other' ? 'Platform' : 'Platform team');
 		});
 
@@ -1014,12 +1014,12 @@ describe('Ever Works initial sync, resync and observability on SQLite', () => {
 				integrationTenantId,
 				direction: 'inbound',
 				entityType: EverWorksLinkType.TASK,
-				gauzyId: taskId,
+				irtranscriptsId: taskId,
 				ewId: 'ew-task-1',
 				field: 'title',
-				gauzyValue: 'Mine',
+				irtranscriptsValue: 'Mine',
 				everWorksValue: 'Theirs',
-				winner: 'gauzy'
+				winner: 'irtranscripts'
 			});
 			const [task] = (await conflicts.list(integrationTenantId, {})).items;
 			await conflicts.resolve(integrationTenantId, task.id, 'use_other');
@@ -1030,12 +1030,12 @@ describe('Ever Works initial sync, resync and observability on SQLite', () => {
 				integrationTenantId,
 				direction: 'inbound',
 				entityType: EverWorksLinkType.TASK,
-				gauzyId: taskId,
+				irtranscriptsId: taskId,
 				ewId: 'ew-task-1',
 				field: 'assignees',
-				gauzyValue: [],
+				irtranscriptsValue: [],
 				everWorksValue: ['x'],
-				winner: 'gauzy'
+				winner: 'irtranscripts'
 			});
 			const [other] = (await conflicts.list(integrationTenantId, {})).items;
 			expect(other.canUseOther).toBe(false);

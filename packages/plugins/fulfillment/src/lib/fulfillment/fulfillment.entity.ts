@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsEnum, IsInt, IsNotEmpty, IsOptional, IsString, IsUUID, MaxLength } from 'class-validator';
-import { FulfillmentDirection, FulfillmentStatusDetail, ID, IFulfillment } from '@gauzy/contracts';
+import { FulfillmentDirection, FulfillmentStatusDetail, ID, IFulfillment } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	JsonColumn,
@@ -9,7 +9,7 @@ import {
 	MultiORMOneToMany,
 	TenantOrganizationBaseEntity,
 	VersionedColumn
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { FulfillmentLine } from '../fulfillment-line/fulfillment-line.entity';
 import { MikroOrmFulfillmentRepository } from './repository/mikro-orm-fulfillment.repository';
 

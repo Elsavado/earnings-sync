@@ -13,7 +13,7 @@ import {
 	ITaskUpdateInput,
 	EntitySubscriptionTypeEnum,
 	IEmployee
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { RequestContext } from '../../../core/context';
 import { sanitizeRichHtml } from '../../../core/html-sanitizer';
 import { IntegrationMap, TaskStatus } from '../../../core/entities/internal';
@@ -78,10 +78,10 @@ export class AutomationTaskSyncHandler implements ICommandHandler<AutomationTask
 
 				// Try to find the corresponding task
 				try {
-					await this._taskService.findOneByIdString(integrationMap.gauzyId);
+					await this._taskService.findOneByIdString(integrationMap.irtranscriptsId);
 
 					// Update the corresponding task with the new input data
-					await this.updateTask(integrationMap.gauzyId, {
+					await this.updateTask(integrationMap.irtranscriptsId, {
 						...entity,
 						projectId,
 						organizationId,
@@ -93,7 +93,7 @@ export class AutomationTaskSyncHandler implements ICommandHandler<AutomationTask
 						{ projectId, organizationId, tenantId },
 						{
 							...entity,
-							id: integrationMap.gauzyId
+							id: integrationMap.irtranscriptsId
 						}
 					);
 				}
@@ -107,7 +107,7 @@ export class AutomationTaskSyncHandler implements ICommandHandler<AutomationTask
 				// Create a new integration map for the issue
 				return await this.typeOrmIntegrationMapRepository.save(
 					this.typeOrmIntegrationMapRepository.create({
-						gauzyId: task.id,
+						irtranscriptsId: task.id,
 						entity: command.entity,
 						integrationId,
 						sourceId,

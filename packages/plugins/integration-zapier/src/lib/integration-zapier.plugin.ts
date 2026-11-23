@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ApplicationPluginConfig, CustomEmbeddedFieldConfig } from '@gauzy/common';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@gauzy/plugin';
+import { ApplicationPluginConfig, CustomEmbeddedFieldConfig } from '@irtranscripts/common';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@irtranscripts/plugin';
 import { ZapierModule } from './zapier.module';
 import { ZapierWebhookSubscription } from './zapier-webhook-subscription.entity';
 
@@ -88,7 +88,7 @@ export class IntegrationZapierPlugin implements IOnPluginBootstrap, IOnPluginDes
 
 		if (!clientId || !clientSecret) {
 			this.logger.warn(
-				'Zapier OAuth credentials are not fully configured. Please set GAUZY_ZAPIER_CLIENT_ID and GAUZY_ZAPIER_CLIENT_SECRET.'
+				'Zapier OAuth credentials are not fully configured. Please set IRTRANSCRIPTS_ZAPIER_CLIENT_ID and IRTRANSCRIPTS_ZAPIER_CLIENT_SECRET.'
 			);
 		} else {
 			this.logger.log('Zapier OAuth credentials are configured successfully.');

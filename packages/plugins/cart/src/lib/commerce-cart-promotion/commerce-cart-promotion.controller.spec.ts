@@ -8,7 +8,7 @@
  * and never writes the body itself; the update refuses the discount and what it is attributed to, and still
  * passes any other member through.
  *
- * `@gauzy/core` and the two services are doubled at the module boundary, as the package's controller spec
+ * `@irtranscripts/core` and the two services are doubled at the module boundary, as the package's controller spec
  * doubles them: the routes are called directly and nothing here needs the application graph.
  */
 jest.mock('../commerce-cart/commerce-cart.service', () => ({ CommerceCartService: class CommerceCartService {} }));
@@ -16,7 +16,7 @@ jest.mock('./commerce-cart-promotion.service', () => ({
 	CommerceCartPromotionService: class CommerceCartPromotionService {}
 }));
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: nothing here is mapped onto a database or a module graph. */
 	const decorator = () => () => undefined;
 

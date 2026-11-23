@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm';
-import { getConfig } from '@gauzy/config';
-import { ITaskSize } from '@gauzy/contracts';
+import { getConfig } from '@irtranscripts/config';
+import { ITaskSize } from '@irtranscripts/contracts';
 import { cleanAssets, copyAssets } from './../../core/seeds/utils';
 import { DEFAULT_GLOBAL_SIZES } from './default-global-sizes';
 import { TaskSize } from './size.entity';

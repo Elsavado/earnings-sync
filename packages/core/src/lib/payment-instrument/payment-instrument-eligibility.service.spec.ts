@@ -49,8 +49,8 @@ jest.mock('../core/context/request-context', () => ({
 	}
 }));
 
-jest.mock('@gauzy/config', () => ({
-	...jest.requireActual('@gauzy/config'),
+jest.mock('@irtranscripts/config', () => ({
+	...jest.requireActual('@irtranscripts/config'),
 	isPostgres: () => true,
 	isMySQL: () => false
 }));
@@ -61,7 +61,7 @@ import {
 	PaymentInstrumentRefusalReason,
 	PaymentMethodTokenStatus,
 	PaymentMethodTokenType
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { PaymentAccountHolder } from '../payment-account-holder/payment-account-holder.entity';
 import { PaymentAccountHolderService } from '../payment-account-holder/payment-account-holder.service';
 import { PaymentMethodToken } from '../payment-method-token/payment-method-token.entity';

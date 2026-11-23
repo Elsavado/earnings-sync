@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Not } from 'typeorm';
-import { IEmployee, IOrganization, ITenant } from '@gauzy/contracts';
-import { getDefaultOrganizations, getDefaultEmployees, SeedDataService, Tenant, Employee, parseFindOptionsRelations } from '@gauzy/core';
+import { IEmployee, IOrganization, ITenant } from '@irtranscripts/contracts';
+import { getDefaultOrganizations, getDefaultEmployees, SeedDataService, Tenant, Employee, parseFindOptionsRelations } from '@irtranscripts/core';
 import { createHelpCenter } from './help-center';
 import { createHelpCenterArticle } from './help-center-article/help-center-article.seed';
 import { createDefaultHelpCenterAuthor, createRandomHelpCenterAuthor } from './help-center-author';

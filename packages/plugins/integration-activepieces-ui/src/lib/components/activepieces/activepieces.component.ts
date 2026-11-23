@@ -4,9 +4,9 @@ import { NbMenuItem, NbRouteTab } from '@nebular/theme';
 import { filter, tap } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ID, IOrganization } from '@gauzy/contracts';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { Store, ActivepiecesStoreService } from '@gauzy/ui-core/core';
+import { ID, IOrganization } from '@irtranscripts/contracts';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { Store, ActivepiecesStoreService } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

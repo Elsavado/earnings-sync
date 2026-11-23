@@ -128,7 +128,7 @@ jobs:
         env:
           RELEASE_TAG: ${{ steps.resolve.outputs.tag }}
           RELEASE_OWNER: 'ever-co'
-          RELEASE_REPO: 'ever-gauzy-server'
+          RELEASE_REPO: 'ever-irtranscripts-server'
           RELEASE_TYPE: 'prerelease'
         with:
           # The PAT the build jobs publish with; this job's own GITHUB_TOKEN is read-only.
@@ -288,21 +288,21 @@ jobs:
             const script = require('./.scripts/bump-version-electron.js')
             console.log(script.server(false))
         env:
-          GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
+          IRTRANSCRIPTS_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
           PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
-          DESKTOP_SERVER_APP_NAME: 'gauzy-server'
-          DESKTOP_SERVER_REPO_NAME: 'ever-gauzy-server'
+          DESKTOP_SERVER_APP_NAME: 'irtranscripts-server'
+          DESKTOP_SERVER_REPO_NAME: 'ever-irtranscripts-server'
           DESKTOP_SERVER_REPO_OWNER: 'ever-co'
-          COMPANY_SITE_LINK: 'https://gauzy.co'
-          DESKTOP_SERVER_APP_DESCRIPTION: 'Gauzy Server'
-          DESKTOP_SERVER_APP_ID: 'com.ever.gauzyserver'
+          COMPANY_SITE_LINK: 'https://irtranscripts.com'
+          DESKTOP_SERVER_APP_DESCRIPTION: 'IRTranscripts Server'
+          DESKTOP_SERVER_APP_ID: 'com.ever.irtranscriptsserver'
 
       - name: Ensure dist directory exists
         shell: bash
         run: mkdir -p dist/packages
 
       - name: Build Server
-        run: 'yarn build:gauzy-server:prepare'
+        run: 'yarn build:irtranscripts-server:prepare'
         env:
           USE_HARD_LINKS: false
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -318,7 +318,7 @@ jobs:
           NX_DAEMON: false
 
       - name: Build Server Web
-        run: 'yarn build:gauzy-server:web'
+        run: 'yarn build:irtranscripts-server:web'
         env:
           USE_HARD_LINKS: false
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -337,7 +337,7 @@ jobs:
         # Snap Store channel: prod ('apps') releases to 'stable', stage ('stage-apps') to 'edge' (the
         # electron-builder default). yarn appends these flags to the script's last command, the
         # electron-builder call. Override snap.publish only: a -c.publish override lands in the GitHub entry.
-        run: 'yarn build:gauzy-server:linux:release:gh:x64:isolated -c.snap.publish.provider=snapStore -c.snap.publish.channels=edge'
+        run: 'yarn build:irtranscripts-server:linux:release:gh:x64:isolated -c.snap.publish.provider=snapStore -c.snap.publish.channels=edge'
         env:
           USE_HARD_LINKS: false
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -586,21 +586,21 @@ jobs:
             const script = require('./.scripts/bump-version-electron.js')
             console.log(script.server(false))
         env:
-          GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
+          IRTRANSCRIPTS_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
           PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
-          DESKTOP_SERVER_APP_NAME: 'gauzy-server'
-          DESKTOP_SERVER_REPO_NAME: 'ever-gauzy-server'
+          DESKTOP_SERVER_APP_NAME: 'irtranscripts-server'
+          DESKTOP_SERVER_REPO_NAME: 'ever-irtranscripts-server'
           DESKTOP_SERVER_REPO_OWNER: 'ever-co'
-          COMPANY_SITE_LINK: 'https://gauzy.co'
-          DESKTOP_SERVER_APP_DESCRIPTION: 'Gauzy Server'
-          DESKTOP_SERVER_APP_ID: 'com.ever.gauzyserver'
+          COMPANY_SITE_LINK: 'https://irtranscripts.com'
+          DESKTOP_SERVER_APP_DESCRIPTION: 'IRTranscripts Server'
+          DESKTOP_SERVER_APP_ID: 'com.ever.irtranscriptsserver'
 
       - name: Ensure dist directory exists
         shell: bash
         run: mkdir -p dist/packages
 
       - name: Build Server
-        run: 'yarn build:gauzy-server:prepare'
+        run: 'yarn build:irtranscripts-server:prepare'
         env:
           USE_HARD_LINKS: false
           USE_SYSTEM_FPM: true
@@ -617,7 +617,7 @@ jobs:
           NX_DAEMON: false
 
       - name: Build Server Web
-        run: 'yarn build:gauzy-server:web'
+        run: 'yarn build:irtranscripts-server:web'
         env:
           USE_HARD_LINKS: false
           USE_SYSTEM_FPM: true
@@ -637,7 +637,7 @@ jobs:
         # Snap Store channel: prod ('apps') releases to 'stable', stage ('stage-apps') to 'edge' (the
         # electron-builder default). yarn appends these flags to the script's last command, the
         # electron-builder call. Override snap.publish only: a -c.publish override lands in the GitHub entry.
-        run: 'yarn build:gauzy-server:linux:release:gh:arm64:isolated -c.snap.publish.provider=snapStore -c.snap.publish.channels=edge'
+        run: 'yarn build:irtranscripts-server:linux:release:gh:arm64:isolated -c.snap.publish.provider=snapStore -c.snap.publish.channels=edge'
         env:
           USE_HARD_LINKS: false
           USE_SYSTEM_FPM: true
@@ -817,14 +817,14 @@ jobs:
             const script = require('./.scripts/bump-version-electron.js')
             console.log(script.server(false))
         env:
-          GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
+          IRTRANSCRIPTS_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
           PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
-          DESKTOP_SERVER_APP_NAME: 'gauzy-server'
-          DESKTOP_SERVER_REPO_NAME: 'ever-gauzy-server'
+          DESKTOP_SERVER_APP_NAME: 'irtranscripts-server'
+          DESKTOP_SERVER_REPO_NAME: 'ever-irtranscripts-server'
           DESKTOP_SERVER_REPO_OWNER: 'ever-co'
-          COMPANY_SITE_LINK: 'https://gauzy.co'
-          DESKTOP_SERVER_APP_DESCRIPTION: 'Gauzy Server'
-          DESKTOP_SERVER_APP_ID: 'com.ever.gauzyserver'
+          COMPANY_SITE_LINK: 'https://irtranscripts.com'
+          DESKTOP_SERVER_APP_DESCRIPTION: 'IRTranscripts Server'
+          DESKTOP_SERVER_APP_ID: 'com.ever.irtranscriptsserver'
 
       - name: Prepare Apple API Key
         run: |
@@ -865,7 +865,7 @@ jobs:
           grep -q "Developer ID Application" /tmp/identities.txt
 
       - name: Build Server
-        run: 'yarn build:gauzy-server:prepare'
+        run: 'yarn build:irtranscripts-server:prepare'
         env:
           USE_HARD_LINKS: false
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -881,7 +881,7 @@ jobs:
           NX_DAEMON: false
 
       - name: Build Server Web
-        run: 'yarn build:gauzy-server:web'
+        run: 'yarn build:irtranscripts-server:web'
         env:
           USE_HARD_LINKS: false
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -897,7 +897,7 @@ jobs:
           NX_DAEMON: false
 
       - name: Build Server App
-        run: 'yarn build:gauzy-server:mac:release:isolated'
+        run: 'yarn build:irtranscripts-server:mac:release:isolated'
         env:
           USE_HARD_LINKS: false
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -935,7 +935,7 @@ jobs:
         with:
           token: ${{ secrets.GH_TOKEN }}
           owner: 'ever-co'
-          repo: 'ever-gauzy-server'
+          repo: 'ever-irtranscripts-server'
           tag: ${{ needs.check-release-tag.outputs.tag }}
           app-package-json: 'apps/server/src/package.json'
 
@@ -1180,14 +1180,14 @@ jobs:
           AZURE_CERT_PROFILE_NAME: ${{ secrets.AZURE_CERT_PROFILE_NAME }}
           AZURE_CODE_SIGNING_ACCOUNT: ${{ vars.AZURE_CODE_SIGNING_ACCOUNT || 'ever' }}
           AZURE_CODE_SIGNING_ENDPOINT: ${{ vars.AZURE_CODE_SIGNING_ENDPOINT || 'https://eus.codesigning.azure.net/' }}
-          GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
+          IRTRANSCRIPTS_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
           PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
-          DESKTOP_SERVER_APP_NAME: 'gauzy-server'
-          DESKTOP_SERVER_REPO_NAME: 'ever-gauzy-server'
+          DESKTOP_SERVER_APP_NAME: 'irtranscripts-server'
+          DESKTOP_SERVER_REPO_NAME: 'ever-irtranscripts-server'
           DESKTOP_SERVER_REPO_OWNER: 'ever-co'
-          COMPANY_SITE_LINK: 'https://gauzy.co'
-          DESKTOP_SERVER_APP_DESCRIPTION: 'Gauzy Server'
-          DESKTOP_SERVER_APP_ID: 'com.ever.gauzyserver'
+          COMPANY_SITE_LINK: 'https://irtranscripts.com'
+          DESKTOP_SERVER_APP_DESCRIPTION: 'IRTranscripts Server'
+          DESKTOP_SERVER_APP_ID: 'com.ever.irtranscriptsserver'
 
       - name: Fix Node.js PATH for child processes
         shell: powershell
@@ -1246,7 +1246,7 @@ jobs:
 
       - name: Build Server
         shell: cmd
-        run: 'yarn build:gauzy-server:prepare'
+        run: 'yarn build:irtranscripts-server:prepare'
         env:
           USE_HARD_LINKS: false
           ELECTRON_BUILDER_CACHE: ${{ github.workspace }}\.cache\electron-builder
@@ -1264,7 +1264,7 @@ jobs:
 
       - name: Build Server Web
         shell: cmd
-        run: 'yarn build:gauzy-server:web'
+        run: 'yarn build:irtranscripts-server:web'
         env:
           USE_HARD_LINKS: false
           ELECTRON_BUILDER_CACHE: ${{ github.workspace }}\.cache\electron-builder
@@ -1282,7 +1282,7 @@ jobs:
 
       - name: Build Server App
         shell: cmd
-        run: 'yarn build:gauzy-server:windows:release:gh:x64:isolated'
+        run: 'yarn build:irtranscripts-server:windows:release:gh:x64:isolated'
         env:
           USE_HARD_LINKS: false
           ELECTRON_BUILDER_CACHE: ${{ github.workspace }}\.cache\electron-builder
@@ -1575,14 +1575,14 @@ jobs:
           # "SignTool failed with exit code 3", taking the whole build down. Without
           # WINDOWS_PUBLISHER_NAME the bump script emits no signer, so ARM64 builds
           # unsigned and succeeds; electron-updater verification stays off for it. x64 signs.
-          GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
+          IRTRANSCRIPTS_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
           PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
-          DESKTOP_SERVER_APP_NAME: 'gauzy-server'
-          DESKTOP_SERVER_REPO_NAME: 'ever-gauzy-server'
+          DESKTOP_SERVER_APP_NAME: 'irtranscripts-server'
+          DESKTOP_SERVER_REPO_NAME: 'ever-irtranscripts-server'
           DESKTOP_SERVER_REPO_OWNER: 'ever-co'
-          COMPANY_SITE_LINK: 'https://gauzy.co'
-          DESKTOP_SERVER_APP_DESCRIPTION: 'Gauzy Server'
-          DESKTOP_SERVER_APP_ID: 'com.ever.gauzyserver'
+          COMPANY_SITE_LINK: 'https://irtranscripts.com'
+          DESKTOP_SERVER_APP_DESCRIPTION: 'IRTranscripts Server'
+          DESKTOP_SERVER_APP_ID: 'com.ever.irtranscriptsserver'
 
       - name: Fix Node.js PATH for child processes
         shell: powershell
@@ -1637,7 +1637,7 @@ jobs:
 
       - name: Build Server
         shell: cmd
-        run: yarn build:gauzy-server:prepare
+        run: yarn build:irtranscripts-server:prepare
         env:
           USE_HARD_LINKS: false
           ELECTRON_BUILDER_CACHE: ${{ github.workspace }}\.cache\electron-builder
@@ -1655,7 +1655,7 @@ jobs:
 
       - name: Build Server Web
         shell: cmd
-        run: yarn build:gauzy-server:web
+        run: yarn build:irtranscripts-server:web
         env:
           USE_HARD_LINKS: false
           ELECTRON_BUILDER_CACHE: ${{ github.workspace }}\.cache\electron-builder
@@ -1673,7 +1673,7 @@ jobs:
 
       - name: Build Server App
         shell: cmd
-        run: yarn build:gauzy-server:windows:release:gh:arm64:isolated
+        run: yarn build:irtranscripts-server:windows:release:gh:arm64:isolated
         env:
           USE_HARD_LINKS: false
           ELECTRON_BUILDER_CACHE: ${{ github.workspace }}\.cache\electron-builder

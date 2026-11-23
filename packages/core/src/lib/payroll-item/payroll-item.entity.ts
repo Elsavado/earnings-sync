@@ -8,7 +8,7 @@ import {
 	IPayrollRun,
 	PayrollItemCategoryEnum,
 	PayrollItemTypeEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { Employee, TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from './../core/decorators/entity';
 import { ColumnNumericTransformerPipe } from './../shared/pipes';

@@ -7,7 +7,7 @@ import {
 	TimerTO,
 	ScreenshotService,
     Screenshot,
-} from '@gauzy/desktop-lib';
+} from '@irtranscripts/desktop-lib';
 import {
 	KbMouseActivityPool,
 	TMouseEvents,
@@ -17,7 +17,7 @@ import {
 	IScreenshotQueuePayload,
 	ITimeslotQueuePayload,
 	ITimerCallbackPayload
-} from '@gauzy/desktop-activity';
+} from '@irtranscripts/desktop-activity';
 import { ApiService, TResponseTimeSlot } from '../api';
 import { getAuthConfig, TAuthConfig, getInitialConfig, getProjectConfig } from '../util';
 import * as moment from 'moment';
@@ -27,7 +27,7 @@ import * as fs from 'node:fs';
 import MainEvent from '../events/events';
 import { MAIN_EVENT, MAIN_EVENT_TYPE } from '../../constant';
 import { WorkerQueue } from '../queue/worker-queue';
-import { TaskStatusEnum } from '@gauzy/contracts';
+import { TaskStatusEnum } from '@irtranscripts/contracts';
 
 type TParamsActivities = Omit<TimeSlotActivities, 'recordedAt'> & { recordedAt: string };
 

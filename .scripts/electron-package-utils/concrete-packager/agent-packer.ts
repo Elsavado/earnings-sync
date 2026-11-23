@@ -13,7 +13,7 @@ export class AgentPackager extends BasePackager {
 			env.AGENT_APP_DESCRIPTION || pkg.build.productName;
 		pkg.build.linux.executableName =
 			env.AGENT_APP_NAME || pkg.build.linux.executableName;
-		const protocol = env.AGENT_APP_PROTOCOL || 'gauzy-agent';
+		const protocol = env.AGENT_APP_PROTOCOL || 'irtranscripts-agent';
 		return this.registerProtocol(pkg, protocol);
 	}
 }

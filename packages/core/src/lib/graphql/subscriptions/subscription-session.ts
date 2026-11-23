@@ -659,7 +659,7 @@ export class SubscriptionSession {
 }
 
 /** Where a socket operation's request carries the session of its connection. */
-const SUBSCRIPTION_SESSION = Symbol('gauzySubscriptionSession');
+const SUBSCRIPTION_SESSION = Symbol('irtranscriptsSubscriptionSession');
 
 /**
  * Hands a socket operation's request the session of its connection.

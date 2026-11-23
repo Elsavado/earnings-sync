@@ -5,7 +5,7 @@
  * another member's PRIVATE copy: proof that someone in the organization keeps it. It now runs under the documents'
  * read rule (visibility, ownership, `DOCS_MANAGE`, shares), the predicate every list uses.
  */
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	FileStorage: class {},
 	RequestContext: {
 		currentTenantId: () => 'tenant-1',
@@ -21,7 +21,7 @@ jest.mock('./document-quota.service', () => ({ DocumentQuotaService: class {} })
 jest.mock('./document-processing.service', () => ({ DocumentProcessingService: class {} }));
 jest.mock('../dto', () => ({}));
 
-import { DocumentKindEnum } from '@gauzy/contracts';
+import { DocumentKindEnum } from '@irtranscripts/contracts';
 import { DocumentUploadService } from './document-upload.service';
 
 function build(twin: { id: string } | null) {

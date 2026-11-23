@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { API_PREFIX, toParams } from '@gauzy/ui-core/common';
+import { API_PREFIX, toParams } from '@irtranscripts/ui-core/common';
 import { map, Observable, shareReplay } from 'rxjs';
 
 // Plugin settings interfaces

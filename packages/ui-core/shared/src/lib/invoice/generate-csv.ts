@@ -3,8 +3,8 @@ import { saveAs } from 'file-saver';
 /**
  * Leading characters a spreadsheet may treat as the start of a formula, plus their full-width forms.
  *
- * Kept in step with `neutralizeSpreadsheetCell` in `@gauzy/utils` (packages/utils/src/lib/spreadsheet-safe.ts).
- * `@gauzy/ui-core` does not depend on `@gauzy/utils`, and that barrel pulls in Node's `crypto`, so the
+ * Kept in step with `neutralizeSpreadsheetCell` in `@irtranscripts/utils` (packages/utils/src/lib/spreadsheet-safe.ts).
+ * `@irtranscripts/ui-core` does not depend on `@irtranscripts/utils`, and that barrel pulls in Node's `crypto`, so the
  * few lines are copied here rather than imported into the browser bundle.
  */
 const FORMULA_TRIGGER = /^[=+\-@\t\r＝＋－＠]/;

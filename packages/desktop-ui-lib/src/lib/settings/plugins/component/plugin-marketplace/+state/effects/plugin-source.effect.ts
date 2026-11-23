@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ID, IPlugin, IPluginSource, IPluginVersion } from '@gauzy/contracts';
+import { ID, IPlugin, IPluginSource, IPluginVersion } from '@irtranscripts/contracts';
 import { NbDialogService } from '@nebular/theme';
 import { createEffect, ofType } from '@ngneat/effects';
 import { Actions } from '@ngneat/effects-ng';

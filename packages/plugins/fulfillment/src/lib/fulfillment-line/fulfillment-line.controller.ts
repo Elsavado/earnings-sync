@@ -9,7 +9,7 @@ import {
 	TenantPermissionGuard,
 	UseValidationPipe,
 	UUIDValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { FulfillmentLine } from './fulfillment-line.entity';
 import { FulfillmentLineService } from './fulfillment-line.service';
 import { FulfillmentService } from '../fulfillment/fulfillment.service';

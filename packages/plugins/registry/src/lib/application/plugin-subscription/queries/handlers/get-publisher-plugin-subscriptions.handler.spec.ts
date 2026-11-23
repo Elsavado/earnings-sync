@@ -1,6 +1,6 @@
-// `@gauzy/core` and the registry's barrels drag in the entity graph; the handler and the service method only need the
+// `@irtranscripts/core` and the registry's barrels drag in the entity graph; the handler and the service method only need the
 // repository they read through.
-jest.mock('@gauzy/core', () => ({ parseFindOptionsRelations: (relations: unknown) => relations }));
+jest.mock('@irtranscripts/core', () => ({ parseFindOptionsRelations: (relations: unknown) => relations }));
 jest.mock('../../../../domain', () => ({ PluginSubscriptionService: class PluginSubscriptionService {} }));
 jest.mock('../../../../shared', () => ({}));
 jest.mock('../../../../domain/services/registry-crud.service', () => ({

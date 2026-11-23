@@ -1,6 +1,6 @@
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
-import { EmployeeSettingDataOperationEnum } from '@gauzy/contracts';
+import { EmployeeSettingDataOperationEnum } from '@irtranscripts/contracts';
 import { EmployeeSettingDataOperationDTO } from './patch-employee-setting-data.dto';
 
 /** The validation errors of one operation, by property. */

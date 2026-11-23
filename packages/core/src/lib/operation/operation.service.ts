@@ -13,8 +13,8 @@ import {
 	QueryOrder,
 	ReferenceKind
 } from '@mikro-orm/core';
-import { isMySQL, isPostgres } from '@gauzy/config';
-import { ID, IOperationError, OperationStatus, OperationStepStatus } from '@gauzy/contracts';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
+import { ID, IOperationError, OperationStatus, OperationStepStatus } from '@irtranscripts/contracts';
 import { CrudService } from '../core/crud/crud.service';
 import { RequestContext } from '../core/context/request-context';
 import { isUniqueViolation } from '../core/errors/unique-violation';

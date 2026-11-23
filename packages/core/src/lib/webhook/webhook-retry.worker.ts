@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Job } from 'bullmq';
-import { QueueJobHandler, QueueWorker, QueueWorkerHost } from '@gauzy/scheduler';
-import type { ID } from '@gauzy/contracts';
+import { QueueJobHandler, QueueWorker, QueueWorkerHost } from '@irtranscripts/scheduler';
+import type { ID } from '@irtranscripts/contracts';
 import { WEBHOOK_QUEUE_NAME, WEBHOOK_RETRY_BATCH_SIZE, WEBHOOK_RETRY_JOB } from './webhook-constant';
 import type { WebhookDelivery } from './webhook-delivery.entity';
 import { WebhookDeliveryService } from './webhook-delivery.service';

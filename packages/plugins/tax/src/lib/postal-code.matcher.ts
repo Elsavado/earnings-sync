@@ -1,5 +1,5 @@
 import { BadRequestException, Logger } from '@nestjs/common';
-import { PatternSafetyOptions, isSafePattern, sanitizeRegExp } from '@gauzy/core';
+import { PatternSafetyOptions, isSafePattern, sanitizeRegExp } from '@irtranscripts/core';
 
 /**
  * The one place that decides what a stored postal-code pattern means.

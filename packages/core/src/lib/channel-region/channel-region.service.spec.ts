@@ -49,15 +49,15 @@ jest.mock('../core/context/request-context', () => ({
 	}
 }));
 
-jest.mock('@gauzy/config', () => ({
-	...jest.requireActual('@gauzy/config'),
+jest.mock('@irtranscripts/config', () => ({
+	...jest.requireActual('@irtranscripts/config'),
 	// The suite runs as Postgres so the row lock the fallback path takes is the statement a production
 	// deployment issues, rather than the embedded dialect's no-op.
 	isPostgres: () => true,
 	isMySQL: () => false
 }));
 
-import { ChannelStatus } from '@gauzy/contracts';
+import { ChannelStatus } from '@irtranscripts/contracts';
 import { Channel } from '../channel/channel.entity';
 import { Region } from '../region/region.entity';
 import { RegionService } from '../region/region.service';

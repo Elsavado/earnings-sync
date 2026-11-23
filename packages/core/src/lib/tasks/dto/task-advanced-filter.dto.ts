@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, TransformFnParams, Type } from 'class-transformer';
 import { ArrayMaxSize, IsArray, IsBoolean, IsDate, IsEnum, IsOptional, IsUUID } from 'class-validator';
-import { ID, ITaskAdvancedFilter, TaskPriorityEnum, TaskStatusEnum } from '@gauzy/contracts';
+import { ID, ITaskAdvancedFilter, TaskPriorityEnum, TaskStatusEnum } from '@irtranscripts/contracts';
 
 export class TaskAdvancedFilterDTO implements ITaskAdvancedFilter {
 	@ApiPropertyOptional({ type: Array })

@@ -1,7 +1,7 @@
 import { ActivatedRouteSnapshot, ResolveFn, Router } from '@angular/router';
 import { catchError, EMPTY, map, Observable } from 'rxjs';
 import { inject } from '@angular/core';
-import { IIntegrationSetting, IIntegrationTenant } from '@gauzy/contracts';
+import { IIntegrationSetting, IIntegrationTenant } from '@irtranscripts/contracts';
 import { IntegrationsService } from '../services/integration/integrations.service';
 
 /**

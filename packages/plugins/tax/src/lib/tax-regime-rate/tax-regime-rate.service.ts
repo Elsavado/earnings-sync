@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { DeepPartial, In } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { LegacyFindOneOptions, RequestContext, TenantAwareCrudService } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { LegacyFindOneOptions, RequestContext, TenantAwareCrudService } from '@irtranscripts/core';
 import { confiningOrganizationId } from '../organization-boundary';
 import { inCallerOrganization } from '../write-rules';
 import { TaxRegimeRate } from './tax-regime-rate.entity';

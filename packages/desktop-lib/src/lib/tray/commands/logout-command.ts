@@ -1,4 +1,4 @@
-import { RegisteredWindow } from '@gauzy/desktop-core';
+import { RegisteredWindow } from '@irtranscripts/desktop-core';
 import { handleLogoutDialog } from '../../desktop-ipc';
 import { IConfigStore, IWindowService } from '../interfaces';
 import { MenuCommand } from './menu-command';

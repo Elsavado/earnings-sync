@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { NbIconModule } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
-import { IChangelog } from '@gauzy/contracts';
+import { IChangelog } from '@irtranscripts/contracts';
 
 /**
  * One "What's New" card. Shared by the changelog sidebar and the login page

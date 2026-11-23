@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { In } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { RequestContext, TenantSettingService, prepareSQLQuery as p } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { RequestContext, TenantSettingService, prepareSQLQuery as p } from '@irtranscripts/core';
 import { getDocsConfig } from '../docs.config';
 import { DOCS_SETTING_PREFIX, DOCS_SETTING_QUOTA_BYTES } from '../docs.constants';
 import { TypeOrmDocumentRepository } from '../repositories/type-orm-document.repository';
@@ -11,7 +11,7 @@ import { IDocumentQuotaState, buildQuotaState, isQuotaExceeded, resolveQuotaByte
  * Per-organization storage quota (`08-permissions-security.md` §5.7).
  *
  * - Effective quota = org setting `docs.<organizationId>.quotaBytes` when present, else the
- *   deployment default `GAUZY_DOCS_ORG_QUOTA_BYTES`. **`0`/unset = unlimited.**
+ *   deployment default `IRTRANSCRIPTS_DOCS_ORG_QUOTA_BYTES`. **`0`/unset = unlimited.**
  * - Usage = `SUM(fileSize)` over **all non-purged** documents of the organization —
  *   archived and soft-deleted (trashed) rows included, because their bytes still exist in
  *   the storage provider.

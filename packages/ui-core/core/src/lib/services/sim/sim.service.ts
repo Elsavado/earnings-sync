@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ID, IIntegrationTenant } from '@gauzy/contracts';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { ID, IIntegrationTenant } from '@irtranscripts/contracts';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 
 /**
  * Represents a single SIM workflow execution record.

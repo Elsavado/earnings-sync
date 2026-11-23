@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject, of, Subject, throwError } from 'rxjs';
-import { IInboxItemWithState, InboxItemKindEnum, InboxItemStatusEnum, InboxTabEnum } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
+import { IInboxItemWithState, InboxItemKindEnum, InboxItemStatusEnum, InboxTabEnum } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
 import { InboxEmailAvailabilityService } from '../../services/inbox-email-availability.service';
 import { InboxNotificationsService, InboxUiService } from '../../services/inbox-ui.service';
 import { apiMessage, InboxPageComponent } from './inbox-page.component';
@@ -10,7 +10,7 @@ const item = (id: string, overrides: Partial<IInboxItemWithState> = {}): IInboxI
 	({
 		id,
 		kind: InboxItemKindEnum.QUESTION,
-		source: 'GAUZY',
+		source: 'IRTRANSCRIPTS',
 		status: InboxItemStatusEnum.OPEN,
 		title: `Item ${id}`,
 		priority: 'normal',

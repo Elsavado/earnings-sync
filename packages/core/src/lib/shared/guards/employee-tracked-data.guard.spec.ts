@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { BadRequestException, ExecutionContext, ForbiddenException } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { buildSchema } from 'graphql';
-import { PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../core/context';
 import { canViewTrackedData, EmployeeTrackedDataGuard } from './employee-tracked-data.guard';
 

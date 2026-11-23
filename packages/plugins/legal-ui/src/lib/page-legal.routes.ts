@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { PageRouteRegistryService } from '@gauzy/ui-core/core';
+import { PageRouteRegistryService } from '@irtranscripts/ui-core/core';
 import { TermsAndConditionsComponent } from './components/terms-and-conditions/terms-and-conditions.component';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 

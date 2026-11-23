@@ -13,7 +13,7 @@ import {
 	IProductVariantSetting,
 	IProductOptionTranslatable,
 	IWarehouseProductVariant
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	IsBoolean,
 	IsEnum,

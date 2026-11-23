@@ -4,7 +4,7 @@ import { randomUUID } from 'node:crypto';
 import { DataSource, EntitySchema, Repository } from 'typeorm';
 import { EntitySchema as MikroEntitySchema, MikroORM } from '@mikro-orm/core';
 import { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
-import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@gauzy/config';
+import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@irtranscripts/config';
 import { MultiORMEnum } from '../utils';
 import { connectionFromOffsetPage, encodeOffsetCursor, resolveConnectionWindow } from '../../api/graphql-connection';
 import { CrudService } from './crud.service';

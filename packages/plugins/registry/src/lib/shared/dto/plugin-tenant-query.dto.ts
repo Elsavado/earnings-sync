@@ -1,4 +1,4 @@
-import { ID, PluginScope } from '@gauzy/contracts';
+import { ID, PluginScope } from '@irtranscripts/contracts';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsBoolean, IsEnum, IsOptional, IsUUID } from 'class-validator';

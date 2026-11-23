@@ -8,7 +8,7 @@ import {
 	IIntegrationEntitySetting,
 	IIntegrationTenant,
 	IntegrationEntity
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 export interface IJobMatchingEntity {
 	previousValue: IIntegrationEntitySetting | null;

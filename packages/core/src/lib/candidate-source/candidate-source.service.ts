@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ICandidateSource } from '@gauzy/contracts';
+import { ICandidateSource } from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from './../core/crud';
 import { TypeOrmCandidateSourceRepository } from './repository/type-orm-candidate-source.repository';
 import { MikroOrmCandidateSourceRepository } from './repository/mikro-orm-candidate-source.repository';

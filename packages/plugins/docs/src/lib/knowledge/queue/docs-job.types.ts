@@ -1,4 +1,4 @@
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 /**
  * Why a pipeline job was enqueued. `chunk`/`index` branch on it; every other stage logs it.

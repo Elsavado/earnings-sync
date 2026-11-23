@@ -1,7 +1,7 @@
 // cspell:ignore ESERVFAIL
 /**
  * Mailbox management (G-P4-1) on a real database (better-sqlite3): platform addresses allocated on
- * `GAUZY_INBOX_DOMAIN` (organization in the local part, numeric suffix on a collision), one namespace with the Docs
+ * `IRTRANSCRIPTS_INBOX_DOMAIN` (organization in the local part, numeric suffix on a collision), one namespace with the Docs
  * capture addresses, custom domains (reserved domains refused, an inbound account required, DNS TXT verification),
  * forwarding, members of shared mailboxes, provisioning (agents skipped, idempotent), the auto-provisioning setting and
  * the employee-created hook, the relay secret, and "my mailboxes".
@@ -13,7 +13,7 @@ const mockCaller: {
 	permissions: string[];
 } = { tenantId: null, userId: null, organizationId: null, permissions: [] };
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	class BaseEntity {}
 	class UserOrganization {}
@@ -48,8 +48,8 @@ import {
 	InboxMailboxOwnerTypeEnum,
 	InboxProviderAccountScopeEnum,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { UserOrganization } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { UserOrganization } from '@irtranscripts/core';
 import { INBOX_EMAIL_MIGRATIONS } from '../database/inbox-email-migrations';
 import { InboxMailbox } from '../entities/inbox-mailbox.entity';
 import { InboxMailboxMember } from '../entities/inbox-mailbox-member.entity';
@@ -162,7 +162,7 @@ const SCHEMAS = [
 ];
 
 /** An error of Node's resolver, as `dns.promises.resolveTxt` rejects with it. */
-const dnsError = (code: string) => Object.assign(new Error(`queryTxt ${code} _gauzy-inbox.acme.test`), { code });
+const dnsError = (code: string) => Object.assign(new Error(`queryTxt ${code} _irtranscripts-inbox.acme.test`), { code });
 
 describe('Mailbox management on SQLite', () => {
 	let directory: string;
@@ -179,7 +179,7 @@ describe('Mailbox management on SQLite', () => {
 	};
 
 	beforeAll(() => {
-		directory = mkdtempSync(join(tmpdir(), 'gauzy-inbox-mailbox-'));
+		directory = mkdtempSync(join(tmpdir(), 'irtranscripts-inbox-mailbox-'));
 	});
 
 	afterAll(() => {
@@ -187,7 +187,7 @@ describe('Mailbox management on SQLite', () => {
 	});
 
 	beforeEach(async () => {
-		process.env['GAUZY_INBOX_DOMAIN'] = DOMAIN;
+		process.env['IRTRANSCRIPTS_INBOX_DOMAIN'] = DOMAIN;
 		dataSource = new DataSource({
 			type: 'better-sqlite3',
 			database: join(directory, `${randomUUID()}.sqlite3`),
@@ -258,7 +258,7 @@ describe('Mailbox management on SQLite', () => {
 	});
 
 	afterEach(async () => {
-		delete process.env['GAUZY_INBOX_DOMAIN'];
+		delete process.env['IRTRANSCRIPTS_INBOX_DOMAIN'];
 		await dataSource.destroy();
 	});
 
@@ -272,7 +272,7 @@ describe('Mailbox management on SQLite', () => {
 	});
 
 	describe('platform addresses', () => {
-		it('allocates <name>.<orgSlug> on GAUZY_INBOX_DOMAIN, with a suffix on a collision', async () => {
+		it('allocates <name>.<orgSlug> on IRTRANSCRIPTS_INBOX_DOMAIN, with a suffix on a collision', async () => {
 			const ada = await service.create({
 				ownerType: InboxMailboxOwnerTypeEnum.EMPLOYEE,
 				ownerEmployeeId: ADA_EMPLOYEE
@@ -337,10 +337,10 @@ describe('Mailbox management on SQLite', () => {
 			).rejects.toBeInstanceOf(BadRequestException);
 		});
 
-		it('needs GAUZY_INBOX_DOMAIN', async () => {
-			delete process.env['GAUZY_INBOX_DOMAIN'];
+		it('needs IRTRANSCRIPTS_INBOX_DOMAIN', async () => {
+			delete process.env['IRTRANSCRIPTS_INBOX_DOMAIN'];
 			await expect(service.create({ ownerType: InboxMailboxOwnerTypeEnum.ORGANIZATION })).rejects.toThrow(
-				/GAUZY_INBOX_DOMAIN/
+				/IRTRANSCRIPTS_INBOX_DOMAIN/
 			);
 		});
 
@@ -402,7 +402,7 @@ describe('Mailbox management on SQLite', () => {
 			expect(created.address).toBe('billing@acme.test');
 			expect(created.domainStatus).toBe(InboxMailboxDomainStatusEnum.PENDING);
 			const record = created.verification as { recordName: string; recordValue: string };
-			expect(record.recordName).toBe('_gauzy-inbox.acme.test');
+			expect(record.recordName).toBe('_irtranscripts-inbox.acme.test');
 			// The Settings page reads the record again without a DNS lookup.
 			expect(await service.verification(created.id as string)).toEqual(record);
 
@@ -416,7 +416,7 @@ describe('Mailbox management on SQLite', () => {
 			const lost = await service.verify(created.id as string);
 			expect([lost.status, lost.message]).toEqual([
 				InboxMailboxDomainStatusEnum.FAILED,
-				'queryTxt ENOTFOUND _gauzy-inbox.acme.test'
+				'queryTxt ENOTFOUND _irtranscripts-inbox.acme.test'
 			]);
 		});
 
@@ -476,7 +476,7 @@ describe('Mailbox management on SQLite', () => {
 					purpose: 'INBOX',
 					domain: 'acme.test',
 					domainStatus: InboxMailboxDomainStatusEnum.PENDING,
-					domainVerificationToken: 'gauzy-inbox-verify=squatter',
+					domainVerificationToken: 'irtranscripts-inbox-verify=squatter',
 					isDefault: false,
 					autoProvisioned: false,
 					messageCount: 0,

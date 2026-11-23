@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, HttpStatus, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { FeatureFlag } from '@gauzy/common';
-import { FeatureEnum, ID, IDocument, PermissionsEnum } from '@gauzy/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
+import { FeatureEnum, ID, IDocument, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	FeatureFlagGuard,
 	PermissionGuard,
@@ -10,7 +10,7 @@ import {
 	TenantPermissionGuard,
 	UseValidationPipe,
 	UUIDValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { ArchiveDocumentCommand } from '../commands/archive-document.command';
 import { DeleteDocumentCommand } from '../commands/delete-document.command';
 import { DuplicateDocumentCommand } from '../commands/duplicate-document.command';

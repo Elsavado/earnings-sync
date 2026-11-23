@@ -15,7 +15,7 @@ import {
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { DeleteResult, UpdateResult } from 'typeorm';
-import { ID, IOrganizationStrategicInitiative, IOrganizationStrategicInitiativeFindInput, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IOrganizationStrategicInitiative, IOrganizationStrategicInitiativeFindInput, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { CrudController, BaseQueryDTO } from '../core/crud';
 import { PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { Permissions } from '../shared/decorators';

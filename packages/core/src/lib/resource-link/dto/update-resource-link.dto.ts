@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/swagger';
-import { IResourceLinkUpdateInput } from '@gauzy/contracts';
+import { IResourceLinkUpdateInput } from '@irtranscripts/contracts';
 import { CreateResourceLinkDTO } from './create-resource-link.dto';
 
 /**

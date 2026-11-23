@@ -1,4 +1,4 @@
-import { IScreenshot, UploadedFile } from '@gauzy/contracts';
+import { IScreenshot, UploadedFile } from '@irtranscripts/contracts';
 import { RequestContext } from '../../core/context';
 import { Screenshot } from '../../core/entities/internal';
 import { BaseEntityEvent, BaseEntityEventType } from '../base-entity-event';

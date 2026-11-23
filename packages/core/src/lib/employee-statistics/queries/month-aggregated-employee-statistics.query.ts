@@ -1,4 +1,4 @@
-import { IMonthAggregatedEmployeeStatisticsFindInput } from '@gauzy/contracts';
+import { IMonthAggregatedEmployeeStatisticsFindInput } from '@irtranscripts/contracts';
 import { IQuery } from '@nestjs/cqrs';
 
 export class MonthAggregatedEmployeeStatisticsQuery implements IQuery {

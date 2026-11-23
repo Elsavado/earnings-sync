@@ -11,19 +11,19 @@
 				<div class="row">
 					<div class="col-sm-6">
 						<div class="form-group">
-							<gauzy-client-selector formControlName="organizationContactId"></gauzy-client-selector>
+							<irtranscripts-client-selector formControlName="organizationContactId"></irtranscripts-client-selector>
 						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="form-group">
-							<gauzy-project-selector formControlName="projectId"></gauzy-project-selector>
+							<irtranscripts-project-selector formControlName="projectId"></irtranscripts-project-selector>
 						</div>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-sm-6">
 						<div class="form-group">
-							<gauzy-team-selector formControlName="organizationTeamId"></gauzy-team-selector>
+							<irtranscripts-team-selector formControlName="organizationTeamId"></irtranscripts-team-selector>
 						</div>
 					</div>
 					<div class="col-sm-6">
@@ -38,10 +38,10 @@
 								formControlName="taskStatus"
 							>
 								<ng-template let-index="index" let-item="item" ng-option-tmp>
-									<gauzy-task-badge-view [taskBadge]="item"></gauzy-task-badge-view>
+									<irtranscripts-task-badge-view [taskBadge]="item"></irtranscripts-task-badge-view>
 								</ng-template>
 								<ng-template let-item="item" ng-label-tmp>
-									<gauzy-task-badge-view [taskBadge]="item"></gauzy-task-badge-view>
+									<irtranscripts-task-badge-view [taskBadge]="item"></irtranscripts-task-badge-view>
 								</ng-template>
 							</ng-select>
 						</div>
@@ -116,10 +116,10 @@
 								nbTooltipStatus="warning"
 							>
 								<ng-template let-index="index" let-item="item" ng-option-tmp>
-									<gauzy-task-badge-view [taskBadge]="item"></gauzy-task-badge-view>
+									<irtranscripts-task-badge-view [taskBadge]="item"></irtranscripts-task-badge-view>
 								</ng-template>
 								<ng-template let-item="item" ng-label-tmp>
-									<gauzy-task-badge-view [taskBadge]="item"></gauzy-task-badge-view>
+									<irtranscripts-task-badge-view [taskBadge]="item"></irtranscripts-task-badge-view>
 								</ng-template>
 							</ng-select>
 						</div>
@@ -136,10 +136,10 @@
 								formControlName="taskSize"
 							>
 								<ng-template let-index="index" let-item="item" ng-option-tmp>
-									<gauzy-task-badge-view [taskBadge]="item"></gauzy-task-badge-view>
+									<irtranscripts-task-badge-view [taskBadge]="item"></irtranscripts-task-badge-view>
 								</ng-template>
 								<ng-template let-item="item" ng-label-tmp>
-									<gauzy-task-badge-view [taskBadge]="item"></gauzy-task-badge-view>
+									<irtranscripts-task-badge-view [taskBadge]="item"></irtranscripts-task-badge-view>
 								</ng-template>
 							</ng-select>
 						</div>
@@ -219,7 +219,7 @@
 		</button>
 		<button (click)="save()" [disabled]="$safeNavigationMigration(form?.invalid)" nbButton status="success">
 			{{ 'BUTTONS.SAVE' | translate }}
-			<nb-icon *gauzySpinnerButton="isSaving" [style.display]="'none'"></nb-icon>
+			<nb-icon *irtranscriptsSpinnerButton="isSaving" [style.display]="'none'"></nb-icon>
 		</button>
 	</nb-card-footer>
 </nb-card>

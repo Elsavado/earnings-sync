@@ -1,6 +1,6 @@
 import { CategoryChipsComponent } from './category-chips.component';
 import { TagChipsComponent } from './tag-chips.component';
-import { IDocument, IDocumentCategory, ITag } from '@gauzy/contracts';
+import { IDocument, IDocumentCategory, ITag } from '@irtranscripts/contracts';
 
 /**
  * Parity guard for the change-detection reference-stability discipline (same as

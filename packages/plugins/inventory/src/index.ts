@@ -1,5 +1,5 @@
 /**
- * Public API surface of @gauzy/plugin-inventory
+ * Public API surface of @irtranscripts/plugin-inventory
  */
 export * from './lib/inventory.plugin';
 export * from './lib/inventory.module';

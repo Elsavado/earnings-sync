@@ -1,12 +1,12 @@
 @forward '@shared/_pg-card';
 @use 'themes' as *;
-@use 'gauzy/_gauzy-table-hub' as ga-hub;
+@use 'irtranscripts/_irtranscripts-table-hub' as ga-hub;
 
 // Header-band statistics: three compact stat cards (big value over a muted
 // label). Theme tokens only, so the cards read in every light AND dark theme;
 // paddings kept tight so the header band gains no height over the old strip.
 //
-// The fill used to be `--gauzy-card-2`, which is exactly what `@shared/_pg-card`
+// The fill used to be `--irtranscripts-card-2`, which is exactly what `@shared/_pg-card`
 // paints `nb-card` — and a plain `nb-card-header` declares no background of its
 // own, so it shows the card's. Every one of these cards was therefore drawn in
 // its own backdrop's colour: three numbers floating loose on the header band
@@ -30,7 +30,7 @@
     // The one deviation from that mixin: these are control-scale boxes sitting
     // in a header band, not full panels, so they take the smaller of the two
     // shared radii. The table below keeps the 0.5rem one.
-    border-radius: var(--gauzy-radius-sm, 0.375rem);
+    border-radius: var(--irtranscripts-radius-sm, 0.375rem);
 
     display: flex;
     flex-direction: column;
@@ -113,7 +113,7 @@
 
   nb-card-body {
     // Now only a PREFERRED size, in the sense `$default-card-height` means it
-    // (gauzy/_gauzy-cards.scss): the body is a growing, shrinking flex child of
+    // (irtranscripts/_irtranscripts-cards.scss): the body is a growing, shrinking flex child of
     // a card that fills the column, so it ends up at the card's height minus the
     // header whatever this number says. It stays as the fallback for any context
     // where the chain above is not definite after all.
@@ -123,7 +123,7 @@
 
 // The page-header action row: "Manage Templates", "+ Add", View / Mark as … /
 // Edit / Delete and the two layout-selector icons.
-:host .gauzy-button-container {
+:host .irtranscripts-button-container {
   @include ga-hub.page-header-buttons();
 }
 
@@ -177,7 +177,7 @@
   // 5px/14px pill padding — a 28px chip in rows the density tokens build to a
   // 1rem line box.
   //
-  // Sized off the shared `gauzy-people-*` tokens, so Author and Contact share
+  // Sized off the shared `irtranscripts-people-*` tokens, so Author and Contact share
   // one avatar size, one gap and one name treatment.
   ngx-employee-links {
     a {
@@ -186,10 +186,10 @@
     }
 
     img {
-      width: var(--gauzy-people-avatar-size, 1rem);
-      height: var(--gauzy-people-avatar-size, 1rem);
-      @include nb-ltr(margin-right, var(--gauzy-people-gap, 0.375rem));
-      @include nb-rtl(margin-left, var(--gauzy-people-gap, 0.375rem));
+      width: var(--irtranscripts-people-avatar-size, 1rem);
+      height: var(--irtranscripts-people-avatar-size, 1rem);
+      @include nb-ltr(margin-right, var(--irtranscripts-people-gap, 0.375rem));
+      @include nb-rtl(margin-left, var(--irtranscripts-people-gap, 0.375rem));
     }
 
     // SPECIFICITY: the component nests this under `:host a`, which shims to
@@ -198,10 +198,10 @@
     .names-wrapper.names-wrapper {
       // Truncates on WIDTH, never on a character count, so a short name renders
       // in full and only a genuinely long one picks up an ellipsis.
-      max-width: var(--gauzy-people-name-max-width, 8rem);
-      font-size: var(--gauzy-people-font-size, 0.6875rem);
+      max-width: var(--irtranscripts-people-name-max-width, 8rem);
+      font-size: var(--irtranscripts-people-font-size, 0.6875rem);
       // Matched to the avatar, so the two share one line box.
-      line-height: var(--gauzy-people-avatar-size, 1rem);
+      line-height: var(--irtranscripts-people-avatar-size, 1rem);
     }
   }
 
@@ -221,34 +221,34 @@
   // `!important` — the same call the Employees sheet makes for
   // `ngx-avatar.report-table`.
   ngx-contact-links .inner-wrapper.inner-wrapper {
-    gap: var(--gauzy-people-gap, 0.375rem);
+    gap: var(--irtranscripts-people-gap, 0.375rem);
     @include nb-ltr(padding, 0.125rem 0.375rem 0.125rem 0.125rem);
     @include nb-rtl(padding, 0.125rem 0.125rem 0.125rem 0.375rem);
 
     .avatar img {
-      width: var(--gauzy-people-avatar-size, 1rem) !important;
-      height: var(--gauzy-people-avatar-size, 1rem) !important;
+      width: var(--irtranscripts-people-avatar-size, 1rem) !important;
+      height: var(--irtranscripts-people-avatar-size, 1rem) !important;
     }
 
     .names-wrapper.names-wrapper {
-      max-width: var(--gauzy-people-name-max-width, 8rem);
+      max-width: var(--irtranscripts-people-name-max-width, 8rem);
     }
 
     .link-text.link-text {
-      font-size: var(--gauzy-people-font-size, 0.6875rem);
-      line-height: var(--gauzy-people-avatar-size, 1rem);
+      font-size: var(--irtranscripts-people-font-size, 0.6875rem);
+      line-height: var(--irtranscripts-people-avatar-size, 1rem);
     }
 
     // The initials fallback carries its own 18px box, a 4px/5px pad and a 10px
     // flex gap on top — so a row without a photo cost more than a row with one.
     // Sized to the avatar it stands in for.
     .prefix.prefix {
-      width: var(--gauzy-people-avatar-size, 1rem);
-      height: var(--gauzy-people-avatar-size, 1rem);
+      width: var(--irtranscripts-people-avatar-size, 1rem);
+      height: var(--irtranscripts-people-avatar-size, 1rem);
       padding: 0;
       gap: 0;
-      font-size: var(--gauzy-people-initials-font-size, 0.5625rem);
-      line-height: var(--gauzy-people-avatar-size, 1rem);
+      font-size: var(--irtranscripts-people-initials-font-size, 0.5625rem);
+      line-height: var(--irtranscripts-people-avatar-size, 1rem);
     }
   }
 }

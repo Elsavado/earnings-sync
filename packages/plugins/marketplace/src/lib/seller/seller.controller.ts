@@ -22,7 +22,7 @@ import {
 	PermissionsEnum,
 	SellerVerificationKind,
 	SellerVerificationStatus
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	AbstractValidationPipe,
 	BaseQueryDTO,
@@ -35,8 +35,8 @@ import {
 	TenantPermissionGuard,
 	UUIDValidationPipe,
 	UseValidationPipe
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { MarketplaceFeatures } from '../marketplace.features';
 import { Seller } from './seller.entity';
 import { SellerService } from './seller.service';

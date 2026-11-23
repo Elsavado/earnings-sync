@@ -60,7 +60,7 @@
 import { Injectable, Optional } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Repository, SelectQueryBuilder } from 'typeorm';
-import { DecimalString, ID } from '@gauzy/contracts';
+import { DecimalString, ID } from '@irtranscripts/contracts';
 import {
 	RequestContext,
 	WarehouseProductVariant,
@@ -69,7 +69,7 @@ import {
 	formatDecimalUnits,
 	parseDecimalString,
 	pow10
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { InventoryOrmConnection } from './../inventory.connection';
 import { StockMovement } from './../stock-movement/stock-movement.entity';
 import { StockLevelService } from './../stock-level/stock-level.service';

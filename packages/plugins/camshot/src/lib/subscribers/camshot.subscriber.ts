@@ -1,5 +1,5 @@
-import { FileStorageProviderEnum } from '@gauzy/contracts';
-import { BaseEntityEventSubscriber, FileStorage } from '@gauzy/core';
+import { FileStorageProviderEnum } from '@irtranscripts/contracts';
+import { BaseEntityEventSubscriber, FileStorage } from '@irtranscripts/core';
 import { Logger } from '@nestjs/common';
 import { DataSource, EventSubscriber, InsertEvent, RemoveEvent } from 'typeorm';
 import { Camshot } from '../entity/camshot.entity';

@@ -1,4 +1,4 @@
-import { IIntegrationMapSyncEntity, ITaskCreateInput, ITaskUpdateInput, IntegrationEntity } from '@gauzy/contracts';
+import { IIntegrationMapSyncEntity, ITaskCreateInput, ITaskUpdateInput, IntegrationEntity } from '@irtranscripts/contracts';
 
 export class AutomationTaskSyncCommand {
 	constructor(

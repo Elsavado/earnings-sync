@@ -1,7 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { BadRequestException, Logger } from '@nestjs/common';
-import { isNotEmpty } from '@gauzy/utils';
-import { ID, IIncome } from '@gauzy/contracts';
+import { isNotEmpty } from '@irtranscripts/utils';
+import { ID, IIncome } from '@irtranscripts/contracts';
 import { IncomeService } from '../../income.service';
 import { EmployeeService } from '../../../employee/employee.service';
 import { EmployeeStatisticsService } from '../../../employee-statistics';

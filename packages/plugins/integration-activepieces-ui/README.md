@@ -1,4 +1,4 @@
-# @gauzy/plugin-integration-activepieces-ui
+# @irtranscripts/plugin-integration-activepieces-ui
 
 This library was generated with [Nx](https://nx.dev).
 
@@ -17,7 +17,7 @@ and run `npm publish`.
 Install the Integration Activepieces UI Plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-integration-activepieces-ui
+npm install @irtranscripts/plugin-integration-activepieces-ui
 # or
-yarn add @gauzy/plugin-integration-activepieces-ui
+yarn add @irtranscripts/plugin-integration-activepieces-ui
 ```

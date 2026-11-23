@@ -7,7 +7,7 @@ import { ProductVariant } from './product-variant.entity';
 import { ProductVariantService } from './product-variant.service';
 import { ProductVariantCreateCommand, ProductVariantDeleteCommand } from './commands';
 import { Product } from '../product/product.entity';
-import { IPagination, IProductVariant, IVariantCreateInput, ID, PermissionsEnum } from '@gauzy/contracts';
+import { IPagination, IProductVariant, IVariantCreateInput, ID, PermissionsEnum } from '@irtranscripts/contracts';
 import { TenantPermissionGuard, PermissionGuard } from './../shared/guards';
 import { UUIDValidationPipe, AbstractValidationPipe } from './../shared/pipes';
 import { Permissions } from '../shared/decorators';

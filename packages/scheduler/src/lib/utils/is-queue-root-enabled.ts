@@ -24,7 +24,7 @@ export const ENV_WORKER_QUEUE_ENABLED = 'WORKER_QUEUE_ENABLED';
  *
  * The distinction is only safe to *derive* while every process that loads the plugin list agrees
  * on the answer. That is what this helper buys: it is the one expression imported by every module
- * that registers a root — `@gauzy/core`'s `AppModule` (the API), its `SeederModule.forPlugins()`
+ * that registers a root — `@irtranscripts/core`'s `AppModule` (the API), its `SeederModule.forPlugins()`
  * (the `yarn seed` CLI), and `apps/worker` — AND by the consumers that must know whether a root
  * will be there (e.g. the Documents plugin's queue gate). One expression, one answer, no drift.
  *

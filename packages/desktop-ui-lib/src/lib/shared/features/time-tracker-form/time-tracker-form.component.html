@@ -4,21 +4,21 @@
     <nb-icon class="edit" (click)="onChange($event)" icon="edit-2-outline"></nb-icon>
   }
   <!-- Client selector -->
-  <gauzy-client-selector class="selector"></gauzy-client-selector>
+  <irtranscripts-client-selector class="selector"></irtranscripts-client-selector>
 
   <!-- Project selector -->
-  <gauzy-project-selector class="selector"></gauzy-project-selector>
+  <irtranscripts-project-selector class="selector"></irtranscripts-project-selector>
 
   <!-- Team selector -->
   @if (isShowTeamSelector$ | async) {
-    <gauzy-team-selector class="selector"></gauzy-team-selector>
+    <irtranscripts-team-selector class="selector"></irtranscripts-team-selector>
   }
 
   <!-- Task selector -->
   @if (isShowTaskSelector$ | async) {
-    <gauzy-task-selector class="selector"></gauzy-task-selector>
+    <irtranscripts-task-selector class="selector"></irtranscripts-task-selector>
   }
 
   <!-- Note -->
-  <gauzy-note class="selector"></gauzy-note>
+  <irtranscripts-note class="selector"></irtranscripts-note>
 </div>

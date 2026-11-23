@@ -1,9 +1,9 @@
-import { FeatureEnum } from '@gauzy/contracts';
-import { PluginRouteInput, PluginUiDefinition } from '@gauzy/plugin-ui';
-import { JobEmployeePlugin } from '@gauzy/plugin-job-employee-ui';
-import { JobMatchingPlugin } from '@gauzy/plugin-job-matching-ui';
-import { JobSearchPlugin } from '@gauzy/plugin-job-search-ui';
-import { JobProposalTemplatePlugin } from '@gauzy/plugin-job-proposal-ui';
+import { FeatureEnum } from '@irtranscripts/contracts';
+import { PluginRouteInput, PluginUiDefinition } from '@irtranscripts/plugin-ui';
+import { JobEmployeePlugin } from '@irtranscripts/plugin-job-employee-ui';
+import { JobMatchingPlugin } from '@irtranscripts/plugin-job-matching-ui';
+import { JobSearchPlugin } from '@irtranscripts/plugin-job-search-ui';
+import { JobProposalTemplatePlugin } from '@irtranscripts/plugin-job-proposal-ui';
 import { JobsModule } from './jobs.module';
 import { JOBS_PAGE_ROUTE, JOBS_SECTIONS_LOCATION } from './job.routes';
 

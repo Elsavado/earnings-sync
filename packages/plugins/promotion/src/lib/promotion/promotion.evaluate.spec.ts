@@ -1,7 +1,7 @@
 // cspell:ignore FREESHIP freeship
 import { BadRequestException } from '@nestjs/common';
 import { FindOperator } from 'typeorm';
-import { Money, RequestContext } from '@gauzy/core';
+import { Money, RequestContext } from '@irtranscripts/core';
 import { CampaignBudgetService } from '../campaign-budget/campaign-budget.service';
 import { CampaignService } from '../campaign/campaign.service';
 import { PromotionActionService } from '../promotion-action/promotion-action.service';

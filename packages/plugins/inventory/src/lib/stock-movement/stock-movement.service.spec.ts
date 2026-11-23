@@ -1,10 +1,10 @@
 /**
  * Two module boundaries are doubled here, for the same reason.
  *
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a ledger reader needs and none of which is available
  * outside a running application; its nested `uuid` is ESM-only, so reading one entity would fail
- * under jest. `@gauzy/config` reads the process environment at import time. Both are therefore
+ * under jest. `@irtranscripts/config` reads the process environment at import time. Both are therefore
  * doubled at the module boundary, and **the service under test is the real one**, together with the
  * real `stock_movement` entity it reads.
  *
@@ -12,7 +12,7 @@
  * caller, and nothing else: the point of this suite is that the ledger's mutating entry points are
  * closed, so what the double must not do is quietly offer one the service does not.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
@@ -117,7 +117,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 jest.mock(
-	'@gauzy/config',
+	'@irtranscripts/config',
 	() => ({
 		DatabaseTypeEnum: {
 			mongodb: 'mongodb',
@@ -129,7 +129,7 @@ jest.mock(
 	})
 );
 
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { StockMovementType, StockMovementReferenceType } from '../inventory.enums';
 import { StockMovementService } from './stock-movement.service';
 

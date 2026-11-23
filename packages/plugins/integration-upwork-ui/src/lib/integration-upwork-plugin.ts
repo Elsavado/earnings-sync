@@ -1,5 +1,5 @@
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PluginRouteInput, PluginUiDefinition } from '@gauzy/plugin-ui';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PluginRouteInput, PluginUiDefinition } from '@irtranscripts/plugin-ui';
 import { IntegrationUpworkUiModule } from './integration-upwork-ui.module';
 import { INTEGRATION_UPWORK_PAGE_ROUTE } from './integration-upwork.routes';
 

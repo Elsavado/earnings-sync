@@ -1,4 +1,4 @@
-@use 'gauzy/_gauzy-table-hub' as ga-hub;
+@use 'irtranscripts/_irtranscripts-table-hub' as ga-hub;
 
 :host {
   display: block;
@@ -14,7 +14,7 @@
 
   // The one deliberate departure: a docs row stacks its chips tighter than a
   // list-page row does.
-  --gauzy-table-chip-block-gap: 0.1875rem;
+  --irtranscripts-table-chip-block-gap: 0.1875rem;
 
   --docs-updated-cell-width: 9.5rem;
 

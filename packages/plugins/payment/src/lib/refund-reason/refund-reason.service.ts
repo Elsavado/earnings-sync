@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { ID, IPagination } from '@gauzy/contracts';
+import { ID, IPagination } from '@irtranscripts/contracts';
 import { RefundReason } from './refund-reason.entity';
 import { TypeOrmRefundReasonRepository } from './repository/type-orm-refund-reason.repository';
 import { MikroOrmRefundReasonRepository } from './repository/mikro-orm-refund-reason.repository';

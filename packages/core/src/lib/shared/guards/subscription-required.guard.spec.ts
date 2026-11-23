@@ -23,7 +23,7 @@ function stubStripe(answer: (path: string) => any) {
 	});
 }
 
-const gauzySub = { id: 'sub_g', status: 'trialing', metadata: { ever_product: 'gauzy' } };
+const irtranscriptsSub = { id: 'sub_g', status: 'trialing', metadata: { ever_product: 'irtranscripts' } };
 const teamsSub = {
 	id: 'sub_t',
 	status: 'active',
@@ -69,12 +69,12 @@ afterEach(() => {
 const guard = () => new SubscriptionRequiredGuard(new StripeSubscriptionService());
 
 describe('SubscriptionRequiredGuard', () => {
-	it('lets a Gauzy subscriber register', async () => {
-		stubStripe(byEmail([gauzySub]));
+	it('lets a IRTranscripts subscriber register', async () => {
+		stubStripe(byEmail([irtranscriptsSub]));
 		await expect(guard().canActivate(context({ user: { email: EMAIL } }))).resolves.toBe(true);
 	});
 
-	it('no longer lets a Teams (or any other product) subscriber through the Gauzy paywall', async () => {
+	it('no longer lets a Teams (or any other product) subscriber through the IRTranscripts paywall', async () => {
 		stubStripe(byEmail([teamsSub]));
 		await expect(guard().canActivate(context({ user: { email: EMAIL } }))).rejects.toBeInstanceOf(
 			ForbiddenException
@@ -90,7 +90,7 @@ describe('SubscriptionRequiredGuard', () => {
 		const url = new URL((err as ForbiddenException).getResponse()['checkoutUrl']);
 		expect(url.origin + url.pathname).toBe('https://ever.co/checkout');
 		expect(Object.fromEntries(url.searchParams)).toEqual({
-			product: 'gauzy',
+			product: 'irtranscripts',
 			hosting: 'cloud',
 			tier: 'starter',
 			period: 'annual',
@@ -120,8 +120,8 @@ describe('SubscriptionRequiredGuard', () => {
 						created: Math.floor(Date.now() / 1000),
 						customer: 'cus_1',
 						customer_details: { email: EMAIL.toUpperCase() },
-						metadata: { ever_product: 'gauzy' },
-						subscription: gauzySub
+						metadata: { ever_product: 'irtranscripts' },
+						subscription: irtranscriptsSub
 					}
 				: undefined
 		);
@@ -140,8 +140,8 @@ describe('SubscriptionRequiredGuard', () => {
 					created: Math.floor(Date.now() / 1000),
 					customer: 'cus_victim',
 					customer_details: { email: 'victim@example.test' },
-					metadata: { ever_product: 'gauzy' },
-					subscription: gauzySub
+					metadata: { ever_product: 'irtranscripts' },
+					subscription: irtranscriptsSub
 				};
 			}
 			return byEmail([])(path);
@@ -153,7 +153,7 @@ describe('SubscriptionRequiredGuard', () => {
 	});
 
 	it('a malformed session id is ignored rather than sent to Stripe', async () => {
-		stubStripe(byEmail([gauzySub]));
+		stubStripe(byEmail([irtranscriptsSub]));
 		await expect(
 			guard().canActivate(context({ user: { email: EMAIL }, stripeCheckoutSessionId: 'cs_test_../../x' }))
 		).resolves.toBe(true);

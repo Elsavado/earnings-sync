@@ -9,8 +9,8 @@ import {
 	IOrganizationStrategicInitiativeUpdateInput,
 	IOrganizationStrategicSignals,
 	IPagination
-} from '@gauzy/contracts';
-import { API_PREFIX, toParams } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { API_PREFIX, toParams } from '@irtranscripts/ui-core/common';
 
 /**
  * Organization strategic initiatives (`/api/organization-strategic-initiative`): the directions an organization

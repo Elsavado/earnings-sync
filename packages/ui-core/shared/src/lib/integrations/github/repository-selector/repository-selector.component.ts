@@ -4,8 +4,8 @@ import { Subject, of } from 'rxjs';
 import { catchError, finalize, map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { IGithubRepository, IGithubRepositoryResponse, IIntegrationTenant, IOrganization } from '@gauzy/contracts';
-import { ErrorHandlingService, GithubService, Store } from '@gauzy/ui-core/core';
+import { IGithubRepository, IGithubRepositoryResponse, IIntegrationTenant, IOrganization } from '@irtranscripts/contracts';
+import { ErrorHandlingService, GithubService, Store } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

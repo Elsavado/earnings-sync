@@ -19,41 +19,41 @@ import {
 	DEFAULT_DOCS_UPLOAD_RATE_LIMIT,
 	DEFAULT_DOCS_VERSION_DEBOUNCE_MINUTES,
 	DOCS_RATE_LIMIT_WINDOW_MS,
-	ENV_GAUZY_DOCS_ADMIN_OPS_RATE_LIMIT,
-	ENV_GAUZY_DOCS_AI_ENABLED,
-	ENV_GAUZY_DOCS_AUTO_REINDEX_ON_MODEL_CHANGE,
-	ENV_GAUZY_DOCS_CHUNK_OVERLAP_TOKENS,
-	ENV_GAUZY_DOCS_CHUNK_TOKENS,
-	ENV_GAUZY_DOCS_CLASSIFY_MODEL,
-	ENV_GAUZY_DOCS_CLASSIFY_SAMPLE_CHARS,
-	ENV_GAUZY_DOCS_EMBED_BATCH_SIZE,
-	ENV_GAUZY_DOCS_EMBEDDING_DIMS,
-	ENV_GAUZY_DOCS_EMBEDDING_MODEL,
-	ENV_GAUZY_DOCS_INBOUND_DOMAIN,
-	ENV_GAUZY_DOCS_INBOUND_EMAIL_ENABLED,
-	ENV_GAUZY_DOCS_INBOUND_MAX_MESSAGE_BYTES,
-	ENV_GAUZY_DOCS_INBOUND_WEBHOOK_SECRET,
-	ENV_GAUZY_DOCS_MAX_BINARY_BYTES,
-	ENV_GAUZY_DOCS_MAX_EXTRACTED_CHARS,
-	ENV_GAUZY_DOCS_MAX_FILE_SIZE,
-	ENV_GAUZY_DOCS_OCR_ENABLED,
-	ENV_GAUZY_DOCS_OCR_MAX_PAGES,
-	ENV_GAUZY_DOCS_ORG_QUOTA_BYTES,
-	ENV_GAUZY_DOCS_QUEUE_CONCURRENCY,
-	ENV_GAUZY_DOCS_QUEUE_ENABLED,
-	ENV_GAUZY_DOCS_QUEUE_WORKER_ENABLED,
-	ENV_GAUZY_DOCS_RETRIEVAL_LOG_ENABLED,
-	ENV_GAUZY_DOCS_RETRIEVAL_TOPK_MAX,
-	ENV_GAUZY_DOCS_SEARCH_RATE_LIMIT,
-	ENV_GAUZY_DOCS_STUCK_THRESHOLD_MINUTES,
-	ENV_GAUZY_DOCS_UPLOAD_RATE_LIMIT,
-	ENV_GAUZY_DOCS_VECTOR_STORE,
-	ENV_GAUZY_DOCS_VERSION_DEBOUNCE_MINUTES
+	ENV_IRTRANSCRIPTS_DOCS_ADMIN_OPS_RATE_LIMIT,
+	ENV_IRTRANSCRIPTS_DOCS_AI_ENABLED,
+	ENV_IRTRANSCRIPTS_DOCS_AUTO_REINDEX_ON_MODEL_CHANGE,
+	ENV_IRTRANSCRIPTS_DOCS_CHUNK_OVERLAP_TOKENS,
+	ENV_IRTRANSCRIPTS_DOCS_CHUNK_TOKENS,
+	ENV_IRTRANSCRIPTS_DOCS_CLASSIFY_MODEL,
+	ENV_IRTRANSCRIPTS_DOCS_CLASSIFY_SAMPLE_CHARS,
+	ENV_IRTRANSCRIPTS_DOCS_EMBED_BATCH_SIZE,
+	ENV_IRTRANSCRIPTS_DOCS_EMBEDDING_DIMS,
+	ENV_IRTRANSCRIPTS_DOCS_EMBEDDING_MODEL,
+	ENV_IRTRANSCRIPTS_DOCS_INBOUND_DOMAIN,
+	ENV_IRTRANSCRIPTS_DOCS_INBOUND_EMAIL_ENABLED,
+	ENV_IRTRANSCRIPTS_DOCS_INBOUND_MAX_MESSAGE_BYTES,
+	ENV_IRTRANSCRIPTS_DOCS_INBOUND_WEBHOOK_SECRET,
+	ENV_IRTRANSCRIPTS_DOCS_MAX_BINARY_BYTES,
+	ENV_IRTRANSCRIPTS_DOCS_MAX_EXTRACTED_CHARS,
+	ENV_IRTRANSCRIPTS_DOCS_MAX_FILE_SIZE,
+	ENV_IRTRANSCRIPTS_DOCS_OCR_ENABLED,
+	ENV_IRTRANSCRIPTS_DOCS_OCR_MAX_PAGES,
+	ENV_IRTRANSCRIPTS_DOCS_ORG_QUOTA_BYTES,
+	ENV_IRTRANSCRIPTS_DOCS_QUEUE_CONCURRENCY,
+	ENV_IRTRANSCRIPTS_DOCS_QUEUE_ENABLED,
+	ENV_IRTRANSCRIPTS_DOCS_QUEUE_WORKER_ENABLED,
+	ENV_IRTRANSCRIPTS_DOCS_RETRIEVAL_LOG_ENABLED,
+	ENV_IRTRANSCRIPTS_DOCS_RETRIEVAL_TOPK_MAX,
+	ENV_IRTRANSCRIPTS_DOCS_SEARCH_RATE_LIMIT,
+	ENV_IRTRANSCRIPTS_DOCS_STUCK_THRESHOLD_MINUTES,
+	ENV_IRTRANSCRIPTS_DOCS_UPLOAD_RATE_LIMIT,
+	ENV_IRTRANSCRIPTS_DOCS_VECTOR_STORE,
+	ENV_IRTRANSCRIPTS_DOCS_VERSION_DEBOUNCE_MINUTES
 } from './docs.constants';
-import { isSchedulerQueueRootEnabled } from '@gauzy/scheduler';
+import { isSchedulerQueueRootEnabled } from '@irtranscripts/scheduler';
 
 /**
- * Typed configuration object parsed from the `GAUZY_DOCS_*` environment variables.
+ * Typed configuration object parsed from the `IRTRANSCRIPTS_DOCS_*` environment variables.
  */
 export interface IDocsConfig {
 	/** Per-file upload size limit in bytes. */
@@ -164,57 +164,57 @@ const parseBoolEnv = (key: string, fallback: boolean): boolean => {
 };
 
 /**
- * Reads the `GAUZY_DOCS_*` environment variables into a typed config object.
+ * Reads the `IRTRANSCRIPTS_DOCS_*` environment variables into a typed config object.
  * All variables are optional; documented defaults apply.
  *
  * @returns The resolved Documents plugin configuration.
  */
 export const getDocsConfig = (): IDocsConfig => ({
-	maxFileSize: parseIntEnv(ENV_GAUZY_DOCS_MAX_FILE_SIZE, DEFAULT_DOCS_MAX_FILE_SIZE),
-	maxBinaryBytes: parseIntEnv(ENV_GAUZY_DOCS_MAX_BINARY_BYTES, DEFAULT_DOCS_MAX_BINARY_BYTES),
+	maxFileSize: parseIntEnv(ENV_IRTRANSCRIPTS_DOCS_MAX_FILE_SIZE, DEFAULT_DOCS_MAX_FILE_SIZE),
+	maxBinaryBytes: parseIntEnv(ENV_IRTRANSCRIPTS_DOCS_MAX_BINARY_BYTES, DEFAULT_DOCS_MAX_BINARY_BYTES),
 	// Default ON (owner, 2026-08-09). Safe without any AI configuration: `DocsAiService.isAiAvailable()`
 	// is `aiEnabled && registryList().length > 0`, so with no provider registered the pipeline simply
 	// skips the classify/embed stages and extraction + search keep working. Set to `false` to keep the
 	// AI stages off even where a provider IS configured.
-	aiEnabled: parseBoolEnv(ENV_GAUZY_DOCS_AI_ENABLED, true),
-	embeddingModel: process.env[ENV_GAUZY_DOCS_EMBEDDING_MODEL] || DEFAULT_DOCS_EMBEDDING_MODEL,
-	classifyModel: process.env[ENV_GAUZY_DOCS_CLASSIFY_MODEL] || undefined,
-	versionDebounceMinutes: parseIntEnv(ENV_GAUZY_DOCS_VERSION_DEBOUNCE_MINUTES, DEFAULT_DOCS_VERSION_DEBOUNCE_MINUTES),
-	queueConcurrency: parseIntEnv(ENV_GAUZY_DOCS_QUEUE_CONCURRENCY, DEFAULT_DOCS_QUEUE_CONCURRENCY),
-	maxExtractedChars: parseIntEnv(ENV_GAUZY_DOCS_MAX_EXTRACTED_CHARS, DEFAULT_DOCS_MAX_EXTRACTED_CHARS),
-	stuckThresholdMinutes: parseIntEnv(ENV_GAUZY_DOCS_STUCK_THRESHOLD_MINUTES, DEFAULT_DOCS_STUCK_THRESHOLD_MINUTES),
-	embeddingDims: parseIntEnv(ENV_GAUZY_DOCS_EMBEDDING_DIMS, DEFAULT_DOCS_EMBEDDING_DIMS),
-	chunkTokens: parseIntEnv(ENV_GAUZY_DOCS_CHUNK_TOKENS, DEFAULT_DOCS_CHUNK_TOKENS),
-	chunkOverlapTokens: parseIntEnv(ENV_GAUZY_DOCS_CHUNK_OVERLAP_TOKENS, DEFAULT_DOCS_CHUNK_OVERLAP_TOKENS),
-	classifySampleChars: parseIntEnv(ENV_GAUZY_DOCS_CLASSIFY_SAMPLE_CHARS, DEFAULT_DOCS_CLASSIFY_SAMPLE_CHARS),
+	aiEnabled: parseBoolEnv(ENV_IRTRANSCRIPTS_DOCS_AI_ENABLED, true),
+	embeddingModel: process.env[ENV_IRTRANSCRIPTS_DOCS_EMBEDDING_MODEL] || DEFAULT_DOCS_EMBEDDING_MODEL,
+	classifyModel: process.env[ENV_IRTRANSCRIPTS_DOCS_CLASSIFY_MODEL] || undefined,
+	versionDebounceMinutes: parseIntEnv(ENV_IRTRANSCRIPTS_DOCS_VERSION_DEBOUNCE_MINUTES, DEFAULT_DOCS_VERSION_DEBOUNCE_MINUTES),
+	queueConcurrency: parseIntEnv(ENV_IRTRANSCRIPTS_DOCS_QUEUE_CONCURRENCY, DEFAULT_DOCS_QUEUE_CONCURRENCY),
+	maxExtractedChars: parseIntEnv(ENV_IRTRANSCRIPTS_DOCS_MAX_EXTRACTED_CHARS, DEFAULT_DOCS_MAX_EXTRACTED_CHARS),
+	stuckThresholdMinutes: parseIntEnv(ENV_IRTRANSCRIPTS_DOCS_STUCK_THRESHOLD_MINUTES, DEFAULT_DOCS_STUCK_THRESHOLD_MINUTES),
+	embeddingDims: parseIntEnv(ENV_IRTRANSCRIPTS_DOCS_EMBEDDING_DIMS, DEFAULT_DOCS_EMBEDDING_DIMS),
+	chunkTokens: parseIntEnv(ENV_IRTRANSCRIPTS_DOCS_CHUNK_TOKENS, DEFAULT_DOCS_CHUNK_TOKENS),
+	chunkOverlapTokens: parseIntEnv(ENV_IRTRANSCRIPTS_DOCS_CHUNK_OVERLAP_TOKENS, DEFAULT_DOCS_CHUNK_OVERLAP_TOKENS),
+	classifySampleChars: parseIntEnv(ENV_IRTRANSCRIPTS_DOCS_CLASSIFY_SAMPLE_CHARS, DEFAULT_DOCS_CLASSIFY_SAMPLE_CHARS),
 	// Hard max 64 — provider batch APIs and the cost model both assume it.
-	embedBatchSize: Math.min(parseIntEnv(ENV_GAUZY_DOCS_EMBED_BATCH_SIZE, DEFAULT_DOCS_EMBED_BATCH_SIZE), 64),
-	retrievalTopKMax: parseIntEnv(ENV_GAUZY_DOCS_RETRIEVAL_TOPK_MAX, DEFAULT_DOCS_RETRIEVAL_TOPK_MAX),
-	autoReindexOnModelChange: parseBoolEnv(ENV_GAUZY_DOCS_AUTO_REINDEX_ON_MODEL_CHANGE, false),
-	vectorStore: process.env[ENV_GAUZY_DOCS_VECTOR_STORE] || undefined,
+	embedBatchSize: Math.min(parseIntEnv(ENV_IRTRANSCRIPTS_DOCS_EMBED_BATCH_SIZE, DEFAULT_DOCS_EMBED_BATCH_SIZE), 64),
+	retrievalTopKMax: parseIntEnv(ENV_IRTRANSCRIPTS_DOCS_RETRIEVAL_TOPK_MAX, DEFAULT_DOCS_RETRIEVAL_TOPK_MAX),
+	autoReindexOnModelChange: parseBoolEnv(ENV_IRTRANSCRIPTS_DOCS_AUTO_REINDEX_ON_MODEL_CHANGE, false),
+	vectorStore: process.env[ENV_IRTRANSCRIPTS_DOCS_VECTOR_STORE] || undefined,
 	// 0 must survive as "unlimited" — hence the non-negative parser.
-	orgQuotaBytes: parseNonNegativeIntEnv(ENV_GAUZY_DOCS_ORG_QUOTA_BYTES, DEFAULT_DOCS_ORG_QUOTA_BYTES),
-	retrievalLogEnabled: parseBoolEnv(ENV_GAUZY_DOCS_RETRIEVAL_LOG_ENABLED, true),
+	orgQuotaBytes: parseNonNegativeIntEnv(ENV_IRTRANSCRIPTS_DOCS_ORG_QUOTA_BYTES, DEFAULT_DOCS_ORG_QUOTA_BYTES),
+	retrievalLogEnabled: parseBoolEnv(ENV_IRTRANSCRIPTS_DOCS_RETRIEVAL_LOG_ENABLED, true),
 	// Default ON (owner, 2026-08-09). Safe without a secret: `GenericSignedWebhookAdapter.verifySignature()`
 	// FAILS CLOSED when `inboundWebhookSecret` is unset — it logs and rejects, so the route accepts nothing
 	// until a secret is configured. It also enforces a timestamp tolerance, a constant-time compare and
 	// replay consumption.
-	inboundEmailEnabled: parseBoolEnv(ENV_GAUZY_DOCS_INBOUND_EMAIL_ENABLED, true),
-	inboundWebhookSecret: process.env[ENV_GAUZY_DOCS_INBOUND_WEBHOOK_SECRET] || undefined,
+	inboundEmailEnabled: parseBoolEnv(ENV_IRTRANSCRIPTS_DOCS_INBOUND_EMAIL_ENABLED, true),
+	inboundWebhookSecret: process.env[ENV_IRTRANSCRIPTS_DOCS_INBOUND_WEBHOOK_SECRET] || undefined,
 	inboundMaxMessageBytes: parseIntEnv(
-		ENV_GAUZY_DOCS_INBOUND_MAX_MESSAGE_BYTES,
+		ENV_IRTRANSCRIPTS_DOCS_INBOUND_MAX_MESSAGE_BYTES,
 		DEFAULT_DOCS_INBOUND_MAX_MESSAGE_BYTES
 	),
-	inboundDomain: process.env[ENV_GAUZY_DOCS_INBOUND_DOMAIN] || undefined,
+	inboundDomain: process.env[ENV_IRTRANSCRIPTS_DOCS_INBOUND_DOMAIN] || undefined,
 	// Default ON (owner, 2026-08-09). Doubly gated: `resolveVisionModel()` returns null unless BOTH
 	// `aiEnabled` and `ocrEnabled` are set AND a provider has credentials, so a deployment with no AI
 	// configured never transcribes anything. Capped by `ocrMaxPages`; transcribed text is marked
 	// OCR-derived and routed to review, because it is a machine reading rather than an authored document.
-	ocrEnabled: parseBoolEnv(ENV_GAUZY_DOCS_OCR_ENABLED, true),
-	ocrMaxPages: parseIntEnv(ENV_GAUZY_DOCS_OCR_MAX_PAGES, DEFAULT_DOCS_OCR_MAX_PAGES),
-	uploadRateLimit: parseIntEnv(ENV_GAUZY_DOCS_UPLOAD_RATE_LIMIT, DEFAULT_DOCS_UPLOAD_RATE_LIMIT),
-	searchRateLimit: parseIntEnv(ENV_GAUZY_DOCS_SEARCH_RATE_LIMIT, DEFAULT_DOCS_SEARCH_RATE_LIMIT),
-	adminOpsRateLimit: parseIntEnv(ENV_GAUZY_DOCS_ADMIN_OPS_RATE_LIMIT, DEFAULT_DOCS_ADMIN_OPS_RATE_LIMIT)
+	ocrEnabled: parseBoolEnv(ENV_IRTRANSCRIPTS_DOCS_OCR_ENABLED, true),
+	ocrMaxPages: parseIntEnv(ENV_IRTRANSCRIPTS_DOCS_OCR_MAX_PAGES, DEFAULT_DOCS_OCR_MAX_PAGES),
+	uploadRateLimit: parseIntEnv(ENV_IRTRANSCRIPTS_DOCS_UPLOAD_RATE_LIMIT, DEFAULT_DOCS_UPLOAD_RATE_LIMIT),
+	searchRateLimit: parseIntEnv(ENV_IRTRANSCRIPTS_DOCS_SEARCH_RATE_LIMIT, DEFAULT_DOCS_SEARCH_RATE_LIMIT),
+	adminOpsRateLimit: parseIntEnv(ENV_IRTRANSCRIPTS_DOCS_ADMIN_OPS_RATE_LIMIT, DEFAULT_DOCS_ADMIN_OPS_RATE_LIMIT)
 });
 
 /**
@@ -243,7 +243,7 @@ export const docsRateLimitTracker = (req: Record<string, any>): string => {
  * Two things this deliberately does NOT do:
  *
  * - It does not register a guard. The platform owns the throttler: `ThrottlerModule` +
- *   `ThrottlerBehindProxyGuard` are wired globally in `@gauzy/core`'s `AppModule` behind
+ *   `ThrottlerBehindProxyGuard` are wired globally in `@irtranscripts/core`'s `AppModule` behind
  *   `THROTTLE_ENABLED`. `@Throttle()` is pure route metadata, so these overrides bind to that
  *   guard where it exists and are an inert no-op where it does not — a plugin-local guard
  *   would instead fail to construct (no `THROTTLER_OPTIONS` provider) in every deployment
@@ -288,8 +288,8 @@ export const docsRateLimit = (limit: number) => ({
  * `isSchedulerQueueRootEnabled()` is the ONE expression that decides whether a root is
  * registered, and every process that loads the plugin list imports it:
  *
- * - `@gauzy/core` `AppModule`               → the API (producer-only: queueing on, cron off)
- * - `@gauzy/core` `SeederModule.forPlugins()` → the `yarn seed` CLI (same producer-only shape)
+ * - `@irtranscripts/core` `AppModule`               → the API (producer-only: queueing on, cron off)
+ * - `@irtranscripts/core` `SeederModule.forPlugins()` → the `yarn seed` CLI (same producer-only shape)
  * - `apps/worker` `AppModule`               → the worker (queueing AND cron on; it consumes)
  *
  * So the distinction survives: this does not ask "is Redis on?", it asks "did the modules that
@@ -299,7 +299,7 @@ export const docsRateLimit = (limit: number) => ({
  * false and the plugin dispatches every stage inline, which stays a fully supported path — see
  * `DocsQueueService`.
  *
- * `GAUZY_DOCS_QUEUE_ENABLED` remains the explicit per-deployment override in BOTH directions and
+ * `IRTRANSCRIPTS_DOCS_QUEUE_ENABLED` remains the explicit per-deployment override in BOTH directions and
  * still wins outright.
  *
  * ⚠️ `apps/worker` also narrows its own root with the older `WORKER_QUEUE_ENABLED`. That flag is
@@ -312,7 +312,7 @@ export const docsRateLimit = (limit: number) => ({
  * @returns True when the queue + worker host should be registered.
  */
 export const isDocsQueueEnabled = (): boolean =>
-	parseBoolEnv(ENV_GAUZY_DOCS_QUEUE_ENABLED, isSchedulerQueueRootEnabled());
+	parseBoolEnv(ENV_IRTRANSCRIPTS_DOCS_QUEUE_ENABLED, isSchedulerQueueRootEnabled());
 
 /**
  * Whether this process should additionally run the `docs-processing` CONSUMER — the
@@ -323,7 +323,7 @@ export const isDocsQueueEnabled = (): boolean =>
  * worker enqueues jobs nothing ever picks up, and documents would sit in `UPLOADED` forever —
  * strictly worse than the inline fallback. Producing without consuming must be an explicit choice.
  *
- * Set `GAUZY_DOCS_QUEUE_WORKER_ENABLED=false` on the API deployment (and leave it unset on
+ * Set `IRTRANSCRIPTS_DOCS_QUEUE_WORKER_ENABLED=false` on the API deployment (and leave it unset on
  * `apps/worker`) to make the API a pure PRODUCER, which is the point of running a dedicated
  * worker: the heavy extraction, OCR and embedding work then happens only there.
  *
@@ -333,4 +333,4 @@ export const isDocsQueueEnabled = (): boolean =>
  * @returns True when the `DocsProcessingWorker` host should be registered.
  */
 export const isDocsQueueWorkerEnabled = (): boolean =>
-	isDocsQueueEnabled() && parseBoolEnv(ENV_GAUZY_DOCS_QUEUE_WORKER_ENABLED, true);
+	isDocsQueueEnabled() && parseBoolEnv(ENV_IRTRANSCRIPTS_DOCS_QUEUE_WORKER_ENABLED, true);

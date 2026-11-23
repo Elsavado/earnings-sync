@@ -14,7 +14,7 @@ import {
 } from '../src/worker.mjs';
 
 const SECRET = 'a-platform-secret-of-enough-length';
-const ENV = { GAUZY_INBOX_API_URL: 'https://api.example.com/', GAUZY_INBOX_PLATFORM_SECRET: SECRET };
+const ENV = { IRTRANSCRIPTS_INBOX_API_URL: 'https://api.example.com/', IRTRANSCRIPTS_INBOX_PLATFORM_SECRET: SECRET };
 const RAW = [
 	'Authentication-Results: mx.cloudflare.net; spf=pass smtp.mailfrom=acme.test; dkim=pass header.d=acme.test;',
 	' dmarc=pass header.from=acme.test',
@@ -52,7 +52,7 @@ function api(status, body = { accepted: 1, duplicates: 0, dropped: 0 }) {
 	return { calls, fetcher };
 }
 
-describe('Gauzy Inbox Cloudflare Email Worker', () => {
+describe('IRTranscripts Inbox Cloudflare Email Worker', () => {
 	it('posts the raw message, the envelope and Cloudflare’s verdicts, signed as the API verifies', async () => {
 		const { calls, fetcher } = api(202);
 		const incoming = message();
@@ -196,16 +196,16 @@ describe('Gauzy Inbox Cloudflare Email Worker', () => {
 	});
 
 	it('refuses to run without its settings (the sender retries while they are fixed)', () => {
-		assert.throws(() => settingsOf({ GAUZY_INBOX_PLATFORM_SECRET: SECRET }), /GAUZY_INBOX_API_URL/);
+		assert.throws(() => settingsOf({ IRTRANSCRIPTS_INBOX_PLATFORM_SECRET: SECRET }), /IRTRANSCRIPTS_INBOX_API_URL/);
 		assert.throws(
-			() => settingsOf({ GAUZY_INBOX_API_URL: 'http://api.example.com', GAUZY_INBOX_PLATFORM_SECRET: SECRET }),
+			() => settingsOf({ IRTRANSCRIPTS_INBOX_API_URL: 'http://api.example.com', IRTRANSCRIPTS_INBOX_PLATFORM_SECRET: SECRET }),
 			/https/
 		);
 		assert.throws(
-			() => settingsOf({ GAUZY_INBOX_API_URL: 'https://api.example.com', GAUZY_INBOX_PLATFORM_SECRET: 'short' }),
+			() => settingsOf({ IRTRANSCRIPTS_INBOX_API_URL: 'https://api.example.com', IRTRANSCRIPTS_INBOX_PLATFORM_SECRET: 'short' }),
 			/PLATFORM_SECRET/
 		);
-		assert.equal(settingsOf({ ...ENV, GAUZY_INBOX_MAX_MESSAGE_BYTES: '1000' }).maxBytes, 1000);
+		assert.equal(settingsOf({ ...ENV, IRTRANSCRIPTS_INBOX_MAX_MESSAGE_BYTES: '1000' }).maxBytes, 1000);
 	});
 
 	it('encodes and signs with the platform primitives', async () => {

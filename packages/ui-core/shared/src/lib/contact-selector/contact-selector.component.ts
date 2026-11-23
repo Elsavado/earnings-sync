@@ -1,13 +1,13 @@
 import { Component, OnInit, Input, forwardRef, OnDestroy, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
-import { ContactType, IEmployee, IOrganization, IOrganizationContact, PermissionsEnum } from '@gauzy/contracts';
+import { ContactType, IEmployee, IOrganization, IOrganizationContact, PermissionsEnum } from '@irtranscripts/contracts';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { distinctUntilChange, isNotEmpty } from '@gauzy/ui-core/common';
-import { Store } from '@gauzy/ui-core/core';
-import { ToastrService } from '@gauzy/ui-core/core';
-import { OrganizationContactService } from '@gauzy/ui-core/core';
+import { distinctUntilChange, isNotEmpty } from '@irtranscripts/ui-core/common';
+import { Store } from '@irtranscripts/ui-core/core';
+import { ToastrService } from '@irtranscripts/ui-core/core';
+import { OrganizationContactService } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

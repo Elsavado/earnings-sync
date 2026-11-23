@@ -7,7 +7,7 @@ import {
 	IEventConsumerContext,
 	IEventEnvelope,
 	JsonData
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { EventConsumerRegistry } from '../event-outbox/event-consumer.registry';
 import { NON_SUBSCRIBABLE_EVENT_NAMES, SubscriptionCatalogue } from '../graphql/subscriptions/subscription-catalogue';
 import { WebhookDeliveryService } from './webhook-delivery.service';

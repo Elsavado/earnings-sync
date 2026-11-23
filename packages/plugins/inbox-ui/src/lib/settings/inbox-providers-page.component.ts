@@ -22,8 +22,8 @@ import {
 	InboxProviderAccountStatusEnum,
 	IOrganization,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { Store, ToastrService } from '@gauzy/ui-core/core';
+} from '@irtranscripts/contracts';
+import { Store, ToastrService } from '@irtranscripts/ui-core/core';
 import { InboxEmailSettingsService } from '../services/inbox-email-settings.service';
 import {
 	apiErrorMessage,

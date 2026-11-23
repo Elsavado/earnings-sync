@@ -14,9 +14,9 @@ const INFERENCES = [
 	'process.env.DEMO',
 	"process.env['DEMO']",
 	'CLOUD_PROVIDER',
-	'/srv/gauzy',
+	'/srv/irtranscripts',
 	'IS_ELECTRON',
-	'GAUZY_CLOUD_ENDPOINT',
+	'IRTRANSCRIPTS_CLOUD_ENDPOINT',
 	'os.hostname',
 	'hostname()'
 ];

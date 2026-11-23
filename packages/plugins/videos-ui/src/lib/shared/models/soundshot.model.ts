@@ -1,4 +1,4 @@
-import { ISoundshot as ISoundshotCore, ICloneable, ID, IEmployee } from '@gauzy/contracts';
+import { ISoundshot as ISoundshotCore, ICloneable, ID, IEmployee } from '@irtranscripts/contracts';
 
 export interface ISoundshot extends ISoundshotCore {
 	id: string;

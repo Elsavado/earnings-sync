@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { HttpException, HttpStatus } from "@nestjs/common";
-import { ITag, ITagCreateInput } from "@gauzy/contracts";
+import { ITag, ITagCreateInput } from "@irtranscripts/contracts";
 import { TagCreateCommand } from "./../tag-create.command";
 import { TagService } from "./../../tag.service";
 

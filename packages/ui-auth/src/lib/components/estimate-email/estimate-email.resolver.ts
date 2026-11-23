@@ -1,8 +1,8 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, ResolveFn } from '@angular/router';
 import { catchError, Observable, of } from 'rxjs';
-import { IEstimateEmail } from '@gauzy/contracts';
-import { EstimateEmailService } from '@gauzy/ui-core/core';
+import { IEstimateEmail } from '@irtranscripts/contracts';
+import { EstimateEmailService } from '@irtranscripts/ui-core/core';
 
 /**
  * Resolver function for validating an estimate email based on query parameters.

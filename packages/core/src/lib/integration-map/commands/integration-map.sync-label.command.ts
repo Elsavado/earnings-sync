@@ -1,4 +1,4 @@
-import { IIntegrationMapSyncEntity, ITagCreateInput, ITagUpdateInput } from '@gauzy/contracts';
+import { IIntegrationMapSyncEntity, ITagCreateInput, ITagUpdateInput } from '@irtranscripts/contracts';
 import { ICommand } from '@nestjs/cqrs';
 
 export class IntegrationMapSyncLabelCommand implements ICommand {

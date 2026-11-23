@@ -26,7 +26,7 @@ describe('serving /public/ (import archives)', () => {
 
 	beforeAll(async () => {
 		process.env.PUBLIC_ASSETS_MAX_AGE_SECONDS = '3600';
-		root = await fsp.mkdtemp(path.join(os.tmpdir(), 'gauzy-public-'));
+		root = await fsp.mkdtemp(path.join(os.tmpdir(), 'irtranscripts-public-'));
 		await fsp.mkdir(path.join(root, 'import'), { recursive: true });
 		await fsp.writeFile(path.join(root, 'import', archiveName), 'PK tenant dump');
 		await fsp.writeFile(path.join(root, 'import', 'import-1757000000-123.zip'), 'PK legacy name');

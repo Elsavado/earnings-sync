@@ -1,7 +1,7 @@
 import { Args, Context, ID, Int, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { BadRequestException, UseGuards } from '@nestjs/common';
 import { FindOptionsWhere } from 'typeorm';
-import { IPagination } from '@gauzy/contracts';
+import { IPagination } from '@irtranscripts/contracts';
 import {
 	FEATURE_GRAPHQL,
 	FeatureFlagGuard,
@@ -16,8 +16,8 @@ import {
 	paginateRows,
 	resolveConnectionWindow,
 	versionExpectationOf
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { OrderChangeService } from './../order-change/order-change.service';
 import { OrderChangeActionService } from './../order-change-action/order-change-action.service';
 import { OrderHistoryService } from './../order-history/order-history.service';

@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { FindOperator } from 'typeorm';
-import { Money, RequestContext } from '@gauzy/core';
+import { Money, RequestContext } from '@irtranscripts/core';
 import { TaxRateService } from './tax-rate.service';
 
 /**

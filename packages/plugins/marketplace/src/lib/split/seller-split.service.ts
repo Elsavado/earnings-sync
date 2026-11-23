@@ -10,8 +10,8 @@ import {
 	RoundingMode,
 	SellerTransactionKind,
 	SellerTransactionStatus
-} from '@gauzy/contracts';
-import { EventOutboxService, Money, RequestContext } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { EventOutboxService, Money, RequestContext } from '@irtranscripts/core';
 import { SellerCommissionService } from '../commission/seller-commission.service';
 import { Seller } from '../seller/seller.entity';
 import { TypeOrmSellerRepository } from '../seller/repository/type-orm-seller.repository';

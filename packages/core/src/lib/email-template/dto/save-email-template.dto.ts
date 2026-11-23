@@ -1,4 +1,4 @@
-import { EmailTemplateEnum, IEmailTemplateSaveInput, LanguagesEnum } from "@gauzy/contracts";
+import { EmailTemplateEnum, IEmailTemplateSaveInput, LanguagesEnum } from "@irtranscripts/contracts";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsEnum, IsNotEmpty, IsString } from "class-validator";
 import { TenantOrganizationBaseDTO } from "../../core/dto";

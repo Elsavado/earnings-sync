@@ -12,10 +12,10 @@
  * one table is a statement the database refuses, on every dialect. The real-MySQL run that reproduced the 1060 and
  * proved the fix is in the pull request that added this suite.
  */
-jest.mock('@gauzy/config', () => jest.requireActual('@gauzy/config/src/lib/database-helpers'));
+jest.mock('@irtranscripts/config', () => jest.requireActual('@irtranscripts/config/src/lib/database-helpers'));
 
 import { QueryRunner } from 'typeorm';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 import { CreatePricingTables1791000000120 } from './migrations/1791000000120-CreatePricingTables';
 
 /** The statements one direction of the migration issues on one dialect. */

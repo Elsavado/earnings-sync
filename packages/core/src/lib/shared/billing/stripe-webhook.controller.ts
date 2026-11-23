@@ -2,8 +2,8 @@ import { Controller, ForbiddenException, HttpCode, HttpStatus, Logger, Post, Req
 import { ApiExcludeController } from '@nestjs/swagger';
 import { createHmac, timingSafeEqual } from 'crypto';
 import { IsNull } from 'typeorm';
-import { Public } from '@gauzy/common';
-import { RolesEnum } from '@gauzy/contracts';
+import { Public } from '@irtranscripts/common';
+import { RolesEnum } from '@irtranscripts/contracts';
 import { TypeOrmTenantRepository } from '../../tenant/repository/type-orm-tenant.repository';
 import { TypeOrmUserRepository } from '../../user/repository/type-orm-user.repository';
 import {

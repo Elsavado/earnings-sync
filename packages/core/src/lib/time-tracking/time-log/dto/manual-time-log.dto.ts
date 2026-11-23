@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { IsArray, IsBoolean, IsNotEmpty, IsOptional, IsString, IsUUID } from "class-validator";
-import { ID, IEmployee, IManualTimeInput } from "@gauzy/contracts";
+import { ID, IEmployee, IManualTimeInput } from "@irtranscripts/contracts";
 import { IsBeforeDate } from "./../../../shared/validators";
 import { TenantOrganizationBaseDTO } from "./../../../core/dto";
 

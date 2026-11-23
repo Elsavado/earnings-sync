@@ -9,7 +9,7 @@ import {
 	MinLength,
 	ValidateNested
 } from 'class-validator';
-import { ICandidateCreateInput, ICandidateDocument } from '@gauzy/contracts';
+import { ICandidateCreateInput, ICandidateDocument } from '@irtranscripts/contracts';
 import { RelationalTagDTO } from './../../tags/dto';
 import { EmploymentDTO, UserInputDTO } from './../../employee/dto';
 

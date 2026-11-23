@@ -10,7 +10,7 @@ import {
 	NbSpinnerModule
 } from '@nebular/theme';
 import { NgxPermissionsModule } from 'ngx-permissions';
-import { CustomSmtpService } from '@gauzy/ui-core/core';
+import { CustomSmtpService } from '@irtranscripts/ui-core/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { SMTPComponent } from './smtp.component';
 

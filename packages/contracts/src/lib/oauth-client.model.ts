@@ -3,7 +3,7 @@
  *
  * Added as part of the single-app → multi-app OAuth refactor.
  * In the previous (single-app) implementation, the one and only OAuth client
- * was hardcoded via `GAUZY_OAUTH_APP_CLIENT_*` env vars and shared by every
+ * was hardcoded via `IRTRANSCRIPTS_OAUTH_APP_CLIENT_*` env vars and shared by every
  * third-party integration (Activepieces). This contract describes a real
  * registry row so each third party (Activepieces, n8n, Make.com, …) gets
  * isolated credentials, redirect URIs, and scopes.
@@ -33,7 +33,7 @@ export enum OAuthGrantType {
 }
 
 export interface IOAuthClient extends IBasePerTenantEntityModel {
-	/** Public client identifier exposed to third parties (e.g. `gauzy_<base64url>`). */
+	/** Public client identifier exposed to third parties (e.g. `irtranscripts_<base64url>`). */
 	clientId: string;
 
 	/** Human-readable name shown on the consent screen ("Activepieces", "n8n"). */

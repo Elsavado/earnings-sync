@@ -14,8 +14,8 @@ import {
 	Param
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { IZapierCreateZapInput, IZapierZap, IZapierZapTemplate, PermissionsEnum } from '@gauzy/contracts';
-import { PermissionGuard, Permissions, RequestContext, TenantPermissionGuard } from '@gauzy/core';
+import { IZapierCreateZapInput, IZapierZap, IZapierZapTemplate, PermissionsEnum } from '@irtranscripts/contracts';
+import { PermissionGuard, Permissions, RequestContext, TenantPermissionGuard } from '@irtranscripts/core';
 import { ZapierService } from './zapier.service';
 import { IZapierEndpoint, IZapierIntegrationSettings } from './zapier.types';
 import { randomBytes } from 'node:crypto';

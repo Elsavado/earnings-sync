@@ -2,7 +2,7 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import * as UpworkApi from 'upwork-api';
 import { Offers } from 'upwork-api/lib/routers/hr/freelancers/offers.js';
 import { Applications } from 'upwork-api/lib/routers/hr/freelancers/applications.js';
-import { IUpworkApiConfig, IUpworkProposalStatusEnum, IUpworkOfferStatusEnum } from '@gauzy/contracts';
+import { IUpworkApiConfig, IUpworkProposalStatusEnum, IUpworkOfferStatusEnum } from '@irtranscripts/contracts';
 
 @Injectable()
 export class UpworkOffersService {

@@ -42,7 +42,7 @@ jobs:
         run: doctl registry login --expiry-seconds 600
 
       - name: Save DigitalOcean kubeconfig with short-lived credentials
-        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-gauzy
+        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-irtranscripts
 
       - name: Generate TLS Secrets
         run: |
@@ -51,12 +51,12 @@ jobs:
           echo "${{ secrets.INGRESS_WEBAPP_CERT_KEY }}" | base64 --decode > ${HOME}/ingress.demo.key
           echo "${{ secrets.INGRESS_API_CERT }}" | base64 --decode > ${HOME}/ingress.apidemo.crt
           echo "${{ secrets.INGRESS_API_CERT_KEY }}" | base64 --decode > ${HOME}/ingress.apidemo.key
-          kubectl create secret tls demo.gauzy.co-tls --save-config --dry-run=client --cert=${HOME}/ingress.demo.crt --key=${HOME}/ingress.demo.key -o yaml | kubectl --context do-sfo2-k8s-gauzy apply -f -
-          kubectl create secret tls apidemo.gauzy.co-tls --save-config --dry-run=client --cert=${HOME}/ingress.apidemo.crt --key=${HOME}/ingress.apidemo.key -o yaml | kubectl --context do-sfo2-k8s-gauzy apply -f -
+          kubectl create secret tls demo.irtranscripts.com-tls --save-config --dry-run=client --cert=${HOME}/ingress.demo.crt --key=${HOME}/ingress.demo.key -o yaml | kubectl --context do-sfo2-k8s-irtranscripts apply -f -
+          kubectl create secret tls apidemo.irtranscripts.com-tls --save-config --dry-run=client --cert=${HOME}/ingress.apidemo.crt --key=${HOME}/ingress.apidemo.key -o yaml | kubectl --context do-sfo2-k8s-irtranscripts apply -f -
 
       - name: Apply k8s manifests changes in DigitalOcean k8s cluster (if any)
         run: |
-          envsubst < $GITHUB_WORKSPACE/.deploy/k8s/k8s-manifest.demo.yaml | kubectl --context do-sfo2-k8s-gauzy apply -f -
+          envsubst < $GITHUB_WORKSPACE/.deploy/k8s/k8s-manifest.demo.yaml | kubectl --context do-sfo2-k8s-irtranscripts apply -f -
         env:
           # below we are using GitHub secrets for both frontend and backend
           CLOUD_PROVIDER: 'DO'
@@ -86,6 +86,6 @@ jobs:
       # note: for production we will use different strategy later
       - name: Restart Pods to pick up :latest tag version
         run: |
-          kubectl --context do-sfo2-k8s-gauzy rollout restart deployment/gauzy-demo-api
-          kubectl --context do-sfo2-k8s-gauzy rollout restart deployment/gauzy-demo-webapp
-          kubectl --context do-sfo2-k8s-gauzy rollout restart deployment/gauzy-demo-worker
+          kubectl --context do-sfo2-k8s-irtranscripts rollout restart deployment/irtranscripts-demo-api
+          kubectl --context do-sfo2-k8s-irtranscripts rollout restart deployment/irtranscripts-demo-webapp
+          kubectl --context do-sfo2-k8s-irtranscripts rollout restart deployment/irtranscripts-demo-worker

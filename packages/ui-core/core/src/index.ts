@@ -1,5 +1,5 @@
 /*
- * Public API Surface of @gauzy/ui-core/core
+ * Public API Surface of @irtranscripts/ui-core/core
  */
 export * from './lib/auth';
 export * from './lib/common/component-registry.types';

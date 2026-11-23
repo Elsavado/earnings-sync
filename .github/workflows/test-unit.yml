@@ -27,7 +27,7 @@ on:
         default: '2'
 
 concurrency:
-  group: gauzy-unit-tests-${{ github.ref }}
+  group: irtranscripts-unit-tests-${{ github.ref }}
   # Deliberately NOT `cancel-in-progress: true`. A cancelled test run produces no verdict, and a
   # gate that reports nothing is worse than no gate: this repository's sibling project already lost
   # a stage e2e gate that way — six consecutive runs cancelled by the next push, so the gate never
@@ -99,7 +99,7 @@ jobs:
 
       - name: Generate the Angular environment file
         # `packages/ui-config/src/lib/environments/environment.ts` is generated (and gitignored), so a
-        # fresh checkout has none — and every spec that reaches `@gauzy/ui-config`, directly or through
+        # fresh checkout has none — and every spec that reaches `@irtranscripts/ui-config`, directly or through
         # ui-core, failed to load with "Cannot find module './lib/environments/environment'" (about a
         # dozen Angular projects). Same command the Playwright workflow runs before it builds the web
         # app. It goes through yarn, not Nx, so `.env.local` is not loaded here either.

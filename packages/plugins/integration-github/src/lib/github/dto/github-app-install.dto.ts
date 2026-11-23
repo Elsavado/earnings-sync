@@ -1,7 +1,7 @@
-import { IGithubAppInstallInput } from '@gauzy/contracts';
+import { IGithubAppInstallInput } from '@irtranscripts/contracts';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsIn, IsNotEmpty, IsOptional, IsString, Matches } from 'class-validator';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 
 /**
  *

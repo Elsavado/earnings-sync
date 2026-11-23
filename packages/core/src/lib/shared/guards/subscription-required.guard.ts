@@ -47,9 +47,9 @@ export function paywallCheckoutUrl(email: string, base: string = CHECKOUT_URL): 
  * **Also inert when `BILLING_SIGNUP_PAYWALL=false`.** A deployment can bill (link tenants, show the
  * billing pages) without requiring a subscription to sign up — Ever Teams does exactly that.
  *
- * Only a subscription to THIS deployment's product (`BILLING_PRODUCT`, default `gauzy`) counts:
+ * Only a subscription to THIS deployment's product (`BILLING_PRODUCT`, default `irtranscripts`) counts:
  * the Stripe account is shared by every Ever product, and a free Teams or Platform Starter must not
- * open Gauzy signup.
+ * open IRTranscripts signup.
  *
  * Runs alongside RegisterAuthorizationGuard, which handles a different question (whether privileged
  * fields in the body are allowed). Neither subsumes the other.

@@ -1,4 +1,4 @@
-import { TaskSyncScopeEnum } from '@gauzy/contracts';
+import { TaskSyncScopeEnum } from '@irtranscripts/contracts';
 import { redactForSim } from './sim-task-scope';
 
 describe('redactForSim', () => {

@@ -1,4 +1,4 @@
-import { GraphqlConnection } from '@gauzy/core';
+import { GraphqlConnection } from '@irtranscripts/core';
 import {
 	IOrder,
 	IOrderAddress,
@@ -11,7 +11,7 @@ import {
 	IOrderSummary,
 	IOrderTotals,
 	IOrderTransaction
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 /**
  * The GraphQL type names of the order domain, bound to the contracts.

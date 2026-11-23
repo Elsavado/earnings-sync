@@ -37,7 +37,7 @@ export const DEFAULT_HTTP_LOADER_OPTIONS: Required<HttpLoaderOptions> = {
  * @example
  * ```typescript
  * // For standalone apps (app.config.ts)
- * import { provideTranslateHttpLoader } from '@gauzy/ui-core/i18n';
+ * import { provideTranslateHttpLoader } from '@irtranscripts/ui-core/i18n';
  *
  * export const appConfig: ApplicationConfig = {
  *   providers: [
@@ -54,7 +54,7 @@ export const DEFAULT_HTTP_LOADER_OPTIONS: Required<HttpLoaderOptions> = {
  * ```typescript
  * // For NgModule-based apps
  * import { provideTranslateService, TranslatePipe } from '@ngx-translate/core';
- * import { provideTranslateHttpLoader } from '@gauzy/ui-core/i18n';
+ * import { provideTranslateHttpLoader } from '@irtranscripts/ui-core/i18n';
  *
  * @NgModule({
  *   imports: [TranslatePipe],

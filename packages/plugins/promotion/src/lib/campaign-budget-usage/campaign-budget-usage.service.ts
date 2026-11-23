@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Money, RequestContext } from '@gauzy/core';
-import { CurrencyCode, ID } from '@gauzy/contracts';
+import { Money, RequestContext } from '@irtranscripts/core';
+import { CurrencyCode, ID } from '@irtranscripts/contracts';
 import { CampaignBudgetUsage } from './campaign-budget-usage.entity';
 import { TypeOrmCampaignBudgetUsageRepository } from './repository/type-orm-campaign-budget-usage.repository';
 import { MikroOrmCampaignBudgetUsageRepository } from './repository/mikro-orm-campaign-budget-usage.repository';

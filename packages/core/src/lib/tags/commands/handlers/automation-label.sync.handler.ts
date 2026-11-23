@@ -1,6 +1,6 @@
 import { ICommandHandler, CommandHandler } from '@nestjs/cqrs';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ID, ITag, ITagCreateInput, ITagUpdateInput } from '@gauzy/contracts';
+import { ID, ITag, ITagCreateInput, ITagUpdateInput } from '@irtranscripts/contracts';
 import { IntegrationMap } from '../../../core/entities/internal';
 import { RequestContext } from '../../../core/context';
 import { Tag } from './../../tag.entity';
@@ -39,10 +39,10 @@ export class AutomationLabelSyncHandler implements ICommandHandler<AutomationLab
 
 				// Try to find the corresponding tag
 				try {
-					await this._tagService.findOneByIdString(integrationMap.gauzyId);
+					await this._tagService.findOneByIdString(integrationMap.irtranscriptsId);
 
 					// Update the corresponding tag with the new input data
-					return await this.updateTag(integrationMap.gauzyId, {
+					return await this.updateTag(integrationMap.irtranscriptsId, {
 						...entity,
 						organizationId,
 						tenantId
@@ -56,7 +56,7 @@ export class AutomationLabelSyncHandler implements ICommandHandler<AutomationLab
 						},
 						{
 							...entity,
-							id: integrationMap.gauzyId
+							id: integrationMap.irtranscriptsId
 						}
 					);
 				}
@@ -66,7 +66,7 @@ export class AutomationLabelSyncHandler implements ICommandHandler<AutomationLab
 				// Create a new integration map for the tag
 				await this.typeOrmIntegrationMapRepository.save(
 					this.typeOrmIntegrationMapRepository.create({
-						gauzyId: tag.id,
+						irtranscriptsId: tag.id,
 						entity: command.entity,
 						integrationId,
 						sourceId,

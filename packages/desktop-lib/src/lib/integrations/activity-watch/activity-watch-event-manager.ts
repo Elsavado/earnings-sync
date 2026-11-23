@@ -1,5 +1,5 @@
 import { BrowserWindow, ipcMain, IpcMainEvent } from 'electron';
-import { IActivityWatchCollectEventData, IActivityWatchEventResult, ActivityWatchCollectEvent } from '@gauzy/contracts';
+import { IActivityWatchCollectEventData, IActivityWatchEventResult, ActivityWatchCollectEvent } from '@irtranscripts/contracts';
 
 enum ActivityWatchMainEvent {
 	PUSH_WINDOW = 'push_window_activity',

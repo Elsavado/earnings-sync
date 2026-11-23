@@ -12,7 +12,7 @@
 export interface IProtocolHandler {
 	/**
 	 * The deep-link action this handler is responsible for.
-	 * e.g. `"install-plugin"` for `gauzy://install-plugin?...`
+	 * e.g. `"install-plugin"` for `irtranscripts://install-plugin?...`
 	 */
 	readonly action: string;
 

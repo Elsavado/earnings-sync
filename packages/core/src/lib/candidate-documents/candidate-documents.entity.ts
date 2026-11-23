@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { RelationId } from 'typeorm';
-import { ICandidateDocument, ICandidate } from '@gauzy/contracts';
+import { ICandidateDocument, ICandidate } from '@irtranscripts/contracts';
 import { IsString } from 'class-validator';
 import {
 	Candidate,

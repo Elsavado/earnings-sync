@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { IInvite, IOrganizationContactRegistrationInput } from '@gauzy/contracts';
-import { ErrorHandlingService, InviteService, ToastrService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { IInvite, IOrganizationContactRegistrationInput } from '@irtranscripts/contracts';
+import { ErrorHandlingService, InviteService, ToastrService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 
 @Component({
     selector: 'ga-accept-client-invite',

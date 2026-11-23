@@ -14,8 +14,8 @@ import {
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { combineLatest } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
-import { IOrganization, ISelectedEmployee, PermissionsEnum } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
+import { IOrganization, ISelectedEmployee, PermissionsEnum } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -28,7 +28,7 @@ import { Store } from '@gauzy/ui-core/core';
 			 * this component renders below the heading (.ga-page-title-trail). The
 			 * title used to be 24px/600, which read as an oversized breadcrumb path;
 			 * a page heading only needs to out-rank body copy, so it now sits at the
-			 * gauzy-page-title-* step of the type scale. That step is defined once
+			 * irtranscripts-page-title-* step of the type scale. That step is defined once
 			 * in styles/themes.scss and is the SAME one the global rule in
 			 * styles/_overrides.scss applies to the card-header headings that do
 			 * NOT use this component, so a page title measures the same whichever
@@ -38,18 +38,18 @@ import { Store } from '@gauzy/ui-core/core';
 			 * on.
 			 */
 			:host {
-				font-size: var(--gauzy-page-title-font-size, 1rem);
-				font-weight: var(--gauzy-page-title-font-weight, 600);
-				line-height: var(--gauzy-page-title-line-height, 1.5rem);
-				letter-spacing: var(--gauzy-page-title-letter-spacing, -0.01em);
+				font-size: var(--irtranscripts-page-title-font-size, 1rem);
+				font-weight: var(--irtranscripts-page-title-font-weight, 600);
+				line-height: var(--irtranscripts-page-title-line-height, 1.5rem);
+				letter-spacing: var(--irtranscripts-page-title-letter-spacing, -0.01em);
 				text-align: left;
 			}
 			.name,
 			.org-name {
-				font-size: var(--gauzy-page-title-font-size, 1rem);
+				font-size: var(--irtranscripts-page-title-font-size, 1rem);
 				font-weight: 400;
-				line-height: var(--gauzy-page-title-line-height, 1.5rem);
-				letter-spacing: var(--gauzy-page-title-letter-spacing, -0.01em);
+				line-height: var(--irtranscripts-page-title-line-height, 1.5rem);
+				letter-spacing: var(--irtranscripts-page-title-letter-spacing, -0.01em);
 				text-align: left;
 				color: var(--text-hint-color);
 			}
@@ -318,7 +318,7 @@ export class HeaderTitleComponent implements OnInit, AfterViewInit, OnDestroy {
 
 		// Nothing to lift. A page that grows an action row later keeps the layout
 		// it has rather than a half-applied one.
-		if (!header.querySelector('ngx-gauzy-button-action')) {
+		if (!header.querySelector('ngx-irtranscripts-button-action')) {
 			return;
 		}
 

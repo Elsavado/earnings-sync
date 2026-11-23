@@ -1,13 +1,13 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import type { EmbeddingModel, LanguageModel } from 'ai';
-import { ID } from '@gauzy/contracts';
-import { EventBus } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { EventBus } from '@irtranscripts/core';
 import { getDocsConfig } from '../../docs.config';
 import { DocsAiUsageEvent } from './docs-ai-usage.event';
 
 /**
- * Structural mirrors of the `@gauzy/plugin-ai-chat` provider SPI — declared locally so
+ * Structural mirrors of the `@irtranscripts/plugin-ai-chat` provider SPI — declared locally so
  * this module never needs the package at TYPE-load time either. The runtime module is
  * feature-detected (see {@link DocsAiService.aiChat}); when the AI-chat plugin is not
  * installed or not bootstrapped, every resolution returns `null` and the knowledge
@@ -47,7 +47,7 @@ export interface IResolvedEmbeddingModel {
 }
 
 /**
- * The `@gauzy/plugin-ai-chat` seam of the Documents knowledge pipeline.
+ * The `@irtranscripts/plugin-ai-chat` seam of the Documents knowledge pipeline.
  *
  * Resolves classification (chat) and embedding models through the AI-chat plugin's static
  * `AiProviderRegistry`, with the same credential order the chat engine uses:
@@ -77,7 +77,7 @@ export class DocsAiService {
 	}
 
 	/**
-	 * Resolves the classification model: `GAUZY_DOCS_CLASSIFY_MODEL` when set, else the
+	 * Resolves the classification model: `IRTRANSCRIPTS_DOCS_CLASSIFY_MODEL` when set, else the
 	 * resolved provider's chat default. Returns `null` when no provider has credentials.
 	 */
 	public async resolveChatModel(tenantId: ID): Promise<IResolvedChatModel | null> {
@@ -108,14 +108,14 @@ export class DocsAiService {
 	 * therefore the **same credential order** (tenant BYOK → environment → platform).
 	 *
 	 * Two gates come first, and both return `null` rather than throwing: the AI master switch
-	 * (`GAUZY_DOCS_AI_ENABLED`) and the OCR switch (`GAUZY_DOCS_OCR_ENABLED`). `null` means
+	 * (`IRTRANSCRIPTS_DOCS_AI_ENABLED`) and the OCR switch (`IRTRANSCRIPTS_DOCS_OCR_ENABLED`). `null` means
 	 * "no vision model is available", and every caller treats that as *today's* behavior —
 	 * a scanned PDF / an image stays a permanent extraction failure. Turning OCR on is
 	 * therefore the only thing that can change an existing deployment's outcome.
 	 *
-	 * There is no separate `GAUZY_DOCS_OCR_MODEL`: the spec's environment table (§14) lists
+	 * There is no separate `IRTRANSCRIPTS_DOCS_OCR_MODEL`: the spec's environment table (§14) lists
 	 * exactly two OCR variables, and the chat default of a modern provider is vision-capable.
-	 * A deployment that wants a different model points `GAUZY_DOCS_CLASSIFY_MODEL` at it.
+	 * A deployment that wants a different model points `IRTRANSCRIPTS_DOCS_CLASSIFY_MODEL` at it.
 	 *
 	 * @param tenantId The tenant snapshot of the job (never `RequestContext`).
 	 */
@@ -128,7 +128,7 @@ export class DocsAiService {
 	}
 
 	/**
-	 * Resolves the embedding model (`GAUZY_DOCS_EMBEDDING_MODEL`) from the first provider
+	 * Resolves the embedding model (`IRTRANSCRIPTS_DOCS_EMBEDDING_MODEL`) from the first provider
 	 * that (a) implements `createEmbeddingModel` (feature-detected) and (b) has usable
 	 * credentials for the tenant. No match ⇒ `null` ⇒ lexical-only indexing — never an error.
 	 */
@@ -211,7 +211,7 @@ export class DocsAiService {
 	}
 
 	/**
-	 * Lazily requires `@gauzy/plugin-ai-chat` (cached). `null` when the package cannot be
+	 * Lazily requires `@irtranscripts/plugin-ai-chat` (cached). `null` when the package cannot be
 	 * loaded — the knowledge pipeline then runs its lexical-only path.
 	 */
 	private aiChat(): any | null {
@@ -220,9 +220,9 @@ export class DocsAiService {
 		}
 		try {
 			// eslint-disable-next-line @typescript-eslint/no-var-requires
-			this.aiChatModule = require('@gauzy/plugin-ai-chat');
+			this.aiChatModule = require('@irtranscripts/plugin-ai-chat');
 		} catch (error) {
-			this.logger.debug(`@gauzy/plugin-ai-chat is not available: ${(error as Error).message}`);
+			this.logger.debug(`@irtranscripts/plugin-ai-chat is not available: ${(error as Error).message}`);
 			this.aiChatModule = null;
 		}
 		return this.aiChatModule;

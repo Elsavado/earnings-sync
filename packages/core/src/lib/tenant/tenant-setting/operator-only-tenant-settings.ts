@@ -1,6 +1,6 @@
 import { ForbiddenException } from '@nestjs/common';
 import { FindOptionsWhere, In, Not, Repository } from 'typeorm';
-import { ID, RolesEnum } from '@gauzy/contracts';
+import { ID, RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../core/context';
 import { isListedInstallationOperator, OPERATOR_USER_IDS_ENV } from './global-setting-writer';
 

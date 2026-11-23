@@ -1,7 +1,7 @@
 {
-	"name": "@gauzy/auth",
+	"name": "@irtranscripts/auth",
 	"version": "0.1.0",
-	"description": "Authentication module for the Ever Gauzy Platform, providing various authentication strategies and integrations.",
+	"description": "Authentication module for the Ever IRTranscripts Platform, providing various authentication strategies and integrations.",
 	"author": {
 		"name": "Ever Co. LTD",
 		"email": "ever@ever.co",
@@ -27,10 +27,10 @@
 		"lib:watch": "yarn nx build auth --watch"
 	},
 	"dependencies": {
-		"@gauzy/common": "^0.1.0",
-		"@gauzy/config": "^0.1.0",
-		"@gauzy/contracts": "^0.1.0",
-		"@gauzy/utils": "^0.1.0",
+		"@irtranscripts/common": "^0.1.0",
+		"@irtranscripts/config": "^0.1.0",
+		"@irtranscripts/contracts": "^0.1.0",
+		"@irtranscripts/utils": "^0.1.0",
 		"@nestjs/axios": "github:ever-co/nestjs-axios#master",
 		"@nestjs/common": "^12.1.3",
 		"@nestjs/config": "^12.0.1",
@@ -79,7 +79,7 @@
 		"auth",
 		"authentication",
 		"authorization",
-		"gauzy",
+		"irtranscripts",
 		"nestjs",
 		"oauth",
 		"jwt",

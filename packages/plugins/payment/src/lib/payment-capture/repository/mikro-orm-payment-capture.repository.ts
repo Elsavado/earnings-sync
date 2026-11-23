@@ -1,4 +1,4 @@
-import { MikroOrmBaseEntityRepository } from '@gauzy/core';
+import { MikroOrmBaseEntityRepository } from '@irtranscripts/core';
 import { PaymentCapture } from '../payment-capture.entity';
 
 /**

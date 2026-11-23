@@ -1,4 +1,4 @@
-import { RegisteredWindow } from '@gauzy/desktop-core';
+import { RegisteredWindow } from '@irtranscripts/desktop-core';
 import { BrowserWindow, ipcMain, Menu, WebContents } from 'electron';
 import { AppWindowManager } from '../../app-window-manager';
 import { AuthenticationHandler } from '../auth/authentication-handler';
@@ -38,10 +38,10 @@ export class AuthIPCHandler {
 			this.notifyAuthStateChange(!!arg.employeeId, arg);
 
 			if (timeTrackerWindow && arg.employeeId) {
-				this.initializeTimeTracker(timeTrackerWindow, arg, appConfig.gauzyWindow);
+				this.initializeTimeTracker(timeTrackerWindow, arg, appConfig.irtranscriptsWindow);
 			}
-			if (appConfig.gauzyWindow && timeTrackerWindow) {
-				timeTrackerWindow.webContents.send('gauzy_auth_success', arg);
+			if (appConfig.irtranscriptsWindow && timeTrackerWindow) {
+				timeTrackerWindow.webContents.send('irtranscripts_auth_success', arg);
 			}
 
 			sender.send('refresh_menu');
@@ -85,7 +85,7 @@ export class AuthIPCHandler {
 		this.notifyAuthStateChange(false);
 		this.updateMenuItems(false, false);
 
-		await this.handleGauzyWindowLogout(timeTrackerWindow);
+		await this.handleIRTranscriptsWindowLogout(timeTrackerWindow);
 		this.closePluginsWindow();
 
 		await this.authHandler.handleLogout(isRestart);
@@ -111,18 +111,18 @@ export class AuthIPCHandler {
 		}
 	}
 
-	private initializeTimeTracker(timeTrackerWindow: any, arg: any, isGauzyWindow: boolean): void {
+	private initializeTimeTracker(timeTrackerWindow: any, arg: any, isIRTranscriptsWindow: boolean): void {
 		this.windowService.webContents(timeTrackerWindow).send('auth_success_tray_init', arg);
 
-		if (!isGauzyWindow) {
+		if (!isIRTranscriptsWindow) {
 			this.windowService.show(RegisteredWindow.TIMER);
 		}
 	}
 
-	private async handleGauzyWindowLogout(timeTrackerWindow: any): Promise<void> {
+	private async handleIRTranscriptsWindowLogout(timeTrackerWindow: any): Promise<void> {
 		const configs = this.store.getStore('configs');
 
-		if (configs.gauzyWindow) {
+		if (configs.irtranscriptsWindow) {
 			this.windowService.webContents(timeTrackerWindow).send('clear_store');
 			this.windowService.hide(RegisteredWindow.TIMER);
 		}

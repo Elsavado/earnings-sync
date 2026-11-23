@@ -1,7 +1,7 @@
 import { FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { MonoTypeOperatorFunction, tap } from 'rxjs';
-import { AGENT_EXIT_LOGOUT_FIELDS, AgentExitLogoutField } from '@gauzy/contracts';
+import { AGENT_EXIT_LOGOUT_FIELDS, AgentExitLogoutField } from '@irtranscripts/contracts';
 
 /**
  * Issue #9873: in EEA/UK the worker must always be able to exit and log out of the desktop agent,

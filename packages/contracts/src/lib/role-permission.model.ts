@@ -176,7 +176,7 @@ export enum PermissionsEnum {
 	CUSTOM_SMTP_EDIT = 'CUSTOM_SMTP_EDIT',
 	IMPORT_ADD = 'IMPORT_ADD',
 	EXPORT_ADD = 'EXPORT_ADD',
-	MIGRATE_GAUZY_CLOUD = 'MIGRATE_GAUZY_CLOUD',
+	MIGRATE_IRTRANSCRIPTS_CLOUD = 'MIGRATE_IRTRANSCRIPTS_CLOUD',
 	/** Jobs Permissions Start */
 	ORG_JOB_SEARCH = 'ORG_JOB_SEARCH',
 	ORG_JOB_APPLY = 'ORG_JOB_APPLY',
@@ -260,7 +260,7 @@ export enum PermissionsEnum {
 	ORG_STRATEGIC_INITIATIVE_UPDATE = 'ORG_STRATEGIC_INITIATIVE_UPDATE',
 	ORG_STRATEGIC_INITIATIVE_DELETE = 'ORG_STRATEGIC_INITIATIVE_DELETE',
 	/** Organization Strategic Initiative Permissions End */
-	/** Inbox Permissions Start (@gauzy/plugin-inbox) */
+	/** Inbox Permissions Start (@irtranscripts/plugin-inbox) */
 	/** Read and act on the inbox items addressed to me. */
 	INBOX_VIEW = 'INBOX_VIEW',
 	/** Manage the organization's and teams' mailboxes and provider accounts. */

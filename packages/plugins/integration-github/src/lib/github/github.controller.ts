@@ -1,7 +1,7 @@
 import { Controller, Post, Body, UseGuards, HttpException, HttpStatus, HttpCode } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PermissionGuard, Permissions, RequestContext, TenantPermissionGuard, UseValidationPipe } from '@gauzy/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PermissionGuard, Permissions, RequestContext, TenantPermissionGuard, UseValidationPipe } from '@irtranscripts/core';
 import { GithubService } from './github.service';
 import { GithubOAuthStateService } from './github-oauth-state.service';
 import { GithubAppInstallDTO, GithubInstallStateDTO, GithubOAuthDTO } from './dto';

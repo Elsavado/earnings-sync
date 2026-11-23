@@ -1,6 +1,6 @@
 /* eslint-disable */
 /**
- * Two Jest projects, both run by `nx test gauzy-server`:
+ * Two Jest projects, both run by `nx test irtranscripts-server`:
  *
  * - `server`: the Angular specs (jest-preset-angular, jsdom, and the zone.js test environment that
  *   `src/test-setup.ts` starts).

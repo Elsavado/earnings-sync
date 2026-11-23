@@ -1,4 +1,4 @@
-import { ID, IPlugin, IPluginVersion } from '@gauzy/contracts';
+import { ID, IPlugin, IPluginVersion } from '@irtranscripts/contracts';
 import { createAction } from '@ngneat/effects';
 
 export class PluginVersionActions {

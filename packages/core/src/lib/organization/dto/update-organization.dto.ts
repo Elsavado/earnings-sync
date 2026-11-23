@@ -1,6 +1,6 @@
 import { ApiPropertyOptional, IntersectionType } from '@nestjs/swagger';
 import { IsBoolean, IsOptional } from 'class-validator';
-import { IOrganizationUpdateInput } from '@gauzy/contracts';
+import { IOrganizationUpdateInput } from '@irtranscripts/contracts';
 import { CreateOrganizationDTO } from './create-organization.dto';
 import { OrganizationPublicSettingDTO } from './organization-public-setting.dto';
 

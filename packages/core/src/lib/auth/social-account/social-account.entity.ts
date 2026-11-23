@@ -3,7 +3,7 @@ import { RelationId } from 'typeorm';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { EntityRepositoryType } from '@mikro-orm/core';
 import { IsEnum, IsNotEmpty, IsString, IsUUID } from 'class-validator';
-import { ID, ISocialAccount, IUser, ProviderEnum } from '@gauzy/contracts';
+import { ID, ISocialAccount, IUser, ProviderEnum } from '@irtranscripts/contracts';
 import { TenantBaseEntity, User } from '../../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from '../../core/decorators/entity';
 import { MikroOrmSocialAccountRepository } from './repository/mikro-orm-social-account.repository';

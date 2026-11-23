@@ -2,10 +2,10 @@ import { AfterViewInit, ChangeDetectorRef, Component, inject, Input, OnInit, Vie
 import { filter, tap } from 'rxjs';
 import { Cell, DefaultEditor } from 'angular2-smart-table';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { IEmployee, IOrganization } from '@gauzy/contracts';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
-import { Store } from '@gauzy/ui-core/core';
-import { TableComponentsModule, ToggleSwitcherComponent } from '@gauzy/ui-core/shared';
+import { IEmployee, IOrganization } from '@irtranscripts/contracts';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
+import { Store } from '@irtranscripts/ui-core/core';
+import { TableComponentsModule, ToggleSwitcherComponent } from '@irtranscripts/ui-core/shared';
 import { JobSearchStoreService } from '../../providers/job-search-store.service';
 
 @UntilDestroy()

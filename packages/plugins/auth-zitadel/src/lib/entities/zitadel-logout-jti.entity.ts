@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
-import { BaseEntity, ColumnIndex, MultiORMColumn, MultiORMEntity } from '@gauzy/core';
+import { BaseEntity, ColumnIndex, MultiORMColumn, MultiORMEntity } from '@irtranscripts/core';
 
 /**
  * Replay cache of back-channel logout tokens: a `jti` is accepted once. Rows expire after a few

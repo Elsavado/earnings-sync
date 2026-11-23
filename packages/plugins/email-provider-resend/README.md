@@ -1,18 +1,18 @@
 <!-- cspell:ignore svix whsec DMARC -->
 
-# @gauzy/plugin-email-provider-resend
+# @irtranscripts/plugin-email-provider-resend
 
-[Resend](https://resend.com) as an email provider of the Gauzy Inbox: receive mail with Resend inbound and send through
+[Resend](https://resend.com) as an email provider of the IRTranscripts Inbox: receive mail with Resend inbound and send through
 the Resend API. The reference provider plugin (plan 04 §5.2, G-P4-4) that the Postmark, Mailgun, SendGrid and Amazon SES
 plugins copy.
 
-Plan: `ever-co/homelab` `docs/superpowers/specs/2026-10-15-gauzy-ever-works-integration/04-inbox-and-email.md` §5.2.
+Plan: `ever-co/homelab` `docs/superpowers/specs/2026-10-15-irtranscripts-ever-works-integration/04-inbox-and-email.md` §5.2.
 
 ## Switch
 
 **Off by default.** The API lists the plugin only when `EMAIL_PROVIDER_RESEND_ENABLED=true` (exactly); any other value
 keeps it off and is logged once. It registers with the Inbox email provider registry, so it does something only where
-`GAUZY_INBOX_ENABLED=true` and `GAUZY_INBOX_EMAIL_ENABLED=true` too. It owns no table, no route and no migration.
+`IRTRANSCRIPTS_INBOX_ENABLED=true` and `IRTRANSCRIPTS_INBOX_EMAIL_ENABLED=true` too. It owns no table, no route and no migration.
 
 ## Set up
 

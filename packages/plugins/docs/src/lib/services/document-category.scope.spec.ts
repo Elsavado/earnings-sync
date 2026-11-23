@@ -2,7 +2,7 @@ import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 /**
- * `@gauzy/core` boots the whole application graph from its barrel, so it is doubled at the module boundary: the base
+ * `@irtranscripts/core` boots the whole application graph from its barrel, so it is doubled at the module boundary: the base
  * the category service inherits is reduced to the reads and writes it states, and to the organization boundary a case
  * confines the caller to. The boundary itself — who it confines, and how every read, write and delete of the base
  * keeps to it — is proven against real stores on both ORMs in core
@@ -18,7 +18,7 @@ const writes: string[] = [];
 /** The boundary a case confines the caller to: none (a tenant admin, a job) unless the case states one. */
 const confinement: { boundary: { organizationId: string | null } | null } = { boundary: null };
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	return {

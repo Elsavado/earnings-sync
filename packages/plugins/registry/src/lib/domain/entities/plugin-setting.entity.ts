@@ -1,4 +1,4 @@
-import { ID, IUser, PluginSettingDataType } from '@gauzy/contracts';
+import { ID, IUser, PluginSettingDataType } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	MultiORMColumn,
@@ -6,7 +6,7 @@ import {
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity,
 	User
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, ValidateIf } from 'class-validator';
 import { Index, JoinColumn, Relation, RelationId } from 'typeorm';

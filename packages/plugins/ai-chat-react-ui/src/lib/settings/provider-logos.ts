@@ -21,8 +21,8 @@
  *   no mark in simple-icons, so they get generic glyphs drawn for this page
  *   (a bolt, a microphone, a server, a waveform and a plug). These are
  *   descriptive pictograms, not the projects' own logos.
- * - `gauzy-ai` is this repository's own logo — the very artwork the Integrations
- *   page renders (apps/api/src/assets/seed/integrations/gauzy-ai.svg). It is
+ * - `irtranscripts-ai` is this repository's own logo — the very artwork the Integrations
+ *   page renders (apps/api/src/assets/seed/integrations/irtranscripts-ai.svg). It is
  *   copied here instead of referenced, because that file is served by the API
  *   and a settings tile must not depend on an API asset URL to draw.
  *
@@ -57,11 +57,11 @@ export interface IProviderLogo {
  * falls back to the monogram tile, so a tile is never an empty box.
  */
 export const PROVIDER_LOGOS: Readonly<Record<string, IProviderLogo>> = {
-	// Gauzy AI — repository artwork. The trace is stored in tenth-of-a-unit,
+	// IRTranscripts AI — repository artwork. The trace is stored in tenth-of-a-unit,
 	// y-flipped coordinates (potrace output), hence the group transform; the
 	// viewBox is cropped to the ink so the wordmark fills the tile rather than
 	// floating in the empty half of the original 200×200 canvas.
-	'gauzy-ai': {
+	'irtranscripts-ai': {
 		viewBox: '26 61 153 88',
 		transform: 'translate(0,200) scale(0.1,-0.1)',
 		paths: [

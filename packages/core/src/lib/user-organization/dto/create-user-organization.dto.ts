@@ -1,6 +1,6 @@
 import { ApiProperty, IntersectionType, PartialType, PickType } from '@nestjs/swagger';
 import { IsNotEmpty, IsUUID } from 'class-validator';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { TenantBaseDTO } from '../../core/dto';
 import { IsOrganizationBelongsToUser } from '../../shared/validators';
 import { UserOrganization } from '../user-organization.entity';

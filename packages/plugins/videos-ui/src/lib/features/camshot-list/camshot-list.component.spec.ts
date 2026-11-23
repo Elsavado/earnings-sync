@@ -1,9 +1,9 @@
-// The component pulls `AlertModalComponent` from the `@gauzy/ui-core/shared` barrel,
+// The component pulls `AlertModalComponent` from the `@irtranscripts/ui-core/shared` barrel,
 // which transitively loads `ngx-daterangepicker-material` -> `dayjs/esm` (ESM this suite's
 // `transformIgnorePatterns` does not transform, so the real barrel fails to parse under jest).
 // The component only references the class as a value passed to `NbDialogService.open`, so a
 // lightweight mock is all it genuinely needs.
-jest.mock('@gauzy/ui-core/shared', () => ({
+jest.mock('@irtranscripts/ui-core/shared', () => ({
 	AlertModalComponent: class AlertModalComponent {}
 }));
 

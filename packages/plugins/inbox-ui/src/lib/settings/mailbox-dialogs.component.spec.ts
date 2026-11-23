@@ -9,7 +9,7 @@ import {
 	InboxMailboxOwnerTypeEnum,
 	InboxMailboxPurposeEnum,
 	InboxProviderAccountStatusEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { InboxDirectoryService } from '../services/inbox-directory.service';
 import { InboxEmailSettingsService } from '../services/inbox-email-settings.service';
 import { InboxMailboxCreateDialogComponent } from './mailbox-create-dialog.component';

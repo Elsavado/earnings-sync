@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { SchedulerModule } from '@gauzy/scheduler';
+import { SchedulerModule } from '@irtranscripts/scheduler';
 import { StockReservationModule } from './stock-reservation/stock-reservation.module';
 import { StockReservationExpiryScheduler } from './stock-reservation/stock-reservation-expiry.scheduler';
 import { StockReservationExpiryWorker } from './stock-reservation/stock-reservation-expiry.worker';

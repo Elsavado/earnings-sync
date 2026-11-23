@@ -1,6 +1,6 @@
 import { Inject, Injectable, Logger, Optional } from '@nestjs/common';
-import { ID } from '@gauzy/contracts';
-import { FeatureService } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { FeatureService } from '@irtranscripts/core';
 import { EntitlementKind } from '../entitlement.enums';
 import { EntitlementFeatures } from '../entitlement.features';
 import { ENTITLEMENT_CATALOG_PORT, IEntitlementCatalogPort } from '../entitlement.types';

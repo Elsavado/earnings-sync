@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 /**
  * The stored file behind one chat attachment.
@@ -41,7 +41,7 @@ export interface IAiChatAttachmentSavedPayload {
 /**
  * Published on the core event bus when a user attaches a file to a chat conversation.
  *
- * This is a PUBLISHED CONTRACT, not an internal detail: `@gauzy/plugin-docs` subscribes to it by
+ * This is a PUBLISHED CONTRACT, not an internal detail: `@irtranscripts/plugin-docs` subscribes to it by
  * class (`capture/chat-capture.subscriber.ts`) and turns each attachment into an ordinary
  * `Document { kind: FILE, source: CHAT }` that then rides the standard extraction pipeline. That
  * subscriber feature-detects this export at runtime, so it stayed a permanent no-op for as long
@@ -52,7 +52,7 @@ export interface IAiChatAttachmentSavedPayload {
  * it silently stops chat capture with nothing failing anywhere.
  *
  * Structurally compatible with the core event bus's `BaseEvent` (`id` + `createdAt`) rather than
- * extending it — the base class is not part of the public `@gauzy/core` surface, which is the
+ * extending it — the base class is not part of the public `@irtranscripts/core` surface, which is the
  * same reason `DocsAiUsageEvent` is declared this way.
  */
 export class AiChatAttachmentSavedEvent {

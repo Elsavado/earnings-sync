@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { FeatureFlag } from '@gauzy/common';
-import { FeatureEnum, ID, IDocumentCategory, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
+import { FeatureEnum, ID, IDocumentCategory, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	BaseQueryDTO,
 	FeatureFlagGuard,
@@ -11,7 +11,7 @@ import {
 	TenantPermissionGuard,
 	UseValidationPipe,
 	UUIDValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { CreateDocumentCategoryCommand } from '../commands/create-document-category.command';
 import { DeleteDocumentCategoryCommand } from '../commands/delete-document-category.command';
 import { MergeDocumentCategoryCommand } from '../commands/merge-document-category.command';

@@ -11,7 +11,7 @@ import {
 	IsUUID,
 	MaxLength
 } from 'class-validator';
-import { CurrencyCode, DecimalString, ID, IOrganizationVendor } from '@gauzy/contracts';
+import { CurrencyCode, DecimalString, ID, IOrganizationVendor } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	ColumnNumericTransformerPipe,
@@ -21,7 +21,7 @@ import {
 	MultiORMManyToOne,
 	OrganizationVendor,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { IVendorProductTerm, VendorTermStatus } from '../purchasing.types';
 import { MikroOrmVendorProductTermRepository } from './repository/mikro-orm-vendor-product-term.repository';
 

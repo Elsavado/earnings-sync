@@ -3,9 +3,9 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, filter, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ID, IEmployeeProposalTemplate, IOrganization } from '@gauzy/contracts';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
-import { ErrorHandlingService, ProposalTemplateService, Store } from '@gauzy/ui-core/core';
+import { ID, IEmployeeProposalTemplate, IOrganization } from '@irtranscripts/contracts';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
+import { ErrorHandlingService, ProposalTemplateService, Store } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy()
 @Component({

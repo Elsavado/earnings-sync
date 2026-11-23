@@ -2,9 +2,9 @@
  * Pure helpers for resolving the avatars that ship with the seed.
  *
  * Seeded users, employees and candidates carry `imageUrl: 'assets/images/avatars/<file>'`. That path
- * only resolves inside the Angular Gauzy app, which ships `<base href="/">`; every other client
+ * only resolves inside the Angular IRTranscripts app, which ships `<base href="/">`; every other client
  * resolves it against whatever route it is on and 404s, because the files live in
- * `apps/gauzy/src/assets/images/avatars/` and are served by no API and no CDN.
+ * `apps/irtranscripts/src/assets/images/avatars/` and are served by no API and no CDN.
  *
  * The seed therefore copies each avatar into the API's public assets and stores a real `ImageAsset`,
  * the same way `createDefaultIssueTypes` already handles task icons. This module holds the decision

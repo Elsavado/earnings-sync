@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 import { DataSource } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { IntegrationTenant } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { IntegrationTenant } from '@irtranscripts/core';
 import type { EverWorksEventEnvelope } from '../../client/ever-works-client.types';
 import { EverWorksConnection } from '../../connection/ever-works-connection.entity';
 import { EVER_WORKS_INTEGRATION_NAME } from '../../ever-works.constants';
@@ -14,7 +14,7 @@ const REARMED_BY_RESYNC: ReadonlyArray<EverWorksInboundStatus> = [EverWorksInbou
 
 /**
  * Stores Ever Works events as they arrive (webhook, change feed, initial sync), deduplicated on the event
- * id per connection. The tenant is the connection's; the organization is the Gauzy organization mapped
+ * id per connection. The tenant is the connection's; the organization is the IRTranscripts organization mapped
  * to the event's Ever Works organization, never anything the payload claims.
  */
 @Injectable()
@@ -77,7 +77,7 @@ export class EverWorksInboundStore {
 	 * A resync reads a record unchanged since an earlier run under the same event id. When that run skipped it or
 	 * gave up on it, the cause may be gone now (a setting turned on, a team paired, the mapping enabled again): it is
 	 * queued again like a new record (attempts reset, the new `seq` and hold), instead of counting as a duplicate
-	 * that never reaches Gauzy until it changes in Ever Works (review F73). An applied one stays a duplicate.
+	 * that never reaches IRTranscripts until it changes in Ever Works (review F73). An applied one stays a duplicate.
 	 */
 	private async rearm(
 		connection: EverWorksConnection,
@@ -102,7 +102,7 @@ export class EverWorksInboundStore {
 		return { duplicate: !result.affected };
 	}
 
-	/** The Gauzy organization mapped to an Ever Works organization through this connection, or `null`. */
+	/** The IRTranscripts organization mapped to an Ever Works organization through this connection, or `null`. */
 	async organizationFor(connection: EverWorksConnection, everWorksOrganizationId: string): Promise<ID | null> {
 		const mappings = await this.dataSource.getRepository(IntegrationTenant).find({
 			where: { tenantId: connection.tenantId, name: EVER_WORKS_INTEGRATION_NAME, isActive: true, isArchived: false },

@@ -1,14 +1,14 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { Subject, Subscription } from 'rxjs';
 import { EventSubscriber } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { BaseEntityEventSubscriber, OrganizationTeam, OrganizationTeamEmployee, RequestContext } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { BaseEntityEventSubscriber, OrganizationTeam, OrganizationTeamEmployee, RequestContext } from '@irtranscripts/core';
 import { EverWorksLinkType } from '../sync/entities/ever-works-sync.entities';
 import { EverWorksSyncContext } from '../sync/ever-works-sync.context';
 import { EverWorksOutboundQueue } from '../sync/outbound/ever-works-outbound.queue';
 import { runDetached } from '../sync/outbound/ever-works-detached';
 
-/** A Gauzy team (or one of its memberships) changed. */
+/** A IRTranscripts team (or one of its memberships) changed. */
 export interface EverWorksTeamSignal {
 	tenantId: ID;
 	organizationId: ID;
@@ -96,7 +96,7 @@ export class EverWorksTeamCapture implements OnModuleInit, OnModuleDestroy {
 					tenantId: change.tenantId,
 					organizationId: change.organizationId,
 					entityType: EverWorksLinkType.TEAM,
-					gauzyId: change.teamId,
+					irtranscriptsId: change.teamId,
 					op: change.deleted ? 'delete' : 'upsert',
 					actorUserId: change.actorUserId
 				})

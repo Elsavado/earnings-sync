@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 export class AlterEquipmentSharingEntityTable1741002457504 implements MigrationInterface {
 	name = 'AlterEquipmentSharingEntityTable1741002457504';

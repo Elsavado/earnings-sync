@@ -10,8 +10,8 @@ import {
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity,
 	ExportRedacted,
-} from '@gauzy/core';
-import { DecimalString, ID } from '@gauzy/contracts';
+} from '@irtranscripts/core';
+import { DecimalString, ID } from '@irtranscripts/contracts';
 import { MikroOrmPaymentSessionRepository } from './repository/mikro-orm-payment-session.repository';
 import { IPaymentCollection, IPaymentProvider, IPaymentSession, PaymentSessionStatus } from '../payment.types';
 import { PaymentCollection } from '../payment-collection/payment-collection.entity';

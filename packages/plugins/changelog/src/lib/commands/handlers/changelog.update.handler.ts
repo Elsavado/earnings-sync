@@ -1,4 +1,4 @@
-import { IChangelog } from '@gauzy/contracts';
+import { IChangelog } from '@irtranscripts/contracts';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { ChangelogService } from '../../changelog.service';
 import { ChangelogUpdateCommand } from '../changelog.update.command';

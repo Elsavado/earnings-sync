@@ -44,12 +44,12 @@ export function initializeSentry(): Client<ClientOptions<BaseTransportOptions>> 
 		// Set `tracePropagationTargets` to control for which URLs distributed tracing should be enabled
 		tracePropagationTargets: [
 			'localhost',
-			/^https:\/\/api\.gauzy\.co\/api/,
-			/^https:\/\/apistage\.gauzy\.co\/api/,
-			/^https:\/\/apidemo\.gauzy\.co\/api/
+			/^https:\/\/api\.irtranscripts\.co\/api/,
+			/^https:\/\/apistage\.irtranscripts\.co\/api/,
+			/^https:\/\/apidemo\.irtranscripts\.co\/api/
 		],
 		// The release identifier used when uploading respective source maps.
-		release: 'gauzy@' + version,
+		release: 'irtranscripts@' + version,
 		// Capture Replay for 10% of all sessions,
 		// plus for 100% of sessions with an error
 		replaysSessionSampleRate: environment.SENTRY_TRACES_SAMPLE_RATE

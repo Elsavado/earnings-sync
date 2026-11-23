@@ -1,8 +1,8 @@
-# Ever Gauzy Platform
+# Ever IRTranscripts Platform
 
-<a href="https://trendshift.io/repositories/1775" target="_blank"><img src="https://trendshift.io/api/badge/repositories/1775" alt="ever-co%2Fever-gauzy | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a> <a href="https://trendshift.io/repositories/1775?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-1775" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/1775/daily?language=TypeScript" alt="ever-co%2Fever-gauzy | Trendshift" width="250" height="55"/></a>
+<a href="https://trendshift.io/repositories/1775" target="_blank"><img src="https://trendshift.io/api/badge/repositories/1775" alt="ever-co%2Fever-irtranscripts | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a> <a href="https://trendshift.io/repositories/1775?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-1775" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/1775/daily?language=TypeScript" alt="ever-co%2Fever-irtranscripts | Trendshift" width="250" height="55"/></a>
 
-[uri_gauzy]: https://gauzy.co
+[uri_irtranscripts]: https://irtranscripts.com
 [uri_license]: https://www.gnu.org/licenses/agpl-3.0.html
 [uri_license_image]: https://img.shields.io/badge/License-AGPL%20v3-blue.svg
 
@@ -13,11 +13,11 @@
 
 ## 💡 What's New
 - 🔥🔥🔥 we just released [Ever Works](https://github.com/ever-works/ever-works) - An open agentic runtime that autonomously researches, ships, and maintains entire businesses, 24/7. Please grab it now from <https://github.com/ever-works/ever-works> and make it ⭐⭐⭐ on GitHub!
-- if you like Gauzy, you should also like [Ever Teams](https://github.com/ever-co/ever-teams) - Open Work & Productivity Platform. Please check <https://github.com/ever-co/ever-teams> and make it ⭐ on GitHub! It's built with a React (NextJs) / ReactNative (Expo) stack and connects to headless [Ever Gauzy Platform APIs](https://api.gauzy.co/docs).
+- if you like IRTranscripts, you should also like [Ever Teams](https://github.com/ever-co/ever-teams) - Open Work & Productivity Platform. Please check <https://github.com/ever-co/ever-teams> and make it ⭐ on GitHub! It's built with a React (NextJs) / ReactNative (Expo) stack and connects to headless [Ever IRTranscripts Platform APIs](https://api.irtranscripts.com/docs).
 
 ## 🌟 What is it
 
-[Ever® Gauzy™][uri_gauzy] - **Open Business Management Platform** for Collaborative, On-Demand and Sharing Economies.
+[Ever® IRTranscripts™][uri_irtranscripts] - **Open Business Management Platform** for Collaborative, On-Demand and Sharing Economies.
 
 -   **Enterprise Resource Planning** (ERP)
 -   **Customer Relationship Management** (CRM)
@@ -26,7 +26,7 @@
 -   **Work and Project Management** (PM)
 -   **Employee Time-Tracking, Activity & Productivity Tracking**
 
-Ever® Gauzy™ Platform is a part of our larger Open Platform for **Collaborative, On-Demand and Sharing Economies** - [Ever® Platform™](https://ever.co).
+Ever® IRTranscripts™ Platform is a part of our larger Open Platform for **Collaborative, On-Demand and Sharing Economies** - [Ever® Platform™](https://ever.co).
 
 <img width="1905" height="988" alt="image" src="https://github.com/user-attachments/assets/6197a87a-8ae9-4380-91c3-3f85f8406542" />
 
@@ -44,7 +44,7 @@ Main features:
 
 A more detailed list of the features available in the platform:
 
--   [Headless APIs](https://api.gauzy.co/docs)
+-   [Headless APIs](https://api.irtranscripts.com/docs)
 -   Dashboard (provides an overview of different metrics, such as company income/expenses, employee bonuses, etc.)
 -   Time Management / Time Tracking / Activity Tracking / Timesheets
 -   Employees Management (register of company employees/contractors, rates of employees, etc.)
@@ -78,7 +78,7 @@ A more detailed list of the features available in the platform:
 -   Multi-lingual
 -   Dark / Light / Corporate / Material and other Themes
 
-Read more [about Gauzy](https://github.com/ever-co/ever-gauzy/wiki/About-Gauzy) and [how to use it](https://github.com/ever-co/ever-gauzy/wiki/How-to-use-Gauzy) at your company, on-demand business, freelance business, agency, studio or in-house teams.
+Read more [about IRTranscripts](https://github.com/ever-co/ever-gauzy/wiki/About-Gauzy) and [how to use it](https://github.com/ever-co/ever-gauzy/wiki/How-to-use-Gauzy) at your company, on-demand business, freelance business, agency, studio or in-house teams.
 
 ## 🌼 Screenshots
 
@@ -87,32 +87,32 @@ Read more [about Gauzy](https://github.com/ever-co/ever-gauzy/wiki/About-Gauzy) 
 
 ### Web UI
 
-![overview](https://docs.gauzy.co/overview.png)
+![overview](https://docs.irtranscripts.com/overview.png)
 
 ### Desktop Timer UI (Standard)
 
-![timer](https://docs.gauzy.co/desktop/desktop-timer-small.png)
+![timer](https://docs.irtranscripts.com/desktop/desktop-timer-small.png)
 
 ### Desktop Timer UI (Expanded)
 
-![timer](https://docs.gauzy.co/desktop/desktop-timer-expanded.png)
+![timer](https://docs.irtranscripts.com/desktop/desktop-timer-expanded.png)
 
 </details>
 
 ## 🔗 Links
 
--   **<https://gauzy.co>** - check more information about the platform at the official website.
--   **<https://app.gauzy.co>** - SaaS (Important: it's currently in Alpha version/testing mode, please use it cautiously).
--   **<https://demo.gauzy.co>** - Online Demo (see more info below).
--   **<https://gauzy.co/downloads>** - Download Platform & Apps (see also more info below about available downloads).
--   **<https://docs.gauzy.co>** - Platform Documentation (WIP). See also our [Wiki](https://github.com/ever-co/ever-gauzy/wiki).
+-   **<https://irtranscripts.com>** - check more information about the platform at the official website.
+-   **<https://app.irtranscripts.com>** - SaaS (Important: it's currently in Alpha version/testing mode, please use it cautiously).
+-   **<https://demo.irtranscripts.com>** - Online Demo (see more info below).
+-   **<https://irtranscripts.com/downloads>** - Download Platform & Apps (see also more info below about available downloads).
+-   **<https://docs.irtranscripts.com>** - Platform Documentation (WIP). See also our [Wiki](https://github.com/ever-co/ever-gauzy/wiki).
 -   **<https://ever.co>** - get more information about our company products.
 
 ## 💻 Demo, Downloads, Testing and Production
 
 ### Demo
 
-Ever Gauzy Platform Demo at <https://demo.gauzy.co>.
+Ever IRTranscripts Platform Demo at <https://demo.irtranscripts.com>.
 
 Notes:
 
@@ -122,7 +122,7 @@ Notes:
 
 ### Downloads
 
-You can download Gauzy Platform, Gauzy Server, or Desktop Apps (Windows/Mac/Linux) from the official [Downloads](https://web.gauzy.co/downloads) page.
+You can download IRTranscripts Platform, IRTranscripts Server, or Desktop Apps (Windows/Mac/Linux) from the official [Downloads](https://web.irtranscripts.com/downloads) page.
 
 In addition, all releases and pre-releases downloads are also available from the following pages:
 
@@ -131,36 +131,36 @@ In addition, all releases and pre-releases downloads are also available from the
 
 ### Production (SaaS)
 
-Ever® Gauzy™ Platform SaaS is available at <https://app.gauzy.co>.
+Ever® IRTranscripts™ Platform SaaS is available at <https://app.irtranscripts.com>.
 
 Note: it's currently in Alpha version/testing mode, please use it cautiously!
 
 ### Staging
 
--   Gauzy Platform Staging builds (using CI/CD, from the `stage` branch) are available at <https://stage.gauzy.co>
+-   IRTranscripts Platform Staging builds (using CI/CD, from the `stage` branch) are available at <https://stage.irtranscripts.com>
 -   We are using the Staging environment to test releases before they are deployed to the production environment
--   Our pre-releases of desktop/server apps are built from this environment and can be configured manually (in settings) to connect to Stage API: <https://apistage.gauzy.co>
+-   Our pre-releases of desktop/server apps are built from this environment and can be configured manually (in settings) to connect to Stage API: <https://apistage.irtranscripts.com>
 
 ### Server & Desktop Apps
 
-We have Gauzy Server and two Desktop Apps (for Windows/Mac/Linux):
+We have IRTranscripts Server and two Desktop Apps (for Windows/Mac/Linux):
 
--   Ever® Gauzy™ Server - includes Gauzy API, SQLite DB (or connects to external PostgreSQL) and serves Guazy frontend. It allows to quickly run Gauzy Server for multiple clients (browser-based or Desktop-based). It's a recommended option if you want to setup the Ever Gauzy Platform in small to medium organizations.
+-   Ever® IRTranscripts™ Server - includes IRTranscripts API, SQLite DB (or connects to external PostgreSQL) and serves Guazy frontend. It allows to quickly run IRTranscripts Server for multiple clients (browser-based or Desktop-based). It's a recommended option if you want to setup the Ever IRTranscripts Platform in small to medium organizations.
 
--   Ever® Gauzy™ Desktop App - includes Gauzy frontend (UI), Gauzy API, SQLite DB, etc., all-in-one! It allows to quickly run the whole Gauzy solution locally, both UI and Timer (for time tracking, optionally of course). In addition, it allows you to connect to the external database (e.g. PostgreSQL) or external API (if you have Gauzy Server with API / DB installed on a different computer or if you want to connect to our live API). It's a recommended option if you want to try Gauzy quickly / for personal use or if you want to connect to Gauzy Server in the "client-server" configuration (and use Desktop App instead of web browser).
+-   Ever® IRTranscripts™ Desktop App - includes IRTranscripts frontend (UI), IRTranscripts API, SQLite DB, etc., all-in-one! It allows to quickly run the whole IRTranscripts solution locally, both UI and Timer (for time tracking, optionally of course). In addition, it allows you to connect to the external database (e.g. PostgreSQL) or external API (if you have IRTranscripts Server with API / DB installed on a different computer or if you want to connect to our live API). It's a recommended option if you want to try IRTranscripts quickly / for personal use or if you want to connect to IRTranscripts Server in the "client-server" configuration (and use Desktop App instead of web browser).
 
--   Ever® Gauzy™ Desktop Timer App - allows running Time and Activity Tracking for employees/contractors with screenshots and activity monitoring. It is recommended to setup by organization employees as long as they are not interested in other Gauzy Platform features (e.g. accounting) and only need to track work time.
+-   Ever® IRTranscripts™ Desktop Timer App - allows running Time and Activity Tracking for employees/contractors with screenshots and activity monitoring. It is recommended to setup by organization employees as long as they are not interested in other IRTranscripts Platform features (e.g. accounting) and only need to track work time.
 
 More information about our Server & Desktop Apps:
 
--   Download for your OS from the official [Downloads](https://web.gauzy.co/downloads) page or see the section "Download" above for other links to our releases pages.
--   Setup Gauzy Server with default choices in Setup Wizard and run it.
--   You can also setup Gauzy Desktop App (can run independently or connect to Gauzy Server) or Gauzy Desktop Timer App (should be connected to Gauzy Server)
--   Gauzy Server and Gauzy Desktop App create three accounts on their first start: `admin@ever.co` (Super Admin), `local.admin@ever.co` (Admin) and `employee@ever.co` (Employee). Each gets a random password generated for that installation, which the app shows once, right after that first start: save them then (you can change them later on your profile page). Sign in as `admin@ever.co` to check Admin functionality. Note: such an Admin user is not an employee, so you will not be able to track time.
--   Sign in as `employee@ever.co` to check Employee-related functionality in Gauzy UI or to run Desktop Timer from an "Employee" perspective (such a user is an Employee and can track time).
+-   Download for your OS from the official [Downloads](https://web.irtranscripts.com/downloads) page or see the section "Download" above for other links to our releases pages.
+-   Setup IRTranscripts Server with default choices in Setup Wizard and run it.
+-   You can also setup IRTranscripts Desktop App (can run independently or connect to IRTranscripts Server) or IRTranscripts Desktop Timer App (should be connected to IRTranscripts Server)
+-   IRTranscripts Server and IRTranscripts Desktop App create three accounts on their first start: `admin@ever.co` (Super Admin), `local.admin@ever.co` (Admin) and `employee@ever.co` (Employee). Each gets a random password generated for that installation, which the app shows once, right after that first start: save them then (you can change them later on your profile page). Sign in as `admin@ever.co` to check Admin functionality. Note: such an Admin user is not an employee, so you will not be able to track time.
+-   Sign in as `employee@ever.co` to check Employee-related functionality in IRTranscripts UI or to run Desktop Timer from an "Employee" perspective (such a user is an Employee and can track time).
 -   An installation set up before these random passwords keeps its existing ones (`admin` and `12345678`) and shows a warning at every start until you change them.
--   Gauzy Desktop App's integrated server accepts connections from the same computer only. To serve other computers (for example the Desktop Timer apps of your team), use Gauzy Server: it accepts connections from the network unless you turn off "Allow other computers on the network to connect" in its settings.
--   If you install Gauzy Server, it is possible to connect to it using a browser (by default on <http://localhost:4200>) or using Gauzy Desktop Apps (make sure to configure Desktop apps to connect to Gauzy API on <http://127.0.0.1:3000/api> because it's where Gauzy Server API runs by default).
+-   IRTranscripts Desktop App's integrated server accepts connections from the same computer only. To serve other computers (for example the Desktop Timer apps of your team), use IRTranscripts Server: it accepts connections from the network unless you turn off "Allow other computers on the network to connect" in its settings.
+-   If you install IRTranscripts Server, it is possible to connect to it using a browser (by default on <http://localhost:4200>) or using IRTranscripts Desktop Apps (make sure to configure Desktop apps to connect to IRTranscripts API on <http://127.0.0.1:3000/api> because it's where IRTranscripts Server API runs by default).
 -   You can read more information about our Desktop Apps on the [Desktop Apps Wiki Page](https://github.com/ever-co/ever-gauzy/wiki/Gauzy-Desktop-Apps) and our Server at the [Server Wiki Page](https://github.com/ever-co/ever-gauzy/wiki/Gauzy-Server).
 
 ## 🧱 Technology Stack and Requirements
@@ -176,19 +176,19 @@ For Production, we recommend:
 -   [PostgreSQL](https://www.postgresql.org) or [MySQL](https://dev.mysql.com)
 -   [Kubernetes](https://kubernetes.io), [Docker](https://www.docker.com)
 
-Note: thanks to TypeORM / MikroORM, Gauzy will support lots of DBs: SQLite (default, for demos), PostgreSQL (development/production), MySql (development/production), MariaDb, CockroachDb, MS SQL, Oracle, MongoDb, and others (with minimal changes).
+Note: thanks to TypeORM / MikroORM, IRTranscripts will support lots of DBs: SQLite (default, for demos), PostgreSQL (development/production), MySql (development/production), MariaDb, CockroachDb, MS SQL, Oracle, MongoDb, and others (with minimal changes).
 
 #### See also README.md and CREDITS.md files in relevant folders for lists of libraries and software included in the Platform, information about licenses, and other details
 
 ## 📄 Documentation
 
-Please refer to our official [Platform Documentation](https://docs.gauzy.co) and our [Wiki](https://github.com/ever-co/ever-gauzy/wiki) (WIP).
+Please refer to our official [Platform Documentation](https://docs.irtranscripts.com) and our [Wiki](https://github.com/ever-co/ever-gauzy/wiki) (WIP).
 
 ## 🚀 Quick Start
 
 ### Super Quick Start
 
-<https://app.gauzy.co>.
+<https://app.irtranscripts.com>.
 
 Note: it's currently in Alpha version/testing mode, please use it cautiously!
 
@@ -231,12 +231,12 @@ Notes:
 -   you can also run ONLY infra dependencies (without our API / Web containers) with `docker-compose -f docker-compose.infra.yml up -d` command. We already doing it using `include` in our main docker compose files.
 -   API and Web UI settings live in the service `env_file` (`.env.compose`, or `.env.demo.compose` for the demo): edit that file to change them. Their lines read `KEY=${KEY:-default}`, and Docker Compose resolves `${...}` in an env file from the shell and `--env-file` first, so a shell variable or `--env-file .env.something` on the docker-compose `up` command still overrides a single setting (ports and host names in the compose files themselves are read from there too). `DEMO` and the variables without a `${...}` default are read from the env file only.
 
-Together with Gauzy, the Docker Compose commands described above for Production (`docker-compose.yml`) and Build (`docker-compose.build.yml`) will run the following infrastructure components:
+Together with IRTranscripts, the Docker Compose commands described above for Production (`docker-compose.yml`) and Build (`docker-compose.build.yml`) will run the following infrastructure components:
 
 -   [PostgreSQL](https://www.postgresql.org) - Primary Database.
 -   [Pgweb](https://github.com/sosedoff/pgweb) - Cross-platform client for PostgreSQL DBs, available on <http://localhost:8081>.
 -   [OpenSearch](https://github.com/opensearch-project) - Search Engine.
--   [OpenSearch Dashboards](https://github.com/opensearch-project) - Search Engine Dashboards, available on <http://localhost:5601>. Default username: `admin` and password: `Gauzy_password_123`
+-   [OpenSearch Dashboards](https://github.com/opensearch-project) - Search Engine Dashboards, available on <http://localhost:5601>. Default username: `admin` and password: `IRTranscripts_password_123`
 -   [Dejavu](https://github.com/appbaseio/dejavu) - Web UI for OpenSearch, available on <http://localhost:1358>.
 -   [MinIO](https://github.com/minio/minio) - Multi-Cloud ☁️ Object Storage (AWS S3 compatible).
 -   [Jitsu](https://github.com/jitsucom/jitsu) - Jitsu is an open-source Segment alternative (data ingestion engine).
@@ -255,7 +255,7 @@ Together with Gauzy, the Docker Compose commands described above for Production 
 -   Adjust settings in the [`.env.local`](https://github.com/ever-co/ever-gauzy/blob/develop/.env.local) which is used in local runs.
 -   Alternatively, you can copy [`.env.sample`](https://github.com/ever-co/ever-gauzy/blob/develop/.env.sample) to `.env` and change default settings there, e.g. database type, name, user, password, etc.
 -   Run both API and UI with a single command: `yarn start`.
--   Open Gauzy UI on <http://localhost:4200> in your browser (API runs on <http://localhost:3000/api>).
+-   Open IRTranscripts UI on <http://localhost:4200> in your browser (API runs on <http://localhost:3000/api>).
 -   Login with email `admin@ever.co` and password: `admin` for Super Admin user.
 -   Login with email `employee@ever.co` and password: `12345678` for Employee user.
 -   Enjoy!
@@ -279,13 +279,13 @@ Notes:
 
 #### General information
 
--   See [Setup Gauzy for Client Server](https://github.com/ever-co/ever-gauzy/wiki/Setup-Gauzy-for-Client-Server) for more information about production setup on your servers.
+-   See [Setup IRTranscripts for Client Server](https://github.com/ever-co/ever-gauzy/wiki/Setup-Gauzy-for-Client-Server) for more information about production setup on your servers.
 
 #### Kubernetes
 
 -   We recommend deploying to Kubernetes (k8s), either manually (see below) or with our [Terraform Modules](https://github.com/ever-co/ever-gauzy-terraform) or [Ever Helm Charts](https://github.com/ever-co/ever-charts).
 
--   For more simple deployment scenarios with k8s, please see [Kubernetes configurations](https://github.com/ever-co/ever-gauzy/tree/develop/.deploy/k8s), which we are using to deploy Gauzy into [DigitalOcean k8s cluster](https://www.digitalocean.com/products/kubernetes).
+-   For more simple deployment scenarios with k8s, please see [Kubernetes configurations](https://github.com/ever-co/ever-gauzy/tree/develop/.deploy/k8s), which we are using to deploy IRTranscripts into [DigitalOcean k8s cluster](https://www.digitalocean.com/products/kubernetes).
 
 #### DigitalOcean App Platform
 
@@ -293,11 +293,11 @@ Notes:
 
 #### Virtual Instances / Droplets (via SSH)
 
--   Another variant to deploy Gauzy is to use DigitalOcean Droplets or any other virtual instance (with Ubuntu OS) and deploy using SCP/SSH, for example, following [GitHub Action](https://github.com/ever-co/ever-gauzy/blob/develop/.github/workflows/deploy-do-droplet-demo.yml)
+-   Another variant to deploy IRTranscripts is to use DigitalOcean Droplets or any other virtual instance (with Ubuntu OS) and deploy using SCP/SSH, for example, following [GitHub Action](https://github.com/ever-co/ever-gauzy/blob/develop/.github/workflows/deploy-do-droplet-demo.yml)
 
 #### Pulumi
 
--   In addition, check [Gauzy Pulumi](https://github.com/ever-co/ever-gauzy-pulumi) project (WIP), it makes complex Clouds deployments possible with a single command (`pulumi up`). Note: it currently supports AWS EKS (Kubernetes) for development and production with Application Load Balancers and AWS RDS Serverless PostgreSQL DB deployments. We also implemented deployments to ECS EC2 and Fargate Clusters in the same Pulumi project.
+-   In addition, check [IRTranscripts Pulumi](https://github.com/ever-co/ever-gauzy-pulumi) project (WIP), it makes complex Clouds deployments possible with a single command (`pulumi up`). Note: it currently supports AWS EKS (Kubernetes) for development and production with Application Load Balancers and AWS RDS Serverless PostgreSQL DB deployments. We also implemented deployments to ECS EC2 and Fargate Clusters in the same Pulumi project.
 
 ### 🚗 Other self-hosting options
 
@@ -307,11 +307,11 @@ Notes:
 
 #### Deploy on RepoCloud
 
-Deploy Ever Gauzy instantly with one click on [RepoCloud](https://repocloud.io/details/Ever%20Gauzy/).
+Deploy Ever IRTranscripts instantly with one click on [RepoCloud](https://repocloud.io/details/Ever%20Gauzy/).
 
 #### Deploy on Easypanel
 
-[Easypanel](https://easypanel.io) is a self-hosted Docker deployment platform, and Ever Gauzy has a one-click deployment template there:
+[Easypanel](https://easypanel.io) is a self-hosted Docker deployment platform, and Ever IRTranscripts has a one-click deployment template there:
 
 [![Deploy on Easypanel][easypanel-btn]][easypanel-deploy]
 
@@ -320,13 +320,13 @@ Deploy Ever Gauzy instantly with one click on [RepoCloud](https://repocloud.io/d
 
 #### Deploy on ZopDay
 
-[ZopDay](https://zop.dev/zopday) runs a Docker image on its managed ZopCloud or in your own AWS or GCP account. Gauzy runs as two containers, so deploy them in this order:
+[ZopDay](https://zop.dev/zopday) runs a Docker image on its managed ZopCloud or in your own AWS or GCP account. IRTranscripts runs as two containers, so deploy them in this order:
 
-1.  **API** — [![Deploy the Gauzy API on ZopDay][zopday-btn]][zopday-api]
+1.  **API** — [![Deploy the IRTranscripts API on ZopDay][zopday-btn]][zopday-api]
 
     Before starting it, create a PostgreSQL database in ZopDay and point the service at it with `DB_TYPE=postgres` plus `DB_HOST` / `DB_PORT` / `DB_NAME` / `DB_USER` / `DB_PASS` — left unset, the image falls back to a SQLite file inside the container, which is lost whenever the container is replaced. Set `JWT_SECRET`, `JWT_REFRESH_TOKEN_SECRET`, `JWT_VERIFICATION_TOKEN_SECRET` and `EXPRESS_SESSION_SECRET` as described under "Production" above — in production the API refuses to start while those are unset or left at their defaults. Set the `DEMO_*_PASSWORD` values too: they are checked when an empty database is first seeded, so a fresh instance will not get past that seed while they are left at the published defaults.
 
-2.  **Web app** — [![Deploy the Gauzy web app on ZopDay][zopday-btn]][zopday-webapp]
+2.  **Web app** — [![Deploy the IRTranscripts web app on ZopDay][zopday-btn]][zopday-webapp]
 
     Set `API_BASE_URL` to the public URL the API service got, otherwise the browser is sent to `http://localhost:3000` instead of the API.
 
@@ -341,15 +341,15 @@ Deploy Ever Gauzy instantly with one click on [RepoCloud](https://repocloud.io/d
 -   [Discord Chat](https://discord.gg/hKQfn4j)
 -   [![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/ever-co/ever-gauzy?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 -   [![Get help on Codementor](https://cdn.codementor.io/badges/get_help_github.svg)](https://www.codementor.io/evereq?utm_source=github&utm_medium=button&utm_term=evereq&utm_campaign=github)
--   For business inquiries: <mailto:gauzy@ever.co>
+-   For business inquiries: <mailto:irtranscripts@ever.co>
 -   Please report security vulnerabilities to <mailto:security@ever.co>
--   [Gauzy Platform @ Twitter](https://twitter.com/gauzyplatform)
--   [Gauzy Platform @ Facebook](https://www.facebook.com/gauzyplatform)
+-   [IRTranscripts Platform @ Twitter](https://twitter.com/gauzyplatform)
+-   [IRTranscripts Platform @ Facebook](https://www.facebook.com/gauzyplatform)
 
 ## 🔐 Security
 
-Ever® Gauzy™ follows good security practices, but 100% security cannot be guaranteed in any software!
-Ever® Gauzy™ is provided AS IS without any warranty. Use at your own risk!
+Ever® IRTranscripts™ follows good security practices, but 100% security cannot be guaranteed in any software!
+Ever® IRTranscripts™ is provided AS IS without any warranty. Use at your own risk!
 See more details in the [LICENSES.md](LICENSES.md).
 
 In a production setup, all client-side to server-side (backend, APIs) communications should be encrypted using HTTPS/WSS/SSL (REST APIs, GraphQL endpoint, Socket.io WebSockets, etc.).
@@ -358,15 +358,15 @@ If you discover any issue regarding security, please disclose the information re
 
 ## 🛡️ License
 
-We support the open-source community. If you're building awesome non-profit/open-source projects, we're happy to help and will provide (subject to [acceptance criteria](https://github.com/ever-co/ever-gauzy/wiki/Free-license-and-hosting-for-Non-profit-and-Open-Source-projects)) Ever Gauzy Enterprise edition license and free hosting option! Feel free to contact us at <mailto:ever@ever.co> to make a request. More details are explained in our [Wiki](https://github.com/ever-co/ever-gauzy/wiki/Free-license-and-hosting-for-Non-profit-and-Open-Source-projects).
+We support the open-source community. If you're building awesome non-profit/open-source projects, we're happy to help and will provide (subject to [acceptance criteria](https://github.com/ever-co/ever-gauzy/wiki/Free-license-and-hosting-for-Non-profit-and-Open-Source-projects)) Ever IRTranscripts Enterprise edition license and free hosting option! Feel free to contact us at <mailto:ever@ever.co> to make a request. More details are explained in our [Wiki](https://github.com/ever-co/ever-gauzy/wiki/Free-license-and-hosting-for-Non-profit-and-Open-Source-projects).
 
 This software is available under the following licenses:
 
--   [Ever® Gauzy™ Platform Community Edition](https://github.com/ever-co/ever-gauzy/blob/develop/LICENSES.md#ever-gauzy-platform-community-edition-license)
--   [Ever® Gauzy™ Platform Small Business](https://github.com/ever-co/ever-gauzy/blob/develop/LICENSES.md#ever-gauzy-platform-small-business-license)
--   [Ever® Gauzy™ Platform Enterprise](https://github.com/ever-co/ever-gauzy/blob/develop/LICENSES.md#ever-gauzy-platform-enterprise-license)
+-   [Ever® IRTranscripts™ Platform Community Edition](https://github.com/ever-co/ever-gauzy/blob/develop/LICENSES.md#ever-gauzy-platform-community-edition-license)
+-   [Ever® IRTranscripts™ Platform Small Business](https://github.com/ever-co/ever-gauzy/blob/develop/LICENSES.md#ever-gauzy-platform-small-business-license)
+-   [Ever® IRTranscripts™ Platform Enterprise](https://github.com/ever-co/ever-gauzy/blob/develop/LICENSES.md#ever-gauzy-platform-enterprise-license)
 
-#### The default Ever® Gauzy™ Platform license, without a valid Ever® Gauzy™ Platform Enterprise or Ever® Gauzy™ Platform Small Business License agreement, is the Ever® Gauzy™ Platform Community Edition License
+#### The default Ever® IRTranscripts™ Platform license, without a valid Ever® IRTranscripts™ Platform Enterprise or Ever® IRTranscripts™ Platform Small Business License agreement, is the Ever® IRTranscripts™ Platform Community Edition License
 
 #### Please see [LICENSES.md](LICENSES.md) for more information on licenses. You can also [compare our offering](https://ever.co/compare-gauzy/#compare)
 
@@ -375,7 +375,7 @@ This software is available under the following licenses:
 ## ™️ Trademarks
 
 **Ever**® is a registered trademark of [Ever Co. LTD](https://ever.co).
-**Ever® Demand™**, **Ever® Gauzy™**, **Ever® Teams™**, **Ever® Rec™**, **Ever® Recu™**, **Ever® Cloc™**, **Ever® Works™** and **Ever® OpenSaaS™** are all trademarks of [Ever Co. LTD](https://ever.co).
+**Ever® Demand™**, **Ever® IRTranscripts™**, **Ever® Teams™**, **Ever® Rec™**, **Ever® Recu™**, **Ever® Cloc™**, **Ever® Works™** and **Ever® OpenSaaS™** are all trademarks of [Ever Co. LTD](https://ever.co).
 
 The trademarks may only be used with the written permission of Ever Co. LTD. and may not be used to promote or otherwise market competitive products or services.
 
@@ -412,7 +412,7 @@ You can also view a full list of our [contributors tracked by Github](https://gi
 
 ## ❤️ Featured On
 
-<a href="https://openalternative.co/ever-gauzy?utm_source=openalternative&utm_medium=badge&utm_campaign=embed&utm_content=tool-ever-gauzy" target="_blank"><img src="https://openalternative.co/ever-gauzy/badge.svg?theme=dark&width=200&height=50" width="200" height="50" alt="Ever Gauzy badge" loading="lazy" /></a>
+<a href="https://openalternative.co/ever-gauzy?utm_source=openalternative&utm_medium=badge&utm_campaign=embed&utm_content=tool-ever-gauzy" target="_blank"><img src="https://openalternative.co/ever-gauzy/badge.svg?theme=dark&width=200&height=50" width="200" height="50" alt="Ever IRTranscripts badge" loading="lazy" /></a>
 
 ## ©️ Copyright
 

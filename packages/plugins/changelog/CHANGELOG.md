@@ -1,3 +1,3 @@
-# Changelog for @gauzy/plugin-changelog
+# Changelog for @irtranscripts/plugin-changelog
 
 ## [Unreleased]

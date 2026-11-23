@@ -1,6 +1,6 @@
 import * as chalk from 'chalk';
-import { SeederModule } from '@gauzy/core';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy, IOnPluginSeedable } from '@gauzy/plugin';
+import { SeederModule } from '@irtranscripts/core';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy, IOnPluginSeedable } from '@irtranscripts/plugin';
 import { ChangelogModule } from './changelog.module';
 import { Changelog } from './changelog.entity';
 import { ChangelogSeederService } from './changelog-seeder.service';

@@ -1,8 +1,8 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { FindManyOptions } from 'typeorm';
-import { restatesStoredValue } from '@gauzy/common';
-import { ID, IPagination, PermissionsEnum } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { restatesStoredValue } from '@irtranscripts/common';
+import { ID, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { StockMovementType, StockMovementReferenceType, StockTransferStatus } from './../inventory.enums';
 import { InventoryErrorCode, inventoryError } from './../inventory.errors';
 import { InventoryPermission } from './../inventory.permissions';

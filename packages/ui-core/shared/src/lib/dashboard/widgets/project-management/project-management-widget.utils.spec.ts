@@ -1,6 +1,6 @@
-import { TaskStatusEnum } from '@gauzy/contracts';
-import type { IOrganizationProject, ITask } from '@gauzy/contracts';
-import type { IDashboardWidgetContext } from '@gauzy/ui-core/core';
+import { TaskStatusEnum } from '@irtranscripts/contracts';
+import type { IOrganizationProject, ITask } from '@irtranscripts/contracts';
+import type { IDashboardWidgetContext } from '@irtranscripts/ui-core/core';
 import {
 	buildProjectManagementSnapshot,
 	openTasksMostRecentFirst,

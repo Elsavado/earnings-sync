@@ -1,5 +1,5 @@
-import { ApplicationPluginConfig } from '@gauzy/common';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@gauzy/plugin';
+import { ApplicationPluginConfig } from '@irtranscripts/common';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@irtranscripts/plugin';
 import { CreateEverWorksConnection1791000001100 } from './database/migrations/1791000001100-CreateEverWorksConnection';
 import { CreateEverWorksSyncTables1791000001300 } from './database/migrations/1791000001300-CreateEverWorksSyncTables';
 import { CreateEverWorksSyncRun1791000001550 } from './database/migrations/1791000001550-CreateEverWorksSyncRun';
@@ -15,9 +15,9 @@ export const EVER_WORKS_MIGRATIONS = [
 ];
 
 /**
- * Ever Gauzy ↔ Ever Works integration (`@gauzy/plugin-integration-ever-works`).
+ * Ever IRTranscripts ↔ Ever Works integration (`@irtranscripts/plugin-integration-ever-works`).
  *
- * Gauzy is production: the plugin is listed by `apps/api/src/plugins.ts` and `apps/worker/src/plugins.ts`
+ * IRTranscripts is production: the plugin is listed by `apps/api/src/plugins.ts` and `apps/worker/src/plugins.ts`
  * only when `EVER_WORKS_ENABLED` is exactly `true` (`isEverWorksEnabled`). Off (the default) it is not
  * loaded at all: no route, no table (its migrations are not even registered), no timer and no
  * outbound request.

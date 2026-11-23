@@ -1,4 +1,4 @@
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { createAction } from '@ngneat/effects';
 import { IPluginCategory } from '../stores/plugin-category.store';
 

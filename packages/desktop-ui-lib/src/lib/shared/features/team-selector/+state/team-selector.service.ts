@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IOrganizationTeam } from '@gauzy/contracts';
+import { IOrganizationTeam } from '@irtranscripts/contracts';
 import { TimeTrackerService } from '../../../../time-tracker/time-tracker.service';
 import { SelectorService } from '../../../+state/selector.service';
 import { Store, ToastrNotificationService } from '../../../../services';

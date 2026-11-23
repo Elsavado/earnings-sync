@@ -1,7 +1,7 @@
 
 import { MigrationInterface, QueryRunner } from "typeorm";
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from "@gauzy/config";
+import { DatabaseTypeEnum } from "@irtranscripts/config";
 
 export class UpgradeEstimateEmailTableTokenColumnValue1706968055472 implements MigrationInterface {
 

@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-integration-ever-works
+ * Public API Surface of @irtranscripts/plugin-integration-ever-works
  */
 export * from './lib/integration-ever-works.plugin';
 export * from './lib/ever-works.module';

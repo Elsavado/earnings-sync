@@ -3,7 +3,7 @@
  * Mirror desktop-app release assets from GitHub Releases into the Cloudflare R2 bucket behind
  * https://downloads.ever.co, and publish a manifest of what is actually there.
  *
- * Why this exists: the download links on gauzy.co pointed at
+ * Why this exists: the download links on irtranscripts.com pointed at
  * `ever.sfo3.cdn.digitaloceanspaces.com`, which died with the DigitalOcean account. GitHub Releases
  * stays the source of truth and the auto-update feed; R2 is a mirror in front of it, so a mirror
  * miss degrades to a working GitHub link instead of a broken download.
@@ -38,12 +38,12 @@ for (const [k, v] of Object.entries({
 	}
 }
 
-/** GitHub repo -> object-key prefix. Must stay in step with `switchToCDN` in ever-gauzy-website. */
+/** GitHub repo -> object-key prefix. Must stay in step with `switchToCDN` in ever-irtranscripts-website. */
 const APPS = {
-	'ever-gauzy-desktop': 'gauzy-desktop',
-	'ever-gauzy-desktop-timer': 'gauzy-desktop-timer',
-	'ever-gauzy-server': 'gauzy-server',
-	'ever-gauzy-agent': 'gauzy-agent'
+	'ever-irtranscripts-desktop': 'irtranscripts-desktop',
+	'ever-irtranscripts-desktop-timer': 'irtranscripts-desktop-timer',
+	'ever-irtranscripts-server': 'irtranscripts-server',
+	'ever-irtranscripts-agent': 'irtranscripts-agent'
 };
 
 // Installers only. Mirroring the update metadata (latest*.yml) would turn R2 into an update feed,

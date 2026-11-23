@@ -13,7 +13,7 @@ import '../../core/entities/internal';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Between, In } from 'typeorm';
 import * as moment from 'moment';
-import { IGetTimesheetInput } from '@gauzy/contracts';
+import { IGetTimesheetInput } from '@irtranscripts/contracts';
 import { getDateRangeFormat, MultiORMEnum } from '../../core/utils';
 import {
 	executedFilters,

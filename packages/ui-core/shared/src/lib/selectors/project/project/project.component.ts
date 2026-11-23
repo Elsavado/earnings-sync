@@ -11,8 +11,8 @@ import {
 	PermissionsEnum,
 	ID,
 	IOrganizationProjectsFindInput
-} from '@gauzy/contracts';
-import { distinctUntilChange, isNotEmpty } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { distinctUntilChange, isNotEmpty } from '@irtranscripts/ui-core/common';
 import {
 	ErrorHandlingService,
 	NavigationService,
@@ -20,7 +20,7 @@ import {
 	OrganizationProjectsService,
 	Store,
 	ToastrService
-} from '@gauzy/ui-core/core';
+} from '@irtranscripts/ui-core/core';
 import { ALL_PROJECT_SELECTED } from './default-project';
 import { entitySelectPanelClass } from '../../entity-select-panel-class';
 

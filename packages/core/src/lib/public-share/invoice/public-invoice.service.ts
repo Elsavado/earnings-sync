@@ -1,7 +1,7 @@
 import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, IsNull, MoreThan, Repository, UpdateResult } from 'typeorm';
-import { IInvoice, IInvoiceUpdateInput } from '@gauzy/contracts';
+import { IInvoice, IInvoiceUpdateInput } from '@irtranscripts/contracts';
 import { EstimateEmail, Invoice } from './../../core/entities/internal';
 import { parseFindOptionsRelations } from '../../core/utils';
 import { TypeOrmInvoiceRepository } from '../../invoice/repository/type-orm-invoice.repository';

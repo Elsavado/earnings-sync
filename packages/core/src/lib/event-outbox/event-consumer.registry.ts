@@ -7,7 +7,7 @@ import {
 	IEventConsumer,
 	IEventConsumerContext,
 	IEventEnvelope
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { EventDelivery } from './event-delivery.entity';
 import { describeFailure, EventOutboxService } from './event-outbox.service';
 

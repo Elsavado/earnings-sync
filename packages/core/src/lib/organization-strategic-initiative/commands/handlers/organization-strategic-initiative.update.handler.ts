@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IOrganizationStrategicInitiative } from '@gauzy/contracts';
+import { IOrganizationStrategicInitiative } from '@irtranscripts/contracts';
 import { UpdateResult } from 'typeorm';
 import { OrganizationStrategicInitiativeUpdateCommand } from '../organization-strategic-initiative.update.command';
 import { OrganizationStrategicInitiativeService } from '../../organization-strategic-initiative.service';

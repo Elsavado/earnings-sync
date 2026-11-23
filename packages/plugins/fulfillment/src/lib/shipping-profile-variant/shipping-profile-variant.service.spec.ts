@@ -1,5 +1,5 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which an attachment row needs and none of which is available
  * outside a running application. The seam is therefore doubled at the module boundary, exactly as the
  * sibling packages' service specs do, and **the service under test is the real one**: only the CRUD
@@ -11,7 +11,7 @@
  * number of rows it removed, and a lookup by an id that matches nothing raises `NotFoundException`
  * rather than answering `null` (`packages/core/src/lib/core/crud/crud.service.ts`, line 409).
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */

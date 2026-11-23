@@ -17,8 +17,8 @@ import { ApiExcludeController } from '@nestjs/swagger';
 import { isUUID } from 'class-validator';
 import { DataSource } from 'typeorm';
 import { Request } from 'express';
-import { Public } from '@gauzy/common';
-import { verifyWebhookSignature } from '@gauzy/core';
+import { Public } from '@irtranscripts/common';
+import { verifyWebhookSignature } from '@irtranscripts/core';
 import { EverWorksConnection } from '../../connection/ever-works-connection.entity';
 import { EverWorksConnectionService } from '../../connection/ever-works-connection.service';
 import { EVER_WORKS_ROUTE_PREFIX } from '../../ever-works.constants';
@@ -33,13 +33,13 @@ export const EVER_WORKS_WEBHOOK_MAX_BYTES = 1024 * 1024;
 
 /**
  * `POST /api/integration/ever-works/webhooks/:connectionId` (plan 02 §4, 03 §B.5): Ever Works webhooks
- * v2. Public (no Gauzy user), so everything rests on the signature:
+ * v2. Public (no IRTranscripts user), so everything rests on the signature:
  *
  * - the per-process rate limit runs first, before any lookup;
  * - the connection is loaded by the id in the path, and the tenant and organization come from it and
  *   from its mapping, **never from the payload** (an envelope for another Ever Works tenant is refused);
  * - `X-Ever-Works-Signature` (`t=<unix>,v1=<hex HMAC-SHA256(secret, "<t>.<raw body>")>`, 300 s
- *   tolerance) is verified over the raw bytes with the connection's own secret, with Gauzy's
+ *   tolerance) is verified over the raw bytes with the connection's own secret, with IRTranscripts's
  *   `verifyWebhookSignature`; there is no unsigned mode;
  * - the event is stored once (deduplicated on its id), answered 202, and applied asynchronously.
  *

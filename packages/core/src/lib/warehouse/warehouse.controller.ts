@@ -9,7 +9,7 @@ import {
 	IWarehouseProductVariant,
 	IWarehouse,
 	ID
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { CrudController, BaseQueryDTO } from './../core/crud';
 import { Permissions } from './../shared/decorators';
 import { RelationsQueryDTO } from './../shared/dto';

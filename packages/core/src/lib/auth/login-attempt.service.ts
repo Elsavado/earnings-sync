@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Inject, Injectable, Logger, Optional } from '@nestjs/common';
 import { createHash, randomUUID } from 'node:crypto';
 import { createClient } from 'redis';
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 import { RequestContext } from '../core/context/request-context';
 import { EVER_REDIS_CLIENT } from '../redis/redis.module';
 import { resolveThrottlerTracker, throttlerTrackerOptions, UNRESOLVED_THROTTLER_TRACKER } from '../throttler/tracker';

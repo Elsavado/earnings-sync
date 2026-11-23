@@ -1,19 +1,19 @@
-# @gauzy/plugin-dashboard-time-track-react-ui
+# @irtranscripts/plugin-dashboard-time-track-react-ui
 
-The **React flavour** of the Time Tracking dashboard (`/pages/dashboard/time-tracking`). It renders the same dashboard as `@gauzy/plugin-dashboard-time-track-angular-ui` — same features, layout, widgets, windows, popovers, i18n, theming and navigation targets — built with React 19 through the `@gauzy/ui-react` bridge, on top of `@gauzy/plugin-ui` and `@gauzy/ui-react-components`.
+The **React flavour** of the Time Tracking dashboard (`/pages/dashboard/time-tracking`). It renders the same dashboard as `@irtranscripts/plugin-dashboard-time-track-angular-ui` — same features, layout, widgets, windows, popovers, i18n, theming and navigation targets — built with React 19 through the `@irtranscripts/ui-react` bridge, on top of `@irtranscripts/plugin-ui` and `@irtranscripts/ui-react-components`.
 
 Which flavour a tenant gets is decided by **Settings → General → "Preferred UI"**: both plugins register the same route path behind a `preferredUiCanMatch(...)` guard and contribute the same `time-tracking` dashboard tab, so bookmarks and the tab never change when a tenant switches.
 
 ## Architecture
 
 ```
-@gauzy/plugin-ui                 (core plugin infrastructure, Angular-only)
+@irtranscripts/plugin-ui                 (core plugin infrastructure, Angular-only)
        │
-       └── @gauzy/ui-react       (React-to-Angular bridge: [gaReactHost], useInjector, useObservable, useTranslation, …)
+       └── @irtranscripts/ui-react       (React-to-Angular bridge: [gaReactHost], useInjector, useObservable, useTranslation, …)
                   │
-                  ├── @gauzy/ui-react-components   (theme-adaptive React primitives: CounterPoint, ProgressBar, Badge, Avatar, Spinner, Popover)
+                  ├── @irtranscripts/ui-react-components   (theme-adaptive React primitives: CounterPoint, ProgressBar, Badge, Avatar, Spinner, Popover)
                   │
-                  └── @gauzy/plugin-dashboard-time-track-react-ui   (this plugin)
+                  └── @irtranscripts/plugin-dashboard-time-track-react-ui   (this plugin)
 ```
 
 **Page chrome via the Angular host, everything else React.** `DashboardTimeTrackReactUiPageComponent` (Angular, routed) renders the standard `nb-card` with the `<h4><ngx-header-title>` title (period prefix "Daily / Weekly / Monthly" + "Time Tracking" + " for <Org>" + breadcrumb trail) and mounts the React root **once** in the card body via `[gaReactHost]`. The React root portals the header controls (timezone / time-format filter, "Manage widgets", "Auto Refresh", "Refresh") into two header slots passed in `props`, and renders the widget row and the window masonry in the body.
@@ -22,7 +22,7 @@ Angular services are reused through the injector, so the data path is identical 
 
 ## Features (parity with the Angular tab)
 
-- **Widgets** (counter cards with `gauzy-counter-point` dot strips / progress bars): Members worked, Projects worked, Today's Activity, Worked today, Worked this week / for the week / for the day / over the period, Weekly / Daily Activity — period-aware titles.
+- **Widgets** (counter cards with `irtranscripts-counter-point` dot strips / progress bars): Members worked, Projects worked, Today's Activity, Worked today, Worked this week / for the week / for the day / over the period, Weekly / Daily Activity — period-aware titles.
 - **Windows**: Recent Activities (avatar + "Last worked", prev/next, "View All" → screenshots page, 3-per-view screenshot carousel with the shared gallery, info modal and delete-with-confirm), Manual Time (table + "View Report"), Tasks (`%` bars + "View All"), Projects (`%` bars), Apps & URLs (`ngx-activity-item` look + "View Report"), Members (today / this-week durations, activity badges, 7-bar weekly graph).
 - **⋮ menu on every widget/window**: Collapse / Expand / Move / Delete; **drag & drop** reordering (native HTML5 DnD, no dependency).
 - **Manage widgets popover**: "View widgets" / "View windows" checkmark lists + Undo (memento stack).
@@ -38,8 +38,8 @@ Angular services are reused through the injector, so the data path is identical 
 ## Usage
 
 ```typescript
-import { PluginUiConfig } from '@gauzy/plugin-ui';
-import { DashboardTimeTrackReactUiPlugin } from '@gauzy/plugin-dashboard-time-track-react-ui';
+import { PluginUiConfig } from '@irtranscripts/plugin-ui';
+import { DashboardTimeTrackReactUiPlugin } from '@irtranscripts/plugin-dashboard-time-track-react-ui';
 
 export const uiPluginConfig: PluginUiConfig = {
   plugins: [DashboardTimeTrackReactUiPlugin]

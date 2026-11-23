@@ -1,11 +1,11 @@
 import '../core/entities/internal';
 
-jest.mock('@gauzy/config', () => {
-	const actual = jest.requireActual('@gauzy/config');
+jest.mock('@irtranscripts/config', () => {
+	const actual = jest.requireActual('@irtranscripts/config');
 	return { ...actual, isSqlite: jest.fn(actual.isSqlite) };
 });
 
-import { isSqlite } from '@gauzy/config';
+import { isSqlite } from '@irtranscripts/config';
 import { RequestContext } from '../core/context';
 import { TenantAwareCrudService } from '../core/crud';
 import { TaskService } from './task.service';

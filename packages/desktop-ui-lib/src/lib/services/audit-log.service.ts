@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { ElectronService } from '../electron/services';
 import {
 	ILogRequest
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 @Injectable({
 	providedIn: 'root'

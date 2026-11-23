@@ -1,4 +1,4 @@
-# @gauzy/plugin-returns
+# @irtranscripts/plugin-returns
 
 ## Overview
 
@@ -163,7 +163,7 @@ folder `dist/packages/plugins/returns` and run `npm publish`.
 ## Installation
 
 ```bash
-npm install @gauzy/plugin-returns
+npm install @irtranscripts/plugin-returns
 # or
-yarn add @gauzy/plugin-returns
+yarn add @irtranscripts/plugin-returns
 ```

@@ -1,5 +1,5 @@
-import { IPagination, IPlugin } from '@gauzy/contracts';
-import { LIKE_OPERATOR, MultiORMEnum } from '@gauzy/core';
+import { IPagination, IPlugin } from '@irtranscripts/contracts';
+import { LIKE_OPERATOR, MultiORMEnum } from '@irtranscripts/core';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { PluginService } from '../../../../domain';
 import { PLUGIN_SORTABLE_FIELDS, PLUGIN_SORT_DIRECTIONS, PluginSearchFilterDTO } from '../../../../shared';

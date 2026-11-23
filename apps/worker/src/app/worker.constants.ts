@@ -1,4 +1,4 @@
-import { isSchedulerQueueRootEnabled } from '@gauzy/scheduler';
+import { isSchedulerQueueRootEnabled } from '@irtranscripts/scheduler';
 
 export const WORKER_DEFAULT_QUEUE = process.env.WORKER_DEFAULT_QUEUE || 'worker-default';
 

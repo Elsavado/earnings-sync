@@ -37,7 +37,7 @@ export const apiMain = process.env['DESKTOP_E2E_API_MAIN'] || join(repoRoot, 'di
 /** The API's working directory: its uploads and the demo seed's clean-up land here, never in the checkout. */
 export const apiCwd = join(runDir, 'api');
 
-export const apiDatabase = join(runDir, 'api', 'gauzy.sqlite3');
+export const apiDatabase = join(runDir, 'api', 'irtranscripts.sqlite3');
 
 /**
  * On Windows the API must run from the drive its build is on: TypeORM joins the migration paths onto the
@@ -66,23 +66,23 @@ export type DesktopAppName = 'desktop-timer' | 'desktop' | 'server' | 'server-ap
 export const DIST_DIR: Record<DesktopAppName, string> = {
 	'desktop-timer': 'desktop-timer',
 	desktop: 'desktop',
-	server: 'gauzy-server',
-	'server-api': 'gauzy-api-server',
+	server: 'irtranscripts-server',
+	'server-api': 'irtranscripts-api-server',
 	agent: 'agent',
 	'server-mcp': 'server-mcp'
 };
 
 /** The deep-link protocol each app registers on its first start (Windows: `HKCU\Software\Classes\<protocol>`). */
-export const PROTOCOLS = ['gauzy-timer', 'gauzy-desktop', 'gauzy-server', 'gauzy-api-server', 'gauzy-agent', 'gauzy-mcp-server'];
+export const PROTOCOLS = ['irtranscripts-timer', 'irtranscripts-desktop', 'irtranscripts-server', 'irtranscripts-api-server', 'irtranscripts-agent', 'irtranscripts-mcp-server'];
 
 /** The app id each app is released with (`build.appId`), when its built manifest does not say. */
 const APP_IDS: Record<DesktopAppName, string> = {
-	'desktop-timer': 'com.ever.gauzydesktoptimer',
-	desktop: 'com.ever.gauzydesktop',
-	server: 'com.ever.gauzyserver',
-	'server-api': 'com.ever.gauzyapiserver',
-	agent: 'com.ever.gauzyagent',
-	'server-mcp': 'com.ever.gauzymcpserver'
+	'desktop-timer': 'com.ever.irtranscriptsdesktoptimer',
+	desktop: 'com.ever.irtranscriptsdesktop',
+	server: 'com.ever.irtranscriptsserver',
+	'server-api': 'com.ever.irtranscriptsapiserver',
+	agent: 'com.ever.irtranscriptsagent',
+	'server-mcp': 'com.ever.irtranscriptsmcpserver'
 };
 
 interface BuiltManifest {

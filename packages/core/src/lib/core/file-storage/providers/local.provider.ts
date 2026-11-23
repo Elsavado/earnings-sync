@@ -2,8 +2,8 @@ import { HttpException, HttpStatus, Logger } from '@nestjs/common';
 import * as multer from 'multer';
 import * as fs from 'node:fs';
 import { basename, isAbsolute, join, relative, resolve, sep } from 'node:path';
-import { FileStorageOption, FileStorageProviderEnum, UploadedFile } from '@gauzy/contracts';
-import { environment, getConfig } from '@gauzy/config';
+import { FileStorageOption, FileStorageProviderEnum, UploadedFile } from '@irtranscripts/contracts';
+import { environment, getConfig } from '@irtranscripts/config';
 import { getApiPublicPath } from '../../util/path-util';
 import { Provider } from './provider';
 import { defaultStoredFileName } from '../helpers/stored-file-name';
@@ -33,7 +33,7 @@ export class LocalProvider extends Provider<LocalProvider> {
 			baseUrl: environment.baseUrl,
 			rootPath:
 				(environment.isElectron
-					? resolve(environment.gauzyUserPath, 'public')
+					? resolve(environment.irtranscriptsUserPath, 'public')
 					: config.assetOptions?.assetPublicPath) || apiPublicPath
 		};
 	}

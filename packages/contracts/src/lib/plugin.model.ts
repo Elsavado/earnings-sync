@@ -44,7 +44,7 @@ export enum PluginType {
 export enum PluginSourceType {
 	CDN = 'CDN',
 	NPM = 'NPM',
-	GAUZY = 'GAUZY'
+	IRTRANSCRIPTS = 'IRTRANSCRIPTS'
 }
 
 export enum PluginOSType {
@@ -372,10 +372,10 @@ export interface INPMSource extends IPluginSource {
 }
 
 /**
- * Gauzy-hosted plugin source configuration
+ * IRTranscripts-hosted plugin source configuration
  */
-export interface IGauzySource extends IPluginSource {
-	type: PluginSourceType.GAUZY;
+export interface IIRTranscriptsSource extends IPluginSource {
+	type: PluginSourceType.IRTRANSCRIPTS;
 	// Either url or file must be provided
 	url?: string; // URL to the plugin bundle
 	file?: File; // File to upload
@@ -607,7 +607,7 @@ export interface IPlugin extends IBaseEntityModel {
 
 	// Security and verification
 	isFeatured?: boolean; // Whether the plugin is featured
-	isVerified?: boolean; // Whether the plugin is verified by Gauzy
+	isVerified?: boolean; // Whether the plugin is verified by IRTranscripts
 
 	// Categories and tags
 	categoryId?: ID; // Plugin category ID
@@ -686,12 +686,12 @@ export interface IPluginVersion extends IBasePerTenantAndOrganizationEntityModel
  * Common interface for all plugin source types
  */
 export interface IPluginSource extends IBasePerTenantAndOrganizationEntityModel {
-	type: PluginSourceType; // Type of the plugin source (CDN, NPM, GAUZY)
+	type: PluginSourceType; // Type of the plugin source (CDN, NPM, IRTRANSCRIPTS)
 	fullName?: string; // Full name of the source
 	operatingSystem: PluginOSType; // Operating system target
 	architecture: PluginOSArch;
 
-	// Common for CDN and GAUZY sources
+	// Common for CDN and IRTRANSCRIPTS sources
 	url?: string; // URL to the plugin bundle
 	integrity?: string; // SRI hash for security verification
 	crossOrigin?: string; // CORS setting ('anonymous' | 'use-credentials')
@@ -702,7 +702,7 @@ export interface IPluginSource extends IBasePerTenantAndOrganizationEntityModel 
 	private?: boolean; // Optional flag for private packages
 	scope?: string; // Optional package scope (e.g., '@organization')
 
-	// Specific to GAUZY/file upload sources
+	// Specific to IRTRANSCRIPTS/file upload sources
 	file?: File; // File to upload
 	filePath?: string; // Path to the uploaded plugin file
 	fileName?: string; // Name of the uploaded plugin file

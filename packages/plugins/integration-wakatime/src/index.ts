@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-integration-wakatime
+ * Public API Surface of @irtranscripts/plugin-integration-wakatime
  */
 export * from './lib/wakatime.module';
 export * from './lib/wakatime.service';

@@ -1,7 +1,7 @@
 import '../core/entities/internal';
 
 import { In } from 'typeorm';
-import { ActionTypeEnum, BaseEntityEnum } from '@gauzy/contracts';
+import { ActionTypeEnum, BaseEntityEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { CrudService, TenantAwareCrudService } from '../core/crud';
 import { MultiORMEnum } from '../core/utils';

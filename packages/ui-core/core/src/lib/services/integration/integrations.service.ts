@@ -10,9 +10,9 @@ import {
 	IIntegrationType,
 	IIntegrationTenant,
 	IIntegrationTenantFindInput
-} from '@gauzy/contracts';
-import { buildHttpParams, toParams } from '@gauzy/ui-core/common';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { buildHttpParams, toParams } from '@irtranscripts/ui-core/common';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 
 @Injectable({
 	providedIn: 'root'

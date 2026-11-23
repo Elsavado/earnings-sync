@@ -40,7 +40,7 @@ const testConsole = {
 	remote: {
 		app: {
 			getLocale: (): string => 'en',
-			getName: (): string => 'gauzy-desktop-test',
+			getName: (): string => 'irtranscripts-desktop-test',
 			getVersion: (): string => '0.0.0',
 			quit: noop
 		}

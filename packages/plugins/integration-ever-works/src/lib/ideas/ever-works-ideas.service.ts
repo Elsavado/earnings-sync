@@ -2,7 +2,7 @@ import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { createHash, randomUUID } from 'node:crypto';
 import { DataSource, IsNull } from 'typeorm';
-import { ActorTypeEnum, BaseEntityEnum, ID, isTaskSyncAllowed } from '@gauzy/contracts';
+import { ActorTypeEnum, BaseEntityEnum, ID, isTaskSyncAllowed } from '@irtranscripts/contracts';
 import {
 	Comment,
 	IntegrationSetting,
@@ -14,7 +14,7 @@ import {
 	TaskCreateCommand,
 	TaskStatus,
 	TaskUpdateCommand
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { EverWorksApiError, EverWorksClient } from '../client/ever-works-client';
 import type { EverWorksEventEnvelope } from '../client/ever-works-client.types';
 import { EverWorksConnectionService } from '../connection/ever-works-connection.service';
@@ -27,10 +27,10 @@ import {
 import { EverWorksMappingContext, EverWorksMappingContextService } from '../mapping/ever-works-mapping-context.service';
 import {
 	EverWorksNoRequestContextError,
-	everWorksUserOfGauzyUser,
-	gauzyUserOfActor,
+	everWorksUserOfIRTranscriptsUser,
+	irtranscriptsUserOfActor,
 	NO_REQUEST_CONTEXT_RETRY_MS,
-	runAsGauzyUser
+	runAsIRTranscriptsUser
 } from '../sync/ever-works-actor';
 import {
 	EverWorksEntityLink,
@@ -48,20 +48,20 @@ import {
 	EverWorksInboundHandler
 } from '../sync/inbound/ever-works-inbound.applier';
 import { EverWorksLinkService } from '../sync/links/ever-works-link.service';
-import { resolveGauzyStatusRow } from '../sync/mappers/status-priority.mapper';
+import { resolveIRTranscriptsStatusRow } from '../sync/mappers/status-priority.mapper';
 import {
 	EverWorksOutboundHandler,
 	EverWorksOutboundPusher,
 	EverWorksPushContext,
 	EverWorksPushOutcome
 } from '../sync/outbound/ever-works-outbound.pusher';
-import { gauzyTeamsFor, isSyncedVisibility, teamScopeFor } from '../teams/ever-works-team-scope';
+import { irtranscriptsTeamsFor, isSyncedVisibility, teamScopeFor } from '../teams/ever-works-team-scope';
 import {
 	EverWorksIdea,
 	everWorksIdeaShared,
-	gauzyTaskOfIdea,
-	gauzyTaskToIdea,
-	GAUZY_IDEA_ISSUE_TYPE,
+	irtranscriptsTaskOfIdea,
+	irtranscriptsTaskToIdea,
+	IRTRANSCRIPTS_IDEA_ISSUE_TYPE,
 	ideaCreateBody,
 	ideaPatchBody,
 	ideaSourceTag,
@@ -88,22 +88,22 @@ interface IdeaEverWorksOnly {
 	failureMessage?: string | null;
 	webUrl?: string | null;
 	visibility?: string | null;
-	/** Ever Works teams Gauzy could not map at the last sync; tried again on the next change. */
+	/** Ever Works teams IRTranscripts could not map at the last sync; tried again on the next change. */
 	unmappedTeams?: string[];
 }
 
 const fromEverWorks = (direction: EverWorksDirection | undefined) =>
-	direction === 'both' || direction === 'ew_to_gauzy';
-const toEverWorks = (direction: EverWorksDirection | undefined) => direction === 'both' || direction === 'gauzy_to_ew';
+	direction === 'both' || direction === 'ew_to_irtranscripts';
+const toEverWorks = (direction: EverWorksDirection | undefined) => direction === 'both' || direction === 'irtranscripts_to_ew';
 
 /**
  * Ideas ↔ Idea tasks (plan 01 §8, plan 06 G-P2-3), linked as `IDEA_TASK`. An Ever Works idea is a
- * Gauzy task of the organization's "Idea" issue type, in the "Ever Works — Ideas" project.
+ * IRTranscripts task of the organization's "Idea" issue type, in the "Ever Works — Ideas" project.
  *
  * - **EW → G** (`idea.*`): the idea's title, description (plain text, escaped), status (pending → open,
  *   queued / building → in progress, accepted → done, dismissed → cancelled, failed → blocked with the
  *   failure posted as a comment), teams (its scope, D11) and a `source:<value>` tag. Only what changed
- *   in Ever Works since the last sync is written. An idea created from a Gauzy task links back to that
+ *   in Ever Works since the last sync is written. An idea created from a IRTranscripts task links back to that
  *   task. A deleted idea archives the task; a private one stops syncing (the task is kept).
  * - **G → EW**: a task of the Idea type becomes an Ever Works idea (`POST /ideas`: always `external` +
  *   `pending`); title, description and teams are patched; cancelling it dismisses the idea and
@@ -168,7 +168,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 		) {
 			return { status: 'skipped', message: `${envelope.type} is not synced` };
 		}
-		const actorUserId = await gauzyUserOfActor(this.dataSource, this.links, context, envelope.actor);
+		const actorUserId = await irtranscriptsUserOfActor(this.dataSource, this.links, context, envelope.actor);
 		if (!link && idea.title === undefined) {
 			// A first event without the idea's content (an id-only visibility notice): read the idea itself.
 			try {
@@ -188,7 +188,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 		try {
 			return await this.applyIdea(context, link, idea, version, actorUserId);
 		} catch (error) {
-			// The worker cannot write through Gauzy's task commands: an API process applies it.
+			// The worker cannot write through IRTranscripts's task commands: an API process applies it.
 			if (error instanceof EverWorksNoRequestContextError)
 				return { status: 'deferred', message: error.message, retryInMs: NO_REQUEST_CONTEXT_RETRY_MS };
 			throw error;
@@ -201,7 +201,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 		idea: EverWorksIdea,
 		version: number | null,
 		actorUserId: ID | null,
-		keepGauzy: ReadonlySet<'title' | 'description' | 'teams' | 'status'> = new Set()
+		keepIRTranscripts: ReadonlySet<'title' | 'description' | 'teams' | 'status'> = new Set()
 	): Promise<EverWorksApplyOutcome> {
 		const before = this.links.snapshot<IdeaSnapshot>(link);
 		const ew = this.ewOnlyOf(link);
@@ -209,8 +209,8 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 		const status = idea.status ?? before.status ?? null;
 		const teamMap = await this.teamMap(context);
 		if (!link) {
-			// An idea made from a Gauzy task (its own create echoed, or a lost answer) links back to that task.
-			const madeFrom = gauzyTaskOfIdea(idea, context.connection.id as ID);
+			// An idea made from a IRTranscripts task (its own create echoed, or a lost answer) links back to that task.
+			const madeFrom = irtranscriptsTaskOfIdea(idea, context.connection.id as ID);
 			if (madeFrom && (await this.task(context, madeFrom))) {
 				await this.record(
 					context,
@@ -219,32 +219,32 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 					version,
 					{ ...next, status },
 					null,
-					gauzyTeamsFor(next.teamIds, teamMap).unmapped,
+					irtranscriptsTeamsFor(next.teamIds, teamMap).unmapped,
 					'inbound'
 				);
-				return { status: 'applied', message: 'linked to the Gauzy task it was created from' };
+				return { status: 'applied', message: 'linked to the IRTranscripts task it was created from' };
 			}
 			return this.createTask(context, idea, next, status, version, actorUserId, teamMap);
 		}
-		const taskId = link.gauzyId as ID;
+		const taskId = link.irtranscriptsId as ID;
 		const task = await this.task(context, taskId);
-		if (!task) return { status: 'skipped', message: 'the Gauzy task is gone' };
-		// `keepGauzy`: fields Gauzy changed after the last sync and is pushing now — its edit is the later one
+		if (!task) return { status: 'skipped', message: 'the IRTranscripts task is gone' };
+		// `keepIRTranscripts`: fields IRTranscripts changed after the last sync and is pushing now — its edit is the later one
 		// (a 412 retry), so Ever Works' older value is not written over it; the snapshot still moves to Ever
-		// Works' value, so the retry pushes Gauzy's.
+		// Works' value, so the retry pushes IRTranscripts's.
 		const changes: Record<string, unknown> = {};
-		if (next.title && next.title !== before.title && !keepGauzy.has('title')) changes['title'] = next.title;
-		if (next.description !== (before.description ?? '') && !keepGauzy.has('description'))
+		if (next.title && next.title !== before.title && !keepIRTranscripts.has('title')) changes['title'] = next.title;
+		if (next.description !== (before.description ?? '') && !keepIRTranscripts.has('description'))
 			changes['description'] = ideaTextToHtml(next.description);
-		if (status && status !== (before.status ?? null) && !keepGauzy.has('status'))
+		if (status && status !== (before.status ?? null) && !keepIRTranscripts.has('status'))
 			Object.assign(changes, await this.statusChanges(context, task.projectId as ID, status));
 		if (Object.keys(changes).length) {
-			await runAsGauzyUser(context, actorUserId, () =>
+			await runAsIRTranscriptsUser(context, actorUserId, () =>
 				this.commandBus.execute(new TaskUpdateCommand(taskId, changes as never, true))
 			);
 		}
-		const unmapped = keepGauzy.has('teams')
-			? gauzyTeamsFor(next.teamIds, teamMap).unmapped
+		const unmapped = keepIRTranscripts.has('teams')
+			? irtranscriptsTeamsFor(next.teamIds, teamMap).unmapped
 			: await this.applyTeams(
 					context,
 					taskId,
@@ -260,7 +260,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 		return { status: 'applied' };
 	}
 
-	/** Creates the Gauzy idea task of an Ever Works idea in the Ideas project, and links them. */
+	/** Creates the IRTranscripts idea task of an Ever Works idea in the Ideas project, and links them. */
 	private async createTask(
 		context: EverWorksMappingContext,
 		idea: EverWorksIdea,
@@ -272,12 +272,12 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 	): Promise<EverWorksApplyOutcome> {
 		const ideaTypeId = this.setting(context, EverWorksSettingName.IDEA_ISSUE_TYPE_ID);
 		const projectId = await this.ideasProject(context, actorUserId);
-		const teams = gauzyTeamsFor(next.teamIds, teamMap);
+		const teams = irtranscriptsTeamsFor(next.teamIds, teamMap);
 		const tagId = await this.sourceTagId(context, idea.source);
 		const statusFields = status ? await this.statusChanges(context, projectId, status) : {};
 		// A stable id (the goals' pattern): a retry after a failure half-way — the task written, its link not —
 		// finds the task it wrote instead of creating a second one. `TaskCreateCommand` keeps a caller-supplied
-		// id (the CRUD create inserts it; a row of another tenant with it is refused). A task deleted in Gauzy
+		// id (the CRUD create inserts it; a row of another tenant with it is refused). A task deleted in IRTranscripts
 		// under that id is not revived: a new one is created with an id of its own, as before.
 		const seed = `${context.integrationTenantId}:idea-task:${idea.id}`;
 		const stableId = stableUuid(seed) as ID;
@@ -285,14 +285,14 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 		const reuse = !!written && !(written as { deletedAt?: Date | null }).deletedAt;
 		const created = reuse
 			? null
-			: ((await runAsGauzyUser(context, actorUserId, () =>
+			: ((await runAsIRTranscriptsUser(context, actorUserId, () =>
 					this.commandBus.execute(
 						new TaskCreateCommand(
 							{
 								...(written ? {} : { id: stableId }),
 								title: next.title || 'Idea',
 								description: ideaTextToHtml(next.description),
-								issueType: GAUZY_IDEA_ISSUE_TYPE,
+								issueType: IRTRANSCRIPTS_IDEA_ISSUE_TYPE,
 								...(ideaTypeId ? { taskTypeId: ideaTypeId } : {}),
 								projectId,
 								...statusFields,
@@ -321,7 +321,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 			await this.comment(context, taskId, idea.failureMessage, stableUuid(`${seed}:${taskId}:failure`) as ID);
 		await this.record(context, taskId, idea, version, { ...next, status }, null, teams.unmapped, 'inbound');
 		this.logger.log(
-			`Ever Works idea ${idea.id} created as Gauzy task ${taskId} (organization ${context.organizationId}).`
+			`Ever Works idea ${idea.id} created as IRTranscripts task ${taskId} (organization ${context.organizationId}).`
 		);
 		return { status: 'applied' };
 	}
@@ -351,7 +351,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 			Object.entries(wanted).filter(([key, value]) => (row[key] ?? null) !== (value ?? null))
 		);
 		if (Object.keys(changes).length) {
-			await runAsGauzyUser(context, actorUserId, () =>
+			await runAsIRTranscriptsUser(context, actorUserId, () =>
 				this.commandBus.execute(new TaskUpdateCommand(taskId, changes as never, true))
 			);
 		}
@@ -372,16 +372,16 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 		await this.dataSource
 			.getRepository(Task)
 			.update(
-				{ id: link.gauzyId, tenantId: context.tenantId } as never,
+				{ id: link.irtranscriptsId, tenantId: context.tenantId } as never,
 				{ isArchived: true, archivedAt: new Date() } as never
 			);
-		await this.links.unlink(link, 'deleted in Ever Works; the Gauzy task is archived');
+		await this.links.unlink(link, 'deleted in Ever Works; the IRTranscripts task is archived');
 		return { status: 'applied' };
 	}
 
 	// ── G → EW ─────────────────────────────────────────────────────────────────────────────────────
 
-	/** Outbound handler: a Gauzy task of the Idea type changed (or a linked idea task stopped being one). */
+	/** Outbound handler: a IRTranscripts task of the Idea type changed (or a linked idea task stopped being one). */
 	async push(change: EverWorksOutboundChange, pushContext: EverWorksPushContext): Promise<EverWorksPushOutcome> {
 		const context = await this.contexts.forOrganization(change.tenantId as ID, change.organizationId as ID);
 		if (!context || context.integrationTenantId !== pushContext.mapping.id)
@@ -389,14 +389,14 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 		if (!context.isEnabled) return { status: 'skipped', message: 'the mapping is disabled' };
 		if (!toEverWorks(context.directions.ideas))
 			return { status: 'skipped', message: 'ideas are not pushed to Ever Works' };
-		const link = await this.links.byGauzy(
+		const link = await this.links.byIRTranscripts(
 			context.integrationTenantId,
 			EverWorksLinkType.IDEA_TASK,
-			change.gauzyId as ID
+			change.irtranscriptsId as ID
 		);
 		if (link?.state === EverWorksLinkState.UNLINKED)
 			return { status: 'skipped', message: 'the idea is no longer synced' };
-		const task = await this.task(context, change.gauzyId as ID, true);
+		const task = await this.task(context, change.irtranscriptsId as ID, true);
 		// A task kept out of every integration (sync scope `none`) sends nothing more, its archive or deletion included;
 		// an idea already linked stays as it is in Ever Works.
 		if (task && !isTaskSyncAllowed(task, 'ever-platform')) {
@@ -416,7 +416,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 		if (!isIdeaTask(task, this.setting(context, EverWorksSettingName.IDEA_ISSUE_TYPE_ID))) {
 			if (!link) return { status: 'skipped', message: 'not an idea' };
 			// 01 §8: changing the type away from Idea unlinks it, with a warning; neither side is deleted.
-			await this.links.unlink(link, 'the Gauzy task is no longer an Idea; the Ever Works idea is kept');
+			await this.links.unlink(link, 'the IRTranscripts task is no longer an Idea; the Ever Works idea is kept');
 			await this.log.write({
 				tenantId: context.tenantId,
 				organizationId: context.organizationId,
@@ -424,7 +424,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 				connectionId: context.connection.id as ID,
 				direction: 'outbound',
 				entityType: EverWorksLinkType.IDEA_TASK,
-				gauzyId: task.id as ID,
+				irtranscriptsId: task.id as ID,
 				ewId: link.ewId,
 				action: 'unlinked',
 				status: 'skipped',
@@ -436,19 +436,19 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 		const teams = ((task as { teams?: Array<{ id: ID }> }).teams ?? []).map((team) => team.id);
 		const scope = teamScopeFor(
 			teams,
-			new Map([...(await this.teamMap(context)).entries()].map(([ewId, gauzyId]) => [gauzyId, ewId]))
+			new Map([...(await this.teamMap(context)).entries()].map(([ewId, irtranscriptsId]) => [irtranscriptsId, ewId]))
 		);
 		if (!scope.scope)
 			return {
 				status: 'deferred',
-				message: `waiting for the Gauzy team ${scope.waitingFor} to be paired (teams first)`
+				message: `waiting for the IRTranscripts team ${scope.waitingFor} to be paired (teams first)`
 			};
-		const now = gauzyTaskToIdea(task, scope.scope, this.ewOnlyOf(link).unmappedTeams ?? []);
+		const now = irtranscriptsTaskToIdea(task, scope.scope, this.ewOnlyOf(link).unmappedTeams ?? []);
 		try {
 			if (!link) return await this.create(context, client, task, now, change.actorUserId as ID | null);
 			return await this.update(context, client, task, now, link);
 		} catch (error) {
-			// A Gauzy write of this push (a refused move written back) needs a request context: an API process pushes it.
+			// A IRTranscripts write of this push (a refused move written back) needs a request context: an API process pushes it.
 			if (error instanceof EverWorksNoRequestContextError)
 				return { status: 'deferred', message: error.message, retryInMs: NO_REQUEST_CONTEXT_RETRY_MS };
 			throw error;
@@ -459,12 +459,12 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 		context: EverWorksMappingContext,
 		client: EverWorksClient,
 		task: Task,
-		now: ReturnType<typeof gauzyTaskToIdea>,
+		now: ReturnType<typeof irtranscriptsTaskToIdea>,
 		actorUserId: ID | null
 	): Promise<EverWorksPushOutcome> {
 		const connectionId = context.connection.id as ID;
 		const body = ideaCreateBody(now, connectionId, task.id as ID);
-		const actAs = await everWorksUserOfGauzyUser(
+		const actAs = await everWorksUserOfIRTranscriptsUser(
 			this.dataSource,
 			this.links,
 			context,
@@ -498,10 +498,10 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 		}
 		// A repeat of the same externalRef answers the existing idea: never re-pair one another task holds.
 		const holder = await this.links.byEw(context.integrationTenantId, EverWorksLinkType.IDEA_TASK, created.id);
-		if (holder && holder.state !== EverWorksLinkState.UNLINKED && holder.gauzyId !== task.id) {
+		if (holder && holder.state !== EverWorksLinkState.UNLINKED && holder.irtranscriptsId !== task.id) {
 			return { status: 'skipped', message: `the Ever Works idea ${created.id} is paired with another task` };
 		}
-		// The snapshot is what was sent (the agreed value), so the next Gauzy change is diffed against it.
+		// The snapshot is what was sent (the agreed value), so the next IRTranscripts change is diffed against it.
 		const snapshot: IdeaSnapshot = {
 			title: now.title,
 			description: now.description,
@@ -518,8 +518,8 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 			[],
 			'outbound'
 		);
-		this.logger.log(`Gauzy idea task ${task.id} created in Ever Works as idea ${created.id}.`);
-		// An idea task created cancelled is dismissed at once (the only status move Gauzy makes).
+		this.logger.log(`IRTranscripts idea task ${task.id} created in Ever Works as idea ${created.id}.`);
+		// An idea task created cancelled is dismissed at once (the only status move IRTranscripts makes).
 		if (ideaStatusAction(snapshot.status, task.status, this.flagsOf(task)) === 'dismiss')
 			link = (await this.move(context, client, link, 'dismiss')) ?? link;
 		return { status: 'pushed', message: 'created in Ever Works' };
@@ -529,7 +529,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 		context: EverWorksMappingContext,
 		client: EverWorksClient,
 		task: Task,
-		now: ReturnType<typeof gauzyTaskToIdea>,
+		now: ReturnType<typeof irtranscriptsTaskToIdea>,
 		link: EverWorksEntityLink
 	): Promise<EverWorksPushOutcome> {
 		let pair = link;
@@ -570,7 +570,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 				// 412: Ever Works moved on. Its newer state is applied first when ideas sync from Ever Works (as
 				// the sync, so it is not captured back), then this push is merged again on top of it.
 				const remote = await client.request<EverWorksIdea>('GET', `/ideas/${encodeURIComponent(pair.ewId)}`);
-				// What Gauzy changed since the last sync is the later edit: Ever Works' value is not written over it.
+				// What IRTranscripts changed since the last sync is the later edit: Ever Works' value is not written over it.
 				const keep = new Set<'title' | 'description' | 'teams' | 'status'>();
 				if (now.title !== before.title) keep.add('title');
 				if (now.description !== before.description) keep.add('description');
@@ -601,7 +601,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 						'outbound'
 					);
 				}
-				const fresh = await this.links.byGauzy(
+				const fresh = await this.links.byIRTranscripts(
 					context.integrationTenantId,
 					EverWorksLinkType.IDEA_TASK,
 					task.id as ID
@@ -617,14 +617,14 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 				const teams = ((freshTask as { teams?: Array<{ id: ID }> }).teams ?? []).map((team) => team.id);
 				const scope = teamScopeFor(
 					teams,
-					new Map([...(await this.teamMap(context)).entries()].map(([ewId, gauzyId]) => [gauzyId, ewId]))
+					new Map([...(await this.teamMap(context)).entries()].map(([ewId, irtranscriptsId]) => [irtranscriptsId, ewId]))
 				);
 				if (!scope.scope)
 					return {
 						status: 'deferred',
-						message: `waiting for the Gauzy team ${scope.waitingFor} to be paired (teams first)`
+						message: `waiting for the IRTranscripts team ${scope.waitingFor} to be paired (teams first)`
 					};
-				now = gauzyTaskToIdea(freshTask, scope.scope, this.ewOnlyOf(fresh).unmappedTeams ?? []);
+				now = irtranscriptsTaskToIdea(freshTask, scope.scope, this.ewOnlyOf(fresh).unmappedTeams ?? []);
 			}
 		}
 		throw new Error('unreachable');
@@ -653,7 +653,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 			const jumped = moved.version != null && (link.ewVersion == null || moved.version !== link.ewVersion + 1);
 			if (jumped && fromEverWorks(context.directions.ideas)) {
 				// Ever Works changed the idea in between (its version moved by more than this move): its answer is the
-				// idea as it is now, applied first (the status Gauzy just moved stays), as a 412 merge does. Recording
+				// idea as it is now, applied first (the status IRTranscripts just moved stays), as a 412 merge does. Recording
 				// its version alone would skip that change as applied (review F86). With no task left to take it (the
 				// task was deleted), the move is recorded as before (#11081 review).
 				const outcome = await EverWorksSyncContext.run(
@@ -673,7 +673,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 			}
 			return this.record(
 				context,
-				link.gauzyId as ID,
+				link.irtranscriptsId as ID,
 				moved,
 				moved.version ?? null,
 				{ ...(before as IdeaSnapshot), status: moved.status ?? before.status ?? null },
@@ -689,7 +689,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 				// (a failure after it). Ever Works' idea as it is now is applied (the status stays), and the link moves on
 				// with it, instead of refusing the same move at every push (#11081 review).
 				const remote = await client.request<EverWorksIdea>('GET', `/ideas/${encodeURIComponent(link.ewId)}`);
-				// Ideas syncing Gauzy → Ever Works only take nothing into Gauzy: the move is only recorded below, else every
+				// Ideas syncing IRTranscripts → Ever Works only take nothing into IRTranscripts: the move is only recorded below, else every
 				// later push sends it again and logs another refusal (#11096 review).
 				if (fromEverWorks(context.directions.ideas)) {
 					const reconciled = await EverWorksSyncContext.run(
@@ -710,7 +710,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 				// One-way, or no task left to take it (the task was deleted): the move is recorded on the link, as a move is.
 				return this.record(
 					context,
-					link.gauzyId as ID,
+					link.irtranscriptsId as ID,
 					remote,
 					remote.version ?? null,
 					{ ...(before as IdeaSnapshot), status: remote.status ?? kept },
@@ -725,7 +725,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 					await EverWorksSyncContext.run(
 						{ connectionId: context.connection.id as ID, eventId: `idea-${action}:${link.ewId}` },
 						() =>
-							runAsGauzyUser(context, (context.connection.connectedByUserId as ID) ?? null, () =>
+							runAsIRTranscriptsUser(context, (context.connection.connectedByUserId as ID) ?? null, () =>
 								this.commandBus.execute(new TaskUpdateCommand(task.id as ID, changes as never, true))
 							)
 					);
@@ -738,7 +738,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 				connectionId: context.connection.id as ID,
 				direction: 'outbound',
 				entityType: EverWorksLinkType.IDEA_TASK,
-				gauzyId: link.gauzyId as ID,
+				irtranscriptsId: link.irtranscriptsId as ID,
 				ewId: link.ewId,
 				action: `${action}_refused`,
 				status: 'conflict',
@@ -748,7 +748,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 		}
 	}
 
-	// ── Gauzy side ─────────────────────────────────────────────────────────────────────────────────
+	// ── IRTranscripts side ─────────────────────────────────────────────────────────────────────────────────
 
 	/** The task of an id in the mapping's organization (with its teams and status row), or `null`. */
 	private async task(context: EverWorksMappingContext, taskId: ID, withDeleted = false): Promise<Task | null> {
@@ -765,7 +765,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 		return { isTodo: row?.isTodo, isInProgress: row?.isInProgress, isDone: row?.isDone };
 	}
 
-	/** The Gauzy status of an idea status in the task's scope (project → organization → global): `status` + `taskStatusId`. */
+	/** The IRTranscripts status of an idea status in the task's scope (project → organization → global): `status` + `taskStatusId`. */
 	private async statusChanges(
 		context: EverWorksMappingContext,
 		projectId: ID | null,
@@ -798,7 +798,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 	private statusChangesFor(ideaStatus: string, rows: TaskStatus[]): Record<string, unknown> {
 		const asTask = ideaStatusAsTaskStatus(ideaStatus);
 		if (!asTask) return {};
-		const row = resolveGauzyStatusRow(asTask, rows);
+		const row = resolveIRTranscriptsStatusRow(asTask, rows);
 		if (row) return { status: row.value ?? row.name, taskStatusId: row.id };
 		// No status row in scope: the platform's slug alone (every scope seeds these by default).
 		const slug = {
@@ -813,7 +813,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 
 	/**
 	 * The idea's teams moved: the same adds and removes on `task.teams` (its scope, D11). Teams unmapped at
-	 * the last sync are added again. Returns the teams of `next` Gauzy still cannot map, for the link.
+	 * the last sync are added again. Returns the teams of `next` IRTranscripts still cannot map, for the link.
 	 */
 	private async applyTeams(
 		context: EverWorksMappingContext,
@@ -824,15 +824,15 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 		teamMap: Map<string, ID>
 	): Promise<string[]> {
 		const again = new Set(retry);
-		const added = gauzyTeamsFor(
+		const added = irtranscriptsTeamsFor(
 			next.filter((id) => !previous.includes(id) || again.has(id)),
 			teamMap
 		);
-		const removed = gauzyTeamsFor(
+		const removed = irtranscriptsTeamsFor(
 			previous.filter((id) => !next.includes(id)),
 			teamMap
 		).teamIds;
-		const unmapped = gauzyTeamsFor(next, teamMap).unmapped;
+		const unmapped = irtranscriptsTeamsFor(next, teamMap).unmapped;
 		if (!added.teamIds.length && !removed.length) return unmapped;
 		const relation = this.dataSource.createQueryBuilder().relation(Task, 'teams').of(taskId);
 		const current = new Set(((await relation.loadMany()) as Array<{ id: ID }>).map((team) => team.id));
@@ -842,12 +842,12 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 		return unmapped;
 	}
 
-	/** Ever Works team id → linked Gauzy team id (live pairs only). */
+	/** Ever Works team id → linked IRTranscripts team id (live pairs only). */
 	private async teamMap(context: EverWorksMappingContext): Promise<Map<string, ID>> {
 		const teamLinks = (await this.links.list(context.integrationTenantId, EverWorksLinkType.TEAM)).filter(
 			(link) => link.state !== EverWorksLinkState.UNLINKED
 		);
-		return new Map(teamLinks.map((link) => [link.ewId, link.gauzyId as ID]));
+		return new Map(teamLinks.map((link) => [link.ewId, link.irtranscriptsId as ID]));
 	}
 
 	/** The organization's `source:<value>` tag, created on first need. */
@@ -947,7 +947,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 		const named = await projects.findOne({ where: { ...where, name: EVER_WORKS_IDEAS_PROJECT_NAME } as never });
 		const project =
 			named ??
-			((await runAsGauzyUser(context, actorUserId, () =>
+			((await runAsIRTranscriptsUser(context, actorUserId, () =>
 				this.commandBus.execute(
 					new OrganizationProjectCreateCommand({
 						name: EVER_WORKS_IDEAS_PROJECT_NAME,
@@ -1028,7 +1028,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 			organizationId: context.organizationId,
 			integrationTenantId: context.integrationTenantId,
 			entityType: EverWorksLinkType.IDEA_TASK,
-			gauzyId: taskId,
+			irtranscriptsId: taskId,
 			ewId: idea.id,
 			ewVersion: version ?? idea.version ?? null,
 			ewUpdatedAt: idea.updatedAt,

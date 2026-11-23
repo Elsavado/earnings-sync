@@ -1,6 +1,6 @@
 import { FindOperator } from "typeorm";
 import * as moment from "moment";
-import { ITimerStatusInput, TimeLogSourceEnum } from "@gauzy/contracts";
+import { ITimerStatusInput, TimeLogSourceEnum } from "@irtranscripts/contracts";
 
 //
 interface TimeLogParams extends ITimerStatusInput {

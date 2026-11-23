@@ -102,14 +102,14 @@ async function getTagForCommit(repoURL, sha) {
 async function getBuildTag(repoURL) {
 	// The check-release-tag gate resolves the release tag of the promoted commit - including
 	// merge-commit promotions, where the tag points at the merge parent (the promoted branch
-	// tip) rather than at GITHUB_SHA itself - and hands it down via GAUZY_RELEASE_TAG.
-	const gateTag = (process.env.GAUZY_RELEASE_TAG || '').trim();
+	// tip) rather than at GITHUB_SHA itself - and hands it down via IRTRANSCRIPTS_RELEASE_TAG.
+	const gateTag = (process.env.IRTRANSCRIPTS_RELEASE_TAG || '').trim();
 	if (gateTag) {
 		if (/^v[0-9]+\.[0-9]+\.[0-9]+$/.test(gateTag)) {
 			console.log('Using release tag resolved by the check-release-tag gate:', gateTag);
 			return gateTag;
 		}
-		console.warn(`Ignoring GAUZY_RELEASE_TAG '${gateTag}' - not a vX.Y.Z release tag`);
+		console.warn(`Ignoring IRTRANSCRIPTS_RELEASE_TAG '${gateTag}' - not a vX.Y.Z release tag`);
 	}
 	try {
 		const sha = process.env.GITHUB_SHA || (await git.revparse(['HEAD'])).trim();

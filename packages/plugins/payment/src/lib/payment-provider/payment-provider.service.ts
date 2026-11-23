@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { ID, IPagination } from '@gauzy/contracts';
+import { ID, IPagination } from '@irtranscripts/contracts';
 import { PaymentProvider } from './payment-provider.entity';
 import { TypeOrmPaymentProviderRepository } from './repository/type-orm-payment-provider.repository';
 import { MikroOrmPaymentProviderRepository } from './repository/mikro-orm-payment-provider.repository';

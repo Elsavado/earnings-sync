@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ITask } from '@gauzy/contracts';
+import { ITask } from '@irtranscripts/contracts';
 import { filter, map, Observable, startWith } from 'rxjs';
 import { SelectorQuery } from '../../../+state/selector.query';
 import { TaskSelectorStore } from './task-selector.store';

@@ -13,7 +13,7 @@ import {
 	MaxLength,
 	Min
 } from 'class-validator';
-import { DecimalString, ID, IUser } from '@gauzy/contracts';
+import { DecimalString, ID, IUser } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	JsonColumn,
@@ -22,7 +22,7 @@ import {
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity,
 	User
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { IPackSlip, IPickList, IPickListLine, IWarehouseBin, IWarehouseZone, PickListLineStatus } from '../warehouse.types';
 import { PackSlip } from '../pack-slip/pack-slip.entity';
 import { PickList } from '../pick-list/pick-list.entity';

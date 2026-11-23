@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { ArrayMaxSize, IsArray, IsBoolean, IsEnum, IsNotEmpty, IsObject, IsString, IsUUID, MaxLength, ValidateIf, ValidateNested } from 'class-validator';
-import { IntegrationEntity } from '@gauzy/contracts';
+import { IntegrationEntity } from '@irtranscripts/contracts';
 
 export class EverWorksCreateMappingDto {
 	@ApiProperty({ description: 'A pinned Ever Works organization of the connected key (from whoami).' })
@@ -28,7 +28,7 @@ export class EverWorksEntitySettingDto {
 
 export class EverWorksUpdateMappingDto {
 	@ApiPropertyOptional({
-		description: 'Per-domain direction, e.g. { "tasks": "both", "agents": "ew_to_gauzy", "docs": "off" }.',
+		description: 'Per-domain direction, e.g. { "tasks": "both", "agents": "ew_to_irtranscripts", "docs": "off" }.',
 		type: Object
 	})
 	@ValidateIf((_o, v) => v !== undefined)

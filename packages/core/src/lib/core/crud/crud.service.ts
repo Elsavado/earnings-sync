@@ -3,7 +3,7 @@
 // Original copyright: Copyright (c) 2018 Sumanth Chinthagunta
 
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { parseToBoolean } from '@gauzy/utils';
+import { parseToBoolean } from '@irtranscripts/utils';
 import {
 	DeepPartial,
 	DeleteResult,
@@ -28,7 +28,7 @@ import {
 	wrap
 } from '@mikro-orm/core';
 import { AssignOptions } from '@mikro-orm/knex';
-import { ID, IPagination } from '@gauzy/contracts';
+import { ID, IPagination } from '@irtranscripts/contracts';
 // The base classes' own module rather than the entity-registry barrel. That barrel re-exports every
 // entity *and* every subscriber, and a subscriber imports a module, which imports a controller, which
 // imports `core/crud` — so reaching the registry from here closes a cycle whose second lap arrives at

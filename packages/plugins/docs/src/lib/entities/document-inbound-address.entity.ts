@@ -4,7 +4,7 @@ import {
 	DocumentInboundAddressKindEnum,
 	DocumentInboundDomainStatusEnum,
 	IDocumentInboundAddress
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	ExportRedacted,
@@ -12,7 +12,7 @@ import {
 	MultiORMColumn,
 	MultiORMEntity,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { MikroOrmDocumentInboundAddressRepository } from '../repositories/mikro-orm-document-inbound-address.repository';
 
 /**
@@ -118,7 +118,7 @@ export class DocumentInboundAddress extends TenantOrganizationBaseEntity impleme
 	domainStatus: DocumentInboundDomainStatusEnum;
 
 	/**
-	 * The value the organization publishes at `_gauzy-docs.<domain>` IN TXT. Not a secret: it proves
+	 * The value the organization publishes at `_irtranscripts-docs.<domain>` IN TXT. Not a secret: it proves
 	 * control of DNS, and knowing it grants nothing on its own.
 	 */
 	@ApiPropertyOptional({ type: () => String })

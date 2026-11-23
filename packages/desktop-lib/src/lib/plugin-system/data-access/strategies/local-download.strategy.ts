@@ -1,4 +1,4 @@
-import { logger } from '@gauzy/desktop-core';
+import { logger } from '@irtranscripts/desktop-core';
 import { createReadStream, createWriteStream } from 'fs';
 import * as fs from 'fs/promises';
 import { finished } from 'node:stream/promises';

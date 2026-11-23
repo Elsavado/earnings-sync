@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import { LanguageUtils } from '../../language/language-utils';
 import * as chalk from "chalk";
-import { DatabaseTypeEnum } from "@gauzy/config";
+import { DatabaseTypeEnum } from "@irtranscripts/config";
 
 export class AddLanguage1696704276300 implements MigrationInterface {
     name = 'AddLanguage1696704276300';

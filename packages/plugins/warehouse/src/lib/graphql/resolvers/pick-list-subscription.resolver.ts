@@ -10,8 +10,8 @@ import {
 	TenantPermissionGuard,
 	deliverPayloadAsIs,
 	tenantScopedTopicStream
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { PickList } from '../../pick-list/pick-list.entity';
 import { PickListService } from '../../pick-list/pick-list.service';
 import { WarehouseFeatures } from '../../warehouse.features';

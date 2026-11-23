@@ -1,8 +1,8 @@
 /*
- * Public API Surface of @gauzy/plugin-dashboard-time-track-react-ui
+ * Public API Surface of @irtranscripts/plugin-dashboard-time-track-react-ui
  *
  * The React flavour of the Time Tracking dashboard, integrated into Angular
- * through @gauzy/plugin-ui + @gauzy/ui-react.
+ * through @irtranscripts/plugin-ui + @irtranscripts/ui-react.
  */
 
 // Plugin definition

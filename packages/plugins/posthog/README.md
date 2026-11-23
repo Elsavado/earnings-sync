@@ -1,4 +1,4 @@
-# @gauzy/plugin-posthog
+# @irtranscripts/plugin-posthog
 
 ## Overview
 
@@ -36,7 +36,7 @@ After building your library with `yarn nx build plugin-posthog`, go to the dist 
 Install the PostHog Plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-posthog
+npm install @irtranscripts/plugin-posthog
 # or
-yarn add @gauzy/plugin-posthog
+yarn add @irtranscripts/plugin-posthog
 ```

@@ -6,7 +6,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { RolePermissionModule } from '@gauzy/core';
+import { RolePermissionModule } from '@irtranscripts/core';
 import { StockCountLine } from './stock-count-line.entity';
 import { StockCountLineController } from './stock-count-line.controller';
 import { StockCountLineService } from './stock-count-line.service';

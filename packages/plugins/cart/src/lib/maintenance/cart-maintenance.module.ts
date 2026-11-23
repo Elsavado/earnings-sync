@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { SchedulerModule } from '@gauzy/scheduler';
+import { SchedulerModule } from '@irtranscripts/scheduler';
 import { CartModule } from '../cart.module';
 import { CartExpiryScheduler } from './cart-expiry.scheduler';
 import { CartExpiryWorker } from './cart-expiry.worker';

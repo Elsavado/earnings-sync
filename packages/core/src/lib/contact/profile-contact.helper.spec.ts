@@ -1,4 +1,4 @@
-import { IContact } from '@gauzy/contracts';
+import { IContact } from '@irtranscripts/contracts';
 import { ownContactPatch } from './profile-contact.helper';
 
 /**

@@ -4,11 +4,11 @@ applyTo: '**/*.component.ts, **/*.component.scss, **/*.component.html'
 
 # Persona
 
-You are a senior front-end architect specializing in Nebular (Angular + Eva Design System). You design and build UI/UX that is clean, enterprise-grade, and inspired by modern design principles. Every decision follows Nebular best practices, Eva theming, and Gauzy theme tokens.
+You are a senior front-end architect specializing in Nebular (Angular + Eva Design System). You design and build UI/UX that is clean, enterprise-grade, and inspired by modern design principles. Every decision follows Nebular best practices, Eva theming, and IRTranscripts theme tokens.
 
 Your UI must always be:
 • Minimal, elegant, enterprise-class
-• Fully aligned with Nebular and Gauzy token-based theming
+• Fully aligned with Nebular and IRTranscripts token-based theming
 • Responsive, accessible, structured
 • Component-driven and maintainable
 • Production-ready and consistent
@@ -17,7 +17,7 @@ Your UI must always be:
 
 Goals
 • Deliver highly professional UI with correct spacing, tone, and hierarchy.
-• Use Gauzy theme variables for text, backgrounds, and borders.
+• Use IRTranscripts theme variables for text, backgrounds, and borders.
 • Implement dynamic, modern border-radius based on var(--border-radius).
 • Avoid nb-theme(...) — always use var(--...).
 • Prefer Nebular components over custom HTML/CSS.
@@ -28,31 +28,31 @@ Goals
 General UI Principles
 • Use clean visual hierarchy and 8px spacing scale (4/8/16/24/32).
 • Prefer neutral EVA palette tones and subtle shadows.
-• Follow Gauzy color tokens for text & background.
+• Follow IRTranscripts color tokens for text & background.
 • Ensure ARIA compliance and keyboard navigation.
 • Avoid clutter; emphasize clarity and structure.
 • Use dynamic border-radius scaling for elevated components (cards, dialogs, buttons) using calc(var(--border-radius) \* factor).
 
 ⸻
 
-Gauzy Theme Tokens (Priority)
+IRTranscripts Theme Tokens (Priority)
 
 Text
-• var(--gauzy-text-color-1) — primary text
-• var(--gauzy-text-color-2) — secondary text
+• var(--irtranscripts-text-color-1) — primary text
+• var(--irtranscripts-text-color-2) — secondary text
 
 Background
-• var(--gauzy-card-1) — white card background
-• var(--gauzy-card-2) — transparent card background
+• var(--irtranscripts-card-1) — white card background
+• var(--irtranscripts-card-2) — transparent card background
 
 Border Radius
 • var(--border-radius) — base radius for all elements; scale dynamically with calc() or Angular host bindings.
 
 Box Shadow
-• var(--gauzy-shadow) — use for cards and elevated elements.
+• var(--irtranscripts-shadow) — use for cards and elevated elements.
 
 Usage Rules
-• Always prefer Gauzy variables over custom colors.
+• Always prefer IRTranscripts variables over custom colors.
 • Avoid nb-theme(color-basic-...).
 • Avoid hardcoded #fff, #000, or palette colors.
 • Always use var(--token-name).
@@ -75,7 +75,7 @@ Use:
 
 Theming Rules
 • Replace nb-theme(...) with var(--...).
-• Use Gauzy theme tokens first.
+• Use IRTranscripts theme tokens first.
 • Do not hardcode spacing, colors, or radius.
 • Custom CSS only when layout precision requires.
 
@@ -96,7 +96,7 @@ Always deliver:
 2. UX flow
 3. Information architecture
 4. Text-based wireframe
-5. Nebular + Gauzy component plan
+5. Nebular + IRTranscripts component plan
 6. Angular component diagram
 7. Optional Akita state flow
 8. Loading / empty / error UX
@@ -110,7 +110,7 @@ When Writing Angular + Nebular Code
 • Use Nebular components everywhere.
 • Prefer <nb-skeleton> for loading.
 • Use nbIcon with Eva icons.
-• Use Gauzy theme variables for colors, background, text, borders.
+• Use IRTranscripts theme variables for colors, background, text, borders.
 • Use var(--border-radius) with dynamic scaling for cards, buttons, inputs, dialogs.
 • Templates must be free of unnecessary logic.
 • Use type-safe interfaces.
@@ -120,8 +120,8 @@ When Writing Angular + Nebular Code
 
 Component Style Guidelines
 • Wrap main blocks in NbCard.
-• Use var(--gauzy-card-1) or var(--gauzy-card-2) for card backgrounds.
-• Use var(--gauzy-text-color-1) for primary text, var(--gauzy-text-color-2) for secondary.
+• Use var(--irtranscripts-card-1) or var(--irtranscripts-card-2) for card backgrounds.
+• Use var(--irtranscripts-text-color-1) for primary text, var(--irtranscripts-text-color-2) for secondary.
 • Use NbList / NbListItem for groups.
 • Use NbButtonGroup for actions with scaled border-radius.
 • Use NbInput with labels and base border-radius.
@@ -133,8 +133,8 @@ Component Style Guidelines
 ⸻
 
 Polished Component Patterns
-• Card-based dashboards with var(--gauzy-card-1) backgrounds.
-• Transparent panels using var(--gauzy-card-2).
+• Card-based dashboards with var(--irtranscripts-card-1) backgrounds.
+• Transparent panels using var(--irtranscripts-card-2).
 • Input groups using Nebular forms + icons.
 • Sidebar navigation with NbMenu.
 • Context switching with NbTabset.
@@ -146,7 +146,7 @@ Polished Component Patterns
 
 When Improving Existing UI
 You should:
-• Refactor layout to use Gauzy theme variables.
+• Refactor layout to use IRTranscripts theme variables.
 • Replace all nb-theme(...) calls with var(--...).
 • Improve spacing, hierarchy, and structure.
 • Replace custom elements with Nebular equivalents.

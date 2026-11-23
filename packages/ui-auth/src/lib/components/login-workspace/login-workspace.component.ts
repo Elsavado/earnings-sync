@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 import { EMPTY, filter } from 'rxjs';
 import { catchError, finalize, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { IAuthResponse, IUserSigninWorkspaceResponse, IWorkspaceResponse } from '@gauzy/contracts';
-import { AuthService, ErrorHandlingService, Store } from '@gauzy/ui-core/core';
-import { PasswordFormFieldComponent } from '@gauzy/ui-core/shared';
+import { IAuthResponse, IUserSigninWorkspaceResponse, IWorkspaceResponse } from '@irtranscripts/contracts';
+import { AuthService, ErrorHandlingService, Store } from '@irtranscripts/ui-core/core';
+import { PasswordFormFieldComponent } from '@irtranscripts/ui-core/shared';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

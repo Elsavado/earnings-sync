@@ -12,7 +12,7 @@ const expected = JSON.parse(readFileSync(join(FIXTURES, 'expected.json'), 'utf8'
 	string,
 	{ status: number; path?: string; error?: string }
 >;
-const golden = JSON.parse(readFileSync(join(FIXTURES, 'valid/gauzy.json'), 'utf8'));
+const golden = JSON.parse(readFileSync(join(FIXTURES, 'valid/irtranscripts.json'), 'utf8'));
 
 /** Every string of a value (keys included) with its JSON pointer. */
 function walkStrings(value: unknown, at = ''): Array<{ path: string; value: string }> {
@@ -46,8 +46,8 @@ describe('EverStatsBuilder', () => {
 			expect(refused.errors[0].code).toBe(want.error);
 		});
 
-		it('accepts the gauzy golden', () => {
-			expect(validateStatsReportBytes(new Uint8Array(readFileSync(join(FIXTURES, 'valid/gauzy.json')))).ok).toBe(true);
+		it('accepts the irtranscripts golden', () => {
+			expect(validateStatsReportBytes(new Uint8Array(readFileSync(join(FIXTURES, 'valid/irtranscripts.json')))).ok).toBe(true);
 			expect(builder.check(golden).ok).toBe(true);
 		});
 
@@ -68,7 +68,7 @@ describe('EverStatsBuilder', () => {
 		const now = new Date(Date.UTC(2026, 9, 3, 12, 30, 0));
 		const result = builder.build({
 			identity: { instanceId: golden.instance_id },
-			config: { country: 'ZZ', serves: ['gauzy', 'teams'], installSource: 'self-hosted' },
+			config: { country: 'ZZ', serves: ['irtranscripts', 'teams'], installSource: 'self-hosted' },
 			release: parseReleaseVersion('v0.750.1'),
 			period: statsPeriod(now, 1),
 			final: true,

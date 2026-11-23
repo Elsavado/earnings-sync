@@ -77,7 +77,7 @@ runs:
         # silently win over this run's decision.
         #
         # .yarnrc goes through the per-path loop below rather than the rm -f list. It is untracked
-        # in ever-gauzy, but ever-co/ever-teams TRACKS it and pins the yarn binary there
+        # in ever-irtranscripts, but ever-co/ever-teams TRACKS it and pins the yarn binary there
         # (yarn-path ".yarn/releases/yarn-1.22.22.cjs"). Deleting it outright dropped that pin, so
         # `yarn install --frozen-lockfile` ran against whatever yarn the runner resolved. The loop
         # restores it when tracked and still removes it when it is a stale untracked leftover.

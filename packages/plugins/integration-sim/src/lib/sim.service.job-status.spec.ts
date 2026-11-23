@@ -4,13 +4,13 @@
  * `/api/jobs/:id`. The service finds the run's workflow in this tenant's execution log, asks the v2 API,
  * and keeps the legacy endpoint for ids it did not log and for jobs the v2 API does not know.
  */
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	IntegrationService: class {},
 	IntegrationTenantService: class {},
 	RequestContext: { currentTenantId: () => 'tenant-1' }
 }));
-jest.mock('@gauzy/config', () => ({ ConfigService: class {} }));
-// The ORM layer (entity + repositories) is not under test and needs the real @gauzy/core.
+jest.mock('@irtranscripts/config', () => ({ ConfigService: class {} }));
+// The ORM layer (entity + repositories) is not under test and needs the real @irtranscripts/core.
 jest.mock('./sim-repository.service', () => ({ SimRepositoryService: class {} }));
 jest.mock('./sim-workflow-execution.entity', () => ({ SimWorkflowExecution: class {} }));
 jest.mock('./sim-client.factory', () => ({ SimClientFactory: class {} }));

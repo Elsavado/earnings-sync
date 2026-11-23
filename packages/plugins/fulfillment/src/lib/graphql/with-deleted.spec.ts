@@ -5,19 +5,19 @@
  * the same soft-delete visibility as the REST list route it mirrors. The last of the four was missing,
  * so a client that can ask REST for the retired rows could not ask GraphQL for them at all.
  *
- * `@gauzy/core` boots the application graph from its barrel and `@gauzy/common` resolves the feature
+ * `@irtranscripts/core` boots the application graph from its barrel and `@irtranscripts/common` resolves the feature
  * catalogue at import time, neither of which a resolver needs; both are substituted at their module
  * boundary, as this package's controller spec does — including the base classes the entities the
  * resolvers name extend, because a class whose superclass is undefined cannot be loaded at all. The
  * resolvers under test are the real ones, and the kernel's connection helpers are real too: a double
  * of those would let a page drift from the contract in a suite that still passed.
  */
-jest.mock('@gauzy/common', () => ({ FeatureFlag: () => () => undefined }));
+jest.mock('@irtranscripts/common', () => ({ FeatureFlag: () => () => undefined }));
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: nothing here is mapped onto a module graph. */
 	const decorator = () => () => undefined;
-	const connection = jest.requireActual('@gauzy/core/src/lib/api/graphql-connection');
+	const connection = jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection');
 
 	class BaseEntity {}
 	class CrudService {
@@ -57,9 +57,9 @@ jest.mock('@gauzy/core', () => {
 		Warehouse: class Warehouse {},
 		Product: class Product {},
 		ProductVariant: class ProductVariant {},
-		VERSION_EXPECTATION_PROPERTY: jest.requireActual('@gauzy/core/src/lib/concurrency/version.util')
+		VERSION_EXPECTATION_PROPERTY: jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util')
 			.VERSION_EXPECTATION_PROPERTY,
-		versionExpectationOf: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		versionExpectationOf: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.versionExpectationOf,
 		DEFAULT_CONNECTION_PAGE_SIZE: connection.DEFAULT_CONNECTION_PAGE_SIZE,
 		MAX_CONNECTION_PAGE_SIZE: connection.MAX_CONNECTION_PAGE_SIZE,

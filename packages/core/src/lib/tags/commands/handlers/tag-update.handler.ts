@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { ITag, ITagUpdateInput } from '@gauzy/contracts';
+import { ITag, ITagUpdateInput } from '@irtranscripts/contracts';
 import { TagUpdateCommand } from './../tag-update.command';
 import { TagService } from './../../tag.service';
 

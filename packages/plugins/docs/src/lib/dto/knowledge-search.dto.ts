@@ -13,7 +13,7 @@ import {
 	Min,
 	ValidateIf
 } from 'class-validator';
-import { BaseEntityEnum, DocumentKindEnum, ID } from '@gauzy/contracts';
+import { BaseEntityEnum, DocumentKindEnum, ID } from '@irtranscripts/contracts';
 import { DEFAULT_DOCS_RETRIEVAL_TOPK_MAX } from '../docs.constants';
 
 /**
@@ -25,7 +25,7 @@ export class KnowledgeSearchDTO {
 	@Length(2, 500)
 	readonly query: string;
 
-	/** Default 6; clamped to `GAUZY_DOCS_RETRIEVAL_TOPK_MAX` (12). */
+	/** Default 6; clamped to `IRTRANSCRIPTS_DOCS_RETRIEVAL_TOPK_MAX` (12). */
 	@ApiPropertyOptional({ type: () => Number, minimum: 1, maximum: DEFAULT_DOCS_RETRIEVAL_TOPK_MAX })
 	@IsOptional()
 	@IsInt()

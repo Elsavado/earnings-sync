@@ -1,4 +1,4 @@
-import { RoleModule, RolePermissionModule, TagModule, UserModule } from '@gauzy/core';
+import { RoleModule, RolePermissionModule, TagModule, UserModule } from '@irtranscripts/core';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';

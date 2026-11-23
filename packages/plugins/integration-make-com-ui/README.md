@@ -1,4 +1,4 @@
-# @gauzy/plugin-integration-make-com-ui
+# @irtranscripts/plugin-integration-make-com-ui
 
 This library was generated with [Nx](https://nx.dev).
 
@@ -21,7 +21,7 @@ and run `npm publish`.
 Install the Integration Make.com UI Plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-integration-make-com-ui
+npm install @irtranscripts/plugin-integration-make-com-ui
 # or
-yarn add @gauzy/plugin-integration-make-com-ui
+yarn add @irtranscripts/plugin-integration-make-com-ui
 ```

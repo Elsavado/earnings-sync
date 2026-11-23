@@ -2,7 +2,7 @@
  * Which ORM the package's read seams answer from, and what a statement looks like by the time a
  * driver sees it.
  *
- * `@gauzy/core` boots the whole application graph from its barrel, so it is doubled at the module
+ * `@irtranscripts/core` boots the whole application graph from its barrel, so it is doubled at the module
  * boundary as every other suite in this package does. The two members that matter here are doubled
  * **faithfully**, because they are what the assertions are about: `getORMType` answers whatever the
  * case configured, and the dialect helpers behave the way
@@ -13,7 +13,7 @@
 const mockOrm = { type: 'typeorm' };
 const mockDialect = { type: 'better-sqlite3' };
 
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	MultiORMEnum: { TypeORM: 'typeorm', MikroORM: 'mikro-orm' },
 	getORMType: () => mockOrm.type,
 	prepareSQLQuery: (sql: string) => (mockDialect.type === 'mysql' ? sql.replace(/"/g, '`') : sql),

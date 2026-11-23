@@ -13,14 +13,14 @@ import {
 	UseGuards
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ID, PermissionsEnum } from '@gauzy/contracts';
+import { ID, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	PermissionGuard,
 	Permissions,
 	TenantPermissionGuard,
 	UseValidationPipe,
 	UUIDValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { INBOX_ROUTE_PREFIX } from '../../inbox.constants';
 import { InboxOrganizationQueryDTO } from '../provider-accounts/inbox-provider-account.dto';
 import {
@@ -125,7 +125,7 @@ export class InboxMailboxController {
 	@HttpCode(HttpStatus.OK)
 	@UseValidationPipe({ transform: true, whitelist: true })
 	@Header('Cache-Control', 'no-store')
-	@ApiOperation({ summary: 'Check the DNS TXT record of a custom domain (_gauzy-inbox.<domain>).' })
+	@ApiOperation({ summary: 'Check the DNS TXT record of a custom domain (_irtranscripts-inbox.<domain>).' })
 	verify(@Param('id', UUIDValidationPipe) id: ID, @Query() query: InboxOrganizationQueryDTO) {
 		return this.mailboxes.verify(id, query?.organizationId);
 	}

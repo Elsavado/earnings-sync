@@ -1,5 +1,5 @@
 import { NotFoundException } from '@nestjs/common';
-import { MultiORM, RequestContext } from '@gauzy/core';
+import { MultiORM, RequestContext } from '@irtranscripts/core';
 import { PromotionService } from '../promotion/promotion.service';
 import { PromotionController } from '../promotion/promotion.controller';
 import { PromotionResolver } from '../graphql/resolvers/promotion.resolver';

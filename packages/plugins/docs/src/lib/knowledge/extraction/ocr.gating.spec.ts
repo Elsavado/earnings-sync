@@ -7,12 +7,12 @@
  * environment variable must keep getting exactly that — same class, same message. Every
  * "cannot" path is therefore asserted against the *pre-OCR* error, not against a new one.
  *
- * The second property is the fuse: `GAUZY_DOCS_OCR_MAX_PAGES` is applied at RENDER time, so
+ * The second property is the fuse: `IRTRANSCRIPTS_DOCS_OCR_MAX_PAGES` is applied at RENDER time, so
  * pages past the cap cost neither pixels nor tokens, and the drop is stated in the output
  * rather than hidden.
  *
  * `DocsAiService` is stubbed at the module boundary — importing it for real pulls the whole
- * `@gauzy/core` application graph into a unit test.
+ * `@irtranscripts/core` application graph into a unit test.
  */
 jest.mock('../ai/docs-ai.service', () => ({ DocsAiService: class {} }));
 
@@ -82,7 +82,7 @@ beforeEach(() => {
 	config.ocrMaxPages = 20;
 });
 
-describe('OCR gating — GAUZY_DOCS_OCR_ENABLED=false reproduces the pre-OCR behavior', () => {
+describe('OCR gating — IRTRANSCRIPTS_DOCS_OCR_ENABLED=false reproduces the pre-OCR behavior', () => {
 	it('never resolves a model and never calls a provider', async () => {
 		const { service, docsAiService, generateText } = buildOcr();
 

@@ -3,8 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { tap, catchError } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
-import { MakeComService, ToastrService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { MakeComService, ToastrService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { TranslateService } from '@ngx-translate/core';
 
 @UntilDestroy({ checkProperties: true })

@@ -3,8 +3,8 @@ import { PluginKey } from '@tiptap/pm/state';
 import { mergeAttributes } from '@tiptap/core';
 import Mention from '@tiptap/extension-mention';
 import { firstValueFrom } from 'rxjs';
-import { IEmployee } from '@gauzy/contracts';
-import { EmployeesService, Store } from '@gauzy/ui-core/core';
+import { IEmployee } from '@irtranscripts/contracts';
+import { EmployeesService, Store } from '@irtranscripts/ui-core/core';
 import { SuggestionHostService } from './suggestion-host.service';
 import { ISuggestionItem } from './suggestion-list.component';
 

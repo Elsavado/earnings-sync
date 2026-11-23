@@ -1,4 +1,4 @@
-import { PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 import { attachedRolePermissionVerdict } from './attached-role-permissions';
 
 describe('attachedRolePermissionVerdict', () => {

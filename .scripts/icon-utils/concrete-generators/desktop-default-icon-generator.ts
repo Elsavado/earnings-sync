@@ -35,8 +35,8 @@ export class DesktopDefaultIconGenerator implements IIconGeneratorBase {
 						reject(error);
 						return;
 					}
-					DesktopEnvironmentManager.environment.GAUZY_DESKTOP_LOGO_512X512 =
-						env.GAUZY_DESKTOP_LOGO_512X512;
+					DesktopEnvironmentManager.environment.IRTRANSCRIPTS_DESKTOP_LOGO_512X512 =
+						env.IRTRANSCRIPTS_DESKTOP_LOGO_512X512;
 					DesktopEnvironmentManager.environment.PLATFORM_LOGO =
 						env.PLATFORM_LOGO;
 					DesktopEnvironmentManager.environment.NO_INTERNET_LOGO =

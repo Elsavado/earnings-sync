@@ -1,6 +1,6 @@
 import { BadRequestException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { ID, IPagination } from '@gauzy/contracts';
+import { ID, IPagination } from '@irtranscripts/contracts';
 import {
 	FEATURE_GRAPHQL,
 	FeatureFlagGuard,
@@ -9,8 +9,8 @@ import {
 	Permissions,
 	TenantPermissionGuard,
 	Versioned
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { EntitlementFeatures } from '../../entitlement.features';
 import { EntitlementService } from '../../entitlement/entitlement.service';
 import { EntitlementActivation } from '../../entitlement-activation/entitlement-activation.entity';

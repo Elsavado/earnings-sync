@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo } from 'react';
 import { of } from 'rxjs';
-import { DynamicPluginLoaderService, type PluginUiDefinition, type DynamicPluginLoadResult } from '@gauzy/plugin-ui';
+import { DynamicPluginLoaderService, type PluginUiDefinition, type DynamicPluginLoadResult } from '@irtranscripts/plugin-ui';
 import { useInjector } from './use-injector';
 import { useObservable } from './use-observable';
 

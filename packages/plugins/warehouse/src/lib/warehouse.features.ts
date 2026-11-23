@@ -1,5 +1,5 @@
-import { FeatureEnum } from '@gauzy/contracts';
-import { PluginFeatureContribution } from '@gauzy/plugin';
+import { FeatureEnum } from '@irtranscripts/contracts';
+import { PluginFeatureContribution } from '@irtranscripts/plugin';
 
 /**
  * Carries a feature code this plugin gates its endpoints with.

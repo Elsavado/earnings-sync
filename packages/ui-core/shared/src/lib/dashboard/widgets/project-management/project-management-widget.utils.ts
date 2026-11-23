@@ -1,7 +1,7 @@
-import { ID, IOrganizationProject, ITask, TaskStatusEnum } from '@gauzy/contracts';
+import { ID, IOrganizationProject, ITask, TaskStatusEnum } from '@irtranscripts/contracts';
 // Type-only import: this module must stay free of cross-package runtime
 // dependencies so it can be unit tested without an Angular TestBed.
-import type { IDashboardWidgetContext } from '@gauzy/ui-core/core';
+import type { IDashboardWidgetContext } from '@irtranscripts/ui-core/core';
 import { IProjectManagementSnapshot } from './project-management-dashboard.types';
 
 /**

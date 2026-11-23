@@ -31,8 +31,8 @@ import {
 	IAgentEmployee,
 	IAgentEmployeeCreateInput,
 	RolesEnum
-} from '@gauzy/contracts';
-import { isNotEmpty } from '@gauzy/utils';
+} from '@irtranscripts/contracts';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { RequestContext } from '../core/context';
 import { BaseQueryDTO, TenantAwareCrudService } from './../core/crud';
 import { IPartialEntity } from './../core/crud/icrud.service';

@@ -14,14 +14,14 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ArrayMaxSize, IsArray, IsBoolean, IsEmail, IsOptional, IsString, IsUUID, MaxLength } from 'class-validator';
-import { ID, IInboxEmailForwardInput, IInboxEmailReplyInput, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IInboxEmailForwardInput, IInboxEmailReplyInput, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	PermissionGuard,
 	Permissions,
 	TenantPermissionGuard,
 	UseValidationPipe,
 	UUIDValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { INBOX_ROUTE_PREFIX } from '../../inbox.constants';
 import {
 	InboxEmailDownload,

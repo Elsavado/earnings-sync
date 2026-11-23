@@ -1,4 +1,4 @@
-import { ITimerStatusInput } from '@gauzy/contracts';
+import { ITimerStatusInput } from '@irtranscripts/contracts';
 import { IntersectionType, PartialType, PickType } from '@nestjs/swagger';
 import { TenantOrganizationBaseDTO } from './../../../core/dto';
 import { RelationsQueryDTO, SelectorsQueryDTO } from './../../../shared/dto';

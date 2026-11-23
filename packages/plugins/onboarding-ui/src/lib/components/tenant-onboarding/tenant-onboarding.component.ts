@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { filter, firstValueFrom, tap } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { IOrganization, IOrganizationCreateInput, ITenant, IUser } from '@gauzy/contracts';
+import { IOrganization, IOrganizationCreateInput, ITenant, IUser } from '@irtranscripts/contracts';
 import {
 	AuthService,
 	EmployeesService,
@@ -13,7 +13,7 @@ import {
 	UsersService,
 	clearRememberedCheckoutSession,
 	readRememberedCheckoutSession
-} from '@gauzy/ui-core/core';
+} from '@irtranscripts/ui-core/core';
 
 @UntilDestroy()
 @Component({

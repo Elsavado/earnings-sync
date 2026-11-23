@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { FindManyOptions, Between, Raw, DeepPartial } from 'typeorm';
 import * as moment from 'moment';
-import { BaseEntityEnum, IPagination } from '@gauzy/contracts';
-import { FavoriteService, LIKE_OPERATOR, TenantAwareCrudService, sanitizeRichHtml } from '@gauzy/core';
+import { BaseEntityEnum, IPagination } from '@irtranscripts/contracts';
+import { FavoriteService, LIKE_OPERATOR, TenantAwareCrudService, sanitizeRichHtml } from '@irtranscripts/core';
 import { Proposal } from './proposal.entity';
 import { MikroOrmProposalRepository } from './repository/mikro-orm-proposal.repository';
 import { TypeOrmProposalRepository } from './repository/type-orm-proposal.repository';

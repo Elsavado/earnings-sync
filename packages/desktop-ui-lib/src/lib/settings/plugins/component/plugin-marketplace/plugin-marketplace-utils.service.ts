@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
 	ICDNSource,
-	IGauzySource,
+	IIRTranscriptsSource,
 	INPMSource,
 	IPlugin,
 	PluginScope,
@@ -9,7 +9,7 @@ import {
 	PluginStatus,
 	PluginSubscriptionType,
 	PluginType
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
@@ -22,7 +22,7 @@ export class PluginMarketplaceUtilsService {
 		const labels: Record<PluginSourceType, string> = {
 			[PluginSourceType.CDN]: this.translateService.instant('PLUGIN.FORM.SOURCE_TYPES.CDN'),
 			[PluginSourceType.NPM]: this.translateService.instant('PLUGIN.FORM.SOURCE_TYPES.NPM'),
-			[PluginSourceType.GAUZY]: this.translateService.instant('PLUGIN.FORM.SOURCE_TYPES.GAUZY')
+			[PluginSourceType.IRTRANSCRIPTS]: this.translateService.instant('PLUGIN.FORM.SOURCE_TYPES.IRTRANSCRIPTS')
 		};
 		return labels[type] || type;
 	}
@@ -73,7 +73,7 @@ export class PluginMarketplaceUtilsService {
 
 	public getPluginSourceTypeBadgeStatus(type: PluginSourceType): string {
 		const typeMap: Record<PluginSourceType, string> = {
-			[PluginSourceType.GAUZY]: 'primary',
+			[PluginSourceType.IRTRANSCRIPTS]: 'primary',
 			[PluginSourceType.CDN]: 'info',
 			[PluginSourceType.NPM]: 'danger'
 		};
@@ -105,9 +105,9 @@ export class PluginMarketplaceUtilsService {
 			case PluginSourceType.NPM:
 				const npmSource = plugin.source as INPMSource;
 				return `${npmSource.scope ? npmSource.scope + '/' : ''}${npmSource.name}@${plugin.version.number}`;
-			case PluginSourceType.GAUZY:
+			case PluginSourceType.IRTRANSCRIPTS:
 				return (
-					(plugin.source as IGauzySource).url || this.translateService.instant('PLUGIN.DETAILS.UPLOADED_FILE')
+					(plugin.source as IIRTranscriptsSource).url || this.translateService.instant('PLUGIN.DETAILS.UPLOADED_FILE')
 				);
 			default:
 				return this.translateService.instant('PLUGIN.DETAILS.UNKNOWN_SOURCE');

@@ -4,7 +4,7 @@
       <nb-card-body class="card-body">
         <div class="row content-body">
           <div class="col-12 text-center margin-content">
-            <img [src]="gauzyIcon" [class]="styles.icon" />
+            <img [src]="irtranscriptsIcon" [class]="styles.icon" />
           </div>
           @if (!isServerApi && !isAgent) {
             <div class="col-12 text-center margin-content">
@@ -89,7 +89,7 @@
                 [disabled]="loading"
                 >
                 <nb-icon
-                  *gauzySpinnerButton="loading || restart"
+                  *irtranscriptsSpinnerButton="loading || restart"
                   [icon]="btn.icon"
                   class="icon-medium"
                 ></nb-icon>

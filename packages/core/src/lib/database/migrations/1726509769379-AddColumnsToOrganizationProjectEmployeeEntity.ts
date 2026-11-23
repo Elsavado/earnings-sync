@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
 import { v4 as uuidv4 } from 'uuid';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 export class AddColumnsToOrganizationProjectEmployeeEntity1726509769379 implements MigrationInterface {
 	name = 'AddColumnsToOrganizationProjectEmployeeEntity1726509769379';

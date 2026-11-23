@@ -1,8 +1,8 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { createHash } from 'crypto';
 import { Subscription } from 'rxjs';
-import { ID } from '@gauzy/contracts';
-import { EventBus } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { EventBus } from '@irtranscripts/core';
 import { getDocsConfig } from '../docs.config';
 import { DocsAiUsageEvent } from '../knowledge/ai/docs-ai-usage.event';
 import { IDocsAiUsageLogEvent, IDocsRetrievalLog, IDocsRetrievalLogEvent } from './retrieval-log.types';
@@ -30,7 +30,7 @@ const SCOPE_HASH_LENGTH = 12;
  * The service is bound behind the `DOCS_RETRIEVAL_LOG` token, so the P2 table-backed
  * implementation replaces it without touching a single call site.
  *
- * `GAUZY_DOCS_RETRIEVAL_LOG_ENABLED=false` is the kill-switch: the subscription is not
+ * `IRTRANSCRIPTS_DOCS_RETRIEVAL_LOG_ENABLED=false` is the kill-switch: the subscription is not
  * created and every record call returns immediately.
  */
 @Injectable()
@@ -50,7 +50,7 @@ export class RetrievalLogService implements IDocsRetrievalLog, OnModuleInit, OnM
 	 */
 	onModuleInit(): void {
 		if (!getDocsConfig().retrievalLogEnabled) {
-			this.logger.debug('Documents retrieval telemetry is disabled (GAUZY_DOCS_RETRIEVAL_LOG_ENABLED=false).');
+			this.logger.debug('Documents retrieval telemetry is disabled (IRTRANSCRIPTS_DOCS_RETRIEVAL_LOG_ENABLED=false).');
 			return;
 		}
 		try {

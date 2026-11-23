@@ -1,5 +1,5 @@
 import { IntersectionType, OmitType } from '@nestjs/swagger';
-import { IOfficialHolidayCreateInput } from '@gauzy/contracts';
+import { IOfficialHolidayCreateInput } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from './../../core/dto';
 import { OfficialHoliday } from '../official-holiday.entity';
 

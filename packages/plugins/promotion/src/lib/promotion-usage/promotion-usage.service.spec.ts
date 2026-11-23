@@ -1,6 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
 import { FindOperator } from 'typeorm';
-import { Money, RequestContext } from '@gauzy/core';
+import { Money, RequestContext } from '@irtranscripts/core';
 import { PromotionUsageService } from './promotion-usage.service';
 import { PromotionUsageStatus, RevertOnReturnPolicy } from '../promotion.types';
 

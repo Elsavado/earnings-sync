@@ -1,8 +1,8 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Query, Resolver } from '@nestjs/graphql';
 import { FindOptionsWhere } from 'typeorm';
-import { IEstimateEmail } from '@gauzy/contracts';
-import { FeatureFlag, Public } from '@gauzy/common';
+import { IEstimateEmail } from '@irtranscripts/contracts';
+import { FeatureFlag, Public } from '@irtranscripts/common';
 import { FeatureFlagGuard } from '../shared/guards';
 import { FEATURE_GRAPHQL } from '../feature/graphql-feature.code';
 import { EstimateEmail } from './estimate-email.entity';

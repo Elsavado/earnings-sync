@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { ID, IOrganizationProjectModuleUpdateInput } from '@gauzy/contracts';
+import { ID, IOrganizationProjectModuleUpdateInput } from '@irtranscripts/contracts';
 
 export class OrganizationProjectModuleUpdateCommand implements ICommand {
 	static readonly type = '[OrganizationProjectModule] Update Module';

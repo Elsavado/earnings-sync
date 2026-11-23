@@ -1,7 +1,7 @@
 {
 	"$comment": "Every endpoint of this module that answers without an Ever Platform credential, and every request Ever Platform makes to an installation through it. routes-manifest.spec.ts compares it with the registered routes; UPDATE_ROUTES_MANIFEST=1 rewrites it.",
 	"version": 1,
-	"product": "gauzy",
+	"product": "irtranscripts",
 	"module": "ever-stats",
 	"public_endpoints": [
 		{

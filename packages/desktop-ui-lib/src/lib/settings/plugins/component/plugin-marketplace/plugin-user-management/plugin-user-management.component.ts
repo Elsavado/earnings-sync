@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IPlugin, IUser } from '@gauzy/contracts';
+import { IPlugin, IUser } from '@irtranscripts/contracts';
 import { NB_DIALOG_CONFIG, NbBadgeModule, NbButtonModule, NbCardModule, NbDialogRef, NbDialogService, NbFormFieldModule, NbIconModule, NbInputModule, NbSpinnerModule, NbTabsetModule, NbToggleModule, NbTooltipModule } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Angular2SmartTableModule, Cell, LocalDataSource } from 'angular2-smart-table';

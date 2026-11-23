@@ -1,7 +1,7 @@
 import { Controller, UseGuards, Get, Query, HttpStatus, Post, Body, Param, ValidationPipe, Delete, HttpCode, Put, UsePipes } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CommandBus } from '@nestjs/cqrs';
-import { IInvoiceItem, IPagination, PermissionsEnum, ID } from '@gauzy/contracts';
+import { IInvoiceItem, IPagination, PermissionsEnum, ID } from '@irtranscripts/contracts';
 import { BaseQueryDTO, CrudController } from './../core/crud';
 import { InvoiceItem } from './invoice-item.entity';
 import { InvoiceItemService } from './invoice-item.service';

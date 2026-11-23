@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { MikroOrmBaseEntityRepository } from '@gauzy/core';
+import { MikroOrmBaseEntityRepository } from '@irtranscripts/core';
 import { Entitlement } from '../entitlement.entity';
 
 @Injectable()

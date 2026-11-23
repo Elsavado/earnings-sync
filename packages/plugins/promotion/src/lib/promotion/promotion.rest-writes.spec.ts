@@ -1,5 +1,5 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { PromotionService } from './promotion.service';
 import { PromotionStatus, PromotionType } from '../promotion.types';
 

@@ -6,7 +6,7 @@ const rich = { kind: 'richText' as const };
 
 describe('3-way merge (plan 03 §C.5)', () => {
 	it('only one side changed → take it', () => {
-		expect(mergeField(scalar, 'a', 'b', 'a')).toMatchObject({ value: 'b', source: 'gauzy', conflict: false });
+		expect(mergeField(scalar, 'a', 'b', 'a')).toMatchObject({ value: 'b', source: 'irtranscripts', conflict: false });
 		expect(mergeField(scalar, 'a', 'a', 'c')).toMatchObject({ value: 'c', source: 'ever_works', conflict: false });
 		expect(mergeField(scalar, 'a', 'a', 'a')).toMatchObject({ value: 'a', source: 'none', conflict: false });
 	});
@@ -17,9 +17,9 @@ describe('3-way merge (plan 03 §C.5)', () => {
 
 	it('both changed, scalar → last writer wins, the loser is reported', () => {
 		const later = mergeField(scalar, 'a', 'g', 'e', '2026-10-15T10:00:05Z', '2026-10-15T10:00:00Z');
-		expect(later).toEqual({ value: 'g', source: 'gauzy', conflict: true, loser: 'e', loserSide: 'ever_works' });
+		expect(later).toEqual({ value: 'g', source: 'irtranscripts', conflict: true, loser: 'e', loserSide: 'ever_works' });
 		const earlier = mergeField(scalar, 'a', 'g', 'e', '2026-10-15T09:00:00Z', '2026-10-15T10:00:00Z');
-		expect(earlier).toEqual({ value: 'e', source: 'ever_works', conflict: true, loser: 'g', loserSide: 'gauzy' });
+		expect(earlier).toEqual({ value: 'e', source: 'ever_works', conflict: true, loser: 'g', loserSide: 'irtranscripts' });
 	});
 
 	it('a tie, or a missing time, goes to Ever Works', () => {
@@ -29,8 +29,8 @@ describe('3-way merge (plan 03 §C.5)', () => {
 	});
 
 	it('rich text behaves like a scalar and keeps the losing version', () => {
-		const result = mergeField(rich, 'old', '<p>gauzy</p>', 'ever works', '2026-10-15T10:00:00Z', '2026-10-15T11:00:00Z');
-		expect(result).toMatchObject({ value: 'ever works', conflict: true, loser: '<p>gauzy</p>', loserSide: 'gauzy' });
+		const result = mergeField(rich, 'old', '<p>irtranscripts</p>', 'ever works', '2026-10-15T10:00:00Z', '2026-10-15T11:00:00Z');
+		expect(result).toMatchObject({ value: 'ever works', conflict: true, loser: '<p>irtranscripts</p>', loserSide: 'irtranscripts' });
 	});
 
 	it('sets: (S − removed by either) ∪ added by either', () => {
@@ -53,18 +53,18 @@ describe('3-way merge (plan 03 §C.5)', () => {
 		const specs = { title: scalar, description: rich, tags: set };
 		const snapshot = { title: 'T', description: 'd', tags: ['x'] };
 		const echo = mergeRecord(specs, snapshot, snapshot, { ...snapshot });
-		expect(echo.toGauzy).toEqual([]);
+		expect(echo.toIRTranscripts).toEqual([]);
 		expect(echo.toEverWorks).toEqual([]);
 		const result = mergeRecord(
 			specs,
 			snapshot,
-			{ title: 'T (gauzy)', description: 'd', tags: ['x', 'g'] },
+			{ title: 'T (irtranscripts)', description: 'd', tags: ['x', 'g'] },
 			{ title: 'T', description: 'd2', tags: ['e'] },
-			{ gauzyAt: '2026-10-15T10:00:00Z', everWorksAt: '2026-10-15T09:00:00Z' }
+			{ irtranscriptsAt: '2026-10-15T10:00:00Z', everWorksAt: '2026-10-15T09:00:00Z' }
 		);
-		expect(result.merged).toEqual({ title: 'T (gauzy)', description: 'd2', tags: ['g', 'e'] });
+		expect(result.merged).toEqual({ title: 'T (irtranscripts)', description: 'd2', tags: ['g', 'e'] });
 		expect(result.conflicts).toEqual([]);
-		expect(result.toGauzy.sort()).toEqual(['description', 'tags']);
+		expect(result.toIRTranscripts.sort()).toEqual(['description', 'tags']);
 		expect(result.toEverWorks.sort()).toEqual(['tags', 'title']);
 	});
 });

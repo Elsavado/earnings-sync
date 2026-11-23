@@ -14,9 +14,9 @@ import {
 	IOrganizationContact,
 	ISelectedEmployee,
 	ID
-} from '@gauzy/contracts';
-import { distinctUntilChange, isNotEmpty } from '@gauzy/ui-core/common';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/contracts';
+import { distinctUntilChange, isNotEmpty } from '@irtranscripts/ui-core/common';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import {
 	ErrorHandlingService,
 	OrganizationSettingService,
@@ -24,7 +24,7 @@ import {
 	Store,
 	ToastrService,
 	UrlPatternValidator
-} from '@gauzy/ui-core/core';
+} from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

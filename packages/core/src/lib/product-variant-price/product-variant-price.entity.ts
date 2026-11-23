@@ -1,5 +1,5 @@
 import { JoinColumn } from 'typeorm';
-import { IProductVariantPrice, CurrenciesEnum } from '@gauzy/contracts';
+import { IProductVariantPrice, CurrenciesEnum } from '@irtranscripts/contracts';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsEnum } from 'class-validator';
 import { ProductVariant, TenantOrganizationBaseEntity } from '../core/entities/internal';

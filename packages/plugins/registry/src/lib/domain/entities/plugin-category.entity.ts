@@ -1,6 +1,6 @@
-import { isMySQL, isPostgres } from '@gauzy/config';
-import { ID } from '@gauzy/contracts';
-import { MultiORMColumn, MultiORMEntity, MultiORMOneToMany, TenantOrganizationBaseEntity } from '@gauzy/core';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
+import { ID } from '@irtranscripts/contracts';
+import { MultiORMColumn, MultiORMEntity, MultiORMOneToMany, TenantOrganizationBaseEntity } from '@irtranscripts/core';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
 	IsNotEmpty,

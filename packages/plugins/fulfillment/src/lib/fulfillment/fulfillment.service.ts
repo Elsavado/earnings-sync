@@ -17,7 +17,7 @@ import {
 	ID,
 	IOrderLine,
 	IPagination
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	ApiErrorCode,
 	ApiException,
@@ -30,8 +30,8 @@ import {
 	commitVersionedUpdate,
 	compareDecimalStrings,
 	subtractDecimalStrings
-} from '@gauzy/core';
-import { OrderLine, OrderLineService, OrderService, OrderTotalsService } from '@gauzy/plugin-order';
+} from '@irtranscripts/core';
+import { OrderLine, OrderLineService, OrderService, OrderTotalsService } from '@irtranscripts/plugin-order';
 import { Fulfillment } from './fulfillment.entity';
 import { TypeOrmFulfillmentRepository } from './repository/type-orm-fulfillment.repository';
 import { MikroOrmFulfillmentRepository } from './repository/mikro-orm-fulfillment.repository';

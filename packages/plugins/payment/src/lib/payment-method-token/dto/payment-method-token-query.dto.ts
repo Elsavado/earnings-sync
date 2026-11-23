@@ -12,8 +12,8 @@ import {
 	Min,
 	ValidateNested
 } from 'class-validator';
-import { PaymentMethodTokenStatus, PaymentMethodTokenType } from '@gauzy/contracts';
-import { parseToBoolean } from '@gauzy/utils';
+import { PaymentMethodTokenStatus, PaymentMethodTokenType } from '@irtranscripts/contracts';
+import { parseToBoolean } from '@irtranscripts/utils';
 
 /**
  * The narrowing members of the instrument list, as the endpoint catalogue states them.

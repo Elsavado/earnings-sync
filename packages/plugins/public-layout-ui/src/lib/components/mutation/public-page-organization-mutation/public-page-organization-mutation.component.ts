@@ -12,9 +12,9 @@ import {
 	IOrganizationLanguage,
 	ClientFocusEnum,
 	MinimumProjectSizeEnum
-} from '@gauzy/contracts';
-import { OrganizationAwardsService, OrganizationLanguagesService, Store, ToastrService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/contracts';
+import { OrganizationAwardsService, OrganizationLanguagesService, Store, ToastrService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 
 @Component({
 	selector: 'ngx-public-page-organization-mutation',
@@ -67,7 +67,7 @@ export class PublicPageOrganizationMutationComponent extends TranslationBaseComp
 		{ key: 'show_income', translation: 'POP_UPS.TOTAL_INCOME_OR_MONTHLY_INCOME' },
 		{ key: 'show_profits', translation: 'POP_UPS.PROFITS' },
 		{ key: 'show_bonuses_paid', translation: 'POP_UPS.BONUSES_PAID' },
-		{ key: 'show_total_hours', translation: 'POP_UPS.TOTAL_HOURS_WORKED_OVER_GAUZY' },
+		{ key: 'show_total_hours', translation: 'POP_UPS.TOTAL_HOURS_WORKED_OVER_IRTRANSCRIPTS' },
 		{ key: 'show_minimum_project_size', translation: 'POP_UPS.MINIMUM_PROJECT_SIZE' },
 		{ key: 'show_projects_count', translation: 'POP_UPS.PROJECTS_COUNT' },
 		{ key: 'show_clients_count', translation: 'POP_UPS.CLIENTS_COUNT' },

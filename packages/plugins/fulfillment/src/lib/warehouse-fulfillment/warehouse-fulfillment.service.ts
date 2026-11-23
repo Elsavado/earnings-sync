@@ -1,9 +1,9 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { Between, FindOptionsWhere, In, IsNull, LessThanOrEqual, MoreThanOrEqual, Not } from 'typeorm';
-import { FulfillmentDirection, FulfillmentStatusDetail, ID } from '@gauzy/contracts';
-import { RequestContext, normalizeDecimalString } from '@gauzy/core';
-import { OrderLineService } from '@gauzy/plugin-order';
-import type { OrderLine } from '@gauzy/plugin-order';
+import { FulfillmentDirection, FulfillmentStatusDetail, ID } from '@irtranscripts/contracts';
+import { RequestContext, normalizeDecimalString } from '@irtranscripts/core';
+import { OrderLineService } from '@irtranscripts/plugin-order';
+import type { OrderLine } from '@irtranscripts/plugin-order';
 import { IShippableLine, IShippedShipment } from '../fulfillment.types';
 import { Fulfillment } from '../fulfillment/fulfillment.entity';
 import { FulfillmentService } from '../fulfillment/fulfillment.service';

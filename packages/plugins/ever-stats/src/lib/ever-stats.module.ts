@@ -1,6 +1,6 @@
 import { DynamicModule, Inject, Injectable, Logger, Module, OnApplicationBootstrap, OnModuleDestroy, Optional } from '@nestjs/common';
-import { gauzyToggleFeatures } from '@gauzy/config';
-import { EverInstanceModule, EverInstanceService, EverOperatorService } from '@gauzy/plugin-ever-instance';
+import { irtranscriptsToggleFeatures } from '@irtranscripts/config';
+import { EverInstanceModule, EverInstanceService, EverOperatorService } from '@irtranscripts/plugin-ever-instance';
 import { readEverStatsConfig } from './ever-stats-config';
 import { isEverStatsEnabled } from './ever-stats-enabled';
 import { EverStatsBuilder } from './ever-stats-builder.service';
@@ -73,7 +73,7 @@ export class EverStatsModule {
 			providers: [
 				{ provide: EVER_STATS_CONFIG, useValue: config },
 				{ provide: EVER_STATS_ENV, useValue: env },
-				{ provide: STATS_FEATURE_FLAGS, useValue: gauzyToggleFeatures },
+				{ provide: STATS_FEATURE_FLAGS, useValue: irtranscriptsToggleFeatures },
 				EverStatsStore,
 				EverStatsCollector,
 				EverStatsBuilder,

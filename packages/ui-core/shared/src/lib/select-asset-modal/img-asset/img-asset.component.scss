@@ -17,7 +17,7 @@
   position: relative;
 
   &:hover {
-    box-shadow: var(--gauzy-shadow);
+    box-shadow: var(--irtranscripts-shadow);
 
     .delete-asset-btn {
       opacity: 1;
@@ -25,7 +25,7 @@
   }
 
   &.selected {
-    box-shadow: var(--gauzy-shadow);
+    box-shadow: var(--irtranscripts-shadow);
   }
 }
 
@@ -42,6 +42,6 @@
   align-items: center;
   cursor: pointer;
   opacity: 0;
-  box-shadow: var(--gauzy-shadow);
+  box-shadow: var(--irtranscripts-shadow);
   color: nb-theme(text-danger-color);
 }

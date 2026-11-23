@@ -4,9 +4,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import { filter, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { IEstimateEmail, EstimateStatusTypesEnum, ID } from '@gauzy/contracts';
-import { InvoicesService, ToastrService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { IEstimateEmail, EstimateStatusTypesEnum, ID } from '@irtranscripts/contracts';
+import { InvoicesService, ToastrService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

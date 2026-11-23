@@ -1,5 +1,5 @@
-import { IPagination, PermissionsEnum } from '@gauzy/contracts';
-import { PermissionGuard, Permissions, TenantPermissionGuard, UseValidationPipe, UUIDValidationPipe } from '@gauzy/core';
+import { IPagination, PermissionsEnum } from '@irtranscripts/contracts';
+import { PermissionGuard, Permissions, TenantPermissionGuard, UseValidationPipe, UUIDValidationPipe } from '@irtranscripts/core';
 import {
 	Body,
 	Controller,
@@ -18,7 +18,7 @@ import {
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { Public } from '@gauzy/common';
+import { Public } from '@irtranscripts/common';
 import {
 	CreatePluginCategoryCommand,
 	DeletePluginCategoryCommand,

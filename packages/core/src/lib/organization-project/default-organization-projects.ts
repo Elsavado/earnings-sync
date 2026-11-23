@@ -1,8 +1,8 @@
 export const DEFAULT_ORGANIZATION_PROJECTS: string[] = [
-	'Gauzy Platform (Open-Source)',
-	'Gauzy Web Site',
-	'Gauzy Platform SaaS',
-	'Gauzy Platform DevOps',
+	'IRTranscripts Platform (Open-Source)',
+	'IRTranscripts Web Site',
+	'IRTranscripts Platform SaaS',
+	'IRTranscripts Platform DevOps',
 	'Ever Teams Platform',
 	'Mobile App Development',
 	'Marketing Campaign Q1',

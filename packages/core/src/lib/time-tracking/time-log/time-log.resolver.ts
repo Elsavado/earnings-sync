@@ -1,7 +1,7 @@
 import { NotFoundException, UseGuards } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { Args, ID, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { FeatureFlag } from '@gauzy/common';
+import { FeatureFlag } from '@irtranscripts/common';
 import {
 	IAmountOwedReport,
 	IClientBudgetLimitReport,
@@ -18,7 +18,7 @@ import {
 	ReportGroupFilterEnum,
 	TimeLogSourceEnum,
 	TimeLogType
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	ConnectionFilter,
 	ConnectionPageRequest,

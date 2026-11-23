@@ -6,7 +6,7 @@ import { McpOAuthService } from './mcp-oauth.service';
  * MCP OAuth Module
  *
  * This module provides the MCP OAuth service that bridges
- * the OAuth2 authorization server with Gauzy's user management.
+ * the OAuth2 authorization server with IRTranscripts's user management.
  */
 @Module({
 	imports: [UserModule],

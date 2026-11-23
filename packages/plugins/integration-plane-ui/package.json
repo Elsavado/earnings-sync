@@ -1,5 +1,5 @@
 {
-	"name": "@gauzy/plugin-integration-plane-ui",
+	"name": "@irtranscripts/plugin-integration-plane-ui",
 	"version": "0.1.0",
 	"description": "A UI plugin for integrating Plane, An AI-native Project management tool",
 	"author": {
@@ -30,9 +30,9 @@
 	"dependencies": {
 		"@angular/forms": "22.2.2",
 		"@angular/router": "22.2.2",
-		"@gauzy/contracts": "^0.1.0",
-		"@gauzy/plugin-ui": "^0.1.0",
-		"@gauzy/ui-core": "^0.1.0",
+		"@irtranscripts/contracts": "^0.1.0",
+		"@irtranscripts/plugin-ui": "^0.1.0",
+		"@irtranscripts/ui-core": "^0.1.0",
 		"@nebular/theme": "^18.0.0",
 		"@ngneat/until-destroy": "^10.0.0",
 		"@ngx-translate/core": "^18.0.0",
@@ -47,7 +47,7 @@
 		"jest-preset-angular": "17.0.2"
 	},
 	"keywords": [
-		"gauzy",
+		"irtranscripts",
 		"plane",
 		"integration",
 		"ai",

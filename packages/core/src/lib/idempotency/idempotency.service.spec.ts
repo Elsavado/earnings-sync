@@ -1,7 +1,7 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { In, LessThan } from 'typeorm';
-import * as gauzyConfig from '@gauzy/config';
-import { IIdempotencyStartInput, IdempotencyOutcome, IdempotencyStatus } from '@gauzy/contracts';
+import * as irtranscriptsConfig from '@irtranscripts/config';
+import { IIdempotencyStartInput, IdempotencyOutcome, IdempotencyStatus } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context/request-context';
 import { ApiErrorCode } from '../core/errors/api-error-codes';
 import { ApiException } from '../core/errors/api-exception';
@@ -31,12 +31,12 @@ import { TypeOrmIdempotencyKeyRepository } from './repository/type-orm-idempoten
 /**
  * The dialect the takeover is running against.
  *
- * `@gauzy/config` reads `DB_TYPE` once, when it is loaded, so a case cannot switch dialect by setting
+ * `@irtranscripts/config` reads `DB_TYPE` once, when it is loaded, so a case cannot switch dialect by setting
  * an environment variable later; the two helpers it exposes are therefore mocked with call-through
  * defaults, and a case that asserts on the row lock states the dialect it needs.
  */
-jest.mock('@gauzy/config', () => {
-	const actual = jest.requireActual('@gauzy/config');
+jest.mock('@irtranscripts/config', () => {
+	const actual = jest.requireActual('@irtranscripts/config');
 
 	return {
 		...actual,
@@ -46,10 +46,10 @@ jest.mock('@gauzy/config', () => {
 });
 
 /** The dialect this environment really is, so a case that changes it can put it back. */
-const actualConfig = jest.requireActual('@gauzy/config') as typeof gauzyConfig;
+const actualConfig = jest.requireActual('@irtranscripts/config') as typeof irtranscriptsConfig;
 
-const isPostgresMock = gauzyConfig.isPostgres as unknown as jest.Mock;
-const isMySQLMock = gauzyConfig.isMySQL as unknown as jest.Mock;
+const isPostgresMock = irtranscriptsConfig.isPostgres as unknown as jest.Mock;
+const isMySQLMock = irtranscriptsConfig.isMySQL as unknown as jest.Mock;
 
 /**
  * Puts the service on a dialect that can take a row lock, or on one that cannot.
@@ -72,7 +72,7 @@ type Row = Record<string, any>;
  * against a repository the service no longer holds directly.
  *
  * `crud.service` is required lazily rather than imported at the top. It is one end of an import cycle
- * with the entity graph this suite loads (entity graph → `@gauzy/core` CRUD barrel → the
+ * with the entity graph this suite loads (entity graph → `@irtranscripts/core` CRUD barrel → the
  * tenant-aware subclass → `crud.service`), and reaching it as the first module of that cycle leaves
  * the subclass extending an undefined class before the cycle has settled.
  *

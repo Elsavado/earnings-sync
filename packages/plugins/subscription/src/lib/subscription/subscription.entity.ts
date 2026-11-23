@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDate, IsEnum, IsInt, IsNotEmpty, IsObject, IsOptional, IsString, IsUUID, MaxLength } from 'class-validator';
-import { CurrencyCode, DecimalString, ID } from '@gauzy/contracts';
+import { CurrencyCode, DecimalString, ID } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	JsonColumn,
@@ -9,7 +9,7 @@ import {
 	MultiORMOneToMany,
 	TenantOrganizationBaseEntity,
 	VersionedColumn
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { ISubscription, ISubscriptionBilling, ISubscriptionItem, SubscriptionStatus } from '../subscription.types';
 import { SubscriptionBilling } from '../subscription-billing/subscription-billing.entity';
 import { SubscriptionItem } from '../subscription-item/subscription-item.entity';

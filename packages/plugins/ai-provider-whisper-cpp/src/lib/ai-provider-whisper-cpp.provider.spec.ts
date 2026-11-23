@@ -1,4 +1,4 @@
-import type { IAiProviderCredentials } from '@gauzy/plugin-ai-chat';
+import type { IAiProviderCredentials } from '@irtranscripts/plugin-ai-chat';
 import { whisperCppProviderDefinition } from './ai-provider-whisper-cpp.provider';
 
 // The SSRF egress guard resolves the provider host before the mocked `fetch` answers. Answer that
@@ -22,13 +22,13 @@ jest.mock('../../../ai-chat/src/lib/ssrf/fetch-over-node-http', () => ({
  */
 describe('whisperCppProviderDefinition', () => {
 	const realFetch = global.fetch;
-	const realAllowPrivate = process.env.GAUZY_AI_CHAT_ALLOW_PRIVATE_BASE_URLS;
+	const realAllowPrivate = process.env.IRTRANSCRIPTS_AI_CHAT_ALLOW_PRIVATE_BASE_URLS;
 	afterEach(() => {
 		global.fetch = realFetch;
 		if (realAllowPrivate === undefined) {
-			delete process.env.GAUZY_AI_CHAT_ALLOW_PRIVATE_BASE_URLS;
+			delete process.env.IRTRANSCRIPTS_AI_CHAT_ALLOW_PRIVATE_BASE_URLS;
 		} else {
-			process.env.GAUZY_AI_CHAT_ALLOW_PRIVATE_BASE_URLS = realAllowPrivate;
+			process.env.IRTRANSCRIPTS_AI_CHAT_ALLOW_PRIVATE_BASE_URLS = realAllowPrivate;
 		}
 		jest.restoreAllMocks();
 	});
@@ -74,8 +74,8 @@ describe('whisperCppProviderDefinition', () => {
 
 	it('falls back to the conventional local address and forwards a key as bearer when one is set', async () => {
 		// The conventional address is loopback. It is the provider's OWN default, not tenant input, so
-		// the SSRF egress guard lets it through without GAUZY_AI_CHAT_ALLOW_PRIVATE_BASE_URLS.
-		delete process.env.GAUZY_AI_CHAT_ALLOW_PRIVATE_BASE_URLS;
+		// the SSRF egress guard lets it through without IRTRANSCRIPTS_AI_CHAT_ALLOW_PRIVATE_BASE_URLS.
+		delete process.env.IRTRANSCRIPTS_AI_CHAT_ALLOW_PRIVATE_BASE_URLS;
 		const fetchMock = capture({ text: 'ok' });
 		await whisperCppProviderDefinition.transcribe!(Buffer.from('audio'), 'audio/mp4', {
 			apiKey: 'proxy-token',
@@ -88,7 +88,7 @@ describe('whisperCppProviderDefinition', () => {
 
 	describe('private endpoints — who chose the address decides (GHSA-w3mx-m5cr-3gxp)', () => {
 		beforeEach(() => {
-			delete process.env.GAUZY_AI_CHAT_ALLOW_PRIVATE_BASE_URLS;
+			delete process.env.IRTRANSCRIPTS_AI_CHAT_ALLOW_PRIVATE_BASE_URLS;
 		});
 
 		it('refuses a TENANT-entered loopback base URL without making a request', async () => {
@@ -105,7 +105,7 @@ describe('whisperCppProviderDefinition', () => {
 		});
 
 		it('allows the same tenant-entered address once the deployment opts in', async () => {
-			process.env.GAUZY_AI_CHAT_ALLOW_PRIVATE_BASE_URLS = 'true';
+			process.env.IRTRANSCRIPTS_AI_CHAT_ALLOW_PRIVATE_BASE_URLS = 'true';
 			const fetchMock = capture({ text: 'ok' });
 
 			await expect(
@@ -149,7 +149,7 @@ describe('whisperCppProviderDefinition', () => {
 		});
 
 		it('allows that same built-in default once the deployment opts in', async () => {
-			process.env.GAUZY_AI_CHAT_ALLOW_PRIVATE_BASE_URLS = 'true';
+			process.env.IRTRANSCRIPTS_AI_CHAT_ALLOW_PRIVATE_BASE_URLS = 'true';
 			const fetchMock = capture({ text: 'ok' });
 
 			await expect(

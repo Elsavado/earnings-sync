@@ -1,4 +1,4 @@
-import { IRule, RuleOperator, RuleOwnerType, RuleScope, RuleValueType } from '@gauzy/contracts';
+import { IRule, RuleOperator, RuleOwnerType, RuleScope, RuleValueType } from '@irtranscripts/contracts';
 import { compareDecimalStrings, isValidDecimalString } from '../money/decimal';
 import { IPatternAnalysisOptions, IPatternVerdict, analyzePattern } from './rule.pattern-safety';
 

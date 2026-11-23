@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional, IsUUID } from 'class-validator';
 import { RelationId } from 'typeorm';
-import { IBasePerTenantAndOrganizationEntityModel, ID, IOrganization } from '@gauzy/contracts';
+import { IBasePerTenantAndOrganizationEntityModel, ID, IOrganization } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	ExportRedacted,
@@ -10,7 +10,7 @@ import {
 	MultiORMManyToOne,
 	Organization,
 	TenantBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { MikroOrmEverWorksConnectionRepository } from './repository/mikro-orm-ever-works-connection.repository';
 
 /** How the connection authenticates to Ever Works: an integration key now, an Ever ID token later (plan 02 §5). */
@@ -34,9 +34,9 @@ export enum EverWorksConnectionStatus {
 }
 
 /**
- * One Gauzy tenant's connection to one Ever Works tenant (plan 02 §4, 03 §C.1). Tenant-level: at most
+ * One IRTranscripts tenant's connection to one Ever Works tenant (plan 02 §4, 03 §C.1). Tenant-level: at most
  * one active row per tenant; `organizationId` is the organization it was connected from. Each mapped
- * Gauzy organization is an `integration_tenant` named `Ever_Works` that points at this row. Deleting the
+ * IRTranscripts organization is an `integration_tenant` named `Ever_Works` that points at this row. Deleting the
  * organization it was connected from keeps the connection and sets `organizationId` to NULL (its foreign
  * key is `ON DELETE SET NULL`, migration 1791000003100); deleting the tenant deletes it.
  *

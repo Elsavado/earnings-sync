@@ -1,3 +1,3 @@
-# Changelog for @gauzy/plugin-camshot
+# Changelog for @irtranscripts/plugin-camshot
 
 ## [Unreleased]

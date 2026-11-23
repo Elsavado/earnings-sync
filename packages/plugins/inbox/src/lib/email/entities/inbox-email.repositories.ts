@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { MikroOrmBaseEntityRepository } from '@gauzy/core';
+import { MikroOrmBaseEntityRepository } from '@irtranscripts/core';
 import type { InboxEmail } from './inbox-email.entity';
 import type { InboxEmailAttachment } from './inbox-email-attachment.entity';
 import type { InboxEmailThread } from './inbox-email-thread.entity';

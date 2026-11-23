@@ -4,8 +4,8 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import { Editor } from '@tiptap/core';
 import { Node as ProseMirrorNode } from '@tiptap/pm/model';
 import { TranslateService } from '@ngx-translate/core';
-import { DocumentSourceEnum, ID, IDocument } from '@gauzy/contracts';
-import { ToastrService } from '@gauzy/ui-core/core';
+import { DocumentSourceEnum, ID, IDocument } from '@irtranscripts/contracts';
+import { ToastrService } from '@irtranscripts/ui-core/core';
 import { DocumentsService } from '../../services/documents.service';
 import { randomIdToken } from '../../services/local-id.util';
 import {

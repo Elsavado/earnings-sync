@@ -1,6 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule, OnApplicationShutdown } from '@nestjs/common';
-import { ConfigModule } from '@gauzy/config';
-import { PluginModule } from '@gauzy/plugin';
+import { ConfigModule } from '@irtranscripts/config';
+import { PluginModule } from '@irtranscripts/plugin';
 import { Logger, LoggerModule } from '../logger';
 import { AppModule } from '../app/app.module';
 

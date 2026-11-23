@@ -1,4 +1,4 @@
-import { IntegrationTenant } from '@gauzy/core';
+import { IntegrationTenant } from '@irtranscripts/core';
 
 export class GithubInstallationDeleteCommand {
 	constructor(public readonly integration: IntegrationTenant) {}

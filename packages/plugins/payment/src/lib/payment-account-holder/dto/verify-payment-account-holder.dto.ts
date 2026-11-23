@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDateString, IsEnum, IsOptional, IsString, MaxLength } from 'class-validator';
-import { PaymentAccountHolderStatus, PaymentAccountVerificationStatus } from '@gauzy/contracts';
+import { PaymentAccountHolderStatus, PaymentAccountVerificationStatus } from '@irtranscripts/contracts';
 
 /**
  * The body of `POST /payment-account-holders/:id/verify`.

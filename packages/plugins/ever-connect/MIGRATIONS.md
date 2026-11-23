@@ -1,10 +1,10 @@
-# Migrations of @gauzy/plugin-ever-connect
+# Migrations of @irtranscripts/plugin-ever-connect
 
 Plugins cannot carry their own migrations yet, so the tables of this plugin are created by a migration in `packages/core/src/lib/database/migrations/`. Move it here once plugins can own migrations.
 
 | Migration                       | Creates                                                                                                                                                                | Notes                                                                                       |
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| `1790000021000-EverInstance.ts` | `ever_instance`                                                                                                                                                        | Owned by `@gauzy/plugin-ever-instance`; the connection key lives in its `connect*` columns. |
+| `1790000021000-EverInstance.ts` | `ever_instance`                                                                                                                                                        | Owned by `@irtranscripts/plugin-ever-instance`; the connection key lives in its `connect*` columns. |
 | `1790000021200-EverConnect.ts`  | `ever_connect_connection`, `ever_connect_link`, `ever_connect_integration`, `ever_connect_policy`, `ever_connect_audit`, `ever_connect_lookup_cache` and their indexes | This plugin.                                                                                |
 
 It is hand-written for Postgres, MySQL and SQLite, uses `CREATE TABLE IF NOT EXISTS` / `CREATE INDEX IF NOT EXISTS` (MySQL: the indexes are part of the table), so running `up` twice is harmless, creates new empty tables only (no foreign key, no change to an existing table, no statement per tenant or per row), and takes a transaction-scoped advisory lock on Postgres so two API processes booting together run it one after the other. `down` drops the six tables. It runs whether or not the plugin is loaded; the tables stay empty when it is not.
@@ -17,7 +17,7 @@ Values are checked by the plugin, not by `CHECK` constraints, so a later state n
 
 ## `ever_connect_link`
 
-One row per Gauzy organization linked to an Ever organization: `tenantId`, `organizationId`, `integrationTenantId` (Gauzy's `integration_tenant` record of the link), `linkId` (unique), `everOrgId`, `everHandle`, `status` (`linked`, `suspended`, `orphaned`, `unlinked`), `entitlementJwsEncrypted` and its `Seq`, `Iat`, `Exp`, `FetchedAt`, `linkedByUserId`, `createdAt`, `updatedAt`, `unlinkedAt`, `liveKey` (`<tenantId>|<organizationId>` while the link is live, NULL once unlinked; unique, so one Gauzy organization has at most one live link, also under concurrent requests). Index on (`tenantId`, `organizationId`). There is no foreign key to the core tables: the rows of a deleted Gauzy tenant or organization are removed by the plugin (see the README, "What is stored").
+One row per IRTranscripts organization linked to an Ever organization: `tenantId`, `organizationId`, `integrationTenantId` (IRTranscripts's `integration_tenant` record of the link), `linkId` (unique), `everOrgId`, `everHandle`, `status` (`linked`, `suspended`, `orphaned`, `unlinked`), `entitlementJwsEncrypted` and its `Seq`, `Iat`, `Exp`, `FetchedAt`, `linkedByUserId`, `createdAt`, `updatedAt`, `unlinkedAt`, `liveKey` (`<tenantId>|<organizationId>` while the link is live, NULL once unlinked; unique, so one IRTranscripts organization has at most one live link, also under concurrent requests). Index on (`tenantId`, `organizationId`). There is no foreign key to the core tables: the rows of a deleted IRTranscripts tenant or organization are removed by the plugin (see the README, "What is stored").
 
 ## `ever_connect_integration`
 

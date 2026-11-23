@@ -1,0 +1,49 @@
+@if (isAccordion) {
+	<nb-accordion class="accordion workspace">
+		<nb-accordion-item [collapsed]="controlled" (collapsedChange)="onCollapse($event)">
+			<nb-accordion-item-header class="principal" (click)="toggleWorkspace()">
+				<!-- This block is the TENANT (workspace) switcher, not an organization
+				     one — the organization is picked from the header selector, and
+				     duplicating it here is what made the two read as the same control.
+				     The active tenant stays visible in BOTH states, so the panel it
+				     opens lists only the other tenants. -->
+				<div class="tenant">
+					<img [src]="tenantLogo" [alt]="tenantName" />
+					<div class="description text">
+						<div [nbTooltip]="tenantName">
+							{{ tenantName }}
+						</div>
+					</div>
+					<svg
+						class="switch-indicator"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						aria-hidden="true"
+						focusable="false"
+					>
+						<path d="m7 15 5 5 5-5" />
+						<path d="m7 9 5-5 5 5" />
+					</svg>
+				</div>
+			</nb-accordion-item-header>
+		</nb-accordion-item>
+	</nb-accordion>
+}
+@if (!isAccordion) {
+	<div>
+		<!-- Standalone platform logo (auth screens, onboarding). -->
+		<div class="logo" [class.white-svg]="isWhiteSvg()" (click)="navigateHome()">
+			@if (isSVG) {
+				<object [data]="logoUrl" type="image/svg+xml">
+					<img src="assets/images/logos/logo_IRTranscripts.png" />
+				</object>
+			} @else {
+				<img [src]="logoUrl || 'assets/images/logos/logo_IRTranscripts.png'" />
+			}
+		</div>
+	</div>
+}

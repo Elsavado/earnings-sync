@@ -22,7 +22,7 @@ export interface IEstimateInput {
 
 @UntilDestroy({ checkProperties: true })
 @Component({
-    selector: 'gauzy-task-estimate-input',
+    selector: 'irtranscripts-task-estimate-input',
     templateUrl: './task-estimate-input.component.html',
     styleUrls: ['./task-estimate-input.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,

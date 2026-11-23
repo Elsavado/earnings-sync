@@ -1,16 +1,16 @@
-@use 'gauzy/_gauzy-table' as *;
+@use 'irtranscripts/_irtranscripts-table' as *;
 
 :host {
   nb-card.first {
     padding: 1rem;
     border-radius: 0 calc(var(--border-radius) * 1.5) calc(var(--border-radius) * 1.5);
-    box-shadow: var(--gauzy-shadow);
+    box-shadow: var(--irtranscripts-shadow);
   }
 
   nb-card-header.header {
     padding: 1.5rem;
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    background: var(--gauzy-card-1);
+    background: var(--irtranscripts-card-1);
 
     .header-content {
       display: flex;
@@ -46,7 +46,7 @@
           margin: 0;
           font-size: 1.125rem;
           font-weight: 600;
-          color: var(--gauzy-text-color-1);
+          color: var(--irtranscripts-text-color-1);
         }
       }
 
@@ -63,14 +63,14 @@
         cursor: pointer;
 
         nb-icon {
-          color: var(--gauzy-text-color-2);
+          color: var(--irtranscripts-text-color-2);
         }
 
         &:hover {
           background-color: rgba(0, 0, 0, 0.05);
 
           nb-icon {
-            color: var(--gauzy-text-color-1);
+            color: var(--irtranscripts-text-color-1);
           }
         }
       }
@@ -80,7 +80,7 @@
   nb-card-footer.footer {
     padding: 1.25rem 1.5rem;
     border-top: 1px solid rgba(0, 0, 0, 0.08);
-    background: var(--gauzy-card-1);
+    background: var(--irtranscripts-card-1);
     display: flex;
     justify-content: flex-start;
 
@@ -100,13 +100,13 @@
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
-    background: var(--gauzy-card-2);
+    background: var(--irtranscripts-card-2);
 
     .version-card {
-      background: var(--gauzy-card-1);
+      background: var(--irtranscripts-card-1);
       border-radius: calc(var(--border-radius) * 1.5);
       border: 1px solid rgba(0, 0, 0, 0.08);
-      box-shadow: var(--gauzy-shadow);
+      box-shadow: var(--irtranscripts-shadow);
       padding: 0;
       transition: all 0.2s ease;
 
@@ -163,7 +163,7 @@
 
               .version-date {
                 font-size: 0.875rem;
-                color: var(--gauzy-text-color-2);
+                color: var(--irtranscripts-text-color-2);
               }
             }
           }
@@ -176,7 +176,7 @@
         p {
           margin: 0;
           line-height: 1.6;
-          color: var(--gauzy-text-color-2);
+          color: var(--irtranscripts-text-color-2);
           font-size: 0.9375rem;
         }
       }
@@ -184,7 +184,7 @@
       nb-card-footer.version-actions {
         padding: 1rem 1.5rem;
         border-top: 1px solid rgba(0, 0, 0, 0.08);
-        background: var(--gauzy-card-2);
+        background: var(--irtranscripts-card-2);
         display: flex;
         justify-content: flex-end;
         gap: 0.75rem;
@@ -222,7 +222,7 @@
 
   /* Skeleton loader styles */
   .skeleton-loader {
-    background: var(--gauzy-card-1);
+    background: var(--irtranscripts-card-1);
     border-radius: calc(var(--border-radius) * 1.5);
     border: 1px solid rgba(0, 0, 0, 0.08);
 

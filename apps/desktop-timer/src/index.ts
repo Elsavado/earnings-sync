@@ -1,7 +1,7 @@
 // Adapted from https://github.com/maximegris/angular-electron/blob/master/main.ts
 import { app, BrowserWindow, dialog, ipcMain, Menu, MenuItemConstructorOptions, nativeTheme, shell } from 'electron';
 import { environment } from './environments/environment';
-import { logger as log, store, IConfig } from '@gauzy/desktop-core';
+import { logger as log, store, IConfig } from '@irtranscripts/desktop-core';
 
 // Set the app name first — app.getPath('userData') derives its path from
 // app.getName(), so this must happen before any getPath() call.
@@ -46,7 +46,7 @@ initSentry();
 
 remoteMain.initialize();
 
-import { DesktopSetupConfig } from '@gauzy/contracts';
+import { DesktopSetupConfig } from '@irtranscripts/contracts';
 import {
 	AppError,
 	AppMenu,
@@ -74,7 +74,7 @@ import {
 	UIError,
 	handleDesktopStartup,
 	DesktopOfflineModeHandler
-} from '@gauzy/desktop-lib';
+} from '@irtranscripts/desktop-lib';
 import {
 	AlwaysOn,
 	createSettingsWindow,
@@ -84,13 +84,13 @@ import {
 	installProviderSignIn,
 	setLaunchPathAndLoad,
 	SplashScreen
-} from '@gauzy/desktop-window';
+} from '@irtranscripts/desktop-window';
 import { fork } from 'child_process';
 import { autoUpdater } from 'electron-updater';
 import { Knex } from 'knex';
 
 // the folder where all app data will be stored (e.g. sqlite DB, settings, cache, etc)
-// C:\Users\USERNAME\AppData\Roaming\gauzy-desktop-timer
+// C:\Users\USERNAME\AppData\Roaming\irtranscripts-desktop-timer
 
 // Deferred until app.ready — app.getPath('userData'), native DB modules (better-sqlite3),
 // and DesktopUpdater ipcMain registration must not run before Electron is fully initialized.
@@ -102,7 +102,7 @@ let report: ErrorReport;
 const exeName = path.basename(process.execPath);
 
 const args = process.argv.slice(1);
-const serverGauzy = null;
+const serverIRTranscripts = null;
 const eventErrorManager = ErrorEventManager.instance;
 args.some((val) => val === '--serve');
 
@@ -112,7 +112,7 @@ ipcMain.handle('PREFERRED_THEME', () => {
 });
 let appWindowManager: AppWindowManager;
 let notificationWindow = null;
-let gauzyWindow: BrowserWindow = null;
+let irtranscriptsWindow: BrowserWindow = null;
 let setupWindow: BrowserWindow = null;
 let timeTrackerWindow: BrowserWindow = null;
 let settingsWindow: BrowserWindow = null;
@@ -143,7 +143,7 @@ LocalStore.setFilePath({
 });
 
 // Register custom protocol for deep linking
-const appProtocol = process.env.PROTOCOL || 'gauzy-timer';
+const appProtocol = process.env.PROTOCOL || 'irtranscripts-timer';
 if (process.defaultApp) {
 	if (process.argv.length >= 2) {
 		app.setAsDefaultProtocolClient(appProtocol, process.execPath, [path.resolve(process.argv[1])]);
@@ -172,11 +172,11 @@ if (!gotTheLock) {
 		}
 
 		// if someone tried to run a second instance, we should focus our window
-		if (gauzyWindow) {
-			if (gauzyWindow.isMinimized()) gauzyWindow.restore();
-			gauzyWindow.focus();
+		if (irtranscriptsWindow) {
+			if (irtranscriptsWindow.isMinimized()) irtranscriptsWindow.restore();
+			irtranscriptsWindow.focus();
 			if (!url) {
-				dialog.showMessageBoxSync(gauzyWindow, {
+				dialog.showMessageBoxSync(irtranscriptsWindow, {
 					type: 'warning',
 					title: process.env.DESCRIPTION,
 					message: 'You already have a running instance'
@@ -348,9 +348,9 @@ async function startServer(setupConfig: DesktopSetupConfig, restart = false) {
 		} catch (error) {
 			throw new AppError('MAINLOADURL', error);
 		}
-		gauzyWindow = timeTrackerWindow;
-		gauzyWindow.setVisibleOnAllWorkspaces(false);
-		gauzyWindow.show();
+		irtranscriptsWindow = timeTrackerWindow;
+		irtranscriptsWindow.setVisibleOnAllWorkspaces(false);
+		irtranscriptsWindow.show();
 		splashScreen.close();
 	}
 
@@ -439,7 +439,7 @@ async function launchWidget(settings: any) {
 
 async function setupUpdater() {
 	updater.settingWindow = appWindowManager.settingWindow;
-	updater.gauzyWindow = gauzyWindow;
+	updater.irtranscriptsWindow = irtranscriptsWindow;
 	appWindowManager.updater = updater;
 	try {
 		await updater.checkUpdate();
@@ -477,10 +477,10 @@ async function restartApp(arg?: IConfig) {
 	if (timeTrackerWindow && !timeTrackerWindow.isDestroyed()) {
 		timeTrackerWindow.destroy();
 	}
-	if (serverGauzy) serverGauzy.kill();
-	if (gauzyWindow && !gauzyWindow.isDestroyed()) {
-		gauzyWindow.destroy();
-		gauzyWindow = null;
+	if (serverIRTranscripts) serverIRTranscripts.kill();
+	if (irtranscriptsWindow && !irtranscriptsWindow.isDestroyed()) {
+		irtranscriptsWindow.destroy();
+		irtranscriptsWindow = null;
 	}
 	app.relaunch({ args: process.argv.slice(1).concat(['--relaunch']) });
 	app.exit(0);
@@ -507,9 +507,9 @@ app.on('ready', async () => {
 	initializeAppManager();
 
 	// Initialize DB and updater here — safe after app.ready
-	process.env.GAUZY_USER_PATH = app.getPath('userData');
-	log.info(`GAUZY_USER_PATH: ${process.env.GAUZY_USER_PATH}`);
-	log.info(`Sqlite DB path: ${process.env.GAUZY_USER_PATH}/gauzy.sqlite3`);
+	process.env.IRTRANSCRIPTS_USER_PATH = app.getPath('userData');
+	log.info(`IRTRANSCRIPTS_USER_PATH: ${process.env.IRTRANSCRIPTS_USER_PATH}`);
+	log.info(`Sqlite DB path: ${process.env.IRTRANSCRIPTS_USER_PATH}/irtranscripts.sqlite3`);
 
 	provider = ProviderFactory.instance;
 	knex = provider.connection;
@@ -626,15 +626,15 @@ ipcMain.on('server_is_ready', async () => {
 ipcMain.on('quit', quit);
 
 ipcMain.on('minimize', () => {
-	gauzyWindow.minimize();
+	irtranscriptsWindow.minimize();
 });
 
 ipcMain.on('maximize', () => {
-	gauzyWindow.maximize();
+	irtranscriptsWindow.maximize();
 });
 
 ipcMain.on('restore', () => {
-	gauzyWindow.restore();
+	irtranscriptsWindow.restore();
 });
 
 ipcMain.on('restart_app', async (_, arg) => {
@@ -646,9 +646,9 @@ ipcMain.on('save_additional_setting', (event, arg) => {
 });
 
 ipcMain.on('server_already_start', () => {
-	if (!gauzyWindow && !isAlreadyRun) {
-		gauzyWindow = timeTrackerWindow;
-		gauzyWindow.show();
+	if (!irtranscriptsWindow && !isAlreadyRun) {
+		irtranscriptsWindow = timeTrackerWindow;
+		irtranscriptsWindow.show();
 		isAlreadyRun = true;
 	}
 });
@@ -666,7 +666,7 @@ ipcMain.on('restart_and_update', () => {
 		app.removeAllListeners('window-all-closed');
 		autoUpdater.quitAndInstall(false);
 		if (serverDesktop) serverDesktop.kill();
-		if (serverGauzy) serverGauzy.kill();
+		if (serverIRTranscripts) serverIRTranscripts.kill();
 		app.exit(0);
 	});
 });
@@ -702,15 +702,15 @@ ipcMain.on('minimize_on_startup', (event, arg) => {
 
 app.on('activate', () => {
 	const configs = LocalStore.getStore('configs');
-	if (gauzyWindow) {
-		if (configs?.gauzyWindow) {
-			gauzyWindow.show();
+	if (irtranscriptsWindow) {
+		if (configs?.irtranscriptsWindow) {
+			irtranscriptsWindow.show();
 		}
 	} else if (!onWaitingServer && configs && configs.isSetup && configs.serverConfigConnected && timeTrackerWindow) {
 		// On macOS, it's common to re-create a window in the app when the
 		// dock icon is clicked and there are no other windows open.
-		gauzyWindow = timeTrackerWindow;
-		gauzyWindow.show();
+		irtranscriptsWindow = timeTrackerWindow;
+		irtranscriptsWindow.show();
 	} else {
 		if (setupWindow) {
 			setupWindow.show();
@@ -773,11 +773,11 @@ app.on('before-quit', async (e) => {
 			}
 		}
 
-		if (serverGauzy) {
+		if (serverIRTranscripts) {
 			try {
-				serverGauzy.kill();
+				serverIRTranscripts.kill();
 			} catch (error) {
-				console.error('ERROR: Occurred while serverGauzy stop:' + error);
+				console.error('ERROR: Occurred while serverIRTranscripts stop:' + error);
 			}
 		}
 

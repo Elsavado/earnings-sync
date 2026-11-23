@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { ID, PermissionsEnum } from '@gauzy/contracts';
+import { ID, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	FEATURE_GRAPHQL,
 	FeatureFlagGuard,
@@ -10,8 +10,8 @@ import {
 	TenantPermissionGuard,
 	IConnectionPageSelection,
 	resolveConnectionWindow
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { PaymentWebhookEventService } from '../../payment-webhook-event/payment-webhook-event.service';
 import { IPaymentWebhookEvent } from '../../payment.types';
 import { PaymentPermission } from '../../payment.permissions';

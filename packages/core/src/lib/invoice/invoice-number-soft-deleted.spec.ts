@@ -51,7 +51,7 @@ describe('InvoiceService.getHighestInvoiceNumber counts soft-deleted invoices', 
 	};
 
 	beforeAll(async () => {
-		dbPath = path.join(os.tmpdir(), `gauzy-invoice-number-deleted-${process.pid}-${Date.now()}.sqlite3`);
+		dbPath = path.join(os.tmpdir(), `irtranscripts-invoice-number-deleted-${process.pid}-${Date.now()}.sqlite3`);
 		dataSource = new DataSource({
 			type: 'better-sqlite3',
 			database: dbPath,

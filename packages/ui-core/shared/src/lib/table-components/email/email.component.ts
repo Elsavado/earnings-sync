@@ -1,7 +1,7 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
-    selector: 'gauzy-email',
+    selector: 'irtranscripts-email',
     templateUrl: './email.component.html',
     styleUrls: ['./email.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,

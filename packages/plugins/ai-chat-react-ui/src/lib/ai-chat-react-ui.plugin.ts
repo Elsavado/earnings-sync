@@ -1,5 +1,5 @@
-import { PermissionsEnum } from '@gauzy/contracts';
-import { defineDeclarativePlugin, PluginRouteInput } from '@gauzy/plugin-ui';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { defineDeclarativePlugin, PluginRouteInput } from '@irtranscripts/plugin-ui';
 import { PLAYGROUND_ROUTE } from './playground.routes';
 import { AI_CHAT_SETTINGS_ROUTE, provideAiProviderConnectCallback } from './settings';
 import { AI_CHAT_REACT_UI_PLUGIN_ID, provideAiChatSidebar } from './provide-ai-chat-sidebar';
@@ -19,7 +19,7 @@ import en from '../i18n/en.json';
  * and declarative `routes` for the playground page. No external provider
  * (e.g. in `bootstrap.module.ts`) is needed.
  *
- * The chat talks to the `@gauzy/plugin-ai-chat` backend plugin
+ * The chat talks to the `@irtranscripts/plugin-ai-chat` backend plugin
  * (`POST /api/ai-chat`, Vercel AI SDK UI message stream).
  */
 export const AiChatReactUiPlugin = defineDeclarativePlugin(AI_CHAT_REACT_UI_PLUGIN_ID, {

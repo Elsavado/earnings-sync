@@ -1,7 +1,7 @@
 // Must stay first: loads the entity graph before any handler pulls an entity (see activity.controller.spec.ts).
 import '../../../../core/entities/internal';
 
-import { ITimeSlot } from '@gauzy/contracts';
+import { ITimeSlot } from '@irtranscripts/contracts';
 import { TimeLog } from '../../time-log.entity';
 import { DeleteTimeSpanCommand } from '../delete-time-span.command';
 import { TimeLogDeleteCommand } from '../time-log-delete.command';

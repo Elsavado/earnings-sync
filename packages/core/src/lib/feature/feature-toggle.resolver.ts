@@ -2,8 +2,8 @@ import { UseGuards } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { getFeatureToggleDefinitions } from 'unleash-client';
-import { FeatureFlag, Public } from '@gauzy/common';
-import { environment } from '@gauzy/config';
+import { FeatureFlag, Public } from '@irtranscripts/common';
+import { environment } from '@irtranscripts/config';
 import {
 	FeatureEnum,
 	ID as Id,
@@ -11,7 +11,7 @@ import {
 	IFeatureOrganization,
 	IPagination,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	ConnectionFilter,
 	ConnectionPageRequest,

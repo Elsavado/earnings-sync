@@ -5,10 +5,10 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NbCalendarRange } from '@nebular/theme';
 import * as moment from 'moment';
 import { Cell } from 'angular2-smart-table';
-import { IncomeTypeEnum, IOrganization, IUpworkDateRange } from '@gauzy/contracts';
-import { Store, UpworkStoreService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { DateViewComponent, IncomeExpenseAmountComponent } from '@gauzy/ui-core/shared';
+import { IncomeTypeEnum, IOrganization, IUpworkDateRange } from '@irtranscripts/contracts';
+import { Store, UpworkStoreService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { DateViewComponent, IncomeExpenseAmountComponent } from '@irtranscripts/ui-core/shared';
 
 @UntilDestroy()
 @Component({

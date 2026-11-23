@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NbButtonModule, NbCardModule, NbIconModule, NbStepperModule, NbTagModule } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
-import { OrganizationsService, RoleService } from '@gauzy/ui-core/core';
+import { OrganizationsService, RoleService } from '@irtranscripts/ui-core/core';
 import { UserFormsModule } from '../../user/forms/user-forms.module';
 import { FileUploaderModule } from '../../file-uploader-input';
 import { CandidateMutationComponent } from './candidate-mutation.component';

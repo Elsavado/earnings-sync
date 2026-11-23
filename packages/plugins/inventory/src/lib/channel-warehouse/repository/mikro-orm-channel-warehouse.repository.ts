@@ -1,7 +1,7 @@
 /**
  * MikroORM repository for ChannelWarehouse.
  */
-import { MikroOrmBaseEntityRepository } from '@gauzy/core';
+import { MikroOrmBaseEntityRepository } from '@irtranscripts/core';
 import { ChannelWarehouse } from '../channel-warehouse.entity';
 
 export class MikroOrmChannelWarehouseRepository extends MikroOrmBaseEntityRepository<ChannelWarehouse> {}

@@ -1,4 +1,4 @@
-import { ID, PluginSubscriptionStatus } from '@gauzy/contracts';
+import { ID, PluginSubscriptionStatus } from '@irtranscripts/contracts';
 import { IQuery } from '@nestjs/cqrs';
 
 /**

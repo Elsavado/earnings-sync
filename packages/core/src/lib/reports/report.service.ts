@@ -1,5 +1,5 @@
 import { BadRequestException, ConflictException, Injectable, Logger } from '@nestjs/common';
-import { GetReportMenuItemsInput, ID, IPagination, IReport } from '@gauzy/contracts';
+import { GetReportMenuItemsInput, ID, IPagination, IReport } from '@irtranscripts/contracts';
 import { CrudService } from '../core/crud';
 import { MultiORMEnum, parseFindOptionsRelations } from '../core/utils';
 import { RequestContext } from './../core/context';

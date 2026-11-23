@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler, CommandBus } from '@nestjs/cqrs';
-import { IntegrationEntity } from '@gauzy/contracts';
+import { IntegrationEntity } from '@irtranscripts/contracts';
 import { RequestContext } from './../../../core/context';
 import { IntegrationMapSyncOrganizationCommand } from './../integration-map.sync-organization.command';
 import { IntegrationMapSyncEntityCommand } from './../integration-map.sync-entity.command';
@@ -47,7 +47,7 @@ export class IntegrationMapSyncOrganizationHandler
 			);
 			return await this._commandBus.execute(
 				new IntegrationMapSyncEntityCommand({
-					gauzyId: organization.id,
+					irtranscriptsId: organization.id,
 					integrationId,
 					sourceId,
 					entity: IntegrationEntity.ORGANIZATION,
@@ -58,7 +58,7 @@ export class IntegrationMapSyncOrganizationHandler
 
 		// Update the mapped organization; its update errors reach the caller
 		const updated = await this._commandBus
-			.execute(new OrganizationUpdateCommand(organizationMap.gauzyId, entity))
+			.execute(new OrganizationUpdateCommand(organizationMap.irtranscriptsId, entity))
 			.catch(nullIfNotFound);
 		if (updated) {
 			return organizationMap;
@@ -69,7 +69,7 @@ export class IntegrationMapSyncOrganizationHandler
 		return await this._commandBus.execute(
 			new IntegrationMapSyncEntityCommand({
 				id: organizationMap.id,
-				gauzyId: organization.id,
+				irtranscriptsId: organization.id,
 				integrationId,
 				sourceId,
 				entity: IntegrationEntity.ORGANIZATION,

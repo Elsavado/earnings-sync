@@ -1,7 +1,7 @@
 import './nebular-jsx';
 import { useMemo, type CSSProperties } from 'react';
 import { NbIconLibraries } from '@nebular/theme';
-import { useInjector } from '@gauzy/ui-react';
+import { useInjector } from '@irtranscripts/ui-react';
 
 export interface NbIconProps {
 	/** Icon name in the app's default pack (the Eva names the Angular templates use). */
@@ -16,8 +16,8 @@ export interface NbIconProps {
  * `<nb-icon icon="…">` for React.
  *
  * Resolves the SVG through the very same `NbIconLibraries` the Angular `nb-icon` component asks
- * (the app registers its Tabler pack under the `eva` name — see `@gauzy/ui-core/icons`), and
- * renders it inside a real `<nb-icon>` element so the global Nebular/Gauzy icon rules apply.
+ * (the app registers its Tabler pack under the `eva` name — see `@irtranscripts/ui-core/icons`), and
+ * renders it inside a real `<nb-icon>` element so the global Nebular/IRTranscripts icon rules apply.
  * Unknown names render an empty element instead of throwing.
  */
 export function NbIcon({ icon, className, style, title }: NbIconProps) {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IPlugin } from '@gauzy/contracts';
+import { IPlugin } from '@irtranscripts/contracts';
 import { IPluginFilter } from '../+state/stores/plugin-market.store';
 
 /**

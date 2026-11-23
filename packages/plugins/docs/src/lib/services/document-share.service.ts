@@ -1,7 +1,7 @@
 import { BadRequestException, ConflictException, ForbiddenException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { IsNull } from 'typeorm';
-import { DocumentVisibilityEnum, ID, IPagination } from '@gauzy/contracts';
-import { RequestContext, TenantAwareCrudService } from '@gauzy/core';
+import { DocumentVisibilityEnum, ID, IPagination } from '@irtranscripts/contracts';
+import { RequestContext, TenantAwareCrudService } from '@irtranscripts/core';
 import { DOCS_SHARE_EXISTS, DOCS_SHARE_FORBIDDEN, DOCS_SHARE_NOT_PRIVATE, DOCS_SHARE_TARGET } from '../docs.constants';
 import { CreateDocumentShareDTO, UpdateDocumentShareDTO } from '../dto/document-share.dto';
 import { DocumentShare } from '../entities/document-share.entity';

@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { GuiDrag } from '@gauzy/ui-core/common';
-import { Store } from '@gauzy/ui-core/core';
-import { useInjector } from '@gauzy/ui-react';
+import { GuiDrag } from '@irtranscripts/ui-core/common';
+import { Store } from '@irtranscripts/ui-core/core';
+import { useInjector } from '@irtranscripts/ui-react';
 import {
 	isLayoutAllHidden,
 	isLayoutItemHidden,

@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { IChangelog } from '@gauzy/contracts';
+import { IChangelog } from '@irtranscripts/contracts';
 import { NbSidebarService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { asyncScheduler, merge, Observable } from 'rxjs';
 import { filter, observeOn, take, tap } from 'rxjs/operators';
-import { ChangelogService } from '@gauzy/ui-core/core';
+import { ChangelogService } from '@irtranscripts/ui-core/core';
 
 /** Tag of the Nebular sidebar this component is rendered into. */
 export const CHANGELOG_SIDEBAR_TAG = 'changelog_sidebar';
@@ -74,7 +74,7 @@ export class ChangelogComponent implements OnInit, OnDestroy {
 		this._sidebarService.collapse(CHANGELOG_SIDEBAR_TAG);
 	}
 
-	/** `gauzyOutside` emits whether the click landed INSIDE the host, not outside it. */
+	/** `irtranscriptsOutside` emits whether the click landed INSIDE the host, not outside it. */
 	public onClickOutside(clickedInside: boolean) {
 		if (!clickedInside && this.state) {
 			this.closeSidebar();

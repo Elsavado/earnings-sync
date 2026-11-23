@@ -1,9 +1,9 @@
 import { ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Brackets } from 'typeorm';
-import { environment as env } from '@gauzy/config';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { environment as env } from '@irtranscripts/config';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from './../../core/context';
 import { ORGANIZATION_POLICY_TARGET_METADATA } from '../decorators/organization-policy-target.decorator';
 import { OrganizationPermissionGuard, ORGANIZATION_POLICY_COLUMNS } from './organization-permission.guard';

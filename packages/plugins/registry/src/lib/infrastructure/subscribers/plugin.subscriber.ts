@@ -1,5 +1,5 @@
-import { ID, PluginInstallationStatus } from '@gauzy/contracts';
-import { MultiORMEnum, RequestContext } from '@gauzy/core';
+import { ID, PluginInstallationStatus } from '@irtranscripts/contracts';
+import { MultiORMEnum, RequestContext } from '@irtranscripts/core';
 import { Logger } from '@nestjs/common';
 import { DataSource, EntitySubscriberInterface, EventSubscriber, InsertEvent } from 'typeorm';
 import { Plugin } from '../../domain/entities/plugin.entity';

@@ -1,6 +1,6 @@
 import moment from 'moment-timezone';
-import { EmployeeKindEnum, TimeFormatEnum } from '@gauzy/contracts';
-import { toTimezone } from '@gauzy/ui-core/common';
+import { EmployeeKindEnum, TimeFormatEnum } from '@irtranscripts/contracts';
+import { toTimezone } from '@irtranscripts/ui-core/common';
 
 /**
  * `durationFormat` pipe: seconds → `HH:mm:ss` with truncation (not rounding) and negatives

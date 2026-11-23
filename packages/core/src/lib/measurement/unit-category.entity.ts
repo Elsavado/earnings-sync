@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
-import { JsonData } from '@gauzy/contracts';import { TenantOrganizationBaseEntity } from '../core/entities/internal';
+import { JsonData } from '@irtranscripts/contracts';import { TenantOrganizationBaseEntity } from '../core/entities/internal';
 import {
 	ColumnIndex,
 	JsonColumn,

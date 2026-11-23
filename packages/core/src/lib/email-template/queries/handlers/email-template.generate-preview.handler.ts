@@ -1,7 +1,7 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import * as Handlebars from 'handlebars';
-import { ConfigService, environment } from '@gauzy/config';
-import { generateAlphaNumericCode } from '@gauzy/utils';
+import { ConfigService, environment } from '@irtranscripts/config';
+import { generateAlphaNumericCode } from '@irtranscripts/utils';
 import { EmailTemplateGeneratePreviewQuery } from '../email-template.generate-preview.query';
 import { moment } from '../../../core/moment-extend';
 import { compileMjml, toTemplateSource } from '../../compile-mjml';
@@ -35,7 +35,7 @@ export class EmailTemplateGeneratePreviewHandler implements IQueryHandler<EmailT
 			role: 'USER_ROLE',
 			host: clientBaseUrl || host,
 			hostEmail: '(alish@ever.com)',
-			agenda: 'This booking is for gauzy call',
+			agenda: 'This booking is for irtranscripts call',
 			description: 'This is a test appointment booking',
 			participantEmails: 'kdashora@gmail.com,testmail@hotmail.com',
 			location: 'zoom.us',
@@ -46,8 +46,8 @@ export class EmailTemplateGeneratePreviewHandler implements IQueryHandler<EmailT
 			total_hours: '16',
 			average_activates: '25',
 			log_type: 'tracked',
-			projects: ['Gauzy Web Site', 'Gauzy Platform(open-source)'],
-			project: 'Gauzy Web Site',
+			projects: ['IRTranscripts Web Site', 'IRTranscripts Platform(open-source)'],
+			project: 'IRTranscripts Web Site',
 			timesheet_action: 'APPROVE/REJECT',
 			equipment_status: 'APPROVE/REJECT',
 			reason: 'reason for this',
@@ -72,11 +72,11 @@ export class EmailTemplateGeneratePreviewHandler implements IQueryHandler<EmailT
 			task_update_estimate: 'estimate',
 			task_update_due_date: moment(new Date()).add(10, 'days').toDate(),
 			task_status: 'In Progress',
-			task_update_project: 'Gauzy Project',
+			task_update_project: 'IRTranscripts Project',
 			task_update_assign_by: 'Ruslan Konviser',
 			task_update_url: 'https://github.com/ever-co/ever-gauzy/issues/1688',
 			inviteCode: generateAlphaNumericCode(),
-			teams: 'Gauzy Team',
+			teams: 'IRTranscripts Team',
 			verificationCode: generateAlphaNumericCode(),
 			appName: appName,
 			appLogo: appLogo,

@@ -1,4 +1,4 @@
-import { GoalTemplateCategoriesEnum, IGoalTemplate } from '@gauzy/contracts';
+import { GoalTemplateCategoriesEnum, IGoalTemplate } from '@irtranscripts/contracts';
 
 export const DEFAULT_GOAL_TEMPLATES: IGoalTemplate[] = [
 	{

@@ -9,8 +9,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { NbIconLibraries } from '@nebular/theme';
 import { Cell } from 'angular2-smart-table';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { ID, IEmployee, IEmployeeJobsStatistics, IOrganization, LanguagesEnum, PermissionsEnum } from '@gauzy/contracts';
-import { API_PREFIX, distinctUntilChange, isNotNullOrUndefined } from '@gauzy/ui-core/common';
+import { ID, IEmployee, IEmployeeJobsStatistics, IOrganization, LanguagesEnum, PermissionsEnum } from '@irtranscripts/contracts';
+import { API_PREFIX, distinctUntilChange, isNotNullOrUndefined } from '@irtranscripts/ui-core/common';
 import {
 	PageDataTableRegistryService,
 	EmployeesService,
@@ -20,8 +20,8 @@ import {
 	PageTabsetPageId,
 	PageTabRegistryService,
 	PageDataTablePageId
-} from '@gauzy/ui-core/core';
-import { I18nService } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/ui-core/core';
+import { I18nService } from '@irtranscripts/ui-core/i18n';
 import {
 	EmployeeLinksComponent,
 	IPaginationBase,
@@ -31,7 +31,7 @@ import {
 	PaginationFilterBaseComponent,
 	NonEditableNumberEditorComponent,
 	ToggleSwitcherComponent
-} from '@gauzy/ui-core/shared';
+} from '@irtranscripts/ui-core/shared';
 import { JobSearchStatusEditorComponent } from '../job-search-status-editor/job-search-status-editor.component';
 import { JobSearchStoreService } from '../../providers/job-search-store.service';
 

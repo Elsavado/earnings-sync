@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { DeepPartial, FindOptionsWhere, IsNull } from 'typeorm';
-import { ID, IPagination } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { ID, IPagination } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { ShippingProfile } from './shipping-profile.entity';
 import { TypeOrmShippingProfileRepository } from './repository/type-orm-shipping-profile.repository';
 import { MikroOrmShippingProfileRepository } from './repository/mikro-orm-shipping-profile.repository';

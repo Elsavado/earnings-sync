@@ -1,13 +1,13 @@
 import { isEmpty, isNotEmpty } from './shared-utils';
 
 /**
- * `isEmpty` / `isNotEmpty` from `@gauzy/ui-core/common` decide "is there a value" for the Angular apps, so what
- * they answer for each kind of input is pinned here, the same way `@gauzy/utils` pins its copy (#10780). A `Date`
+ * `isEmpty` / `isNotEmpty` from `@irtranscripts/ui-core/common` decide "is there a value" for the Angular apps, so what
+ * they answer for each kind of input is pinned here, the same way `@irtranscripts/utils` pins its copy (#10780). A `Date`
  * has no own enumerable property, so the object branch read EVERY date as empty, and a list of dates as an empty
  * list. No Angular call site hands it a bare date today (the date-range picker passes `{ startDate, endDate }`,
  * which already counted as a value), so this keeps the first one that does from silently skipping it.
  */
-describe('isEmpty / isNotEmpty (@gauzy/ui-core/common)', () => {
+describe('isEmpty / isNotEmpty (@irtranscripts/ui-core/common)', () => {
 	const date = new Date('2026-01-05T09:00:00.000Z');
 
 	describe('a Date', () => {

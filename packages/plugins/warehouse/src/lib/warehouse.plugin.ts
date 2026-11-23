@@ -1,7 +1,7 @@
 import * as chalk from 'chalk';
 import { Type } from '@nestjs/common';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@gauzy/plugin';
-import { IUnitReference, registerUnitReferences, UnitCategoryCode } from '@gauzy/core';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@irtranscripts/plugin';
+import { IUnitReference, registerUnitReferences, UnitCategoryCode } from '@irtranscripts/core';
 import { CreateWarehouseLayoutTables1791000000180 } from './database/migrations/1791000000180-CreateWarehouseLayoutTables';
 import { CreateWarehouseWorkTables1791000000190 } from './database/migrations/1791000000190-CreateWarehouseWorkTables';
 import { AddWarehouseBinCapacityUnits1791000000195 } from './database/migrations/1791000000195-AddWarehouseBinCapacityUnits';
@@ -21,7 +21,7 @@ import { WAREHOUSE_PERMISSIONS } from './warehouse.permissions';
  * anything. Nothing else is a prerequisite — the shipment records are read through an optional port, so
  * a tenant that ships without picking can still describe a building.
  */
-const WAREHOUSE_DEPENDS_ON: string[] = ['@gauzy/plugin-inventory'];
+const WAREHOUSE_DEPENDS_ON: string[] = ['@irtranscripts/plugin-inventory'];
 
 /**
  * The unit references this package owns.
@@ -44,20 +44,20 @@ const WAREHOUSE_UNIT_REFERENCES: IUnitReference[] = [
 	{
 		table: 'warehouse_bin',
 		column: 'capacityUnitId',
-		owner: '@gauzy/plugin-warehouse',
+		owner: '@irtranscripts/plugin-warehouse',
 		description: "The unit a bin's capacity is counted in, which may be a unit of any family."
 	},
 	{
 		table: 'warehouse_bin',
 		column: 'maxWeightUnitId',
-		owner: '@gauzy/plugin-warehouse',
+		owner: '@irtranscripts/plugin-warehouse',
 		category: UnitCategoryCode.MASS,
 		description: "The unit a bin's weight ceiling is expressed in, which is a unit of mass."
 	},
 	{
 		table: 'warehouse_bin',
 		column: 'maxVolumeUnitId',
-		owner: '@gauzy/plugin-warehouse',
+		owner: '@irtranscripts/plugin-warehouse',
 		category: UnitCategoryCode.VOLUME,
 		description: "The unit a bin's volume ceiling is expressed in, which is a unit of volume."
 	}

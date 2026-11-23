@@ -2,7 +2,7 @@ import {
 	IPagination,
 	IRecurringExpenseByMonthFindInput,
 	IRecurringExpenseModel
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { FindOptionsWhere, IsNull, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
 import * as moment from 'moment';
 import { CrudService } from './../../core/crud';

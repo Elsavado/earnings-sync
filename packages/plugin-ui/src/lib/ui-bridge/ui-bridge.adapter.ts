@@ -5,7 +5,7 @@ import { UiBridgeRegistryService } from './ui-bridge-registry.service';
 /**
  * Interface for a bridge-like object that can be adapted to UiBridge.
  * This allows external packages to provide
- * bridge implementations without directly depending on @gauzy/plugin-ui.
+ * bridge implementations without directly depending on @irtranscripts/plugin-ui.
  */
 export interface UiBridgeLike {
 	config: {
@@ -55,8 +55,8 @@ class UiBridgeAdapter extends UiBridge {
  *
  * @example
  * ```typescript
- * import { ReactBridge } from '@gauzy/plugin-ui';
- * import { adaptBridge, UiBridgeRegistryService } from '@gauzy/plugin-ui';
+ * import { ReactBridge } from '@irtranscripts/plugin-ui';
+ * import { adaptBridge, UiBridgeRegistryService } from '@irtranscripts/plugin-ui';
  *
  * const registry = inject(UiBridgeRegistryService);
  * const reactBridge = adaptBridge(new ReactBridge());
@@ -90,8 +90,8 @@ export function isUiBridgeLike(obj: unknown): obj is UiBridgeLike {
  *
  * @example
  * ```typescript
- * import { ReactBridge } from '@gauzy/plugin-ui';
- * import { provideBridge } from '@gauzy/plugin-ui';
+ * import { ReactBridge } from '@irtranscripts/plugin-ui';
+ * import { provideBridge } from '@irtranscripts/plugin-ui';
  *
  * export const appConfig: ApplicationConfig = {
  *   providers: [

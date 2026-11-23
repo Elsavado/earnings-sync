@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler, CommandBus } from '@nestjs/cqrs';
-import { IntegrationEntity } from '@gauzy/contracts';
+import { IntegrationEntity } from '@irtranscripts/contracts';
 import { TimeLogCreateCommand } from './../../../time-tracking/time-log/commands';
 import { IntegrationMapSyncEntityCommand } from './../integration-map.sync-entity.command';
 import { IntegrationMapSyncTimeLogCommand } from '../integration-map.sync-time-log.command';
@@ -37,13 +37,13 @@ export class IntegrationMapSyncTimeLogHandler
 				tenantId
 			});
 		} catch (error) {
-			const gauzyTimeLog = await this._commandBus.execute(
+			const irtranscriptsTimeLog = await this._commandBus.execute(
 				new TimeLogCreateCommand(entity)
 			);
 			return await this._commandBus.execute(
 				new IntegrationMapSyncEntityCommand({
 					entity: IntegrationEntity.TIME_LOG,
-					gauzyId: gauzyTimeLog.id,
+					irtranscriptsId: irtranscriptsTimeLog.id,
 					sourceId,
 					integrationId,
 					organizationId,

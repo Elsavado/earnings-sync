@@ -1,6 +1,6 @@
 /**
  * Where the web app serves `node_modules/pdfjs-dist/wasm` (an `assets` entry of every build target in
- * `apps/gauzy/project.json`).
+ * `apps/irtranscripts/project.json`).
  *
  * pdfjs-dist 5+ decodes JBIG2 and CCITT fax images (black-and-white scans, faxes) and JPEG 2000 with
  * WebAssembly modules — or their JS fallbacks — that it loads from the `wasmUrl` document parameter;

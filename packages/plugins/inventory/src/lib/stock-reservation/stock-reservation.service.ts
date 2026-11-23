@@ -1,8 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { EntityManager, FindManyOptions, FindOptionsWhere, In, LessThanOrEqual, Not, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { ID, IPagination } from '@gauzy/contracts';
-import { RequestContext, WarehouseProductVariant } from '@gauzy/core';
+import { ID, IPagination } from '@irtranscripts/contracts';
+import { RequestContext, WarehouseProductVariant } from '@irtranscripts/core';
 import { StockMovementType, StockMovementReferenceType, StockReservationReferenceType, StockReservationStatus } from './../inventory.enums';
 import { InventoryErrorCode, invariantViolation, inventoryError } from './../inventory.errors';
 import { assertLocationInScope, assertVariantInScope, narrowLevelReadToTenant, requestScope } from './../inventory.scope';

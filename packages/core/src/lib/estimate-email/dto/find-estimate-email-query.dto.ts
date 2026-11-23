@@ -1,4 +1,4 @@
-import { IEstimateEmailFindInput } from '@gauzy/contracts';
+import { IEstimateEmailFindInput } from '@irtranscripts/contracts';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';

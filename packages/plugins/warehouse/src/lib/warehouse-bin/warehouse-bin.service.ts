@@ -1,7 +1,7 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, Optional } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, In, Repository } from 'typeorm';
-import { DecimalString, ID } from '@gauzy/contracts';
+import { DecimalString, ID } from '@irtranscripts/contracts';
 import {
 	commitVersionedUpdate,
 	MultiORMEnum,
@@ -10,7 +10,7 @@ import {
 	toPositionalStatement,
 	versionExpectationOf,
 	Warehouse
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { WarehouseZone } from '../warehouse-zone/warehouse-zone.entity';
 import { TypeOrmWarehouseZoneRepository } from '../warehouse-zone/repository/type-orm-warehouse-zone.repository';
 import {

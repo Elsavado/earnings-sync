@@ -35,13 +35,13 @@
 		"NO_WORKSPACE": "The code was correct, but no workspace can be opened with this Ever ID."
 	},
 	"SIGNUP": {
-		"TITLE": "Create a Gauzy workspace with this Ever ID",
-		"DESCRIPTION": "No Gauzy account uses this Ever ID yet. You can create one now; nothing is created until you confirm.",
+		"TITLE": "Create a IRTranscripts workspace with this Ever ID",
+		"DESCRIPTION": "No IRTranscripts account uses this Ever ID yet. You can create one now; nothing is created until you confirm.",
 		"EMAIL": "E-mail",
 		"FIRST_NAME": "First name",
 		"LAST_NAME": "Last name",
 		"ACCEPT_TERMS": "I accept the",
-		"CONFIRM": "Create a Gauzy workspace with this Ever ID",
+		"CONFIRM": "Create a IRTranscripts workspace with this Ever ID",
 		"CREATE": "Create workspace",
 		"CANCEL": "Cancel",
 		"RETRY": "Try again",

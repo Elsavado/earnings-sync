@@ -3,8 +3,8 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { filter } from 'rxjs/operators';
 import { jitsuAnalytics, emptyAnalytics, AnalyticsInterface } from '@jitsu/js';
-import { environment } from '@gauzy/ui-config';
-import { redactUrlSecrets } from '@gauzy/ui-core/common';
+import { environment } from '@irtranscripts/ui-config';
+import { redactUrlSecrets } from '@irtranscripts/ui-core/common';
 import { JitsuAnalyticsEvents, JitsuAnalyticsEventsEnum } from './event.type';
 
 @Injectable({

@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IEmployee } from '@gauzy/contracts';
+import { IEmployee } from '@irtranscripts/contracts';
 import { EmployeeService } from '../../employee.service';
 import { EmployeeGetCommand } from '../employee.get.command';
 

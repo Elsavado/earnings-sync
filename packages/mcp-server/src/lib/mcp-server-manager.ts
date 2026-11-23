@@ -36,7 +36,7 @@ export class McpServerManager {
 	constructor(environment?: any) {
 		this.environment = environment || {
 			nodeEnv: process.env.NODE_ENV || 'development',
-			baseUrl: process.env.API_BASE_URL || process.env.GAUZY_API_BASE_URL || 'http://localhost:3000'
+			baseUrl: process.env.API_BASE_URL || process.env.IRTRANSCRIPTS_API_BASE_URL || 'http://localhost:3000'
 		};
 	}
 
@@ -165,7 +165,7 @@ export class McpServerManager {
 			this._version = version;
 			this._transport = transport;
 
-			logger.log(`Gauzy MCP Server initialized with ${transport.type} transport`);
+			logger.log(`IRTranscripts MCP Server initialized with ${transport.type} transport`);
 
 			if (transport.type === 'http' && transport.url) {
 				logger.log(`🌐 HTTP transport available at: ${transport.url}`);
@@ -205,9 +205,9 @@ export class McpServerManager {
 			const sanitizedEnv = {
 				NODE_ENV: this.environment.nodeEnv,
 				// Only pass necessary environment variables
-				GAUZY_MCP_DEBUG: process.env.GAUZY_MCP_DEBUG || 'false',
+				IRTRANSCRIPTS_MCP_DEBUG: process.env.IRTRANSCRIPTS_MCP_DEBUG || 'false',
 				API_BASE_URL: process.env.API_BASE_URL || this.environment.baseUrl,
-				GAUZY_API_BASE_URL: process.env.GAUZY_API_BASE_URL || this.environment.baseUrl
+				IRTRANSCRIPTS_API_BASE_URL: process.env.IRTRANSCRIPTS_API_BASE_URL || this.environment.baseUrl
 			};
 
 			this.mcpProcess = spawn('node', [serverScript], {

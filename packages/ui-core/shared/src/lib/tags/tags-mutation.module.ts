@@ -12,7 +12,7 @@ import {
 } from '@nebular/theme';
 import { ColorPickerComponent, ColorPickerDirective } from 'ngx-color-picker';
 import { TranslatePipe } from '@ngx-translate/core';
-import { TagsService } from '@gauzy/ui-core/core';
+import { TagsService } from '@irtranscripts/ui-core/core';
 import { TagsMutationComponent } from './tags-mutation.component';
 
 @NgModule({

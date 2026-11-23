@@ -1,4 +1,4 @@
-import { PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 
 // Only DI metadata is needed; the real modules drag in the whole core entity graph, which cannot be
 // required in isolation (pre-existing circular import).

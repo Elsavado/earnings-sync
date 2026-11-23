@@ -1,5 +1,5 @@
 import { IQuery } from '@nestjs/cqrs';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { BaseQueryDTO } from '../../core/crud';
 import { OrganizationStrategicInitiative } from '../organization-strategic-initiative.entity';
 

@@ -1,5 +1,5 @@
 /**
- * The `integration_setting` names of an Ever Works `integration_tenant` (one per mapped Gauzy
+ * The `integration_setting` names of an Ever Works `integration_tenant` (one per mapped IRTranscripts
  * organization, plan 06 G-P1-4). Persisted names are stable. None of them is a secret: the integration
  * key and the webhook signing secret live encrypted on `ever_works_connection`, never here (setting
  * values are stored in plaintext).
@@ -10,7 +10,7 @@ export enum EverWorksSettingName {
 	/** The paired Ever Works organization. */
 	EVER_WORKS_ORGANIZATION_ID = 'EVER_WORKS_ORGANIZATION_ID',
 	EVER_WORKS_ORGANIZATION_SLUG = 'EVER_WORKS_ORGANIZATION_SLUG',
-	/** JSON `{ [entity]: 'both' | 'ew_to_gauzy' | 'gauzy_to_ew' | 'suggest' | 'link_only' | 'off' }`. */
+	/** JSON `{ [entity]: 'both' | 'ew_to_irtranscripts' | 'irtranscripts_to_ew' | 'suggest' | 'link_only' | 'off' }`. */
 	ENTITY_DIRECTIONS = 'ENTITY_DIRECTIONS',
 	/** Where synced tasks without a linked project land, and where Ideas land. */
 	DEFAULT_PROJECT_ID = 'DEFAULT_PROJECT_ID',
@@ -40,6 +40,6 @@ export enum EverWorksSettingName {
 	 * not paired again by Ever ID alone, only suggested, until an admin pairs them.
 	 */
 	PEOPLE_EVER_ID_DECLINED = 'PEOPLE_EVER_ID_DECLINED',
-	/** The integration's on/off flag under the spelling every Gauzy integration uses. */
+	/** The integration's on/off flag under the spelling every IRTranscripts integration uses. */
 	IS_ENABLED = 'IS_ENABLED'
 }

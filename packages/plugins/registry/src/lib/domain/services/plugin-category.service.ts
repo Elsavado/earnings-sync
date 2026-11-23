@@ -1,4 +1,4 @@
-import { LIKE_OPERATOR, MultiORMEnum } from '@gauzy/core';
+import { LIKE_OPERATOR, MultiORMEnum } from '@irtranscripts/core';
 import { Injectable } from '@nestjs/common';
 import { Not } from 'typeorm';
 import { IPluginCategoryFindInput, IPluginCategoryTree } from '../../shared/models';

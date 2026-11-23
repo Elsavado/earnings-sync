@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { Environment, GAUZY_ENV } from '@gauzy/ui-config';
+import { Environment, IRTRANSCRIPTS_ENV } from '@irtranscripts/ui-config';
 import {
 	NbButtonModule,
 	NbCardModule,
@@ -25,37 +25,37 @@ export interface IAppOption {
 	imports: [NbCardModule, NbIconModule, NbButtonModule, NbRadioModule, NbTooltipModule, TranslatePipe]
 })
 export class DialogAppSelectorComponent {
-	private readonly env = inject<Environment>(GAUZY_ENV, { optional: true });
+	private readonly env = inject<Environment>(IRTRANSCRIPTS_ENV, { optional: true });
 
 	public readonly apps: IAppOption[] = [
 		{
 			labelKey: 'PLUGIN.DIALOG.APP_SELECTOR.DESKTOP',
 			descriptionKey: 'PLUGIN.DIALOG.APP_SELECTOR.DESKTOP_DESC',
-			protocol: this.env?.DESKTOP_APP_PROTOCOL ?? 'gauzy-desktop',
+			protocol: this.env?.DESKTOP_APP_PROTOCOL ?? 'irtranscripts-desktop',
 			icon: 'monitor-outline'
 		},
 		{
 			labelKey: 'PLUGIN.DIALOG.APP_SELECTOR.TIMER',
 			descriptionKey: 'PLUGIN.DIALOG.APP_SELECTOR.TIMER_DESC',
-			protocol: this.env?.DESKTOP_TIMER_APP_PROTOCOL ?? 'gauzy-timer',
+			protocol: this.env?.DESKTOP_TIMER_APP_PROTOCOL ?? 'irtranscripts-timer',
 			icon: 'clock-outline'
 		},
 		{
 			labelKey: 'PLUGIN.DIALOG.APP_SELECTOR.SERVER',
 			descriptionKey: 'PLUGIN.DIALOG.APP_SELECTOR.SERVER_DESC',
-			protocol: this.env?.DESKTOP_SERVER_APP_PROTOCOL ?? 'gauzy-server',
+			protocol: this.env?.DESKTOP_SERVER_APP_PROTOCOL ?? 'irtranscripts-server',
 			icon: 'hard-drive-outline'
 		},
 		{
 			labelKey: 'PLUGIN.DIALOG.APP_SELECTOR.API_SERVER',
 			descriptionKey: 'PLUGIN.DIALOG.APP_SELECTOR.API_SERVER_DESC',
-			protocol: this.env?.DESKTOP_API_SERVER_APP_PROTOCOL ?? 'gauzy-api-server',
+			protocol: this.env?.DESKTOP_API_SERVER_APP_PROTOCOL ?? 'irtranscripts-api-server',
 			icon: 'code-outline'
 		},
 		{
 			labelKey: 'PLUGIN.DIALOG.APP_SELECTOR.AGENT',
 			descriptionKey: 'PLUGIN.DIALOG.APP_SELECTOR.AGENT_DESC',
-			protocol: this.env?.AGENT_APP_PROTOCOL ?? 'gauzy-agent',
+			protocol: this.env?.AGENT_APP_PROTOCOL ?? 'irtranscripts-agent',
 			icon: 'person-outline'
 		}
 	];

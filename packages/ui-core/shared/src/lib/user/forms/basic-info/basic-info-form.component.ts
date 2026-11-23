@@ -14,11 +14,11 @@ import {
 	IImageAsset,
 	IEmployee,
 	ID
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { filter, firstValueFrom, tap } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import {
 	AuthService,
 	CandidatesService,
@@ -28,8 +28,8 @@ import {
 	CompareDateValidator,
 	UrlPatternValidator,
 	Store
-} from '@gauzy/ui-core/core';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
+} from '@irtranscripts/ui-core/core';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
 import { FormHelpers } from '../../../forms/helpers';
 
 @UntilDestroy({ checkProperties: true })

@@ -1,5 +1,5 @@
-import { ID, PluginScope, PluginSubscriptionStatus, IPagination } from '@gauzy/contracts';
-import { parseFindOptionsRelations } from '@gauzy/core';
+import { ID, PluginScope, PluginSubscriptionStatus, IPagination } from '@irtranscripts/contracts';
+import { parseFindOptionsRelations } from '@irtranscripts/core';
 import { Injectable, Logger } from '@nestjs/common';
 import { In } from 'typeorm';
 import { IPluginSubscription } from '../../shared';

@@ -1,6 +1,6 @@
 # SIM Integration Plugin
 
-This plugin provides integration between Ever Gauzy and SIM (Sim Studio) AI workflow automation platform. It uses the SIM TypeScript SDK (authenticated via API key) to execute AI agent workflows programmatically.
+This plugin provides integration between Ever IRTranscripts and SIM (Sim Studio) AI workflow automation platform. It uses the SIM TypeScript SDK (authenticated via API key) to execute AI agent workflows programmatically.
 
 ## Overview
 
@@ -11,9 +11,9 @@ The SIM integration allows tenant-level management of SIM AI workflows from your
 - **Job Status Polling** — Check the status of async workflow executions
 - **Workflow Validation** — Verify a workflow is deployed and ready for execution
 - **Execution History** — View paginated execution logs with filtering by workflow ID and status
-- **Event-Driven Triggers** — Trigger SIM workflows from internal Gauzy domain events
+- **Event-Driven Triggers** — Trigger SIM workflows from internal IRTranscripts domain events
 
-All API calls are authenticated using a SIM API key (per-tenant or global fallback via `GAUZY_SIM_API_KEY`).
+All API calls are authenticated using a SIM API key (per-tenant or global fallback via `IRTRANSCRIPTS_SIM_API_KEY`).
 
 ## Building
 
@@ -32,7 +32,7 @@ After building your library with `yarn nx build plugin-integration-sim`, go to t
 Install the Integration SIM Plugin using your preferred package manager:
 
 ```shell
-npm install @gauzy/plugin-integration-sim
+npm install @irtranscripts/plugin-integration-sim
 # or
-yarn add @gauzy/plugin-integration-sim
+yarn add @irtranscripts/plugin-integration-sim
 ```

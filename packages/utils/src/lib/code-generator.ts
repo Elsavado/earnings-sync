@@ -1,5 +1,5 @@
 import { randomInt } from 'node:crypto';
-import { ALPHA_NUMERIC_CODE_LENGTH } from '@gauzy/constants';
+import { ALPHA_NUMERIC_CODE_LENGTH } from '@irtranscripts/constants';
 
 /**
  * Generates a cryptographically secure random alphanumeric code.

@@ -4,9 +4,9 @@ import { QueryRunner } from 'typeorm';
 /** The three SQL families the plugin's migrations are written for. */
 export type EverWorksDialect = 'postgres' | 'sqlite' | 'mysql';
 
-/** The dialect of a query runner; anything else is refused (Gauzy supports these three). */
+/** The dialect of a query runner; anything else is refused (IRTranscripts supports these three). */
 export function dialectOf(queryRunner: QueryRunner): EverWorksDialect {
-	// A string: TypeORM 1 names no 'sqlite' driver, but Gauzy's DB_TYPE=sqlite runs on better-sqlite3.
+	// A string: TypeORM 1 names no 'sqlite' driver, but IRTranscripts's DB_TYPE=sqlite runs on better-sqlite3.
 	const type = String(queryRunner.connection.options.type);
 	if (type === 'postgres') return 'postgres';
 	if (type === 'sqlite' || type === 'better-sqlite3' || type === 'sqljs') return 'sqlite';
@@ -128,7 +128,7 @@ export async function addForeignKeyIfMissing(
 }
 
 /**
- * The columns every tenant- and organization-scoped Gauzy entity carries (`TenantOrganizationBaseEntity`),
+ * The columns every tenant- and organization-scoped IRTranscripts entity carries (`TenantOrganizationBaseEntity`),
  * as each dialect's `CREATE TABLE` writes them — the same spellings as the platform's own migrations.
  */
 export function baseColumns(dialect: EverWorksDialect): string {

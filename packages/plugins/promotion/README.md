@@ -1,4 +1,4 @@
-# @gauzy/plugin-promotion
+# @irtranscripts/plugin-promotion
 
 The promotion domain of the platform: campaigns and their budgets, promotions
 and the actions that describe their effect, the coupons that grant them, the

@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, type HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { API_ACTIVITY_WATCH_PREFIX, GAUZY_ENV } from '../constants';
+import { API_ACTIVITY_WATCH_PREFIX, IRTRANSCRIPTS_ENV } from '../constants';
 
 @Injectable()
 export class ActivityWatchInterceptor implements HttpInterceptor {
 	constructor(
-		@Inject(GAUZY_ENV)
+		@Inject(IRTRANSCRIPTS_ENV)
 		private readonly environment: any
 	) {}
 

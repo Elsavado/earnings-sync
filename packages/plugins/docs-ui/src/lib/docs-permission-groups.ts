@@ -1,4 +1,4 @@
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 
 /**
  * Frozen, shared permission arrays for `*ngxPermissionsOnly`.

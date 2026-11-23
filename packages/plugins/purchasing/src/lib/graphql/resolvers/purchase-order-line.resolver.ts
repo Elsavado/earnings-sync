@@ -1,8 +1,8 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Parent, ResolveField, Resolver } from '@nestjs/graphql';
-import { ID } from '@gauzy/contracts';
-import { FEATURE_GRAPHQL, FeatureFlagGuard, PermissionGuard, Permissions, TenantPermissionGuard } from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+import { ID } from '@irtranscripts/contracts';
+import { FEATURE_GRAPHQL, FeatureFlagGuard, PermissionGuard, Permissions, TenantPermissionGuard } from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { PurchasingFeatures } from '../../purchasing.features';
 import { IPurchaseOrder, IPurchaseOrderLine, PurchaseBillingPolicy } from '../../purchasing.types';
 import { PurchasingPermissions } from '../../purchasing.permissions';

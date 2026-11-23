@@ -85,10 +85,10 @@ $plus-glyph-size: 0.625rem;
   border: none;
   // Only ever visible through the focus outline, which follows the radius.
   // KEEP IN SYNC with `$menu-row-radius` in ../menu-item/menu-item.component.scss.
-  border-radius: var(--gauzy-radius-sm, 0.375rem);
+  border-radius: var(--irtranscripts-radius-sm, 0.375rem);
   background-color: transparent;
   line-height: 1;
-  // `inherit`, not nb-theme(gauzy-text-color-2): that token is undefined in the
+  // `inherit`, not nb-theme(irtranscripts-text-color-2): that token is undefined in the
   // material-* themes, and it would also freeze the button at the RESTING label
   // colour while the row around it brightens on hover/selection. Inheriting from
   // `.sub-item` tracks the row in every theme and every state.

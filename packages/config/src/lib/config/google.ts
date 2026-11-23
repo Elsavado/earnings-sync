@@ -1,5 +1,5 @@
 import { registerAs } from '@nestjs/config';
-import { IGoogleConfig } from '@gauzy/common';
+import { IGoogleConfig } from '@irtranscripts/common';
 
 /**
  * Register Google OAuth configuration using @nestjs/config

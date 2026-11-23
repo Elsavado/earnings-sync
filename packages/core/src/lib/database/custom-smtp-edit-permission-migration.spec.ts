@@ -76,7 +76,7 @@ describe('GrantCustomSmtpEditPermission1791000000573 — the write grant goes to
 	let dbPath: string;
 
 	beforeEach(async () => {
-		dbPath = path.join(os.tmpdir(), `gauzy-custom-smtp-edit-${process.pid}-${Date.now()}-${Math.random()}.sqlite3`);
+		dbPath = path.join(os.tmpdir(), `irtranscripts-custom-smtp-edit-${process.pid}-${Date.now()}-${Math.random()}.sqlite3`);
 		dataSource = new DataSource({
 			type: 'better-sqlite3',
 			database: dbPath,

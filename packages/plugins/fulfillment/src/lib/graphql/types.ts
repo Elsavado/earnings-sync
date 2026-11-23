@@ -1,11 +1,11 @@
-import { GraphqlConnection } from '@gauzy/core';
+import { GraphqlConnection } from '@irtranscripts/core';
 import {
 	IFulfillment,
 	IFulfillmentLine,
 	IShippingOption,
 	IShippingProfile,
 	IShippingProfileVariant
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 /**
  * The GraphQL type names of the fulfilment domain, bound to the contracts.

@@ -1,7 +1,7 @@
 import { BadRequestException, ConflictException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { In, IsNull, Repository } from 'typeorm';
-import { isBetterSqlite3, isSqlite } from '@gauzy/config';
-import { DocumentKindEnum, DocumentKnowledgeStatusEnum, DocumentReviewStatusEnum, ID } from '@gauzy/contracts';
+import { isBetterSqlite3, isSqlite } from '@irtranscripts/config';
+import { DocumentKindEnum, DocumentKnowledgeStatusEnum, DocumentReviewStatusEnum, ID } from '@irtranscripts/contracts';
 import {
 	DOCS_DELETE_REQUIRES_ARCHIVE,
 	DOCS_PARENT_NOT_CONTAINER,

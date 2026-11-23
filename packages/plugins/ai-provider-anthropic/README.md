@@ -1,7 +1,7 @@
-# @gauzy/plugin-ai-provider-anthropic
+# @irtranscripts/plugin-ai-provider-anthropic
 
-Anthropic (Claude) provider plugin for the Ever Gauzy AI chat engine
-([`@gauzy/plugin-ai-chat`](../ai-chat)). On bootstrap it registers the
+Anthropic (Claude) provider plugin for the Ever IRTranscripts AI chat engine
+([`@irtranscripts/plugin-ai-chat`](../ai-chat)). On bootstrap it registers the
 `anthropic` provider with the chat engine's `AiProviderRegistry`; models are
 created lazily through the ESM-only [`@ai-sdk/anthropic`](https://www.npmjs.com/package/@ai-sdk/anthropic)
 package (Vercel AI SDK).

@@ -12,7 +12,7 @@ import {
 } from '@nebular/theme';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslatePipe } from '@ngx-translate/core';
-import { EquipmentSharingPolicyService } from '@gauzy/ui-core/core';
+import { EquipmentSharingPolicyService } from '@irtranscripts/ui-core/core';
 import { EquipmentSharingPolicyMutationComponent } from './equipment-sharing-policy-mutation.component';
 
 @NgModule({

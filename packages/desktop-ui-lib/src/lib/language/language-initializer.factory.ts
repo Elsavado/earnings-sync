@@ -1,6 +1,6 @@
 import { firstValueFrom } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguagesEnum } from '@gauzy/contracts';
+import { LanguagesEnum } from '@irtranscripts/contracts';
 import { ElectronService } from '../electron/services';
 
 export function LanguageInitializerFactory(translate: TranslateService, electronService: ElectronService) {

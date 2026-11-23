@@ -9,7 +9,7 @@ import {
 	IAdjustmentReasonCreateInput,
 	IAdjustmentTotal,
 	ID
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { CrudService } from '../core/crud/crud.service';
 import { RequestContext } from '../core/context/request-context';
 import { Money } from '../money/money';

@@ -19,7 +19,7 @@ import {
 	NbTooltipModule
 } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
-import { SmartDataViewLayoutModule, SelectorsModule, SharedModule, TableComponentsModule } from '@gauzy/ui-core/shared';
+import { SmartDataViewLayoutModule, SelectorsModule, SharedModule, TableComponentsModule } from '@irtranscripts/ui-core/shared';
 import { IntegrationMakeComRoutes } from './integration-make-com.routes';
 import { IntegrationMakeComLayoutComponent } from './integration-make-com.layout.component';
 import { AuthorizationComponent } from './components/make-com-authorize/make-com-authorize.component';

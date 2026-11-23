@@ -17,7 +17,7 @@
  *   protocols that retire the same kind of row differently are two behaviours waiting to diverge.
  *
  * The four controllers are the real ones, the four resolvers are the real ones, and the document the
- * fields are read out of is the real one. What is doubled is `@gauzy/core`, which boots the whole
+ * fields are read out of is the real one. What is doubled is `@irtranscripts/core`, which boots the whole
  * application graph from its barrel — configuration, the ORM, the module scanner — and cannot be loaded
  * outside a running application, as this package's other specs record.
  *
@@ -32,7 +32,7 @@
  * — the rest parameter is handed over as the array it is, which is why the route and the field below
  * are one call with two spellings of "no find options" rather than two different calls.
  */
-jest.mock('@gauzy/common', () => {
+jest.mock('@irtranscripts/common', () => {
 	/**
 	 * Every feature code a class-level `@FeatureFlag` stated, by the class it was stated on.
 	 *
@@ -52,16 +52,16 @@ jest.mock('@gauzy/common', () => {
 	};
 });
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: no controller here is mapped onto a Nest application. */
 	const decorator = () => () => undefined;
 	// The kernel's own decorators where a case reads what they write: the permission a field states and
 	// the conventions it does or does not adopt are metadata, so a double of either would let a field
 	// disagree with its route and still pass.
-	const permissions = jest.requireActual('@gauzy/core/src/lib/shared/decorators/permissions.decorator');
-	const idempotency = jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.policy');
-	const concurrency = jest.requireActual('@gauzy/core/src/lib/concurrency/version.util');
-	const connection = jest.requireActual('@gauzy/core/src/lib/api/graphql-connection');
+	const permissions = jest.requireActual('@irtranscripts/core/src/lib/shared/decorators/permissions.decorator');
+	const idempotency = jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.policy');
+	const concurrency = jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util');
+	const connection = jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection');
 
 	/**
 	 * The two inherited routes, with the kernel's own delegations.
@@ -97,17 +97,17 @@ jest.mock('@gauzy/core', () => {
 	return {
 		// The shared GraphQL gate, which the resolvers read from the public barrel rather than from a path into
 		// the kernel's sources: the declaring module's own value, so the assertions below compare against it.
-		FEATURE_GRAPHQL: jest.requireActual('@gauzy/core/src/lib/feature/graphql-feature.code').FEATURE_GRAPHQL,
+		FEATURE_GRAPHQL: jest.requireActual('@irtranscripts/core/src/lib/feature/graphql-feature.code').FEATURE_GRAPHQL,
 		ExportRedacted: decorator,
 		CrudController,
 		CrudService,
 		TenantAwareCrudService,
 		Permissions: permissions.Permissions,
 		IDEMPOTENT_METADATA_KEY: idempotency.IDEMPOTENT_METADATA_KEY,
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
-		Versioned: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned.decorator').Versioned,
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		Versioned: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned.decorator').Versioned,
 		VERSIONED_METADATA_KEY: concurrency.VERSIONED_METADATA_KEY,
-		versionExpectationOf: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		versionExpectationOf: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.versionExpectationOf,
 		PermissionGuard: class PermissionGuard {},
 		TenantPermissionGuard: class TenantPermissionGuard {},
@@ -146,9 +146,9 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
-		divideDecimalUnits: jest.requireActual('@gauzy/core/src/lib/money/decimal').divideDecimalUnits,
-		formatDecimalUnits: jest.requireActual('@gauzy/core/src/lib/money/decimal').formatDecimalUnits,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
+		divideDecimalUnits: jest.requireActual('@irtranscripts/core/src/lib/money/decimal').divideDecimalUnits,
+		formatDecimalUnits: jest.requireActual('@irtranscripts/core/src/lib/money/decimal').formatDecimalUnits,
 		// The page window and the cursor codec the list fields page with are the kernel's own: a double of
 		// the module this plugin re-exports would let the two surfaces drift in a suite that still passed.
 		DEFAULT_CONNECTION_PAGE_SIZE: connection.DEFAULT_CONNECTION_PAGE_SIZE,
@@ -176,15 +176,15 @@ jest.mock('../../subscription-billing/subscription-billing.service', () => ({
 
 import { HttpException } from '@nestjs/common';
 import { FieldDefinitionNode, ObjectTypeDefinitionNode, ObjectTypeExtensionNode, TypeNode } from 'graphql';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { IDEMPOTENT_METADATA_KEY, PermissionGuard, TenantPermissionGuard, VERSIONED_METADATA_KEY } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { IDEMPOTENT_METADATA_KEY, PermissionGuard, TenantPermissionGuard, VERSIONED_METADATA_KEY } from '@irtranscripts/core';
 import { SubscriptionPermissions } from '../../subscription.permissions';
 import { SubscriptionBillingController } from '../../subscription-billing/subscription-billing.controller';
 import { SubscriptionItemController } from '../../subscription-item/subscription-item.controller';
 import { SubscriptionPlanController } from '../../subscription-plan/subscription-plan.controller';
 import { SubscriptionController } from '../../subscription/subscription.controller';
 import { schemaExtensions } from '../schema-extensions';
-import { FEATURE_GRAPHQL } from '@gauzy/core/src/lib/feature/graphql-feature.code';
+import { FEATURE_GRAPHQL } from '@irtranscripts/core/src/lib/feature/graphql-feature.code';
 import { SubscriptionFeatures } from '../../subscription.features';
 import { SubscriptionBillingResolver } from './subscription-billing.resolver';
 import { SubscriptionItemResolver } from './subscription-item.resolver';
@@ -581,7 +581,7 @@ describe('the soft-delete pair — the permission, the guards and the convention
  * plugin's half: the codes each class states, read off the decorator as it was applied.
  */
 describe('the plugin feature gate — every resolver states the code its REST controller states', () => {
-	const { declaredFeatureCodes } = jest.requireMock('@gauzy/common') as {
+	const { declaredFeatureCodes } = jest.requireMock('@irtranscripts/common') as {
 		declaredFeatureCodes: Map<unknown, string[]>;
 	};
 

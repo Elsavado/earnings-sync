@@ -2,10 +2,10 @@ import { ChangeDetectorRef, Directive, OnDestroy } from '@angular/core';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
-import { ALPHA_NUMERIC_CODE_LENGTH, patterns } from '@gauzy/constants';
-import { IAuthResponse, IUserSigninWorkspaceResponse, IWorkspaceResponse } from '@gauzy/contracts';
-import { ErrorHandlingService, Store, WorkspaceAuthService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { ALPHA_NUMERIC_CODE_LENGTH, patterns } from '@irtranscripts/constants';
+import { IAuthResponse, IUserSigninWorkspaceResponse, IWorkspaceResponse } from '@irtranscripts/contracts';
+import { ErrorHandlingService, Store, WorkspaceAuthService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { CountdownTimerService } from './countdown-timer.service';
 
 /**

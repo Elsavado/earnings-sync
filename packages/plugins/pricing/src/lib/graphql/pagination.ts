@@ -4,7 +4,7 @@ import {
 	decodeOffsetCursor,
 	encodeOffsetCursor,
 	resolveConnectionWindow
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 
 /**
  * This package's connection helpers, which are the kernel's.

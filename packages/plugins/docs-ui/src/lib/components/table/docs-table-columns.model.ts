@@ -6,7 +6,7 @@ import { DOCS_NARROW_BREAKPOINT_PX, DOCS_TABLE_COLUMNS_KEY } from '../../docs.co
  *
  * Two independent inputs decide whether a column renders:
  *
- * 1. the **stored per-user preference** (`localStorage['gauzy_docs_columns']`), and
+ * 1. the **stored per-user preference** (`localStorage['irtranscripts_docs_columns']`), and
  * 2. the **narrow-viewport defaults**, which hide the three low-priority columns
  *    below the `lg` breakpoint.
  *

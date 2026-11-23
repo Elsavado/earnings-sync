@@ -14,13 +14,13 @@ const run = require('./index.cjs');
 const MANIFEST = [
 	'version: 111.136.7',
 	'files:',
-	'  - url: gauzy-desktop-timer-x64-111.136.7.zip',
+	'  - url: irtranscripts-desktop-timer-x64-111.136.7.zip',
 	'    sha512: ZmFrZQ==',
 	'    size: 189861577',
-	'  - url: gauzy-desktop-timer-arm64-111.136.7.zip',
+	'  - url: irtranscripts-desktop-timer-arm64-111.136.7.zip',
 	'    sha512: ZmFrZQ==',
 	'    size: 183544209',
-	'path: gauzy-desktop-timer-x64-111.136.7.zip',
+	'path: irtranscripts-desktop-timer-x64-111.136.7.zip',
 	'sha512: ZmFrZQ==',
 	"releaseDate: '2026-10-24T18:02:41.123Z'",
 	''
@@ -98,17 +98,17 @@ test('refuses what it cannot edit safely', () => {
 
 const PACKAGE = {
 	version: '111.136.7',
-	build: { publish: [{ provider: 'github', owner: 'ever-co', repo: 'ever-gauzy-desktop-timer', releaseType: 'prerelease' }] }
+	build: { publish: [{ provider: 'github', owner: 'ever-co', repo: 'ever-irtranscripts-desktop-timer', releaseType: 'prerelease' }] }
 };
 
 test('resolveTarget uses the gate tag and checks it against the published package', () => {
-	const target = { owner: 'ever-co', repo: 'ever-gauzy-desktop-timer' };
+	const target = { owner: 'ever-co', repo: 'ever-irtranscripts-desktop-timer' };
 	assert.deepEqual(resolveTarget({ ...target, tag: 'v111.136.7', appPackage: PACKAGE }), { ...target, tag: 'v111.136.7' });
 	assert.deepEqual(resolveTarget({ ...target, tag: 'v111.136.7', appPackage: null }), { ...target, tag: 'v111.136.7' });
 	assert.deepEqual(resolveTarget({ ...target, tag: '', appPackage: PACKAGE }), { ...target, tag: 'v111.136.7' });
-	assert.deepEqual(resolveTarget({ owner: 'Ever-Co', repo: 'ever-gauzy-desktop-timer', tag: '', appPackage: PACKAGE }).tag, 'v111.136.7');
+	assert.deepEqual(resolveTarget({ owner: 'Ever-Co', repo: 'ever-irtranscripts-desktop-timer', tag: '', appPackage: PACKAGE }).tag, 'v111.136.7');
 	assert.throws(() => resolveTarget({ ...target, tag: 'v111.136.8', appPackage: PACKAGE }), /not the one electron-builder published to/);
-	assert.throws(() => resolveTarget({ ...target, repo: 'ever-gauzy-desktop', tag: '', appPackage: PACKAGE }), /ever-co\/ever-gauzy-desktop-timer/);
+	assert.throws(() => resolveTarget({ ...target, repo: 'ever-irtranscripts-desktop', tag: '', appPackage: PACKAGE }), /ever-co\/ever-irtranscripts-desktop-timer/);
 	assert.throws(() => resolveTarget({ ...target, tag: 'stage', appPackage: null }), /vX\.Y\.Z/);
 	assert.throws(() => resolveTarget({ owner: '', repo: 'x', tag: 'v1.0.0', appPackage: null }), /required/);
 	assert.ok(resolveTarget({ ...target, tag: '', appPackage: null }).skip);
@@ -192,7 +192,7 @@ function fakeCore() {
 
 const ENV = {
 	RELEASE_OWNER: 'ever-co',
-	RELEASE_REPO: 'ever-gauzy-desktop-timer',
+	RELEASE_REPO: 'ever-irtranscripts-desktop-timer',
 	RELEASE_TAG: 'v111.136.7',
 	APP_PACKAGE_JSON: '',
 	MINIMUM_SYSTEM_VERSION: '22.0.0'
@@ -209,14 +209,14 @@ const releaseWith = (assets, extra = {}) => ({
 const WRITES = ['uploadReleaseAsset', 'deleteReleaseAsset', 'updateReleaseAsset'];
 
 test('swaps in the edited manifest through a staged asset and verifies it', async () => {
-	const release = releaseWith([{ name: 'gauzy-desktop-timer-x64-111.136.7.dmg', content: 'dmg' }, { name: 'latest-mac.yml', content: MANIFEST }]);
+	const release = releaseWith([{ name: 'irtranscripts-desktop-timer-x64-111.136.7.dmg', content: 'dmg' }, { name: 'latest-mac.yml', content: MANIFEST }]);
 	const { github, calls } = fakeGitHub({ releases: [release] });
 	const core = fakeCore();
 	const sleeps = [];
 	const result = await run({ github, core, env: ENV, sleep: async (ms) => sleeps.push(ms) });
 
 	assert.equal(result.changed, true);
-	assert.deepEqual(release.assets.map((asset) => asset.name), ['gauzy-desktop-timer-x64-111.136.7.dmg', 'latest-mac.yml']);
+	assert.deepEqual(release.assets.map((asset) => asset.name), ['irtranscripts-desktop-timer-x64-111.136.7.dmg', 'latest-mac.yml']);
 	const manifest = release.assets.find((asset) => asset.name === 'latest-mac.yml');
 	assert.equal(manifest.content, `${MANIFEST}minimumSystemVersion: 22.0.0\n`);
 	assert.equal(manifest.content_type, 'application/x-yaml');
@@ -281,7 +281,7 @@ test('fails fast on a token problem', async () => {
 });
 
 test('fails when the release has no latest-mac.yml after the retries', async () => {
-	const release = releaseWith([{ name: 'gauzy-desktop-timer-x64-111.136.7.dmg', content: 'dmg' }]);
+	const release = releaseWith([{ name: 'irtranscripts-desktop-timer-x64-111.136.7.dmg', content: 'dmg' }]);
 	const { github } = fakeGitHub({ releases: [release] });
 	const sleeps = [];
 	await assert.rejects(run({ github, core: fakeCore(), env: ENV, sleep: async (ms) => sleeps.push(ms) }), /latest-mac\.yml is not among/);

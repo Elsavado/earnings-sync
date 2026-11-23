@@ -1,6 +1,6 @@
 // cspell:ignore tokeninfo
-import { ProviderEnum } from '@gauzy/contracts';
-import { environment, ISocialAuthClientsConfig, ISocialAuthOAuthApp } from '@gauzy/config';
+import { ProviderEnum } from '@irtranscripts/contracts';
+import { environment, ISocialAuthClientsConfig, ISocialAuthOAuthApp } from '@irtranscripts/config';
 import { HttpService } from '@nestjs/axios';
 import { Logger, UnauthorizedException } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';

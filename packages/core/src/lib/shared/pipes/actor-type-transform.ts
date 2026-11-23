@@ -1,5 +1,5 @@
 import { ValueTransformer } from 'typeorm';
-import { ActorTypeEnum } from '@gauzy/contracts';
+import { ActorTypeEnum } from '@irtranscripts/contracts';
 
 /**
  * ActorTypeTransformer handles the conversion between the enum string values

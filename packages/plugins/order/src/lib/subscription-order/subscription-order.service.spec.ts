@@ -2,7 +2,7 @@
  * The order a subscription cycle bills, raised through the ordinary order path.
  *
  * Two module boundaries are doubled here, for the reason the order service's own suite states: the
- * `@gauzy/core` barrel boots the whole application graph, and the cart package's barrel re-exports the
+ * `@irtranscripts/core` barrel boots the whole application graph, and the cart package's barrel re-exports the
  * cart plugin class, which imports the catalogue plugin and the rest of the marketplace — so reading
  * one order would otherwise load every package on the platform. The order package's own services are
  * therefore the **real** ones, over one in-memory datastore: the real `OrderService` numbers, places,
@@ -25,7 +25,7 @@
  * - a request the capability cannot serve is refused with a named code, and a key that already raised
  *   an order for another request can never raise a second one.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
@@ -136,10 +136,10 @@ jest.mock('@gauzy/core', () => {
 
 	return {
 		// The statement helpers are pure and dialect-driven; loading the real module here would pull
-		// `@gauzy/config` and the request context into a suite that doubles the barrel on purpose.
+		// `@irtranscripts/config` and the request context into a suite that doubles the barrel on purpose.
 		quoteIdentifier: (identifier: string) => `"${identifier}"`,
 		prepareSQLQuery: (query: string) => query,
-		...jest.requireActual('@gauzy/core/src/lib/money/decimal'),
+		...jest.requireActual('@irtranscripts/core/src/lib/money/decimal'),
 		CrudService,
 		TenantAwareCrudService,
 		BaseEntity,
@@ -156,15 +156,15 @@ jest.mock('@gauzy/core', () => {
 		Idempotent: decorator,
 		Versioned: decorator,
 		VersionedColumn: decorator,
-		commitVersionedUpdate: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		commitVersionedUpdate: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.commitVersionedUpdate,
-		versionExpectationOf: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		versionExpectationOf: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.versionExpectationOf,
 		// Added when the totals writer began retrying a wildcard write that lost the version race: it tells that
 		// refusal apart by this class and its code, and a double without them would turn any failure of a
 		// recomputation into a `TypeError` about the double.
-		ApiException: jest.requireActual('@gauzy/core/src/lib/core/errors/api-exception').ApiException,
-		ApiErrorCode: jest.requireActual('@gauzy/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
+		ApiException: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-exception').ApiException,
+		ApiErrorCode: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
 		ColumnNumericTransformerPipe: class {
 			to(value: unknown) {
 				return value;
@@ -173,11 +173,11 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
-		isValidDecimalString: jest.requireActual('@gauzy/core/src/lib/money/decimal').isValidDecimalString,
-		normalizeDecimalString: jest.requireActual('@gauzy/core/src/lib/money/decimal').normalizeDecimalString,
-		compareDecimalStrings: jest.requireActual('@gauzy/core/src/lib/money/decimal').compareDecimalStrings,
-		addDecimalStrings: jest.requireActual('@gauzy/core/src/lib/money/decimal').addDecimalStrings,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
+		isValidDecimalString: jest.requireActual('@irtranscripts/core/src/lib/money/decimal').isValidDecimalString,
+		normalizeDecimalString: jest.requireActual('@irtranscripts/core/src/lib/money/decimal').normalizeDecimalString,
+		compareDecimalStrings: jest.requireActual('@irtranscripts/core/src/lib/money/decimal').compareDecimalStrings,
+		addDecimalStrings: jest.requireActual('@irtranscripts/core/src/lib/money/decimal').addDecimalStrings,
 		// The order's cross-tenant reference check reads a real database, which this suite has none of
 		assertPlainReferencesNotForeign: async () => undefined,
 		RequestContext: scope,
@@ -194,12 +194,12 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-jest.mock('@gauzy/plugin-cart', () => ({
+jest.mock('@irtranscripts/plugin-cart', () => ({
 	CommerceCartService: class {},
-	TotalsCalculator: jest.requireActual('@gauzy/plugin-cart/src/lib/totals/totals-calculator').TotalsCalculator
+	TotalsCalculator: jest.requireActual('@irtranscripts/plugin-cart/src/lib/totals/totals-calculator').TotalsCalculator
 }));
-jest.mock('@gauzy/plugin-pricing', () => ({ PricePreferenceService: class {} }));
-jest.mock('@gauzy/plugin-tax', () => ({ TaxRateService: class {} }));
+jest.mock('@irtranscripts/plugin-pricing', () => ({ PricePreferenceService: class {} }));
+jest.mock('@irtranscripts/plugin-tax', () => ({ TaxRateService: class {} }));
 
 import {
 	AdjustmentOwnerType,
@@ -209,8 +209,8 @@ import {
 	OrderStatus,
 	OrderTransactionType,
 	TaxLineOwnerType
-} from '@gauzy/contracts';
-import { Product } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { Product } from '@irtranscripts/core';
 import { OrderAddressService } from '../order-address/order-address.service';
 import { OrderCreditLineService } from '../order-credit-line/order-credit-line.service';
 import { OrderHistoryService } from '../order-history/order-history.service';

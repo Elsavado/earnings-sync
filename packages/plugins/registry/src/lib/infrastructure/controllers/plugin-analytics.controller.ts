@@ -1,5 +1,5 @@
-import { ID } from '@gauzy/contracts';
-import { PermissionGuard, TenantPermissionGuard } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { PermissionGuard, TenantPermissionGuard } from '@irtranscripts/core';
 import { Controller, Get, HttpStatus, ParseUUIDPipe, Query, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { PluginTagService } from '../../domain/services/plugin-tag.service';

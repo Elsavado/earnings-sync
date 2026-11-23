@@ -236,13 +236,13 @@ const CORE_ENTITY_MODULES = ['search'];
  * `table → column → the set that creates it`.
  */
 const CROSS_PACKAGE_AMENDMENTS = {
-	fulfillment: { sellerId: '@gauzy/plugin-marketplace (doc 20 §13.7)' },
-	order_return: { sellerId: '@gauzy/plugin-marketplace (doc 20 §13.7)' },
-	product_price: { sellerId: '@gauzy/plugin-marketplace (doc 20 §13.7)' },
+	fulfillment: { sellerId: '@irtranscripts/plugin-marketplace (doc 20 §13.7)' },
+	order_return: { sellerId: '@irtranscripts/plugin-marketplace (doc 20 §13.7)' },
+	product_price: { sellerId: '@irtranscripts/plugin-marketplace (doc 20 §13.7)' },
 	promotion: {
-		fundingType: '@gauzy/plugin-marketplace (doc 20 §13.7)',
-		sellerFundingShare: '@gauzy/plugin-marketplace (doc 20 §13.7)',
-		sellerId: '@gauzy/plugin-marketplace (doc 20 §13.7)'
+		fundingType: '@irtranscripts/plugin-marketplace (doc 20 §13.7)',
+		sellerFundingShare: '@irtranscripts/plugin-marketplace (doc 20 §13.7)',
+		sellerId: '@irtranscripts/plugin-marketplace (doc 20 §13.7)'
 	}
 };
 
@@ -299,7 +299,7 @@ for (const [plugin, tables] of Object.entries(PLUGINS)) {
 			check(`${at}: package.json parses`, false, error.message);
 		}
 		if (pkg) {
-			check(`${at}: package name`, pkg.name === `@gauzy/plugin-${plugin}`, `is "${pkg.name}"`);
+			check(`${at}: package name`, pkg.name === `@irtranscripts/plugin-${plugin}`, `is "${pkg.name}"`);
 			check(`${at}: package has an entry point`, Boolean(pkg.main), 'no "main"');
 		}
 	}
@@ -357,7 +357,7 @@ for (const [plugin, tables] of Object.entries(PLUGINS)) {
 
 		for (const file of sources) {
 			const source = read(file);
-			for (const match of source.matchAll(/import\s+(?!type\b)[\s\S]{0,120}?from\s*['"](@gauzy\/plugin-[\w-]+)['"]/g)) {
+			for (const match of source.matchAll(/import\s+(?!type\b)[\s\S]{0,120}?from\s*['"](@irtranscripts\/plugin-[\w-]+)['"]/g)) {
 				imported.add(match[1]);
 			}
 		}

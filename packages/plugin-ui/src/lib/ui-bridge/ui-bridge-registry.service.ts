@@ -49,7 +49,7 @@ export interface BridgeRegistrationOptions {
  * registry.register(new ReactBridge());
  *
  * // Lazy registration (loaded on first use)
- * registry.registerLazy('react', () => import('@gauzy/plugin-ui').then(m => new m.ReactBridge()));
+ * registry.registerLazy('react', () => import('@irtranscripts/plugin-ui').then(m => new m.ReactBridge()));
  *
  * // Get a bridge (loads lazily if needed)
  * const bridge = await registry.getAsync('react');

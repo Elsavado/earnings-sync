@@ -1,6 +1,6 @@
 import { NotFoundException, ParseUUIDPipe, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { FeatureFlag } from '@gauzy/common';
+import { FeatureFlag } from '@irtranscripts/common';
 import { UnitCategory } from './unit-category.entity';
 import { UnitCategoryService } from './unit-category.service';
 import { MEASUREMENT_PERMISSIONS } from './measurement.permissions';

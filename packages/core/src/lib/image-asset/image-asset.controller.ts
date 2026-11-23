@@ -21,7 +21,7 @@ import { FindOptionsWhere } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import * as path from 'path';
 import { createImageThumbnail, fileContentToBuffer, thumbnailFileName } from './../core/file-storage/helpers';
-import { IImageAsset, IPagination, PermissionsEnum, UploadedFile } from '@gauzy/contracts';
+import { IImageAsset, IPagination, PermissionsEnum, UploadedFile } from '@irtranscripts/contracts';
 import { CrudController, BaseQueryDTO } from './../core/crud';
 import {
 	assertNotMarkupContent,

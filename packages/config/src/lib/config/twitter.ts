@@ -1,5 +1,5 @@
 import { registerAs } from '@nestjs/config';
-import { ITwitterConfig } from '@gauzy/common';
+import { ITwitterConfig } from '@irtranscripts/common';
 
 /**
  * Register Twitter OAuth configuration using @nestjs/config

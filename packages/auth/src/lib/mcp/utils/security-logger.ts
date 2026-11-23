@@ -110,7 +110,7 @@ export class SecurityLogger {
 
 	// Instance methods for easier usage in middleware
 	debug(message: string, data?: Record<string, unknown>): void {
-		if (!isProduction || process.env.GAUZY_MCP_DEBUG === 'true') {
+		if (!isProduction || process.env.IRTRANSCRIPTS_MCP_DEBUG === 'true') {
 			logger.debug(message, SecurityLogger.safeStringify(data));
 		}
 	}

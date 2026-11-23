@@ -1,4 +1,4 @@
-import { IntegrationEntity } from '@gauzy/contracts';
+import { IntegrationEntity } from '@irtranscripts/contracts';
 
 /**
  * Default settings for entities that will be synchronized.

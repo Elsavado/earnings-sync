@@ -1,5 +1,5 @@
 import { ICommand } from "@nestjs/cqrs";
-import { ID, ISharedEntityUpdateInput } from "@gauzy/contracts";
+import { ID, ISharedEntityUpdateInput } from "@irtranscripts/contracts";
 
 export class SharedEntityUpdateCommand implements ICommand {
     static readonly type = '[SharedEntity] Update';

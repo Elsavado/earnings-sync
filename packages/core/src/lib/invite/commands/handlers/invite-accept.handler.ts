@@ -1,6 +1,6 @@
 import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { BadRequestException, UnauthorizedException } from '@nestjs/common';
-import { IInvite, IUser, RolesEnum } from '@gauzy/contracts';
+import { IInvite, IUser, RolesEnum } from '@irtranscripts/contracts';
 import { AuthService } from './../../../auth/auth.service';
 import { UserService } from './../../../user/user.service';
 import { EmployeeService } from './../../../employee/employee.service';

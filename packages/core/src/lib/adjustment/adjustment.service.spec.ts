@@ -8,7 +8,7 @@ jest.mock('../core/crud/crud.service', () => {
 	return { CrudService };
 });
 
-import { AdjustmentOwnerType, AdjustmentType, IAdjustmentCreateInput } from '@gauzy/contracts';
+import { AdjustmentOwnerType, AdjustmentType, IAdjustmentCreateInput } from '@irtranscripts/contracts';
 import { Money } from '../money/money';
 import { RequestContext } from '../core/context/request-context';
 import { AdjustmentService } from './adjustment.service';

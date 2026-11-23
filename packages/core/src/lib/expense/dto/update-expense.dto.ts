@@ -1,4 +1,4 @@
-import { IExpenseUpdateInput } from '@gauzy/contracts';
+import { IExpenseUpdateInput } from '@irtranscripts/contracts';
 import { IntersectionType } from '@nestjs/mapped-types';
 import { RelationalCurrencyDTO } from './../../currency/dto';
 import { OrganizationVendorFeatureDTO } from '../../organization-vendor/dto';

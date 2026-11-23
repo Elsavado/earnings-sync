@@ -1,5 +1,5 @@
 import { IntersectionType } from '@nestjs/swagger';
-import { IEmployeeSettingCreateInput } from '@gauzy/contracts';
+import { IEmployeeSettingCreateInput } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../core/dto';
 import { EmployeeSetting } from '../employee-setting.entity';
 

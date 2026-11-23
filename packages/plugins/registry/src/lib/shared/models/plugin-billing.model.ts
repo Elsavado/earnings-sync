@@ -1,4 +1,4 @@
-import { ID, IPluginBilling as PluginBillingModel } from '@gauzy/contracts';
+import { ID, IPluginBilling as PluginBillingModel } from '@irtranscripts/contracts';
 
 /**
  * Interface for plugin billing records

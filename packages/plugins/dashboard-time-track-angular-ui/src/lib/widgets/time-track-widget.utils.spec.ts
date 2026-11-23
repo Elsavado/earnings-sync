@@ -1,6 +1,6 @@
 import * as moment from 'moment';
-import type { IOrganization } from '@gauzy/contracts';
-import type { IDashboardWidgetContext } from '@gauzy/ui-core/core';
+import type { IOrganization } from '@irtranscripts/contracts';
+import type { IDashboardWidgetContext } from '@irtranscripts/ui-core/core';
 import {
 	isCurrentWeekRange,
 	isMoreThanWeekRange,

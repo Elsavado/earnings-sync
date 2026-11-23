@@ -48,7 +48,7 @@ jest.mock('../core/context/request-context', () => ({
 	}
 }));
 
-import { ContactGroupSource, ContactGroupType } from '@gauzy/contracts';
+import { ContactGroupSource, ContactGroupType } from '@irtranscripts/contracts';
 import { SubscriptionCatalogue } from '../graphql/subscriptions/subscription-catalogue';
 import { ContactGroupService } from '../contact-group/contact-group.service';
 import {

@@ -1,7 +1,7 @@
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { Injectable } from '@nestjs/common';
-import { ITimeLog } from '@gauzy/contracts';
-import { TimerStoppedEvent } from '@gauzy/core';
+import { ITimeLog } from '@irtranscripts/contracts';
+import { TimerStoppedEvent } from '@irtranscripts/core';
 import { WebhookService } from '../webhook.service';
 
 @Injectable()

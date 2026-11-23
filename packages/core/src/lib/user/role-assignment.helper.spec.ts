@@ -1,5 +1,5 @@
 import { BadRequestException, ForbiddenException } from '@nestjs/common';
-import { RolesEnum } from '@gauzy/contracts';
+import { RolesEnum } from '@irtranscripts/contracts';
 import {
 	assertRoleAssignmentAllowed,
 	extractRoleIds,

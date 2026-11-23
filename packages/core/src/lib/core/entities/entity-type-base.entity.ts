@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsUUID } from 'class-validator';
-import { BaseEntityEnum, IBasePerEntityType, ID } from '@gauzy/contracts';
+import { BaseEntityEnum, IBasePerEntityType, ID } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseEntity } from '../entities/internal';
 import { MultiORMColumn } from '../decorators';
 import { ColumnIndex } from '../decorators/entity/column-index.decorator';

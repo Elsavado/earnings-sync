@@ -42,7 +42,7 @@
 import { Injectable, Optional } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, SelectQueryBuilder } from 'typeorm';
-import { DecimalString, ID } from '@gauzy/contracts';
+import { DecimalString, ID } from '@irtranscripts/contracts';
 import {
 	RequestContext,
 	WarehouseProductVariant,
@@ -51,7 +51,7 @@ import {
 	formatDecimalUnits,
 	pow10,
 	subtractDecimalStrings
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { InventoryOrmConnection } from './../inventory.connection';
 import { StockLevelService } from './../stock-level/stock-level.service';
 import { IStockAvailabilityQuery, IStockSellability, UNBOUNDED_SELLABLE } from './stock-availability.types';

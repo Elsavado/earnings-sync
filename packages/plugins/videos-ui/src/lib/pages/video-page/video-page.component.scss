@@ -2,7 +2,7 @@
 
 .custom-card {
   height: calc(100vh - 17.5rem);
-  background-color: var(--gauzy-card-2);
+  background-color: var(--irtranscripts-card-2);
   border-radius: 0 0 var(--border-radius) var(--border-radius);
   display: flex;
   flex-direction: column;
@@ -43,7 +43,7 @@
   // trailing edge under RTL the way `flex-end` above already does.
   padding-inline-end: 1rem;
 
-  ::ng-deep ngx-gauzy-filters {
+  ::ng-deep ngx-irtranscripts-filters {
     .main-wrapper {
       width: 100%;
       margin: 0;
@@ -66,22 +66,22 @@
 :host plug-video-item ::ng-deep {
   .title,
   .author {
-    font-size: nb-theme(gauzy-table-header-font-size);
+    font-size: nb-theme(irtranscripts-table-header-font-size);
   }
 
   .video-player .duration {
-    font-size: nb-theme(gauzy-table-header-font-size);
+    font-size: nb-theme(irtranscripts-table-header-font-size);
     font-variant-numeric: tabular-nums;
   }
 }
 
 :host plug-video-item ::ng-deep #item + div {
-  font-size: nb-theme(gauzy-table-header-font-size);
+  font-size: nb-theme(irtranscripts-table-header-font-size);
 }
 
 :host ngx-no-data-message ::ng-deep {
   h5,
   div {
-    font-size: nb-theme(gauzy-table-header-font-size);
+    font-size: nb-theme(irtranscripts-table-header-font-size);
   }
 }

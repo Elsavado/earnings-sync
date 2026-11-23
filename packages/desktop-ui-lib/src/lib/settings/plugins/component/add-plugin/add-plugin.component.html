@@ -42,7 +42,7 @@
 					<nb-card-body>
 						<div class="option-icon-container local">
 							<nb-icon
-								*gauzySpinnerButton="installing"
+								*irtranscriptsSpinnerButton="installing"
 								icon="monitor-outline"
 								class="option-icon"
 							></nb-icon>
@@ -151,7 +151,7 @@
 				class="submit-button"
 			>
 				<span>{{ 'BUTTONS.INSTALL' | translate }}</span>
-				<nb-icon *gauzySpinnerButton="installing" icon="cloud-download-outline"></nb-icon>
+				<nb-icon *irtranscriptsSpinnerButton="installing" icon="cloud-download-outline"></nb-icon>
 			</button>
 		</form>
 		} @else if (isNpmContext()) {
@@ -273,7 +273,7 @@
 				class="submit-button"
 			>
 				<span>{{ 'BUTTONS.INSTALL' | translate }}</span>
-				<nb-icon *gauzySpinnerButton="installing" icon="cloud-download-outline"></nb-icon>
+				<nb-icon *irtranscriptsSpinnerButton="installing" icon="cloud-download-outline"></nb-icon>
 			</button>
 		</form>
 		}

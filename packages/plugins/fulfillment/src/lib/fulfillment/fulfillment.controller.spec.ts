@@ -1,8 +1,8 @@
 /**
- * Three module boundaries are doubled, and the reason is the same for all three: `@gauzy/core` boots
+ * Three module boundaries are doubled, and the reason is the same for all three: `@irtranscripts/core` boots
  * the whole application graph from its barrel — and its nested `uuid` is ESM-only, so reading one
- * entity under jest fails — while `@gauzy/plugin-order`'s barrel re-exports the whole order and cart
- * domain and `@gauzy/common` is read by the feature-flag decorator. None of them is something a
+ * entity under jest fails — while `@irtranscripts/plugin-order`'s barrel re-exports the whole order and cart
+ * domain and `@irtranscripts/common` is read by the feature-flag decorator. None of them is something a
  * shipment's retry contract needs.
  *
  * **Retry safety and optimistic concurrency are the two seams left real.** `Idempotent`, `Versioned`,
@@ -16,13 +16,13 @@
  * mutations mirror it, each reached through its own prototype method so the declaration under test is
  * read from the route rather than restated here, over a stubbed service.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { SetMetadata, UsePipes, ValidationPipe } = require('@nestjs/common');
-	const { PERMISSIONS_METADATA } = require('@gauzy/constants');
-	const idempotency = jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.policy');
-	const decimals = jest.requireActual('@gauzy/core/src/lib/money/decimal');
-	const versioned = jest.requireActual('@gauzy/core/src/lib/concurrency/versioned.decorator');
-	const versionedWrite = jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write');
+	const { PERMISSIONS_METADATA } = require('@irtranscripts/constants');
+	const idempotency = jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.policy');
+	const decimals = jest.requireActual('@irtranscripts/core/src/lib/money/decimal');
+	const versioned = jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned.decorator');
+	const versionedWrite = jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
@@ -77,7 +77,7 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		compareDecimalStrings: decimals.compareDecimalStrings,
 		BaseEvent: class {},
 		EventBus: class {},
@@ -94,7 +94,7 @@ jest.mock('@gauzy/core', () => {
 		// line rather than a no-op.
 		UseValidationPipe: (options: unknown) => UsePipes(new ValidationPipe(options as never)),
 		Permissions: (...permissions: string[]) => SetMetadata(PERMISSIONS_METADATA, permissions),
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
 		IDEMPOTENT_METADATA_KEY: idempotency.IDEMPOTENCY_METADATA_KEY,
 		Versioned: versioned.Versioned,
 		commitVersionedUpdate: versionedWrite.commitVersionedUpdate,
@@ -110,7 +110,7 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-jest.mock('@gauzy/plugin-order', () => ({
+jest.mock('@irtranscripts/plugin-order', () => ({
 	// The counter writer is a collaborator of this package, not of the thing under test: the suite hands
 	// the controller a stubbed service, so the class here is only the module's identity.
 	OrderLineService: class OrderLineService {}
@@ -123,19 +123,19 @@ jest.mock('@gauzy/plugin-order', () => ({
  * doubled at its own module: the interceptor under test is the real one, and the store it calls is the
  * in-memory double the cases below hand it.
  */
-jest.mock('@gauzy/core/src/lib/idempotency/idempotency.service', () => ({
+jest.mock('@irtranscripts/core/src/lib/idempotency/idempotency.service', () => ({
 	IdempotencyService: class IdempotencyService {}
 }));
 
 import { ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { from, lastValueFrom } from 'rxjs';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { IDEMPOTENT_METADATA_KEY } from '@gauzy/core/src/lib/idempotency/idempotency.policy';
-import { IdempotencyInterceptor } from '@gauzy/core/src/lib/idempotency/idempotency.interceptor';
-import { VersionGuard } from '@gauzy/core/src/lib/concurrency/version.guard';
-import { VersionInterceptor } from '@gauzy/core/src/lib/concurrency/version.interceptor';
-import { VERSIONED_METADATA_KEY } from '@gauzy/core/src/lib/concurrency/version.util';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { IDEMPOTENT_METADATA_KEY } from '@irtranscripts/core/src/lib/idempotency/idempotency.policy';
+import { IdempotencyInterceptor } from '@irtranscripts/core/src/lib/idempotency/idempotency.interceptor';
+import { VersionGuard } from '@irtranscripts/core/src/lib/concurrency/version.guard';
+import { VersionInterceptor } from '@irtranscripts/core/src/lib/concurrency/version.interceptor';
+import { VERSIONED_METADATA_KEY } from '@irtranscripts/core/src/lib/concurrency/version.util';
 import { FulfillmentController } from './fulfillment.controller';
 import { FulfillmentService } from './fulfillment.service';
 import { FulfillmentResolver } from '../graphql/fulfillment.resolver';

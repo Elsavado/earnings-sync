@@ -1,6 +1,6 @@
 import { useMemo, useCallback } from 'react';
 import { Observable, of } from 'rxjs';
-import { PLUGIN_TRANSLATE_SERVICE, type IPluginTranslateService } from '@gauzy/plugin-ui';
+import { PLUGIN_TRANSLATE_SERVICE, type IPluginTranslateService } from '@irtranscripts/plugin-ui';
 import { useInjector } from './use-injector';
 import { useObservable } from './use-observable';
 

@@ -1,16 +1,16 @@
 import * as path from 'node:path';
 import * as chalk from 'chalk';
-import { ApplicationPluginConfig } from '@gauzy/common';
-import { DEFAULT_API_PORT, DEFAULT_GRAPHQL_API_PATH, DEFAULT_API_HOST, DEFAULT_API_BASE_URL } from '@gauzy/constants';
+import { ApplicationPluginConfig } from '@irtranscripts/common';
+import { DEFAULT_API_PORT, DEFAULT_GRAPHQL_API_PATH, DEFAULT_API_HOST, DEFAULT_API_BASE_URL } from '@irtranscripts/constants';
 import {
 	dbTypeOrmConnectionConfig,
 	dbMikroOrmConnectionConfig,
 	environment,
 	dbKnexConnectionConfig
-} from '@gauzy/config';
-import { SentryService } from '@gauzy/plugin-sentry';
-import { PosthogService } from '@gauzy/plugin-posthog';
-import { resolvePluginLoadOrder } from '@gauzy/plugin';
+} from '@irtranscripts/config';
+import { SentryService } from '@irtranscripts/plugin-sentry';
+import { PosthogService } from '@irtranscripts/plugin-posthog';
+import { resolvePluginLoadOrder } from '@irtranscripts/plugin';
 import { PosthogAnalytics as PosthogPlugin } from './posthog';
 import { SentryTracing as SentryPlugin } from './sentry';
 import { version } from '../version';
@@ -28,9 +28,9 @@ let assetPath: any;
 let assetPublicPath: any;
 
 // For Docker environment
-if (__dirname.startsWith('/srv/gauzy')) {
-	assetPath = '/srv/gauzy/apps/api/src/assets';
-	assetPublicPath = '/srv/gauzy/apps/api/public';
+if (__dirname.startsWith('/srv/irtranscripts')) {
+	assetPath = '/srv/irtranscripts/apps/api/src/assets';
+	assetPublicPath = '/srv/irtranscripts/apps/api/public';
 } else {
 	// Determine if running in production (dist) or development (src)
 	const isDist = __dirname.includes(path.join('dist'));

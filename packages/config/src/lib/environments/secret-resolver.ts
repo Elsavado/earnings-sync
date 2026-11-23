@@ -1,17 +1,17 @@
 import { randomBytes } from 'node:crypto';
 import * as chalk from 'chalk';
-import { isKnownDefaultSecret } from '@gauzy/contracts';
+import { isKnownDefaultSecret } from '@irtranscripts/contracts';
 
 /**
  * Per-process registry of the secrets this resolver generated, keyed by variable name.
  *
- * Kept on `globalThis` (not in module scope) so that every copy of `@gauzy/config` loaded into the
+ * Kept on `globalThis` (not in module scope) so that every copy of `@irtranscripts/config` loaded into the
  * same process — e.g. one bundled into the API and one resolved from node_modules by a plugin —
  * hands out the SAME value for a name. Two different random keys in one process would make tokens
  * signed by one copy fail verification in the other.
  */
-const GENERATED_SECRETS = Symbol.for('@gauzy/config:generated-secrets');
-const WARNED_SECRETS = Symbol.for('@gauzy/config:warned-secrets');
+const GENERATED_SECRETS = Symbol.for('@irtranscripts/config:generated-secrets');
+const WARNED_SECRETS = Symbol.for('@irtranscripts/config:warned-secrets');
 
 type SecretRegistryHolder = {
 	[GENERATED_SECRETS]?: Map<string, string>;
@@ -67,7 +67,7 @@ export function resolveSecret(name: string): string {
 		if (isKnownDefaultSecret(raw)) {
 			warnOnce(
 				name,
-				`${name} is set to a value published in the Gauzy repository. Anyone can forge tokens or ` +
+				`${name} is set to a value published in the IRTranscripts repository. Anyone can forge tokens or ` +
 					'sessions signed with it. Use it for local development only; set a strong unique value ' +
 					'(e.g. `openssl rand -hex 64`) anywhere else.'
 			);

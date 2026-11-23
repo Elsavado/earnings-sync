@@ -8,8 +8,8 @@ import {
 	KeyResultTypeEnum,
 	KeyResultUpdateStatusEnum,
 	TimeFrameStatusEnum
-} from '@gauzy/contracts';
-import { Employee, Goal, GoalTimeFrame, IntegrationTenant, KeyResult } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { Employee, Goal, GoalTimeFrame, IntegrationTenant, KeyResult } from '@irtranscripts/core';
 import { EverWorksApiError, EverWorksClient } from '../client/ever-works-client';
 import type { EverWorksEventEnvelope } from '../client/ever-works-client.types';
 import type { EverWorksConnection } from '../connection/ever-works-connection.entity';
@@ -18,7 +18,7 @@ import { EverWorksSettingName } from '../ever-works-setting.enum';
 import { EVER_WORKS_LINK_SOURCE } from '../ever-works.constants';
 import { entitySynced, type EverWorksDirection } from '../mapping/ever-works-mapping.defaults';
 import { EverWorksMappingContext, EverWorksMappingContextService } from '../mapping/ever-works-mapping-context.service';
-import { everWorksUserOfGauzyUser } from '../sync/ever-works-actor';
+import { everWorksUserOfIRTranscriptsUser } from '../sync/ever-works-actor';
 import { stableUuid } from '../sync/ever-works-stable-id';
 import {
 	EverWorksEntityLink,
@@ -50,12 +50,12 @@ import {
 	KeyResultKey,
 	KeyResultShared,
 	LinkedKeyResultRow,
-	mergeGauzyGoal,
-	mergeGauzyGoalOwnFields,
+	mergeIRTranscriptsGoal,
+	mergeIRTranscriptsGoalOwnFields,
 	EverWorksGoal,
 	everWorksGoalShared,
-	GauzyKeyResultRow,
-	gauzyGoalToEverWorks,
+	IRTranscriptsKeyResultRow,
+	irtranscriptsGoalToEverWorks,
 	goalCreateBody,
 	goalPushPlan,
 	GoalShared,
@@ -70,8 +70,8 @@ interface GoalSnapshot extends GoalShared {
 	archived?: boolean;
 	leadEmployeeId?: ID | null;
 	primaryMissionId?: string | null;
-	/** The Gauzy time frame (name) at the last sync: while it is unchanged, Ever Works' exact deadline stays. */
-	gauzyDeadline?: string | null;
+	/** The IRTranscripts time frame (name) at the last sync: while it is unchanged, Ever Works' exact deadline stays. */
+	irtranscriptsDeadline?: string | null;
 }
 
 /** Why a goal's key results are not all applied yet (see `GoalEverWorksOnly.keyResultsPending`). */
@@ -88,7 +88,7 @@ interface GoalEverWorksOnly {
 	loop?: EverWorksGoal['loop'];
 	webUrl?: string | null;
 	visibility?: string | null;
-	/** Ever Works teams beyond the first (a Gauzy goal has one owner team), and the ones Gauzy cannot map. */
+	/** Ever Works teams beyond the first (a IRTranscripts goal has one owner team), and the ones IRTranscripts cannot map. */
 	extraTeams?: string[];
 	unmappedTeams?: string[];
 	/**
@@ -102,12 +102,12 @@ interface GoalEverWorksOnly {
 	agents?: Pick<EverWorksGoal, 'activeAgentId' | 'assignedAgentId'>;
 }
 
-/** How often the goal sweep (key results deleted in Gauzy) runs per connection. */
+/** How often the goal sweep (key results deleted in IRTranscripts) runs per connection. */
 export const GOAL_SWEEP_MS = 10 * 60_000;
 
-/** The Gauzy-side fields a push may be carrying (kept over Ever Works' older values on a 412). */
-type GoalGauzyField = 'title' | 'description' | 'deadline' | 'teams' | 'keyResults';
-const GOAL_PATCH_FIELD: Readonly<Record<string, GoalGauzyField>> = {
+/** The IRTranscripts-side fields a push may be carrying (kept over Ever Works' older values on a 412). */
+type GoalIRTranscriptsField = 'title' | 'description' | 'deadline' | 'teams' | 'keyResults';
+const GOAL_PATCH_FIELD: Readonly<Record<string, GoalIRTranscriptsField>> = {
 	title: 'title',
 	description: 'description',
 	deadline: 'deadline',
@@ -116,8 +116,8 @@ const GOAL_PATCH_FIELD: Readonly<Record<string, GoalGauzyField>> = {
 };
 
 const fromEverWorks = (direction: EverWorksDirection | undefined) =>
-	direction === 'both' || direction === 'ew_to_gauzy';
-const toEverWorks = (direction: EverWorksDirection | undefined) => direction === 'both' || direction === 'gauzy_to_ew';
+	direction === 'both' || direction === 'ew_to_irtranscripts';
+const toEverWorks = (direction: EverWorksDirection | undefined) => direction === 'both' || direction === 'irtranscripts_to_ew';
 const isNumeric = (type: string | null | undefined) =>
 	type === KeyResultTypeEnum.NUMERICAL || type === KeyResultTypeEnum.CURRENCY;
 
@@ -214,13 +214,13 @@ function withSyncedKeyResultFields<T extends GoalShared>(shared: T, before: Part
  *
  * - **EW → G** (`goal.*`): title → name, description, deadline → the narrowest active time frame
  *   containing it (else a new quarter `Q<n> <yyyy>`), scope (D11: its first team → `level='Team'` +
- *   `ownerTeamId`, no team → `Organization`, a Gauzy `Employee` goal stays one), lead (the owner, or the
+ *   `ownerTeamId`, no team → `Organization`, a IRTranscripts `Employee` goal stays one), lead (the owner, or the
  *   goal's agent), progress, archived, the primary mission's initiative. Criteria, a metric and the
  *   Definition of Done become key results. Only what changed in Ever Works since the last sync is written.
- * - **G → EW**: a Gauzy goal becomes an Ever Works goal (**always `draft`**; numeric key results → a
+ * - **G → EW**: a IRTranscripts goal becomes an Ever Works goal (**always `draft`**; numeric key results → a
  *   metric goal on the external source, else a delivery goal from its True/False key results);
  *   fields, criteria and the Definition of Done follow. A key result update is pushed as a **sample**
- *   (`POST /goals/:id/samples`). Gauzy **never** activates, resumes or completes an Ever Works goal
+ *   (`POST /goals/:id/samples`). IRTranscripts **never** activates, resumes or completes an Ever Works goal
  *   (spend safety, D9): no status is ever sent.
  */
 @Injectable()
@@ -254,7 +254,7 @@ export class EverWorksGoalsService
 	// ── Sweep ──────────────────────────────────────────────────────────────────────────────────────
 
 	/**
-	 * The goal sweep, run by the sync loop for a connection it holds: a key result deleted in Gauzy by id
+	 * The goal sweep, run by the sync loop for a connection it holds: a key result deleted in IRTranscripts by id
 	 * (the platform's delete carries no row, so no subscriber sees it) queues its goal's push, which takes
 	 * the criterion or Definition-of-Done item out of the Ever Works goal.
 	 */
@@ -268,7 +268,7 @@ export class EverWorksGoalsService
 			);
 			if (!links.length) continue;
 			const alive = new Set<string>();
-			const ids = links.map((link) => link.gauzyId as ID);
+			const ids = links.map((link) => link.irtranscriptsId as ID);
 			for (let at = 0; at < ids.length; at += 500) {
 				const found = (await this.dataSource.getRepository(KeyResult).find({
 					where: { id: In(ids.slice(at, at + 500)), tenantId: context.tenantId, isArchived: false } as never,
@@ -279,7 +279,7 @@ export class EverWorksGoalsService
 			const goals = new Set<string>();
 			for (const link of links) {
 				const key = keyOfLink(link);
-				if (key && !alive.has(link.gauzyId as string)) goals.add(key.ewGoalId);
+				if (key && !alive.has(link.irtranscriptsId as string)) goals.add(key.ewGoalId);
 			}
 			for (const ewGoalId of goals) {
 				const goalLink = await this.links.byEw(context.integrationTenantId, EverWorksLinkType.GOAL, ewGoalId);
@@ -288,7 +288,7 @@ export class EverWorksGoalsService
 					tenantId: context.tenantId,
 					organizationId: context.organizationId,
 					entityType: EverWorksLinkType.GOAL,
-					gauzyId: goalLink.gauzyId as ID,
+					irtranscriptsId: goalLink.irtranscriptsId as ID,
 					op: 'upsert'
 				});
 			}
@@ -389,14 +389,14 @@ export class EverWorksGoalsService
 		const goal = { ...((envelope.data ?? {}) as unknown as EverWorksGoal), id: envelope.aggregate.id };
 		if (envelope.type === 'goal.deleted') {
 			if (!link) return { status: 'skipped', message: 'the goal is not linked' };
-			// Delete policy: the Gauzy goal is archived, never deleted.
+			// Delete policy: the IRTranscripts goal is archived, never deleted.
 			await this.dataSource
 				.getRepository(Goal)
 				.update(
-					{ id: link.gauzyId, tenantId: context.tenantId } as never,
+					{ id: link.irtranscriptsId, tenantId: context.tenantId } as never,
 					{ isArchived: true, archivedAt: new Date() } as never
 				);
-			await this.links.unlink(link, 'deleted in Ever Works; the Gauzy goal is archived');
+			await this.links.unlink(link, 'deleted in Ever Works; the IRTranscripts goal is archived');
 			return { status: 'applied' };
 		}
 		if (!isSyncedVisibility(goal.visibility)) {
@@ -436,39 +436,39 @@ export class EverWorksGoalsService
 		link: EverWorksEntityLink | null,
 		goal: EverWorksGoal,
 		version: number | null,
-		keepGauzy: ReadonlySet<GoalGauzyField> = new Set()
+		keepIRTranscripts: ReadonlySet<GoalIRTranscriptsField> = new Set()
 	): Promise<EverWorksApplyOutcome> {
 		const before = this.links.snapshot<GoalSnapshot>(link);
 		const ew = this.ewOnlyOf(link);
 		const next = everWorksGoalShared(goal, before);
-		const teams = await this.gauzyTeamsOf(context, next.teamIds);
+		const teams = await this.irtranscriptsTeamsOf(context, next.teamIds);
 		const leadEmployeeId = await this.leadOf(context, goal, before.leadEmployeeId ?? null);
 		const progress = goal.progress !== undefined ? (goal.progress ?? 0) : (before.progress ?? 0);
 		const archived = goal.archivedAt !== undefined ? !!goal.archivedAt : (before.archived ?? false);
 		const primaryMissionId =
 			goal.primaryMissionId !== undefined ? (goal.primaryMissionId ?? null) : (before.primaryMissionId ?? null);
 		const repository = this.dataSource.getRepository(Goal);
-		let goalId = link?.gauzyId as ID | undefined;
-		let madeInGauzy = false;
-		let gauzyDeadline: string | null = before.gauzyDeadline ?? null;
-		// A team change whose Ever Works team has no Gauzy pair yet waits: the snapshot keeps the old teams,
+		let goalId = link?.irtranscriptsId as ID | undefined;
+		let madeInIRTranscripts = false;
+		let irtranscriptsDeadline: string | null = before.irtranscriptsDeadline ?? null;
+		// A team change whose Ever Works team has no IRTranscripts pair yet waits: the snapshot keeps the old teams,
 		// so the change is applied once the team is paired (the next event or the reconcile).
 		let teamIds = next.teamIds;
 		// While it waits, the Ever Works-only team lists stay as they were too: the push sends the teams of the
 		// snapshot, never the old team plus the new one (review F85).
 		let teamsWait = false;
 		if (!goalId) {
-			// A goal made from a Gauzy goal (its own create echoed, or a lost answer) links back to that goal.
-			const madeFrom = this.gauzyGoalOf(goal, context.connection.id as ID);
+			// A goal made from a IRTranscripts goal (its own create echoed, or a lost answer) links back to that goal.
+			const madeFrom = this.irtranscriptsGoalOf(goal, context.connection.id as ID);
 			if (
 				madeFrom &&
 				(await repository.findOne({
 					where: { id: madeFrom, tenantId: context.tenantId, organizationId: context.organizationId } as never
 				}))
 			) {
-				// Its key results are Gauzy's own: they are linked by the goal's next push, never duplicated here.
+				// Its key results are IRTranscripts's own: they are linked by the goal's next push, never duplicated here.
 				goalId = madeFrom;
-				madeInGauzy = true;
+				madeInIRTranscripts = true;
 			} else {
 				// Teams first (D11 rule 4): a team-scoped goal whose teams are not paired yet waits.
 				if (next.teamIds.length && !teams.first)
@@ -479,14 +479,14 @@ export class EverWorksGoalsService
 				const deadline =
 					(await this.timeFrameOf(context, next.deadline)) ??
 					(await this.timeFrameOf(context, new Date().toISOString()));
-				gauzyDeadline = deadline ?? quarterOf(new Date()).name;
+				irtranscriptsDeadline = deadline ?? quarterOf(new Date()).name;
 				// A stable id: a retry after a failure half-way finds the goal it wrote instead of a second one.
 				const id = stableUuid(`${context.integrationTenantId}:goal:${goal.id}`) as ID;
 				const written = await repository.findOne({ where: { id } as never, withDeleted: true });
 				const values = {
 					name: next.title || 'Goal',
 					description: next.description ?? '',
-					deadline: gauzyDeadline,
+					deadline: irtranscriptsDeadline,
 					level: teams.first ? GoalLevelEnum.TEAM : GoalLevelEnum.ORGANIZATION,
 					ownerTeamId: teams.first ?? null,
 					leadId: leadEmployeeId,
@@ -503,11 +503,11 @@ export class EverWorksGoalsService
 						...values
 					} as never);
 				// A retry finds the goal it wrote: it takes Ever Works' current fields, so the snapshot recorded below is
-				// what Gauzy holds and a later push never sends the older ones back (review F87).
+				// what IRTranscripts holds and a later push never sends the older ones back (review F87).
 				else await repository.update({ id } as never, values as never);
 				goalId = id;
 				this.logger.log(
-					`Ever Works goal ${goal.id} created as Gauzy goal ${goalId} (organization ${context.organizationId}).`
+					`Ever Works goal ${goal.id} created as IRTranscripts goal ${goalId} (organization ${context.organizationId}).`
 				);
 			}
 		} else {
@@ -515,25 +515,25 @@ export class EverWorksGoalsService
 				where: { id: goalId, tenantId: context.tenantId } as never,
 				withDeleted: true
 			});
-			if (!row) return { status: 'skipped', message: 'the Gauzy goal is gone' };
-			// `keepGauzy`: fields Gauzy changed after the last sync and is pushing now (a 412 retry) — its edit is
+			if (!row) return { status: 'skipped', message: 'the IRTranscripts goal is gone' };
+			// `keepIRTranscripts`: fields IRTranscripts changed after the last sync and is pushing now (a 412 retry) — its edit is
 			// the later one, so Ever Works' older value is not written over it; the snapshot still moves to Ever
-			// Works' value, so the retry pushes Gauzy's.
+			// Works' value, so the retry pushes IRTranscripts's.
 			const changes: Record<string, unknown> = {};
-			if (next.title && next.title !== before.title && !keepGauzy.has('title')) changes['name'] = next.title;
-			if ((next.description ?? null) !== (before.description ?? null) && !keepGauzy.has('description'))
+			if (next.title && next.title !== before.title && !keepIRTranscripts.has('title')) changes['name'] = next.title;
+			if ((next.description ?? null) !== (before.description ?? null) && !keepIRTranscripts.has('description'))
 				changes['description'] = next.description ?? '';
-			if (next.deadline && next.deadline !== (before.deadline ?? null) && !keepGauzy.has('deadline')) {
+			if (next.deadline && next.deadline !== (before.deadline ?? null) && !keepIRTranscripts.has('deadline')) {
 				const name = await this.timeFrameOf(context, next.deadline);
 				if (name) changes['deadline'] = name;
 			}
-			gauzyDeadline = (changes['deadline'] as string | undefined) ?? row.deadline ?? gauzyDeadline;
+			irtranscriptsDeadline = (changes['deadline'] as string | undefined) ?? row.deadline ?? irtranscriptsDeadline;
 			if (
 				JSON.stringify(next.teamIds) !== JSON.stringify([...(before.teamIds ?? [])].sort()) &&
-				!keepGauzy.has('teams')
+				!keepIRTranscripts.has('teams')
 			) {
 				if (teams.first) Object.assign(changes, { level: GoalLevelEnum.TEAM, ownerTeamId: teams.first });
-				// No team in Ever Works: organization scope — a Gauzy `Employee` goal (also "no team") stays one.
+				// No team in Ever Works: organization scope — a IRTranscripts `Employee` goal (also "no team") stays one.
 				else if (!next.teamIds.length) {
 					if (row.level !== GoalLevelEnum.EMPLOYEE)
 						Object.assign(changes, { level: GoalLevelEnum.ORGANIZATION, ownerTeamId: null });
@@ -552,7 +552,7 @@ export class EverWorksGoalsService
 				if (initiativeId) changes['organizationStrategicInitiativeId'] = initiativeId;
 				else if (!primaryMissionId) {
 					// Ever Works no longer has a primary mission: the goal leaves the initiative of the old one only. An
-					// initiative a Gauzy user moved it to stays (its mission lists the goal, not as primary) (review F90).
+					// initiative a IRTranscripts user moved it to stays (its mission lists the goal, not as primary) (review F90).
 					// The old mission's pair as it was, even when it no longer syncs (deleted or unpaired since) (#11081 review).
 					const previousInitiativeId = await this.initiativeOf(
 						context,
@@ -572,7 +572,7 @@ export class EverWorksGoalsService
 		// goal's link marks them pending, so they are applied once the mapping syncs them (review of #11096).
 		const syncsKeyResults = keyResultsSynced(context);
 		const missing =
-			madeInGauzy || keepGauzy.has('keyResults') || !syncsKeyResults
+			madeInIRTranscripts || keepIRTranscripts.has('keyResults') || !syncsKeyResults
 				? 0
 				: await this.applyKeyResults(
 						context,
@@ -583,7 +583,7 @@ export class EverWorksGoalsService
 					);
 		// What is still to do: all of them while not synced, the ones without an owner employee (review of #11125).
 		const keyResultsPending: KeyResultsPending | null =
-			madeInGauzy || keepGauzy.has('keyResults')
+			madeInIRTranscripts || keepIRTranscripts.has('keyResults')
 				? (ew.keyResultsPending ?? null)
 				: !syncsKeyResults
 					? 'sync'
@@ -602,7 +602,7 @@ export class EverWorksGoalsService
 				archived,
 				leadEmployeeId,
 				primaryMissionId,
-				gauzyDeadline
+				irtranscriptsDeadline
 			},
 			link,
 			{
@@ -707,38 +707,38 @@ export class EverWorksGoalsService
 				continue;
 			}
 			const before = this.links.snapshot<KeyResultShared>(link);
-			const row = (await repository.findOne({ where: { id: link.gauzyId } as never })) as unknown as Record<
+			const row = (await repository.findOne({ where: { id: link.irtranscriptsId } as never })) as unknown as Record<
 				string,
 				unknown
 			> | null;
 			const changes: Record<string, unknown> = {};
 			for (const field of KEY_RESULT_FIELDS) {
 				const ewMoved = comparable(fields[field]) !== comparable(before[field]);
-				// A value a person changed in Gauzy since the last sync is the later edit: it stays, and the next
+				// A value a person changed in IRTranscripts since the last sync is the later edit: it stays, and the next
 				// push (or sample) sends it.
-				const gauzyMoved = !!row && comparable(row[field]) !== comparable(before[field]);
-				if (ewMoved && !gauzyMoved)
+				const irtranscriptsMoved = !!row && comparable(row[field]) !== comparable(before[field]);
+				if (ewMoved && !irtranscriptsMoved)
 					changes[field] =
 						field === 'hardDeadline' && fields[field] ? new Date(fields[field] as string) : fields[field];
 			}
-			if (Object.keys(changes).length) await repository.update({ id: link.gauzyId } as never, changes as never);
-			await this.recordKeyResult(context, link.gauzyId as ID, ewGoalId, key, fields, link);
+			if (Object.keys(changes).length) await repository.update({ id: link.irtranscriptsId } as never, changes as never);
+			await this.recordKeyResult(context, link.irtranscriptsId as ID, ewGoalId, key, fields, link);
 		}
 		const kept = new Set(desired.map((result) => result.key));
 		for (const link of existing) {
 			if (kept.has(keyOfLink(link)?.key as string)) continue;
 			await repository.update(
-				{ id: link.gauzyId } as never,
+				{ id: link.irtranscriptsId } as never,
 				{ isArchived: true, archivedAt: new Date() } as never
 			);
-			await this.links.unlink(link, 'no longer a key result of the goal in Ever Works; archived in Gauzy');
+			await this.links.unlink(link, 'no longer a key result of the goal in Ever Works; archived in IRTranscripts');
 		}
 		return missing;
 	}
 
 	// ── G → EW ─────────────────────────────────────────────────────────────────────────────────────
 
-	/** Outbound handler: a Gauzy goal or one of its key results changed (`GOAL`), or a key result's value (`KEY_RESULT`). */
+	/** Outbound handler: a IRTranscripts goal or one of its key results changed (`GOAL`), or a key result's value (`KEY_RESULT`). */
 	async push(change: EverWorksOutboundChange, pushContext: EverWorksPushContext): Promise<EverWorksPushOutcome> {
 		const context = await this.contexts.forOrganization(change.tenantId as ID, change.organizationId as ID);
 		if (!context || context.integrationTenantId !== pushContext.mapping.id)
@@ -758,26 +758,26 @@ export class EverWorksGoalsService
 		context: EverWorksMappingContext,
 		change: EverWorksOutboundChange
 	): Promise<EverWorksPushOutcome> {
-		const link = await this.links.byGauzy(
+		const link = await this.links.byIRTranscripts(
 			context.integrationTenantId,
 			EverWorksLinkType.GOAL,
-			change.gauzyId as ID
+			change.irtranscriptsId as ID
 		);
 		if (link?.state === EverWorksLinkState.UNLINKED)
 			return { status: 'skipped', message: 'the goal is no longer synced' };
 		const goal = await this.dataSource.getRepository(Goal).findOne({
 			where: {
-				id: change.gauzyId,
+				id: change.irtranscriptsId,
 				tenantId: context.tenantId,
 				organizationId: context.organizationId
 			} as never,
 			withDeleted: true
 		});
 		if (change.op === 'delete' || !goal || (goal as { deletedAt?: Date | null }).deletedAt) {
-			// Delete policy: Ever Works goals are not deleted from Gauzy (and an integration cannot archive one).
-			return { status: 'skipped', message: 'Gauzy goal deletes are not pushed to Ever Works (delete policy)' };
+			// Delete policy: Ever Works goals are not deleted from IRTranscripts (and an integration cannot archive one).
+			return { status: 'skipped', message: 'IRTranscripts goal deletes are not pushed to Ever Works (delete policy)' };
 		}
-		// A new Ever Works goal is made from the Gauzy goal's key results (its metric or Definition of Done).
+		// A new Ever Works goal is made from the IRTranscripts goal's key results (its metric or Definition of Done).
 		if (!link && !keyResultsSynced(context))
 			return {
 				status: 'skipped',
@@ -791,7 +791,7 @@ export class EverWorksGoalsService
 		return this.update(context, client, goal, prepared.now, prepared.rows, link);
 	}
 
-	/** The Ever Works form of a Gauzy goal (scope, deadline, key results), or the outcome when it cannot go yet. */
+	/** The Ever Works form of a IRTranscripts goal (scope, deadline, key results), or the outcome when it cannot go yet. */
 	private async prepare(
 		context: EverWorksMappingContext,
 		goal: Goal,
@@ -799,7 +799,7 @@ export class EverWorksGoalsService
 	): Promise<{ now: GoalShared; rows: LinkedKeyResultRow[] } | { outcome: EverWorksPushOutcome }> {
 		let teamIds: string[] = [];
 		if (goal.level === GoalLevelEnum.TEAM && goal.ownerTeamId) {
-			const team = await this.links.byGauzy(
+			const team = await this.links.byIRTranscripts(
 				context.integrationTenantId,
 				EverWorksLinkType.TEAM,
 				goal.ownerTeamId as ID
@@ -808,29 +808,29 @@ export class EverWorksGoalsService
 				return {
 					outcome: {
 						status: 'deferred',
-						message: `waiting for the Gauzy team ${goal.ownerTeamId} to be paired (teams first)`
+						message: `waiting for the IRTranscripts team ${goal.ownerTeamId} to be paired (teams first)`
 					}
 				};
 			// The other Ever Works teams of a goal synced from Ever Works stay with it.
 			teamIds = [team.ewId, ...(this.ewOnlyOf(link).extraTeams ?? [])];
 		}
-		// Ever Works teams Gauzy cannot map stay too: Gauzy never had them, so it never removes them.
+		// Ever Works teams IRTranscripts cannot map stay too: IRTranscripts never had them, so it never removes them.
 		teamIds.push(...(this.ewOnlyOf(link).unmappedTeams ?? []));
 		const rows = await this.keyResultRows(context, goal.id as ID);
 		const before = this.links.snapshot<GoalSnapshot>(link);
-		// While the Gauzy time frame is the one of the last sync, Ever Works' exact deadline stays (a time frame
+		// While the IRTranscripts time frame is the one of the last sync, Ever Works' exact deadline stays (a time frame
 		// only knows its end).
 		const deadline =
-			link && before.deadline !== undefined && goal.deadline === (before.gauzyDeadline ?? undefined)
+			link && before.deadline !== undefined && goal.deadline === (before.irtranscriptsDeadline ?? undefined)
 				? (before.deadline ?? null)
 				: await this.deadlineOf(context, goal.deadline);
 		// Not syncing key results (OQ4): only the goal's own fields go; Ever Works' metric, criteria and Definition of
 		// Done stay as they are, and no key result is needed for that.
 		const now = link
 			? keyResultsSynced(context)
-				? mergeGauzyGoal(goal, deadline, rows, [...new Set(teamIds)], before as GoalShared)
-				: mergeGauzyGoalOwnFields(goal, deadline, [...new Set(teamIds)], before)
-			: gauzyGoalToEverWorks(goal, deadline, rows, [...new Set(teamIds)], null);
+				? mergeIRTranscriptsGoal(goal, deadline, rows, [...new Set(teamIds)], before as GoalShared)
+				: mergeIRTranscriptsGoalOwnFields(goal, deadline, [...new Set(teamIds)], before)
+			: irtranscriptsGoalToEverWorks(goal, deadline, rows, [...new Set(teamIds)], null);
 		if (!now)
 			return {
 				outcome: {
@@ -847,7 +847,7 @@ export class EverWorksGoalsService
 		client: EverWorksClient,
 		goal: Goal,
 		now: GoalShared,
-		rows: GauzyKeyResultRow[],
+		rows: IRTranscriptsKeyResultRow[],
 		actorUserId: ID | null
 	): Promise<EverWorksPushOutcome> {
 		const connectionId = context.connection.id as ID;
@@ -859,12 +859,12 @@ export class EverWorksGoalsService
 		// Owned in Ever Works by the goal's lead (or owner employee) when paired, else by the author of the change.
 		const owner = (goal.leadId ?? goal.ownerEmployeeId) as ID | undefined;
 		const person = owner
-			? await this.links.byGauzy(context.integrationTenantId, EverWorksLinkType.MEMBER, owner)
+			? await this.links.byIRTranscripts(context.integrationTenantId, EverWorksLinkType.MEMBER, owner)
 			: null;
 		const actAs =
 			person && person.state !== EverWorksLinkState.UNLINKED
 				? person.ewId
-				: await everWorksUserOfGauzyUser(this.dataSource, this.links, context, actorUserId);
+				: await everWorksUserOfIRTranscriptsUser(this.dataSource, this.links, context, actorUserId);
 		const key = (actor: string) =>
 			createHash('sha256')
 				.update(`${connectionId}:${EverWorksLinkType.GOAL}:${goal.id}:create:${actor}:${JSON.stringify(body)}`)
@@ -890,7 +890,7 @@ export class EverWorksGoalsService
 			});
 		}
 		const holder = await this.links.byEw(context.integrationTenantId, EverWorksLinkType.GOAL, created.id);
-		if (holder && holder.state !== EverWorksLinkState.UNLINKED && holder.gauzyId !== goal.id)
+		if (holder && holder.state !== EverWorksLinkState.UNLINKED && holder.irtranscriptsId !== goal.id)
 			return { status: 'skipped', message: `the Ever Works goal ${created.id} is paired with another goal` };
 		await this.record(
 			context,
@@ -902,7 +902,7 @@ export class EverWorksGoalsService
 				progress: goal.progress ?? 0,
 				archived: !!goal.isArchived,
 				leadEmployeeId: (goal.leadId as ID) ?? null,
-				gauzyDeadline: goal.deadline ?? null
+				irtranscriptsDeadline: goal.deadline ?? null
 			},
 			null,
 			{},
@@ -910,7 +910,7 @@ export class EverWorksGoalsService
 		);
 		await this.recordKeyResults(context, created.id, now, rows);
 		await this.syncSamples(context, client, goal.id as ID, rows);
-		this.logger.log(`Gauzy goal ${goal.id} created in Ever Works as a draft goal ${created.id}.`);
+		this.logger.log(`IRTranscripts goal ${goal.id} created in Ever Works as a draft goal ${created.id}.`);
 		return { status: 'pushed', message: 'created in Ever Works (draft)' };
 	}
 
@@ -919,7 +919,7 @@ export class EverWorksGoalsService
 		client: EverWorksClient,
 		goal: Goal,
 		now: GoalShared,
-		rows: GauzyKeyResultRow[],
+		rows: IRTranscriptsKeyResultRow[],
 		link: EverWorksEntityLink
 	): Promise<EverWorksPushOutcome> {
 		let pair = link;
@@ -978,7 +978,7 @@ export class EverWorksGoalsService
 					goal.id as ID,
 					{ ...(current as EverWorksGoal), id: pair.ewId },
 					version ?? null,
-					{ ...before, ...now, gauzyDeadline: goal.deadline ?? null },
+					{ ...before, ...now, irtranscriptsDeadline: goal.deadline ?? null },
 					pair,
 					{},
 					'outbound'
@@ -991,8 +991,8 @@ export class EverWorksGoalsService
 				// 412: Ever Works moved on. Its newer state is applied first when goals sync from Ever Works (as
 				// the sync, so it is not captured back), then this push is merged again on top of it.
 				const remote = await client.request<EverWorksGoal>('GET', path);
-				// What Gauzy changed since the last sync is the later edit: Ever Works' value is not written over it.
-				const keep = new Set<GoalGauzyField>();
+				// What IRTranscripts changed since the last sync is the later edit: Ever Works' value is not written over it.
+				const keep = new Set<GoalIRTranscriptsField>();
 				for (const field of Object.keys(plan.patch ?? {})) keep.add(GOAL_PATCH_FIELD[field] ?? 'keyResults');
 				if (plan.criteria || plan.dod) keep.add('keyResults');
 				if (fromEverWorks(context.directions.goals)) {
@@ -1012,7 +1012,7 @@ export class EverWorksGoalsService
 						'outbound'
 					);
 				}
-				const fresh = await this.links.byGauzy(
+				const fresh = await this.links.byIRTranscripts(
 					context.integrationTenantId,
 					EverWorksLinkType.GOAL,
 					goal.id as ID
@@ -1043,7 +1043,7 @@ export class EverWorksGoalsService
 	): Promise<EverWorksPushOutcome> {
 		const keyResult = await this.dataSource.getRepository(KeyResult).findOne({
 			where: {
-				id: change.gauzyId,
+				id: change.irtranscriptsId,
 				tenantId: context.tenantId,
 				organizationId: context.organizationId
 			} as never
@@ -1054,7 +1054,7 @@ export class EverWorksGoalsService
 				status: 'skipped',
 				message: 'only numeric key results are sampled (True/False ones move the Definition of Done)'
 			};
-		const link = await this.links.byGauzy(
+		const link = await this.links.byIRTranscripts(
 			context.integrationTenantId,
 			EverWorksLinkType.KEY_RESULT,
 			keyResult.id as ID
@@ -1064,7 +1064,7 @@ export class EverWorksGoalsService
 				status: 'skipped',
 				message: 'the key result is not linked yet (the goal push links it and sends its value)'
 			};
-		const goalLink = await this.links.byGauzy(
+		const goalLink = await this.links.byIRTranscripts(
 			context.integrationTenantId,
 			EverWorksLinkType.GOAL,
 			keyResult.goalId as ID
@@ -1141,7 +1141,7 @@ export class EverWorksGoalsService
 				organizationId: context.organizationId,
 				integrationTenantId: context.integrationTenantId,
 				entityType: EverWorksLinkType.GOAL,
-				gauzyId: goalLink.gauzyId as ID,
+				irtranscriptsId: goalLink.irtranscriptsId as ID,
 				ewId: goalLink.ewId,
 				ewVersion: goal.version,
 				direction: 'outbound'
@@ -1155,26 +1155,26 @@ export class EverWorksGoalsService
 		context: EverWorksMappingContext,
 		client: EverWorksClient,
 		goalId: ID,
-		rows: GauzyKeyResultRow[]
+		rows: IRTranscriptsKeyResultRow[]
 	): Promise<void> {
 		if (!keyResultsSynced(context)) return;
-		const goalLink = await this.links.byGauzy(context.integrationTenantId, EverWorksLinkType.GOAL, goalId);
+		const goalLink = await this.links.byIRTranscripts(context.integrationTenantId, EverWorksLinkType.GOAL, goalId);
 		if (!goalLink) return;
 		for (const row of rows.filter((r) => isNumeric(r.type))) {
-			const link = await this.links.byGauzy(
+			const link = await this.links.byIRTranscripts(
 				context.integrationTenantId,
 				EverWorksLinkType.KEY_RESULT,
 				row.id as ID
 			);
 			if (!link || link.state === EverWorksLinkState.UNLINKED || keyOfLink(link)?.ewGoalId !== goalLink.ewId)
 				continue;
-			const fresh = await this.links.byGauzy(context.integrationTenantId, EverWorksLinkType.GOAL, goalId);
+			const fresh = await this.links.byIRTranscripts(context.integrationTenantId, EverWorksLinkType.GOAL, goalId);
 			await this.sendSample(context, client, fresh ?? goalLink, link, row);
 		}
 	}
 
 	/**
-	 * Links the Gauzy key results the push sent to their Ever Works keys (`m`, `c:<id>`, `d:<id>`). Each
+	 * Links the IRTranscripts key results the push sent to their Ever Works keys (`m`, `c:<id>`, `d:<id>`). Each
 	 * link keeps what Ever Works makes of what was sent (bucketed weight, deadline, …) with the key result's
 	 * current value and progress, so an Ever Works event that changed none of it rewrites nothing (lossy
 	 * fields never flap, plan 01 principle 4).
@@ -1218,13 +1218,13 @@ export class EverWorksGoalsService
 			const made = key ? sent.get(key) : undefined;
 			if (!key || !made) continue;
 			const ewId = keyResultEwId(ewGoalId, key);
-			const existing = await this.links.byGauzy(
+			const existing = await this.links.byIRTranscripts(
 				context.integrationTenantId,
 				EverWorksLinkType.KEY_RESULT,
 				row.id as ID
 			);
 			const stale = await this.links.byEw(context.integrationTenantId, EverWorksLinkType.KEY_RESULT, ewId);
-			if (stale && stale.gauzyId !== row.id) await this.links.remove(stale);
+			if (stale && stale.irtranscriptsId !== row.id) await this.links.remove(stale);
 			const { key: _key, ...fields } = made;
 			// A True/False key result was just sent with its value (the item's status): that is what Ever Works
 			// holds. A numeric one's value goes as a sample (`syncSamples`): what Ever Works holds is the value
@@ -1238,16 +1238,16 @@ export class EverWorksGoalsService
 				: { update: row.update ?? 0, progress: row.progress ?? 0 };
 			await this.recordKeyResult(context, row.id as ID, ewGoalId, key, { ...fields, ...value }, existing);
 		}
-		// Key results deleted or archived in Gauzy left the goal with this push: their links stop.
+		// Key results deleted or archived in IRTranscripts left the goal with this push: their links stop.
 		const present = new Set(rows.map((row) => row.id));
 		for (const link of await this.links.list(context.integrationTenantId, EverWorksLinkType.KEY_RESULT)) {
 			if (link.state === EverWorksLinkState.UNLINKED || keyOfLink(link)?.ewGoalId !== ewGoalId) continue;
-			if (!present.has(link.gauzyId as string))
-				await this.links.unlink(link, 'removed in Gauzy; no longer a key result of the goal');
+			if (!present.has(link.irtranscriptsId as string))
+				await this.links.unlink(link, 'removed in IRTranscripts; no longer a key result of the goal');
 		}
 	}
 
-	// ── Gauzy side ─────────────────────────────────────────────────────────────────────────────────
+	// ── IRTranscripts side ─────────────────────────────────────────────────────────────────────────────────
 
 	/** The goal's key results as the push reads them, each with its key on the goal's link when linked. */
 	private async keyResultRows(context: EverWorksMappingContext, goalId: ID): Promise<LinkedKeyResultRow[]> {
@@ -1255,11 +1255,11 @@ export class EverWorksGoalsService
 			where: { goalId, tenantId: context.tenantId, isArchived: false } as never,
 			order: { createdAt: 'ASC' } as never
 		})) as KeyResult[];
-		const goalLink = await this.links.byGauzy(context.integrationTenantId, EverWorksLinkType.GOAL, goalId);
+		const goalLink = await this.links.byIRTranscripts(context.integrationTenantId, EverWorksLinkType.GOAL, goalId);
 		const result: LinkedKeyResultRow[] = [];
 		for (const row of rows) {
 			const link = goalLink
-				? await this.links.byGauzy(context.integrationTenantId, EverWorksLinkType.KEY_RESULT, row.id as ID)
+				? await this.links.byIRTranscripts(context.integrationTenantId, EverWorksLinkType.KEY_RESULT, row.id as ID)
 				: null;
 			const linked = link && goalLink && link.state !== EverWorksLinkState.UNLINKED ? keyOfLink(link) : null;
 			const ewKey = linked && goalLink && linked.ewGoalId === goalLink.ewId ? linked.key : null;
@@ -1281,7 +1281,7 @@ export class EverWorksGoalsService
 	}
 
 	/**
-	 * The Gauzy time frame name of an Ever Works deadline (plan 01 §6): the narrowest active one that
+	 * The IRTranscripts time frame name of an Ever Works deadline (plan 01 §6): the narrowest active one that
 	 * contains it, else a new quarter time frame (created once). `null` for no deadline.
 	 */
 	private async timeFrameOf(context: EverWorksMappingContext, deadline: string | null): Promise<string | null> {
@@ -1306,7 +1306,7 @@ export class EverWorksGoalsService
 		return resolved.name;
 	}
 
-	/** G → EW: the deadline of a Gauzy goal — the end of its time frame (by name), or `null`. */
+	/** G → EW: the deadline of a IRTranscripts goal — the end of its time frame (by name), or `null`. */
 	private async deadlineOf(
 		context: EverWorksMappingContext,
 		timeFrameName: string | null | undefined
@@ -1323,15 +1323,15 @@ export class EverWorksGoalsService
 		return end && !Number.isNaN(end.getTime()) ? end.toISOString() : null;
 	}
 
-	/** The Gauzy teams of the goal's Ever Works teams: the first mapped one (its owner team), the others and the unmapped ones. */
-	private async gauzyTeamsOf(
+	/** The IRTranscripts teams of the goal's Ever Works teams: the first mapped one (its owner team), the others and the unmapped ones. */
+	private async irtranscriptsTeamsOf(
 		context: EverWorksMappingContext,
 		teamIds: string[]
 	): Promise<{ first: ID | null; extra: string[]; unmapped: string[] }> {
 		const pairs = (await this.links.list(context.integrationTenantId, EverWorksLinkType.TEAM)).filter(
 			(link) => link.state !== EverWorksLinkState.UNLINKED
 		);
-		const byEw = new Map(pairs.map((link) => [link.ewId, link.gauzyId as ID]));
+		const byEw = new Map(pairs.map((link) => [link.ewId, link.irtranscriptsId as ID]));
 		const mapped = teamIds.filter((id) => byEw.has(id));
 		return {
 			first: mapped.length ? (byEw.get(mapped[0]) as ID) : null,
@@ -1349,11 +1349,11 @@ export class EverWorksGoalsService
 		for (const agentId of [goal.activeAgentId, goal.assignedAgentId]) {
 			if (!agentId) continue;
 			const agent = await this.links.byEw(context.integrationTenantId, EverWorksLinkType.AGENT, agentId);
-			if (agent && agent.state !== EverWorksLinkState.UNLINKED) return agent.gauzyId as ID;
+			if (agent && agent.state !== EverWorksLinkState.UNLINKED) return agent.irtranscriptsId as ID;
 		}
 		if (goal.owner?.type === 'user') {
 			const person = await this.links.byEw(context.integrationTenantId, EverWorksLinkType.MEMBER, goal.owner.id);
-			if (person && person.state !== EverWorksLinkState.UNLINKED) return person.gauzyId as ID;
+			if (person && person.state !== EverWorksLinkState.UNLINKED) return person.irtranscriptsId as ID;
 		}
 		return previous;
 	}
@@ -1370,7 +1370,7 @@ export class EverWorksGoalsService
 			EverWorksLinkType.INITIATIVE_MISSION,
 			missionId
 		);
-		return link && (anyState || link.state !== EverWorksLinkState.UNLINKED) ? (link.gauzyId as ID) : null;
+		return link && (anyState || link.state !== EverWorksLinkState.UNLINKED) ? (link.irtranscriptsId as ID) : null;
 	}
 
 	/** The connecting admin's employee in the organization (the owner of key results when the goal has no lead). */
@@ -1383,8 +1383,8 @@ export class EverWorksGoalsService
 		return (employee?.id as ID) ?? null;
 	}
 
-	/** The Gauzy goal an Ever Works goal was made from (its `externalLinks` back to Gauzy through this connection), or `null`. */
-	private gauzyGoalOf(goal: EverWorksGoal, connectionId: ID): ID | null {
+	/** The IRTranscripts goal an Ever Works goal was made from (its `externalLinks` back to IRTranscripts through this connection), or `null`. */
+	private irtranscriptsGoalOf(goal: EverWorksGoal, connectionId: ID): ID | null {
 		const link = (goal.externalLinks ?? []).find(
 			(l) =>
 				l.source === EVER_WORKS_LINK_SOURCE &&
@@ -1437,7 +1437,7 @@ export class EverWorksGoalsService
 			organizationId: context.organizationId,
 			integrationTenantId: context.integrationTenantId,
 			entityType: EverWorksLinkType.GOAL,
-			gauzyId: goalId,
+			irtranscriptsId: goalId,
 			ewId: goal.id,
 			ewVersion: version ?? goal.version ?? null,
 			ewUpdatedAt: goal.updatedAt,
@@ -1460,7 +1460,7 @@ export class EverWorksGoalsService
 			organizationId: context.organizationId,
 			integrationTenantId: context.integrationTenantId,
 			entityType: EverWorksLinkType.KEY_RESULT,
-			gauzyId: keyResultId,
+			irtranscriptsId: keyResultId,
 			ewId: keyResultEwId(ewGoalId, key),
 			snapshot: fields as unknown as Record<string, unknown>,
 			ewOnly: { ewGoalId, key },

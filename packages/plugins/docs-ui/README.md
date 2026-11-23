@@ -1,10 +1,10 @@
-# @gauzy/plugin-docs-ui
+# @irtranscripts/plugin-docs-ui
 
-Angular UI plugin providing the **Documents hub** for the Gauzy platform: a
+Angular UI plugin providing the **Documents hub** for the IRTranscripts platform: a
 single tree of folders, authored wiki pages and uploaded files with processing
 status, AI-knowledge state, review workflow, filters, uploads and bulk actions.
 
-Backed by the `@gauzy/plugin-docs` API plugin (`/api/plugins/docs`). The
+Backed by the `@irtranscripts/plugin-docs` API plugin (`/api/plugins/docs`). The
 binding specifications live in the `specs/documents` suite
 (`04-frontend-plugin.md` is the engineering contract for this package).
 
@@ -34,8 +34,8 @@ binding specifications live in the `specs/documents` suite
 ## Registration
 
 ```ts
-// apps/gauzy/src/plugin-ui.config.ts
-import { DocsUiPlugin } from '@gauzy/plugin-docs-ui';
+// apps/irtranscripts/src/plugin-ui.config.ts
+import { DocsUiPlugin } from '@irtranscripts/plugin-docs-ui';
 
 export const uiPluginConfig = {
 	plugins: [DocsUiPlugin]
@@ -55,7 +55,7 @@ an inlined component style would be rewritten by view encapsulation and match
 nothing. The host app adds it to its build `styles` (all browser targets):
 
 ```jsonc
-// apps/gauzy/project.json — targets.{build,desktop-ui,server-ui}.options.styles
+// apps/irtranscripts/project.json — targets.{build,desktop-ui,server-ui}.options.styles
 "styles": [
 	/* … */
 	"node_modules/katex/dist/katex.min.css"

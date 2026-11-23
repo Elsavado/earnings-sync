@@ -2,7 +2,7 @@ import { CandidateSource } from './candidate-source.entity';
 import { Post, UseGuards, HttpStatus, Get, Query, Body, Controller, Put, Param } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { ICandidateSource, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ICandidateSource, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { CrudController, BaseQueryDTO } from './../core/crud';
 import { Permissions } from './../shared/decorators';
 import { PermissionGuard, TenantPermissionGuard } from './../shared/guards';

@@ -7,13 +7,13 @@
  * `@IsEnum`; the fields now answer 400 before anything is written. (`requestOrderEdit` is covered by
  * `OrderChangeService.create`, for every caller.)
  *
- * The `@gauzy/core` double is the one `order.resolver.spec.ts` uses, for the reasons it gives.
+ * The `@irtranscripts/core` double is the one `order.resolver.spec.ts` uses, for the reasons it gives.
  */
-jest.mock('@gauzy/plugin-cart', () => ({
-	TotalsCalculator: jest.requireActual('@gauzy/plugin-cart/src/lib/totals/totals-calculator').TotalsCalculator
+jest.mock('@irtranscripts/plugin-cart', () => ({
+	TotalsCalculator: jest.requireActual('@irtranscripts/plugin-cart/src/lib/totals/totals-calculator').TotalsCalculator
 }));
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
@@ -21,7 +21,7 @@ jest.mock('@gauzy/core', () => {
 
 	return {
 		// The statement helpers are pure and dialect-driven; loading the real module here would pull
-		// `@gauzy/config` and the request context into a suite that doubles the barrel on purpose.
+		// `@irtranscripts/config` and the request context into a suite that doubles the barrel on purpose.
 		quoteIdentifier: (identifier: string) => `"${identifier}"`,
 		prepareSQLQuery: (query: string) => query,
 		BaseEntity,
@@ -49,29 +49,29 @@ jest.mock('@gauzy/core', () => {
 		// Every resolver class carries the platform's feature guard, so the double provides the class
 		// the resolver imports: an undefined guard handed to the real `@UseGuards` fails the suite.
 		FeatureFlagGuard: class {},
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
 		// Rebuilt rather than required: the real decorator imports the version guard, the interceptor behind
 		// it and the idempotency service behind that, which reaches the entity graph and — under this
 		// workspace's ESM-only `uuid` — fails the whole suite to LOAD. What this suite reads is the
 		// metadata the decorator writes, so that is what the double writes.
 		Versioned: (options: any = {}) =>
 			require('@nestjs/common').SetMetadata(
-				jest.requireActual('@gauzy/core/src/lib/concurrency/version.util').VERSIONED_METADATA_KEY,
+				jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util').VERSIONED_METADATA_KEY,
 				options
 			),
 		VersionedColumn: decorator,
-		commitVersionedUpdate: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		commitVersionedUpdate: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.commitVersionedUpdate,
-		versionExpectationOf: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		versionExpectationOf: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.versionExpectationOf,
 		// The connection helpers the list fields page and answer with, taken from the kernel: a double that
 		// left them undefined would have the suite fail with "not a function" the moment a case called one
 		// of those fields, rather than tell it anything about the page it answered.
-		connectionFromOffsetPage: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		connectionFromOffsetPage: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.connectionFromOffsetPage,
-		resolveConnectionWindow: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		resolveConnectionWindow: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.resolveConnectionWindow,
-		paginateRows: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection').paginateRows,
+		paginateRows: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection').paginateRows,
 		ColumnNumericTransformerPipe: class {
 			to(value: unknown) {
 				return value;
@@ -90,7 +90,7 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		RequestContext: {
 			currentUser: () => null,
 			currentUserId: () => null,
@@ -101,13 +101,13 @@ jest.mock('@gauzy/core', () => {
 		},
 		AdjustmentService: class {},
 		TaxLineService: class {},
-		ApiException: jest.requireActual('@gauzy/core/src/lib/core/errors/api-exception').ApiException,
-		ApiErrorCode: jest.requireActual('@gauzy/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
+		ApiException: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-exception').ApiException,
+		ApiErrorCode: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
 		SequenceService: class {}
 	};
 });
 
-import { OrderChangeActionType, OrderChangeType } from '@gauzy/contracts';
+import { OrderChangeActionType, OrderChangeType } from '@irtranscripts/contracts';
 import { OrderChangeResolver } from './order-change.resolver';
 import { ORDER_CHANGE_ACTION_TYPES, ORDER_CHANGE_TYPES, assertEnumMember } from './filters';
 

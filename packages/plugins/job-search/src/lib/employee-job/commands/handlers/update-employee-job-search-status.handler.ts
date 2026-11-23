@@ -1,14 +1,14 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { BadRequestException } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
-import { ID, IEmployee, PermissionsEnum } from '@gauzy/contracts';
-import { GauzyAIService } from '@gauzy/plugin-integration-ai';
-import { EmployeeService, RequestContext } from '@gauzy/core';
+import { ID, IEmployee, PermissionsEnum } from '@irtranscripts/contracts';
+import { IRTranscriptsAIService } from '@irtranscripts/plugin-integration-ai';
+import { EmployeeService, RequestContext } from '@irtranscripts/core';
 import { UpdateEmployeeJobSearchStatusCommand } from '../update-employee-job-search-status.command';
 
 @CommandHandler(UpdateEmployeeJobSearchStatusCommand)
 export class UpdateEmployeeJobSearchStatusHandler implements ICommandHandler<UpdateEmployeeJobSearchStatusCommand> {
-	constructor(private readonly employeeService: EmployeeService, private readonly gauzyAIService: GauzyAIService) {}
+	constructor(private readonly employeeService: EmployeeService, private readonly irtranscriptsAIService: IRTranscriptsAIService) {}
 
 	/**
 	 * Executes the command to update an employee's job search status.
@@ -54,12 +54,12 @@ export class UpdateEmployeeJobSearchStatusHandler implements ICommandHandler<Upd
 			// Get the user ID from the employee
 			const userId = employee.userId;
 
-			// Attempt to sync the employee with Gauzy AI
-			const syncResult = await this.gauzyAIService.syncEmployees([employee]);
+			// Attempt to sync the employee with IRTranscripts AI
+			const syncResult = await this.irtranscriptsAIService.syncEmployees([employee]);
 
 			if (syncResult) {
 				try {
-					await this.gauzyAIService.updateEmployeeStatus({
+					await this.irtranscriptsAIService.updateEmployeeStatus({
 						employeeId,
 						userId,
 						tenantId,
@@ -70,15 +70,15 @@ export class UpdateEmployeeJobSearchStatusHandler implements ICommandHandler<Upd
 					console.log('Employee synced and job search status updated successfully.');
 				} catch (error) {
 					// Handle errors during the status update operation
-					console.error('Error while updating employee job search status with Gauzy AI:', error.message);
+					console.error('Error while updating employee job search status with IRTranscripts AI:', error.message);
 				}
 			} else {
 				// Sync was not successful
-				console.log('Employee sync with Gauzy AI failed.');
+				console.log('Employee sync with IRTranscripts AI failed.');
 			}
 		} catch (error) {
 			// Handle errors during the sync operation
-			console.error('Error while syncing employee with Gauzy AI:', error.message);
+			console.error('Error while syncing employee with IRTranscripts AI:', error.message);
 		}
 
 		// Update the employee's job search status locally — scoped to the tenant explicitly (the

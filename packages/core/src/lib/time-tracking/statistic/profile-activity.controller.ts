@@ -1,6 +1,6 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { IProfileActivity } from '@gauzy/contracts';
+import { IProfileActivity } from '@irtranscripts/contracts';
 import { TenantPermissionGuard } from '../../shared/guards';
 import { UseValidationPipe } from '../../shared/pipes';
 import { ProfileActivityQueryDTO } from './dto/profile-activity-query.dto';

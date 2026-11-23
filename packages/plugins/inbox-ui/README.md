@@ -2,7 +2,7 @@
 {
   "MD043": {
     "headings": [
-      "# @gauzy/plugin-inbox-ui",
+      "# @irtranscripts/plugin-inbox-ui",
       "## Switch",
       "## What it shows",
       "## Tests"
@@ -12,13 +12,13 @@
 -->
 <!-- cspell:ignore sandboxed srcdoc -->
 
-# @gauzy/plugin-inbox-ui
+# @irtranscripts/plugin-inbox-ui
 
-The Angular side of the Gauzy **Inbox**
-([`@gauzy/plugin-inbox`](../inbox/README.md)): one page for everything
+The Angular side of the IRTranscripts **Inbox**
+([`@irtranscripts/plugin-inbox`](../inbox/README.md)): one page for everything
 addressed to me, plus an unread badge in the header.
 
-Plan: `04-inbox-and-email.md` §1 (G-P3-2) of the Gauzy ↔ Ever Works
+Plan: `04-inbox-and-email.md` §1 (G-P3-2) of the IRTranscripts ↔ Ever Works
 integration plan (`ever-co/homelab`, `docs/superpowers/specs/`).
 
 ## Switch
@@ -27,7 +27,7 @@ The UI has no switch of its own. It follows the API:
 
 - The nav entry and the header badge appear only after the API has answered
   `GET /api/inbox/items/counts` for the signed-in user. The API serves that
-  route only when `GAUZY_INBOX_ENABLED=true` loads `@gauzy/plugin-inbox`.
+  route only when `IRTRANSCRIPTS_INBOX_ENABLED=true` loads `@irtranscripts/plugin-inbox`.
   Where it does not (the default), the app looks exactly as before. A
   temporary failure (5xx, network) is retried with a growing delay; 404, 401
   and 403 are final.
@@ -37,7 +37,7 @@ The UI has no switch of its own. It follows the API:
   Notifications) until the API answers.
 - The **Settings → Inbox** entries (permission `INBOX_MAILBOX_MANAGE`)
   appear only where the API also serves the Inbox email features
-  (`GAUZY_INBOX_EMAIL_ENABLED=true`): once the Inbox check passed, the UI
+  (`IRTRANSCRIPTS_INBOX_EMAIL_ENABLED=true`): once the Inbox check passed, the UI
   asks `GET /api/inbox/mailboxes/mine` once per user (404, 401 and 403 are
   final, a temporary failure is retried). Their routes always exist; opened
   without the email features, a page says they are off.
@@ -47,7 +47,7 @@ The UI has no switch of its own. It follows the API:
 - **Tabs:** All, Decisions (open questions, approvals and escalations), Email,
   **Notifications**, Snoozed (where a snoozed item can be found and woken
   before its time) and Archived.
-- **Notifications** are Gauzy's own `EmployeeNotification`s, read live from
+- **Notifications** are IRTranscripts's own `EmployeeNotification`s, read live from
   `/api/employee-notification` for the signed-in user's employee: their first
   Angular UI. Nothing is copied into the Inbox.
 - **Filters:** kind, source, unread only, and text search.
@@ -107,7 +107,7 @@ The UI has no switch of its own. It follows the API:
   reaches me, with the API's forwarding instructions.
 
 The badge is a header action: `NavigationBuilderService.registerHeaderAction`
-in `@gauzy/ui-core/core` is the extension point. The header renders plugins'
+in `@irtranscripts/ui-core/core` is the extension point. The header renders plugins'
 actions after its own.
 
 ## Tests

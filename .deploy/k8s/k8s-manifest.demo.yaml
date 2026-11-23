@@ -2,11 +2,11 @@
 kind: Service
 apiVersion: v1
 metadata:
-    name: gauzy-demo-lb
+    name: irtranscripts-demo-lb
 spec:
     type: ClusterIP
     selector:
-        app: gauzy-demo-webapp
+        app: irtranscripts-demo-webapp
     ports:
         - name: http
           protocol: TCP
@@ -16,36 +16,36 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-    name: gauzy-demo-web-ingress
+    name: irtranscripts-demo-web-ingress
     annotations:
         nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
         nginx.ingress.kubernetes.io/proxy-body-size: '20m'
 spec:
     ingressClassName: nginx
     rules:
-        - host: demo.gauzy.co
+        - host: demo.irtranscripts.com
           http:
               paths:
                   - path: /
                     pathType: Prefix
                     backend:
                         service:
-                            name: gauzy-demo-lb
+                            name: irtranscripts-demo-lb
                             port:
                                 number: 80
     tls:
         - hosts:
-              - demo.gauzy.co
-          secretName: demo.gauzy.co-tls
+              - demo.irtranscripts.com
+          secretName: demo.irtranscripts.com-tls
 ---
 kind: Service
 apiVersion: v1
 metadata:
-    name: gauzy-demo-api-lb
+    name: irtranscripts-demo-api-lb
 spec:
     type: ClusterIP
     selector:
-        app: gauzy-demo-api
+        app: irtranscripts-demo-api
     ports:
         - name: http
           protocol: TCP
@@ -55,52 +55,52 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-    name: gauzy-demo-api-ingress
+    name: irtranscripts-demo-api-ingress
     annotations:
         nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
         nginx.ingress.kubernetes.io/proxy-body-size: '20m'
 spec:
     ingressClassName: nginx
     rules:
-        - host: apidemo.gauzy.co
+        - host: apidemo.irtranscripts.com
           http:
               paths:
                   - path: /
                     pathType: Prefix
                     backend:
                         service:
-                            name: gauzy-demo-api-lb
+                            name: irtranscripts-demo-api-lb
                             port:
                                 number: 80
     tls:
         - hosts:
-              - apidemo.gauzy.co
-          secretName: apidemo.gauzy.co-tls
+              - apidemo.irtranscripts.com
+          secretName: apidemo.irtranscripts.com-tls
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: gauzy-demo-api
+    name: irtranscripts-demo-api
 spec:
     replicas: 1
     selector:
         matchLabels:
-            app: gauzy-demo-api
+            app: irtranscripts-demo-api
     template:
         metadata:
             labels:
-                app: gauzy-demo-api
+                app: irtranscripts-demo-api
         spec:
             securityContext:
                 seccompProfile:
                     type: RuntimeDefault
             containers:
-                - name: gauzy-demo-api
+                - name: irtranscripts-demo-api
                   securityContext:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
                       runAsNonRoot: false
-                  image: registry.digitalocean.com/ever/gauzy-api-demo:latest
+                  image: registry.digitalocean.com/ever/irtranscripts-api-demo:latest
                   resources:
                       requests:
                           cpu: '100m'
@@ -130,12 +130,12 @@ spec:
                       - name: SENTRY_POSTGRES_TRACKING_ENABLED
                         value: '$SENTRY_POSTGRES_TRACKING_ENABLED'
                       - name: API_BASE_URL
-                        value: 'https://apidemo.gauzy.co'
+                        value: 'https://apidemo.irtranscripts.com'
                       - name: CLIENT_BASE_URL
-                        value: 'https://demo.gauzy.co'
+                        value: 'https://demo.irtranscripts.com'
                       # Signing/session secrets: never commit a value here, it is public (GHSA-39j7-x845-4w3c).
                       # Inject real ones from a secret store. Left empty, this DEMO=true API still
-                      # falls back to the published defaults in code (held, see resolveSecret in @gauzy/config).
+                      # falls back to the published defaults in code (held, see resolveSecret in @irtranscripts/config).
                       - name: EXPRESS_SESSION_SECRET
                         value: ''
                       - name: JWT_SECRET
@@ -166,27 +166,27 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: gauzy-demo-webapp
+    name: irtranscripts-demo-webapp
 spec:
     replicas: 1
     selector:
         matchLabels:
-            app: gauzy-demo-webapp
+            app: irtranscripts-demo-webapp
     template:
         metadata:
             labels:
-                app: gauzy-demo-webapp
+                app: irtranscripts-demo-webapp
         spec:
             securityContext:
                 seccompProfile:
                     type: RuntimeDefault
             containers:
-                - name: gauzy-demo-webapp
+                - name: irtranscripts-demo-webapp
                   securityContext:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
                       runAsNonRoot: false
-                  image: registry.digitalocean.com/ever/gauzy-webapp-demo:latest
+                  image: registry.digitalocean.com/ever/irtranscripts-webapp-demo:latest
                   resources:
                       requests:
                           cpu: '50m'
@@ -195,9 +195,9 @@ spec:
                       - name: DEMO
                         value: 'true'
                       - name: API_BASE_URL
-                        value: 'https://apidemo.gauzy.co'
+                        value: 'https://apidemo.irtranscripts.com'
                       - name: CLIENT_BASE_URL
-                        value: 'https://demo.gauzy.co'
+                        value: 'https://demo.irtranscripts.com'
                       - name: SENTRY_DSN
                         value: '$SENTRY_DSN'
                       - name: CHATWOOT_SDK_TOKEN
@@ -216,16 +216,16 @@ spec:
                         value: '23.3332736'
                       - name: DEFAULT_CURRENCY
                         value: 'USD'
-                      - name: GAUZY_GITHUB_CLIENT_ID
-                        value: '$GAUZY_GITHUB_CLIENT_ID'
-                      - name: GAUZY_GITHUB_APP_NAME
-                        value: '$GAUZY_GITHUB_APP_NAME'
-                      - name: GAUZY_GITHUB_REDIRECT_URL
-                        value: '$GAUZY_GITHUB_REDIRECT_URL'
-                      - name: GAUZY_GITHUB_POST_INSTALL_URL
-                        value: '$GAUZY_GITHUB_POST_INSTALL_URL'
-                      - name: GAUZY_GITHUB_APP_ID
-                        value: '$GAUZY_GITHUB_APP_ID'
+                      - name: IRTRANSCRIPTS_GITHUB_CLIENT_ID
+                        value: '$IRTRANSCRIPTS_GITHUB_CLIENT_ID'
+                      - name: IRTRANSCRIPTS_GITHUB_APP_NAME
+                        value: '$IRTRANSCRIPTS_GITHUB_APP_NAME'
+                      - name: IRTRANSCRIPTS_GITHUB_REDIRECT_URL
+                        value: '$IRTRANSCRIPTS_GITHUB_REDIRECT_URL'
+                      - name: IRTRANSCRIPTS_GITHUB_POST_INSTALL_URL
+                        value: '$IRTRANSCRIPTS_GITHUB_POST_INSTALL_URL'
+                      - name: IRTRANSCRIPTS_GITHUB_APP_ID
+                        value: '$IRTRANSCRIPTS_GITHUB_APP_ID'
                       - name: JITSU_BROWSER_URL
                         value: '$JITSU_BROWSER_URL'
                       - name: JITSU_BROWSER_WRITE_KEY
@@ -238,27 +238,27 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: gauzy-demo-worker
+    name: irtranscripts-demo-worker
 spec:
     replicas: 1
     selector:
         matchLabels:
-            app: gauzy-demo-worker
+            app: irtranscripts-demo-worker
     template:
         metadata:
             labels:
-                app: gauzy-demo-worker
+                app: irtranscripts-demo-worker
         spec:
             securityContext:
                 seccompProfile:
                     type: RuntimeDefault
             containers:
-                - name: gauzy-demo-worker
+                - name: irtranscripts-demo-worker
                   securityContext:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
                       runAsNonRoot: false
-                  image: registry.digitalocean.com/ever/gauzy-worker-demo:latest
+                  image: registry.digitalocean.com/ever/irtranscripts-worker-demo:latest
                   resources:
                       requests:
                           cpu: '50m'
@@ -283,9 +283,9 @@ spec:
                       - name: SENTRY_POSTGRES_TRACKING_ENABLED
                         value: '$SENTRY_POSTGRES_TRACKING_ENABLED'
                       - name: API_BASE_URL
-                        value: 'https://apidemo.gauzy.co'
+                        value: 'https://apidemo.irtranscripts.com'
                       - name: CLIENT_BASE_URL
-                        value: 'https://demo.gauzy.co'
+                        value: 'https://demo.irtranscripts.com'
                       - name: OTEL_ENABLED
                         value: '$OTEL_ENABLED'
                       - name: OTEL_PROVIDER

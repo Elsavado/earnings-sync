@@ -172,7 +172,7 @@ describe.each(targets)('AuthZitadel migration on $name', ({ name: dialect, url }
 		}
 	});
 
-	it("removes a person's links and sessions when the Gauzy user is deleted", async () => {
+	it("removes a person's links and sessions when the IRTranscripts user is deleted", async () => {
 		const q = (name: string) => quote(dialect, name);
 		const userId = '00000000-0000-4000-9000-000000000001';
 		const otherUserId = '00000000-0000-4000-9000-000000000002';

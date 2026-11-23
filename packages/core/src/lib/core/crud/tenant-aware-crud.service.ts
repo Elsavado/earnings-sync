@@ -13,8 +13,8 @@ import {
 	UpdateResult
 } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { ID, IPagination, IUser, PermissionsEnum } from '@gauzy/contracts';
-import { isNotEmpty, parseToBoolean } from '@gauzy/utils';
+import { ID, IPagination, IUser, PermissionsEnum } from '@irtranscripts/contracts';
+import { isNotEmpty, parseToBoolean } from '@irtranscripts/utils';
 import { LegacyFindManyOptions, LegacyFindOneOptions, MultiORMEnum } from '../utils';
 import { MikroOrmBaseEntityRepository } from '../../core/repository/mikro-orm-base-entity.repository';
 import { RequestContext } from '../context';

@@ -11,21 +11,21 @@
 
 ::ng-deep {
   .term_and_condition {
-    background-color: var(--gauzy-card-2);
+    background-color: var(--irtranscripts-card-2);
     border-radius: var(--border-radius);
     height: calc(100vh - 11rem);
     overflow: auto;
     font-family: inherit !important;
 
     h1 {
-      background: var(--gauzy-card-2);
+      background: var(--irtranscripts-card-2);
       border-radius: var(--border-radius) var(--border-radius) 0 0;
       padding: 10px 30px;
       margin: -10px -30px 0;
     }
 
     h2 {
-      color: var(--gauzy-text-color-2);
+      color: var(--irtranscripts-text-color-2);
       font-size: 18px !important;
       font-weight: 600 !important;
       line-height: 24px;
@@ -34,7 +34,7 @@
     }
 
     h3 {
-      color: var(--gauzy-text-color-1);
+      color: var(--irtranscripts-text-color-1);
       font-size: 16px !important;
       font-weight: 600 !important;
       line-height: 20px;
@@ -43,7 +43,7 @@
     }
 
     h4 {
-      color: var(--gauzy-text-color-2);
+      color: var(--irtranscripts-text-color-2);
       font-size: 13px !important;
       font-weight: 600 !important;
       line-height: 16px !important;
@@ -542,7 +542,7 @@
   }
 
   .iubenda_vip_policy.iubenda_terms_policy h2 {
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
     font-size: 18px !important;
     font-weight: 600 !important;
     line-height: 24px;
@@ -552,7 +552,7 @@
   }
 
   .iubenda_vip_policy.iubenda_terms_policy h3 {
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
     font-size: 16px !important;
     font-weight: 600 !important;
     line-height: 20px;
@@ -564,7 +564,7 @@
   .iubenda_vip_policy.iubenda_terms_policy h4 {
     font-size: 16px !important;
     padding-top: 40px;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
   }
 
   .iubenda_vip_policy.iubenda_terms_policy h5 {
@@ -633,7 +633,7 @@
   }
 
   .iubenda_vip_policy h1 {
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
     font-size: 24px !important;
     font-weight: 400 !important;
     line-height: 30px;
@@ -643,7 +643,7 @@
   }
 
   .iubenda_vip_policy h2 {
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
     font-size: 18px !important;
     font-weight: 600 !important;
     line-height: 24px;
@@ -654,7 +654,7 @@
   }
 
   .iubenda_vip_policy h3 {
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
     font-size: 16px !important;
     font-weight: 600 !important;
     line-height: 20px;
@@ -699,20 +699,20 @@
   .iubenda_vip_policy .definitions,
   .iubenda_vip_policy .iub_footer,
   .iubenda_vip_policy .for_boxes {
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
   }
 
   .iubenda_vip_policy .box_primary {
     // The trailing `(0 0 0 / 15%)` left behind by an old find-and-replace made
     // both declarations invalid, so this box drew no edge at all.
-    box-shadow: var(--gauzy-shadow) !important;
+    box-shadow: var(--irtranscripts-shadow) !important;
     border: unset !important;
     border-radius: var(--border-radius) !important;
-    background: var(--gauzy-card-4) !important;
+    background: var(--irtranscripts-card-4) !important;
   }
 
   .iubenda_vip_policy .box_primary h3 {
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
     font-size: 16px !important;
     font-weight: 600 !important;
     line-height: 20px;

@@ -8,7 +8,7 @@ import {
 	OrganizationDepartmentsService,
 	OrganizationProjectsService,
 	OrganizationsService
-} from '@gauzy/ui-core/core';
+} from '@irtranscripts/ui-core/core';
 import { InviteMutationComponent } from './invite-mutation.component';
 import { InviteFormsModule } from '../forms/invite-forms.module';
 

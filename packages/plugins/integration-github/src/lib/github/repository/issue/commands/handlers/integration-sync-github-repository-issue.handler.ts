@@ -3,8 +3,8 @@ import {
 	IOrganizationGithubRepository,
 	IOrganizationGithubRepositoryFindInput,
 	IOrganizationGithubRepositoryIssue
-} from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { IntegrationSyncGithubRepositoryIssueCommand } from '../integration-sync-github-repository-issue.command';
 import { TypeOrmOrganizationGithubRepositoryRepository } from '../../../repository/type-orm-organization-github-repository.repository';
 import { TypeOrmOrganizationGithubRepositoryIssueRepository } from '../../repository/type-orm-github-repository-issue.repository';

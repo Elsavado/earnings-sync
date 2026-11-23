@@ -1,10 +1,10 @@
 /**
- * "Invite to Ever Works" on the People tab (G-P1-6, plan 01 §3 "No match"): a Gauzy person with no Ever Works member
+ * "Invite to Ever Works" on the People tab (G-P1-6, plan 01 §3 "No match"): a IRTranscripts person with no Ever Works member
  * is invited into the mapped Ever Works organization through the integration API (`POST /members/invite`, CR-13,
  * contract v1-draft.15) — the app's own invitation, sent as the admin's paired Ever Works user. Nothing is paired
  * by it; a repeat is answered by Ever Works as the pending invitation. Against the mock Ever Works server.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	const entity = (name: string) => ({ [name]: class {} })[name];
 	const granted = new Set<string>();
@@ -34,12 +34,12 @@ jest.mock('@gauzy/core', () => {
 		}
 	};
 });
-jest.mock('@gauzy/common', () => ({ Public: () => () => undefined }));
+jest.mock('@irtranscripts/common', () => ({ Public: () => () => undefined }));
 
 import 'reflect-metadata';
 import { BadGatewayException, BadRequestException, ConflictException, ForbiddenException, ServiceUnavailableException } from '@nestjs/common';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { Employee, RequestContext } from '@gauzy/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { Employee, RequestContext } from '@irtranscripts/core';
 import { TestEverWorksClientFactory } from '../client/ever-works-client.factory';
 import { EverWorksInboundEvent, EverWorksLinkType } from '../sync/entities/ever-works-sync.entities';
 import { MOCK_PRESET_SCOPES, MockEverWorksServer } from '../testing/mock-ever-works.server';
@@ -49,7 +49,7 @@ const granted = (RequestContext as unknown as { __granted: Set<string> }).__gran
 const MAPPING = 'mapping-1';
 const ADMIN_EW = 'ew-user-admin';
 
-function setup(options: { scopes?: string[]; links?: Array<{ ewId: string; gauzyId: string }>; ewMembers?: Array<Record<string, unknown>>; adminPaired?: boolean } = {}) {
+function setup(options: { scopes?: string[]; links?: Array<{ ewId: string; irtranscriptsId: string }>; ewMembers?: Array<Record<string, unknown>>; adminPaired?: boolean } = {}) {
 	const mock = new MockEverWorksServer();
 	const ewOrg = { id: 'ew-org-1', slug: 'acme', displayName: 'Acme' };
 	const key = mock.addKey({ organizations: [ewOrg], scopes: options.scopes ?? [...MOCK_PRESET_SCOPES] });
@@ -63,7 +63,7 @@ function setup(options: { scopes?: string[]; links?: Array<{ ewId: string; gauzy
 		everWorksOrganizationId: ewOrg.id,
 		everWorksOrganizationSlug: ewOrg.slug
 	};
-	const links = [...(options.links ?? []), ...(options.adminPaired === false ? [] : [{ ewId: ADMIN_EW, gauzyId: 'employee-admin' }])].map((l) => ({
+	const links = [...(options.links ?? []), ...(options.adminPaired === false ? [] : [{ ewId: ADMIN_EW, irtranscriptsId: 'employee-admin' }])].map((l) => ({
 		...l,
 		integrationTenantId: MAPPING,
 		entityType: EverWorksLinkType.MEMBER,
@@ -120,7 +120,7 @@ function setup(options: { scopes?: string[]; links?: Array<{ ewId: string; gauzy
 	const linkService = {
 		list: jest.fn(async () => links),
 		byEw: jest.fn(async (_m: string, _t: string, ewId: string) => links.find((l) => l.ewId === ewId) ?? null),
-		byGauzy: jest.fn(async (_m: string, _t: string, gauzyId: string) => links.find((l) => l.gauzyId === gauzyId) ?? null),
+		byIRTranscripts: jest.fn(async (_m: string, _t: string, irtranscriptsId: string) => links.find((l) => l.irtranscriptsId === irtranscriptsId) ?? null),
 		record: jest.fn(),
 		remove: jest.fn()
 	};
@@ -136,7 +136,7 @@ describe('EverWorksPeopleService — invite to Ever Works', () => {
 		granted.add(PermissionsEnum.ORG_INVITE_EDIT);
 	});
 
-	it("invites a Gauzy person with no Ever Works member into the mapped organization, as the admin's Ever Works user", async () => {
+	it("invites a IRTranscripts person with no Ever Works member into the mapped organization, as the admin's Ever Works user", async () => {
 		const { service, mock, invites } = setup();
 		const result = await service.inviteToEverWorks(MAPPING as never, { employeeId: 'employee-grace' as never }, 'o1' as never);
 
@@ -215,7 +215,7 @@ describe('EverWorksPeopleService — invite to Ever Works', () => {
 	});
 
 	it('refuses a person already paired with an Ever Works member (409)', async () => {
-		const { service, invites } = setup({ links: [{ ewId: 'ew-user-grace', gauzyId: 'employee-grace' }] });
+		const { service, invites } = setup({ links: [{ ewId: 'ew-user-grace', irtranscriptsId: 'employee-grace' }] });
 		await expect(service.inviteToEverWorks(MAPPING as never, { employeeId: 'employee-grace' as never })).rejects.toBeInstanceOf(ConflictException);
 		expect(invites()).toHaveLength(0);
 	});

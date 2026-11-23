@@ -4,7 +4,7 @@
  */
 const mockIsInstallationOperator = jest.fn();
 
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	isInstallationOperator: () => mockIsInstallationOperator()
 }));
 

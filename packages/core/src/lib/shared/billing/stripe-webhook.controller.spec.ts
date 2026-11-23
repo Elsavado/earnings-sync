@@ -42,11 +42,11 @@ function session(overrides: Record<string, any> = {}): Record<string, any> {
 		subscription: 'sub_Buyer0000000001',
 		client_reference_id: null,
 		metadata: {
-			ever_product: 'gauzy',
+			ever_product: 'irtranscripts',
 			ever_hosting: 'cloud',
 			ever_tier: 'starter',
 			ever_interval: 'annual',
-			ever_lookup_key: 'ever_gauzy_cloud_starter_annual'
+			ever_lookup_key: 'ever_irtranscripts_cloud_starter_annual'
 		},
 		...overrides
 	};
@@ -58,8 +58,8 @@ function subscription(overrides: Record<string, any> = {}): Record<string, any> 
 		object: 'subscription',
 		customer: 'cus_Buyer0000000001',
 		status: 'trialing',
-		metadata: { ever_product: 'gauzy' },
-		items: { data: [{ id: 'si_1', price: { id: 'price_1', lookup_key: 'ever_gauzy_cloud_starter_annual' } }] },
+		metadata: { ever_product: 'irtranscripts' },
+		items: { data: [{ id: 'si_1', price: { id: 'price_1', lookup_key: 'ever_irtranscripts_cloud_starter_annual' } }] },
 		...overrides
 	};
 }
@@ -310,7 +310,7 @@ describe('StripeWebhookController — foreign events are acknowledged with no DB
 				customer: null,
 				subscription: null,
 				metadata: {
-					ever_product: 'gauzy',
+					ever_product: 'irtranscripts',
 					ever_hosting: 'selfhosted',
 					ever_tier: 'small_business',
 					ever_interval: 'lifetime'
@@ -318,9 +318,9 @@ describe('StripeWebhookController — foreign events are acknowledged with no DB
 			})
 		],
 		[
-			'Gauzy-branded session in payment mode (a gauzy product, but not a hosted plan)',
+			'IRTranscripts-branded session in payment mode (a irtranscripts product, but not a hosted plan)',
 			'checkout.session.completed',
-			session({ mode: 'payment', metadata: { ever_product: 'gauzy' } })
+			session({ mode: 'payment', metadata: { ever_product: 'irtranscripts' } })
 		],
 		[
 			'GitHands subscription checkout (client_reference_id, no ever_product)',
@@ -343,33 +343,33 @@ describe('StripeWebhookController — foreign events are acknowledged with no DB
 			})
 		],
 		[
-			'ever.co Gauzy SELF-HOSTED license session (subscription mode, ever_hosting=selfhosted)',
+			'ever.co IRTranscripts SELF-HOSTED license session (subscription mode, ever_hosting=selfhosted)',
 			'checkout.session.completed',
 			session({
 				metadata: {
-					ever_product: 'gauzy',
+					ever_product: 'irtranscripts',
 					ever_hosting: 'selfhosted',
 					ever_tier: 'enterprise',
 					ever_interval: 'annual',
-					ever_lookup_key: 'ever_gauzy_selfhosted_enterprise_annual'
+					ever_lookup_key: 'ever_irtranscripts_selfhosted_enterprise_annual'
 				}
 			})
 		],
 		[
-			'Gauzy self-hosted license subscription (ever_hosting=selfhosted)',
+			'IRTranscripts self-hosted license subscription (ever_hosting=selfhosted)',
 			'customer.subscription.created',
 			subscription({
 				status: 'active',
-				metadata: { ever_product: 'gauzy', ever_hosting: 'selfhosted' },
+				metadata: { ever_product: 'irtranscripts', ever_hosting: 'selfhosted' },
 				items: {
 					data: [
-						{ id: 'si_s', price: { id: 'price_s', lookup_key: 'ever_gauzy_selfhosted_enterprise_annual' } }
+						{ id: 'si_s', price: { id: 'price_s', lookup_key: 'ever_irtranscripts_selfhosted_enterprise_annual' } }
 					]
 				}
 			})
 		],
 		[
-			'Gauzy self-hosted license subscription with no metadata (Dashboard-made) on an ever_gauzy_selfhosted_ price',
+			'IRTranscripts self-hosted license subscription with no metadata (Dashboard-made) on an ever_irtranscripts_selfhosted_ price',
 			'customer.subscription.created',
 			subscription({
 				status: 'active',
@@ -378,42 +378,42 @@ describe('StripeWebhookController — foreign events are acknowledged with no DB
 					data: [
 						{
 							id: 'si_s',
-							price: { id: 'price_s', lookup_key: 'ever_gauzy_selfhosted_small_business_monthly' }
+							price: { id: 'price_s', lookup_key: 'ever_irtranscripts_selfhosted_small_business_monthly' }
 						}
 					]
 				}
 			})
 		],
 		[
-			'ever_product=gauzy with no ever_hosting but a self-hosted plan price',
+			'ever_product=irtranscripts with no ever_hosting but a self-hosted plan price',
 			'customer.subscription.created',
 			subscription({
 				status: 'active',
-				metadata: { ever_product: 'gauzy' },
+				metadata: { ever_product: 'irtranscripts' },
 				items: {
 					data: [
-						{ id: 'si_s', price: { id: 'price_s', lookup_key: 'ever_gauzy_selfhosted_enterprise_monthly' } }
+						{ id: 'si_s', price: { id: 'price_s', lookup_key: 'ever_irtranscripts_selfhosted_enterprise_monthly' } }
 					]
 				}
 			})
 		],
 		[
-			'Gauzy-stamped session whose lookup key is a self-hosted price',
+			'IRTranscripts-stamped session whose lookup key is a self-hosted price',
 			'checkout.session.completed',
 			session({
 				metadata: {
-					ever_product: 'gauzy',
+					ever_product: 'irtranscripts',
 					ever_hosting: 'cloud',
-					ever_lookup_key: 'ever_gauzy_selfhosted_enterprise_annual'
+					ever_lookup_key: 'ever_irtranscripts_selfhosted_enterprise_annual'
 				}
 			})
 		],
 		[
-			'ever_product=gauzy metadata on a Teams price',
+			'ever_product=irtranscripts metadata on a Teams price',
 			'customer.subscription.created',
 			subscription({
 				status: 'active',
-				metadata: { ever_product: 'gauzy' },
+				metadata: { ever_product: 'irtranscripts' },
 				items: {
 					data: [{ id: 'si_t', price: { id: 'price_t', lookup_key: 'ever_teams_cloud_starter_monthly' } }]
 				}
@@ -442,7 +442,7 @@ describe('StripeWebhookController — foreign events are acknowledged with no DB
 		expect(h.tenantUpdate).not.toHaveBeenCalled();
 		expect(h.fetchCalls).toEqual([]);
 		expect(h.decisions()).toEqual([
-			expect.objectContaining({ decision: 'skipped-foreign', product: 'gauzy', type })
+			expect.objectContaining({ decision: 'skipped-foreign', product: 'irtranscripts', type })
 		]);
 	});
 
@@ -464,15 +464,15 @@ describe('StripeWebhookController — foreign events are acknowledged with no DB
 	});
 });
 
-describe('StripeWebhookController — Gauzy events that must NOT link', () => {
-	const gauzyEvent = () => signed(event('checkout.session.completed', session()));
+describe('StripeWebhookController — IRTranscripts events that must NOT link', () => {
+	const irtranscriptsEvent = () => signed(event('checkout.session.completed', session()));
 
 	beforeEach(() => undefined);
 
 	it('no user has the address yet (buy-then-register) → no-user', async () => {
 		const h = buildHarness();
 		h.users = [];
-		await h.controller.handle(gauzyEvent() as any);
+		await h.controller.handle(irtranscriptsEvent() as any);
 		expect(h.tenantUpdate).not.toHaveBeenCalled();
 		expect(h.decisions()).toEqual([
 			expect.objectContaining({ decision: 'no-user', customer: 'cus_Buyer0000000001' })
@@ -484,7 +484,7 @@ describe('StripeWebhookController — Gauzy events that must NOT link', () => {
 	it('the address exists in two tenants → multi', async () => {
 		const h = buildHarness();
 		h.users = [admin(), admin({ id: 'other-user', tenantId: OTHER_TENANT_ID })];
-		await h.controller.handle(gauzyEvent() as any);
+		await h.controller.handle(irtranscriptsEvent() as any);
 		expect(h.tenantUpdate).not.toHaveBeenCalled();
 		expect(h.decisions()).toEqual([expect.objectContaining({ decision: 'multi' })]);
 	});
@@ -500,7 +500,7 @@ describe('StripeWebhookController — Gauzy events that must NOT link', () => {
 		const h = buildHarness();
 		h.users = [admin({ role: roleName ? { id: 'r', name: roleName } : null })];
 		h.stripe.subscriptions['cus_Buyer0000000001'] = [subscription()];
-		await h.controller.handle(gauzyEvent() as any);
+		await h.controller.handle(irtranscriptsEvent() as any);
 		expect(h.tenantUpdate).not.toHaveBeenCalled();
 		expect(h.tenantFindOne).not.toHaveBeenCalled();
 		expect(h.decisions()).toEqual([expect.objectContaining({ decision: 'non-admin', tenant: TENANT_ID })]);
@@ -509,7 +509,7 @@ describe('StripeWebhookController — Gauzy events that must NOT link', () => {
 	it('an unverified SUPER_ADMIN → unverified', async () => {
 		const h = buildHarness();
 		h.users = [admin({ emailVerifiedAt: null })];
-		await h.controller.handle(gauzyEvent() as any);
+		await h.controller.handle(irtranscriptsEvent() as any);
 		expect(h.tenantUpdate).not.toHaveBeenCalled();
 		expect(h.decisions()).toEqual([expect.objectContaining({ decision: 'unverified' })]);
 	});
@@ -518,14 +518,14 @@ describe('StripeWebhookController — Gauzy events that must NOT link', () => {
 		const h = buildHarness();
 		h.users = [admin()];
 		h.claimedBy = { id: OTHER_TENANT_ID };
-		await h.controller.handle(gauzyEvent() as any);
+		await h.controller.handle(irtranscriptsEvent() as any);
 		expect(h.tenantUpdate).not.toHaveBeenCalled();
 		expect(h.decisions()).toEqual([
 			expect.objectContaining({ decision: 'claimed', detail: `held-by:${OTHER_TENANT_ID}` })
 		]);
 	});
 
-	it('the customer holds no entitling Gauzy subscription (only Teams, or cancelled) → not-entitled', async () => {
+	it('the customer holds no entitling IRTranscripts subscription (only Teams, or cancelled) → not-entitled', async () => {
 		const h = buildHarness();
 		h.users = [admin()];
 		h.stripe.subscriptions['cus_Buyer0000000001'] = [
@@ -536,19 +536,19 @@ describe('StripeWebhookController — Gauzy events that must NOT link', () => {
 			subscription({ status: 'canceled' }),
 			subscription({ status: 'incomplete_expired' })
 		];
-		await h.controller.handle(gauzyEvent() as any);
+		await h.controller.handle(irtranscriptsEvent() as any);
 		expect(h.tenantUpdate).not.toHaveBeenCalled();
 		expect(h.decisions()).toEqual([expect.objectContaining({ decision: 'not-entitled' })]);
 	});
 
-	it('the customer holds only a Gauzy SELF-HOSTED license subscription → not-entitled', async () => {
+	it('the customer holds only a IRTranscripts SELF-HOSTED license subscription → not-entitled', async () => {
 		const h = buildHarness();
 		h.users = [admin()];
 		h.stripe.subscriptions['cus_Buyer0000000001'] = [
 			subscription({
 				status: 'active',
-				metadata: { ever_product: 'gauzy', ever_hosting: 'selfhosted' },
-				items: { data: [{ price: { lookup_key: 'ever_gauzy_selfhosted_enterprise_annual' } }] }
+				metadata: { ever_product: 'irtranscripts', ever_hosting: 'selfhosted' },
+				items: { data: [{ price: { lookup_key: 'ever_irtranscripts_selfhosted_enterprise_annual' } }] }
 			})
 		];
 		await h.controller.handle(signed(event('checkout.session.completed', session())) as any);
@@ -560,7 +560,7 @@ describe('StripeWebhookController — Gauzy events that must NOT link', () => {
 		const h = buildHarness();
 		h.users = [admin()];
 		h.stripe.failSubscriptions = true;
-		const result = await h.controller.handle(gauzyEvent() as any);
+		const result = await h.controller.handle(irtranscriptsEvent() as any);
 		expect(result).toEqual({ received: true });
 		expect(h.tenantUpdate).not.toHaveBeenCalled();
 		expect(h.decisions()).toEqual([expect.objectContaining({ decision: 'stripe-unavailable' })]);
@@ -571,7 +571,7 @@ describe('StripeWebhookController — Gauzy events that must NOT link', () => {
 		h.createQueryBuilder.mockImplementation(() => {
 			throw new Error(`connection terminated while looking up ${BUYER_EMAIL}`);
 		});
-		const result = await h.controller.handle(gauzyEvent() as any);
+		const result = await h.controller.handle(irtranscriptsEvent() as any);
 		expect(result).toEqual({ received: true });
 		expect(h.tenantUpdate).not.toHaveBeenCalled();
 		expect(h.decisions()).toEqual([expect.objectContaining({ decision: 'error' })]);
@@ -580,7 +580,7 @@ describe('StripeWebhookController — Gauzy events that must NOT link', () => {
 });
 
 describe('StripeWebhookController — the one case that links', () => {
-	it('a verified SUPER_ADMIN buying Gauzy links their own tenant, once, only where empty', async () => {
+	it('a verified SUPER_ADMIN buying IRTranscripts links their own tenant, once, only where empty', async () => {
 		const h = buildHarness();
 		h.users = [admin()];
 		h.stripe.subscriptions['cus_Buyer0000000001'] = [subscription()];
@@ -598,7 +598,7 @@ describe('StripeWebhookController — the one case that links', () => {
 				decision: 'linked',
 				tenant: TENANT_ID,
 				customer: 'cus_Buyer0000000001',
-				product: 'gauzy'
+				product: 'irtranscripts'
 			})
 		]);
 	});
@@ -612,7 +612,7 @@ describe('StripeWebhookController — the one case that links', () => {
 		expect(h.decisions()[0].decision).toBe('linked');
 	});
 
-	it('a Dashboard-made subscription with no metadata but an ever_gauzy_cloud_ price links (email from Stripe)', async () => {
+	it('a Dashboard-made subscription with no metadata but an ever_irtranscripts_cloud_ price links (email from Stripe)', async () => {
 		const h = buildHarness();
 		h.users = [admin()];
 		const sub = subscription({ metadata: {}, status: 'active' });
@@ -622,7 +622,7 @@ describe('StripeWebhookController — the one case that links', () => {
 		await h.controller.handle(signed(event('customer.subscription.created', sub)) as any);
 
 		expect(h.tenantUpdate).toHaveBeenCalledTimes(1);
-		expect(h.decisions()).toEqual([expect.objectContaining({ decision: 'linked', eventProduct: 'gauzy' })]);
+		expect(h.decisions()).toEqual([expect.objectContaining({ decision: 'linked', eventProduct: 'irtranscripts' })]);
 		expect(h.fetchCalls.some((url) => url.endsWith('/customers/cus_Buyer0000000001'))).toBe(true);
 	});
 
@@ -661,7 +661,7 @@ describe('StripeWebhookController — BILLING_WEBHOOK_LINKING unset (the default
 	});
 
 	it('a $0 Starter somebody else started under a verified SUPER_ADMIN address does not bind that tenant', async () => {
-		// gauzy-code-02: nothing in the event tells the owner's purchase from one made in their name.
+		// irtranscripts-code-02: nothing in the event tells the owner's purchase from one made in their name.
 		const h = buildHarness();
 		h.users = [admin()];
 		h.stripe.subscriptions['cus_Attacker000001'] = [
@@ -736,18 +736,18 @@ describe('StripeWebhookController — BILLING_PRODUCT=teams (the Ever Teams depl
 		expect(h.decisions()).toEqual([expect.objectContaining({ decision: 'linked', product: 'teams' })]);
 	});
 
-	it('skips a Gauzy purchase', async () => {
+	it('skips a IRTranscripts purchase', async () => {
 		const h = buildHarness();
 		h.users = [admin()];
 		await h.controller.handle(signed(event('checkout.session.completed', session())) as any);
 		expect(h.createQueryBuilder).not.toHaveBeenCalled();
 		expect(h.tenantUpdate).not.toHaveBeenCalled();
 		expect(h.decisions()).toEqual([
-			expect.objectContaining({ decision: 'skipped-foreign', product: 'teams', eventProduct: 'gauzy' })
+			expect.objectContaining({ decision: 'skipped-foreign', product: 'teams', eventProduct: 'irtranscripts' })
 		]);
 	});
 
-	it('a Teams customer whose only live subscription is Gauzy is not entitled here', async () => {
+	it('a Teams customer whose only live subscription is IRTranscripts is not entitled here', async () => {
 		const h = buildHarness();
 		h.users = [admin()];
 		h.stripe.subscriptions['cus_Buyer0000000001'] = [subscription()];
@@ -760,7 +760,7 @@ describe('StripeWebhookController — BILLING_PRODUCT=teams (the Ever Teams depl
 });
 
 describe('StripeWebhookController — an unusable BILLING_PRODUCT', () => {
-	it('disables billing (403) rather than falling back to gauzy', async () => {
+	it('disables billing (403) rather than falling back to irtranscripts', async () => {
 		const h = buildHarness();
 		process.env.BILLING_PRODUCT = 'ever teams!';
 		await expect(

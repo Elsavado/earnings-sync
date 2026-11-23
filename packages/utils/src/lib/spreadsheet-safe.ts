@@ -11,7 +11,7 @@
  *
  * The defense is the OWASP one: prefix such a cell with a single quote, which every spreadsheet
  * treats as "this cell is text". A value that already starts with a quote is prefixed too, so that
- * {@link unneutralizeSpreadsheetCell} can undo the escape exactly and a Gauzy export → import
+ * {@link unneutralizeSpreadsheetCell} can undo the escape exactly and a IRTranscripts export → import
  * round-trips byte for byte.
  */
 

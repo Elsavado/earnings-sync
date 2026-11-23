@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsArray, IsOptional } from 'class-validator';
-import { IActivity, ID } from '@gauzy/contracts';
+import { IActivity, ID } from '@irtranscripts/contracts';
 
 /**
  * Body of PUT /timesheet/time-slot/:id.

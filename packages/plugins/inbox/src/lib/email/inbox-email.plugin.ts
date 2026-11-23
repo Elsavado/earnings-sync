@@ -1,5 +1,5 @@
-import { ApplicationPluginConfig } from '@gauzy/common';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@gauzy/plugin';
+import { ApplicationPluginConfig } from '@irtranscripts/common';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@irtranscripts/plugin';
 import { INBOX_EMAIL_MIGRATIONS } from './database/inbox-email-migrations';
 import { inboxEmailSchemaExtensions } from './graphql/inbox-email.schema';
 import { InboxEmailMessageResolver } from './graphql/inbox-email-message.resolver';
@@ -11,11 +11,11 @@ import { InboxEmployeeCreatedSubscriber } from './mailboxes/inbox-employee.subsc
 export { INBOX_EMAIL_MIGRATIONS };
 
 /**
- * The Inbox email features (`@gauzy/plugin-inbox`, plan 04 §5, Phase 4): email provider plugins and accounts, the
+ * The Inbox email features (`@irtranscripts/plugin-inbox`, plan 04 §5, Phase 4): email provider plugins and accounts, the
  * transport seam's provider transports, mailboxes and the inbound pipeline.
  *
- * Gauzy is production: `apps/api/src/plugins.ts` lists this plugin only when both `GAUZY_INBOX_ENABLED` and
- * `GAUZY_INBOX_EMAIL_ENABLED` are exactly `true` (after `InboxPlugin`). Off (the default) it is not loaded at all:
+ * IRTranscripts is production: `apps/api/src/plugins.ts` lists this plugin only when both `IRTRANSCRIPTS_INBOX_ENABLED` and
+ * `IRTRANSCRIPTS_INBOX_EMAIL_ENABLED` are exactly `true` (after `InboxPlugin`). Off (the default) it is not loaded at all:
  * no route, no GraphQL field, no table (its migrations are not even registered), no transport — every email goes out
  * over SMTP as before.
  */

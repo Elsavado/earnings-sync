@@ -43,13 +43,13 @@
  * one, and the document the field is read out of is the real one.
  */
 
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import {
 	IDEMPOTENT_METADATA_KEY,
 	PermissionGuard,
 	TenantPermissionGuard,
 	VERSIONED_METADATA_KEY
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import {
 	FieldDefinitionNode,
 	InputObjectTypeDefinitionNode,

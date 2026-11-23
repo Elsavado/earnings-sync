@@ -2,10 +2,10 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/
 import { ActivatedRoute } from '@angular/router';
 import { tap, catchError, finalize } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
-import { ActivepiecesService, ActivepiecesStoreService, ToastrService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { ActivepiecesService, ActivepiecesStoreService, ToastrService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { TranslateService } from '@ngx-translate/core';
-import { IActivepiecesConnection, IActivepiecesConnectionsListParams, IActivepiecesConnectionsListResponse } from '@gauzy/contracts';
+import { IActivepiecesConnection, IActivepiecesConnectionsListParams, IActivepiecesConnectionsListResponse } from '@irtranscripts/contracts';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy({ checkProperties: true })

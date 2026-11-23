@@ -16,11 +16,11 @@ jest.mock('../classification/document-classifier.service', () => ({ DocumentClas
 jest.mock('../indexing/document-index.service', () => ({ DocumentIndexService: class {} }));
 jest.mock('./docs-recovery.service', () => ({ DocsRecoveryService: class {} }));
 jest.mock('./docs-queue.service', () => ({ DocsQueueService: class {} }));
-// The thumbnail service reaches `FileStorage` (and through it the whole `@gauzy/core` graph).
+// The thumbnail service reaches `FileStorage` (and through it the whole `@irtranscripts/core` graph).
 jest.mock('../thumbnail/document-thumbnail.service', () => ({ DocumentThumbnailService: class {} }));
 jest.mock('../../services/docs-feature.service', () => ({ DocsFeatureService: class {} }));
 
-import { DocumentKnowledgeStatusEnum } from '@gauzy/contracts';
+import { DocumentKnowledgeStatusEnum } from '@irtranscripts/contracts';
 import { DOCS_JOB_CHUNK, DOCS_JOB_CLASSIFY, DOCS_JOB_EXTRACT, DOCS_JOB_RECONCILE } from './constants';
 import { DocsPipelineService } from './docs-pipeline.service';
 import { inlineStageJob } from './docs-pipeline.types';

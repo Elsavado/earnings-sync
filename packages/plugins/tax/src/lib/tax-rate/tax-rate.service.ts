@@ -1,6 +1,6 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { DeepPartial, DeleteResult, FindManyOptions, FindOptionsWhere } from 'typeorm';
-import { CurrencyCode, DecimalString, ID, IPagination } from '@gauzy/contracts';
+import { CurrencyCode, DecimalString, ID, IPagination } from '@irtranscripts/contracts';
 import {
 	IParsedDecimal,
 	LegacyFindOneOptions,
@@ -14,7 +14,7 @@ import {
 	multiplyDecimalUnits,
 	normalizeDecimalString,
 	parseDecimalString
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { confiningOrganizationId } from '../organization-boundary';
 import { assertPostalCodePattern, matchesPostalCode } from '../postal-code.matcher';
 import { TaxCategory } from '../tax-category/tax-category.entity';

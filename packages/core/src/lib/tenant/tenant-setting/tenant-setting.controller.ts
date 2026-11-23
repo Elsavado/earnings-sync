@@ -1,7 +1,7 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CommandBus } from '@nestjs/cqrs';
-import { ITenantSetting, PermissionsEnum } from '@gauzy/contracts';
+import { ITenantSetting, PermissionsEnum } from '@irtranscripts/contracts';
 import { CrudController } from '../../core/crud';
 import { Permissions } from '../../shared/decorators';
 import { UseValidationPipe } from '../../shared/pipes';

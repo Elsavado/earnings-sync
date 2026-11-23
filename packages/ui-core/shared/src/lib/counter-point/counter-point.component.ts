@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { NbProgressBarModule } from '@nebular/theme';
-import { progressStatus } from '@gauzy/ui-core/common';
+import { progressStatus } from '@irtranscripts/ui-core/common';
 import { Point } from './point/point.class';
 
 @Component({
-	selector: 'gauzy-counter-point',
+	selector: 'irtranscripts-counter-point',
 	templateUrl: './counter-point.component.html',
 	styleUrls: ['./counter-point.component.scss'],
 	standalone: true,

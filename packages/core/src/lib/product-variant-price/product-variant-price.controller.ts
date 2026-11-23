@@ -4,7 +4,7 @@ import { Body, Controller, UseGuards, Delete, HttpCode, HttpStatus, Param, Post,
 import { ProductVariantPrice } from './product-variant-price.entity';
 import { ProductVariantPriceService } from './product-variant-price.service';
 import { TenantPermissionGuard, PermissionGuard } from './../shared/guards';
-import { ID, PermissionsEnum } from '@gauzy/contracts';
+import { ID, PermissionsEnum } from '@irtranscripts/contracts';
 import { Permissions } from '../shared/decorators';
 import { AbstractValidationPipe, UUIDValidationPipe } from '../shared/pipes';
 import { TenantOrganizationBaseDTO } from '../core/dto';

@@ -7,7 +7,7 @@ import { NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
 import { catchError, combineLatest, EMPTY, filter, startWith, Subject, switchMap, tap } from 'rxjs';
-import { IOrganization } from '@gauzy/contracts';
+import { IOrganization } from '@irtranscripts/contracts';
 import {
 	ErrorHandlingService,
 	IPlaneRegenerateKeyResponse,
@@ -15,15 +15,15 @@ import {
 	IPlaneSettingsResponse,
 	Store,
 	ToastrService
-} from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { INTEGRATION_PLANE_PAGE_LINK } from '../../integration-plane.routes';
 import { PlaneApiKeyDialogComponent } from '../api-key-dialog/api-key-dialog.component';
 
 const URL_PATTERN = /^https?:\/\/.+/;
 
-/** Default global hosted Ever Gauzy PM web URL used for SSO in shared mode. */
-const SHARED_PLANE_WEB_URL = 'https://pm.gauzy.co';
+/** Default global hosted Ever IRTranscripts PM web URL used for SSO in shared mode. */
+const SHARED_PLANE_WEB_URL = 'https://pm.irtranscripts.com';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -144,7 +144,7 @@ export class PlaneSettingsComponent extends TranslationBaseComponent implements 
 	}
 
 	/**
-	 * Open the Plane web app with one-click SSO using the Gauzy access token.
+	 * Open the Plane web app with one-click SSO using the IRTranscripts access token.
 	 * Uses the configured web URL (or the global hosted PM URL for shared mode).
 	 */
 	openPlane(): void {

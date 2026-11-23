@@ -17,7 +17,7 @@
  * top-level `data:` navigation merely awkward are not something to rely on. So the app applies
  * its own **allowlist**, which is complete by construction: a scheme nobody enumerated is
  * rejected rather than passed. It mirrors `RICH_HTML_SANITIZE_OPTIONS` in
- * `@gauzy/core` (`core/html-sanitizer`), plus `blob:` for the object URLs the preview binds.
+ * `@irtranscripts/core` (`core/html-sanitizer`), plus `blob:` for the object URLs the preview binds.
  */
 
 /** Schemes a rendered `href`/`src` may carry. Everything else is dropped. */

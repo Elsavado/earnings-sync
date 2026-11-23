@@ -9,7 +9,7 @@ async function bootstrap() {
 	if (!process.env.UV_THREADPOOL_SIZE) {
 		process.env.UV_THREADPOOL_SIZE = '16';
 	}
-	const { registerPluginConfig } = await import('@gauzy/core');
+	const { registerPluginConfig } = await import('@irtranscripts/core');
 	const { plugins } = await import('./plugins');
 	await registerPluginConfig({ plugins });
 

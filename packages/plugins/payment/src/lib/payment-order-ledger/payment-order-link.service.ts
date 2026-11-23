@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, IsNull, Repository } from 'typeorm';
-import { DecimalString, ID } from '@gauzy/contracts';
-import { Money, Payment, RequestContext } from '@gauzy/core';
+import { DecimalString, ID } from '@irtranscripts/contracts';
+import { Money, Payment, RequestContext } from '@irtranscripts/core';
 import { PaymentCapture } from '../payment-capture/payment-capture.entity';
 import { TypeOrmPaymentCaptureRepository } from '../payment-capture/repository/type-orm-payment-capture.repository';
 import { Refund } from '../refund/refund.entity';

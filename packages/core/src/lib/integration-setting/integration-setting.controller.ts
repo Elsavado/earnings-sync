@@ -1,6 +1,6 @@
 import { BadRequestException, Body, Controller, HttpException, HttpStatus, Param, Put, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ID, IIntegrationSetting, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IIntegrationSetting, PermissionsEnum } from '@irtranscripts/contracts';
 import { PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { Permissions } from '../shared/decorators';
 import { UUIDValidationPipe, UseValidationPipe } from '../shared/pipes';

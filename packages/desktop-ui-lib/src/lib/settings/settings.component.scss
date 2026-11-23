@@ -13,13 +13,13 @@
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 10px;
-  color: var(--gauzy-text-color-2);
+  color: var(--irtranscripts-text-color-2);
 }
 
 .subtitle-tile {
   font-size: 14px;
   font-weight: 600;
-  color: var(--gauzy-text-color-2);
+  color: var(--irtranscripts-text-color-2);
 }
 
 .third-party-item {
@@ -184,7 +184,7 @@
 
 :host {
   nb-sidebar {
-    background-color: var(--gauzy-sidebar-background-3);
+    background-color: var(--irtranscripts-sidebar-background-3);
   }
 
   nb-sidebar ::ng-deep .scrollable {
@@ -208,17 +208,17 @@
     font-weight: 600;
     line-height: 24px;
     letter-spacing: 0em;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
   }
 
   h6 {
     font-size: 16px;
     font-weight: 600;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
   }
 
   nb-tab.content-active {
-    background-color: var(--gauzy-card-2);
+    background-color: var(--irtranscripts-card-2);
     border-radius: 0 var(--border-radius) var(--border-radius);
     height: calc(100vh - 12.75rem);
     padding: 1rem 1rem 0 1rem;
@@ -240,7 +240,7 @@
     }
 
     nb-card-body {
-      background-color: var(--gauzy-card-2);
+      background-color: var(--irtranscripts-card-2);
       border-radius: var(--border-radius);
       display: flex;
       flex-direction: column;
@@ -265,7 +265,7 @@
 }
 
 .label {
-  color: var(--gauzy-text-color-2);
+  color: var(--irtranscripts-text-color-2);
   font-weight: 500;
   margin: 4px;
 }
@@ -290,7 +290,7 @@ nb-card {
 
 nb-card-body {
   padding: 1rem;
-  background: var(--gauzy-card-2);
+  background: var(--irtranscripts-card-2);
   border-radius: var(--border-radius);
 }
 
@@ -307,12 +307,12 @@ nb-card-body {
 
 .message-db-connection {
   padding: 5px;
-  border: 1px dashed var(--gauzy-text-color-2);
+  border: 1px dashed var(--irtranscripts-text-color-2);
   border-radius: var(--border-radius);
 }
 
 .check-db {
-  box-shadow: var(--gauzy-shadow);
+  box-shadow: var(--irtranscripts-shadow);
   min-width: 102px;
   min-height: 32px;
 }
@@ -324,7 +324,7 @@ warn-container {
 :host .close-warn {
   position: absolute;
   top: calc(-15px / 2);
-  box-shadow: var(--gauzy-shadow);
+  box-shadow: var(--irtranscripts-shadow);
   @include nb-rtl(left, calc(15px / 2));
   @include nb-ltr(right, calc(15px / 2));
 }

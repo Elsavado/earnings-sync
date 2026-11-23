@@ -10,7 +10,7 @@ describe('describeUnleashConfig', () => {
 	const API_KEY = 'dummy-unleash-api-key';
 
 	const config = (overrides: Partial<UnleashConfig> = {}): UnleashConfig => ({
-		appName: 'gauzy-api',
+		appName: 'irtranscripts-api',
 		url: 'https://unleash.example.com/api',
 		instanceId: 'api-1',
 		refreshInterval: 15000,
@@ -28,7 +28,7 @@ describe('describeUnleashConfig', () => {
 		expect(line.startsWith('Using Unleash Config: ')).toBe(true);
 		const logged = JSON.parse(line.slice('Using Unleash Config: '.length));
 		expect(logged).toMatchObject({
-			appName: 'gauzy-api',
+			appName: 'irtranscripts-api',
 			url: 'https://unleash.example.com/api',
 			instanceId: 'api-1',
 			customHeaders: { Authorization: '***' }
@@ -46,7 +46,7 @@ describe('describeUnleashConfig', () => {
 		const logged = JSON.parse(describeUnleashConfig(config()).slice('Using Unleash Config: '.length));
 
 		expect(logged).not.toHaveProperty('customHeaders');
-		expect(logged.appName).toBe('gauzy-api');
+		expect(logged.appName).toBe('irtranscripts-api');
 	});
 
 	it('does not modify the config that is handed to initialize()', () => {

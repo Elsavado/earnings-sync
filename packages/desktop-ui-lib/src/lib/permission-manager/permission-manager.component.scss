@@ -1,7 +1,7 @@
 .screenshot-preview {
   border-radius: var(--border-radius);
   overflow: hidden;
-  border: 1px solid var(--gauzy-card-3);
+  border: 1px solid var(--irtranscripts-card-3);
 
   img {
     width: 100%;
@@ -12,7 +12,7 @@
 
 .hint-text {
   font-size: 12px;
-  color: var(--gauzy-text-color-2);
+  color: var(--irtranscripts-text-color-2);
   display: flex;
   align-items: center;
   gap: 4px;
@@ -37,10 +37,10 @@
       top: 50%;
       transform: translateY(-50%);
       cursor: pointer;
-      color: var(--gauzy-text-color-2);
+      color: var(--irtranscripts-text-color-2);
 
       &:hover {
-        color: var(--gauzy-text-color-1);
+        color: var(--irtranscripts-text-color-1);
       }
     }
 
@@ -75,7 +75,7 @@
     }
 
     nb-card-body {
-      background-color: var(--gauzy-card-2);
+      background-color: var(--irtranscripts-card-2);
       border-radius: var(--border-radius);
     }
   }
@@ -83,13 +83,13 @@
   h4 {
     font-size: 20px;
     font-weight: 600;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
   }
 
   h6 {
     font-size: 16px;
     font-weight: 600;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
   }
 
   p {
@@ -100,7 +100,7 @@
   .subtitle-tile {
     font-size: 14px;
     font-weight: 600;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
   }
 }
 
@@ -110,8 +110,8 @@
   gap: 0.5rem;
   padding: 0.5rem 1rem;
   border-radius: var(--border-radius);
-  background: var(--gauzy-card-2);
-  border: 1px solid var(--gauzy-card-3);
+  background: var(--irtranscripts-card-2);
+  border: 1px solid var(--irtranscripts-card-3);
 
   &__row {
     display: flex;
@@ -121,7 +121,7 @@
 
   &__icon {
     font-size: 16px;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
     margin-top: 0.25rem;
     flex-shrink: 0;
   }
@@ -137,13 +137,13 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
   }
 
   &__value {
     font-size: 13px;
     font-weight: 500;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -151,7 +151,7 @@
     &--mono {
       font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
       font-size: 12px;
-      color: var(--gauzy-text-color-2);
+      color: var(--irtranscripts-text-color-2);
     }
   }
 }

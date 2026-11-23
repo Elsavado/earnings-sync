@@ -1,7 +1,7 @@
 import { isLocalCaller } from './local-caller';
 
 /**
- * Who may act as the GAUZY_AUTO_LOGIN account without a login of their own: only a caller on the machine the server
+ * Who may act as the IRTRANSCRIPTS_AUTO_LOGIN account without a login of their own: only a caller on the machine the server
  * runs on. Everyone else who can reach the HTTP or WebSocket port used to act as that account too.
  */
 describe('isLocalCaller', () => {

@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
-import { FulfillmentDirection, IPagination } from '@gauzy/contracts';
+import { FulfillmentDirection, IPagination } from '@irtranscripts/contracts';
 import {
 	AbstractValidationPipe,
 	BaseQueryDTO,
@@ -29,7 +29,7 @@ import {
 	UseValidationPipe,
 	Versioned,
 	versionExpectationOf
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { Fulfillment } from './fulfillment.entity';
 import { FulfillmentService } from './fulfillment.service';
 import { FULFILLMENT_PERMISSIONS } from '../fulfillment.permissions';

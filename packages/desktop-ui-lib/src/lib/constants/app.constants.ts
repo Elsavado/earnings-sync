@@ -1,23 +1,23 @@
 import { InjectionToken, Injector } from '@angular/core';
 // @ts-ignore
-import { environment } from '@gauzy/ui-config';
+import { environment } from '@irtranscripts/ui-config';
 
 export const API_PREFIX = '/api';
 export const BACKGROUND_SYNC_INTERVAL = 25000; // milliseconds
 export const BACKGROUND_SYNC_OFFLINE_INTERVAL = 5000; // milliseconds
 export const BLOCK_DELAY = 10000; // milliseconds
 
-export const GAUZY_ENV = new InjectionToken<any>('gauzyEnvironment');
+export const IRTRANSCRIPTS_ENV = new InjectionToken<any>('irtranscriptsEnvironment');
 
 export const injector = Injector.create({
-	providers: [{ provide: GAUZY_ENV, useValue: environment }]
+	providers: [{ provide: IRTRANSCRIPTS_ENV, useValue: environment }]
 });
 
 export const API_ACTIVITY_WATCH_PREFIX = '/buckets';
 
 export const AUTO_REFRESH_DELAY = 60 * 10 * 1000; // milliseconds
 
-const env = injector.get(GAUZY_ENV);
+const env = injector.get(IRTRANSCRIPTS_ENV);
 
 export const socialLinks = [
 	{

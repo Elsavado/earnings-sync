@@ -2,8 +2,8 @@ import { Pipe, PipeTransform, OnDestroy, inject } from '@angular/core';
 import { filter, tap } from 'rxjs/operators';
 import moment from 'moment';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { IOrganization, TimeFormatEnum } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
+import { IOrganization, TimeFormatEnum } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Pipe({

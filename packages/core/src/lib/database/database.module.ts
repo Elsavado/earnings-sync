@@ -4,7 +4,7 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { MySqlDriver } from '@mikro-orm/mysql';
 import { KnexModule } from 'nest-knexjs';
-import { ConfigModule, ConfigService, DatabaseTypeEnum, TypeOrmCompatibleBetterSqliteDriver } from '@gauzy/config';
+import { ConfigModule, ConfigService, DatabaseTypeEnum, TypeOrmCompatibleBetterSqliteDriver } from '@irtranscripts/config';
 import { ConnectionEntityManager } from './connection-entity-manager';
 import { serializeEmbeddedTransactions } from './embedded-transaction-queue';
 import { MigrationLockingDataSource } from './migration-run-lock';
@@ -18,7 +18,7 @@ applyTypeOrmReadPathPatches();
 /**
  * Resolves the MikroORM driver class based on the DB_TYPE environment variable.
  * Defaults to the SQLite driver (matching the default DB_TYPE in database config), which is the one the SQLite
- * profile configures: MikroORM's better-sqlite3 driver storing dates as TypeORM does (see @gauzy/config).
+ * profile configures: MikroORM's better-sqlite3 driver storing dates as TypeORM does (see @irtranscripts/config).
  */
 const mikroOrmDriverMap: Record<string, any> = {
 	[DatabaseTypeEnum.postgres]: PostgreSqlDriver,

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { IEmployee, IUser } from '@gauzy/contracts';
+import { IEmployee, IUser } from '@irtranscripts/contracts';
 import { Cell, DefaultEditor } from 'angular2-smart-table';
 
 @Component({

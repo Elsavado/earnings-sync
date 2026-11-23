@@ -5,19 +5,19 @@
  * the same soft-delete visibility as the REST list route it mirrors. The last of the four was missing,
  * so a client that can ask REST for the retired rows could not ask GraphQL for them at all.
  *
- * `@gauzy/core` boots the application graph from its barrel and `@gauzy/common` resolves the feature
+ * `@irtranscripts/core` boots the application graph from its barrel and `@irtranscripts/common` resolves the feature
  * catalogue at import time, neither of which a resolver needs; both are substituted at their module
  * boundary, as this package's own specs do. The resolvers under test are the real ones, and the two
  * things that make the assertions mean something are real too: the document the SDL is read from, and
  * the kernel's own connection helpers the list fields page with — a double of those would let a page
  * drift from the contract in a suite that still passed.
  */
-jest.mock('@gauzy/common', () => ({ FeatureFlag: () => () => undefined }));
+jest.mock('@irtranscripts/common', () => ({ FeatureFlag: () => () => undefined }));
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: nothing here is mapped onto a module graph. */
 	const decorator = () => () => undefined;
-	const connection = jest.requireActual('@gauzy/core/src/lib/api/graphql-connection');
+	const connection = jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection');
 
 	return {
 		Permissions: decorator,
@@ -26,7 +26,7 @@ jest.mock('@gauzy/core', () => {
 		PermissionGuard: class {},
 		TenantPermissionGuard: class {},
 		FeatureFlagGuard: class {},
-		versionExpectationOf: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		versionExpectationOf: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.versionExpectationOf,
 		DEFAULT_CONNECTION_PAGE_SIZE: connection.DEFAULT_CONNECTION_PAGE_SIZE,
 		MAX_CONNECTION_PAGE_SIZE: connection.MAX_CONNECTION_PAGE_SIZE,

@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsInt, IsNotEmpty, IsOptional, IsString, IsUUID, MaxLength, Min } from 'class-validator';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	JsonColumn,
@@ -8,7 +8,7 @@ import {
 	MultiORMEntity,
 	MultiORMOneToMany,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { TaxRegimeRate } from '../tax-regime-rate/tax-regime-rate.entity';
 import { MikroOrmTaxRegimeRepository } from './repository/mikro-orm-tax-regime.repository';
 

@@ -1,11 +1,11 @@
 import { Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
-import { IOrganization, IOrganizationProject, IOrganizationSprint } from '@gauzy/contracts';
-import { SprintStoreService, Store } from '@gauzy/ui-core/core';
+import { IOrganization, IOrganizationProject, IOrganizationSprint } from '@irtranscripts/contracts';
+import { SprintStoreService, Store } from '@irtranscripts/ui-core/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
-import { ItemActionType } from '../editable-grid/gauzy-editable-grid.component';
+import { ItemActionType } from '../editable-grid/irtranscripts-editable-grid.component';
 
 @UntilDestroy()
 @Component({

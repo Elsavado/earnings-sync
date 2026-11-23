@@ -1,5 +1,5 @@
 /*
- * Public API Surface of @gauzy/ui-config
+ * Public API Surface of @irtranscripts/ui-config
  */
 export { environment } from './lib/environments/environment';
 export * from './lib/environments/environment.tokens';

@@ -138,7 +138,7 @@ describe('EmailSendService and the email transport registry', () => {
 
 		const result = await service.sendMessage(
 			{
-				from: 'support.acme@inbox.gauzy.co',
+				from: 'support.acme@inbox.irtranscripts.com',
 				to: 'customer@example.test',
 				subject: 'Re: Invoice 42',
 				text: 'Thanks, paid today.',
@@ -154,7 +154,7 @@ describe('EmailSendService and the email transport registry', () => {
 		expect(typeof result.messageId).toBe('string');
 		expect(sent).toHaveLength(1);
 		// The message's own sender wins over the account's default.
-		expect(sent[0].from).toBe('support.acme@inbox.gauzy.co');
+		expect(sent[0].from).toBe('support.acme@inbox.irtranscripts.com');
 		expect(sent[0].inReplyTo).toBe('<m-1@example.test>');
 		expect(sent[0].references).toEqual(['<m-0@example.test>', '<m-1@example.test>']);
 	});

@@ -1,5 +1,5 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — the configuration, the ORM, the
+ * `@irtranscripts/core` boots the whole application graph from its barrel — the configuration, the ORM, the
  * job registry, the module scanner — none of which a collection service needs and none of which is
  * available outside a running application. The seam is therefore doubled at the module boundary,
  * exactly as the catalogue and inventory packages' service specs do, and **the service under test is
@@ -14,7 +14,7 @@
  * a caller uses when absence is an ordinary answer, reporting the miss as an `ITryRequest` carrying
  * `success: false`.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
@@ -97,10 +97,10 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		// The platform's own affected-row reader: a movement decides whether its conditional write landed
 		// from what the driver answered, so the reader is the real one rather than a second copy.
-		readAffectedRows: jest.requireActual('@gauzy/core/src/lib/database/database.helper').readAffectedRows,
+		readAffectedRows: jest.requireActual('@irtranscripts/core/src/lib/database/database.helper').readAffectedRows,
 		BaseEvent: class {},
 		EventBus: class {},
 		Payment: class Payment {},
@@ -121,7 +121,7 @@ jest.mock('@gauzy/core', () => {
  * reads the process environment at import time; the dialect a transaction runs on is read off the
  * transaction itself, which the double below states.
  */
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	isMySQL: () => false,
 	isPostgres: () => false,
 	DatabaseTypeEnum: {
@@ -135,7 +135,7 @@ jest.mock('@gauzy/config', () => ({
 
 import { ConflictException, NotFoundException } from '@nestjs/common';
 import { FindOperator } from 'typeorm';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { PaymentCollectionStatus } from '../payment.types';
 import { PaymentCollectionService } from './payment-collection.service';
 

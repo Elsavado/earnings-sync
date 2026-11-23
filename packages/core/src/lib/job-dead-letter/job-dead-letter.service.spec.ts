@@ -55,7 +55,7 @@ jest.mock('../core/context/request-context', () => ({
 	}
 }));
 
-import { DeadLetterStatus } from '@gauzy/contracts';
+import { DeadLetterStatus } from '@irtranscripts/contracts';
 import { JobDeadLetterService } from './job-dead-letter.service';
 
 const QUEUE = 'token-maintenance';

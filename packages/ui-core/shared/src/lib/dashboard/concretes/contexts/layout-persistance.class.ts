@@ -1,4 +1,4 @@
-import { GuiDrag, ILayoutPersistance, IPersistance } from '@gauzy/ui-core/common';
+import { GuiDrag, ILayoutPersistance, IPersistance } from '@irtranscripts/ui-core/common';
 import { Persistance } from './persistance.class';
 
 export class LayoutPersistance implements ILayoutPersistance {

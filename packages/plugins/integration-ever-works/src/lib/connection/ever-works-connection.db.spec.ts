@@ -5,7 +5,7 @@
  * disconnect, tenant and organization isolation, the key stored only encrypted, `needs_reauth` with its
  * notice, and the daily health check's one-claim-per-day lease.
  *
- * `@gauzy/core` is doubled at the module boundary (its barrel boots the whole application), as the
+ * `@irtranscripts/core` is doubled at the module boundary (its barrel boots the whole application), as the
  * other plugin database suites do: its entities are mapped below by fixture schemas over the same
  * table names, and the request context answers with the caller each case states. The plugin's own
  * table is created by the plugin's migration, not by the fixture.
@@ -16,7 +16,7 @@ const mockCaller: { tenantId: string | null; userId: string | null; organization
 	organizationId: null
 };
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	class BaseEntity {}
 	const entity = (name: string) => ({ [name]: class {} })[name];
@@ -52,7 +52,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { BadRequestException, ConflictException, ForbiddenException, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
 import { DataSource, EntitySchema } from 'typeorm';
-import { Employee, EmployeeNotification, IntegrationSetting, IntegrationTenant, Organization, Tenant, UserOrganization } from '@gauzy/core';
+import { Employee, EmployeeNotification, IntegrationSetting, IntegrationTenant, Organization, Tenant, UserOrganization } from '@irtranscripts/core';
 import { TestEverWorksClientFactory } from '../client/ever-works-client.factory';
 import type { EverWorksTransport } from '../client/ever-works-transport';
 import { EverWorksSecretBox } from './ever-works-secret-box';
@@ -149,7 +149,7 @@ const connectionSchema = new EntitySchema({
 	}
 });
 
-const CONFIG: EverWorksConfig = { defaultApiUrl: null, appUrl: null, gauzyApiUrl: 'https://api.gauzy.example' };
+const CONFIG: EverWorksConfig = { defaultApiUrl: null, appUrl: null, irtranscriptsApiUrl: 'https://api.gauzy.example' };
 
 describe('Ever Works connection on SQLite', () => {
 	let dir: string;
@@ -187,7 +187,7 @@ describe('Ever Works connection on SQLite', () => {
 	beforeAll(async () => {
 		process.env['ENCRYPTION_KEY'] = randomBytes(32).toString('base64');
 		dir = mkdtempSync(join(tmpdir(), 'ever-works-db-'));
-		const file = join(dir, 'gauzy.sqlite');
+		const file = join(dir, 'irtranscripts.sqlite');
 		const core = new DataSource({ type: 'better-sqlite3', database: file, entities: coreSchemas, synchronize: true });
 		await core.initialize();
 		await core.destroy();
@@ -310,7 +310,7 @@ describe('Ever Works connection on SQLite', () => {
 			await expect(service.connect(connectDto(other))).rejects.toThrow(/made for the "generic" integration/);
 			expect(await raw().count()).toBe(0);
 			const view = await service.connect(connectDto(mock.addKey()));
-			expect(await service.validate(connectDto(mock.addKey()))).toMatchObject({ integrationKind: 'ever-gauzy' });
+			expect(await service.validate(connectDto(mock.addKey()))).toMatchObject({ integrationKind: 'ever-irtranscripts' });
 			await expect(service.rotateKey(view.id, { apiKey: mock.addKey({ integrationKind: 'generic' }) })).rejects.toBeInstanceOf(BadRequestException);
 			expect((await raw().findOneByOrFail({ id: view.id })).status).toBe(EverWorksConnectionStatus.ACTIVE);
 		});
@@ -430,7 +430,7 @@ describe('Ever Works connection on SQLite', () => {
 			const registered = await service.registerWebhook(view.id);
 			expect(registered.webhook).toMatchObject({ registered: true, url: `https://api.gauzy.example/api/integration/ever-works/webhooks/${view.id}` });
 			const [subscription] = [...mock.webhooks.values()];
-			expect(subscription.excludeOriginTags).toEqual([`gauzy:${view.id}`]);
+			expect(subscription.excludeOriginTags).toEqual([`irtranscripts:${view.id}`]);
 			expect(subscription.organizationIds).toEqual(view.pinnedOrganizations.map((org) => org.id));
 			const stored = await raw().findOneByOrFail({ id: view.id });
 			expect(stored.webhookSecretEncrypted).not.toContain(subscription.secret);
@@ -462,14 +462,14 @@ describe('Ever Works connection on SQLite', () => {
 		it('subscribes to agent mail (email.*) while a mapping through the connection mirrors it, and follows the direction in place (G-P4-6)', async () => {
 			const view = await service.connect(connectDto(mock.addKey()));
 			// Mappings that never count: another connection's, an archived one.
-			await mapping(randomUUID(), { agentEmail: 'ew_to_gauzy' });
-			await mapping(view.id, { agentEmail: 'ew_to_gauzy' }, true);
+			await mapping(randomUUID(), { agentEmail: 'ew_to_irtranscripts' });
+			await mapping(view.id, { agentEmail: 'ew_to_irtranscripts' }, true);
 			await service.registerWebhook(view.id);
 			const subscription = () => [...mock.webhooks.values()][0];
 			expect(subscription().events).toEqual(expect.arrayContaining(['task.*', 'inbox.*', 'kb.*']));
 			expect(subscription().events).not.toContain('email.*');
 			// The agentEmail direction on: registered again, the subscription asks for agent mail too.
-			const mirror = await mapping(view.id, { tasks: 'both', agentEmail: 'ew_to_gauzy' });
+			const mirror = await mapping(view.id, { tasks: 'both', agentEmail: 'ew_to_irtranscripts' });
 			await service.registerWebhook(view.id);
 			expect(subscription().events).toEqual(expect.arrayContaining(['task.*', 'inbox.*', 'kb.*', 'email.*']));
 			// The direction changed later: the same subscription (same id, same secret) is changed in place.
@@ -478,7 +478,7 @@ describe('Ever Works connection on SQLite', () => {
 			await service.refreshWebhookEvents(view.id as never, A.tenantId as never);
 			expect(subscription()).toMatchObject({ id, secret });
 			expect(subscription().events).not.toContain('email.*');
-			await setDirections(mirror, { agentEmail: 'ew_to_gauzy' });
+			await setDirections(mirror, { agentEmail: 'ew_to_irtranscripts' });
 			await service.refreshWebhookEvents(view.id as never, A.tenantId as never);
 			expect(subscription().events).toContain('email.*');
 			expect(mock.webhooks.size).toBe(1);
@@ -489,7 +489,7 @@ describe('Ever Works connection on SQLite', () => {
 			await expect(service.refreshWebhookEvents(view.id as never, A.tenantId as never)).resolves.toBeUndefined();
 			expect(mock.requests.filter((r) => r.method === 'PATCH')).toEqual([]);
 			await service.registerWebhook(view.id);
-			await mapping(view.id, { agentEmail: 'ew_to_gauzy' });
+			await mapping(view.id, { agentEmail: 'ew_to_irtranscripts' });
 			mock.fail({ method: 'PATCH', path: /^\/webhooks\//, status: 503, times: 3 });
 			await expect(service.refreshWebhookEvents(view.id as never, A.tenantId as never)).resolves.toBeUndefined();
 		});
@@ -500,7 +500,7 @@ describe('Ever Works connection on SQLite', () => {
 			const subscription = () => [...mock.webhooks.values()][0];
 			await service.pause(view.id);
 			expect(subscription().status).toBe('paused');
-			await mapping(view.id, { agentEmail: 'ew_to_gauzy' });
+			await mapping(view.id, { agentEmail: 'ew_to_irtranscripts' });
 			await service.refreshWebhookEvents(view.id as never, A.tenantId as never);
 			expect(subscription()).toMatchObject({ status: 'paused', events: expect.arrayContaining(['email.*']) });
 			// A change the paused subscription missed (e.g. Ever Works refused it then) is sent with the resume.
@@ -512,7 +512,7 @@ describe('Ever Works connection on SQLite', () => {
 		it('a direction saved while a refresh is on the way is sent too: the refresh reads the directions again after its write (#11055 review)', async () => {
 			const view = await service.connect(connectDto(mock.addKey()));
 			await service.registerWebhook(view.id);
-			const mirror = await mapping(view.id, { agentEmail: 'ew_to_gauzy' });
+			const mirror = await mapping(view.id, { agentEmail: 'ew_to_irtranscripts' });
 			const subscriptionId = [...mock.webhooks.keys()][0] as string;
 			let flipped = false;
 			const racing = new EverWorksConnectionService(
@@ -546,7 +546,7 @@ describe('Ever Works connection on SQLite', () => {
 						// A mapping turns agent mail on while Ever Works creates the subscription.
 						if (request.method === 'POST' && new URL(request.url).pathname.endsWith('/webhooks') && !saved) {
 							saved = true;
-							await mapping(view.id, { agentEmail: 'ew_to_gauzy' });
+							await mapping(view.id, { agentEmail: 'ew_to_irtranscripts' });
 						}
 						return mock.handle(request);
 					}
@@ -578,7 +578,7 @@ describe('Ever Works connection on SQLite', () => {
 				new TestEverWorksClientFactory(mock.transport()),
 				new EverWorksScopeService(dataSource),
 				new EverWorksNotifier(dataSource),
-				{ ...CONFIG, gauzyApiUrl: null }
+				{ ...CONFIG, irtranscriptsApiUrl: null }
 			);
 			const view = await local.connect(connectDto(mock.addKey()));
 			await expect(local.registerWebhook(view.id)).rejects.toThrow(/API_BASE_URL/);

@@ -3,10 +3,10 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs/operators';
 import { NbCardModule } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
-import { PageExtensionSlotComponent } from '@gauzy/plugin-ui';
-import { DateRangePickerBuilderService } from '@gauzy/ui-core/core';
-import { ComponentsModule } from '@gauzy/ui-core/shared';
-import { ReactHostDirective } from '@gauzy/ui-react';
+import { PageExtensionSlotComponent } from '@irtranscripts/plugin-ui';
+import { DateRangePickerBuilderService } from '@irtranscripts/ui-core/core';
+import { ComponentsModule } from '@irtranscripts/ui-core/shared';
+import { ReactHostDirective } from '@irtranscripts/ui-react';
 import { DashboardTimeTrackReactUiPage, type DashboardTimeTrackReactUiPageProps } from './components/DashboardTimeTrackReactUiPage';
 import { headerTitleKey } from './utils/period.utils';
 
@@ -62,7 +62,7 @@ import { headerTitleKey } from './utils/period.utils';
 			}
 			/* Same page-card treatment as the Angular tab (time-tracking.component.scss). */
 			:host .card {
-				background-color: var(--gauzy-card-2);
+				background-color: var(--irtranscripts-card-2);
 				height: auto;
 			}
 			:host .card-header {
@@ -70,7 +70,7 @@ import { headerTitleKey } from './utils/period.utils';
 				padding: 1rem 1rem 0.75rem;
 			}
 			:host .card-body {
-				background-color: var(--gauzy-card-2);
+				background-color: var(--irtranscripts-card-2);
 				padding: 1rem;
 				border-radius: 0 0 var(--border-radius) var(--border-radius);
 				height: auto !important;

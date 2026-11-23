@@ -1,5 +1,5 @@
 import * as https from 'https';
-import { ensureHttpPrefix, getUnsafeOutboundUrlReason } from '@gauzy/utils';
+import { ensureHttpPrefix, getUnsafeOutboundUrlReason } from '@irtranscripts/utils';
 import { createSsrfSafeHttpsAgent } from '../util/ssrf-safe-agent';
 
 /**
@@ -14,11 +14,11 @@ import { createSsrfSafeHttpsAgent } from '../util/ssrf-safe-agent';
  * Only the tenant's settings are held to this: the installation's own storage configuration (environment variables)
  * is the operator's, and may well be a MinIO on the local network. The one exception is a Cloudinary file read, which
  * fetches a key that is already a URL as is. An installation whose tenants genuinely use a private endpoint sets
- * `GAUZY_FILE_STORAGE_ALLOW_PRIVATE_NETWORK=true`.
+ * `IRTRANSCRIPTS_FILE_STORAGE_ALLOW_PRIVATE_NETWORK=true`.
  */
 
 /** The opt-out: tenant storage endpoints may then point anywhere, as before. */
-export const ALLOW_PRIVATE_STORAGE_ENDPOINTS_ENV = 'GAUZY_FILE_STORAGE_ALLOW_PRIVATE_NETWORK';
+export const ALLOW_PRIVATE_STORAGE_ENDPOINTS_ENV = 'IRTRANSCRIPTS_FILE_STORAGE_ALLOW_PRIVATE_NETWORK';
 
 /** The tenant settings that name a URL the API connects to. */
 export const TENANT_STORAGE_ENDPOINT_SETTINGS: readonly string[] = [

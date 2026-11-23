@@ -5,7 +5,7 @@ import {
 	RegisteredWindow,
 	WindowConfig,
 	WindowManager
-} from '@gauzy/desktop-core';
+} from '@irtranscripts/desktop-core';
 
 export class PluginMarketplaceWindow extends BaseWindow implements IBaseWindow {
 	private readonly manager = WindowManager.getInstance();

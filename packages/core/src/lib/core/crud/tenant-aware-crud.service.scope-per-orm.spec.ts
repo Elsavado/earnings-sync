@@ -5,7 +5,7 @@ import { DataSource, DeleteDateColumn, EntitySchema, PrimaryGeneratedColumn, Rel
 import { EntityCaseNamingStrategy, MikroORM, PrimaryKey, Property } from '@mikro-orm/core';
 import { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
 import { SoftDeletable, SoftDeleteHandler } from 'mikro-orm-soft-delete';
-import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@gauzy/config';
+import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@irtranscripts/config';
 import { RequestContext } from '../context';
 import { MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from '../decorators/entity';
 import { MikroOrmBaseEntityRepository } from '../repository/mikro-orm-base-entity.repository';

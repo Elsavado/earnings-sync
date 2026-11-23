@@ -1,6 +1,6 @@
 import { Args, Int, Query, Resolver } from '@nestjs/graphql';
-import { Public } from '@gauzy/common';
-import { IPagination } from '@gauzy/contracts';
+import { Public } from '@irtranscripts/common';
+import { IPagination } from '@irtranscripts/contracts';
 import {
 	ConnectionFilter,
 	ConnectionPageRequest,

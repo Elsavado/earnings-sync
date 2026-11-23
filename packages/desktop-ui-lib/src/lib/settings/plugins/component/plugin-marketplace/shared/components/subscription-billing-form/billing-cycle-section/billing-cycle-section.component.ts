@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CurrenciesEnum } from '@gauzy/contracts';
+import { CurrenciesEnum } from '@irtranscripts/contracts';
 import { BillingOption } from '../types';
 import { NbCardModule, NbIconModule, NbRadioModule, NbBadgeModule } from '@nebular/theme';
 import { CurrencyPipe } from '@angular/common';
 
 @Component({
-    selector: 'gauzy-billing-cycle-section',
+    selector: 'irtranscripts-billing-cycle-section',
     templateUrl: './billing-cycle-section.component.html',
     styleUrls: ['./billing-cycle-section.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

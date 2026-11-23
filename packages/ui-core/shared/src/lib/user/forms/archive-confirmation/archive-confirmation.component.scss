@@ -3,10 +3,10 @@
   width: 420px;
   max-width: calc(100vw - 2rem);
   margin: 0;
-  background-color: var(--gauzy-card-1);
+  background-color: var(--irtranscripts-card-1);
   border: none;
   border-radius: var(--border-radius);
-  box-shadow: inset 0 0 0 1px var(--gauzy-border-default-color);
+  box-shadow: inset 0 0 0 1px var(--irtranscripts-border-default-color);
 }
 
 .dialog-header {
@@ -15,7 +15,7 @@
   justify-content: space-between;
   gap: 1rem;
   padding: 1rem 1.25rem;
-  border-bottom: 1px solid var(--gauzy-border-default-color);
+  border-bottom: 1px solid var(--irtranscripts-border-default-color);
 
   .heading {
     display: flex;
@@ -51,8 +51,8 @@
   justify-content: center;
   width: 2.25rem;
   height: 2.25rem;
-  border-radius: var(--gauzy-radius-sm);
-  box-shadow: inset 0 0 0 1px var(--gauzy-border-default-color);
+  border-radius: var(--irtranscripts-radius-sm);
+  box-shadow: inset 0 0 0 1px var(--irtranscripts-border-default-color);
 
   nb-icon {
     font-size: 1.125rem;
@@ -83,7 +83,7 @@
   gap: 0.5rem;
   padding: 0.75rem 1.25rem;
   background-color: transparent;
-  border-top: 1px solid var(--gauzy-border-default-color);
+  border-top: 1px solid var(--irtranscripts-border-default-color);
 
   [nbButton] {
     text-transform: none;

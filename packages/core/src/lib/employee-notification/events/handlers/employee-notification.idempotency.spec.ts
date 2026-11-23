@@ -2,7 +2,7 @@ import '../../../core/entities/internal';
 
 import { randomUUID } from 'crypto';
 import { FindOperator } from 'typeorm';
-import { BaseEntityEnum, EmployeeNotificationTypeEnum, IEmployeeNotificationCreateInput } from '@gauzy/contracts';
+import { BaseEntityEnum, EmployeeNotificationTypeEnum, IEmployeeNotificationCreateInput } from '@irtranscripts/contracts';
 import { EmployeeCreateNotificationEventHandler } from './employee-notification.handler';
 import {
 	EMPLOYEE_NOTIFICATION_REDELIVERY_WINDOW_MS,

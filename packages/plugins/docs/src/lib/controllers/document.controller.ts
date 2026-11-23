@@ -2,8 +2,8 @@ import { Body, Controller, Get, HttpStatus, Param, Post, Put, Query, UseGuards }
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
-import { FeatureFlag } from '@gauzy/common';
-import { FeatureEnum, ID, IDocument, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
+import { FeatureEnum, ID, IDocument, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	FeatureFlagGuard,
 	PermissionGuard,
@@ -11,7 +11,7 @@ import {
 	TenantPermissionGuard,
 	UseValidationPipe,
 	UUIDValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { docsRateLimit, getDocsConfig } from '../docs.config';
 import { BulkDocumentActionCommand } from '../commands/bulk-document-action.command';
 import { CreateDocumentCommand } from '../commands/create-document.command';

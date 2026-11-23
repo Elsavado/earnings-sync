@@ -38,7 +38,7 @@ export class InboxNamedLocks {
 		const postgres = type === 'postgres';
 		const mysql = type === 'mysql' || type === 'mariadb';
 		if (!postgres && !mysql) return work();
-		const key = `gauzy-inbox:${createHash('sha256').update(name).digest('hex').slice(0, 40)}`;
+		const key = `irtranscripts-inbox:${createHash('sha256').update(name).digest('hex').slice(0, 40)}`;
 		const runner = this.dataSource.createQueryRunner();
 		await runner.connect();
 		try {

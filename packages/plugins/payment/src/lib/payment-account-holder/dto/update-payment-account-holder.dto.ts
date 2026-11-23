@@ -1,7 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDateString, IsEnum, IsOptional, IsString, MaxLength } from 'class-validator';
-import { PaymentAccountVerificationStatus } from '@gauzy/contracts';
+import { PaymentAccountVerificationStatus } from '@irtranscripts/contracts';
 import { PaymentAccountHolderDTO } from './payment-account-holder.dto';
 
 /**

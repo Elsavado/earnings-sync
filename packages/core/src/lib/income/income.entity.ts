@@ -19,7 +19,7 @@ import {
 	IEmployee,
 	ITag,
 	IOrganizationContact
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	Employee,
 	OrganizationContact,

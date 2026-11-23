@@ -8,8 +8,8 @@ import {
 	PluginSourceType,
 	PluginStatus,
 	PluginType
-} from '@gauzy/contracts';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
 import { NbRouteTab, NbCardModule, NbIconModule, NbBadgeModule, NbButtonModule, NbSpinnerModule, NbTooltipModule, NbRouteTabsetModule, NbPopoverModule, NbListModule } from '@nebular/theme';
 import { Actions } from '@ngneat/effects-ng';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
@@ -39,7 +39,7 @@ import { SpinnerButtonDirective } from '../../../../../directives/spinner-button
 // Installation and subscription side-effects moved to effects
 
 @Component({
-    selector: 'gauzy-plugin-marketplace-item',
+    selector: 'irtranscripts-plugin-marketplace-item',
     templateUrl: './plugin-marketplace-item.component.html',
     styleUrls: ['./plugin-marketplace-item.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,4 +1,4 @@
-import { TenantAwareCrudService, TenantOrganizationBaseEntity } from '@gauzy/core';
+import { TenantAwareCrudService, TenantOrganizationBaseEntity } from '@irtranscripts/core';
 
 /**
  * The CRUD base of the returns services: they keep every caller inside the platform's organization boundary.

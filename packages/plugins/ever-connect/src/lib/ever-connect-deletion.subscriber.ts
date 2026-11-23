@@ -1,12 +1,12 @@
 import { Subject } from 'rxjs';
 import { EventSubscriber } from 'typeorm';
-import { BaseEntityEventSubscriber, Organization, Tenant } from '@gauzy/core';
+import { BaseEntityEventSubscriber, Organization, Tenant } from '@irtranscripts/core';
 
 /**
- * A Gauzy tenant or organization was deleted (or soft-deleted). The ORMs make the subscribers below
+ * A IRTranscripts tenant or organization was deleted (or soft-deleted). The ORMs make the subscribers below
  * themselves, outside Nest, so they only signal here; the cleanup service of the module handles it.
  */
-export const GAUZY_OWNER_DELETED = new Subject<void>();
+export const IRTRANSCRIPTS_OWNER_DELETED = new Subject<void>();
 
 /** Organizations deleted through their entity (TypeORM and MikroORM). */
 @EventSubscriber()
@@ -16,11 +16,11 @@ export class EverConnectOrganizationDeletionSubscriber extends BaseEntityEventSu
 	}
 
 	async afterEntityDelete(): Promise<void> {
-		GAUZY_OWNER_DELETED.next();
+		IRTRANSCRIPTS_OWNER_DELETED.next();
 	}
 
 	async afterEntitySoftRemove(): Promise<void> {
-		GAUZY_OWNER_DELETED.next();
+		IRTRANSCRIPTS_OWNER_DELETED.next();
 	}
 }
 
@@ -32,10 +32,10 @@ export class EverConnectTenantDeletionSubscriber extends BaseEntityEventSubscrib
 	}
 
 	async afterEntityDelete(): Promise<void> {
-		GAUZY_OWNER_DELETED.next();
+		IRTRANSCRIPTS_OWNER_DELETED.next();
 	}
 
 	async afterEntitySoftRemove(): Promise<void> {
-		GAUZY_OWNER_DELETED.next();
+		IRTRANSCRIPTS_OWNER_DELETED.next();
 	}
 }

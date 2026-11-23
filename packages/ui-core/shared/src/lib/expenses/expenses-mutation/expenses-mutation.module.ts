@@ -14,7 +14,7 @@ import {
 } from '@nebular/theme';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslatePipe } from '@ngx-translate/core';
-import { OrganizationsService } from '@gauzy/ui-core/core';
+import { OrganizationsService } from '@irtranscripts/ui-core/core';
 import { VendorSelectModule } from '../../vendor-select/vendor-select.module';
 import { ExpenseCategorySelectModule } from '../expense-category-select/expense-category-select.module';
 import { ContactSelectModule } from '../../contact-select/contact-select.module';

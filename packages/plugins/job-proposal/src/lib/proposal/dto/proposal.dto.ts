@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { IsEnum, IsNotEmpty, IsObject, IsOptional, IsString, IsUUID } from "class-validator";
-import { IOrganizationContact, ProposalStatusEnum } from "@gauzy/contracts";
-import { TenantOrganizationBaseDTO } from "@gauzy/core";
+import { IOrganizationContact, ProposalStatusEnum } from "@irtranscripts/contracts";
+import { TenantOrganizationBaseDTO } from "@irtranscripts/core";
 
 export class ProposalDTO extends TenantOrganizationBaseDTO {
 

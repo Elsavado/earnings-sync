@@ -2,7 +2,7 @@
 jest.mock('./../../employee.service', () => ({ EmployeeService: class EmployeeService {} }));
 jest.mock('./../../../activity-log/activity-log.service', () => ({ ActivityLogService: class ActivityLogService {} }));
 
-import { IEmployeeUpdateInput, PermissionsEnum } from '@gauzy/contracts';
+import { IEmployeeUpdateInput, PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from './../../../core/context';
 import { EmployeeUpdateCommand } from './../employee.update.command';
 import { EmployeeUpdateHandler } from './employee.update.handler';

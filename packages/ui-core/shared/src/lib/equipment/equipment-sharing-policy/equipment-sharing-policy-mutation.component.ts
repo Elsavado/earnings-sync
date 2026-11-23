@@ -1,10 +1,10 @@
 import { OnInit, Component, ChangeDetectionStrategy } from '@angular/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
-import { IEquipmentSharingPolicy, IOrganization } from '@gauzy/contracts';
+import { IEquipmentSharingPolicy, IOrganization } from '@irtranscripts/contracts';
 import { NbDialogRef } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
-import { EquipmentSharingPolicyService } from '@gauzy/ui-core/core';
+import { EquipmentSharingPolicyService } from '@irtranscripts/ui-core/core';
 
 @Component({
     selector: 'ngx-equipment-sharing-policy-mutation',

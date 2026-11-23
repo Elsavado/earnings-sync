@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
- * Regenerates the bundled legal corpus used by `@gauzy/plugin-legal-ui`.
+ * Regenerates the bundled legal corpus used by `@irtranscripts/plugin-legal-ui`.
  *
- * The legal text shipped inside the Gauzy UI is vendored from the published
+ * The legal text shipped inside the IRTranscripts UI is vendored from the published
  * `@ever-co/legal` package at *authoring* time and committed to this repository as plain
  * TypeScript. That is deliberate:
  *
@@ -56,8 +56,8 @@ const outputDir = join(pluginRoot, 'src', 'lib', 'content');
 /** npm package the corpus is vendored from. */
 const CORPUS_PACKAGE = '@ever-co/legal';
 
-/** Product identifier inside the corpus. Ever Gauzy documents live under `content/<doc>/gauzy/`. */
-const PRODUCT = 'gauzy';
+/** Product identifier inside the corpus. Ever IRTranscripts documents live under `content/<doc>/irtranscripts/`. */
+const PRODUCT = 'irtranscripts';
 
 /** Locale to vendor. The corpus currently publishes English only. */
 const LOCALE = 'en';
@@ -211,7 +211,7 @@ function resolveCorpusDir(options) {
  * `index.json` and render ourselves in the page header:
  *
  *     <h1 id="terms-of-service" tabindex="-1">Terms of Service</h1>
- *     <p><strong>Ever Gauzy</strong> — <a href="https://gauzy.co">gauzy.co</a></p>
+ *     <p><strong>Ever IRTranscripts</strong> — <a href="https://irtranscripts.com">irtranscripts.com</a></p>
  *     <p>Version 1.0.0 · In force from 2026-08-02</p>
  *
  * `cookies` has none of them. Each line is removed only when it matches exactly, so a change in
@@ -233,7 +233,7 @@ function stripFrontMatter(html, meta) {
 		title = heading[1].trim();
 		stripped.push(lines.shift());
 
-		// `<p><strong>Ever Gauzy</strong> — <a href="https://gauzy.co">gauzy.co</a></p>`
+		// `<p><strong>Ever IRTranscripts</strong> — <a href="https://irtranscripts.com">irtranscripts.com</a></p>`
 		if (/^<p><strong>[^<]*<\/strong>[^<]*<a href="[^"]*">[^<]*<\/a><\/p>$/.test(lines[0] ?? '')) {
 			stripped.push(lines.shift());
 		}

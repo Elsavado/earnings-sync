@@ -13,9 +13,9 @@ import {
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { cachedPresign, getCachedS3Client, PRESIGNED_URL_EXPIRES_IN_SECONDS } from './s3-client-cache';
 import { StorageEngine } from 'multer';
-import { environment } from '@gauzy/config';
-import { FileStorageOption, FileStorageProviderEnum, UploadedFile } from '@gauzy/contracts';
-import { ensureHttpPrefix, trimIfNotEmpty } from '@gauzy/utils';
+import { environment } from '@irtranscripts/config';
+import { FileStorageOption, FileStorageProviderEnum, UploadedFile } from '@irtranscripts/contracts';
+import { ensureHttpPrefix, trimIfNotEmpty } from '@irtranscripts/utils';
 import { Provider } from './provider';
 import { refusalForStorageEndpoint, tenantStorageHttpsAgent } from '../storage-endpoint-policy';
 import { defaultStoredFileName } from '../helpers/stored-file-name';

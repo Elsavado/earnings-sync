@@ -5,8 +5,8 @@ import * as csv from 'csv-parser';
 import * as path from 'path';
 import * as moment from 'moment';
 import { chain } from 'underscore';
-import { environment as env } from '@gauzy/config';
-import { IOrganization, IEmployee, ITenant, ContactType, OrganizationContactBudgetTypeEnum } from '@gauzy/contracts';
+import { environment as env } from '@irtranscripts/config';
+import { IOrganization, IEmployee, ITenant, ContactType, OrganizationContactBudgetTypeEnum } from '@irtranscripts/contracts';
 import { Income, OrganizationContact, Tag } from './../core/entities/internal';
 import { getDummyImage } from './../core/utils';
 

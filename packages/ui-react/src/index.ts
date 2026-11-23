@@ -1,5 +1,5 @@
 /*
- * Public API Surface of @gauzy/ui-react
+ * Public API Surface of @irtranscripts/ui-react
  *
  * React-to-Angular bridge: renders React components inside Angular with
  * access to Angular services via the Angular injector.

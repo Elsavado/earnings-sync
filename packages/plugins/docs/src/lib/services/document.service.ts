@@ -22,7 +22,7 @@ import {
 	ID,
 	IPagination,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	CreateEntitySubscriptionEvent,
 	EventBus,
@@ -33,7 +33,7 @@ import {
 	parseFindOptionsRelations,
 	prepareSQLQuery as p,
 	sanitizeRichHtml
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { CreateDocumentLinkCommand } from '../commands/create-document-link.command';
 import { DeleteDocumentLinkCommand } from '../commands/delete-document-link.command';
 import { getDocsConfig } from '../docs.config';
@@ -57,7 +57,7 @@ import {
 	UpdateDocumentDTO
 } from '../dto';
 // Deep import on purpose: this is a pure helper, not a DTO class, so it must not depend on the
-// barrel (which drags in every DTO — and with them `@gauzy/core` — for one function).
+// barrel (which drags in every DTO — and with them `@irtranscripts/core` — for one function).
 import { resolveTagIds } from '../dto/document-tag-reference';
 import { Document } from '../entities/document.entity';
 import { DocumentLink } from '../entities/document-link.entity';
@@ -676,7 +676,7 @@ export class DocumentService extends TenantAwareCrudService<Document> {
 
 	/**
 	 * Decodes the optional base64 CRDT payload of a content save, enforcing
-	 * `GAUZY_DOCS_MAX_BINARY_BYTES` (`docs.config.ts`).
+	 * `IRTRANSCRIPTS_DOCS_MAX_BINARY_BYTES` (`docs.config.ts`).
 	 *
 	 * @param encoded The base64 payload (empty string clears the column).
 	 * @returns The buffer to persist, or null.
@@ -1270,7 +1270,7 @@ export class DocumentService extends TenantAwareCrudService<Document> {
 
 	/**
 	 * Server-side sanitization of the `contentHtml` render cache. Delegates to the shared
-	 * **allowlist** sanitizer of `@gauzy/core` (`core/html-sanitizer`) — a denylist of regexes
+	 * **allowlist** sanitizer of `@irtranscripts/core` (`core/html-sanitizer`) — a denylist of regexes
 	 * is bypassable by construction, so the platform keeps exactly one parser-backed
 	 * implementation. `contentJson` stays canonical; this cache is regenerated on every save.
 	 */

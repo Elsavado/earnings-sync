@@ -1,7 +1,7 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { ID, IInboxEmail, IInboxEmailForwardInput, IInboxEmailReplyInput, PermissionsEnum } from '@gauzy/contracts';
-import { FeatureFlag } from '@gauzy/common';
+import { ID, IInboxEmail, IInboxEmailForwardInput, IInboxEmailReplyInput, PermissionsEnum } from '@irtranscripts/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
 import {
 	FEATURE_GRAPHQL,
 	FeatureFlagGuard,
@@ -9,7 +9,7 @@ import {
 	Permissions,
 	TenantPermissionGuard,
 	UUIDValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { validatedInboxInput } from '../../graphql/inbox.resolver';
 import { InboxEmailForwardDTO, InboxEmailReplyDTO, InboxQuarantineQueryDTO } from '../emails/inbox-email.controller';
 import { InboxEmailService } from '../emails/inbox-email.service';

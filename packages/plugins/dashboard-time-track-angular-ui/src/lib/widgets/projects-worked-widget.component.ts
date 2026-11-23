@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { defer, from, of } from 'rxjs';
 import { catchError, distinctUntilChanged, filter, retry, switchMap, tap } from 'rxjs/operators';
-import { IDashboardWidgetContext, OrganizationProjectsService } from '@gauzy/ui-core/core';
+import { IDashboardWidgetContext, OrganizationProjectsService } from '@irtranscripts/ui-core/core';
 import { BaseTimeTrackCounterWidgetComponent } from './base-time-track-counter-widget.component';
 import { TimeTrackCounterCardComponent } from './time-track-counter-card.component';
 

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { NbButtonModule, NbCardModule, NbDialogRef, NbIconModule } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
-import { ToastrService } from '@gauzy/ui-core/core';
+import { ToastrService } from '@irtranscripts/ui-core/core';
 import { IInboxOneTimeValue } from './inbox-settings.helpers';
 
 /**

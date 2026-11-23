@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 import { GITHUB_ACCESS_TOKEN_URL } from './github.config';
 import { OctokitService } from '../probot/octokit.service';
 
@@ -19,7 +19,7 @@ interface IUserInstallation {
 }
 
 /**
- * Proves that the Gauzy user completing a GitHub App installation is entitled to ALL of it
+ * Proves that the IRTranscripts user completing a GitHub App installation is entitled to ALL of it
  * (GHSA-4rwq-65wh-45h4).
  *
  * The post-install redirect carries an `installation_id` anyone can type. Binding an installation to a
@@ -57,7 +57,7 @@ export class GithubInstallationOwnershipService {
 		if (!clientId || !clientSecret) {
 			this.logger.error('GitHub App client id/secret are not configured; cannot verify installation ownership');
 			throw new HttpException(
-				'GitHub App installation cannot be verified: GAUZY_GITHUB_CLIENT_ID and GAUZY_GITHUB_CLIENT_SECRET are not configured on the API.',
+				'GitHub App installation cannot be verified: IRTRANSCRIPTS_GITHUB_CLIENT_ID and IRTRANSCRIPTS_GITHUB_CLIENT_SECRET are not configured on the API.',
 				HttpStatus.SERVICE_UNAVAILABLE
 			);
 		}

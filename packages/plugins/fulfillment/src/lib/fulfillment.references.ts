@@ -10,9 +10,9 @@
  * attachment is the sharpest of them: `variantId` is unique across tenants (`UQ_shipping_profile_variant_one`), so
  * attaching tenant B's variant to one of A's profiles kept B from attaching its own variant at all.
  *
- * The services hold these columns to the caller's tenant with `assertPlainReferencesNotForeign` (`@gauzy/core`).
+ * The services hold these columns to the caller's tenant with `assertPlainReferencesNotForeign` (`@irtranscripts/core`).
  */
-import { PlainReferenceColumns } from '@gauzy/core';
+import { PlainReferenceColumns } from '@irtranscripts/core';
 
 /** The plain id columns of a shipment. */
 export const FULFILLMENT_REFERENCES: PlainReferenceColumns = {

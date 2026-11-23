@@ -2,10 +2,10 @@
  * The `lines` an `order.placed` event carries (Q7-W5): which lines travel, which right each grants, and the
  * snapshot of a catalogue policy onto the line.
  *
- * `@gauzy/core` and the persistence classes are doubled at the module boundary: what is under test is the
+ * `@irtranscripts/core` and the persistence classes are doubled at the module boundary: what is under test is the
  * line service's decision, not the ORM.
  */
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	Money: class Money {},
 	RequestContext: { currentTenantId: () => null, currentOrganizationId: () => null, currentUser: () => null },
 	TenantAwareCrudService: class TenantAwareCrudService {

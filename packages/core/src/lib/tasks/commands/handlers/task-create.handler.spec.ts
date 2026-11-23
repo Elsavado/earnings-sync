@@ -1,7 +1,7 @@
 import '../../../core/entities/internal';
 
 import { Logger } from '@nestjs/common';
-import { ITaskCreateInput } from '@gauzy/contracts';
+import { ITaskCreateInput } from '@irtranscripts/contracts';
 import { asTenantUser, createTenantFixture } from '../../../core/testing/tenant-isolation/tenant-isolation.fixtures';
 import { TaskCreateCommand } from '../task-create.command';
 import { TaskCreateHandler } from './task-create.handler';
@@ -28,7 +28,7 @@ describe('TaskCreateHandler — the number of a new task', () => {
 			logger: new Logger('TaskCreateHandlerSpec'),
 			_taskService: taskService,
 			_organizationProjectService: {
-				findOneByIdString: jest.fn().mockResolvedValue({ id: 'project-1', name: 'Gauzy' })
+				findOneByIdString: jest.fn().mockResolvedValue({ id: 'project-1', name: 'IRTranscripts' })
 			},
 			_cqrsEventBus: { publish: jest.fn() },
 			_eventBus: { publish: jest.fn() },

@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { NbCalendarMonthPickerComponent } from '@nebular/theme';
 import { min, addYears, subYears } from 'date-fns';
-import { monthNames } from '@gauzy/ui-core/core';
-import { Store } from '@gauzy/ui-core/core';
+import { monthNames } from '@irtranscripts/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
 
 @Component({
     selector: 'ga-date-selector',

@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler, CommandBus } from '@nestjs/cqrs';
-import { IntegrationEntity } from '@gauzy/contracts';
+import { IntegrationEntity } from '@irtranscripts/contracts';
 import { TaskService } from '../../../tasks/task.service';
 import { IntegrationMapSyncEntityCommand } from './../integration-map.sync-entity.command';
 import { IntegrationMapSyncTaskCommand } from './../integration-map.sync-task.command';
@@ -46,7 +46,7 @@ export class IntegrationMapSyncTaskHandler implements ICommandHandler<Integratio
 			// Create a new integration map for the issue
 			return await this._commandBus.execute(
 				new IntegrationMapSyncEntityCommand({
-					gauzyId: task.id,
+					irtranscriptsId: task.id,
 					entity: IntegrationEntity.TASK,
 					integrationId,
 					sourceId,
@@ -57,16 +57,16 @@ export class IntegrationMapSyncTaskHandler implements ICommandHandler<Integratio
 		}
 
 		// Try to find the corresponding task
-		const mappedTask = await this._taskService.findOneByIdString(integrationMap.gauzyId).catch(nullIfNotFound);
+		const mappedTask = await this._taskService.findOneByIdString(integrationMap.irtranscriptsId).catch(nullIfNotFound);
 		if (mappedTask) {
 			// Update the corresponding task with the new input data
-			await this._commandBus.execute(new TaskUpdateCommand(integrationMap.gauzyId, entity, triggeredEvent));
+			await this._commandBus.execute(new TaskUpdateCommand(integrationMap.irtranscriptsId, entity, triggeredEvent));
 		} else {
 			// The mapped task is gone: re-create it under the mapped id
 			await this._commandBus.execute(
 				new TaskCreateCommand({
 					...entity,
-					id: integrationMap.gauzyId
+					id: integrationMap.irtranscriptsId
 				})
 			);
 		}

@@ -1,4 +1,4 @@
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 
 /**
  * The permission pair this module owns, declared where the resource lives.

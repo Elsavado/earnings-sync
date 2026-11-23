@@ -137,7 +137,7 @@ interface WebSocketConnection {
 	isAlive: boolean;
 	sessionId?: string;
 	userContext?: UserContext;
-	/** Whether the connection comes from this machine, so may act as the GAUZY_AUTO_LOGIN account (see isLocalCaller) */
+	/** Whether the connection comes from this machine, so may act as the IRTRANSCRIPTS_AUTO_LOGIN account (see isLocalCaller) */
 	isLocal: boolean;
 	/** The OAuth bearer token the connection opened with, checked again before each message it sends */
 	bearerToken?: string;
@@ -602,7 +602,7 @@ export class WebSocketTransport {
 							protocolVersion: PROTOCOL_VERSION,
 							capabilities: { tools: {} },
 							serverInfo: {
-								name: 'gauzy-mcp-server',
+								name: 'irtranscripts-mcp-server',
 								version: '0.1.0'
 							}
 						}
@@ -686,7 +686,7 @@ export class WebSocketTransport {
 	}
 
 	/**
-	 * Tools run with the Gauzy login of the session bound to this connection while that session exists,
+	 * Tools run with the IRTranscripts login of the session bound to this connection while that session exists,
 	 * otherwise with the connection's own login
 	 */
 	private resolveAuthKey(connection: WebSocketConnection): string {
@@ -697,7 +697,7 @@ export class WebSocketTransport {
 	}
 
 	/**
-	 * @param sharesAutoLogin Whether the caller may act as the GAUZY_AUTO_LOGIN account when it has no login of its own.
+	 * @param sharesAutoLogin Whether the caller may act as the IRTRANSCRIPTS_AUTO_LOGIN account when it has no login of its own.
 	 */
 	private async callTool(
 		params: Record<string, unknown>,

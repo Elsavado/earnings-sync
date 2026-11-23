@@ -17,7 +17,7 @@ const DEFAULT_SKELETON_ROWS = 4;
  * `<ga-dashboard-widget-host>`, which owns the `nb-card`, the header title and
  * the edit-mode menu — rendering our own would nest a card in a card.
  *
- * NOTE: `ga-teams-widget-state` in `@gauzy/ui-core/shared` does the same job for
+ * NOTE: `ga-teams-widget-state` in `@irtranscripts/ui-core/shared` does the same job for
  * the Teams widgets, but it is deliberately NOT part of that package's public
  * API (the dashboard widgets barrel exports only the registration arrays, so
  * widget components never reach the root bundle). A plugin therefore cannot

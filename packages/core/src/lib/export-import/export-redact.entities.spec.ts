@@ -1,14 +1,14 @@
 import 'reflect-metadata';
 
 /**
- * Plugin entity files import their base classes and decorators from `@gauzy/core`, whose barrel loads
+ * Plugin entity files import their base classes and decorators from `@irtranscripts/core`, whose barrel loads
  * every module, controller and service in the API — minutes of module loading under ts-jest, for a
  * guard that only needs the entity layer. Serve those imports from the entity-layer modules instead.
  * They are the SAME module instances the core entities below come from (`requireActual` shares the
  * registry), so a plugin entity extends the real `TenantOrganizationBaseEntity` and its marks resolve
  * exactly as in production. Anything else a plugin file reaches for falls through to the real barrel.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const entityLayer: Record<string | symbol, unknown> = {
 		__esModule: true,
 		...jest.requireActual('../core/entities/internal'),
@@ -23,7 +23,7 @@ jest.mock('@gauzy/core', () => {
 			if (key in target) {
 				return target[key];
 			}
-			barrel ??= jest.requireActual('@gauzy/core');
+			barrel ??= jest.requireActual('@irtranscripts/core');
 			return barrel[key];
 		}
 	});
@@ -128,7 +128,7 @@ describe('export redaction of the real entity graph', () => {
 
 			for (const [name, value] of Object.entries({
 				aws_default_region: 'eu-central-1',
-				aws_bucket: 'gauzy-assets',
+				aws_bucket: 'irtranscripts-assets',
 				fileStorageProvider: 'S3',
 				posthogHost: 'https://eu.posthog.com'
 			})) {

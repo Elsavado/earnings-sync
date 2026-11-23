@@ -1,7 +1,7 @@
 import { FindOptionsWhere } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { IOutboxWriteInput } from '@gauzy/contracts';
-import { EventOutboxService } from '@gauzy/core';
+import { IOutboxWriteInput } from '@irtranscripts/contracts';
+import { EventOutboxService } from '@irtranscripts/core';
 import { PICK_LIST_AGGREGATE_TYPE } from '../warehouse.types';
 import { IWarehouseTransaction } from '../warehouse-persistence';
 import { landEdit } from '../warehouse.writable';

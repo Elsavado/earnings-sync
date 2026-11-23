@@ -9,10 +9,10 @@
   gap: 1rem;
   margin-bottom: 2rem;
   padding: 1.25rem;
-  background: linear-gradient(135deg, var(--gauzy-card-2) 0%, var(--background-basic-color-2) 100%);
+  background: linear-gradient(135deg, var(--irtranscripts-card-2) 0%, var(--background-basic-color-2) 100%);
   border-radius: calc(var(--border-radius) * 1.5);
   border-left: 3px solid #cb3837;
-  box-shadow: var(--gauzy-shadow);
+  box-shadow: var(--irtranscripts-shadow);
   transition: all 0.3s ease;
 
   &:hover {
@@ -27,7 +27,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--gauzy-card-1);
+    background: var(--irtranscripts-card-1);
     border-radius: calc(var(--border-radius) * 1.2);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 
@@ -44,12 +44,12 @@
       margin: 0 0 0.5rem 0;
       font-size: 1rem;
       font-weight: 600;
-      color: var(--gauzy-text-color-1);
+      color: var(--irtranscripts-text-color-1);
     }
 
     .header-description {
       margin: 0;
-      color: var(--gauzy-text-color-2);
+      color: var(--irtranscripts-text-color-2);
       font-size: 0.875rem;
       line-height: 1.6;
     }
@@ -64,7 +64,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 1rem 1.25rem;
-    background: var(--gauzy-card-2);
+    background: var(--irtranscripts-card-2);
     border-radius: calc(var(--border-radius) * 1.2);
     border: 1px solid var(--border-basic-color-3);
     transition: all 0.2s ease;
@@ -89,14 +89,14 @@
       .label {
         display: block;
         font-weight: 500;
-        color: var(--gauzy-text-color-1);
+        color: var(--irtranscripts-text-color-1);
         margin-bottom: 0.25rem;
       }
 
       .toggle-description {
         margin: 0;
         font-size: 0.8125rem;
-        color: var(--gauzy-text-color-2);
+        color: var(--irtranscripts-text-color-2);
         line-height: 1.5;
       }
     }
@@ -111,7 +111,7 @@
       align-items: center;
       gap: 0.5rem;
       font-weight: 500;
-      color: var(--gauzy-text-color-1);
+      color: var(--irtranscripts-text-color-1);
       margin-bottom: 0.5rem;
 
       .label-icon {
@@ -180,10 +180,10 @@
     }
 
     &.hint-basic {
-      color: var(--gauzy-text-color-2);
+      color: var(--irtranscripts-text-color-2);
 
       nb-icon {
-        color: var(--gauzy-text-color-2);
+        color: var(--irtranscripts-text-color-2);
       }
     }
   }

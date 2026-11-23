@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { IsNull, WhereExpressionBuilder } from 'typeorm';
-import { DocumentShareAccessEnum, ID, PermissionsEnum } from '@gauzy/contracts';
-import { OrganizationTeamEmployee, RequestContext } from '@gauzy/core';
+import { DocumentShareAccessEnum, ID, PermissionsEnum } from '@irtranscripts/contracts';
+import { OrganizationTeamEmployee, RequestContext } from '@irtranscripts/core';
 import { TypeOrmDocumentShareRepository } from '../repositories/type-orm-document-share.repository';
 import {
 	IDocumentAccessRow,

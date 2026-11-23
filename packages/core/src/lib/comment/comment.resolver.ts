@@ -1,8 +1,8 @@
 import { NotFoundException, UseGuards } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { Args, ID, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { ICommentCreateInput, ICommentUpdateInput, ID as Id, IPagination } from '@gauzy/contracts';
-import { FeatureFlag } from '@gauzy/common';
+import { ICommentCreateInput, ICommentUpdateInput, ID as Id, IPagination } from '@irtranscripts/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
 import {
 	ConnectionFilter,
 	ConnectionPageRequest,

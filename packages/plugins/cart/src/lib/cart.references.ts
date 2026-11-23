@@ -8,9 +8,9 @@
  * row, so it never saw them, and every write of the three child rows — the generic routes, the cart's own line,
  * delivery and promotion verbs on both protocols, the merge — stored another tenant's ids as given.
  *
- * The services hold these columns to the caller's tenant with `assertPlainReferencesNotForeign` (`@gauzy/core`).
+ * The services hold these columns to the caller's tenant with `assertPlainReferencesNotForeign` (`@irtranscripts/core`).
  */
-import { PlainReferenceColumns } from '@gauzy/core';
+import { PlainReferenceColumns } from '@irtranscripts/core';
 
 /**
  * The plain id columns of a cart itself: its sales channel, region, customer and user. `POST /carts`, `PUT /carts/:id`,

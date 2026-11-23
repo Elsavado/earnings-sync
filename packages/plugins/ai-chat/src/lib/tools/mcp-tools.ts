@@ -9,22 +9,22 @@ export interface IMcpToolsHandle {
 }
 
 /**
- * Optionally attach the Gauzy MCP server's tools to the chat agent.
+ * Optionally attach the IRTranscripts MCP server's tools to the chat agent.
  *
- * Enabled by setting `GAUZY_AI_CHAT_MCP_URL` to the HTTP endpoint of a
- * running Gauzy MCP server. A fresh MCP client is created per chat request
+ * Enabled by setting `IRTRANSCRIPTS_AI_CHAT_MCP_URL` to the HTTP endpoint of a
+ * running IRTranscripts MCP server. A fresh MCP client is created per chat request
  * and the requesting user's `Authorization` header is forwarded, so the
  * MCP server can act on behalf of that user.
  *
  * SECURITY NOTE: only enable this against an MCP server that validates and
- * uses the per-request bearer token for its own Gauzy API calls. An MCP
+ * uses the per-request bearer token for its own IRTranscripts API calls. An MCP
  * server logged in with a fixed service account would execute tools with
  * THAT account's permissions, bypassing the requesting user's RBAC.
  * See the plugin README for the current status of the bundled
- * `@gauzy/mcp-server` and this requirement.
+ * `@irtranscripts/mcp-server` and this requirement.
  */
 export async function createMcpTools(authorizationHeader: string): Promise<IMcpToolsHandle | null> {
-	const url = process.env.GAUZY_AI_CHAT_MCP_URL;
+	const url = process.env.IRTRANSCRIPTS_AI_CHAT_MCP_URL;
 	if (!url) return null;
 
 	let client: any;

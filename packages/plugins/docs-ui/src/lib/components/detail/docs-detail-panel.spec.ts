@@ -1,10 +1,10 @@
 /**
  * The panel is exercised by instantiating it directly — the package's established test shape
- * (`document-comments.component.spec.ts`). Both `@gauzy/ui-core` barrels are stubbed: `core`
+ * (`document-comments.component.spec.ts`). Both `@irtranscripts/ui-core` barrels are stubbed: `core`
  * drags Akita's untranspiled ESM into the CommonJS runtime (and is reached transitively through
  * every dialog the panel imports), and `i18n` only contributes the translation base class.
  */
-jest.mock('@gauzy/ui-core/core', () => ({
+jest.mock('@irtranscripts/ui-core/core', () => ({
 	EmployeesService: class EmployeesService {},
 	InvoicesService: class InvoicesService {},
 	OrganizationContactService: class OrganizationContactService {},
@@ -15,7 +15,7 @@ jest.mock('@gauzy/ui-core/core', () => ({
 	TasksService: class TasksService {},
 	ToastrService: class ToastrService {}
 }));
-jest.mock('@gauzy/ui-core/i18n', () => ({
+jest.mock('@irtranscripts/ui-core/i18n', () => ({
 	TranslationBaseComponent: class TranslationBaseComponent {
 		constructor(public readonly translateService: unknown) {}
 		getTranslation(key: string): string {
@@ -25,7 +25,7 @@ jest.mock('@gauzy/ui-core/i18n', () => ({
 }));
 
 import { of, throwError } from 'rxjs';
-import { DocumentKindEnum, ID, IDocument, ITag } from '@gauzy/contracts';
+import { DocumentKindEnum, ID, IDocument, ITag } from '@irtranscripts/contracts';
 import { DocsDetailPanelComponent, DOCS_DETAIL_RELATIONS } from './docs-detail-panel.component';
 
 const DOCUMENT_ID = 'ffffffff-1111-4111-8111-111111111111' as ID;

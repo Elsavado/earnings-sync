@@ -9,7 +9,7 @@ import {
 	Optional
 } from '@nestjs/common';
 import { DeleteResult, FindOptionsWhere, In, IsNull, SaveOptions } from 'typeorm';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import {
 	IOrderLineReceiptMove,
 	IOrderReturnLineInput,
@@ -43,7 +43,7 @@ import {
 	SequenceService,
 	Warehouse,
 	commitVersionedUpdate
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { OrderReturnLine } from '../order-return-line/order-return-line.entity';
 import {
 	IOrderReturnReceiptPlan,

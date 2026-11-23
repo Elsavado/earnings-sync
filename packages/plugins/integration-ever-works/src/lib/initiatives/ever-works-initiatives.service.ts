@@ -6,8 +6,8 @@ import {
 	IOrganizationStrategicSignals,
 	OrganizationStrategicStateEnum,
 	OrganizationStrategicVisibilityScopeEnum
-} from '@gauzy/contracts';
-import { Goal, IntegrationTenant, OrganizationStrategicInitiative } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { Goal, IntegrationTenant, OrganizationStrategicInitiative } from '@irtranscripts/core';
 import { EverWorksApiError, EverWorksClient } from '../client/ever-works-client';
 import type { EverWorksEventEnvelope, EverWorksListPage } from '../client/ever-works-client.types';
 import type { EverWorksConnection } from '../connection/ever-works-connection.entity';
@@ -15,7 +15,7 @@ import { EverWorksConnectionService } from '../connection/ever-works-connection.
 import { EverWorksSettingName } from '../ever-works-setting.enum';
 import type { EverWorksDirection } from '../mapping/ever-works-mapping.defaults';
 import { EverWorksMappingContext, EverWorksMappingContextService } from '../mapping/ever-works-mapping-context.service';
-import { everWorksUserOfGauzyUser } from '../sync/ever-works-actor';
+import { everWorksUserOfIRTranscriptsUser } from '../sync/ever-works-actor';
 import { stableUuid } from '../sync/ever-works-stable-id';
 import {
 	EverWorksEntityLink,
@@ -40,14 +40,14 @@ import {
 	EverWorksPushContext,
 	EverWorksPushOutcome
 } from '../sync/outbound/ever-works-outbound.pusher';
-import { gauzyTeamsFor, isSyncedVisibility, teamScopeFor } from '../teams/ever-works-team-scope';
+import { irtranscriptsTeamsFor, isSyncedVisibility, teamScopeFor } from '../teams/ever-works-team-scope';
 import {
 	EverWorksMission,
 	EverWorksMissionGoal,
 	EverWorksMissionWork,
 	everWorksMissionShared,
-	gauzyInitiativeOf,
-	gauzyInitiativeShared,
+	irtranscriptsInitiativeOf,
+	irtranscriptsInitiativeShared,
 	initiativeEligibility,
 	initiativeStateToMission,
 	missionCreateBody,
@@ -63,7 +63,7 @@ export const INITIATIVE_SWEEP_MS = 10 * 60_000;
 /** Why a TEAM-scoped initiative with no paired team to scope its mission to is not created in Ever Works (review F24). */
 export const TEAM_SCOPE_WAITS = 'a team-scoped initiative goes to Ever Works once it is linked to a paired team';
 
-/** Why a mission is not created as a Gauzy initiative yet: none of its teams is paired (review F89). */
+/** Why a mission is not created as a IRTranscripts initiative yet: none of its teams is paired (review F89). */
 export const MISSION_TEAMS_WAIT = "waiting for the mission's Ever Works team to be paired (teams first)";
 
 /** What only Ever Works has, kept on the link (fields one side lacks are preserved, never nulled). */
@@ -75,13 +75,13 @@ interface MissionEverWorksOnly {
 	autoBuildWorks?: boolean | null;
 	webUrl?: string | null;
 	visibility?: string | null;
-	/** Ever Works teams, works and goals Gauzy could not map at the last sync; tried again on the next change. */
+	/** Ever Works teams, works and goals IRTranscripts could not map at the last sync; tried again on the next change. */
 	unmappedTeams?: string[];
 	unmappedWorks?: string[];
 	unmappedGoals?: string[];
 	/** The sync set the "stalled" momentum (the mission paused): only then does a resume clear it. */
 	stalledBySync?: boolean;
-	/** Ever Works goals whose Gauzy goal was on this initiative at the last sync (Gauzy showed them here). */
+	/** Ever Works goals whose IRTranscripts goal was on this initiative at the last sync (IRTranscripts showed them here). */
 	representedGoals?: string[];
 }
 
@@ -100,13 +100,13 @@ export interface EverWorksMissionRow {
 	title: string;
 	status: string | null;
 	linkedInitiativeId: ID | null;
-	/** A same-title Gauzy initiative the admin may confirm (never linked silently), or `null`. */
+	/** A same-title IRTranscripts initiative the admin may confirm (never linked silently), or `null`. */
 	suggestion: { initiativeId: ID; reason: 'same_title' } | null;
 }
 
 export interface EverWorksInitiativesView {
 	missions: EverWorksMissionRow[];
-	/** Gauzy initiatives of the organization linked to no mission (leadership ones are never offered). */
+	/** IRTranscripts initiatives of the organization linked to no mission (leadership ones are never offered). */
 	unmatchedInitiatives: Array<{ initiativeId: ID; title: string; state: string }>;
 }
 
@@ -115,15 +115,15 @@ export interface EverWorksInitiativesDecision {
 	links?: Array<{ ewMissionId: string; initiativeId: ID }>;
 	unlinks?: string[];
 	acceptSuggestions?: boolean;
-	/** Ever Works missions to create as Gauzy initiatives. */
-	createInGauzy?: string[];
-	/** Gauzy initiatives to create in Ever Works (as paused missions). */
+	/** Ever Works missions to create as IRTranscripts initiatives. */
+	createInIRTranscripts?: string[];
+	/** IRTranscripts initiatives to create in Ever Works (as paused missions). */
 	createInEverWorks?: ID[];
 }
 
-/** The Gauzy-side fields a push may be carrying (kept over the older Ever Works values on a 412). */
-type MissionGauzyField = 'title' | 'description' | 'teams' | 'works' | 'goals' | 'status';
-const MISSION_PATCH_FIELD: Readonly<Record<string, MissionGauzyField>> = {
+/** The IRTranscripts-side fields a push may be carrying (kept over the older Ever Works values on a 412). */
+type MissionIRTranscriptsField = 'title' | 'description' | 'teams' | 'works' | 'goals' | 'status';
+const MISSION_PATCH_FIELD: Readonly<Record<string, MissionIRTranscriptsField>> = {
 	title: 'title',
 	description: 'description',
 	teamIds: 'teams',
@@ -133,8 +133,8 @@ const MISSION_PATCH_FIELD: Readonly<Record<string, MissionGauzyField>> = {
 };
 
 const fromEverWorks = (direction: EverWorksDirection | undefined) =>
-	direction === 'both' || direction === 'ew_to_gauzy';
-const toEverWorks = (direction: EverWorksDirection | undefined) => direction === 'both' || direction === 'gauzy_to_ew';
+	direction === 'both' || direction === 'ew_to_irtranscripts';
+const toEverWorks = (direction: EverWorksDirection | undefined) => direction === 'both' || direction === 'irtranscripts_to_ew';
 
 /**
  * Missions ↔ Strategic Initiatives (owner decision D3b, plan 01 §9, plan 06 G-P2-2), linked as
@@ -150,7 +150,7 @@ const toEverWorks = (direction: EverWorksDirection | undefined) => direction ===
  *   what changed in Ever Works since the last sync is written.
  * - **G → EW** (only when the missions direction is `both`): an initiative becomes a mission Ever Works
  *   creates **paused**; title, intent, teams, works and goals follow; retiring or resolving it completes
- *   the mission (outcome cancelled / succeeded). Gauzy never sets a mission active (D9). Drafts wait
+ *   the mission (outcome cancelled / succeeded). IRTranscripts never sets a mission active (D9). Drafts wait
  *   until active; **leadership initiatives are never pushed**, and one that turns leadership stops
  *   syncing (its link is flagged).
  * - Type, schedule, auto-build and guardrails stay Ever Works-only (on the link).
@@ -187,7 +187,7 @@ export class EverWorksInitiativesService
 
 	/**
 	 * The initiative sweep, run by the sync loop for a connection it holds. It queues the push of:
-	 * - a paired initiative deleted in Gauzy by id (the platform's delete carries no row, so no subscriber
+	 * - a paired initiative deleted in IRTranscripts by id (the platform's delete carries no row, so no subscriber
 	 *   sees it): the push completes its mission as cancelled;
 	 * - a paired initiative whose goals changed since the last sync (a goal moved to or off it: the goal's
 	 *   save signals the goal, not the initiative it left).
@@ -200,7 +200,7 @@ export class EverWorksInitiativesService
 			).filter((link) => link.state === EverWorksLinkState.OK);
 			if (!links.length) continue;
 			const alive = new Set<string>();
-			const ids = links.map((link) => link.gauzyId as ID);
+			const ids = links.map((link) => link.irtranscriptsId as ID);
 			for (let at = 0; at < ids.length; at += 500) {
 				const found = (await this.dataSource.getRepository(OrganizationStrategicInitiative).find({
 					where: { id: In(ids.slice(at, at + 500)), tenantId: context.tenantId } as never,
@@ -209,17 +209,17 @@ export class EverWorksInitiativesService
 				for (const row of found) alive.add(row.id as string);
 			}
 			for (const link of links) {
-				const gone = !alive.has(link.gauzyId as string);
+				const gone = !alive.has(link.irtranscriptsId as string);
 				if (!gone) {
 					const represented = new Set(this.ewOnlyOf(link).representedGoals ?? []);
-					const now = await this.representedGoals(context, link.gauzyId as ID);
+					const now = await this.representedGoals(context, link.irtranscriptsId as ID);
 					if (now.length === represented.size && now.every((id) => represented.has(id))) continue;
 				}
 				await this.queue.enqueue({
 					tenantId: context.tenantId,
 					organizationId: context.organizationId,
 					entityType: EverWorksLinkType.INITIATIVE_MISSION,
-					gauzyId: link.gauzyId as ID,
+					irtranscriptsId: link.irtranscriptsId as ID,
 					op: gone ? 'delete' : 'upsert'
 				});
 			}
@@ -264,12 +264,12 @@ export class EverWorksInitiativesService
 		organizationId?: ID
 	): Promise<EverWorksInitiativesView> {
 		const context = await this.contexts.forRequest(integrationTenantId, organizationId);
-		const creates = !!decision.createInGauzy?.length || !!decision.createInEverWorks?.length;
+		const creates = !!decision.createInIRTranscripts?.length || !!decision.createInEverWorks?.length;
 		if (creates && !context.isEnabled)
 			throw new BadRequestException(
 				'The mapping is disabled; enable it before creating initiatives or missions.'
 			);
-		if (decision.createInGauzy?.length && !fromEverWorks(context.directions.missions)) {
+		if (decision.createInIRTranscripts?.length && !fromEverWorks(context.directions.missions)) {
 			throw new BadRequestException(
 				'Missions are not synced from Ever Works for this mapping, so they cannot be created as initiatives.'
 			);
@@ -291,23 +291,23 @@ export class EverWorksInitiativesService
 			const times = new Map<ID, number>();
 			for (const s of suggested) times.set(s.initiativeId, (times.get(s.initiativeId) ?? 0) + 1);
 			const claimedEw = new Set(pairs.map((p) => p.ewMissionId));
-			const claimedGauzy = new Set(pairs.map((p) => p.initiativeId));
+			const claimedIRTranscripts = new Set(pairs.map((p) => p.initiativeId));
 			for (const s of suggested) {
-				if (times.get(s.initiativeId) !== 1 || claimedEw.has(s.ewMissionId) || claimedGauzy.has(s.initiativeId))
+				if (times.get(s.initiativeId) !== 1 || claimedEw.has(s.ewMissionId) || claimedIRTranscripts.has(s.initiativeId))
 					continue;
 				pairs.push(s);
 			}
 		}
 		const initiatives = new Map(
 			(
-				await this.gauzyInitiatives(context, [
+				await this.irtranscriptsInitiatives(context, [
 					...pairs.map((p) => p.initiativeId),
 					...(decision.createInEverWorks ?? [])
 				])
 			).map((row) => [row.id as ID, row])
 		);
 		const seenEw = new Set<string>();
-		const seenGauzy = new Set<string>();
+		const seenIRTranscripts = new Set<string>();
 		for (const pair of pairs) {
 			if (!byEw.has(pair.ewMissionId))
 				throw new BadRequestException(
@@ -323,12 +323,12 @@ export class EverWorksInitiativesService
 					`${pair.initiativeId} is a leadership initiative; leadership initiatives never sync.`
 				);
 			}
-			if (seenEw.has(pair.ewMissionId) || seenGauzy.has(pair.initiativeId))
+			if (seenEw.has(pair.ewMissionId) || seenIRTranscripts.has(pair.initiativeId))
 				throw new BadRequestException('Each mission and each initiative can be paired once.');
 			seenEw.add(pair.ewMissionId);
-			seenGauzy.add(pair.initiativeId);
+			seenIRTranscripts.add(pair.initiativeId);
 		}
-		for (const id of decision.createInGauzy ?? []) {
+		for (const id of decision.createInIRTranscripts ?? []) {
 			if (!byEw.has(id))
 				throw new BadRequestException(`${id} is not a mission of the mapped Ever Works organization.`);
 			if (await this.teamsWait(context, byEw.get(id) as EverWorksMission))
@@ -361,7 +361,7 @@ export class EverWorksInitiativesService
 					EverWorksLinkType.INITIATIVE_MISSION,
 					pair.ewMissionId
 				),
-				await this.links.byGauzy(
+				await this.links.byIRTranscripts(
 					context.integrationTenantId,
 					EverWorksLinkType.INITIATIVE_MISSION,
 					pair.initiativeId
@@ -369,8 +369,8 @@ export class EverWorksInitiativesService
 			]) {
 				if (stale) await this.links.remove(stale);
 			}
-			// From now on each side's changes follow. What the mission has that Gauzy cannot map is kept on the link,
-			// so a Gauzy push never removes it; what it has that Gauzy can map is aligned now (review F25).
+			// From now on each side's changes follow. What the mission has that IRTranscripts cannot map is kept on the link,
+			// so a IRTranscripts push never removes it; what it has that IRTranscripts can map is aligned now (review F25).
 			const mission = byEw.get(pair.ewMissionId) as EverWorksMission;
 			const shared = everWorksMissionShared(mission);
 			if (fromEverWorks(context.directions.missions)) await this.alignOnPairing(context, pair.initiativeId, shared);
@@ -388,7 +388,7 @@ export class EverWorksInitiativesService
 		await EverWorksSyncContext.run(
 			{ connectionId: context.connection.id as ID, eventId: `initiatives-tab:${context.integrationTenantId}` },
 			async () => {
-				for (const ewMissionId of decision.createInGauzy ?? []) {
+				for (const ewMissionId of decision.createInIRTranscripts ?? []) {
 					if (
 						await this.livePair(
 							await this.links.byEw(
@@ -408,7 +408,7 @@ export class EverWorksInitiativesService
 		for (const initiativeId of decision.createInEverWorks ?? []) {
 			if (
 				await this.livePair(
-					await this.links.byGauzy(
+					await this.links.byIRTranscripts(
 						context.integrationTenantId,
 						EverWorksLinkType.INITIATIVE_MISSION,
 						initiativeId
@@ -450,7 +450,7 @@ export class EverWorksInitiativesService
 			await this.dataSource
 				.getRepository(OrganizationStrategicInitiative)
 				.update(
-					{ id: link.gauzyId, tenantId: context.tenantId } as never,
+					{ id: link.irtranscriptsId, tenantId: context.tenantId } as never,
 					{ state: OrganizationStrategicStateEnum.RETIRED, isArchived: true, archivedAt: new Date() } as never
 				);
 			await this.links.unlink(link, 'deleted in Ever Works; the initiative is retired and archived');
@@ -465,7 +465,7 @@ export class EverWorksInitiativesService
 			// Existing missions are paired on the Initiatives tab; only one created after the mapping arrives unreviewed.
 			if (envelope.type !== 'mission.created')
 				return { status: 'skipped', message: 'not linked: pair it on the Initiatives tab' };
-			const madeFrom = gauzyInitiativeOf(
+			const madeFrom = irtranscriptsInitiativeOf(
 				{ ...(data as unknown as EverWorksMission), id: envelope.aggregate.id },
 				context.connection.id as ID
 			);
@@ -535,27 +535,27 @@ export class EverWorksInitiativesService
 		link: EverWorksEntityLink,
 		mission: EverWorksMission,
 		version: number | null,
-		keepGauzy: ReadonlySet<MissionGauzyField> = new Set()
+		keepIRTranscripts: ReadonlySet<MissionIRTranscriptsField> = new Set()
 	): Promise<EverWorksApplyOutcome> {
-		const initiativeId = link.gauzyId as ID;
+		const initiativeId = link.irtranscriptsId as ID;
 		const row = await this.initiative(context, initiativeId, true);
-		if (!row) return { status: 'skipped', message: 'the Gauzy initiative is gone' };
+		if (!row) return { status: 'skipped', message: 'the IRTranscripts initiative is gone' };
 		if (initiativeEligibility(row) === 'leadership') {
 			await this.flagLeadership(context, link);
-			return { status: 'skipped', message: 'the initiative is leadership-scoped in Gauzy; it no longer syncs' };
+			return { status: 'skipped', message: 'the initiative is leadership-scoped in IRTranscripts; it no longer syncs' };
 		}
 		const before = this.links.snapshot<MissionShared>(link);
 		const ew = this.ewOnlyOf(link);
 		const next = everWorksMissionShared(mission, before);
-		// `keepGauzy`: fields Gauzy changed after the last sync and is pushing now (a 412 retry): its edit is
+		// `keepIRTranscripts`: fields IRTranscripts changed after the last sync and is pushing now (a 412 retry): its edit is
 		// the later one, so the older Ever Works value is not written over it; the snapshot still moves to the
-		// Ever Works value, so the retry pushes the Gauzy one.
+		// Ever Works value, so the retry pushes the IRTranscripts one.
 		const changes: Record<string, unknown> = {};
-		if (next.title && next.title !== before.title && !keepGauzy.has('title')) changes['title'] = next.title;
-		if (next.description !== (before.description ?? '') && !keepGauzy.has('description'))
+		if (next.title && next.title !== before.title && !keepIRTranscripts.has('title')) changes['title'] = next.title;
+		if (next.description !== (before.description ?? '') && !keepIRTranscripts.has('description'))
 			changes['intent'] = next.description;
 		let stalledBySync = ew.stalledBySync ?? false;
-		if (next.status !== (before.status ?? null) && !keepGauzy.has('status')) {
+		if (next.status !== (before.status ?? null) && !keepIRTranscripts.has('status')) {
 			const status = this.statusChanges(row, next.status, mission.outcome ?? ew.outcome ?? null, stalledBySync);
 			Object.assign(changes, status.changes);
 			stalledBySync = status.stalledBySync;
@@ -564,14 +564,14 @@ export class EverWorksInitiativesService
 			const steward = await this.stewardOf(context, mission.owner ?? null);
 			if (steward) changes['stewardId'] = steward;
 		}
-		const teams = keepGauzy.has('teams')
+		const teams = keepIRTranscripts.has('teams')
 			? this.unmappedOf(next.teamIds, await this.pairs(context, EverWorksLinkType.TEAM))
 			: await this.applyTeams(context, initiativeId, before.teamIds ?? [], next.teamIds, ew.unmappedTeams ?? []);
 		if (
 			JSON.stringify(next.teamIds) !== JSON.stringify([...(before.teamIds ?? [])].sort()) &&
-			!keepGauzy.has('teams')
+			!keepIRTranscripts.has('teams')
 		) {
-			// D11: a mission on a team is team-scoped in Gauzy too; on no team, organization-scoped.
+			// D11: a mission on a team is team-scoped in IRTranscripts too; on no team, organization-scoped.
 			changes['visibilityScope'] = next.teamIds.length
 				? OrganizationStrategicVisibilityScopeEnum.TEAM
 				: OrganizationStrategicVisibilityScopeEnum.ORGANIZATION;
@@ -580,13 +580,13 @@ export class EverWorksInitiativesService
 			await this.dataSource
 				.getRepository(OrganizationStrategicInitiative)
 				.update({ id: initiativeId } as never, changes as never);
-		const works = keepGauzy.has('works')
+		const works = keepIRTranscripts.has('works')
 			? this.unmappedOf(
 					next.works.map((w) => w.workId),
 					await this.pairs(context, EverWorksLinkType.PROJECT_WORK)
 				)
 			: await this.applyWorks(context, initiativeId, before.works ?? [], next.works, ew.unmappedWorks ?? []);
-		const goals = keepGauzy.has('goals')
+		const goals = keepIRTranscripts.has('goals')
 			? this.unmappedOf(
 					next.goals.map((g) => g.goalId),
 					await this.pairs(context, EverWorksLinkType.GOAL)
@@ -618,7 +618,7 @@ export class EverWorksInitiativesService
 		return { status: 'applied' };
 	}
 
-	/** Creates the Gauzy initiative of a mission (created after the mapping, or from the Initiatives tab) and links them. */
+	/** Creates the IRTranscripts initiative of a mission (created after the mapping, or from the Initiatives tab) and links them. */
 	private async createInitiative(
 		context: EverWorksMappingContext,
 		mission: EverWorksMission,
@@ -652,7 +652,7 @@ export class EverWorksInitiativesService
 				.getRepository(OrganizationStrategicInitiative)
 				.insert({ id, tenantId: context.tenantId, organizationId: context.organizationId, ...values } as never);
 		// A retry finds the initiative it wrote: it takes Ever Works' current fields, so the snapshot recorded below is
-		// what Gauzy holds and a later push never sends the older ones back (review F87).
+		// what IRTranscripts holds and a later push never sends the older ones back (review F87).
 		else await this.dataSource.getRepository(OrganizationStrategicInitiative).update({ id } as never, values as never);
 		// A retry starts from what the row has (the attempt that wrote it may have linked teams, works or goals the mission
 		// no longer has): those are removed, the rest added (#11081 review).
@@ -677,7 +677,7 @@ export class EverWorksInitiativesService
 			'inbound'
 		);
 		this.logger.log(
-			`Ever Works mission ${mission.id} created as Gauzy initiative ${id} (organization ${context.organizationId}).`
+			`Ever Works mission ${mission.id} created as IRTranscripts initiative ${id} (organization ${context.organizationId}).`
 		);
 		return id;
 	}
@@ -731,10 +731,10 @@ export class EverWorksInitiativesService
 
 	/**
 	 * Pairing on the Initiatives tab (review F25): the link's snapshot is the mission, so what the initiative lacks
-	 * would read as a Gauzy change on its first save and be pushed — stripping the mission's teams (widening it to the
+	 * would read as a IRTranscripts change on its first save and be pushed — stripping the mission's teams (widening it to the
 	 * organization) and its works. So the mission's paired works are added to the initiative's projects (a later push
 	 * then only adds the initiative's own works to the mission), and an initiative with no team of its own takes the
-	 * mission's paired teams and is team-scoped (D11). Only additions, never a removal, on the Gauzy side.
+	 * mission's paired teams and is team-scoped (D11). Only additions, never a removal, on the IRTranscripts side.
 	 */
 	private async alignOnPairing(context: EverWorksMappingContext, initiativeId: ID, shared: MissionShared): Promise<void> {
 		await EverWorksSyncContext.run(
@@ -759,7 +759,7 @@ export class EverWorksInitiativesService
 		);
 	}
 
-	/** The mission's teams moved: the same adds and removes on the initiative's teams. Returns the teams Gauzy cannot map. */
+	/** The mission's teams moved: the same adds and removes on the initiative's teams. Returns the teams IRTranscripts cannot map. */
 	private async applyTeams(
 		context: EverWorksMappingContext,
 		initiativeId: ID,
@@ -791,10 +791,10 @@ export class EverWorksInitiativesService
 	}
 
 	/**
-	 * The mission's goals moved. A Gauzy goal has one initiative and an Ever Works goal can sit in several
+	 * The mission's goals moved. A IRTranscripts goal has one initiative and an Ever Works goal can sit in several
 	 * missions (plan 01 §6: the primary mission wins): a goal of this mission gets the initiative when this
 	 * is its primary mission (`primaryMissionId` on its goal link), or when it has none and no initiative
-	 * yet; a goal that left the mission leaves the initiative it had here. Returns the goals Gauzy cannot map.
+	 * yet; a goal that left the mission leaves the initiative it had here. Returns the goals IRTranscripts cannot map.
 	 */
 	private async applyGoals(
 		context: EverWorksMappingContext,
@@ -811,8 +811,8 @@ export class EverWorksInitiativesService
 		const again = new Set(retry);
 		const unmapped: string[] = [];
 		for (const goalId of now) {
-			const gauzyId = goalOf.get(goalId);
-			if (!gauzyId) {
+			const irtranscriptsId = goalOf.get(goalId);
+			if (!irtranscriptsId) {
 				unmapped.push(goalId);
 				continue;
 			}
@@ -820,24 +820,24 @@ export class EverWorksInitiativesService
 			const primaryMissionId = await this.primaryMissionOf(context, goalId);
 			if (primaryMissionId === missionId) {
 				await repository.update(
-					{ id: gauzyId, tenantId: context.tenantId } as never,
+					{ id: irtranscriptsId, tenantId: context.tenantId } as never,
 					{ organizationStrategicInitiativeId: initiativeId } as never
 				);
 			} else if (!primaryMissionId) {
 				// No primary mission: this one, unless the goal is on another initiative already.
 				await repository.update(
-					{ id: gauzyId, tenantId: context.tenantId, organizationStrategicInitiativeId: IsNull() } as never,
+					{ id: irtranscriptsId, tenantId: context.tenantId, organizationStrategicInitiativeId: IsNull() } as never,
 					{ organizationStrategicInitiativeId: initiativeId } as never
 				);
 			}
 		}
 		for (const goalId of before) {
 			if (now.has(goalId)) continue;
-			const gauzyId = goalOf.get(goalId);
-			if (gauzyId)
+			const irtranscriptsId = goalOf.get(goalId);
+			if (irtranscriptsId)
 				await repository.update(
 					{
-						id: gauzyId,
+						id: irtranscriptsId,
 						tenantId: context.tenantId,
 						organizationStrategicInitiativeId: initiativeId
 					} as never,
@@ -847,13 +847,13 @@ export class EverWorksInitiativesService
 		return unmapped;
 	}
 
-	/** The Ever Works teams, works and goals of what an initiative is linked to in Gauzy now (through the pairs). */
+	/** The Ever Works teams, works and goals of what an initiative is linked to in IRTranscripts now (through the pairs). */
 	private async everWorksSetsOf(
 		context: EverWorksMappingContext,
 		initiativeId: ID
 	): Promise<{ teamIds: string[]; works: EverWorksMissionWork[]; goals: EverWorksMissionGoal[] }> {
 		const everWorksOf = async (type: EverWorksLinkType) =>
-			new Map([...(await this.pairs(context, type)).entries()].map(([ewId, gauzyId]) => [gauzyId as string, ewId]));
+			new Map([...(await this.pairs(context, type)).entries()].map(([ewId, irtranscriptsId]) => [irtranscriptsId as string, ewId]));
 		const linked = async (relationName: 'teams' | 'projects') =>
 			((await this.dataSource
 				.createQueryBuilder()
@@ -871,10 +871,10 @@ export class EverWorksInitiativesService
 		};
 	}
 
-	/** The Ever Works goals whose Gauzy goal is on the initiative now (what Gauzy shows on it). */
+	/** The Ever Works goals whose IRTranscripts goal is on the initiative now (what IRTranscripts shows on it). */
 	private async representedGoals(context: EverWorksMappingContext, initiativeId: ID): Promise<string[]> {
 		const goalOf = new Map(
-			[...(await this.pairs(context, EverWorksLinkType.GOAL)).entries()].map(([ewId, gauzyId]) => [gauzyId, ewId])
+			[...(await this.pairs(context, EverWorksLinkType.GOAL)).entries()].map(([ewId, irtranscriptsId]) => [irtranscriptsId, ewId])
 		);
 		const goals = (await this.dataSource
 			.getRepository(Goal)
@@ -884,7 +884,7 @@ export class EverWorksInitiativesService
 		return goals.flatMap((goal) => (goalOf.has(goal.id as ID) ? [goalOf.get(goal.id as ID) as string] : []));
 	}
 
-	/** The link state of a new pair: what the mission has that Gauzy cannot map, and the goals Gauzy shows here. */
+	/** The link state of a new pair: what the mission has that IRTranscripts cannot map, and the goals IRTranscripts shows here. */
 	private async linkStateOf(
 		context: EverWorksMappingContext,
 		initiativeId: ID,
@@ -915,30 +915,30 @@ export class EverWorksInitiativesService
 		}
 	}
 
-	/** The Ever Works ids among `ids` that have no Gauzy pair. */
+	/** The Ever Works ids among `ids` that have no IRTranscripts pair. */
 	private unmappedOf(ids: ReadonlyArray<string>, pairs: Map<string, ID>): string[] {
 		return ids.filter((id) => !pairs.has(id));
 	}
 
-	/** Adds and removes on one M:N relation of the initiative; returns the Ever Works ids of `next` Gauzy cannot map. */
+	/** Adds and removes on one M:N relation of the initiative; returns the Ever Works ids of `next` IRTranscripts cannot map. */
 	private async applySet(
 		initiativeId: ID,
 		relationName: 'teams' | 'projects',
 		previous: string[],
 		next: string[],
 		retry: string[],
-		gauzyOf: Map<string, ID>
+		irtranscriptsOf: Map<string, ID>
 	): Promise<string[]> {
 		const again = new Set(retry);
-		const added = gauzyTeamsFor(
+		const added = irtranscriptsTeamsFor(
 			next.filter((id) => !previous.includes(id) || again.has(id)),
-			gauzyOf
+			irtranscriptsOf
 		);
-		const removed = gauzyTeamsFor(
+		const removed = irtranscriptsTeamsFor(
 			previous.filter((id) => !next.includes(id)),
-			gauzyOf
+			irtranscriptsOf
 		).teamIds;
-		const unmapped = gauzyTeamsFor(next, gauzyOf).unmapped;
+		const unmapped = irtranscriptsTeamsFor(next, irtranscriptsOf).unmapped;
 		if (!added.teamIds.length && !removed.length) return unmapped;
 		const relation = this.dataSource
 			.createQueryBuilder()
@@ -953,7 +953,7 @@ export class EverWorksInitiativesService
 
 	// ── G → EW ─────────────────────────────────────────────────────────────────────────────────────
 
-	/** Outbound handler: a Gauzy initiative changed. */
+	/** Outbound handler: a IRTranscripts initiative changed. */
 	async push(change: EverWorksOutboundChange, pushContext: EverWorksPushContext): Promise<EverWorksPushOutcome> {
 		const context = await this.contexts.forOrganization(change.tenantId as ID, change.organizationId as ID);
 		if (!context || context.integrationTenantId !== pushContext.mapping.id)
@@ -964,14 +964,14 @@ export class EverWorksInitiativesService
 				status: 'skipped',
 				message: 'initiatives are not pushed to Ever Works (missions direction "both")'
 			};
-		const link = await this.links.byGauzy(
+		const link = await this.links.byIRTranscripts(
 			context.integrationTenantId,
 			EverWorksLinkType.INITIATIVE_MISSION,
-			change.gauzyId as ID
+			change.irtranscriptsId as ID
 		);
 		if (link?.state === EverWorksLinkState.UNLINKED)
 			return { status: 'skipped', message: 'the initiative is no longer synced' };
-		const row = await this.initiative(context, change.gauzyId as ID, true);
+		const row = await this.initiative(context, change.irtranscriptsId as ID, true);
 		const client = this.client(context);
 		if (change.op === 'delete' || !row || (row as { deletedAt?: Date | null }).deletedAt) {
 			// Delete policy (archive / cancel): the paired mission is completed as cancelled; nothing is deleted.
@@ -980,7 +980,7 @@ export class EverWorksInitiativesService
 			if (before.status === 'completed' || before.status === 'failed')
 				return { status: 'skipped', message: 'the mission is finished already' };
 			await this.write(context, client, link, 'PATCH', '', { status: 'completed', outcome: 'cancelled' });
-			await this.links.unlink(link, 'the initiative was removed in Gauzy; its mission is completed as cancelled');
+			await this.links.unlink(link, 'the initiative was removed in IRTranscripts; its mission is completed as cancelled');
 			return { status: 'pushed', message: 'the initiative was removed; the mission is completed as cancelled' };
 		}
 		if (!link && !this.createdAfterMapping(row, context))
@@ -1011,12 +1011,12 @@ export class EverWorksInitiativesService
 			const connectionId = context.connection.id as ID;
 			const body = missionCreateBody(now, connectionId, row.id as ID);
 			const steward = row.stewardId
-				? await this.links.byGauzy(context.integrationTenantId, EverWorksLinkType.MEMBER, row.stewardId as ID)
+				? await this.links.byIRTranscripts(context.integrationTenantId, EverWorksLinkType.MEMBER, row.stewardId as ID)
 				: null;
 			const actAs =
 				steward && steward.state !== EverWorksLinkState.UNLINKED
 					? steward.ewId
-					: await everWorksUserOfGauzyUser(this.dataSource, this.links, context, actorUserId);
+					: await everWorksUserOfIRTranscriptsUser(this.dataSource, this.links, context, actorUserId);
 			const key = (actor: string) =>
 				createHash('sha256')
 					.update(
@@ -1048,7 +1048,7 @@ export class EverWorksInitiativesService
 				EverWorksLinkType.INITIATIVE_MISSION,
 				created.id
 			);
-			if (holder && holder.state !== EverWorksLinkState.UNLINKED && holder.gauzyId !== row.id)
+			if (holder && holder.state !== EverWorksLinkState.UNLINKED && holder.irtranscriptsId !== row.id)
 				return { status: 'skipped', message: `the mission ${created.id} is paired with another initiative` };
 			const createdShared = everWorksMissionShared(created);
 			const pair = await this.record(
@@ -1061,7 +1061,7 @@ export class EverWorksInitiativesService
 				{ representedGoals: await this.representedGoals(context, row.id as ID) },
 				'outbound'
 			);
-			this.logger.log(`Gauzy initiative ${row.id} created in Ever Works as a paused mission ${created.id}.`);
+			this.logger.log(`IRTranscripts initiative ${row.id} created in Ever Works as a paused mission ${created.id}.`);
 			// The works, goals and a finished state follow as updates (the create takes none of them).
 			await this.update(context, client, row, now, finish, pair);
 			return { status: 'pushed', message: 'created in Ever Works (paused)' };
@@ -1120,8 +1120,8 @@ export class EverWorksInitiativesService
 					'GET',
 					`/missions/${encodeURIComponent(pair.ewId)}`
 				);
-				// What Gauzy changed since the last sync is the later edit: the Ever Works value is not written over it.
-				const keep = new Set<MissionGauzyField>();
+				// What IRTranscripts changed since the last sync is the later edit: the Ever Works value is not written over it.
+				const keep = new Set<MissionIRTranscriptsField>();
 				for (const field of Object.keys(plan.patch ?? {})) keep.add(MISSION_PATCH_FIELD[field] ?? 'status');
 				if (plan.works) keep.add('works');
 				if (plan.goals) keep.add('goals');
@@ -1132,7 +1132,7 @@ export class EverWorksInitiativesService
 							this.applyMission(context, pair, { ...remote, id: pair.ewId }, remote.version ?? null, keep)
 					);
 				}
-				const fresh = await this.links.byGauzy(
+				const fresh = await this.links.byIRTranscripts(
 					context.integrationTenantId,
 					EverWorksLinkType.INITIATIVE_MISSION,
 					row.id as ID
@@ -1162,7 +1162,7 @@ export class EverWorksInitiativesService
 		return pair;
 	}
 
-	/** The Ever Works side of a Gauzy initiative (scope, works, goals), or why it cannot go yet. */
+	/** The Ever Works side of a IRTranscripts initiative (scope, works, goals), or why it cannot go yet. */
 	private async prepare(
 		context: EverWorksMappingContext,
 		row: OrganizationStrategicInitiative,
@@ -1178,8 +1178,8 @@ export class EverWorksInitiativesService
 		const scope = teamScopeFor(
 			teamIds,
 			new Map(
-				[...(await this.pairs(context, EverWorksLinkType.TEAM)).entries()].map(([ewId, gauzyId]) => [
-					gauzyId,
+				[...(await this.pairs(context, EverWorksLinkType.TEAM)).entries()].map(([ewId, irtranscriptsId]) => [
+					irtranscriptsId,
 					ewId
 				])
 			)
@@ -1188,12 +1188,12 @@ export class EverWorksInitiativesService
 			return {
 				outcome: {
 					status: 'deferred',
-					message: `waiting for the Gauzy team ${scope.waitingFor} to be paired (teams first)`
+					message: `waiting for the IRTranscripts team ${scope.waitingFor} to be paired (teams first)`
 				}
 			};
 		const workOf = new Map(
-			[...(await this.pairs(context, EverWorksLinkType.PROJECT_WORK)).entries()].map(([ewId, gauzyId]) => [
-				gauzyId,
+			[...(await this.pairs(context, EverWorksLinkType.PROJECT_WORK)).entries()].map(([ewId, irtranscriptsId]) => [
+				irtranscriptsId,
 				ewId
 			])
 		);
@@ -1201,7 +1201,7 @@ export class EverWorksInitiativesService
 			workOf.has(project.id) ? [workOf.get(project.id) as string] : []
 		);
 		const goalOf = new Map(
-			[...(await this.pairs(context, EverWorksLinkType.GOAL)).entries()].map(([ewId, gauzyId]) => [gauzyId, ewId])
+			[...(await this.pairs(context, EverWorksLinkType.GOAL)).entries()].map(([ewId, irtranscriptsId]) => [irtranscriptsId, ewId])
 		);
 		const goals = (await this.dataSource.getRepository(Goal).find({
 			where: { organizationStrategicInitiativeId: row.id, tenantId: context.tenantId } as never
@@ -1209,22 +1209,22 @@ export class EverWorksInitiativesService
 		const goalIds = goals.flatMap((goal) =>
 			goalOf.has(goal.id as ID) ? [goalOf.get(goal.id as ID) as string] : []
 		);
-		// What the mission has that Gauzy cannot show stays with it: teams, works and goals without a Gauzy
-		// pair, and goals whose Gauzy goal sits on another initiative (a Gauzy goal has one; the mission
+		// What the mission has that IRTranscripts cannot show stays with it: teams, works and goals without a IRTranscripts
+		// pair, and goals whose IRTranscripts goal sits on another initiative (a IRTranscripts goal has one; the mission
 		// shares it with another mission).
 		const before = this.links.snapshot<MissionShared>(link);
 		const ew = this.ewOnlyOf(link);
 		const keepGoals: string[] = [];
-		const gauzyGoalOf = await this.pairs(context, EverWorksLinkType.GOAL);
+		const irtranscriptsGoalOf = await this.pairs(context, EverWorksLinkType.GOAL);
 		const here = new Set(goals.map((g) => g.id as ID));
 		for (const goal of before.goals ?? []) {
-			const gauzyId = gauzyGoalOf.get(goal.goalId);
-			if (gauzyId && here.has(gauzyId)) continue;
-			// A goal Gauzy showed on this initiative at the last sync and no longer does was moved off it by a
-			// person: it leaves the mission. Any other (Gauzy never showed it here) the mission keeps.
-			if (!gauzyId || !(ew.representedGoals ?? []).includes(goal.goalId)) keepGoals.push(goal.goalId);
+			const irtranscriptsId = irtranscriptsGoalOf.get(goal.goalId);
+			if (irtranscriptsId && here.has(irtranscriptsId)) continue;
+			// A goal IRTranscripts showed on this initiative at the last sync and no longer does was moved off it by a
+			// person: it leaves the mission. Any other (IRTranscripts never showed it here) the mission keeps.
+			if (!irtranscriptsId || !(ew.representedGoals ?? []).includes(goal.goalId)) keepGoals.push(goal.goalId);
 		}
-		const now = gauzyInitiativeShared(row, scope.scope.teamIds, workIds, goalIds, before, {
+		const now = irtranscriptsInitiativeShared(row, scope.scope.teamIds, workIds, goalIds, before, {
 			teamIds: ew.unmappedTeams ?? [],
 			workIds: ew.unmappedWorks ?? [],
 			goalIds: keepGoals
@@ -1261,7 +1261,7 @@ export class EverWorksInitiativesService
 	private async flagLeadership(context: EverWorksMappingContext, link: EverWorksEntityLink): Promise<void> {
 		await this.links.unlink(
 			link,
-			'the initiative is leadership-scoped in Gauzy; leadership initiatives never sync'
+			'the initiative is leadership-scoped in IRTranscripts; leadership initiatives never sync'
 		);
 		await this.log.write({
 			tenantId: context.tenantId,
@@ -1270,7 +1270,7 @@ export class EverWorksInitiativesService
 			connectionId: context.connection.id as ID,
 			direction: 'outbound',
 			entityType: EverWorksLinkType.INITIATIVE_MISSION,
-			gauzyId: link.gauzyId as ID,
+			irtranscriptsId: link.irtranscriptsId as ID,
 			ewId: link.ewId,
 			action: 'unlinked_leadership',
 			status: 'skipped',
@@ -1292,7 +1292,7 @@ export class EverWorksInitiativesService
 		});
 	}
 
-	private async gauzyInitiatives(
+	private async irtranscriptsInitiatives(
 		context: EverWorksMappingContext,
 		only?: ID[]
 	): Promise<OrganizationStrategicInitiative[]> {
@@ -1307,8 +1307,8 @@ export class EverWorksInitiativesService
 		});
 	}
 
-	/** Live pairs of a link type, Ever Works id → Gauzy id. */
-	/** Whether a team-scoped mission has none of its Ever Works teams paired with a Gauzy team yet (review F89). */
+	/** Live pairs of a link type, Ever Works id → IRTranscripts id. */
+	/** Whether a team-scoped mission has none of its Ever Works teams paired with a IRTranscripts team yet (review F89). */
 	private async teamsWait(context: EverWorksMappingContext, mission: EverWorksMission): Promise<boolean> {
 		const teamIds = everWorksMissionShared(mission).teamIds;
 		if (!teamIds.length) return false;
@@ -1320,13 +1320,13 @@ export class EverWorksInitiativesService
 		const rows = (await this.links.list(context.integrationTenantId, type)).filter(
 			(link) => link.state !== EverWorksLinkState.UNLINKED
 		);
-		return new Map(rows.map((link) => [link.ewId, link.gauzyId as ID]));
+		return new Map(rows.map((link) => [link.ewId, link.irtranscriptsId as ID]));
 	}
 
 	private async stewardOf(context: EverWorksMappingContext, owner: EverWorksMission['owner']): Promise<ID | null> {
 		if (owner?.type !== 'user') return null;
 		const person = await this.links.byEw(context.integrationTenantId, EverWorksLinkType.MEMBER, owner.id);
-		return person && person.state !== EverWorksLinkState.UNLINKED ? (person.gauzyId as ID) : null;
+		return person && person.state !== EverWorksLinkState.UNLINKED ? (person.irtranscriptsId as ID) : null;
 	}
 
 	private signalsOf(row: OrganizationStrategicInitiative): IOrganizationStrategicSignals | null {
@@ -1389,7 +1389,7 @@ export class EverWorksInitiativesService
 			organizationId: context.organizationId,
 			integrationTenantId: context.integrationTenantId,
 			entityType: EverWorksLinkType.INITIATIVE_MISSION,
-			gauzyId: initiativeId,
+			irtranscriptsId: initiativeId,
 			ewId: mission.id,
 			ewVersion: version ?? mission.version ?? null,
 			ewUpdatedAt: mission.updatedAt,
@@ -1439,10 +1439,10 @@ export class EverWorksInitiativesService
 		const links = (await this.links.list(context.integrationTenantId, EverWorksLinkType.INITIATIVE_MISSION)).filter(
 			(link) => link.state !== EverWorksLinkState.UNLINKED
 		);
-		const linkByEw = new Map(links.map((link) => [link.ewId, link.gauzyId as ID]));
-		const linked = new Set(links.map((link) => link.gauzyId as ID));
+		const linkByEw = new Map(links.map((link) => [link.ewId, link.irtranscriptsId as ID]));
+		const linked = new Set(links.map((link) => link.irtranscriptsId as ID));
 		// Leadership initiatives are never offered (they never sync).
-		const initiatives = (await this.gauzyInitiatives(context)).filter(
+		const initiatives = (await this.irtranscriptsInitiatives(context)).filter(
 			(row) => initiativeEligibility(row) !== 'leadership'
 		);
 		return {

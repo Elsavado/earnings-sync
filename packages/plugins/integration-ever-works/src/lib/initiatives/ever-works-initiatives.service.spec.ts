@@ -1,11 +1,11 @@
 /**
- * G-P2-2 Missions ↔ Strategic Initiatives against in-memory Gauzy stand-ins and the mock Ever Works API
+ * G-P2-2 Missions ↔ Strategic Initiatives against in-memory IRTranscripts stand-ins and the mock Ever Works API
  * (real client): the Initiatives tab pairs by title (leadership never offered); a mission created after
  * the mapping becomes an initiative; its status, teams, works and primary goals follow; an initiative
  * becomes a PAUSED mission (never activated), finishing it completes the mission; leadership and drafts
  * never go.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	const entity = (name: string) => ({ [name]: class {} })[name];
 	return {
@@ -33,10 +33,10 @@ jest.mock('@gauzy/core', () => {
 		RequestContext: { currentTenantId: () => null, currentUserId: () => null, currentOrganizationId: () => null }
 	};
 });
-jest.mock('@gauzy/common', () => ({ Public: () => () => undefined }));
+jest.mock('@irtranscripts/common', () => ({ Public: () => () => undefined }));
 
 import 'reflect-metadata';
-import { Goal, IntegrationTenant, OrganizationStrategicInitiative } from '@gauzy/core';
+import { Goal, IntegrationTenant, OrganizationStrategicInitiative } from '@irtranscripts/core';
 import { EverWorksClient } from '../client/ever-works-client';
 import { EverWorksLinkState, EverWorksLinkType } from '../sync/entities/ever-works-sync.entities';
 import { MockEverWorksMissions } from '../testing/mock-ever-works.missions';
@@ -73,8 +73,8 @@ function setup(options: { missions?: string } = {}) {
 	const linkService = {
 		byEw: async (m: string, type: string, ewId: string) =>
 			links.find((l) => l['integrationTenantId'] === m && l['entityType'] === type && l['ewId'] === ewId) ?? null,
-		byGauzy: async (m: string, type: string, gauzyId: string) =>
-			links.find((l) => l['integrationTenantId'] === m && l['entityType'] === type && l['gauzyId'] === gauzyId) ??
+		byIRTranscripts: async (m: string, type: string, irtranscriptsId: string) =>
+			links.find((l) => l['integrationTenantId'] === m && l['entityType'] === type && l['irtranscriptsId'] === irtranscriptsId) ??
 			null,
 		list: async (m: string, type: string) =>
 			links.filter((l) => l['integrationTenantId'] === m && l['entityType'] === type),
@@ -83,10 +83,10 @@ function setup(options: { missions?: string } = {}) {
 			const existing = links.find(
 				(l) =>
 					l['entityType'] === input['entityType'] &&
-					(l['ewId'] === input['ewId'] || l['gauzyId'] === input['gauzyId'])
+					(l['ewId'] === input['ewId'] || l['irtranscriptsId'] === input['irtranscriptsId'])
 			);
 			const values: Row = {
-				gauzyId: input['gauzyId'],
+				irtranscriptsId: input['irtranscriptsId'],
 				ewId: input['ewId'],
 				ewVersion: input['ewVersion'] ?? null,
 				lastDirection: input['direction'],
@@ -109,12 +109,12 @@ function setup(options: { missions?: string } = {}) {
 		remove: async (link: Row) => void links.splice(links.indexOf(link), 1),
 		unlink: async (link: Row) => void (link['state'] = EverWorksLinkState.UNLINKED)
 	};
-	const addLink = (entityType: EverWorksLinkType, gauzyId: string, ewId: string) =>
+	const addLink = (entityType: EverWorksLinkType, irtranscriptsId: string, ewId: string) =>
 		links.push({
 			id: `x-${ewId}`,
 			integrationTenantId: 'm1',
 			entityType,
-			gauzyId,
+			irtranscriptsId,
 			ewId,
 			ewVersion: null,
 			snapshot: null,
@@ -209,13 +209,13 @@ const envelope = (type: string, data: Row, version = 1, id = 'ew-mission-1') => 
 });
 const applyContext = { connection: { id: 'c1' }, event: {}, organizationId: 'o1' } as never;
 const pushContext = { connection: { id: 'c1' }, mapping: { id: 'm1' } } as never;
-const change = (gauzyId: string, op = 'upsert') =>
+const change = (irtranscriptsId: string, op = 'upsert') =>
 	({
 		id: 'ch',
 		tenantId: 't1',
 		organizationId: 'o1',
 		entityType: 'INITIATIVE_MISSION',
-		gauzyId,
+		irtranscriptsId,
 		op,
 		actorUserId: null
 	}) as never;
@@ -367,7 +367,7 @@ describe('EverWorksInitiativesService — EW → G', () => {
 		expect(await service.apply(envelope('mission.created', onTeam) as never, applyContext)).toMatchObject({ status: 'deferred' });
 		expect(initiatives).toHaveLength(0);
 		missionsMock.addMission(ewOrg.id, { id: 'ew-m-team', title: 'Team only', teamIds: ['ew-team-9'], visibility: 'team' });
-		await expect(service.decide('m1' as never, { createInGauzy: ['ew-m-team'] })).rejects.toThrow(/teams first/);
+		await expect(service.decide('m1' as never, { createInIRTranscripts: ['ew-m-team'] })).rejects.toThrow(/teams first/);
 		expect(initiatives).toHaveLength(0);
 		addLink(EverWorksLinkType.TEAM, 'g-team-9', 'ew-team-9');
 		expect(await service.apply(envelope('mission.created', onTeam) as never, applyContext)).toMatchObject({ status: 'applied' });
@@ -455,7 +455,7 @@ describe('EverWorksInitiativesService — G → EW', () => {
 		expect(await service.push(change('init-1'), pushContext)).toMatchObject({ status: 'pushed' });
 		const [created] = [...missionsMock.missions.values()];
 		expect(created).toMatchObject({ visibility: 'team', teamIds: ['ew-team-1'] });
-		// Its direct teams cleared in Gauzy later (still team-scoped): the mission keeps its teams, other edits go.
+		// Its direct teams cleared in IRTranscripts later (still team-scoped): the mission keeps its teams, other edits go.
 		initiatives[0]['teams'] = [];
 		initiatives[0]['title'] = 'Enter Europe now';
 		expect(await service.push(change('init-1'), pushContext)).toMatchObject({ status: 'pushed' });
@@ -497,7 +497,7 @@ describe('EverWorksInitiativesService — G → EW', () => {
 		expect(queue.enqueue).toHaveBeenCalledWith(
 			expect.objectContaining({
 				entityType: EverWorksLinkType.INITIATIVE_MISSION,
-				gauzyId: 'init-1',
+				irtranscriptsId: 'init-1',
 				op: 'upsert'
 			})
 		);
@@ -507,7 +507,7 @@ describe('EverWorksInitiativesService — G → EW', () => {
 		initiatives.splice(0, 1);
 		queue.enqueue.mockClear();
 		await service.sweep({ id: 'c1', tenantId: 't1' } as never);
-		expect(queue.enqueue).toHaveBeenCalledWith(expect.objectContaining({ gauzyId: 'init-1', op: 'delete' }));
+		expect(queue.enqueue).toHaveBeenCalledWith(expect.objectContaining({ irtranscriptsId: 'init-1', op: 'delete' }));
 		await service.push(change('init-1', 'delete'), pushContext);
 		expect(created).toMatchObject({ status: 'completed', outcome: 'cancelled' });
 		expect(links.find((l) => l['entityType'] === EverWorksLinkType.INITIATIVE_MISSION)?.['state']).toBe(
@@ -515,8 +515,8 @@ describe('EverWorksInitiativesService — G → EW', () => {
 		);
 	});
 
-	it('the missions direction "ew_to_gauzy" (the default) pushes nothing', async () => {
-		const { service, initiatives, missionsMock } = setup({ missions: 'ew_to_gauzy' });
+	it('the missions direction "ew_to_irtranscripts" (the default) pushes nothing', async () => {
+		const { service, initiatives, missionsMock } = setup({ missions: 'ew_to_irtranscripts' });
 		initiatives.push(initiative());
 		expect(await service.push(change('init-1'), pushContext)).toMatchObject({ status: 'skipped' });
 		expect(missionsMock.missions.size).toBe(0);
@@ -555,7 +555,7 @@ describe('EverWorksInitiativesService — Initiatives tab', () => {
 		expect(view.unmatchedInitiatives.map((i) => i.initiativeId)).toEqual(['init-1']);
 		const after = await service.decide('m1' as never, { acceptSuggestions: true });
 		expect(after.missions.find((m) => m.ewMissionId === 'ew-m-1')?.linkedInitiativeId).toBe('init-1');
-		expect(links.find((l) => l['ewId'] === 'ew-m-1')?.['gauzyId']).toBe('init-1');
+		expect(links.find((l) => l['ewId'] === 'ew-m-1')?.['irtranscriptsId']).toBe('init-1');
 		expect(initiatives[0]['title']).toBe('enter europe');
 		await expect(
 			service.decide('m1' as never, { links: [{ ewMissionId: 'ew-m-2', initiativeId: 'init-2' as never }] })
@@ -593,7 +593,7 @@ describe('EverWorksInitiativesService — Initiatives tab', () => {
 		expect(missionsMock.missions.size).toBe(0);
 	});
 
-	it("pairing aligns the initiative, so its first Gauzy save never strips the mission's teams or works (review F25)", async () => {
+	it("pairing aligns the initiative, so its first IRTranscripts save never strips the mission's teams or works (review F25)", async () => {
 		const { service, missionsMock, ewOrg, initiatives, addLink, mock } = setup();
 		addLink(EverWorksLinkType.TEAM, 'g-team-1', 'ew-team-1');
 		addLink(EverWorksLinkType.PROJECT_WORK, 'p-1', 'ew-work-1');
@@ -619,7 +619,7 @@ describe('EverWorksInitiativesService — Initiatives tab', () => {
 		// The mission's teams (it is team-scoped now, D11) and works are the initiative's too; nothing was removed.
 		expect(initiatives[0]).toMatchObject({ visibilityScope: 'team', teams: [{ id: 'g-team-1' }] });
 		expect((initiatives[0]['projects'] as Row[]).map((p) => p['id']).sort()).toEqual(['p-1', 'p-2']);
-		// The first Gauzy save after pairing: the mission keeps its team and visibility, and gains the Gauzy work.
+		// The first IRTranscripts save after pairing: the mission keeps its team and visibility, and gains the IRTranscripts work.
 		initiatives[0]['title'] = 'Grow faster';
 		expect(await service.push(change('init-5'), pushContext)).toMatchObject({ status: 'pushed' });
 		expect(remote).toMatchObject({ title: 'Grow faster', visibility: 'team', teamIds: ['ew-team-1'] });
@@ -642,7 +642,7 @@ describe('EverWorksInitiativesService — Initiatives tab', () => {
 		expect(initiatives[0]).toMatchObject({ visibilityScope: 'team', teams: [{ id: 'g-team-1' }] });
 	});
 
-	it('pairing keeps on the link what the mission has that Gauzy cannot map, so a push never removes it', async () => {
+	it('pairing keeps on the link what the mission has that IRTranscripts cannot map, so a push never removes it', async () => {
 		const { service, missionsMock, ewOrg, initiatives, links } = setup();
 		missionsMock.addMission(ewOrg.id, {
 			id: 'ew-m-3',

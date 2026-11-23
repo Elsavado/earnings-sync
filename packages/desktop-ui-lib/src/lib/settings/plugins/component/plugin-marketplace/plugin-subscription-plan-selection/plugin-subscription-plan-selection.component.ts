@@ -8,7 +8,7 @@ import {
 	PluginBillingPeriod,
 	PluginScope,
 	PluginSubscriptionType
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { NbDialogRef, NbCardModule, NbIconModule, NbButtonModule, NbTooltipModule, NbAlertModule, NbButtonGroupModule, NbFormFieldModule, NbInputModule, NbCheckboxModule } from '@nebular/theme';
 import { Actions } from '@ngneat/effects-ng';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';

@@ -5,9 +5,9 @@ import { tap, catchError, finalize } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
 import { TranslatePipe } from '@ngx-translate/core';
 import { NbButtonModule, NbCardModule, NbIconModule, NbSpinnerModule, NbTooltipModule } from '@nebular/theme';
-import { IMakeComConnection, IMakeComSetupStatus } from '@gauzy/contracts';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { MakeComStoreService, ToastrService } from '@gauzy/ui-core/core';
+import { IMakeComConnection, IMakeComSetupStatus } from '@irtranscripts/contracts';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { MakeComStoreService, ToastrService } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

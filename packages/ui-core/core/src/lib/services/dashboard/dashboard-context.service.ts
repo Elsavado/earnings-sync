@@ -13,7 +13,7 @@ import {
 	IUser,
 	PermissionsEnum,
 	TimeFormatEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { IDashboardWidgetContext } from './dashboard-widget-context';
 import { Store } from '../store/store.service';
 import { DateRangePickerBuilderService } from '../selector-builder/date-range-picker-builder.service';
@@ -37,8 +37,8 @@ const CONTEXT_SETTLE_MS = 300;
 /**
  * Minimal shape of the timesheet `TimeZoneService`.
  *
- * The real service lives in `@gauzy/ui-core/shared`, which already depends on
- * `@gauzy/ui-core/core` — importing it here would create a circular secondary
+ * The real service lives in `@irtranscripts/ui-core/shared`, which already depends on
+ * `@irtranscripts/ui-core/core` — importing it here would create a circular secondary
  * entry point and break the library build. The token below is therefore typed
  * structurally so the app can alias it without a code dependency:
  *
@@ -149,7 +149,7 @@ export function narrowDashboardContext(
 
 /**
  * Verbatim port of `getAdjustDateRangeFutureAllowed` from
- * `@gauzy/ui-core/shared` (selectors/date-range-picker/date-picker.utils).
+ * `@irtranscripts/ui-core/shared` (selectors/date-range-picker/date-picker.utils).
  *
  * Duplicated rather than imported because `shared` depends on `core`; see the
  * note on {@link DASHBOARD_TIME_ZONE_SOURCE}. Keep the two in sync — the whole

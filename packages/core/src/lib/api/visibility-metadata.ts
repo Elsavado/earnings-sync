@@ -3,8 +3,8 @@
 // makes the module work whatever loaded it, instead of depending on the application's entry point.
 import 'reflect-metadata';
 
-import { VISIBLE_WITH_FIELDS_METADATA } from '@gauzy/constants';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { VISIBLE_WITH_FIELDS_METADATA } from '@irtranscripts/constants';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 
 /**
  * One property of a resource that only some callers may see, and the permission that decides it.

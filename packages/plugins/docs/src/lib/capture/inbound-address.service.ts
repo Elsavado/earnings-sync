@@ -13,7 +13,7 @@ import {
 	IDocumentInboundAddressSecret,
 	IDocumentInboundAddressUpdateInput,
 	IDocumentInboundDomainVerification
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { DocumentInboundAddress } from '../entities/document-inbound-address.entity';
 import { IInboundAddressResolver } from './inbound-email.types';
 import {
@@ -43,7 +43,7 @@ import {
  * ## Two kinds of address
  *
  * - **PLATFORM** — zero-config. Minted on first read for any organization, on the deployment-wide
- *   `GAUZY_DOCS_INBOUND_DOMAIN`, distinguished by 128 bits of CSPRNG entropy:
+ *   `IRTRANSCRIPTS_DOCS_INBOUND_DOMAIN`, distinguished by 128 bits of CSPRNG entropy:
  *   `docs-<token>@<platform domain>`. The address itself is the credential, so it is unguessable
  *   by construction.
  * - **CUSTOM_DOMAIN** — the organization publishes its own domain. The local part is theirs to
@@ -53,7 +53,7 @@ import {
  * ## The per-address secret
  *
  * Each address carries its own relay secret, stored only as SHA-256. A single deployment-wide
- * `GAUZY_DOCS_INBOUND_WEBHOOK_SECRET` means one leak lets an attacker post mail *as any tenant*;
+ * `IRTRANSCRIPTS_DOCS_INBOUND_WEBHOOK_SECRET` means one leak lets an attacker post mail *as any tenant*;
  * a per-address secret contains that blast radius to one organization. The global secret remains
  * supported so existing relays keep working.
  */
@@ -158,7 +158,7 @@ export class InboundAddressService implements IInboundAddressResolver {
 		if (platformDomain && (domain === platformDomain || domain.endsWith(`.${platformDomain}`))) {
 			throw new BadRequestException('That domain is reserved by the platform.');
 		}
-		// Nor the Inbox's platform mailbox domain (`GAUZY_INBOX_DOMAIN`), whose addresses the Inbox allocates.
+		// Nor the Inbox's platform mailbox domain (`IRTRANSCRIPTS_INBOX_DOMAIN`), whose addresses the Inbox allocates.
 		if (this.namespace?.isReservedDomain?.(domain)) {
 			throw new BadRequestException('That domain is reserved by the platform.');
 		}
@@ -191,7 +191,7 @@ export class InboundAddressService implements IInboundAddressResolver {
 			localPart,
 			address,
 			domainStatus: DocumentInboundDomainStatusEnum.PENDING,
-			domainVerificationToken: `gauzy-docs-verify=${randomBytes(16).toString('hex')}`,
+			domainVerificationToken: `irtranscripts-docs-verify=${randomBytes(16).toString('hex')}`,
 			webhookSecretHash: hash,
 			senderAllowlistRaw: input.senderAllowlist?.length ? JSON.stringify(input.senderAllowlist) : null,
 			importBodyAsNote: input.importBodyAsNote ?? false,
@@ -217,7 +217,7 @@ export class InboundAddressService implements IInboundAddressResolver {
 	}
 
 	/**
-	 * Looks up `_gauzy-docs.<domain>` IN TXT and arms the address if the expected value is present.
+	 * Looks up `_irtranscripts-docs.<domain>` IN TXT and arms the address if the expected value is present.
 	 *
 	 * Re-checking a VERIFIED domain that has lost its record moves it to FAILED, so a domain that is
 	 * transferred away stops accepting mail rather than remaining armed forever.
@@ -397,7 +397,7 @@ export class InboundAddressService implements IInboundAddressResolver {
 		const domain = getDocsConfig().inboundDomain?.trim().toLowerCase();
 		if (!domain) {
 			throw new BadRequestException(
-				'No platform inbound domain is configured (GAUZY_DOCS_INBOUND_DOMAIN).'
+				'No platform inbound domain is configured (IRTRANSCRIPTS_DOCS_INBOUND_DOMAIN).'
 			);
 		}
 		return domain;

@@ -1,7 +1,7 @@
 {
-	"name": "@gauzy/plugin-integration-github-ui",
+	"name": "@irtranscripts/plugin-integration-github-ui",
 	"version": "0.1.0",
-	"description": "A plugin for integrating GitHub with the Gauzy platform, enabling seamless interaction with GitHub's features and functionalities.",
+	"description": "A plugin for integrating GitHub with the IRTranscripts platform, enabling seamless interaction with GitHub's features and functionalities.",
 	"author": {
 		"name": "Ever Co. LTD",
 		"email": "ever@ever.co",
@@ -30,10 +30,10 @@
 	"dependencies": {
 		"@angular/forms": "22.2.2",
 		"@angular/router": "22.2.2",
-		"@gauzy/constants": "^0.1.0",
-		"@gauzy/contracts": "^0.1.0",
-		"@gauzy/ui-config": "^0.1.0",
-		"@gauzy/ui-core": "^0.1.0",
+		"@irtranscripts/constants": "^0.1.0",
+		"@irtranscripts/contracts": "^0.1.0",
+		"@irtranscripts/ui-config": "^0.1.0",
+		"@irtranscripts/ui-core": "^0.1.0",
 		"@nebular/theme": "^18.0.0",
 		"@ngneat/until-destroy": "^10.0.0",
 		"@ngx-translate/core": "^18.0.0",
@@ -48,7 +48,7 @@
 		"jest-preset-angular": "17.0.2"
 	},
 	"keywords": [
-		"gauzy",
+		"irtranscripts",
 		"plugin",
 		"github",
 		"integration",

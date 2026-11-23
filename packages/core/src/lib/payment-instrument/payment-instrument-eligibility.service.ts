@@ -10,7 +10,7 @@ import {
 	PaymentInstrumentRefusalReason,
 	PaymentMethodTokenStatus,
 	PaymentMethodTokenType
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { ApiErrorCode } from '../core/errors/api-error-codes';
 import { PaymentAccountHolderService } from '../payment-account-holder/payment-account-holder.service';
 import { PaymentMethodTokenService } from '../payment-method-token/payment-method-token.service';

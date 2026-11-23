@@ -1,6 +1,6 @@
 import { PrimaryGeneratedColumn } from 'typeorm';
 import { PrimaryKey } from '@mikro-orm/core';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { MultiORMEntity } from '../../decorators/entity';
 
 /**

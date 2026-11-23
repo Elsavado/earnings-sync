@@ -21,7 +21,7 @@ const TENANT_ID = '11111111-1111-4111-8111-111111111111';
 function build(options: { isCustomerOfProduct: boolean; changePlan?: jest.Mock; portal?: jest.Mock }) {
 	const billingService: any = {
 		isBillingEnforced: () => true,
-		product: 'gauzy',
+		product: 'irtranscripts',
 		isCustomerOfProduct: jest.fn(async () => options.isCustomerOfProduct),
 		getSubscription: jest.fn(async () => ({ id: 'sub_g' })),
 		listInvoices: jest.fn(async () => []),
@@ -83,7 +83,7 @@ describe('BillingController.changePlan — CC02-13', () => {
 
 		const error: HttpException = await controller
 			.changePlan({
-				lookupKey: 'ever_gauzy_cloud_small_business_annual',
+				lookupKey: 'ever_irtranscripts_cloud_small_business_annual',
 				returnUrl: 'https://app.gauzy.test/#/pages/settings/billing'
 			})
 			.then(
@@ -110,7 +110,7 @@ describe('BillingController.changePlan — CC02-13', () => {
 			})
 		});
 		await controller
-			.changePlan({ lookupKey: 'ever_gauzy_x', returnUrl: 'https://evil.test/' })
+			.changePlan({ lookupKey: 'ever_irtranscripts_x', returnUrl: 'https://evil.test/' })
 			.catch(() => undefined);
 		expect(portal).toHaveBeenCalledWith('cus_1', 'https://app.gauzy.test');
 	});
@@ -125,7 +125,7 @@ describe('BillingController.changePlan — CC02-13', () => {
 				throw new PaymentMethodRequiredError();
 			})
 		});
-		const error: HttpException = await controller.changePlan({ lookupKey: 'ever_gauzy_x' }).then(
+		const error: HttpException = await controller.changePlan({ lookupKey: 'ever_irtranscripts_x' }).then(
 			() => null,
 			(e) => e
 		);
@@ -141,6 +141,6 @@ describe('BillingController.changePlan — CC02-13', () => {
 				throw boom;
 			})
 		});
-		await expect(controller.changePlan({ lookupKey: 'ever_gauzy_x' })).rejects.toBe(boom);
+		await expect(controller.changePlan({ lookupKey: 'ever_irtranscripts_x' })).rejects.toBe(boom);
 	});
 });

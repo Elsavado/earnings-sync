@@ -1,12 +1,12 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { FileStorage, TenantAwareCrudService } from '@gauzy/core';
+import { FileStorage, TenantAwareCrudService } from '@irtranscripts/core';
 import { Soundshot } from '../entity/soundshot.entity';
 import { TypeOrmSoundshotRepository } from '../repositories/type-orm-soundshot.repository';
 import { MikroOrmSoundshotRepository } from '../repositories/mikro-orm-soundshot.repository';
 import { FileDTO } from '../dtos/file.dto';
 import { validate } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
-import { FileStorageProviderEnum } from '@gauzy/contracts';
+import { FileStorageProviderEnum } from '@irtranscripts/contracts';
 import { IPreparedFile } from '../models/prepare.model';
 
 @Injectable()

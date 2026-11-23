@@ -8,8 +8,8 @@ import {
 	PasswordHashService,
 	User,
 	Employee
-} from '@gauzy/core';
-import { IUser } from '@gauzy/contracts';
+} from '@irtranscripts/core';
+import { IUser } from '@irtranscripts/contracts';
 
 /**
  * OAuth User Service
@@ -110,9 +110,9 @@ export class OAuthUserService {
 
 	/**
 	 * Authenticate user with email and password for MCP OAuth
-	 * Validates credentials against Gauzy database
+	 * Validates credentials against IRTranscripts database
 	 *
-	 * Failures count against the account in the same per-account counter the Gauzy API's own login uses
+	 * Failures count against the account in the same per-account counter the IRTranscripts API's own login uses
 	 * (`AUTH_MAX_FAILED_ATTEMPTS` failures from more than one address block it for `AUTH_LOCKOUT_SECONDS`), so this
 	 * form gives a guesser no more attempts than `POST /api/auth/login` does. It used to have no counter at all: only
 	 * the per-address rate limit, which a guesser spreading attempts over many addresses never meets.

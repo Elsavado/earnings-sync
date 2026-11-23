@@ -1,7 +1,7 @@
 /**
- * The module boundaries are doubled for the reason the package's service specs state: `@gauzy/core`
+ * The module boundaries are doubled for the reason the package's service specs state: `@irtranscripts/core`
  * boots the whole application graph from its barrel — and its nested `uuid` is ESM-only, so reading
- * one entity under jest fails — and `@gauzy/common` is read by the feature-flag decorator. Neither is
+ * one entity under jest fails — and `@irtranscripts/common` is read by the feature-flag decorator. Neither is
  * something a return resource needs.
  *
  * **The two conventions this suite is about are the platform's own.** `Idempotent`, `Versioned`, the
@@ -17,15 +17,15 @@
  * on and the conflict it answers — the service's own specification is the place that pins it, because
  * that is the layer the statement lives in.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { SetMetadata, UsePipes, ValidationPipe } = require('@nestjs/common');
-	const { PERMISSIONS_METADATA } = require('@gauzy/constants');
+	const { PERMISSIONS_METADATA } = require('@irtranscripts/constants');
 
 	// The kernel's own declarations and its conditional write, so the cases below assert the platform
 	// rather than a restatement of it.
-	const idempotency = jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.policy');
-	const versioned = jest.requireActual('@gauzy/core/src/lib/concurrency/versioned.decorator');
-	const versionedWrite = jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write');
+	const idempotency = jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.policy');
+	const versioned = jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned.decorator');
+	const versionedWrite = jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
@@ -69,7 +69,7 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		BaseEvent: class {},
 		EventBus: class {},
 		PermissionGuard: class PermissionGuard {},
@@ -93,7 +93,7 @@ jest.mock('@gauzy/core', () => {
 		// line rather than a no-op.
 		UseValidationPipe: (options: unknown) => UsePipes(new ValidationPipe(options as never)),
 		Permissions: (...permissions: string[]) => SetMetadata(PERMISSIONS_METADATA, permissions),
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
 		IDEMPOTENT_METADATA_KEY: idempotency.IDEMPOTENT_METADATA_KEY,
 		Versioned: versioned.Versioned,
 		commitVersionedUpdate: versionedWrite.commitVersionedUpdate,
@@ -110,7 +110,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 jest.mock(
-	'@gauzy/common',
+	'@irtranscripts/common',
 	() => ({
 		FeatureFlag: () => () => undefined
 	})
@@ -123,18 +123,18 @@ jest.mock(
  * own module: the interceptor under test is the real one, and the store it calls is the in-memory
  * double the cases below hand it.
  */
-jest.mock('@gauzy/core/src/lib/idempotency/idempotency.service', () => ({
+jest.mock('@irtranscripts/core/src/lib/idempotency/idempotency.service', () => ({
 	IdempotencyService: class IdempotencyService {}
 }));
 
 import { ExecutionContext, NotFoundException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { from, lastValueFrom } from 'rxjs';
-import { IDEMPOTENT_METADATA_KEY } from '@gauzy/core/src/lib/idempotency/idempotency.policy';
-import { IdempotencyInterceptor } from '@gauzy/core/src/lib/idempotency/idempotency.interceptor';
-import { VersionGuard } from '@gauzy/core/src/lib/concurrency/version.guard';
-import { VersionInterceptor } from '@gauzy/core/src/lib/concurrency/version.interceptor';
-import { VERSIONED_METADATA_KEY } from '@gauzy/core/src/lib/concurrency/version.util';
+import { IDEMPOTENT_METADATA_KEY } from '@irtranscripts/core/src/lib/idempotency/idempotency.policy';
+import { IdempotencyInterceptor } from '@irtranscripts/core/src/lib/idempotency/idempotency.interceptor';
+import { VersionGuard } from '@irtranscripts/core/src/lib/concurrency/version.guard';
+import { VersionInterceptor } from '@irtranscripts/core/src/lib/concurrency/version.interceptor';
+import { VERSIONED_METADATA_KEY } from '@irtranscripts/core/src/lib/concurrency/version.util';
 import { OrderReturnController } from './order-return.controller';
 import { OrderReturnService } from './order-return.service';
 import { OrderReturnStatus } from '../returns.types';

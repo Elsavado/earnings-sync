@@ -1,4 +1,4 @@
-@use 'gauzy/_gauzy-dialogs' as *;
+@use 'irtranscripts/_irtranscripts-dialogs' as *;
 
 .in-valid {
   border: 1px solid #ff3d71;
@@ -6,6 +6,6 @@
 }
 :host {
   nb-card {
-    background-color: var(--gauzy-card-1);
+    background-color: var(--irtranscripts-card-1);
   }
 }

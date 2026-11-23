@@ -3,9 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { IAuthResponse, IInvite, IUserEmailInput, IUserRegistrationInput, IUserTokenInput } from '@gauzy/contracts';
-import { InviteService, Store, ToastrService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { IAuthResponse, IInvite, IUserEmailInput, IUserRegistrationInput, IUserTokenInput } from '@irtranscripts/contracts';
+import { InviteService, Store, ToastrService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

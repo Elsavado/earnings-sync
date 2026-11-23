@@ -1,7 +1,7 @@
 import '../core/entities/internal';
 
 import { BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
-import { EmployeeAgentSourceEnum, EmployeeKindEnum, RolesEnum } from '@gauzy/contracts';
+import { EmployeeAgentSourceEnum, EmployeeKindEnum, RolesEnum } from '@irtranscripts/contracts';
 import { EmployeeAgentProfile, Organization, Role, Tenant, User } from '../core/entities/internal';
 import { Employee } from './employee.entity';
 import { EmployeeService } from './employee.service';

@@ -1,7 +1,7 @@
 import { NotFoundException, ConflictException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { UpdateResult } from 'typeorm';
-import { IAppIntegrationConfig } from '@gauzy/common';
+import { IAppIntegrationConfig } from '@irtranscripts/common';
 import {
 	IEmployee,
 	IInvite,
@@ -13,7 +13,7 @@ import {
 	IUserRegistrationInput,
 	LanguagesEnum,
 	RolesEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { AuthService } from '../../../auth/auth.service';
 import { InviteService } from '../../invite.service';
 import { InviteAcceptEmployeeCommand } from '../invite.accept-employee.command';

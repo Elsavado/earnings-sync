@@ -1,7 +1,7 @@
 import { JoinColumn, RelationId } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
-import { IImageAsset as IDocumentAsset, IOrganizationDocument } from '@gauzy/contracts';
+import { IImageAsset as IDocumentAsset, IOrganizationDocument } from '@irtranscripts/contracts';
 import { ImageAsset, TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from './../core/decorators/entity';
 import { MikroOrmOrganizationDocumentRepository } from './repository/mikro-orm-organization-document.repository';

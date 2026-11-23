@@ -1,5 +1,5 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 import * as chalk from 'chalk';
 
 type Dialect = 'postgres' | 'mysql' | 'sqlite';

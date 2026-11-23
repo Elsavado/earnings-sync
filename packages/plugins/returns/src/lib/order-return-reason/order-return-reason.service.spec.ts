@@ -1,11 +1,11 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a lookup service needs and none of which is available
  * outside a running application. The seam is therefore doubled at the module boundary, exactly as the
  * catalogue and inventory packages' service specs do, and **the service under test is the real one**:
  * only the base CRUD class, the request context and the entity base classes are substituted.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
@@ -91,7 +91,7 @@ jest.mock('@gauzy/core', () => {
 		},
 		BaseEvent: class {},
 		EventBus: class {},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		SequenceService: class SequenceService {},
 		Warehouse: class Warehouse {},
 		RequestContext: {
@@ -106,7 +106,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { OrderReturnReasonService } from './order-return-reason.service';
 
 /**

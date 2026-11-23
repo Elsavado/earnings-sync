@@ -3,7 +3,7 @@ import { describeEmailSendError, redactEmailAddresses } from './email-send-error
 
 describe('redactEmailAddresses', () => {
 	it('masks every address in free text', () => {
-		expect(redactEmailAddresses('Found inactive addresses: jane.doe+gauzy@example.org, x@y.io.')).toBe(
+		expect(redactEmailAddresses('Found inactive addresses: jane.doe+irtranscripts@example.org, x@y.io.')).toBe(
 			'Found inactive addresses: <redacted-email>, <redacted-email>.'
 		);
 	});

@@ -1,5 +1,5 @@
 // Stubbed at the module boundary: the OCR service reaches the AI seam and the whole
-// `@gauzy/core` graph. These tests assert PARSING of the two formats this plugin parses itself.
+// `@irtranscripts/core` graph. These tests assert PARSING of the two formats this plugin parses itself.
 jest.mock('./document-ocr.service', () => ({ DocumentOcrService: class {} }));
 
 import { DocsPermanentError } from '../errors';

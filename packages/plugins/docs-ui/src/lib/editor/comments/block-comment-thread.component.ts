@@ -15,8 +15,8 @@ import {
 import { NbBadgeModule, NbButtonModule, NbIconModule, NbInputModule, NbSpinnerModule } from '@nebular/theme';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
-import { BaseEntityEnum, IComment, ID, PermissionsEnum } from '@gauzy/contracts';
-import { EmployeesService, Store, ToastrService } from '@gauzy/ui-core/core';
+import { BaseEntityEnum, IComment, ID, PermissionsEnum } from '@irtranscripts/contracts';
+import { EmployeesService, Store, ToastrService } from '@irtranscripts/ui-core/core';
 import {
 	applyMentionPick,
 	buildCommentThread,

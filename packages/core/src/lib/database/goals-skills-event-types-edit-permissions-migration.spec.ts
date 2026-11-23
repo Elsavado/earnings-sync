@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 import { DataSource } from 'typeorm';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { DEFAULT_ROLE_PERMISSIONS } from '../role-permission/default-role-permissions';
 import { CoreRolePermissionsReload1791000000500 } from './migrations/1791000000500-CoreRolePermissionsReload';
 import { GrantGoalsSkillsEventTypesEditPermissions1791000000821 } from './migrations/1791000000821-GrantGoalsSkillsEventTypesEditPermissions';
@@ -103,7 +103,7 @@ describe('GrantGoalsSkillsEventTypesEditPermissions1791000000821 — the new wri
 	beforeEach(async () => {
 		dbPath = path.join(
 			os.tmpdir(),
-			`gauzy-goals-skills-event-types-${process.pid}-${Date.now()}-${Math.random()}.sqlite3`
+			`irtranscripts-goals-skills-event-types-${process.pid}-${Date.now()}-${Math.random()}.sqlite3`
 		);
 		dataSource = new DataSource({
 			type: 'better-sqlite3',

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { IGoalTemplate, IKeyResultTemplate, IGoalKPITemplate, IGoalTemplateFind } from '@gauzy/contracts';
+import { IGoalTemplate, IKeyResultTemplate, IGoalKPITemplate, IGoalTemplateFind } from '@irtranscripts/contracts';
 import { catchError } from 'rxjs/operators';
 import { firstValueFrom, throwError } from 'rxjs';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 import { ToastrService } from '../notification';
 
 interface IGoalTemplateResponse {

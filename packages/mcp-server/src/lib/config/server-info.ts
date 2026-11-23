@@ -1,5 +1,5 @@
 export const SERVER_INFO = {
-    name: 'Gauzy MCP Server',
+    name: 'IRTranscripts MCP Server',
     capabilities: {
         tools: true,
         resources: false,

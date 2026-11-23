@@ -8,9 +8,9 @@ import {
 	IInvoiceFindInput,
 	IInvoiceUpdateInput,
 	IPagination
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
-import { API_PREFIX, toParams } from '@gauzy/ui-core/common';
+import { API_PREFIX, toParams } from '@irtranscripts/ui-core/common';
 
 @Injectable()
 export class InvoicesService {

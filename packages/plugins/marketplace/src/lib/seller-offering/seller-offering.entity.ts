@@ -12,7 +12,7 @@ import {
 	OfferingCondition,
 	OfferingFulfilmentMode,
 	OfferingStatus
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	JsonColumn,
@@ -24,7 +24,7 @@ import {
 	TenantOrganizationBaseEntity,
 	User,
 	Warehouse
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { MikroOrmSellerOfferingRepository } from './repository/mikro-orm-seller-offering.repository';
 import { Seller } from '../seller/seller.entity';
 

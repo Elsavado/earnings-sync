@@ -12,7 +12,7 @@ const mockCaller: { tenantId: string | null; userId: string | null; organization
 	organizationId: null
 };
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	const entity = (name: string) => ({ [name]: class {} })[name];
 	return {
@@ -39,7 +39,7 @@ jest.mock('@gauzy/core', () => {
 		}
 	};
 });
-jest.mock('@gauzy/common', () => ({ Public: () => () => undefined }));
+jest.mock('@irtranscripts/common', () => ({ Public: () => () => undefined }));
 
 import 'reflect-metadata';
 import { createHmac, randomBytes, randomUUID } from 'node:crypto';
@@ -48,7 +48,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { BadRequestException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { DataSource, EntitySchema } from 'typeorm';
-import { IntegrationSetting, IntegrationTenant, Organization, Tenant, UserOrganization, Employee, EmployeeNotification } from '@gauzy/core';
+import { IntegrationSetting, IntegrationTenant, Organization, Tenant, UserOrganization, Employee, EmployeeNotification } from '@irtranscripts/core';
 import { TestEverWorksClientFactory } from '../client/ever-works-client.factory';
 import { EverWorksConnection, EverWorksConnectionStatus } from '../connection/ever-works-connection.entity';
 import { EverWorksConnectionService } from '../connection/ever-works-connection.service';
@@ -118,7 +118,7 @@ const pluginSchemas = [
 		disconnectedAt: date, leaseOwner: str(), leaseUntil: date, lastFeedPollAt: date, lastWebhookAt: date, resyncRequestedAt: date
 	}),
 	s('EverWorksEntityLink', EverWorksEntityLink, 'ever_works_entity_link', {
-		integrationTenantId: str(false), entityType: str(false), gauzyId: str(false), ewId: str(false), ewVersion: int(), ewUpdatedAt: date, gauzyUpdatedAt: date,
+		integrationTenantId: str(false), entityType: str(false), irtranscriptsId: str(false), ewId: str(false), ewVersion: int(), ewUpdatedAt: date, irtranscriptsUpdatedAt: date,
 		snapshot: txt(), ewOnly: txt(), lastDirection: str(), lastSyncedAt: date, state: str(false), lastError: txt()
 	}),
 	s('EverWorksInboundEvent', EverWorksInboundEvent, 'ever_works_inbound_event', {
@@ -127,11 +127,11 @@ const pluginSchemas = [
 		error: txt(), appliedAt: date
 	}),
 	s('EverWorksOutboundChange', EverWorksOutboundChange, 'ever_works_outbound_change', {
-		integrationTenantId: str(false), entityType: str(false), gauzyId: str(false), op: str(false), changedFieldsHint: txt(), actorUserId: str(), status: str(false),
+		integrationTenantId: str(false), entityType: str(false), irtranscriptsId: str(false), op: str(false), changedFieldsHint: txt(), actorUserId: str(), status: str(false),
 		attempts: int(false), availableAt: date, lastError: txt()
 	}),
 	s('EverWorksSyncLog', EverWorksSyncLog, 'ever_works_sync_log', {
-		integrationTenantId: str(), connectionId: str(), direction: str(false), entityType: str(), gauzyId: str(), ewId: str(), action: str(false), status: str(false),
+		integrationTenantId: str(), connectionId: str(), direction: str(false), entityType: str(), irtranscriptsId: str(), ewId: str(), action: str(false), status: str(false),
 		message: txt(), details: txt(), resolvedByUserId: str(), resolvedAt: date
 	})
 ];
@@ -175,7 +175,7 @@ describe('Ever Works sync engine on SQLite', () => {
 	beforeAll(async () => {
 		process.env['ENCRYPTION_KEY'] = randomBytes(32).toString('base64');
 		dir = mkdtempSync(join(tmpdir(), 'ever-works-sync-'));
-		const file = join(dir, 'gauzy.sqlite');
+		const file = join(dir, 'irtranscripts.sqlite');
 		const core = new DataSource({ type: 'better-sqlite3', database: file, entities: coreSchemas, synchronize: true });
 		await core.initialize();
 		await core.destroy();
@@ -211,7 +211,7 @@ describe('Ever Works sync engine on SQLite', () => {
 			new TestEverWorksClientFactory(mock.transport()),
 			new EverWorksScopeService(dataSource),
 			new EverWorksNotifier(dataSource),
-			{ defaultApiUrl: null, appUrl: null, gauzyApiUrl: 'https://api.gauzy.example' }
+			{ defaultApiUrl: null, appUrl: null, irtranscriptsApiUrl: 'https://api.gauzy.example' }
 		);
 		store = new EverWorksInboundStore(dataSource);
 		log = new EverWorksSyncLogService(dataSource);
@@ -219,7 +219,7 @@ describe('Ever Works sync engine on SQLite', () => {
 		const view = await connections.connect({ apiBaseUrl: 'https://ew.example.test/api', apiKey: mock.addKey({ organizations: [{ id: ewOrgId, slug: 'acme', displayName: 'Acme' }] }) });
 		await connections.registerWebhook(view.id);
 		secret = [...mock.webhooks.values()][0].secret;
-		// The organization mapping (G-P1-4) the events resolve their Gauzy organization through.
+		// The organization mapping (G-P1-4) the events resolve their IRTranscripts organization through.
 		integrationTenantId = randomUUID();
 		await dataSource.getRepository(IntegrationTenant).save({
 			id: integrationTenantId,
@@ -300,7 +300,7 @@ describe('Ever Works sync engine on SQLite', () => {
 				return 202;
 			};
 			const delivered = await mock.emit(envelope({ seq: undefined, id: undefined }) as never);
-			await mock.emit(envelope({ seq: undefined, id: undefined, origin: { tag: `gauzy:${connection.id}` } }) as never);
+			await mock.emit(envelope({ seq: undefined, id: undefined, origin: { tag: `irtranscripts:${connection.id}` } }) as never);
 			// Not in the webhook's event list: only the feed carries it.
 			await mock.emit(envelope({ seq: undefined, id: undefined, type: 'email.message.received', aggregate: { type: 'email', id: 'm1', version: 1 } }) as never);
 			expect((await events().find()).map((e) => e.eventId)).toEqual([delivered.id]);
@@ -308,7 +308,7 @@ describe('Ever Works sync engine on SQLite', () => {
 			expect(result).toMatchObject({ polled: true, stored: 1, duplicates: 1 });
 			await reload();
 			expect(connection.feedCursor).toBe(mock.head);
-			expect(mock.requests.filter((r) => r.path === '/events').every((r) => r.query['excludeOrigin'] === `gauzy:${connection.id}`)).toBe(true);
+			expect(mock.requests.filter((r) => r.path === '/events').every((r) => r.query['excludeOrigin'] === `irtranscripts:${connection.id}`)).toBe(true);
 			expect(await events().count()).toBe(2);
 		});
 
@@ -340,14 +340,14 @@ describe('Ever Works sync engine on SQLite', () => {
 			await record({ seq: '30' });
 			await record({ seq: '10' });
 			await record({ seq: '20' });
-			await record({ seq: '40', origin: { tag: `gauzy:${connection.id}` } });
+			await record({ seq: '40', origin: { tag: `irtranscripts:${connection.id}` } });
 			await record({ seq: '50', organizationId: randomUUID() });
 			await record({ seq: '60', aggregate: { type: 'goal', id: 'g1', version: 1 } });
 			await applier.drain(connection);
 			expect(seen).toEqual(['10', '20', '30']);
 			const bySeq = Object.fromEntries((await events().find()).map((e) => [String(e.seq), e]));
 			expect(bySeq['40']).toMatchObject({ status: EverWorksInboundStatus.SKIPPED, error: 'own origin' });
-			expect(bySeq['50']).toMatchObject({ status: EverWorksInboundStatus.SKIPPED, error: 'no mapped Gauzy organization' });
+			expect(bySeq['50']).toMatchObject({ status: EverWorksInboundStatus.SKIPPED, error: 'no mapped IRTranscripts organization' });
 			expect(bySeq['60']).toMatchObject({ status: EverWorksInboundStatus.DEFERRED, error: 'no handler for goal yet' });
 			expect(EverWorksSyncContext.isApplying()).toBe(false);
 		});
@@ -379,27 +379,27 @@ describe('Ever Works sync engine on SQLite', () => {
 	describe('outbound queue and pusher', () => {
 		it('coalesces triggers into one pending change (a delete wins), and drops unmapped organizations', async () => {
 			const queue = new EverWorksOutboundQueue(dataSource);
-			const gauzyId = randomUUID();
-			expect(await queue.enqueue({ tenantId: A.tenantId, organizationId: A.organizationId, entityType: EverWorksLinkType.TASK, gauzyId, changedFields: ['title'] })).toBe(true);
-			await queue.enqueue({ tenantId: A.tenantId, organizationId: A.organizationId, entityType: EverWorksLinkType.TASK, gauzyId, changedFields: ['status'] });
-			await queue.enqueue({ tenantId: A.tenantId, organizationId: A.organizationId, entityType: EverWorksLinkType.TASK, gauzyId, op: 'delete' });
+			const irtranscriptsId = randomUUID();
+			expect(await queue.enqueue({ tenantId: A.tenantId, organizationId: A.organizationId, entityType: EverWorksLinkType.TASK, irtranscriptsId, changedFields: ['title'] })).toBe(true);
+			await queue.enqueue({ tenantId: A.tenantId, organizationId: A.organizationId, entityType: EverWorksLinkType.TASK, irtranscriptsId, changedFields: ['status'] });
+			await queue.enqueue({ tenantId: A.tenantId, organizationId: A.organizationId, entityType: EverWorksLinkType.TASK, irtranscriptsId, op: 'delete' });
 			const rows = await dataSource.getRepository(EverWorksOutboundChange).find();
 			expect(rows).toHaveLength(1);
 			expect(rows[0]).toMatchObject({ op: 'delete', integrationTenantId, status: 'pending' });
 			expect(JSON.parse(rows[0].changedFieldsHint as string).sort()).toEqual(['status', 'title']);
-			expect(await queue.enqueue({ tenantId: A.tenantId, organizationId: randomUUID(), entityType: EverWorksLinkType.TASK, gauzyId })).toBe(false);
+			expect(await queue.enqueue({ tenantId: A.tenantId, organizationId: randomUUID(), entityType: EverWorksLinkType.TASK, irtranscriptsId })).toBe(false);
 		});
 
 		it('a trigger for a record whose change waits (deferred) joins that change instead of adding a row (review F22)', async () => {
 			const queue = new EverWorksOutboundQueue(dataSource);
 			const repo = dataSource.getRepository(EverWorksOutboundChange);
-			const gauzyId = randomUUID();
-			await queue.enqueue({ tenantId: A.tenantId, organizationId: A.organizationId, entityType: EverWorksLinkType.TASK, gauzyId, changedFields: ['title'] });
-			const [waiting] = await repo.find({ where: { gauzyId } });
+			const irtranscriptsId = randomUUID();
+			await queue.enqueue({ tenantId: A.tenantId, organizationId: A.organizationId, entityType: EverWorksLinkType.TASK, irtranscriptsId, changedFields: ['title'] });
+			const [waiting] = await repo.find({ where: { irtranscriptsId } });
 			await repo.update({ id: waiting.id }, { status: EverWorksOutboundStatus.DEFERRED, availableAt: new Date(Date.now() + 60_000), lastError: 'waiting', attempts: 7 });
 			for (let i = 0; i < 3; i++)
-				await queue.enqueue({ tenantId: A.tenantId, organizationId: A.organizationId, entityType: EverWorksLinkType.TASK, gauzyId, changedFields: ['status'] });
-			const rows = await repo.find({ where: { gauzyId } });
+				await queue.enqueue({ tenantId: A.tenantId, organizationId: A.organizationId, entityType: EverWorksLinkType.TASK, irtranscriptsId, changedFields: ['status'] });
+			const rows = await repo.find({ where: { irtranscriptsId } });
 			expect(rows).toHaveLength(1);
 			// A new change gets the full retry ladder (#11028 review), as a new row would.
 			expect(rows[0]).toMatchObject({ id: waiting.id, status: EverWorksOutboundStatus.PENDING, op: 'upsert', attempts: 0 });
@@ -419,10 +419,10 @@ describe('Ever Works sync engine on SQLite', () => {
 					throw new EverWorksNetworkError('ECONNRESET');
 				}
 			});
-			await queue.enqueue({ tenantId: A.tenantId, organizationId: A.organizationId, entityType: EverWorksLinkType.TASK, gauzyId: 'blip' });
+			await queue.enqueue({ tenantId: A.tenantId, organizationId: A.organizationId, entityType: EverWorksLinkType.TASK, irtranscriptsId: 'blip' });
 			const t = new Date(Date.now() + 10_000);
 			await pusher.drain(connection, 100, t);
-			const failing = await dataSource.getRepository(EverWorksOutboundChange).findOneByOrFail({ gauzyId: 'blip' });
+			const failing = await dataSource.getRepository(EverWorksOutboundChange).findOneByOrFail({ irtranscriptsId: 'blip' });
 			expect(failing).toMatchObject({ status: EverWorksOutboundStatus.FAILED, attempts: 1 });
 			expect(new Date(failing.availableAt as Date).getTime() - t.getTime()).toBeGreaterThanOrEqual(59_000);
 		});
@@ -435,24 +435,24 @@ describe('Ever Works sync engine on SQLite', () => {
 			pusher.register({
 				entityTypes: [EverWorksLinkType.TASK],
 				push: async (change) => {
-					if (change.gauzyId === 'fails') {
+					if (change.irtranscriptsId === 'fails') {
 						failures++;
 						const { EverWorksApiError } = await import('../client/ever-works-client');
 						throw new EverWorksApiError(503, 'internal_error', 'down');
 					}
-					pushed.push(change.gauzyId);
+					pushed.push(change.irtranscriptsId);
 					return { status: 'pushed' };
 				}
 			});
 			const t = new Date(Date.now() + 10_000);
-			await queue.enqueue({ tenantId: A.tenantId, organizationId: A.organizationId, entityType: EverWorksLinkType.TASK, gauzyId: 'ok' });
-			await queue.enqueue({ tenantId: A.tenantId, organizationId: A.organizationId, entityType: EverWorksLinkType.TASK, gauzyId: 'fails' });
-			await queue.enqueue({ tenantId: A.tenantId, organizationId: A.organizationId, entityType: EverWorksLinkType.TEAM, gauzyId: 'team' });
+			await queue.enqueue({ tenantId: A.tenantId, organizationId: A.organizationId, entityType: EverWorksLinkType.TASK, irtranscriptsId: 'ok' });
+			await queue.enqueue({ tenantId: A.tenantId, organizationId: A.organizationId, entityType: EverWorksLinkType.TASK, irtranscriptsId: 'fails' });
+			await queue.enqueue({ tenantId: A.tenantId, organizationId: A.organizationId, entityType: EverWorksLinkType.TEAM, irtranscriptsId: 'team' });
 			await pusher.drain(connection, 100, t);
 			expect(pushed).toEqual(['ok']);
 			const repo = dataSource.getRepository(EverWorksOutboundChange);
-			expect(await repo.findOneByOrFail({ gauzyId: 'team' })).toMatchObject({ status: EverWorksOutboundStatus.DEFERRED });
-			const failing = await repo.findOneByOrFail({ gauzyId: 'fails' });
+			expect(await repo.findOneByOrFail({ irtranscriptsId: 'team' })).toMatchObject({ status: EverWorksOutboundStatus.DEFERRED });
+			const failing = await repo.findOneByOrFail({ irtranscriptsId: 'fails' });
 			expect(failing).toMatchObject({ status: EverWorksOutboundStatus.FAILED, attempts: 1 });
 			await repo.update({ id: failing.id }, { attempts: 7, availableAt: new Date(0) });
 			await pusher.drain(connection, 100, t);
@@ -483,11 +483,11 @@ describe('Ever Works sync engine on SQLite', () => {
 
 	describe('review hardening (#10776)', () => {
 		const record = async (over: Record<string, unknown>) => store.record(connection, envelope(over) as never, 'webhook');
-		const trigger = (gauzyId: string, extra: Record<string, unknown> = {}) => ({
+		const trigger = (irtranscriptsId: string, extra: Record<string, unknown> = {}) => ({
 			tenantId: A.tenantId,
 			organizationId: A.organizationId,
 			entityType: EverWorksLinkType.TASK,
-			gauzyId,
+			irtranscriptsId,
 			...extra
 		});
 
@@ -528,7 +528,7 @@ describe('Ever Works sync engine on SQLite', () => {
 			});
 			await queue.enqueue(trigger('t1'));
 			await pusher.drain(connection, 100, new Date(Date.now() + 10_000));
-			const rows = await dataSource.getRepository(EverWorksOutboundChange).find({ where: { gauzyId: 't1' } });
+			const rows = await dataSource.getRepository(EverWorksOutboundChange).find({ where: { irtranscriptsId: 't1' } });
 			expect(rows.map((r) => r.status).sort()).toEqual([EverWorksOutboundStatus.PENDING, EverWorksOutboundStatus.PUSHED]);
 		});
 
@@ -549,7 +549,7 @@ describe('Ever Works sync engine on SQLite', () => {
 			await pusher.drain(connection, 100, later);
 			await pusher.drain(connection, 100, new Date(later.getTime() + 24 * 3600_000));
 			expect(calls).toBe(1);
-			expect(await dataSource.getRepository(EverWorksOutboundChange).findOneByOrFail({ gauzyId: 't2' })).toMatchObject({ status: EverWorksOutboundStatus.DEAD });
+			expect(await dataSource.getRepository(EverWorksOutboundChange).findOneByOrFail({ irtranscriptsId: 't2' })).toMatchObject({ status: EverWorksOutboundStatus.DEAD });
 			expect(await dataSource.getRepository(EverWorksSyncLog).count({ where: { action: 'push_refused' } })).toBe(1);
 		});
 
@@ -633,7 +633,7 @@ describe('Ever Works sync engine on SQLite', () => {
 				queue.enqueue(trigger('t4', { op: 'delete' })),
 				queue.enqueue(trigger('t4', { changedFields: ['status'] }))
 			]);
-			const rows = await dataSource.getRepository(EverWorksOutboundChange).find({ where: { gauzyId: 't4' } });
+			const rows = await dataSource.getRepository(EverWorksOutboundChange).find({ where: { irtranscriptsId: 't4' } });
 			expect(rows).toHaveLength(1);
 			expect(rows[0].op).toBe('delete');
 			expect(JSON.parse(rows[0].changedFieldsHint as string).sort()).toEqual(['status', 'title']);
@@ -719,7 +719,7 @@ describe('Ever Works sync engine on SQLite', () => {
 			});
 			await queue.enqueue(trigger('t5'));
 			expect(await pusher.drain(connection, 100, new Date(Date.now() + 10_000))).toBe(0);
-			const [row] = await changes.find({ where: { gauzyId: 't5' } });
+			const [row] = await changes.find({ where: { irtranscriptsId: 't5' } });
 			expect(row.status).toBe(EverWorksOutboundStatus.PUSHING);
 		});
 	});
@@ -730,7 +730,7 @@ describe('Ever Works sync engine on SQLite', () => {
 			organizationId: A.organizationId as never,
 			integrationTenantId: integrationTenantId as never,
 			entityType: EverWorksLinkType.TASK,
-			gauzyId: 'g-task-1' as never,
+			irtranscriptsId: 'g-task-1' as never,
 			ewId: 'task-1',
 			direction: 'inbound',
 			...over
@@ -745,15 +745,15 @@ describe('Ever Works sync engine on SQLite', () => {
 			await expect(links.record(linkInput({ ewVersion: 4, snapshot: { title: 'v4' } }))).rejects.toBeInstanceOf(EverWorksStaleLinkError);
 			await expect(links.record(linkInput({ ewVersion: null, snapshot: { title: 'none' } }))).rejects.toBeInstanceOf(EverWorksStaleLinkError);
 			expect(await stored()).toMatchObject({ ewVersion: 5, snapshot: JSON.stringify({ title: 'v5' }) });
-			// The same Ever Works state again (the Gauzy side after a push): written.
-			await links.record(linkInput({ ewVersion: 5, snapshot: { title: 'v5 + gauzy' }, direction: 'outbound' }));
-			expect(await stored()).toMatchObject({ ewVersion: 5, snapshot: JSON.stringify({ title: 'v5 + gauzy' }), lastDirection: 'outbound' });
+			// The same Ever Works state again (the IRTranscripts side after a push): written.
+			await links.record(linkInput({ ewVersion: 5, snapshot: { title: 'v5 + irtranscripts' }, direction: 'outbound' }));
+			expect(await stored()).toMatchObject({ ewVersion: 5, snapshot: JSON.stringify({ title: 'v5 + irtranscripts' }), lastDirection: 'outbound' });
 			// No version stated: nothing to compare, written as before.
 			await links.record(linkInput({ snapshot: { title: 'unversioned' } }));
 			expect(await stored()).toMatchObject({ ewVersion: 5, snapshot: JSON.stringify({ title: 'unversioned' }) });
-			// The Gauzy record paired with another Ever Works record: a new pairing, its own version.
+			// The IRTranscripts record paired with another Ever Works record: a new pairing, its own version.
 			await links.record(linkInput({ ewId: 'task-2', ewVersion: 1 }));
-			expect(await dataSource.getRepository(EverWorksEntityLink).findOneByOrFail({ gauzyId: 'g-task-1' })).toMatchObject({ ewId: 'task-2', ewVersion: 1 });
+			expect(await dataSource.getRepository(EverWorksEntityLink).findOneByOrFail({ irtranscriptsId: 'g-task-1' })).toMatchObject({ ewId: 'task-2', ewVersion: 1 });
 		});
 
 		it('patchEverWorksOnly writes only the Ever Works-only fields of the row as read, never a changed or missing one (#11049)', async () => {
@@ -761,12 +761,12 @@ describe('Ever Works sync engine on SQLite', () => {
 			await links.record(linkInput({ ewVersion: 3, snapshot: { title: 'v3' }, ewOnly: { slug: 'T-1' } }));
 			const read = await stored();
 			expect(await links.patchEverWorksOnly(read, { slug: 'T-1', linkedBack: 'g-task-1' })).toBe(true);
-			expect(await stored()).toMatchObject({ ewVersion: 3, gauzyId: 'g-task-1', snapshot: JSON.stringify({ title: 'v3' }), ewOnly: JSON.stringify({ slug: 'T-1', linkedBack: 'g-task-1' }) });
+			expect(await stored()).toMatchObject({ ewVersion: 3, irtranscriptsId: 'g-task-1', snapshot: JSON.stringify({ title: 'v3' }), ewOnly: JSON.stringify({ slug: 'T-1', linkedBack: 'g-task-1' }) });
 			// The fields changed since that read (a newer write): not written.
 			expect(await links.patchEverWorksOnly(read, { slug: 'T-1', linkedBack: 'stale' })).toBe(false);
-			// Re-paired with another Gauzy record since the read: not written.
+			// Re-paired with another IRTranscripts record since the read: not written.
 			const fresh = await stored();
-			await dataSource.getRepository(EverWorksEntityLink).update({ id: fresh.id }, { gauzyId: 'g-task-2' } as never);
+			await dataSource.getRepository(EverWorksEntityLink).update({ id: fresh.id }, { irtranscriptsId: 'g-task-2' } as never);
 			expect(await links.patchEverWorksOnly(fresh, { linkedBack: 'g-task-1' })).toBe(false);
 			// Gone: not recreated.
 			await dataSource.getRepository(EverWorksEntityLink).delete({ id: fresh.id });
@@ -795,13 +795,13 @@ describe('Ever Works sync engine on SQLite', () => {
 			const repository = dataSource.getRepository(EverWorksEntityLink);
 			const findOne = repository.findOne.bind(repository);
 			jest.spyOn(links, 'byEw').mockResolvedValueOnce(read);
-			// Between the refused update and the re-read, another process re-pairs the Gauzy record.
+			// Between the refused update and the re-read, another process re-pairs the IRTranscripts record.
 			jest.spyOn(repository, 'findOne').mockImplementationOnce(async (options) => {
 				await repository.update({ ewId: 'task-1' }, { ewId: 'task-9', ewVersion: 8 } as never);
 				return findOne(options);
 			});
 			const saved = await links.record(linkInput({ ewVersion: 4, snapshot: { title: 'v4' } }));
-			const row = await repository.findOneByOrFail({ gauzyId: 'g-task-1' });
+			const row = await repository.findOneByOrFail({ irtranscriptsId: 'g-task-1' });
 			expect(row).toMatchObject({ ewId: 'task-1', ewVersion: 4, snapshot: JSON.stringify({ title: 'v4' }) });
 			expect(saved).toMatchObject({ ewId: 'task-1', ewVersion: 4 });
 		});
@@ -832,9 +832,9 @@ describe('Ever Works sync engine on SQLite', () => {
 					throw new EverWorksStaleLinkError('link-1' as never, 'task-1', 7, 6);
 				}
 			});
-			await queue.enqueue({ tenantId: A.tenantId, organizationId: A.organizationId, entityType: EverWorksLinkType.TASK, gauzyId: 'stale' });
+			await queue.enqueue({ tenantId: A.tenantId, organizationId: A.organizationId, entityType: EverWorksLinkType.TASK, irtranscriptsId: 'stale' });
 			await pusher.drain(connection, 100, new Date(Date.now() + 10_000));
-			expect(await dataSource.getRepository(EverWorksOutboundChange).findOneByOrFail({ gauzyId: 'stale' })).toMatchObject({
+			expect(await dataSource.getRepository(EverWorksOutboundChange).findOneByOrFail({ irtranscriptsId: 'stale' })).toMatchObject({
 				status: EverWorksOutboundStatus.FAILED,
 				attempts: 1
 			});

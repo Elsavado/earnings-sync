@@ -1,4 +1,4 @@
-import { InstallSource, parseInstallSource } from '@gauzy/plugin-ever-instance';
+import { InstallSource, parseInstallSource } from '@irtranscripts/plugin-ever-instance';
 import { DEFAULT_STATS_API_URL } from './ever-stats.constants';
 
 export { isEverStatsEnabled } from './ever-stats-enabled';
@@ -6,8 +6,8 @@ export { isEverStatsEnabled } from './ever-stats-enabled';
 type Env = Record<string, string | undefined>;
 type Warn = (message: string) => void;
 
-/** The products a Gauzy API can report for (`EVER_STATS_SERVES`). */
-export type StatsServes = Array<'gauzy' | 'teams'>;
+/** The products a IRTranscripts API can report for (`EVER_STATS_SERVES`). */
+export type StatsServes = Array<'irtranscripts' | 'teams'>;
 
 /** The settings of the anonymous usage statistics, read once from the environment. */
 export interface EverStatsConfig {
@@ -27,22 +27,22 @@ export interface EverStatsConfig {
 	installSource: InstallSource;
 }
 
-/** Whether this Gauzy API serves an Ever Teams web app (`EVER_STATS_SERVES` names `teams`). */
+/** Whether this IRTranscripts API serves an Ever Teams web app (`EVER_STATS_SERVES` names `teams`). */
 export function servesTeams(env: Env = process.env): boolean {
 	return parseServes(env['EVER_STATS_SERVES']).includes('teams');
 }
 
 function parseServes(raw: string | undefined, warn: Warn = () => undefined): StatsServes {
 	if (raw === undefined || raw.trim() === '') {
-		return ['gauzy'];
+		return ['irtranscripts'];
 	}
 	const parts = raw.split(',').map((part) => part.trim());
-	const known = parts.every((part) => part === 'gauzy' || part === 'teams') && new Set(parts).size === parts.length;
+	const known = parts.every((part) => part === 'irtranscripts' || part === 'teams') && new Set(parts).size === parts.length;
 	if (!known) {
-		warn('EVER_STATS_SERVES is not gauzy, teams or gauzy,teams; using gauzy.');
-		return ['gauzy'];
+		warn('EVER_STATS_SERVES is not irtranscripts, teams or irtranscripts,teams; using irtranscripts.');
+		return ['irtranscripts'];
 	}
-	return (['gauzy', 'teams'] as const).filter((product) => parts.includes(product));
+	return (['irtranscripts', 'teams'] as const).filter((product) => parts.includes(product));
 }
 
 const PRIVATE_V4 = [/^10\./, /^127\./, /^192\.168\./, /^172\.(1[6-9]|2[0-9]|3[01])\./];

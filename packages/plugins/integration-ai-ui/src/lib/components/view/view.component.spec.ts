@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IntegrationAIViewComponent } from './view.component';
 import { IntegrationAiUiModule } from '../../integration-ai-ui.module';
-import { PipesModule } from '@gauzy/ui-core/shared';
+import { PipesModule } from '@irtranscripts/ui-core/shared';
 describe('IntegrationAIViewComponent', () => {
 	let component: IntegrationAIViewComponent;
 	let fixture: ComponentFixture<IntegrationAIViewComponent>;

@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NbIconModule } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
 import { BaseDashboardWidgetComponent } from '../../widget-host/base-dashboard-widget.component';
 
 /**

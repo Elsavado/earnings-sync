@@ -1,4 +1,4 @@
-import { RecurringExpenseDeletionEnum } from '@gauzy/contracts';
+import { RecurringExpenseDeletionEnum } from '@irtranscripts/contracts';
 
 /**
  * Deleting one month in the middle of a recurring expense ends the expense the month before and creates a copy

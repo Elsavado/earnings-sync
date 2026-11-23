@@ -1,4 +1,4 @@
-import { AiProviderEnum, IAiChatModel } from '@gauzy/contracts';
+import { AiProviderEnum, IAiChatModel } from '@irtranscripts/contracts';
 import {
 	IAiChatModelList,
 	IAiChatProviderDefinition,
@@ -13,7 +13,7 @@ import {
 	mergeCatalogue,
 	prettifyModelId,
 	transcribeViaOpenAiCompatible
-} from '@gauzy/plugin-ai-chat';
+} from '@irtranscripts/plugin-ai-chat';
 
 /** Stable provider id used by the registry, the UI and BYOK credentials. */
 const PROVIDER_ID = AiProviderEnum.OPENAI;
@@ -114,7 +114,7 @@ const DEFAULT_SPEECH_MODEL = 'gpt-4o-mini-transcribe';
  * the container — a generic name is rejected with "Invalid file format" even when the bytes are
  * fine — so it is derived from the MIME type the browser actually recorded. That, the bounded and
  * redacted error read and the status classification all live in the shared
- * `transcribeViaOpenAiCompatible` helper of `@gauzy/plugin-ai-chat`.
+ * `transcribeViaOpenAiCompatible` helper of `@irtranscripts/plugin-ai-chat`.
  *
  * A custom base URL is honoured here, unlike the model catalogue: the caller explicitly configured
  * that endpoint as their OpenAI, and this is a request they asked for rather than a background
@@ -183,7 +183,7 @@ export const openAiProviderDefinition: IAiChatProviderDefinition = {
 
 	/**
 	 * Create an OpenAI `EmbeddingModel` for the Documents knowledge pipeline
-	 * (`@gauzy/plugin-docs` chunk/query embeddings).
+	 * (`@irtranscripts/plugin-docs` chunk/query embeddings).
 	 *
 	 * Same lazy-ESM pattern as {@link createModel}; callers feature-detect this hook and
 	 * degrade to lexical-only retrieval when a provider does not implement it.

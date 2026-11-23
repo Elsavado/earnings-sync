@@ -6,7 +6,7 @@
 import '../../core/entities/internal';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
-import { IGetTimeSlotInput } from '@gauzy/contracts';
+import { IGetTimeSlotInput } from '@irtranscripts/contracts';
 import { MultiORMEnum } from '../../core/utils';
 import { mockRequestContext } from '../testing/recording-query-builder';
 import { TypeOrmTimeSlotRepository } from './repository/type-orm-time-slot.repository';

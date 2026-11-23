@@ -8,7 +8,7 @@ import {
 	IOrganization,
 	IOrganizationUpdateInput,
 	isEEAOrUKLocation
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { RequestContext } from '../../../core/context';
 import { ActivityLogService } from '../../../activity-log/activity-log.service';
 import { EmployeeService } from '../../../employee/employee.service';

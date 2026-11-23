@@ -2,11 +2,11 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/
 import { Subject } from 'rxjs';
 import { UntypedFormGroup, UntypedFormBuilder, FormArray, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { ICandidateTechnologies, IOrganization } from '@gauzy/contracts';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { ICandidateTechnologies, IOrganization } from '@irtranscripts/contracts';
 import { takeUntil } from 'rxjs/operators';
-import { CandidateTechnologiesService, ToastrService } from '@gauzy/ui-core/core';
-import { Store } from '@gauzy/ui-core/core';
+import { CandidateTechnologiesService, ToastrService } from '@irtranscripts/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
 import { CommunicationService } from '../../communication.service';
 
 @Component({

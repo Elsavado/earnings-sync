@@ -10,7 +10,7 @@ import { fenceDocumentContent } from '../security/untrusted-content';
  * classified blind past page 1.
  *
  * @param markdown The normalized extracted markdown.
- * @param maxChars The total sample budget (`GAUZY_DOCS_CLASSIFY_SAMPLE_CHARS`).
+ * @param maxChars The total sample budget (`IRTRANSCRIPTS_DOCS_CLASSIFY_SAMPLE_CHARS`).
  */
 export function sampleMarkdown(markdown: string, maxChars: number): string {
 	const source = markdown ?? '';
@@ -45,7 +45,7 @@ export interface IClassificationPromptInput {
  */
 export function buildClassificationPrompt(input: IClassificationPromptInput): { system: string; user: string } {
 	const system =
-		'You classify business documents for an organization on the Ever Gauzy platform.\n' +
+		'You classify business documents for an organization on the Ever IRTranscripts platform.\n' +
 		'Respond with a single JSON object matching this schema — no prose, no code fences:\n' +
 		'{ "categories": ["slug"], "suggestedTags": ["keyword"], "summary": "…", "language": "en", "confidence": 0.0 }\n' +
 		'Rules: categories = 1-3 slugs from the provided catalog only; suggestedTags = 0-5 short lowercase keywords; ' +

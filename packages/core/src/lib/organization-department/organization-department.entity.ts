@@ -3,7 +3,7 @@ import {
 	ITag,
 	IEmployee,
 	ICandidate
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { JoinTable } from 'typeorm';

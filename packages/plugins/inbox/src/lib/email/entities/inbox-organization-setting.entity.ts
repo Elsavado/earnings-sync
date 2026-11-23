@@ -1,4 +1,4 @@
-import { MultiORMColumn, MultiORMEntity, TenantOrganizationBaseEntity } from '@gauzy/core';
+import { MultiORMColumn, MultiORMEntity, TenantOrganizationBaseEntity } from '@irtranscripts/core';
 import { MikroOrmInboxOrganizationSettingRepository } from './inbox-email.repositories';
 
 /**

@@ -7,8 +7,8 @@ import {
 	IInvoice,
 	InvoiceStatusTypesEnum,
 	InvoiceTypeEnum
-} from '@gauzy/contracts';
-import { InvoiceService, RequestContext, isValidDecimalString } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { InvoiceService, RequestContext, isValidDecimalString } from '@irtranscripts/core';
 import {
 	IOrderEstimateDelivery,
 	IOrderInvoiceDocument,

@@ -1,4 +1,4 @@
-import { IVerifySMTPTransport } from "@gauzy/contracts";
+import { IVerifySMTPTransport } from "@irtranscripts/contracts";
 import { CreateCustomSmtpDTO } from "./create-custom-smtp.dto";
 
 /**

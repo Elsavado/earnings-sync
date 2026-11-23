@@ -1,15 +1,15 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { Subject, Subscription } from 'rxjs';
 import { EventSubscriber } from 'typeorm';
-import { DocumentKindEnum, ID } from '@gauzy/contracts';
-import { BaseEntityEventSubscriber, RequestContext } from '@gauzy/core';
-import { Document } from '@gauzy/plugin-docs';
+import { DocumentKindEnum, ID } from '@irtranscripts/contracts';
+import { BaseEntityEventSubscriber, RequestContext } from '@irtranscripts/core';
+import { Document } from '@irtranscripts/plugin-docs';
 import { EverWorksLinkType } from '../sync/entities/ever-works-sync.entities';
 import { EverWorksSyncContext } from '../sync/ever-works-sync.context';
 import { EverWorksOutboundQueue } from '../sync/outbound/ever-works-outbound.queue';
 import { runDetached } from '../sync/outbound/ever-works-detached';
 
-/** A Gauzy Docs node (a page or a folder) changed. */
+/** A IRTranscripts Docs node (a page or a folder) changed. */
 export interface EverWorksDocumentSignal {
 	tenantId: ID;
 	organizationId: ID;
@@ -97,7 +97,7 @@ export class EverWorksDocumentCapture implements OnModuleInit, OnModuleDestroy {
 						tenantId: change.tenantId,
 						organizationId: change.organizationId,
 						entityType,
-						gauzyId: change.documentId,
+						irtranscriptsId: change.documentId,
 						op: change.deleted ? 'delete' : 'upsert',
 						actorUserId: change.actorUserId
 					})

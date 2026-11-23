@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { ID, IIntegrationTenantFindInput } from '@gauzy/contracts';
+import { ID, IIntegrationTenantFindInput } from '@irtranscripts/contracts';
 
 export class IntegrationTenantDeleteCommand implements ICommand {
 	static readonly type = '[Integration] Delete Integration';

@@ -1,7 +1,7 @@
 /**
- * The module boundaries are doubled for the reason the package's service specs state: `@gauzy/core`
+ * The module boundaries are doubled for the reason the package's service specs state: `@irtranscripts/core`
  * boots the whole application graph from its barrel — and its nested `uuid` is ESM-only, so reading one
- * entity under jest fails — and `@gauzy/common` is read by the feature-flag decorator.
+ * entity under jest fails — and `@irtranscripts/common` is read by the feature-flag decorator.
  *
  * **The two conventions this suite is about are the platform's own.** `Idempotent`, `Versioned`, the
  * guard that refuses a stale write and the interceptor that publishes the version are pulled from the
@@ -16,15 +16,15 @@
  * only decides a status — and the two protocols answer identically because they declare the same
  * scopes.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { SetMetadata, UsePipes, ValidationPipe } = require('@nestjs/common');
-	const { PERMISSIONS_METADATA } = require('@gauzy/constants');
+	const { PERMISSIONS_METADATA } = require('@irtranscripts/constants');
 
 	// The kernel's own declarations and its conditional write, so the cases below assert the platform
 	// rather than a restatement of it.
-	const idempotency = jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.policy');
-	const versioned = jest.requireActual('@gauzy/core/src/lib/concurrency/versioned.decorator');
-	const versionedWrite = jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write');
+	const idempotency = jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.policy');
+	const versioned = jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned.decorator');
+	const versionedWrite = jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
@@ -68,7 +68,7 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		BaseEvent: class {},
 		EventBus: class {},
 		PermissionGuard: class PermissionGuard {},
@@ -90,7 +90,7 @@ jest.mock('@gauzy/core', () => {
 		Warehouse: class Warehouse {},
 		UseValidationPipe: (options: unknown) => UsePipes(new ValidationPipe(options as never)),
 		Permissions: (...permissions: string[]) => SetMetadata(PERMISSIONS_METADATA, permissions),
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
 		IDEMPOTENT_METADATA_KEY: idempotency.IDEMPOTENT_METADATA_KEY,
 		Versioned: versioned.Versioned,
 		commitVersionedUpdate: versionedWrite.commitVersionedUpdate,
@@ -99,11 +99,11 @@ jest.mock('@gauzy/core', () => {
 		// that calls one of those fields asserts the page the platform builds rather than a restatement of
 		// it. A double that left them undefined would fail with "not a function" the moment such a case
 		// ran, which says nothing about the field.
-		resolveConnectionWindow: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		resolveConnectionWindow: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.resolveConnectionWindow,
-		connectionFromOffsetPage: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		connectionFromOffsetPage: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.connectionFromOffsetPage,
-		paginateRows: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection').paginateRows,
+		paginateRows: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection').paginateRows,
 		RequestContext: {
 			currentUser: () => null,
 			currentUserId: () => null,
@@ -116,7 +116,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 jest.mock(
-	'@gauzy/common',
+	'@irtranscripts/common',
 	() => ({
 		FeatureFlag: () => () => undefined
 	})
@@ -127,18 +127,18 @@ jest.mock(
  * constructor signature is emitted as a value — so the interceptor cannot be loaded without the
  * service module, whose own import chain is the whole core entity graph.
  */
-jest.mock('@gauzy/core/src/lib/idempotency/idempotency.service', () => ({
+jest.mock('@irtranscripts/core/src/lib/idempotency/idempotency.service', () => ({
 	IdempotencyService: class IdempotencyService {}
 }));
 
 import { ExecutionContext, NotFoundException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { from, lastValueFrom } from 'rxjs';
-import { IDEMPOTENT_METADATA_KEY } from '@gauzy/core/src/lib/idempotency/idempotency.policy';
-import { IdempotencyInterceptor } from '@gauzy/core/src/lib/idempotency/idempotency.interceptor';
-import { VersionGuard } from '@gauzy/core/src/lib/concurrency/version.guard';
-import { VersionInterceptor } from '@gauzy/core/src/lib/concurrency/version.interceptor';
-import { VERSIONED_METADATA_KEY } from '@gauzy/core/src/lib/concurrency/version.util';
+import { IDEMPOTENT_METADATA_KEY } from '@irtranscripts/core/src/lib/idempotency/idempotency.policy';
+import { IdempotencyInterceptor } from '@irtranscripts/core/src/lib/idempotency/idempotency.interceptor';
+import { VersionGuard } from '@irtranscripts/core/src/lib/concurrency/version.guard';
+import { VersionInterceptor } from '@irtranscripts/core/src/lib/concurrency/version.interceptor';
+import { VERSIONED_METADATA_KEY } from '@irtranscripts/core/src/lib/concurrency/version.util';
 import { OrderReturnController } from '../../order-return/order-return.controller';
 import { OrderReturnService } from '../../order-return/order-return.service';
 import { OrderReturnStatus } from '../../returns.types';

@@ -6,11 +6,11 @@
  * could replace the tenant's API key and connection, delete it, and edit or rotate its MCP servers.
  * `PermissionGuard` is what checks the caller's role, as on the other integration controllers.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	class TenantPermissionGuard {}
 	class PermissionGuard {}
 	const { SetMetadata } = jest.requireActual('@nestjs/common');
-	const { PERMISSIONS_METADATA } = jest.requireActual('@gauzy/constants');
+	const { PERMISSIONS_METADATA } = jest.requireActual('@irtranscripts/constants');
 
 	return {
 		TenantPermissionGuard,
@@ -25,8 +25,8 @@ jest.mock('./activepieces-mcp.service', () => ({ ActivepiecesMcpService: class {
 jest.mock('./activepieces-platform.service', () => ({ ActivepiecesPlatformService: class {} }));
 
 import { GUARDS_METADATA, METHOD_METADATA } from '@nestjs/common/constants';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionGuard, TenantPermissionGuard } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionGuard, TenantPermissionGuard } from '@irtranscripts/core';
 import { ActivepiecesController } from './activepieces.controller';
 import { ActivepiecesMcpController } from './activepieces-mcp.controller';
 import { ActivepiecesOperatorGuard } from './activepieces-operator.guard';

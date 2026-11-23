@@ -1,5 +1,5 @@
 import { ForbiddenException } from '@nestjs/common';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 /**
  * The seller scope a request runs under.

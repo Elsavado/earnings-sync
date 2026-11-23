@@ -1,9 +1,9 @@
 /**
  * G-P4-6 part 2: the read-only mirror of Ever Works agent mail (plan 04 §6, CR-11). `email.message.*` events become
- * Gauzy Inbox EMAIL items of the paired owner under "Ever Works — <agent>" only where the `agentEmail` direction is on;
- * a message Gauzy handed off itself is skipped; an unpaired owner waits; an omitted body is read from Ever Works.
+ * IRTranscripts Inbox EMAIL items of the paired owner under "Ever Works — <agent>" only where the `agentEmail` direction is on;
+ * a message IRTranscripts handed off itself is skipped; an unpaired owner waits; an omitted body is read from Ever Works.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	const entity = (name: string) => ({ [name]: class {} })[name];
 	return {
@@ -31,11 +31,11 @@ jest.mock('@gauzy/core', () => {
 		)
 	};
 });
-jest.mock('@gauzy/common', () => ({ Public: () => () => undefined }));
+jest.mock('@irtranscripts/common', () => ({ Public: () => () => undefined }));
 
 import 'reflect-metadata';
-import { InboxItemKindEnum, InboxItemSourceEnum } from '@gauzy/contracts';
-import { Employee, User } from '@gauzy/core';
+import { InboxItemKindEnum, InboxItemSourceEnum } from '@irtranscripts/contracts';
+import { Employee, User } from '@irtranscripts/core';
 import { EverWorksLinkState, EverWorksLinkType } from '../sync/entities/ever-works-sync.entities';
 import { EverWorksStaleLinkError } from '../sync/links/ever-works-link.service';
 import { EVER_WORKS_EMAIL_EXTERNAL_SOURCE, EverWorksAgentEmailMirror } from './ever-works-agent-email.mirror';
@@ -89,14 +89,14 @@ function setup(options: { direction?: string; inbox?: boolean } = {}) {
 			integrationTenantId: 'm1',
 			entityType: EverWorksLinkType.MEMBER,
 			ewId: 'ew-ann',
-			gauzyId: 'emp-ann',
+			irtranscriptsId: 'emp-ann',
 			state: 'ok'
 		},
 		{
 			integrationTenantId: 'm1',
 			entityType: EverWorksLinkType.AGENT,
 			ewId: 'ew-agent-1',
-			gauzyId: 'emp-agent',
+			irtranscriptsId: 'emp-agent',
 			state: 'ok',
 			snapshot: JSON.stringify({ name: 'Builder' })
 		},
@@ -104,7 +104,7 @@ function setup(options: { direction?: string; inbox?: boolean } = {}) {
 			integrationTenantId: 'm1',
 			entityType: EverWorksLinkType.TASK,
 			ewId: 'ew-task-1',
-			gauzyId: 'task-1',
+			irtranscriptsId: 'task-1',
 			state: 'ok'
 		}
 	];
@@ -126,7 +126,7 @@ function setup(options: { direction?: string; inbox?: boolean } = {}) {
 		integrationTenantId: 'm1',
 		connection: { id: 'c1' },
 		everWorksOrganizationSlug: 'acme',
-		directions: { agentEmail: options.direction ?? 'ew_to_gauzy' },
+		directions: { agentEmail: options.direction ?? 'ew_to_irtranscripts' },
 		isEnabled: true
 	};
 	const employees: Row[] = [{ id: 'emp-ann', userId: 'user-ann', tenantId: 't1', organizationId: 'o1' }];
@@ -164,7 +164,7 @@ function setup(options: { direction?: string; inbox?: boolean } = {}) {
 
 const applyContext = { connection: { id: 'c1' }, event: {}, organizationId: 'o1' } as never;
 
-describe('EverWorksAgentEmailMirror — EW agent mail as read-only Gauzy Inbox copies', () => {
+describe('EverWorksAgentEmailMirror — EW agent mail as read-only IRTranscripts Inbox copies', () => {
 	it('mirrors a message as an EMAIL item of the paired owner, under "Ever Works — <agent>", linked to the agent and the task', async () => {
 		const { mirror, upserts, links } = setup();
 		expect(await mirror.apply(envelope(message()) as never, applyContext)).toMatchObject({ status: 'applied' });
@@ -188,7 +188,7 @@ describe('EverWorksAgentEmailMirror — EW agent mail as read-only Gauzy Inbox c
 			recipients: [{ userId: 'user-ann' }]
 		});
 		expect(links.find((l) => l['entityType'] === EverWorksLinkType.AGENT_EMAIL_MIRROR)).toMatchObject({
-			gauzyId: 'item-1',
+			irtranscriptsId: 'item-1',
 			ewId: 'ew-mail-1',
 			ewVersion: 3
 		});
@@ -206,13 +206,13 @@ describe('EverWorksAgentEmailMirror — EW agent mail as read-only Gauzy Inbox c
 		expect(upserts).toHaveLength(0);
 	});
 
-	it('skips a message Gauzy handed to the agent itself (it is in the Gauzy Inbox already)', async () => {
+	it('skips a message IRTranscripts handed to the agent itself (it is in the IRTranscripts Inbox already)', async () => {
 		const { mirror, links, upserts } = setup();
 		links.push({
 			integrationTenantId: 'm1',
 			entityType: EverWorksLinkType.AGENT_EMAIL,
 			ewId: 'ew-mail-1',
-			gauzyId: 'inbox-email-1',
+			irtranscriptsId: 'inbox-email-1',
 			state: 'ok'
 		});
 		expect(await mirror.apply(envelope(message({ direction: 'inbound' })) as never, applyContext)).toMatchObject({
@@ -271,20 +271,20 @@ describe('EverWorksAgentEmailMirror — EW agent mail as read-only Gauzy Inbox c
 		expect(upserts[0]).toMatchObject({ body: 'The full body.' });
 	});
 
-	it('without the Gauzy Inbox: skipped when it is off, deferred when it is on but not loaded here', async () => {
-		const saved = process.env['GAUZY_INBOX_ENABLED'];
+	it('without the IRTranscripts Inbox: skipped when it is off, deferred when it is on but not loaded here', async () => {
+		const saved = process.env['IRTRANSCRIPTS_INBOX_ENABLED'];
 		try {
-			delete process.env['GAUZY_INBOX_ENABLED'];
+			delete process.env['IRTRANSCRIPTS_INBOX_ENABLED'];
 			expect(
 				await setup({ inbox: false }).mirror.apply(envelope(message()) as never, applyContext)
 			).toMatchObject({ status: 'skipped' });
-			process.env['GAUZY_INBOX_ENABLED'] = 'true';
+			process.env['IRTRANSCRIPTS_INBOX_ENABLED'] = 'true';
 			expect(
 				await setup({ inbox: false }).mirror.apply(envelope(message()) as never, applyContext)
 			).toMatchObject({ status: 'deferred' });
 		} finally {
-			if (saved === undefined) delete process.env['GAUZY_INBOX_ENABLED'];
-			else process.env['GAUZY_INBOX_ENABLED'] = saved;
+			if (saved === undefined) delete process.env['IRTRANSCRIPTS_INBOX_ENABLED'];
+			else process.env['IRTRANSCRIPTS_INBOX_ENABLED'] = saved;
 		}
 	});
 });

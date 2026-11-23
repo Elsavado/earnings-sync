@@ -15,7 +15,7 @@ import {
 	UsePipes
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
-import { ID, IPagination, IScreeningTask, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IPagination, IScreeningTask, PermissionsEnum } from '@irtranscripts/contracts';
 import { Permissions } from '../../shared/decorators';
 import { PermissionGuard, TenantPermissionGuard } from '../../shared/guards';
 import { CrudController, FindOptionsQueryDTO, BaseQueryDTO } from '../../core/crud';

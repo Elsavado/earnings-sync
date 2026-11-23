@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NbButtonModule, NbIconModule, NbFormFieldModule, NbInputModule, NbTooltipModule } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
-import { SharedModule } from '@gauzy/ui-core/shared';
-import { ThemeModule } from '@gauzy/ui-core/theme';
+import { SharedModule } from '@irtranscripts/ui-core/shared';
+import { ThemeModule } from '@irtranscripts/ui-core/theme';
 
 import { EmailCodeFormComponent } from './email-code-form/email-code-form.component';
 import { WorkspaceHeaderComponent } from './workspace-header/workspace-header.component';

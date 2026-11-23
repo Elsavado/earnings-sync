@@ -2,7 +2,7 @@ import { ICommandHandler, CommandHandler } from '@nestjs/cqrs';
 import { CamshotService } from '../../services/camshot.service';
 import { DeleteCamshotCommand } from '../delete-camshot.command';
 import { NotFoundException } from '@nestjs/common';
-import { assertCallerOwnsUpload, RequestContext } from '@gauzy/core';
+import { assertCallerOwnsUpload, RequestContext } from '@irtranscripts/core';
 
 @CommandHandler(DeleteCamshotCommand)
 export class DeleteCamshotCommandHandler implements ICommandHandler<DeleteCamshotCommand> {

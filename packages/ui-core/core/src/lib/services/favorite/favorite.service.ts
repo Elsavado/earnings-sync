@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom, catchError } from 'rxjs';
-import { BaseEntityEnum, ICandidate, ID, IEmployee, IFavorite, IFavoriteCreateInput } from '@gauzy/contracts';
-import { API_PREFIX, toParams } from '@gauzy/ui-core/common';
+import { BaseEntityEnum, ICandidate, ID, IEmployee, IFavorite, IFavoriteCreateInput } from '@irtranscripts/contracts';
+import { API_PREFIX, toParams } from '@irtranscripts/ui-core/common';
 
 @Injectable({
 	providedIn: 'root'

@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import {
 	AbstractValidationPipe,
 	CrudController,
@@ -23,7 +23,7 @@ import {
 	TenantPermissionGuard,
 	UseValidationPipe,
 	UUIDValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { TAX_PERMISSION_VALUES, taxPermission } from '../tax.permissions';
 import { IResolvedTaxRegime, TaxWriteInput } from '../tax.types';
 import { TaxRegimeRate } from '../tax-regime-rate/tax-regime-rate.entity';

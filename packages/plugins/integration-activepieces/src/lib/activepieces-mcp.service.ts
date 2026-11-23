@@ -8,16 +8,16 @@ import {
 	NotFoundException
 } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { ConfigService } from '@gauzy/config';
+import { ConfigService } from '@irtranscripts/config';
 import { firstValueFrom, catchError } from 'rxjs';
 import { AxiosError } from 'axios';
-import { IntegrationTenantService, RequestContext } from '@gauzy/core';
+import { IntegrationTenantService, RequestContext } from '@irtranscripts/core';
 import {
 	ActivepiecesConnectionMode,
 	IActivepiecesMcpServer,
 	IActivepiecesMcpServersListResponse,
 	IActivepiecesMcpServersListParams
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { ActivepiecesMcpUpdateDto } from './dto';
 import {
 	ACTIVEPIECES_MCP_SERVERS_URL,
@@ -43,7 +43,7 @@ export const MCP_NEEDS_USER_TOKEN =
 	'Activepieces accepts only a user token on its MCP routes, never an API key, so MCP is not available here.';
 
 /**
- * The Activepieces URL of one MCP server of the legacy API (`GAUZY_ACTIVEPIECES_MCP_API=legacy`). The id is the
+ * The Activepieces URL of one MCP server of the legacy API (`IRTRANSCRIPTS_ACTIVEPIECES_MCP_API=legacy`). The id is the
  * caller's, from the route, and Express decodes `%2F` in a route parameter: unencoded, `..%2F..%2F<path>` turned the
  * update and the token rotation into POSTs to any other path of the Activepieces API, under the installation's key
  * when the tenant has none of its own. `encodeURIComponent` leaves dots alone, so `.` and `..` (`%2E%2E` in the route)
@@ -98,7 +98,7 @@ export function isActivepiecesApiKey(token: string | null | undefined): boolean 
  * Activepieces replaced its MCP API in November 2025 ("MCP 2.0"): instead of named servers listed and read by id at
  * `/v1/mcp-servers`, every project has exactly one MCP server, at `/v1/projects/:projectId/mcp-server` (`GET` reads
  * it, `POST` updates its `disabledTools`, `POST …/rotate` rotates its token). Those routes are the default here; the
- * old ones stay behind `GAUZY_ACTIVEPIECES_MCP_API=legacy`, for a self-hosted Activepieces older than that.
+ * old ones stay behind `IRTRANSCRIPTS_ACTIVEPIECES_MCP_API=legacy`, for a self-hosted Activepieces older than that.
  *
  * Both APIs accept only user tokens (`PrincipalType.USER`), never an API key. So MCP works in the `project_token`
  * mode — a user token of the tenant's own project — and with a tenant's own key only when that key is a user token.
@@ -121,7 +121,7 @@ export class ActivepiecesMcpService {
 		private readonly credentials: ActivepiecesCredentialsService
 	) {}
 
-	/** The MCP routes to call (`GAUZY_ACTIVEPIECES_MCP_API`): MCP 2.0 unless the operator chose `legacy`. */
+	/** The MCP routes to call (`IRTRANSCRIPTS_ACTIVEPIECES_MCP_API`): MCP 2.0 unless the operator chose `legacy`. */
 	mcpApi(): ActivepiecesMcpApi {
 		return this.credentials.mcpApi();
 	}
@@ -314,7 +314,7 @@ export class ActivepiecesMcpService {
 	 * Get MCP servers for current tenant
 	 *
 	 * Under MCP 2.0 that is the server of the tenant's project (its own, pinned, or the one named with the tenant's own
-	 * key). The legacy servers carried names, and only those naming the tenant (or `gauzy`) are kept.
+	 * key). The legacy servers carried names, and only those naming the tenant (or `irtranscripts`) are kept.
 	 */
 	async getTenantMcpServers(projectId?: string): Promise<IActivepiecesMcpServer[]> {
 		try {
@@ -333,7 +333,7 @@ export class ActivepiecesMcpService {
 
 			// Filter MCP servers by tenant (if they have tenant-specific naming or metadata)
 			return response.data.filter(
-				(server) => !!server.name && (server.name.includes(tenantId) || server.name.includes('gauzy'))
+				(server) => !!server.name && (server.name.includes(tenantId) || server.name.includes('irtranscripts'))
 			);
 		} catch (error: any) {
 			this.logger.error('Failed to get tenant MCP servers:', error);

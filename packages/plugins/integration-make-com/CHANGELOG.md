@@ -1,3 +1,3 @@
-# Changelog for @gauzy/plugin-integration-make-com
+# Changelog for @irtranscripts/plugin-integration-make-com
 
 ## [Unreleased]

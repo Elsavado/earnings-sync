@@ -1,4 +1,4 @@
-// cspell:ignore payg gauzyx flase selfhosted abcdefghijkl
+// cspell:ignore payg irtranscriptsx flase selfhosted abcdefghijkl
 import { Logger } from '@nestjs/common';
 import { EntitlementResult, StripeSubscriptionService } from './stripe-subscription.service';
 import {
@@ -40,12 +40,12 @@ function stubStripe(route: Route) {
 	});
 }
 
-function gauzySub(overrides: Record<string, any> = {}) {
+function irtranscriptsSub(overrides: Record<string, any> = {}) {
 	return {
 		id: 'sub_1',
 		status: 'trialing',
-		metadata: { ever_product: 'gauzy' },
-		items: { data: [{ price: { lookup_key: 'ever_gauzy_cloud_starter_annual' } }] },
+		metadata: { ever_product: 'irtranscripts' },
+		items: { data: [{ price: { lookup_key: 'ever_irtranscripts_cloud_starter_annual' } }] },
 		...overrides
 	};
 }
@@ -64,8 +64,8 @@ function selfHostedSub(overrides: Record<string, any> = {}) {
 	return {
 		id: 'sub_s',
 		status: 'active',
-		metadata: { ever_product: 'gauzy', ever_hosting: 'selfhosted' },
-		items: { data: [{ price: { lookup_key: 'ever_gauzy_selfhosted_enterprise_annual' } }] },
+		metadata: { ever_product: 'irtranscripts', ever_hosting: 'selfhosted' },
+		items: { data: [{ price: { lookup_key: 'ever_irtranscripts_selfhosted_enterprise_annual' } }] },
 		...overrides
 	};
 }
@@ -79,8 +79,8 @@ function completeSession(overrides: Record<string, any> = {}) {
 		customer: 'cus_1',
 		customer_email: null,
 		customer_details: { email: EMAIL },
-		metadata: { ever_product: 'gauzy' },
-		subscription: gauzySub(),
+		metadata: { ever_product: 'irtranscripts' },
+		subscription: irtranscriptsSub(),
 		...overrides
 	};
 }
@@ -122,8 +122,8 @@ afterEach(() => {
 });
 
 describe('billing-product predicates', () => {
-	it('BILLING_PRODUCT defaults to gauzy, is normalised, and an unusable value is reported, not replaced', () => {
-		expect(resolveBillingProduct(undefined)).toEqual({ product: 'gauzy' });
+	it('BILLING_PRODUCT defaults to irtranscripts, is normalised, and an unusable value is reported, not replaced', () => {
+		expect(resolveBillingProduct(undefined)).toEqual({ product: 'irtranscripts' });
 		expect(resolveBillingProduct('  Teams ')).toEqual({ product: 'teams' });
 		expect(resolveBillingProduct('ever teams!')).toEqual({ product: null, invalid: 'ever teams!' });
 	});
@@ -137,84 +137,84 @@ describe('billing-product predicates', () => {
 	});
 
 	it('a subscription belongs to a product by metadata, or by its first price lookup key', () => {
-		expect(subscriptionIsForProduct(gauzySub(), 'gauzy')).toBe(true);
-		expect(subscriptionIsForProduct(gauzySub({ metadata: {} }), 'gauzy')).toBe(true);
-		expect(subscriptionIsForProduct(teamsSub(), 'gauzy')).toBe(false);
-		expect(subscriptionIsForProduct(teamsSub({ metadata: {} }), 'gauzy')).toBe(false);
-		expect(subscriptionIsForProduct({ metadata: { kind: 'payg-subscription' } }, 'gauzy')).toBe(false);
-		// `ever_gauzyx_` is not `ever_gauzy_`.
+		expect(subscriptionIsForProduct(irtranscriptsSub(), 'irtranscripts')).toBe(true);
+		expect(subscriptionIsForProduct(irtranscriptsSub({ metadata: {} }), 'irtranscripts')).toBe(true);
+		expect(subscriptionIsForProduct(teamsSub(), 'irtranscripts')).toBe(false);
+		expect(subscriptionIsForProduct(teamsSub({ metadata: {} }), 'irtranscripts')).toBe(false);
+		expect(subscriptionIsForProduct({ metadata: { kind: 'payg-subscription' } }, 'irtranscripts')).toBe(false);
+		// `ever_irtranscriptsx_` is not `ever_irtranscripts_`.
 		expect(
-			subscriptionIsForProduct({ items: { data: [{ price: { lookup_key: 'ever_gauzyx_cloud' } }] } }, 'gauzy')
+			subscriptionIsForProduct({ items: { data: [{ price: { lookup_key: 'ever_irtranscriptsx_cloud' } }] } }, 'irtranscripts')
 		).toBe(false);
-		expect(subscriptionIsForProduct(gauzySub(), null)).toBe(false);
+		expect(subscriptionIsForProduct(irtranscriptsSub(), null)).toBe(false);
 	});
 
 	it("a self-hosted license subscription is never the product's hosted plan", () => {
 		expect(
-			subscriptionIsForProduct(gauzySub({ metadata: { ever_product: 'gauzy', ever_hosting: 'cloud' } }), 'gauzy')
+			subscriptionIsForProduct(irtranscriptsSub({ metadata: { ever_product: 'irtranscripts', ever_hosting: 'cloud' } }), 'irtranscripts')
 		).toBe(true);
-		expect(subscriptionIsForProduct(selfHostedSub(), 'gauzy')).toBe(false);
+		expect(subscriptionIsForProduct(selfHostedSub(), 'irtranscripts')).toBe(false);
 		// Either signal alone is enough to refuse it.
-		expect(subscriptionIsForProduct(selfHostedSub({ metadata: {} }), 'gauzy')).toBe(false);
-		expect(subscriptionIsForProduct(selfHostedSub({ metadata: { ever_product: 'gauzy' } }), 'gauzy')).toBe(false);
+		expect(subscriptionIsForProduct(selfHostedSub({ metadata: {} }), 'irtranscripts')).toBe(false);
+		expect(subscriptionIsForProduct(selfHostedSub({ metadata: { ever_product: 'irtranscripts' } }), 'irtranscripts')).toBe(false);
 		expect(
 			subscriptionIsForProduct(
-				gauzySub({ metadata: { ever_product: 'gauzy', ever_hosting: 'selfhosted' } }),
-				'gauzy'
+				irtranscriptsSub({ metadata: { ever_product: 'irtranscripts', ever_hosting: 'selfhosted' } }),
+				'irtranscripts'
 			)
 		).toBe(false);
 		// The price decides when it is a catalog price; metadata may only agree with it.
 		expect(
-			subscriptionIsForProduct(teamsSub({ metadata: { ever_product: 'gauzy', ever_hosting: 'cloud' } }), 'gauzy')
+			subscriptionIsForProduct(teamsSub({ metadata: { ever_product: 'irtranscripts', ever_hosting: 'cloud' } }), 'irtranscripts')
 		).toBe(false);
-		expect(subscriptionIsForProduct(gauzySub({ metadata: { ever_product: 'teams' } }), 'gauzy')).toBe(false);
+		expect(subscriptionIsForProduct(irtranscriptsSub({ metadata: { ever_product: 'teams' } }), 'irtranscripts')).toBe(false);
 		// Metadata alone decides only when there is no catalog price.
 		expect(
-			subscriptionIsForProduct(gauzySub({ items: { data: [{ price: { lookup_key: null } }] } }), 'gauzy')
+			subscriptionIsForProduct(irtranscriptsSub({ items: { data: [{ price: { lookup_key: null } }] } }), 'irtranscripts')
 		).toBe(true);
 		// A catalog price of this product that is not a cloud price.
 		expect(
 			subscriptionIsForProduct(
-				{ items: { data: [{ price: { lookup_key: 'ever_gauzy_starter_monthly' } }] } },
-				'gauzy'
+				{ items: { data: [{ price: { lookup_key: 'ever_irtranscripts_starter_monthly' } }] } },
+				'irtranscripts'
 			)
 		).toBe(false);
 	});
 
 	it('a checkout session needs BOTH ever_product and subscription mode', () => {
 		expect(
-			checkoutSessionIsForProduct({ mode: 'subscription', metadata: { ever_product: 'gauzy' } }, 'gauzy')
+			checkoutSessionIsForProduct({ mode: 'subscription', metadata: { ever_product: 'irtranscripts' } }, 'irtranscripts')
 		).toBe(true);
-		expect(checkoutSessionIsForProduct({ mode: 'payment', metadata: { ever_product: 'gauzy' } }, 'gauzy')).toBe(
+		expect(checkoutSessionIsForProduct({ mode: 'payment', metadata: { ever_product: 'irtranscripts' } }, 'irtranscripts')).toBe(
 			false
 		);
-		expect(checkoutSessionIsForProduct({ mode: 'setup', metadata: { ever_product: 'gauzy' } }, 'gauzy')).toBe(
+		expect(checkoutSessionIsForProduct({ mode: 'setup', metadata: { ever_product: 'irtranscripts' } }, 'irtranscripts')).toBe(
 			false
 		);
 		expect(
-			checkoutSessionIsForProduct({ mode: 'subscription', metadata: { ever_product: 'teams' } }, 'gauzy')
+			checkoutSessionIsForProduct({ mode: 'subscription', metadata: { ever_product: 'teams' } }, 'irtranscripts')
 		).toBe(false);
-		expect(checkoutSessionIsForProduct({ mode: 'subscription', metadata: { kind: 'plan' } }, 'gauzy')).toBe(false);
+		expect(checkoutSessionIsForProduct({ mode: 'subscription', metadata: { kind: 'plan' } }, 'irtranscripts')).toBe(false);
 		expect(
 			checkoutSessionIsForProduct(
-				{ mode: 'subscription', metadata: { ever_product: 'gauzy', ever_hosting: 'cloud' } },
-				'gauzy'
+				{ mode: 'subscription', metadata: { ever_product: 'irtranscripts', ever_hosting: 'cloud' } },
+				'irtranscripts'
 			)
 		).toBe(true);
 		expect(
 			checkoutSessionIsForProduct(
-				{ mode: 'subscription', metadata: { ever_product: 'gauzy', ever_hosting: 'selfhosted' } },
-				'gauzy'
+				{ mode: 'subscription', metadata: { ever_product: 'irtranscripts', ever_hosting: 'selfhosted' } },
+				'irtranscripts'
 			)
 		).toBe(false);
 		// A stamped lookup key must be one of this product's cloud prices.
 		const withKey = (ever_lookup_key: string) => ({
 			mode: 'subscription',
-			metadata: { ever_product: 'gauzy', ever_hosting: 'cloud', ever_lookup_key }
+			metadata: { ever_product: 'irtranscripts', ever_hosting: 'cloud', ever_lookup_key }
 		});
-		expect(checkoutSessionIsForProduct(withKey('ever_gauzy_cloud_starter_annual'), 'gauzy')).toBe(true);
-		expect(checkoutSessionIsForProduct(withKey('ever_gauzy_selfhosted_enterprise_annual'), 'gauzy')).toBe(false);
-		expect(checkoutSessionIsForProduct(withKey('ever_teams_cloud_starter_monthly'), 'gauzy')).toBe(false);
+		expect(checkoutSessionIsForProduct(withKey('ever_irtranscripts_cloud_starter_annual'), 'irtranscripts')).toBe(true);
+		expect(checkoutSessionIsForProduct(withKey('ever_irtranscripts_selfhosted_enterprise_annual'), 'irtranscripts')).toBe(false);
+		expect(checkoutSessionIsForProduct(withKey('ever_teams_cloud_starter_monthly'), 'irtranscripts')).toBe(false);
 	});
 
 	it('recognizes Checkout Session ids and nothing else', () => {
@@ -236,26 +236,26 @@ describe('billing-product predicates', () => {
 });
 
 describe('StripeSubscriptionService — entitlement counts only this product', () => {
-	it('a Teams subscriber is NOT entitled to Gauzy signup (the paywall no longer accepts any product)', async () => {
+	it('a Teams subscriber is NOT entitled to IRTranscripts signup (the paywall no longer accepts any product)', async () => {
 		stubStripe(customersRoute({ cus_t: [teamsSub()] }));
 		const service = new StripeSubscriptionService();
 		await expect(service.getEntitlement(EMAIL)).resolves.toBe(EntitlementResult.NOT_ENTITLED);
 		await expect(service.findCustomerIdForEmail(EMAIL)).resolves.toBeNull();
 	});
 
-	it('a Gauzy subscriber is entitled, and the lazy link finds their Gauzy customer, not their Teams one', async () => {
-		stubStripe(customersRoute({ cus_t: [teamsSub()], cus_g: [gauzySub()] }));
+	it('a IRTranscripts subscriber is entitled, and the lazy link finds their IRTranscripts customer, not their Teams one', async () => {
+		stubStripe(customersRoute({ cus_t: [teamsSub()], cus_g: [irtranscriptsSub()] }));
 		const service = new StripeSubscriptionService();
 		await expect(service.getEntitlement(EMAIL)).resolves.toBe(EntitlementResult.ENTITLED);
 		await expect(service.findCustomerIdForEmail(EMAIL)).resolves.toBe('cus_g');
 	});
 
-	it('a Dashboard-made Gauzy subscription (no metadata, ever_gauzy_ price) counts', async () => {
-		stubStripe(customersRoute({ cus_g: [gauzySub({ metadata: {} })] }));
+	it('a Dashboard-made IRTranscripts subscription (no metadata, ever_irtranscripts_ price) counts', async () => {
+		stubStripe(customersRoute({ cus_g: [irtranscriptsSub({ metadata: {} })] }));
 		await expect(new StripeSubscriptionService().getEntitlement(EMAIL)).resolves.toBe(EntitlementResult.ENTITLED);
 	});
 
-	it('a Gauzy SELF-HOSTED license subscription does not count, for the paywall or the lazy link', async () => {
+	it('a IRTranscripts SELF-HOSTED license subscription does not count, for the paywall or the lazy link', async () => {
 		stubStripe(customersRoute({ cus_s: [selfHostedSub()] }));
 		const service = new StripeSubscriptionService();
 		await expect(service.getEntitlement(EMAIL)).resolves.toBe(EntitlementResult.NOT_ENTITLED);
@@ -263,8 +263,8 @@ describe('StripeSubscriptionService — entitlement counts only this product', (
 		await expect(service.customerHasEntitlingSubscription('cus_s', 1000)).resolves.toBe(false);
 	});
 
-	it('a cancelled Gauzy subscription does not count', async () => {
-		stubStripe(customersRoute({ cus_g: [gauzySub({ status: 'canceled' })] }));
+	it('a cancelled IRTranscripts subscription does not count', async () => {
+		stubStripe(customersRoute({ cus_g: [irtranscriptsSub({ status: 'canceled' })] }));
 		await expect(new StripeSubscriptionService().getEntitlement(EMAIL)).resolves.toBe(
 			EntitlementResult.NOT_ENTITLED
 		);
@@ -272,7 +272,7 @@ describe('StripeSubscriptionService — entitlement counts only this product', (
 
 	it('on the Teams deployment the same lookup counts only Teams', async () => {
 		process.env.BILLING_PRODUCT = 'teams';
-		stubStripe(customersRoute({ cus_t: [teamsSub()], cus_g: [gauzySub()] }));
+		stubStripe(customersRoute({ cus_t: [teamsSub()], cus_g: [irtranscriptsSub()] }));
 		await expect(new StripeSubscriptionService().findCustomerIdForEmail(EMAIL)).resolves.toBe('cus_t');
 	});
 
@@ -284,7 +284,7 @@ describe('StripeSubscriptionService — entitlement counts only this product', (
 
 describe('StripeSubscriptionService — switches', () => {
 	it('an unusable BILLING_PRODUCT disables billing but keeps the paywall CLOSED (fails closed, not open)', async () => {
-		process.env.BILLING_PRODUCT = 'gauzy teams';
+		process.env.BILLING_PRODUCT = 'irtranscripts teams';
 		stubStripe(() => undefined); // any Stripe call fails the test
 		const service = new StripeSubscriptionService();
 		expect(service.isBillingEnforced()).toBe(false);
@@ -324,7 +324,7 @@ describe('StripeSubscriptionService.verifyCheckoutSession — proven identity', 
 		(path) =>
 			path.startsWith('/checkout/sessions/') ? { status, body: session } : undefined;
 
-	it('accepts a complete Gauzy subscription session paid under the same address (any case)', async () => {
+	it('accepts a complete IRTranscripts subscription session paid under the same address (any case)', async () => {
 		stubStripe(sessionRoute(completeSession()));
 		const result = await new StripeSubscriptionService().verifyCheckoutSession(SESSION_TEST, 'buyer@example.TEST');
 		expect(result).toEqual({ ok: true, customerId: 'cus_1' });
@@ -338,8 +338,8 @@ describe('StripeSubscriptionService.verifyCheckoutSession — proven identity', 
 		['setup mode', { mode: 'setup' }, 'foreign-product'],
 		['another product', { metadata: { ever_product: 'teams' } }, 'foreign-product'],
 		[
-			'a Gauzy SELF-HOSTED license purchase',
-			{ metadata: { ever_product: 'gauzy', ever_hosting: 'selfhosted' }, subscription: selfHostedSub() },
+			'a IRTranscripts SELF-HOSTED license purchase',
+			{ metadata: { ever_product: 'irtranscripts', ever_hosting: 'selfhosted' }, subscription: selfHostedSub() },
 			'foreign-product'
 		],
 		[
@@ -352,7 +352,7 @@ describe('StripeSubscriptionService.verifyCheckoutSession — proven identity', 
 		['no address on the session', { customer_details: null, customer_email: null }, 'email-mismatch'],
 		['older than 72 hours', { created: Math.floor(Date.now() / 1000) - 73 * 3600 }, 'expired'],
 		['no customer', { customer: null }, 'no-customer'],
-		['its subscription was cancelled', { subscription: gauzySub({ status: 'canceled' }) }, 'not-entitled'],
+		['its subscription was cancelled', { subscription: irtranscriptsSub({ status: 'canceled' }) }, 'not-entitled'],
 		['its subscription moved to another product', { subscription: teamsSub() }, 'not-entitled']
 	])('declines a session that is %s', async (_label, overrides, reason) => {
 		stubStripe(sessionRoute(completeSession(overrides)));
@@ -403,7 +403,7 @@ describe('StripeSubscriptionService.verifyCheckoutSession — proven identity', 
 		});
 	});
 
-	it('on the Teams deployment a Gauzy session is foreign', async () => {
+	it('on the Teams deployment a IRTranscripts session is foreign', async () => {
 		process.env.BILLING_PRODUCT = 'teams';
 		stubStripe(sessionRoute(completeSession()));
 		await expect(new StripeSubscriptionService().verifyCheckoutSession(SESSION_TEST, EMAIL)).resolves.toEqual({

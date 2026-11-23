@@ -6,7 +6,7 @@ import {
 	EverInstanceRecord,
 	EverInstanceService,
 	EverStatsSigner
-} from '@gauzy/plugin-ever-instance';
+} from '@irtranscripts/plugin-ever-instance';
 import { STATS_LEASE_MS, STATS_REFUSAL_PARK_MS, STATS_REPORTS_KEPT, STATS_RETRY_DELAYS_S, MODULE_VERSION } from './ever-stats.constants';
 import type { EverStatsConfig } from './ever-stats-config';
 import { isEverStatsEnabled } from './ever-stats-enabled';
@@ -33,7 +33,7 @@ export interface StatsClock {
 }
 const SYSTEM_CLOCK: StatsClock = { now: () => Date.now(), random: () => Math.random() };
 
-/** Injection token: the release version of this API (`GAUZY_APP_VERSION`). */
+/** Injection token: the release version of this API (`IRTRANSCRIPTS_APP_VERSION`). */
 export const EVER_STATS_RELEASE = 'EVER_STATS_RELEASE';
 
 /** Why a slot sent nothing. */
@@ -70,7 +70,7 @@ const OVERDUE_DELAY_MS = 10 * 60 * 1000;
  *   day once it is sent.
  * - Failed sends (429, 5xx, no answer) are retried at +1 h, +4 h, +12 h, then the next day. After a
  *   report Ever Platform refused (422, or 409 `key_mismatch`) nothing is sent until the module
- *   version, the Gauzy release or the identity changes; after 400, 413 or 415, also at most 7 days.
+ *   version, the IRTranscripts release or the identity changes; after 400, 413 or 415, also at most 7 days.
  * - Nothing is sent, and no lease, key or count is read, while `EVER_STATS_ENABLED=false` (re-read at
  *   run time) or while `EVER_STATS_API_URL` is set to an address that cannot be used.
  *
@@ -248,7 +248,7 @@ export class EverStatsScheduler implements OnModuleDestroy {
 			if (trigger === 'schedule' && !retrying && now < this.retryPendingUntil(recent)) {
 				return { skipped: 'retry_pending', reports: [] };
 			}
-			const release = parseReleaseVersion(this.releaseRaw ?? process.env['GAUZY_APP_VERSION']);
+			const release = parseReleaseVersion(this.releaseRaw ?? process.env['IRTRANSCRIPTS_APP_VERSION']);
 			if (this.blocked(recent, identity.instanceId, release.version, now)) {
 				return { skipped: 'blocked', reports: [] };
 			}
@@ -382,7 +382,7 @@ export class EverStatsScheduler implements OnModuleDestroy {
 
 	/**
 	 * Whether the last refusal of Ever Platform still holds: it was for this module version, this
-	 * Gauzy release (`version`) and this identity, and, unless it was a 422 or a 409, it is less than
+	 * IRTranscripts release (`version`) and this identity, and, unless it was a 422 or a 409, it is less than
 	 * 7 days old. Any of these changing lets the next report go out.
 	 */
 	private blocked(recent: StoredStatsReport[], instanceId: string, version: string, now: number): boolean {

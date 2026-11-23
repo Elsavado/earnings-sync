@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
-import { IEmployee, IOrganization } from '@gauzy/contracts';
-import { JobService, ToastrService } from '@gauzy/ui-core/core';
+import { IEmployee, IOrganization } from '@irtranscripts/contracts';
+import { JobService, ToastrService } from '@irtranscripts/ui-core/core';
 
 @Injectable()
 export class JobSearchStoreService {

@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { JoinColumn, RelationId } from 'typeorm';
 import { IsNotEmpty, IsUUID } from 'class-validator';
 import { Exclude, Expose } from 'class-transformer';
-import { IIntegrationSetting } from '@gauzy/contracts';
+import { IIntegrationSetting } from '@irtranscripts/contracts';
 import {
 	IntegrationTenant,
 	TenantOrganizationBaseEntity

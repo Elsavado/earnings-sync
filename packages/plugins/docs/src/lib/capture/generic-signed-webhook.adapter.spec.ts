@@ -3,7 +3,7 @@ import {
 	DOCS_INBOUND_SIGNATURE_HEADER,
 	DOCS_INBOUND_SIGNATURE_TOLERANCE_MS,
 	DOCS_INBOUND_TIMESTAMP_HEADER,
-	ENV_GAUZY_DOCS_INBOUND_WEBHOOK_SECRET
+	ENV_IRTRANSCRIPTS_DOCS_INBOUND_WEBHOOK_SECRET
 } from '../docs.constants';
 import { GenericSignedWebhookAdapter } from './generic-signed-webhook.adapter';
 import { IInboundWebhookRequest } from './inbound-email.types';
@@ -30,18 +30,18 @@ const signedRequest = (body: any, options: { timestamp?: number; secret?: string
 
 describe('GenericSignedWebhookAdapter (spec 07 §17.2)', () => {
 	let adapter: GenericSignedWebhookAdapter;
-	const originalSecret = process.env[ENV_GAUZY_DOCS_INBOUND_WEBHOOK_SECRET];
+	const originalSecret = process.env[ENV_IRTRANSCRIPTS_DOCS_INBOUND_WEBHOOK_SECRET];
 
 	beforeEach(() => {
-		process.env[ENV_GAUZY_DOCS_INBOUND_WEBHOOK_SECRET] = SECRET;
+		process.env[ENV_IRTRANSCRIPTS_DOCS_INBOUND_WEBHOOK_SECRET] = SECRET;
 		adapter = new GenericSignedWebhookAdapter();
 	});
 
 	afterAll(() => {
 		if (originalSecret === undefined) {
-			delete process.env[ENV_GAUZY_DOCS_INBOUND_WEBHOOK_SECRET];
+			delete process.env[ENV_IRTRANSCRIPTS_DOCS_INBOUND_WEBHOOK_SECRET];
 		} else {
-			process.env[ENV_GAUZY_DOCS_INBOUND_WEBHOOK_SECRET] = originalSecret;
+			process.env[ENV_IRTRANSCRIPTS_DOCS_INBOUND_WEBHOOK_SECRET] = originalSecret;
 		}
 	});
 
@@ -125,7 +125,7 @@ describe('GenericSignedWebhookAdapter (spec 07 §17.2)', () => {
 
 		it('fails CLOSED when no webhook secret is configured', () => {
 			const request = signedRequest({ recipient: 'x' });
-			delete process.env[ENV_GAUZY_DOCS_INBOUND_WEBHOOK_SECRET];
+			delete process.env[ENV_IRTRANSCRIPTS_DOCS_INBOUND_WEBHOOK_SECRET];
 
 			expect(adapter.verifySignature(request)).toBe(false);
 		});

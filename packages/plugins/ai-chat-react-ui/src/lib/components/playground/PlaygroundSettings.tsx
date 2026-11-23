@@ -14,7 +14,7 @@ export interface PlaygroundSettingsProps {
 	systemPrompt: string;
 	onSystemPromptChange: (value: string) => void;
 	/**
-	 * Disables the system prompt editor. The Gauzy backend builds its own
+	 * Disables the system prompt editor. The IRTranscripts backend builds its own
 	 * system prompt, so the playground keeps this visible but not wired.
 	 */
 	systemPromptDisabled?: boolean;
@@ -154,7 +154,7 @@ export function PlaygroundSettings({
 					disabled={systemPromptDisabled}
 					title={
 						systemPromptDisabled
-							? 'The Gauzy backend builds its own system prompt — this editor is not wired yet.'
+							? 'The IRTranscripts backend builds its own system prompt — this editor is not wired yet.'
 							: undefined
 					}
 				/>

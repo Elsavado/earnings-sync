@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm';
 import { faker } from '@faker-js/faker';
-import { IEmployee, IOrganization, ITenant } from '@gauzy/contracts';
+import { IEmployee, IOrganization, ITenant } from '@irtranscripts/contracts';
 import { OrganizationTeamEmployee } from './organization-team-employee.entity';
 import { OrganizationTeam, Role } from './../core/entities/internal';
 

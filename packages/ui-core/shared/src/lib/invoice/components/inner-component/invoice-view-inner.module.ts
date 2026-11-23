@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { NbCardModule } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Angular2SmartTableModule } from 'angular2-smart-table';
-import { InvoicesService } from '@gauzy/ui-core/core';
+import { InvoicesService } from '@irtranscripts/ui-core/core';
 import { SharedModule } from './../../../shared.module';
 import { InvoiceViewInnerComponent } from './invoice-view-inner.component';
 

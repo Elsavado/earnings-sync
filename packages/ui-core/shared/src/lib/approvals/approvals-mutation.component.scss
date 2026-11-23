@@ -1,4 +1,4 @@
-@use 'gauzy/_gauzy-dialogs';
+@use 'irtranscripts/_irtranscripts-dialogs';
 
 .main {
   width: 645px;
@@ -11,6 +11,6 @@ nb-radio-group {
 
 :host {
   nb-card {
-    background-color: var(--gauzy-card-1);
+    background-color: var(--irtranscripts-card-1);
   }
 }

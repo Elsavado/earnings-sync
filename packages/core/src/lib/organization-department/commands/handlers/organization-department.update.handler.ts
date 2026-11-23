@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IOrganizationDepartment } from '@gauzy/contracts';
+import { IOrganizationDepartment } from '@irtranscripts/contracts';
 import { OrganizationDepartmentService } from '../../organization-department.service';
 import { OrganizationDepartmentUpdateCommand } from '../organization-department.update.command';
 import { withFormerEmployeeLinks } from '../../../employee/former-employees';

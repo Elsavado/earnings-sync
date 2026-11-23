@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { MikroOrmBaseEntityRepository } from '@gauzy/core';
+import { MikroOrmBaseEntityRepository } from '@irtranscripts/core';
 import { PickListLine } from '../pick-list-line.entity';
 
 @Injectable()

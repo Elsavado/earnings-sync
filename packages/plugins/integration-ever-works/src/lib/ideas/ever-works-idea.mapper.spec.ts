@@ -1,13 +1,13 @@
 // cspell:ignore bdquo hellip laquo larr ldquo lsquo middot ndash plusmn raquo rarr rdquo rsquo sbquo
 /**
  * G-P2-3 Ideas ↔ Idea tasks: the pure mappers (plan 01 §8) — status both ways (dismiss / restore only),
- * text ↔ HTML without flapping, the idea a Gauzy task makes, the patch diff and the Gauzy task an idea
+ * text ↔ HTML without flapping, the idea a IRTranscripts task makes, the patch diff and the IRTranscripts task an idea
  * was made from.
  */
 import {
 	everWorksIdeaShared,
-	gauzyTaskOfIdea,
-	gauzyTaskToIdea,
+	irtranscriptsTaskOfIdea,
+	irtranscriptsTaskToIdea,
 	htmlToIdeaText,
 	ideaCreateBody,
 	ideaPatchBody,
@@ -36,7 +36,7 @@ describe('Ever Works idea mappers', () => {
 		['dismissed', 'cancelled'],
 		['failed', 'blocked'],
 		['something-new', null]
-	])('EW idea %s → the Gauzy status of EW task %s', (status, expected) =>
+	])('EW idea %s → the IRTranscripts status of EW task %s', (status, expected) =>
 		expect(ideaStatusAsTaskStatus(status)).toBe(expected)
 	);
 
@@ -71,7 +71,7 @@ describe('Ever Works idea mappers', () => {
 	});
 
 	it('what is sent is already in the snapshot form, so an Ever Works event that changed nothing rewrites nothing', () => {
-		const sent = gauzyTaskToIdea(
+		const sent = irtranscriptsTaskToIdea(
 			{ title: 'T', description: '<p>One</p><p>&nbsp;Two</p>' },
 			{ visibility: 'organization', teamIds: [] }
 		);
@@ -79,23 +79,23 @@ describe('Ever Works idea mappers', () => {
 		expect(normalizeIdeaText(sent.description)).toBe(sent.description);
 	});
 
-	it('the full title opens the description once, and teams Gauzy cannot map stay on the idea', () => {
+	it('the full title opens the description once, and teams IRTranscripts cannot map stay on the idea', () => {
 		const long = 'L'.repeat(130);
-		const first = gauzyTaskToIdea(
+		const first = irtranscriptsTaskToIdea(
 			{ title: long, description: '<p>Body</p>' },
 			{ visibility: 'organization', teamIds: [] }
 		);
 		// The description came back from Ever Works with the title in it: not prefixed again.
-		const again = gauzyTaskToIdea(
+		const again = irtranscriptsTaskToIdea(
 			{ title: long, description: ideaTextToHtml(first.description) },
 			{ visibility: 'organization', teamIds: [] }
 		);
 		expect(again.description).toBe(first.description);
-		const kept = gauzyTaskToIdea({ title: 'Portal' }, { visibility: 'organization', teamIds: [] }, ['ew-unpaired']);
+		const kept = irtranscriptsTaskToIdea({ title: 'Portal' }, { visibility: 'organization', teamIds: [] }, ['ew-unpaired']);
 		expect(kept).toMatchObject({ teamIds: ['ew-unpaired'], visibility: 'team' });
 	});
 
-	it('whitespace Gauzy drops never flaps: snapshots keep the text as it reads after a trip through Gauzy', () => {
+	it('whitespace IRTranscripts drops never flaps: snapshots keep the text as it reads after a trip through IRTranscripts', () => {
 		const ewText = '  Idea\r\n\r\n\r\n\r\nwith gaps  ';
 		const shared = everWorksIdeaShared(
 			{ id: 'i1', title: ' Portal ', description: ewText, teamIds: ['b', 'a'] },
@@ -107,16 +107,16 @@ describe('Ever Works idea mappers', () => {
 		expect(everWorksIdeaShared({ id: 'i1', status: 'queued' }, shared)).toEqual(shared);
 	});
 
-	it('a Gauzy task makes an idea: the title cut to 120 (the full title opens the description), never an empty description', () => {
+	it('a IRTranscripts task makes an idea: the title cut to 120 (the full title opens the description), never an empty description', () => {
 		const scope = { visibility: 'team' as const, teamIds: ['ew-t2', 'ew-t1'] };
 		const long = 'L'.repeat(130);
-		const idea = gauzyTaskToIdea({ title: long, description: '<p>Body</p>' }, scope);
+		const idea = irtranscriptsTaskToIdea({ title: long, description: '<p>Body</p>' }, scope);
 		expect(idea.title).toHaveLength(120);
 		expect(idea.description).toBe(`${long}\n\nBody`);
 		expect(idea.teamIds).toEqual(['ew-t1', 'ew-t2']);
 		expect(idea.visibility).toBe('team');
 		expect(
-			gauzyTaskToIdea({ title: 'Short', description: '' }, { visibility: 'organization', teamIds: [] })
+			irtranscriptsTaskToIdea({ title: 'Short', description: '' }, { visibility: 'organization', teamIds: [] })
 				.description
 		).toBe('Short');
 	});
@@ -128,7 +128,7 @@ describe('Ever Works idea mappers', () => {
 			description: 'Body',
 			teamIds: ['ew-t1'],
 			visibility: 'team',
-			externalRef: { source: 'gauzy', installationId: 'c1', externalId: 'task-1' }
+			externalRef: { source: 'irtranscripts', installationId: 'c1', externalId: 'task-1' }
 		});
 		expect(ideaPatchBody(now, { title: 'Portal', description: 'Body', teamIds: ['ew-t1'] })).toBeNull();
 		expect(ideaPatchBody(now, { title: 'Old', description: 'Body', teamIds: ['ew-t1'] })).toEqual({
@@ -145,12 +145,12 @@ describe('Ever Works idea mappers', () => {
 		});
 	});
 
-	it('source tags, and the Gauzy task an idea was made from (through this connection only)', () => {
+	it('source tags, and the IRTranscripts task an idea was made from (through this connection only)', () => {
 		expect(ideaSourceTag('mission')).toBe('source:mission');
 		expect(ideaSourceTag('')).toBeNull();
-		const idea = { id: 'i1', externalLinks: [{ source: 'gauzy', installationId: 'c1', externalId: 'task-1' }] };
-		expect(gauzyTaskOfIdea(idea, 'c1')).toBe('task-1');
-		expect(gauzyTaskOfIdea(idea, 'c2')).toBeNull();
-		expect(gauzyTaskOfIdea({ id: 'i2', externalLinks: [{ source: 'other', externalId: 'x' }] }, 'c1')).toBeNull();
+		const idea = { id: 'i1', externalLinks: [{ source: 'irtranscripts', installationId: 'c1', externalId: 'task-1' }] };
+		expect(irtranscriptsTaskOfIdea(idea, 'c1')).toBe('task-1');
+		expect(irtranscriptsTaskOfIdea(idea, 'c2')).toBeNull();
+		expect(irtranscriptsTaskOfIdea({ id: 'i2', externalLinks: [{ source: 'other', externalId: 'x' }] }, 'c1')).toBeNull();
 	});
 });

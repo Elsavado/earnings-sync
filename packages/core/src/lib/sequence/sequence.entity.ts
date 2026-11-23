@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsInt, IsOptional, IsString, IsUUID, Min } from 'class-validator';
-import { ISequence, SequenceResetPolicy, ID } from '@gauzy/contracts';
+import { ISequence, SequenceResetPolicy, ID } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity } from '../core/decorators/entity';
 import { MikroOrmSequenceRepository } from './repository/mikro-orm-sequence.repository';

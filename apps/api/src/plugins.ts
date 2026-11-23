@@ -1,74 +1,74 @@
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 
-import { AiChatPlugin } from '@gauzy/plugin-ai-chat';
-import { AuthKeycloakPlugin, isKeycloakEnabled } from '@gauzy/plugin-auth-keycloak';
-import { AuthZitadelPlugin, isZitadelEnabled } from '@gauzy/plugin-auth-zitadel';
-import { AiProviderAnthropicPlugin } from '@gauzy/plugin-ai-provider-anthropic';
-import { AiProviderOpenAiPlugin } from '@gauzy/plugin-ai-provider-openai';
-import { AiProviderOpenRouterPlugin } from '@gauzy/plugin-ai-provider-openrouter';
-import { AiProviderVercelGatewayPlugin } from '@gauzy/plugin-ai-provider-vercel-gateway';
-import { AiProviderGauzyAiPlugin } from '@gauzy/plugin-ai-provider-gauzy-ai';
-import { AiProviderGeminiPlugin } from '@gauzy/plugin-ai-provider-gemini';
-import { AiProviderGrokPlugin } from '@gauzy/plugin-ai-provider-grok';
-import { AiProviderGroqPlugin } from '@gauzy/plugin-ai-provider-groq';
-import { AiProviderMistralPlugin } from '@gauzy/plugin-ai-provider-mistral';
-import { AiProviderDeepgramPlugin } from '@gauzy/plugin-ai-provider-deepgram';
-import { AiProviderElevenLabsPlugin } from '@gauzy/plugin-ai-provider-elevenlabs';
-import { AiProviderSpeachesPlugin } from '@gauzy/plugin-ai-provider-speaches';
-import { AiProviderLocalAiPlugin } from '@gauzy/plugin-ai-provider-localai';
-import { AiProviderWhisperCppPlugin } from '@gauzy/plugin-ai-provider-whisper-cpp';
-import { AiProviderOpenAiCompatiblePlugin } from '@gauzy/plugin-ai-provider-openai-compatible';
-import { ChangelogPlugin } from '@gauzy/plugin-changelog';
-import { DocsPlugin } from '@gauzy/plugin-docs';
-import { EverConnectPlugin, isEverConnectEnabled } from '@gauzy/plugin-ever-connect';
-import { EverStatsPlugin, isEverStatsEnabled } from '@gauzy/plugin-ever-stats';
-import { IntegrationAIPlugin } from '@gauzy/plugin-integration-ai';
-import { IntegrationGithubPlugin } from '@gauzy/plugin-integration-github';
-import { IntegrationJiraPlugin } from '@gauzy/plugin-integration-jira';
-import { IntegrationHubstaffPlugin } from '@gauzy/plugin-integration-hubstaff';
-import { IntegrationMakeComPlugin } from '@gauzy/plugin-integration-make-com';
-import { IntegrationZapierPlugin } from '@gauzy/plugin-integration-zapier';
-import { IntegrationActivepiecesPlugin } from '@gauzy/plugin-integration-activepieces';
-import { IntegrationSimPlugin } from '@gauzy/plugin-integration-sim';
-import { IntegrationPlanePlugin } from '@gauzy/plugin-integration-plane';
-import { IntegrationEverAsyncPlugin } from '@gauzy/plugin-integration-ever-async';
-import { IntegrationEverWorksPlugin, isEverWorksEnabled } from '@gauzy/plugin-integration-ever-works';
-import { InboxEmailPlugin, InboxPlugin, isInboxEmailEnabled, isInboxEnabled } from '@gauzy/plugin-inbox';
-import { EmailProviderPostmarkPlugin, isPostmarkEnabled } from '@gauzy/plugin-email-provider-postmark';
-import { EmailProviderResendPlugin, isResendEnabled } from '@gauzy/plugin-email-provider-resend';
-import { EmailProviderMailgunPlugin, isMailgunEnabled } from '@gauzy/plugin-email-provider-mailgun';
-import { EmailProviderSendGridPlugin, isSendGridEnabled } from '@gauzy/plugin-email-provider-sendgrid';
-import { EmailProviderSesPlugin, isSesEnabled } from '@gauzy/plugin-email-provider-ses';
-import { IntegrationUpworkPlugin } from '@gauzy/plugin-integration-upwork';
-import { JitsuAnalyticsPlugin } from '@gauzy/plugin-jitsu-analytics';
-import { JobProposalPlugin } from '@gauzy/plugin-job-proposal';
-import { JobSearchPlugin } from '@gauzy/plugin-job-search';
-import { KnowledgeBasePlugin } from '@gauzy/plugin-knowledge-base';
-import { ProductReviewsPlugin } from '@gauzy/plugin-product-reviews';
-import { VideosPlugin } from '@gauzy/plugin-videos';
-import { RegistryPlugin } from '@gauzy/plugin-registry';
-import { CamshotPlugin } from '@gauzy/plugin-camshot';
+import { AiChatPlugin } from '@irtranscripts/plugin-ai-chat';
+import { AuthKeycloakPlugin, isKeycloakEnabled } from '@irtranscripts/plugin-auth-keycloak';
+import { AuthZitadelPlugin, isZitadelEnabled } from '@irtranscripts/plugin-auth-zitadel';
+import { AiProviderAnthropicPlugin } from '@irtranscripts/plugin-ai-provider-anthropic';
+import { AiProviderOpenAiPlugin } from '@irtranscripts/plugin-ai-provider-openai';
+import { AiProviderOpenRouterPlugin } from '@irtranscripts/plugin-ai-provider-openrouter';
+import { AiProviderVercelGatewayPlugin } from '@irtranscripts/plugin-ai-provider-vercel-gateway';
+import { AiProviderIRTranscriptsAiPlugin } from '@irtranscripts/plugin-ai-provider-irtranscripts-ai';
+import { AiProviderGeminiPlugin } from '@irtranscripts/plugin-ai-provider-gemini';
+import { AiProviderGrokPlugin } from '@irtranscripts/plugin-ai-provider-grok';
+import { AiProviderGroqPlugin } from '@irtranscripts/plugin-ai-provider-groq';
+import { AiProviderMistralPlugin } from '@irtranscripts/plugin-ai-provider-mistral';
+import { AiProviderDeepgramPlugin } from '@irtranscripts/plugin-ai-provider-deepgram';
+import { AiProviderElevenLabsPlugin } from '@irtranscripts/plugin-ai-provider-elevenlabs';
+import { AiProviderSpeachesPlugin } from '@irtranscripts/plugin-ai-provider-speaches';
+import { AiProviderLocalAiPlugin } from '@irtranscripts/plugin-ai-provider-localai';
+import { AiProviderWhisperCppPlugin } from '@irtranscripts/plugin-ai-provider-whisper-cpp';
+import { AiProviderOpenAiCompatiblePlugin } from '@irtranscripts/plugin-ai-provider-openai-compatible';
+import { ChangelogPlugin } from '@irtranscripts/plugin-changelog';
+import { DocsPlugin } from '@irtranscripts/plugin-docs';
+import { EverConnectPlugin, isEverConnectEnabled } from '@irtranscripts/plugin-ever-connect';
+import { EverStatsPlugin, isEverStatsEnabled } from '@irtranscripts/plugin-ever-stats';
+import { IntegrationAIPlugin } from '@irtranscripts/plugin-integration-ai';
+import { IntegrationGithubPlugin } from '@irtranscripts/plugin-integration-github';
+import { IntegrationJiraPlugin } from '@irtranscripts/plugin-integration-jira';
+import { IntegrationHubstaffPlugin } from '@irtranscripts/plugin-integration-hubstaff';
+import { IntegrationMakeComPlugin } from '@irtranscripts/plugin-integration-make-com';
+import { IntegrationZapierPlugin } from '@irtranscripts/plugin-integration-zapier';
+import { IntegrationActivepiecesPlugin } from '@irtranscripts/plugin-integration-activepieces';
+import { IntegrationSimPlugin } from '@irtranscripts/plugin-integration-sim';
+import { IntegrationPlanePlugin } from '@irtranscripts/plugin-integration-plane';
+import { IntegrationEverAsyncPlugin } from '@irtranscripts/plugin-integration-ever-async';
+import { IntegrationEverWorksPlugin, isEverWorksEnabled } from '@irtranscripts/plugin-integration-ever-works';
+import { InboxEmailPlugin, InboxPlugin, isInboxEmailEnabled, isInboxEnabled } from '@irtranscripts/plugin-inbox';
+import { EmailProviderPostmarkPlugin, isPostmarkEnabled } from '@irtranscripts/plugin-email-provider-postmark';
+import { EmailProviderResendPlugin, isResendEnabled } from '@irtranscripts/plugin-email-provider-resend';
+import { EmailProviderMailgunPlugin, isMailgunEnabled } from '@irtranscripts/plugin-email-provider-mailgun';
+import { EmailProviderSendGridPlugin, isSendGridEnabled } from '@irtranscripts/plugin-email-provider-sendgrid';
+import { EmailProviderSesPlugin, isSesEnabled } from '@irtranscripts/plugin-email-provider-ses';
+import { IntegrationUpworkPlugin } from '@irtranscripts/plugin-integration-upwork';
+import { JitsuAnalyticsPlugin } from '@irtranscripts/plugin-jitsu-analytics';
+import { JobProposalPlugin } from '@irtranscripts/plugin-job-proposal';
+import { JobSearchPlugin } from '@irtranscripts/plugin-job-search';
+import { KnowledgeBasePlugin } from '@irtranscripts/plugin-knowledge-base';
+import { ProductReviewsPlugin } from '@irtranscripts/plugin-product-reviews';
+import { VideosPlugin } from '@irtranscripts/plugin-videos';
+import { RegistryPlugin } from '@irtranscripts/plugin-registry';
+import { CamshotPlugin } from '@irtranscripts/plugin-camshot';
 
-import { CatalogPlugin } from '@gauzy/plugin-catalog';
-import { PricingPlugin } from '@gauzy/plugin-pricing';
-import { TaxPlugin } from '@gauzy/plugin-tax';
-import { InventoryPlugin } from '@gauzy/plugin-inventory';
-import { WarehousePlugin } from '@gauzy/plugin-warehouse';
-import { CartPlugin } from '@gauzy/plugin-cart';
-import { OrderPlugin } from '@gauzy/plugin-order';
-import { PaymentPlugin } from '@gauzy/plugin-payment';
-import { PromotionPlugin } from '@gauzy/plugin-promotion';
-import { FulfillmentPlugin } from '@gauzy/plugin-fulfillment';
-import { ReturnsPlugin } from '@gauzy/plugin-returns';
-import { SubscriptionPlugin } from '@gauzy/plugin-subscription';
-import { PurchasingPlugin } from '@gauzy/plugin-purchasing';
-import { EntitlementPlugin } from '@gauzy/plugin-entitlement';
-import { MarketplacePlugin } from '@gauzy/plugin-marketplace';
-import { SearchPlugin } from '@gauzy/plugin-search';
+import { CatalogPlugin } from '@irtranscripts/plugin-catalog';
+import { PricingPlugin } from '@irtranscripts/plugin-pricing';
+import { TaxPlugin } from '@irtranscripts/plugin-tax';
+import { InventoryPlugin } from '@irtranscripts/plugin-inventory';
+import { WarehousePlugin } from '@irtranscripts/plugin-warehouse';
+import { CartPlugin } from '@irtranscripts/plugin-cart';
+import { OrderPlugin } from '@irtranscripts/plugin-order';
+import { PaymentPlugin } from '@irtranscripts/plugin-payment';
+import { PromotionPlugin } from '@irtranscripts/plugin-promotion';
+import { FulfillmentPlugin } from '@irtranscripts/plugin-fulfillment';
+import { ReturnsPlugin } from '@irtranscripts/plugin-returns';
+import { SubscriptionPlugin } from '@irtranscripts/plugin-subscription';
+import { PurchasingPlugin } from '@irtranscripts/plugin-purchasing';
+import { EntitlementPlugin } from '@irtranscripts/plugin-entitlement';
+import { MarketplacePlugin } from '@irtranscripts/plugin-marketplace';
+import { SearchPlugin } from '@irtranscripts/plugin-search';
 
 import { SentryTracing as SentryPlugin } from './sentry';
 import { PosthogAnalytics as PosthogPlugin } from './posthog';
-import { SoundshotPlugin } from '@gauzy/plugin-soundshot';
+import { SoundshotPlugin } from '@irtranscripts/plugin-soundshot';
 
 import { PluginCompositionModule } from './plugin-composition';
 
@@ -109,13 +109,13 @@ export const plugins = [
 	...(isEverWorksEnabled(process.env, (message) => console.warn(message)) ? [IntegrationEverWorksPlugin] : []),
 
 	// Inbox (questions, approvals, escalations and notices addressed to a user, each with its own state; the
-	// Ever Works integration feeds it through a source-handler registry). Off unless GAUZY_INBOX_ENABLED=true;
+	// Ever Works integration feeds it through a source-handler registry). Off unless IRTRANSCRIPTS_INBOX_ENABLED=true;
 	// when off it is not loaded at all (no route, no table, no role grant). Any other value keeps it off and is
 	// logged once.
 	...(isInboxEnabled(process.env, (message) => console.warn(message)) ? [InboxPlugin] : []),
 
 	// Inbox email (mailboxes, the inbound pipeline, email provider accounts and the transport seam's provider
-	// transports; plan 04 §5). Only on top of the Inbox, and off unless GAUZY_INBOX_EMAIL_ENABLED=true as well; when
+	// transports; plan 04 §5). Only on top of the Inbox, and off unless IRTRANSCRIPTS_INBOX_EMAIL_ENABLED=true as well; when
 	// off it is not loaded at all (no route, no table, no transport: mail goes out over SMTP as before).
 	...(isInboxEnabled(process.env) && isInboxEmailEnabled(process.env, (message) => console.warn(message))
 		? [InboxEmailPlugin]
@@ -123,27 +123,27 @@ export const plugins = [
 
 	// Email provider: Resend (plan 04 §5.2). Off unless EMAIL_PROVIDER_RESEND_ENABLED=true; when off it is not
 	// loaded at all. It registers with the Inbox email provider registry, so it only does something where
-	// GAUZY_INBOX_EMAIL_ENABLED=true too.
+	// IRTRANSCRIPTS_INBOX_EMAIL_ENABLED=true too.
 	...(isResendEnabled(process.env, (message) => console.warn(message)) ? [EmailProviderResendPlugin] : []),
 
 	// Email provider: Postmark (plan 04 §5.2). Off unless EMAIL_PROVIDER_POSTMARK_ENABLED=true; when off it is not
 	// loaded at all. It registers with the Inbox email provider registry, so it only does something where
-	// GAUZY_INBOX_EMAIL_ENABLED=true too.
+	// IRTRANSCRIPTS_INBOX_EMAIL_ENABLED=true too.
 	...(isPostmarkEnabled(process.env, (message) => console.warn(message)) ? [EmailProviderPostmarkPlugin] : []),
 
 	// Email provider: Mailgun (plan 04 §5.2). Off unless EMAIL_PROVIDER_MAILGUN_ENABLED=true; when off it is not
 	// loaded at all. It registers with the Inbox email provider registry, so it only does something where
-	// GAUZY_INBOX_EMAIL_ENABLED=true too.
+	// IRTRANSCRIPTS_INBOX_EMAIL_ENABLED=true too.
 	...(isMailgunEnabled(process.env, (message) => console.warn(message)) ? [EmailProviderMailgunPlugin] : []),
 
 	// Email provider: SendGrid (plan 04 §5.2). Off unless EMAIL_PROVIDER_SENDGRID_ENABLED=true; when off it is not
 	// loaded at all. It registers with the Inbox email provider registry, so it only does something where
-	// GAUZY_INBOX_EMAIL_ENABLED=true too.
+	// IRTRANSCRIPTS_INBOX_EMAIL_ENABLED=true too.
 	...(isSendGridEnabled(process.env, (message) => console.warn(message)) ? [EmailProviderSendGridPlugin] : []),
 
 	// Email provider: Amazon SES (plan 04 §5.2). Off unless EMAIL_PROVIDER_SES_ENABLED=true; when off it is not
 	// loaded at all. It registers with the Inbox email provider registry, so it only does something where
-	// GAUZY_INBOX_EMAIL_ENABLED=true too.
+	// IRTRANSCRIPTS_INBOX_EMAIL_ENABLED=true too.
 	...(isSesEnabled(process.env, (message) => console.warn(message)) ? [EmailProviderSesPlugin] : []),
 
 	// Initializes the Jitsu Analytics Plugin by providing a configuration object.
@@ -162,8 +162,8 @@ export const plugins = [
 	AiProviderOpenAiPlugin,
 	AiProviderOpenRouterPlugin,
 	AiProviderVercelGatewayPlugin,
-	// Gauzy AI provider is registered but chat is not routed through it yet (see plugin README).
-	AiProviderGauzyAiPlugin,
+	// IRTranscripts AI provider is registered but chat is not routed through it yet (see plugin README).
+	AiProviderIRTranscriptsAiPlugin,
 	AiProviderGeminiPlugin,
 	AiProviderGrokPlugin,
 	// OpenAI-compatible cloud providers with chat + speech-to-text (dictation).

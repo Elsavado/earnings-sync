@@ -10,7 +10,7 @@ jest.mock('../../../role/role.service', () => ({ RoleService: class RoleService 
 jest.mock('../../../user/user.service', () => ({ UserService: class UserService {} }));
 
 import { ConflictException, NotFoundException } from '@nestjs/common';
-import { EmployeeKindEnum, RolesEnum } from '@gauzy/contracts';
+import { EmployeeKindEnum, RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../../core/context';
 import { EmployeeCreateCommand } from '../employee.create.command';
 import { EmployeeCreateHandler } from './employee.create.handler';

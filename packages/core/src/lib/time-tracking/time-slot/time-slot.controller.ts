@@ -2,7 +2,7 @@ import { Controller, UseGuards, Get, Query, HttpStatus, Delete, Param, Post, Bod
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CommandBus } from '@nestjs/cqrs';
 import { DeleteResult, FindOneOptions, UpdateResult } from 'typeorm';
-import { ID, ITimeSlot, PermissionsEnum } from '@gauzy/contracts';
+import { ID, ITimeSlot, PermissionsEnum } from '@irtranscripts/contracts';
 import { OrganizationPolicyTarget, Permissions } from './../../shared/decorators';
 import {
 	EmployeeTrackedDataGuard,

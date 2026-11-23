@@ -1,16 +1,16 @@
 import { ServiceUnavailableException } from '@nestjs/common';
 
-// The service module's import graph is why no service spec existed before this one: @gauzy/core pulls
+// The service module's import graph is why no service spec existed before this one: @irtranscripts/core pulls
 // the whole bootstrap (config, database, an ESM package jest cannot parse), and the tool builders pull
 // the ESM-only `ai` SDK. None of that is on the code paths under test, so it is stubbed AT THE MODULE
 // BOUNDARY — hoisted above the imports — leaving the real service, registry and capability logic live.
 // `currentTenantId` answers "no tenant": getConfig() now also resolves the tenant's VOICE default,
 // which is not what this file is about — with no tenant that lookup is skipped, so the capability
 // logic stays the only thing under test.
-jest.mock('@gauzy/core', () => ({ RequestContext: { currentTenantId: () => undefined } }));
+jest.mock('@irtranscripts/core', () => ({ RequestContext: { currentTenantId: () => undefined } }));
 jest.mock('./esm-loader', () => ({ loadAiSdk: jest.fn() }));
-jest.mock('./tools/gauzy-api-client', () => ({ GauzyApiClient: class {} }));
-jest.mock('./tools/gauzy-tools', () => ({ buildGauzyTools: jest.fn(), GAUZY_TOOLS_REQUIRING_APPROVAL: [] }));
+jest.mock('./tools/irtranscripts-api-client', () => ({ IRTranscriptsApiClient: class {} }));
+jest.mock('./tools/irtranscripts-tools', () => ({ buildIRTranscriptsTools: jest.fn(), IRTRANSCRIPTS_TOOLS_REQUIRING_APPROVAL: [] }));
 jest.mock('./tools/client-tools', () => ({ buildClientTools: jest.fn(), CLIENT_TOOLS_REQUIRING_APPROVAL: [] }));
 jest.mock('./tools/mcp-tools', () => ({ createMcpTools: jest.fn() }));
 jest.mock('./credentials/ai-provider-credential.service', () => ({ AiProviderCredentialService: class {} }));
@@ -42,7 +42,7 @@ describe('AiChatService chatCapable boundary', () => {
 		models: [],
 		defaultModel: '',
 		chatCapable: false,
-		// Sorts FIRST, like the real placeholder (gauzy-ai is order 10): the outage this file guards
+		// Sorts FIRST, like the real placeholder (irtranscripts-ai is order 10): the outage this file guards
 		// against depended on exactly that — the placeholder winning default selection by sort order.
 		order: 10,
 		async createModel(): Promise<never> {

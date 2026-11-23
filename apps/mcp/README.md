@@ -1,17 +1,17 @@
-# Gauzy MCP Server
+# IRTranscripts MCP Server
 
 A comprehensive MCP (Model Context Protocol) server for integration with
 AI assistants like Claude Desktop, ChatGPT, and other AI tools. Supports
 multiple transport layers with enterprise-grade OAuth 2.0 security for
 different use cases.
 
-🌐 **Live Demo**: [https://mcpdemo.gauzy.co](https://mcpdemo.gauzy.co)
-🔒 **Production**: [https://mcp.gauzy.co](https://mcp.gauzy.co)
+🌐 **Live Demo**: [https://mcpdemo.irtranscripts.com](https://mcpdemo.irtranscripts.com)
+🔒 **Production**: [https://mcp.irtranscripts.com](https://mcp.irtranscripts.com)
 
 ## Overview
 
-The Gauzy MCP server provides multiple transport options to interact with
-your Gauzy platform:
+The IRTranscripts MCP server provides multiple transport options to interact with
+your IRTranscripts platform:
 
 - **Stdio Transport** - For direct integration with AI assistants like
   Claude Desktop
@@ -21,7 +21,7 @@ your Gauzy platform:
   live applications
 
 HTTP and WebSocket transports offer access to project management, time
-tracking, employee management, and other Gauzy features with optional
+tracking, employee management, and other IRTranscripts features with optional
 OAuth 2.0 authorization. User sessions are stored in Redis for scalable
 session management across multiple server instances.
 
@@ -31,8 +31,8 @@ session management across multiple server instances.
 
 - Node.js (version 18 or higher)
 - Redis server (for session storage in HTTP/WebSocket modes)
-- Access to a running Gauzy API server
-- Valid Gauzy credentials
+- Access to a running IRTranscripts API server
+- Valid IRTranscripts credentials
 
 ### Installation & Build
 
@@ -108,13 +108,13 @@ yarn start:mcp
    ```json
    {
      "mcpServers": {
-       "gauzy": {
+       "irtranscripts": {
          "command": "node",
          "args": ["/path/to/your/project/dist/apps/mcp/index.js"],
          "env": {
            "API_BASE_URL": "http://localhost:3000",
-           "GAUZY_AUTH_EMAIL": "your-email@example.com",
-           "GAUZY_AUTH_PASSWORD": "your-password"
+           "IRTRANSCRIPTS_AUTH_EMAIL": "your-email@example.com",
+           "IRTRANSCRIPTS_AUTH_PASSWORD": "your-password"
          }
        }
      }
@@ -140,12 +140,12 @@ or `.env.local`:
 # Basic configuration
 MCP_TRANSPORT=stdio
 API_BASE_URL=http://localhost:3000
-GAUZY_AUTH_EMAIL=<your-email>
-GAUZY_AUTH_PASSWORD=<your-password>
+IRTRANSCRIPTS_AUTH_EMAIL=<your-email>
+IRTRANSCRIPTS_AUTH_PASSWORD=<your-password>
 
 # Optional
-GAUZY_AUTO_LOGIN=true # Enable automatic login
-GAUZY_MCP_DEBUG=true # Enable debug logging
+IRTRANSCRIPTS_AUTO_LOGIN=true # Enable automatic login
+IRTRANSCRIPTS_MCP_DEBUG=true # Enable debug logging
 ```
 
 ### HTTP Transport Configuration
@@ -168,21 +168,21 @@ MCP_CORS_CREDENTIALS=true
 # OAuth 2.0 Authorization (on unless MCP_AUTH_ENABLED=false): every caller
 # that is not on this machine sends a bearer token
 MCP_AUTH_ENABLED=true
-MCP_AUTH_RESOURCE_URI=https://mcp.gauzy.co
+MCP_AUTH_RESOURCE_URI=https://mcp.irtranscripts.com
 MCP_AUTH_REQUIRED_SCOPES=mcp.read,mcp.write
 # JSON-encoded array of authorization servers
 MCP_AUTH_SERVERS='[]' # see the file .env.sample on how to configure it
-MCP_AUTH_JWT_AUDIENCE=https://mcp.gauzy.co
-MCP_AUTH_JWT_ISSUER=https://auth.gauzy.co
+MCP_AUTH_JWT_AUDIENCE=https://mcp.irtranscripts.com
+MCP_AUTH_JWT_ISSUER=https://auth.irtranscripts.com
 MCP_AUTH_JWT_ALGORITHMS=RS256,ES256 # Supported JWT algorithms
 # JWT validation options (choose one):
-MCP_AUTH_JWT_JWKS_URI=https://auth.gauzy.co/.well-known/jwks.json
+MCP_AUTH_JWT_JWKS_URI=https://auth.irtranscripts.com/.well-known/jwks.json
 # MCP_AUTH_JWT_PUBLIC_KEY=-----BEGIN PUBLIC KEY-----...
 
 # Token Introspection: how the server checks every bearer token.
 # Set the same client id and secret on mcp-auth. The endpoint defaults to
 # $MCP_AUTH_JWT_ISSUER/oauth2/introspect; the secret is random, 32+ characters.
-MCP_AUTH_INTROSPECTION_ENDPOINT=https://auth.gauzy.co/oauth2/introspect
+MCP_AUTH_INTROSPECTION_ENDPOINT=https://auth.irtranscripts.com/oauth2/introspect
 MCP_AUTH_INTROSPECTION_CLIENT_ID=mcp-server
 MCP_AUTH_INTROSPECTION_CLIENT_SECRET=<secret>
 
@@ -206,14 +206,14 @@ THROTTLE_TTL=60000 # 1 minute (milliseconds)
 THROTTLE_LIMIT=100 # requests per minute
 MCP_TRUSTED_PROXIES=192.168.1.1,10.0.0.1
 
-# Required Gauzy API settings
-API_BASE_URL=https://apidemo.gauzy.co
-GAUZY_AUTH_EMAIL=<your-email>
-GAUZY_AUTH_PASSWORD=<your-password>
-GAUZY_AUTO_LOGIN=true
+# Required IRTranscripts API settings
+API_BASE_URL=https://apidemo.irtranscripts.com
+IRTRANSCRIPTS_AUTH_EMAIL=<your-email>
+IRTRANSCRIPTS_AUTH_PASSWORD=<your-password>
+IRTRANSCRIPTS_AUTO_LOGIN=true
 ```
 
-The `GAUZY_AUTO_LOGIN` account is the login of whoever runs the server. Over
+The `IRTRANSCRIPTS_AUTO_LOGIN` account is the login of whoever runs the server. Over
 HTTP and WebSocket, a caller that has not logged in acts as that account only
 when it connects from the same machine: from a loopback address, with a
 `localhost` (or loopback) `Host`, not through a proxy, and, for a browser page,
@@ -264,7 +264,7 @@ machine includes a Bearer token issued by mcp-auth. The server asks mcp-auth's
 introspection endpoint whether it is active (its audience, expiry, revocation
 and whether its user can still sign in) and reuses the answer for at most
 60 seconds. A caller on the same machine (loopback, no proxy) may come without
-one: the desktop mode, where it acts as the `GAUZY_AUTO_LOGIN` account.
+one: the desktop mode, where it acts as the `IRTRANSCRIPTS_AUTO_LOGIN` account.
 
 ```bash
 # Get OAuth 2.0 Protected Resource Metadata (RFC 9728)
@@ -316,14 +316,14 @@ MCP_WS_MAX_PAYLOAD=16777216 # 16MB
 # OAuth 2.0 Authorization (on unless MCP_AUTH_ENABLED=false): every caller
 # that is not on this machine sends a bearer token
 MCP_AUTH_ENABLED=true
-MCP_AUTH_RESOURCE_URI=https://mcp.gauzy.co
+MCP_AUTH_RESOURCE_URI=https://mcp.irtranscripts.com
 MCP_AUTH_REQUIRED_SCOPES=mcp.read,mcp.write
 # JSON-encoded array of authorization servers
 MCP_AUTH_SERVERS='[]' # see the file .env.sample on how to configure it
-MCP_AUTH_JWT_AUDIENCE=https://mcp.gauzy.co
-MCP_AUTH_JWT_ISSUER=https://auth.gauzy.co
+MCP_AUTH_JWT_AUDIENCE=https://mcp.irtranscripts.com
+MCP_AUTH_JWT_ISSUER=https://auth.irtranscripts.com
 MCP_AUTH_JWT_ALGORITHMS=RS256,ES256 # Supported JWT algorithms
-MCP_AUTH_JWT_JWKS_URI=https://auth.gauzy.co/.well-known/jwks.json
+MCP_AUTH_JWT_JWKS_URI=https://auth.irtranscripts.com/.well-known/jwks.json
 # OAuth caching and performance
 MCP_AUTH_TOKEN_CACHE_TTL=60 # Answer reuse in seconds (at most 60)
 MCP_AUTH_METADATA_CACHE_TTL=3600 # Metadata cache TTL (seconds)
@@ -335,11 +335,11 @@ MCP_WS_SESSION_COOKIE_NAME=mcp-ws-session-id
 MCP_WS_TRUSTED_PROXIES=192.168.1.1,10.0.0.1
 REDIS_URL=redis://localhost:6379 # Redis connection for sessions
 
-# Required Gauzy API settings
-API_BASE_URL=https://apidemo.gauzy.co
-GAUZY_AUTH_EMAIL=<your-email>
-GAUZY_AUTH_PASSWORD=<your-password>
-GAUZY_AUTO_LOGIN=true
+# Required IRTranscripts API settings
+API_BASE_URL=https://apidemo.irtranscripts.com
+IRTRANSCRIPTS_AUTH_EMAIL=<your-email>
+IRTRANSCRIPTS_AUTH_PASSWORD=<your-password>
+IRTRANSCRIPTS_AUTO_LOGIN=true
 ```
 
 #### Testing WebSocket Transport
@@ -447,7 +447,7 @@ chmod 644 packages/mcp-server/certs/cert.pem
 
 ## Available Tools
 
-The standalone server provides access to all Gauzy MCP tools:
+The standalone server provides access to all IRTranscripts MCP tools:
 
 ### Authentication
 
@@ -492,10 +492,10 @@ The standalone server provides access to all Gauzy MCP tools:
 node dist/apps/mcp/index.js --test
 
 # Debug mode - enables verbose logging
-GAUZY_MCP_DEBUG=true node dist/apps/mcp/index.js
+IRTRANSCRIPTS_MCP_DEBUG=true node dist/apps/mcp/index.js
 
 # Custom configuration
-API_BASE_URL=https://api.gauzy.co node dist/apps/mcp/index.js
+API_BASE_URL=https://api.irtranscripts.com node dist/apps/mcp/index.js
 ```
 
 ## Development
@@ -530,12 +530,12 @@ yarn nx test mcp
 #### General Issues
 
 1. **Connection Failed**
-   - Verify `API_BASE_URL` points to your running Gauzy API
+   - Verify `API_BASE_URL` points to your running IRTranscripts API
    - Check that your credentials are correct
    - Ensure the API server is accessible
 
 2. **Authentication Errors**
-   - Verify `GAUZY_AUTH_EMAIL` and `GAUZY_AUTH_PASSWORD`
+   - Verify `IRTRANSCRIPTS_AUTH_EMAIL` and `IRTRANSCRIPTS_AUTH_PASSWORD`
    - Check if your account has the necessary permissions
    - Try logging in through the web interface first
 
@@ -590,19 +590,19 @@ Enable debug logging for any transport:
 
 ```bash
 # Stdio transport
-GAUZY_MCP_DEBUG=true yarn nx serve mcp
+IRTRANSCRIPTS_MCP_DEBUG=true yarn nx serve mcp
 
 # HTTP transport
-GAUZY_MCP_DEBUG=true MCP_TRANSPORT=http yarn nx serve mcp
+IRTRANSCRIPTS_MCP_DEBUG=true MCP_TRANSPORT=http yarn nx serve mcp
 
 # WebSocket transport
-GAUZY_MCP_DEBUG=true MCP_TRANSPORT=websocket yarn nx serve mcp
+IRTRANSCRIPTS_MCP_DEBUG=true MCP_TRANSPORT=websocket yarn nx serve mcp
 ```
 
 This provides detailed information about:
 
 - Transport layer connections and messages
-- API requests and responses to Gauzy
+- API requests and responses to IRTranscripts
 - Authentication status and Redis session management
 - Tool execution details and results
 - Error messages and stack traces
@@ -643,7 +643,7 @@ yarn nx serve mcp
 
 ## OAuth 2.0 Authorization
 
-The Gauzy MCP server supports enterprise-grade OAuth 2.0 authorization
+The IRTranscripts MCP server supports enterprise-grade OAuth 2.0 authorization
 following:
 
 - RFC 6749 (OAuth 2.0 Authorization Framework)
@@ -679,10 +679,10 @@ and security management.
    MCP_AUTH_PORT=3003
    MCP_AUTH_SESSION_SECRET=your-secure-session-secret-key
 
-   # Required Gauzy API settings
+   # Required IRTranscripts API settings
    API_BASE_URL=http://localhost:3000
-   GAUZY_AUTH_EMAIL=<your-email>
-   GAUZY_AUTH_PASSWORD=<your-password>
+   IRTRANSCRIPTS_AUTH_EMAIL=<your-email>
+   IRTRANSCRIPTS_AUTH_PASSWORD=<your-password>
    ```
 
 3. **Start the Auth Server**:
@@ -780,13 +780,13 @@ MCP_TRANSPORT=http MCP_AUTH_ENABLED=true yarn start:mcp
 
 ### Live Environments
 
-- **Production**: `https://mcp.gauzy.co` - Secure production MCP server
+- **Production**: `https://mcp.irtranscripts.com` - Secure production MCP server
   with full OAuth 2.0 authorization
-- **Demo**: `https://mcpdemo.gauzy.co` - Public demo environment for
+- **Demo**: `https://mcpdemo.irtranscripts.com` - Public demo environment for
   testing and evaluation
-- **Authorization Server**: `https://auth.gauzy.co` - Production
+- **Authorization Server**: `https://auth.irtranscripts.com` - Production
   OAuth 2.0 authorization server
-- **Demo Auth**: `https://authdemo.gauzy.co` - Demo authorization
+- **Demo Auth**: `https://authdemo.irtranscripts.com` - Demo authorization
   server for testing
 
 ### Authorization Features
@@ -813,35 +813,35 @@ For testing with the live demo environment:
 ```bash
 # .env.local - Demo/Development with JWT validation
 MCP_AUTH_ENABLED=true
-MCP_AUTH_RESOURCE_URI=https://mcpdemo.gauzy.co
+MCP_AUTH_RESOURCE_URI=https://mcpdemo.irtranscripts.com
 MCP_AUTH_REQUIRED_SCOPES=mcp.read,mcp.write
 # JSON-encoded array of authorization servers
 MCP_AUTH_SERVERS='[]' # see the file .env.sample on how to configure it
-MCP_AUTH_JWT_AUDIENCE=https://mcpdemo.gauzy.co
-MCP_AUTH_JWT_ISSUER=https://authdemo.gauzy.co
+MCP_AUTH_JWT_AUDIENCE=https://mcpdemo.irtranscripts.com
+MCP_AUTH_JWT_ISSUER=https://authdemo.irtranscripts.com
 MCP_AUTH_JWT_ALGORITHMS=RS256,ES256
-MCP_AUTH_JWT_JWKS_URI=https://authdemo.gauzy.co/.well-known/jwks.json
+MCP_AUTH_JWT_JWKS_URI=https://authdemo.irtranscripts.com/.well-known/jwks.json
 MCP_AUTH_TOKEN_CACHE_TTL=300 # 5 minutes cache
 MCP_AUTH_METADATA_CACHE_TTL=3600 # 1 hour cache
 ```
 
 #### Production Environment Configuration
 
-For production deployment at `https://mcp.gauzy.co`:
+For production deployment at `https://mcp.irtranscripts.com`:
 
 ```bash
 # .env - Production with JWKS and introspection
 MCP_AUTH_ENABLED=true
-MCP_AUTH_RESOURCE_URI=https://mcp.gauzy.co
+MCP_AUTH_RESOURCE_URI=https://mcp.irtranscripts.com
 MCP_AUTH_REQUIRED_SCOPES=mcp.read,mcp.write,mcp.admin
 # JSON-encoded array of authorization servers
 MCP_AUTH_SERVERS='[]' # see the file .env.sample on how to configure it
-MCP_AUTH_JWT_AUDIENCE=https://mcp.gauzy.co
-MCP_AUTH_JWT_ISSUER=https://auth.gauzy.co
+MCP_AUTH_JWT_AUDIENCE=https://mcp.irtranscripts.com
+MCP_AUTH_JWT_ISSUER=https://auth.irtranscripts.com
 MCP_AUTH_JWT_ALGORITHMS=RS256,ES256,PS256
-MCP_AUTH_JWT_JWKS_URI=https://auth.gauzy.co/.well-known/jwks.json
-MCP_AUTH_INTROSPECTION_ENDPOINT=https://auth.gauzy.co/token/introspect
-MCP_AUTH_INTROSPECTION_CLIENT_ID=gauzy-mcp-server
+MCP_AUTH_JWT_JWKS_URI=https://auth.irtranscripts.com/.well-known/jwks.json
+MCP_AUTH_INTROSPECTION_ENDPOINT=https://auth.irtranscripts.com/token/introspect
+MCP_AUTH_INTROSPECTION_CLIENT_ID=irtranscripts-mcp-server
 MCP_AUTH_INTROSPECTION_CLIENT_SECRET=secure-client-secret
 MCP_AUTH_TOKEN_CACHE_TTL=600 # 10 minutes cache
 MCP_AUTH_METADATA_CACHE_TTL=7200 # 2 hours cache
@@ -857,11 +857,11 @@ MCP_AUTH_SESSION_SECRET=production-session-secret-key
 
    ```bash
    # Demo Environment
-   curl -X GET https://mcpdemo.gauzy.co/.well-known/oauth-protected-resource \
+   curl -X GET https://mcpdemo.irtranscripts.com/.well-known/oauth-protected-resource \
      -H "Accept: application/json"
 
    # Production Environment
-   curl -X GET https://mcp.gauzy.co/.well-known/oauth-protected-resource \
+   curl -X GET https://mcp.irtranscripts.com/.well-known/oauth-protected-resource \
      -H "Accept: application/json"
 
    # Local Development
@@ -873,7 +873,7 @@ MCP_AUTH_SESSION_SECRET=production-session-secret-key
 
    ```bash
    # Demo Environment
-   curl -X POST https://mcpdemo.gauzy.co/sse \
+   curl -X POST https://mcpdemo.irtranscripts.com/sse \
      -H "Authorization: Bearer <your-jwt-token>" \
      -H "Content-Type: application/json" \
      -d '{
@@ -884,7 +884,7 @@ MCP_AUTH_SESSION_SECRET=production-session-secret-key
      }'
 
    # Production Environment
-   curl -X POST https://mcp.gauzy.co/sse \
+   curl -X POST https://mcp.irtranscripts.com/sse \
      -H "Authorization: Bearer <your-jwt-token>" \
      -H "Content-Type: application/json" \
      -d '{
@@ -901,7 +901,7 @@ MCP_AUTH_SESSION_SECRET=production-session-secret-key
 
   ```http
   HTTP/1.1 401 Unauthorized
-  WWW-Authenticate: Bearer resource_metadata="https://mcp.gauzy.co/
+  WWW-Authenticate: Bearer resource_metadata="https://mcp.irtranscripts.com/
     .well-known/oauth-protected-resource", error="invalid_token",
     error_description="Token validation failed"
   ```
@@ -918,12 +918,12 @@ MCP_AUTH_SESSION_SECRET=production-session-secret-key
 
 ### Authorization Server Setup
 
-The Gauzy MCP server is pre-configured to work with the Gauzy OAuth 2.0
+The IRTranscripts MCP server is pre-configured to work with the IRTranscripts OAuth 2.0
 authorization infrastructure:
 
-- **Production**: `https://auth.gauzy.co` - Enterprise-grade OAuth 2.0
+- **Production**: `https://auth.irtranscripts.com` - Enterprise-grade OAuth 2.0
   server
-- **Demo**: `https://authdemo.gauzy.co` - Public demo authorization
+- **Demo**: `https://authdemo.irtranscripts.com` - Public demo authorization
   server
 
 #### Compatible Authorization Servers
@@ -934,7 +934,7 @@ The MCP server works with any OAuth 2.0 compliant authorization server:
 - **Auth0** - Cloud-based identity platform
 - **OAuth2 Server** - Custom implementation
 - **AWS Cognito** - AWS managed identity service
-- **Gauzy Auth** - Built-in Gauzy platform authorization (recommended)
+- **IRTranscripts Auth** - Built-in IRTranscripts platform authorization (recommended)
 
 ### Security Best Practices
 
@@ -952,7 +952,7 @@ The MCP server works with any OAuth 2.0 compliant authorization server:
 
 Bearer tokens are required by default. With `MCP_AUTH_ENABLED=false` the
 server does not check them: callers authenticate with the `login` tool, and
-only a caller on the server's own machine may use the `GAUZY_AUTO_LOGIN`
+only a caller on the server's own machine may use the `IRTRANSCRIPTS_AUTO_LOGIN`
 account. Suitable for:
 
 - Local development and testing
@@ -975,6 +975,6 @@ For issues specific to the standalone MCP server:
 
 1. Check the troubleshooting section above
 2. Review the shared MCP server package documentation
-3. Verify your Gauzy API server is running and accessible
+3. Verify your IRTranscripts API server is running and accessible
 4. Check Claude Desktop or your AI assistant's logs for additional
    error details

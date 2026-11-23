@@ -7,9 +7,9 @@ import { EntityCaseNamingStrategy, MikroORM, PrimaryKey, Property } from '@mikro
 import { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
 import { SqlEntityManager } from '@mikro-orm/knex';
 import { SoftDeletable, SoftDeleteHandler } from 'mikro-orm-soft-delete';
-import { environment as env } from '@gauzy/config';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { environment as env } from '@irtranscripts/config';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../core/context';
 import { MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from '../../core/decorators/entity';
 import {

@@ -1,5 +1,5 @@
 import { sign, verify } from 'jsonwebtoken';
-import { KNOWN_DEFAULT_SECRETS, isKnownDefaultSecret } from '@gauzy/contracts';
+import { KNOWN_DEFAULT_SECRETS, isKnownDefaultSecret } from '@irtranscripts/contracts';
 import { isGeneratedSecret, resolveSecret } from './secret-resolver';
 
 /**
@@ -25,8 +25,8 @@ describe('resolveSecret (GHSA-39j7-x845-4w3c)', () => {
 		'JWT_VERIFICATION_TOKEN_SECRET',
 		'EXPRESS_SESSION_SECRET'
 	];
-	const REGISTRY = Symbol.for('@gauzy/config:generated-secrets');
-	const WARNED = Symbol.for('@gauzy/config:warned-secrets');
+	const REGISTRY = Symbol.for('@irtranscripts/config:generated-secrets');
+	const WARNED = Symbol.for('@irtranscripts/config:warned-secrets');
 
 	/** The exact pre-fix expression from environment.ts. */
 	const preFixJwtSecret = () => process.env.JWT_SECRET || 'secretKey';
@@ -162,7 +162,7 @@ describe('resolveSecret (GHSA-39j7-x845-4w3c)', () => {
 			expect(secret).toMatch(/^[0-9a-f]{128}$/);
 			expect(isKnownDefaultSecret(secret)).toBe(false);
 			expect(acceptsForgery(secret)).toBe(false);
-			expect(resolveSecret('EXPRESS_SESSION_SECRET')).not.toBe('gauzy');
+			expect(resolveSecret('EXPRESS_SESSION_SECRET')).not.toBe('irtranscripts');
 		});
 
 		it('still uses an explicitly set value, which is how every deployment runs', () => {
@@ -230,7 +230,7 @@ describe('resolveSecret (GHSA-39j7-x845-4w3c)', () => {
 	});
 
 	it('KNOWN_DEFAULT_SECRETS covers every literal the repository has shipped as a secret', () => {
-		for (const literal of ['secretKey', 'refreshSecretKey', 'refreshTokenSecretKey', 'verificationSecretKey', 'gauzy']) {
+		for (const literal of ['secretKey', 'refreshSecretKey', 'refreshTokenSecretKey', 'verificationSecretKey', 'irtranscripts']) {
 			expect(KNOWN_DEFAULT_SECRETS).toContain(literal);
 			expect(isKnownDefaultSecret(` ${literal.toUpperCase()} `)).toBe(true);
 		}

@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IResourceLink } from '@gauzy/contracts';
+import { IResourceLink } from '@irtranscripts/contracts';
 import { ResourceLinkService } from '../../resource-link.service';
 import { ResourceLinkCreateCommand } from '../resource-link.create.command';
 

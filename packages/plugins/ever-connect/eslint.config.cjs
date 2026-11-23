@@ -15,15 +15,15 @@ module.exports = [
 				{
 					paths: [
 						{
-							name: '@gauzy/plugin-jitsu-analytics',
+							name: '@irtranscripts/plugin-jitsu-analytics',
 							message: 'The Ever Platform connection never uses analytics plugins.'
 						},
 						{
-							name: '@gauzy/plugin-posthog',
+							name: '@irtranscripts/plugin-posthog',
 							message: 'The Ever Platform connection never uses analytics plugins.'
 						},
 						{
-							name: '@gauzy/plugin-ever-stats',
+							name: '@irtranscripts/plugin-ever-stats',
 							message: 'The Ever Platform connection is independent of the anonymous statistics.'
 						},
 						{ name: '@nestjs/axios', message: 'Ever Platform is called through the SDK client only.' },

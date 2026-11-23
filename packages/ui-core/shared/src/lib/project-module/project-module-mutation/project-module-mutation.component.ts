@@ -17,8 +17,8 @@ import {
 	TaskParticipantEnum,
 	ID,
 	IOrganizationProjectModuleEmployee
-} from '@gauzy/contracts';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
 import {
 	EmployeesService,
 	OrganizationTeamsService,
@@ -27,8 +27,8 @@ import {
 	SprintService,
 	TasksService,
 	ToastrService
-} from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

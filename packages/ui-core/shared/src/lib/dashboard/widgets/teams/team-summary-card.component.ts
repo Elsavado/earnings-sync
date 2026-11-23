@@ -9,7 +9,7 @@ import { ITeamDashboardTeam } from './teams-dashboard.types';
  * working-now / working-today / not-working legend.
  *
  * Extracted from the masonry card header of the legacy Teams dashboard (which
- * merges `gauzy-team-card` and the per-team header of `gauzy-all-team`) and
+ * merges `irtranscripts-team-card` and the per-team header of `irtranscripts-all-team`) and
  * shared by the Team Cards grid and the per-team overview, so the two cannot
  * disagree about what a team's numbers look like.
  *

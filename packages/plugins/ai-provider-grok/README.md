@@ -1,7 +1,7 @@
-# @gauzy/plugin-ai-provider-grok
+# @irtranscripts/plugin-ai-provider-grok
 
-Ever Gauzy AI Chat provider plugin: registers **Grok** models with the
-`@gauzy/plugin-ai-chat` provider registry via `@ai-sdk/xai`.
+Ever IRTranscripts AI Chat provider plugin: registers **Grok** models with the
+`@irtranscripts/plugin-ai-chat` provider registry via `@ai-sdk/xai`.
 
 ## Configuration
 

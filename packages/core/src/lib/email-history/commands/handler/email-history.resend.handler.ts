@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { UpdateResult } from 'typeorm';
-import { IEmailHistory } from '@gauzy/contracts';
+import { IEmailHistory } from '@irtranscripts/contracts';
 import { EmailService } from '../../../email-send/email.service';
 import { EmailHistoryResendCommand } from '../email-history.resend.command';
 

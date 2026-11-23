@@ -1,4 +1,4 @@
-import { ID, IOrganizationProjectModuleFindInput } from '@gauzy/contracts';
+import { ID, IOrganizationProjectModuleFindInput } from '@irtranscripts/contracts';
 import { ApiPropertyOptional, IntersectionType, PartialType, PickType } from '@nestjs/swagger';
 import { IsOptional, IsUUID } from 'class-validator';
 import { TenantOrganizationBaseDTO } from './../../core/dto';

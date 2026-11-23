@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService, IEnvironment } from '@gauzy/config';
-import { hashPassword } from '@gauzy/utils';
+import { ConfigService, IEnvironment } from '@irtranscripts/config';
+import { hashPassword } from '@irtranscripts/utils';
 
 /**
  * Resolved view of a single OAuth client used by the auth pipeline.

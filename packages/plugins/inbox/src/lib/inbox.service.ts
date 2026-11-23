@@ -35,8 +35,8 @@ import {
 	InboxItemStatusEnum,
 	InboxTabEnum,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { InboxItem } from './entities/inbox-item.entity';
 import { InboxItemRecipient } from './entities/inbox-item-recipient.entity';
 import { InboxSourceHandlerRegistry } from './inbox-source-handler.registry';
@@ -53,8 +53,8 @@ type RecipientChange = {
 type RecipientUpdate = QueryDeepPartialEntity<InboxItemRecipient>;
 type ItemUpdate = QueryDeepPartialEntity<InboxItem>;
 
-/** The sources whose replies stay in Gauzy (no handler needed). */
-const LOCAL_SOURCES: readonly string[] = [InboxItemSourceEnum.GAUZY, InboxItemSourceEnum.SYSTEM];
+/** The sources whose replies stay in IRTranscripts (no handler needed). */
+const LOCAL_SOURCES: readonly string[] = [InboxItemSourceEnum.IRTRANSCRIPTS, InboxItemSourceEnum.SYSTEM];
 export const INBOX_PAGE_SIZE = 20;
 export const INBOX_MAX_PAGE_SIZE = 100;
 const MAX_TEXT = 10_000;
@@ -536,7 +536,7 @@ export class InboxService implements IInboxItemWriter {
 		return this.write({ ...input, externalSource, externalId });
 	}
 
-	/** Creates an item without a source identity (platform notices, `source = SYSTEM` / `GAUZY`). */
+	/** Creates an item without a source identity (platform notices, `source = SYSTEM` / `IRTRANSCRIPTS`). */
 	async create(input: IInboxItemUpsertInput): Promise<IInboxItemUpsertResult> {
 		return this.write({ ...input, externalSource: undefined, externalId: undefined });
 	}

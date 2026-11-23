@@ -7,9 +7,9 @@
  * on `/product-channels`, `/product-variant-channels` and `/collection-channels`, `publish` / `unpublish`, the
  * `by-variant` and `by-collection` set writes and their GraphQL twins — stored another tenant's channel as given.
  *
- * The services hold the column to the caller's tenant with `assertPlainReferencesNotForeign` (`@gauzy/core`).
+ * The services hold the column to the caller's tenant with `assertPlainReferencesNotForeign` (`@irtranscripts/core`).
  */
-import { PlainReferenceColumns } from '@gauzy/core';
+import { PlainReferenceColumns } from '@irtranscripts/core';
 
 /** The plain id column of a publication row. */
 export const PUBLICATION_REFERENCES: PlainReferenceColumns = {

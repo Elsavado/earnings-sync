@@ -9,7 +9,7 @@
  *
  * The migration runs against a query runner that records the statements and answers the catalogue reads.
  */
-jest.mock('@gauzy/config', () => jest.requireActual('@gauzy/config/src/lib/database-helpers'));
+jest.mock('@irtranscripts/config', () => jest.requireActual('@irtranscripts/config/src/lib/database-helpers'));
 
 import { QueryRunner } from 'typeorm';
 import { FoldPriceTierNullKeys1791000000437 } from './migrations/1791000000437-FoldPriceTierNullKeys';

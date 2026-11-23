@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { ArrayMinSize, IsArray, IsNotEmpty, IsNumber, IsUUID, ValidateNested } from 'class-validator';
-import { ID, IReorderDTO, IReorderRequestDTO } from '@gauzy/contracts';
+import { ID, IReorderDTO, IReorderRequestDTO } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../../core/dto';
 
 /**

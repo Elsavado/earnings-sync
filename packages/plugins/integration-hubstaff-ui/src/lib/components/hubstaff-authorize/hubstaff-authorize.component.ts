@@ -3,8 +3,8 @@ import { Validators, UntypedFormGroup, UntypedFormBuilder } from '@angular/forms
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, filter, of, tap } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ID, IIntegrationTenant, IOrganization, IntegrationEnum } from '@gauzy/contracts';
-import { ErrorHandlingService, HubstaffService, IntegrationsService, Store } from '@gauzy/ui-core/core';
+import { ID, IIntegrationTenant, IOrganization, IntegrationEnum } from '@irtranscripts/contracts';
+import { ErrorHandlingService, HubstaffService, IntegrationsService, Store } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

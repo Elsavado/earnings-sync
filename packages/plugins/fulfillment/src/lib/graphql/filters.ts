@@ -1,4 +1,4 @@
-import { FulfillmentDirection, FulfillmentStatusDetail } from '@gauzy/contracts';
+import { FulfillmentDirection, FulfillmentStatusDetail } from '@irtranscripts/contracts';
 
 /**
  * The state filters the fulfilment schema accepts, read into the enumerations the columns carry.

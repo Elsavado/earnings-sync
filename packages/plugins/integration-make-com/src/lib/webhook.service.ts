@@ -1,8 +1,8 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
-import { ConfigService } from '@gauzy/config';
+import { ConfigService } from '@irtranscripts/config';
 import { firstValueFrom } from 'rxjs';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { ITimerWebhookEvent, TimerEventType, TimerEventDataType } from './interfaces/timer-webhook.interface';
 import { MakeComService } from './make-com.service';
 import { assertSafeMakeWebhookUrl, createSsrfSafeHttpsAgent } from './webhook-url.validator';

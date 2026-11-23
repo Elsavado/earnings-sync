@@ -1,4 +1,4 @@
-import { ITaskViewCreateInput } from '@gauzy/contracts';
+import { ITaskViewCreateInput } from '@irtranscripts/contracts';
 import { ICommand } from '@nestjs/cqrs';
 
 export class TaskViewCreateCommand implements ICommand {

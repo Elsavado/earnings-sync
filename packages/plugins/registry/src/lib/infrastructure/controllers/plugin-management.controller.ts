@@ -1,4 +1,4 @@
-import { HttpStatus, ID, PermissionsEnum, PluginSourceType } from '@gauzy/contracts';
+import { HttpStatus, ID, PermissionsEnum, PluginSourceType } from '@irtranscripts/contracts';
 import {
 	FileStorage,
 	FileStorageFactory,
@@ -9,7 +9,7 @@ import {
 	UseValidationPipe,
 	UUIDValidationPipe,
 	documentUploadFileFilter
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import {
 	BadRequestException,
 	Body,
@@ -43,7 +43,7 @@ import {
 import { LazyAnyFileInterceptor, PluginOwnerGuard } from '../../core';
 import { Plugin } from '../../domain';
 import { CreatePluginDTO, FileDTO, IPlugin, IPluginSource, UpdatePluginDTO } from '../../shared';
-import { GauzyStorageProvider, UploadedPluginStorage } from '../storage';
+import { IRTranscriptsStorageProvider, UploadedPluginStorage } from '../storage';
 
 @ApiTags('Plugin Management')
 @ApiBearerAuth('Bearer')
@@ -103,11 +103,11 @@ export class PluginManagementController {
 			// Validate files against sources
 			this.validateFilesAgainstSources(input.version.sources, files);
 			// Get the appropriate file storage provider
-			const gauzyStorageProvider = new GauzyStorageProvider(new FileStorage());
+			const irtranscriptsStorageProvider = new IRTranscriptsStorageProvider(new FileStorage());
 			// Process each source
 			const sources = await Promise.all(
 				input.version.sources.map(async (source) => {
-					if (source.type === PluginSourceType.GAUZY) {
+					if (source.type === PluginSourceType.IRTRANSCRIPTS) {
 						// Find matching file for this source
 						const file = this.findFileForSource(files, source);
 
@@ -115,8 +115,8 @@ export class PluginManagementController {
 							throw new BadRequestException(`Plugin file key is empty for source: ${source.name}`);
 						}
 						// Validate and extract metadata
-						await gauzyStorageProvider.validate(file);
-						const metadata = gauzyStorageProvider.extractMetadata(file);
+						await irtranscriptsStorageProvider.validate(file);
+						const metadata = irtranscriptsStorageProvider.extractMetadata(file);
 						return {
 							...source,
 							...metadata
@@ -138,9 +138,9 @@ export class PluginManagementController {
 		} catch (error) {
 			// Cleanup any uploaded files if error occurs
 			if (files?.length > 0) {
-				const gauzyStorageProvider = new GauzyStorageProvider(new FileStorage());
+				const irtranscriptsStorageProvider = new IRTranscriptsStorageProvider(new FileStorage());
 				await Promise.all(
-					files.map((file) => (file?.key ? gauzyStorageProvider.delete(file.key) : Promise.resolve()))
+					files.map((file) => (file?.key ? irtranscriptsStorageProvider.delete(file.key) : Promise.resolve()))
 				);
 			}
 			// Improved error handling
@@ -212,19 +212,19 @@ export class PluginManagementController {
 			// Validate files against sources
 			this.validateFilesAgainstSources(input.version.sources as IPluginSource[], files);
 			// Get the appropriate file storage provider
-			const gauzyStorageProvider = new GauzyStorageProvider(new FileStorage());
+			const irtranscriptsStorageProvider = new IRTranscriptsStorageProvider(new FileStorage());
 			// Process each source
 			const sources = await Promise.all(
 				input.version.sources.map(async (source) => {
-					if (source.type === PluginSourceType.GAUZY) {
+					if (source.type === PluginSourceType.IRTRANSCRIPTS) {
 						// Find matching file for this source
 						const file = this.findFileForSource(files, source as IPluginSource);
 						if (!file?.key) {
 							throw new BadRequestException(`Plugin file key is empty for source: ${source.name}`);
 						}
 						// Validate and extract metadata
-						await gauzyStorageProvider.validate(file);
-						const metadata = gauzyStorageProvider.extractMetadata(file);
+						await irtranscriptsStorageProvider.validate(file);
+						const metadata = irtranscriptsStorageProvider.extractMetadata(file);
 						return {
 							...source,
 							...metadata
@@ -246,9 +246,9 @@ export class PluginManagementController {
 		} catch (error) {
 			// Cleanup any uploaded files if error occurs
 			if (files?.length > 0) {
-				const gauzyStorageProvider = new GauzyStorageProvider(new FileStorage());
+				const irtranscriptsStorageProvider = new IRTranscriptsStorageProvider(new FileStorage());
 				await Promise.all(
-					files.map((file) => (file?.key ? gauzyStorageProvider.delete(file.key) : Promise.resolve()))
+					files.map((file) => (file?.key ? irtranscriptsStorageProvider.delete(file.key) : Promise.resolve()))
 				);
 			}
 			// Improved error handling
@@ -263,12 +263,12 @@ export class PluginManagementController {
 	 * Validate that files match the required sources
 	 */
 	private validateFilesAgainstSources(sources: IPluginSource[], files: FileDTO[]): void {
-		const gauzySources = sources.filter((s) => s.type === PluginSourceType.GAUZY);
+		const irtranscriptsSources = sources.filter((s) => s.type === PluginSourceType.IRTRANSCRIPTS);
 
-		// Check file count matches GAUZY sources count
-		if (gauzySources.length > 0 && (!files || files.length < gauzySources.length)) {
+		// Check file count matches IRTRANSCRIPTS sources count
+		if (irtranscriptsSources.length > 0 && (!files || files.length < irtranscriptsSources.length)) {
 			throw new BadRequestException(
-				`Expected ${gauzySources.length} files for GAUZY sources, got ${files?.length || 0}`
+				`Expected ${irtranscriptsSources.length} files for IRTRANSCRIPTS sources, got ${files?.length || 0}`
 			);
 		}
 	}

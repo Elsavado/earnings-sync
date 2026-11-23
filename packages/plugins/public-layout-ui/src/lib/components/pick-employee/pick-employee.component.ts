@@ -4,11 +4,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable, tap } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ID, IOrganization } from '@gauzy/contracts';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
-import { EventTypeService, Store, ToastrService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { EmployeeSelectorComponent } from '@gauzy/ui-core/shared';
+import { ID, IOrganization } from '@irtranscripts/contracts';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
+import { EventTypeService, Store, ToastrService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { EmployeeSelectorComponent } from '@irtranscripts/ui-core/shared';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

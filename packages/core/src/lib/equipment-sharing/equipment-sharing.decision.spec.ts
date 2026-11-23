@@ -3,8 +3,8 @@ import '../core/entities/internal';
 
 import { NotFoundException } from '@nestjs/common';
 import { LockMode } from '@mikro-orm/core';
-import { isMySQL, isPostgres } from '@gauzy/config';
-import { RequestApprovalStatusTypesEnum, RolesEnum } from '@gauzy/contracts';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
+import { RequestApprovalStatusTypesEnum, RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { CrudService } from '../core/crud/crud.service';
 import { RequestApproval } from '../core/entities/internal';
@@ -33,8 +33,8 @@ import { EquipmentSharingService, IEquipmentSharingDecisionTransaction } from '.
  * the statements each ORM arm sends.
  */
 
-jest.mock('@gauzy/config', () => ({
-	...jest.requireActual('@gauzy/config'),
+jest.mock('@irtranscripts/config', () => ({
+	...jest.requireActual('@irtranscripts/config'),
 	isPostgres: jest.fn(() => false),
 	isMySQL: jest.fn(() => false)
 }));

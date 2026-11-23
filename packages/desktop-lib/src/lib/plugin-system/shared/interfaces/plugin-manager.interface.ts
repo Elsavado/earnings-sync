@@ -1,4 +1,4 @@
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { MenuItemConstructorOptions } from 'electron';
 import { IPluginMetadata, IPluginMetadataFindOne } from './plugin-metadata.interface';
 

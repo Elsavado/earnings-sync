@@ -1,7 +1,7 @@
 import { BadRequestException, NotFoundException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { FeatureFlag } from '@gauzy/common';
-import { ID as Id, ITenantCreateInput, ITenantUpdateInput, RolesEnum } from '@gauzy/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
+import { ID as Id, ITenantCreateInput, ITenantUpdateInput, RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { Roles } from '../shared/decorators';
 import { FeatureFlagGuard, RoleGuard } from '../shared/guards';

@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IChangelog, IChangelogFindInput, IPagination } from '@gauzy/contracts';
+import { IChangelog, IChangelogFindInput, IPagination } from '@irtranscripts/contracts';
 import { BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { API_PREFIX, toParams } from '@gauzy/ui-core/common';
+import { API_PREFIX, toParams } from '@irtranscripts/ui-core/common';
 
 @Injectable({
 	providedIn: 'root'

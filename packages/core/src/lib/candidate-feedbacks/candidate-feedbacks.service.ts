@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ICandidateFeedback, ICandidateInterview } from '@gauzy/contracts';
+import { ICandidateFeedback, ICandidateInterview } from '@irtranscripts/contracts';
 import { RequestContext } from './../core/context';
 import { TenantAwareCrudService } from './../core/crud';
 import { CandidateFeedback } from './candidate-feedbacks.entity';

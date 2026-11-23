@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { DocumentKindEnum, ID, IDocument } from '@gauzy/contracts';
+import { DocumentKindEnum, ID, IDocument } from '@irtranscripts/contracts';
 import { NameCellComponent } from './name-cell.component';
 
 /**

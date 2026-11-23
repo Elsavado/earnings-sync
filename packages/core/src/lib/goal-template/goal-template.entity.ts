@@ -3,7 +3,7 @@ import {
 	GoalLevelEnum,
 	GoalTemplateCategoriesEnum,
 	IKeyResultTemplate
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum } from 'class-validator';
 import {

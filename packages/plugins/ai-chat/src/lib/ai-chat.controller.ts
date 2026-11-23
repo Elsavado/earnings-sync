@@ -23,7 +23,7 @@ import {
 	IAiChatModelCatalogue,
 	PermissionsEnum,
 	UploadedFile as IUploadedFile
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	FileStorage,
 	LazyFileInterceptor,
@@ -34,7 +34,7 @@ import {
 	UploadedFileStorage,
 	documentUploadFileFilter,
 	toSafeStorageExtension
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { AiChatService, MAX_AUDIO_BYTES } from './ai-chat.service';
 import {
 	AiChatAttachmentService,
@@ -207,7 +207,7 @@ export class AiChatController {
 	 *
 	 * The bytes are streamed straight into the configured `FileStorage` provider (never buffered
 	 * in memory — unlike dictation, which forwards the audio upstream and so must hold it), and
-	 * the save is announced as `AiChatAttachmentSavedEvent`. `@gauzy/plugin-docs` subscribes to
+	 * the save is announced as `AiChatAttachmentSavedEvent`. `@irtranscripts/plugin-docs` subscribes to
 	 * that event and turns the attachment into a `Document { source: CHAT }`, after which the
 	 * chat's own `docs_search` / `docs_read` tools can read it. Installs without that plugin
 	 * simply have no subscriber.

@@ -1,6 +1,6 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { GetReportMenuItemsInput, IPagination, RolesEnum, UpdateReportMenuInput } from '@gauzy/contracts';
+import { GetReportMenuItemsInput, IPagination, RolesEnum, UpdateReportMenuInput } from '@irtranscripts/contracts';
 import { Roles } from '../shared/decorators';
 import { RoleGuard, TenantPermissionGuard } from '../shared/guards';
 import { UseValidationPipe } from '../shared/pipes';

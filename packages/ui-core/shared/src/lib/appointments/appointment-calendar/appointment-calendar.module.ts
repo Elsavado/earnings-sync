@@ -7,7 +7,7 @@ import {
 	AvailabilitySlotsService,
 	EmployeeAppointmentService,
 	TimeOffService
-} from '@gauzy/ui-core/core';
+} from '@irtranscripts/ui-core/core';
 import { SharedModule } from '../../shared.module';
 import { AppointmentCalendarComponent } from './appointment-calendar.component';
 import { TimezoneSelectorModule } from '../timezone-selector/timezone-selector.module';

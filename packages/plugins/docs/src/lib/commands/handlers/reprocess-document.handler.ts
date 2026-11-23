@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IDocument } from '@gauzy/contracts';
+import { IDocument } from '@irtranscripts/contracts';
 import { DocumentProcessingService } from '../../services/document-processing.service';
 import { ReprocessDocumentCommand } from '../reprocess-document.command';
 

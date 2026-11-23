@@ -1,4 +1,4 @@
-import { ITenantSetting } from '@gauzy/contracts';
+import { ITenantSetting } from '@irtranscripts/contracts';
 
 /**
  * Generic DTO for dynamic tenant/global settings.

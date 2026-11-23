@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { ICreateEmailInvitesOutput } from '@gauzy/contracts';
+import { ICreateEmailInvitesOutput } from '@irtranscripts/contracts';
 import { InviteService } from './../../invite.service';
 import { InviteBulkCreateCommand } from './../invite.bulk.create.command';
 

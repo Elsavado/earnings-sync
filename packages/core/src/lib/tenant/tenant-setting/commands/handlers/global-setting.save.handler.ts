@@ -1,6 +1,6 @@
 import { forwardRef, Inject } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { ITenantSetting } from '@gauzy/contracts';
+import { ITenantSetting } from '@irtranscripts/contracts';
 import { TenantSettingService } from '../../tenant-setting.service';
 import { GlobalSettingSaveCommand } from '../global-setting.save.command';
 

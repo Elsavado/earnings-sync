@@ -20,10 +20,10 @@ const AUTO_LOGIN_TOKEN = token('operator');
 const OWN_TOKEN = token('caller');
 
 /**
- * Over HTTP and WebSocket a caller with no login of its own fell back to the GAUZY_AUTO_LOGIN account — whoever it
+ * Over HTTP and WebSocket a caller with no login of its own fell back to the IRTRANSCRIPTS_AUTO_LOGIN account — whoever it
  * was and wherever it connected from. The fallback is now for a caller the transport found on this machine only.
  */
-describe('AuthManager — the GAUZY_AUTO_LOGIN account over HTTP and WebSocket', () => {
+describe('AuthManager — the IRTRANSCRIPTS_AUTO_LOGIN account over HTTP and WebSocket', () => {
 	const authManager = AuthManager.getInstance();
 
 	beforeAll(async () => {

@@ -1,8 +1,8 @@
-import { IHelpCenterAuthor, IHelpCenterAuthorCreate, IHelpCenterAuthorFind } from '@gauzy/contracts';
+import { IHelpCenterAuthor, IHelpCenterAuthorCreate, IHelpCenterAuthorFind } from '@irtranscripts/contracts';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 
 @Injectable({
 	providedIn: 'root'

@@ -18,8 +18,8 @@ import {
 	IGetJobPresetInput,
 	ID,
 	LanguagesEnum
-} from '@gauzy/contracts';
-import { distinctUntilChange, isEmpty, isNotEmpty } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { distinctUntilChange, isEmpty, isNotEmpty } from '@irtranscripts/ui-core/common';
 import {
 	ErrorHandlingService,
 	JobPresetService,
@@ -27,8 +27,8 @@ import {
 	JobSearchOccupationService,
 	Store,
 	ToastrService
-} from '@gauzy/ui-core/core';
-import { I18nService, TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/ui-core/core';
+import { I18nService, TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

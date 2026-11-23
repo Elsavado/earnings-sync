@@ -20,7 +20,7 @@ import {
 	ITaskStatus,
 	ITaskVersion,
 	ITaskView
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 import {

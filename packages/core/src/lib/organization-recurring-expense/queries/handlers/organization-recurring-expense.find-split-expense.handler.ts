@@ -1,4 +1,4 @@
-import { EmployeeKindEnum, IOrganizationRecurringExpenseForEmployeeOutput, IPagination } from '@gauzy/contracts';
+import { EmployeeKindEnum, IOrganizationRecurringExpenseForEmployeeOutput, IPagination } from '@irtranscripts/contracts';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { EmployeeService } from '../../../employee/employee.service';
 import { OrganizationService } from '../../../organization/organization.service';

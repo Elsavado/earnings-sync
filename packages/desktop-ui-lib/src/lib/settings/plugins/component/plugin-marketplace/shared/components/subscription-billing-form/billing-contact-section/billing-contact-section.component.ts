@@ -3,7 +3,7 @@ import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NbCardModule, NbIconModule, NbFormFieldModule, NbInputModule } from '@nebular/theme';
 
 @Component({
-    selector: 'gauzy-billing-contact-section',
+    selector: 'irtranscripts-billing-contact-section',
     templateUrl: './billing-contact-section.component.html',
     styleUrls: ['./billing-contact-section.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

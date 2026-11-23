@@ -1,6 +1,6 @@
 import '../../core/entities/internal';
 
-import { ID, IGetCountsStatistics, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IGetCountsStatistics, PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../core/context';
 import { ManagedEmployeeService, NO_ACCESSIBLE_EMPLOYEE_ID } from '../../employee/managed-employee.service';
 import { StatisticService } from './statistic.service';

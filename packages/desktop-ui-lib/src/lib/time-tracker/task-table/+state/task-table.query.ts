@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Query } from '@datorama/akita';
-import { ITask } from '@gauzy/contracts';
+import { ITask } from '@irtranscripts/contracts';
 import { Observable } from 'rxjs';
 import { ITaskTableState, TaskTableStore } from './task-table.store';
 

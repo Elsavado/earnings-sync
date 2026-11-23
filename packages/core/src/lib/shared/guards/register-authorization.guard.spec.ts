@@ -1,6 +1,6 @@
 import { BadRequestException, ForbiddenException } from '@nestjs/common';
-import { PermissionsEnum, RolesEnum } from '@gauzy/contracts';
-import { environment as env } from '@gauzy/config';
+import { PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
+import { environment as env } from '@irtranscripts/config';
 import { sign } from 'jsonwebtoken';
 
 // Only DI metadata and the ORM switch are needed; the real modules drag in the whole core entity

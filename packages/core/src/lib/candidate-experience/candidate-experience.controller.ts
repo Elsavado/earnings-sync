@@ -1,6 +1,6 @@
 import { Controller, HttpStatus, Get, Query, UseGuards, Post, Body, Put, Param } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { ICandidateExperience, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ICandidateExperience, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { UpdateResult } from 'typeorm';
 import { CrudController, BaseQueryDTO } from './../core/crud';
 import { CandidateExperienceService } from './candidate-experience.service';

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnDestroy, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { progressStatus } from '@gauzy/ui-core/common';
-import { IDailyActivity } from '@gauzy/contracts';
+import { progressStatus } from '@irtranscripts/ui-core/common';
+import { IDailyActivity } from '@irtranscripts/contracts';
 
 @Component({
     selector: 'ngx-activity-item',

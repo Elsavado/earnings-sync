@@ -9,7 +9,7 @@ import {
 	IProductTypeTranslated,
 	IProductCategoryTranslated,
 	VariantCreateInput
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { NbTabComponent } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Subject } from 'rxjs';

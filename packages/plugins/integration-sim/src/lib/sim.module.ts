@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { ConfigModule } from '@gauzy/config';
+import { ConfigModule } from '@irtranscripts/config';
 import {
 	IntegrationEntitySettingModule,
 	IntegrationMapModule,
@@ -12,7 +12,7 @@ import {
 	IntegrationTenantModule,
 	PluginCommonModule,
 	RolePermissionModule
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { SimService } from './sim.service';
 import { SimController } from './sim.controller';
 import { SimClientFactory } from './sim-client.factory';

@@ -2,7 +2,7 @@ import '../core/entities/internal';
 
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { In } from 'typeorm';
-import { EmployeeSettingDataOperationEnum, IUser, PermissionsEnum } from '@gauzy/contracts';
+import { EmployeeSettingDataOperationEnum, IUser, PermissionsEnum } from '@irtranscripts/contracts';
 import { CrudService } from '../core/crud/crud.service';
 import { MultiORMEnum } from '../core/utils';
 import { asTenantUser, createTenantFixture } from '../core/testing/tenant-isolation/tenant-isolation.fixtures';

@@ -1,5 +1,5 @@
 import { FindOperator } from 'typeorm';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { PriceBulkMode, PriceStatus } from '../pricing.types';
 import { ProductPriceService } from './product-price.service';
 

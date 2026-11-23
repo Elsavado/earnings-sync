@@ -12,7 +12,7 @@ import {
 	NbToastrModule
 } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
-import { AuthService, IncomeService, RoleService } from '@gauzy/ui-core/core';
+import { AuthService, IncomeService, RoleService } from '@irtranscripts/ui-core/core';
 import { DangerZoneMutationComponent } from './danger-zone-mutation/danger-zone-mutation.component';
 
 @NgModule({

@@ -1,4 +1,4 @@
-import { DatabaseTypeEnum, getConfig } from '@gauzy/config';
+import { DatabaseTypeEnum, getConfig } from '@irtranscripts/config';
 import { getORMType, MultiORMEnum, replacePlaceholders } from '../core/utils';
 import {
 	MikroOrmEntityManager,

@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { PageRouteRegistryService } from '@gauzy/ui-core/core';
+import { PageRouteRegistryService } from '@irtranscripts/ui-core/core';
 import { MiscellaneousComponent } from './miscellaneous.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 

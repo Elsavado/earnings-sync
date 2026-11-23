@@ -1,4 +1,4 @@
-import { IPlugin } from '@gauzy/contracts';
+import { IPlugin } from '@irtranscripts/contracts';
 import { createAction, props } from '@ngneat/effects';
 import { IPluginSetting, IPluginSettingGroup, PluginSettingScope } from '../../../../services/plugin-settings.service';
 import {

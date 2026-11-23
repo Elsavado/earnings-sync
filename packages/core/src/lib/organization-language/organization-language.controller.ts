@@ -14,7 +14,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { DeepPartial, DeleteResult } from 'typeorm';
-import { IOrganizationLanguage, IPagination, ID, PermissionsEnum } from '@gauzy/contracts';
+import { IOrganizationLanguage, IPagination, ID, PermissionsEnum } from '@irtranscripts/contracts';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { CrudController } from './../core/crud';
 import { OrganizationLanguageService } from './organization-language.service';

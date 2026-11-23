@@ -2,7 +2,7 @@ import { BadRequestException, ForbiddenException, HttpException, Injectable, Not
 import { InjectDataSource } from "@nestjs/typeorm";
 import { DataSource, DeleteResult, FindOneOptions, FindOptionsWhere, Repository, SaveOptions, UpdateResult } from "typeorm";
 
-import { BaseEntityEnum, ID, ISharedEntityCreateInput, IShareRule, PermissionsEnum } from "@gauzy/contracts";
+import { BaseEntityEnum, ID, ISharedEntityCreateInput, IShareRule, PermissionsEnum } from "@irtranscripts/contracts";
 import { RequestContext } from "../core/context";
 import { TenantAwareCrudService } from "../core/crud";
 import { MikroOrmSharedEntityRepository } from "./repository/mikro-orm-shared-entity.repository";

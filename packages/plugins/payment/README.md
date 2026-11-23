@@ -1,6 +1,6 @@
-# @gauzy/plugin-payment
+# @irtranscripts/plugin-payment
 
-The payment domain of the Ever Gauzy platform: how money is asked for,
+The payment domain of the Ever IRTranscripts platform: how money is asked for,
 authorised, taken, given back and reported back to us by the provider that moved
 it.
 
@@ -83,6 +83,6 @@ one, creating a refund reason, and re-processing an inbound callback.
 
 ## Dependencies
 
-`@gauzy/plugin-order` — a collection settles an order, and the order rows are
+`@irtranscripts/plugin-order` — a collection settles an order, and the order rows are
 read by the reconciliation that compares what was collected with what was
 ordered.

@@ -4,9 +4,9 @@ import { Test } from '@nestjs/testing';
 import { ClsModule, ClsService } from 'nestjs-cls';
 import * as request from 'supertest';
 import { DataSource } from 'typeorm';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionGuard, RequestContext, RequestContextMiddleware, RolePermissionModule, TenantPermissionGuard } from '@gauzy/core';
-import { EVER_INSTANCE_ENV } from '@gauzy/plugin-ever-instance';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionGuard, RequestContext, RequestContextMiddleware, RolePermissionModule, TenantPermissionGuard } from '@irtranscripts/core';
+import { EVER_INSTANCE_ENV } from '@irtranscripts/plugin-ever-instance';
 import { EVER_CONNECT_FETCH } from './ever-connect.constants';
 import { EverConnectModule } from './ever-connect.module';
 import { EverConnectPlatformService } from './ever-connect-platform.service';
@@ -23,10 +23,10 @@ import {
 	TEST_TARGETS
 } from './fixtures/test-db';
 
-// Booting the module and Gauzy core from source takes longer than the default 5 s.
+// Booting the module and IRTranscripts core from source takes longer than the default 5 s.
 jest.setTimeout(180_000);
 
-/** What the test's authentication step attaches: the user, as Gauzy's guard does, and their permissions. */
+/** What the test's authentication step attaches: the user, as IRTranscripts's guard does, and their permissions. */
 interface TestUser {
 	id: string;
 	tenantId: string;
@@ -36,7 +36,7 @@ interface TestUser {
 }
 
 /**
- * Stands in for Gauzy's tenant and permission guards (they read role permissions from the
+ * Stands in for IRTranscripts's tenant and permission guards (they read role permissions from the
  * database and a cache): the route's `@Permissions(...)` must all be held by the test user.
  */
 @Injectable()
@@ -53,14 +53,14 @@ class TestPermissionGuard implements CanActivate {
 	}
 }
 
-/** Gauzy's role permission module needs the ORMs; the test permission guard stands in for it. */
+/** IRTranscripts's role permission module needs the ORMs; the test permission guard stands in for it. */
 @Module({})
 class TestRolePermissionModule {}
 
 const ALL = ['INTEGRATION_VIEW', 'INTEGRATION_ADD', 'INTEGRATION_EDIT', 'INTEGRATION_DELETE'];
 
 /**
- * The real module in a Nest app on a real database, with Gauzy's request context and role guard:
+ * The real module in a Nest app on a real database, with IRTranscripts's request context and role guard:
  * who may reach which route, and that nothing goes out while the installation is not connected.
  * Every request the module could make is recorded (`EVER_CONNECT_FETCH` and the global `fetch`);
  * none is expected in this suite.
@@ -374,7 +374,7 @@ describe.each(TEST_TARGETS)('Ever Platform routes on $name', (target) => {
 		app = await start({
 			EVER_OPERATOR_USER_IDS: acme.superAdminId,
 			JWT_SECRET: 'request-test-secret',
-			EVER_STATS_SERVES: 'gauzy,teams'
+			EVER_STATS_SERVES: 'irtranscripts,teams'
 		});
 		const health = await call('get', '/api/ever-connect/health', 'employee');
 		expect(health.status).toBe(200);
@@ -386,7 +386,7 @@ describe.each(TEST_TARGETS)('Ever Platform routes on $name', (target) => {
 		const env: Record<string, string | undefined> = {
 			EVER_OPERATOR_USER_IDS: acme.superAdminId,
 			JWT_SECRET: 'request-test-secret',
-			EVER_STATS_SERVES: 'gauzy,teams'
+			EVER_STATS_SERVES: 'irtranscripts,teams'
 		};
 		app = await start(env);
 		expect((await call('get', '/api/ever-connect/status', 'operator')).status).toBe(200);

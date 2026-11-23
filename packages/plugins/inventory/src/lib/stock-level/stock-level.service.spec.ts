@@ -1,17 +1,17 @@
 /**
  * Three module boundaries are doubled here, and the reason is the same for all three.
  *
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a ledger engine needs and none of which is available
  * outside a running application; its nested `uuid` is ESM-only, so reading one entity would fail
- * under jest. `@gauzy/config` reads the process environment at import time. Both are therefore
+ * under jest. `@irtranscripts/config` reads the process environment at import time. Both are therefore
  * doubled at the module boundary, and **the engine under test is the real one**, together with the
  * real `stock_movement` entity it writes and the real error vocabulary it refuses with.
  *
  * The platform entity classes the engine resolves level rows through are the only pieces substituted
  * by the mock: they are identity, not behaviour — `StockLevelService` uses them to name a table.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/**
@@ -71,7 +71,7 @@ jest.mock('@gauzy/core', () => {
 
 	return {
 		// The statement helpers are pure and dialect-driven; loading the real module here would pull
-		// `@gauzy/config` and the request context into a suite that doubles the barrel on purpose.
+		// `@irtranscripts/config` and the request context into a suite that doubles the barrel on purpose.
 		quoteIdentifier: (identifier: string) => `"${identifier}"`,
 		prepareSQLQuery: (query: string) => query,
 		TenantAwareCrudService,
@@ -123,7 +123,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 jest.mock(
-	'@gauzy/config',
+	'@irtranscripts/config',
 	() => ({
 		isMySQL: () => false,
 		isPostgres: () => false,
@@ -138,7 +138,7 @@ jest.mock(
 	})
 );
 
-import { Product, ProductVariant, WarehouseProduct, WarehouseProductVariant } from '@gauzy/core';
+import { Product, ProductVariant, WarehouseProduct, WarehouseProductVariant } from '@irtranscripts/core';
 import { StockMovementType, StockMovementReferenceType } from '../inventory.enums';
 import { StockMovement } from '../stock-movement/stock-movement.entity';
 import { StockLevelService } from './stock-level.service';
@@ -1564,7 +1564,7 @@ describe('StockLevelService — a window of no rows reads no rows', () => {
 	let tenant: jest.SpyInstance;
 
 	beforeEach(() => {
-		const { RequestContext } = jest.requireMock('@gauzy/core');
+		const { RequestContext } = jest.requireMock('@irtranscripts/core');
 
 		tenant = jest.spyOn(RequestContext, 'currentTenantId').mockReturnValue(TENANT);
 	});

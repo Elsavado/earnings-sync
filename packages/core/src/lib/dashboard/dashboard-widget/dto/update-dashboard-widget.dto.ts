@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/swagger';
-import { IDashboardWidgetUpdateInput } from '@gauzy/contracts';
+import { IDashboardWidgetUpdateInput } from '@irtranscripts/contracts';
 import { CreateDashboardWidgetDTO } from './create-dashboard-widget.dto';
 
 export class UpdateDashboardWidgetDTO

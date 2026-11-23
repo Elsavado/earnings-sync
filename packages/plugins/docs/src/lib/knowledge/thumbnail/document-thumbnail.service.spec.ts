@@ -12,7 +12,7 @@
  * unless the job explicitly asks for a regeneration, so a reprocess, a recovery sweep or a
  * duplicate enqueue costs nothing.
  *
- * `@gauzy/core` boots the whole application graph on import, so `FileStorage` is stubbed at
+ * `@irtranscripts/core` boots the whole application graph on import, so `FileStorage` is stubbed at
  * the module boundary; `sharp` is real.
  */
 const providerStub = {
@@ -21,9 +21,9 @@ const providerStub = {
 	url: jest.fn()
 };
 
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	// The real storage read helper (dependency-free), so the specs read what the providers really return.
-	...jest.requireActual('@gauzy/core/src/lib/core/file-storage/helpers/stored-file-content'),
+	...jest.requireActual('@irtranscripts/core/src/lib/core/file-storage/helpers/stored-file-content'),
 	FileStorage: class {
 		setProvider() {
 			return this;
@@ -38,7 +38,7 @@ jest.mock('../../repositories/type-orm-document.repository', () => ({ TypeOrmDoc
 
 import { Readable } from 'stream';
 import * as sharpModule from 'sharp';
-import { DocumentKindEnum } from '@gauzy/contracts';
+import { DocumentKindEnum } from '@irtranscripts/contracts';
 import { DocumentThumbnailService } from './document-thumbnail.service';
 import { DOCS_THUMBNAIL_MAX_PX, isThumbnailableMime, thumbnailKeyFor } from './thumbnail.constants';
 

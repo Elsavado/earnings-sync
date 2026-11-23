@@ -1,5 +1,5 @@
-import { CurrencyCode, DecimalString } from '@gauzy/contracts';
-import { Money, compareDecimalStrings, divideDecimalUnits, formatDecimalUnits } from '@gauzy/core';
+import { CurrencyCode, DecimalString } from '@irtranscripts/contracts';
+import { Money, compareDecimalStrings, divideDecimalUnits, formatDecimalUnits } from '@irtranscripts/core';
 import { SubscriptionBillingPeriod, ISubscriptionItem } from './subscription.types';
 
 /**

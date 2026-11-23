@@ -2,10 +2,10 @@ import { AfterViewInit, Component, HostListener, OnDestroy, OnInit, ChangeDetect
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { debounceTime, filter, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { environment } from '@gauzy/ui-config';
-import { IOrganization } from '@gauzy/contracts';
-import { distinctUntilChange, toParams } from '@gauzy/ui-core/common';
-import { GithubService, Store } from '@gauzy/ui-core/core';
+import { environment } from '@irtranscripts/ui-config';
+import { IOrganization } from '@irtranscripts/contracts';
+import { distinctUntilChange, toParams } from '@irtranscripts/ui-core/common';
+import { GithubService, Store } from '@irtranscripts/ui-core/core';
 import { GITHUB_AUTHORIZATION_URL } from '../../github.config';
 
 @UntilDestroy({ checkProperties: true })
@@ -116,9 +116,9 @@ export class GithubWizardComponent implements AfterViewInit, OnInit, OnDestroy {
 	 */
 	private async oAuthAppAuthorization() {
 		// Get the redirect URI, Post Install URL and client ID from the environment
-		const redirect_uri = environment.GAUZY_GITHUB_REDIRECT_URL;
-		const client_id = environment.GAUZY_GITHUB_CLIENT_ID;
-		const post_install_url = environment.GAUZY_GITHUB_POST_INSTALL_URL;
+		const redirect_uri = environment.IRTRANSCRIPTS_GITHUB_REDIRECT_URL;
+		const client_id = environment.IRTRANSCRIPTS_GITHUB_CLIENT_ID;
+		const post_install_url = environment.IRTRANSCRIPTS_GITHUB_POST_INSTALL_URL;
 
 		// Define the query parameters for the authorization request
 		const queryParams = toParams({
@@ -191,7 +191,7 @@ export class GithubWizardComponent implements AfterViewInit, OnInit, OnDestroy {
 		const top = window.innerHeight / 2 - height / 2;
 
 		// Specify a unique window name to identify the window
-		const windowName = environment.GAUZY_GITHUB_APP_NAME;
+		const windowName = environment.IRTRANSCRIPTS_GITHUB_APP_NAME;
 
 		// Check if a window with the same name is already open
 		if (window.frames[windowName] && !window.frames[windowName].closed) {
@@ -199,9 +199,9 @@ export class GithubWizardComponent implements AfterViewInit, OnInit, OnDestroy {
 			window.frames[windowName].focus();
 		} else {
 			// Destructure environment variables for better readability
-			const { GAUZY_GITHUB_APP_NAME, GAUZY_GITHUB_REDIRECT_URL } = environment;
+			const { IRTRANSCRIPTS_GITHUB_APP_NAME, IRTRANSCRIPTS_GITHUB_REDIRECT_URL } = environment;
 			// Get the redirect URI from the environment
-			const redirect_uri = GAUZY_GITHUB_REDIRECT_URL;
+			const redirect_uri = IRTRANSCRIPTS_GITHUB_REDIRECT_URL;
 
 			// Request a single-use, tenant-bound state nonce from the API BEFORE starting the GitHub
 			// App installation. The nonce is echoed back on the post-install callback so the resulting

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PluginStatus } from '@gauzy/contracts';
+import { PluginStatus } from '@irtranscripts/contracts';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
 import { IPluginFilter } from '../+state/stores/plugin-market.store';

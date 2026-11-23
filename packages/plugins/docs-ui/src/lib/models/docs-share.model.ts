@@ -1,4 +1,4 @@
-import { DocumentShareAccessEnum, ID } from '@gauzy/contracts';
+import { DocumentShareAccessEnum, ID } from '@irtranscripts/contracts';
 
 /**
  * Plugin-local wire models for the share overlay endpoints
@@ -11,7 +11,7 @@ import { DocumentShareAccessEnum, ID } from '@gauzy/contracts';
  * DELETE /api/plugins/docs/documents/:id/shares/:shareId   DOCS_UPDATE
  * ```
  *
- * The row entity itself (`IDocumentShare`) already lives in `@gauzy/contracts`;
+ * The row entity itself (`IDocumentShare`) already lives in `@irtranscripts/contracts`;
  * only the create/update inputs are local until the backend wave lands DTOs.
  */
 

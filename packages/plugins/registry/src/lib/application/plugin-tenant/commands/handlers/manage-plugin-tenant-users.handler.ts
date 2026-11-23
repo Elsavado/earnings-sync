@@ -1,5 +1,5 @@
-import { ID, IUser } from '@gauzy/contracts';
-import { RequestContext, UserService } from '@gauzy/core';
+import { ID, IUser } from '@irtranscripts/contracts';
+import { RequestContext, UserService } from '@irtranscripts/core';
 import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { In } from 'typeorm';

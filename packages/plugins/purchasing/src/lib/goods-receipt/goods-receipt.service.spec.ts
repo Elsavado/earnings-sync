@@ -1,6 +1,6 @@
 // cspell:ignore Aways
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a receiving service needs and none of which is
  * available outside a running application. The seam is therefore doubled at the module boundary,
  * exactly as the catalogue and inventory packages' service specs do, and **the services under test are
@@ -8,7 +8,7 @@
  * order and order-line services it moves the counters through, and the real term service it reads the
  * negotiated allowance from.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 	// The order service reaches the kernel's conditional write by name through this barrel, so a factory
 	// that replaces the barrel has to answer for it. The double decides rather than succeeds.
@@ -84,7 +84,7 @@ jest.mock('@gauzy/core', () => {
 		commitVersionedUpdate,
 		// The platform's own affected-row reader: the counters' conditional write is decided from what the
 		// driver answered, so the reader is the real one rather than a second copy of it.
-		readAffectedRows: jest.requireActual('@gauzy/core/src/lib/database/database.helper').readAffectedRows,
+		readAffectedRows: jest.requireActual('@irtranscripts/core/src/lib/database/database.helper').readAffectedRows,
 		TenantAwareCrudService,
 		BaseEntity,
 		TenantBaseEntity: BaseEntity,
@@ -107,7 +107,7 @@ jest.mock('@gauzy/core', () => {
 		},
 		BaseEvent: class {},
 		EventBus: class {},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		Organization: class Organization {},
 		OrganizationVendor: class OrganizationVendor {},
 		ProductVariant: class ProductVariant {},
@@ -130,7 +130,7 @@ jest.mock('@gauzy/core', () => {
  * The configuration reads the process environment at import time; the dialect a transaction runs on is
  * read off the transaction itself, which the double below states.
  */
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	isMySQL: () => false,
 	isPostgres: () => false,
 	DatabaseTypeEnum: {
@@ -150,7 +150,7 @@ import {
 	ProductVariant,
 	ProductVariantPrice,
 	RequestContext
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import {
 	GoodsReceiptStatus,
 	PurchaseOrderStatus,

@@ -4,8 +4,8 @@ jest.mock('dotenv', () => ({
 
 import '../../core/entities/internal';
 
-import { DatabaseTypeEnum, defineConfig } from '@gauzy/config';
-import { IActivitiesStatistics, IGetActivitiesStatistics } from '@gauzy/contracts';
+import { DatabaseTypeEnum, defineConfig } from '@irtranscripts/config';
+import { IActivitiesStatistics, IGetActivitiesStatistics } from '@irtranscripts/contracts';
 import { knex as createKnex, Knex } from 'knex';
 import { DataSource, EntitySchema, EntitySchemaColumnOptions } from 'typeorm';
 import { MultiORMEnum } from '../../core/utils';

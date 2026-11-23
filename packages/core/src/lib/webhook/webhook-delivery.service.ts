@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { FindOptionsWhere, In, IsNull, LessThanOrEqual } from 'typeorm';
-import { ID, IWebhookAttemptResult, IWebhookDelivery, JsonData, WebhookDeliveryStatus, WebhookHeader } from '@gauzy/contracts';
+import { ID, IWebhookAttemptResult, IWebhookDelivery, JsonData, WebhookDeliveryStatus, WebhookHeader } from '@irtranscripts/contracts';
 import { CrudService } from '../core/crud/crud.service';
 import { RequestContext } from '../core/context/request-context';
 import { isUniqueViolation } from '../core/errors/unique-violation';
@@ -165,7 +165,7 @@ export class WebhookDeliveryService extends CrudService<WebhookDelivery> {
 	static readonly RESPONSE_BODY_LIMIT = 4 * 1024;
 
 	/** The client identity every delivery carries. */
-	static readonly USER_AGENT = 'EverGauzy-Webhooks/1.0';
+	static readonly USER_AGENT = 'EverIRTranscripts-Webhooks/1.0';
 
 	/** The payload version sent when a subscription pins none. */
 	static readonly DEFAULT_API_VERSION = '1';

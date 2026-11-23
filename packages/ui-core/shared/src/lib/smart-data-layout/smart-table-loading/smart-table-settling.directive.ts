@@ -17,7 +17,7 @@ export const SMART_TABLE_SETTLE_DELAY_MS = 700;
  * instant the grid holds zero rows, which is the state every list page is in
  * between mounting and its first response — so the very first frame the user
  * sees says "No Data". This directive puts a class on the host for that window
- * and the global `_gauzy-skeleton` rules repaint that one cell as a shimmer.
+ * and the global `_irtranscripts-skeleton` rules repaint that one cell as a shimmer.
  *
  * It has NO inputs on purpose. It is attached by element selector to every
  * smart table in scope of `SmartDataViewLayoutModule`, so pages get the fix

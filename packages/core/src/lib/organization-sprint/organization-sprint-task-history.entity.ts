@@ -1,7 +1,7 @@
 import { JoinColumn, RelationId } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
-import { ID, IOrganizationSprintTaskHistory, ITask, IUser } from '@gauzy/contracts';
+import { ID, IOrganizationSprintTaskHistory, ITask, IUser } from '@irtranscripts/contracts';
 import { OrganizationSprint, Task, TenantOrganizationBaseEntity, User } from '../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from '../core/decorators/entity';
 import { MikroOrmOrganizationSprintTaskRepository } from './repository/mikro-orm-organization-sprint-task.repository';

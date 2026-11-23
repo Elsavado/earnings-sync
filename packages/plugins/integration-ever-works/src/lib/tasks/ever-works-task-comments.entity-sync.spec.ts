@@ -1,9 +1,9 @@
 /**
  * OQ4 / review F77: a mapping whose COMMENT sync setting is off (`integration_entity_setting` `sync: false`) keeps
- * syncing its tasks but not their comments: an Ever Works comment event is skipped, a Gauzy comment change is not
+ * syncing its tasks but not their comments: an Ever Works comment event is skipped, a IRTranscripts comment change is not
  * pushed, and the comment sweep leaves the mapping alone. With the setting on (or missing), comments go on as before.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	const entity = (name: string) => ({ [name]: class {} })[name];
 	return {
@@ -41,10 +41,10 @@ jest.mock('@gauzy/core', () => {
 		}
 	};
 });
-jest.mock('@gauzy/common', () => ({ Public: () => () => undefined }));
+jest.mock('@irtranscripts/common', () => ({ Public: () => () => undefined }));
 
 import 'reflect-metadata';
-import { IntegrationEntity } from '@gauzy/contracts';
+import { IntegrationEntity } from '@irtranscripts/contracts';
 import { EverWorksLinkType } from '../sync/entities/ever-works-sync.entities';
 import { EverWorksTaskCommentsService } from './ever-works-task-comments.service';
 
@@ -61,7 +61,7 @@ function setup(entitySync: Partial<Record<IntegrationEntity, boolean>>) {
 	};
 	const links = {
 		byEw: jest.fn(async () => null),
-		byGauzy: jest.fn(async () => null),
+		byIRTranscripts: jest.fn(async () => null),
 		list: jest.fn(async () => [])
 	};
 	const store = { loadComment: jest.fn(async () => null), organizationOfTask: jest.fn(async () => 'o1') };
@@ -95,7 +95,7 @@ const change = {
 	tenantId: 't1',
 	organizationId: 'o1',
 	entityType: EverWorksLinkType.COMMENT,
-	gauzyId: 'comment-1',
+	irtranscriptsId: 'comment-1',
 	op: 'upsert',
 	actorUserId: null
 } as never;
@@ -121,18 +121,18 @@ describe('comments follow the COMMENT sync setting (OQ4, review F77)', () => {
 		}
 	});
 
-	it('a Gauzy comment change is not pushed while the setting is off', async () => {
+	it('a IRTranscripts comment change is not pushed while the setting is off', async () => {
 		const off = setup({ [IntegrationEntity.COMMENT]: false });
 		expect(await off.service.push(change, pushContext)).toMatchObject({
 			status: 'skipped',
 			message: expect.stringMatching(/comments are not synced/)
 		});
 		expect(off.store.loadComment).not.toHaveBeenCalled();
-		expect(off.links.byGauzy).not.toHaveBeenCalled();
+		expect(off.links.byIRTranscripts).not.toHaveBeenCalled();
 
 		const on = setup({});
 		await on.service.push(change, pushContext).catch(() => undefined);
-		expect(on.links.byGauzy).toHaveBeenCalled();
+		expect(on.links.byIRTranscripts).toHaveBeenCalled();
 	});
 
 	it('the comment sweep skips a mapping whose setting is off', async () => {

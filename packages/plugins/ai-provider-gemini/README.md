@@ -1,7 +1,7 @@
-# @gauzy/plugin-ai-provider-gemini
+# @irtranscripts/plugin-ai-provider-gemini
 
-Ever Gauzy AI Chat provider plugin: registers **Gemini** models with the
-`@gauzy/plugin-ai-chat` provider registry via `@ai-sdk/google`.
+Ever IRTranscripts AI Chat provider plugin: registers **Gemini** models with the
+`@irtranscripts/plugin-ai-chat` provider registry via `@ai-sdk/google`.
 
 ## Configuration
 

@@ -2,16 +2,16 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 /**
- * Selects which environment file the COMPILED `@gauzy/config` package exports.
+ * Selects which environment file the COMPILED `@irtranscripts/config` package exports.
  *
  * `environment.ts` (development) and `environment.prod.ts` (production) are both compiled by
  * `nx build config`. The package is consumed prebuilt — the API and worker bundles externalize
- * `@gauzy/*` and copy `dist/packages/config` into their own `node_modules` — so a `fileReplacements`
+ * `@irtranscripts/*` and copy `dist/packages/config` into their own `node_modules` — so a `fileReplacements`
  * entry in the consumer's webpack build never reaches it, and `@nx/js:tsc` has no file replacement of
  * its own. The selection therefore happens on the compiled output, in two places:
  *
  * - **Per application, at copy time** (`apps/api/config/webpack-package-copy-patterns.js`): while a
- *   production build copies the package into `dist/apps/<app>/node_modules/@gauzy/config`, the
+ *   production build copies the package into `dist/apps/<app>/node_modules/@irtranscripts/config`, the
  *   `environment.js` it writes is `compiledEnvironmentContent(..., 'production')`. Nothing in
  *   `dist/packages/config` changes, so two builds with different configurations never affect each other.
  * - **For a standalone production dist of the package** (`nx run config:select-environment -c production`,
@@ -31,7 +31,7 @@ export type CompiledEnvironmentName = 'development' | 'production';
  * `"use strict"`, which a comment may.
  */
 export const PRODUCTION_SUBSTITUTION_MARKER =
-	'//# @gauzy/config: production environment, copied from environment.prod.js by select-compiled-environment';
+	'//# @irtranscripts/config: production environment, copied from environment.prod.js by select-compiled-environment';
 
 /** Compiled file names inside the `environments` output directory. */
 export const COMPILED_ENVIRONMENT = 'environment.js';
@@ -81,7 +81,7 @@ export function compiledEnvironmentContent(outputDirectory: string, environment:
 
 	for (const file of [target, production]) {
 		if (!fs.existsSync(file)) {
-			throw new Error(`${file} is missing: compile @gauzy/config before selecting its environment.`);
+			throw new Error(`${file} is missing: compile @irtranscripts/config before selecting its environment.`);
 		}
 	}
 
@@ -95,7 +95,7 @@ export function compiledEnvironmentContent(outputDirectory: string, environment:
 	}
 	if (!fs.existsSync(preserved)) {
 		throw new Error(
-			`${target} carries the production environment and ${preserved} is missing: recompile @gauzy/config.`
+			`${target} carries the production environment and ${preserved} is missing: recompile @irtranscripts/config.`
 		);
 	}
 	return fs.readFileSync(preserved, 'utf8');
@@ -183,9 +183,9 @@ if (require.main === module) {
 	try {
 		const { environment, outputDirectory } = parseSelectionArguments(process.argv.slice(2), __dirname);
 		const selection = selectCompiledEnvironment(outputDirectory, environment);
-		console.log(`@gauzy/config: ${selection.environment} environment ${selection.action} (${selection.file})`);
+		console.log(`@irtranscripts/config: ${selection.environment} environment ${selection.action} (${selection.file})`);
 	} catch (error) {
-		console.error(`@gauzy/config: environment selection failed: ${error instanceof Error ? error.message : error}`);
+		console.error(`@irtranscripts/config: environment selection failed: ${error instanceof Error ? error.message : error}`);
 		process.exit(1);
 	}
 }

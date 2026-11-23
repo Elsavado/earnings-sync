@@ -1,9 +1,9 @@
 import '../core/entities/internal';
 
-jest.mock('@gauzy/config', () => ({ ...jest.requireActual('@gauzy/config'), isMySQL: jest.fn() }));
+jest.mock('@irtranscripts/config', () => ({ ...jest.requireActual('@irtranscripts/config'), isMySQL: jest.fn() }));
 
 import { Brackets } from 'typeorm';
-import { isMySQL } from '@gauzy/config';
+import { isMySQL } from '@irtranscripts/config';
 import { CrudService } from '../core/crud/crud.service';
 import { MultiORMEnum } from '../core/utils';
 import { EquipmentSharingService } from './equipment-sharing.service';

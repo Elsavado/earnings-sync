@@ -21,7 +21,7 @@ jest.mock('../core/utils', () => ({
 }));
 
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { EmployeeCreateHandler } from '../employee/commands/handlers/employee.create.handler';
 import { EmployeeCreateCommand } from '../employee/commands/employee.create.command';

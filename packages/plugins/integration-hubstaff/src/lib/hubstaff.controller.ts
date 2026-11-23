@@ -9,8 +9,8 @@ import {
 	PermissionsEnum,
 	ICreateHubstaffIntegrationInput,
 	ID
-} from '@gauzy/contracts';
-import { PermissionGuard, Permissions, TenantPermissionGuard, UUIDValidationPipe } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { PermissionGuard, Permissions, TenantPermissionGuard, UUIDValidationPipe } from '@irtranscripts/core';
 import { HubstaffService, IHubstaffAccessTokenResponse } from './hubstaff.service';
 
 @ApiTags('Hubstaff Integrations')

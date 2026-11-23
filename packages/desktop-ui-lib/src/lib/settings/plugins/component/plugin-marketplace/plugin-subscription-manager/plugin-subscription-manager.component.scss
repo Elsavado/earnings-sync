@@ -6,7 +6,7 @@
   width: 900px;
   overflow-y: auto;
   border: none;
-  box-shadow: var(--gauzy-shadow);
+  box-shadow: var(--irtranscripts-shadow);
   border-radius: calc(var(--border-radius) * 1.5);
 
   /* Custom scrollbar */
@@ -15,12 +15,12 @@
   }
 
   &::-webkit-scrollbar-track {
-    background: var(--gauzy-card-2);
+    background: var(--irtranscripts-card-2);
     border-radius: 4px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: var(--gauzy-text-color-2);
+    background: var(--irtranscripts-text-color-2);
     border-radius: 4px;
     transition: background 0.2s ease;
     opacity: 0.3;
@@ -54,7 +54,7 @@
 
   .manager-title {
     margin: 0;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
     font-size: 24px;
     font-weight: 700;
     letter-spacing: -0.5px;
@@ -101,7 +101,7 @@
 /* Current Subscription */
 .current-subscription {
   border: none;
-  box-shadow: var(--gauzy-shadow);
+  box-shadow: var(--irtranscripts-shadow);
   border-radius: calc(var(--border-radius) * 1.5);
 
   ::ng-deep nb-card-body {
@@ -109,7 +109,7 @@
   }
 
   .subscription-card {
-    background: var(--gauzy-card-1);
+    background: var(--irtranscripts-card-1);
     padding: 0;
     position: relative;
     overflow: hidden;
@@ -126,7 +126,7 @@
     }
 
     &.current {
-      background: var(--gauzy-card-1);
+      background: var(--irtranscripts-card-1);
     }
 
     &.trial {
@@ -258,7 +258,7 @@
         margin: 0 0 8px 0;
         font-size: 26px;
         font-weight: 800;
-        color: var(--gauzy-text-color-1);
+        color: var(--irtranscripts-text-color-1);
         line-height: 1.2;
         display: flex;
         align-items: center;
@@ -272,7 +272,7 @@
       .plan-description {
         margin: 0 0 16px 0;
         font-size: 14px;
-        color: var(--gauzy-text-color-2);
+        color: var(--irtranscripts-text-color-2);
         line-height: 1.5;
         max-width: 400px;
       }
@@ -290,7 +290,7 @@
         font-weight: 600;
         padding: 8px 16px;
         border-radius: 24px;
-        background: var(--gauzy-card-2);
+        background: var(--irtranscripts-card-2);
         transition: all 0.3s ease;
 
         &.active {
@@ -354,7 +354,7 @@
       .price-period {
         display: block;
         font-size: 14px;
-        color: var(--gauzy-text-color-2);
+        color: var(--irtranscripts-text-color-2);
         font-weight: 500;
         margin-top: 4px;
       }
@@ -374,13 +374,13 @@
     align-items: center;
     gap: 14px;
     padding: 16px;
-    background: var(--gauzy-card-2);
+    background: var(--irtranscripts-card-2);
     border-radius: calc(var(--border-radius) * 1.25);
-    border: 1px solid var(--gauzy-card-2);
+    border: 1px solid var(--irtranscripts-card-2);
     transition: all 0.3s ease;
 
     &:hover {
-      background: var(--gauzy-card-1);
+      background: var(--irtranscripts-card-1);
       border-color: var(--color-primary-300);
       transform: translateY(-2px);
     }
@@ -410,7 +410,7 @@
     .detail-label {
       font-size: 11px;
       font-weight: 600;
-      color: var(--gauzy-text-color-2);
+      color: var(--irtranscripts-text-color-2);
       text-transform: uppercase;
       letter-spacing: 0.5px;
       margin-bottom: 2px;
@@ -419,7 +419,7 @@
     .detail-value {
       font-size: 15px;
       font-weight: 700;
-      color: var(--gauzy-text-color-1);
+      color: var(--irtranscripts-text-color-1);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -493,8 +493,8 @@
     gap: 12px;
     padding: 20px 28px 28px;
 	border-radius: 0 0 calc(var(--border-radius) * 1.25) calc(var(--border-radius) * 1.25);
-    border-top: 1px solid var(--gauzy-card-2);
-    background: var(--gauzy-card-2);
+    border-top: 1px solid var(--irtranscripts-card-2);
+    background: var(--irtranscripts-card-2);
 
     .action-btn {
       display: inline-flex;
@@ -543,7 +543,7 @@
 /* Available Plans */
 .available-plans {
   border: none;
-  box-shadow: var(--gauzy-shadow);
+  box-shadow: var(--irtranscripts-shadow);
   border-radius: calc(var(--border-radius) * 1.25);
 
   ::ng-deep nb-card-header {
@@ -554,7 +554,7 @@
     margin: 0;
     font-size: 20px;
     font-weight: 700;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
     display: flex;
     align-items: center;
     gap: 12px;
@@ -572,25 +572,25 @@
     align-items: center;
     gap: 16px;
     padding: 18px 20px;
-    background: var(--gauzy-card-2);
-    border: 1px solid var(--gauzy-card-2);
+    background: var(--irtranscripts-card-2);
+    border: 1px solid var(--irtranscripts-card-2);
     border-radius: calc(var(--border-radius) * 1.25);
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
 
     nb-icon {
       font-size: 28px;
-      color: var(--gauzy-text-color-2);
+      color: var(--irtranscripts-text-color-2);
     }
 
     .empty-title {
       margin: 0;
       font-weight: 700;
-      color: var(--gauzy-text-color-1);
+      color: var(--irtranscripts-text-color-1);
     }
 
     .empty-subtitle {
       margin: 4px 0 0 0;
-      color: var(--gauzy-text-color-2);
+      color: var(--irtranscripts-text-color-2);
       font-size: 13px;
     }
   }
@@ -598,8 +598,8 @@
 
 /* Plan Card */
 .plan-card {
-  background: var(--gauzy-card-1);
-  border: 2px solid var(--gauzy-card-2);
+  background: var(--irtranscripts-card-1);
+  border: 2px solid var(--irtranscripts-card-2);
   border-radius: calc(var(--border-radius) * 1.25);
   padding: 20px;
   cursor: pointer;
@@ -609,18 +609,18 @@
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: var(--gauzy-shadow);
+    box-shadow: var(--irtranscripts-shadow);
     border-color: var(--color-primary-400);
   }
 
   &.selected {
     border-color: var(--color-primary-500);
-    background: var(--gauzy-card-1);
+    background: var(--irtranscripts-card-1);
   }
 
   &.current {
     border-color: var(--color-success-500);
-    background: var(--gauzy-card-1);
+    background: var(--irtranscripts-card-1);
   }
 
   &.popular {
@@ -674,7 +674,7 @@
     margin: 0 0 8px 0;
     font-size: 20px;
     font-weight: 600;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
   }
 
   .plan-price {
@@ -702,7 +702,7 @@
 }
 
 .plan-description {
-  color: var(--gauzy-text-color-2);
+  color: var(--irtranscripts-text-color-2);
   font-size: 14px;
   line-height: 1.4;
   margin: 0 0 16px 0;
@@ -722,7 +722,7 @@
       gap: 8px;
       margin-bottom: 8px;
       font-size: 13px;
-      color: var(--gauzy-text-color-1);
+      color: var(--irtranscripts-text-color-1);
 
       .feature-check {
         color: var(--success-color);
@@ -743,7 +743,7 @@
 /* Billing Form */
 .billing-form {
   border: none;
-  box-shadow: var(--gauzy-shadow);
+  box-shadow: var(--irtranscripts-shadow);
   border-radius: calc(var(--border-radius) * 1.25);
   animation: slideInUp 0.4s ease-out;
 
@@ -758,7 +758,7 @@
     gap: 12px;
     font-size: 20px;
     font-weight: 700;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
   }
 
   @keyframes slideInUp {
@@ -779,7 +779,7 @@
       margin: 0 0 12px 0;
       font-size: 14px;
       font-weight: 600;
-      color: var(--gauzy-text-color-1);
+      color: var(--irtranscripts-text-color-1);
     }
 
     .billing-period, .payment-methods {
@@ -792,12 +792,12 @@
         align-items: center;
         gap: 8px;
         padding: 12px;
-        border: 1px solid var(--gauzy-card-2);
+        border: 1px solid var(--irtranscripts-card-2);
         border-radius: 6px;
         transition: all 0.2s ease;
 
         &:hover {
-          background: var(--gauzy-card-1);
+          background: var(--irtranscripts-card-1);
           border-color: var(--color-primary-400);
         }
 
@@ -824,7 +824,7 @@
           margin-bottom: 6px;
           font-size: 13px;
           font-weight: 500;
-          color: var(--gauzy-text-color-1);
+          color: var(--irtranscripts-text-color-1);
         }
 
         .error-message {
@@ -852,7 +852,7 @@
           margin-bottom: 6px;
           font-size: 13px;
           font-weight: 500;
-          color: var(--gauzy-text-color-1);
+          color: var(--irtranscripts-text-color-1);
         }
 
         .error-message {
@@ -865,7 +865,7 @@
 
     .checkbox-help {
       font-size: 12px;
-      color: var(--gauzy-text-color-2);
+      color: var(--irtranscripts-text-color-2);
       margin: 8px 0 0 24px;
     }
 
@@ -891,7 +891,7 @@
     justify-content: flex-end;
     margin-top: 32px;
     padding-top: 16px;
-    border-top: 1px solid var(--gauzy-card-2);
+    border-top: 1px solid var(--irtranscripts-card-2);
   }
 }
 

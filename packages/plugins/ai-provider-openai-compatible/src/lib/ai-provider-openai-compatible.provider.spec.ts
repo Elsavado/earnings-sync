@@ -1,11 +1,11 @@
-import { importEsm } from '@gauzy/plugin-ai-chat';
-import type { IAiProviderCredentials } from '@gauzy/plugin-ai-chat';
+import { importEsm } from '@irtranscripts/plugin-ai-chat';
+import type { IAiProviderCredentials } from '@irtranscripts/plugin-ai-chat';
 import { openAiCompatibleProviderDefinition } from './ai-provider-openai-compatible.provider';
 
 // `createModel` loads the AI SDK through `importEsm`; stubbing only that loader lets a spec inspect the
 // options handed to the SDK factory while every other helper (the SSRF guard included) stays real.
-jest.mock('@gauzy/plugin-ai-chat', () => ({
-	...jest.requireActual('@gauzy/plugin-ai-chat'),
+jest.mock('@irtranscripts/plugin-ai-chat', () => ({
+	...jest.requireActual('@irtranscripts/plugin-ai-chat'),
 	importEsm: jest.fn()
 }));
 const importEsmMock = importEsm as unknown as jest.Mock;

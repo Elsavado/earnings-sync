@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IEmployeeSetting } from '@gauzy/contracts';
+import { IEmployeeSetting } from '@irtranscripts/contracts';
 import { EmployeeSettingUpdateCommand } from '../employee-setting.update.command';
 import { EmployeeSettingService } from '../../employee-setting.service';
 

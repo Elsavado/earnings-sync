@@ -1,8 +1,8 @@
 import { CanActivate, ExecutionContext, Injectable, NotFoundException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { gauzyToggleFeatures } from '@gauzy/config';
-import { requiredFeatureFlags } from '@gauzy/common';
-import { FeatureEnum } from '@gauzy/contracts';
+import { irtranscriptsToggleFeatures } from '@irtranscripts/config';
+import { requiredFeatureFlags } from '@irtranscripts/common';
+import { FeatureEnum } from '@irtranscripts/contracts';
 
 @Injectable()
 export class StatsGuard implements CanActivate {
@@ -23,7 +23,7 @@ export class StatsGuard implements CanActivate {
 
 		// A route with no flag at all is refused, as before: this guard exists to gate on one.
 		const isEnabled =
-			featureFlags.length > 0 && featureFlags.every((featureFlag: FeatureEnum) => !!gauzyToggleFeatures[featureFlag]);
+			featureFlags.length > 0 && featureFlags.every((featureFlag: FeatureEnum) => !!irtranscriptsToggleFeatures[featureFlag]);
 
 		if (this.loggingEnabled) {
 			console.log(`Guard: FeatureFlag(s) ${featureFlags.join(', ') || '(none)'} ${isEnabled ? 'enabled' : 'disabled'}`);

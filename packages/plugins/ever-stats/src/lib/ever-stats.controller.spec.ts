@@ -1,8 +1,8 @@
 import { INestApplication, Type } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
-import { RoleGuard } from '@gauzy/core';
-import { EverOperatorService } from '@gauzy/plugin-ever-instance';
+import { RoleGuard } from '@irtranscripts/core';
+import { EverOperatorService } from '@irtranscripts/plugin-ever-instance';
 import { EverStatsController } from './ever-stats.controller';
 import { EverStatsModule } from './ever-stats.module';
 import { EVER_STATS_ENV } from './ever-stats-scheduler.service';
@@ -25,7 +25,7 @@ const ROUTES: Array<[string, string, unknown]> = [
 	['post', '/api/ever-stats/reset-identity', { confirm: true }]
 ];
 
-// The first suite of a run loads Gauzy core from source, which can take longer than the default 5 s.
+// The first suite of a run loads IRTranscripts core from source, which can take longer than the default 5 s.
 jest.setTimeout(120_000);
 
 describe('Anonymous usage statistics routes', () => {
@@ -56,7 +56,7 @@ describe('Anonymous usage statistics routes', () => {
 				}
 			]
 		})
-			// RoleGuard re-checks SUPER_ADMIN through Gauzy's request context, which this test does not boot;
+			// RoleGuard re-checks SUPER_ADMIN through IRTranscripts's request context, which this test does not boot;
 			// the operator guard runs first and already requires it.
 			.overrideGuard(RoleGuard)
 			.useValue({ canActivate: () => true })
@@ -112,14 +112,14 @@ describe('Anonymous usage statistics routes', () => {
 
 	describe('GET /api/ever-stats/state', () => {
 		it('does not exist on an installation without a paired Ever Teams', async () => {
-			const controllers = EverStatsModule.register({ EVER_STATS_SERVES: 'gauzy' }).controllers as Array<Type<unknown>>;
+			const controllers = EverStatsModule.register({ EVER_STATS_SERVES: 'irtranscripts' }).controllers as Array<Type<unknown>>;
 			expect(controllers).toEqual([EverStatsController]);
 			app = await start(controllers);
 			expect((await call('get', '/api/ever-stats/state', null)).status).toBe(404);
 		});
 
 		it('answers exactly {"enabled":true} without authentication on a paired installation', async () => {
-			const controllers = EverStatsModule.register({ EVER_STATS_SERVES: 'gauzy,teams' }).controllers as Array<Type<unknown>>;
+			const controllers = EverStatsModule.register({ EVER_STATS_SERVES: 'irtranscripts,teams' }).controllers as Array<Type<unknown>>;
 			expect(controllers).toEqual([EverStatsController, EverStatsStateController]);
 			app = await start(controllers);
 			const response = await call('get', '/api/ever-stats/state', null);

@@ -5,9 +5,9 @@ import { filter } from 'rxjs/operators';
 import { tap } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ID, IOrganization } from '@gauzy/contracts';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { Store, UpworkStoreService } from '@gauzy/ui-core/core';
+import { ID, IOrganization } from '@irtranscripts/contracts';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { Store, UpworkStoreService } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy()
 @Component({

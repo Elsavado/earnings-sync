@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
 import { CqrsModule } from '@nestjs/cqrs';
-import { ConfigModule } from '@gauzy/config';
+import { ConfigModule } from '@irtranscripts/config';
 import {
 	IntegrationModule,
 	IntegrationSettingModule,
@@ -9,7 +9,7 @@ import {
 	PluginCommonModule,
 	RolePermissionModule,
 	TenantApiKeyModule
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { PlaneController } from './plane.controller';
 import { PlaneIntegrationService } from './plane-integration.service';
 import { PlaneProxyService } from './plane-proxy.service';

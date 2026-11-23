@@ -11,10 +11,10 @@ import {
 	ITaskStatusFindInput,
 	PermissionsEnum,
 	TaskStatusEnum
-} from '@gauzy/contracts';
-import { distinctUntilChange, sluggable } from '@gauzy/ui-core/common';
-import { ErrorHandlingService, Store, TaskStatusesService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/contracts';
+import { distinctUntilChange, sluggable } from '@irtranscripts/ui-core/common';
+import { ErrorHandlingService, Store, TaskStatusesService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

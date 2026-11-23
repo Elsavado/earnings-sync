@@ -1,6 +1,6 @@
-# @gauzy/plugin
+# @irtranscripts/plugin
 
-This library was generated with [Nx](https://nx.dev). It contains the Plugin Module for the Gauzy platform.
+This library was generated with [Nx](https://nx.dev). It contains the Plugin Module for the IRTranscripts platform.
 
 ## Building
 
@@ -19,7 +19,7 @@ After building your library with `yarn nx build plugin`, go to the dist folder `
 Install the Plugin Module using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin
+npm install @irtranscripts/plugin
 # or
-yarn add @gauzy/plugin
+yarn add @irtranscripts/plugin
 ```

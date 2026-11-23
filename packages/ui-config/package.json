@@ -1,7 +1,7 @@
 {
-	"name": "@gauzy/ui-config",
+	"name": "@irtranscripts/ui-config",
 	"version": "0.1.0",
-	"description": "A configuration library for the Gauzy framework, providing environment settings and configurations to be shared across various Angular applications within the Gauzy ecosystem.",
+	"description": "A configuration library for the IRTranscripts framework, providing environment settings and configurations to be shared across various Angular applications within the IRTranscripts ecosystem.",
 	"type": "module",
 	"author": {
 		"name": "Ever Co. LTD",
@@ -48,7 +48,7 @@
 		"jest-preset-angular": "17.0.2"
 	},
 	"keywords": [
-		"gauzy",
+		"irtranscripts",
 		"angular",
 		"configuration",
 		"environment",

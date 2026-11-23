@@ -1,4 +1,4 @@
-import { IEntitySubscriptionCreateInput } from '@gauzy/contracts';
+import { IEntitySubscriptionCreateInput } from '@irtranscripts/contracts';
 import { ICommand } from '@nestjs/cqrs';
 
 export class EntitySubscriptionCreateCommand implements ICommand {

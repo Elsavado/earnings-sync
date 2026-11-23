@@ -1,4 +1,4 @@
-import { IntegrationEntity } from '@gauzy/contracts';
+import { IntegrationEntity } from '@irtranscripts/contracts';
 import type { EverWorksEventEnvelope } from '../../client/ever-works-client.types';
 import type { EverWorksDirection, EverWorksDomain } from '../../mapping/ever-works-mapping.defaults';
 import { EverWorksLinkType } from '../entities/ever-works-sync.entities';
@@ -102,8 +102,8 @@ export const HELD_AFTER = new Date('9000-01-01T00:00:00.000Z');
 /** Comment events sort after every task event of an initial sync (far above any page band). */
 export const COMMENTS_SEQ_BASE = 1_000_000_000_000_000;
 
-export const fromEverWorks = (direction: EverWorksDirection | undefined): boolean => direction === 'both' || direction === 'ew_to_gauzy';
-export const toEverWorks = (direction: EverWorksDirection | undefined): boolean => direction === 'both' || direction === 'gauzy_to_ew';
+export const fromEverWorks = (direction: EverWorksDirection | undefined): boolean => direction === 'both' || direction === 'ew_to_irtranscripts';
+export const toEverWorks = (direction: EverWorksDirection | undefined): boolean => direction === 'both' || direction === 'irtranscripts_to_ew';
 
 /**
  * How deep each record sits under parents of the same list (0 = no parent in the list), so parents are

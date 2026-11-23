@@ -1,4 +1,4 @@
-import { CurrencyCode, DecimalString, RoundingMode } from '@gauzy/contracts';
+import { CurrencyCode, DecimalString, RoundingMode } from '@irtranscripts/contracts';
 import { WORKING_SCALE, formatDecimalUnits, isValidDecimalString, normalizeDecimalString, parseDecimalString } from './decimal';
 import { roundingStrategies } from './rounding';
 

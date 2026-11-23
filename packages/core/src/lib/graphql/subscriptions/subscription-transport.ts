@@ -61,12 +61,12 @@ export const SUBSCRIPTION_SCOPE_PARAMS = ['tenant-id', 'organization-id', 'x-cha
 /**
  * Where the normalised headers of a connection are kept on the connection's `extra`.
  */
-export const SUBSCRIPTION_HEADERS_KEY = '__gauzySubscriptionHeaders';
+export const SUBSCRIPTION_HEADERS_KEY = '__irtranscriptsSubscriptionHeaders';
 
 /**
  * Where the credential session of a connection (`SubscriptionSession`) is kept on the connection's `extra`.
  */
-export const SUBSCRIPTION_SESSION_KEY = '__gauzySubscriptionSession';
+export const SUBSCRIPTION_SESSION_KEY = '__irtranscriptsSubscriptionSession';
 
 /**
  * The passport strategy a connection's credential is judged again with: the one the global `AuthGuard`

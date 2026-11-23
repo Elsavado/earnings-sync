@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ICandidateCriterionsRating, ICandidateCriterionsRatingCreateInput, ID } from '@gauzy/contracts';
+import { ICandidateCriterionsRating, ICandidateCriterionsRatingCreateInput, ID } from '@irtranscripts/contracts';
 
 import { TenantAwareCrudService } from './../core/crud';
 import { CandidateCriterionsRating } from './candidate-criterion-rating.entity';

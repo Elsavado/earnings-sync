@@ -7,7 +7,7 @@ import { PrimaryGeneratedColumn, UpdateDateColumn, CreateDateColumn, DeleteDateC
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsDateString, IsOptional } from 'class-validator';
 import { SoftDeletable } from 'mikro-orm-soft-delete';
-import { BaseEntityModel as IBaseEntityModel, ID, IUser } from '@gauzy/contracts';
+import { BaseEntityModel as IBaseEntityModel, ID, IUser } from '@irtranscripts/contracts';
 import { PrimaryKey, Property } from '@mikro-orm/core';
 import { MultiORMColumn, MultiORMManyToOne } from '../decorators/entity';
 import { ColumnIndex } from '../decorators/entity/column-index.decorator';

@@ -142,14 +142,14 @@ jobs:
         run: yarn start:api:forever
 
       - name: Run UI in background
-        run: yarn start:gauzy:forever
+        run: yarn start:irtranscripts:forever
 
       - name: Install Required Packages
         run: npm install -g wait-on cypress@8.3.1 @currents/cli https://github.com/sorry-cypress/cy2#feat/use-CYPRESS_PACKAGE_CONFIG_PATH
 
       # - name: Install Cypress for our e2e tests
       #   run: |
-      #     cd apps/gauzy-e2e
+      #     cd apps/irtranscripts-e2e
       #     yarn cypress install
 
       - name: Cypress info
@@ -179,5 +179,5 @@ jobs:
           DEBUG: cy2*
         run: |
           echo 'Starting Cypress Tests ...'
-          cd apps/gauzy-e2e
+          cd apps/irtranscripts-e2e
           cy2 run --parallel --record --key ${{ secrets.CURRENTS_CYPRESS_RECORD_KEY }} --ci-build-id ${{ needs.prepare.outputs.uuid }} -C cypress.json -c "projectId=${{ secrets.CURRENTS_CYPRESS_PROJECT_ID }}" --group "1 - all e2e tests"

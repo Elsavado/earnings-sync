@@ -1,3 +1,3 @@
-# @gauzy/ui-core/theme
+# @irtranscripts/ui-core/theme
 
-Secondary entry point of `@gauzy/ui-core`. It can be used by importing from `@gauzy/ui-core/theme`.
+Secondary entry point of `@irtranscripts/ui-core`. It can be used by importing from `@irtranscripts/ui-core/theme`.

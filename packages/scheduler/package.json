@@ -1,5 +1,5 @@
 {
-	"name": "@gauzy/scheduler",
+	"name": "@irtranscripts/scheduler",
 	"version": "0.1.0",
 	"type": "commonjs",
 	"main": "./src/index.js",

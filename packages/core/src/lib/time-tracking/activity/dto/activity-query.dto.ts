@@ -1,4 +1,4 @@
-import { IGetActivitiesInput, ReportGroupFilterEnum } from '@gauzy/contracts';
+import { IGetActivitiesInput, ReportGroupFilterEnum } from '@irtranscripts/contracts';
 import { ApiPropertyOptional, IntersectionType } from '@nestjs/swagger';
 import { Transform, TransformFnParams } from 'class-transformer';
 import { IsArray, IsEnum, IsInt, IsOptional, Max, Min } from 'class-validator';

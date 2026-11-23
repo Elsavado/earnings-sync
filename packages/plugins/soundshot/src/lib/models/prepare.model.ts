@@ -1,4 +1,4 @@
-import { FileStorageProviderEnum } from "@gauzy/contracts";
+import { FileStorageProviderEnum } from "@irtranscripts/contracts";
 import { FileDTO } from "../dtos/file.dto";
 
 export interface IPreparedFile {

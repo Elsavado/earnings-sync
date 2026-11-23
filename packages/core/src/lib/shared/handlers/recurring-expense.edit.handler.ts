@@ -12,7 +12,7 @@ import {
 	IRecurringExpenseEditInput,
 	IRecurringExpenseModel,
 	StartDateUpdateTypeEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { CrudService } from '../../core/crud';
 import { getLastDayOfMonth } from '../../core/utils';
 

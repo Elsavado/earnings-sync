@@ -14,7 +14,7 @@ button {
 
 /* Action Button Styles */
 .action {
-  box-shadow: var(--gauzy-shadow);
+  box-shadow: var(--irtranscripts-shadow);
   border: none;
 
   &[nbButton].size-medium.icon-start.icon-end {
@@ -23,38 +23,38 @@ button {
 
   /* General Appearance for Filled Buttons */
   &[nbButton].appearance-filled {
-    background-color: var(--gauzy-card-2);
-    color: var(--gauzy-text-color);
+    background-color: var(--irtranscripts-card-2);
+    color: var(--irtranscripts-text-color);
   }
 
   /* Status Styles */
   &[nbButton].appearance-filled.status-danger {
-    background-color: var(--gauzy-card-2);
+    background-color: var(--irtranscripts-card-2);
     color: var(--color-danger-default);
   }
 
   &[nbButton].appearance-filled.status-basic {
-    background-color: var(--gauzy-card-2);
-    color: var(--gauzy-text-color-2);
+    background-color: var(--irtranscripts-card-2);
+    color: var(--irtranscripts-text-color-2);
   }
 
   &[nbButton].appearance-filled.status-warning {
-    background-color: var(--gauzy-card-2);
+    background-color: var(--irtranscripts-card-2);
     color: var(--color-warning-default);
   }
 
   &[nbButton].appearance-filled.status-success {
-    background-color: var(--gauzy-card-2);
+    background-color: var(--irtranscripts-card-2);
     color: var(--color-success-default);
   }
 
   &[nbButton].appearance-filled.status-info {
-    background-color: var(--gauzy-card-2);
+    background-color: var(--irtranscripts-card-2);
     color: var(--color-info-default);
   }
 
   &[nbButton].appearance-filled.status-primary {
-    background-color: var(--gauzy-card-2);
+    background-color: var(--irtranscripts-card-2);
     color: var(--text-primary-color);
   }
 
@@ -67,6 +67,6 @@ button {
   /* Active Effects */
   &:active {
     transform: translateY(0);
-    box-shadow: var(--gauzy-shadow);
+    box-shadow: var(--irtranscripts-shadow);
   }
 }

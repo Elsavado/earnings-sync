@@ -5,14 +5,14 @@
  * often, with which sign, and that it gives the order its chance to complete — not about the order
  * service's own lifecycle, which has its suite.
  */
-jest.mock('@gauzy/core', () => ({ ...jest.requireActual('@gauzy/core/src/lib/money/decimal') }));
+jest.mock('@irtranscripts/core', () => ({ ...jest.requireActual('@irtranscripts/core/src/lib/money/decimal') }));
 jest.mock('../order/order.service', () => ({ OrderService: class {} }));
 jest.mock('../order/order.entity', () => ({ Order: class {} }));
 jest.mock('../order-totals/order-totals.service', () => ({ OrderTotalsService: class {} }));
 jest.mock('../order-transaction/order-transaction.entity', () => ({ OrderTransaction: class {} }));
 jest.mock('../order-transaction/order-transaction.service', () => ({ OrderTransactionService: class {} }));
 
-import { OrderTransactionType } from '@gauzy/contracts';
+import { OrderTransactionType } from '@irtranscripts/contracts';
 import { IOrderMoneyFact } from '../order.types';
 import { OrderPaymentLedgerService } from './order-payment-ledger.service';
 

@@ -1,5 +1,5 @@
 import { registerAs } from '@nestjs/config';
-import { ILinkedinConfig } from '@gauzy/common';
+import { ILinkedinConfig } from '@irtranscripts/common';
 
 /**
  * Register LinkedIn OAuth configuration using @nestjs/config

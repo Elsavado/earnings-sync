@@ -1,4 +1,4 @@
-import { RegisteredWindow } from '@gauzy/desktop-core';
+import { RegisteredWindow } from '@irtranscripts/desktop-core';
 import { BrowserWindow, MenuItemConstructorOptions } from 'electron';
 
 export interface IUserRepository {

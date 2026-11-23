@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { RelationId } from 'typeorm';
 import { IsNumber } from 'class-validator';
-import { IEmployee, ITask, ITaskEstimation } from '@gauzy/contracts';
+import { IEmployee, ITask, ITaskEstimation } from '@irtranscripts/contracts';
 import {
 	Employee,
 	TenantOrganizationBaseEntity,

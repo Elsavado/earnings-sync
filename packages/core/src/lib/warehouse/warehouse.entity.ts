@@ -16,7 +16,7 @@ import {
 	ITag,
 	IWarehouse,
 	IWarehouseProduct
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	Contact,
 	Tag,

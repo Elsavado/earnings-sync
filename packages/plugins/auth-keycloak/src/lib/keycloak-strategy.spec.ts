@@ -5,9 +5,9 @@ import { KeycloakStrategy, parseKeycloakConfig } from './keycloak.strategy';
 
 describe('Keycloak passport strategy', () => {
 	const settings: Record<string, string> = {
-		'keycloak.clientId': 'gauzy',
+		'keycloak.clientId': 'irtranscripts',
 		'keycloak.clientSecret': 'secret-value',
-		'keycloak.realm': 'gauzy',
+		'keycloak.realm': 'irtranscripts',
 		'keycloak.authServerURL': 'https://keycloak.internal.test/auth',
 		'keycloak.callbackURL': 'https://api.internal.test/api/auth/keycloak/callback'
 	};
@@ -23,9 +23,9 @@ describe('Keycloak passport strategy', () => {
 	it('reads the same configuration keys as before', () => {
 		expect(parseKeycloakConfig(configService)).toEqual(
 			expect.objectContaining({
-				clientID: 'gauzy',
+				clientID: 'irtranscripts',
 				clientSecret: 'secret-value',
-				realm: 'gauzy',
+				realm: 'irtranscripts',
 				authServerURL: 'https://keycloak.internal.test/auth',
 				callbackURL: 'https://api.internal.test/api/auth/keycloak/callback'
 			})

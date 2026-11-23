@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsString, IsOptional, IsUUID } from 'class-validator';
 import { Transform } from 'class-transformer';
-import { IProcessTrackingDataInput, ID } from '@gauzy/contracts';
+import { IProcessTrackingDataInput, ID } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../../core/dto';
 
 /**

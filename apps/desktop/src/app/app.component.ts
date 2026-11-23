@@ -6,11 +6,11 @@ import {
 	LanguageElectronService,
 	Store,
 	TokenRefreshService
-} from '@gauzy/desktop-ui-lib';
+} from '@irtranscripts/desktop-ui-lib';
 import { AppService } from './app.service';
 
 @Component({
-	selector: 'gauzy-root',
+	selector: 'irtranscripts-root',
 	template: '<router-outlet></router-outlet>',
 	changeDetection: ChangeDetectionStrategy.Eager,
 	imports: [RouterOutlet]

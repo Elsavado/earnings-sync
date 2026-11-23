@@ -1,7 +1,7 @@
 import { RelationId, JoinColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, IsOptional, IsBoolean, IsDate } from 'class-validator';
-import { AvailabilitySlotType, IAvailabilitySlot, IEmployee } from '@gauzy/contracts';
+import { AvailabilitySlotType, IAvailabilitySlot, IEmployee } from '@irtranscripts/contracts';
 import { Employee, TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from './../core/decorators/entity';
 import { MikroOrmAvailabilitySlotRepository } from './repository/mikro-orm-availability-slot.repository';

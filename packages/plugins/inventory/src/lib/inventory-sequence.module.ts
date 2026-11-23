@@ -7,7 +7,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { Sequence } from '@gauzy/core';
+import { Sequence } from '@irtranscripts/core';
 import { InventorySequenceService } from './inventory-sequence.service';
 
 @Module({

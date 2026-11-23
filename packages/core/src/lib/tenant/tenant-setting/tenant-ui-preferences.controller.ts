@@ -8,7 +8,7 @@ import {
 	PermissionsEnum,
 	PREFERRED_UI_SETTING_KEY,
 	PreferredUiEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { RequestContext } from '../../core/context';
 import { Permissions } from '../../shared/decorators';
 import { UseValidationPipe } from '../../shared/pipes';

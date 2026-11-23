@@ -5,7 +5,7 @@ import {
 	MultiORMColumn,
 	MultiORMEntity,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { PricePreferenceAttribute } from '../pricing.types';
 import { MikroOrmPricePreferenceRepository } from './repository/mikro-orm-price-preference.repository';
 

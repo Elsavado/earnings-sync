@@ -1,4 +1,4 @@
-import { TokenPurposeEnum, verifyPurposeToken } from '@gauzy/core';
+import { TokenPurposeEnum, verifyPurposeToken } from '@irtranscripts/core';
 import { manualPause } from '../fixtures/in-memory-accounts';
 import { TEST_CLIENT_BASE_URL, TestBrowser, ZitadelTestApp, createZitadelTestApp, hashParam } from '../fixtures/zitadel-test-app';
 
@@ -61,7 +61,7 @@ describe('Ever ID sign-in (HTTP, against a mock OpenID Provider)', () => {
 			expect(location.searchParams.get('code_challenge')).toHaveLength(43);
 			expect(location.searchParams.get('state')).toBeTruthy();
 			expect(location.searchParams.get('nonce')).toBeTruthy();
-			expect(location.searchParams.get('client_id')).toBe('gauzy-web-test');
+			expect(location.searchParams.get('client_id')).toBe('irtranscripts-web-test');
 			expect(location.searchParams.get('scope')).toContain('openid');
 			expect(location.searchParams.has('login_hint')).toBe(false);
 			const cookie = response.headers.getSetCookie().find((value) => value.startsWith('ever_zitadel_txn='));
@@ -113,7 +113,7 @@ describe('Ever ID sign-in (HTTP, against a mock OpenID Provider)', () => {
 			const landing = await signIn('person-c', { email: 'person-c@example.test' });
 			expect(landing).toMatch(`${TEST_CLIENT_BASE_URL}/#/auth/register?ever_id=1&handoff=`);
 			expect(t.accounts.links).toHaveLength(0);
-			expect(t.gauzyAuth.sentCodes).toHaveLength(0);
+			expect(t.irtranscriptsAuth.sentCodes).toHaveLength(0);
 
 			const prefill = await (await browser.post(`${t.baseUrl}/api/auth/zitadel/handoff`, { handoff: hashParam(landing, 'handoff') })).json();
 			expect(prefill).toEqual({ kind: 'register', prefill: { email: 'person-c@example.test', firstName: 'Test', lastName: 'Person' } });
@@ -150,11 +150,11 @@ describe('Ever ID sign-in (HTTP, against a mock OpenID Provider)', () => {
 			browser = new TestBrowser();
 		});
 
-		it('sends Gauzy\'s own code and links only after it is entered', async () => {
+		it('sends IRTranscripts\'s own code and links only after it is entered', async () => {
 			const user = t.accounts.addUser({ email: 'person-e@example.test', tenantName: 'Acme' });
 			const landing = await signIn('person-e', { email: 'PERSON-E@example.test' });
 			expect(landing).toMatch(`${TEST_CLIENT_BASE_URL}/#/auth/ever-id/confirm?handoff=`);
-			expect(t.gauzyAuth.sentCodes).toEqual(['person-e@example.test']);
+			expect(t.irtranscriptsAuth.sentCodes).toEqual(['person-e@example.test']);
 			expect(t.accounts.links).toHaveLength(0);
 
 			const handoff = hashParam(landing, 'handoff');
@@ -162,7 +162,7 @@ describe('Ever ID sign-in (HTTP, against a mock OpenID Provider)', () => {
 			expect(wrong.status).toBe(401);
 			expect(t.accounts.links).toHaveLength(0);
 
-			const right = await browser.post(`${t.baseUrl}/api/auth/zitadel/confirm`, { handoff, code: t.gauzyAuth.code });
+			const right = await browser.post(`${t.baseUrl}/api/auth/zitadel/confirm`, { handoff, code: t.irtranscriptsAuth.code });
 			expect(right.status).toBe(200);
 			const response = await right.json();
 			expect(response.total_workspaces).toBe(1);
@@ -181,7 +181,7 @@ describe('Ever ID sign-in (HTTP, against a mock OpenID Provider)', () => {
 			expect(statuses).toEqual([401, 401, 401, 401, 410]);
 			expect(await t.store.get('confirm', handoff)).toBeNull();
 			// A sixth try within the minute is refused by the per-key limit before anything is looked up.
-			const late = await browser.post(`${t.baseUrl}/api/auth/zitadel/confirm`, { handoff, code: t.gauzyAuth.code });
+			const late = await browser.post(`${t.baseUrl}/api/auth/zitadel/confirm`, { handoff, code: t.irtranscriptsAuth.code });
 			expect(late.status).toBe(429);
 			expect(t.accounts.links).toHaveLength(0);
 		});
@@ -190,11 +190,11 @@ describe('Ever ID sign-in (HTTP, against a mock OpenID Provider)', () => {
 			const user = t.accounts.addUser({ email: 'person-i@example.test' });
 			const handoff = hashParam(await signIn('person-i', { email: 'person-i@example.test' }), 'handoff');
 			const pause = manualPause();
-			t.gauzyAuth.beforeCheck = pause.wait;
+			t.irtranscriptsAuth.beforeCheck = pause.wait;
 
 			const first = browser.post(`${t.baseUrl}/api/auth/zitadel/confirm`, { handoff, code: 'WRONG1' });
 			await pause.reached;
-			const busy = await browser.post(`${t.baseUrl}/api/auth/zitadel/confirm`, { handoff, code: t.gauzyAuth.code });
+			const busy = await browser.post(`${t.baseUrl}/api/auth/zitadel/confirm`, { handoff, code: t.irtranscriptsAuth.code });
 			expect(busy.status).toBe(409);
 			expect(busy.headers.get('retry-after')).toBe('2');
 			expect(await busy.json()).toEqual(expect.objectContaining({ code: 'handoff_busy', retryAfter: 2 }));
@@ -202,11 +202,11 @@ describe('Ever ID sign-in (HTTP, against a mock OpenID Provider)', () => {
 			expect((await first).status).toBe(401);
 
 			// The busy answer cost no attempt and the key still works.
-			const right = await browser.post(`${t.baseUrl}/api/auth/zitadel/confirm`, { handoff, code: t.gauzyAuth.code });
+			const right = await browser.post(`${t.baseUrl}/api/auth/zitadel/confirm`, { handoff, code: t.irtranscriptsAuth.code });
 			expect(right.status).toBe(200);
 			expect(t.accounts.links).toEqual([expect.objectContaining({ userId: user.id, linkMethod: 'confirmed' })]);
 			// Used up now: 410, not 409.
-			expect((await browser.post(`${t.baseUrl}/api/auth/zitadel/confirm`, { handoff, code: t.gauzyAuth.code })).status).toBe(410);
+			expect((await browser.post(`${t.baseUrl}/api/auth/zitadel/confirm`, { handoff, code: t.irtranscriptsAuth.code })).status).toBe(410);
 		});
 
 		it('answers 409 handoff_busy while the key is held, without spending an attempt', async () => {
@@ -222,19 +222,19 @@ describe('Ever ID sign-in (HTTP, against a mock OpenID Provider)', () => {
 		it('keeps the browser answers without team lists', async () => {
 			t.accounts.addUser({ email: 'person-k@example.test' });
 			const handoff = hashParam(await signIn('person-k', { email: 'person-k@example.test' }), 'handoff');
-			const right = await browser.post(`${t.baseUrl}/api/auth/zitadel/confirm`, { handoff, code: t.gauzyAuth.code });
+			const right = await browser.post(`${t.baseUrl}/api/auth/zitadel/confirm`, { handoff, code: t.irtranscriptsAuth.code });
 			expect(right.status).toBe(200);
 			const response = await right.json();
 			expect(response.workspaces[0].current_teams).toBeUndefined();
-			expect(t.gauzyAuth.teamRequests).toEqual([false]);
-			expect(t.gauzyAuth.sentInputs).toEqual([{}]);
+			expect(t.irtranscriptsAuth.teamRequests).toEqual([false]);
+			expect(t.irtranscriptsAuth.sentInputs).toEqual([{}]);
 		});
 
 		it('never offers an unverified account for a confirmed link', async () => {
 			t.accounts.addUser({ email: 'person-g@example.test', emailVerifiedAt: null });
 			const landing = await signIn('person-g', { email: 'person-g@example.test' });
 			expect(landing).toMatch('/#/auth/register?ever_id=1&handoff=');
-			expect(t.gauzyAuth.sentCodes).toHaveLength(0);
+			expect(t.irtranscriptsAuth.sentCodes).toHaveLength(0);
 		});
 	});
 

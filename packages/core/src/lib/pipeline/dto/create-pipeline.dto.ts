@@ -1,4 +1,4 @@
-import { IPipelineCreateInput } from '@gauzy/contracts';
+import { IPipelineCreateInput } from '@irtranscripts/contracts';
 import { IntersectionType, PickType } from '@nestjs/mapped-types';
 import { Pipeline } from '../../core/entities/internal';
 import { TenantOrganizationBaseDTO } from '../../core/dto';

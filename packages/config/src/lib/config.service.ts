@@ -7,7 +7,7 @@ import {
 	ApiServerConfigurationOptions,
 	AssetConfigurationOptions,
 	GraphqlConfigurationOptions
-} from '@gauzy/common';
+} from '@irtranscripts/common';
 import { getConfig } from './config-loader';
 import { environment } from './environments/environment';
 import { IEnvironment } from './environments/ienvironment';

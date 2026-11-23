@@ -19,9 +19,9 @@ import {
 	IPagination,
 	PermissionsEnum,
 	RolesEnum
-} from '@gauzy/contracts';
-import { ConfigService, DatabaseTypeEnum, isMySQL, isPostgres } from '@gauzy/config';
-import { isNotEmpty } from '@gauzy/utils';
+} from '@irtranscripts/contracts';
+import { ConfigService, DatabaseTypeEnum, isMySQL, isPostgres } from '@irtranscripts/config';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { prepareSQLQuery as p } from './../database/database.helper';
 import { EquipmentSharing } from './equipment-sharing.entity';
 import { Employee, OrganizationTeam, RequestApproval } from './../core/entities/internal';

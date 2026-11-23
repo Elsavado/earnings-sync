@@ -1,10 +1,10 @@
-# @gauzy/plugin-videos-ui
+# @irtranscripts/plugin-videos-ui
 
 This library was generated with [Nx](https://nx.dev).
 
 ## Overview
 
-The **@gauzy/plugin-videos-ui** is a UI plugin for managing and displaying videos within the Gauzy ecosystem.
+The **@irtranscripts/plugin-videos-ui** is a UI plugin for managing and displaying videos within the IRTranscripts ecosystem.
 It provides a seamless integration for video-related functionality, making it easy to embed, stream, and organize videos.
 
 ## Features
@@ -27,10 +27,10 @@ After building your library with `yarn nx build plugin-videos-ui`, go to the dis
 
 ## Installation
 
-To install the `@gauzy/plugin-videos-ui` package, run the following command:
+To install the `@irtranscripts/plugin-videos-ui` package, run the following command:
 
 ```bash
-npm install @gauzy/plugin-videos-ui
+npm install @irtranscripts/plugin-videos-ui
 # or using Yarn
-yarn add @gauzy/plugin-videos-ui
+yarn add @irtranscripts/plugin-videos-ui
 ```

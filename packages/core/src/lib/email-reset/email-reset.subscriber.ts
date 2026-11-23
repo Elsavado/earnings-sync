@@ -1,6 +1,6 @@
 import { EventSubscriber } from 'typeorm';
 import * as moment from 'moment';
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 import { BaseEntityEventSubscriber } from '../core/entities/subscribers/base-entity-event.subscriber';
 import { EmailReset } from './email-reset.entity';
 

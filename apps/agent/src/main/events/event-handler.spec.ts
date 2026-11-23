@@ -13,8 +13,8 @@ const mockPullActivities = {
 };
 
 jest.mock('electron', () => ({ app: { quit: jest.fn() } }));
-jest.mock('@gauzy/desktop-core', () => ({ logger: { info: jest.fn(), warn: jest.fn(), error: jest.fn() } }));
-jest.mock('@gauzy/desktop-lib', () => ({
+jest.mock('@irtranscripts/desktop-core', () => ({ logger: { info: jest.fn(), warn: jest.fn(), error: jest.fn() } }));
+jest.mock('@irtranscripts/desktop-lib', () => ({
 	AppError: class AppError extends Error {},
 	DesktopDialog: class DesktopDialog {},
 	DesktopUpdater: class DesktopUpdater {

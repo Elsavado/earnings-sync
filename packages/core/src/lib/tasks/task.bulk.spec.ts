@@ -7,8 +7,8 @@ import '../core/entities/internal';
 
 import { RequestMethod } from '@nestjs/common';
 import { METHOD_METADATA, PATH_METADATA } from '@nestjs/common/constants';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { BulkExecutor } from '../api/bulk-executor.service';
 import { readBulkOperation } from '../api/bulk.decorator';
 import { FieldVisibility } from '../api/field-visibility.service';
@@ -92,7 +92,7 @@ function surfaces(options: { granted?: PermissionsEnum[] } = {}) {
 		events as never,
 		cqrsEvents as never,
 		taskService as never,
-		{ findOneByIdString: jest.fn().mockResolvedValue({ id: PROJECT, name: 'Gauzy' }) } as never,
+		{ findOneByIdString: jest.fn().mockResolvedValue({ id: PROJECT, name: 'IRTranscripts' }) } as never,
 		{ findActiveEmployeesByEmployeeIds: jest.fn().mockResolvedValue([]) } as never,
 		{ publishMention: jest.fn() } as never,
 		activityLog as never,

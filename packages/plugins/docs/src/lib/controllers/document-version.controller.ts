@@ -1,8 +1,8 @@
 import { Controller, Get, HttpStatus, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { FeatureFlag } from '@gauzy/common';
-import { FeatureEnum, ID, IDocument, IDocumentVersion, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
+import { FeatureEnum, ID, IDocument, IDocumentVersion, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	FeatureFlagGuard,
 	PermissionGuard,
@@ -10,7 +10,7 @@ import {
 	TenantPermissionGuard,
 	UseValidationPipe,
 	UUIDValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { RestoreDocumentVersionCommand } from '../commands/restore-document-version.command';
 import { GetDocumentVersionsQueryDTO } from '../dto/get-document-versions-query.dto';
 import { GetDocumentVersionQuery } from '../queries/get-document-version.query';

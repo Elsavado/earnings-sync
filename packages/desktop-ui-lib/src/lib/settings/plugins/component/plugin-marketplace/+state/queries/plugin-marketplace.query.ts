@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Query } from '@datorama/akita';
 import { Observable } from 'rxjs';
 
-import { IPlugin } from '@gauzy/contracts';
+import { IPlugin } from '@irtranscripts/contracts';
 import { IPluginFilter, IPluginMarketplaceState, PluginMarketplaceStore } from '../stores/plugin-market.store';
 
 @Injectable({ providedIn: 'root' })

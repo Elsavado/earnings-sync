@@ -9,8 +9,8 @@ import {
 	NotFoundException,
 	Optional
 } from '@nestjs/common';
-import { ID } from '@gauzy/contracts';
-import { Money, RequestContext, SequenceService, readAffectedRows } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { Money, RequestContext, SequenceService, readAffectedRows } from '@irtranscripts/core';
 import {
 	IOrderClaimLineInput,
 	IOrderTotalsPort,

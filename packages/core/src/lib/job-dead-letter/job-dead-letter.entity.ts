@@ -1,7 +1,7 @@
 import { JoinColumn, RelationId } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDate, IsEnum, IsInt, IsOptional, IsString, IsUUID, MaxLength, Min, MinLength } from 'class-validator';
-import { DeadLetterStatus, ID, IJobDeadLetter, IUser, JsonData } from '@gauzy/contracts';
+import { DeadLetterStatus, ID, IJobDeadLetter, IUser, JsonData } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseEntity, User } from '../core/entities/internal';
 import {
 	ColumnIndex,

@@ -1,6 +1,6 @@
-# @gauzy/plugin-changelog
+# @irtranscripts/plugin-changelog
 
-This library was generated with [Nx](https://nx.dev). It contains the authentication for the Gauzy API platform.
+This library was generated with [Nx](https://nx.dev). It contains the authentication for the IRTranscripts API platform.
 
 ## Building
 
@@ -19,7 +19,7 @@ After building your library with `yarn nx build plugin-changelog`, go to the dis
 To install the changelog plugin Library, simply run the following command in your terminal:
 
 ```bash
-npm install @gauzy/plugin-changelog
+npm install @irtranscripts/plugin-changelog
 # or
-yarn add @gauzy/plugin-changelog
+yarn add @irtranscripts/plugin-changelog
 ```

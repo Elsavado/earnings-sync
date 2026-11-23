@@ -1,7 +1,7 @@
 /**
  * The bridge from an order to the accounting documents that bill it.
  *
- * `@gauzy/core`'s barrel boots the whole application graph, and `@gauzy/plugin-cart`'s barrel reaches every
+ * `@irtranscripts/core`'s barrel boots the whole application graph, and `@irtranscripts/plugin-cart`'s barrel reaches every
  * commerce package, so both are doubled at the module boundary exactly as the neighbouring suites do —
  * and **the services under test are the real ones**: the order service, the totals writer every write ends
  * in, the line, shipping, summary and timeline services, over one in-memory datastore. The two seams that
@@ -12,8 +12,8 @@
  * what keeps one tenant's order out of another tenant's request, and a double without it would let a
  * cross-tenant case pass for the wrong reason.
  */
-jest.mock('@gauzy/plugin-cart', () => ({
-	TotalsCalculator: jest.requireActual('@gauzy/plugin-cart/src/lib/totals/totals-calculator').TotalsCalculator
+jest.mock('@irtranscripts/plugin-cart', () => ({
+	TotalsCalculator: jest.requireActual('@irtranscripts/plugin-cart/src/lib/totals/totals-calculator').TotalsCalculator
 }));
 
 /** The request the suite runs under: its tenant, and the grants its role carries. */
@@ -23,7 +23,7 @@ const mockCaller: { tenantId: string | null; organizationId: string | null; perm
 	permissions: new Set()
 };
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
@@ -87,7 +87,7 @@ jest.mock('@gauzy/core', () => {
 	return {
 		quoteIdentifier: (identifier: string) => `"${identifier}"`,
 		prepareSQLQuery: (query: string) => query,
-		...jest.requireActual('@gauzy/core/src/lib/money/decimal'),
+		...jest.requireActual('@irtranscripts/core/src/lib/money/decimal'),
 		CrudService,
 		TenantAwareCrudService,
 		BaseEntity,
@@ -105,12 +105,12 @@ jest.mock('@gauzy/core', () => {
 		Idempotent: decorator,
 		Versioned: decorator,
 		VersionedColumn: decorator,
-		commitVersionedUpdate: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		commitVersionedUpdate: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.commitVersionedUpdate,
-		versionExpectationOf: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		versionExpectationOf: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.versionExpectationOf,
-		ApiException: jest.requireActual('@gauzy/core/src/lib/core/errors/api-exception').ApiException,
-		ApiErrorCode: jest.requireActual('@gauzy/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
+		ApiException: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-exception').ApiException,
+		ApiErrorCode: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
 		ColumnNumericTransformerPipe: class {
 			to(value: unknown) {
 				return value;
@@ -119,7 +119,7 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		RequestContext: {
 			currentUser: () => null,
 			currentUserId: () => null,
@@ -143,7 +143,7 @@ import {
 	OrderStatus,
 	PermissionsEnum,
 	TaxLineOwnerType
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { OrderAddressService } from '../order-address/order-address.service';
 import { OrderCreditLineService } from '../order-credit-line/order-credit-line.service';
 import { OrderHistoryService } from '../order-history/order-history.service';

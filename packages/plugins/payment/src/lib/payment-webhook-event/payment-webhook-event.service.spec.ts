@@ -1,5 +1,5 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — the configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — the configuration, the ORM, the job
  * registry, the module scanner — none of which a callback log needs and none of which is available
  * outside a running application. The seam is therefore doubled at the module boundary, exactly as the
  * catalogue and inventory packages' service specs do, and **the services under test are the real ones**:
@@ -15,7 +15,7 @@
  * `success: false`. `intake` asks "have I seen this callback before?" through the second half, because
  * "not seen before" is what lets the payload row be written.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
@@ -98,7 +98,7 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		BaseEvent: class {},
 		EventBus: class {},
 		Payment: class Payment {},
@@ -115,7 +115,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 import { NotFoundException } from '@nestjs/common';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { PaymentWebhookEventStatus } from '../payment.types';
 import { PaymentProviderService } from '../payment-provider/payment-provider.service';
 import { PaymentWebhookEventService } from './payment-webhook-event.service';

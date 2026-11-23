@@ -47,7 +47,7 @@ if (process.env.OTEL_ENABLED === 'true') {
 	if (process.env.OTEL_SERVICE_NAME) {
 		serviceName = process.env.OTEL_SERVICE_NAME;
 	} else {
-		let sName = 'Ever Gauzy API';
+		let sName = 'Ever IRTranscripts API';
 
 		if (process.env.CLOUD_PROVIDER) {
 			const providerName = process.env.CLOUD_PROVIDER;

@@ -1,8 +1,8 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { SelectQueryBuilder } from 'typeorm';
-import { isBetterSqlite3, isSqlite } from '@gauzy/config';
-import { BaseEntityEnum, ID, IPagination } from '@gauzy/contracts';
-import { RequestContext, TenantAwareCrudService, prepareSQLQuery as p } from '@gauzy/core';
+import { isBetterSqlite3, isSqlite } from '@irtranscripts/config';
+import { BaseEntityEnum, ID, IPagination } from '@irtranscripts/contracts';
+import { RequestContext, TenantAwareCrudService, prepareSQLQuery as p } from '@irtranscripts/core';
 import { CreateDocumentLinkDTO } from '../dto';
 import { DocumentLink } from '../entities/document-link.entity';
 import { MikroOrmDocumentLinkRepository } from '../repositories/mikro-orm-document-link.repository';

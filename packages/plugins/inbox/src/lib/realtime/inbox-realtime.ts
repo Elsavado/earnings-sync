@@ -1,13 +1,13 @@
 import { Injectable, Logger, OnModuleInit, Type } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import { DataSource } from 'typeorm';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import {
 	declareStreamedEvents,
 	EventOutboxService,
 	GraphqlSubscriptionConsumer,
 	SubscriptionCatalogue
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import type { InboxItem } from '../entities/inbox-item.entity';
 
 /** The fact appended when an item reaches someone's Inbox (plan 04 §3, G-P3-6). */

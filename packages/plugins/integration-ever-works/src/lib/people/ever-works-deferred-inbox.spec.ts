@@ -2,7 +2,7 @@
  * Deferred Ever Works inbox items on the People tab (plan 04 §4): an item whose recipient is not paired waits as a
  * deferred event; the tab lists those per member, and pairing the member makes them due at once.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	return {
 		ColumnIndex: decorator,

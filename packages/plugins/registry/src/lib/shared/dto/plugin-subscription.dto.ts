@@ -4,7 +4,7 @@ import {
 	PluginScope,
 	PluginSubscriptionStatus,
 	PluginSubscriptionType
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
 	IsBoolean,

@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Logger } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IOrganizationProjectSetting } from '@gauzy/contracts';
+import { IOrganizationProjectSetting } from '@irtranscripts/contracts';
 import { OrganizationProjectService } from '../../organization-project.service';
 import { OrganizationProjectSettingUpdateCommand } from '../organization-project-setting.update.command';
 

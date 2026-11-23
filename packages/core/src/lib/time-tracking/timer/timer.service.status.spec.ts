@@ -1,8 +1,8 @@
 // Must stay first: see timer.service.spec.ts.
 import '../../core/entities/internal';
 
-import { DatabaseTypeEnum, defineConfig } from '@gauzy/config';
-import { ITimerStatus, ITimerStatusInput, TimeLogSourceEnum } from '@gauzy/contracts';
+import { DatabaseTypeEnum, defineConfig } from '@irtranscripts/config';
+import { ITimerStatus, ITimerStatusInput, TimeLogSourceEnum } from '@irtranscripts/contracts';
 import { FindOperator } from 'typeorm';
 import * as moment from 'moment';
 import { MultiORMEnum } from '../../core/utils';

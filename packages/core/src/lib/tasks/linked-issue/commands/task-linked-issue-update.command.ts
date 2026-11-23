@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { ID, ITaskLinkedIssueUpdateInput } from '@gauzy/contracts';
+import { ID, ITaskLinkedIssueUpdateInput } from '@irtranscripts/contracts';
 
 export class TaskLinkedIssueUpdateCommand implements ICommand {
 	static readonly type = '[Task Linked Issue] Update';

@@ -1,4 +1,4 @@
-import { ScreenCaptureNotification } from '@gauzy/desktop-window';
+import { ScreenCaptureNotification } from '@irtranscripts/desktop-window';
 export class ScreenCaptureWindow extends ScreenCaptureNotification {
 	private showNotification: (thumbUrl?: string) => void;
 	constructor(

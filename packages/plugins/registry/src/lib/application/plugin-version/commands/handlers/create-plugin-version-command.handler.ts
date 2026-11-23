@@ -1,4 +1,4 @@
-import { IPluginVersion } from '@gauzy/contracts';
+import { IPluginVersion } from '@irtranscripts/contracts';
 import { NotFoundException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { PluginService, PluginSourceService, PluginVersionService } from '../../../../domain';

@@ -1,8 +1,8 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { EntityManager, IsNull } from 'typeorm';
-import { DatabaseTypeEnum } from '@gauzy/config';
-import { CurrencyCode, DecimalString, ID } from '@gauzy/contracts';
-import { Money, readAffectedRows, RequestContext } from '@gauzy/core';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
+import { CurrencyCode, DecimalString, ID } from '@irtranscripts/contracts';
+import { Money, readAffectedRows, RequestContext } from '@irtranscripts/core';
 import {
 	IPurchaseOrderLine,
 	IPurchaseOrderLineInput,

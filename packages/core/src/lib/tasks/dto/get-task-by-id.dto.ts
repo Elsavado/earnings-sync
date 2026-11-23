@@ -1,4 +1,4 @@
-import { IGetTaskById } from '@gauzy/contracts';
+import { IGetTaskById } from '@irtranscripts/contracts';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsOptional } from 'class-validator';
 import { FindOptionsQueryDTO } from '../../core/crud';

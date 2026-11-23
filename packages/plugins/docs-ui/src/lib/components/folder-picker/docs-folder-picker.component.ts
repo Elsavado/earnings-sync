@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { DocumentKindEnum, ID } from '@gauzy/contracts';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { DocumentKindEnum, ID } from '@irtranscripts/contracts';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { DocumentTreeStore, IDocsTreeNode } from '../../services/document-tree.store';
 
 /** One selectable destination row — `id: null` is the tree root. */

@@ -2,7 +2,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsUUID } from 'class-validator';
 import { JoinColumn, RelationId } from 'typeorm';
-import { ID, IIntegrationTenant } from '@gauzy/contracts';
+import { ID, IIntegrationTenant } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	IntegrationTenant,
@@ -10,7 +10,7 @@ import {
 	MultiORMEntity,
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { MikroOrmZapierWebhookSubscriptionRepository } from './repository/mikro-orm-zapier-webhook-subscription.repository';
 
 @MultiORMEntity('zapier_webhook_subscription', {

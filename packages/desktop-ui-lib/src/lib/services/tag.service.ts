@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { concatMap, firstValueFrom, map, shareReplay } from 'rxjs';
-import { IPagination, ITag } from '@gauzy/contracts';
-import { toParams } from '@gauzy/ui-core/common';
+import { IPagination, ITag } from '@irtranscripts/contracts';
+import { toParams } from '@irtranscripts/ui-core/common';
 import { TagCacheService } from './tag-cache.service';
 import { Store } from './store.service';
 import { API_PREFIX } from '../constants';

@@ -7,7 +7,7 @@
  * day one". The two copies drifted — the classification-side one missed the zero-width and
  * bidi ranges the spec pins — which is precisely the bug a shared helper exists to prevent.
  * There is now exactly one implementation; everything below delegates to it and only keeps
- * the names the chat-tool surface (and `@gauzy/plugin-docs` consumers) already import.
+ * the names the chat-tool surface (and `@irtranscripts/plugin-docs` consumers) already import.
  *
  * The pipeline is unchanged: content is (1) stripped of chat-template markers, model
  * special-token spans, leading fake role lines and zero-width/bidi controls, then (2) fenced

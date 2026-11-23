@@ -1,12 +1,12 @@
 # ActivePieces Integration Plugin
 
-This plugin provides integration between Ever Gauzy and ActivePieces automation platform. It uses the ActivePieces API (authenticated via API key) to manage connections and MCP servers.
+This plugin provides integration between Ever IRTranscripts and ActivePieces automation platform. It uses the ActivePieces API (authenticated via API key) to manage connections and MCP servers.
 
 ## Overview
 
 The ActivePieces integration allows tenant-level management of ActivePieces resources from your NestJS application. It provides:
 
-- **Connection Management** — Create, list, retrieve, and delete ActivePieces app connections for the Ever-gauzy piece
+- **Connection Management** — Create, list, retrieve, and delete ActivePieces app connections for the Ever-irtranscripts piece
 - **MCP Server Management** — List, update, and rotate tokens for ActivePieces MCP servers
 
 All API calls are authenticated using an ActivePieces platform API key (available in Platform/Enterprise editions).
@@ -28,7 +28,7 @@ After building your library with `yarn nx build plugin-integration-activepieces`
 Install the Integration ActivePieces Plugin using your preferred package manager:
 
 ```shell
-npm install @gauzy/plugin-integration-activepieces
+npm install @irtranscripts/plugin-integration-activepieces
 # or
-yarn add @gauzy/plugin-integration-activepieces
+yarn add @irtranscripts/plugin-integration-activepieces
 ```

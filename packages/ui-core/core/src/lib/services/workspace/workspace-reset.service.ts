@@ -1,8 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { catchError, takeUntil, tap } from 'rxjs/operators';
-import { IAuthResponse } from '@gauzy/contracts';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
+import { IAuthResponse } from '@irtranscripts/contracts';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
 import { Store } from '../store';
 import { AuthService } from '../auth';
 import { ToastrService } from '../notification';

@@ -1,7 +1,7 @@
 import '../../../core/entities/internal';
 
 import { NotFoundException } from '@nestjs/common';
-import { IntegrationEntity } from '@gauzy/contracts';
+import { IntegrationEntity } from '@irtranscripts/contracts';
 import { RequestContext } from '../../../core/context';
 import { TagCreateCommand, TagUpdateCommand } from '../../../tags/commands';
 import { IntegrationMapSyncEntityCommand } from '../integration-map.sync-entity.command';
@@ -35,7 +35,7 @@ describe('IntegrationMapSyncLabelHandler', () => {
 	afterEach(() => jest.restoreAllMocks());
 
 	it('rejects when the update of the mapped tag fails, creating nothing', async () => {
-		const integrationMap = { id: 'map-1', gauzyId: 'tag-1' };
+		const integrationMap = { id: 'map-1', irtranscriptsId: 'tag-1' };
 		const integrationMapService = { findOneByWhereOptions: jest.fn().mockResolvedValue(integrationMap) };
 		const tagService = { findOneByIdString: jest.fn().mockResolvedValue({ id: 'tag-1' }) };
 		const { execute, handler } = setup(integrationMapService, tagService);
@@ -62,7 +62,7 @@ describe('IntegrationMapSyncLabelHandler', () => {
 		expect(create.input).toEqual({ ...entity, organizationId: 'org-1', tenantId: 'tenant-1' });
 		expect(map).toBeInstanceOf(IntegrationMapSyncEntityCommand);
 		expect(map.input).toMatchObject({
-			gauzyId: 'tag-new',
+			irtranscriptsId: 'tag-new',
 			entity: IntegrationEntity.LABEL,
 			sourceId: '42',
 			integrationId: 'integration-1',
@@ -72,7 +72,7 @@ describe('IntegrationMapSyncLabelHandler', () => {
 	});
 
 	it('re-creates the tag under the mapped id when the mapped tag no longer exists', async () => {
-		const integrationMap = { id: 'map-1', gauzyId: 'tag-1' };
+		const integrationMap = { id: 'map-1', irtranscriptsId: 'tag-1' };
 		const integrationMapService = { findOneByWhereOptions: jest.fn().mockResolvedValue(integrationMap) };
 		const tagService = { findOneByIdString: jest.fn().mockRejectedValue(new NotFoundException('The requested record was not found')) };
 		const { execute, handler } = setup(integrationMapService, tagService);

@@ -1,5 +1,5 @@
 import { ValueTransformer } from 'typeorm';
-import { RequestMethod, RequestMethodEnum } from '@gauzy/contracts';
+import { RequestMethod, RequestMethodEnum } from '@irtranscripts/contracts';
 
 /**
  * HttpMethodTransformerPipe handles the conversion between enum integer (stored in DB)

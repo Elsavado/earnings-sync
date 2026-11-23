@@ -2,8 +2,8 @@ import { Injectable, Logger, BadRequestException, NotFoundException, HttpExcepti
 import { HttpService } from '@nestjs/axios';
 import { AxiosError, AxiosRequestConfig } from 'axios';
 import { firstValueFrom, catchError } from 'rxjs';
-import { IntegrationEnum } from '@gauzy/contracts';
-import { IntegrationSettingService, IntegrationTenantService, RequestContext, IntegrationTenant } from '@gauzy/core';
+import { IntegrationEnum } from '@irtranscripts/contracts';
+import { IntegrationSettingService, IntegrationTenantService, RequestContext, IntegrationTenant } from '@irtranscripts/core';
 import { MakeSettingName } from './interfaces/make-com.model';
 import {
 	getMakeApiBaseUrl,

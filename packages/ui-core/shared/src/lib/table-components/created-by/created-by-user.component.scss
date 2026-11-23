@@ -1,6 +1,6 @@
 @use 'themes' as *;
 
-// One person, styled off the same `gauzy-people-*` tokens as `ngx-people-list`
+// One person, styled off the same `irtranscripts-people-*` tokens as `ngx-people-list`
 // so a "Created By" cell and a "Members" cell read as the same thing. No box
 // and no border around the person — that framing is exactly what the people
 // columns were redesigned to drop.
@@ -11,18 +11,18 @@
 	.avatar {
 		display: inline-flex;
 		align-items: center;
-		gap: nb-theme(gauzy-people-gap);
+		gap: nb-theme(irtranscripts-people-gap);
 		min-width: 0;
 		max-width: 100%;
 		color: nb-theme(text-basic-color);
-		font-size: nb-theme(gauzy-people-font-size);
-		line-height: nb-theme(gauzy-people-avatar-size);
+		font-size: nb-theme(irtranscripts-people-font-size);
+		line-height: nb-theme(irtranscripts-people-avatar-size);
 		text-decoration: none;
 
 		.names-wrapper {
 			// Truncates on width, so a short name is never clipped.
 			min-width: 0;
-			max-width: nb-theme(gauzy-people-name-max-width);
+			max-width: nb-theme(irtranscripts-people-name-max-width);
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
@@ -30,8 +30,8 @@
 
 		img {
 			flex: 0 0 auto;
-			width: nb-theme(gauzy-people-avatar-size);
-			height: nb-theme(gauzy-people-avatar-size);
+			width: nb-theme(irtranscripts-people-avatar-size);
+			height: nb-theme(irtranscripts-people-avatar-size);
 			border-radius: 50%;
 			object-fit: cover;
 		}

@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsEnum, IsOptional } from 'class-validator';
-import { ITimeLogFilters, TimeLogSourceEnum, TimeLogType } from '@gauzy/contracts';
+import { ITimeLogFilters, TimeLogSourceEnum, TimeLogType } from '@irtranscripts/contracts';
 import { IsBetweenActivity } from './../../shared/validators';
 
 /**

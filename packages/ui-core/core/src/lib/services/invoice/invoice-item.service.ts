@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IInvoiceItem, IInvoiceItemCreateInput, IInvoiceItemFindInput } from '@gauzy/contracts';
+import { IInvoiceItem, IInvoiceItemCreateInput, IInvoiceItemFindInput } from '@irtranscripts/contracts';
 import { firstValueFrom } from 'rxjs';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 @Injectable()
 export class InvoiceItemService {
 	constructor(private http: HttpClient) {}

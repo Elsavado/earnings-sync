@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
-import { IShippingProfile } from '@gauzy/contracts';
+import { IShippingProfile } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	JsonColumn,
@@ -8,7 +8,7 @@ import {
 	MultiORMEntity,
 	MultiORMOneToMany,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { ShippingOption } from '../shipping-option/shipping-option.entity';
 import { ShippingProfileVariant } from '../shipping-profile-variant/shipping-profile-variant.entity';
 import { MikroOrmShippingProfileRepository } from './repository/mikro-orm-shipping-profile.repository';

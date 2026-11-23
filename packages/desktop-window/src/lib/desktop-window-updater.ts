@@ -1,7 +1,7 @@
 import * as remoteMain from '@electron/remote/main';
 import { BrowserWindow } from 'electron';
 import { attachTitlebarToWindow } from 'custom-electron-titlebar/main';
-import { WindowManager, RegisteredWindow, store } from '@gauzy/desktop-core';
+import { WindowManager, RegisteredWindow, store } from '@irtranscripts/desktop-core';
 import { handleCloseEvent, setLaunchPathAndLoad } from './utils/desktop-window-utils';
 
 /**
@@ -92,7 +92,7 @@ const windowSetting = (preloadPath: string): Electron.BrowserWindowConstructorOp
 		},
 		width: 700,
 		height: 600,
-		title: 'Gauzy Updater',
+		title: 'IRTranscripts Updater',
 		maximizable: false,
 		show: false
 	};

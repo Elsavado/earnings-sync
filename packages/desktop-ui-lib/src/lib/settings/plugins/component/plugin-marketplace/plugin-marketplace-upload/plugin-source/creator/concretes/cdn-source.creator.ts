@@ -1,6 +1,6 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ICDNSource, PluginSourceType } from '@gauzy/contracts';
-import { patterns } from '@gauzy/constants';
+import { ICDNSource, PluginSourceType } from '@irtranscripts/contracts';
+import { patterns } from '@irtranscripts/constants';
 import { SourceCreator } from '../source.creator';
 
 export class CdnSourceCreator extends SourceCreator {

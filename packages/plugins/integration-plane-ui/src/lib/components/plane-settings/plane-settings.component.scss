@@ -18,7 +18,7 @@
 }
 
 button {
-  box-shadow: var(--gauzy-shadow);
+  box-shadow: var(--irtranscripts-shadow);
   border-radius: calc(var(--border-radius) * 1);
 }
 
@@ -38,7 +38,7 @@ button {
 :host {
   nb-card,
   nb-card-body {
-    background-color: var(--gauzy-card-2);
+    background-color: var(--irtranscripts-card-2);
   }
 
   nb-card {

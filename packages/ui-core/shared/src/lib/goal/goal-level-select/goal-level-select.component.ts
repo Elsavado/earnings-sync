@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { GoalLevelEnum, IOrganizationTeam, IEmployee } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
-import { OrganizationTeamsService } from '@gauzy/ui-core/core';
+import { GoalLevelEnum, IOrganizationTeam, IEmployee } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
+import { OrganizationTeamsService } from '@irtranscripts/ui-core/core';
 
 @Component({
     selector: 'ga-goal-level-select',

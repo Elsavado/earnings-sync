@@ -1,4 +1,4 @@
-import { ID, IPlugin as IPluginMarketplace } from '@gauzy/contracts';
+import { ID, IPlugin as IPluginMarketplace } from '@irtranscripts/contracts';
 import { createAction } from '@ngneat/effects';
 import { IPlugin } from '../../../../services/plugin-loader.service';
 

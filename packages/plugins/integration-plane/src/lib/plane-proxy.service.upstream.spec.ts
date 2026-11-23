@@ -1,10 +1,10 @@
-// `@gauzy/core`'s barrel drags in the whole entity graph (pre-existing circular import). Only the
+// `@irtranscripts/core`'s barrel drags in the whole entity graph (pre-existing circular import). Only the
 // token helpers are needed, loaded from their own file; the other collaborators are stand-ins.
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const helpers = jest.requireActual('../../../../core/src/lib/auth/purpose-token');
 	return { isAccessTokenPayload: helpers.isAccessTokenPayload, JWT_ALGORITHMS: helpers.JWT_ALGORITHMS };
 });
-jest.mock('@ever-gauzy/plugin-integration-plane-api', () => ({
+jest.mock('@ever-irtranscripts/plugin-integration-plane-api', () => ({
 	mountPlaneProxy: jest.fn(),
 	readSessionTokenFromCookieHeader: jest.fn()
 }));
@@ -12,7 +12,7 @@ jest.mock('./plane-integration.service', () => ({ PlaneIntegrationService: class
 
 import * as http from 'node:http';
 import type { AddressInfo } from 'node:net';
-import { mountPlaneProxy } from '@ever-gauzy/plugin-integration-plane-api';
+import { mountPlaneProxy } from '@ever-irtranscripts/plugin-integration-plane-api';
 import { PlaneProxyService } from './plane-proxy.service';
 import { PLANE_PROXY_UPSTREAM_URL_ENV, resolvePlaneProxyUpstreamUrl } from './plane-proxy-upstream';
 
@@ -24,8 +24,8 @@ const resolve = (address: AddressInfo | string | null, override?: string, port: 
 	resolvePlaneProxyUpstreamUrl({ address, override, port, publicBaseUrl: PUBLIC_BASE });
 
 /**
- * The proxy runs inside the API process, but it used to call Gauzy on the public API_BASE_URL, so every
- * pm.gauzy.co call left the pod, went through Cloudflare and came back in. When that egress path
+ * The proxy runs inside the API process, but it used to call IRTranscripts on the public API_BASE_URL, so every
+ * pm.irtranscripts.com call left the pod, went through Cloudflare and came back in. When that egress path
  * faltered, the proxy answered 500 "Upstream API unreachable: connect ETIMEDOUT <Cloudflare IP>:443".
  */
 describe('resolvePlaneProxyUpstreamUrl', () => {
@@ -45,9 +45,9 @@ describe('resolvePlaneProxyUpstreamUrl', () => {
 	});
 
 	it('keeps the public URL for a server on a pipe or Unix socket, which a URL cannot dial', () => {
-		expect(resolve('/run/gauzy.sock')).toBe('https://api.example.com/api');
-		expect(resolve('\\\\.\\pipe\\gauzy')).toBe('https://api.example.com/api');
-		expect(resolve('/run/gauzy.sock', 'http://gauzy-api.svc:3000')).toBe('http://gauzy-api.svc:3000/api');
+		expect(resolve('/run/irtranscripts.sock')).toBe('https://api.example.com/api');
+		expect(resolve('\\\\.\\pipe\\irtranscripts')).toBe('https://api.example.com/api');
+		expect(resolve('/run/irtranscripts.sock', 'http://gauzy-api.svc:3000')).toBe('http://gauzy-api.svc:3000/api');
 	});
 
 	it.each([
@@ -83,7 +83,7 @@ describe('resolvePlaneProxyUpstreamUrl', () => {
 });
 
 describe('PlaneProxyService upstream', () => {
-	const PUBLIC_API = 'https://api.gauzy.co/api';
+	const PUBLIC_API = 'https://api.irtranscripts.com/api';
 	const REQ_TENANT_ID = '__planeResolvedTenantId';
 
 	let resolveConfig: (req: any) => Promise<{ externalBaseApiUrl: string }>;
@@ -116,19 +116,19 @@ describe('PlaneProxyService upstream', () => {
 		delete process.env[PLANE_PROXY_UPSTREAM_URL_ENV];
 	});
 
-	it("calls a tenant's Gauzy over loopback, not the public URL", async () => {
+	it("calls a tenant's IRTranscripts over loopback, not the public URL", async () => {
 		const config = await resolveConfig({ [REQ_TENANT_ID]: 't1' });
 		expect(config.externalBaseApiUrl).toBe('http://127.0.0.1:3000/api');
 		// The rest of the tenant's settings still come from the database.
 		expect(config).toMatchObject({ apiKey: 'k', clientBaseUrl: 'https://pm.example.com' });
 	});
 
-	it('calls Gauzy over loopback for tenant-less bootstrap requests', async () => {
+	it('calls IRTranscripts over loopback for tenant-less bootstrap requests', async () => {
 		expect((await resolveConfig({})).externalBaseApiUrl).toBe('http://127.0.0.1:3000/api');
 	});
 
 	it('honours PLANE_PROXY_UPSTREAM_URL, e.g. to restore the public URL', async () => {
-		process.env[PLANE_PROXY_UPSTREAM_URL_ENV] = 'https://api.gauzy.co';
+		process.env[PLANE_PROXY_UPSTREAM_URL_ENV] = 'https://api.irtranscripts.com';
 		expect((await resolveConfig({ [REQ_TENANT_ID]: 't1' })).externalBaseApiUrl).toBe(PUBLIC_API);
 		expect((await resolveConfig({})).externalBaseApiUrl).toBe(PUBLIC_API);
 	});

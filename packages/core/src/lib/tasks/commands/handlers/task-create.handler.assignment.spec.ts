@@ -1,7 +1,7 @@
 import '../../../core/entities/internal';
 
 import { Logger } from '@nestjs/common';
-import { EmployeeNotificationTypeEnum, ITaskCreateInput, IUser } from '@gauzy/contracts';
+import { EmployeeNotificationTypeEnum, ITaskCreateInput, IUser } from '@irtranscripts/contracts';
 import { asTenantUser, createTenantFixture } from '../../../core/testing/tenant-isolation/tenant-isolation.fixtures';
 import { TaskCreateCommand } from '../task-create.command';
 import { TaskCreateHandler } from './task-create.handler';

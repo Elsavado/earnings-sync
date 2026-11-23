@@ -1,4 +1,4 @@
-import { ITaskVersionCreateInput } from '@gauzy/contracts';
+import { ITaskVersionCreateInput } from '@irtranscripts/contracts';
 import { IntersectionType, PartialType } from '@nestjs/swagger';
 import { TaskVersion } from '../version.entity';
 import { TenantOrganizationBaseDTO } from '../../../core/dto';

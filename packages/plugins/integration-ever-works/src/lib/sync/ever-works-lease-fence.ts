@@ -18,7 +18,7 @@ import {
 import { EverWorksConnection } from '../connection/ever-works-connection.entity';
 
 /**
- * The lease fence (plan 03 §C.4): every Gauzy write a sync pass makes for a connection is checked, in the
+ * The lease fence (plan 03 §C.4): every IRTranscripts write a sync pass makes for a connection is checked, in the
  * write's own transaction, against the connection's lease, so a pass that outlived its lease writes
  * nothing once another process holds it.
  *
@@ -142,7 +142,7 @@ export function pendingLeaseRenewal(): Promise<void> | null {
 /**
  * Checks, as for a write outside a transaction (with the margin), that the armed fence's lease still
  * holds; no-op outside a fence. It covers what follows it only up to the next long wait: call it right
- * before a write the ORM events do not see, or before a side effect outside Gauzy (a push to Ever Works).
+ * before a write the ORM events do not see, or before a side effect outside IRTranscripts (a push to Ever Works).
  */
 export async function assertLeaseFence(): Promise<void> {
 	const state = storage.getStore();

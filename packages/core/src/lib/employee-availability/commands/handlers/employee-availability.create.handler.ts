@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IEmployeeAvailability } from '@gauzy/contracts';
+import { IEmployeeAvailability } from '@irtranscripts/contracts';
 import { RequestContext } from '../../../core/context';
 import { EmployeeAvailabilityService } from '../../employee-availability.service';
 import { EmployeeAvailability } from '../../employee-availability.entity';

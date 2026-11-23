@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { DataSource } from 'typeorm';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { EverWorksApiError } from '../../client/ever-works-client';
 import { EverWorksConnection, EverWorksConnectionStatus } from '../../connection/ever-works-connection.entity';
 import { EverWorksConnectionService } from '../../connection/ever-works-connection.service';
@@ -30,7 +30,7 @@ export interface EverWorksFeedPollResult {
 
 /**
  * The change-feed poller (plan 03 §C.4): the lossless channel next to webhooks. Reads
- * `/events?after=<cursor>&excludeOrigin=gauzy:<id>` page by page, stores the events it has not seen
+ * `/events?after=<cursor>&excludeOrigin=irtranscripts:<id>` page by page, stores the events it has not seen
  * (deduplicated with the webhook deliveries), and advances the cursor only past what was stored. A
  * `410 cursor_expired` asks for a resync (the reconcile pass) and restarts from the feed head; a 401
  * goes through the health check, which marks the connection `needs_reauth`.
@@ -72,7 +72,7 @@ export class EverWorksFeedPoller {
 				cursor = String((await client.whoami()).feedHead ?? '0');
 			}
 			for (let page = 0; page < FEED_MAX_PAGES; page++) {
-				const result = await client.events({ after: cursor, limit: 500, excludeOrigin: `gauzy:${connection.id}` });
+				const result = await client.events({ after: cursor, limit: 500, excludeOrigin: `irtranscripts:${connection.id}` });
 				let last: string | null = cursor;
 				for (const raw of result.events ?? []) {
 					let envelope: EverWorksEventEnvelope;

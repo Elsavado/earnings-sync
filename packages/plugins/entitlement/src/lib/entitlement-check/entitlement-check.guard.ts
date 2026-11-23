@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { EntitlementCheckService } from './entitlement-check.service';
 import { ENTITLEMENT_REQUIRED_METADATA } from './entitlement-required.decorator';
 

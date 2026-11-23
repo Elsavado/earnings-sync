@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { RelationId } from 'typeorm';
 import { IsOptional, IsUUID } from 'class-validator';
-import { IBasePerTenantEntityModel, ID, ITenant } from '@gauzy/contracts';
+import { IBasePerTenantEntityModel, ID, ITenant } from '@irtranscripts/contracts';
 import { BaseEntity, Tenant } from '../entities/internal';
 import { MultiORMManyToOne } from '../decorators/entity/relations';
 import { MultiORMColumn } from '../decorators';

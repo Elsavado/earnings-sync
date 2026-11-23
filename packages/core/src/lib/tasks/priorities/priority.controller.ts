@@ -24,7 +24,7 @@ import {
 	ITaskPriorityUpdateInput,
 	ID,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { CrudFactory, BaseQueryDTO } from '../../core/crud';
 import { TenantPermissionGuard } from '../../shared/guards';
 import { TaskSettingPermissionGuard, TaskSettingWrite } from '../task-setting-access';

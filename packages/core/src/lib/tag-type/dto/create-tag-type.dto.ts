@@ -1,5 +1,5 @@
 import { IntersectionType, PickType } from '@nestjs/swagger';
-import { ITagTypeCreateInput } from '@gauzy/contracts';
+import { ITagTypeCreateInput } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../core/dto';
 import { TagType } from '../tag-type.entity';
 

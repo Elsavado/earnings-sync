@@ -11,8 +11,8 @@ import { join } from 'node:path';
 import { BadRequestException, ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { buildSchema, printSchema } from 'graphql';
-import { PUBLIC_METHOD_METADATA, FEATURE_METADATA, PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PUBLIC_METHOD_METADATA, FEATURE_METADATA, PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { FeatureFlagGuard, PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { TermsAcceptanceController } from './terms-acceptance.controller';
@@ -41,7 +41,7 @@ import { TermsAcceptanceService } from './terms-acceptance.service';
  */
 const DOCUMENTS = [
 	{
-		documentId: 'tos:gauzy',
+		documentId: 'tos:irtranscripts',
 		version: '1.0.0',
 		sha256: 'a'.repeat(64),
 		locale: 'en-US',
@@ -50,7 +50,7 @@ const DOCUMENTS = [
 		effectiveDate: '2026-01-01'
 	},
 	{
-		documentId: 'privacy:gauzy',
+		documentId: 'privacy:irtranscripts',
 		version: '2.1.0',
 		sha256: 'b'.repeat(64),
 		locale: 'en-US',
@@ -65,7 +65,7 @@ const RECORDS = [
 		id: 'acc-2',
 		subjectId: 'user-1',
 		tenantId: 'tenant-1',
-		documentId: 'privacy:gauzy',
+		documentId: 'privacy:irtranscripts',
 		version: '2.1.0',
 		sha256: 'b'.repeat(64),
 		acceptedAt: '2026-09-01T10:00:00.000Z',
@@ -79,7 +79,7 @@ const RECORDS = [
 		id: 'acc-1',
 		subjectId: 'user-1',
 		tenantId: 'tenant-1',
-		documentId: 'tos:gauzy',
+		documentId: 'tos:irtranscripts',
 		version: '1.0.0',
 		sha256: 'a'.repeat(64),
 		acceptedAt: '2026-01-01T10:00:00.000Z',
@@ -247,7 +247,7 @@ describe('TermsAcceptanceResolver — one concept, two protocols, the same read'
 
 	it('records the caller’s acceptance through the same service method the accept route calls', async () => {
 		const { resolver, termsAcceptanceService } = surfaces();
-		const claim = { documentId: 'privacy:gauzy', version: '2.1.0', sha256: 'b'.repeat(64), locale: 'en-US' };
+		const claim = { documentId: 'privacy:irtranscripts', version: '2.1.0', sha256: 'b'.repeat(64), locale: 'en-US' };
 
 		expect(await resolver.acceptTerms({ terms: [claim] })).toEqual(RECORDS.slice(0, 1));
 		expect(termsAcceptanceService.acceptAsCaller).toHaveBeenCalledWith([claim]);
@@ -265,7 +265,7 @@ describe('TermsAcceptanceResolver — one concept, two protocols, the same read'
 		expect(connection.totalCount).toBe(2);
 		expect(connection.nodes.map((node) => node.id)).toEqual(['acc-2', 'acc-1']);
 
-		const narrowed = await resolver.termsAcceptances({ documentId: { eq: 'tos:gauzy' } });
+		const narrowed = await resolver.termsAcceptances({ documentId: { eq: 'tos:irtranscripts' } });
 		expect(narrowed.nodes.map((node) => node.id)).toEqual(['acc-1']);
 
 		const controller = new TermsAcceptanceController(termsAcceptanceService as never);

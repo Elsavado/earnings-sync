@@ -6,11 +6,11 @@
  * could replace the tenant's Sim API key, map timer and sign-up events to a workflow of their own and read the
  * executions. `PermissionGuard` is what checks the caller's role, as on the other integration controllers.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	class TenantPermissionGuard {}
 	class PermissionGuard {}
 	const { SetMetadata } = jest.requireActual('@nestjs/common');
-	const { PERMISSIONS_METADATA } = jest.requireActual('@gauzy/constants');
+	const { PERMISSIONS_METADATA } = jest.requireActual('@irtranscripts/constants');
 
 	return {
 		TenantPermissionGuard,
@@ -22,8 +22,8 @@ jest.mock('@gauzy/core', () => {
 jest.mock('./sim.service', () => ({ SimService: class {} }));
 
 import { GUARDS_METADATA, METHOD_METADATA } from '@nestjs/common/constants';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionGuard, TenantPermissionGuard } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionGuard, TenantPermissionGuard } from '@irtranscripts/core';
 import { SimController } from './sim.controller';
 
 describe('SimController — the caller’s own permissions', () => {

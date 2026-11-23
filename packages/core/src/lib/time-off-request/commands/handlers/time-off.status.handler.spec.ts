@@ -2,8 +2,8 @@
 import '../../../core/entities/internal';
 
 import { NotFoundException } from '@nestjs/common';
-import { isMySQL, isPostgres } from '@gauzy/config';
-import { StatusTypesEnum, StatusTypesMapRequestApprovalEnum } from '@gauzy/contracts';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
+import { StatusTypesEnum, StatusTypesMapRequestApprovalEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../../core/context';
 import { RequestApproval } from '../../../core/entities/internal';
 import { TimeOffRequest } from '../../time-off-request.entity';
@@ -23,8 +23,8 @@ import { TimeOffStatusHandler } from './time-off.status.handler';
  * decide, and re-deciding a decided leave, are unchanged.
  */
 
-jest.mock('@gauzy/config', () => ({
-	...jest.requireActual('@gauzy/config'),
+jest.mock('@irtranscripts/config', () => ({
+	...jest.requireActual('@irtranscripts/config'),
 	isPostgres: jest.fn(() => false),
 	isMySQL: jest.fn(() => false)
 }));

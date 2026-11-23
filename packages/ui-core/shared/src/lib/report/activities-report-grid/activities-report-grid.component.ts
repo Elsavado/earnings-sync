@@ -5,15 +5,15 @@ import {
 	ITimeLogFilters,
 	ReportGroupByFilter,
 	ReportGroupFilterEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { pick } from 'underscore';
 import { filter, tap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { ActivityService, DateRangePickerBuilderService, Store } from '@gauzy/ui-core/core';
-import { distinctUntilChange, isEmpty } from '@gauzy/ui-core/common';
-import { BaseSelectorFilterComponent, TimeZoneService } from '../../timesheet/gauzy-filters';
+import { ActivityService, DateRangePickerBuilderService, Store } from '@irtranscripts/ui-core/core';
+import { distinctUntilChange, isEmpty } from '@irtranscripts/ui-core/common';
+import { BaseSelectorFilterComponent, TimeZoneService } from '../../timesheet/irtranscripts-filters';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -105,7 +105,7 @@ export class ActivitiesReportGridComponent extends BaseSelectorFilterComponent i
 
 	/**
 	 * Get header selectors request
-	 * Get gauzy timesheet filters request
+	 * Get irtranscripts timesheet filters request
 	 *
 	 * @returns
 	 */

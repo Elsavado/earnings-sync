@@ -19,7 +19,7 @@ import {
 	MaxLength,
 	Min
 } from 'class-validator';
-import { IOAuthClientCreateInput, OAuthClientType, OAuthGrantType } from '@gauzy/contracts';
+import { IOAuthClientCreateInput, OAuthClientType, OAuthGrantType } from '@irtranscripts/contracts';
 
 export class CreateOAuthClientDTO implements IOAuthClientCreateInput {
 	@ApiProperty({ type: String, maxLength: 100, example: 'Activepieces' })

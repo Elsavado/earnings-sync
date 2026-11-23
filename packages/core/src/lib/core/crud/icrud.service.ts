@@ -4,7 +4,7 @@
 
 import { DeepPartial, DeleteResult, FindOptionsWhere, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { IPagination, ID } from '@gauzy/contracts';
+import { IPagination, ID } from '@irtranscripts/contracts';
 import { LegacyFindManyOptions, LegacyFindOneOptions } from '../utils';
 import { ITryRequest } from './try-request';
 import {

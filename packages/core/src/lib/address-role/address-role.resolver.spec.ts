@@ -7,7 +7,7 @@ import '../core/entities/internal';
 
 import { ExecutionContext, NotFoundException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { FEATURE_METADATA } from '@gauzy/constants';
+import { FEATURE_METADATA } from '@irtranscripts/constants';
 import { FeatureFlagGuard, PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { AddressRoleResolver } from './address-role.resolver';
 

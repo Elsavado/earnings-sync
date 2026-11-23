@@ -58,7 +58,7 @@ describe('InvoiceService.getHighestInvoiceNumber (GHSA-57hw-jqpj-ww97)', () => {
 	};
 
 	beforeAll(async () => {
-		dbPath = path.join(os.tmpdir(), `gauzy-invoice-number-${process.pid}-${Date.now()}.sqlite3`);
+		dbPath = path.join(os.tmpdir(), `irtranscripts-invoice-number-${process.pid}-${Date.now()}.sqlite3`);
 		dataSource = new DataSource({
 			type: 'better-sqlite3',
 			database: dbPath,

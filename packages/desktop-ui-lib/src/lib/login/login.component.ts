@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { NavigationExtras, Router, RouterLink } from '@angular/router';
-import { HttpStatus, IUserSigninWorkspaceResponse } from '@gauzy/contracts';
+import { HttpStatus, IUserSigninWorkspaceResponse } from '@irtranscripts/contracts';
 import { NB_AUTH_OPTIONS, NbAuthService, NbLoginComponent } from '@nebular/auth';
 import {
 	NbAlertModule,
@@ -15,7 +15,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslatePipe } from '@ngx-translate/core';
 import { catchError, EMPTY, finalize, tap } from 'rxjs';
 import { AuthService, AuthStrategy } from '../auth';
-import { GAUZY_ENV } from '../constants';
+import { IRTRANSCRIPTS_ENV } from '../constants';
 import { SpinnerButtonDirective } from '../directives/spinner-button.directive';
 import { ElectronService } from '../electron/services';
 import { LanguageElectronService } from '../language/language-electron.service';
@@ -62,7 +62,7 @@ export class NgxLoginComponent extends NbLoginComponent implements OnInit, OnDes
 		private readonly errorHandlingService: ErrorHandlerService,
 		@Inject(NB_AUTH_OPTIONS)
 		options: any,
-		@Inject(GAUZY_ENV)
+		@Inject(IRTRANSCRIPTS_ENV)
 		private readonly environment: any
 	) {
 		super(nbAuthService, options, cdr, _router);
@@ -73,14 +73,14 @@ export class NgxLoginComponent extends NbLoginComponent implements OnInit, OnDes
 		if (this.isAgent) {
 			this.user.rememberMe = true;
 		}
-		this.electronService.ipcRenderer.once('gauzy_auth_success', async (_, message) => {
+		this.electronService.ipcRenderer.once('irtranscripts_auth_success', async (_, message) => {
 			this.authStrategy.storeAuthenticationData(message);
 			await this._router.navigate(['/']);
 		});
 	}
 
 	ngOnDestroy(): void {
-		this.electronService.ipcRenderer.removeAllListeners('gauzy_auth_success');
+		this.electronService.ipcRenderer.removeAllListeners('irtranscripts_auth_success');
 	}
 
 	public override login(): void {
@@ -151,11 +151,11 @@ export class NgxLoginComponent extends NbLoginComponent implements OnInit, OnDes
 	}
 
 	get forgotPasswordUrl(): string {
-		return this.environment.FORGOT_PASSWORD_URL || 'https://app.gauzy.co/#/auth/request-password';
+		return this.environment.FORGOT_PASSWORD_URL || 'https://app.irtranscripts.com/#/auth/request-password';
 	}
 
 	get registerUrl(): string {
-		return this.environment.REGISTER_URL || 'https://app.gauzy.co/#/auth/register';
+		return this.environment.REGISTER_URL || 'https://app.irtranscripts.com/#/auth/register';
 	}
 
 	get isAgent(): boolean {

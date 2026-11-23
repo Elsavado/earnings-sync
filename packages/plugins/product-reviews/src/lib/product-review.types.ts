@@ -1,4 +1,4 @@
-import { IBasePerTenantAndOrganizationEntityModel, ID, IProduct, IUser } from '@gauzy/contracts';
+import { IBasePerTenantAndOrganizationEntityModel, ID, IProduct, IUser } from '@irtranscripts/contracts';
 
 export type ProductReviewStatus = 'approved' | 'pending' | 'rejected';
 

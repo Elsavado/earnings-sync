@@ -8,7 +8,7 @@
  * of their own. The writer must also operate the installation, the way the ever-instance plugin's operator check
  * defines it (`EverOperatorService`, which core cannot import):
  *
- * - when `EVER_OPERATOR_USER_IDS` (Gauzy user ids, comma separated) is set, a user it lists;
+ * - when `EVER_OPERATOR_USER_IDS` (IRTranscripts user ids, comma separated) is set, a user it lists;
  * - otherwise, on an installation with exactly one tenant, whose super admin is the one who runs the server.
  *
  * With more than one tenant and no list, nobody: the installation sets the list to name its operators.

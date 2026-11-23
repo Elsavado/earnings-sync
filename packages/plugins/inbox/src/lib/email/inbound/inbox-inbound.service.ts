@@ -17,7 +17,7 @@ import {
 	InboxMailboxDomainStatusEnum,
 	InboxMailboxKindEnum,
 	InboxProviderAccountScopeEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { InboxEmail } from '../entities/inbox-email.entity';
 import { InboxMailbox } from '../entities/inbox-mailbox.entity';
 import { GENERIC_PROVIDER_ID, PLATFORM_ACCOUNT_ID } from '../inbox-email.constants';
@@ -61,7 +61,7 @@ interface MatchedMailbox {
  * The provider webhook (plan 04 §5.3), which must be fast: it proves the request, stores what it carries and
  * answers 202; the worker does the rest.
  *
- * 1. The account: the platform route (`/inbound/generic/platform`, configured from `GAUZY_INBOX_PLATFORM_SECRET`) or
+ * 1. The account: the platform route (`/inbound/generic/platform`, configured from `IRTRANSCRIPTS_INBOX_PLATFORM_SECRET`) or
  *    a provider account by id — not disabled, of the provider the URL names. Anything else answers 404.
  * 2. `provider.inbound.verify` (401 when the request is not proven), then `parse`.
  * 3. Per message: only the envelope recipients (or `To` / `Cc` when the provider gives no envelope) that are active
@@ -264,7 +264,7 @@ export class InboxInboundService {
 							// The provider's hold (a failed virus scan) wins over the allowlist's: a manager must see
 							// why the message is really held before releasing it (review F107).
 							headers: jsonHeadersWithin(this.headersOf(message, tag, message.hold ?? hold), budget, [
-								'x-gauzy-inbox-tag',
+								'x-irtranscripts-inbox-tag',
 								INBOX_HOLD_HEADER
 							]),
 							spf: message.spf ?? null,
@@ -349,7 +349,7 @@ export class InboxInboundService {
 
 	/**
 	 * The headers a stored message keeps: the allowlist, whatever form the provider delivered (MIME or JSON), plus the
-	 * recipient's `+tag` and the webhook's hold (`x-gauzy-*` headers of the delivery itself are never kept).
+	 * recipient's `+tag` and the webhook's hold (`x-irtranscripts-*` headers of the delivery itself are never kept).
 	 */
 	private headersOf(message: ParsedInboundEmail, tag?: string, hold?: string): Record<string, string> {
 		const headers: Record<string, string> = {};
@@ -357,7 +357,7 @@ export class InboxInboundService {
 			const key = name.toLowerCase();
 			if (ALLOWLISTED_HEADERS.has(key) && typeof value === 'string') headers[key] = value.slice(0, 1000);
 		}
-		if (tag) headers['x-gauzy-inbox-tag'] = tag.slice(0, 64);
+		if (tag) headers['x-irtranscripts-inbox-tag'] = tag.slice(0, 64);
 		if (hold) headers[INBOX_HOLD_HEADER] = hold.slice(0, 64);
 		return headers;
 	}

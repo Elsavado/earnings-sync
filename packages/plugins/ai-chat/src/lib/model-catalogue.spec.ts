@@ -1,4 +1,4 @@
-import type { IAiChatModel } from '@gauzy/contracts';
+import type { IAiChatModel } from '@irtranscripts/contracts';
 import {
 	createCatalogueCache,
 	credentialCacheKey,

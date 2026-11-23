@@ -1,6 +1,6 @@
 import { DynamicModule, Inject, Injectable, Logger, Module, OnApplicationBootstrap, Optional } from '@nestjs/common';
-import { RolePermissionModule } from '@gauzy/core';
-import { EverInstanceModule, EverInstanceService, EverOperatorService } from '@gauzy/plugin-ever-instance';
+import { RolePermissionModule } from '@irtranscripts/core';
+import { EverInstanceModule, EverInstanceService, EverOperatorService } from '@irtranscripts/plugin-ever-instance';
 import { EverConnectAuditService } from './ever-connect-audit.service';
 import { EverConnectCatalogService } from './ever-connect-catalog.service';
 import { EverConnectCleanupService } from './ever-connect-cleanup.service';
@@ -74,7 +74,7 @@ export class EverConnectModule {
 		);
 		return {
 			module: EverConnectModule,
-			// Gauzy's tenant and permission guards of the organization routes need the role permissions.
+			// IRTranscripts's tenant and permission guards of the organization routes need the role permissions.
 			imports: [EverInstanceModule, RolePermissionModule],
 			controllers: [
 				EverConnectController,

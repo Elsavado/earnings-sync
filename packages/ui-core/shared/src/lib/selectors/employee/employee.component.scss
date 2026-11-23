@@ -18,7 +18,7 @@ ng-select {
 		flex: none;
 		width: 1.125rem;
 		height: 1.125rem;
-		border-radius: var(--gauzy-radius-sm, 6px);
+		border-radius: var(--irtranscripts-radius-sm, 6px);
 		object-fit: cover;
 	}
 
@@ -29,9 +29,9 @@ ng-select {
 		justify-content: center;
 		width: 1.125rem;
 		height: 1.125rem;
-		border-radius: var(--gauzy-radius-sm, 6px);
-		background-color: var(--gauzy-hover-tint, rgba(126, 126, 143, 0.12));
-		color: var(--gauzy-text-color-2, var(--text-hint-color));
+		border-radius: var(--irtranscripts-radius-sm, 6px);
+		background-color: var(--irtranscripts-hover-tint, rgba(126, 126, 143, 0.12));
+		color: var(--irtranscripts-text-color-2, var(--text-hint-color));
 		font-size: 0.75rem;
 
 		svg {

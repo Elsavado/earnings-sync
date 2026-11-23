@@ -1,4 +1,4 @@
-import { InstallSource, parseInstallSource } from '@gauzy/plugin-ever-instance';
+import { InstallSource, parseInstallSource } from '@irtranscripts/plugin-ever-instance';
 import { DEFAULT_PLATFORM_API_URL, isInstanceWideKey } from './ever-connect.constants';
 import { CONSTANTS, isLocalHost } from './sdk';
 
@@ -28,9 +28,9 @@ export interface EverConnectConfig {
 	deny: string[];
 	/** `EVER_CONNECT_CODE`: a connect code used once at start, or `null`. */
 	connectCode: string | null;
-	/** The products this API serves (`EVER_STATS_SERVES`: `gauzy`, `teams`). */
-	serves: Array<'gauzy' | 'teams'>;
-	/** The Gauzy release (`GAUZY_APP_VERSION`, `major.minor.patch`; `0.0.0` for a source build). */
+	/** The products this API serves (`EVER_STATS_SERVES`: `irtranscripts`, `teams`). */
+	serves: Array<'irtranscripts' | 'teams'>;
+	/** The IRTranscripts release (`IRTRANSCRIPTS_APP_VERSION`, `major.minor.patch`; `0.0.0` for a source build). */
 	version: string;
 	/**
 	 * The origin of the web app (`CLIENT_BASE_URL`) that app.ever.co may send an administrator back
@@ -133,16 +133,16 @@ function parseCode(raw: string | undefined): string | null {
 	return value ? value : null;
 }
 
-function parseServes(raw: string | undefined): Array<'gauzy' | 'teams'> {
+function parseServes(raw: string | undefined): Array<'irtranscripts' | 'teams'> {
 	if (raw === undefined || raw.trim() === '') {
-		return ['gauzy'];
+		return ['irtranscripts'];
 	}
 	const parts = raw.split(',').map((part) => part.trim());
-	const known = parts.every((part) => part === 'gauzy' || part === 'teams') && new Set(parts).size === parts.length;
-	return known ? (['gauzy', 'teams'] as const).filter((product) => parts.includes(product)) : ['gauzy'];
+	const known = parts.every((part) => part === 'irtranscripts' || part === 'teams') && new Set(parts).size === parts.length;
+	return known ? (['irtranscripts', 'teams'] as const).filter((product) => parts.includes(product)) : ['irtranscripts'];
 }
 
-/** The release from `GAUZY_APP_VERSION` (`v111.47.0`, `v111.47.0-4-gbb20466`): `major.minor.patch` only. */
+/** The release from `IRTRANSCRIPTS_APP_VERSION` (`v111.47.0`, `v111.47.0-4-gbb20466`): `major.minor.patch` only. */
 export function releaseVersion(raw: string | undefined): string {
 	const match = /^(\d{1,4})\.(\d{1,4})\.(\d{1,4})/.exec((raw ?? '').trim().replace(/^v/i, ''));
 	return match ? `${Number(match[1])}.${Number(match[2])}.${Number(match[3])}` : '0.0.0';
@@ -202,7 +202,7 @@ export function readEverConnectConfig(env: Env = process.env, warn: Warn = () =>
 		deny: parseDeny(env['EVER_CONNECT_INTEGRATIONS_DENY'], warn),
 		connectCode: parseCode(env['EVER_CONNECT_CODE']),
 		serves: parseServes(env['EVER_STATS_SERVES']),
-		version: releaseVersion(env['GAUZY_APP_VERSION']),
+		version: releaseVersion(env['IRTRANSCRIPTS_APP_VERSION']),
 		returnOrigin: ret?.origin ?? null,
 		returnUrl: ret?.url ?? null,
 		returnUnusable: Boolean(env['CLIENT_BASE_URL']?.trim()) && !ret,

@@ -19,7 +19,7 @@ import { LazyFileInterceptor } from './lazy-file-interceptor';
  * site, only by driving a real multipart request through it. So these tests build one.
  */
 describe('LazyFileInterceptor', () => {
-	const BOUNDARY = 'gauzy-test-boundary';
+	const BOUNDARY = 'irtranscripts-test-boundary';
 
 	/** A real multipart/form-data body — multer parses bytes, so a hand-built object would prove nothing. */
 	const multipartBody = (field: string, filename: string, contents: Buffer): Buffer =>

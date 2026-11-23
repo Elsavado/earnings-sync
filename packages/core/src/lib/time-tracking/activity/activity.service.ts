@@ -11,12 +11,12 @@ import {
 	IBulkActivitiesInput,
 	IActivity,
 	ID
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { CommandBus } from '@nestjs/cqrs';
 import { BulkActivitiesSaveCommand } from './commands/bulk-activities-save.command';
 import { indexBy, pluck } from 'underscore';
-import { isNotEmpty } from '@gauzy/utils';
-import { DatabaseTypeEnum, getConfig } from '@gauzy/config';
+import { isNotEmpty } from '@irtranscripts/utils';
+import { DatabaseTypeEnum, getConfig } from '@irtranscripts/config';
 import { prepareSQLQuery as p } from './../../database/database.helper';
 import { TypeOrmActivityRepository } from './repository/type-orm-activity.repository';
 import { MikroOrmActivityRepository } from './repository/mikro-orm-activity.repository';

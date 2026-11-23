@@ -7,8 +7,8 @@ import {
 	ITrackingPayload,
 	ITrackingSessionResponse,
 	ITimeLog
-} from '@gauzy/contracts';
-import { isNotEmpty } from '@gauzy/utils';
+} from '@irtranscripts/contracts';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { RequestContext } from '../../core/context';
 import { ManagedEmployeeService } from '../../employee/managed-employee.service';
 import { TenantAwareCrudService } from '../../core/crud';

@@ -21,8 +21,8 @@ import {
 	InboxEmailDirectionEnum,
 	InboxEmailSpamVerdictEnum,
 	InboxEmailStatusEnum
-} from '@gauzy/contracts';
-import { describeEmailSendError, EmailSendService, IOutboundEmailMessage, RequestContext } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { describeEmailSendError, EmailSendService, IOutboundEmailMessage, RequestContext } from '@irtranscripts/core';
 import { InboxItemRecipient } from '../../entities/inbox-item-recipient.entity';
 import { InboxEmail } from '../entities/inbox-email.entity';
 import { InboxEmailAttachment } from '../entities/inbox-email-attachment.entity';

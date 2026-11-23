@@ -1,5 +1,5 @@
 import { OmitType, PartialType } from '@nestjs/swagger';
-import { IBroadcastUpdateInput } from '@gauzy/contracts';
+import { IBroadcastUpdateInput } from '@irtranscripts/contracts';
 import { CreateBroadcastDTO } from './create-broadcast.dto';
 
 /**

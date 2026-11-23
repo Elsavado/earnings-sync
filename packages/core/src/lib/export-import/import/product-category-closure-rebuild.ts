@@ -1,6 +1,6 @@
 import { EntityManager as TypeOrmEntityManager } from 'typeorm';
 import { EntityManager as MikroOrmEntityManager } from '@mikro-orm/knex';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import {
 	IProductCategoryClosureRunner,
 	mikroOrmClosureRunner,

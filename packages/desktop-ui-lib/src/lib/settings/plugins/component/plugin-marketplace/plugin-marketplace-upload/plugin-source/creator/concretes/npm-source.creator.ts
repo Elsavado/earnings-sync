@@ -1,5 +1,5 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { INPMSource, PluginSourceType } from '@gauzy/contracts';
+import { INPMSource, PluginSourceType } from '@irtranscripts/contracts';
 import { SourceCreator } from '../source.creator';
 
 export class NpmSourceCreator extends SourceCreator {

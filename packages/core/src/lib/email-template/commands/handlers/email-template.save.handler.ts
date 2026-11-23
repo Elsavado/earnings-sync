@@ -1,10 +1,10 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { IsNull } from 'typeorm';
-import { isEmpty } from '@gauzy/utils';
+import { isEmpty } from '@irtranscripts/utils';
 import { EmailTemplateSaveCommand } from '../email-template.save.command';
 import { EmailTemplateService } from '../../email-template.service';
 import { EmailTemplate } from '../../email-template.entity';
-import { LanguagesEnum, EmailTemplateEnum, IEmailTemplate } from '@gauzy/contracts';
+import { LanguagesEnum, EmailTemplateEnum, IEmailTemplate } from '@irtranscripts/contracts';
 import { BadRequestException } from '@nestjs/common';
 import { RequestContext } from './../../../core/context';
 import { compileMjml } from '../../compile-mjml';

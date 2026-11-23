@@ -2,8 +2,8 @@ import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core
 import { NbDialogRef } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
 import { catchError, firstValueFrom, of } from 'rxjs';
-import { DocumentKindEnum, ID } from '@gauzy/contracts';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { DocumentKindEnum, ID } from '@irtranscripts/contracts';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { DocumentsService } from '../services/documents.service';
 
 /** What the dialog needs to know about the node being deleted. */

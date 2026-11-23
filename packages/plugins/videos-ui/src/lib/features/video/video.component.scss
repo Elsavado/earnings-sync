@@ -23,33 +23,33 @@
 }
 // Info section styling
 .info {
-  color: var(--gauzy-text-color-1); // Dark text for better contrast
+  color: var(--irtranscripts-text-color-1); // Dark text for better contrast
 
   .title {
     font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 8px;
-    color: var(--gauzy-text-color-1); // Slightly darker for emphasis
+    color: var(--irtranscripts-text-color-1); // Slightly darker for emphasis
     line-height: 30px;
   }
 
   .author {
     font-size: 1rem;
-    color: var(--gauzy-text-color-2); // Muted text for less emphasis
+    color: var(--irtranscripts-text-color-2); // Muted text for less emphasis
     margin-bottom: 4px;
   }
 
   .date {
     font-size: 0.875rem;
-    color: var(--gauzy-text-color-2); // Subtle text for less prominent info
+    color: var(--irtranscripts-text-color-2); // Subtle text for less prominent info
     margin-bottom: 16px;
   }
 
   .description {
     font-size: 1rem;
     line-height: 1.6;
-    color: var(--gauzy-text-color-1); // Slightly lighter than title for readability
-    background-color: var(--gauzy-card-2); // White background for better focus
+    color: var(--irtranscripts-text-color-1); // Slightly lighter than title for readability
+    background-color: var(--irtranscripts-card-2); // White background for better focus
     padding: 1rem;
     border-radius: var(--border-radius);
   }

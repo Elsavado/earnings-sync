@@ -1,4 +1,4 @@
-import { IEmailTemplate, IEmailTemplateSaveInput, IPagination, LanguagesEnum, PermissionsEnum } from '@gauzy/contracts';
+import { IEmailTemplate, IEmailTemplateSaveInput, IPagination, LanguagesEnum, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	Body,
 	Controller,

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { progressStatus } from '@gauzy/ui-core/common';
+import { progressStatus } from '@irtranscripts/ui-core/common';
 import { NbComponentOrCustomStatus } from '@nebular/theme';
 
 @Component({

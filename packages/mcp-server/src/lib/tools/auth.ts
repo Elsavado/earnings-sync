@@ -21,7 +21,7 @@ export const registerAuthTools = (server: McpServer, sessionId?: string) => {
 	registerTool(
 		server,
 		'login',
-		'Login to Gauzy with email and password and create a session',
+		'Login to IRTranscripts with email and password and create a session',
 		{
 			email: z.string().email().describe('Email address for authentication'),
 			password: z.string().min(1).describe('Password for authentication'),
@@ -109,7 +109,7 @@ Authentication status: ${authStatus.isAuthenticated ? 'Authenticated' : 'Not aut
 	registerTool(
 		server,
 		'logout',
-		'Logout from Gauzy, clear authentication tokens, and cleanup sessions',
+		'Logout from IRTranscripts, clear authentication tokens, and cleanup sessions',
 		{
 			cleanupAllSessions: z.boolean().optional().describe('Whether to cleanup all user sessions (default: true)')
 		},

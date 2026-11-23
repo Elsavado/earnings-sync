@@ -1,7 +1,7 @@
 import '../nebular-jsx';
-import { ID, IMembersStatistics } from '@gauzy/contracts';
-import { useTranslation } from '@gauzy/ui-react';
-import { Avatar, Badge, progressStatus } from '@gauzy/ui-react-components';
+import { ID, IMembersStatistics } from '@irtranscripts/contracts';
+import { useTranslation } from '@irtranscripts/ui-react';
+import { Avatar, Badge, progressStatus } from '@irtranscripts/ui-react-components';
 import { durationFormat, isAgentEmployee } from '../../utils/format.utils';
 import { RangePeriod } from '../../utils/period.utils';
 import { WindowCard } from './WindowCard';

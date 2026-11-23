@@ -1,16 +1,16 @@
 /**
- * `@gauzy/core` is doubled at the module boundary: its barrel boots the whole application graph, and
+ * `@irtranscripts/core` is doubled at the module boundary: its barrel boots the whole application graph, and
  * the two things this file needs from it — whether a request is behind the write, and the name of each
  * ORM — are exactly the switches a test has to be able to throw.
  */
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	MultiORMEnum: { TypeORM: 'typeorm', MikroORM: 'mikro-orm' },
 	RequestContext: { currentTenantId: jest.fn(() => null) },
 	// Marks what it serialised, so a case can tell the plain row from the managed entity.
 	wrapSerialize: jest.fn((entity: Record<string, unknown>) => ({ ...entity, serialized: true }))
 }));
 
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { createUnderOrderScope, orderScopeColumns, scopeOfOrderRow } from './order-row-scope';
 
 /**

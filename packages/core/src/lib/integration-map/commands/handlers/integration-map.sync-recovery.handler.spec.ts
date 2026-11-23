@@ -1,7 +1,7 @@
 import '../../../core/entities/internal';
 
 import { NotFoundException } from '@nestjs/common';
-import { IntegrationEntity } from '@gauzy/contracts';
+import { IntegrationEntity } from '@irtranscripts/contracts';
 import { RequestContext } from '../../../core/context';
 import { OrganizationCreateCommand, OrganizationUpdateCommand } from '../../../organization/commands';
 import { OrganizationProjectCreateCommand, OrganizationProjectUpdateCommand } from '../../../organization-project/commands';
@@ -54,7 +54,7 @@ function base() {
 }
 
 describe.each(cases)('IntegrationMapSync $name handler', ({ Handler, command, Update, Create, entity }) => {
-	const existingMap = { id: 'map-1', gauzyId: 'gauzy-1' };
+	const existingMap = { id: 'map-1', irtranscriptsId: 'irtranscripts-1' };
 
 	const setup = (findMap: jest.Mock) => {
 		const execute = jest.fn();
@@ -67,7 +67,7 @@ describe.each(cases)('IntegrationMapSync $name handler', ({ Handler, command, Up
 
 	it('updates the mapped entity and returns the existing map', async () => {
 		const { execute, handler } = setup(jest.fn().mockResolvedValue(existingMap));
-		execute.mockResolvedValue({ id: 'gauzy-1' });
+		execute.mockResolvedValue({ id: 'irtranscripts-1' });
 
 		expect(await handler.execute(command())).toBe(existingMap);
 		expect(execute).toHaveBeenCalledTimes(1);
@@ -86,28 +86,28 @@ describe.each(cases)('IntegrationMapSync $name handler', ({ Handler, command, Up
 		const { execute, handler } = setup(jest.fn().mockResolvedValue(existingMap));
 		execute
 			.mockRejectedValueOnce(new NotFoundException('The requested record was not found'))
-			.mockResolvedValueOnce({ id: 'gauzy-new' })
-			.mockResolvedValueOnce({ id: 'map-1', gauzyId: 'gauzy-new' });
+			.mockResolvedValueOnce({ id: 'irtranscripts-new' })
+			.mockResolvedValueOnce({ id: 'map-1', irtranscriptsId: 'irtranscripts-new' });
 
-		expect(await handler.execute(command())).toEqual({ id: 'map-1', gauzyId: 'gauzy-new' });
+		expect(await handler.execute(command())).toEqual({ id: 'map-1', irtranscriptsId: 'irtranscripts-new' });
 
 		const [[update], [create], [map]] = execute.mock.calls;
 		expect(update).toBeInstanceOf(Update);
 		expect(create).toBeInstanceOf(Create);
 		expect(map).toBeInstanceOf(IntegrationMapSyncEntityCommand);
-		expect(map.input).toMatchObject({ id: 'map-1', gauzyId: 'gauzy-new', sourceId: '42', entity });
+		expect(map.input).toMatchObject({ id: 'map-1', irtranscriptsId: 'irtranscripts-new', sourceId: '42', entity });
 	});
 
 	it('creates the entity and a map when it is not mapped yet', async () => {
 		const { execute, handler } = setup(jest.fn().mockRejectedValue(new NotFoundException('The requested record was not found')));
-		execute.mockResolvedValueOnce({ id: 'gauzy-new' }).mockResolvedValueOnce({ id: 'map-new' });
+		execute.mockResolvedValueOnce({ id: 'irtranscripts-new' }).mockResolvedValueOnce({ id: 'map-new' });
 
 		expect(await handler.execute(command())).toEqual({ id: 'map-new' });
 
 		const [[create], [map]] = execute.mock.calls;
 		expect(create).toBeInstanceOf(Create);
 		expect(map.input).not.toHaveProperty('id');
-		expect(map.input).toMatchObject({ gauzyId: 'gauzy-new', sourceId: '42', entity });
+		expect(map.input).toMatchObject({ irtranscriptsId: 'irtranscripts-new', sourceId: '42', entity });
 	});
 
 	it('rejects when the map lookup itself fails, creating nothing', async () => {

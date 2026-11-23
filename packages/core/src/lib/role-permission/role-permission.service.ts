@@ -13,8 +13,8 @@ import {
 	PermissionsEnum,
 	IRolePermissions,
 	ID
-} from '@gauzy/contracts';
-import { environment } from '@gauzy/config';
+} from '@irtranscripts/contracts';
+import { environment } from '@irtranscripts/config';
 import { TenantAwareCrudService } from './../core/crud';
 import { IFindOneOptions } from './../core/crud/icrud.service';
 import { RequestContext } from './../core/context';

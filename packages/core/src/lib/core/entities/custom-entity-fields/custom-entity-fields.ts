@@ -1,4 +1,4 @@
-import { CustomEmbeddedFields } from '@gauzy/common';
+import { CustomEmbeddedFields } from '@irtranscripts/common';
 import { MikroOrmEmployeeEntityCustomFields, TypeOrmEmployeeEntityCustomFields } from './employee';
 import { MikroOrmTagEntityCustomFields, TypeOrmTagEntityCustomFields } from './tag';
 import {

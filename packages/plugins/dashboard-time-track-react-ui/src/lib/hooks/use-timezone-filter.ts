@@ -2,12 +2,12 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivatedRoute, Params } from '@angular/router';
 import { combineLatest } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { DEFAULT_TIME_FORMATS } from '@gauzy/constants';
-import { IOrganization, IUser, PermissionsEnum, TimeFormatEnum, TimeZoneEnum } from '@gauzy/contracts';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
-import { NavigationService, Store } from '@gauzy/ui-core/core';
-import { TimeZoneService } from '@gauzy/ui-core/shared';
-import { useInjector, useObservable } from '@gauzy/ui-react';
+import { DEFAULT_TIME_FORMATS } from '@irtranscripts/constants';
+import { IOrganization, IUser, PermissionsEnum, TimeFormatEnum, TimeZoneEnum } from '@irtranscripts/contracts';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
+import { NavigationService, Store } from '@irtranscripts/ui-core/core';
+import { TimeZoneService } from '@irtranscripts/ui-core/shared';
+import { useInjector, useObservable } from '@irtranscripts/ui-react';
 import {
 	getTimeZoneWithOffset,
 	normalizeTimeFormat,

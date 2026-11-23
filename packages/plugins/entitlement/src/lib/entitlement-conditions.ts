@@ -6,7 +6,7 @@ import {
 	RuleOwnerType,
 	RuleScope,
 	RuleValueType
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { Entitlement } from './entitlement/entitlement.entity';
 import { EntitlementKind, EntitlementStatus } from './entitlement.enums';
 import { IEntitlementState } from './entitlement-check/entitlement-rules';

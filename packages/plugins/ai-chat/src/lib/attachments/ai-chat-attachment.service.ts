@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { isUUID } from 'class-validator';
 import { DataSource } from 'typeorm';
-import { ID, UploadedFile } from '@gauzy/contracts';
-import { assertCurrentUserBelongsToOrganization, EventBus, FileStorage, RequestContext } from '@gauzy/core';
+import { ID, UploadedFile } from '@irtranscripts/contracts';
+import { assertCurrentUserBelongsToOrganization, EventBus, FileStorage, RequestContext } from '@irtranscripts/core';
 import { AiChatAttachmentSavedEvent } from './ai-chat-attachment.event';
 
 /**
@@ -35,7 +35,7 @@ export interface IAiChatAttachmentResult {
  * interceptor, so this service never touches file content — its whole job is to snapshot the
  * requesting scope while `RequestContext` is still live and publish the event.
  *
- * What happens NEXT is deliberately not this plugin's business: `@gauzy/plugin-docs` subscribes
+ * What happens NEXT is deliberately not this plugin's business: `@irtranscripts/plugin-docs` subscribes
  * to the event and turns the attachment into a `Document { kind: FILE, source: CHAT }` that rides
  * the standard extraction pipeline, after which the chat's own `docs_search` / `docs_read` tools
  * can read it. On an install without the docs plugin the event simply has no subscriber and the

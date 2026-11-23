@@ -11,14 +11,14 @@ import {
 	ValidateIf,
 	ValidateNested
 } from 'class-validator';
-import { ID, PermissionsEnum } from '@gauzy/contracts';
+import { ID, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	PermissionGuard,
 	Permissions,
 	TenantPermissionGuard,
 	UseValidationPipe,
 	UUIDValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { EVER_WORKS_ROUTE_PREFIX } from '../ever-works.constants';
 import { EverWorksInitiativesService } from './ever-works-initiatives.service';
 
@@ -29,7 +29,7 @@ export class EverWorksInitiativeLinkDto {
 	readonly ewMissionId!: string;
 
 	@ApiProperty({
-		description: 'Gauzy strategic initiative id (an initiative of this organization, not leadership-scoped).'
+		description: 'IRTranscripts strategic initiative id (an initiative of this organization, not leadership-scoped).'
 	})
 	@IsUUID()
 	readonly initiativeId!: string;
@@ -60,18 +60,18 @@ export class EverWorksInitiativesDecisionDto {
 	@IsBoolean()
 	readonly acceptSuggestions?: boolean;
 
-	@ApiPropertyOptional({ type: [String], description: 'Ever Works mission ids to create as Gauzy initiatives.' })
+	@ApiPropertyOptional({ type: [String], description: 'Ever Works mission ids to create as IRTranscripts initiatives.' })
 	@ValidateIf((_o, v) => v !== undefined)
 	@IsArray()
 	@ArrayMaxSize(500)
 	@IsString({ each: true })
 	@MaxLength(64, { each: true })
-	readonly createInGauzy?: string[];
+	readonly createInIRTranscripts?: string[];
 
 	@ApiPropertyOptional({
 		type: [String],
 		description:
-			'Gauzy initiative ids to create in Ever Works (as paused missions; needs the missions direction "both").'
+			'IRTranscripts initiative ids to create in Ever Works (as paused missions; needs the missions direction "both").'
 	})
 	@ValidateIf((_o, v) => v !== undefined)
 	@IsArray()

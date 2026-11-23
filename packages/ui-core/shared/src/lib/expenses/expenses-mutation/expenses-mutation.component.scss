@@ -1,4 +1,4 @@
-@use 'gauzy/_gauzy-dialogs' as *;
+@use 'irtranscripts/_irtranscripts-dialogs' as *;
 
 .main {
 	height: auto;
@@ -6,7 +6,7 @@
   	.body {
     	width: 645px;
   	}
-	background-color: nb-theme(gauzy-card-1);
+	background-color: nb-theme(irtranscripts-card-1);
   	nb-card-header {
 		.help-text {
 			width: 40px;

@@ -1,10 +1,10 @@
-# @gauzy/plugin-job-employee-ui
+# @irtranscripts/plugin-job-employee-ui
 
 This library was generated with [Nx](https://nx.dev).
 
 ## Overview
 
-The Plugin Job Employee UI is a Gauzy plugin that provides a user-friendly interface for managing job employees within the Gauzy platform.
+The Plugin Job Employee UI is a IRTranscripts plugin that provides a user-friendly interface for managing job employees within the IRTranscripts platform.
 
 ## Building
 
@@ -23,7 +23,7 @@ After building your library with `yarn nx build plugin-job-employee-ui`, go to t
 To install the Plugin Job Employee UI, simply run the following command in your terminal:
 
 ```bash
-npm install @gauzy/plugin-job-employee-ui
+npm install @irtranscripts/plugin-job-employee-ui
 # or
-yarn add @gauzy/plugin-job-employee-ui
+yarn add @irtranscripts/plugin-job-employee-ui
 ```

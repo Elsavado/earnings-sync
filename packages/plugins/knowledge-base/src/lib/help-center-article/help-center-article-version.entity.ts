@@ -2,8 +2,8 @@ import { RelationId } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDate, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ID, IEmployee, IHelpCenterArticle, IHelpCenterArticleVersion, JsonData } from '@gauzy/contracts';
-import { isMySQL, isPostgres } from '@gauzy/config';
+import { ID, IEmployee, IHelpCenterArticle, IHelpCenterArticleVersion, JsonData } from '@irtranscripts/contracts';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
 import {
     ColumnIndex,
     Employee,
@@ -11,7 +11,7 @@ import {
     MultiORMEntity,
     MultiORMManyToOne,
     TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { HelpCenterArticle } from './help-center-article.entity';
 import { MikroOrmHelpCenterArticleVersionRepository } from './repository/mikro-orm-help-center-article-version.repository';
 

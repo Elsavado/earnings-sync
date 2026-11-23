@@ -3,7 +3,7 @@ import {
 	OrganizationStrategicPerceivedMomentumEnum,
 	OrganizationStrategicStateEnum,
 	OrganizationStrategicVisibilityScopeEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { EVER_WORKS_LINK_SOURCE } from '../ever-works.constants';
 
 /**
@@ -52,10 +52,10 @@ export interface EverWorksMission {
 
 /** Ever Works' limits on a mission (`missions.title varchar(200)`). */
 export const EVER_WORKS_MISSION_TITLE_MAX = 200;
-/** The relation a work a Gauzy project brings to a mission gets (Ever Works keeps its own for the others). */
+/** The relation a work a IRTranscripts project brings to a mission gets (Ever Works keeps its own for the others). */
 export const DEFAULT_MISSION_WORK_RELATION = 'improves';
 
-/** The Gauzy side of a mission's status (plan 01 §9). */
+/** The IRTranscripts side of a mission's status (plan 01 §9). */
 export interface InitiativeStatusFields {
 	state: OrganizationStrategicStateEnum;
 	/** `stalled` while paused; `null` clears a stalled momentum the sync set; `undefined` leaves it. */
@@ -91,7 +91,7 @@ export function missionStatusToInitiative(
 
 /**
  * G → EW (plan 01 §9): only finishing is pushed — retired → completed with outcome `cancelled`,
- * resolved → completed with outcome `succeeded`. Gauzy never sets a mission `active` (spend safety, D9),
+ * resolved → completed with outcome `succeeded`. IRTranscripts never sets a mission `active` (spend safety, D9),
  * and draft / active leave Ever Works' status as it is.
  */
 export function initiativeStateToMission(
@@ -103,7 +103,7 @@ export function initiativeStateToMission(
 }
 
 /**
- * Whether a Gauzy initiative may go to Ever Works: `leadership` initiatives never (Ever Works has no
+ * Whether a IRTranscripts initiative may go to Ever Works: `leadership` initiatives never (Ever Works has no
  * equivalent the integration may set, 01 §2a / §9); a draft not before it is active.
  */
 export function initiativeEligibility(initiative: {
@@ -122,7 +122,7 @@ export interface MissionShared {
 	teamIds: string[];
 	works: EverWorksMissionWork[];
 	goals: EverWorksMissionGoal[];
-	/** Ever Works' status as last synced (Gauzy only ever finishes it). */
+	/** Ever Works' status as last synced (IRTranscripts only ever finishes it). */
 	status: string | null;
 }
 
@@ -146,12 +146,12 @@ export function everWorksMissionShared(mission: EverWorksMission, before: Partia
 }
 
 /**
- * G → EW: the Ever Works side of a Gauzy initiative — title (cut to 200), intent as the description (Ever
+ * G → EW: the Ever Works side of a IRTranscripts initiative — title (cut to 200), intent as the description (Ever
  * Works requires one: the title when it is empty), its mapped teams, the works of its linked projects
  * (keeping the relation Ever Works has for each, else `improves`) and its goals (the primary one stays
- * Ever Works' choice), plus what Ever Works has that Gauzy cannot show (`keep`).
+ * Ever Works' choice), plus what Ever Works has that IRTranscripts cannot show (`keep`).
  */
-export function gauzyInitiativeShared(
+export function irtranscriptsInitiativeShared(
 	initiative: { title?: string | null; intent?: string | null },
 	teamIds: ReadonlyArray<string>,
 	workIds: ReadonlyArray<string>,
@@ -165,12 +165,12 @@ export function gauzyInitiativeShared(
 	const relationOf = new Map(
 		(before.works ?? []).map((w) => [w.workId, w.relation ?? DEFAULT_MISSION_WORK_RELATION])
 	);
-	// The mission's primary goal stays the one Ever Works has (at most one per mission); Gauzy never picks one.
+	// The mission's primary goal stays the one Ever Works has (at most one per mission); IRTranscripts never picks one.
 	const primary = (before.goals ?? []).find((g) => g.isPrimary)?.goalId ?? null;
 	return {
 		title,
 		description: String(initiative.intent ?? '').trim() || title,
-		// What Ever Works has that Gauzy cannot show (`keep`) stays: Gauzy never had it, so it never removes it.
+		// What Ever Works has that IRTranscripts cannot show (`keep`) stays: IRTranscripts never had it, so it never removes it.
 		teamIds: [...new Set([...teamIds, ...(keep.teamIds ?? [])])].sort(),
 		works: [...new Set([...workIds, ...(keep.workIds ?? [])])]
 			.map((workId) => ({ workId, relation: relationOf.get(workId) ?? DEFAULT_MISSION_WORK_RELATION }))
@@ -184,7 +184,7 @@ export function gauzyInitiativeShared(
 
 const same = (a: unknown, b: unknown) => JSON.stringify(a ?? null) === JSON.stringify(b ?? null);
 
-/** The writes a Gauzy initiative needs in Ever Works against the last sync: a `PATCH` body, and the sets to `PUT`. */
+/** The writes a IRTranscripts initiative needs in Ever Works against the last sync: a `PATCH` body, and the sets to `PUT`. */
 export function missionPushPlan(
 	now: MissionShared,
 	before: Partial<MissionShared>,
@@ -217,8 +217,8 @@ export function missionCreateBody(now: MissionShared, connectionId: ID, initiati
 	};
 }
 
-/** The Gauzy initiative an Ever Works mission was made from (its `externalLinks` through this connection), or `null`. */
-export function gauzyInitiativeOf(mission: EverWorksMission, connectionId: ID): ID | null {
+/** The IRTranscripts initiative an Ever Works mission was made from (its `externalLinks` through this connection), or `null`. */
+export function irtranscriptsInitiativeOf(mission: EverWorksMission, connectionId: ID): ID | null {
 	const link = (mission.externalLinks ?? []).find(
 		(l) =>
 			l.source === EVER_WORKS_LINK_SOURCE &&

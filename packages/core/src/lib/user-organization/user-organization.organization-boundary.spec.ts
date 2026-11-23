@@ -2,7 +2,7 @@ import '../core/entities/internal';
 
 import { ForbiddenException, NotFoundException, ValidationPipe } from '@nestjs/common';
 import { useContainer } from 'class-validator';
-import { RolesEnum } from '@gauzy/contracts';
+import { RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { CrudService, TenantAwareCrudService } from '../core/crud';
 import { runOutsideOrganizationBoundary } from '../core/crud/organization-boundary';

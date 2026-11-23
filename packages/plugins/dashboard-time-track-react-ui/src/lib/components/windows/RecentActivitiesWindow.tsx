@@ -1,7 +1,7 @@
 import { useRef } from 'react';
-import { ID, IOrganization, ITimeSlotStatistics, TimeFormatEnum } from '@gauzy/contracts';
-import { useTranslation } from '@gauzy/ui-react';
-import { Avatar } from '@gauzy/ui-react-components';
+import { ID, IOrganization, ITimeSlotStatistics, TimeFormatEnum } from '@irtranscripts/contracts';
+import { useTranslation } from '@irtranscripts/ui-react';
+import { Avatar } from '@irtranscripts/ui-react-components';
 import { dateFormat, isAgentEmployee, utcToLocal } from '../../utils/format.utils';
 import { NbButton } from '../NbButton';
 import { ScreenshotCarousel, type ScreenshotCarouselHandle } from './ScreenshotCarousel';

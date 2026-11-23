@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-integration-ever-async
+ * Public API Surface of @irtranscripts/plugin-integration-ever-async
  */
 export * from './lib/integration-ever-async.plugin';
 export * from './lib/ever-async.module';

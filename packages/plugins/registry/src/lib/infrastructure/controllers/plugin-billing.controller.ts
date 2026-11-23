@@ -1,11 +1,11 @@
-import { IPagination, PermissionsEnum, PluginBillingStatus } from '@gauzy/contracts';
+import { IPagination, PermissionsEnum, PluginBillingStatus } from '@irtranscripts/contracts';
 import {
 	PermissionGuard,
 	Permissions,
 	TenantPermissionGuard,
 	UseValidationPipe,
 	UUIDValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import {
 	Body,
 	Controller,

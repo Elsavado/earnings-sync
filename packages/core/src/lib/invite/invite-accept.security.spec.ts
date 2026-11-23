@@ -6,7 +6,7 @@
 import '../core/entities/internal';
 import { ValidationPipe } from '@nestjs/common';
 import { PIPES_METADATA } from '@nestjs/common/constants';
-import { RolesEnum } from '@gauzy/contracts';
+import { RolesEnum } from '@irtranscripts/contracts';
 import { AcceptInviteDTO } from './dto';
 import { InviteController } from './invite.controller';
 import { InviteAcceptHandler } from './commands/handlers/invite-accept.handler';
@@ -41,7 +41,7 @@ describe('POST /invite/accept cannot carry privileged fields into the sink (GHSA
 				password: 'correct-horse',
 				terms: [
 					{
-						documentId: 'tos:gauzy',
+						documentId: 'tos:irtranscripts',
 						version: '1.0.0',
 						sha256: 'a'.repeat(64),
 						locale: 'en'
@@ -177,7 +177,7 @@ describe('POST /invite/accept cannot carry privileged fields into the sink (GHSA
 					email: INVITED_EMAIL,
 					token: 't',
 					user: { firstName: 'A' },
-					terms: [{ documentId: 'tos:gauzy', version: '1.0.0', sha256: 'nope', locale: 'en' }]
+					terms: [{ documentId: 'tos:irtranscripts', version: '1.0.0', sha256: 'nope', locale: 'en' }]
 				}
 			]
 		])('rejects %s', async (_label, body) => {

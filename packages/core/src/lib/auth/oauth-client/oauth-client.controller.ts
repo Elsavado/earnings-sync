@@ -18,7 +18,7 @@
  *   `ADMINISTRATION` permission group in `role-permission.model.ts`.
  *
  * Note: This is the ADMIN registry surface. The third-party-facing
- * authorization endpoints (`/integration/ever-gauzy/oauth/authorize`
+ * authorization endpoints (`/integration/ever-irtranscripts/oauth/authorize`
  * and `/token`) are unchanged and still live in
  * `packages/auth/src/lib/oauth-app/oauth-app.controller.ts` — they will
  * be rewired to use this service in Section 3.
@@ -39,7 +39,7 @@ import {
 	UseGuards
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ID, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { Permissions } from '../../shared/decorators';
 import { PermissionGuard, TenantPermissionGuard } from '../../shared/guards';
 import { UUIDValidationPipe, UseValidationPipe } from '../../shared/pipes';

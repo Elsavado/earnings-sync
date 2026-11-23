@@ -1,15 +1,15 @@
 /**
  * The adapter that answers the order's invoicing port with the platform's own finance document.
  *
- * `@gauzy/core`'s barrel is doubled at the module boundary for the reason the package's other suites give;
+ * `@irtranscripts/core`'s barrel is doubled at the module boundary for the reason the package's other suites give;
  * the finance service is the one collaborator, and it is doubled with the calls the adapter makes, so what
  * the suite reads is exactly the document the adapter asks the platform to write.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 
 	return {
-		...jest.requireActual('@gauzy/core/src/lib/money/decimal'),
+		...jest.requireActual('@irtranscripts/core/src/lib/money/decimal'),
 		InvoiceService: class {},
 		TenantOrganizationBaseEntity: class {},
 		MikroOrmBaseEntityRepository: class {},
@@ -29,7 +29,7 @@ jest.mock('@gauzy/core', () => {
 
 import { BadRequestException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { IsNull } from 'typeorm';
-import { DiscountTaxTypeEnum, InvoiceStatusTypesEnum, InvoiceTypeEnum } from '@gauzy/contracts';
+import { DiscountTaxTypeEnum, InvoiceStatusTypesEnum, InvoiceTypeEnum } from '@irtranscripts/contracts';
 import { IOrderInvoiceDocument } from '../order.types';
 import { OrderInvoicingAdapter } from './order-invoicing.adapter';
 

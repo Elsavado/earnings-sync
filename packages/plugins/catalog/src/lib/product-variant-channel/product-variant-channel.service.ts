@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { DeepPartial, FindOptionsWhere, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { ID } from '@gauzy/contracts';
-import { ProductVariant, RequestContext, assertPlainReferencesNotForeign } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { ProductVariant, RequestContext, assertPlainReferencesNotForeign } from '@irtranscripts/core';
 import { PUBLICATION_REFERENCES } from '../catalog.references';
 import { assertInCallerScope, callerScope } from '../catalog.scope';
 import { PublicationStatus } from '../catalog.types';

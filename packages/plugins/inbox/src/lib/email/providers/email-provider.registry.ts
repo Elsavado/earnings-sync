@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { IEmailProviderDescriptor } from '@gauzy/contracts';
+import { IEmailProviderDescriptor } from '@irtranscripts/contracts';
 import { IEmailProviderPlugin, IEmailProviderRegistry } from './email-provider.types';
 
 /** A provider id: lower-case letters, digits and dashes, at most 32 characters (it is part of the webhook URL). */

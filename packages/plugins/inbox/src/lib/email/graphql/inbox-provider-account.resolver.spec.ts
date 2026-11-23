@@ -5,19 +5,19 @@
  * controller's guards and `INBOX_MAILBOX_MANAGE`, every field reaches the service method of its route, the routes' DTO
  * rules refuse what the routes refuse, and no answer type can carry a secret.
  *
- * `@gauzy/core`, `@gauzy/common` and `@gauzy/plugin` are doubled at the module boundary
+ * `@irtranscripts/core`, `@irtranscripts/common` and `@irtranscripts/plugin` are doubled at the module boundary
  * (`../testing/graphql-core-double`), with every export the Inbox email module's files read, so the module and the
  * plugin load.
  */
-jest.mock('@gauzy/core', () => jest.requireActual('../testing/graphql-core-double').coreDouble());
-jest.mock('@gauzy/common', () => jest.requireActual('../testing/graphql-core-double').commonDouble());
-jest.mock('@gauzy/plugin', () => jest.requireActual('../testing/graphql-core-double').pluginDouble());
+jest.mock('@irtranscripts/core', () => jest.requireActual('../testing/graphql-core-double').coreDouble());
+jest.mock('@irtranscripts/common', () => jest.requireActual('../testing/graphql-core-double').commonDouble());
+jest.mock('@irtranscripts/plugin', () => jest.requireActual('../testing/graphql-core-double').pluginDouble());
 
 import 'reflect-metadata';
 import { BadRequestException } from '@nestjs/common';
 import { GUARDS_METADATA, MODULE_METADATA, ROUTE_ARGS_METADATA } from '@nestjs/common/constants';
 import { buildSchema, extendSchema, GraphQLObjectType, GraphQLSchema } from 'graphql';
-import { InboxProviderAccountScopeEnum, InboxProviderAccountStatusEnum, PermissionsEnum } from '@gauzy/contracts';
+import { InboxProviderAccountScopeEnum, InboxProviderAccountStatusEnum, PermissionsEnum } from '@irtranscripts/contracts';
 import { inboxSchemaExtensions } from '../../graphql/inbox.schema';
 import { InboxEmailModule } from '../inbox-email.module';
 import { InboxEmailPlugin } from '../inbox-email.plugin';

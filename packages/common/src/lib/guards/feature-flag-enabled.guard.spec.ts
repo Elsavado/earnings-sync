@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { ExecutionContext, NotFoundException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { FeatureEnum } from '@gauzy/contracts';
+import { FeatureEnum } from '@irtranscripts/contracts';
 import { FeatureFlag } from '../decorators/feature-flag.decorator';
 import { FeatureFlagEnabledGuard, flagFeatures, requiredFeatureFlags } from './feature-flag-enabled.guard';
 

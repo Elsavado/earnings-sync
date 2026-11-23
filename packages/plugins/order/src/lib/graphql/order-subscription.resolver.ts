@@ -11,8 +11,8 @@ import {
 	TenantPermissionGuard,
 	deliverPayloadAsIs,
 	tenantScopedTopicStream
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { OrderService } from '../order/order.service';
 import { ORDER_EVENTS } from '../order.types';
 import { ORDER_PERMISSIONS } from '../order.permissions';

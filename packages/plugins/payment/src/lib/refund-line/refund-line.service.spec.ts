@@ -1,13 +1,13 @@
 /**
- * Two module boundaries are doubled here. `@gauzy/core` boots the whole application graph from its
+ * Two module boundaries are doubled here. `@irtranscripts/core` boots the whole application graph from its
  * barrel — the configuration, the ORM, the job registry, the module scanner — none of which a line
- * writer needs and none of which is available outside a running application; `@gauzy/config` reads the
+ * writer needs and none of which is available outside a running application; `@irtranscripts/config` reads the
  * process environment at import time and supplies the dialect the service quotes its one raw read with.
  * Both are doubled at the module boundary, and **the service under test is the real one**, over an
  * in-memory datastore that models the two things this domain depends on: a soft delete is a predicate
  * rather than a removal, and a transaction restores every table when the work inside it throws.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
@@ -86,7 +86,7 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		BaseEvent: class {},
 		EventBus: class {},
 		Payment: class Payment {},
@@ -103,7 +103,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 jest.mock(
-	'@gauzy/config',
+	'@irtranscripts/config',
 	() => ({
 		isMySQL: () => false,
 		DatabaseTypeEnum: {
@@ -117,7 +117,7 @@ jest.mock(
 );
 
 import { NotFoundException } from '@nestjs/common';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { RefundStatus } from '../payment.types';
 import { Refund } from '../refund/refund.entity';
 import { RefundLine } from './refund-line.entity';

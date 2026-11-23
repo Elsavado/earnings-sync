@@ -1,5 +1,5 @@
-import { PluginScope } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { PluginScope } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { ForbiddenException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { PluginInstallation, PluginInstallationService, PluginSubscriptionAccessService } from '../../../../domain';

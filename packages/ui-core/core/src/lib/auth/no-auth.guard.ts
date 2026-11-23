@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
-import { ROUTES } from '@gauzy/ui-core/common';
+import { ROUTES } from '@irtranscripts/ui-core/common';
 import { AuthService, Store } from '../services';
 
 /**

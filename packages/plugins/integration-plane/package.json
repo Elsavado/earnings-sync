@@ -1,7 +1,7 @@
 {
-	"name": "@gauzy/plugin-integration-plane",
+	"name": "@irtranscripts/plugin-integration-plane",
 	"version": "0.1.0",
-	"description": "Ever Gauzy Platform plugin for integration with Plane, An AI-native Project management tool",
+	"description": "Ever IRTranscripts Platform plugin for integration with Plane, An AI-native Project management tool",
 	"author": {
 		"name": "Ever Co. LTD",
 		"email": "ever@ever.co",
@@ -27,14 +27,14 @@
 		"lib:watch": "yarn nx build plugin-integration-plane --watch"
 	},
 	"dependencies": {
-		"@gauzy/common": "^0.1.0",
-		"@gauzy/config": "^0.1.0",
-		"@gauzy/contracts": "^0.1.0",
-		"@gauzy/core": "^0.1.0",
-		"@gauzy/plugin": "^0.1.0",
-		"@gauzy/utils": "^0.1.0",
-		"@ever-gauzy/plugin-integration-plane-api": "^0.1.14",
-		"@ever-gauzy/plugin-integration-plane-models": "^0.1.14",
+		"@irtranscripts/common": "^0.1.0",
+		"@irtranscripts/config": "^0.1.0",
+		"@irtranscripts/contracts": "^0.1.0",
+		"@irtranscripts/core": "^0.1.0",
+		"@irtranscripts/plugin": "^0.1.0",
+		"@irtranscripts/utils": "^0.1.0",
+		"@ever-irtranscripts/plugin-integration-plane-api": "^0.1.14",
+		"@ever-irtranscripts/plugin-integration-plane-models": "^0.1.14",
 		"@nestjs/axios": "github:ever-co/nestjs-axios#master",
 		"@nestjs/cqrs": "^12.1.0",
 		"@nestjs/swagger": "^12.0.2",

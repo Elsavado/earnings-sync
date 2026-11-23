@@ -15,7 +15,7 @@ import {
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CommandBus } from '@nestjs/cqrs';
 import { DeleteResult } from 'typeorm';
-import { ID, IEmployeeSetting, IPagination } from '@gauzy/contracts';
+import { ID, IEmployeeSetting, IPagination } from '@irtranscripts/contracts';
 import { UseValidationPipe, UUIDValidationPipe } from '../shared/pipes';
 import { TenantPermissionGuard } from './../shared/guards';
 import { CrudController, FindOptionsQueryDTO, BaseQueryDTO } from './../core/crud';

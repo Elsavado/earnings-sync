@@ -20,9 +20,9 @@ import {
 	ITagCreateInput,
 	IUser,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { Store, TagsService, ToastrService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/contracts';
+import { Store, TagsService, ToastrService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { DocumentsActions } from '../../+state/documents.actions';
 import { findLinkEntityDescriptor } from '../../models/docs-link.model';
 import { DocsExportService } from '../../services/docs-export.service';

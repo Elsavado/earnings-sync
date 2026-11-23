@@ -6,7 +6,7 @@
  * allocation flag ships disabled because a single-location tenant should not see a strategy it does
  * not use.
  */
-import { PluginFeatureContribution } from '@gauzy/plugin';
+import { PluginFeatureContribution } from '@irtranscripts/plugin';
 
 /** The feature codes this plugin contributes. */
 export const InventoryFeature = {

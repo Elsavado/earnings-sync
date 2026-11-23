@@ -1,9 +1,9 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, IsNull, LessThan, Not, Repository } from 'typeorm';
-import { environment } from '@gauzy/config';
-import { ID } from '@gauzy/contracts';
-import { Token } from '@gauzy/core';
+import { environment } from '@irtranscripts/config';
+import { ID } from '@irtranscripts/contracts';
+import { Token } from '@irtranscripts/core';
 import { ZitadelLogoutJti } from '../entities/zitadel-logout-jti.entity';
 import { ZitadelSession } from '../entities/zitadel-session.entity';
 import {
@@ -46,10 +46,10 @@ const FOLLOW_UP_DELAYS_MS = [1000, 5000, 15000];
 const BIND_RETRY_DELAYS_MS = [1000, 5000];
 
 /**
- * Remembers the Gauzy sessions opened through Ever ID and ends exactly those on a back-channel logout.
+ * Remembers the IRTranscripts sessions opened through Ever ID and ends exactly those on a back-channel logout.
  *
  * A session record is written when a sign-in hands out workspace tokens, together with a short-lived
- * marker in the one-time store. When Gauzy then issues the user's next refresh token (the sign-in
+ * marker in the one-time store. When IRTranscripts then issues the user's next refresh token (the sign-in
  * finishing), the marker binds the record to it ({@link bindRefreshToken}); the marker's lifetime is
  * kept by the store, so no clock is compared with database timestamps. A logout for the
  * session revokes that refresh token and every token rotated from it, so the session cannot be
@@ -57,7 +57,7 @@ const BIND_RETRY_DELAYS_MS = [1000, 5000];
  * sign-in finished leaves the record marked as ended, and the refresh token the sign-in still produces
  * is revoked as soon as it is issued.
  *
- * Access tokens already issued stay valid until they expire (`JWT_TOKEN_EXPIRATION_TIME`): Gauzy
+ * Access tokens already issued stay valid until they expire (`JWT_TOKEN_EXPIRATION_TIME`): IRTranscripts
  * verifies them by signature and does not look them up.
  */
 @Injectable()
@@ -178,7 +178,7 @@ export class ZitadelSessionService implements OnModuleInit, OnModuleDestroy, Zit
 	}
 
 	/**
-	 * Ends the Gauzy sessions opened through the identity provider session `sid`.
+	 * Ends the IRTranscripts sessions opened through the identity provider session `sid`.
 	 *
 	 * @returns The number of tokens revoked.
 	 */
@@ -187,7 +187,7 @@ export class ZitadelSessionService implements OnModuleInit, OnModuleDestroy, Zit
 	}
 
 	/**
-	 * Ends every Gauzy session opened through Ever ID by these users (a logout token naming a subject
+	 * Ends every IRTranscripts session opened through Ever ID by these users (a logout token naming a subject
 	 * but no session).
 	 *
 	 * @returns The number of tokens revoked.

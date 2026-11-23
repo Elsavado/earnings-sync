@@ -6,11 +6,11 @@ import {
 	NotFoundException,
 	UnauthorizedException
 } from '@nestjs/common';
-import { OidcValidatedIdToken } from '@gauzy/auth';
-import { ID, LanguagesEnum } from '@gauzy/contracts';
-import { User } from '@gauzy/core';
+import { OidcValidatedIdToken } from '@irtranscripts/auth';
+import { ID, LanguagesEnum } from '@irtranscripts/contracts';
+import { User } from '@irtranscripts/core';
 import { ZitadelAccount } from '../entities/zitadel-account.entity';
-import { GAUZY_AUTH, GauzyAuthPort } from '../ports/gauzy-auth.port';
+import { IRTRANSCRIPTS_AUTH, IRTranscriptsAuthPort } from '../ports/irtranscripts-auth.port';
 import { ZitadelAccountService, ZitadelIdentity } from './zitadel-account.service';
 import { ZitadelConfigService } from './zitadel-config.service';
 import { ZitadelEventsService } from './zitadel-events.service';
@@ -35,7 +35,7 @@ export interface ZitadelPendingLink {
 export interface ZitadelLinkPreview {
 	everIdEmail: string;
 	accountEmail: string;
-	/** Same-address accounts in other workspaces that may also be linked, each with Gauzy's own code. */
+	/** Same-address accounts in other workspaces that may also be linked, each with IRTranscripts's own code. */
 	siblings: Array<{ userId: ID; tenantName: string }>;
 }
 
@@ -56,7 +56,7 @@ export interface ZitadelIdentitySummary {
  *
  * The signed-in person starts it, signs in to Ever ID again (a fresh authentication, at most 300 s
  * old, with a verified e-mail) and confirms on a screen that shows both addresses. Accounts with the
- * same address in other workspaces are linked only when ticked and proved with Gauzy's own one-time
+ * same address in other workspaces are linked only when ticked and proved with IRTranscripts's own one-time
  * e-mail code.
  */
 @Injectable()
@@ -66,7 +66,7 @@ export class ZitadelLinkService {
 		private readonly accounts: ZitadelAccountService,
 		private readonly store: ZitadelStoreService,
 		private readonly events: ZitadelEventsService,
-		@Inject(GAUZY_AUTH) private readonly gauzyAuth: GauzyAuthPort
+		@Inject(IRTRANSCRIPTS_AUTH) private readonly irtranscriptsAuth: IRTranscriptsAuthPort
 	) {}
 
 	/**
@@ -141,7 +141,7 @@ export class ZitadelLinkService {
 
 	/**
 	 * Confirms a link. Links the signed-in account; ticked same-address accounts are linked only with
-	 * Gauzy's one-time e-mail code (the first call without a code sends it and answers `code_required`).
+	 * IRTranscripts's one-time e-mail code (the first call without a code sends it and answers `code_required`).
 	 */
 	async confirm(
 		key: string,
@@ -162,12 +162,12 @@ export class ZitadelLinkService {
 		const proven: User[] = [];
 		if (selected.length) {
 			if (!code) {
-				await this.gauzyAuth.sendWorkspaceSigninCode({ email: user.email }, LanguagesEnum.ENGLISH);
+				await this.irtranscriptsAuth.sendWorkspaceSigninCode({ email: user.email }, LanguagesEnum.ENGLISH);
 				return { code_required: true };
 			}
 			let proved: Set<ID>;
 			try {
-				const result = await this.gauzyAuth.signinWorkspacesByMagicCode({ email: user.email, code: String(code) }, false);
+				const result = await this.irtranscriptsAuth.signinWorkspacesByMagicCode({ email: user.email, code: String(code) }, false);
 				proved = new Set(result.workspaces.map((workspace) => workspace.user?.id).filter(Boolean));
 			} catch {
 				throw new UnauthorizedException();

@@ -6,8 +6,8 @@ import { PLUGIN_APP_STORE } from '../plugin-ui.helper';
  * Adapter that bridges the host application's store to the
  * `IPluginFeatureChecker` interface expected by `PluginUiModule`.
  *
- * Uses the `PLUGIN_APP_STORE` token so that `@gauzy/plugin-ui` does not
- * depend on `@gauzy/ui-core/core` directly. The host app provides:
+ * Uses the `PLUGIN_APP_STORE` token so that `@irtranscripts/plugin-ui` does not
+ * depend on `@irtranscripts/ui-core/core` directly. The host app provides:
  * ```typescript
  * { provide: PLUGIN_APP_STORE, useExisting: Store }
  * ```

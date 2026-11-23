@@ -11,7 +11,7 @@ import {
 	ICandidatePersonalQualities,
 	ICandidateTechnologies,
 	IOrganization
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { filter, tap } from 'rxjs/operators';
 import { firstValueFrom } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -24,8 +24,8 @@ import {
 	CandidateTechnologiesService,
 	EmployeesService,
 	ErrorHandlingService
-} from '@gauzy/ui-core/core';
-import { Store } from '@gauzy/ui-core/core';
+} from '@irtranscripts/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
 import { CandidateCriterionsFormComponent } from './candidate-criterions-form/candidate-criterions-form.component';
 import { CandidateInterviewFormComponent } from './candidate-interview-form/candidate-interview-form.component';
 import { CandidateNotificationFormComponent } from './candidate-notification-form/candidate-notification-form.component';

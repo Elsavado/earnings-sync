@@ -2,7 +2,7 @@
 {
   "MD043": {
     "headings": [
-      "# @gauzy/plugin-integration-ever-async",
+      "# @irtranscripts/plugin-integration-ever-async",
       "## Configure the integration",
       "## API boundary",
       "## Build and verification"
@@ -11,28 +11,28 @@
 }
 -->
 
-# @gauzy/plugin-integration-ever-async
+# @irtranscripts/plugin-integration-ever-async
 
-Connect an Ever Gauzy organization to an [Ever Async](https://async.ever.co)
+Connect an Ever IRTranscripts organization to an [Ever Async](https://async.ever.co)
 tenant. The connector can read task links and status from explicitly selected
-projects. Its credentials cannot modify tasks or access general Gauzy APIs.
+projects. Its credentials cannot modify tasks or access general IRTranscripts APIs.
 
 ## Configure the integration
 
-1. In Gauzy, select the organization and open **Integrations → Ever Async**.
+1. In IRTranscripts, select the organization and open **Integrations → Ever Async**.
 2. Enter the Ever Async API URL, select the projects to share, and map chat
    identities to active employees. Each identity includes its platform,
    workspace or server ID, and user ID. Use the verified workspace ID shown in
    Ever Async **Connections**.
-3. Save. Gauzy displays an integration ID, tenant ID, organization ID, API key,
+3. Save. IRTranscripts displays an integration ID, tenant ID, organization ID, API key,
    and one-time API secret.
 4. Sign in to Ever Async, select the tenant, and open **Connections**. Add an
-   Ever Gauzy connection using those details and the Gauzy API URL. Choose which
+   Ever IRTranscripts connection using those details and the IRTranscripts API URL. Choose which
    of that tenant's Slack and Discord connections may use the work context.
 
 An empty project selection shares no tasks. An unmapped author receives no
 inferred employee task context. Explicit task links still have to belong to a
-selected, active project in the configured Gauzy organization. A user ID from a
+selected, active project in the configured IRTranscripts organization. A user ID from a
 different platform or workspace is a different identity.
 
 Changing mappings or the project selection takes effect on the next connector
@@ -46,7 +46,7 @@ not install a chat application or prove that tenant pairing is configured.
 
 ## API boundary
 
-Management routes use the signed-in Gauzy user, tenant permissions, integration
+Management routes use the signed-in IRTranscripts user, tenant permissions, integration
 permissions, and active organization membership. Supply `organizationId` as a
 query parameter; it must belong to the authenticated tenant and user.
 
@@ -109,7 +109,7 @@ tables. SQL-backed tests exercise organization membership, project and employee
 restrictions, workspace identity isolation, credential storage/rotation,
 disabled access, and the actual HTTP credential guard.
 
-For a self-hosted Ever Async server, the Gauzy page also provides an optional
+For a self-hosted Ever Async server, the IRTranscripts page also provides an optional
 TOML example. Hosted connections are configured per tenant through the Ever
 Async dashboard.
 

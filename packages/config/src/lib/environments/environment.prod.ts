@@ -7,8 +7,8 @@
 import * as dotenv from 'dotenv';
 dotenv.config({ quiet: true });
 
-import { FileStorageProviderEnum, isKnownDefaultSecret } from '@gauzy/contracts';
-import { IEnvironment, IGauzyFeatures } from './ienvironment';
+import { FileStorageProviderEnum, isKnownDefaultSecret } from '@irtranscripts/contracts';
+import { IEnvironment, IIRTranscriptsFeatures } from './ienvironment';
 import { isEnvFlagEnabled, isFeatureEnabled, parseNonNegativeInt, resolveAppLink } from './environment.helper';
 import { resolveSocialAuthClients } from './social-auth.helper';
 import { resolveSecret } from './secret-resolver';
@@ -52,15 +52,15 @@ function validateProductionSecrets(): void {
 // Validate JWT secrets at module load time (production only)
 validateProductionSecrets();
 
-if (process.env.IS_ELECTRON && process.env.GAUZY_USER_PATH) {
-	require('app-root-path').setPath(process.env.GAUZY_USER_PATH);
+if (process.env.IS_ELECTRON && process.env.IRTRANSCRIPTS_USER_PATH) {
+	require('app-root-path').setPath(process.env.IRTRANSCRIPTS_USER_PATH);
 }
 
 export const environment: IEnvironment = {
 	port: process.env.API_PORT || 3000,
 	host: process.env.API_HOST || 'http://localhost',
-	baseUrl: process.env.API_BASE_URL || 'https://api.gauzy.co',
-	clientBaseUrl: process.env.CLIENT_BASE_URL || 'https://app.gauzy.co',
+	baseUrl: process.env.API_BASE_URL || 'https://api.irtranscripts.com',
+	clientBaseUrl: process.env.CLIENT_BASE_URL || 'https://app.irtranscripts.com',
 	production: true,
 	envName: 'prod',
 
@@ -156,7 +156,7 @@ export const environment: IEnvironment = {
 		secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 		region: process.env.AWS_REGION || 'us-east-1',
 		s3: {
-			bucket: process.env.AWS_S3_BUCKET || 'gauzy',
+			bucket: process.env.AWS_S3_BUCKET || 'irtranscripts',
 			forcePathStyle: process.env.AWS_S3_FORCE_PATH_STYLE === 'true' || false
 		}
 	},
@@ -170,7 +170,7 @@ export const environment: IEnvironment = {
 		region: process.env.WASABI_REGION || 'us-east-1',
 		serviceUrl: process.env.WASABI_SERVICE_URL || 'https://s3.wasabisys.com',
 		s3: {
-			bucket: process.env.WASABI_S3_BUCKET || 'gauzy',
+			bucket: process.env.WASABI_S3_BUCKET || 'irtranscripts',
 			forcePathStyle: process.env.WASABI_S3_FORCE_PATH_STYLE === 'true' || false
 		}
 	},
@@ -185,7 +185,7 @@ export const environment: IEnvironment = {
 		serviceUrl: process.env.DIGITALOCEAN_SERVICE_URL || 'https://gauzy.sfo2.digitaloceanspaces.com', // Find your endpoint in the control panel, under Settings. Prepend "https://".
 		cdnUrl: process.env.DIGITALOCEAN_CDN_URL,
 		s3: {
-			bucket: process.env.DIGITALOCEAN_S3_BUCKET || 'gauzy',
+			bucket: process.env.DIGITALOCEAN_S3_BUCKET || 'irtranscripts',
 			forcePathStyle: process.env.DIGITALOCEAN_S3_FORCE_PATH_STYLE === 'true' || false // Configures to use subdomain/virtual calling format.
 		}
 	},
@@ -203,38 +203,38 @@ export const environment: IEnvironment = {
 
 	github: {
 		/** Github App Install Configuration  */
-		clientId: process.env.GAUZY_GITHUB_CLIENT_ID,
-		clientSecret: process.env.GAUZY_GITHUB_CLIENT_SECRET,
-		appId: process.env.GAUZY_GITHUB_APP_ID,
-		appName: process.env.GAUZY_GITHUB_APP_NAME,
-		appPrivateKey: process.env.GAUZY_GITHUB_APP_PRIVATE_KEY
-			? Buffer.from(process.env.GAUZY_GITHUB_APP_PRIVATE_KEY, 'base64').toString('ascii')
+		clientId: process.env.IRTRANSCRIPTS_GITHUB_CLIENT_ID,
+		clientSecret: process.env.IRTRANSCRIPTS_GITHUB_CLIENT_SECRET,
+		appId: process.env.IRTRANSCRIPTS_GITHUB_APP_ID,
+		appName: process.env.IRTRANSCRIPTS_GITHUB_APP_NAME,
+		appPrivateKey: process.env.IRTRANSCRIPTS_GITHUB_APP_PRIVATE_KEY
+			? Buffer.from(process.env.IRTRANSCRIPTS_GITHUB_APP_PRIVATE_KEY, 'base64').toString('ascii')
 			: '',
 
 		/** Github App Post Install Configuration */
 		postInstallUrl:
-			process.env.GAUZY_GITHUB_POST_INSTALL_URL ||
+			process.env.IRTRANSCRIPTS_GITHUB_POST_INSTALL_URL ||
 			`${process.env.CLIENT_BASE_URL}/#/pages/integrations/github/setup/installation`,
 
 		/** Github Webhook Configuration */
-		webhookSecret: process.env.GAUZY_GITHUB_WEBHOOK_SECRET,
-		webhookUrl: process.env.GAUZY_GITHUB_WEBHOOK_URL || `${process.env.API_BASE_URL}/api/integration/github/webhook`
+		webhookSecret: process.env.IRTRANSCRIPTS_GITHUB_WEBHOOK_SECRET,
+		webhookUrl: process.env.IRTRANSCRIPTS_GITHUB_WEBHOOK_URL || `${process.env.API_BASE_URL}/api/integration/github/webhook`
 	},
 
 	/**
 	 * OAuth clients whose provider access tokens are accepted by the email-based social sign-in
-	 * routes. Defaults to Gauzy's own OAuth apps; see `resolveSocialAuthClients` (GHSA-58x4-7mw9-gmqg).
+	 * routes. Defaults to IRTranscripts's own OAuth apps; see `resolveSocialAuthClients` (GHSA-58x4-7mw9-gmqg).
 	 */
 	socialAuth: resolveSocialAuthClients(),
 
 	jira: {
 		/** Jira Integration Configuration */
-		appName: process.env.GAUZY_JIRA_APP_NAME,
-		appDescription: process.env.GAUZY_JIRA_APP_DESCRIPTION,
-		appKey: process.env.GAUZY_JIRA_APP_KEY,
-		baseUrl: process.env.GAUZY_JIRA_APP_BASE_URL,
-		vendorName: process.env.GAUZY_JIRA_APP_BASE_VENDOR_NAME,
-		vendorUrl: process.env.GAUZY_JIRA_APP_BASE_VENDOR_URL
+		appName: process.env.IRTRANSCRIPTS_JIRA_APP_NAME,
+		appDescription: process.env.IRTRANSCRIPTS_JIRA_APP_DESCRIPTION,
+		appKey: process.env.IRTRANSCRIPTS_JIRA_APP_KEY,
+		baseUrl: process.env.IRTRANSCRIPTS_JIRA_APP_BASE_URL,
+		vendorName: process.env.IRTRANSCRIPTS_JIRA_APP_BASE_VENDOR_NAME,
+		vendorUrl: process.env.IRTRANSCRIPTS_JIRA_APP_BASE_VENDOR_URL
 	},
 
 	fiverrConfig: {
@@ -249,19 +249,19 @@ export const environment: IEnvironment = {
 	},
 
 	activepieces: {
-		apiKey: process.env.GAUZY_ACTIVEPIECES_API_KEY,
-		signingKeyId: process.env.GAUZY_ACTIVEPIECES_SIGNING_KEY_ID,
-		signingPrivateKey: process.env.GAUZY_ACTIVEPIECES_SIGNING_PRIVATE_KEY,
+		apiKey: process.env.IRTRANSCRIPTS_ACTIVEPIECES_API_KEY,
+		signingKeyId: process.env.IRTRANSCRIPTS_ACTIVEPIECES_SIGNING_KEY_ID,
+		signingPrivateKey: process.env.IRTRANSCRIPTS_ACTIVEPIECES_SIGNING_PRIVATE_KEY,
 		tenantProjectsEnabled: !['false', '0', 'no', 'off'].includes(
-			(process.env.GAUZY_ACTIVEPIECES_TENANT_PROJECTS ?? '').trim().toLowerCase()
+			(process.env.IRTRANSCRIPTS_ACTIVEPIECES_TENANT_PROJECTS ?? '').trim().toLowerCase()
 		),
-		projectExternalIdPrefix: process.env.GAUZY_ACTIVEPIECES_PROJECT_EXTERNAL_ID_PREFIX,
+		projectExternalIdPrefix: process.env.IRTRANSCRIPTS_ACTIVEPIECES_PROJECT_EXTERNAL_ID_PREFIX,
 		// `v2` (blank) or `legacy`; read, and an unknown value refused, by the Activepieces plugin where MCP is called
-		mcpApi: process.env.GAUZY_ACTIVEPIECES_MCP_API
+		mcpApi: process.env.IRTRANSCRIPTS_ACTIVEPIECES_MCP_API
 	},
 
 	sim: {
-		apiKey: process.env.GAUZY_SIM_API_KEY
+		apiKey: process.env.IRTRANSCRIPTS_SIM_API_KEY
 	},
 
 	sentry: {
@@ -295,49 +295,49 @@ export const environment: IEnvironment = {
 	},
 
 	zapier: {
-		clientId: process.env.GAUZY_ZAPIER_CLIENT_ID,
-		clientSecret: process.env.GAUZY_ZAPIER_CLIENT_SECRET,
-		allowedDomains: (process.env.GAUZY_ZAPIER_ALLOWED_DOMAINS ?? process.env.GAUZY_ALLOWED_DOMAINS ?? '')
+		clientId: process.env.IRTRANSCRIPTS_ZAPIER_CLIENT_ID,
+		clientSecret: process.env.IRTRANSCRIPTS_ZAPIER_CLIENT_SECRET,
+		allowedDomains: (process.env.IRTRANSCRIPTS_ZAPIER_ALLOWED_DOMAINS ?? process.env.IRTRANSCRIPTS_ALLOWED_DOMAINS ?? '')
 			.split(',')
 			.map((d) => d.trim())
 			.filter(Boolean),
-		maxAuthCodes: Number.parseInt(process.env.GAUZY_ZAPIER_MAX_AUTH_CODES) || 1000,
-		instanceCount: process.env.GAUZY_ZAPIER_INSTANCE_COUNT === 'true',
+		maxAuthCodes: Number.parseInt(process.env.IRTRANSCRIPTS_ZAPIER_MAX_AUTH_CODES) || 1000,
+		instanceCount: process.env.IRTRANSCRIPTS_ZAPIER_INSTANCE_COUNT === 'true',
 		redirectUri:
-			process.env.GAUZY_ZAPIER_REDIRECT_URL || `${process.env.API_BASE_URL}/api/integration/zapier/oauth/callback`,
+			process.env.IRTRANSCRIPTS_ZAPIER_REDIRECT_URL || `${process.env.API_BASE_URL}/api/integration/zapier/oauth/callback`,
 		postInstallUrl:
-			process.env.GAUZY_ZAPIER_POST_INSTALL_URL || `${process.env.CLIENT_BASE_URL}/#/pages/integrations/zapier`
+			process.env.IRTRANSCRIPTS_ZAPIER_POST_INSTALL_URL || `${process.env.CLIENT_BASE_URL}/#/pages/integrations/zapier`
 	},
 
 	makeCom: {
-		clientId: process.env.GAUZY_MAKE_CLIENT_ID,
-		clientSecret: process.env.GAUZY_MAKE_CLIENT_SECRET,
-		webhookUrl: process.env.GAUZY_MAKE_WEBHOOK_URL,
+		clientId: process.env.IRTRANSCRIPTS_MAKE_CLIENT_ID,
+		clientSecret: process.env.IRTRANSCRIPTS_MAKE_CLIENT_SECRET,
+		webhookUrl: process.env.IRTRANSCRIPTS_MAKE_WEBHOOK_URL,
 		redirectUri:
-			process.env.GAUZY_MAKE_REDIRECT_URL ||
+			process.env.IRTRANSCRIPTS_MAKE_REDIRECT_URL ||
 			`${process.env.API_BASE_URL}/api/integration/make-com/oauth/callback`,
 		postInstallUrl:
-			process.env.GAUZY_MAKE_POST_INSTALL_URL || `${process.env.CLIENT_BASE_URL}/#/pages/integrations/make`
+			process.env.IRTRANSCRIPTS_MAKE_POST_INSTALL_URL || `${process.env.CLIENT_BASE_URL}/#/pages/integrations/make`
 	},
 
 	isElectron: process.env.IS_ELECTRON === 'true' ? true : false,
-	gauzyUserPath: process.env.GAUZY_USER_PATH,
-	gauzySeedPath: process.env.GAUZY_SEED_PATH,
+	irtranscriptsUserPath: process.env.IRTRANSCRIPTS_USER_PATH,
+	irtranscriptsSeedPath: process.env.IRTRANSCRIPTS_SEED_PATH,
 	allowSuperAdminRole: process.env.ALLOW_SUPER_ADMIN_ROLE === 'false' ? false : true,
 	reportCatalogueAuthoring: process.env.REPORT_CATALOGUE_AUTHORING_ENABLED === 'true',
 	electronResourcesPath: process.env.ELECTRON_RESOURCES_PATH,
 
 	/**
-	 * Endpoint for Gauzy AI API (optional), e.g.: http://localhost:3005/graphql
+	 * Endpoint for IRTranscripts AI API (optional), e.g.: http://localhost:3005/graphql
 	 */
-	gauzyAIGraphQLEndpoint: process.env.GAUZY_AI_GRAPHQL_ENDPOINT,
+	irtranscriptsAIGraphQLEndpoint: process.env.IRTRANSCRIPTS_AI_GRAPHQL_ENDPOINT,
 
 	/**
-	 * Endpoint for Gauzy AI REST API (optional), e.g.: http://localhost:3005/api
+	 * Endpoint for IRTranscripts AI REST API (optional), e.g.: http://localhost:3005/api
 	 */
-	gauzyAIRESTEndpoint: process.env.GAUZY_AI_REST_ENDPOINT,
+	irtranscriptsAIRESTEndpoint: process.env.IRTRANSCRIPTS_AI_REST_ENDPOINT,
 
-	gauzyCloudEndpoint: process.env.GAUZY_CLOUD_ENDPOINT,
+	irtranscriptsCloudEndpoint: process.env.IRTRANSCRIPTS_CLOUD_ENDPOINT,
 
 	smtpConfig: {
 		host: process.env.MAIL_HOST,
@@ -367,10 +367,10 @@ export const environment: IEnvironment = {
 	 * Email Template Config
 	 */
 	appIntegrationConfig: {
-		appName: process.env.APP_NAME || 'Gauzy',
-		appLogo: process.env.APP_LOGO || `${process.env.CLIENT_BASE_URL}/assets/images/logos/logo_Gauzy.png`,
-		appSignature: process.env.APP_SIGNATURE || 'Gauzy Team',
-		appLink: resolveAppLink('https://app.gauzy.co/'),
+		appName: process.env.APP_NAME || 'IRTranscripts',
+		appLogo: process.env.APP_LOGO || `${process.env.CLIENT_BASE_URL}/assets/images/logos/logo_IRTranscripts.png`,
+		appSignature: process.env.APP_SIGNATURE || 'IRTranscripts Team',
+		appLink: resolveAppLink('https://app.irtranscripts.com/'),
 		appEmailConfirmationUrl:
 			process.env.APP_EMAIL_CONFIRMATION_URL || `${process.env.CLIENT_BASE_URL}/#/auth/confirm-email`,
 		appMagicSignUrl: process.env.APP_MAGIC_SIGN_URL || `${process.env.CLIENT_BASE_URL}/#/auth/magic-sign-in`,
@@ -391,9 +391,9 @@ export const environment: IEnvironment = {
 };
 
 /**
- * Gauzy Toggle Features
+ * IRTranscripts Toggle Features
  */
-export const gauzyToggleFeatures: IGauzyFeatures = {
+export const irtranscriptsToggleFeatures: IIRTranscriptsFeatures = {
 	FEATURE_DASHBOARD: isFeatureEnabled('FEATURE_DASHBOARD'),
 	FEATURE_TIME_TRACKING: isFeatureEnabled('FEATURE_TIME_TRACKING'),
 	FEATURE_ESTIMATE: isFeatureEnabled('FEATURE_ESTIMATE'),

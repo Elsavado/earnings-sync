@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { toUtcOffset } from '@gauzy/ui-core/common';
+import { toUtcOffset } from '@irtranscripts/ui-core/common';
 import { DateRangePickerBuilderService } from './date-range-picker-builder.service';
 
 /**

@@ -12,7 +12,7 @@ import {
 	IContact,
 	ID,
 	IEmployee
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import type { ActivityLogService } from '../activity-log/activity-log.service';
 import type { EmployeeService } from './employee.service';

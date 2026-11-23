@@ -1,5 +1,5 @@
 import { IntersectionType } from '@nestjs/mapped-types';
-import { IPaymentCreateInput } from '@gauzy/contracts';
+import { IPaymentCreateInput } from '@irtranscripts/contracts';
 import { PaymentDTO } from './payment.dto';
 
 /**

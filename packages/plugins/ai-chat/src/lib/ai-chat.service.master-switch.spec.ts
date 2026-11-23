@@ -1,11 +1,11 @@
 import { ServiceUnavailableException } from '@nestjs/common';
 
-// Same module-boundary stubs as ai-chat.service.capability.spec.ts: @gauzy/core pulls the whole
+// Same module-boundary stubs as ai-chat.service.capability.spec.ts: @irtranscripts/core pulls the whole
 // bootstrap and the tool builders pull the ESM-only `ai` SDK.
-jest.mock('@gauzy/core', () => ({ RequestContext: { currentTenantId: () => undefined } }));
+jest.mock('@irtranscripts/core', () => ({ RequestContext: { currentTenantId: () => undefined } }));
 jest.mock('./esm-loader', () => ({ loadAiSdk: jest.fn() }));
-jest.mock('./tools/gauzy-api-client', () => ({ GauzyApiClient: class {} }));
-jest.mock('./tools/gauzy-tools', () => ({ buildGauzyTools: jest.fn(), GAUZY_TOOLS_REQUIRING_APPROVAL: [] }));
+jest.mock('./tools/irtranscripts-api-client', () => ({ IRTranscriptsApiClient: class {} }));
+jest.mock('./tools/irtranscripts-tools', () => ({ buildIRTranscriptsTools: jest.fn(), IRTRANSCRIPTS_TOOLS_REQUIRING_APPROVAL: [] }));
 jest.mock('./tools/client-tools', () => ({ buildClientTools: jest.fn(), CLIENT_TOOLS_REQUIRING_APPROVAL: [] }));
 jest.mock('./tools/mcp-tools', () => ({ createMcpTools: jest.fn() }));
 jest.mock('./credentials/ai-provider-credential.service', () => ({ AiProviderCredentialService: class {} }));
@@ -17,12 +17,12 @@ import { AiChatService, IStreamChatArgs, isAiChatGloballyDisabled } from './ai-c
 import { IAiChatProviderDefinition } from './provider.types';
 
 /**
- * `GAUZY_AI_CHAT_ENABLED=false` is the operator's master switch. `/config` reporting it is not
+ * `IRTRANSCRIPTS_AI_CHAT_ENABLED=false` is the operator's master switch. `/config` reporting it is not
  * enough: the UI hides itself on that verdict, but any client can still POST a chat turn or a
  * dictation, and both reach a paid provider. Each test fails if its route's gate is removed.
  */
-describe('AiChatService master switch (GAUZY_AI_CHAT_ENABLED)', () => {
-	const original = process.env.GAUZY_AI_CHAT_ENABLED;
+describe('AiChatService master switch (IRTRANSCRIPTS_AI_CHAT_ENABLED)', () => {
+	const original = process.env.IRTRANSCRIPTS_AI_CHAT_ENABLED;
 
 	const transcribe = jest.fn(async () => 'transcript');
 	const provider: IAiChatProviderDefinition = {
@@ -63,9 +63,9 @@ describe('AiChatService master switch (GAUZY_AI_CHAT_ENABLED)', () => {
 
 	afterEach(() => {
 		if (original === undefined) {
-			delete process.env.GAUZY_AI_CHAT_ENABLED;
+			delete process.env.IRTRANSCRIPTS_AI_CHAT_ENABLED;
 		} else {
-			process.env.GAUZY_AI_CHAT_ENABLED = original;
+			process.env.IRTRANSCRIPTS_AI_CHAT_ENABLED = original;
 		}
 	});
 
@@ -76,25 +76,25 @@ describe('AiChatService master switch (GAUZY_AI_CHAT_ENABLED)', () => {
 
 	it('treats only an explicit "false" (any case, trimmed) as off', () => {
 		for (const value of ['false', 'FALSE', ' False ']) {
-			process.env.GAUZY_AI_CHAT_ENABLED = value;
+			process.env.IRTRANSCRIPTS_AI_CHAT_ENABLED = value;
 			expect(isAiChatGloballyDisabled()).toBe(true);
 		}
 		for (const value of [undefined, '', 'true', '0', 'no']) {
-			if (value === undefined) delete process.env.GAUZY_AI_CHAT_ENABLED;
-			else process.env.GAUZY_AI_CHAT_ENABLED = value;
+			if (value === undefined) delete process.env.IRTRANSCRIPTS_AI_CHAT_ENABLED;
+			else process.env.IRTRANSCRIPTS_AI_CHAT_ENABLED = value;
 			expect(isAiChatGloballyDisabled()).toBe(false);
 		}
 	});
 
 	it('refuses a chat turn with a 503 before loading the SDK or resolving a model', async () => {
-		process.env.GAUZY_AI_CHAT_ENABLED = 'false';
+		process.env.IRTRANSCRIPTS_AI_CHAT_ENABLED = 'false';
 
 		await expect(service().streamChat(chatArgs())).rejects.toBeInstanceOf(ServiceUnavailableException);
 		expect(loadAiSdk).not.toHaveBeenCalled();
 	});
 
 	it('refuses a dictation with a 503 without calling the speech provider', async () => {
-		process.env.GAUZY_AI_CHAT_ENABLED = 'false';
+		process.env.IRTRANSCRIPTS_AI_CHAT_ENABLED = 'false';
 
 		await expect(service().transcribe(Buffer.from('audio'), 'audio/webm')).rejects.toBeInstanceOf(
 			ServiceUnavailableException
@@ -103,14 +103,14 @@ describe('AiChatService master switch (GAUZY_AI_CHAT_ENABLED)', () => {
 	});
 
 	it('still transcribes when the switch is on — the gate is the only thing that changed', async () => {
-		process.env.GAUZY_AI_CHAT_ENABLED = 'true';
+		process.env.IRTRANSCRIPTS_AI_CHAT_ENABLED = 'true';
 
 		await expect(service().transcribe(Buffer.from('audio'), 'audio/webm')).resolves.toBe('transcript');
 		expect(transcribe).toHaveBeenCalledTimes(1);
 	});
 
 	it('reports the same verdict on /config', async () => {
-		process.env.GAUZY_AI_CHAT_ENABLED = 'FALSE';
+		process.env.IRTRANSCRIPTS_AI_CHAT_ENABLED = 'FALSE';
 
 		const config = await service().getConfig();
 

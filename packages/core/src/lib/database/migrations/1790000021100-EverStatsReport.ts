@@ -1,9 +1,9 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 /**
- * Creates the two tables of the anonymous usage statistics plugin (`@gauzy/plugin-ever-stats`):
+ * Creates the two tables of the anonymous usage statistics plugin (`@irtranscripts/plugin-ever-stats`):
  *
  * - `ever_stats_report`: the last reports this installation built, each with the exact bytes it
  *   signed and sent (`payload` is `TEXT`, not a JSON type, so the bytes are stored unchanged), the

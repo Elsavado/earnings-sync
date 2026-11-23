@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler, CommandBus } from '@nestjs/cqrs';
-import { IIntegrationMap, IntegrationEntity } from '@gauzy/contracts';
+import { IIntegrationMap, IntegrationEntity } from '@irtranscripts/contracts';
 import { IntegrationMapSyncEntityCommand } from '../integration-map.sync-entity.command';
 import { IntegrationMapSyncScreenshotCommand } from '../integration-map.sync-screenshot.command';
 import { IntegrationMapService } from '../../integration-map.service';
@@ -42,7 +42,7 @@ export class IntegrationMapSyncScreenshotHandler implements ICommandHandler<Inte
 
 		if (!screenshotMap) {
 			// If no existing map is found, create a new screenshot and map it
-			const gauzyScreenshot = await this._commandBus.execute(
+			const irtranscriptsScreenshot = await this._commandBus.execute(
 				new ScreenshotCreateCommand({
 					file: full_url,
 					thumb: thumb_url,
@@ -55,7 +55,7 @@ export class IntegrationMapSyncScreenshotHandler implements ICommandHandler<Inte
 
 			return await this._commandBus.execute(
 				new IntegrationMapSyncEntityCommand({
-					gauzyId: gauzyScreenshot.id,
+					irtranscriptsId: irtranscriptsScreenshot.id,
 					integrationId,
 					sourceId,
 					entity: IntegrationEntity.SCREENSHOT,
@@ -68,7 +68,7 @@ export class IntegrationMapSyncScreenshotHandler implements ICommandHandler<Inte
 		const updated = await this._commandBus
 			.execute(
 				new ScreenshotUpdateCommand({
-					id: screenshotMap.gauzyId,
+					id: screenshotMap.irtranscriptsId,
 					recordedAt: recorded_at,
 					activityTimestamp: time_slot,
 					file: full_url,
@@ -82,7 +82,7 @@ export class IntegrationMapSyncScreenshotHandler implements ICommandHandler<Inte
 		}
 
 		// The mapped screenshot was deleted here: create it again and point the EXISTING map at it
-		const gauzyScreenshot = await this._commandBus.execute(
+		const irtranscriptsScreenshot = await this._commandBus.execute(
 			new ScreenshotCreateCommand({
 				file: full_url,
 				thumb: thumb_url,
@@ -95,7 +95,7 @@ export class IntegrationMapSyncScreenshotHandler implements ICommandHandler<Inte
 		return await this._commandBus.execute(
 			new IntegrationMapSyncEntityCommand({
 				id: screenshotMap.id,
-				gauzyId: gauzyScreenshot.id,
+				irtranscriptsId: irtranscriptsScreenshot.id,
 				integrationId,
 				sourceId,
 				entity: IntegrationEntity.SCREENSHOT,

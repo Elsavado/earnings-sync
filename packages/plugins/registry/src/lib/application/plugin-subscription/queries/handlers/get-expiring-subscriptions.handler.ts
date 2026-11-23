@@ -1,4 +1,4 @@
-import { PluginSubscriptionStatus } from '@gauzy/contracts';
+import { PluginSubscriptionStatus } from '@irtranscripts/contracts';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { Between, In } from 'typeorm';
 import { PluginSubscriptionService } from '../../../../domain';

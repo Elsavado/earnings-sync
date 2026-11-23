@@ -1,4 +1,4 @@
-import { IOrganizationTaskSetting, IOrganizationTaskSettingUpdateInput } from '@gauzy/contracts';
+import { IOrganizationTaskSetting, IOrganizationTaskSettingUpdateInput } from '@irtranscripts/contracts';
 import { ICommand } from '@nestjs/cqrs';
 
 export class OrganizationTaskSettingUpdateCommand implements ICommand {

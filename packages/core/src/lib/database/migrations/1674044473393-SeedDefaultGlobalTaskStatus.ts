@@ -2,7 +2,7 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
 import { v4 as uuidV4 } from 'uuid';
 import { DEFAULT_GLOBAL_STATUSES } from '../../tasks/statuses/default-global-statuses';
-import { DatabaseTypeEnum } from "@gauzy/config";
+import { DatabaseTypeEnum } from "@irtranscripts/config";
 
 export class SeedDefaultGlobalTaskStatus1674044473393 implements MigrationInterface {
 	name = 'SeedDefaultGlobalTaskStatus1674044473393';

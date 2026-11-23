@@ -9,7 +9,7 @@ import { IPluginSubscriptionPlan } from '../../../../../services/plugin-subscrip
  * - Interface Segregation: Minimal focused interface
  */
 @Component({
-	selector: 'gauzy-subscription-plan-card',
+	selector: 'irtranscripts-subscription-plan-card',
 	templateUrl: './subscription-plan-card.component.html',
 	styleUrls: ['./subscription-plan-card.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,

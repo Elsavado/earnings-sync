@@ -1,4 +1,4 @@
-import { GraphqlConnection } from '@gauzy/core';
+import { GraphqlConnection } from '@irtranscripts/core';
 import {
 	ICommerceCart,
 	ICommerceCartLine,
@@ -6,7 +6,7 @@ import {
 	ICommerceCartShippingMethod,
 	ICommerceCartTotals,
 	ICommerceCheckoutSession
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 /**
  * The GraphQL type names of the cart domain, bound to the contracts.

@@ -4,8 +4,8 @@ import { HttpService } from '@nestjs/axios';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { firstValueFrom, switchMap } from 'rxjs';
-import { environment } from '@gauzy/config';
-import { SyncTags } from '@gauzy/constants';
+import { environment } from '@irtranscripts/config';
+import { SyncTags } from '@irtranscripts/constants';
 import {
 	GithubPropertyMapEnum,
 	IGithubAppInstallInput,
@@ -13,8 +13,8 @@ import {
 	IOAuthAppInstallInput,
 	IntegrationEntity,
 	IntegrationEnum
-} from '@gauzy/contracts';
-import { IntegrationService, IntegrationTenantUpdateOrCreateCommand, RequestContext } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { IntegrationService, IntegrationTenantUpdateOrCreateCommand, RequestContext } from '@irtranscripts/core';
 import { DEFAULT_ENTITY_SETTINGS, ISSUE_TIED_ENTITIES } from './github-entity-settings';
 import { GITHUB_ACCESS_TOKEN_URL } from './github.config';
 import { GITHUB_INSTALLATION_ID_PATTERN } from './dto/github-app-install.dto';

@@ -22,7 +22,7 @@ import {
 	IOrganizationProjectSetting,
 	IPagination,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { CrudController, BaseQueryDTO } from './../core/crud';
 import {
 	OrganizationProjectCreateCommand,

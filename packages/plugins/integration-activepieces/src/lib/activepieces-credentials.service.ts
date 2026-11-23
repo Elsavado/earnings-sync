@@ -11,8 +11,8 @@ import {
 import { HttpService } from '@nestjs/axios';
 import { AxiosError } from 'axios';
 import { firstValueFrom } from 'rxjs';
-import { IActivepiecesConfig } from '@gauzy/common';
-import { ConfigService } from '@gauzy/config';
+import { IActivepiecesConfig } from '@irtranscripts/common';
+import { ConfigService } from '@irtranscripts/config';
 import {
 	ActivepiecesConnectionMode,
 	ActivepiecesSettingName,
@@ -20,8 +20,8 @@ import {
 	IActivepiecesListResponse,
 	IActivepiecesProject,
 	IntegrationEnum
-} from '@gauzy/contracts';
-import { IntegrationService, IntegrationSettingService, IntegrationTenantService, RequestContext } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { IntegrationService, IntegrationSettingService, IntegrationTenantService, RequestContext } from '@irtranscripts/core';
 import {
 	ACTIVEPIECES_DEFAULT_EXTERNAL_ID_PREFIX,
 	ACTIVEPIECES_MANAGED_AUTHN_URL,
@@ -52,7 +52,7 @@ export interface IActivepiecesCredential {
 export type ActivepiecesMcpApi = 'v2' | 'legacy';
 
 /**
- * Reads `GAUZY_ACTIVEPIECES_MCP_API`: blank (or not set) and `v2` are MCP 2.0, `legacy` the routes before it, in any
+ * Reads `IRTRANSCRIPTS_ACTIVEPIECES_MCP_API`: blank (or not set) and `v2` are MCP 2.0, `legacy` the routes before it, in any
  * case. Anything else (a typo, `v1`) is `null`: refused where MCP is called
  * ({@link ActivepiecesCredentialsService.mcpApi}), rather than read as MCP 2.0 and answered with Activepieces' 404s
  * on an older installation.
@@ -77,7 +77,7 @@ export interface IActivepiecesOperatorSettings {
 	readonly signingPrivateKey: string;
 	readonly tenantProjectsEnabled: boolean;
 	readonly externalIdPrefix: string;
-	/** The MCP routes to call (`GAUZY_ACTIVEPIECES_MCP_API`); MCP 2.0 when not stated, `null` for an unknown value. */
+	/** The MCP routes to call (`IRTRANSCRIPTS_ACTIVEPIECES_MCP_API`); MCP 2.0 when not stated, `null` for an unknown value. */
 	readonly mcpApi?: ActivepiecesMcpApi | null;
 }
 
@@ -138,7 +138,7 @@ const RESOLVED_MODES: readonly string[] = [
  * Decides how each tenant request reaches Activepieces, and holds the operator's credentials.
  *
  * Activepieces API keys belong to a whole platform: there is no project-scoped API key, and a platform key reaches
- * every project, connection and MCP server of the platform. The installation's key (`GAUZY_ACTIVEPIECES_API_KEY`) used
+ * every project, connection and MCP server of the platform. The installation's key (`IRTRANSCRIPTS_ACTIVEPIECES_API_KEY`) used
  * to be the silent fallback of every tenant without a key of its own, so such a tenant could list, read, change or
  * remove what any other tenant kept in Activepieces by naming its project or resource. Now a tenant request runs under
  * one of three modes, chosen by the tenant (`connection_mode`) or automatically, in this order:
@@ -171,7 +171,7 @@ export class ActivepiecesCredentialsService {
 	) {}
 
 	/**
-	 * What the operator configured (`GAUZY_ACTIVEPIECES_*`).
+	 * What the operator configured (`IRTRANSCRIPTS_ACTIVEPIECES_*`).
 	 */
 	operatorSettings(): IActivepiecesOperatorSettings {
 		let config: IActivepiecesConfig = {};
@@ -192,7 +192,7 @@ export class ActivepiecesCredentialsService {
 	}
 
 	/**
-	 * The MCP routes to call. An unknown `GAUZY_ACTIVEPIECES_MCP_API` is refused (500, the setting named in the log
+	 * The MCP routes to call. An unknown `IRTRANSCRIPTS_ACTIVEPIECES_MCP_API` is refused (500, the setting named in the log
 	 * only) rather than guessed: read as MCP 2.0, an older self-hosted Activepieces would answer every call with 404.
 	 * Only the MCP routes read it, so the other Activepieces calls are not held up by it.
 	 *
@@ -200,7 +200,7 @@ export class ActivepiecesCredentialsService {
 	 */
 	mcpApi(settings: IActivepiecesOperatorSettings = this.operatorSettings()): ActivepiecesMcpApi {
 		if (settings?.mcpApi === null) {
-			this.logger.error('GAUZY_ACTIVEPIECES_MCP_API must be "v2" (the default) or "legacy"');
+			this.logger.error('IRTRANSCRIPTS_ACTIVEPIECES_MCP_API must be "v2" (the default) or "legacy"');
 			throw new InternalServerErrorException(
 				'The Activepieces MCP setting of this installation is not valid: ask its operator to correct it.'
 			);
@@ -587,7 +587,7 @@ export class ActivepiecesCredentialsService {
 				tenantExternalTokenClaims(externalId, Math.floor(Date.now() / 1000))
 			);
 		} catch {
-			this.logger.error('GAUZY_ACTIVEPIECES_SIGNING_PRIVATE_KEY is not a usable RS256 private key');
+			this.logger.error('IRTRANSCRIPTS_ACTIVEPIECES_SIGNING_PRIVATE_KEY is not a usable RS256 private key');
 			throw new InternalServerErrorException('Activepieces project tokens are misconfigured on this installation.');
 		}
 
@@ -673,7 +673,7 @@ export class ActivepiecesCredentialsService {
 			ACTIVEPIECES_PROJECTS_URL,
 			platformApiKey,
 			'create the project of the tenant',
-			{ data: { displayName: `Ever Gauzy ${tenantId}`, externalId, metadata: { source: 'ever-gauzy', tenantId } } }
+			{ data: { displayName: `Ever IRTranscripts ${tenantId}`, externalId, metadata: { source: 'ever-irtranscripts', tenantId } } }
 		);
 		if (typeof project?.id !== 'string' || !project.id) {
 			throw new BadGatewayException('Activepieces did not return the project it created.');

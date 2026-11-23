@@ -1,5 +1,5 @@
 // cspell:ignore ABCDEFGHJKMNPQRSTVWXYZ
-import { PluginSettingContribution } from '@gauzy/plugin';
+import { PluginSettingContribution } from '@irtranscripts/plugin';
 
 /**
  * The settings the promotion domain reads.

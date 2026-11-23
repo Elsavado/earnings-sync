@@ -1,6 +1,6 @@
 import { QueryRunner, Table } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 /**
  * The rule most of this programme's migrations carry, in one place.

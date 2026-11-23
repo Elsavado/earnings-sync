@@ -12,12 +12,12 @@ import {
 	EquipmentSharingParticipantEnum,
 	IEquipmentSharingCreateInput,
 	IEquipmentSharingUpdateInput
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { NbDialogRef } from '@nebular/theme';
-import { distinctUntilChange, isEntityVersionConflict, isNotEmpty } from '@gauzy/ui-core/common';
+import { distinctUntilChange, isEntityVersionConflict, isNotEmpty } from '@irtranscripts/ui-core/common';
 import { filter } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import {
 	EmployeesService,
 	EquipmentService,
@@ -27,7 +27,7 @@ import {
 	OrganizationTeamsService,
 	Store,
 	ToastrService
-} from '@gauzy/ui-core/core';
+} from '@irtranscripts/ui-core/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy({ checkProperties: true })

@@ -3,9 +3,9 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Subject, firstValueFrom, Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { IOrganization, ITask, PermissionsEnum, TaskStatusEnum } from '@gauzy/contracts';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
-import { AuthService, Store, TasksService, ToastrService } from '@gauzy/ui-core/core';
+import { IOrganization, ITask, PermissionsEnum, TaskStatusEnum } from '@irtranscripts/contracts';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
+import { AuthService, Store, TasksService, ToastrService } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

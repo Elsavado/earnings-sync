@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, OnDestroy, Output, ChangeDetectionStrategy } from '@angular/core';
-import { IOrganization, ITimeLog, PermissionsEnum, TimeLogSourceEnum } from '@gauzy/contracts';
+import { IOrganization, ITimeLog, PermissionsEnum, TimeLogSourceEnum } from '@irtranscripts/contracts';
 import moment from 'moment';
 import { NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter, tap } from 'rxjs/operators';
-import { Store, TimeTrackerService, TimesheetService } from '@gauzy/ui-core/core';
+import { Store, TimeTrackerService, TimesheetService } from '@irtranscripts/ui-core/core';
 import { EditTimeLogModalComponent } from './../edit-time-log-modal';
 import { ViewTimeLogModalComponent } from './../view-time-log-modal';
 

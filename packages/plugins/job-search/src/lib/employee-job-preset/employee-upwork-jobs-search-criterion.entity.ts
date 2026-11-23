@@ -8,8 +8,8 @@ import {
 	IJobSearchCategory,
 	IJobSearchOccupation,
 	JobPostTypeEnum
-} from '@gauzy/contracts';
-import { Employee, MultiORMColumn, MultiORMEntity, MultiORMManyToOne, TenantOrganizationBaseEntity } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { Employee, MultiORMColumn, MultiORMEntity, MultiORMManyToOne, TenantOrganizationBaseEntity } from '@irtranscripts/core';
 import { JobPreset } from './job-preset.entity';
 import { JobSearchOccupation } from './job-search-occupation/job-search-occupation.entity';
 import { JobSearchCategory } from './job-search-category/job-search-category.entity';

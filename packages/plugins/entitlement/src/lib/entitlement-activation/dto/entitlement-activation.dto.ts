@@ -10,8 +10,8 @@ import {
 	MaxLength,
 	Min
 } from 'class-validator';
-import { ID, JsonData } from '@gauzy/contracts';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { ID, JsonData } from '@irtranscripts/contracts';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 import { EntitlementActivationStatus } from '../../entitlement.enums';
 
 /**

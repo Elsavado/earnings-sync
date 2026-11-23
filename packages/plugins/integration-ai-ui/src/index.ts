@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-integration-ai-ui
+ * Public API Surface of @irtranscripts/plugin-integration-ai-ui
  */
 export * from './lib/integration-ai-ui.module';
 export * from './lib/integration-ai.layout.component';

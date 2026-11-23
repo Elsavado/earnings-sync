@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CommandBus } from '@nestjs/cqrs';
-import { IOrganizationTaskSetting, PermissionsEnum } from '@gauzy/contracts';
+import { IOrganizationTaskSetting, PermissionsEnum } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../core/dto';
 import { Permissions } from '../shared/decorators';
 import { UUIDValidationPipe, UseValidationPipe } from '../shared/pipes';

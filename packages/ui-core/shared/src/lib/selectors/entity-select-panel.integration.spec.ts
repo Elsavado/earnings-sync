@@ -18,7 +18,7 @@ import { NG_SELECT_TRIGGER_WIDTH_VAR, NgSelectPanelSizingService } from './ng-se
 	template: `
 		<ng-select
 			#select
-			class="gauzy-entity-select"
+			class="irtranscripts-entity-select"
 			[items]="items"
 			bindLabel="name"
 			[(ngModel)]="selected"
@@ -65,7 +65,7 @@ describe('entity select panel (real ng-select)', () => {
 		fixture.detectChanges();
 		await flush();
 
-		const panel = document.querySelector('.cdk-overlay-pane > ng-dropdown-panel.gauzy-entity-select');
+		const panel = document.querySelector('.cdk-overlay-pane > ng-dropdown-panel.irtranscripts-entity-select');
 		expect(panel).not.toBeNull();
 		expect((panel!.parentElement as HTMLElement).style.getPropertyValue(NG_SELECT_TRIGGER_WIDTH_VAR)).toBe('52px');
 	});

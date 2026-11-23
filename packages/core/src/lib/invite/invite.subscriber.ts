@@ -1,6 +1,6 @@
 import { EventSubscriber } from 'typeorm';
 import * as moment from 'moment';
-import { InviteStatusEnum } from '@gauzy/contracts';
+import { InviteStatusEnum } from '@irtranscripts/contracts';
 import { BaseEntityEventSubscriber } from '../core/entities/subscribers/base-entity-event.subscriber';
 import { Invite } from './invite.entity';
 

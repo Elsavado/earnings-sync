@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional, IntersectionType } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsEnum, IsNotEmpty, IsObject, IsString, ValidateIf, ValidateNested } from 'class-validator';
-import { ID, ISocialAccountCreateInput, ProviderEnum } from '@gauzy/contracts';
+import { ID, ISocialAccountCreateInput, ProviderEnum } from '@irtranscripts/contracts';
 import { TenantBaseDTO } from '../../../core/dto';
 import { CreateUserDTO } from '../../../user/dto';
 

@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { GAUZY_ENV } from '../constants';
+import { IRTRANSCRIPTS_ENV } from '../constants';
 import { ElectronService } from '../electron/services';
 import { LanguageElectronService } from '../language/language-electron.service';
 import { NbLayoutModule, NbCardModule, NbButtonModule, NbIconModule } from '@nebular/theme';
@@ -18,7 +18,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 })
 export class SplashScreenComponent implements OnInit {
 	private _application = {
-		name: 'gauzy-dev',
+		name: 'irtranscripts-dev',
 		version: 'dev',
 		iconPath: null
 	};
@@ -26,7 +26,7 @@ export class SplashScreenComponent implements OnInit {
 	constructor(
 		private readonly _electronService: ElectronService,
 		private readonly _languageElectronService: LanguageElectronService,
-		@Inject(GAUZY_ENV)
+		@Inject(IRTRANSCRIPTS_ENV)
 		private readonly _environment: any,
 		private readonly _domSanitizer: DomSanitizer
 	) {

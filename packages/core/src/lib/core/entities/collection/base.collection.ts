@@ -1,4 +1,4 @@
-import { PlainObject } from '@gauzy/contracts';
+import { PlainObject } from '@irtranscripts/contracts';
 
 /**
  *	Base class for collections

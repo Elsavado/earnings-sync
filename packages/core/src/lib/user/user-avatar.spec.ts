@@ -2,9 +2,9 @@ import { getSeedAvatarFileName, isSelfResolvingImageUrl, shouldSeedAvatar } from
 
 /**
  * Seeded users and employees carry `imageUrl: 'assets/images/avatars/<file>'` — a path that only
- * resolves inside the Angular Gauzy app, which ships `<base href="/">`. Every other client (Ever Teams
+ * resolves inside the Angular IRTranscripts app, which ships `<base href="/">`. Every other client (Ever Teams
  * on Next.js, mobile, …) resolved it against whatever route it was on and 404'd, because those files
- * live only in `apps/gauzy/src/assets/images/avatars/` and are served by no API or CDN.
+ * live only in `apps/irtranscripts/src/assets/images/avatars/` and are served by no API or CDN.
  *
  * The seed now copies the file into the API's public assets and creates a real ImageAsset, exactly as
  * `createDefaultIssueTypes` already does for task icons. This helper decides which seed values are

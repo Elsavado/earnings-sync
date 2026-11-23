@@ -1,6 +1,6 @@
 import { ApiPropertyOptional, PickType } from '@nestjs/swagger';
 import { IsOptional, IsUUID } from 'class-validator';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { Contact } from './../../contact/contact.entity';
 import { PROFILE_CONTACT_MEMBERS } from './../../contact/profile-contact.helper';
 

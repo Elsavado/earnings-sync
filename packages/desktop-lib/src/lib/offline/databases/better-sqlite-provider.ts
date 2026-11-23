@@ -27,7 +27,7 @@ export class BetterSqliteProvider implements IServerLessProvider {
 		return {
 			client: 'better-sqlite3',
 			connection: {
-				filename: path.resolve(app?.getPath('userData') || __dirname, 'gauzy.sqlite3'),
+				filename: path.resolve(app?.getPath('userData') || __dirname, 'irtranscripts.sqlite3'),
 				timezone: 'utc'
 			},
 			pool: {

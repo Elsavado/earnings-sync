@@ -1,8 +1,8 @@
 import { ApiPropertyOptional, IntersectionType, PickType } from '@nestjs/swagger';
 import { IsEnum, IsOptional, IsString, IsTimeZone, IsUUID } from 'class-validator';
 import { Transform, TransformFnParams } from 'class-transformer';
-import { IGetTimeLogReportInput, ITimesheet, ReportGroupFilterEnum } from '@gauzy/contracts';
-import { parseToBoolean } from '@gauzy/utils';
+import { IGetTimeLogReportInput, ITimesheet, ReportGroupFilterEnum } from '@irtranscripts/contracts';
+import { parseToBoolean } from '@irtranscripts/utils';
 import { BaseQueryDTO } from '../../../../core/dto/base-query.dto';
 import { FiltersQueryDTO, RelationsQueryDTO, SelectorsQueryDTO } from '../../../../shared/dto';
 

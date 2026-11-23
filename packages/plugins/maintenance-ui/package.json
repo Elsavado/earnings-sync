@@ -1,5 +1,5 @@
 {
-	"name": "@gauzy/plugin-maintenance-ui",
+	"name": "@irtranscripts/plugin-maintenance-ui",
 	"version": "0.1.0",
 	"description": "",
 	"author": {
@@ -29,8 +29,8 @@
 	},
 	"dependencies": {
 		"@angular/router": "22.2.2",
-		"@gauzy/contracts": "^0.1.0",
-		"@gauzy/ui-core": "^0.1.0",
+		"@irtranscripts/contracts": "^0.1.0",
+		"@irtranscripts/ui-core": "^0.1.0",
 		"@nebular/theme": "^18.0.0",
 		"@ngx-translate/core": "^18.0.0",
 		"tslib": "^2.8.1"

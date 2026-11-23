@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 import {
 	IMakeComIntegrationSettings,
 	IMakeComOAuthTokenDTO,
@@ -14,7 +14,7 @@ import {
 	IMakeComTemplate,
 	IMakeComSetupStatus,
 	MakeComZone
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 @Injectable({
 	providedIn: 'root'

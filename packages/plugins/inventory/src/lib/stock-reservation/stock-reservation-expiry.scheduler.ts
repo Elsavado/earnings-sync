@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { CronExpression } from '@nestjs/schedule';
-import { ScheduledJob } from '@gauzy/scheduler';
+import { ScheduledJob } from '@irtranscripts/scheduler';
 import {
 	STOCK_RESERVATION_EXPIRY_JOB,
 	STOCK_RESERVATION_EXPIRY_SCHEDULE,

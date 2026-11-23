@@ -3,7 +3,7 @@ import {
 	LocalStore,
 	DesktopDialog,
 	TranslateService
-} from '@gauzy/desktop-lib';
+} from '@irtranscripts/desktop-lib';
 import AppWindow from './window-manager';
 import isOnline from 'is-online';
 import { ApiService } from './api';

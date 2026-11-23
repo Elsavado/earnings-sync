@@ -1,4 +1,4 @@
-import { isMySQL, isPostgres } from '@gauzy/config';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
 
 /**
  *

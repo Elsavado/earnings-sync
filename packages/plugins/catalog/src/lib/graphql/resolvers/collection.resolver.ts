@@ -1,8 +1,8 @@
 import { Args, Context, Mutation, Parent, Query, ResolveField, Resolver, Subscription } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { ID } from '@gauzy/contracts';
-import { connectionFromOffsetPage, deliverPayloadAsIs, FEATURE_GRAPHQL, IConnectionPageSelection, resolveConnectionWindow, EventBus, FeatureFlagGuard, GraphqlConnection, PermissionGuard, Permissions, TenantPermissionGuard, tenantScopedEventStream } from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+import { ID } from '@irtranscripts/contracts';
+import { connectionFromOffsetPage, deliverPayloadAsIs, FEATURE_GRAPHQL, IConnectionPageSelection, resolveConnectionWindow, EventBus, FeatureFlagGuard, GraphqlConnection, PermissionGuard, Permissions, TenantPermissionGuard, tenantScopedEventStream } from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { CATALOG_PERMISSION_VALUES, catalogPermission } from '../../catalog.permissions';
 import { CollectionChannel } from '../../collection-channel/collection-channel.entity';
 import { CollectionChannelService } from '../../collection-channel/collection-channel.service';
@@ -20,7 +20,7 @@ export type CollectionWriteInput = Partial<Collection> & { imageAssetId?: ID | n
 /**
  * The part of the operation's GraphQL context the channel fields batch through: the request-scoped relation
  * loader registry core's context factory puts on every operation (`graphql-context.ts`). Stated structurally,
- * because the registry is not part of `@gauzy/core`'s public surface.
+ * because the registry is not part of `@irtranscripts/core`'s public surface.
  */
 export interface CollectionChannelLoaders {
 	loaders?: {

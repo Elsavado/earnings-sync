@@ -1,7 +1,7 @@
 import { BadRequestException, Inject, Optional, UseGuards } from '@nestjs/common';
 import { Args, Context, Mutation, Parent, Query, ResolveField, Resolver, Subscription } from '@nestjs/graphql';
 import { Observable } from 'rxjs';
-import { ID, IPagination } from '@gauzy/contracts';
+import { ID, IPagination } from '@irtranscripts/contracts';
 import {
 	deliverPayloadAsIs,
 	EventBus,
@@ -14,8 +14,8 @@ import {
 	tenantScopedEventStream,
 	Versioned,
 	versionExpectationOf
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { EntitlementFeatures } from '../../entitlement.features';
 import { Entitlement } from '../../entitlement/entitlement.entity';
 import { EntitlementService } from '../../entitlement/entitlement.service';

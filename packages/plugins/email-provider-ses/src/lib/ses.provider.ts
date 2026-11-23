@@ -9,7 +9,7 @@ import {
 	UnauthorizedException
 } from '@nestjs/common';
 import { KeyObject } from 'node:crypto';
-import { INBOX_EMAIL_PROVIDER_REGISTRY } from '@gauzy/contracts';
+import { INBOX_EMAIL_PROVIDER_REGISTRY } from '@irtranscripts/contracts';
 import {
 	getInboxEmailConfig,
 	HOLD_VIRUS,
@@ -21,7 +21,7 @@ import {
 	IProviderAccountContext,
 	parseMimeMessage,
 	ParsedInboundEmail
-} from '@gauzy/plugin-inbox';
+} from '@irtranscripts/plugin-inbox';
 import { AwsCredentials, signAwsRequest } from './sigv4';
 import { isSnsUrl, signingKeyOf, SNS_TYPES, SnsMessage, verifySnsSignature } from './sns';
 
@@ -209,7 +209,7 @@ export class SesProvider implements IEmailProviderPlugin, IInboundEmailProvider,
 	onModuleInit(): void {
 		if (!this.registry) {
 			this.logger.warn(
-				'The Inbox email features are off (GAUZY_INBOX_EMAIL_ENABLED): the Amazon SES provider stays idle.'
+				'The Inbox email features are off (IRTRANSCRIPTS_INBOX_EMAIL_ENABLED): the Amazon SES provider stays idle.'
 			);
 			return;
 		}

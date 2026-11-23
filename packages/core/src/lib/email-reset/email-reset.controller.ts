@@ -1,6 +1,6 @@
 import { Controller, HttpCode, HttpStatus, UseGuards, Post, Body, Get, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { LanguagesEnum, PermissionsEnum } from '@gauzy/contracts';
+import { LanguagesEnum, PermissionsEnum } from '@irtranscripts/contracts';
 import { PermissionGuard, TenantPermissionGuard } from './../shared/guards';
 import { LanguageDecorator, Permissions } from './../shared/decorators';
 import { UseValidationPipe } from '../shared/pipes';

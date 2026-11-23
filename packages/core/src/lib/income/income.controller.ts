@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ID, IIncome, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IIncome, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { DeleteResult, FindOptionsWhere } from 'typeorm';
 import { RequestContext } from '../core/context';
 import { CrudController, BaseQueryDTO } from './../core/crud';

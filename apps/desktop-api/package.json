@@ -1,13 +1,13 @@
 {
-	"name": "@gauzy/desktop-api",
+	"name": "@irtranscripts/desktop-api",
 	"version": "0.1.0",
-	"description": "Ever Gauzy Platform desktop APIs",
+	"description": "Ever IRTranscripts Platform desktop APIs",
 	"author": {
 		"name": "Ever Co. LTD",
 		"email": "ever@ever.co",
 		"url": "https://ever.co"
 	},
-	"homepage": "https://gauzy.co",
+	"homepage": "https://irtranscripts.com",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/ever-co/ever-gauzy.git"
@@ -24,7 +24,7 @@
 	"keywords": [
 		"desktop",
 		"api",
-		"gauzy",
+		"irtranscripts",
 		"nestjs",
 		"microservices",
 		"grpc",
@@ -43,7 +43,7 @@
 		"@nestjs/common": "^12.1.3",
 		"@nestjs/core": "^12.1.3",
 		"@nestjs/typeorm": "^12.0.2",
-		"@gauzy/plugin-integration-wakatime": "^0.1.0"
+		"@irtranscripts/plugin-integration-wakatime": "^0.1.0"
 	},
 	"devDependencies": {
 		"@nestjs/testing": "^12.1.3",

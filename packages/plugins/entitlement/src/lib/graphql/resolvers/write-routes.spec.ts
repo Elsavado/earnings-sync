@@ -65,26 +65,26 @@
  * **Nothing is doubled here but the services.** The three controllers are the real ones, the three
  * resolvers are the real ones with their own decorators and signatures, `CrudController` behind them is
  * the kernel's, and the document the fields are read out of is the real one. What is doubled is
- * `@gauzy/core`, which boots the whole application graph from its barrel and cannot be loaded outside a
+ * `@irtranscripts/core`, which boots the whole application graph from its barrel and cannot be loaded outside a
  * running application, as this package's other specs record — except for the two write conventions,
  * which are the kernel's own here: a no-op double of `@Idempotent` or `@Versioned` would erase both sides
  * of the comparison this suite exists to make, and it would pass on two absences.
  */
 
-jest.mock('@gauzy/common', () => ({
+jest.mock('@irtranscripts/common', () => ({
 	/** A no-op decorator factory: the feature gate is not what these cases are about. */
 	FeatureFlag: () => () => undefined
 }));
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: no controller here is mapped onto a Nest application. */
 	const decorator = () => () => undefined;
-	const permissions = jest.requireActual('@gauzy/core/src/lib/shared/decorators/permissions.decorator');
+	const permissions = jest.requireActual('@irtranscripts/core/src/lib/shared/decorators/permissions.decorator');
 	// The retry scope and the version expectation are metadata this suite compares, so both decorators
 	// are the kernel's implementations rather than doubles: they write the keys read below, and the
 	// version decorator is what puts `VersionGuard` on the fields as it does on the routes.
-	const idempotent = jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator');
-	const versioned = jest.requireActual('@gauzy/core/src/lib/concurrency/versioned.decorator');
+	const idempotent = jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator');
+	const versioned = jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned.decorator');
 
 	class CrudController {
 		constructor(protected readonly crudService: any) {}
@@ -153,7 +153,7 @@ jest.mock('@gauzy/core', () => {
 		ProductVariant: class {},
 		Idempotent: idempotent.Idempotent,
 		Versioned: versioned.Versioned,
-		versionExpectationOf: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		versionExpectationOf: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.versionExpectationOf,
 		RequestContext: {
 			currentUser: () => null,
@@ -188,10 +188,10 @@ import {
 	ObjectTypeExtensionNode,
 	TypeNode
 } from 'graphql';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { IDEMPOTENT_METADATA_KEY } from '@gauzy/core/src/lib/idempotency/idempotency.policy';
-import { VERSION_EXPECTATION_PROPERTY, VERSIONED_METADATA_KEY } from '@gauzy/core/src/lib/concurrency/version.util';
-import { PermissionGuard, TenantPermissionGuard } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { IDEMPOTENT_METADATA_KEY } from '@irtranscripts/core/src/lib/idempotency/idempotency.policy';
+import { VERSION_EXPECTATION_PROPERTY, VERSIONED_METADATA_KEY } from '@irtranscripts/core/src/lib/concurrency/version.util';
+import { PermissionGuard, TenantPermissionGuard } from '@irtranscripts/core';
 import { EntitlementPermissions } from '../../entitlement.permissions';
 import { EntitlementController } from '../../entitlement/entitlement.controller';
 import { EntitlementActivationController } from '../../entitlement-activation/entitlement-activation.controller';

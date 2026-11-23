@@ -1,5 +1,5 @@
-import { ID, RolesEnum } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { ID, RolesEnum } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { PluginBillingService } from '../../domain/services/plugin-billing.service';
 import { PluginService } from '../../domain/services/plugin.service';

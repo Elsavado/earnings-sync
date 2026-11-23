@@ -1,10 +1,10 @@
 /**
- * `@gauzy/ui-core/i18n` and `@gauzy/ui-core/core` are barrels over the whole app: importing
+ * `@irtranscripts/ui-core/i18n` and `@irtranscripts/ui-core/core` are barrels over the whole app: importing
  * them pulls Akita's untranspiled ESM (and every shared component) into the CommonJS test
  * runtime. The page is constructed directly with doubles — no `TestBed`
  * (see `docs-settings-page.component.spec.ts`).
  */
-jest.mock('@gauzy/ui-core/i18n', () => ({
+jest.mock('@irtranscripts/ui-core/i18n', () => ({
 	TranslationBaseComponent: class {
 		constructor(public readonly translateService: unknown) {}
 		getTranslation(key: string): string {
@@ -12,7 +12,7 @@ jest.mock('@gauzy/ui-core/i18n', () => ({
 		}
 	}
 }));
-jest.mock('@gauzy/ui-core/core', () => ({ Store: class Store {}, ToastrService: class ToastrService {} }));
+jest.mock('@irtranscripts/ui-core/core', () => ({ Store: class Store {}, ToastrService: class ToastrService {} }));
 
 import { of, throwError } from 'rxjs';
 import {
@@ -20,7 +20,7 @@ import {
 	DocumentInboundDomainStatusEnum,
 	ID,
 	IDocumentInboundDomainVerification
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { IDocumentInboundAddressView } from '../../models/docs-inbound.model';
 import { DocsInboundSettingsPageComponent } from './docs-inbound-settings-page.component';
 
@@ -31,7 +31,7 @@ function platformRow(overrides: Partial<IDocumentInboundAddressView> = {}): IDoc
 	return {
 		id: PLATFORM_ID,
 		kind: DocumentInboundAddressKindEnum.PLATFORM,
-		address: 'docs-abc123@inbound.gauzy.co',
+		address: 'docs-abc123@inbound.irtranscripts.com',
 		domainStatus: DocumentInboundDomainStatusEnum.VERIFIED,
 		senderAllowlist: [],
 		importBodyAsNote: false,
@@ -61,8 +61,8 @@ function verification(
 ): IDocumentInboundDomainVerification {
 	return {
 		recordType: 'TXT',
-		recordName: '_gauzy-docs.example.com',
-		recordValue: 'gauzy-docs-verify=deadbeef',
+		recordName: '_irtranscripts-docs.example.com',
+		recordValue: 'irtranscripts-docs-verify=deadbeef',
 		status,
 		verifiedAt: null,
 		lastCheckedAt: null,
@@ -121,7 +121,7 @@ describe('DocsInboundSettingsPageComponent — inbound capture (spec 07 §17.2)'
 
 			await page.load();
 
-			expect(page.platform?.address.address).toBe('docs-abc123@inbound.gauzy.co');
+			expect(page.platform?.address.address).toBe('docs-abc123@inbound.irtranscripts.com');
 			expect(page.customDomains).toHaveLength(1);
 			expect(page.customDomains[0].address.address).toBe('docs@example.com');
 		});
@@ -133,7 +133,7 @@ describe('DocsInboundSettingsPageComponent — inbound capture (spec 07 §17.2)'
 
 			expect(inboundService.getVerification).toHaveBeenCalledTimes(1);
 			expect(inboundService.getVerification).toHaveBeenCalledWith(CUSTOM_ID);
-			expect(page.customDomains[0].verification?.recordName).toBe('_gauzy-docs.example.com');
+			expect(page.customDomains[0].verification?.recordName).toBe('_irtranscripts-docs.example.com');
 			// A PLATFORM address has nothing to prove — the platform owns the domain.
 			expect(page.platform?.verification).toBeNull();
 		});
@@ -165,7 +165,7 @@ describe('DocsInboundSettingsPageComponent — inbound capture (spec 07 §17.2)'
 
 			await page.load();
 
-			// An empty list means `GAUZY_DOCS_INBOUND_DOMAIN` is unset — there was nothing to mint.
+			// An empty list means `IRTRANSCRIPTS_DOCS_INBOUND_DOMAIN` is unset — there was nothing to mint.
 			expect(page.platform).toBeNull();
 			expect(page.customDomains).toEqual([]);
 			expect(page.loadError).toBe(false);
@@ -444,14 +444,14 @@ describe('DocsInboundSettingsPageComponent — inbound capture (spec 07 §17.2)'
 
 		it('replaces the platform address from the rotate response', async () => {
 			const { page, inboundService, toastrService } = createPage();
-			inboundService.rotateAddress.mockReturnValue(of(platformRow({ address: 'docs-newtoken@inbound.gauzy.co' })));
+			inboundService.rotateAddress.mockReturnValue(of(platformRow({ address: 'docs-newtoken@inbound.irtranscripts.com' })));
 			await page.load();
 			const row = page.platform as NonNullable<typeof page.platform>;
 
 			page.askConfirm(row, 'address');
 			await page.rotateAddress(row);
 
-			expect(row.address.address).toBe('docs-newtoken@inbound.gauzy.co');
+			expect(row.address.address).toBe('docs-newtoken@inbound.irtranscripts.com');
 			expect(row.confirm).toBeNull();
 			expect(toastrService.success).toHaveBeenCalledWith('DOCS.INBOUND.TOAST_ADDRESS_ROTATED');
 		});

@@ -32,7 +32,7 @@ const PEOPLE_INVITES = {
 		{ ...PEOPLE.members[0] },
 		{ ...PEOPLE.members[1], matchedBy: 'ever_id' as const },
 		{ ...PEOPLE.members[2] },
-		{ ewUserId: 'u4', username: 'dee', displayName: 'Dee', email: 'dee@example.com', emailVerified: true, role: 'member', isActive: true, linkedEmployeeId: null, suggestion: null, gauzyInvite: null },
+		{ ewUserId: 'u4', username: 'dee', displayName: 'Dee', email: 'dee@example.com', emailVerified: true, role: 'member', isActive: true, linkedEmployeeId: null, suggestion: null, irtranscriptsInvite: null },
 		{
 			ewUserId: 'u5',
 			username: 'eve',
@@ -43,7 +43,7 @@ const PEOPLE_INVITES = {
 			isActive: true,
 			linkedEmployeeId: null,
 			suggestion: null,
-			gauzyInvite: { inviteId: 'inv-5', expireDate: '2026-10-25T00:00:00.000Z' }
+			irtranscriptsInvite: { inviteId: 'inv-5', expireDate: '2026-10-25T00:00:00.000Z' }
 		},
 		{ ewUserId: 'u6', username: 'fay', displayName: 'Fay', email: 'fay@example.com', emailVerified: false, role: 'member', isActive: true, linkedEmployeeId: null, suggestion: null },
 		{ ewUserId: 'u7', username: 'gus', displayName: 'Gus', email: 'gus@example.com', emailVerified: true, role: 'member', isActive: true, linkedEmployeeId: 'e7', suggestion: null, matchedBy: 'verified_email' as const },
@@ -91,7 +91,7 @@ describe('EverWorksMatchReviewComponent', () => {
 		projects: jest.fn(),
 		initiatives: jest.fn(),
 		decidePeople: jest.fn(),
-		inviteToGauzy: jest.fn(),
+		inviteToIRTranscripts: jest.fn(),
 		inviteToEverWorks: jest.fn(),
 		decideTeams: jest.fn(),
 		decideProjects: jest.fn(),
@@ -139,16 +139,16 @@ describe('EverWorksMatchReviewComponent', () => {
 		expect(api.decidePeople).toHaveBeenLastCalledWith('org-1', 'm1', { unlinks: ['u2'] });
 	});
 
-	it('teams: pairs, creates in Gauzy and creates in Ever Works are explicit choices', () => {
+	it('teams: pairs, creates in IRTranscripts and creates in Ever Works are explicit choices', () => {
 		api.decideTeams.mockReturnValue(of(TEAMS));
 		const { component } = render();
 		expect(component.teamChoice).toEqual({ t1: 'g1', t2: '' });
-		// A Gauzy team chosen for an Ever Works team is not offered for "create in Ever Works".
-		expect(component.unpairedGauzyTeams().map((team) => team.teamId)).toEqual(['g2']);
+		// A IRTranscripts team chosen for an Ever Works team is not offered for "create in Ever Works".
+		expect(component.unpairedIRTranscriptsTeams().map((team) => team.teamId)).toEqual(['g2']);
 		component.teamChoice['t2'] = CREATE;
 		component.createInEverWorks['g2'] = true;
 		component.saveTeams();
-		expect(api.decideTeams).toHaveBeenCalledWith('org-1', 'm1', { links: [{ ewTeamId: 't1', teamId: 'g1' }], createInGauzy: ['t2'], createInEverWorks: ['g2'] });
+		expect(api.decideTeams).toHaveBeenCalledWith('org-1', 'm1', { links: [{ ewTeamId: 't1', teamId: 'g1' }], createInIRTranscripts: ['t2'], createInEverWorks: ['g2'] });
 	});
 
 	it('teams: offers and sends only the creates the mapping allows, so the pairs still save (review F98)', () => {
@@ -156,8 +156,8 @@ describe('EverWorksMatchReviewComponent', () => {
 		const { component, fixture, el } = render();
 		const createOption = () => el.querySelector('[data-test="team-t2"] option[value="' + CREATE + '"]');
 		const checkbox = () => el.querySelector('[data-test="create-ew-g2"] input') as HTMLInputElement | null;
-		// Teams sync Gauzy → Ever Works only: no team is created in Gauzy.
-		fixture.componentRef.setInput('mapping', { isEnabled: true, directions: { teams: 'gauzy_to_ew' } });
+		// Teams sync IRTranscripts → Ever Works only: no team is created in IRTranscripts.
+		fixture.componentRef.setInput('mapping', { isEnabled: true, directions: { teams: 'irtranscripts_to_ew' } });
 		fixture.detectChanges();
 		expect(api.teams).toHaveBeenCalledTimes(1);
 		expect(createOption()).toBeNull();
@@ -166,8 +166,8 @@ describe('EverWorksMatchReviewComponent', () => {
 		component.createInEverWorks['g2'] = true;
 		component.saveTeams();
 		expect(api.decideTeams).toHaveBeenLastCalledWith('org-1', 'm1', { links: [{ ewTeamId: 't1', teamId: 'g1' }], createInEverWorks: ['g2'] });
-		// Ever Works → Gauzy only: no team is created in Ever Works, and the box says why.
-		fixture.componentRef.setInput('mapping', { isEnabled: true, directions: { teams: 'ew_to_gauzy' } });
+		// Ever Works → IRTranscripts only: no team is created in Ever Works, and the box says why.
+		fixture.componentRef.setInput('mapping', { isEnabled: true, directions: { teams: 'ew_to_irtranscripts' } });
 		fixture.detectChanges();
 		expect(createOption()).not.toBeNull();
 		expect(el.querySelector('[data-test="teams-not-created"]')).not.toBeNull();
@@ -175,7 +175,7 @@ describe('EverWorksMatchReviewComponent', () => {
 		component.teamChoice['t2'] = CREATE;
 		component.createInEverWorks['g2'] = true;
 		component.saveTeams();
-		expect(api.decideTeams).toHaveBeenLastCalledWith('org-1', 'm1', { links: [{ ewTeamId: 't1', teamId: 'g1' }], createInGauzy: ['t2'] });
+		expect(api.decideTeams).toHaveBeenLastCalledWith('org-1', 'm1', { links: [{ ewTeamId: 't1', teamId: 'g1' }], createInIRTranscripts: ['t2'] });
 		// A mapping that is off creates nothing on either side; the manual pair still goes out.
 		fixture.componentRef.setInput('mapping', { isEnabled: false, directions: { teams: 'both' } });
 		fixture.detectChanges();
@@ -188,7 +188,7 @@ describe('EverWorksMatchReviewComponent', () => {
 		expect(api.decideTeams).toHaveBeenLastCalledWith('org-1', 'm1', { links: [{ ewTeamId: 't1', teamId: 'g1' }] });
 	});
 
-	it('projects: "Create in Gauzy" is offered and sent only while works are linked and the mapping is on (review F98)', () => {
+	it('projects: "Create in IRTranscripts" is offered and sent only while works are linked and the mapping is on (review F98)', () => {
 		const works = {
 			works: [
 				{ ewWorkId: 'w1', name: 'Site', website: null, linkedProjectId: null, suggestion: { projectId: 'p1', reason: 'same_name' as const } },
@@ -218,7 +218,7 @@ describe('EverWorksMatchReviewComponent', () => {
 		component.mapping = { isEnabled: true, directions: { works: 'link_only' } } as never;
 		component.workChoice['w2'] = CREATE;
 		component.saveProjects();
-		expect(api.decideProjects).toHaveBeenLastCalledWith('org-1', 'm1', { links: [{ ewWorkId: 'w1', projectId: 'p1' }], createInGauzy: ['w2'] });
+		expect(api.decideProjects).toHaveBeenLastCalledWith('org-1', 'm1', { links: [{ ewWorkId: 'w1', projectId: 'p1' }], createInIRTranscripts: ['w2'] });
 	});
 
 	it('lists the inbox items waiting for an unpaired member, by name (or id once they left)', () => {
@@ -288,7 +288,7 @@ describe('EverWorksMatchReviewComponent', () => {
 		expect(api.decideTeams).toHaveBeenLastCalledWith('org-1', 'm1', { links: [{ ewTeamId: 't2', teamId: 'g2' }] });
 	});
 
-	it('a Gauzy record suggested for several rows is not preselected, and choosing it twice is refused', () => {
+	it('a IRTranscripts record suggested for several rows is not preselected, and choosing it twice is refused', () => {
 		api.teams.mockReturnValue(
 			of({
 				teams: [
@@ -323,7 +323,7 @@ describe('EverWorksMatchReviewComponent', () => {
 	});
 
 	describe('initiatives ↔ missions (G-P2-2)', () => {
-		it('preselects the same-title initiative and sends pairs, creates in Gauzy and paused creates in Ever Works', () => {
+		it('preselects the same-title initiative and sends pairs, creates in IRTranscripts and paused creates in Ever Works', () => {
 			api.decideInitiatives.mockReturnValue(of(INITIATIVES));
 			const { component } = render();
 			expect(api.initiatives).toHaveBeenCalledWith('org-1', 'm1');
@@ -332,13 +332,13 @@ describe('EverWorksMatchReviewComponent', () => {
 			expect(api.decideInitiatives).not.toHaveBeenCalled();
 			component.missionChoice['m-2'] = CREATE;
 			// i1 is chosen for m-1, so only the others are offered for Ever Works.
-			expect(component.unpairedGauzyInitiatives().map((row) => row.initiativeId)).toEqual(['i2', 'i3']);
+			expect(component.unpairedIRTranscriptsInitiatives().map((row) => row.initiativeId)).toEqual(['i2', 'i3']);
 			component.createMissionInEverWorks['i2'] = true;
 			component.createMissionInEverWorks['i3'] = true;
 			component.saveInitiatives();
 			expect(api.decideInitiatives).toHaveBeenCalledWith('org-1', 'm1', {
 				links: [{ ewMissionId: 'm-1', initiativeId: 'i1' }],
-				createInGauzy: ['m-2'],
+				createInIRTranscripts: ['m-2'],
 				// The draft is never sent: it goes to Ever Works once it is active.
 				createInEverWorks: ['i2']
 			});
@@ -370,8 +370,8 @@ describe('EverWorksMatchReviewComponent', () => {
 		it('offers only the creates the mapping allows, and never sends one it does not', () => {
 			api.decideInitiatives.mockReturnValue(of(INITIATIVES));
 			const { component, fixture } = render();
-			// New mappings sync missions one way (Ever Works → Gauzy): no mission is created from Gauzy.
-			component.mapping = { isEnabled: true, directions: { missions: 'ew_to_gauzy' } } as never;
+			// New mappings sync missions one way (Ever Works → IRTranscripts): no mission is created from IRTranscripts.
+			component.mapping = { isEnabled: true, directions: { missions: 'ew_to_irtranscripts' } } as never;
 			component.ngOnChanges({ mapping: new SimpleChange(null, component.mapping, false) });
 			fixture.detectChanges();
 			expect(api.initiatives).toHaveBeenCalledTimes(1);
@@ -380,7 +380,7 @@ describe('EverWorksMatchReviewComponent', () => {
 			component.missionChoice['m-2'] = CREATE;
 			component.createMissionInEverWorks['i2'] = true;
 			component.saveInitiatives();
-			expect(api.decideInitiatives).toHaveBeenCalledWith('org-1', 'm1', { links: [{ ewMissionId: 'm-1', initiativeId: 'i1' }], createInGauzy: ['m-2'] });
+			expect(api.decideInitiatives).toHaveBeenCalledWith('org-1', 'm1', { links: [{ ewMissionId: 'm-1', initiativeId: 'i1' }], createInIRTranscripts: ['m-2'] });
 			// A mapping that is off creates nothing on either side.
 			component.mapping = { isEnabled: false, directions: { missions: 'both' } } as never;
 			expect(component.canCreateInitiatives).toBe(false);
@@ -392,7 +392,7 @@ describe('EverWorksMatchReviewComponent', () => {
 		it('keeps the choices of the other missions when one pairing is removed', () => {
 			api.decideInitiatives.mockReturnValue(of(INITIATIVES));
 			const { component } = render();
-			// The admin turned the suggestion of m-1 down and chose to create m-2 in Gauzy, then removes m-3's pairing.
+			// The admin turned the suggestion of m-1 down and chose to create m-2 in IRTranscripts, then removes m-3's pairing.
 			component.missionChoice['m-1'] = '';
 			component.missionChoice['m-2'] = CREATE;
 			component.createMissionInEverWorks['i2'] = true;
@@ -447,43 +447,43 @@ describe('EverWorksMatchReviewComponent', () => {
 			expect(el.querySelector('[data-test="match-source-u1"]')).toBeNull();
 		});
 
-		it('offers "invite to Gauzy" only for an unpaired, verified member with no Gauzy person and no pending invitation', () => {
+		it('offers "invite to IRTranscripts" only for an unpaired, verified member with no IRTranscripts person and no pending invitation', () => {
 			const { el } = render();
-			const offered = Array.from(el.querySelectorAll('[data-test^="invite-gauzy-"]')).map((button) => button.getAttribute('data-test'));
-			expect(offered).toEqual(['invite-gauzy-u4']);
-			expect(el.querySelector('[data-test="gauzy-invite-pending-u5"]')).not.toBeNull();
+			const offered = Array.from(el.querySelectorAll('[data-test^="invite-irtranscripts-"]')).map((button) => button.getAttribute('data-test'));
+			expect(offered).toEqual(['invite-irtranscripts-u4']);
+			expect(el.querySelector('[data-test="irtranscripts-invite-pending-u5"]')).not.toBeNull();
 		});
 
-		it('asks before inviting to Gauzy, then invites with the Employee role and reloads the tab', () => {
-			api.inviteToGauzy.mockReturnValue(of({ status: 'invited', inviteId: 'inv-4', email: 'dee@example.com', roleId: 'r-employee', expireDate: null }));
+		it('asks before inviting to IRTranscripts, then invites with the Employee role and reloads the tab', () => {
+			api.inviteToIRTranscripts.mockReturnValue(of({ status: 'invited', inviteId: 'inv-4', email: 'dee@example.com', roleId: 'r-employee', expireDate: null }));
 			const { component, fixture, el } = render();
-			(el.querySelector('[data-test="invite-gauzy-u4"]') as HTMLButtonElement).click();
+			(el.querySelector('[data-test="invite-irtranscripts-u4"]') as HTMLButtonElement).click();
 			fixture.detectChanges();
 			const dialog = el.querySelector('[data-test="invite-confirm"]');
 			expect(dialog?.getAttribute('role')).toBe('dialog');
 			expect(dialog?.textContent).toContain('dee@example.com');
 			expect(dialog?.textContent).toContain('EVER_WORKS.REVIEW.INVITE.ROLE_EMPLOYEE');
-			expect(api.inviteToGauzy).not.toHaveBeenCalled();
+			expect(api.inviteToIRTranscripts).not.toHaveBeenCalled();
 
 			(el.querySelector('[data-test="invite-confirm-yes"]') as HTMLButtonElement).click();
 			fixture.detectChanges();
-			expect(api.inviteToGauzy).toHaveBeenCalledWith('org-1', 'm1', { ewUserId: 'u4' });
+			expect(api.inviteToIRTranscripts).toHaveBeenCalledWith('org-1', 'm1', { ewUserId: 'u4' });
 			expect(api.people).toHaveBeenCalledTimes(2);
-			expect(component.inviteResults['gauzy:u4']).toBe('EVER_WORKS.REVIEW.INVITE.RESULT.invited');
+			expect(component.inviteResults['irtranscripts:u4']).toBe('EVER_WORKS.REVIEW.INVITE.RESULT.invited');
 			expect(el.querySelector('[data-test="invite-confirm"]')).toBeNull();
 		});
 
 		it('cancelling the confirmation invites nobody', () => {
 			const { fixture, el } = render();
-			(el.querySelector('[data-test="invite-gauzy-u4"]') as HTMLButtonElement).click();
+			(el.querySelector('[data-test="invite-irtranscripts-u4"]') as HTMLButtonElement).click();
 			fixture.detectChanges();
 			(el.querySelector('[data-test="invite-confirm-no"]') as HTMLButtonElement).click();
 			fixture.detectChanges();
 			expect(el.querySelector('[data-test="invite-confirm"]')).toBeNull();
-			expect(api.inviteToGauzy).not.toHaveBeenCalled();
+			expect(api.inviteToIRTranscripts).not.toHaveBeenCalled();
 		});
 
-		it('offers "invite to Ever Works" for a Gauzy person with an e-mail that no member is suggested for or chosen for', () => {
+		it('offers "invite to Ever Works" for a IRTranscripts person with an e-mail that no member is suggested for or chosen for', () => {
 			const { component, el } = render();
 			const offered = () => Array.from(el.querySelectorAll('[data-test^="invite-ew-"]')).map((button) => button.getAttribute('data-test'));
 			// e1 is suggested for u1, e9 for u9 (Ever ID), e2 has no e-mail.
@@ -526,13 +526,13 @@ describe('EverWorksMatchReviewComponent', () => {
 		});
 
 		it('notes the invitation as soon as it is answered, even when reading the tab again fails', () => {
-			api.inviteToGauzy.mockReturnValue(of({ status: 'invited', inviteId: 'inv-4', email: 'dee@example.com', roleId: 'r', expireDate: null }));
+			api.inviteToIRTranscripts.mockReturnValue(of({ status: 'invited', inviteId: 'inv-4', email: 'dee@example.com', roleId: 'r', expireDate: null }));
 			const { component, fixture, el } = render();
 			api.people.mockReturnValue(throwError(() => ({ status: 503, error: { message: 'Ever Works is rate limiting this key' } })));
-			component.askInviteToGauzy(PEOPLE_INVITES.members[3]);
+			component.askInviteToIRTranscripts(PEOPLE_INVITES.members[3]);
 			component.confirmInvite();
 			fixture.detectChanges();
-			expect(component.inviteResults['gauzy:u4']).toBe('EVER_WORKS.REVIEW.INVITE.RESULT.invited');
+			expect(component.inviteResults['irtranscripts:u4']).toBe('EVER_WORKS.REVIEW.INVITE.RESULT.invited');
 			expect(el.querySelector('[data-test="invite-results"]')?.textContent).toContain('dee@example.com');
 			expect(text(el, '[data-test="people-error"]')).toContain('rate limiting');
 		});
@@ -559,9 +559,9 @@ describe('EverWorksMatchReviewComponent', () => {
 		});
 
 		it('an invite refusal is shown on the People tab and nothing is reloaded', () => {
-			api.inviteToGauzy.mockReturnValue(throwError(() => ({ status: 403, error: { message: 'Inviting people to Gauzy needs the permission to edit invites.' } })));
+			api.inviteToIRTranscripts.mockReturnValue(throwError(() => ({ status: 403, error: { message: 'Inviting people to IRTranscripts needs the permission to edit invites.' } })));
 			const { component, fixture, el } = render();
-			component.askInviteToGauzy(PEOPLE_INVITES.members[3]);
+			component.askInviteToIRTranscripts(PEOPLE_INVITES.members[3]);
 			component.confirmInvite();
 			fixture.detectChanges();
 			expect(text(el, '[data-test="people-error"]')).toContain('permission to edit invites');

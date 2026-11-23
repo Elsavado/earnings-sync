@@ -1,5 +1,5 @@
 import type { EntityManager } from 'typeorm';
-import { CurrencyCode, DecimalString, IBasePerTenantAndOrganizationEntityModel, ID } from '@gauzy/contracts';
+import { CurrencyCode, DecimalString, IBasePerTenantAndOrganizationEntityModel, ID } from '@irtranscripts/contracts';
 
 /**
  * Purchasing: what the organization buys, what arrives, and how the two are reconciled.

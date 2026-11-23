@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { Public } from '@gauzy/common';
+import { Public } from '@irtranscripts/common';
 import { HealthService } from './health.service';
 
 @Controller('/health')

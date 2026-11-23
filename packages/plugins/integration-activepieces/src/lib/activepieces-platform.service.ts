@@ -6,7 +6,7 @@ import {
 	IActivepiecesMcpServersListResponse,
 	IActivepiecesPlatformStatus,
 	IActivepiecesProject
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	ACTIVEPIECES_BASE_URL,
 	ACTIVEPIECES_CONNECTIONS_URL,
@@ -208,7 +208,7 @@ export class ActivepiecesPlatformService {
 	/**
 	 * The MCP servers of any project of the platform (the controller strips their tokens): under Activepieces MCP 2.0
 	 * (the default) the project's one server, `GET /v1/projects/:projectId/mcp-server`; with
-	 * `GAUZY_ACTIVEPIECES_MCP_API=legacy`, the `GET /v1/mcp-servers` list it replaced.
+	 * `IRTRANSCRIPTS_ACTIVEPIECES_MCP_API=legacy`, the `GET /v1/mcp-servers` list it replaced.
 	 *
 	 * Both accept only user tokens: an installation key that is an Activepieces API key (`sk-…`) is refused here with
 	 * 400 and an explanation, before anything is sent, rather than sent for Activepieces to refuse.
@@ -218,7 +218,7 @@ export class ActivepiecesPlatformService {
 		const key = this.platformKey(settings);
 		if (isActivepiecesApiKey(key)) {
 			throw new BadRequestException(
-				`${MCP_NEEDS_USER_TOKEN} The installation's key (GAUZY_ACTIVEPIECES_API_KEY) is an API key: read a project's MCP server as its tenant, in the project_token connection mode.`
+				`${MCP_NEEDS_USER_TOKEN} The installation's key (IRTRANSCRIPTS_ACTIVEPIECES_API_KEY) is an API key: read a project's MCP server as its tenant, in the project_token connection mode.`
 			);
 		}
 		if (this.credentials.mcpApi(settings) === 'legacy') {
@@ -245,7 +245,7 @@ export class ActivepiecesPlatformService {
 
 	private platformKey(settings: IActivepiecesOperatorSettings): string {
 		if (!settings.platformApiKey) {
-			throw new BadRequestException('GAUZY_ACTIVEPIECES_API_KEY is not configured on this installation.');
+			throw new BadRequestException('IRTRANSCRIPTS_ACTIVEPIECES_API_KEY is not configured on this installation.');
 		}
 		return settings.platformApiKey;
 	}

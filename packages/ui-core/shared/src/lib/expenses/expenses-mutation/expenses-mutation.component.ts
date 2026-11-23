@@ -15,10 +15,10 @@ import {
 	IExpense,
 	ExpenseStatusesEnum,
 	ICurrency
-} from '@gauzy/contracts';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
-import { OrganizationSettingService, Store } from '@gauzy/ui-core/core';
+} from '@irtranscripts/contracts';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
+import { OrganizationSettingService, Store } from '@irtranscripts/ui-core/core';
 import { AttachReceiptComponent } from './attach-receipt/attach-receipt.component';
 import { FormHelpers } from '../../forms/helpers';
 import { ALL_EMPLOYEES_SELECTED } from '../../selectors/employee/default-employee';

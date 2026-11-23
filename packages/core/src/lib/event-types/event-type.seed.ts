@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { IEmployee, IOrganization, ITenant } from '@gauzy/contracts';
+import { IEmployee, IOrganization, ITenant } from '@irtranscripts/contracts';
 import { faker } from '@faker-js/faker';
 import { EventType, Tag } from './../core/entities/internal';
 

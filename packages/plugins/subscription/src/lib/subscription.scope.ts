@@ -1,5 +1,5 @@
-import { ID } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 
 /**
  * The tenant and organization scope a read is constrained to.

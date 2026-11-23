@@ -1,7 +1,7 @@
 import { JoinColumn, RelationId } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsOptional, IsString, IsUUID, MaxLength } from 'class-validator';
-import { ID, IProductVariant, IWarehouseProduct, IWarehouseProductVariant } from '@gauzy/contracts';
+import { ID, IProductVariant, IWarehouseProduct, IWarehouseProductVariant } from '@irtranscripts/contracts';
 import { ProductVariant, TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { WarehouseProduct } from './warehouse-product.entity';
 import { ColumnNumericTransformerPipe } from './../shared/pipes';

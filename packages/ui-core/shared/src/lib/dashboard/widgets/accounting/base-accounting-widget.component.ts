@@ -3,8 +3,8 @@ import { computed, DEFAULT_CURRENCY_CODE, Directive, inject, LOCALE_ID, OnInit, 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { combineLatest, of, Observable, Subject } from 'rxjs';
 import { catchError, distinctUntilChanged, filter, map, startWith, switchMap, tap } from 'rxjs/operators';
-import { IAggregatedEmployeeStatistic, IStatisticSum } from '@gauzy/contracts';
-import { IDashboardWidgetContext } from '@gauzy/ui-core/core';
+import { IAggregatedEmployeeStatistic, IStatisticSum } from '@irtranscripts/contracts';
+import { IDashboardWidgetContext } from '@irtranscripts/ui-core/core';
 import { BaseDashboardWidgetComponent } from '../../widget-host/base-dashboard-widget.component';
 import { CurrencyPositionPipe } from '../../../pipes/currency-position.pipe';
 import { AccountingStatisticsCacheService } from './accounting-statistics-cache.service';

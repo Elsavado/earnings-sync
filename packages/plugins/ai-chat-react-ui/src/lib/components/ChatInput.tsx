@@ -55,7 +55,7 @@ interface DictationErrorView {
 	settingsPath?: string;
 }
 
-/** Codes the server sends for dictation failures (mirrors `AiSpeechErrorCode` in @gauzy/contracts). */
+/** Codes the server sends for dictation failures (mirrors `AiSpeechErrorCode` in @irtranscripts/contracts). */
 const SPEECH_NOT_CONFIGURED = 'AI_SPEECH_NOT_CONFIGURED';
 const SPEECH_KEY_REJECTED = 'AI_SPEECH_KEY_REJECTED';
 /** Fallback path when the server sent a code but no path (older server build). */

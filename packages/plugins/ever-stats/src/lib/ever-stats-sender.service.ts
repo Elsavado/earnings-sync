@@ -1,6 +1,6 @@
 import { Inject, Injectable, Optional } from '@nestjs/common';
 import { signStatsReportBytes, StatsValidationError } from '@ever-co/connect-sdk';
-import type { EverStatsSigner } from '@gauzy/plugin-ever-instance';
+import type { EverStatsSigner } from '@irtranscripts/plugin-ever-instance';
 import {
 	MAX_STATS_REPORT_BYTES,
 	MAX_STATS_RESPONSE_BYTES,
@@ -19,7 +19,7 @@ export const STATS_FETCH = 'EVER_STATS_FETCH';
  * - `retry` (429, 5xx, no answer, timeout): try again at +1 h, +4 h, +12 h, then the next day.
  * - `reset_identity` (409 `key_mismatch`): the id is pinned to another key; nothing more is sent for
  *   this id until the operator resets the identity.
- * - `dropped` (400, 413, 415, 422): refused; nothing more is sent for this module version, Gauzy
+ * - `dropped` (400, 413, 415, 422): refused; nothing more is sent for this module version, IRTranscripts
  *   release and identity (for at most 7 days after a 400, 413 or 415).
  * - `later` (404 while the platform does not take reports, a redirect, any other answer): the next day.
  */
@@ -104,7 +104,7 @@ export class EverStatsSender {
 		return {
 			...signed.headers,
 			accept: 'application/json',
-			'user-agent': `gauzy-ever-stats/${MODULE_VERSION} (gauzy/${productVersion})`
+			'user-agent': `irtranscripts-ever-stats/${MODULE_VERSION} (irtranscripts/${productVersion})`
 		};
 	}
 

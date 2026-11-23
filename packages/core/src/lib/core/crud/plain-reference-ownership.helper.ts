@@ -1,6 +1,6 @@
 import { BadRequestException, ForbiddenException } from '@nestjs/common';
 import { EntityManager, EntityMetadata, QueryFailedError } from 'typeorm';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 /**
  * Plain id columns of an entity — `{ column: tableName }` — and the table of the row each one names.

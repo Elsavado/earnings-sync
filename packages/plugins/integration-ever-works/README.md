@@ -2,7 +2,7 @@
 {
   "MD043": {
     "headings": [
-      "# @gauzy/plugin-integration-ever-works",
+      "# @irtranscripts/plugin-integration-ever-works",
       "## Switch it on",
       "## Configure the integration",
       "## API boundary",
@@ -13,17 +13,17 @@
 }
 -->
 
-# @gauzy/plugin-integration-ever-works
+# @irtranscripts/plugin-integration-ever-works
 
-Two-way integration between an Ever Gauzy tenant and an
+Two-way integration between an Ever IRTranscripts tenant and an
 [Ever Works](https://ever.works) tenant. Once connected, tasks, teams, goals,
 missions, ideas, docs, agents and an inbox sync in both directions: what Ever
-Works agents work on is visible in Gauzy (and through Gauzy in Plane and Ever
-Teams), and what people do in Gauzy is visible to agents and people in Ever
+Works agents work on is visible in IRTranscripts (and through IRTranscripts in Plane and Ever
+Teams), and what people do in IRTranscripts is visible to agents and people in Ever
 Works.
 
 The design lives in the integration plan (homelab repository,
-`docs/superpowers/specs/2026-10-15-gauzy-ever-works-integration/`). The plugin
+`docs/superpowers/specs/2026-10-15-irtranscripts-ever-works-integration/`). The plugin
 codes against the Ever Works integration contract v1 (`/api/integrations/v1`);
 its machine-readable form is in the ever-works repository, under
 `docs/specs/features/integrations-api-v1/contract/`. This version adds the
@@ -32,7 +32,7 @@ synced records (people and agents, teams, projects, tasks) follow.
 
 ## Switch it on
 
-The plugin is **off by default**. Gauzy is production software, so nothing of
+The plugin is **off by default**. IRTranscripts is production software, so nothing of
 the integration exists unless the operator sets:
 
 ```sh
@@ -70,12 +70,12 @@ the seed) and answers the routes below.
 - `EVER_WORKS_WEBHOOK_REQUESTS_PER_MINUTE`: per-process limit of the public
   webhook route (default 1200).
 - `EVER_WORKS_SYNC_LOOP=off`: keeps this process out of the sync loop (it still
-  serves the API). A process that does not host Gauzy's task, project and
+  serves the API). A process that does not host IRTranscripts's task, project and
   employee services, which the sync's writes go through, stays out on its own
   and logs why once: today that is the worker (see Runtime below).
 - `EVER_WORKS_HEALTH_CHECK=off`: keeps this process out of the daily key check.
 - `EVER_WORKS_ALLOW_LOOPBACK=true`: **local development only**, for running
-  Gauzy against an Ever Works API on the same machine. In a process whose
+  IRTranscripts against an Ever Works API on the same machine. In a process whose
   `NODE_ENV` is `development` or `test`, a loopback Ever Works API URL
   (`localhost`, `127.0.0.1` or `[::1]`, HTTP or HTTPS, for example
   `http://127.0.0.1:3100/api`) is accepted, and so is a loopback
@@ -86,30 +86,30 @@ the seed) and answers the routes below.
 ## Configure the integration
 
 1. In Ever Works, open **Settings → API keys → New key → Integration**, pin the
-   key to the organizations to sync and keep the "Ever Gauzy" scope preset. The
+   key to the organizations to sync and keep the "Ever IRTranscripts" scope preset. The
    key starts with `ew_int_` and is shown once.
-2. In Gauzy, connect the tenant with the API URL and the key
-   (`POST …/connections`). Gauzy checks the key with `whoami`, refuses an
+2. In IRTranscripts, connect the tenant with the API URL and the key
+   (`POST …/connections`). IRTranscripts checks the key with `whoami`, refuses an
    incompatible API version, lists missing scopes and stores the key encrypted.
 3. Register the webhook (`POST …/connections/:id/webhook`); the change feed is
    followed either way.
-4. Map each Gauzy organization to one pinned Ever Works organization
+4. Map each IRTranscripts organization to one pinned Ever Works organization
    (`POST …/mappings`). Mapping seeds the organization's "Idea" issue type and
    "Ideas" view; the "Ever Works" and "Ever Works — Ideas" projects are created
    when they are first needed.
 
 Each mapping has a direction per domain (`directions`: off, one way or both)
-and the per-entity sync settings every Gauzy integration has (`entitySettings`,
+and the per-entity sync settings every IRTranscripts integration has (`entitySettings`,
 also writable through the platform's integration API). A setting with
 `sync: false` turns its domains off, whatever their direction: live events and
 changes, sweeps, the initial sync and a resync all skip them. `Employee` →
 people, `Agent` → agents, `OrganizationTeam` → teams, `Project` → works,
 `StrategicInitiative` → missions, `Goal` → goals, `Task` → tasks and ideas (an
-idea is a Gauzy task), `InboxItem` → inbox and agent mail (both write Inbox
+idea is a IRTranscripts task), `InboxItem` → inbox and agent mail (both write Inbox
 items), `Document` → docs. `KeyResult` and `Comment` stop only those records:
-goals keep syncing without their key results (none is written in Gauzy, no
+goals keep syncing without their key results (none is written in IRTranscripts, no
 sample is pushed, a goal push leaves the Ever Works criteria, metric and
-Definition of Done as they are, and a new Gauzy goal is not created in Ever
+Definition of Done as they are, and a new IRTranscripts goal is not created in Ever
 Works, which makes it from its key results), and tasks keep syncing without
 their comments. A missing setting is on. The mapping answers
 `effectiveDirections` next to `directions`, and the settings page marks a
@@ -127,7 +127,7 @@ The connection belongs to the tenant: deleting the organization it was made
 from keeps it (that organization's own mapping goes, the other mappings keep
 syncing), and only deleting the tenant deletes it.
 
-Where the Gauzy Inbox is loaded (`GAUZY_INBOX_ENABLED=true`), the notices are
+Where the IRTranscripts Inbox is loaded (`IRTRANSCRIPTS_INBOX_ENABLED=true`), the notices are
 Inbox items (`NOTICE`, `source = SYSTEM`), one per connection, admin and kind
 of notice: `needs_reauth`, and `dead_letter` for a change that stopped for good
 (it names the latest record). A repeat updates the notice and marks it unread
@@ -136,7 +136,7 @@ for the admin's employee, and dead letters show only in the sync activity.
 
 ## API boundary
 
-Management routes use the signed-in Gauzy user, tenant permissions, integration
+Management routes use the signed-in IRTranscripts user, tenant permissions, integration
 permissions and an active membership of the organization (`organizationId`
 query parameter). The tenant always comes from the request context. Permissions
 below use the `INTEGRATION_` prefix; paths share the
@@ -162,7 +162,7 @@ below use the `INTEGRATION_` prefix; paths share the
 | POST | `/mappings/:integrationTenantId/projects/ideas` | `EDIT` |
 | GET | `/mappings/:integrationTenantId/people` | `VIEW` |
 | PUT | `/mappings/:integrationTenantId/people` | `EDIT` |
-| POST | `/mappings/:integrationTenantId/people/invite-to-gauzy` | `EDIT` |
+| POST | `/mappings/:integrationTenantId/people/invite-to-irtranscripts` | `EDIT` |
 | POST | `/mappings/:integrationTenantId/people/invite-to-ever-works` | `EDIT` |
 | GET | `/mappings/:integrationTenantId/agents` | `VIEW` |
 | POST | `/mappings/:integrationTenantId/agents/import` | `EDIT` |
@@ -204,7 +204,7 @@ and answered `202`.
 - **Apply.** Pending events are applied per aggregate in `seq` order, inside
   `EverWorksSyncContext` (loop guard 1). Events of our own origin are skipped
   (loop guard 3); events of a kind no handler covers yet are deferred, not lost.
-- **Capture and push.** Gauzy changes (`TaskEvent`, and the entity subscribers
+- **Capture and push.** IRTranscripts changes (`TaskEvent`, and the entity subscribers
   of later items) become one coalesced `ever_works_outbound_change` per record;
   the pusher recomputes the state, diffs it against the link snapshot (loop
   guard 2) and retries 429/5xx and network failures with back-off (a minute,
@@ -230,44 +230,44 @@ and answered `202`.
   another process holds it: the write is refused (rolled back), the rest of
   that handler's writes too, and the event or change is left to the new
   holder. A handler that keeps writing renews its lease as it goes.
-- **People.** Ever Works members are paired with Gauzy people on the People
+- **People.** Ever Works members are paired with IRTranscripts people on the People
   tab: a verified, case-insensitive email match is only a suggestion the admin
   confirms (one by one or all at once), and unlinking removes only the
   pairing. **Ever ID comes first:** a member whose Ever ID (`everIdSubjects`)
-  is the Ever ID of exactly one Gauzy person (the Ever ID sign-in links,
+  is the Ever ID of exactly one IRTranscripts person (the Ever ID sign-in links,
   `zitadel_account`) is paired automatically when the tab is read; an admin
   who undoes such a pairing is not overruled (the member is only suggested
   from then on). Without Ever ID data on either side nothing changes. Every
   pairing shows how it was made (`matchedBy`: `ever_id`, `verified_email` or
-  `manual`). A member with no Gauzy person can be **invited to Gauzy**: the
+  `manual`). A member with no IRTranscripts person can be **invited to IRTranscripts**: the
   platform's own employee invitation (its email, invite rules and
   accept path) for the tenant's Employee role, the only role whose acceptance
   creates an employee to pair (change the role once they have joined), for a
   verified Ever Works email only. It needs `ORG_INVITE_EDIT` too, sends one
   invitation per email (overlapping requests are serialised; a pending one is
-  answered again and shows on the tab as `gauzyInvite`), and pairs nobody:
+  answered again and shows on the tab as `irtranscriptsInvite`), and pairs nobody:
   once the invitee joins, the email match suggests the pairing.
-  The other way, a Gauzy person with no Ever Works member can be **invited to
+  The other way, a IRTranscripts person with no Ever Works member can be **invited to
   Ever Works** (`POST /members/invite`, contract v1-draft.15, scope
   `members:write`): Ever Works' own organization invitation, sent as the
   admin's paired Ever Works user (an admin with none sends it as the
   integration key's owner), also needing `ORG_INVITE_EDIT`. A person
   whose email an Ever Works member already has is refused (pair them instead);
   a repeat is answered as the pending invitation; nobody is paired by it.
-- **Agents.** Each Ever Works agent of a mapped organization becomes a Gauzy
+- **Agents.** Each Ever Works agent of a mapped organization becomes a IRTranscripts
   employee of kind `agent` (created through the platform's agent path: no
   password, no invite, an `@agents.invalid` address) with a profile managed by
   Ever Works. The sync is one way: an archived or deleted agent is archived,
-  a private one is unlinked, and Gauzy edits to it are not pushed.
+  a private one is unlinked, and IRTranscripts edits to it are not pushed.
 - **Teams.** Existing teams are paired on the Teams tab (same-name
   suggestions the admin confirms, or "create on the other side"); teams
   created after the mapping sync without a review. Creating on the other side
-  needs the mapping enabled and a teams direction that writes there; a Gauzy
+  needs the mapping enabled and a teams direction that writes there; a IRTranscripts
   team suggested for several Ever Works teams is paired one by one. Names and emoji sync both
   ways; members sync as a set (adds and removes against the snapshot, lead ↔
   manager) and members either side cannot map are kept. Ever Works nesting
-  stays on the link (Gauzy teams are flat). A team deleted in Ever Works is
-  archived in Gauzy; a Gauzy team delete is not pushed.
+  stays on the link (IRTranscripts teams are flat). A team deleted in Ever Works is
+  archived in IRTranscripts; a IRTranscripts team delete is not pushed.
 - **Projects ↔ works (link only).** The Projects tab pairs them (same-URL
   or same-name suggestions, or a project created from a work); nothing is
   paired silently. For a pair, what changes in Ever Works is written to the
@@ -277,19 +277,19 @@ and answered `202`.
   later join the project through the sync loop's sweep. Private works are not
   listed and never sync. Creating a project from a work needs the mapping
   enabled and works not switched off. A paired work (or one a project was
-  created from) shows its Gauzy project as an external link in Ever Works
+  created from) shows its IRTranscripts project as an external link in Ever Works
   (`PUT /links/work/:id`), as tasks do: the sync loop's sweep sends it (best
   effort, retried by a later sweep), so the Projects tab never waits for it.
 - **Create in Ever Works (G-P2-5).** On the same tab (`createInEverWorks` on
-  `PUT …/projects`), an admin opts a Gauzy project in: it becomes a repo-less
+  `PUT …/projects`), an admin opts a IRTranscripts project in: it becomes a repo-less
   Ever Works work of kind `project`, with the project's name, description and
   website, its teams as its scope (a team not paired yet refuses the create),
   owned by the admin's paired Ever Works user, and linked like any pair. Ever
   Works must have project works switched on
   (`EVER_WORKS_PROJECT_WORKS_ENABLED=true` there); otherwise, or when Ever
   Works refuses, the reason is returned in `failures` and nothing is linked.
-  A retry never creates a second work. Gauzy never creates a work on its own.
-- **Tasks.** Both ways, through Gauzy's own task commands (numbering,
+  A retry never creates a second work. IRTranscripts never creates a work on its own.
+- **Tasks.** Both ways, through IRTranscripts's own task commands (numbering,
   sanitizing, subscriptions and other integrations behave as for any task
   write), attributed to the mapped person or agent, else to the admin who
   connected. Title (cut to 200 in Ever Works, the full title in the
@@ -298,16 +298,16 @@ and answered `202`.
   puts Ever Works' status back with a comment), priority, labels ↔ tags,
   parent, teams (the scope), assignees ↔ members (agents included), watchers ↔
   manual subscriptions (people), and blockers and relations ↔ linked issues
-  (written as a pair on both Gauzy tasks; `follow-up` is "relates to", the kind
+  (written as a pair on both IRTranscripts tasks; `follow-up` is "relates to", the kind
   kept on the link; a bulk delete is caught by a 10-minute sweep). Task chat ↔
   task comments: an agent's message is a comment by its agent employee
-  (`Agent` actor), a Gauzy comment is posted as its author (cut to 16384
+  (`Agent` actor), a IRTranscripts comment is posted as its author (cut to 16384
   characters); Ever Works lets only the author edit, a person for 5 minutes, so
-  a later Gauzy edit is logged, not pushed. The Gauzy task links to its Ever
+  a later IRTranscripts edit is logged, not pushed. The IRTranscripts task links to its Ever
   Works page and, once there is one, its pull request. Due and start dates and
-  the estimate sync too (Gauzy seconds ↔ Ever Works minutes; a start after the
+  the estimate sync too (IRTranscripts seconds ↔ Ever Works minutes; a start after the
   due date is not sent, as Ever Works refuses it). Ever Works keeps a sub-task
-  in its parent's work and team; a Gauzy parent on another team or project is
+  in its parent's work and team; a IRTranscripts parent on another team or project is
   left out in Ever Works (logged as `parent_scope_refused`), the rest of the
   task still syncs, and the parent is sent again once one of them moved. Each
   side is compared with its own last-synced value, so a value the other side
@@ -316,34 +316,34 @@ and answered `202`.
   comment. An Ever Works task lands in its work's project, else the Ideas
   project for an idea's task, else the only project of its mission's initiative,
   else the default "Ever Works" project. A delete in Ever Works soft-deletes
-  the Gauzy task; a Gauzy delete cancels the Ever Works task with a comment.
+  the IRTranscripts task; a IRTranscripts delete cancels the Ever Works task with a comment.
   Private tasks, recurring templates, Idea tasks (synced as ideas) and, unless
   the setting is on, triage tasks are not synced. Each task write runs in a
   tenant-scoped request context of its own (see Runtime below).
-- **Ideas ↔ Idea tasks (G-P2-3).** An Ever Works idea is a Gauzy task of
+- **Ideas ↔ Idea tasks (G-P2-3).** An Ever Works idea is a IRTranscripts task of
   the organization's "Idea" issue type in the "Ever Works — Ideas" project
   (created when first needed): title, description (plain text, escaped),
   status (pending → open, queued/building → in progress, accepted → done,
   dismissed → cancelled, failed → blocked with the failure as a comment),
   teams and a `source:<value>` tag; only what changed in Ever Works is
-  written. A Gauzy Idea task becomes an Ever Works idea (always `external`
+  written. A IRTranscripts Idea task becomes an Ever Works idea (always `external`
   and `pending`); title, description and teams are patched, cancelling it
   dismisses the idea and reopening restores it. Accepting and building stay in
   Ever Works: no other status move is pushed, and a refused move writes Ever
   Works' status back. A task whose type changes away from Idea is unlinked
   (both kept); a deleted idea archives its task; private ideas never sync.
-- **Goals ↔ Goal + key results (G-P2-1).** An Ever Works goal is a Gauzy
+- **Goals ↔ Goal + key results (G-P2-1).** An Ever Works goal is a IRTranscripts
   goal: title, description, deadline (the narrowest active time frame that
   contains it, else a new `Q<n> <yyyy>` time frame), scope (its first team →
-  level Team, no team → Organization; a Gauzy Employee goal stays one), lead
+  level Team, no team → Organization; a IRTranscripts Employee goal stays one), lead
   (its agent, else its owner), progress, archived and the primary mission's
   initiative. Criteria, a metric and the Definition of Done become key results
   (numeric with bucketed weights, True/False for Definition-of-Done items); a
-  key result Ever Works drops is archived. A Gauzy goal becomes an Ever Works
+  key result Ever Works drops is archived. A IRTranscripts goal becomes an Ever Works
   goal that is **always a draft** (numeric key results → a metric goal on the
   external source, else a delivery goal from its True/False key results);
   edits, criteria and the Definition of Done follow, and key result values are
-  pushed as samples (`POST /goals/:id/samples`). Gauzy never activates,
+  pushed as samples (`POST /goals/:id/samples`). IRTranscripts never activates,
   resumes or completes an Ever Works goal: no status is sent.
 - **Missions ↔ strategic initiatives (G-P2-2).** The Initiatives tab
   (`GET`/`PUT …/initiatives`) pairs missions and initiatives (same-title
@@ -355,26 +355,26 @@ and answered `202`.
   organization), works → projects and the primary goals → the goals'
   initiative. To Ever Works (only with the missions direction `both`): a
   mission Ever Works creates **paused**, then title, intent, teams, works and
-  goals; resolving or retiring the initiative completes the mission. Gauzy
+  goals; resolving or retiring the initiative completes the mission. IRTranscripts
   never activates a mission. Drafts wait until active, and **leadership
   initiatives never sync** (one that turns leadership stops syncing, flagged).
-- **Inbox (where the Gauzy Inbox is loaded).** Ever Works inbox items
+- **Inbox (where the IRTranscripts Inbox is loaded).** Ever Works inbox items
   (questions, approvals, escalations, notices; `inbox.item.*`, served to a key
-  with `inbox:read`) become Gauzy Inbox items (`source = EVER_WORKS`) of the
-  Gauzy user paired with the recipient, with the linked task, project and
+  with `inbox:read`) become IRTranscripts Inbox items (`source = EVER_WORKS`) of the
+  IRTranscripts user paired with the recipient, with the linked task, project and
   agent. An item whose recipient is not paired yet waits (deferred, retried
   hourly) until the People tab pairs them; the tab lists those waiting items
   per member (`deferredInbox` of `GET …/people`), and pairing a member makes
-  their items due at once. A reply in Gauzy goes to Ever Works
+  their items due at once. A reply in IRTranscripts goes to Ever Works
   at once, acting as the recipient (`inbox:write`); an item already decided
   there shows the answer Ever Works holds. Read / unread and archive follow
-  to Ever Works; snoozing stays in Gauzy. Without the Gauzy Inbox, inbox
+  to Ever Works; snoozing stays in IRTranscripts. Without the IRTranscripts Inbox, inbox
   events are skipped.
 - **Mailboxes routed to an agent (G-P4-6, where the Inbox email features
-  run).** A Gauzy mailbox whose settings name an Ever Works agent
+  run).** A IRTranscripts mailbox whose settings name an Ever Works agent
   (`PATCH /api/inbox/mailboxes/:id` with
   `settings: { everWorksAgentId: <the agent's Ever Works id, or its agent
-  employee's Gauzy id> }`) hands every message it receives to that agent:
+  employee's IRTranscripts id> }`) hands every message it receives to that agent:
   `POST /email/inbound`, where Ever Works stores it on the agent's inbound
   address and dispatches it through the agent's inbound assignment; the task
   that spawns syncs back like any task. The hand-off is durable (an outbound
@@ -385,12 +385,12 @@ and answered `202`.
   naming no agent paired here, or a message without a sender, is logged and
   skipped.
 - **Agent mail in the Inbox (G-P4-6, optional).** With the `agentEmail`
-  direction on (`ew_to_gauzy`; **off** by default, on the Entities and
+  direction on (`ew_to_irtranscripts`; **off** by default, on the Entities and
   directions tab), Ever Works agent mail (`email.message.*`, served to a key
-  with `email:read`) appears as read-only Gauzy Inbox `EMAIL` items
-  (`source = EVER_WORKS`) of the Gauzy user paired with the agent's owner,
+  with `email:read`) appears as read-only IRTranscripts Inbox `EMAIL` items
+  (`source = EVER_WORKS`) of the IRTranscripts user paired with the agent's owner,
   under "Ever Works — <agent>", linked to the agent employee and the task. A
-  reply stays in Ever Works. Mail Gauzy handed to the agent itself is not
+  reply stays in Ever Works. Mail IRTranscripts handed to the agent itself is not
   copied back; an owner not paired yet waits like an inbox item; a body left
   out of a large event is read from `GET /email/messages/:id`.
 - **Docs ↔ the Ever Works Knowledge Base (G-P3-4).** Per mapped
@@ -412,30 +412,30 @@ and answered `202`.
   lists and task lists, quotes, code, tables, links, images; a `[[path]]`
   link of a synced document becomes a document mention, any other stays
   literal text), lock, archive state and review state (an agent's proposal is
-  pending in Gauzy's review queue; approving it there accepts it in Ever
+  pending in IRTranscripts's review queue; approving it there accepts it in Ever
   Works). Class, tags, language and a decision record are kept in the page's
-  metadata. Before Gauzy's content is replaced it is kept as a page version.
+  metadata. Before IRTranscripts's content is replaced it is kept as a page version.
   When both sides changed the body since the last sync, Ever Works' version
-  wins, Gauzy's edit is kept as a version named "Gauzy edit (conflict)", the
-  conflict is logged and the last Gauzy editor gets an Inbox notice. A page
+  wins, IRTranscripts's edit is kept as a version named "IRTranscripts edit (conflict)", the
+  conflict is logged and the last IRTranscripts editor gets an Inbox notice. A page
   under the synced tree (not private) becomes an Ever Works document of its
   area, with its path from its folder chain (a Work document under its class
   folder, `freeform` unless it has a class); its title, description and body
   (as Markdown) are patched, a move between library folders is filed there,
   and a removed page is archived in Ever Works. A folder under `Organization/`
-  becomes a library folder and follows renames and moves; a Gauzy folder
+  becomes a library folder and follows renames and moves; a IRTranscripts folder
   delete is not pushed. A deleted Ever Works document or folder archives its
-  Gauzy node; nothing is hard-deleted on either side. Files, private pages and
+  IRTranscripts node; nothing is hard-deleted on either side. Files, private pages and
   folders outside the tree do not sync. A 10-minute sweep queues the tree's
   changed pages and folders (and, on a process's first sweep, all of them, so
   pages written before the sync are exported). Each side's body is compared
   with its own last-synced fingerprint, so a construct one side cannot hold
   exactly never flaps. Writes go as the attributed person, else as the key.
-  Marking another Gauzy folder "Sync with Ever Works" (plan 05 §1) is not part
+  Marking another IRTranscripts folder "Sync with Ever Works" (plan 05 §1) is not part
   of this version.
 - **Scope.** A record on a team is team-scoped on both sides, on no team
   organization-scoped: team resources set the team of the linked project or
-  task, a record whose Gauzy team is not linked yet waits, and private Ever
+  task, a record whose IRTranscripts team is not linked yet waits, and private Ever
   Works records never sync.
 - **Initial sync and resync.** `GET …/sync/preview` is the dry run: per phase,
   the records on each side, the pairs still to make on their tab and what a
@@ -446,7 +446,7 @@ and answered `202`.
   tasks (parents first), task edges (in the task records), comments (the last
   200 per synced task), inbox, docs. A phase reads its list route page by
   page and stores every record as an initial event that the record type's
-  handler applies like a live one, then queues the Gauzy records in scope for
+  handler applies like a live one, then queues the IRTranscripts records in scope for
   Ever Works where its direction writes there; the next phase starts once
   those records are applied. Each sweep works within a time budget and saves
   the phase's checkpoint after every page, so a run resumes where it stopped,
@@ -460,20 +460,20 @@ and answered `202`.
   Records a phase held back are released when it stops importing part-way, and
   a run whose mapping is removed is cancelled by the loop.
 - **Observability.** `GET …/sync/status` returns the lag (Ever Works' feed
-  head against what Gauzy read and applied), the inbound and outbound counts
+  head against what IRTranscripts read and applied), the inbound and outbound counts
   (pending, deferred, failed, dead), the open conflicts, the last error, the
   link totals per type and the latest runs. `GET …/sync/log` pages the sync
   log (filters: status, direction, record type). Conflicts are log entries
   with both values and the winner, kept until resolved: `keep`, or
-  `use_other`, which writes the other side's value into the Gauzy record
+  `use_other`, which writes the other side's value into the IRTranscripts record
   through the platform (a task through its update command) as the signed-in
-  admin, so the change is pushed to Ever Works like any Gauzy edit.
+  admin, so the change is pushed to Ever Works like any IRTranscripts edit.
 - **Runtime.** Every process that loads the plugin ticks; a database lease on
   the connection row lets one process work a connection at a time, on every
   database, with or without Redis. A daily `whoami` checks every key.
-- **Writes in any process.** Gauzy's services read the tenant, the
+- **Writes in any process.** IRTranscripts's services read the tenant, the
   organization and the author from the request context, which a background
-  sync does not have, so every Gauzy write of the sync runs inside a request
+  sync does not have, so every IRTranscripts write of the sync runs inside a request
   context of its own: signed in as the attributed person, agent or connecting
   admin, in the mapping's tenant and organization, with no employee and no
   permission. A process built without the platform's request context store

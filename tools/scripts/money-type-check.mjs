@@ -223,7 +223,7 @@ for (const line of schema.split(/\r?\n/)) {
  * schema, and until one of those happens the pile is 28.
  *
  * **Taken to 0 on 2026-10-09 (owner decision: money is `Decimal` everywhere).** The twenty-eight now name the
- * kernel's own `DecimalScalar` (exported from `@gauzy/core`), which is the type their SDL serves, so the classes
+ * kernel's own `DecimalScalar` (exported from `@irtranscripts/core`), which is the type their SDL serves, so the classes
  * restate the schema faithfully and any new `Float` amount fails this gate outright.
  *
  * **Zero was not zero (re-measured 2026-10-14, owner decision 7 of 2026-10-13: "Convert to Decimal").** The

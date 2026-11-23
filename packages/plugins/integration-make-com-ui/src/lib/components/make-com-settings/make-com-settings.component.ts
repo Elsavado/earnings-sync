@@ -10,9 +10,9 @@ import {
 	IMakeComTeam,
 	MakeComZone,
 	MAKE_COM_ZONES
-} from '@gauzy/contracts';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { MakeComStoreService, ToastrService } from '@gauzy/ui-core/core';
+} from '@irtranscripts/contracts';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { MakeComStoreService, ToastrService } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

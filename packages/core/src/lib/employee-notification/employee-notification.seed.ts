@@ -7,7 +7,7 @@ import {
 	IEmployeeNotification,
 	IOrganization,
 	ITenant
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { EmployeeNotification } from './employee-notification.entity';
 
 /**

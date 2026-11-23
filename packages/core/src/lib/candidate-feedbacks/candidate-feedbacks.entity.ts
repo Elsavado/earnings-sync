@@ -10,7 +10,7 @@ import {
 	ICandidateCriterionsRating,
 	ICandidate,
 	ICandidateInterview
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { ColumnNumericTransformerPipe } from './../shared/pipes';
 import {
 	Candidate,

@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult, FindManyOptions } from 'typeorm';
-import { ID, IPagination } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { ID, IPagination } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { OrderReturn } from '../order-return/order-return.entity';
 import { OrderReturnLine } from '../order-return-line/order-return-line.entity';
 import { OrderReturnReason } from './order-return-reason.entity';

@@ -11,7 +11,7 @@ import {
 	MaxLength,
 	ValidateNested
 } from 'class-validator';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { GoodsReceiptDTO } from './goods-receipt.dto';
 
 /**

@@ -9,13 +9,13 @@ import {
 	InboxItemPriorityEnum,
 	InboxItemSourceEnum,
 	InboxItemStatusEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import type { EverWorksInboxItem } from '../client/ever-works-client.types';
 
-/** The external identity of a synced item in the Gauzy Inbox (`externalSource`; `externalId` = the EW id). */
+/** The external identity of a synced item in the IRTranscripts Inbox (`externalSource`; `externalId` = the EW id). */
 export const EVER_WORKS_INBOX_EXTERNAL_SOURCE = 'ever_works';
 
-/** What `routed` reads for an answer given in Ever Works itself (not through Gauzy). */
+/** What `routed` reads for an answer given in Ever Works itself (not through IRTranscripts). */
 export const EVER_WORKS_ROUTED_IN_APP = 'ever_works';
 
 /** EW kind → G kind (plan 04 §4); a kind this plugin does not know arrives as a notice. */
@@ -34,7 +34,7 @@ export function inboxKindOf(kind: string | null | undefined): InboxItemKindEnum 
 
 /**
  * EW status → G item status. An answer makes it ANSWERED (EW keeps the answer on an archived item: `archived`
- * is the recipient's state, plan 04 §4); a deleted item is CANCELLED (EW items are never deleted from Gauzy).
+ * is the recipient's state, plan 04 §4); a deleted item is CANCELLED (EW items are never deleted from IRTranscripts).
  */
 export function inboxStatusOf(
 	item: Pick<EverWorksInboxItem, 'answeredAt' | 'deleted'>,
@@ -44,7 +44,7 @@ export function inboxStatusOf(
 	return item.answeredAt ? InboxItemStatusEnum.ANSWERED : InboxItemStatusEnum.OPEN;
 }
 
-/** The answer of an EW item, as the Gauzy item records it (`answeredByUserId` = the mapped recipient). */
+/** The answer of an EW item, as the IRTranscripts item records it (`answeredByUserId` = the mapped recipient). */
 export function inboxResponseOf(
 	item: Pick<EverWorksInboxItem, 'answeredAt' | 'answerText' | 'answerOptionId'>,
 	answeredByUserId: ID
@@ -73,7 +73,7 @@ export function inboxOptionsOf(options: EverWorksInboxItem['options']): IInboxIt
 	return mapped.length ? mapped : null;
 }
 
-/** The Gauzy records an EW item links to, resolved through the integration's links (`null` = not linked). */
+/** The IRTranscripts records an EW item links to, resolved through the integration's links (`null` = not linked). */
 export interface EverWorksInboxLinks {
 	taskId: ID | null;
 	projectId: ID | null;
@@ -81,7 +81,7 @@ export interface EverWorksInboxLinks {
 }
 
 /**
- * The Gauzy Inbox write of an EW item (plan 04 §4): `source = EVER_WORKS`, identity `ever_works` / the EW id,
+ * The IRTranscripts Inbox write of an EW item (plan 04 §4): `source = EVER_WORKS`, identity `ever_works` / the EW id,
  * kind, title, body, options, status and answer, the task / project / agent links, the EW-only fields in
  * `metadata.everWorks`, and the one recipient with the state EW holds (`unread` → read, `archived` → archived).
  */
@@ -141,7 +141,7 @@ export function inboxUpsertOf(
 	};
 }
 
-/** The EW state change of a Gauzy recipient change (`PATCH /inbox/items/:id/state`); `null` when nothing maps. */
+/** The EW state change of a IRTranscripts recipient change (`PATCH /inbox/items/:id/state`); `null` when nothing maps. */
 export function everWorksStateOf(change: {
 	isRead?: boolean;
 	isArchived?: boolean;

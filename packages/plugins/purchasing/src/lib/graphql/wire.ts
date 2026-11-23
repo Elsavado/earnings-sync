@@ -1,5 +1,5 @@
 import { BadRequestException, HttpException, ValidationPipe } from '@nestjs/common';
-import { DecimalString, ID } from '@gauzy/contracts';
+import { DecimalString, ID } from '@irtranscripts/contracts';
 import { IGoodsReceipt } from '../purchasing.types';
 import { normalizeQuantity } from '../purchasing.quantity';
 

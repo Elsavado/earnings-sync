@@ -7,8 +7,8 @@ import {
 	ISearchReindexRequest,
 	ISearchReindexResult,
 	SearchReindexScope
-} from '@gauzy/contracts';
-import { RequestContext, TypeOrmSearchDocumentRepository } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { RequestContext, TypeOrmSearchDocumentRepository } from '@irtranscripts/core';
 import { SearchIndexRegistry } from '../registry/search-index.registry';
 import { SearchIndexDefinitionService } from './search-index-definition.service';
 import { SearchIndexerService } from './search-indexer.service';

@@ -1,4 +1,4 @@
-import { PermissionGuard, TenantPermissionGuard } from '@gauzy/core';
+import { PermissionGuard, TenantPermissionGuard } from '@irtranscripts/core';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EmployeeProposalTemplateController } from './employee-proposal-template.controller';
 import { EmployeeProposalTemplateService } from './employee-proposal-template.service';

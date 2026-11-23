@@ -1,11 +1,11 @@
 @use 'themes' as *;
-@use 'gauzy/_gauzy-overrides' as *;
+@use 'irtranscripts/_irtranscripts-overrides' as *;
 
 :host {
 	display: block;
 
-	// Same filled inputs, selects (tags) and labels as every other Gauzy dialog
-	@include dialog(var(--gauzy-card-1), var(--gauzy-sidebar-background-4));
+	// Same filled inputs, selects (tags) and labels as every other IRTranscripts dialog
+	@include dialog(var(--irtranscripts-card-1), var(--irtranscripts-sidebar-background-4));
 }
 
 .employee-dialog {
@@ -15,10 +15,10 @@
 	margin: 0;
 	display: flex;
 	flex-direction: column;
-	background-color: var(--gauzy-card-1);
+	background-color: var(--irtranscripts-card-1);
 	border: none;
 	border-radius: nb-theme(border-radius);
-	box-shadow: inset 0 0 0 1px var(--gauzy-border-default-color);
+	box-shadow: inset 0 0 0 1px var(--irtranscripts-border-default-color);
 	overflow: hidden;
 }
 
@@ -28,7 +28,7 @@
 	flex-direction: column;
 	gap: 1rem;
 	padding: 1.25rem 1.5rem 0;
-	border-bottom: 1px solid var(--gauzy-border-default-color);
+	border-bottom: 1px solid var(--irtranscripts-border-default-color);
 
 	.header-row {
 		display: flex;
@@ -64,7 +64,7 @@
 	align-items: center;
 	gap: 0.75rem;
 	padding: 0.75rem 0;
-	border-top: 1px solid var(--gauzy-border-default-color);
+	border-top: 1px solid var(--irtranscripts-border-default-color);
 
 	.step {
 		display: flex;
@@ -85,7 +85,7 @@
 		border-radius: 50%;
 		font-size: 0.6875rem;
 		font-weight: 500;
-		box-shadow: inset 0 0 0 1px var(--gauzy-border-default-color);
+		box-shadow: inset 0 0 0 1px var(--irtranscripts-border-default-color);
 
 		nb-icon {
 			font-size: 0.875rem;
@@ -112,7 +112,7 @@
 		flex: 1;
 		height: 1px;
 		min-width: 1rem;
-		background-color: var(--gauzy-border-default-color);
+		background-color: var(--irtranscripts-border-default-color);
 
 		&.done {
 			background-color: nb-theme(color-primary-default);
@@ -174,8 +174,8 @@
 	font-size: 0.75rem;
 	line-height: 1rem;
 	color: nb-theme(text-hint-color);
-	border-radius: var(--gauzy-radius-sm);
-	background-color: var(--gauzy-hover-tint);
+	border-radius: var(--irtranscripts-radius-sm);
+	background-color: var(--irtranscripts-hover-tint);
 
 	nb-icon {
 		flex-shrink: 0;
@@ -213,8 +213,8 @@
 	margin: 0;
 	padding: 0;
 	list-style: none;
-	border-radius: var(--gauzy-radius-sm);
-	box-shadow: inset 0 0 0 1px var(--gauzy-border-default-color);
+	border-radius: var(--irtranscripts-radius-sm);
+	box-shadow: inset 0 0 0 1px var(--irtranscripts-border-default-color);
 }
 
 .employee-row {
@@ -224,11 +224,11 @@
 	padding: 0.625rem 0.75rem;
 
 	& + & {
-		border-top: 1px solid var(--gauzy-border-default-color);
+		border-top: 1px solid var(--irtranscripts-border-default-color);
 	}
 
 	&:hover {
-		background-color: var(--gauzy-hover-tint);
+		background-color: var(--irtranscripts-hover-tint);
 	}
 
 	.identity {
@@ -263,7 +263,7 @@
 		font-size: 0.6875rem;
 		line-height: 1rem;
 		color: nb-theme(color-primary-default);
-		border-radius: var(--gauzy-radius-sm);
+		border-radius: var(--irtranscripts-radius-sm);
 		box-shadow: inset 0 0 0 1px nb-theme(color-primary-transparent-default);
 	}
 
@@ -285,7 +285,7 @@
 	font-size: 0.6875rem;
 	font-weight: 500;
 	color: nb-theme(text-hint-color);
-	background-color: var(--gauzy-hover-tint);
+	background-color: var(--irtranscripts-hover-tint);
 
 	img {
 		width: 100%;
@@ -302,8 +302,8 @@
 	padding: 2rem 1rem;
 	font-size: 0.75rem;
 	color: nb-theme(text-hint-color);
-	border-radius: var(--gauzy-radius-sm);
-	box-shadow: inset 0 0 0 1px var(--gauzy-border-default-color);
+	border-radius: var(--irtranscripts-radius-sm);
+	box-shadow: inset 0 0 0 1px var(--irtranscripts-border-default-color);
 
 	nb-icon {
 		font-size: 1.5rem;
@@ -316,7 +316,7 @@
 	align-items: center;
 	gap: 0.5rem;
 	padding: 0.75rem 1.5rem;
-	border-top: 1px solid var(--gauzy-border-default-color);
+	border-top: 1px solid var(--irtranscripts-border-default-color);
 
 	.spacer {
 		flex: 1;

@@ -1,7 +1,7 @@
 import { JoinColumn } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsUUID } from 'class-validator';
-import { ID, IShippingProfileVariant } from '@gauzy/contracts';
+import { ID, IShippingProfileVariant } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	JsonColumn,
@@ -9,7 +9,7 @@ import {
 	MultiORMEntity,
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { ShippingProfile } from '../shipping-profile/shipping-profile.entity';
 import { MikroOrmShippingProfileVariantRepository } from './repository/mikro-orm-shipping-profile-variant.repository';
 

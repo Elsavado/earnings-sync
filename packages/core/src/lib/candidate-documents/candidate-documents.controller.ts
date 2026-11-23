@@ -1,6 +1,6 @@
 import { Controller, HttpStatus, Get, Query, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { ICandidateDocument, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ICandidateDocument, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { CrudController, BaseQueryDTO } from './../core/crud';
 import { CandidateDocumentsService } from './candidate-documents.service';
 import { CandidateDocument } from './candidate-documents.entity';

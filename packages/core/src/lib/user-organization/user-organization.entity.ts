@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { JoinColumn, RelationId } from 'typeorm';
 import { IsBoolean, IsOptional, IsUUID } from 'class-validator';
-import { ID, IUser, IUserOrganization } from '@gauzy/contracts';
+import { ID, IUser, IUserOrganization } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseEntity, User } from '../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from './../core/decorators/entity';
 import { MikroOrmUserOrganizationRepository } from './repository/mikro-orm-user-organization.repository';

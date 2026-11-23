@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { IOrganization, IProject } from '@gauzy/contracts';
+import { IOrganization, IProject } from '@irtranscripts/contracts';
 
 @Component({
     selector: 'ngx-project',

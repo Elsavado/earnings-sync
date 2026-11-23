@@ -1,5 +1,5 @@
 import moment from 'moment-timezone';
-import { TimeFormatEnum, TimeZoneEnum } from '@gauzy/contracts';
+import { TimeFormatEnum, TimeZoneEnum } from '@irtranscripts/contracts';
 import {
 	DEFAULT_MOMENT_TIMEZONE,
 	getTimeZoneWithOffset,

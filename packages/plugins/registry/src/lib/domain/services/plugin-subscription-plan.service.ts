@@ -1,5 +1,5 @@
-import { ID, PluginSubscriptionType } from '@gauzy/contracts';
-import { MultiORMEnum, parseFindOptionsRelations } from '@gauzy/core';
+import { ID, PluginSubscriptionType } from '@irtranscripts/contracts';
+import { MultiORMEnum, parseFindOptionsRelations } from '@irtranscripts/core';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { FindManyOptions, FindOneOptions, MoreThan } from 'typeorm';
 import {

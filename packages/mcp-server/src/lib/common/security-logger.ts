@@ -1,7 +1,7 @@
 /**
  * Security logging utilities for MCP server
  *
- * These utilities are defined locally to avoid importing from @gauzy/auth,
+ * These utilities are defined locally to avoid importing from @irtranscripts/auth,
  * which causes TypeScript compilation performance issues due to its complex
  * dependency chain in the monorepo.
  */
@@ -53,7 +53,7 @@ export const SecurityEvents = {
 	TOOL_ERROR: 'TOOL_ERROR',
 	RESOURCE_ACCESSED: 'RESOURCE_ACCESSED',
 
-	// Additional security events (matching @gauzy/auth API)
+	// Additional security events (matching @irtranscripts/auth API)
 	LARGE_REQUEST: 'LARGE_REQUEST',
 	SUSPICIOUS_PAYLOAD: 'SUSPICIOUS_PAYLOAD',
 	TOOL_VALIDATION_FAILED: 'TOOL_VALIDATION_FAILED',
@@ -102,7 +102,7 @@ export class SecurityLogger {
 	}
 
 	/**
-	 * Static method to log security events (matching @gauzy/auth API)
+	 * Static method to log security events (matching @irtranscripts/auth API)
 	 */
 	public static logSecurityEvent(
 		event: string,
@@ -138,23 +138,23 @@ export class SecurityLogger {
 	}
 
 	/**
-	 * Instance debug method (matching @gauzy/auth API)
+	 * Instance debug method (matching @irtranscripts/auth API)
 	 */
 	public debug(message: string, data?: Record<string, unknown>): void {
-		if (!isProduction || process.env.GAUZY_MCP_DEBUG === 'true') {
+		if (!isProduction || process.env.IRTRANSCRIPTS_MCP_DEBUG === 'true') {
 			logger.debug(message, data ? JSON.stringify(data) : '');
 		}
 	}
 
 	/**
-	 * Instance warn method (matching @gauzy/auth API)
+	 * Instance warn method (matching @irtranscripts/auth API)
 	 */
 	public warn(message: string, data?: Record<string, unknown>): void {
 		logger.warn(message, data ? JSON.stringify(data) : '');
 	}
 
 	/**
-	 * Instance error method (matching @gauzy/auth API)
+	 * Instance error method (matching @irtranscripts/auth API)
 	 */
 	public error(message: string, error?: Error | Record<string, unknown>): void {
 		if (error instanceof Error) {

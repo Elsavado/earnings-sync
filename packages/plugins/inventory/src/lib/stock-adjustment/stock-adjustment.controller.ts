@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { ID, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	Idempotent,
 	Permissions,
@@ -9,7 +9,7 @@ import {
 	UUIDValidationPipe,
 	UseValidationPipe,
 	Versioned
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { InventoryPermission } from './../inventory.permissions';
 import { isQueryFlagSet } from './../inventory.query';
 import { StockAdjustment } from './stock-adjustment.entity';

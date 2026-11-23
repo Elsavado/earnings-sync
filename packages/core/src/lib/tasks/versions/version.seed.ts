@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { ITaskVersion } from '@gauzy/contracts';
+import { ITaskVersion } from '@irtranscripts/contracts';
 import { DEFAULT_GLOBAL_VERSIONS } from './default-global-versions';
 import { TaskVersion } from './version.entity';
 

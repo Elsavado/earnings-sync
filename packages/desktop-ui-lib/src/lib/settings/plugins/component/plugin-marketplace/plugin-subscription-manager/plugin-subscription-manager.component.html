@@ -172,7 +172,7 @@
 						[nbTooltip]="getEnvironmentMismatchTooltip()"
 						[nbTooltipDisabled]="canInstallInEnvironment()"
 					>
-						<nb-icon *gauzySpinnerButton="installing" icon="cloud-download-outline" class="mr-1"></nb-icon>
+						<nb-icon *irtranscriptsSpinnerButton="installing" icon="cloud-download-outline" class="mr-1"></nb-icon>
 						{{ 'BUTTONS.INSTALL' | translate }}
 					</button>
 					}
@@ -240,7 +240,7 @@
 				</h5>
 			</nb-card-header>
 			<nb-card-body>
-				<gauzy-subscription-billing-form
+				<irtranscripts-subscription-billing-form
 					[form]="subscriptionForm"
 					[plan]="selectedPlan"
 					[isLoading]="isLoading"
@@ -249,7 +249,7 @@
 					(formSubmit)="subscribeToPlan()"
 					(formCancel)="showBillingForm = false"
 				>
-				</gauzy-subscription-billing-form>
+				</irtranscripts-subscription-billing-form>
 			</nb-card-body>
 		</nb-card>
 		} }

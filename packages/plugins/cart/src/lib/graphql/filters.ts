@@ -1,5 +1,5 @@
-import { CommerceCartStatus, CommerceCheckoutSessionStatus } from '@gauzy/contracts';
-import { ApiErrorCode, ApiException } from '@gauzy/core';
+import { CommerceCartStatus, CommerceCheckoutSessionStatus } from '@irtranscripts/contracts';
+import { ApiErrorCode, ApiException } from '@irtranscripts/core';
 
 /**
  * The state filters the cart schema accepts, read into the enumerations the columns carry.

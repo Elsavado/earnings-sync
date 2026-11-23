@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
-import { isMySQL, isPostgres } from '@gauzy/config';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
 import {
 	ContactBuyerRole,
 	ID,
@@ -9,7 +9,7 @@ import {
 	IContactBuyerCreateInput,
 	IContactBuyerFindInput,
 	IContactBuyerUpdateInput
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { ContactStatus, PartyKind } from '../core/enums/kernel-extension.enums';
 import { OrganizationContact } from '../core/entities/internal';
 import { TenantAwareCrudService } from '../core/crud/tenant-aware-crud.service';

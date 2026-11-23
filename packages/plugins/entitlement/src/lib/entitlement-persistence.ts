@@ -10,8 +10,8 @@ import {
 	wrap
 } from '@mikro-orm/core';
 import { SOFT_DELETABLE_FILTER } from 'mikro-orm-soft-delete';
-import { IOutboxWriteInput } from '@gauzy/contracts';
-import { EventOutboxService, MultiORMEnum, convertTypeORMWhereToMikroORM, parseOrderOptions } from '@gauzy/core';
+import { IOutboxWriteInput } from '@irtranscripts/contracts';
+import { EventOutboxService, MultiORMEnum, convertTypeORMWhereToMikroORM, parseOrderOptions } from '@irtranscripts/core';
 
 /**
  * How this package reaches its rows under `DB_ORM=mikro-orm`.

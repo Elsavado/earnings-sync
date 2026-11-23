@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ID, IWarehouse } from '@gauzy/contracts';
+import { ID, IWarehouse } from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from './../core/crud';
 import { MikroOrmWarehouseRepository } from './repository/mikro-orm-warehouse.repository';
 import { TypeOrmWarehouseRepository } from './repository/type-orm-warehouse.repository';

@@ -1,5 +1,5 @@
 import { Global, Module } from '@nestjs/common';
-import { PaymentInstrumentEligibilityService, PaymentInstrumentModule } from '@gauzy/core';
+import { PaymentInstrumentEligibilityService, PaymentInstrumentModule } from '@irtranscripts/core';
 import {
 	CART_PRICE_RESOLUTION,
 	CART_PROMOTION_EVALUATION,
@@ -7,15 +7,15 @@ import {
 	CART_STOCK_AVAILABILITY,
 	CART_TAX_CALCULATION,
 	CART_TAX_CATEGORY
-} from '@gauzy/plugin-cart';
-import { CatalogItemService, CatalogModule, ProductVariantSaleService } from '@gauzy/plugin-catalog';
+} from '@irtranscripts/plugin-cart';
+import { CatalogItemService, CatalogModule, ProductVariantSaleService } from '@irtranscripts/plugin-catalog';
 import {
 	FulfillmentModule,
 	ReturnShipmentService,
 	ShippingOptionService,
 	WarehouseFulfillmentService
-} from '@gauzy/plugin-fulfillment';
-import { InventoryModule, StockAvailabilityService, StockLedgerService } from '@gauzy/plugin-inventory';
+} from '@irtranscripts/plugin-fulfillment';
+import { InventoryModule, StockAvailabilityService, StockLedgerService } from '@irtranscripts/plugin-inventory';
 import {
 	ORDER_APPROVAL,
 	ORDER_CHECKOUT_PAYMENTS,
@@ -30,44 +30,44 @@ import {
 	OrderPlatformAdaptersModule,
 	OrderTotalsService,
 	SubscriptionOrderService
-} from '@gauzy/plugin-order';
-import { PricingModule, ProductPriceService, RecurringPriceService } from '@gauzy/plugin-pricing';
+} from '@irtranscripts/plugin-order';
+import { PricingModule, ProductPriceService, RecurringPriceService } from '@irtranscripts/plugin-pricing';
 import {
 	PAYMENT_ORDER_LEDGER,
 	PAYMENT_ORDER_LINE_REFUND,
 	PaymentModule,
 	PaymentOrderLinkService,
 	ReturnRefundService
-} from '@gauzy/plugin-payment';
-import { PromotionModule, PromotionOrderUsageAdapter, PromotionService } from '@gauzy/plugin-promotion';
+} from '@irtranscripts/plugin-payment';
+import { PromotionModule, PromotionOrderUsageAdapter, PromotionService } from '@irtranscripts/plugin-promotion';
 import {
 	PURCHASING_APPROVAL,
 	PURCHASING_INVENTORY,
 	PurchaseApprovalService,
 	PurchasingModule
-} from '@gauzy/plugin-purchasing';
+} from '@irtranscripts/plugin-purchasing';
 import {
 	ENTITLEMENT_CATALOG_PORT,
 	EntitlementModule,
 	EntitlementOrderLinePolicyAdapter
-} from '@gauzy/plugin-entitlement';
+} from '@irtranscripts/plugin-entitlement';
 // Its own statement, so the order port the entitlement package answers sits beside that package (Q7-W5).
-import { ORDER_LINE_ENTITLEMENT_POLICY } from '@gauzy/plugin-order';
+import { ORDER_LINE_ENTITLEMENT_POLICY } from '@irtranscripts/plugin-order';
 import {
 	RETURNS_ORDER_FULFILLMENT,
 	RETURNS_ORDER_TOTALS,
 	RETURNS_REFUND_GATEWAY,
 	RETURNS_SHIPMENT_GATEWAY,
 	RETURNS_STOCK_LEDGER
-} from '@gauzy/plugin-returns';
+} from '@irtranscripts/plugin-returns';
 import {
 	SUBSCRIPTION_CATALOG,
 	SUBSCRIPTION_INSTRUMENTS,
 	SUBSCRIPTION_ORDER_GATEWAY,
 	SUBSCRIPTION_PRICING
-} from '@gauzy/plugin-subscription';
-import { TaxCategoryService, TaxModule, TaxRateService } from '@gauzy/plugin-tax';
-import { WAREHOUSE_FULFILLMENT, WAREHOUSE_STOCK_LEDGER } from '@gauzy/plugin-warehouse';
+} from '@irtranscripts/plugin-subscription';
+import { TaxCategoryService, TaxModule, TaxRateService } from '@irtranscripts/plugin-tax';
+import { WAREHOUSE_FULFILLMENT, WAREHOUSE_STOCK_LEDGER } from '@irtranscripts/plugin-warehouse';
 
 /**
  * This installation's composition point.

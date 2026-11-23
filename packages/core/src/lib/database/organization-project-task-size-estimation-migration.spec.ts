@@ -18,7 +18,7 @@ describe('organization_project.isTaskSizeEstimationEnabled migration on SQLite',
 	beforeEach(async () => {
 		dbPath = path.join(
 			os.tmpdir(),
-			`gauzy-task-size-estimation-${process.pid}-${Date.now()}-${Math.random()}.sqlite3`
+			`irtranscripts-task-size-estimation-${process.pid}-${Date.now()}-${Math.random()}.sqlite3`
 		);
 		dataSource = new DataSource({ type: 'better-sqlite3', database: dbPath, synchronize: false, logging: false });
 		await dataSource.initialize();

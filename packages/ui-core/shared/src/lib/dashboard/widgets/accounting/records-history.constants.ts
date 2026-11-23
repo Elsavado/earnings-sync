@@ -1,4 +1,4 @@
-import { EmployeeStatisticsHistoryEnum } from '@gauzy/contracts';
+import { EmployeeStatisticsHistoryEnum } from '@irtranscripts/contracts';
 
 /**
  * Key under which the Records History widget persists the history it shows.

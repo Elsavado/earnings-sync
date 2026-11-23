@@ -1,5 +1,5 @@
-import { IPagination, PluginScope } from '@gauzy/contracts';
-import { parseFindOptionsRelations, RequestContext } from '@gauzy/core';
+import { IPagination, PluginScope } from '@irtranscripts/contracts';
+import { parseFindOptionsRelations, RequestContext } from '@irtranscripts/core';
 import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { FindManyOptions, FindOptionsWhere } from 'typeorm';
 import { IPluginTenant } from '../../shared/models/plugin-tenant.model';

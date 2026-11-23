@@ -1,8 +1,8 @@
 import { randomBytes } from 'node:crypto';
 import { Injectable } from '@nestjs/common';
-import { environment } from '@gauzy/config';
-import { ID, ITenant, IUser, IUserSigninWorkspaceResponse, IWorkspaceResponse } from '@gauzy/contracts';
-import { TokenPurposeEnum, User, signPurposeToken } from '@gauzy/core';
+import { environment } from '@irtranscripts/config';
+import { ID, ITenant, IUser, IUserSigninWorkspaceResponse, IWorkspaceResponse } from '@irtranscripts/contracts';
+import { TokenPurposeEnum, User, signPurposeToken } from '@irtranscripts/core';
 import { ZitadelAccountService, ZitadelIdentity } from './zitadel-account.service';
 import { ZitadelClaimHints } from './zitadel-claims.service';
 import { SESSION_BIND_WINDOW_MS, ZitadelSessionService } from './zitadel-session.service';
@@ -10,7 +10,7 @@ import { SESSION_BIND_WINDOW_MS, ZitadelSessionService } from './zitadel-session
 /**
  * Lifetime of the workspace sign-in tokens an Ever ID sign-in hands out, seconds: the window in which
  * the refresh token their sign-in produces is bound to the Ever ID session, so a back-channel logout
- * always reaches it. Never longer than Gauzy's own access-token lifetime.
+ * always reaches it. Never longer than IRTranscripts's own access-token lifetime.
  */
 export function workspaceTokenTtlSeconds(): number {
 	const bindWindowSeconds = Math.floor(SESSION_BIND_WINDOW_MS / 1000);
@@ -18,7 +18,7 @@ export function workspaceTokenTtlSeconds(): number {
 	return Number.isFinite(platformSeconds) && platformSeconds > 0 ? Math.min(bindWindowSeconds, platformSeconds) : bindWindowSeconds;
 }
 
-/** A workspace's team list as Gauzy's own workspace sign-in returns it (`current_teams`). */
+/** A workspace's team list as IRTranscripts's own workspace sign-in returns it (`current_teams`). */
 export type ZitadelTeamList = unknown[];
 
 /** A workspace the identity is linked to but may not enter with this sign-in, and why. */
@@ -28,12 +28,12 @@ export interface ZitadelBlockedWorkspace {
 	reason: string;
 }
 
-/** A workspace entry: Gauzy's own shape, with the team list when Gauzy provided one. */
+/** A workspace entry: IRTranscripts's own shape, with the team list when IRTranscripts provided one. */
 export interface ZitadelWorkspace extends IWorkspaceResponse {
 	current_teams?: ZitadelTeamList;
 }
 
-/** The workspace response of an Ever ID sign-in: Gauzy's own shape plus the blocked list. */
+/** The workspace response of an Ever ID sign-in: IRTranscripts's own shape plus the blocked list. */
 export interface ZitadelSigninWorkspaceResponse extends IUserSigninWorkspaceResponse {
 	workspaces: ZitadelWorkspace[];
 	blocked_workspaces: ZitadelBlockedWorkspace[];
@@ -45,7 +45,7 @@ export interface ZitadelSigninWorkspaceResponse extends IUserSigninWorkspaceResp
  * Builds the workspace list of an Ever ID sign-in.
  *
  * Each workspace carries a purpose-bound workspace sign-in token of the same kind the e-mail code flow
- * issues, so the unchanged `POST /api/auth/signin.workspace` turns it into Gauzy's own access and
+ * issues, so the unchanged `POST /api/auth/signin.workspace` turns it into IRTranscripts's own access and
  * refresh tokens. The plugin never mints an access token itself. Its workspace tokens live only as
  * long as the session binding window ({@link workspaceTokenTtlSeconds}).
  */
@@ -60,7 +60,7 @@ export class ZitadelWorkspaceService {
 	 * Signs linked users in: builds the workspace response, records the last sign-in on the links and
 	 * remembers the identity provider session for back-channel logout.
 	 *
-	 * @param teams - Team lists Gauzy already returned for some of these users, by user id.
+	 * @param teams - Team lists IRTranscripts already returned for some of these users, by user id.
 	 */
 	async signIn(
 		users: User[],
@@ -85,7 +85,7 @@ export class ZitadelWorkspaceService {
 	 *
 	 * @param users - Active users linked to the identity.
 	 * @param hints - The token's platform hints.
-	 * @param teams - Team lists by user id, when Gauzy provided them.
+	 * @param teams - Team lists by user id, when IRTranscripts provided them.
 	 * @returns The response.
 	 */
 	async build(users: User[], hints: ZitadelClaimHints, teams?: Map<ID, ZitadelTeamList>): Promise<ZitadelSigninWorkspaceResponse> {
@@ -130,7 +130,7 @@ export class ZitadelWorkspaceService {
 		);
 		// Plain data, not entity instances: the response may be kept in the hand-off store as JSON, and an
 		// entity's own `toJSON` (added by the ORM at runtime) would drop fields on the way. The fields are
-		// the ones Gauzy's e-mail code flow returns for a workspace.
+		// the ones IRTranscripts's e-mail code flow returns for a workspace.
 		const workspaceUser: Partial<IUser> = {
 			id: user.id,
 			email: user.email || null,

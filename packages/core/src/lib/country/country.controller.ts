@@ -1,7 +1,7 @@
 import { Controller, Get, HttpStatus } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { IPagination } from '@gauzy/contracts';
-import { Public } from '@gauzy/common';
+import { IPagination } from '@irtranscripts/contracts';
+import { Public } from '@irtranscripts/common';
 import { Country } from './country.entity';
 import { CountryService } from './country.service';
 

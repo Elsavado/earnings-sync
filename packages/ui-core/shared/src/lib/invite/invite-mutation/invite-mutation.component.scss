@@ -1,5 +1,5 @@
 @use 'var' as *;
-@use 'gauzy/_gauzy-dialogs' as *;
+@use 'irtranscripts/_irtranscripts-dialogs' as *;
 
 @include nb-install-component() {
   nb-card.invite-dialog {
@@ -7,7 +7,7 @@
     max-width: calc(100vw - 2rem);
     max-height: calc(100vh - 2rem);
     margin: 0;
-    background-color: var(--gauzy-card-1);
+    background-color: var(--irtranscripts-card-1);
     border-radius: nb-theme(card-border-radius);
   }
 
@@ -76,7 +76,7 @@
 
     &:hover {
       color: nb-theme(text-basic-color);
-      background-color: var(--gauzy-card-2);
+      background-color: var(--irtranscripts-card-2);
     }
 
     &:focus-visible {

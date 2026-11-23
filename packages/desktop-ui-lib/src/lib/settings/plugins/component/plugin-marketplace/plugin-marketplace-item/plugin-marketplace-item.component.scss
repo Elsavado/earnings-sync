@@ -1,4 +1,4 @@
-@use 'gauzy/_gauzy-table' as *;
+@use 'irtranscripts/_irtranscripts-table' as *;
 
 :host {
   display: block;
@@ -36,7 +36,7 @@
 // Section styling
 .form-section {
   margin-bottom: 1rem;
-  background-color: var(--gauzy-card-2);
+  background-color: var(--irtranscripts-card-2);
   border-radius: var(--border-radius);
   padding: 1rem;
 
@@ -47,7 +47,7 @@
   .section-title {
     font-weight: 600;
     margin-bottom: 1rem;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
     border-bottom: 1px solid var(--border-basic-color-3);
     padding-bottom: 0.5rem;
   }
@@ -89,7 +89,7 @@
 
     .label {
       font-size: 0.875rem;
-      color: var(--gauzy-text-color-2);
+      color: var(--irtranscripts-text-color-2);
       font-weight: 600;
       margin-bottom: 0.25rem;
     }
@@ -102,7 +102,7 @@
         white-space: pre-line;
         margin-top: 0.25rem;
         margin-bottom: 0.25rem;
-        color: var(--gauzy-text-color-1);
+        color: var(--irtranscripts-text-color-1);
       }
 
       a {
@@ -168,12 +168,12 @@ nb-tag-list {
   .plugin-details-card {
     display: flex;
     flex-direction: column;
-    box-shadow: var(--gauzy-shadow);
+    box-shadow: var(--irtranscripts-shadow);
 
     nb-card-header {
       padding: 1.5rem;
       border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-      background: var(--gauzy-card-1);
+      background: var(--irtranscripts-card-1);
 
       .header-content {
         display: flex;
@@ -213,7 +213,7 @@ nb-tag-list {
               margin: 0;
               font-size: 1.25rem;
               font-weight: 600;
-              color: var(--gauzy-text-color-1);
+              color: var(--irtranscripts-text-color-1);
               white-space: nowrap;
               text-overflow: ellipsis;
               overflow: hidden;
@@ -253,14 +253,14 @@ nb-tag-list {
           cursor: pointer;
 
           nb-icon {
-            color: var(--gauzy-text-color-2);
+            color: var(--irtranscripts-text-color-2);
           }
 
           &:hover {
             background-color: rgba(0, 0, 0, 0.05);
 
             nb-icon {
-              color: var(--gauzy-text-color-1);
+              color: var(--irtranscripts-text-color-1);
             }
           }
         }
@@ -269,7 +269,7 @@ nb-tag-list {
 
     nb-card-body {
       padding: 1.5rem;
-      background: var(--gauzy-card-2);
+      background: var(--irtranscripts-card-2);
       border-radius: 0;
       flex: 1;
       min-height: 0;
@@ -279,7 +279,7 @@ nb-tag-list {
     nb-card-footer {
       padding: 1.25rem 1.5rem;
       border-top: 1px solid rgba(0, 0, 0, 0.08);
-      background: var(--gauzy-card-1);
+      background: var(--irtranscripts-card-1);
 
       .footer-content {
         display: flex;
@@ -343,10 +343,10 @@ nb-tag-list {
     gap: 1.5rem;
 
     .quick-actions-card {
-      background: var(--gauzy-card-1);
+      background: var(--irtranscripts-card-1);
       border-radius: calc(var(--border-radius) * 1.5);
       padding: 1.5rem;
-      box-shadow: var(--gauzy-shadow);
+      box-shadow: var(--irtranscripts-shadow);
       border: 1px solid rgba(0, 0, 0, 0.08);
 
       .installed-status {
@@ -431,7 +431,7 @@ nb-tag-list {
 
     .description-container {
       padding: 1.25rem;
-      background-color: var(--gauzy-card-1);
+      background-color: var(--irtranscripts-card-1);
       border-radius: var(--border-radius);
       margin-bottom: 1.5rem;
 
@@ -442,13 +442,13 @@ nb-tag-list {
     }
 
     .info-card {
-      background-color: var(--gauzy-card-1);
+      background-color: var(--irtranscripts-card-1);
       border-radius: var(--border-radius);
       padding: 1.25rem;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 
       .section-title {
-        color: var(--gauzy-text-color-1);
+        color: var(--irtranscripts-text-color-1);
         font-weight: 600;
         margin-bottom: 1rem;
 
@@ -467,7 +467,7 @@ nb-tag-list {
       .info-item {
         .label {
           font-size: 0.875rem;
-          color: var(--gauzy-text-color-2);
+          color: var(--irtranscripts-text-color-2);
           margin-bottom: 0.5rem;
         }
 
@@ -543,11 +543,11 @@ nb-tag-list {
   .info-version,
   .source-container {
     .label {
-      color: var(--gauzy-text-color-2);
+      color: var(--irtranscripts-text-color-2);
       font-size: 14px;
     }
     .value {
-      color: var(--gauzy-text-color-1);
+      color: var(--irtranscripts-text-color-1);
       width: 100%;
       a {
         width: 100%;
@@ -637,7 +637,7 @@ nb-tag-list {
   .owner-actions-popover {
     max-width: 240px;
     margin: 0;
-    box-shadow: var(--gauzy-shadow);
+    box-shadow: var(--irtranscripts-shadow);
     border-radius: calc(var(--border-radius) * 1.5);
 
     nb-card-body {

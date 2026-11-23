@@ -1,5 +1,5 @@
 import { sign, verify } from 'jsonwebtoken';
-import { isKnownDefaultSecret } from '@gauzy/contracts';
+import { isKnownDefaultSecret } from '@irtranscripts/contracts';
 import { DESKTOP_SECRET_ENV, desktopSecretsToEnv, ensureDesktopSecrets, redactSecretsForLog } from './desktop-secrets';
 
 /**
@@ -127,7 +127,7 @@ describe('ensureDesktopSecrets', () => {
 				postgres: {
 					dbHost: 'localhost',
 					dbPort: '5432',
-					dbName: 'gauzy',
+					dbName: 'irtranscripts',
 					dbUsername: 'postgres',
 					dbPassword: 'nested-db-password'
 				},

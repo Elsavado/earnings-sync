@@ -11,8 +11,8 @@ import {
 	connectionFromOffsetPage,
 	paginateRows,
 	resolveConnectionWindow
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { OrderLineInvoice } from '../order-line-invoice/order-line-invoice.entity';
 import { OrderLineInvoiceService } from '../order-line-invoice/order-line-invoice.service';
 import { OrderLineService } from '../order-line/order-line.service';

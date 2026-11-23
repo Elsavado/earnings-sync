@@ -2,9 +2,9 @@ import type { OAuthAppPendingRequest, SocialAuthService } from '../social-auth.s
 import { OAuthAppController } from './oauth-app.controller';
 
 // The controller only needs the service as a DI token and `@Public()` as a decorator; loading the real ones would pull
-// `@gauzy/config` (the whole environment) and `@gauzy/common` into a unit test.
+// `@irtranscripts/config` (the whole environment) and `@irtranscripts/common` into a unit test.
 jest.mock('../social-auth.service', () => ({ SocialAuthService: class {} }));
-jest.mock('@gauzy/common', () => ({ Public: () => () => undefined }));
+jest.mock('@irtranscripts/common', () => ({ Public: () => () => undefined }));
 
 /**
  * Approving an OAuth app hands the organization of the approving session to the code issuer, so the app's access

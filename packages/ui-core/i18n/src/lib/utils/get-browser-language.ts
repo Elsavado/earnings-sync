@@ -1,4 +1,4 @@
-import { LanguagesEnum } from '@gauzy/contracts';
+import { LanguagesEnum } from '@irtranscripts/contracts';
 
 /**
  * Cached set of supported language codes for O(1) lookups.

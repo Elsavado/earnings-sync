@@ -8,7 +8,7 @@ import { JoinColumn, RelationId, JoinTable } from 'typeorm';
 import { EntityRepositoryType } from '@mikro-orm/core';
 import { Exclude } from 'class-transformer';
 import { IsEmail, IsEnum, IsOptional, IsString, IsUUID } from 'class-validator';
-import { isMySQL, isPostgres } from '@gauzy/config';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
 import {
 	IUser,
 	IRole,
@@ -24,7 +24,7 @@ import {
 	IOrganization,
 	ID,
 	IUserUiPreferences
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	ImageAsset,
 	Invite,

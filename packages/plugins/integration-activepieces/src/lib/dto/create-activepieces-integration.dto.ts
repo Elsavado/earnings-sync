@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { ICreateActivepiecesIntegrationInput } from '@gauzy/contracts';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { ICreateActivepiecesIntegrationInput } from '@irtranscripts/contracts';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 
 /**
  * DTO for creating ActivePieces integration connection
@@ -31,7 +31,7 @@ export class CreateActivepiecesIntegrationDto
 
 	@ApiPropertyOptional({
 		description: 'Display name for the connection (defaults to tenant name)',
-		example: 'Ever Gauzy Connection'
+		example: 'Ever IRTranscripts Connection'
 	})
 	@IsOptional()
 	@IsString()

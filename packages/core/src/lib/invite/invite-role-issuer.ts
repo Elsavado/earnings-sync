@@ -1,4 +1,4 @@
-import { canInviteWithRole, ID, IInvite, IRole, RolesEnum } from '@gauzy/contracts';
+import { canInviteWithRole, ID, IInvite, IRole, RolesEnum } from '@irtranscripts/contracts';
 
 /**
  * Whether a caller holding `callerRole` may issue an invitation that grants `invitedRole`, and so may hold its

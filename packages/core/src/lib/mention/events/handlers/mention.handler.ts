@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
-import { IMention } from '@gauzy/contracts';
+import { IMention } from '@irtranscripts/contracts';
 import { CreateMentionEvent } from '../mention.event';
 import { MentionService } from '../../mention.service';
 

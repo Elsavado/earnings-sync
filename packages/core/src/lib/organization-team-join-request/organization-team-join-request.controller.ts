@@ -9,8 +9,8 @@ import {
 	LanguagesEnum,
 	OrganizationTeamJoinRequestStatusEnum,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { Public } from '@gauzy/common';
+} from '@irtranscripts/contracts';
+import { Public } from '@irtranscripts/common';
 import { BaseQueryDTO } from '../core/crud';
 import { UUIDValidationPipe, UseValidationPipe } from '../shared/pipes';
 import { LanguageDecorator, Permissions } from '../shared/decorators';

@@ -2,7 +2,7 @@
  * The local development switch of the Ever Works integration: `EVER_WORKS_ALLOW_LOOPBACK=true`.
  *
  * The integration reaches Ever Works over public HTTPS only, and only a public HTTPS `API_BASE_URL` gets a webhook.
- * That leaves no way to run Gauzy against an Ever Works API on the same machine (`http://127.0.0.1:3100/api`), which
+ * That leaves no way to run IRTranscripts against an Ever Works API on the same machine (`http://127.0.0.1:3100/api`), which
  * is what a local end-to-end run of the pair needs. With the switch on, and only in a development or test process,
  * a **loopback** address is accepted as well, over HTTP or HTTPS: `localhost`, `127.0.0.1` or `[::1]`, nothing else.
  * Every other private, link-local or metadata address stays refused, and a production process ignores the switch.

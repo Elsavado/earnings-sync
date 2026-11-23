@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { TypeOrmWarehouseBinRepository } from '../warehouse-bin/repository/type-orm-warehouse-bin.repository';
 import { WarehouseBin } from '../warehouse-bin/warehouse-bin.entity';
 import { WarehouseZoneType } from '../warehouse.types';

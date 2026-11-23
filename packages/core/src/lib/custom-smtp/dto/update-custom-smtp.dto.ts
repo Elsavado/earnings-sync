@@ -1,4 +1,4 @@
-import { ICustomSmtpUpdateInput } from "@gauzy/contracts";
+import { ICustomSmtpUpdateInput } from "@irtranscripts/contracts";
 import { CreateCustomSmtpDTO } from "./create-custom-smtp.dto";
 
 /**

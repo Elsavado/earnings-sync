@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 /** The table this migration creates. */
 const TABLE = 'employee_agent_profile';
@@ -54,7 +54,7 @@ const FOREIGN_KEYS: ReadonlyArray<{
 
 /**
  * Creates `employee_agent_profile`: the agent-specific facts of an agent employee (`employee.kind = 'agent'`),
- * one row per employee. Part of the Gauzy ↔ Ever Works integration (G-P1-1).
+ * one row per employee. Part of the IRTranscripts ↔ Ever Works integration (G-P1-1).
  *
  * Pure additive DDL: one new table with its keys and indexes. No existing table, column or row is touched,
  * so it is safe on a populated database. Every statement is guarded by `hasTable`, so a re-run adds nothing,
@@ -175,7 +175,7 @@ export class CreateEmployeeAgentProfileTable1791000000722 implements MigrationIn
 	public async mysqlUpQueryRunner(queryRunner: QueryRunner): Promise<any> {
 		// MySQL has no transactional DDL and no migration-run lock: two processes booting together would both see
 		// the table missing. A named lock makes the check and the DDL one critical section.
-		const lockName = `gauzy:migration:${this.name}`;
+		const lockName = `irtranscripts:migration:${this.name}`;
 		const [row] = await queryRunner.query(`SELECT GET_LOCK(?, 120) AS \`acquired\``, [lockName]);
 		if (Number(row?.acquired) !== 1) {
 			throw new Error(`${this.name}: could not acquire the MySQL migration lock ${lockName}.`);

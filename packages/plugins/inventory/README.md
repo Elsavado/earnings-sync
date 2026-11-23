@@ -1,4 +1,4 @@
-# @gauzy/plugin-inventory
+# @irtranscripts/plugin-inventory
 
 ## Overview
 
@@ -60,7 +60,7 @@ dist folder `dist/packages/plugins/inventory` and run `npm publish`.
 ## Installation
 
 ```bash
-npm install @gauzy/plugin-inventory
+npm install @irtranscripts/plugin-inventory
 # or
-yarn add @gauzy/plugin-inventory
+yarn add @irtranscripts/plugin-inventory
 ```

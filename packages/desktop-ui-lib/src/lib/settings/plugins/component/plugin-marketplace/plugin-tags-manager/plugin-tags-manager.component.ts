@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IPlugin, ITag } from '@gauzy/contracts';
+import { IPlugin, ITag } from '@irtranscripts/contracts';
 import { NbDialogService, NbIconModule, NbButtonModule, NbTooltipModule, NbTagModule, NbFormFieldModule, NbInputModule, NbSelectModule, NbOptionModule, NbCheckboxModule } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BehaviorSubject, Observable, debounceTime, distinctUntilChanged, of, switchMap } from 'rxjs';

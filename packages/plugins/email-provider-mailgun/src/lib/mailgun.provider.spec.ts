@@ -1,8 +1,8 @@
 // cspell:ignore dmarc
-// `@gauzy/plugin-inbox` from source with its real MIME parser, form reader and outbound helper; `@gauzy/core` (whose
+// `@irtranscripts/plugin-inbox` from source with its real MIME parser, form reader and outbound helper; `@irtranscripts/core` (whose
 // barrel boots the application) is not needed by the parts used here.
-jest.mock('@gauzy/core', () => ({}));
-jest.mock('@gauzy/plugin-inbox', () => ({
+jest.mock('@irtranscripts/core', () => ({}));
+jest.mock('@irtranscripts/plugin-inbox', () => ({
 	...jest.requireActual('../../../inbox/src/lib/email/inbound/mime'),
 	...jest.requireActual('../../../inbox/src/lib/email/providers/outbound-mail'),
 	...jest.requireActual('../../../inbox/src/lib/email/providers/form-body')

@@ -2,7 +2,7 @@ import { Controller, HttpStatus, Get, Query, UseGuards, Post, Body, Put, Param, 
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CommandBus } from '@nestjs/cqrs';
 import { FindOptionsWhere } from 'typeorm';
-import { PermissionsEnum, ICandidateFeedbackCreateInput, IPagination, ICandidateFeedback, ID } from '@gauzy/contracts';
+import { PermissionsEnum, ICandidateFeedbackCreateInput, IPagination, ICandidateFeedback, ID } from '@irtranscripts/contracts';
 import { CrudController, BaseQueryDTO } from './../core/crud';
 import { CandidateFeedback } from './candidate-feedbacks.entity';
 import { CandidateFeedbacksService } from './candidate-feedbacks.service';

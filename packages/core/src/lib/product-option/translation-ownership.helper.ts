@@ -1,6 +1,6 @@
 import { ForbiddenException } from '@nestjs/common';
 import { In, ObjectLiteral, Repository } from 'typeorm';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { RequestContext } from './../core/context/request-context';
 
 /** A relation as a request can state it: by an object carrying its id, or by the id itself. */

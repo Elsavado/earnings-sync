@@ -14,8 +14,8 @@ import {
 	BadRequestException
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiQuery } from '@nestjs/swagger';
-import { TenantPermissionGuard, PermissionGuard, Permissions, UseValidationPipe } from '@gauzy/core';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { TenantPermissionGuard, PermissionGuard, Permissions, UseValidationPipe } from '@irtranscripts/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { MakeComApiService } from './make-com-api.service';
 import { IMakeComPaginationParams, IMakeComScenarioScheduling, MAKE_COM_ZONES } from './interfaces/make-com-api.model';
 import { SetZoneDTO } from './dto';

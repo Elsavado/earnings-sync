@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DeleteConfirmationComponent } from '@gauzy/ui-core/shared';
+import { DeleteConfirmationComponent } from '@irtranscripts/ui-core/shared';
 import { NbDialogService } from '@nebular/theme';
 import { Actions } from '@ngneat/effects-ng';
 import { filter, take, tap } from 'rxjs';

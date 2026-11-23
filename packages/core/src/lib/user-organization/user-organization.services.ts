@@ -1,8 +1,8 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { FindOptionsWhere, SaveOptions, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { ID, IOrganization, IPagination, IUser, IUserOrganization, RolesEnum } from '@gauzy/contracts';
-import { isNotEmpty } from '@gauzy/utils';
+import { ID, IOrganization, IPagination, IUser, IUserOrganization, RolesEnum } from '@irtranscripts/contracts';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { RequestContext } from '../core/context';
 import { BaseQueryDTO, TenantAwareCrudService } from '../core/crud';
 import { IFindOneOptions, IPartialEntity } from '../core/crud/icrud.service';

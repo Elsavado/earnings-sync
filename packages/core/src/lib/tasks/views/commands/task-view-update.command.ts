@@ -1,4 +1,4 @@
-import { ID, ITaskViewUpdateInput } from '@gauzy/contracts';
+import { ID, ITaskViewUpdateInput } from '@irtranscripts/contracts';
 import { ICommand } from '@nestjs/cqrs';
 
 export class TaskViewUpdateCommand implements ICommand {

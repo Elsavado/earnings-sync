@@ -1,7 +1,7 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { Subscription } from 'rxjs';
-import { ActionTypeEnum, ActorTypeEnum, BaseEntityEnum, ID } from '@gauzy/contracts';
-import { ActivityLogService, EventBus, RequestContext } from '@gauzy/core';
+import { ActionTypeEnum, ActorTypeEnum, BaseEntityEnum, ID } from '@irtranscripts/contracts';
+import { ActivityLogService, EventBus, RequestContext } from '@irtranscripts/core';
 import { Document } from '../entities/document.entity';
 import { DocumentEvent, IDocumentEventContext } from '../events/document.event';
 

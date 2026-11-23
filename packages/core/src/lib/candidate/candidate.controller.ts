@@ -15,7 +15,7 @@ import {
 import { CommandBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { I18nLang } from 'nestjs-i18n';
-import { CandidateStatusType, PermissionsEnum, LanguagesEnum, ICandidate, IPagination, ID } from '@gauzy/contracts';
+import { CandidateStatusType, PermissionsEnum, LanguagesEnum, ICandidate, IPagination, ID } from '@irtranscripts/contracts';
 import { FindOptionsWhere } from 'typeorm';
 import { CrudController, FindOptionsQueryDTO, BaseQueryDTO } from './../core/crud';
 import { CandidateService } from './candidate.service';

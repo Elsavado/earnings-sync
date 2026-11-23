@@ -1,7 +1,7 @@
 // Must stay first: loads the entity graph before the handler pulls an entity.
 import '../../../core/entities/internal';
 
-import { IEmployeeAppointmentCreateInput, LanguagesEnum } from '@gauzy/contracts';
+import { IEmployeeAppointmentCreateInput, LanguagesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../../core/context';
 import { EmployeeAppointmentCreateCommand } from '../employee-appointment.create.command';
 import { EmployeeAppointmentCreateHandler } from './employee-appointment.create.handler';

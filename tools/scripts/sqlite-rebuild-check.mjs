@@ -24,7 +24,7 @@
  * Usage (from the repository root):
  *
  *   node tools/scripts/sqlite-rebuild-check.mjs
- *   node tools/scripts/sqlite-rebuild-check.mjs --db apps/api/data/gauzy.sqlite3
+ *   node tools/scripts/sqlite-rebuild-check.mjs --db apps/api/data/irtranscripts.sqlite3
  *
  * It exits 0 when every rebuild is guarded and no definition names a backup, and 1 otherwise.
  */

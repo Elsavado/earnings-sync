@@ -1,8 +1,8 @@
 import { Route } from '@angular/router';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PageRouteRegistryConfig, PermissionsGuard } from '@gauzy/ui-core/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PageRouteRegistryConfig, PermissionsGuard } from '@irtranscripts/ui-core/core';
 import { ProposalTemplateListComponent } from './components/proposal-template-list/proposal-template-list.component';
-import { RecordViewRoutePageComponent } from '@gauzy/ui-core/shared';
+import { RecordViewRoutePageComponent } from '@irtranscripts/ui-core/shared';
 import { PROPOSAL_TEMPLATE_RECORD_VIEW } from './proposal-template-record-view';
 
 /** Path for the job proposal template tab under /pages/jobs. */

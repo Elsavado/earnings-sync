@@ -14,19 +14,19 @@
  * surface. The SDL text is never restated: a field added to the schema without a row that carries it
  * fails, and a row that carries a field the schema does not declare fails too.
  *
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which this seam needs, so it is doubled at the module
- * boundary, exactly as the package's other specifications do. `@gauzy/plugin` is left real: the
+ * boundary, exactly as the package's other specifications do. `@irtranscripts/plugin` is left real: the
  * extension the plugin declares is read back the way the runtime reads it.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	// The permission decorator is doubled with the platform's own metadata key, read from the platform's
 	// constants, so the assertions below are made against the metadata a guard actually reads rather than
 	// against the decorator's prose. A no-op double would let a mutation state no permission at all while
 	// this suite stayed green — the class-level read grant would be the only thing in front of a write,
 	// and nothing here would say so.
 	const { SetMetadata } = require('@nestjs/common');
-	const { PERMISSIONS_METADATA } = require('@gauzy/constants');
+	const { PERMISSIONS_METADATA } = require('@irtranscripts/constants');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
@@ -100,7 +100,7 @@ jest.mock('@gauzy/core', () => {
 		FeatureFlagGuard: class {},
 		// The shared GraphQL gate, the declaring module's own value, so the feature-switch cases compare
 		// against it rather than against `undefined`.
-		FEATURE_GRAPHQL: jest.requireActual('@gauzy/core/src/lib/feature/graphql-feature.code').FEATURE_GRAPHQL,
+		FEATURE_GRAPHQL: jest.requireActual('@irtranscripts/core/src/lib/feature/graphql-feature.code').FEATURE_GRAPHQL,
 		UseValidationPipe: () => () => undefined,
 		UUIDValidationPipe: class {},
 		Merchant: class {},
@@ -109,44 +109,44 @@ jest.mock('@gauzy/core', () => {
 		ProductVariant: class {},
 		User: class {},
 		Warehouse: class {},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		// The decimal comparison the commission bands and the settlement's discrepancy are decided by is
 		// the kernel's own, so the double hands over the real one: a comparison doubled here would agree
 		// with the service about arithmetic the platform never performs.
-		compareDecimalStrings: jest.requireActual('@gauzy/core/src/lib/money/decimal').compareDecimalStrings,
+		compareDecimalStrings: jest.requireActual('@irtranscripts/core/src/lib/money/decimal').compareDecimalStrings,
 		isUniqueViolation: (error: any) => Boolean(error?.code === '23505'),
 		// The retry-safety declaration is read back here, so the decorator that writes it and the key it
 		// writes it under are the kernel's own rather than a second copy of either.
-		IDEMPOTENT_METADATA_KEY: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.policy')
+		IDEMPOTENT_METADATA_KEY: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.policy')
 			.IDEMPOTENT_METADATA_KEY,
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
 		// The concurrency declaration is read back the same way and for the same reason: a route that states
 		// no version expectation and a field that invents one is a write the other protocol refuses, so the
 		// key both sides are read under has to be the kernel's own.
-		VERSIONED_METADATA_KEY: jest.requireActual('@gauzy/core/src/lib/concurrency/version.util')
+		VERSIONED_METADATA_KEY: jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util')
 			.VERSIONED_METADATA_KEY,
 		// The offering controller declares a bulk route and the mutation that mirrors it runs the same
 		// batch from that declaration, so the decorator, its reader and the executor are the kernel's own:
 		// a doubled reader would agree with a resolver while disagreeing with the controller.
-		BulkOperation: jest.requireActual('@gauzy/core/src/lib/api/bulk.decorator').BulkOperation,
-		bulkOptionsOf: jest.requireActual('@gauzy/core/src/lib/api/bulk.decorator').bulkOptionsOf,
-		BulkExecutor: jest.requireActual('@gauzy/core/src/lib/api/bulk-executor.service').BulkExecutor,
+		BulkOperation: jest.requireActual('@irtranscripts/core/src/lib/api/bulk.decorator').BulkOperation,
+		bulkOptionsOf: jest.requireActual('@irtranscripts/core/src/lib/api/bulk.decorator').bulkOptionsOf,
+		BulkExecutor: jest.requireActual('@irtranscripts/core/src/lib/api/bulk-executor.service').BulkExecutor,
 		// The per-item projection both surfaces answer with is the kernel's own, so the payload the resolver
 		// assembles here is the projection the REST body carries rather than a second rendering of it.
-		toBulkItemOutcomes: jest.requireActual('@gauzy/core/src/lib/api/bulk').toBulkItemOutcomes,
+		toBulkItemOutcomes: jest.requireActual('@irtranscripts/core/src/lib/api/bulk').toBulkItemOutcomes,
 		// The three helpers the six converted list fields page and answer with are the kernel's own. A
 		// double that stubbed them would let a connection drift from the contract — a count that is not the
 		// filtered total, a window that is off by a page — in a suite that still passed, which is the whole
 		// class of defect this conversion removed.
-		connectionFromOffsetPage: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		connectionFromOffsetPage: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.connectionFromOffsetPage,
-		resolveConnectionWindow: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		resolveConnectionWindow: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.resolveConnectionWindow,
-		paginateRows: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection').paginateRows
+		paginateRows: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection').paginateRows
 	};
 });
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	DatabaseTypeEnum: {
 		mongodb: 'mongodb',
 		sqlite: 'sqlite',
@@ -163,7 +163,7 @@ jest.mock('@gauzy/config', () => ({
  * exactly as the payout surface's specification doubles the kernel's key store: the executor is the real
  * one here, and the visibility it authorises through is the in-memory predicate below.
  */
-jest.mock('@gauzy/core/src/lib/api/field-visibility.service', () => ({ FieldVisibility: class {} }));
+jest.mock('@irtranscripts/core/src/lib/api/field-visibility.service', () => ({ FieldVisibility: class {} }));
 
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -199,12 +199,12 @@ import {
 	SellerVerificationStatus,
 	TaxCollectionMode,
 	TaxRegistrationScheme
-} from '@gauzy/contracts';
-import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@gauzy/constants';
-import { featureFlagsOf, requiredFeatureFlags } from '@gauzy/common';
+} from '@irtranscripts/contracts';
+import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { featureFlagsOf, requiredFeatureFlags } from '@irtranscripts/common';
 import { Reflector } from '@nestjs/core';
 import { ExecutionContextHost } from '@nestjs/core/helpers/execution-context-host';
-import { getPluginExtensions } from '@gauzy/plugin';
+import { getPluginExtensions } from '@irtranscripts/plugin';
 import {
 	BulkExecutor,
 	FeatureFlagGuard,
@@ -212,10 +212,10 @@ import {
 	PermissionGuard,
 	TenantPermissionGuard,
 	VERSIONED_METADATA_KEY
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 // The cursor a client hands back, encoded by the kernel's own codec so a window is stated exactly as a client
 // that walked the connection would state it.
-import { encodeOffsetCursor } from '@gauzy/core/src/lib/api/graphql-connection';
+import { encodeOffsetCursor } from '@irtranscripts/core/src/lib/api/graphql-connection';
 import { getMetadataStorage } from 'class-validator';
 import { UpdateSellerPayoutDTO } from '../seller-payout/dto/update-seller-payout.dto';
 import { UpdateSellerSettlementDTO } from '../seller-settlement/dto/update-seller-settlement.dto';

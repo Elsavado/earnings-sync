@@ -1,4 +1,4 @@
-import { IScreenshot, ITimeSlot } from '@gauzy/contracts';
+import { IScreenshot, ITimeSlot } from '@irtranscripts/contracts';
 import { defer, timer, repeat, concatMap, of } from 'rxjs';
 import { BACKGROUND_SYNC_OFFLINE_INTERVAL } from '../../constants/app.constants';
 import { ElectronService } from '../../electron/services';

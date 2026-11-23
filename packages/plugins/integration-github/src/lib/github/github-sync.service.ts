@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import * as chalk from 'chalk';
 import { Request } from 'express';
-import { SyncTags } from '@gauzy/constants';
+import { SyncTags } from '@irtranscripts/constants';
 import {
 	IGithubAutomationIssuePayload,
 	IGithubIssue,
@@ -20,7 +20,7 @@ import {
 	IIntegrationMap,
 	GithubRepositoryStatusEnum,
 	ID
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	AutomationLabelSyncCommand,
 	AutomationTaskSyncCommand,
@@ -30,8 +30,8 @@ import {
 	IntegrationTenantSyncService,
 	OrganizationProjectService,
 	RequestContext
-} from '@gauzy/core';
-import { arrayToObject, isNotEmpty, sleep } from '@gauzy/utils';
+} from '@irtranscripts/core';
+import { arrayToObject, isNotEmpty, sleep } from '@irtranscripts/utils';
 import { OctokitService } from '../probot/octokit.service';
 import { GithubRepositoryService } from './repository/github-repository.service';
 import { IntegrationSyncGithubRepositoryIssueCommand } from './repository/issue/commands';
@@ -401,7 +401,7 @@ export class GithubSyncService {
 				let labels = issue.labels;
 
 				// List of labels to check and create if missing
-				const labelsToCheck = [SyncTags.GITHUB, SyncTags.GAUZY];
+				const labelsToCheck = [SyncTags.GITHUB, SyncTags.IRTRANSCRIPTS];
 				const labelsToCreate = labelsToCheck.filter(
 					(name) => !labels.find((label: IGithubIssueLabel) => label.name === name)
 				);

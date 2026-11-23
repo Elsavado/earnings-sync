@@ -7,7 +7,7 @@ import {
 	FeatureEnum,
 	IFeature,
 	IFeatureOrganization
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { BaseEntity, FeatureOrganization } from '../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne, MultiORMOneToMany, VirtualMultiOrmColumn } from './../core/decorators/entity';
 import { MikroOrmFeatureRepository } from './repository/mikro-orm-feature.repository';

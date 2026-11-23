@@ -9,8 +9,8 @@ import {
 	IGithubIssue,
 	IGithubRepository,
 	IIntegrationSetting
-} from '@gauzy/contracts';
-import { IntegrationSettingGetCommand, IntegrationSettingGetManyCommand } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { IntegrationSettingGetCommand, IntegrationSettingGetManyCommand } from '@irtranscripts/core';
 import { GithubSyncService } from './github-sync.service';
 
 @Injectable()

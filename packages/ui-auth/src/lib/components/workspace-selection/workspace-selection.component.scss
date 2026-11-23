@@ -9,7 +9,7 @@
     h4 {
       font-size: 30px;
       margin-top: 32px;
-      color: var(--gauzy-text-color-1);
+      color: var(--irtranscripts-text-color-1);
       font-weight: 600;
 
       strong {
@@ -19,18 +19,18 @@
 
     h6 {
       font-size: 14px;
-      color: var(--gauzy-text-color-2);
+      color: var(--irtranscripts-text-color-2);
       font-weight: 500;
     }
   }
 
   nb-card {
-    box-shadow: var(--gauzy-shadow);
-    background-color: var(--gauzy-card-2);
+    box-shadow: var(--irtranscripts-shadow);
+    background-color: var(--irtranscripts-card-2);
 
     .title {
       font-weight: 400;
-      color: var(--gauzy-text-color-1);
+      color: var(--irtranscripts-text-color-1);
 
       .sub-title {
         font-weight: 600;
@@ -49,7 +49,7 @@
         }
 
         &:hover {
-          background-color: var(--gauzy-background-transparent-1);
+          background-color: var(--irtranscripts-background-transparent-1);
           border-bottom: 1px solid var(--border-primary-color-1);
           border-radius: var(--border-radius);
         }
@@ -100,7 +100,7 @@
 }
 
 ::ng-deep {
-  ngx-gauzy-logo {
+  ngx-irtranscripts-logo {
     object {
       max-width: unset !important;
       max-height: unset !important;

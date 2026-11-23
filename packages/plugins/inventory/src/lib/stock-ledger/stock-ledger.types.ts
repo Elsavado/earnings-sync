@@ -12,7 +12,7 @@
  * than stored: a bin holds nothing of its own, and what it holds is the sum of the movements recorded
  * against it.
  */
-import { DecimalString, ID } from '@gauzy/contracts';
+import { DecimalString, ID } from '@irtranscripts/contracts';
 
 /** What the ledger knows about one variant in one bin, derived from the movement ledger. */
 export interface IStockLedgerBinBalance {

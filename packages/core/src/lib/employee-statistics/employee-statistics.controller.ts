@@ -4,7 +4,7 @@ import {
 	IMonthAggregatedEmployeeStatistics,
 	IEmployeeStatisticsHistory,
 	ID
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { Controller, Get, HttpStatus, Param, Query, UseGuards } from '@nestjs/common';
 import { QueryBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';

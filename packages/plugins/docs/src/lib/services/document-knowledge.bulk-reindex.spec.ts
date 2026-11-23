@@ -7,11 +7,11 @@
  * it, that it is absent (not a string "undefined", not a null) with no request context, and that
  * nothing else about the sweep's payload/options changed.
  *
- * `@gauzy/core` boots the entire application graph on import (entities -> bootstrap), so — same as
+ * `@irtranscripts/core` boots the entire application graph on import (entities -> bootstrap), so — same as
  * `document-processing.snapshot.spec.ts` — `RequestContext` is mocked at the module boundary, and
  * every collaborator the service's imports would pull in is stubbed; `bulkReindex()` itself is real.
  */
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	RequestContext: {
 		currentTenantId: jest.fn(),
 		currentUserId: jest.fn(),
@@ -31,7 +31,7 @@ jest.mock('../repositories/type-orm-document.repository', () => ({ TypeOrmDocume
 jest.mock('./document-processing.service', () => ({ DocumentProcessingService: class {} }));
 jest.mock('./document.service', () => ({ DocumentService: class {} }));
 
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { DOCS_JOB_CHUNK } from '../knowledge/queue/constants';
 import { DocumentKnowledgeService } from './document-knowledge.service';
 

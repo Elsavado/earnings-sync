@@ -14,7 +14,7 @@ const KNOWN_ERRORS = new Set(['email_unverified', 'reauth_required', 'link_faile
  * Settings > Connected identities: the signed-in person connects an Ever ID to this account (after a
  * fresh Ever ID sign-in and a confirmation that shows both addresses), sees the connected ones, and
  * can disconnect them. Accounts with the same address in other workspaces are offered not ticked and
- * are linked only with Gauzy's own one-time e-mail code.
+ * are linked only with IRTranscripts's own one-time e-mail code.
  */
 @Component({
 	selector: 'ngx-ever-id-connected-identities',

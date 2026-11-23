@@ -1,6 +1,6 @@
 import { applyDecorators } from '@nestjs/common';
-import { FEATURE_GRAPHQL } from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+import { FEATURE_GRAPHQL } from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { MarketplaceFeatures } from '../marketplace.features';
 
 /**

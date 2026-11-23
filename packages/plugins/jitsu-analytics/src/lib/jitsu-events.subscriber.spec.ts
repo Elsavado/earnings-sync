@@ -1,8 +1,8 @@
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	environment: { jitsu: { serverHost: 'https://jitsu.example.test', serverWriteKey: 'write-key' } }
 }));
-// The real base subscriber and export redaction live in @gauzy/core; these stand-ins keep the test to this plugin.
-jest.mock('@gauzy/core', () => ({
+// The real base subscriber and export redaction live in @irtranscripts/core; these stand-ins keep the test to this plugin.
+jest.mock('@irtranscripts/core', () => ({
 	BaseEntityEventSubscriber: class {
 		afterInsert() {
 			return Promise.resolve();

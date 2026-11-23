@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 import { DataSource, In } from 'typeorm';
-import { IntegrationTypeEnum } from '@gauzy/contracts';
-import { Integration, IntegrationType } from '@gauzy/core';
+import { IntegrationTypeEnum } from '@irtranscripts/contracts';
+import { Integration, IntegrationType } from '@irtranscripts/core';
 import {
 	EVER_WORKS_CATALOG_ICON,
 	EVER_WORKS_CATALOG_ORDER,
@@ -14,7 +14,7 @@ import {
 const INTEGRATION_TYPES = [IntegrationTypeEnum.ALL_INTEGRATIONS, IntegrationTypeEnum.PROJECT_MANAGEMENT];
 
 /**
- * Lists "Ever Works" among Gauzy's integrations: one `integration` catalog row named `Ever_Works`
+ * Lists "Ever Works" among IRTranscripts's integrations: one `integration` catalog row named `Ever_Works`
  * (`IntegrationEnum.EVER_WORKS`), written when the plugin starts and never by a migration or the seed.
  * The row therefore exists only on installations that switched the plugin on (`EVER_WORKS_ENABLED=true`);
  * with the switch off nothing is written and the Integrations page is unchanged.

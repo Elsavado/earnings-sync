@@ -1,7 +1,7 @@
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import { BadRequestException, Optional, UseGuards } from '@nestjs/common';
 import { isUUID } from 'class-validator';
-import { ID, PermissionsEnum } from '@gauzy/contracts';
+import { ID, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	deliverPayloadAsIs,
 	EventBus,
@@ -14,8 +14,8 @@ import {
 	IConnectionPageSelection,
 	resolveConnectionWindow,
 	tenantScopedEventStream
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { PaymentCanceledEvent, PaymentCapturedEvent, PaymentFailedEvent, PaymentAuthorizedEvent } from '../../events';
 import { PaymentCaptureService } from '../../payment-capture/payment-capture.service';
 import { PaymentProviderService } from '../../payment-provider/payment-provider.service';

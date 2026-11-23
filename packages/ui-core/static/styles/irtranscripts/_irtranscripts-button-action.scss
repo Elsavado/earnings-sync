@@ -1,0 +1,14 @@
+@media screen and (max-width: 1440px) {
+  ::ng-deep .transition {
+    background: var(--irtranscripts-card-1);
+    &.show {
+      position: relative;
+      z-index: 10;
+      background: var(--irtranscripts-card-1) !important;
+      box-shadow: var(--irtranscripts-shadow);
+    }
+    & .actions {
+      background: var(--irtranscripts-card-1) !important;
+    }
+  }
+}

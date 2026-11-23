@@ -25,8 +25,8 @@ import {
 	RolesEnum,
 	IEmployee,
 	ITask
-} from '@gauzy/contracts';
-import { isEmpty, isNotEmpty } from '@gauzy/utils';
+} from '@irtranscripts/contracts';
+import { isEmpty, isNotEmpty } from '@irtranscripts/utils';
 import { SOFT_DELETABLE_FILTER } from 'mikro-orm-soft-delete';
 import { BaseQueryDTO, TenantAwareCrudService } from './../core/crud';
 import { sanitizeRichHtml } from './../core/html-sanitizer';

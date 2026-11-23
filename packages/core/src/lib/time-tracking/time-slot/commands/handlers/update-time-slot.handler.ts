@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import * as moment from 'moment';
-import { ID, ITimeSlot, PermissionsEnum } from '@gauzy/contracts';
+import { ID, ITimeSlot, PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../../../core/context';
 import { Activity } from '../../../activity/activity.entity';
 import { scopeActivitiesForWrite } from '../../../activity/activity-write-scope.helper';

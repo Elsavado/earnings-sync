@@ -1,6 +1,6 @@
 import { IntersectionType, PartialType } from '@nestjs/swagger';
-import { IOrganizationProjectUpdateInput } from '@gauzy/contracts';
-import { WithoutInitializers } from '@gauzy/common';
+import { IOrganizationProjectUpdateInput } from '@irtranscripts/contracts';
+import { WithoutInitializers } from '@irtranscripts/common';
 import { TenantOrganizationBaseDTO } from './../../core/dto';
 import { OrganizationProjectDTO } from './organization-project.dto';
 

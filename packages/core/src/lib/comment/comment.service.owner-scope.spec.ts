@@ -5,7 +5,7 @@
 import '../core/entities/internal';
 
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { CrudService } from '../core/crud/crud.service';
 import { TenantAwareCrudService } from '../core/crud/tenant-aware-crud.service';
 import { RequestContext } from '../core/context/request-context';

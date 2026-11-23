@@ -7,7 +7,7 @@
  * through the `DOCS_INBOUND_EMAIL_ADAPTER` token.
  */
 
-import { IDocumentInboundAddress } from '@gauzy/contracts';
+import { IDocumentInboundAddress } from '@irtranscripts/contracts';
 
 /** DI token the inbound-email controller resolves its adapter through. */
 export const DOCS_INBOUND_EMAIL_ADAPTER = 'DOCS_INBOUND_EMAIL_ADAPTER';

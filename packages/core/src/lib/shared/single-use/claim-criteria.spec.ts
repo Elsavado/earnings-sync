@@ -1,5 +1,5 @@
 import { DataSource, EntitySchema, Repository } from 'typeorm';
-import { InviteStatusEnum } from '@gauzy/contracts';
+import { InviteStatusEnum } from '@irtranscripts/contracts';
 import {
 	emailVerificationClaimWhere,
 	inviteClaimWhere,

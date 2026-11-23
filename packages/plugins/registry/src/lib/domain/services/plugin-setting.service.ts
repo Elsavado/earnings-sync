@@ -1,4 +1,4 @@
-import { parseFindOptionsRelations } from '@gauzy/core';
+import { parseFindOptionsRelations } from '@irtranscripts/core';
 import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { FindManyOptions, FindOptionsWhere } from 'typeorm';
 import {

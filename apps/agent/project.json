@@ -2,7 +2,7 @@
 	"name": "agent",
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
 	"projectType": "application",
-	"prefix": "gauzy",
+	"prefix": "irtranscripts",
 	"sourceRoot": "apps/agent/src",
 	"tags": [],
 	"generators": {

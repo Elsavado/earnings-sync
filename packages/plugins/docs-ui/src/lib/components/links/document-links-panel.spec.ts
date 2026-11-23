@@ -1,11 +1,11 @@
 /**
- * `@gauzy/ui-core/i18n` and `@gauzy/ui-core/core` are barrels over the whole app:
+ * `@irtranscripts/ui-core/i18n` and `@irtranscripts/ui-core/core` are barrels over the whole app:
  * importing them pulls Akita's untranspiled ESM into the CommonJS test runtime.
  * The panel only needs `TranslationBaseComponent` to exist and `Store` to answer
  * permission/feature questions, so both are stubbed and the component is
  * constructed directly — no `TestBed`.
  */
-jest.mock('@gauzy/ui-core/i18n', () => ({
+jest.mock('@irtranscripts/ui-core/i18n', () => ({
 	TranslationBaseComponent: class {
 		constructor(public readonly translateService: unknown) {}
 		getTranslation(key: string): string {
@@ -13,11 +13,11 @@ jest.mock('@gauzy/ui-core/i18n', () => ({
 		}
 	}
 }));
-jest.mock('@gauzy/ui-core/core', () => ({ Store: class Store {}, ToastrService: class ToastrService {} }));
+jest.mock('@irtranscripts/ui-core/core', () => ({ Store: class Store {}, ToastrService: class ToastrService {} }));
 
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { BaseEntityEnum, DocumentKindEnum, ID, IDocument, IDocumentLink, PermissionsEnum } from '@gauzy/contracts';
+import { BaseEntityEnum, DocumentKindEnum, ID, IDocument, IDocumentLink, PermissionsEnum } from '@irtranscripts/contracts';
 import { DocumentLinksPanelComponent } from './document-links-panel.component';
 
 const ENTITY_ID = 'cccccccc-1111-4111-8111-111111111111' as ID;

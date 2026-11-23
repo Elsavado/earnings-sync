@@ -1,4 +1,4 @@
-import { isBetterSqlite3, isSqlite } from '@gauzy/config';
+import { isBetterSqlite3, isSqlite } from '@irtranscripts/config';
 
 /**
  * Database serialization utilities for handling JSON data across different database types

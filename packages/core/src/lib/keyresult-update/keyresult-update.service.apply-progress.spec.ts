@@ -12,7 +12,7 @@ import {
 	KpiOperatorEnum,
 	PermissionsEnum,
 	RolesEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { TenantAwareCrudService } from '../core/crud';
 import { CrudService } from '../core/crud/crud.service';

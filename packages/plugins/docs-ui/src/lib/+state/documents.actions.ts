@@ -1,5 +1,5 @@
 import { createAction } from '@ngneat/effects';
-import { ID, IDocument } from '@gauzy/contracts';
+import { ID, IDocument } from '@irtranscripts/contracts';
 import { DocsFilterState, DocsPresetId } from '../models/docs-filter.model';
 
 export class DocumentsActions {

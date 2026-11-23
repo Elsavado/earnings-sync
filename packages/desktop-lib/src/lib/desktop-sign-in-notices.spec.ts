@@ -18,7 +18,7 @@ jest.mock(
 	}),
 	{ virtual: true }
 );
-jest.mock('@gauzy/desktop-core', () => ({
+jest.mock('@irtranscripts/desktop-core', () => ({
 	store: {
 		get: (key: string) => mockStore.get(key),
 		// A copy, as electron-store writes JSON to disk.
@@ -232,7 +232,7 @@ describe('DesktopSignInNotices', () => {
 		expect(dialogOptions().detail).not.toContain('operator-chosen-password');
 	});
 
-	it('shows a seed recorded after the app asked to show (Gauzy Server: dashboard first, then Start)', async () => {
+	it('shows a seed recorded after the app asked to show (IRTranscripts Server: dashboard first, then Start)', async () => {
 		await notices.show();
 		expect(mockShowMessageBox).not.toHaveBeenCalled();
 
@@ -243,7 +243,7 @@ describe('DesktopSignInNotices', () => {
 		expect(mockShowMessageBox).toHaveBeenCalledTimes(1);
 	});
 
-	it('does not show a seed recorded before anything asked to (Gauzy Desktop relaunches after setup)', () => {
+	it('does not show a seed recorded before anything asked to (IRTranscripts Desktop relaunches after setup)', () => {
 		startAndSeed();
 
 		expect(mockShowMessageBox).not.toHaveBeenCalled();

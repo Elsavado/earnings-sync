@@ -1,8 +1,8 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional, Max, Min } from 'class-validator';
 import { Transform, TransformFnParams } from 'class-transformer';
-import { IGithubIssueFindInput } from '@gauzy/contracts';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { IGithubIssueFindInput } from '@irtranscripts/contracts';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 
 export class GithubIssuesQueryDTO extends TenantOrganizationBaseDTO implements IGithubIssueFindInput {
 	/**

@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 /** The pivot this migration creates. */
 const TABLE = 'organization_strategic_initiative_team';
@@ -19,7 +19,7 @@ const NAMES = {
 
 /**
  * Creates `organization_strategic_initiative_team`: the teams a strategic initiative is linked to directly
- * (G-P2-4 of the Gauzy ↔ Ever Works integration plan; an Ever Works Mission scoped to a Team maps to an
+ * (G-P2-4 of the IRTranscripts ↔ Ever Works integration plan; an Ever Works Mission scoped to a Team maps to an
  * initiative linked to that team). With `visibilityScope = 'team'`, an initiative is then visible to the
  * members of the teams linked directly as well as of the teams of its aligned projects.
  *
@@ -130,7 +130,7 @@ export class CreateOrganizationStrategicInitiativeTeamTable1791000000731 impleme
 	 */
 	public async mysqlUpQueryRunner(queryRunner: QueryRunner): Promise<any> {
 		// MySQL accepts lock names of at most 64 characters: the migration's timestamp, not its class name.
-		const lockName = 'gauzy:migration:1791000000731';
+		const lockName = 'irtranscripts:migration:1791000000731';
 		const [row] = await queryRunner.query(`SELECT GET_LOCK(?, 120) AS \`acquired\``, [lockName]);
 		if (Number(row?.acquired) !== 1) {
 			throw new Error(`${this.name}: could not acquire the MySQL migration lock ${lockName}.`);

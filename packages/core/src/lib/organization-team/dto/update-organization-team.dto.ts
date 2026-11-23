@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { IsNotEmpty, IsOptional, IsString, IsUUID } from "class-validator";
-import { IOrganizationTeamUpdateInput } from "@gauzy/contracts";
-import { WithoutInitializers } from "@gauzy/common";
+import { IOrganizationTeamUpdateInput } from "@irtranscripts/contracts";
+import { WithoutInitializers } from "@irtranscripts/common";
 import { OrganizationTeamDTO } from "./organization-team.dto";
 import { IsTeamAlreadyExist } from "./../../shared/validators";
 

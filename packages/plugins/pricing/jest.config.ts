@@ -11,7 +11,7 @@ module.exports = {
 		// them either — and a spec that calls a method that has since been renamed still transpiled, so
 		// a case sitting inside `await expect(...).rejects.toThrow(...)` went green on the `TypeError`
 		// the missing method threw, asserting nothing about the behaviour it names. The sibling packages
-		// import the same `@gauzy/core` barrel under a checking transform, so the compile error this
+		// import the same `@irtranscripts/core` barrel under a checking transform, so the compile error this
 		// exception was written against is not one this package is exposed to on its own.
 		'^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }]
 	},

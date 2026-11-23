@@ -1,7 +1,7 @@
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { FindOptionsWhere, IsNull } from 'typeorm';
 import { LockMode } from '@mikro-orm/core';
-import { isMySQL, isPostgres } from '@gauzy/config';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
 import {
 	ID,
 	IEmployeeSetting,
@@ -9,7 +9,7 @@ import {
 	IEmployeeSettingDataPatchInput,
 	IEmployeeSettingUpdateInput,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { assertHasOwnEmployee } from '../core/crud/own-employee.helper';
 import { TenantAwareCrudService } from './../core/crud';

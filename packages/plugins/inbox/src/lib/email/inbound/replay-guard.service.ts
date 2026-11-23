@@ -1,6 +1,6 @@
 import { Inject, Injectable, Logger, Optional } from '@nestjs/common';
 import { createHash } from 'node:crypto';
-import { EVER_REDIS_CLIENT } from '@gauzy/core';
+import { EVER_REDIS_CLIENT } from '@irtranscripts/core';
 
 /** The part of the Redis client the guard uses (`SET key value [NX] PX ttl`). */
 interface ReplayRedis {
@@ -86,7 +86,7 @@ export class InboundReplayGuard {
 	}
 
 	private keyOf(scope: string, fingerprint: string): string {
-		return `gauzy:inbox:replay:${createHash('sha256').update(`${scope}\n${fingerprint}`).digest('hex')}`;
+		return `irtranscripts:inbox:replay:${createHash('sha256').update(`${scope}\n${fingerprint}`).digest('hex')}`;
 	}
 
 	private consumeLocally(key: string, ttlMs: number): boolean {

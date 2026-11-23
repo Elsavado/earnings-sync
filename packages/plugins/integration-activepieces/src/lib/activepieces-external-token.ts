@@ -70,7 +70,7 @@ export function tenantExternalTokenClaims(externalId: string, nowSeconds: number
 	return {
 		externalUserId: externalId,
 		externalProjectId: externalId,
-		firstName: 'Ever Gauzy',
+		firstName: 'Ever IRTranscripts',
 		lastName: 'Tenant',
 		role: EXTERNAL_TOKEN_PROJECT_ROLE,
 		iat: nowSeconds,

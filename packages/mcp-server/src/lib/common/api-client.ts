@@ -6,8 +6,8 @@ import { sanitizeErrorMessage } from './error-utils';
 
 const logger = new Logger('ApiClient');
 
-export class GauzyApiClient {
-	private static instance: GauzyApiClient;
+export class IRTranscriptsApiClient {
+	private static instance: IRTranscriptsApiClient;
 	private client: AxiosInstance;
 
 	private constructor() {
@@ -128,11 +128,11 @@ export class GauzyApiClient {
 		}
 	}
 
-	public static getInstance(): GauzyApiClient {
-		if (!GauzyApiClient.instance) {
-			GauzyApiClient.instance = new GauzyApiClient();
+	public static getInstance(): IRTranscriptsApiClient {
+		if (!IRTranscriptsApiClient.instance) {
+			IRTranscriptsApiClient.instance = new IRTranscriptsApiClient();
 		}
-		return GauzyApiClient.instance;
+		return IRTranscriptsApiClient.instance;
 	}
 
 	public getBaseUrl(): string {
@@ -252,7 +252,7 @@ export class GauzyApiClient {
 	}
 
 	/**
-	 * Test the connection to the Gauzy API with comprehensive diagnostics
+	 * Test the connection to the IRTranscripts API with comprehensive diagnostics
 	 */
 	public async testConnection(): Promise<{ success: boolean; error?: string; details?: any }> {
 		try {
@@ -345,7 +345,7 @@ export class GauzyApiClient {
 
 	private getConnectionErrorMessage(error: any): string {
 		if (error?.code === 'ECONNREFUSED') {
-			return `Connection refused - is the Gauzy API server running on ${this.getBaseUrl()}?`;
+			return `Connection refused - is the IRTranscripts API server running on ${this.getBaseUrl()}?`;
 		}
 		if (error?.code === 'ENOTFOUND') {
 			return `Host not found - please check the API_BASE_URL: ${this.getBaseUrl()}`;
@@ -363,7 +363,7 @@ export class GauzyApiClient {
 			return `Access forbidden - insufficient permissions`;
 		}
 		if (error?.response?.status >= 500) {
-			return `Server error (${error.response.status}) - the Gauzy API server has an internal error`;
+			return `Server error (${error.response.status}) - the IRTranscripts API server has an internal error`;
 		}
 
 		return error instanceof Error ? error.message : 'Unknown connection error';
@@ -371,4 +371,4 @@ export class GauzyApiClient {
 }
 
 // Export singleton instance
-export const apiClient = GauzyApiClient.getInstance();
+export const apiClient = IRTranscriptsApiClient.getInstance();

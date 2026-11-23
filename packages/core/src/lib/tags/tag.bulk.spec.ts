@@ -7,8 +7,8 @@ import '../core/entities/internal';
 
 import { RequestMethod, ValidationPipe } from '@nestjs/common';
 import { METHOD_METADATA, PATH_METADATA } from '@nestjs/common/constants';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { BulkExecutor } from '../api/bulk-executor.service';
 import { readBulkOperation } from '../api/bulk.decorator';
 import { FieldVisibility } from '../api/field-visibility.service';

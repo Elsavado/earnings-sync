@@ -1,5 +1,5 @@
 import { ICommandHandler, CommandHandler } from '@nestjs/cqrs';
-import { RequestApprovalStatusTypesEnum, ApprovalPolicyTypesStringEnum } from '@gauzy/contracts';
+import { RequestApprovalStatusTypesEnum, ApprovalPolicyTypesStringEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../../core/context';
 import { RequestApprovalService } from '../../../request-approval/request-approval.service';
 import { EquipmentSharing } from '../../equipment-sharing.entity';

@@ -11,7 +11,7 @@ import {
 	IScreeningTaskUpdateInput,
 	ScreeningTaskStatusEnum,
 	TaskStatusEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { RequestContext } from '../../core/context';
 import { TenantAwareCrudService } from '../../core/crud';
 import { TaskService } from '../task.service';

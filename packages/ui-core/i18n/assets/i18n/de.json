@@ -70,7 +70,7 @@
 		"TO_INVOICE": "Zu begründen",
 		"PUBLIC_APPOINTMENT_BOOK": "Buchöffentlicher Termin",
 		"SAVE_AS_DRAFT": "Speichern als Entwurf",
-		"SAVE_AND_SEND_CONTACT": "Speichern und an Kontakt in gauzy senden",
+		"SAVE_AND_SEND_CONTACT": "Speichern und an Kontakt in irtranscripts senden",
 		"SAVE_AND_SEND_EMAIL": "Speichern und per E-Mail senden",
 		"EVENT_TYPES": "Ereignistypen",
 		"SEARCH": "Suche",
@@ -660,8 +660,8 @@
 			"ALL_TEAMS": "Alle Teams",
 			"UPWORK_API_KEY": "Upwork API Schlüssel",
 			"UPWORK_SECRET": "Upwork Geheimnis",
-			"GAUZY_API_KEY": "Gauzy AI-Schlüssel",
-			"GAUZY_API_SECRET": "Gauzy KI Geheimnis",
+			"IRTRANSCRIPTS_API_KEY": "IRTranscripts AI-Schlüssel",
+			"IRTRANSCRIPTS_API_SECRET": "IRTranscripts KI Geheimnis",
 			"SELECT_COMPANY": "Unternehmen",
 			"TYPE_SEARCH_REQUEST": "Geben Sie hier Ihre Suchanfrage ein...",
 			"SELECT_ICON": "Icon",
@@ -811,7 +811,7 @@
 		"TOTAL_INCOME_OR_MONTHLY_INCOME": "Gesamteinnahmen/Monatliches Einkommen",
 		"PROFITS": "Gewinne",
 		"BONUSES_PAID": "Bonusbeträge bezahlt",
-		"TOTAL_HOURS_WORKED_OVER_GAUZY": "Gesamtstunden, die bei Gauzy gearbeitet wurden",
+		"TOTAL_HOURS_WORKED_OVER_IRTRANSCRIPTS": "Gesamtstunden, die bei IRTranscripts gearbeitet wurden",
 		"MINIMUM_PROJECT_SIZE": "Minimale Projektgröße",
 		"PROJECTS_COUNT": "Projekte Anzahl",
 		"CLIENTS_COUNT": "Kunden zählen",
@@ -854,7 +854,7 @@
 		"UPWORK": "Upwork",
 		"MAKE_COM": "Make.com",
 		"ZAPIER": "Zapier",
-		"GAUZY_AI": "Gauzy AI",
+		"IRTRANSCRIPTS_AI": "IRTranscripts AI",
 		"ACTIVEPIECES": "Activepieces",
 		"PROPOSALS": "Vorschläge",
 		"TIME_OFF": "Freizeit",
@@ -905,11 +905,11 @@
 			"WRONG_FILE_NAME": "Falscher Dateiname!!!",
 			"CORRECT_FILE_NAME": "archiv.zip",
 			"DOWNLOAD_TEMPLATES": "Laden Sie Vorlagen herunter",
-			"MIGRATE_TO_CLOUD": "Migriere zur Ever Gauzy Cloud",
-			"IMPORT_INFO": "Klicken Sie auf \"Importieren\", um Ihre Daten in die Gauzy DB zu importieren.",
-			"EXPORT_INFO": "Klicken Sie auf \"Exportieren\", um Daten aus der Gauzy-Datenbank zu exportieren.",
-			"DOWNLOAD_TEMPLATES_INFO": "Klicken Sie auf \"Vorlagen herunterladen\", um das Zip-Archiv mit CSV-Vorlagen für das Format der Gauzy-Daten herunterzuladen.",
-			"MIGRATE_TO_CLOUD_INFO": "Klicken Sie auf \"Migrieren zur Ever Gauzy Cloud\", um von der selbst gehosteten Version zur Cloud-Version zu migrieren.",
+			"MIGRATE_TO_CLOUD": "Migriere zur Ever IRTranscripts Cloud",
+			"IMPORT_INFO": "Klicken Sie auf \"Importieren\", um Ihre Daten in die IRTranscripts DB zu importieren.",
+			"EXPORT_INFO": "Klicken Sie auf \"Exportieren\", um Daten aus der IRTranscripts-Datenbank zu exportieren.",
+			"DOWNLOAD_TEMPLATES_INFO": "Klicken Sie auf \"Vorlagen herunterladen\", um das Zip-Archiv mit CSV-Vorlagen für das Format der IRTranscripts-Daten herunterzuladen.",
+			"MIGRATE_TO_CLOUD_INFO": "Klicken Sie auf \"Migrieren zur Ever IRTranscripts Cloud\", um von der selbst gehosteten Version zur Cloud-Version zu migrieren.",
 			"MIGRATE_SUCCESSFULLY": "Die sanfte Cloud-Migration für '{{ tenant }}' war erfolgreich!",
 			"ACCOUNTING_TEMPLATE": "Buchhaltungsvorlage",
 			"ACTIVITY": "Aktivität",
@@ -1158,7 +1158,7 @@
 		"ACCOUNTING_TEMPLATES": "Buchhaltungsvorlagen",
 		"FOCUS": "Fokus",
 		"APPLICATIONS": "Anwendungen",
-		"OPEN_GA_BROWSER": "Öffne Gauzy im Browser",
+		"OPEN_GA_BROWSER": "Öffne IRTranscripts im Browser",
 		"START_SERVER": "Server starten",
 		"STOP_SERVER": "Stoppe den Server",
 		"DOCUMENTS": "Dokumente",
@@ -1234,8 +1234,8 @@
 		"CORPORATE": "Unternehmen",
 		"MATERIAL_LIGHT_THEME": "Material Light",
 		"MATERIAL_DARK_THEME": "Material Dark",
-		"GAUZY_LIGHT": "Gauzy Light",
-		"GAUZY_DARK": "Gauzy Dark",
+		"IRTRANSCRIPTS_LIGHT": "IRTranscripts Light",
+		"IRTRANSCRIPTS_DARK": "IRTranscripts Dark",
 		"LANGUAGE": "Sprache",
 		"ENGLISH": "Englisch",
 		"FRENCH": "Französisch",
@@ -1265,7 +1265,7 @@
 	"CHANGELOG_MENU": {
 		"HEADER": "Was gibt es Neues?",
 		"LEARN_MORE_URL": "Erfahren Sie mehr",
-		"GAUZY_FEATURES": "Gauzy Merkmale"
+		"IRTRANSCRIPTS_FEATURES": "IRTranscripts Merkmale"
 	},
 	"REPORT_PAGE": {
 		"MEMBERS_WORKED": "Mitglieder haben gearbeitet.",
@@ -1330,7 +1330,7 @@
 			"MANUAL_ACTIVITY": "Keine Datensätze gefunden. Bitte wählen Sie einen Datumsbereich, einen Mitarbeiter oder ein Projekt aus.",
 			"AMOUNT_OWED": "Kein Betrag geschuldet",
 			"WEEKLY_TIME_AND_ACTIVITY": "Du hast noch keine verfolgte Zeit und Aktivität für diese Tage.",
-			"DAILY_TIME_AND_ACTIVITY": "Es gibt noch keine erfasste Zeit und Aktivität für diesen Tag. Bitte verwenden Sie die <a href={{downloadURL}} rel=\"noopener\" target=\"_blank\">Gauzy Desktop Timer App</a>.",
+			"DAILY_TIME_AND_ACTIVITY": "Es gibt noch keine erfasste Zeit und Aktivität für diesen Tag. Bitte verwenden Sie die <a href={{downloadURL}} rel=\"noopener\" target=\"_blank\">IRTranscripts Desktop Timer App</a>.",
 			"PROJECT_BUDGET": "Sie haben noch kein Projekt mit Budget erstellt.",
 			"CLIENT_BUDGET": "Sie haben keinen Kunden mit Budget erstellt."
 		},
@@ -1350,7 +1350,7 @@
 			"DATE_RANGE_PLACEHOLDER": "Wähle ein Datum zwischen",
 			"CLIENT_ID": "Hubstaff Kundennummer",
 			"CLIENT_SECRET": "Hubstaff Klientengeheimnis",
-			"GRANT_PERMISSION": "Als nächstes werden Sie zu Hubstaff weitergeleitet, um Gauzy Berechtigungen zu gewähren.",
+			"GRANT_PERMISSION": "Als nächstes werden Sie zu Hubstaff weitergeleitet, um IRTranscripts Berechtigungen zu gewähren.",
 			"ENTER_CLIENT_SECRET": "Geben Sie das Client-Geheimnis ein, um Zugriffstoken zu erhalten."
 		},
 		"UPWORK_PAGE": {
@@ -1360,7 +1360,7 @@
 			"SUCCESSFULLY_AUTHORIZED": "Erfolgreich autorisiert.",
 			"API_KEY": "Upwork-API-Schlüssel",
 			"SECRET": "Upwork Geheimnis",
-			"NEXT_STEP_INFO": "Als Nächstes werden Sie zu Upwork weitergeleitet, um Gauzy die Erlaubnis zu erteilen.",
+			"NEXT_STEP_INFO": "Als Nächstes werden Sie zu Upwork weitergeleitet, um IRTranscripts die Erlaubnis zu erteilen.",
 			"CONTRACTS": "Verträge",
 			"SYNCED_CONTRACTS": "Synchronisierte Verträge",
 			"SELECT_DATE": "Datum",
@@ -1504,9 +1504,9 @@
 				"SETTINGS": "Einstellungen"
 			},
 			"TOOLTIP": {
-				"TRIGGERS": "Trigger sind Ereignisse, die in Gauzy auftreten und verwendet werden können, um Aktionen in Zapier auszulösen.",
-				"ACTIONS": "Aktionen sind Ereignisse, die in Zapier auftreten und verwendet werden können, um Aktionen in Gauzy auszulösen.",
-				"WEBHOOKS": "Webhooks sind Ereignisse, die in Zapier auftreten und verwendet werden können, um Aktionen in Gauzy auszulösen.",
+				"TRIGGERS": "Trigger sind Ereignisse, die in IRTranscripts auftreten und verwendet werden können, um Aktionen in Zapier auszulösen.",
+				"ACTIONS": "Aktionen sind Ereignisse, die in Zapier auftreten und verwendet werden können, um Aktionen in IRTranscripts auszulösen.",
+				"WEBHOOKS": "Webhooks sind Ereignisse, die in Zapier auftreten und verwendet werden können, um Aktionen in IRTranscripts auszulösen.",
 				"SETTINGS": "Einstellungen sind die Einstellungen für die Zapier-Integration."
 			},
 			"MESSAGE": {
@@ -1523,7 +1523,7 @@
 				"WEBHOOK_URL": "Webhook-URL",
 				"WEBHOOK_URL_PLACEHOLDER": "Webhook-URL eingeben",
 				"WEBHOOK_URL_INVALID": "Bitte geben Sie eine gültige Webhook-URL ein",
-				"WEBHOOK_INFO": "Webhook ist eine URL, die verwendet wird, um Daten in Gauzy zu aktualisieren, basierend auf einem bestimmten Ereignis in Zapier.",
+				"WEBHOOK_INFO": "Webhook ist eine URL, die verwendet wird, um Daten in IRTranscripts zu aktualisieren, basierend auf einem bestimmten Ereignis in Zapier.",
 				"SAVE": "Einstellungen speichern"
 			},
 			"ACTIONS": {
@@ -1559,9 +1559,9 @@
 				}
 			}
 		},
-		"GAUZY_AI_PAGE": {
-			"API_KEY": "Gauzy KI",
-			"API_SECRET": "Gauzy KI Geheimnis"
+		"IRTRANSCRIPTS_AI_PAGE": {
+			"API_KEY": "IRTranscripts KI",
+			"API_SECRET": "IRTranscripts KI Geheimnis"
 		},
 		"ACTIVEPIECES_PAGE": {
 			"TITLE": "Activepieces",
@@ -2023,8 +2023,8 @@
 		"KIND_HUMAN": "Personen",
 		"KIND_AGENT": "Agenten",
 		"AGENT_BADGE": "Agent",
-		"MANAGED_BY_EVER_WORKS": "Von Ever Works verwaltet: Name und Profil dieses Agenten werden in Ever Works geändert und mit Gauzy synchronisiert.",
-		"MANAGED_EXTERNALLY": "Extern verwaltet: Name und Profil dieses Agenten werden im Ursprungssystem geändert und mit Gauzy synchronisiert.",
+		"MANAGED_BY_EVER_WORKS": "Von Ever Works verwaltet: Name und Profil dieses Agenten werden in Ever Works geändert und mit IRTranscripts synchronisiert.",
+		"MANAGED_EXTERNALLY": "Extern verwaltet: Name und Profil dieses Agenten werden im Ursprungssystem geändert und mit IRTranscripts synchronisiert.",
 		"OPEN_MANAGED_AGENT": "Agentenseite öffnen",
 		"HEADER": "Mitarbeiter verwalten",
 		"ADD_EMPLOYEE": "Mitarbeiter hinzufügen",
@@ -4439,9 +4439,9 @@
 		"REDIRECT_TO_HOME": "Sie werden bald zur Startseite weitergeleitet"
 	},
 	"HELP_PAGE": {
-		"INTRO": "Dokumentation finden, Antworten erhalten und das Team hinter Gauzy erreichen.",
+		"INTRO": "Dokumentation finden, Antworten erhalten und das Team hinter IRTranscripts erreichen.",
 		"DOCUMENTATION": "Dokumentation",
-		"DOCUMENTATION_DESC": "Anleitungen und Referenz für jede Gauzy-Funktion.",
+		"DOCUMENTATION_DESC": "Anleitungen und Referenz für jede IRTranscripts-Funktion.",
 		"FAQ": "FAQ",
 		"FAQ_DESC": "Antworten auf die häufigsten Fragen.",
 		"SUPPORT_CHAT": "Support-Chat",
@@ -4450,9 +4450,9 @@
 		"REPORT_ISSUE_DESC": "Fehler gefunden? Erstellen Sie ein Issue auf GitHub.",
 		"GITHUB": "GitHub",
 		"GITHUB_DESC": "Quellcode, Releases und Diskussionen.",
-		"WEBSITE": "Gauzy-Website",
-		"WEBSITE_DESC": "Erfahren Sie mehr über die Gauzy-Plattform.",
-		"ABOUT_LINK": "Über Gauzy",
+		"WEBSITE": "IRTranscripts-Website",
+		"WEBSITE_DESC": "Erfahren Sie mehr über die IRTranscripts-Plattform.",
+		"ABOUT_LINK": "Über IRTranscripts",
 		"ABOUT_LINK_DESC": "Versionsdetails, Lizenz und Links.",
 		"HELP": "Hilfe",
 		"KNOWLEDGE_BASE": "Wissensbasis",
@@ -4901,7 +4901,7 @@
 	},
 	"ABOUT_PAGE": {
 		"COPYRIGHT": "Copyright © 2019-{{year}}, Ever Co. LTD. Alle Rechte vorbehalten.",
-		"DESCRIPTION": "Ever® Gauzy™ ist eine offene Business-Management-Plattform für kollaborative, On-Demand- und Sharing-Ökonomien — ERP, CRM, HRM, ATS und Projektmanagement mit integrierter Zeiterfassung.",
+		"DESCRIPTION": "Ever® IRTranscripts™ ist eine offene Business-Management-Plattform für kollaborative, On-Demand- und Sharing-Ökonomien — ERP, CRM, HRM, ATS und Projektmanagement mit integrierter Zeiterfassung.",
 		"LICENSE": "Open Source, veröffentlicht unter der Lizenz",
 		"VERSION_DETAILS": "Versionsdetails",
 		"VERSION_MISMATCH": "Web-App und API wurden aus unterschiedlichen Commits gebaut — möglicherweise läuft gerade ein Deployment.",
@@ -4913,7 +4913,7 @@
 		"ABOUT": "Über",
 		"GITHUB": {
 			"TITLE": "Auf GitHub",
-			"DESCRIPTION": "Ever Gauzy wird offen entwickelt: Releases verfolgen, ein Problem melden oder mitwirken.",
+			"DESCRIPTION": "Ever IRTranscripts wird offen entwickelt: Releases verfolgen, ein Problem melden oder mitwirken.",
 			"RELEASES": "Releases",
 			"ISSUES": "Issues",
 			"PULL_REQUESTS": "Pull Requests",
@@ -5381,7 +5381,7 @@
 		"VIEW_TIMESHEET": "Zeitenblatt anzeigen",
 		"ADD_TIME": "Zeit hinzufügen",
 		"TODAY": "Heute",
-		"ALERT_DESKTOP_DOWNLOAD": "Für eine flexiblere Zeit- und Aktivitätsverfolgung laden Sie bitte die <a href={{downloadURL}} rel=\"noopener\" target=\"_blank\">Gauzy Desktop Timer App</a> herunter und verwenden Sie diese.",
+		"ALERT_DESKTOP_DOWNLOAD": "Für eine flexiblere Zeit- und Aktivitätsverfolgung laden Sie bitte die <a href={{downloadURL}} rel=\"noopener\" target=\"_blank\">IRTranscripts Desktop Timer App</a> herunter und verwenden Sie diese.",
 		"STATUS": "Der Zeitverfolger läuft bereits in der {{ source }}.",
 		"VERSION": "Version v{{ version }}",
 		"OS": "OS: {{ os }} {{ systemVersion }} ({{ arch }})",
@@ -5389,19 +5389,19 @@
 		"WAIT_FOR": "Warten auf den Beginn von {{ name }}...",
 		"SETUP": {
 			"WELCOME": "Willkommen",
-			"TITLE": "Willkommen bei Ever® Gauzy™ - Open-Source Business Management Plattform (ERP/CRM/HRM)",
-			"LABEL": "Die Gauzy Desktop App bietet die volle Funktionalität der Gauzy Plattform direkt auf Ihrem Desktop-Computer oder Laptop. Darüber hinaus ermöglicht sie das Verfolgen von Arbeitszeiten, das Aufzeichnen von Aktivitäten und die Möglichkeit, Erinnerungen/Benachrichtigungen zum Tracking zu erhalten.",
-			"TITLE_SERVER": "Gauzy-Server-Installationsassistent",
-			"LABEL_SERVER": "Die Gauzy Desktop App bietet die volle Funktionalität der Gauzy Plattform direkt auf Ihrem Desktop-Computer oder Laptop an. Zudem ermöglicht sie das Erfassen der Arbeitszeit, das Aufzeichnen von Aktivitäten sowie das Empfangen von Erinnerungen und Benachrichtigungen zur Nachverfolgung.",
+			"TITLE": "Willkommen bei Ever® IRTranscripts™ - Open-Source Business Management Plattform (ERP/CRM/HRM)",
+			"LABEL": "Die IRTranscripts Desktop App bietet die volle Funktionalität der IRTranscripts Plattform direkt auf Ihrem Desktop-Computer oder Laptop. Darüber hinaus ermöglicht sie das Verfolgen von Arbeitszeiten, das Aufzeichnen von Aktivitäten und die Möglichkeit, Erinnerungen/Benachrichtigungen zum Tracking zu erhalten.",
+			"TITLE_SERVER": "IRTranscripts-Server-Installationsassistent",
+			"LABEL_SERVER": "Die IRTranscripts Desktop App bietet die volle Funktionalität der IRTranscripts Plattform direkt auf Ihrem Desktop-Computer oder Laptop an. Zudem ermöglicht sie das Erfassen der Arbeitszeit, das Aufzeichnen von Aktivitäten sowie das Empfangen von Erinnerungen und Benachrichtigungen zur Nachverfolgung.",
 			"FUNCTIONALITIES": "Funktionalitäten",
 			"WHAT_WOULD_LIKE_USE": "Was würdest du gerne verwenden?",
 			"SELECT_MULTIPLE_OPTIONS": "Sie können nur eine Option auswählen oder beide Optionen.",
 			"TIME_ACTIVITY_FEATURES": "Funktionen zur Zeiterfassung und Aktivitätsverfolgung",
-			"GP_FEATURES": "Gauzy Plattform-Funktionen",
-			"HOW_GONNA_USE_GP": "Wie wirst du die Gauzy-Plattform nutzen?",
+			"GP_FEATURES": "IRTranscripts Plattform-Funktionen",
+			"HOW_GONNA_USE_GP": "Wie wirst du die IRTranscripts-Plattform nutzen?",
 			"SELECT_ONE_OPTION": "Du musst nur eine der folgenden Optionen auswählen.",
 			"INTEGRATED": "Integriert",
-			"INSTALL_GP_LOCAL": "Installieren Sie die Gauzy Plattform auf Ihrem lokalen Computer und führen Sie sie aus.",
+			"INSTALL_GP_LOCAL": "Installieren Sie die IRTranscripts Plattform auf Ihrem lokalen Computer und führen Sie sie aus.",
 			"CUSTOM_NETWORK": "Benutzerdefiniert / Netzwerk",
 			"SEPARATE_SERVER": "Verbinden Sie sich mit einem separaten Server in Ihrem Arbeitsnetzwerk.",
 			"LIVE": "Leben",
@@ -5411,7 +5411,7 @@
 			"LEGAL_NOTE": "Rechtlich: Alle Produkt- und Markennamen, Logos, Warenzeichen und eingetragenen Marken sind Eigentum ihrer jeweiligen Inhaber. Wir haben keine Verbindung zu oder Unterstützung, Zustimmung, Sponsoring oder Unterstützung von genannten Drittanbietern, Marken, Produkten, Websites oder Diensten. Die Links zu Software von Drittanbietern werden nur als Annehmlichkeit und zu Informationszwecken bereitgestellt. Sie stellen keine Zustimmung oder Genehmigung der Produkte, Dienste oder Meinungen des Unternehmens, der Organisation oder Einzelperson dar. Wir verwenden entsprechende Logos und Markennamen nur zur Werbung, dass unser Produkt entsprechende Produkte und Technologien verwendet oder eine integrierte Anbindung an entsprechende Dienste aufweist.",
 			"SETTING": "Einstellung",
 			"READY_FOR_ADVANCED_SETTINGS": "Bist du bereit für einige erweiterte Einstellungen?",
-			"FINAL_STEP_GP": "Dies ist der letzte Schritt, bei dem du ins Detail deiner Gauzy-Plattform gehen kannst.",
+			"FINAL_STEP_GP": "Dies ist der letzte Schritt, bei dem du ins Detail deiner IRTranscripts-Plattform gehen kannst.",
 			"PORT": "Hafen",
 			"PORT_API": "Port Api",
 			"UI": "Ui",
@@ -5422,8 +5422,8 @@
 			"USER": "Benutzer",
 			"PASSWORD": "Passwort",
 			"UI_HOSTNAME": "UI Hostname / IP-Adresse",
-			"TITLE_SERVER_API": "Ever Gauzy API Server Installation Wizard",
-			"LABEL_SERVER_API": "Ever Gauzy API Server Desktop App giver den fulde funktionalitet af Gauzy Platform tilgængelig direkte på din stationære computer eller en bærbar computer. Derudover tillader det sporing af arbejdstid, aktivitetsregistrering og mulighed for at modtage sporingspåmindelser/notifikationer.",
+			"TITLE_SERVER_API": "Ever IRTranscripts API Server Installation Wizard",
+			"LABEL_SERVER_API": "Ever IRTranscripts API Server Desktop App giver den fulde funktionalitet af IRTranscripts Platform tilgængelig direkte på din stationære computer eller en bærbar computer. Derudover tillader det sporing af arbejdstid, aktivitetsregistrering og mulighed for at modtage sporingspåmindelser/notifikationer.",
 			"UNABLE_TO_CONNECT": "Verbindung zum Server nicht möglich. Bitte überprüfen Sie Ihren API-Host oder Ihre Internetverbindung.",
 			"JWT_SECRET": "JWT-Geheimnis",
 			"JWT_SECRET_PLACEHOLDER": "Geben Sie einen geheimen Schlüssel für JWT ein",
@@ -5597,7 +5597,7 @@
 			"ERROR_OCCURRED": "Fehler aufgetreten",
 			"DB_CLEANUP_TITLE": "Die Datenbankversion ist wahrscheinlich veraltet",
 			"DB_CLEANUP_MESSAGE": "Eine neue Version der App wurde erkannt. Um mögliche Kompatibilitätsprobleme zu vermeiden, möchten Sie die lokale Datenbank löschen und eine neue verwenden?",
-			"DB_CLEANUP_DETAIL": "Das Entfernen der Datenbank löscht lokal zwischengespeicherte Daten. Bereits mit dem Server synchronisierte Daten bleiben sicher in der Gauzy-Cloud erhalten.",
+			"DB_CLEANUP_DETAIL": "Das Entfernen der Datenbank löscht lokal zwischengespeicherte Daten. Bereits mit dem Server synchronisierte Daten bleiben sicher in der IRTranscripts-Cloud erhalten.",
 			"DB_CLEANUP_REMOVE": "Datenbank entfernen",
 			"DB_CLEANUP_KEEP": "Behalten",
 			"DB_CLEANUP_UNSYNCED_TITLE": "Nicht synchronisierte Daten erkannt",
@@ -5609,7 +5609,7 @@
 			"AND_JOIN": "and",
 			"SEED_CREDENTIALS_TITLE": "Ihre Anmeldedaten",
 			"SEED_CREDENTIALS_MESSAGE": "Speichern Sie diese Passwörter jetzt. Sie werden nur einmal angezeigt.",
-			"SEED_CREDENTIALS_DETAIL": "Diese Installation hat ihre Konten mit zufälligen Passwörtern statt der veröffentlichten Standardwerte angelegt.\n\n{{ accounts }}\n\nSie können ein Passwort später auf Ihrer Profilseite in Gauzy ändern.",
+			"SEED_CREDENTIALS_DETAIL": "Diese Installation hat ihre Konten mit zufälligen Passwörtern statt der veröffentlichten Standardwerte angelegt.\n\n{{ accounts }}\n\nSie können ein Passwort später auf Ihrer Profilseite in IRTranscripts ändern.",
 			"SEED_CREDENTIALS_COPIED": "In die Zwischenablage kopiert.",
 			"SEED_CREDENTIALS_COPY_FAILED": "Kopieren in die Zwischenablage fehlgeschlagen. Klicken Sie erneut auf „Kopieren“ oder notieren Sie die Passwörter, bevor Sie bestätigen.",
 			"SEED_CREDENTIALS_SAVED": "Ich habe sie gespeichert",
@@ -5619,7 +5619,7 @@
 			"SEED_PASSWORD": "Passwort",
 			"PUBLISHED_PASSWORDS_TITLE": "Standardpasswort noch in Verwendung",
 			"PUBLISHED_PASSWORDS_MESSAGE": "Ändern Sie das Standardpasswort dieser Konten.",
-			"PUBLISHED_PASSWORDS_DETAIL": "{{ accounts }} melden sich noch mit dem in der Gauzy-Dokumentation veröffentlichten Standardpasswort an. Jeder, der diesen Server erreicht, kann sich damit anmelden. Melden Sie sich bei Gauzy an und ändern Sie es auf der Profilseite."
+			"PUBLISHED_PASSWORDS_DETAIL": "{{ accounts }} melden sich noch mit dem in der IRTranscripts-Dokumentation veröffentlichten Standardpasswort an. Jeder, der diesen Server erreicht, kann sich damit anmelden. Melden Sie sich bei IRTranscripts an und ändern Sie es auf der Profilseite."
 		},
 		"NO_LIMIT": "∞ Keine Grenze",
 		"TASK": "Aufgabe",
@@ -5696,7 +5696,7 @@
 		"PERMISSIONS": {
 			"MENU_LABEL": "Systemberechtigungen",
 			"TITLE": "Systemberechtigungen",
-			"DESCRIPTION": "Gauzy benötigt bestimmte macOS-Berechtigungen, um Ihre Arbeit genau zu verfolgen. Überprüfen und verwalten Sie diese hier.",
+			"DESCRIPTION": "IRTranscripts benötigt bestimmte macOS-Berechtigungen, um Ihre Arbeit genau zu verfolgen. Überprüfen und verwalten Sie diese hier.",
 			"SCREEN_RECORDING": "Bildschirmaufnahme",
 			"SCREEN_RECORDING_DESC": "Erforderlich, um während Ihrer Arbeitssitzungen automatisch Screenshots zu erstellen.",
 			"STATUS": "Status",
@@ -5714,7 +5714,7 @@
 			"RELAUNCH": "Neu starten",
 			"RELAUNCH_DESC": "Berechtigung erteilt, aber Bildschirmaufnahme funktioniert noch nicht? Klicken Sie auf Neu starten, um die Änderungen zu übernehmen.",
 			"DIALOG_TITLE": "Berechtigung zur Bildschirmaufnahme erforderlich",
-			"DIALOG_DESC": "Gauzy benötigt die Berechtigung zur Bildschirmaufnahme, um während Ihrer Arbeitssitzung Screenshots zu erstellen. Bitte gewähren Sie den Zugriff, um fortzufahren.",
+			"DIALOG_DESC": "IRTranscripts benötigt die Berechtigung zur Bildschirmaufnahme, um während Ihrer Arbeitssitzung Screenshots zu erstellen. Bitte gewähren Sie den Zugriff, um fortzufahren.",
 			"POLLING_HINT": "Dieser Dialog wird automatisch geschlossen, sobald die Berechtigung erteilt wurde.",
 			"START_ANYWAY": "Ohne Screenshot starten",
 			"ACCESSIBILITY": "Bedienungshilfen",
@@ -6042,7 +6042,7 @@
 			"email-invoice": "E-Mail Rechnung",
 			"invite-employee": "Einladen Mitarbeiter",
 			"invite-user": "Einladen des Benutzers",
-			"invite-gauzy-teams": "Lade das Gauzy Team ein.",
+			"invite-irtranscripts-teams": "Lade das IRTranscripts Team ein.",
 			"appointment-confirmation": "Terminbestätigung",
 			"appointment-cancellation": "Terminabsage",
 			"equipment": "Ausrüstung erstellen",
@@ -6217,7 +6217,7 @@
 			},
 			"SUGGESTED_ENDPOINT": "Endpunkt für diese Region:",
 			"USE_SUGGESTION": "Übernehmen",
-			"SAVE_NOTE": "Beim Speichern legt Gauzy mit diesen Zugangsdaten den Bucket in Wasabi an. Lehnt Wasabi die Anfrage ab, werden die Einstellungen nicht gespeichert.",
+			"SAVE_NOTE": "Beim Speichern legt IRTranscripts mit diesen Zugangsdaten den Bucket in Wasabi an. Lehnt Wasabi die Anfrage ab, werden die Einstellungen nicht gespeichert.",
 			"LABELS": {
 				"ACCESS_KEY_ID": "Zugriffsschlüssel-ID",
 				"SECRET_ACCESS_KEY": "Geheimer Zugriffsschlüssel",
@@ -6396,7 +6396,7 @@
 			}
 		}
 	},
-	"GAUZY_MAINTENANCE": "{{ companySite }} @ Wartung",
+	"IRTRANSCRIPTS_MAINTENANCE": "{{ companySite }} @ Wartung",
 	"LEGAL": {
 		"PRIVACY_POLICY": "Datenschutzerklärung",
 		"TERMS_AND_CONDITIONS": "Allgemeine Geschäftsbedingungen",
@@ -6782,7 +6782,7 @@
 			"SOURCE_TYPES": {
 				"CDN": "CDN",
 				"NPM": "NPM",
-				"GAUZY": "Gauzy"
+				"IRTRANSCRIPTS": "IRTranscripts"
 			},
 			"CDN": {
 				"URL": "CDN-URL",
@@ -6959,7 +6959,7 @@
 	},
 	"OAUTH_CLIENTS": {
 		"TITLE": "OAuth-Clients",
-		"SUBTITLE": "Registrieren und Verwalten von Drittanbieter-Apps, die im Namen Ihrer Benutzer Zugriff auf Ever Gauzy anfordern können.",
+		"SUBTITLE": "Registrieren und Verwalten von Drittanbieter-Apps, die im Namen Ihrer Benutzer Zugriff auf Ever IRTranscripts anfordern können.",
 		"STATUS": {
 			"ACTIVE": "Aktiv",
 			"INACTIVE": "Inaktiv"

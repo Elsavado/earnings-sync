@@ -1,6 +1,6 @@
 import { ICommandHandler, CommandHandler } from '@nestjs/cqrs';
 import { Brackets, WhereExpressionBuilder } from 'typeorm';
-import { isNotEmpty } from '@gauzy/utils';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { ScheduleTimeSlotEntriesCommand } from '../schedule-time-slot-entries.command';
 import { prepareSQLQuery as p } from './../../../../database/database.helper';
 import { MultiORM, MultiORMEnum, getORMType } from './../../../../core/utils';

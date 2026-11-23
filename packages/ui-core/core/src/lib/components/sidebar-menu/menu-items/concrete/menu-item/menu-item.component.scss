@@ -19,28 +19,28 @@
 // (#141416 / #1e1e22), so no per theme branch is needed.
 // ─────────────────────────────────────────────────────────────────────────────
 
-// Hover overlay. Resolves the shared `gauzy-hover-tint` token (registered in
-// `$gauzy-density`, i.e. present in all 8 themes) so a sidebar row, a breadcrumb
+// Hover overlay. Resolves the shared `irtranscripts-hover-tint` token (registered in
+// `$irtranscripts-density`, i.e. present in all 8 themes) so a sidebar row, a breadcrumb
 // link, a settings-menu row and an overlay menu item light up by exactly the
-// same amount. It used to read `gauzy-sidebar-background-3`, which is 0.10 alpha
+// same amount. It used to read `irtranscripts-sidebar-background-3`, which is 0.10 alpha
 // — a DIFFERENT hover strength from every other row in the app, and undefined in
 // the material-* themes. The literal is only a fallback for a theme that somehow
 // registers neither.
-$menu-row-hover-background: var(--gauzy-hover-tint, rgba(126, 126, 143, 0.12));
+$menu-row-hover-background: var(--irtranscripts-hover-tint, rgba(126, 126, 143, 0.12));
 
 // Active overlay — the shared token, exactly twice the hover alpha. Measured on
 // both surfaces the pair stays distinguishable (light #ededee vs #e2e2e5, dark
 // #2b2b2f vs #313138) while neither reads as a filled block.
-$menu-row-active-background: var(--gauzy-active-tint, rgba(126, 126, 143, 0.2));
+$menu-row-active-background: var(--irtranscripts-active-tint, rgba(126, 126, 143, 0.2));
 
 // The shared control/row radius. Deliberately NOT nb-theme(border-radius): that
 // is the CARD radius, and a card-sized pill on a 20px row is a large part of why
 // rows looked like blocks.
-$menu-row-radius: var(--gauzy-radius-sm, 0.375rem);
+$menu-row-radius: var(--irtranscripts-radius-sm, 0.375rem);
 
-// Resting label colour, muted. Nested fallback because gauzy-text-color-2 is
+// Resting label colour, muted. Nested fallback because irtranscripts-text-color-2 is
 // undefined in the material-* themes.
-$menu-row-color: var(--gauzy-text-color-2, var(--text-hint-color));
+$menu-row-color: var(--irtranscripts-text-color-2, var(--text-hint-color));
 
 // Row weights. Deliberately NOT `menu-text-font-weight` (500) and not the 600
 // the active row used to carry: a sidebar is chrome, and at this size on a muted
@@ -216,7 +216,7 @@ $menu-child-indent: 1.25rem;
   // cannot clear 3:1 on BOTH the tinted light row (#e2e2e5) and the tinted dark
   // one (#313138) — color-primary-default measures ~5.4:1 light but only ~2.5:1
   // dark. Tint + weight already say "current" without a colour.
-  // TODO(theme): a per theme `gauzy-menu-item-active-foreground` would let the
+  // TODO(theme): a per theme `irtranscripts-menu-item-active-foreground` would let the
   // icon carry the accent safely (light: color-primary-600, dark: -300).
   nb-accordion-item.opened > nb-accordion-item-header {
     background-color: $menu-row-active-background;

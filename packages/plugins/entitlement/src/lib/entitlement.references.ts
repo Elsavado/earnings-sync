@@ -7,9 +7,9 @@
  * contact (name, email, phone, notes) on every read of the right, since `customer` is a relation and the join is not
  * held to a tenant.
  *
- * `grant` holds these columns to the right's tenant with `assertPlainReferencesNotForeign` (`@gauzy/core`).
+ * `grant` holds these columns to the right's tenant with `assertPlainReferencesNotForeign` (`@irtranscripts/core`).
  */
-import { PlainReferenceColumns } from '@gauzy/core';
+import { PlainReferenceColumns } from '@irtranscripts/core';
 
 /** The id columns a granted right is written with. */
 export const ENTITLEMENT_REFERENCES: PlainReferenceColumns = {

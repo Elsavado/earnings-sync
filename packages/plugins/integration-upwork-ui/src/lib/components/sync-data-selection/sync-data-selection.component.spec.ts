@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { NbDialogRef } from '@nebular/theme';
-import { UpworkStoreService, ToastrService, ErrorHandlingService } from '@gauzy/ui-core/core';
+import { UpworkStoreService, ToastrService, ErrorHandlingService } from '@irtranscripts/ui-core/core';
 import { SyncDataSelectionComponent } from './sync-data-selection.component';
 import { IntegrationUpworkUiModule } from '../../integration-upwork-ui.module';
 

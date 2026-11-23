@@ -10,7 +10,7 @@ import {
 	EmployeeNotificationTypeEnum,
 	NotificationActionTypeEnum,
 	EntitySubscriptionTypeEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { EventBus } from '../../../event-bus';
 import { TaskEvent } from '../../../event-bus/events';
 import { BaseEntityEventTypeEnum } from '../../../event-bus/base-entity-event';

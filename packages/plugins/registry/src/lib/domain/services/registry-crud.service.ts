@@ -1,4 +1,4 @@
-import { BaseEntity, CrudService, MultiORM, MultiORMEnum, TenantAwareCrudService, TenantBaseEntity } from '@gauzy/core';
+import { BaseEntity, CrudService, MultiORM, MultiORMEnum, TenantAwareCrudService, TenantBaseEntity } from '@irtranscripts/core';
 
 /**
  * The ORM every registry service reads and writes the registry's own tables with: TypeORM, whichever ORM

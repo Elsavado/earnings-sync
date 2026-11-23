@@ -1,10 +1,10 @@
-# @gauzy/plugin-integration-ai-ui
+# @irtranscripts/plugin-integration-ai-ui
 
-This library was generated with [Nx](https://nx.dev). It contains the AI Integration UI Plugin for the Gauzy platform.
+This library was generated with [Nx](https://nx.dev). It contains the AI Integration UI Plugin for the IRTranscripts platform.
 
 ## Features
 
-- **Integration AI UI Plugin:** Provides a user-friendly interface for integrating AI capabilities into the Gauzy platform.
+- **Integration AI UI Plugin:** Provides a user-friendly interface for integrating AI capabilities into the IRTranscripts platform.
 
 ## Building
 
@@ -23,7 +23,7 @@ After building your library with `yarn nx build plugin-integration-ai-ui`, go to
 Install the Integration AI UI Plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-integration-ai-ui
+npm install @irtranscripts/plugin-integration-ai-ui
 # or
-yarn add @gauzy/plugin-integration-ai-ui
+yarn add @irtranscripts/plugin-integration-ai-ui
 ```

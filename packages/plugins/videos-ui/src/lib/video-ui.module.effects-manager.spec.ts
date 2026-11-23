@@ -7,11 +7,11 @@ import { join } from 'path';
  * `@ngneat/effects-ng`'s `provideEffectsManager()` is documented "Must be called at the root
  * level": it runs `initEffects()`, which creates the effects manager and subscribes it to the
  * GLOBAL `actions` stream. The app root already provides it
- * (apps/gauzy/src/app/bootstrap.module.ts). `VideoUiModule` is lazy-loaded via `loadChildren`
- * (apps/gauzy .../employees/activity/activity.module.ts); providing the manager again stood up a
+ * (apps/irtranscripts/src/app/bootstrap.module.ts). `VideoUiModule` is lazy-loaded via `loadChildren`
+ * (apps/irtranscripts .../employees/activity/activity.module.ts); providing the manager again stood up a
  * second manager on the same global stream, which re-entered synchronously on first navigation to
  * the videos route and pegged the main thread — before any HTTP, so unit tests passed while the
- * route was unreachable in a browser. Same defect as `@gauzy/plugin-docs-ui`.
+ * route was unreachable in a browser. Same defect as `@irtranscripts/plugin-docs-ui`.
  *
  * Source-level invariant on purpose: the providers are opaque `EnvironmentProviders` and
  * `initEffects()` mutates global singleton state, so the one thing that must never return is

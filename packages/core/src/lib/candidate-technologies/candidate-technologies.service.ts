@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ICandidateTechnologies, ICandidateTechnologiesCreateInput } from '@gauzy/contracts';
+import { ICandidateTechnologies, ICandidateTechnologiesCreateInput } from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from './../core/crud';
 import { findTenantInterviewCriteria } from './../candidate-interview/interview-criteria.helper';
 import { CandidateTechnologies } from './candidate-technologies.entity';

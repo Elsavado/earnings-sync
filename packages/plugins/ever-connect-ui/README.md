@@ -1,6 +1,6 @@
-# @gauzy/plugin-ever-connect-ui
+# @irtranscripts/plugin-ever-connect-ui
 
-**Integrations > Ever Platform** (`/pages/integrations/ever-connect`), the web part of [`@gauzy/plugin-ever-connect`](../ever-connect/README.md).
+**Integrations > Ever Platform** (`/pages/integrations/ever-connect`), the web part of [`@irtranscripts/plugin-ever-connect`](../ever-connect/README.md).
 
 The page asks the API first. Where the API's Ever Platform module is not loaded (the default: `EVER_CONNECT_ENABLED` unset), it only says so and makes no other request.
 

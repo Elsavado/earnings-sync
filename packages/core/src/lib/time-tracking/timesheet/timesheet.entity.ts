@@ -1,8 +1,8 @@
 import { RelationId, JoinColumn } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsDateString, IsEnum, IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
-import { ID, IEmployee, ITimesheet, IUser, TimesheetStatus } from '@gauzy/contracts';
-import { isBetterSqlite3 } from '@gauzy/config';
+import { ID, IEmployee, ITimesheet, IUser, TimesheetStatus } from '@irtranscripts/contracts';
+import { isBetterSqlite3 } from '@irtranscripts/config';
 import { Employee, TenantOrganizationBaseEntity, User } from './../../core/entities/internal';
 import {
 	ColumnIndex,

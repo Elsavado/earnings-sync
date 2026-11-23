@@ -1,6 +1,6 @@
 import { IServerFactory } from '../interfaces';
 import { createServer, Server } from 'https';
-import { ISsl } from '@gauzy/contracts';
+import { ISsl } from '@irtranscripts/contracts';
 import { Express } from 'express';
 
 export class ServerFactory implements IServerFactory {

@@ -32,8 +32,8 @@ import {
 	IOnPluginUiDestroy,
 	PLUGIN_DEFINITION,
 	PLUGIN_TRANSLATE_SERVICE
-} from '@gauzy/plugin-ui';
-import { LoggerService, NavMenuBuilderService, PageRouteRegistryService } from '@gauzy/ui-core/core';
+} from '@irtranscripts/plugin-ui';
+import { LoggerService, NavMenuBuilderService, PageRouteRegistryService } from '@irtranscripts/ui-core/core';
 import {
 	FavoriteToggleModule,
 	RecordViewModule,
@@ -41,7 +41,7 @@ import {
 	SmartDataViewLayoutModule,
 	TagsColorInputModule,
 	TeamSelectModule
-} from '@gauzy/ui-core/shared';
+} from '@irtranscripts/ui-core/shared';
 import { DocumentsEffects } from './+state/documents.effects';
 import { DocumentsQuery } from './+state/documents.query';
 import { DocumentsStore } from './+state/documents.store';
@@ -198,7 +198,7 @@ import { UploadQueueService } from './services/upload-queue.service';
 		// 🛑 Do NOT call provideEffectsManager() here. `@ngneat/effects-ng` documents it as
 		// "Must be called at the root level" — it runs `initEffects()`, which creates the effects
 		// manager and subscribes it to the GLOBAL `actions` stream. The app root already provides
-		// it (apps/gauzy/src/app/bootstrap.module.ts). Providing it again in this LAZY-loaded
+		// it (apps/irtranscripts/src/app/bootstrap.module.ts). Providing it again in this LAZY-loaded
 		// module stood up a SECOND manager on the same global stream, and on first navigation to
 		// /pages/documents that re-entered synchronously and pegged the main thread — the route
 		// wedged before any HTTP (before the guards' /api/auth/permissions call even fired), so

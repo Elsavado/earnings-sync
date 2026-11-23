@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { In, FindOptionsWhere, DeleteResult } from 'typeorm';
-import { IHelpCenter, ID } from '@gauzy/contracts';
-import { isNotEmpty } from '@gauzy/utils';
+import { IHelpCenter, ID } from '@irtranscripts/contracts';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { HelpCenter } from './help-center.entity';
 import { TypeOrmHelpCenterRepository } from './repository/type-orm-help-center.repository';
 import { MikroOrmHelpCenterRepository } from './repository/mikro-orm-help-center.repository';

@@ -4,10 +4,10 @@ import { NbDialogRef } from '@nebular/theme';
 import { Subject } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { IImageAsset, IOrganization } from '@gauzy/contracts';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { Store } from '@gauzy/ui-core/core';
-import { ImageAssetService } from '@gauzy/ui-core/core';
+import { IImageAsset, IOrganization } from '@irtranscripts/contracts';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { Store } from '@irtranscripts/ui-core/core';
+import { ImageAssetService } from '@irtranscripts/ui-core/core';
 
 export interface SelectAssetSettings {
 	uploadImageEnabled?: boolean;

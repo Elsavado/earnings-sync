@@ -1,7 +1,7 @@
-@forward 'gauzy/_gauzy-table';
-@use 'gauzy/_gauzy-table-hub' as ga-hub;
+@forward 'irtranscripts/_irtranscripts-table';
+@use 'irtranscripts/_irtranscripts-table-hub' as ga-hub;
 
-:host ngx-gauzy-button-action ::ng-deep {
+:host ngx-irtranscripts-button-action ::ng-deep {
     .transition-container span {
         background-color: unset;
     }
@@ -19,4 +19,4 @@
 // `$actions` is the toolbar itself — this component has no `nb-card-header`; its
 // root is a plain `.main-wrapper` div. There is no pager on this table, so the
 // pager half of the block simply matches nothing.
-@include ga-hub.list-page('.gauzy-button-container');
+@include ga-hub.list-page('.irtranscripts-button-container');

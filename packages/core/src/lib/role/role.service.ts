@@ -12,7 +12,7 @@ import {
 	IImportRecord,
 	ID,
 	SYSTEM_DEFAULT_ROLES
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from './../core/crud';
 import { IFindOneOptions, IPartialEntity } from './../core/crud/icrud.service';
 import { Role } from './role.entity';

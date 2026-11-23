@@ -9,7 +9,7 @@ import {
 	UnauthorizedException
 } from '@nestjs/common';
 import { createHash, timingSafeEqual } from 'node:crypto';
-import { INBOX_EMAIL_PROVIDER_REGISTRY } from '@gauzy/contracts';
+import { INBOX_EMAIL_PROVIDER_REGISTRY } from '@irtranscripts/contracts';
 import {
 	derivedMessageId,
 	formatAddress,
@@ -28,7 +28,7 @@ import {
 	referencesOf,
 	safeFilename,
 	toVerdict
-} from '@gauzy/plugin-inbox';
+} from '@irtranscripts/plugin-inbox';
 
 /** The Postmark API (https, no redirects). */
 export const POSTMARK_API_BASE_URL = 'https://api.postmarkapp.com';
@@ -165,7 +165,7 @@ export class PostmarkProvider implements IEmailProviderPlugin, IInboundEmailProv
 	onModuleInit(): void {
 		if (!this.registry) {
 			this.logger.warn(
-				'The Inbox email features are off (GAUZY_INBOX_EMAIL_ENABLED): the Postmark provider stays idle.'
+				'The Inbox email features are off (IRTRANSCRIPTS_INBOX_EMAIL_ENABLED): the Postmark provider stays idle.'
 			);
 			return;
 		}

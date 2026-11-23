@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Ever Gauzy API latency / throughput benchmark.
+ * Ever IRTranscripts API latency / throughput benchmark.
  *
  * Logs in, resolves tenant / organization / employee ids, then for every endpoint in the scenario file:
  *   1. warms up,
@@ -12,7 +12,7 @@
  *
  * Usage (from the repo root):
  *   BASE=http://localhost:3999/api EMAIL='<seeded super admin email>' PASSWORD=admin \
- *   PG_URL=postgres://postgres:gauzy@localhost:5432/gauzy_perf \
+ *   PG_URL=postgres://postgres:irtranscripts@localhost:5432/irtranscripts_perf \
  *   SEQ=200 CONCURRENCY=16 DURATION=10 LABEL=baseline OUT=tools/perf/results/baseline.json \
  *   node tools/perf/api-bench.mjs [tools/perf/scenarios.json]
  */

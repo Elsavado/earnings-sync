@@ -1,11 +1,11 @@
-// `@gauzy/core` is doubled for the reason the package's other migration suites state: the migration set
+// `@irtranscripts/core` is doubled for the reason the package's other migration suites state: the migration set
 // imports a helper from its barrel, which boots the whole application graph. The tick under test calls
 // nothing in it.
-jest.mock('@gauzy/core', () => ({}));
+jest.mock('@irtranscripts/core', () => ({}));
 
 import type * as BetterSqlite3 from 'better-sqlite3';
 import { QueryRunner } from 'typeorm';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 import { ALL_ORDER_MIGRATIONS } from './order-migrations';
 import { AddOrderCartUniqueIndex1791000000782 } from './migrations/1791000000782-AddOrderCartUniqueIndex';
 

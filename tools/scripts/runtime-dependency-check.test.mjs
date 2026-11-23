@@ -128,52 +128,52 @@ const lock = parseLockfile(
 
 test('the rimraf failure: a devDependency at the root and in the importer is not in the image', () => {
 	const root = { devDependencies: { rimraf: '^6.1.3' } };
-	const core = { name: '@gauzy/core', devDependencies: { rimraf: '^6.1.3' } };
+	const core = { name: '@irtranscripts/core', devDependencies: { rimraf: '^6.1.3' } };
 
 	assert.match(whyMissing('rimraf', core, root, [core], lock), /declared only as devDependencies/);
 });
 
 test('the fix: the importer declares it as a dependency', () => {
 	const root = { devDependencies: { rimraf: '^6.1.3' } };
-	const core = { name: '@gauzy/core', dependencies: { rimraf: '^6.1.3' } };
+	const core = { name: '@irtranscripts/core', dependencies: { rimraf: '^6.1.3' } };
 
 	assert.equal(whyMissing('rimraf', core, root, [core], lock), null);
 });
 
 test('a dependency the root declares is the root copy', () => {
 	const root = { dependencies: { qs: '^6.16.0' } };
-	const plugin = { name: '@gauzy/plugin-x' };
+	const plugin = { name: '@irtranscripts/plugin-x' };
 
 	assert.equal(whyMissing('qs', plugin, root, [plugin], lock), null);
 });
 
 test("another workspace's dependency is found when every installed declaration is one version", () => {
 	const root = { devDependencies: { '@nestjs/graphql': '^14.0.3' } };
-	const core = { name: '@gauzy/core', dependencies: { '@nestjs/graphql': '^14.0.3' } };
-	const plugin = { name: '@gauzy/plugin-tax', peerDependencies: { '@nestjs/graphql': '^13.0.0 || ^14.0.0' } };
+	const core = { name: '@irtranscripts/core', dependencies: { '@nestjs/graphql': '^14.0.3' } };
+	const plugin = { name: '@irtranscripts/plugin-tax', peerDependencies: { '@nestjs/graphql': '^13.0.0 || ^14.0.0' } };
 
 	assert.equal(whyMissing('@nestjs/graphql', plugin, root, [core, plugin], lock), null);
 });
 
 test("another workspace's dependency is refused when a devDependency of another version can claim the root", () => {
 	const root = { devDependencies: { rimraf: '^6.1.3' } };
-	const other = { name: '@gauzy/other', dependencies: { rimraf: '^3.0.2' } };
-	const core = { name: '@gauzy/core' };
+	const other = { name: '@irtranscripts/other', dependencies: { rimraf: '^3.0.2' } };
+	const core = { name: '@irtranscripts/core' };
 
 	assert.match(whyMissing('rimraf', core, root, [other, core], lock), /declared at 2 versions/);
 });
 
 test('a package that only arrives through another package is refused', () => {
 	const root = {};
-	const plugin = { name: '@gauzy/plugin-integration-ai' };
+	const plugin = { name: '@irtranscripts/plugin-integration-ai' };
 
 	assert.match(whyMissing('qs', plugin, root, [plugin], lock), /declared by no manifest the image installs/);
 });
 
 test('a loaded workspace whose manifest the image does not install cannot vouch for its own dependency', () => {
 	const root = {};
-	const core = { name: '@gauzy/core' };
-	const cart = { name: '@gauzy/plugin-cart', dependencies: { qs: '^6.16.0' } };
+	const core = { name: '@irtranscripts/core' };
+	const cart = { name: '@irtranscripts/plugin-cart', dependencies: { qs: '^6.16.0' } };
 
 	// The worker loads plugin-cart (copied by webpack) without installing its manifest.
 	assert.match(whyMissing('qs', null, root, [core], lock), /declared by no manifest the image installs/);

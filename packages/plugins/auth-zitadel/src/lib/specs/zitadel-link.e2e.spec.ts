@@ -1,4 +1,4 @@
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { TEST_CLIENT_BASE_URL, TestBrowser, ZitadelTestApp, createZitadelTestApp, hashParam } from '../fixtures/zitadel-test-app';
 import { TestUser } from '../fixtures/in-memory-accounts';
 
@@ -74,7 +74,7 @@ describe('Explicit linking from Settings (HTTP, against a mock OpenID Provider)'
 		expect(preview.siblings).toEqual([]);
 	});
 
-	it('links a ticked same-address account only with Gauzy\'s one-time code, and never an unverified one', async () => {
+	it('links a ticked same-address account only with IRTranscripts\'s one-time code, and never an unverified one', async () => {
 		const sibling = t.accounts.addUser({ email: 'me@example.test', tenantName: 'Other' });
 		t.accounts.addUser({ email: 'me@example.test', tenantName: 'Unverified', emailVerifiedAt: null });
 		const key = hashParam(await link(), 'linked');
@@ -84,14 +84,14 @@ describe('Explicit linking from Settings (HTTP, against a mock OpenID Provider)'
 
 		const ask = await browser.post(`${t.baseUrl}/api/auth/zitadel/link/confirm`, { key, rows: [sibling.id] });
 		expect(await ask.json()).toEqual({ code_required: true });
-		expect(t.gauzyAuth.sentCodes).toEqual(['me@example.test']);
+		expect(t.irtranscriptsAuth.sentCodes).toEqual(['me@example.test']);
 		expect(t.accounts.links).toHaveLength(0);
 
 		const wrong = await browser.post(`${t.baseUrl}/api/auth/zitadel/link/confirm`, { key, rows: [sibling.id], code: 'NOPE00' });
 		expect(wrong.status).toBe(401);
 		expect(t.accounts.links).toHaveLength(0);
 
-		const done = await browser.post(`${t.baseUrl}/api/auth/zitadel/link/confirm`, { key, rows: [sibling.id], code: t.gauzyAuth.code });
+		const done = await browser.post(`${t.baseUrl}/api/auth/zitadel/link/confirm`, { key, rows: [sibling.id], code: t.irtranscriptsAuth.code });
 		expect((await done.json()).linked.sort()).toEqual([me.id, sibling.id].sort());
 	});
 
@@ -106,7 +106,7 @@ describe('Explicit linking from Settings (HTTP, against a mock OpenID Provider)'
 
 		const done = await browser.post(`${t.baseUrl}/api/auth/zitadel/link/confirm`, { key, rows: [sibling.id] });
 		expect(await done.json()).toEqual({ linked: [me.id] });
-		expect(t.gauzyAuth.sentCodes).toEqual([]);
+		expect(t.irtranscriptsAuth.sentCodes).toEqual([]);
 	});
 
 	it('ignores a row id that is not an eligible same-address account', async () => {

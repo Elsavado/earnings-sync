@@ -2,10 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
 import { debounceTime, filter, tap } from 'rxjs/operators';
-import { Store, monthNames } from '@gauzy/ui-core/core';
-import { IOrganization, IRecurringExpenseModel } from '@gauzy/contracts';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { Store, monthNames } from '@irtranscripts/ui-core/core';
+import { IOrganization, IRecurringExpenseModel } from '@irtranscripts/contracts';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

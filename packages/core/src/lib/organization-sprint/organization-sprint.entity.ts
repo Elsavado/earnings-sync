@@ -2,7 +2,7 @@ import { JoinColumn } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDate, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
-import { isMySQL, isPostgres } from '@gauzy/config';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
 import {
 	ID,
 	IOrganizationProjectModule,
@@ -14,7 +14,7 @@ import {
 	ITaskView,
 	OrganizationSprintStatusEnum,
 	SprintStartDayEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	OrganizationProject,
 	OrganizationProjectModule,

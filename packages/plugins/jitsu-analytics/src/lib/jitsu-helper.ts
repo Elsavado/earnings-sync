@@ -1,4 +1,4 @@
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 import { AnalyticsInterface, JitsuOptions, jitsuAnalytics } from '@jitsu/js';
 import fetch from 'node-fetch';
 import { JitsuModuleOptions } from './jitsu.types';

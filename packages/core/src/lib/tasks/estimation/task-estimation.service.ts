@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { TaskEstimation } from './task-estimation.entity';
 import { TenantAwareCrudService } from '../../core/crud';
 import { TypeOrmTaskEstimationRepository } from './repository/type-orm-estimation.repository';

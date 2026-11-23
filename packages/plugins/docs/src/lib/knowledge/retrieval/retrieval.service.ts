@@ -1,7 +1,7 @@
 import { Inject, Injectable, Logger, Optional } from '@nestjs/common';
 import { In } from 'typeorm';
-import { ID, IDocumentChunkMetadata, PermissionsEnum } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { ID, IDocumentChunkMetadata, PermissionsEnum } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { getDocsConfig } from '../../docs.config';
 import { DEFAULT_DOCS_RETRIEVAL_TOPK } from '../../docs.constants';
 import { TypeOrmDocumentCategoryRepository } from '../../repositories/type-orm-document-category.repository';

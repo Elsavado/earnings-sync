@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDate, IsEnum, IsInt, IsOptional, IsString, MaxLength, Min, MinLength } from 'class-validator';
-import { IJobExecution, JobExecutionStatus, JobTrigger, JsonData } from '@gauzy/contracts';
+import { IJobExecution, JobExecutionStatus, JobTrigger, JsonData } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { ColumnIndex, JsonColumn, MultiORMColumn, MultiORMEntity } from '../core/decorators/entity';
 import { MikroOrmJobExecutionRepository } from './repository/mikro-orm-job-execution.repository';

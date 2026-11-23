@@ -1,6 +1,6 @@
 import '../core/entities/internal';
 
-import { IIntegrationSetting } from '@gauzy/contracts';
+import { IIntegrationSetting } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context/request-context';
 import { IntegrationSettingService } from './integration-setting.service';
 

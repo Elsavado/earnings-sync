@@ -1,4 +1,4 @@
-@use 'gauzy/_gauzy-dialogs' as *;
+@use 'irtranscripts/_irtranscripts-dialogs' as *;
 
 // A hairline panel: title, input, actions, then the saved criterions
 .criterion-card {
@@ -7,8 +7,8 @@
   gap: 0.75rem;
   height: 100%;
   padding: 1.25rem;
-  border-radius: var(--gauzy-radius-sm);
-  box-shadow: inset 0 0 0 1px var(--gauzy-border-default-color);
+  border-radius: var(--irtranscripts-radius-sm);
+  box-shadow: inset 0 0 0 1px var(--irtranscripts-border-default-color);
 }
 
 .criterion-header {
@@ -25,8 +25,8 @@
   justify-content: center;
   width: 2rem;
   height: 2rem;
-  border-radius: var(--gauzy-radius-sm);
-  box-shadow: inset 0 0 0 1px var(--gauzy-border-default-color);
+  border-radius: var(--irtranscripts-radius-sm);
+  box-shadow: inset 0 0 0 1px var(--irtranscripts-border-default-color);
 
   nb-icon {
     font-size: 1rem;
@@ -44,7 +44,7 @@
   text-align: center;
   color: nb-theme(text-hint-color);
   border-radius: 999px;
-  background-color: var(--gauzy-hover-tint);
+  background-color: var(--irtranscripts-hover-tint);
 }
 
 .criterion-title {
@@ -90,7 +90,7 @@
     font-size: 0.75rem;
     line-height: 1.25rem;
     color: nb-theme(text-basic-color);
-    border-radius: var(--gauzy-radius-sm);
+    border-radius: var(--irtranscripts-radius-sm);
     box-shadow: inset 0 0 0 1px nb-theme(color-danger-default);
   }
 }
@@ -116,8 +116,8 @@
   gap: 0.5rem;
   min-width: 0;
   padding: 0.25rem 0.25rem 0.25rem 0.75rem;
-  border-radius: var(--gauzy-radius-sm);
-  background-color: var(--gauzy-hover-tint);
+  border-radius: var(--irtranscripts-radius-sm);
+  background-color: var(--irtranscripts-hover-tint);
 
   // Long names wrap so similar ones stay distinguishable before edit or delete
   .criterion-name {
@@ -147,8 +147,8 @@
   gap: 0.375rem;
   padding: 1.25rem 1rem;
   text-align: center;
-  border: 1px dashed var(--gauzy-border-default-color);
-  border-radius: var(--gauzy-radius-sm);
+  border: 1px dashed var(--irtranscripts-border-default-color);
+  border-radius: var(--irtranscripts-radius-sm);
 
   nb-icon {
     font-size: 1.25rem;
@@ -166,5 +166,5 @@
 
 :host {
   display: block;
-  @include dialog(transparent, var(--gauzy-sidebar-background-4));
+  @include dialog(transparent, var(--irtranscripts-sidebar-background-4));
 }

@@ -1,5 +1,5 @@
-import { IPlugin } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { IPlugin } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { BadRequestException } from '@nestjs/common';
 import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { DataSource } from 'typeorm';

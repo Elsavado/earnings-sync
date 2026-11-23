@@ -1,4 +1,4 @@
-# Changelog for @gauzy/plugin-dashboard-time-track-angular-ui
+# Changelog for @irtranscripts/plugin-dashboard-time-track-angular-ui
 
 ## [0.1.0] - 2026-03-15
 

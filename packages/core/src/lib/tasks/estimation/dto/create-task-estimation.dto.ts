@@ -1,4 +1,4 @@
-import { ITaskEstimation } from '@gauzy/contracts';
+import { ITaskEstimation } from '@irtranscripts/contracts';
 import { TaskEstimationDTO } from './task-estimation.dto';
 
 export class CreateTaskEstimationDTO

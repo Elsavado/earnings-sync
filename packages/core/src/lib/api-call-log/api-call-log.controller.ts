@@ -1,7 +1,7 @@
 import { Controller, Get, Delete, Query, UseGuards, Param } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
-import { IApiCallLog, ID, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { IApiCallLog, ID, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { Permissions } from '../shared/decorators';
 import { PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { UseValidationPipe } from '../shared/pipes';

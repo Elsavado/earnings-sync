@@ -11,7 +11,7 @@ import {
 import moment from 'moment';
 import { NbLayoutDirectionService } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
-import { IDateRangePicker, IOrganization, ITimeLogFilters, WeekDaysEnum } from '@gauzy/contracts';
+import { IDateRangePicker, IOrganization, ITimeLogFilters, WeekDaysEnum } from '@irtranscripts/contracts';
 import {
 	DEFAULT_DATE_PICKER_CONFIG,
 	DateRangePickerBuilderService,
@@ -21,14 +21,14 @@ import {
 	SelectorBuilderService,
 	Store,
 	TimesheetFilterService
-} from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { distinctUntilChange, isNotEmpty } from '@gauzy/ui-core/common';
+} from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { distinctUntilChange, isNotEmpty } from '@irtranscripts/ui-core/common';
 import { Arrow } from './arrow/context/arrow.class';
 import { Next, Previous } from './arrow/strategies';
 import { dayOfWeekAsString, selectUnitOfTime, toPickerDateRange, toPickerRange } from './date-picker.utils';
 import { DateRangeClicked, DateRangeKeyEnum, DateRanges, TimePeriod } from './date-picker.interface';
-import { TimeZoneService } from '../../timesheet/gauzy-filters/timezone-filter';
+import { TimeZoneService } from '../../timesheet/irtranscripts-filters/timezone-filter';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

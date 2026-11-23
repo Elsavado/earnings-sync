@@ -8,7 +8,7 @@ jest.mock('../core/crud/crud.service', () => {
 	return { CrudService };
 });
 
-import { ITaxLineCreateInput, TaxLineOwnerType } from '@gauzy/contracts';
+import { ITaxLineCreateInput, TaxLineOwnerType } from '@irtranscripts/contracts';
 import { ApiException } from '../core/errors/api-exception';
 import { ApiErrorCode } from '../core/errors/api-error-codes';
 import { Money } from '../money/money';

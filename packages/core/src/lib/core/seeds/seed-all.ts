@@ -3,7 +3,7 @@
 // Copyright (c) 2019 Alexi Taylor
 
 import { NestFactory } from '@nestjs/core';
-import { ApplicationPluginConfig } from '@gauzy/common';
+import { ApplicationPluginConfig } from '@irtranscripts/common';
 import { registerPluginConfig } from './../../bootstrap';
 import { SeedDataService } from './seed-data.service';
 import { SeederModule } from './seeder.module';

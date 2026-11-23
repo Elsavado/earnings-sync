@@ -2,19 +2,19 @@ import * as fsp from 'node:fs/promises';
 import * as path from 'node:path';
 
 /**
- * The marker file Gauzy writes at the root of every *data* export archive.
+ * The marker file IRTranscripts writes at the root of every *data* export archive.
  *
  * 🛑 Why this exists: the import side reverses the spreadsheet-formula escape
  * (`fromSpreadsheetSafeCsvRow`), and an uploaded ZIP is not
- * necessarily one this version produced — it can come from an older Gauzy, from a hand-filled
+ * necessarily one this version produced — it can come from an older IRTranscripts, from a hand-filled
  * `/export/template` archive, or from external tooling. Decoding those unconditionally would
  * silently drop a legitimate leading apostrophe from a value such as `'=notes`. The marker is what
  * lets the importer tell "we escaped this" from "somebody else wrote this".
  */
-export const EXPORT_MANIFEST_FILE = 'gauzy-export.json';
+export const EXPORT_MANIFEST_FILE = 'irtranscripts-export.json';
 
 /** Value of {@link IExportManifest.format} this code writes and recognizes. */
-export const EXPORT_MANIFEST_FORMAT = 'gauzy-export';
+export const EXPORT_MANIFEST_FORMAT = 'irtranscripts-export';
 
 /** Archive format version this code writes. A newer archive is not decoded by an older server. */
 export const EXPORT_MANIFEST_VERSION = 1;
@@ -27,7 +27,7 @@ const MAX_MANIFEST_BYTES = 64 * 1024;
 
 /** What {@link EXPORT_MANIFEST_FILE} holds. */
 export interface IExportManifest {
-	/** Always {@link EXPORT_MANIFEST_FORMAT}; identifies the archive as a Gauzy data export. */
+	/** Always {@link EXPORT_MANIFEST_FORMAT}; identifies the archive as a IRTranscripts data export. */
 	readonly format: string;
 	/** {@link EXPORT_MANIFEST_VERSION} at the time the archive was written. */
 	readonly version: number;
@@ -65,7 +65,7 @@ export async function writeExportManifest(csvDir: string): Promise<void> {
 /**
  * Reads the manifest of an extracted archive.
  *
- * Never throws: a missing, oversized, unreadable or malformed file simply means "not a Gauzy
+ * Never throws: a missing, oversized, unreadable or malformed file simply means "not a IRTranscripts
  * export", which is the safe answer for every caller.
  *
  * @param extractPath - Directory the uploaded archive was extracted into.
@@ -92,7 +92,7 @@ export async function readExportManifest(extractPath: string): Promise<IExportMa
 }
 
 /**
- * Whether the archive in `extractPath` was written by a Gauzy export that escaped its cells — i.e.
+ * Whether the archive in `extractPath` was written by a IRTranscripts export that escaped its cells — i.e.
  * whether `fromSpreadsheetSafeCsvRow` may be applied to its rows.
  *
  * An archive with no manifest (anything older than this change, a filled-in `/export/template`, a

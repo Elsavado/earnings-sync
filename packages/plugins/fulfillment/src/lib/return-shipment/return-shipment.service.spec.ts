@@ -1,16 +1,16 @@
 /**
  * Two module boundaries are doubled here, and the reason is the same for both.
  *
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which raising a shipment needs and none of which is
- * available outside a running application. `@gauzy/plugin-order`'s barrel re-exports the whole order
+ * available outside a running application. `@irtranscripts/plugin-order`'s barrel re-exports the whole order
  * and cart domain, which a shipment with no lines never reads. Both seams are therefore doubled at
  * the module boundary and **the services under test are the real ones**: the capability that raises
  * the leg, the real shipment service it composes — so the leg's direction, status and scope are the
  * domain's own — and the real shipping-option service that supplies what the journey is configured
  * with.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
@@ -131,15 +131,15 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-jest.mock('@gauzy/plugin-order', () => ({
+jest.mock('@irtranscripts/plugin-order', () => ({
 	// The order line's counters are what an outbound shipment moves, and a return leg moves none: the
 	// class here is only the module's identity.
 	OrderLineService: class OrderLineService {}
 }));
 
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { FulfillmentDirection, FulfillmentStatusDetail } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { FulfillmentDirection, FulfillmentStatusDetail } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { FulfillmentLineService } from '../fulfillment-line/fulfillment-line.service';
 import { FulfillmentService } from '../fulfillment/fulfillment.service';
 import { ShippingOptionService } from '../shipping-option/shipping-option.service';

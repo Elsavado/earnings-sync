@@ -91,7 +91,7 @@ describe('ever_works_connection organization foreign key (F59)', () => {
 		dir = mkdtempSync(join(tmpdir(), 'ever-works-fk-'));
 		dataSource = new DataSource({
 			type: 'better-sqlite3',
-			database: join(dir, 'gauzy.sqlite'),
+			database: join(dir, 'irtranscripts.sqlite'),
 			migrations: [...EVER_WORKS_MIGRATIONS]
 		});
 		await dataSource.initialize();

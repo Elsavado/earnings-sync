@@ -7,10 +7,10 @@ import {
 	ServiceUnavailableException
 } from '@nestjs/common';
 import { MoreThanOrEqual } from 'typeorm';
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 import { JwtPayload, sign, verify } from 'jsonwebtoken';
 import * as moment from 'moment';
-import { IAppIntegrationConfig } from '@gauzy/common';
+import { IAppIntegrationConfig } from '@irtranscripts/common';
 import {
 	FeatureEnum,
 	IBasePerTenantEntityModel,
@@ -19,8 +19,8 @@ import {
 	IUserEmailInput,
 	IUserTokenInput,
 	IVerificationTokenPayload
-} from '@gauzy/contracts';
-import { deepMerge, generateAlphaNumericCode } from '@gauzy/utils';
+} from '@irtranscripts/contracts';
+import { deepMerge, generateAlphaNumericCode } from '@irtranscripts/utils';
 import { RequestContext } from './../core/context/request-context';
 import { EmailService } from './../email-send/email.service';
 import { UserService } from './../user/user.service';

@@ -1,5 +1,5 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a line's own guards need and none of which is
  * available outside a running application. The seam is therefore doubled at the module boundary,
  * exactly as the sibling package's service specs do, and **the service under test is the real one**:
@@ -11,13 +11,13 @@
  * the `if (!record)` branch of `findOneByIdString` on line 409), and `update` answers TypeORM's
  * `UpdateResult` after loading the row, which is what `TenantAwareCrudService.update` does.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	// The platform's exact decimal primitives are pulled through the seam rather than restated: this
 	// double replaces the application graph the barrel boots, not the arithmetic the assertions below
 	// turn on.
-	const decimals = jest.requireActual('@gauzy/core/src/lib/money/decimal');
+	const decimals = jest.requireActual('@irtranscripts/core/src/lib/money/decimal');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
@@ -144,7 +144,7 @@ jest.mock('@gauzy/core', () => {
 
 import { BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
 // The request context of the module mock above, so a case can state which organization it runs in.
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { FulfillmentLineService } from './fulfillment-line.service';
 
 /**

@@ -3,10 +3,10 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FileItem, FileUploader, FileUploaderOptions } from 'ng2-file-upload';
 import { Subject } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
-import { IOrganization, IUser } from '@gauzy/contracts';
-import { environment } from '@gauzy/ui-config';
-import { API_PREFIX, distinctUntilChange } from '@gauzy/ui-core/common';
-import { Store } from '@gauzy/ui-core/core';
+import { IOrganization, IUser } from '@irtranscripts/contracts';
+import { environment } from '@irtranscripts/ui-config';
+import { API_PREFIX, distinctUntilChange } from '@irtranscripts/ui-core/common';
+import { Store } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

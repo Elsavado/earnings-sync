@@ -1,7 +1,7 @@
 import { JoinColumn, RelationId } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, IsString } from 'class-validator';
-import { IProductOptionGroupTranslatable } from '@gauzy/contracts';
+import { IProductOptionGroupTranslatable } from '@irtranscripts/contracts';
 import {
 	Product,
 	ProductOption,

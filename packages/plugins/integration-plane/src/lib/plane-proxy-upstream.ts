@@ -1,7 +1,7 @@
 import type { AddressInfo } from 'node:net';
 
 /**
- * Environment variable that sets the Gauzy API the embedded Plane proxy calls, in the same form as
+ * Environment variable that sets the IRTranscripts API the embedded Plane proxy calls, in the same form as
  * API_BASE_URL (e.g. `http://gauzy-api.gauzy.svc.cluster.local:3000`); an `/api` suffix is optional.
  * Unset, the proxy calls this API process over loopback.
  */
@@ -22,9 +22,9 @@ export interface PlaneProxyUpstreamInput {
 }
 
 /**
- * Resolve the Gauzy API base URL (with the `/api` prefix) the Plane proxy sends its calls to.
+ * Resolve the IRTranscripts API base URL (with the `/api` prefix) the Plane proxy sends its calls to.
  *
- * The proxy is mounted on this API's own HTTP server, so by default it calls Gauzy over loopback on
+ * The proxy is mounted on this API's own HTTP server, so by default it calls IRTranscripts over loopback on
  * the address that server listens on. Calling the public API_BASE_URL instead sends every proxied
  * call out of the host, through the CDN and back in: a public round trip per call, and a failure
  * whenever that egress path is down.

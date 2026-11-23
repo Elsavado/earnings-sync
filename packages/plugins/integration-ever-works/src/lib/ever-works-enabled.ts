@@ -6,7 +6,7 @@
  *
  * Kept free of imports: `apps/api/src/plugins.ts` and `apps/worker/src/plugins.ts` call it while they
  * build their plugin lists, and the module calls it again at run time (a settings file read after the
- * list was built). Same contract as `isEverConnectEnabled` of `@gauzy/plugin-ever-connect`.
+ * list was built). Same contract as `isEverConnectEnabled` of `@irtranscripts/plugin-ever-connect`.
  */
 export function isEverWorksEnabled(
 	env: Record<string, string | undefined> = process.env,

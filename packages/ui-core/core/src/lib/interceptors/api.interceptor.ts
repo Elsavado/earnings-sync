@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, type HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '@gauzy/ui-config';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { environment } from '@irtranscripts/ui-config';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 
 // Base URL
 const baseUrl = environment.API_BASE_URL;

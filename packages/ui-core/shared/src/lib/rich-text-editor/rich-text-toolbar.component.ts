@@ -68,7 +68,7 @@ export class RichTextToolbarComponent implements AfterViewChecked, OnDestroy {
 	public textColorOpen = false;
 	public highlightOpen = false;
 
-	/** 12 text-color swatches from the Gauzy/Nebular palette. */
+	/** 12 text-color swatches from the IRTranscripts/Nebular palette. */
 	public readonly textColors: string[] = [
 		'#222b45',
 		'#8f9bb3',

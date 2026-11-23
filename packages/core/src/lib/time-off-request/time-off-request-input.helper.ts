@@ -1,5 +1,5 @@
 import { ForbiddenException } from '@nestjs/common';
-import { ID, PermissionsEnum, StatusTypesEnum } from '@gauzy/contracts';
+import { ID, PermissionsEnum, StatusTypesEnum } from '@irtranscripts/contracts';
 
 /**
  * What a `POST /time-off-request` or `PUT /time-off-request/:id` body (and the GraphQL `createTimeOffRequest` /

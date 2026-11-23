@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-job-employee-ui
+ * Public API Surface of @irtranscripts/plugin-job-employee-ui
  */
 export * from './lib/job-employee-plugin';
 export * from './lib/job-employee.module';

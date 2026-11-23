@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-auth-keycloak
+ * Public API Surface of @irtranscripts/plugin-auth-keycloak
  */
 export * from './lib/auth-keycloak.config';
 export * from './lib/auth-keycloak.plugin';

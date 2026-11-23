@@ -1,15 +1,15 @@
 /**
- * `@gauzy/ui-core/core` is a barrel over the whole app core — importing it pulls
+ * `@irtranscripts/ui-core/core` is a barrel over the whole app core — importing it pulls
  * Akita's untranspiled ESM into the CommonJS test runtime. The service only ever
  * reads `Store.selectedOrganization`, so a stub standing in for it keeps the
  * suite honest without booting the app graph.
  */
-jest.mock('@gauzy/ui-core/core', () => ({ Store: class Store {} }));
+jest.mock('@irtranscripts/ui-core/core', () => ({ Store: class Store {} }));
 
 import { HttpErrorResponse, HttpEventType, HttpParams, HttpResponse } from '@angular/common/http';
 import { firstValueFrom, Observable, of } from 'rxjs';
-import { BaseEntityEnum, DocumentKindEnum, ID, IDocument } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
+import { BaseEntityEnum, DocumentKindEnum, ID, IDocument } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
 import { DocumentsService } from './documents.service';
 
 const ORGANIZATION_ID = 'aaaaaaaa-1111-4111-8111-111111111111' as ID;

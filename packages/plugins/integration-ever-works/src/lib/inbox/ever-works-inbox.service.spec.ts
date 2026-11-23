@@ -1,9 +1,9 @@
 /**
  * The Ever Works inbox sync (G-P3-3) against in-memory stand-ins and the mock Ever Works server (contract
- * v1-draft.4, CR-4): EW items into the Gauzy Inbox (deferred while the recipient is unmatched), replies acting
+ * v1-draft.4, CR-4): EW items into the IRTranscripts Inbox (deferred while the recipient is unmatched), replies acting
  * as the recipient (already decided in Ever Works comes back with its answer), read / archive mirrored.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	const entity = (name: string) => ({ [name]: class {} })[name];
 	return {
@@ -31,7 +31,7 @@ jest.mock('@gauzy/core', () => {
 		RequestContext: { currentTenantId: () => null, currentUserId: () => null, currentOrganizationId: () => null }
 	};
 });
-jest.mock('@gauzy/common', () => ({ Public: () => () => undefined }));
+jest.mock('@irtranscripts/common', () => ({ Public: () => () => undefined }));
 
 import 'reflect-metadata';
 import { ConflictException, ForbiddenException, ServiceUnavailableException } from '@nestjs/common';
@@ -43,8 +43,8 @@ import {
 	InboxItemKindEnum,
 	InboxItemSourceEnum,
 	InboxItemStatusEnum
-} from '@gauzy/contracts';
-import { Employee } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { Employee } from '@irtranscripts/core';
 import { TestEverWorksClientFactory } from '../client/ever-works-client.factory';
 import type { EverWorksEventEnvelope } from '../client/ever-works-client.types';
 import { EverWorksConnectionStatus } from '../connection/ever-works-connection.entity';
@@ -63,7 +63,7 @@ const ADA_EMPLOYEE = 'employee-ada';
 interface LinkRow {
 	integrationTenantId: string;
 	entityType: string;
-	gauzyId: string;
+	irtranscriptsId: string;
 	ewId: string;
 	ewVersion: number | null;
 	state?: string;
@@ -95,23 +95,23 @@ function setup(options: { inbox?: boolean } = {}) {
 	const linkService = {
 		byEw: async (m: string, type: string, ewId: string) =>
 			links.find((l) => l.integrationTenantId === m && l.entityType === type && l.ewId === ewId) ?? null,
-		byGauzy: async (m: string, type: string, gauzyId: string) =>
-			links.find((l) => l.integrationTenantId === m && l.entityType === type && l.gauzyId === gauzyId) ?? null,
+		byIRTranscripts: async (m: string, type: string, irtranscriptsId: string) =>
+			links.find((l) => l.integrationTenantId === m && l.entityType === type && l.irtranscriptsId === irtranscriptsId) ?? null,
 		record: async (input: Record<string, any>) => {
 			const existing = links.find((l) => l.entityType === input['entityType'] && l.ewId === input['ewId']);
-			if (existing) Object.assign(existing, { gauzyId: input['gauzyId'], ewVersion: input['ewVersion'] ?? null });
+			if (existing) Object.assign(existing, { irtranscriptsId: input['irtranscriptsId'], ewVersion: input['ewVersion'] ?? null });
 			else
 				links.push({
 					integrationTenantId: input['integrationTenantId'],
 					entityType: input['entityType'],
-					gauzyId: input['gauzyId'],
+					irtranscriptsId: input['irtranscriptsId'],
 					ewId: input['ewId'],
 					ewVersion: input['ewVersion'] ?? null
 				});
 		}
 	};
-	const link = (entityType: EverWorksLinkType, gauzyId: string, ewId: string) =>
-		links.push({ integrationTenantId: MAPPING, entityType, gauzyId, ewId, ewVersion: null });
+	const link = (entityType: EverWorksLinkType, irtranscriptsId: string, ewId: string) =>
+		links.push({ integrationTenantId: MAPPING, entityType, irtranscriptsId, ewId, ewVersion: null });
 	const employees = [{ id: ADA_EMPLOYEE, userId: ADA_USER, tenantId: TENANT, organizationId: ORG }];
 	const dataSource = {
 		getRepository: (target: unknown) => {
@@ -177,7 +177,7 @@ function setup(options: { inbox?: boolean } = {}) {
 		}) as EverWorksEventEnvelope;
 	const apply = (e: EverWorksEventEnvelope) =>
 		service.apply(e, { connection: connection as never, event: {} as never, organizationId: ORG });
-	const gauzyItem = (ewItem: Record<string, unknown>, overrides: Partial<IInboxItem> = {}): IInboxItem =>
+	const irtranscriptsItem = (ewItem: Record<string, unknown>, overrides: Partial<IInboxItem> = {}): IInboxItem =>
 		({
 			id: `g-${ewItem['id']}`,
 			tenantId: TENANT,
@@ -189,30 +189,30 @@ function setup(options: { inbox?: boolean } = {}) {
 			externalId: ewItem['id'],
 			...overrides
 		}) as IInboxItem;
-	return { mock, ewOrg, adaEw, service, writes, registered, link, links, envelope, apply, gauzyItem, writer };
+	return { mock, ewOrg, adaEw, service, writes, registered, link, links, envelope, apply, irtranscriptsItem, writer };
 }
 
 describe('EverWorksInboxService', () => {
-	it('registers the EVER_WORKS source handler where the Gauzy Inbox is loaded', () => {
+	it('registers the EVER_WORKS source handler where the IRTranscripts Inbox is loaded', () => {
 		const { registered, service } = setup();
 		expect(registered).toEqual([service.handler]);
 		expect(service.handler.source).toBe(InboxItemSourceEnum.EVER_WORKS);
 	});
 
 	it('leaves inbox events for another process where the Inbox is on but not loaded here', async () => {
-		const saved = process.env['GAUZY_INBOX_ENABLED'];
-		process.env['GAUZY_INBOX_ENABLED'] = 'true';
+		const saved = process.env['IRTRANSCRIPTS_INBOX_ENABLED'];
+		process.env['IRTRANSCRIPTS_INBOX_ENABLED'] = 'true';
 		try {
 			const { mock, ewOrg, envelope, apply } = setup({ inbox: false });
 			const item = mock.addInboxItem(ewOrg.id);
 			await expect(apply(envelope('inbox.item.created', item))).resolves.toMatchObject({ status: 'deferred' });
 		} finally {
-			if (saved === undefined) delete process.env['GAUZY_INBOX_ENABLED'];
-			else process.env['GAUZY_INBOX_ENABLED'] = saved;
+			if (saved === undefined) delete process.env['IRTRANSCRIPTS_INBOX_ENABLED'];
+			else process.env['IRTRANSCRIPTS_INBOX_ENABLED'] = saved;
 		}
 	});
 
-	it('skips inbox events where the Gauzy Inbox is off', async () => {
+	it('skips inbox events where the IRTranscripts Inbox is off', async () => {
 		const { mock, ewOrg, envelope, apply, registered } = setup({ inbox: false });
 		const item = mock.addInboxItem(ewOrg.id);
 		await expect(apply(envelope('inbox.item.created', item))).resolves.toMatchObject({ status: 'skipped' });
@@ -289,15 +289,15 @@ describe('EverWorksInboxService', () => {
 		expect(writes[0]).toMatchObject({ status: InboxItemStatusEnum.ANSWERED });
 	});
 
-	it('a reply acts as the recipient; Ever Works routes it, and its answered event would update Gauzy', async () => {
-		const { mock, ewOrg, adaEw, service, link, gauzyItem, envelope, apply, writes } = setup();
+	it('a reply acts as the recipient; Ever Works routes it, and its answered event would update IRTranscripts', async () => {
+		const { mock, ewOrg, adaEw, service, link, irtranscriptsItem, envelope, apply, writes } = setup();
 		link(EverWorksLinkType.MEMBER, ADA_EMPLOYEE, adaEw);
 		const item = mock.addInboxItem(ewOrg.id, { recipientUserId: adaEw });
 		const before = { ...item };
 
 		await expect(
 			service.reply(
-				gauzyItem(item),
+				irtranscriptsItem(item),
 				{ optionId: 'pro', text: 'Lead with Pro' },
 				{ id: ADA_USER, tenantId: TENANT }
 			)
@@ -323,7 +323,7 @@ describe('EverWorksInboxService', () => {
 	});
 
 	it('already decided in Ever Works: the answer there comes back to be recorded', async () => {
-		const { mock, ewOrg, adaEw, service, link, gauzyItem } = setup();
+		const { mock, ewOrg, adaEw, service, link, irtranscriptsItem } = setup();
 		link(EverWorksLinkType.MEMBER, ADA_EMPLOYEE, adaEw);
 		const item = mock.addInboxItem(ewOrg.id, {
 			recipientUserId: adaEw,
@@ -332,14 +332,14 @@ describe('EverWorksInboxService', () => {
 			answerText: 'Decided in the app',
 			answerOptionId: 'team'
 		});
-		await expect(service.reply(gauzyItem(item), { optionId: 'pro' }, { id: ADA_USER })).resolves.toEqual({
+		await expect(service.reply(irtranscriptsItem(item), { optionId: 'pro' }, { id: ADA_USER })).resolves.toEqual({
 			routed: 'already-decided',
 			response: { text: 'Decided in the app', optionId: 'team', answeredAt: '2026-10-16T09:05:00.000Z' }
 		});
 
-		// Archived there without an answer: refused, so the Gauzy claim is released.
+		// Archived there without an answer: refused, so the IRTranscripts claim is released.
 		const archived = mock.addInboxItem(ewOrg.id, { recipientUserId: adaEw, status: 'archived' });
-		await expect(service.reply(gauzyItem(archived), { optionId: 'pro' }, { id: ADA_USER })).rejects.toBeInstanceOf(
+		await expect(service.reply(irtranscriptsItem(archived), { optionId: 'pro' }, { id: ADA_USER })).rejects.toBeInstanceOf(
 			ConflictException
 		);
 
@@ -351,44 +351,44 @@ describe('EverWorksInboxService', () => {
 		});
 		// A non-retryable failure (the client retries 5xx on its own).
 		mock.fail({ method: 'GET', path: `/inbox/items/${unknown['id']}`, status: 404 });
-		await expect(service.reply(gauzyItem(unknown), { optionId: 'pro' }, { id: ADA_USER })).rejects.toBeInstanceOf(
+		await expect(service.reply(irtranscriptsItem(unknown), { optionId: 'pro' }, { id: ADA_USER })).rejects.toBeInstanceOf(
 			ServiceUnavailableException
 		);
 	});
 
 	it('refuses a reply it cannot send as the user, and an organization that is not connected', async () => {
-		const { mock, ewOrg, adaEw, service, gauzyItem } = setup();
+		const { mock, ewOrg, adaEw, service, irtranscriptsItem } = setup();
 		const item = mock.addInboxItem(ewOrg.id, { recipientUserId: adaEw });
 		// Ada is not matched to an Ever Works member.
-		await expect(service.reply(gauzyItem(item), { optionId: 'pro' }, { id: ADA_USER })).rejects.toBeInstanceOf(
+		await expect(service.reply(irtranscriptsItem(item), { optionId: 'pro' }, { id: ADA_USER })).rejects.toBeInstanceOf(
 			ForbiddenException
 		);
 		await expect(
-			service.reply(gauzyItem(item, { organizationId: 'org-elsewhere' }), { optionId: 'pro' }, { id: ADA_USER })
+			service.reply(irtranscriptsItem(item, { organizationId: 'org-elsewhere' }), { optionId: 'pro' }, { id: ADA_USER })
 		).rejects.toBeInstanceOf(ServiceUnavailableException);
 	});
 
 	it('an undone pairing neither acts as the Ever Works member nor receives their items (security review)', async () => {
-		const { mock, ewOrg, adaEw, service, link, gauzyItem, envelope, apply, writes, links } = setup();
+		const { mock, ewOrg, adaEw, service, link, irtranscriptsItem, envelope, apply, writes, links } = setup();
 		link(EverWorksLinkType.MEMBER, ADA_EMPLOYEE, adaEw);
 		const item = mock.addInboxItem(ewOrg.id, { recipientUserId: adaEw });
-		// The pairing is undone: Ada's Gauzy account no longer speaks for her Ever Works account…
+		// The pairing is undone: Ada's IRTranscripts account no longer speaks for her Ever Works account…
 		const pairing = links.find((row) => row.entityType === EverWorksLinkType.MEMBER) as LinkRow;
 		pairing.state = EverWorksLinkState.UNLINKED;
-		await expect(service.reply(gauzyItem(item), { optionId: 'pro' }, { id: ADA_USER, tenantId: TENANT })).rejects.toBeInstanceOf(ForbiddenException);
+		await expect(service.reply(irtranscriptsItem(item), { optionId: 'pro' }, { id: ADA_USER, tenantId: TENANT })).rejects.toBeInstanceOf(ForbiddenException);
 		expect(mock.requests.some((r) => r.method === 'POST' && r.path.endsWith('/reply'))).toBe(false);
-		// …her read / archive stays in Gauzy (no PATCH, no error)…
-		await expect(service.mirrorState(gauzyItem(item), { userId: ADA_USER } as never, { isRead: true, isArchived: true })).resolves.toBeUndefined();
+		// …her read / archive stays in IRTranscripts (no PATCH, no error)…
+		await expect(service.mirrorState(irtranscriptsItem(item), { userId: ADA_USER } as never, { isRead: true, isArchived: true })).resolves.toBeUndefined();
 		expect(mock.requests.some((r) => r.method === 'PATCH' && r.path.endsWith('/state'))).toBe(false);
 		// …and her Ever Works items are not delivered to it.
 		await expect(apply(envelope('inbox.item.created', item))).resolves.toMatchObject({ status: 'deferred' });
 		expect(writes).toHaveLength(0);
 	});
 
-	it('mirrors read and archive as the recipient (snoozing stays in Gauzy)', async () => {
-		const { mock, ewOrg, adaEw, service, link, gauzyItem, writes } = setup();
+	it('mirrors read and archive as the recipient (snoozing stays in IRTranscripts)', async () => {
+		const { mock, ewOrg, adaEw, service, link, irtranscriptsItem, writes } = setup();
 		link(EverWorksLinkType.MEMBER, ADA_EMPLOYEE, adaEw);
-		// Answered in Ever Works (version 2), which Gauzy has not applied yet.
+		// Answered in Ever Works (version 2), which IRTranscripts has not applied yet.
 		const item = mock.addInboxItem(ewOrg.id, {
 			recipientUserId: adaEw,
 			version: 2,
@@ -398,9 +398,9 @@ describe('EverWorksInboxService', () => {
 		});
 		const recipient = { userId: ADA_USER } as never;
 
-		await service.mirrorState(gauzyItem(item), recipient, { isRead: true, isArchived: true });
+		await service.mirrorState(irtranscriptsItem(item), recipient, { isRead: true, isArchived: true });
 		expect(mock.inboxItems.get(item['id'] as string)).toMatchObject({ unread: false, status: 'archived' });
-		// The answer behind the newer version reaches Gauzy with the state change.
+		// The answer behind the newer version reaches IRTranscripts with the state change.
 		expect(writes[writes.length - 1]).toMatchObject({
 			status: InboxItemStatusEnum.ANSWERED,
 			response: expect.objectContaining({ optionId: 'team' }),
@@ -408,7 +408,7 @@ describe('EverWorksInboxService', () => {
 		});
 
 		const before = mock.requests.length;
-		await service.mirrorState(gauzyItem(item), recipient, { snoozedUntil: new Date().toISOString() });
+		await service.mirrorState(irtranscriptsItem(item), recipient, { snoozedUntil: new Date().toISOString() });
 		expect(mock.requests.length).toBe(before);
 	});
 });

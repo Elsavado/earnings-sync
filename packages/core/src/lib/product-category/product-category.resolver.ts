@@ -7,7 +7,7 @@ import {
 	IProductCategoryTranslatable,
 	LanguagesEnum,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	ConnectionFilter,
 	ConnectionPageRequest,
@@ -15,7 +15,7 @@ import {
 	GraphqlConnection,
 	buildConnection
 } from '../api/graphql-connection';
-import { FeatureFlag } from '@gauzy/common';
+import { FeatureFlag } from '@irtranscripts/common';
 import { BaseQueryDTO } from '../core/crud';
 import { RequestContext } from '../core/context';
 import { Permissions } from '../shared/decorators';

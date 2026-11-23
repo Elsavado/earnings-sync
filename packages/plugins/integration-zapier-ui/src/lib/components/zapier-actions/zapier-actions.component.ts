@@ -2,11 +2,11 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { tap, catchError, finalize, switchMap, distinctUntilChanged, map } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
-import { ZapierService, ToastrService, Store } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { IRecordViewSection } from '@gauzy/ui-core/shared';
+import { ZapierService, ToastrService, Store } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { IRecordViewSection } from '@irtranscripts/ui-core/shared';
 import { TranslateService } from '@ngx-translate/core';
-import { IZapierEndpoint, IOrganization, ID } from '@gauzy/contracts';
+import { IZapierEndpoint, IOrganization, ID } from '@irtranscripts/contracts';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy({ checkProperties: true })

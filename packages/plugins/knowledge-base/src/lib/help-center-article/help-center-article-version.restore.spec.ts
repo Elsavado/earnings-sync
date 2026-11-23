@@ -1,8 +1,8 @@
 /**
- * Same stub strategy as the sibling suites: `@gauzy/core` is a barrel over the whole server core, and
+ * Same stub strategy as the sibling suites: `@irtranscripts/core` is a barrel over the whole server core, and
  * only the two shapes this service uses matter here.
  */
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	TenantAwareCrudService: class TenantAwareCrudService {
 		constructor(
 			public readonly typeOrmRepository: any,
@@ -29,7 +29,7 @@ jest.mock('./repository/mikro-orm-help-center-article-version.repository', () =>
 	MikroOrmHelpCenterArticleVersionRepository: class MikroOrmHelpCenterArticleVersionRepository {}
 }));
 
-import { sanitizeRichHtml } from '@gauzy/core';
+import { sanitizeRichHtml } from '@irtranscripts/core';
 import { HelpCenterArticleVersionService } from './help-center-article-version.service';
 
 const VERSION_ID = 'bbbbbbbb-1111-4111-8111-111111111111';

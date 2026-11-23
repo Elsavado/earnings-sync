@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { EntityManager, IsNull, Not, Repository, UpdateResult } from 'typeorm';
-import { ID, IRuleCreateInput } from '@gauzy/contracts';
+import { ID, IRuleCreateInput } from '@irtranscripts/contracts';
 import {
 	ApiErrorCode,
 	ApiException,
@@ -15,7 +15,7 @@ import {
 	bumpVersion,
 	commitVersionedUpdate,
 	parseEntityVersion
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { Entitlement } from './entitlement.entity';
 import { EntitlementActivation } from '../entitlement-activation/entitlement-activation.entity';
 import { EntitlementKey } from '../entitlement-key/entitlement-key.entity';

@@ -1,7 +1,7 @@
 import { Controller, Get, Param, ParseUUIDPipe, Query, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { ID, IPagination, PermissionsEnum } from '@gauzy/contracts';
-import { Permissions, PermissionGuard, TenantPermissionGuard, UUIDValidationPipe } from '@gauzy/core';
+import { ID, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
+import { Permissions, PermissionGuard, TenantPermissionGuard, UUIDValidationPipe } from '@irtranscripts/core';
 import { InventoryPermission } from './../inventory.permissions';
 import { StockMovement } from './stock-movement.entity';
 import { StockMovementService } from './stock-movement.service';

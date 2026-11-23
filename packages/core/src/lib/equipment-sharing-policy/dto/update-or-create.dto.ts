@@ -1,4 +1,4 @@
-import { IEquipmentSharingPolicy } from '@gauzy/contracts';
+import { IEquipmentSharingPolicy } from '@irtranscripts/contracts';
 import { IntersectionType, OmitType } from '@nestjs/swagger';
 import { TenantOrganizationBaseDTO } from '../../core/dto';
 import { EquipmentSharingPolicy } from '../equipment-sharing-policy.entity';

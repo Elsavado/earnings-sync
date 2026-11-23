@@ -15,7 +15,7 @@ import {
 	IUser,
 	LanguagesEnum,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { distinctUntilChanged, merge, Observable, shareReplay } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ComponentEnum, SYSTEM_DEFAULT_LAYOUT } from '../constants/layout.constants';

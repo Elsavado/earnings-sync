@@ -1,2 +1,2 @@
-export * from './theme.gauzy-light';
-export * from './theme.gauzy-dark';
+export * from './theme.irtranscripts-light';
+export * from './theme.irtranscripts-dark';

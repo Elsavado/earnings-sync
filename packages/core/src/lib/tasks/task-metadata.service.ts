@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Repository as TypeOrmBaseEntityRepository, SelectQueryBuilder, IsNull, FindManyOptions } from 'typeorm';
 import { Knex as KnexConnection } from 'knex';
-import { isNotEmpty } from '@gauzy/utils';
+import { isNotEmpty } from '@irtranscripts/utils';
 import {
 	FileStorageProviderEnum,
 	IIssueTypeFindInput,
@@ -10,7 +10,7 @@ import {
 	ITaskSizeFindInput,
 	ITaskStatusFindInput,
 	ITaskVersionFindInput
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { MikroOrmBaseEntityRepository } from '../core/repository/mikro-orm-base-entity.repository';
 import { FileStorage } from '../core/file-storage';
 import { RequestContext } from '../core/context';

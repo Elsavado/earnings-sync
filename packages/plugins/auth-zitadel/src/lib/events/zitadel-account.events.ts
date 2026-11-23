@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { ZitadelLinkMethod } from '../entities/zitadel-account.entity';
 
 /** What a link event carries: ids and the tenant display name only, never an e-mail address. */
@@ -21,7 +21,7 @@ abstract class ZitadelAccountEvent {
 }
 
 /**
- * Published on the core event bus after an Ever ID was linked to a Gauzy user. Nothing in this
+ * Published on the core event bus after an Ever ID was linked to a IRTranscripts user. Nothing in this
  * plugin subscribes to it, so on its own it never leaves the process.
  */
 export class ZitadelAccountLinkedEvent extends ZitadelAccountEvent {}

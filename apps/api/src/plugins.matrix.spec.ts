@@ -8,19 +8,19 @@ import { join } from 'node:path';
  * measures the switches and nothing else.
  */
 const PLUGINS_SOURCE = readFileSync(join(__dirname, 'plugins.ts'), 'utf8');
-const STUBBED = Array.from(PLUGINS_SOURCE.matchAll(/from '((?:@gauzy\/plugin-|\.\/)[^']+)'/g), (match) => match[1]).filter(
+const STUBBED = Array.from(PLUGINS_SOURCE.matchAll(/from '((?:@irtranscripts\/plugin-|\.\/)[^']+)'/g), (match) => match[1]).filter(
 	(name) =>
-		name !== '@gauzy/plugin-auth-zitadel' &&
-		name !== '@gauzy/plugin-auth-keycloak' &&
-		name !== '@gauzy/plugin-ever-stats' &&
-		name !== '@gauzy/plugin-ever-connect' &&
-		name !== '@gauzy/plugin-integration-ever-works' &&
-		name !== '@gauzy/plugin-inbox' &&
-		name !== '@gauzy/plugin-email-provider-resend' &&
-		name !== '@gauzy/plugin-email-provider-postmark' &&
-		name !== '@gauzy/plugin-email-provider-mailgun' &&
-		name !== '@gauzy/plugin-email-provider-sendgrid' &&
-		name !== '@gauzy/plugin-email-provider-ses'
+		name !== '@irtranscripts/plugin-auth-zitadel' &&
+		name !== '@irtranscripts/plugin-auth-keycloak' &&
+		name !== '@irtranscripts/plugin-ever-stats' &&
+		name !== '@irtranscripts/plugin-ever-connect' &&
+		name !== '@irtranscripts/plugin-integration-ever-works' &&
+		name !== '@irtranscripts/plugin-inbox' &&
+		name !== '@irtranscripts/plugin-email-provider-resend' &&
+		name !== '@irtranscripts/plugin-email-provider-postmark' &&
+		name !== '@irtranscripts/plugin-email-provider-mailgun' &&
+		name !== '@irtranscripts/plugin-email-provider-sendgrid' &&
+		name !== '@irtranscripts/plugin-email-provider-ses'
 );
 
 class AuthZitadelPlugin {}
@@ -60,49 +60,49 @@ function loadPlugins(env: Record<string, string | undefined>, before?: () => voi
 			for (const name of STUBBED) {
 				jest.doMock(name, () => new Proxy({}, { get: () => stubPluginClass() }));
 			}
-			jest.doMock('@gauzy/plugin-auth-zitadel', () => ({
+			jest.doMock('@irtranscripts/plugin-auth-zitadel', () => ({
 				AuthZitadelPlugin,
 				isZitadelEnabled: jest.requireActual('../../../packages/plugins/auth-zitadel/src/lib/auth-zitadel.config').isZitadelEnabled
 			}));
-			jest.doMock('@gauzy/plugin-auth-keycloak', () => ({
+			jest.doMock('@irtranscripts/plugin-auth-keycloak', () => ({
 				AuthKeycloakPlugin,
 				isKeycloakEnabled: jest.requireActual('../../../packages/plugins/auth-keycloak/src/lib/auth-keycloak.config').isKeycloakEnabled
 			}));
-			jest.doMock('@gauzy/plugin-ever-stats', () => ({
+			jest.doMock('@irtranscripts/plugin-ever-stats', () => ({
 				EverStatsPlugin,
 				isEverStatsEnabled: jest.requireActual('../../../packages/plugins/ever-stats/src/lib/ever-stats-enabled').isEverStatsEnabled
 			}));
-			jest.doMock('@gauzy/plugin-ever-connect', () => ({
+			jest.doMock('@irtranscripts/plugin-ever-connect', () => ({
 				EverConnectPlugin,
 				isEverConnectEnabled: jest.requireActual('../../../packages/plugins/ever-connect/src/lib/ever-connect-enabled').isEverConnectEnabled
 			}));
-			jest.doMock('@gauzy/plugin-integration-ever-works', () => ({
+			jest.doMock('@irtranscripts/plugin-integration-ever-works', () => ({
 				IntegrationEverWorksPlugin,
 				isEverWorksEnabled: jest.requireActual('../../../packages/plugins/integration-ever-works/src/lib/ever-works-enabled').isEverWorksEnabled
 			}));
-			jest.doMock('@gauzy/plugin-inbox', () => ({
+			jest.doMock('@irtranscripts/plugin-inbox', () => ({
 				InboxPlugin,
 				InboxEmailPlugin,
 				isInboxEnabled: jest.requireActual('../../../packages/plugins/inbox/src/lib/inbox-enabled').isInboxEnabled,
 				isInboxEmailEnabled: jest.requireActual('../../../packages/plugins/inbox/src/lib/email/inbox-email-enabled').isInboxEmailEnabled
 			}));
-			jest.doMock('@gauzy/plugin-email-provider-resend', () => ({
+			jest.doMock('@irtranscripts/plugin-email-provider-resend', () => ({
 				EmailProviderResendPlugin,
 				isResendEnabled: jest.requireActual('../../../packages/plugins/email-provider-resend/src/lib/resend-enabled').isResendEnabled
 			}));
-			jest.doMock('@gauzy/plugin-email-provider-postmark', () => ({
+			jest.doMock('@irtranscripts/plugin-email-provider-postmark', () => ({
 				EmailProviderPostmarkPlugin,
 				isPostmarkEnabled: jest.requireActual('../../../packages/plugins/email-provider-postmark/src/lib/postmark-enabled').isPostmarkEnabled
 			}));
-			jest.doMock('@gauzy/plugin-email-provider-mailgun', () => ({
+			jest.doMock('@irtranscripts/plugin-email-provider-mailgun', () => ({
 				EmailProviderMailgunPlugin,
 				isMailgunEnabled: jest.requireActual('../../../packages/plugins/email-provider-mailgun/src/lib/mailgun-enabled').isMailgunEnabled
 			}));
-			jest.doMock('@gauzy/plugin-email-provider-sendgrid', () => ({
+			jest.doMock('@irtranscripts/plugin-email-provider-sendgrid', () => ({
 				EmailProviderSendGridPlugin,
 				isSendGridEnabled: jest.requireActual('../../../packages/plugins/email-provider-sendgrid/src/lib/sendgrid-enabled').isSendGridEnabled
 			}));
-			jest.doMock('@gauzy/plugin-email-provider-ses', () => ({
+			jest.doMock('@irtranscripts/plugin-email-provider-ses', () => ({
 				EmailProviderSesPlugin,
 				isSesEnabled: jest.requireActual('../../../packages/plugins/email-provider-ses/src/lib/ses-enabled').isSesEnabled
 			}));
@@ -117,9 +117,9 @@ function loadPlugins(env: Record<string, string | undefined>, before?: () => voi
 
 describe('API plugin list: optional sign-in plugins', () => {
 	const keycloakConfigured = {
-		KEYCLOAK_CLIENT_ID: 'gauzy',
+		KEYCLOAK_CLIENT_ID: 'irtranscripts',
 		KEYCLOAK_CLIENT_SECRET: 'a-real-secret',
-		KEYCLOAK_REALM: 'gauzy',
+		KEYCLOAK_REALM: 'irtranscripts',
 		KEYCLOAK_AUTH_SERVER_URL: 'https://id.example.test'
 	};
 
@@ -192,9 +192,9 @@ describe('API plugin list: Ever Platform connection', () => {
 				EVER_CONNECT_ENABLED: connect ? 'true' : undefined,
 				ZITADEL_ENABLED: zitadel ? 'true' : undefined,
 				KEYCLOAK_ENABLED: keycloak ? 'true' : undefined,
-				KEYCLOAK_CLIENT_ID: 'gauzy',
+				KEYCLOAK_CLIENT_ID: 'irtranscripts',
 				KEYCLOAK_CLIENT_SECRET: 'a-real-secret',
-				KEYCLOAK_REALM: 'gauzy',
+				KEYCLOAK_REALM: 'irtranscripts',
 				KEYCLOAK_AUTH_SERVER_URL: 'https://id.example.test'
 			});
 			expect([plugins.includes(EverStatsPlugin), plugins.includes(EverConnectPlugin), plugins.includes(AuthZitadelPlugin), plugins.includes(AuthKeycloakPlugin)]).toEqual([
@@ -258,12 +258,12 @@ describe('API plugin list: Inbox', () => {
 		['TRUE', 'TRUE', false, 1],
 		['1', '1', false, 1],
 		['yes', 'yes', false, 1]
-	])('GAUZY_INBOX_ENABLED %s: loaded %s, %i log line(s)', (_name, value, loaded, lines) => {
+	])('IRTRANSCRIPTS_INBOX_ENABLED %s: loaded %s, %i log line(s)', (_name, value, loaded, lines) => {
 		const warn = jest.spyOn(console, 'warn').mockImplementation(() => undefined);
 		try {
-			const plugins = loadPlugins({ GAUZY_INBOX_ENABLED: value });
+			const plugins = loadPlugins({ IRTRANSCRIPTS_INBOX_ENABLED: value });
 			expect(plugins.includes(InboxPlugin)).toBe(loaded);
-			expect(warn.mock.calls.filter(([message]) => String(message).includes('GAUZY_INBOX_ENABLED'))).toHaveLength(lines);
+			expect(warn.mock.calls.filter(([message]) => String(message).includes('IRTRANSCRIPTS_INBOX_ENABLED'))).toHaveLength(lines);
 		} finally {
 			warn.mockRestore();
 		}
@@ -279,7 +279,7 @@ describe('API plugin list: Inbox', () => {
 		const warn = jest.spyOn(console, 'warn').mockImplementation(() => undefined);
 		try {
 			const plugins = loadPlugins({
-				GAUZY_INBOX_ENABLED: inbox ? 'true' : undefined,
+				IRTRANSCRIPTS_INBOX_ENABLED: inbox ? 'true' : undefined,
 				EVER_WORKS_ENABLED: works ? 'true' : undefined
 			});
 			expect([plugins.includes(InboxPlugin), plugins.includes(IntegrationEverWorksPlugin)]).toEqual([inbox, works]);
@@ -303,16 +303,16 @@ describe('API plugin list: Inbox email', () => {
 	])('%s: Inbox %s, email %s, %i log line(s)', (_name, inbox, email, inboxLoaded, emailLoaded, lines) => {
 		const warn = jest.spyOn(console, 'warn').mockImplementation(() => undefined);
 		try {
-			const plugins = loadPlugins({ GAUZY_INBOX_ENABLED: inbox, GAUZY_INBOX_EMAIL_ENABLED: email });
+			const plugins = loadPlugins({ IRTRANSCRIPTS_INBOX_ENABLED: inbox, IRTRANSCRIPTS_INBOX_EMAIL_ENABLED: email });
 			expect([plugins.includes(InboxPlugin), plugins.includes(InboxEmailPlugin)]).toEqual([inboxLoaded, emailLoaded]);
-			expect(warn.mock.calls.filter(([message]) => String(message).includes('GAUZY_INBOX_EMAIL_ENABLED'))).toHaveLength(lines);
+			expect(warn.mock.calls.filter(([message]) => String(message).includes('IRTRANSCRIPTS_INBOX_EMAIL_ENABLED'))).toHaveLength(lines);
 		} finally {
 			warn.mockRestore();
 		}
 	});
 
 	it('loads the email plugin after the Inbox', () => {
-		const plugins = loadPlugins({ GAUZY_INBOX_ENABLED: 'true', GAUZY_INBOX_EMAIL_ENABLED: 'true' });
+		const plugins = loadPlugins({ IRTRANSCRIPTS_INBOX_ENABLED: 'true', IRTRANSCRIPTS_INBOX_EMAIL_ENABLED: 'true' });
 		expect(plugins.indexOf(InboxEmailPlugin)).toBeGreaterThan(plugins.indexOf(InboxPlugin));
 	});
 });
@@ -336,7 +336,7 @@ describe('API plugin list: Resend email provider', () => {
 	});
 
 	it('comes after the Inbox email plugin', () => {
-		const plugins = loadPlugins({ GAUZY_INBOX_ENABLED: 'true', GAUZY_INBOX_EMAIL_ENABLED: 'true', EMAIL_PROVIDER_RESEND_ENABLED: 'true' });
+		const plugins = loadPlugins({ IRTRANSCRIPTS_INBOX_ENABLED: 'true', IRTRANSCRIPTS_INBOX_EMAIL_ENABLED: 'true', EMAIL_PROVIDER_RESEND_ENABLED: 'true' });
 		expect(plugins.indexOf(EmailProviderResendPlugin)).toBeGreaterThan(plugins.indexOf(InboxEmailPlugin));
 	});
 });
@@ -360,7 +360,7 @@ describe('API plugin list: Postmark email provider', () => {
 	});
 
 	it('comes after the Inbox email plugin', () => {
-		const plugins = loadPlugins({ GAUZY_INBOX_ENABLED: 'true', GAUZY_INBOX_EMAIL_ENABLED: 'true', EMAIL_PROVIDER_POSTMARK_ENABLED: 'true' });
+		const plugins = loadPlugins({ IRTRANSCRIPTS_INBOX_ENABLED: 'true', IRTRANSCRIPTS_INBOX_EMAIL_ENABLED: 'true', EMAIL_PROVIDER_POSTMARK_ENABLED: 'true' });
 		expect(plugins.indexOf(EmailProviderPostmarkPlugin)).toBeGreaterThan(plugins.indexOf(InboxEmailPlugin));
 	});
 });
@@ -384,7 +384,7 @@ describe('API plugin list: Mailgun email provider', () => {
 	});
 
 	it('comes after the Inbox email plugin', () => {
-		const plugins = loadPlugins({ GAUZY_INBOX_ENABLED: 'true', GAUZY_INBOX_EMAIL_ENABLED: 'true', EMAIL_PROVIDER_MAILGUN_ENABLED: 'true' });
+		const plugins = loadPlugins({ IRTRANSCRIPTS_INBOX_ENABLED: 'true', IRTRANSCRIPTS_INBOX_EMAIL_ENABLED: 'true', EMAIL_PROVIDER_MAILGUN_ENABLED: 'true' });
 		expect(plugins.indexOf(EmailProviderMailgunPlugin)).toBeGreaterThan(plugins.indexOf(InboxEmailPlugin));
 	});
 });
@@ -408,7 +408,7 @@ describe('API plugin list: SendGrid email provider', () => {
 	});
 
 	it('comes after the Inbox email plugin', () => {
-		const plugins = loadPlugins({ GAUZY_INBOX_ENABLED: 'true', GAUZY_INBOX_EMAIL_ENABLED: 'true', EMAIL_PROVIDER_SENDGRID_ENABLED: 'true' });
+		const plugins = loadPlugins({ IRTRANSCRIPTS_INBOX_ENABLED: 'true', IRTRANSCRIPTS_INBOX_EMAIL_ENABLED: 'true', EMAIL_PROVIDER_SENDGRID_ENABLED: 'true' });
 		expect(plugins.indexOf(EmailProviderSendGridPlugin)).toBeGreaterThan(plugins.indexOf(InboxEmailPlugin));
 	});
 });
@@ -432,7 +432,7 @@ describe('API plugin list: Amazon SES email provider', () => {
 	});
 
 	it('comes after the Inbox email plugin', () => {
-		const plugins = loadPlugins({ GAUZY_INBOX_ENABLED: 'true', GAUZY_INBOX_EMAIL_ENABLED: 'true', EMAIL_PROVIDER_SES_ENABLED: 'true' });
+		const plugins = loadPlugins({ IRTRANSCRIPTS_INBOX_ENABLED: 'true', IRTRANSCRIPTS_INBOX_EMAIL_ENABLED: 'true', EMAIL_PROVIDER_SES_ENABLED: 'true' });
 		expect(plugins.indexOf(EmailProviderSesPlugin)).toBeGreaterThan(plugins.indexOf(InboxEmailPlugin));
 	});
 });
@@ -448,7 +448,7 @@ describe('API boot order: the settings files are read before the plugin list is 
 	/** Starts the API's env loading in a working directory holding `files`, then builds the plugin list. */
 	function bootIn(files: Record<string, string>): unknown[] {
 		const cwd = process.cwd();
-		const dir = mkdtempSync(join(tmpdir(), 'gauzy-api-env-'));
+		const dir = mkdtempSync(join(tmpdir(), 'irtranscripts-api-env-'));
 		const log = jest.spyOn(console, 'log').mockImplementation(() => undefined);
 		const time = jest.spyOn(console, 'time').mockImplementation(() => undefined);
 		const timeEnd = jest.spyOn(console, 'timeEnd').mockImplementation(() => undefined);

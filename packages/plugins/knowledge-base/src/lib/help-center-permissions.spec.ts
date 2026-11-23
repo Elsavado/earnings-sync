@@ -11,7 +11,7 @@
  *     DELETE ':id/soft', PUT ':id/recover' — which Nest's MetadataScanner picks up off the
  *     prototype chain and which no subclass had overridden.
  *
- * `@gauzy/core` is a barrel over the whole server core; importing it for real pulls the ORM
+ * `@irtranscripts/core` is a barrel over the whole server core; importing it for real pulls the ORM
  * bootstrap and every entity into the test runtime (and this package's jest config has no ESM
  * transform exceptions). The double below therefore stands in for it, but it declares the SAME five
  * inherited mutating routes as the real `packages/core/src/lib/core/crud/crud.controller.ts` and
@@ -19,9 +19,9 @@
  * real base class still declares exactly those five routes, un-guarded, is asserted separately in
  * `packages/core/src/lib/shared/guards/mutating-route-permissions.spec.ts`.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const common = require('@nestjs/common');
-	const { PERMISSIONS_METADATA } = require('@gauzy/constants');
+	const { PERMISSIONS_METADATA } = require('@irtranscripts/constants');
 
 	class CrudController {
 		constructor(_crudService: any) {
@@ -150,9 +150,9 @@ jest.mock('./help-center-author/commands', () => ({
 import 'reflect-metadata';
 import { RequestMethod } from '@nestjs/common';
 import { GUARDS_METADATA, METHOD_METADATA, PATH_METADATA } from '@nestjs/common/constants';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { CrudController, PermissionGuard } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { CrudController, PermissionGuard } from '@irtranscripts/core';
 import { HelpCenterController } from './help-center/help-center.controller';
 import { HelpCenterArticleController } from './help-center-article/help-center-article.controller';
 import { HelpCenterAuthorController } from './help-center-author/help-center-author.controller';

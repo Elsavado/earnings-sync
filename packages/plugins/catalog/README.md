@@ -1,6 +1,6 @@
-# @gauzy/plugin-catalog
+# @irtranscripts/plugin-catalog
 
-The catalog plugin for the Gauzy platform. It owns everything the platform needs
+The catalog plugin for the IRTranscripts platform. It owns everything the platform needs
 to **present** a product rather than merely store it:
 
 - `product_channel`: publication of a product on one sales channel
@@ -38,7 +38,7 @@ folder `dist/packages/plugins/catalog` and run `npm publish`.
 Install the Catalog Plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-catalog
+npm install @irtranscripts/plugin-catalog
 # or
-yarn add @gauzy/plugin-catalog
+yarn add @irtranscripts/plugin-catalog
 ```

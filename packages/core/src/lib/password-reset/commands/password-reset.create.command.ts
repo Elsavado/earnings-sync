@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { IPasswordReset } from '@gauzy/contracts';
+import { IPasswordReset } from '@irtranscripts/contracts';
 
 export class PasswordResetCreateCommand implements ICommand {
 	static readonly type = '[Password Reset] Create';

@@ -21,12 +21,12 @@ name: Egress audit
 #   control         positive_stats without the mock platform must FAIL, so a green run is not a
 #                   blind one
 #   every_trigger   both modules on against the mock platform and every trigger of every call
-#                   exercised: the calls made are exactly the Gauzy rows of the contract this
+#                   exercised: the calls made are exactly the IRTranscripts rows of the contract this
 #                   release makes (tools/ever-platform/outbound-calls.md), row for row
 #   connect_off_sign_in_on  the connection off and the Ever ID sign-in plugin on with an issuer on
 #                   an Ever host: the issuer is left unused, nothing looked up or sent, in both legs
 #   entitlement_ladder  entitlement documents in grace, paused, issued in the future (refused) and
-#                   slightly ahead (accepted): the ladder follows, Gauzy's own routes answer the
+#                   slightly ahead (accepted): the ladder follows, IRTranscripts's own routes answer the
 #                   same at every step, only the connection's documented calls are made
 #   static-bundle   the built web app of the image names no Ever host the baseline does not have
 #
@@ -52,11 +52,11 @@ on:
   workflow_dispatch:
     inputs:
       image:
-        description: 'The Gauzy API image to audit'
+        description: 'The IRTranscripts API image to audit'
         required: true
         default: 'ghcr.io/ever-co/gauzy-api-demo:latest'
       webapp_image:
-        description: 'The Gauzy web app image to audit'
+        description: 'The IRTranscripts web app image to audit'
         required: true
         default: 'ghcr.io/ever-co/gauzy-webapp-demo:latest'
   pull_request:
@@ -67,7 +67,7 @@ on:
     paths:
       - '.github/workflows/egress-audit.yml'
       - 'tools/egress-audit/**'
-      - 'apps/gauzy/src/**'
+      - 'apps/irtranscripts/src/**'
       - 'packages/ui-*/**'
       - 'packages/plugin-ui/**'
       - 'packages/plugins/*-ui/**'
@@ -89,7 +89,7 @@ on:
     paths:
       - '.github/workflows/egress-audit.yml'
       - 'tools/egress-audit/**'
-      - 'apps/gauzy/src/**'
+      - 'apps/irtranscripts/src/**'
       - 'packages/ui-*/**'
       - 'packages/plugin-ui/**'
       - 'packages/plugins/*-ui/**'
@@ -188,7 +188,7 @@ jobs:
       - name: The route list is in step with the Angular router
         run: |
           node "$AUDIT_DIR/node_modules/@ever-co/connect-tools/dist/egress-audit/run.mjs" ui-routes \
-            --framework angular --entry apps/gauzy/src/app/app.routes.ts --out "$AUDIT_DIR/ui-routes.json" --check
+            --framework angular --entry apps/irtranscripts/src/app/app.routes.ts --out "$AUDIT_DIR/ui-routes.json" --check
 
       - name: The baseline's one standing exception covers only the links the vendored legal documents write
         run: node --test tools/egress-audit/check-baseline-legal.test.mjs
@@ -409,16 +409,16 @@ jobs:
           dist="$AUDIT_DIR/node_modules/@ever-co/connect-tools/dist"
           for ref in $(grep -rhoE '[a-z0-9./_-]+:[a-z0-9._-]+@sha256:[a-f0-9]{64}' "$dist/egress-audit/lib" "$dist/egress-audit/compose.audit.yml" | sort -u); do pull "$ref"; done
           for ref in $(sed -n 's/^FROM \([^ ]*\).*/\1/p' "$dist/mock-platform/Dockerfile" | sort -u); do pull "$ref"; done
-          echo "GAUZY_API_IMAGE=$IMAGE" >> "$GITHUB_ENV"
-          echo "GAUZY_WEBAPP_IMAGE=$WEBAPP_IMAGE" >> "$GITHUB_ENV"
-          commit=$(docker image inspect "$IMAGE" --format '{{range .Config.Env}}{{println .}}{{end}}' | sed -n 's/^GAUZY_APP_COMMIT=//p')
+          echo "IRTRANSCRIPTS_API_IMAGE=$IMAGE" >> "$GITHUB_ENV"
+          echo "IRTRANSCRIPTS_WEBAPP_IMAGE=$WEBAPP_IMAGE" >> "$GITHUB_ENV"
+          commit=$(docker image inspect "$IMAGE" --format '{{range .Config.Env}}{{println .}}{{end}}' | sed -n 's/^IRTRANSCRIPTS_APP_COMMIT=//p')
           echo "The API image was built from commit ${commit:-<unknown>}." | tee -a "$GITHUB_STEP_SUMMARY"
           echo "The web app image is $(docker image inspect "$WEBAPP_IMAGE" --format '{{index .RepoDigests 0}}')." | tee -a "$GITHUB_STEP_SUMMARY"
           df -h /
 
       - name: The web app image serves its page (outside the audit, so a broken image is named here)
         run: |
-          docker run -d --name webapp-smoke -e API_BASE_URL=http://api:3000 -e CLIENT_BASE_URL=http://webapp:4200 -p 127.0.0.1:4299:4200 "$GAUZY_WEBAPP_IMAGE" > /dev/null
+          docker run -d --name webapp-smoke -e API_BASE_URL=http://api:3000 -e CLIENT_BASE_URL=http://webapp:4200 -p 127.0.0.1:4299:4200 "$IRTRANSCRIPTS_WEBAPP_IMAGE" > /dev/null
           ok=false
           for i in $(seq 1 60); do
             if curl -fsS -o /dev/null http://127.0.0.1:4299/; then ok=true; break; fi
@@ -433,13 +433,13 @@ jobs:
         run: |
           secret=$(openssl rand -hex 32)
           echo "::add-mask::$secret"
-          echo "GAUZY_AUDIT_SECRET=$secret" >> "$GITHUB_ENV"
+          echo "IRTRANSCRIPTS_AUDIT_SECRET=$secret" >> "$GITHUB_ENV"
           : > "$RUNNER_TEMP/api-empty.env"
           printf 'EVER_STATS_ENABLED=false\n' > "$RUNNER_TEMP/api-stats-off.env"
 
       - name: 'Audit: ${{ matrix.mode }}'
         env:
-          GAUZY_AUDIT_DOTENV: ${{ runner.temp }}/${{ matrix.dotenv }}
+          IRTRANSCRIPTS_AUDIT_DOTENV: ${{ runner.temp }}/${{ matrix.dotenv }}
           RUN_MODE: ${{ matrix.run }}
           RUN_ARGS: ${{ matrix.args }}
           EXPECT: ${{ matrix.expect }}
@@ -520,6 +520,6 @@ jobs:
           pull "$WEBAPP_IMAGE"
           echo "The web app image is $(docker image inspect "$WEBAPP_IMAGE" --format '{{index .RepoDigests 0}}')." | tee -a "$GITHUB_STEP_SUMMARY"
           id=$(docker create "$WEBAPP_IMAGE")
-          docker cp "$id:/srv/gauzy" "$RUNNER_TEMP/webapp"
+          docker cp "$id:/srv/irtranscripts" "$RUNNER_TEMP/webapp"
           docker rm "$id" > /dev/null
           node tools/egress-audit/static-hostnames.mjs --bundle "$RUNNER_TEMP/webapp" | tee -a "$GITHUB_STEP_SUMMARY"

@@ -1,5 +1,5 @@
 import { IntersectionType, PartialType } from '@nestjs/swagger';
-import { IEntitySubscriptionFindInput } from '@gauzy/contracts';
+import { IEntitySubscriptionFindInput } from '@irtranscripts/contracts';
 import { EntitySubscription } from '../entity-subscription.entity';
 import { TenantOrganizationBaseDTO } from '../../core/dto';
 

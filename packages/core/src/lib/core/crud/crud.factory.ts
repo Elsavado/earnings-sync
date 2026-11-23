@@ -2,8 +2,8 @@ import { Body, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Query, UsePi
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { DeepPartial, DeleteResult, FindOptionsWhere, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { ID, IPagination } from '@gauzy/contracts';
-import { Type } from '@gauzy/common';
+import { ID, IPagination } from '@irtranscripts/contracts';
+import { Type } from '@irtranscripts/common';
 import { BaseEntity } from './../../core/entities/base.entity';
 import { TenantOrganizationBaseDTO } from '../../core/dto';
 import { AbstractValidationPipe, UUIDValidationPipe } from './../../shared/pipes';

@@ -4,15 +4,15 @@
 			<nb-card-body class="main-card-body">
 				<nb-stepper orientation="horizontal">
 					<nb-step class="position-relative" [label]="labelOne">
-						<gauzy-language-selector
+						<irtranscripts-language-selector
 							#selector
 							[setup]="true"
 							class="lang-selector"
-						></gauzy-language-selector>
+						></irtranscripts-language-selector>
 						<ng-template #labelOne>{{ 'TIMER_TRACKER.SETUP.WELCOME' | translate | uppercase }}</ng-template>
 						<div class="row content-body">
 							<div class="col-12 text-center margin-content">
-								<img [src]="gauzyIcon" class="margin-icon" />
+								<img [src]="irtranscriptsIcon" class="margin-icon" />
 							</div>
 							<div class="col-12 text-center margin-content">
 								<div class="row">
@@ -79,7 +79,7 @@
 													<div class="col-9 card-item-content">
 														<nb-checkbox
 															status="primary"
-															[(ngModel)]="desktopFeatures.gauzyPlatform"
+															[(ngModel)]="desktopFeatures.irtranscriptsPlatform"
 															><span class="card-item-label">{{
 																'TIMER_TRACKER.SETUP.GP_FEATURES' | translate
 															}}</span></nb-checkbox
@@ -108,7 +108,7 @@
 									nbStepperNext
 									class="btn-next"
 									status="primary"
-									[disabled]="!desktopFeatures.gauzyPlatform && !desktopFeatures.timeTracking"
+									[disabled]="!desktopFeatures.irtranscriptsPlatform && !desktopFeatures.timeTracking"
 								>
 									{{ 'BUTTONS.CONTINUE' | translate
 									}}<nb-icon icon="arrow-forward-outline" class="icon-medium"></nb-icon>
@@ -241,7 +241,7 @@
 											: 'BUTTONS.CONTINUE'
 										) | translate
 									}}<nb-icon
-										*gauzySpinnerButton="isSaving"
+										*irtranscriptsSpinnerButton="isSaving"
 										icon="arrow-forward-outline"
 										class="icon-medium"
 									></nb-icon>
@@ -365,7 +365,7 @@
 								>
 									{{ (connectivity.live ? 'BUTTONS.SAVE' : 'BUTTONS.CONTINUE') | translate
 									}}<nb-icon
-										*gauzySpinnerButton="isSaving"
+										*irtranscriptsSpinnerButton="isSaving"
 										icon="arrow-forward-outline"
 										class="icon-medium"
 									></nb-icon>
@@ -462,21 +462,21 @@
 							</div>
 							} @if (isServer) {
 							<div class="col-8 col-center margin-setting-content">
-								<gauzy-ssl
+								<irtranscripts-ssl
 									class="ssl"
 									[config]="proxyOptions"
 									(update)="onChangeProxyConfig($event)"
-								></gauzy-ssl>
+								></irtranscripts-ssl>
 							</div>
 
 							} @if (connectivity.integrated) {
 							<div class="col-9 text-center margin-setting-content col-center">
-								<gauzy-secret
+								<irtranscripts-secret
 									class="text-center"
 									[config]="secretConfig"
 									(update)="onChangeSecretConfig($event)"
 								>
-								</gauzy-secret>
+								</irtranscripts-secret>
 							</div>
 							<div class="col-6 text-center margin-setting-content col-center">
 								<div class="row">
@@ -686,7 +686,7 @@
 											}}<nb-icon
 												icon="checkmark-circle-outline"
 												class="icon-medium"
-												*gauzySpinnerButton="isCheckConnection"
+												*irtranscriptsSpinnerButton="isCheckConnection"
 											></nb-icon>
 										</button>
 										<button #dialogOpenBtn (click)="open(true)" style="display: none"></button>
@@ -704,7 +704,7 @@
 											}}<nb-icon
 												icon="save"
 												class="icon-medium"
-												*gauzySpinnerButton="isSaving"
+												*irtranscriptsSpinnerButton="isSaving"
 											></nb-icon>
 										</button>
 									</div>

@@ -25,7 +25,7 @@ export * from './event-type';
 export * from './expense';
 export * from './feature';
 export * from './file-storage';
-export * from './gauzy-ai';
+export * from './irtranscripts-ai';
 export * from './github';
 export * from './goal';
 export * from './strategic-initiative';

@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsDateString, IsEnum, IsInt, IsNotEmpty, IsOptional, IsString, IsUUID, Min } from 'class-validator';
 import { JoinColumn, RelationId, Tree, TreeChildren, TreeParent } from 'typeorm';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	ImageAsset,
@@ -12,7 +12,7 @@ import {
 	MultiORMOneToMany,
 	OrganizationContact,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { CollectionType, PublicationStatus } from '../catalog.types';
 import { CollectionChannel } from '../collection-channel/collection-channel.entity';
 import { CollectionProduct } from '../collection-product/collection-product.entity';

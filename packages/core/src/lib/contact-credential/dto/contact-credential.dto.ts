@@ -14,9 +14,9 @@ import {
 	MinLength,
 	ValidateNested
 } from 'class-validator';
-import { ID, JsonData } from '@gauzy/contracts';
+import { ID, JsonData } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../core/dto';
-import { parseToBoolean } from '@gauzy/utils';
+import { parseToBoolean } from '@irtranscripts/utils';
 
 /**
  * What a caller states when it records a party's login.

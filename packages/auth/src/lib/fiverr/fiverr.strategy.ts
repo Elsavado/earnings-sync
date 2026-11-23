@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, StrategyOptionsWithRequest } from 'passport-google-oauth20';
 import passport from 'passport';
-import { ConfigService } from '@gauzy/config';
+import { ConfigService } from '@irtranscripts/config';
 
 @Injectable()
 export class FiverrStrategy extends PassportStrategy(Strategy, 'fiverr') {

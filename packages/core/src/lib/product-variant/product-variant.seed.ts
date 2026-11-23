@@ -1,5 +1,5 @@
 import { DataSource, In } from 'typeorm';
-import { BillingInvoicingPolicyEnum, IOrganization, ITenant } from '@gauzy/contracts';
+import { BillingInvoicingPolicyEnum, IOrganization, ITenant } from '@irtranscripts/contracts';
 import { faker } from '@faker-js/faker';
 import * as _ from 'underscore';
 import { ProductVariant } from './product-variant.entity';

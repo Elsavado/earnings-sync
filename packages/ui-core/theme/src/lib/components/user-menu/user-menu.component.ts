@@ -1,9 +1,9 @@
 import { Component, HostListener, Input, OnDestroy, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { environment } from '@gauzy/ui-config';
-import { IEmployee, IUser, IEmployeeUpdateInput } from '@gauzy/contracts';
-import { EmployeesService, ErrorHandlingService } from '@gauzy/ui-core/core';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
+import { environment } from '@irtranscripts/ui-config';
+import { IEmployee, IUser, IEmployeeUpdateInput } from '@irtranscripts/contracts';
+import { EmployeesService, ErrorHandlingService } from '@irtranscripts/ui-core/core';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
 import {
 	BehaviorSubject,
 	tap,
@@ -17,7 +17,7 @@ import {
 
 @UntilDestroy({ checkProperties: true })
 @Component({
-	selector: 'gauzy-user-menu',
+	selector: 'irtranscripts-user-menu',
 	templateUrl: './user-menu.component.html',
 	styleUrls: ['./user-menu.component.scss'],
 	changeDetection: ChangeDetectionStrategy.Eager,
@@ -43,7 +43,7 @@ export class UserMenuComponent implements OnInit, OnDestroy {
 
 	/**
 	 * Whether an outside click is allowed to close this panel yet. Same reason
-	 * as `gauzy-workspace-menu`: `gauzyOutside` listens on `document`, so arming
+	 * as `irtranscripts-workspace-menu`: `irtranscriptsOutside` listens on `document`, so arming
 	 * has to be deferred past the click that opened the panel. This replaces a
 	 * counter that required TWO outside clicks to dismiss — the first was
 	 * swallowed by the panel (576x288 over the lower-left of the page) and did

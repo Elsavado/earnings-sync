@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IDocumentCategory } from '@gauzy/contracts';
+import { IDocumentCategory } from '@irtranscripts/contracts';
 import { DocumentCategoryService } from '../../services/document-category.service';
 import { CreateDocumentCategoryCommand } from '../create-document-category.command';
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ContactType, IOrganizationContact } from '@gauzy/contracts';
+import { ContactType, IOrganizationContact } from '@irtranscripts/contracts';
 import { TranslateService } from '@ngx-translate/core';
 import { TimeTrackerService } from '../../../../time-tracker/time-tracker.service';
 import { SelectorService } from '../../../+state/selector.service';

@@ -8,7 +8,7 @@ import {
 	Store,
 	TimeTrackerDateManager,
 	TokenRefreshService
-} from '@gauzy/desktop-ui-lib';
+} from '@irtranscripts/desktop-ui-lib';
 import { NbToastrService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
@@ -18,7 +18,7 @@ import { AppService } from './app.service';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
-	selector: 'gauzy-root',
+	selector: 'irtranscripts-root',
 	template: '<router-outlet></router-outlet>',
 	styleUrls: ['./app.component.scss'],
 	changeDetection: ChangeDetectionStrategy.Eager,
@@ -236,9 +236,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 		if (base.endsWith('/')) {
 			base += 'index.html';
 		}
-		// Using a named target ('gauzy-log-history') prevents duplicate windows:
+		// Using a named target ('irtranscripts-log-history') prevents duplicate windows:
 		// if a window with that name is already open, window.open() focuses it
 		// instead of creating a new one — both browsers and Electron respect this.
-		window.open(`${base}${url}`, 'gauzy-log-history');
+		window.open(`${base}${url}`, 'irtranscripts-log-history');
 	}
 }

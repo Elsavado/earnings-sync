@@ -1,10 +1,10 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { EntityManager, FindOptionsWhere, IsNull, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { restatesStoredValue } from '@gauzy/common';
-import { DatabaseTypeEnum } from '@gauzy/config';
-import { DecimalString, ID, IPagination } from '@gauzy/contracts';
-import { EventBus, Money, normalizeDecimalString, readAffectedRows, RequestContext } from '@gauzy/core';
+import { restatesStoredValue } from '@irtranscripts/common';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
+import { DecimalString, ID, IPagination } from '@irtranscripts/contracts';
+import { EventBus, Money, normalizeDecimalString, readAffectedRows, RequestContext } from '@irtranscripts/core';
 import { GiftCardRedeemedEvent } from '../events';
 import { GiftCard } from './gift-card.entity';
 import { storedGiftCardPin, storedGiftCardPinFromDigest, verifyGiftCardPin } from './gift-card-pin';
@@ -701,7 +701,7 @@ export class GiftCardService extends TenantScopedCrudService<GiftCard> {
 /**
  * A gift card amount read as a decimal with the platform's own normaliser, which reads what `IsDecimalAmount` accepts
  * (leading zeros, a sign, the column's trailing zeros, surrounding blanks), or `null` when the value is not one. It is
- * the decimal reader `restatesStoredValue` (`@gauzy/common`) compares the ledger members with, so `'100'` restates
+ * the decimal reader `restatesStoredValue` (`@irtranscripts/common`) compares the ledger members with, so `'100'` restates
  * `'100.000000'`.
  */
 function giftCardDecimal(value: unknown): string | null {

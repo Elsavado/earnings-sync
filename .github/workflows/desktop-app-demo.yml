@@ -234,15 +234,15 @@ jobs:
             const script = require('./.scripts/bump-version-electron.js')
             console.log(script.desktop(false))
         env:
-          GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
+          IRTRANSCRIPTS_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
           PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
-          DESKTOP_APP_NAME: 'gauzy-desktop'
+          DESKTOP_APP_NAME: 'irtranscripts-desktop'
           # Demo electron releases go to the same repo
-          DESKTOP_APP_REPO_NAME: 'ever-gauzy'
+          DESKTOP_APP_REPO_NAME: 'ever-irtranscripts'
           DESKTOP_APP_REPO_OWNER: 'ever-co'
-          COMPANY_SITE_LINK: 'https://gauzy.co'
-          DESKTOP_APP_DESCRIPTION: 'Gauzy Desktop'
-          DESKTOP_APP_ID: 'com.ever.gauzydesktop'
+          COMPANY_SITE_LINK: 'https://irtranscripts.com'
+          DESKTOP_APP_DESCRIPTION: 'IRTranscripts Desktop'
+          DESKTOP_APP_ID: 'com.ever.irtranscriptsdesktop'
 
       - name: Fix Node.js PATH for child processes
         shell: powershell
@@ -314,11 +314,11 @@ jobs:
           PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
           # Demo electron releases go to the same repo
           DESKTOP_APP_REPO_OWNER: 'ever-co'
-          DESKTOP_APP_REPO_NAME: 'ever-gauzy'
-          DESKTOP_APP_NAME: 'gauzy-desktop'
-          DESKTOP_APP_DESCRIPTION: 'Gauzy Desktop'
-          DESKTOP_APP_ID: 'com.ever.gauzydesktop'
-          COMPANY_SITE_LINK: 'https://gauzy.co'
+          DESKTOP_APP_REPO_NAME: 'ever-irtranscripts'
+          DESKTOP_APP_NAME: 'irtranscripts-desktop'
+          DESKTOP_APP_DESCRIPTION: 'IRTranscripts Desktop'
+          DESKTOP_APP_ID: 'com.ever.irtranscriptsdesktop'
+          COMPANY_SITE_LINK: 'https://irtranscripts.com'
 
       - name: Scrub registry credentials
         if: always()

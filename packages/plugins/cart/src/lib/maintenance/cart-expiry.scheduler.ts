@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { CronExpression } from '@nestjs/schedule';
-import { ScheduledJob } from '@gauzy/scheduler';
+import { ScheduledJob } from '@irtranscripts/scheduler';
 import {
 	CART_ABANDON_JOB,
 	CART_ABANDON_SCHEDULE,

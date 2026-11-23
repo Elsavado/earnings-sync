@@ -5,8 +5,8 @@ import {
 	InboxItemPriorityEnum,
 	InboxItemSourceEnum,
 	InboxItemStatusEnum
-} from '@gauzy/contracts';
-import { MultiORMColumn, MultiORMEntity, TenantOrganizationBaseEntity } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { MultiORMColumn, MultiORMEntity, TenantOrganizationBaseEntity } from '@irtranscripts/core';
 import { MikroOrmInboxItemRepository } from './inbox.repositories';
 
 /**

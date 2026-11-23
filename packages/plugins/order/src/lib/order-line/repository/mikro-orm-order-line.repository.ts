@@ -1,5 +1,5 @@
 ﻿import { Injectable } from '@nestjs/common';
-import { MikroOrmBaseEntityRepository } from '@gauzy/core';
+import { MikroOrmBaseEntityRepository } from '@irtranscripts/core';
 import { OrderLine } from '../order-line.entity';
 
 @Injectable()

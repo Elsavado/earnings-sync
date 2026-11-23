@@ -7,7 +7,7 @@ import {
 	ICandidateInterviewCreateInput,
 	IPagination,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { CrudController, BaseQueryDTO } from './../core/crud';
 import { CandidateInterview } from './candidate-interview.entity';
 import { CandidateInterviewService } from './candidate-interview.service';

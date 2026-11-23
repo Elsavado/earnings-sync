@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { CanMatchFn } from '@angular/router';
-import { PreferredUiEnum } from '@gauzy/contracts';
+import { PreferredUiEnum } from '@irtranscripts/contracts';
 import { TenantUiPreferencesService } from './tenant-ui-preferences.service';
 
 /**

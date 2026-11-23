@@ -6,9 +6,9 @@
  * checkout, directory sites, GitHands, ...). Anything that reads that account — the webhook, the
  * signup paywall, the lazy tenant link, the billing pages — therefore sees every product's customers
  * and subscriptions, and must decide for itself which ones are its own. Before this module none of
- * them did: a Teams, Works or Platform subscription counted as a Gauzy one everywhere.
+ * them did: a Teams, Works or Platform subscription counted as a IRTranscripts one everywhere.
  *
- * "This product" means this product's HOSTED plan. ever.co also sells self-hosted licenses of Gauzy
+ * "This product" means this product's HOSTED plan. ever.co also sells self-hosted licenses of IRTranscripts
  * and Teams as recurring subscriptions on the same account (`ever_<product>_selfhosted_*` prices,
  * `metadata.ever_hosting = 'selfhosted'`). A license is not a cloud plan: counting one as the cloud
  * subscription would bind the buyer's cloud tenant to their license, show the license as the cloud
@@ -25,10 +25,10 @@
  */
 
 /** The product a deployment bills for when `BILLING_PRODUCT` is not set. */
-export const DEFAULT_BILLING_PRODUCT = 'gauzy';
+export const DEFAULT_BILLING_PRODUCT = 'irtranscripts';
 
 /**
- * Product keys as the shared catalog spells them (`gauzy`, `teams`, `platform`, `works`, ...). The
+ * Product keys as the shared catalog spells them (`irtranscripts`, `teams`, `platform`, `works`, ...). The
  * key is embedded in every lookup key as `ever_<product>_<hosting>_<tier>_<interval>`, so anything
  * outside this shape could never match a real price.
  */
@@ -48,10 +48,10 @@ export function isCheckoutSessionId(value: unknown): value is string {
 /**
  * Resolve `BILLING_PRODUCT`.
  *
- * Returns `{ product }` for a usable key (lower-cased, trimmed; unset means `gauzy`), or
+ * Returns `{ product }` for a usable key (lower-cased, trimmed; unset means `irtranscripts`), or
  * `{ product: null, invalid }` when the value cannot be a catalog product key. An invalid value is
  * NOT silently replaced by the default: on the Ever Teams deployment that would quietly start linking
- * Gauzy purchases to Teams tenants. The caller disables billing instead and says why.
+ * IRTranscripts purchases to Teams tenants. The caller disables billing instead and says why.
  */
 export function resolveBillingProduct(raw: string | undefined = process.env.BILLING_PRODUCT): {
 	product: string | null;
@@ -66,7 +66,7 @@ export function resolveBillingProduct(raw: string | undefined = process.env.BILL
 /**
  * Resolve `BILLING_SIGNUP_PAYWALL`: whether `POST /auth/register` requires a subscription.
  *
- * Defaults to `true` — the behaviour app.gauzy.co has had since the paywall shipped. Only an explicit
+ * Defaults to `true` — the behaviour app.irtranscripts.com has had since the paywall shipped. Only an explicit
  * off value (`false`, `0`, `no`, `off`) turns it off, so a typo keeps the stricter behaviour rather
  * than opening signup. The Ever Teams deployment sets it to `false`: Teams links billing but does not
  * put a paywall in front of signup.
@@ -140,7 +140,7 @@ export interface ProductScopedCheckoutSession {
  *
  * When the plan sits on a catalog price (`ever_<any>_...`), the price decides and the metadata may
  * only agree with it. Stripe updates a subscription's price and its metadata independently, so a
- * Teams price under `ever_product: 'gauzy'` metadata (or the reverse) is not this product's plan.
+ * Teams price under `ever_product: 'irtranscripts'` metadata (or the reverse) is not this product's plan.
  * The metadata alone decides only when the plan has no catalog lookup key.
  */
 export function subscriptionIsForProduct(

@@ -1,9 +1,9 @@
 import { Inject, Injectable, Logger, Optional } from '@nestjs/common';
 import { DataSource } from 'typeorm';
-import { boolLiteral, dialectOf, placeholder, quote, runSql, SqlDialect, toNumber } from '@gauzy/plugin-ever-instance';
+import { boolLiteral, dialectOf, placeholder, quote, runSql, SqlDialect, toNumber } from '@irtranscripts/plugin-ever-instance';
 import { CURRENCY_CODE, MAX_SAFE_AMOUNT, toMinorUnits } from './currency-exponent';
 
-/** Injection token: Gauzy's module switches (`FEATURE_*` → boolean). */
+/** Injection token: IRTranscripts's module switches (`FEATURE_*` → boolean). */
 export const STATS_FEATURE_FLAGS = 'EVER_STATS_FEATURE_FLAGS';
 
 /**
@@ -34,12 +34,12 @@ export interface CollectedStats {
 	aggregates: Record<string, number | Record<string, number>>;
 }
 
-/** The integration names of Gauzy, as the report's closed list spells them. Anything else counts as `other`. */
+/** The integration names of IRTranscripts, as the report's closed list spells them. Anything else counts as `other`. */
 const INTEGRATION_KEYS: Readonly<Record<string, string>> = Object.freeze({
 	Import_Export: 'import_export',
 	Upwork: 'upwork',
 	Hubstaff: 'hubstaff',
-	Gauzy_AI: 'gauzy_ai',
+	IRTranscripts_AI: 'irtranscripts_ai',
 	Github: 'github',
 	Jira: 'jira',
 	MakeCom: 'makecom',
@@ -51,7 +51,7 @@ const INTEGRATION_KEYS: Readonly<Record<string, string>> = Object.freeze({
 	Ever_Connect: 'ever_connect'
 });
 
-/** The module switches the report may carry (the schema's closed list for Gauzy). */
+/** The module switches the report may carry (the schema's closed list for IRTranscripts). */
 const FEATURE_KEYS = new Set([
 	'dashboard', 'time_tracking', 'estimate', 'estimate_received', 'invoice', 'invoice_recurring', 'invoice_received', 'income',
 	'expense', 'payment', 'proposal', 'proposal_template', 'pipeline', 'pipeline_deal', 'dashboard_task', 'team_task', 'my_task', 'job',
@@ -104,7 +104,7 @@ const count = (value: unknown): number => {
  *
  * Every number is instance-wide (all tenants together, never one tenant's): each is one `COUNT(*)`
  * or `SUM()` over a whole table, read with the plugin's own SQL through the database connection, so
- * no request context or tenant filter of Gauzy's services can narrow it, wherever the collection
+ * no request context or tenant filter of IRTranscripts's services can narrow it, wherever the collection
  * runs (the daily timer, or an operator's request for *What is sent* or *Send now*). Amounts are per
  * currency, in integer minor units, for one UTC month. Nothing that names or identifies a person, a
  * company or a record is read. On Postgres every statement runs under a 30 s statement timeout, in

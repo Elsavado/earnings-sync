@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional, IsString, IsUUID } from 'class-validator';
-import { ID, IGenerateApiKey } from '@gauzy/contracts';
+import { ID, IGenerateApiKey } from '@irtranscripts/contracts';
 import { IsTenantBelongsToUser } from '../../shared/validators/is-tenant-belongs-to-user.decorator';
 
 /**

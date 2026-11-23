@@ -1,6 +1,6 @@
 import { Component, OnChanges, type SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { DefaultFilter } from 'angular2-smart-table';
-import { ITag } from '@gauzy/contracts';
+import { ITag } from '@irtranscripts/contracts';
 
 @Component({
     selector: 'ga-tag-color-filter',

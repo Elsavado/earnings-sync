@@ -1,13 +1,13 @@
 import { BadRequestException } from '@nestjs/common';
-import { restatesStoredValue } from '@gauzy/common';
+import { restatesStoredValue } from '@irtranscripts/common';
 
 /**
  * The members of a write that would move a value the caller may not move, given the row as stored (the same rule as
- * `@gauzy/plugin-subscription`'s `subscription.writable.ts`; each plugin states its own, as purchasing does).
+ * `@irtranscripts/plugin-subscription`'s `subscription.writable.ts`; each plugin states its own, as purchasing does).
  *
  * A member the write does not name, or names with the value the row already holds, is not a move: a client that
  * echoes the record back is not refused for stating what is there. What counts as the value already held is
- * `restatesStoredValue`'s rule (`@gauzy/common`): a date by its instant, a decimal by its value (`'10'` restates
+ * `restatesStoredValue`'s rule (`@irtranscripts/common`): a date by its instant, a decimal by its value (`'10'` restates
  * `'10.000000'`, the column's scale), an object or an array by its content, anything else as text.
  *
  * @param stored The row as stored.

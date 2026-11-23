@@ -1,4 +1,4 @@
-import { ID, PluginStatus, PluginType } from '@gauzy/contracts';
+import { ID, PluginStatus, PluginType } from '@irtranscripts/contracts';
 import { ApiProperty, OmitType, PartialType } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import { IsArray, IsBoolean, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID, ValidateNested } from 'class-validator';

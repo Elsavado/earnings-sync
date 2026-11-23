@@ -10,7 +10,7 @@ jest.mock('rimraf', () => ({ rimraf: jest.fn() }));
  * handle the rejection itself - including not leaving it unhandled, which ends a Node process.
  */
 describe('seed cleanup of generated files', () => {
-	const config = { assetOptions: { assetPublicPath: '/srv/gauzy/public' } } as any;
+	const config = { assetOptions: { assetPublicPath: '/srv/irtranscripts/public' } } as any;
 	const failure = Object.assign(new Error('EBUSY: resource busy or locked'), { code: 'EBUSY' });
 	let unhandled: unknown[];
 	const onUnhandled = (reason: unknown) => unhandled.push(reason);

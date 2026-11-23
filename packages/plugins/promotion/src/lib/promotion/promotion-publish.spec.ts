@@ -1,5 +1,5 @@
 import { ForbiddenException } from '@nestjs/common';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { PromotionController } from './promotion.controller';
 import { PromotionResolver } from '../graphql/resolvers/promotion.resolver';
 import { PromotionPermission } from '../promotion.permissions';

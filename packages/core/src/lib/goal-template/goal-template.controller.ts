@@ -13,7 +13,7 @@ import {
 	UsePipes
 } from '@nestjs/common';
 import { ApiTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
-import { IGoalTemplate, IPagination, PermissionsEnum, ID } from '@gauzy/contracts';
+import { IGoalTemplate, IPagination, PermissionsEnum, ID } from '@irtranscripts/contracts';
 import { GoalTemplateService } from './goal-template.service';
 import { CrudController } from './../core/crud';
 import { GoalTemplate } from './goal-template.entity';

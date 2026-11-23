@@ -1,7 +1,7 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RolePermissionModule } from '@gauzy/core';
+import { RolePermissionModule } from '@irtranscripts/core';
 import { AiProviderCredential } from './ai-provider-credential.entity';
 import { AiProviderCredentialController } from './ai-provider-credential.controller';
 import { AiProviderCredentialEncryptionService } from './ai-provider-credential-encryption.service';

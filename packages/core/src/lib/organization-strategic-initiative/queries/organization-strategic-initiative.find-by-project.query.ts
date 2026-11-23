@@ -1,5 +1,5 @@
 import { IQuery } from '@nestjs/cqrs';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 /**
  * Query to find all organization strategic initiatives linked to a specific project.

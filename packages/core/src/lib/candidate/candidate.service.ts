@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { SelectQueryBuilder, Brackets, WhereExpressionBuilder } from 'typeorm';
-import { ICandidateCreateInput, BaseEntityEnum } from '@gauzy/contracts';
-import { isNotEmpty } from '@gauzy/utils';
+import { ICandidateCreateInput, BaseEntityEnum } from '@irtranscripts/contracts';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { Candidate } from './candidate.entity';
 import { TenantAwareCrudService } from './../core/crud';
 import {

@@ -1,5 +1,5 @@
-import { isPostgres } from '@gauzy/config';
-import { ID, IEmployee, PluginInstallationStatus } from '@gauzy/contracts';
+import { isPostgres } from '@irtranscripts/config';
+import { ID, IEmployee, PluginInstallationStatus } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	Employee,
@@ -7,7 +7,7 @@ import {
 	MultiORMEntity,
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsDateString, IsNotEmpty, IsOptional, ValidateIf } from 'class-validator';
 import { Index, JoinColumn, RelationId } from 'typeorm';

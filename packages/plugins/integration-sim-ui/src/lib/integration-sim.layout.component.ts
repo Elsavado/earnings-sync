@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/cor
 import { TranslateService } from '@ngx-translate/core';
 import { filter, merge, tap, distinctUntilChanged } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { LanguagesEnum } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
-import { I18nService } from '@gauzy/ui-core/i18n';
+import { LanguagesEnum } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
+import { I18nService } from '@irtranscripts/ui-core/i18n';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

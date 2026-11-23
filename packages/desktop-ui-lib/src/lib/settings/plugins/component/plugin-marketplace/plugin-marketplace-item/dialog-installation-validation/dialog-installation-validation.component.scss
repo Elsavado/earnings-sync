@@ -5,7 +5,7 @@
 .dialog-card {
   width: 420px;
   height: 100%;
-  background: var(--gauzy-card-1);
+  background: var(--irtranscripts-card-1);
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: calc(var(--border-radius) * 2);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
@@ -14,7 +14,7 @@
   nb-card-header {
     padding: 1.5rem;
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    background: var(--gauzy-card-1);
+    background: var(--irtranscripts-card-1);
 
     .header-content {
       display: flex;
@@ -53,7 +53,7 @@
           .title {
             font-size: 1.125rem;
             font-weight: 600;
-            color: var(--gauzy-text-color-1);
+            color: var(--irtranscripts-text-color-1);
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
@@ -74,14 +74,14 @@
         cursor: pointer;
 
         nb-icon {
-          color: var(--gauzy-text-color-2);
+          color: var(--irtranscripts-text-color-2);
         }
 
         &:hover {
           background-color: rgba(0, 0, 0, 0.05);
 
           nb-icon {
-            color: var(--gauzy-text-color-1);
+            color: var(--irtranscripts-text-color-1);
           }
         }
       }
@@ -111,7 +111,7 @@
             margin: 0;
             font-weight: 600;
             font-size: 0.9375rem;
-            color: var(--gauzy-text-color-1);
+            color: var(--irtranscripts-text-color-1);
           }
         }
 
@@ -155,7 +155,7 @@
   nb-card-footer {
     padding: 1.25rem 1.5rem;
     border-top: 1px solid rgba(0, 0, 0, 0.08);
-    background: var(--gauzy-card-1);
+    background: var(--irtranscripts-card-1);
   }
 }
 
@@ -249,8 +249,8 @@
 }
 
 ::ng-deep {
-  gauzy-version-selector,
-  gauzy-source-selector {
+  irtranscripts-version-selector,
+  irtranscripts-source-selector {
     nb-select {
       button {
         border-radius: calc(var(--border-radius) * 1);

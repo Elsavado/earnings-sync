@@ -1,4 +1,4 @@
-import { IActivityWatchEvent, IActivityWatchEventResult } from '@gauzy/contracts';
+import { IActivityWatchEvent, IActivityWatchEventResult } from '@irtranscripts/contracts';
 import { IDesktopEvent } from '../../interfaces';
 import * as moment from 'moment';
 

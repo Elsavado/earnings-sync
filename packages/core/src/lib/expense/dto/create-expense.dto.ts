@@ -1,4 +1,4 @@
-import { IExpenseCreateInput } from '@gauzy/contracts';
+import { IExpenseCreateInput } from '@irtranscripts/contracts';
 import { IntersectionType } from '@nestjs/mapped-types';
 import { PartialType } from '@nestjs/swagger';
 import { RelationalTagDTO } from './../../tags/dto';

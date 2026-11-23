@@ -1,4 +1,4 @@
-import type { ID, IPluginVersion as PluginVersionModel } from '@gauzy/contracts';
+import type { ID, IPluginVersion as PluginVersionModel } from '@irtranscripts/contracts';
 import type { IPluginSource, IPluginSourceUpdate } from './plugin-source.model';
 
 export interface IPluginVersionUpdate extends Partial<Pick<IPluginVersion, 'number' | 'changelog' | 'releaseDate'>> {

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { NbDateService, NbIconModule, NbFormFieldModule, NbInputModule, NbDatepickerModule, NbAlertModule } from '@nebular/theme';
 import { BasePluginFormComponent } from '../base-plugin-form/base-plugin-form.component';
 import { FormSectionComponent } from '../form-section/form-section.component';

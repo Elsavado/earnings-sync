@@ -1,6 +1,6 @@
 import { useCallback, useState, type DragEvent, type ReactNode } from 'react';
-import { Popover } from '@gauzy/ui-react-components';
-import { useTranslation } from '@gauzy/ui-react';
+import { Popover } from '@irtranscripts/ui-react-components';
+import { useTranslation } from '@irtranscripts/ui-react';
 import { type DashboardLayout } from '../../hooks/use-dashboard-layout';
 import { type LayoutItemState } from '../../utils/layout.utils';
 import { NbIcon } from '../NbIcon';
@@ -18,7 +18,7 @@ export interface DraggableLayoutProps {
 	renderItem: (item: LayoutItemState) => ReactNode;
 }
 
-const DND_MIME = 'application/x-gauzy-dashboard-item';
+const DND_MIME = 'application/x-irtranscripts-dashboard-item';
 
 /**
  * The drag & drop reorder + per-item ⋮ menu shared by the widget grid and the window masonry —

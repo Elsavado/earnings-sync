@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { expect, test, type Page, type Response } from '@playwright/test';
 import { apiCwd, apiDatabase, apiUrl, appTarget, assertAppTargetExists, runDir, startsApi, userDataDir, type AppTarget } from './support/config';
 import { blockedHosts, closeDesktopApp, desktopRegistryGuard, exited, launchDesktopApp, restoreRegistry, windowWith, type DesktopApp } from './support/desktop-app';
-import { eventually, GauzyApi, type Session } from './support/gauzy-api';
+import { eventually, IRTranscriptsApi, type Session } from './support/irtranscripts-api';
 import type { RegistryGuard } from './support/registry';
 
 /**
@@ -85,7 +85,7 @@ function nextResponse(page: Page, method: string, path: string, timeout: number)
 }
 
 test('desktop timer: setup, login, timer with screenshots recorded by the API', async () => {
-	const api = new GauzyApi(apiUrl);
+	const api = new IRTranscriptsApi(apiUrl);
 	let admin: Session;
 	let employee: { id: string; organizationId: string; tenantId: string; userId: string };
 	const startedAt = new Date();

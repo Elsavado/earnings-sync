@@ -8,6 +8,6 @@ export * from './theme.default';
 export * from './material/theme.material-dark';
 export * from './material/theme.material-light';
 
-// ### Gauzy Themes
-export * from './gauzy/theme.gauzy-dark';
-export * from './gauzy/theme.gauzy-light';
+// ### IRTranscripts Themes
+export * from './irtranscripts/theme.irtranscripts-dark';
+export * from './irtranscripts/theme.irtranscripts-light';

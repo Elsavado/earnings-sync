@@ -1,16 +1,16 @@
 // `TagsOnlyComponent` extends `NotesWithTagsComponent` but declares its own
 // `styleUrls`, so it does NOT inherit the parent's chip styles — this is a
 // second copy of them and has to be kept in step by hand. Values come from the
-// shared table-density tokens (`$gauzy-density` in `themes.scss`); the literals
+// shared table-density tokens (`$irtranscripts-density` in `themes.scss`); the literals
 // are CSS-var fallbacks only.
 .color {
     position: static;
     display: inline-block;
-    font-size: var(--gauzy-table-chip-font-size, 0.6875rem);
+    font-size: var(--irtranscripts-table-chip-font-size, 0.6875rem);
     font-weight: 600;
-    line-height: var(--gauzy-table-chip-line-height, 0.875rem);
+    line-height: var(--irtranscripts-table-chip-line-height, 0.875rem);
     letter-spacing: 0em;
-    padding: var(--gauzy-table-chip-padding-y, 0.0625rem) var(--gauzy-table-chip-padding-x, 0.375rem);
+    padding: var(--irtranscripts-table-chip-padding-y, 0.0625rem) var(--irtranscripts-table-chip-padding-x, 0.375rem);
 }
 
 .tags {
@@ -21,13 +21,13 @@
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
-    gap: var(--gauzy-table-chip-gap, 0.1875rem);
+    gap: var(--irtranscripts-table-chip-gap, 0.1875rem);
     // Text→chips separation is its own token, NOT the chip↔chip gap: the
     // density pass collapsed the two and the chips ended up 3px under the
     // text. The template tags this element with Bootstrap's `.mt-2` utility,
     // which is `!important`, so `!important` is unavoidable here to resolve
     // the tug-of-war in the token's favor.
-    margin-top: var(--gauzy-table-chip-block-gap, 0.25rem) !important;
+    margin-top: var(--irtranscripts-table-chip-block-gap, 0.25rem) !important;
 }
   
 .tags-right {

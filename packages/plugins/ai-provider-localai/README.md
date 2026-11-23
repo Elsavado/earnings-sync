@@ -1,7 +1,7 @@
-# @gauzy/plugin-ai-provider-localai
+# @irtranscripts/plugin-ai-provider-localai
 
-**Local** chat + speech-to-text provider plugin for the Ever Gauzy AI chat
-engine ([`@gauzy/plugin-ai-chat`](../ai-chat)) backed by
+**Local** chat + speech-to-text provider plugin for the Ever IRTranscripts AI chat
+engine ([`@irtranscripts/plugin-ai-chat`](../ai-chat)) backed by
 [LocalAI](https://localai.io) — a drop-in, OpenAI-compatible server that runs
 open models (Llama, Qwen, Mistral, whisper, …) on your own hardware with no
 cloud account and no API key.
@@ -24,7 +24,7 @@ docker exec -it <container> local-ai models install llama-3.2-3b-instruct:q4_k_m
 docker exec -it <container> local-ai models install whisper-1
 ```
 
-Then point Gauzy at it: **Settings → AI Providers → Add AI Provider → LocalAI**,
+Then point IRTranscripts at it: **Settings → AI Providers → Add AI Provider → LocalAI**,
 base URL `http://localhost:8080/v1` (prefilled), API key empty, pick the chat
 model the server lists (`GET /v1/models` is fetched live), and — for dictation —
 "Speech model" `whisper-1` + "Use as default voice provider".

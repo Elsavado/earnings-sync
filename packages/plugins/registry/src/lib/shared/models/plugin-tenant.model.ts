@@ -1,4 +1,4 @@
-import { ID, IRole, IUser, PluginScope, IPluginTenant as PluginTenantModel } from '@gauzy/contracts';
+import { ID, IRole, IUser, PluginScope, IPluginTenant as PluginTenantModel } from '@irtranscripts/contracts';
 import type { IPlugin } from './plugin.model';
 
 /**

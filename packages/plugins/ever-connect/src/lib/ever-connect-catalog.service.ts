@@ -8,7 +8,7 @@ import { EverConnectSql } from './ever-connect-sql';
 const INTEGRATION_TYPES = ['All Integrations'];
 
 /**
- * Lists "Ever Platform" among Gauzy's integrations: one `integration` catalog row named
+ * Lists "Ever Platform" among IRTranscripts's integrations: one `integration` catalog row named
  * `Ever_Connect` (`IntegrationEnum.EVER_CONNECT`), written when the module starts (never by a
  * migration). Safe when several API processes start at once: on Postgres a transaction-scoped
  * advisory lock serialises them, and the insert does nothing when the row exists (its name is

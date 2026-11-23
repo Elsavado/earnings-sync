@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BehaviorSubject, EMPTY, Observable, catchError, combineLatest, filter, map, of, switchMap } from 'rxjs';
-import { CandidateStatusEnum, ICandidate, IPagination } from '@gauzy/contracts';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
-import { CandidatesService, ErrorHandlingService, Store } from '@gauzy/ui-core/core';
+import { CandidateStatusEnum, ICandidate, IPagination } from '@irtranscripts/contracts';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
+import { CandidatesService, ErrorHandlingService, Store } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy()
 @Component({

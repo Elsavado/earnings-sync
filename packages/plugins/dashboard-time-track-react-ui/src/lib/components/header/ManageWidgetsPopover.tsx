@@ -1,5 +1,5 @@
-import { useTranslation } from '@gauzy/ui-react';
-import { Popover } from '@gauzy/ui-react-components';
+import { useTranslation } from '@irtranscripts/ui-react';
+import { Popover } from '@irtranscripts/ui-react-components';
 import { type DashboardLayout } from '../../hooks/use-dashboard-layout';
 import { type LayoutItemState } from '../../utils/layout.utils';
 import { NbButton } from '../NbButton';

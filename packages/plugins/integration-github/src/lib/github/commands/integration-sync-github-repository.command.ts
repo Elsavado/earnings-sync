@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { IIntegrationMapSyncRepository } from '@gauzy/contracts';
+import { IIntegrationMapSyncRepository } from '@irtranscripts/contracts';
 
 export class IntegrationSyncGithubRepositoryCommand implements ICommand {
 	static readonly type = '[Integration] Sync Github Repository';

@@ -10,7 +10,7 @@ import { ScheduledJobOptions } from '../interfaces/scheduled-job-options.interfa
  *
  * 🛑 The consequence was not theoretical: `apps/worker` could not boot AT ALL whenever
  * `REDIS_ENABLED` was not `true` (or `WORKER_QUEUE_ENABLED=false`), because
- * `@gauzy/plugin-docs`'s `DocsRecoveryService` is registered unconditionally — correctly, since it
+ * `@irtranscripts/plugin-docs`'s `DocsRecoveryService` is registered unconditionally — correctly, since it
  * also owns a startup recovery scan that needs no queue — and carries
  * `@ScheduledJob({ name: 'docs-reconcile-schedule', queueName: 'docs-processing' })`. One plugin's
  * optional scheduled fan-out could stop an entire process from starting. It threw even when the

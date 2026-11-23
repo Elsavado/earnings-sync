@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/contracts
+ * Public API Surface of @irtranscripts/contracts
  */
 export * from './lib/account-deletion.model';
 export * from './lib/accounting-template.model';

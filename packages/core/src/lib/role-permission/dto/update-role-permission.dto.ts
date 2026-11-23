@@ -1,4 +1,4 @@
-import { IRolePermissionUpdateInput } from "@gauzy/contracts";
+import { IRolePermissionUpdateInput } from "@irtranscripts/contracts";
 import { CreateRolePermissionDTO } from "./create-role-permission.dto";
 
 /**

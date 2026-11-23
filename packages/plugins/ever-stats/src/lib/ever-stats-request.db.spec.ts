@@ -5,15 +5,15 @@ import { randomUUID } from 'node:crypto';
 import { ClsModule, ClsService } from 'nestjs-cls';
 import * as request from 'supertest';
 import { DataSource } from 'typeorm';
-import { RequestContext, RequestContextMiddleware } from '@gauzy/core';
-import { EVER_INSTANCE_ENV } from '@gauzy/plugin-ever-instance';
+import { RequestContext, RequestContextMiddleware } from '@irtranscripts/core';
+import { EVER_INSTANCE_ENV } from '@irtranscripts/plugin-ever-instance';
 import { EverStatsCollector } from './ever-stats-collector.service';
 import { EverStatsModule } from './ever-stats.module';
 import { EVER_STATS_CLOCK, StatsClock } from './ever-stats-scheduler.service';
 import { CANARY_GOLDEN, CANARY_NOW, CanarySeed, canaryLeaks, seedCanaryDatabase } from './fixtures/canary-seed';
 import { CORE_TABLES, createCoreTables, dropTables, insert, migrateUp, openTestDataSource, PLUGIN_TABLES, q, TEST_TARGETS } from './fixtures/test-db';
 
-// Booting the module and Gauzy core from source takes longer than the default 5 s.
+// Booting the module and IRTranscripts core from source takes longer than the default 5 s.
 jest.setTimeout(180_000);
 
 const ROUTES: Array<[string, string, unknown]> = [
@@ -24,7 +24,7 @@ const ROUTES: Array<[string, string, unknown]> = [
 ];
 
 /**
- * The real module, in a real request: Gauzy's request context (nestjs-cls and
+ * The real module, in a real request: IRTranscripts's request context (nestjs-cls and
  * `RequestContextMiddleware`) is active with a signed-in super admin of ONE tenant, exactly as when
  * the operator clicks *What is sent*. The report must still count every tenant, and carry none of the
  * database's names, addresses or numbers. The operator check runs on the database (G-SEC: an address
@@ -110,7 +110,7 @@ describe.each(TEST_TARGETS)('Anonymous usage statistics in an operator request o
 		instance.setGlobalPrefix('api');
 		const cls = instance.get(ClsService);
 		RequestContext.setClsService(cls);
-		// What Gauzy's authentication guard does: attach the caller as loaded from the database.
+		// What IRTranscripts's authentication guard does: attach the caller as loaded from the database.
 		instance.use((req: { headers: Record<string, string>; user?: unknown }, _res: unknown, next: () => void) => {
 			req.user = signedIn[req.headers['x-test-user']];
 			next();
@@ -132,7 +132,7 @@ describe.each(TEST_TARGETS)('Anonymous usage statistics in an operator request o
 		const seen: Array<{ tenantId: string | null; tenantOrganizations: number }> = [];
 		const collect = EverStatsCollector.prototype.collect;
 		jest.spyOn(EverStatsCollector.prototype, 'collect').mockImplementation(async function (this: EverStatsCollector, ...args) {
-			// Control: a read scoped like Gauzy's tenant-aware services, in the same request, sees one
+			// Control: a read scoped like IRTranscripts's tenant-aware services, in the same request, sees one
 			// tenant only. The report must not.
 			const tenantId = RequestContext.currentTenantId();
 			const rows = await dataSource.query(

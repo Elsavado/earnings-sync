@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { ITenant } from '@gauzy/contracts';
+import { ITenant } from '@irtranscripts/contracts';
 
 export class TenantRelatedIssueTypeBulkCreateCommand implements ICommand {
 	static readonly type = '[Tenant RelatedIssueType] Bulk Create';

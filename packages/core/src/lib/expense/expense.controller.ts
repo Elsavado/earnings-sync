@@ -7,7 +7,7 @@ import {
 	IExpenseCreateInput,
 	IPagination,
 	IEmployee
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	Body,
 	Controller,

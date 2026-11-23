@@ -1,7 +1,7 @@
 {
 	"$comment": "Every endpoint of this module that answers without an organization permission or the operator check (public or signed-in only), and every request Ever Platform makes to an installation through it. routes-manifest.spec.ts compares it with the registered routes; UPDATE_ROUTES_MANIFEST=1 rewrites the method and path list.",
 	"version": 1,
-	"product": "gauzy",
+	"product": "irtranscripts",
 	"module": "ever-connect",
 	"public_endpoints": [
 		{

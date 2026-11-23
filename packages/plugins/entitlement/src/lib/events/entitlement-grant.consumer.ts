@@ -6,8 +6,8 @@ import {
 	IEventConsumer,
 	IEventConsumerContext,
 	IEventEnvelope
-} from '@gauzy/contracts';
-import { EventConsumerRegistry } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { EventConsumerRegistry } from '@irtranscripts/core';
 import { EntitlementKind } from '../entitlement.enums';
 import {
 	ENTITLEMENT_CONSUMED_EVENTS,

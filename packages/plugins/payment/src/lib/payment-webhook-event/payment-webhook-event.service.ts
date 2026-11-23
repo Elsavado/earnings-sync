@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { ID, IPagination } from '@gauzy/contracts';
+import { ID, IPagination } from '@irtranscripts/contracts';
 import { PaymentWebhookEvent } from './payment-webhook-event.entity';
 import { TypeOrmPaymentWebhookEventRepository } from './repository/type-orm-payment-webhook-event.repository';
 import { MikroOrmPaymentWebhookEventRepository } from './repository/mikro-orm-payment-webhook-event.repository';

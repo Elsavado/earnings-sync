@@ -3,8 +3,8 @@ import { Observable } from 'rxjs';
 import moment from 'moment';
 // TYPE-ONLY: a value import from either barrel would pull the app graph into this test, which
 // is the very thing the resolver was just changed to avoid.
-import type { IDateRangePicker } from '@gauzy/contracts';
-import type { IDatePickerConfig } from '@gauzy/ui-core/core';
+import type { IDateRangePicker } from '@irtranscripts/contracts';
+import type { IDatePickerConfig } from '@irtranscripts/ui-core/core';
 import { DateRangePickerResolver } from './date-range-picker.resolver';
 
 /**

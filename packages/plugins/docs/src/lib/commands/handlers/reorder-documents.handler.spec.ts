@@ -7,7 +7,7 @@
  * children were reordered, while for a missing folder every id was refused with 400 — so the answer told the two
  * apart. The parent is now read through the caller's scope first, and the tree gets the caller's read filter.
  */
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	RequestContext: { currentTenantId: () => 'tenant-1' }
 }));
 jest.mock('../../services/document.service', () => ({ DocumentService: class DocumentService {} }));

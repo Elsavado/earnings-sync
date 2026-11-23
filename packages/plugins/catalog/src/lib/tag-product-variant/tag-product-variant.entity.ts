@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsUUID } from 'class-validator';
 import { JoinColumn, RelationId } from 'typeorm';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	MultiORMColumn,
@@ -10,7 +10,7 @@ import {
 	ProductVariant,
 	Tag,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { MikroOrmTagProductVariantRepository } from './repository/mikro-orm-tag-product-variant.repository';
 
 /**

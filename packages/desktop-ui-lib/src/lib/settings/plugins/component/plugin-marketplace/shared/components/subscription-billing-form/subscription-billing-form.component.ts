@@ -11,7 +11,7 @@ import {
 	inject
 } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PluginSubscriptionType } from '@gauzy/contracts';
+import { PluginSubscriptionType } from '@irtranscripts/contracts';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { IPluginSubscriptionPlan, PluginBillingPeriod } from '../../../../../services/plugin-subscription.service';
 import { SubscriptionFormService } from '../../services/subscription-form.service';
@@ -36,17 +36,17 @@ export { BillingOption, BillingPeriodKey, PaymentMethod } from './types';
  * - Calculate and display pricing for different billing periods
  *
  * @example
- * <gauzy-subscription-billing-form
+ * <irtranscripts-subscription-billing-form
  *   [form]="billingForm"
  *   [plan]="selectedPlan"
  *   [isUpgrade]="true"
  *   (formSubmit)="handleSubmit($event)"
  *   (formCancel)="handleCancel()">
- * </gauzy-subscription-billing-form>
+ * </irtranscripts-subscription-billing-form>
  */
 @UntilDestroy({ checkProperties: true })
 @Component({
-    selector: 'gauzy-subscription-billing-form',
+    selector: 'irtranscripts-subscription-billing-form',
     templateUrl: './subscription-billing-form.component.html',
     styleUrls: ['./subscription-billing-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

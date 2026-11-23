@@ -1,11 +1,11 @@
 /**
- * The module doubles of the Inbox email GraphQL specs: `@gauzy/core` (its barrel boots the whole application) and
- * `@gauzy/common`, with every export the Inbox email module's files read, so the module and the plugin load and their
+ * The module doubles of the Inbox email GraphQL specs: `@irtranscripts/core` (its barrel boots the whole application) and
+ * `@irtranscripts/common`, with every export the Inbox email module's files read, so the module and the plugin load and their
  * metadata can be asserted. Guards are named classes, `@Permissions` and `@FeatureFlag` record their values, and the
  * UUID pipe refuses what the real one refuses.
  *
  * Used from a `jest.mock` factory:
- * `jest.mock('@gauzy/core', () => jest.requireActual('../testing/graphql-core-double').coreDouble())`.
+ * `jest.mock('@irtranscripts/core', () => jest.requireActual('../testing/graphql-core-double').coreDouble())`.
  */
 import { NotAcceptableException, SetMetadata } from '@nestjs/common';
 
@@ -52,7 +52,7 @@ export function coreDouble(): Record<string, unknown> {
 	};
 }
 
-/** `@gauzy/common`: `@FeatureFlag` records its code, `@Public` does nothing. */
+/** `@irtranscripts/common`: `@FeatureFlag` records its code, `@Public` does nothing. */
 export function commonDouble(): Record<string, unknown> {
 	return {
 		FeatureFlag: (flag: string) => SetMetadata('feature', flag),
@@ -60,10 +60,10 @@ export function commonDouble(): Record<string, unknown> {
 	};
 }
 
-/** `@gauzy/plugin`: the plugin decorator records what the plugin declares (the real one loads the configuration). */
+/** `@irtranscripts/plugin`: the plugin decorator records what the plugin declares (the real one loads the configuration). */
 export function pluginDouble(): Record<string, unknown> {
 	return {
-		GauzyCorePlugin: (metadata: unknown) => (target: { declared?: unknown }) => {
+		IRTranscriptsCorePlugin: (metadata: unknown) => (target: { declared?: unknown }) => {
 			target.declared = metadata;
 		}
 	};

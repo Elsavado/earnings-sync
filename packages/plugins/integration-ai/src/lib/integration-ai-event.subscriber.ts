@@ -1,4 +1,4 @@
-import { BaseEntityEventTypeEnum, EventBus, ScreenshotEvent } from '@gauzy/core';
+import { BaseEntityEventTypeEnum, EventBus, ScreenshotEvent } from '@irtranscripts/core';
 import { Injectable, OnModuleInit, OnModuleDestroy, Logger, HttpStatus, HttpException } from '@nestjs/common';
 import { Subject } from 'rxjs';
 import { catchError, filter, takeUntil, tap } from 'rxjs/operators';
@@ -28,7 +28,7 @@ export class IntegrationAIEventSubscriber implements OnModuleInit, OnModuleDestr
 					try {
 						switch (event.type) {
 							case BaseEntityEventTypeEnum.CREATED:
-								// Analyze image using Gauzy AI
+								// Analyze image using IRTranscripts AI
 								await this._integrationAIAnalysisService.analyzeAndSaveScreenshot(event);
 								break;
 							default:

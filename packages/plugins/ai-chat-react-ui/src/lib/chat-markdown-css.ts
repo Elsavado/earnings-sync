@@ -14,7 +14,7 @@ const MD = '.gz-ai-chat-markdown.gz-ai-chat-markdown';
 /**
  * Typography for markdown streamed by `streamdown`.
  *
- * Streamdown tags every node it emits with Tailwind class names; Gauzy ships no Tailwind, so
+ * Streamdown tags every node it emits with Tailwind class names; IRTranscripts ships no Tailwind, so
  * those classes resolve to nothing and every element would fall back to UA defaults — 2em bold
  * headings, 40px list indents, unstyled code cards. This sheet is that missing typography, sized
  * in `em` so it scales with the message text and toned with `color-mix` against `currentColor`

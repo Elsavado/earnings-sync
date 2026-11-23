@@ -38,7 +38,7 @@ export class AuthorizationMiddleware {
 			optional?: boolean; // Allow requests without tokens if true
 			/**
 			 * Whether the request comes from this machine (see `isLocalCaller`). Such a caller may come without a
-			 * token, and then acts as the GAUZY_AUTO_LOGIN account: the loopback desktop mode. A token it does
+			 * token, and then acts as the IRTRANSCRIPTS_AUTO_LOGIN account: the loopback desktop mode. A token it does
 			 * send is checked like any other.
 			 */
 			isLocalCaller?: (req: Request) => boolean;

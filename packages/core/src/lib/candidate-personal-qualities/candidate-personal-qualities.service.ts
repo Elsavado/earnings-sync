@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ICandidatePersonalQualities, ICandidatePersonalQualitiesCreateInput } from '@gauzy/contracts';
+import { ICandidatePersonalQualities, ICandidatePersonalQualitiesCreateInput } from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from './../core/crud';
 import { findTenantInterviewCriteria } from './../candidate-interview/interview-criteria.helper';
 import { TypeOrmCandidatePersonalQualitiesRepository } from './repository/type-orm-candidate-personal-qualities.repository';

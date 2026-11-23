@@ -34,8 +34,8 @@ function claimsFor(sub: string, seq: number, extra: Record<string, unknown> = {}
 			handle: 'acme',
 			org_id: 'org_1',
 			tier: 'paid',
-			plan: { code: 'gauzy-team', source: 'subscription' },
-			licence_ids: ['EVER-GAUZY-SB-1A2B3C4D'],
+			plan: { code: 'irtranscripts-team', source: 'subscription' },
+			licence_ids: ['EVER-IRTRANSCRIPTS-SB-1A2B3C4D'],
 			features: { discoverability: true, ever_id_login: true },
 			...extra
 		}
@@ -337,7 +337,7 @@ describe('EverConnectEntitlementService.features and the summary', () => {
 			service as unknown as { secrets: { seal: (v: string) => string } }
 		).secrets.seal(jwsOf(claimsFor(`link:${LINK}`, 1)));
 		const summary = await service.summary('tenant-1', 'org-1', false);
-		expect(summary.link).toMatchObject({ ladder: 'valid', licence_ids: ['EVER-GAUZY-SB-1A2B3C4D'] });
+		expect(summary.link).toMatchObject({ ladder: 'valid', licence_ids: ['EVER-IRTRANSCRIPTS-SB-1A2B3C4D'] });
 		expect(summary.instance).toBeNull();
 	});
 });

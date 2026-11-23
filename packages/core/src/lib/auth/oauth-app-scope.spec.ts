@@ -1,4 +1,4 @@
-import { PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 import {
 	buildOAuthAppTokenGrant,
 	isOAuthAppReadPermission,
@@ -115,7 +115,7 @@ describe('oauth-app-scope', () => {
 	});
 
 	/**
-	 * The Zapier app requests `zap zap:write authentication` (zapier/src/authentication.ts). Every Gauzy route its
+	 * The Zapier app requests `zap zap:write authentication` (zapier/src/authentication.ts). Every IRTranscripts route its
 	 * triggers and actions call must stay reachable for a user whose role holds the route's permission.
 	 */
 	describe('the Zapier app keeps working', () => {

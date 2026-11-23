@@ -6,8 +6,8 @@ import {
 	ID,
 	IEmployeeStatisticsHistory,
 	IMonthAggregatedEmployeeStatistics
-} from '@gauzy/contracts';
-import { IDashboardWidgetContext } from '@gauzy/ui-core/core';
+} from '@irtranscripts/contracts';
+import { IDashboardWidgetContext } from '@irtranscripts/ui-core/core';
 import { ProfitHistoryModule } from '../../profit-history/profit-history.module';
 // The totals come from `/employee-statistics/months`, the same payload every HR
 // info block reads — through the same cache, so a canvas holding this widget and

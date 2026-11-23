@@ -1,5 +1,5 @@
 import { FindOperator } from 'typeorm';
-import { LIKE_OPERATOR } from '@gauzy/core';
+import { LIKE_OPERATOR } from '@irtranscripts/core';
 import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, applyPageWindow, liveWindowConditions, searchConditions } from './predicate.helper';
 
 /**

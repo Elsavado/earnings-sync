@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { WithoutInitializers } from '@gauzy/common';
+import { WithoutInitializers } from '@irtranscripts/common';
 import { CreatePromotionActionDTO } from './create-promotion-action.dto';
 
 /**

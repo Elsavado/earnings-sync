@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsEnum, IsInt, IsOptional, IsString, Min, MinLength } from 'class-validator';
-import { AdjustmentType, IAdjustmentReason } from '@gauzy/contracts';
+import { AdjustmentType, IAdjustmentReason } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { ColumnIndex, JsonColumn, MultiORMColumn, MultiORMEntity } from '../core/decorators/entity';
 import { MikroOrmAdjustmentReasonRepository } from './repository/mikro-orm-adjustment-reason.repository';

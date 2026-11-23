@@ -1,5 +1,5 @@
 import { EventSubscriber } from 'typeorm';
-import { isBetterSqlite3, isSqlite } from '@gauzy/config';
+import { isBetterSqlite3, isSqlite } from '@irtranscripts/config';
 import { getUserDummyImage } from '../core/utils';
 import { BaseEntityEventSubscriber } from '../core/entities/subscribers/base-entity-event.subscriber';
 import { MultiOrmEntityManager } from '../core/entities/subscribers/entity-event-subscriber.types';

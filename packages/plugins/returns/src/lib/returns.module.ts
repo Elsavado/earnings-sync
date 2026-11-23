@@ -7,7 +7,7 @@ import {
 	GraphqlSubscriptionModule,
 	RolePermissionModule,
 	SequenceModule
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { resolvers } from './graphql/resolvers';
 import { OrderClaimLine } from './order-claim-line/order-claim-line.entity';
 import { OrderClaimLineController } from './order-claim-line/order-claim-line.controller';

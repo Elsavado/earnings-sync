@@ -2,7 +2,7 @@ import '../entities/internal';
 
 import { NotFoundException } from '@nestjs/common';
 import { DataSource, EntitySchema, Repository } from 'typeorm';
-import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@gauzy/config';
+import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@irtranscripts/config';
 import { MultiORMEnum } from '../utils';
 import { CrudService } from './crud.service';
 

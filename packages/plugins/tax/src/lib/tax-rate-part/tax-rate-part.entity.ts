@@ -1,7 +1,7 @@
 import { JoinColumn } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsInt, IsNumber, IsOptional, IsString, IsUUID, MaxLength, Min } from 'class-validator';
-import { CurrencyCode, ID } from '@gauzy/contracts';
+import { CurrencyCode, ID } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	ColumnNumericTransformerPipe,
@@ -10,7 +10,7 @@ import {
 	MultiORMEntity,
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { TaxAmountType, TaxPartType } from '../tax.types';
 import { TaxRate } from '../tax-rate/tax-rate.entity';
 import { MikroOrmTaxRatePartRepository } from './repository/mikro-orm-tax-rate-part.repository';

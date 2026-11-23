@@ -1,4 +1,4 @@
-import { SocialAuthModule } from '@gauzy/auth';
+import { SocialAuthModule } from '@irtranscripts/auth';
 import { HttpModule } from '@nestjs/axios';
 import { forwardRef, Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';

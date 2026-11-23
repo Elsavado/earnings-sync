@@ -1,4 +1,4 @@
-import { UploadedFile } from '@gauzy/contracts';
+import { UploadedFile } from '@irtranscripts/contracts';
 import { FileProcessingStrategy } from '../../../shared/models/file-processing.interface';
 import { BadRequestException } from '@nestjs/common';
 

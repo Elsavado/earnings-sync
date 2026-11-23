@@ -13,7 +13,7 @@ import {
 } from '@nebular/theme';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslatePipe } from '@ngx-translate/core';
-import { IncomeService, OrganizationsService } from '@gauzy/ui-core/core';
+import { IncomeService, OrganizationsService } from '@irtranscripts/ui-core/core';
 import { SelectorsModule } from '../../selectors/selectors.module';
 import { CurrencyModule } from '../../modules/currency/currency.module';
 import { ContactSelectModule } from '../../contact-select/contact-select.module';

@@ -1,4 +1,4 @@
-@use 'gauzy/_gauzy-dialogs' as *;
+@use 'irtranscripts/_irtranscripts-dialogs' as *;
 
 .body {
   width: 550px;
@@ -27,6 +27,6 @@
 }
 :host {
   nb-card {
-    background-color: var(--gauzy-card-1);
+    background-color: var(--irtranscripts-card-1);
   }
 }

@@ -4,9 +4,9 @@ import { NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Cell, LocalDataSource } from 'angular2-smart-table';
 import { TranslateService } from '@ngx-translate/core';
-import { ID, IEmployee, IOrganizationProjectModule, IOrganizationProjectModuleEmployee } from '@gauzy/contracts';
-import { OrganizationProjectModuleService, ToastrService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { ID, IEmployee, IOrganizationProjectModule, IOrganizationProjectModuleEmployee } from '@irtranscripts/contracts';
+import { OrganizationProjectModuleService, ToastrService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import {
 	StatusViewComponent,
 	ToggleSwitcherComponent,

@@ -1,8 +1,8 @@
-import { IGetTimesheetInput } from '@gauzy/contracts';
+import { IGetTimesheetInput } from '@irtranscripts/contracts';
 import { IntersectionType } from '@nestjs/swagger';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional, IsArray } from 'class-validator';
-import { TimesheetStatus } from '@gauzy/contracts';
+import { TimesheetStatus } from '@irtranscripts/contracts';
 import { RelationsQueryDTO, SelectorsQueryDTO } from './../../../../shared/dto';
 
 /**

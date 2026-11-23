@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/swagger';
-import { ITagTypeUpdateInput } from '@gauzy/contracts';
+import { ITagTypeUpdateInput } from '@irtranscripts/contracts';
 import { CreateTagTypeDTO } from './create-tag-type.dto';
 
 /**

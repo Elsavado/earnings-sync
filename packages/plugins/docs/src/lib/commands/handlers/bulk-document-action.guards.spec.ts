@@ -8,7 +8,7 @@
  */
 const permissions: string[] = [];
 
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	RequestContext: {
 		hasPermission: (permission: string) => permissions.includes(permission)
 	}
@@ -19,7 +19,7 @@ jest.mock('../../services/document-knowledge.service', () => ({ DocumentKnowledg
 jest.mock('../../services/document-review.service', () => ({ DocumentReviewService: class {} }));
 
 import { BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { DOCS_BULK_MOVE_PARENT_REQUIRED, DOCS_WRITE_FORBIDDEN } from '../../docs.constants';
 import { DocumentBulkActionEnum } from '../../dto/bulk-action.dto';
 import { BulkDocumentActionCommand } from '../bulk-document-action.command';

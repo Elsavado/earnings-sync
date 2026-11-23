@@ -144,8 +144,8 @@ describe('worker composition — every repository the hosted modules register na
 		process.env.SCHEDULER_QUEUE_ENABLED = 'true';
 		process.env.WORKER_QUEUE_ENABLED = 'true';
 
-		const core = await import('@gauzy/core');
-		const pluginKit = await import('@gauzy/plugin');
+		const core = await import('@irtranscripts/core');
+		const pluginKit = await import('@irtranscripts/plugin');
 
 		({ plugins } = (await import('./plugins')) as unknown as { plugins: Array<Type<unknown>> });
 		resolvePluginLoadOrder = pluginKit.resolvePluginLoadOrder as never;

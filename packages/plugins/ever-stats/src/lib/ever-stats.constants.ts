@@ -51,7 +51,7 @@ export const MAX_STATS_RESPONSE_BYTES = 64 * 1024;
 
 /**
  * How long a report refused as malformed (`400`, `413`, `415`) keeps the module from sending, unless
- * the module, the Gauzy release or the identity changes first. A schema refusal (`422`) or another
+ * the module, the IRTranscripts release or the identity changes first. A schema refusal (`422`) or another
  * key for the id (`409 key_mismatch`) keeps it until one of those changes.
  */
 export const STATS_REFUSAL_PARK_MS = 7 * 24 * 60 * 60 * 1000;

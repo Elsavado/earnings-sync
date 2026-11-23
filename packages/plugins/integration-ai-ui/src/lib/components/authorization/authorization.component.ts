@@ -4,13 +4,13 @@ import { UntypedFormGroup, UntypedFormBuilder, Validators, FormGroupDirective, F
 import { EMPTY } from 'rxjs';
 import { catchError, filter, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { IIntegrationTenant, IOrganization } from '@gauzy/contracts';
-import { ErrorHandlingService, GauzyAIService, Store, ToastrService } from '@gauzy/ui-core/core';
-import { ReplacePipe } from '@gauzy/ui-core/shared';
+import { IIntegrationTenant, IOrganization } from '@irtranscripts/contracts';
+import { ErrorHandlingService, IRTranscriptsAIService, Store, ToastrService } from '@irtranscripts/ui-core/core';
+import { ReplacePipe } from '@irtranscripts/ui-core/shared';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
-    selector: 'ngx-gauzy-ai-authorization',
+    selector: 'ngx-irtranscripts-ai-authorization',
     templateUrl: './authorization.component.html',
     styleUrls: ['./authorization.component.scss'],
     providers: [],
@@ -47,7 +47,7 @@ export class IntegrationAIAuthorizationComponent implements AfterViewInit, OnIni
 		private readonly _router: Router,
 		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _store: Store,
-		private readonly _gauzyAIService: GauzyAIService,
+		private readonly _irtranscriptsAIService: IRTranscriptsAIService,
 		private readonly _toastrService: ToastrService,
 		private readonly _errorHandlingService: ErrorHandlingService,
 		private readonly _replacePipe: ReplacePipe
@@ -58,7 +58,7 @@ export class IntegrationAIAuthorizationComponent implements AfterViewInit, OnIni
 			.pipe(
 				tap(({ integration }: Data) => {
 					if (integration) {
-						this._redirectToGauzyAIIntegration(integration.id);
+						this._redirectToIRTranscriptsAIIntegration(integration.id);
 					}
 				}),
 				untilDestroyed(this) // Ensure that subscriptions are automatically unsubscribed on component destruction.
@@ -99,10 +99,10 @@ export class IntegrationAIAuthorizationComponent implements AfterViewInit, OnIni
 	ngOnDestroy(): void {}
 
 	/**
-	 * Gauzy AI integration remember state API call
+	 * IRTranscripts AI integration remember state API call
 	 */
-	private _redirectToGauzyAIIntegration(integrationId: string) {
-		this._router.navigate(['pages/integrations/gauzy-ai', integrationId]);
+	private _redirectToIRTranscriptsAIIntegration(integrationId: string) {
+		this._router.navigate(['pages/integrations/irtranscripts-ai', integrationId]);
 	}
 
 	/**
@@ -123,7 +123,7 @@ export class IntegrationAIAuthorizationComponent implements AfterViewInit, OnIni
 			const { id: organizationId, tenantId, name: organizationName } = this.organization;
 
 			// Create a new integration using the provided values
-			this._gauzyAIService
+			this._irtranscriptsAIService
 				.create({
 					apiKey,
 					apiSecret,
@@ -146,9 +146,9 @@ export class IntegrationAIAuthorizationComponent implements AfterViewInit, OnIni
 							});
 						}
 					}),
-					// Redirect to the Gauzy AI integration after creation
+					// Redirect to the IRTranscripts AI integration after creation
 					tap((integration: IIntegrationTenant) => {
-						this._redirectToGauzyAIIntegration(integration.id);
+						this._redirectToIRTranscriptsAIIntegration(integration.id);
 					}),
 					// Catch and handle errors
 					catchError((error) => {

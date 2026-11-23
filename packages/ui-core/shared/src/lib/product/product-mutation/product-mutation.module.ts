@@ -12,7 +12,7 @@ import {
 	ProductVariantPriceService,
 	ProductVariantService,
 	ProductVariantSettingService
-} from '@gauzy/ui-core/core';
+} from '@irtranscripts/ui-core/core';
 import { LanguageSelectorModule } from '../../language/language-selector/language-selector.module';
 import { ImageUploaderModule } from '../../image-uploader/image-uploader.module';
 import { ProductTypeMutationComponent } from './product-type-mutation/product-type-mutation.component';

@@ -1,6 +1,6 @@
-import { FeatureEnum, PermissionsEnum } from '@gauzy/contracts';
-import { PluginNavItemInput, PluginRouteInput, PluginUiDefinition } from '@gauzy/plugin-ui';
-import { PermissionsGuard } from '@gauzy/ui-core/core';
+import { FeatureEnum, PermissionsEnum } from '@irtranscripts/contracts';
+import { PluginNavItemInput, PluginRouteInput, PluginUiDefinition } from '@irtranscripts/plugin-ui';
+import { PermissionsGuard } from '@irtranscripts/ui-core/core';
 import {
 	DOCS_INBOUND_SETTINGS_LINK,
 	DOCS_INBOUND_SETTINGS_PATH,
@@ -89,14 +89,14 @@ export const DOCS_INBOUND_SETTINGS_ROUTE: PluginRouteInput = {
 };
 
 /**
- * Documents hub UI plugin (`@gauzy/plugin-docs-ui`).
+ * Documents hub UI plugin (`@irtranscripts/plugin-docs-ui`).
  *
  * Declarative `PluginUiDefinition`: a top-level "Documents" nav section
  * (directly below Dashboards, before the `focus` entry), the
  * `/pages/documents` route, the `DOCS` translation namespace, and
  * feature/permission activation gates.
  *
- * @example In `apps/gauzy/src/plugin-ui.config.ts`:
+ * @example In `apps/irtranscripts/src/plugin-ui.config.ts`:
  * ```ts
  * plugins: [DocsUiPlugin]
  * ```

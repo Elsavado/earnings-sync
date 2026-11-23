@@ -16,9 +16,9 @@ import {
 	UseGuards
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PermissionGuard, Permissions, TenantPermissionGuard } from '@gauzy/core';
-import { EverOperatorService } from '@gauzy/plugin-ever-instance';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PermissionGuard, Permissions, TenantPermissionGuard } from '@irtranscripts/core';
+import { EverOperatorService } from '@irtranscripts/plugin-ever-instance';
 import { AuditRow, EverConnectAuditService } from './ever-connect-audit.service';
 import { EverConnectCleanupService } from './ever-connect-cleanup.service';
 import type { EverConnectConfig } from './ever-connect-config';
@@ -53,7 +53,7 @@ export interface EverConnectStatus {
 }
 
 /**
- * The organization side of the Ever Platform connection, behind Gauzy's tenant and permission
+ * The organization side of the Ever Platform connection, behind IRTranscripts's tenant and permission
  * guards with the existing integration permissions (no new permission): the status, the link of the
  * organization, its integrations and consents, its entitlement document and its audit. The
  * installation-wide integrations answer 404 to everyone but the operator. No answer is cached.
@@ -179,7 +179,7 @@ export class EverConnectController {
 		});
 	}
 
-	/** Removes this organization's link (its Gauzy integration record id). */
+	/** Removes this organization's link (its IRTranscripts integration record id). */
 	@Delete('links/:integrationTenantId')
 	@HttpCode(HttpStatus.NO_CONTENT)
 	@Permissions(PermissionsEnum.INTEGRATION_DELETE)

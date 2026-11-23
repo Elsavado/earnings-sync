@@ -15,8 +15,8 @@ export function isNotFound(error: unknown): boolean {
 	return (error as Partial<HttpErrorResponse> | null | undefined)?.status === 404;
 }
 
-/** The Ever Works page that creates an integration key with the "Ever Gauzy" preset (plan 02 §1). */
-export const EVER_WORKS_NEW_KEY_PATH = '/settings/api-keys?new=integration&preset=ever-gauzy';
+/** The Ever Works page that creates an integration key with the "Ever IRTranscripts" preset (plan 02 §1). */
+export const EVER_WORKS_NEW_KEY_PATH = '/settings/api-keys?new=integration&preset=ever-irtranscripts';
 
 /** The key-creation link for an operator-configured app URL; only HTTPS addresses are linked. */
 export function newKeyUrlOf(appUrl: string | null | undefined): string | null {

@@ -1,6 +1,6 @@
-import { PluginStatus, PluginType } from '@gauzy/contracts';
-import { BaseQueryDTO } from '@gauzy/core';
-import { parseToBoolean } from '@gauzy/utils';
+import { PluginStatus, PluginType } from '@irtranscripts/contracts';
+import { BaseQueryDTO } from '@irtranscripts/core';
+import { parseToBoolean } from '@irtranscripts/utils';
 import { ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import { IsArray, IsBoolean, IsEnum, IsIn, IsNumber, IsOptional, IsString, IsUUID, Max, Min } from 'class-validator';
@@ -39,7 +39,7 @@ export class PluginSearchFilterDTO extends PartialType(BaseQueryDTO<IPlugin>) {
 
 	@ApiPropertyOptional({
 		description: 'Filter by plugin name (exact match)',
-		example: 'Gauzy Time Tracker'
+		example: 'IRTranscripts Time Tracker'
 	})
 	@IsOptional()
 	@IsString()
@@ -90,7 +90,7 @@ export class PluginSearchFilterDTO extends PartialType(BaseQueryDTO<IPlugin>) {
 
 	@ApiPropertyOptional({
 		description: 'Filter by plugin author',
-		example: 'Gauzy Team'
+		example: 'IRTranscripts Team'
 	})
 	@IsOptional()
 	@IsString()

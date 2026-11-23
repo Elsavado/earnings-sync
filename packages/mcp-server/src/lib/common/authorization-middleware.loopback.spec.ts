@@ -3,14 +3,14 @@ import { AuthorizationMiddleware } from './authorization-middleware';
 
 /**
  * Owner decision 7 (2026-10-22): bearer tokens are required by default, and only the loopback desktop mode skips
- * them — a caller on the server's own machine that sends no token (it then acts as the GAUZY_AUTO_LOGIN account).
+ * them — a caller on the server's own machine that sends no token (it then acts as the IRTRANSCRIPTS_AUTO_LOGIN account).
  */
 describe('AuthorizationMiddleware — who needs a bearer token', () => {
 	const config: AuthorizationConfig = {
 		enabled: true,
 		requiredScopes: ['mcp.read'],
 		authorizationServers: [],
-		tokenValidation: { audience: 'gauzy-mcp-api' },
+		tokenValidation: { audience: 'irtranscripts-mcp-api' },
 		introspection: {
 			endpoint: 'https://auth.example.test/oauth2/introspect',
 			clientId: 'mcp-server',

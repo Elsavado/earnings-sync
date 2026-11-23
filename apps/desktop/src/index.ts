@@ -55,27 +55,27 @@ import {
 	setupAkitaStorageHandler,
 	handleDesktopStartup,
     DesktopOfflineModeHandler
-} from '@gauzy/desktop-lib';
+} from '@irtranscripts/desktop-lib';
 import {
 	AlwaysOn,
 	ScreenCaptureNotification,
 	SplashScreen,
-	createGauzyWindow,
+	createIRTranscriptsWindow,
 	createSettingsWindow,
 	createTimeTrackerWindow,
 	installNavigationGuard,
 	setLaunchPathAndLoad
-} from '@gauzy/desktop-window';
+} from '@irtranscripts/desktop-window';
 
-import { DesktopSetupConfig } from '@gauzy/contracts';
+import { DesktopSetupConfig } from '@irtranscripts/contracts';
 import * as Sentry from '@sentry/electron/main';
 import { fork } from 'child_process';
 import { autoUpdater } from 'electron-updater';
 import { initSentry } from './sentry';
-import { ElectronStoreOf, IConfig } from '@gauzy/desktop-core';
+import { ElectronStoreOf, IConfig } from '@irtranscripts/desktop-core';
 
 /**
- * Describes the configuration for building the Gauzy API base URL.
+ * Describes the configuration for building the IRTranscripts API base URL.
  */
 export interface ApiConfig {
 	/**
@@ -103,14 +103,14 @@ export interface ApiConfig {
 }
 
 // the folder where all app data will be stored (e.g. sqlite DB, settings, cache, etc)
-// C:\Users\USERNAME\AppData\Roaming\gauzy-desktop
-process.env.GAUZY_USER_PATH = app.getPath('userData');
-log.info(`GAUZY_USER_PATH: ${process.env.GAUZY_USER_PATH}`);
+// C:\Users\USERNAME\AppData\Roaming\irtranscripts-desktop
+process.env.IRTRANSCRIPTS_USER_PATH = app.getPath('userData');
+log.info(`IRTRANSCRIPTS_USER_PATH: ${process.env.IRTRANSCRIPTS_USER_PATH}`);
 
-process.env.GAUZY_SEED_PATH = path.join(__dirname, 'api', 'assets', 'seed');
-log.info(`GAUZY_SEED_PATH: ${process.env.GAUZY_SEED_PATH}`);
+process.env.IRTRANSCRIPTS_SEED_PATH = path.join(__dirname, 'api', 'assets', 'seed');
+log.info(`IRTRANSCRIPTS_SEED_PATH: ${process.env.IRTRANSCRIPTS_SEED_PATH}`);
 
-const sqlite3filename = `${process.env.GAUZY_USER_PATH}/gauzy.sqlite3`;
+const sqlite3filename = `${process.env.IRTRANSCRIPTS_USER_PATH}/irtranscripts.sqlite3`;
 log.info(`Sqlite DB path: ${sqlite3filename}`);
 
 // The environment the app was started with, before the integrated server's settings are written into
@@ -128,14 +128,14 @@ const knex = provider.connection;
 
 const exeName = path.basename(process.execPath);
 
-// Typed with its inherited API (see IElectronStoreApi in @gauzy/desktop-core).
+// Typed with its inherited API (see IElectronStoreApi in @irtranscripts/desktop-core).
 const store = new Store() as ElectronStoreOf;
 
 let serve: boolean;
 const args = process.argv.slice(1);
 serve = args.some((val) => val === '--serve');
 
-let gauzyWindow: BrowserWindow = null;
+let irtranscriptsWindow: BrowserWindow = null;
 let setupWindow: BrowserWindow = null;
 let timeTrackerWindow: BrowserWindow = null;
 let notificationWindow: ScreenCaptureNotification = null;
@@ -150,7 +150,7 @@ setupTitlebar();
 console.log('App UI Render Path:', path.join(__dirname, './index.html'));
 
 const pathWindow = {
-	gauzyWindow: path.join(__dirname, './index.html'),
+	irtranscriptsWindow: path.join(__dirname, './index.html'),
 	timeTrackerUi: path.join(__dirname, './ui/index.html'),
 	screenshotWindow: path.join(__dirname, './ui/index.html'),
 	preloadPath: path.join(__dirname, 'preload/preload.js')
@@ -172,7 +172,7 @@ const report = new ErrorReport(new ErrorReportRepository(process.env.REPO_OWNER,
 const eventErrorManager = ErrorEventManager.instance;
 
 // API only, and on the loopback address only: the integrated server is for this computer. Remote timers
-// connect to Gauzy Server, which can listen on the network.
+// connect to IRTranscripts Server, which can listen on the network.
 const server = new DesktopServer(true);
 const controller = new AbortController();
 const { signal } = controller;
@@ -195,7 +195,7 @@ LocalStore.setFilePath({
 });
 
 // Register custom protocol for deep linking
-const appProtocol = process.env.PROTOCOL || 'gauzy-desktop';
+const appProtocol = process.env.PROTOCOL || 'irtranscripts-desktop';
 if (process.defaultApp) {
 	if (process.argv.length >= 2) {
 		app.setAsDefaultProtocolClient(appProtocol, process.execPath, [path.resolve(process.argv[1])]);
@@ -253,9 +253,9 @@ process.on('uncaughtException', (error) => {
 
 eventErrorManager.onSendReport(async (message: string) => {
 	console.log('Send report event', message);
-	if (!gauzyWindow) return;
-	gauzyWindow.focus();
-	const dialog = new DialogErrorHandler(message, gauzyWindow);
+	if (!irtranscriptsWindow) return;
+	irtranscriptsWindow.focus();
+	const dialog = new DialogErrorHandler(message, irtranscriptsWindow);
 	dialog.options.buttons.shift();
 	const button = await dialog.show();
 	switch (button.response) {
@@ -272,9 +272,9 @@ eventErrorManager.onSendReport(async (message: string) => {
 
 eventErrorManager.onShowError(async (message: string) => {
 	console.log('Show error event', message);
-	if (!gauzyWindow) return;
-	gauzyWindow.focus();
-	const dialog = new DialogErrorHandler(message, gauzyWindow);
+	if (!irtranscriptsWindow) return;
+	irtranscriptsWindow.focus();
+	const dialog = new DialogErrorHandler(message, irtranscriptsWindow);
 	dialog.options.buttons.splice(1, 1);
 	const button = await dialog.show();
 	switch (button.response) {
@@ -305,11 +305,11 @@ if (!gotTheLock) {
 		}
 
 		// if someone tried to run a second instance, we should focus our window and show warning message.
-		if (gauzyWindow) {
-			if (gauzyWindow.isMinimized()) gauzyWindow.restore();
-			gauzyWindow.focus();
+		if (irtranscriptsWindow) {
+			if (irtranscriptsWindow.isMinimized()) irtranscriptsWindow.restore();
+			irtranscriptsWindow.focus();
 			if (!url) {
-				dialog.showMessageBoxSync(gauzyWindow, {
+				dialog.showMessageBoxSync(irtranscriptsWindow, {
 					type: 'warning',
 					title: process.env.DESCRIPTION,
 					message: 'You already have a running instance'
@@ -465,21 +465,21 @@ async function startServer(setupConfig: DesktopSetupConfig, restart = false) {
 	try {
 		/* create window */
 		await setLaunchPathAndLoad(timeTrackerWindow, pathWindow.timeTrackerUi, '/time-tracker');
-		if (setupConfig.gauzyWindow) {
+		if (setupConfig.irtranscriptsWindow) {
 			timeTrackerWindow.hide();
 		} else {
 			timeTrackerWindow.show();
 		}
-		if (setupConfig.gauzyWindow) {
-			gauzyWindow = await createGauzyWindow(
-				gauzyWindow,
+		if (setupConfig.irtranscriptsWindow) {
+			irtranscriptsWindow = await createIRTranscriptsWindow(
+				irtranscriptsWindow,
 				serve,
-				{ ...environment, gauzyWindow: setupConfig.gauzyWindow },
-				pathWindow.gauzyWindow,
+				{ ...environment, irtranscriptsWindow: setupConfig.irtranscriptsWindow },
+				pathWindow.irtranscriptsWindow,
 				pathWindow.preloadPath
 			);
 		} else {
-			gauzyWindow = timeTrackerWindow;
+			irtranscriptsWindow = timeTrackerWindow;
 		}
 	} catch (error) {
 		throw new AppError('MAINWININIT', error);
@@ -492,9 +492,9 @@ async function startServer(setupConfig: DesktopSetupConfig, restart = false) {
 
 	appWindowManager.setupWindow?.close?.();
 
-	if (gauzyWindow) {
-		gauzyWindow.setVisibleOnAllWorkspaces(false);
-		gauzyWindow.show();
+	if (irtranscriptsWindow) {
+		irtranscriptsWindow.setVisibleOnAllWorkspaces(false);
+		irtranscriptsWindow.show();
 	}
 
 	splashScreen?.close();
@@ -534,7 +534,7 @@ function setEnvAdditional() {
 }
 
 /**
- * Retrieves the base URL for the Gauzy API based on a configuration object.
+ * Retrieves the base URL for the IRTranscripts API based on a configuration object.
  *
  * If `configs.serverUrl` is defined, this function returns that URL directly.
  * Otherwise, it constructs a local address using `configs.host`, `configs.protocol`,
@@ -687,7 +687,7 @@ app.on('ready', async () => {
 				// The generated passwords, if the integrated server seeded a new database (the setup
 				// screen relaunches the app right after the first start, so they appear here), or a
 				// warning if its accounts still use a published password.
-				void DesktopSignInNotices.show(gauzyWindow ?? timeTrackerWindow);
+				void DesktopSignInNotices.show(irtranscriptsWindow ?? timeTrackerWindow);
 			}
 		} else {
 			await appWindowManager.initSetupWindow(pathWindow.timeTrackerUi);
@@ -700,7 +700,7 @@ app.on('ready', async () => {
 	}
 
 	updater.settingWindow = settingsWindow;
-	updater.gauzyWindow = gauzyWindow;
+	updater.irtranscriptsWindow = irtranscriptsWindow;
 	appWindowManager.updater = updater;
 	try {
 		await updater.checkUpdate();
@@ -713,10 +713,10 @@ app.on('ready', async () => {
 
 	ipcMainHandler(store, startServer, knex, { ...environment }, timeTrackerWindow);
 
-	if (gauzyWindow) {
+	if (irtranscriptsWindow) {
 		try {
-			gauzyWindow.webContents.setZoomFactor(1.0);
-			await gauzyWindow.webContents.setVisualZoomLevelLimits(1, 5);
+			irtranscriptsWindow.webContents.setZoomFactor(1.0);
+			await irtranscriptsWindow.webContents.setVisualZoomLevelLimits(1, 5);
 			console.log('Zoom levels have been set between 100% and 500%');
 		} catch (error) {
 			console.error('ERROR: Occurred while set zoom level:' + error);
@@ -781,17 +781,17 @@ ipcMain.on('quit', quit);
 
 ipcMain.on('minimize', () => {
 	console.log('Minimize event received');
-	gauzyWindow.minimize();
+	irtranscriptsWindow.minimize();
 });
 
 ipcMain.on('maximize', () => {
 	console.log('Maximize event received');
-	gauzyWindow.maximize();
+	irtranscriptsWindow.maximize();
 });
 
 ipcMain.on('restore', () => {
 	console.log('Restore event received');
-	gauzyWindow.restore();
+	irtranscriptsWindow.restore();
 });
 
 ipcMain.on('restart_app', async (event, arg) => {
@@ -823,14 +823,14 @@ ipcMain.on('save_additional_setting', (event, arg) => {
 
 ipcMain.on('server_already_start', async () => {
 	console.log('Server already start event received');
-	if (!gauzyWindow && !isAlreadyRun) {
+	if (!irtranscriptsWindow && !isAlreadyRun) {
 		try {
 			const configs: any = store.get('configs');
-			gauzyWindow = await createGauzyWindow(
-				gauzyWindow,
+			irtranscriptsWindow = await createIRTranscriptsWindow(
+				irtranscriptsWindow,
 				serve,
-				{ ...environment, gauzyWindow: configs.gauzyWindow },
-				pathWindow.gauzyWindow
+				{ ...environment, irtranscriptsWindow: configs.irtranscriptsWindow },
+				pathWindow.irtranscriptsWindow
 			);
 			isAlreadyRun = true;
 		} catch (error) {
@@ -892,15 +892,15 @@ ipcMain.on('check_database_connection', async (event, arg) => {
 app.on('activate', async () => {
 	console.log('App is activated');
 
-	if (gauzyWindow) {
-		if (LocalStore.getStore('configs').gauzyWindow) {
-			gauzyWindow.show();
+	if (irtranscriptsWindow) {
+		if (LocalStore.getStore('configs').irtranscriptsWindow) {
+			irtranscriptsWindow.show();
 		}
 	} else if (!onWaitingServer && LocalStore.getStore('configs') && LocalStore.getStore('configs').isSetup) {
 		// On macOS it's common to re-create a window in the app when the
 		// dock icon is clicked and there are no other windows open.
-		await createGauzyWindow(
-			gauzyWindow,
+		await createIRTranscriptsWindow(
+			irtranscriptsWindow,
 			serve,
 			{ ...environment },
 			pathWindow.timeTrackerUi,
@@ -1033,7 +1033,7 @@ ipcMain.handle('IS_OFFLINE', async () => {
  *
  * The function handles two types of windows:
  * 1. A set of general windows (`notificationWindow`, `splashScreen`, `alwaysOn`), which are closed using the `.close()` method.
- * 2. Browser windows (e.g., `gauzyWindow`, `timeTrackerWindow`, `settingsWindow`, etc.), which are first checked if they are not destroyed using `.isDestroyed()`
+ * 2. Browser windows (e.g., `irtranscriptsWindow`, `timeTrackerWindow`, `settingsWindow`, etc.), which are first checked if they are not destroyed using `.isDestroyed()`
  *    before being destroyed using the `.destroy()` method.
  *
  * Note: This function assumes that the relevant windows are globally defined variables of their respective types.
@@ -1043,7 +1043,7 @@ ipcMain.handle('IS_OFFLINE', async () => {
 function closeAllWindows(): void {
 	const windows = [notificationWindow, splashScreen, alwaysOn];
 	const browserWindows: BrowserWindow[] = [
-		gauzyWindow,
+		irtranscriptsWindow,
 		timeTrackerWindow,
 		settingsWindow,
 		updaterWindow,

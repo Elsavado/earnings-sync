@@ -1,4 +1,4 @@
-import { ISearchIndexRegistration, PermissionsEnum, SearchFieldKind } from '@gauzy/contracts';
+import { ISearchIndexRegistration, PermissionsEnum, SearchFieldKind } from '@irtranscripts/contracts';
 
 /**
  * The invoice declaration.

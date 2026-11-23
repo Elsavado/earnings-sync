@@ -12,14 +12,14 @@ import {
 
 /**
  * Document bodies between Ever Works (Markdown with `[[path]]` wikilinks: the Knowledge Base
- * `body`) and Gauzy Docs (a PAGE's canonical TipTap JSON `contentJson`, plus its `contentHtml` render
+ * `body`) and IRTranscripts Docs (a PAGE's canonical TipTap JSON `contentJson`, plus its `contentHtml` render
  * cache), plan 05 §2. Pure functions, no dependencies.
  *
  * - **Markdown → TipTap.** Markdown goes to HTML through the integration's own converter (the one the
  *   task sync uses: bounded spans, only `http(s)` / `mailto` targets), and that HTML is walked into
  *   nodes of the Docs editor's schema (`tiptap-schema.validator.ts` of the Docs plugin): paragraphs,
  *   headings, quotes, bullet / numbered / task lists, code blocks, rules, line breaks, tables, images
- *   and the bold, italic, strike, code and link marks. A wikilink whose target is a synced Gauzy
+ *   and the bold, italic, strike, code and link marks. A wikilink whose target is a synced IRTranscripts
  *   document becomes a `documentMention` (the editor's `+` cross-link); any other stays literal
  *   `[[path]]` text. Nothing else is produced, so the result always loads in the editor.
  * - **TipTap → Markdown.** Every node type of the schema is written: what Markdown has no syntax for
@@ -46,19 +46,19 @@ export interface TiptapNode {
 	text?: string;
 }
 
-/** The Gauzy document a `[[path]]` wikilink points at, when that document is synced. */
+/** The IRTranscripts document a `[[path]]` wikilink points at, when that document is synced. */
 export interface EverWorksWikilinkTarget {
 	documentId: string;
 	label: string;
 }
 
 export interface MarkdownToDocumentOptions {
-	/** The synced Gauzy document of a wikilink path, or `null` (the wikilink stays literal text). */
+	/** The synced IRTranscripts document of a wikilink path, or `null` (the wikilink stays literal text). */
 	resolveWikilink?: (path: string) => EverWorksWikilinkTarget | null;
 }
 
 export interface DocumentToMarkdownOptions {
-	/** The Ever Works path of a mentioned Gauzy document, when it is synced (`[[path]]`), else `null`. */
+	/** The Ever Works path of a mentioned IRTranscripts document, when it is synced (`[[path]]`), else `null`. */
 	resolveMention?: (documentId: string) => string | null;
 }
 

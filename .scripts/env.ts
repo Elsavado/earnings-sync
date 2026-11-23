@@ -42,7 +42,7 @@ export type Env = Readonly<{
 
 	COOKIE_DOMAIN: string;
 
-	// Base URL of Gauzy UI website
+	// Base URL of IRTranscripts UI website
 	CLIENT_BASE_URL: string;
 
 	// Base API URL
@@ -103,7 +103,7 @@ export type Env = Readonly<{
 	//nebular chat map API key
 	CHAT_MESSAGE_GOOGLE_MAP: string;
 
-	GAUZY_CLOUD_APP: string;
+	IRTRANSCRIPTS_CLOUD_APP: string;
 
 	FILE_PROVIDER: string;
 
@@ -111,12 +111,12 @@ export type Env = Readonly<{
 	JITSU_BROWSER_URL: string;
 	JITSU_BROWSER_WRITE_KEY: string;
 
-	GAUZY_GITHUB_APP_NAME: string;
-	GAUZY_GITHUB_CLIENT_ID: string;
-	GAUZY_GITHUB_REDIRECT_URL: string;
-	GAUZY_GITHUB_POST_INSTALL_URL: string;
+	IRTRANSCRIPTS_GITHUB_APP_NAME: string;
+	IRTRANSCRIPTS_GITHUB_CLIENT_ID: string;
+	IRTRANSCRIPTS_GITHUB_REDIRECT_URL: string;
+	IRTRANSCRIPTS_GITHUB_POST_INSTALL_URL: string;
 
-	GAUZY_DESKTOP_LOGO_512X512: string;
+	IRTRANSCRIPTS_DESKTOP_LOGO_512X512: string;
 	PLATFORM_PRIVACY_URL: string;
 	PLATFORM_TOS_URL: string;
 	NO_INTERNET_LOGO: string;
@@ -177,7 +177,7 @@ export type Env = Readonly<{
 
 	AWHost: string;
 	API_DEFAULT_PORT: number;
-	GAUZY_UI_DEFAULT_PORT: number;
+	IRTRANSCRIPTS_UI_DEFAULT_PORT: number;
 	SCREENSHOTS_ENGINE_METHOD: string;
 	I18N_FILES_URL: string;
 
@@ -193,14 +193,14 @@ export type Env = Readonly<{
 	AGENT_APP_WELCOME_CONTENT: string;
 	AGENT_APP_PROTOCOL: string;
 	AGENT_POOL_ACTIVITY_INTERVAL: number;
-	GAUZY_DESKTOP_TRAY_ICON: string;
+	IRTRANSCRIPTS_DESKTOP_TRAY_ICON: string;
 	DESKTOP_JWT_SECRET: string;
 	DESKTOP_JWT_REFRESH_TOKEN_SECRET: string;
 
 	// Deployed release version (git tag, e.g. 'v111.2.10') and commit SHA,
 	// embedded at Docker build time. Shown in the web UI footer.
-	GAUZY_APP_VERSION: string;
-	GAUZY_APP_COMMIT: string;
+	IRTRANSCRIPTS_APP_VERSION: string;
+	IRTRANSCRIPTS_APP_COMMIT: string;
 }>;
 
 export const env: Env = cleanEnv(
@@ -210,30 +210,30 @@ export const env: Env = cleanEnv(
 
 		IS_DOCKER: bool({ default: false }),
 
-		COOKIE_DOMAIN: str({ default: '.gauzy.co' }),
+		COOKIE_DOMAIN: str({ default: '.irtranscripts.com' }),
 
 		CLIENT_BASE_URL: str({ default: 'http://localhost:4200' }),
 
 		API_BASE_URL: str({ default: 'http://localhost:3000' }),
 
-		PLATFORM_WEBSITE_URL: str({ default: 'https://gauzy.co' }),
+		PLATFORM_WEBSITE_URL: str({ default: 'https://irtranscripts.com' }),
 		PLATFORM_WEBSITE_DOWNLOAD_URL: str({
-			default: 'https://gauzy.co/downloads'
+			default: 'https://irtranscripts.com/downloads'
 		}),
 		DESKTOP_APP_DOWNLOAD_LINK_APPLE: str({
-			default: 'https://gauzy.co/downloads#desktop/apple'
+			default: 'https://irtranscripts.com/downloads#desktop/apple'
 		}),
 		DESKTOP_APP_DOWNLOAD_LINK_WINDOWS: str({
-			default: 'https://gauzy.co/downloads#desktop/windows'
+			default: 'https://irtranscripts.com/downloads#desktop/windows'
 		}),
 		DESKTOP_APP_DOWNLOAD_LINK_LINUX: str({
-			default: 'https://gauzy.co/downloads#desktop/linux'
+			default: 'https://irtranscripts.com/downloads#desktop/linux'
 		}),
 		MOBILE_APP_DOWNLOAD_LINK: str({
-			default: 'https://gauzy.co/downloads#mobile'
+			default: 'https://irtranscripts.com/downloads#mobile'
 		}),
 		EXTENSION_DOWNLOAD_LINK: str({
-			default: 'https://gauzy.co/downloads#extensions'
+			default: 'https://irtranscripts.com/downloads#extensions'
 		}),
 
 		SENTRY_DSN: str({ default: '' }),
@@ -270,36 +270,36 @@ export const env: Env = cleanEnv(
 
 		CHATWOOT_SDK_TOKEN: str({ default: '' }),
 		CHAT_MESSAGE_GOOGLE_MAP: str({ default: '' }),
-		GAUZY_CLOUD_APP: str({ default: 'https://app.gauzy.co/#' }),
+		IRTRANSCRIPTS_CLOUD_APP: str({ default: 'https://app.irtranscripts.com/#' }),
 
 		FILE_PROVIDER: str({ default: 'LOCAL' }),
 
 		JITSU_BROWSER_URL: str({ default: '' }),
 		JITSU_BROWSER_WRITE_KEY: str({ default: '' }),
 
-		GAUZY_GITHUB_APP_NAME: str({ default: '' }),
-		GAUZY_GITHUB_CLIENT_ID: str({ default: '' }),
-		GAUZY_GITHUB_REDIRECT_URL: str({ default: '' }),
-		GAUZY_GITHUB_POST_INSTALL_URL: str({ default: '' }),
+		IRTRANSCRIPTS_GITHUB_APP_NAME: str({ default: '' }),
+		IRTRANSCRIPTS_GITHUB_CLIENT_ID: str({ default: '' }),
+		IRTRANSCRIPTS_GITHUB_REDIRECT_URL: str({ default: '' }),
+		IRTRANSCRIPTS_GITHUB_POST_INSTALL_URL: str({ default: '' }),
 
 		// Set default platform logo
 		PLATFORM_LOGO: str({
-			default: 'assets/images/logos/logo_Gauzy.svg'
+			default: 'assets/images/logos/logo_IRTranscripts.svg'
 		}),
 
-		//Set default gauzy desktop logo 512x512 pixels
-		GAUZY_DESKTOP_LOGO_512X512: str({
+		//Set default irtranscripts desktop logo 512x512 pixels
+		IRTRANSCRIPTS_DESKTOP_LOGO_512X512: str({
 			default: 'assets/icons/icon_512x512.png'
 		}),
 
 		// Set default platform privacy link
 		PLATFORM_PRIVACY_URL: str({
-			default: 'https://gauzy.co/privacy'
+			default: 'https://irtranscripts.com/privacy'
 		}),
 
 		// Set default platform terms of services link
 		PLATFORM_TOS_URL: str({
-			default: 'https://gauzy.co/tos'
+			default: 'https://irtranscripts.com/tos'
 		}),
 
 		COMPANY_NAME: str({
@@ -309,10 +309,10 @@ export const env: Env = cleanEnv(
 			default: 'https://ever.co'
 		}),
 		COMPANY_SITE_NAME: str({
-			default: 'Gauzy'
+			default: 'IRTranscripts'
 		}),
 		COMPANY_SITE_LINK: str({
-			default: 'https://gauzy.co'
+			default: 'https://irtranscripts.com'
 		}),
 		COMPANY_GITHUB_LINK: str({
 			default: 'https://github.com/ever-co'
@@ -330,114 +330,114 @@ export const env: Env = cleanEnv(
 			default: 'https://www.linkedin.com/company/everhq'
 		}),
 		NO_INTERNET_LOGO: str({
-			default: 'assets/images/logos/logo_Gauzy.svg'
+			default: 'assets/images/logos/logo_IRTranscripts.svg'
 		}),
 		PROJECT_REPO: str({
 			default: 'https://github.com/ever-co/ever-gauzy.git'
 		}),
 
 		DESKTOP_TIMER_APP_NAME: str({
-			default: 'gauzy-desktop-timer'
+			default: 'irtranscripts-desktop-timer'
 		}),
 		DESKTOP_TIMER_APP_DESCRIPTION: str({
-			default: 'Gauzy Desktop Timer'
+			default: 'IRTranscripts Desktop Timer'
 		}),
 		DESKTOP_TIMER_APP_ID: str({
-			default: 'com.ever.gauzydesktoptimer'
+			default: 'com.ever.irtranscriptsdesktoptimer'
 		}),
 		DESKTOP_TIMER_APP_REPO_NAME: str({
-			default: 'ever-gauzy-desktop-timer'
+			default: 'ever-irtranscripts-desktop-timer'
 		}),
 		DESKTOP_TIMER_APP_REPO_OWNER: str({ default: 'ever-co' }),
 		DESKTOP_TIMER_APP_WELCOME_TITLE: str({ default: '' }),
 		DESKTOP_TIMER_APP_WELCOME_CONTENT: str({ default: '' }),
-		DESKTOP_TIMER_APP_PROTOCOL: str({ default: 'gauzy-timer' }),
+		DESKTOP_TIMER_APP_PROTOCOL: str({ default: 'irtranscripts-timer' }),
 
 		DESKTOP_APP_NAME: str({
-			default: 'gauzy-desktop'
+			default: 'irtranscripts-desktop'
 		}),
 		DESKTOP_APP_DESCRIPTION: str({
-			default: 'Gauzy Desktop'
+			default: 'IRTranscripts Desktop'
 		}),
 		DESKTOP_APP_ID: str({
-			default: 'com.ever.gauzydesktop'
+			default: 'com.ever.irtranscriptsdesktop'
 		}),
 		DESKTOP_APP_REPO_NAME: str({
-			default: 'ever-gauzy-desktop'
+			default: 'ever-irtranscripts-desktop'
 		}),
 		DESKTOP_APP_REPO_OWNER: str({ default: 'ever-co' }),
 		DESKTOP_APP_WELCOME_TITLE: str({ default: '' }),
 		DESKTOP_APP_WELCOME_CONTENT: str({ default: '' }),
-		DESKTOP_APP_PROTOCOL: str({ default: 'gauzy-desktop' }),
+		DESKTOP_APP_PROTOCOL: str({ default: 'irtranscripts-desktop' }),
 
 		DESKTOP_SERVER_APP_NAME: str({
-			default: 'gauzy-server'
+			default: 'irtranscripts-server'
 		}),
 		DESKTOP_SERVER_APP_DESCRIPTION: str({
-			default: 'Gauzy Server'
+			default: 'IRTranscripts Server'
 		}),
 		DESKTOP_SERVER_APP_ID: str({
-			default: 'com.ever.gauzyserver'
+			default: 'com.ever.irtranscriptsserver'
 		}),
 		DESKTOP_SERVER_APP_REPO_NAME: str({
-			default: 'ever-gauzy-server'
+			default: 'ever-irtranscripts-server'
 		}),
 		DESKTOP_SERVER_APP_REPO_OWNER: str({ default: 'ever-co' }),
 		DESKTOP_SERVER_APP_WELCOME_TITLE: str({ default: '' }),
 		DESKTOP_SERVER_APP_WELCOME_CONTENT: str({ default: '' }),
-		DESKTOP_SERVER_APP_PROTOCOL: str({ default: 'gauzy-server' }),
+		DESKTOP_SERVER_APP_PROTOCOL: str({ default: 'irtranscripts-server' }),
 
 		I18N_FILES_URL: str({ default: '' }),
 		AWHost: str({ default: 'http://localhost:5600' }),
 		API_DEFAULT_PORT: num({ default: 3000 }),
-		GAUZY_UI_DEFAULT_PORT: num({ default: 5621 }),
+		IRTRANSCRIPTS_UI_DEFAULT_PORT: num({ default: 5621 }),
 		SCREENSHOTS_ENGINE_METHOD: str({ default: 'ScreenshotDesktopLib' }),
 
 		DESKTOP_API_SERVER_APP_NAME: str({
-			default: 'gauzy-api-server'
+			default: 'irtranscripts-api-server'
 		}),
 		DESKTOP_API_SERVER_APP_DESCRIPTION: str({
-			default: 'Gauzy API Server'
+			default: 'IRTranscripts API Server'
 		}),
 		DESKTOP_API_SERVER_APP_ID: str({
-			default: 'com.ever.gauzyapiserver'
+			default: 'com.ever.irtranscriptsapiserver'
 		}),
 		DESKTOP_API_SERVER_APP_REPO_NAME: str({
-			default: 'ever-gauzy-api-server'
+			default: 'ever-irtranscripts-api-server'
 		}),
 		DESKTOP_API_SERVER_APP_REPO_OWNER: str({ default: 'ever-co' }),
 		DESKTOP_API_SERVER_APP_WELCOME_TITLE: str({ default: '' }),
 		DESKTOP_API_SERVER_APP_WELCOME_CONTENT: str({ default: '' }),
-		DESKTOP_API_SERVER_APP_PROTOCOL: str({ default: 'gauzy-api-server' }),
+		DESKTOP_API_SERVER_APP_PROTOCOL: str({ default: 'irtranscripts-api-server' }),
 		DESKTOP_MCP_SERVER_APP_NAME: str({
-			default: 'gauzy-mcp-server'
+			default: 'irtranscripts-mcp-server'
 		}),
 		DESKTOP_MCP_SERVER_APP_DESCRIPTION: str({
-			default: 'Gauzy MCP Server'
+			default: 'IRTranscripts MCP Server'
 		}),
 		DESKTOP_MCP_SERVER_APP_ID: str({
-			default: 'com.ever.gauzymcpserver'
+			default: 'com.ever.irtranscriptsmcpserver'
 		}),
 		DESKTOP_MCP_SERVER_APP_REPO_NAME: str({
-			default: 'ever-gauzy-mcp-server'
+			default: 'ever-irtranscripts-mcp-server'
 		}),
 		DESKTOP_MCP_SERVER_APP_REPO_OWNER: str({ default: 'ever-co' }),
 		DESKTOP_MCP_SERVER_APP_WELCOME_TITLE: str({ default: '' }),
 		DESKTOP_MCP_SERVER_APP_WELCOME_CONTENT: str({ default: '' }),
 
-		REGISTER_URL: str({ default: 'https://app.gauzy.co/#/auth/register' }),
-		FORGOT_PASSWORD_URL: str({ default: 'https://app.gauzy.co/#/auth/request-password' }),
+		REGISTER_URL: str({ default: 'https://app.irtranscripts.com/#/auth/register' }),
+		FORGOT_PASSWORD_URL: str({ default: 'https://app.irtranscripts.com/#/auth/request-password' }),
 		AGENT_APP_NAME: str({
-			default: 'gauzy-agent'
+			default: 'irtranscripts-agent'
 		}),
 		AGENT_APP_ID: str({
-			default: 'com.ever.gauzyagent'
+			default: 'com.ever.irtranscriptsagent'
 		}),
 		AGENT_APP_DESCRIPTION: str({
-			default: 'Gauzy Agent'
+			default: 'IRTranscripts Agent'
 		}),
 		AGENT_APP_REPO_NAME: str({
-			default: 'ever-gauzy-agent'
+			default: 'ever-irtranscripts-agent'
 		}),
 		AGENT_APP_REPO_OWNER: str({
 			default: 'ever-co'
@@ -449,17 +449,17 @@ export const env: Env = cleanEnv(
 			default: ''
 		}),
 		AGENT_APP_PROTOCOL: str({
-			default: 'gauzy-agent'
+			default: 'irtranscripts-agent'
 		}),
 		AGENT_POOL_ACTIVITY_INTERVAL: num({
 			default: 5000
 		}),
-		GAUZY_DESKTOP_TRAY_ICON: str({
+		IRTRANSCRIPTS_DESKTOP_TRAY_ICON: str({
 			default: 'assets/icons/default-tray-icon.png'
 		}),
 		// No published default (GHSA-39j7-x845-4w3c): these values were baked into every desktop build and
 		// used as the local API's signing keys. Left empty, each install generates and stores its own
-		// random secrets at first start (see ensureDesktopSecrets in @gauzy/desktop-lib).
+		// random secrets at first start (see ensureDesktopSecrets in @irtranscripts/desktop-lib).
 		DESKTOP_JWT_SECRET: str({
 			default: ''
 		}),
@@ -468,7 +468,7 @@ export const env: Env = cleanEnv(
 		}),
 
 		// Deployed release version (git tag) + commit SHA, embedded at build time.
-		GAUZY_APP_VERSION: str({ default: '' }),
-		GAUZY_APP_COMMIT: str({ default: '' })
+		IRTRANSCRIPTS_APP_VERSION: str({ default: '' }),
+		IRTRANSCRIPTS_APP_COMMIT: str({ default: '' })
 	}
 );

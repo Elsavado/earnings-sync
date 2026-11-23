@@ -1,5 +1,5 @@
 import { ValueTransformer } from 'typeorm';
-import { EmployeeNotificationTypeEnum } from '@gauzy/contracts';
+import { EmployeeNotificationTypeEnum } from '@irtranscripts/contracts';
 
 /**
  * EmployeeNotificationTypeTransformer handles the conversion between the enum string values

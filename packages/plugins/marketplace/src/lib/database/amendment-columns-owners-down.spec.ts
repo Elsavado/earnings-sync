@@ -8,7 +8,7 @@
  * against a query runner that keeps the table's columns and the migrations table's rows, on both server dialects,
  * with the marketplace's history row present and absent.
  */
-jest.mock('@gauzy/config', () => jest.requireActual('@gauzy/config/src/lib/database-helpers'));
+jest.mock('@irtranscripts/config', () => jest.requireActual('@irtranscripts/config/src/lib/database-helpers'));
 
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import { AddAdjustmentSellerColumns1791000000651 } from '../../../../../core/src/lib/database/migrations/1791000000651-AddAdjustmentSellerColumns';

@@ -18,7 +18,7 @@ import { isUUID } from 'class-validator';
 import * as path from 'path';
 import { createImageThumbnail, thumbnailFileName } from './../../core/file-storage/helpers/image-thumbnail';
 import { FileContentTooLargeError, fileContentToBuffer } from './../../core/file-storage/helpers/stored-file-content';
-import { ID, IScreenshot, PermissionsEnum, UploadedFile } from '@gauzy/contracts';
+import { ID, IScreenshot, PermissionsEnum, UploadedFile } from '@irtranscripts/contracts';
 import { EventBus } from '../../event-bus/event-bus';
 import { ScreenshotEvent } from '../../event-bus/events/screenshot.event';
 import { BaseEntityEventTypeEnum } from '../../event-bus/base-entity-event';

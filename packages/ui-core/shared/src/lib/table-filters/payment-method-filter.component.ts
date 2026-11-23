@@ -1,6 +1,6 @@
 import { Component, OnChanges, type SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { DefaultFilter } from 'angular2-smart-table';
-import { PaymentMethodEnum } from '@gauzy/contracts';
+import { PaymentMethodEnum } from '@irtranscripts/contracts';
 
 @Component({
     selector: 'ga-payment-method-filter',

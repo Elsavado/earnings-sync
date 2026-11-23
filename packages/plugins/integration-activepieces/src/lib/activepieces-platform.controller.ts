@@ -8,8 +8,8 @@ import {
 	IActivepiecesPlatformStatus,
 	IActivepiecesProject,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { PermissionGuard, Permissions, TenantPermissionGuard, UUIDValidationPipe } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { PermissionGuard, Permissions, TenantPermissionGuard, UUIDValidationPipe } from '@irtranscripts/core';
 import { ActivepiecesOperatorGuard } from './activepieces-operator.guard';
 import { ActivepiecesPlatformService, IActivepiecesTenantProjectLink } from './activepieces-platform.service';
 import {

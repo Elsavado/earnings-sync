@@ -18,7 +18,7 @@
  * `handleExtract` — deliberately NOT serialized — is driven through the same harness as a
  * known-dirty control: it reproduces the starvation the cap removes.
  */
-jest.mock('@gauzy/scheduler', () => ({
+jest.mock('@irtranscripts/scheduler', () => ({
 	QueueWorker: () => () => undefined,
 	QueueJobHandler: () => () => undefined,
 	QueueWorkerHost: class {},

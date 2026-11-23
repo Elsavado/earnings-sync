@@ -4,9 +4,9 @@ services:
     container_name: db
     restart: always
     environment:
-      POSTGRES_DB: ${DB_NAME:-gauzy}
+      POSTGRES_DB: ${DB_NAME:-irtranscripts}
       POSTGRES_USER: ${DB_USER:-postgres}
-      POSTGRES_PASSWORD: ${DB_PASS:-gauzy_password}
+      POSTGRES_PASSWORD: ${DB_PASS:-irtranscripts_password}
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} || exit 1']
       interval: 10s
@@ -47,9 +47,9 @@ services:
       CUBEJS_DB_TYPE: postgres
       CUBEJS_DB_HOST: db
       CUBEJS_DB_PORT: 5432
-      CUBEJS_DB_NAME: ${DB_NAME:-gauzy}
+      CUBEJS_DB_NAME: ${DB_NAME:-irtranscripts}
       CUBEJS_DB_USER: ${DB_USER:-postgres}
-      CUBEJS_DB_PASS: ${DB_PASS:-gauzy_password}
+      CUBEJS_DB_PASS: ${DB_PASS:-irtranscripts_password}
       # Credentials to connect to Cube SQL APIs
       CUBEJS_PG_SQL_PORT: 5430
       CUBEJS_SQL_USER: ${CUBE_USER:-cube_user}
@@ -103,7 +103,7 @@ services:
       - http.cors.allow-credentials=true
       - bootstrap.memory_lock=true
       - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
-      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${OPENSEARCH_INITIAL_ADMIN_PASSWORD:-Gauzy_password_123}
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${OPENSEARCH_INITIAL_ADMIN_PASSWORD:-IRTranscripts_password_123}
     ulimits:
       memlock:
         soft: -1
@@ -183,8 +183,8 @@ services:
     volumes:
       - minio_data:/data
     environment:
-      MINIO_ROOT_USER: ever-gauzy-access-key
-      MINIO_ROOT_PASSWORD: ever-gauzy-secret-key
+      MINIO_ROOT_USER: ever-irtranscripts-access-key
+      MINIO_ROOT_PASSWORD: ever-irtranscripts-secret-key
     command: server /data --address :9000 --console-address ":9001"
     healthcheck:
       test: ['CMD', 'curl', '-f', 'http://localhost:9000/minio/health/live']
@@ -200,8 +200,8 @@ services:
   minio_create_buckets:
     image: minio/mc
     environment:
-      MINIO_ROOT_USER: ever-gauzy-access-key
-      MINIO_ROOT_PASSWORD: ever-gauzy-secret-key
+      MINIO_ROOT_USER: ever-irtranscripts-access-key
+      MINIO_ROOT_PASSWORD: ever-irtranscripts-secret-key
     entrypoint:
       - '/bin/sh'
       - '-c'
@@ -209,10 +209,10 @@ services:
       - "until (/usr/bin/mc alias set minio http://minio:9000 $$MINIO_ROOT_USER $$MINIO_ROOT_PASSWORD) do
         echo 'Waiting to start minio...' && sleep 1;
         done;
-        if /usr/bin/mc ls minio/ever-gauzy >/dev/null 2>&1; then
+        if /usr/bin/mc ls minio/ever-irtranscripts >/dev/null 2>&1; then
         echo 'Bucket already exists, skipping creation.';
         else
-        /usr/bin/mc mb minio/ever-gauzy --region=eu-north-1;
+        /usr/bin/mc mb minio/ever-irtranscripts --region=eu-north-1;
         fi;
         exit 0;"
     depends_on:
@@ -230,10 +230,10 @@ services:
     links:
       - db:${DB_HOST:-db}
     environment:
-      POSTGRES_DB: ${DB_NAME:-gauzy}
+      POSTGRES_DB: ${DB_NAME:-irtranscripts}
       POSTGRES_USER: ${DB_USER:-postgres}
-      POSTGRES_PASSWORD: ${DB_PASS:-gauzy_password}
-      PGWEB_DATABASE_URL: postgres://${DB_USER:-postgres}:${DB_PASS:-gauzy_password}@${DB_HOST:-db}:${DB_PORT:-5432}/${DB_NAME:-gauzy}?sslmode=disable
+      POSTGRES_PASSWORD: ${DB_PASS:-irtranscripts_password}
+      PGWEB_DATABASE_URL: postgres://${DB_USER:-postgres}:${DB_PASS:-irtranscripts_password}@${DB_HOST:-db}:${DB_PORT:-5432}/${DB_NAME:-irtranscripts}?sslmode=disable
     ports:
       - '8081:8081'
     networks:

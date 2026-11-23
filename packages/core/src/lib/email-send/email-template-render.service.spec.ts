@@ -1,6 +1,6 @@
 // cspell:ignore Здравейте Потвърдете
 import { FindOperator } from 'typeorm';
-import { LanguagesEnum } from '@gauzy/contracts';
+import { LanguagesEnum } from '@irtranscripts/contracts';
 import { EmailTemplateRenderService } from './email-template-render.service';
 import { SMTPUtils } from './utils';
 

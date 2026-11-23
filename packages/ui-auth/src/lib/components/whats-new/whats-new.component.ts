@@ -1,8 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Observable } from 'rxjs';
-import { IChangelog } from '@gauzy/contracts';
-import { ChangelogService } from '@gauzy/ui-core/core';
+import { IChangelog } from '@irtranscripts/contracts';
+import { ChangelogService } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

@@ -7,8 +7,8 @@ import {
 	IFeatureOrganizationFindInput,
 	IFeatureToggle,
 	IPagination
-} from '@gauzy/contracts';
-import { API_PREFIX, toParams } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { API_PREFIX, toParams } from '@irtranscripts/ui-core/common';
 import { firstValueFrom, Observable } from 'rxjs';
 
 @Injectable()

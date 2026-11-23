@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IApprovalPolicy, IApprovalPolicyFindInput, IApprovalPolicyCreateInput, IPagination } from '@gauzy/contracts';
+import { IApprovalPolicy, IApprovalPolicyFindInput, IApprovalPolicyCreateInput, IPagination } from '@irtranscripts/contracts';
 import { firstValueFrom } from 'rxjs';
-import { toParams } from '@gauzy/ui-core/common';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { toParams } from '@irtranscripts/ui-core/common';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 
 @Injectable()
 export class ApprovalPolicyService {

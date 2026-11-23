@@ -2,8 +2,8 @@
 // MIT License, see https://github.com/xmlking/ngx-starter-kit/blob/develop/LICENSE
 // Copyright (c) 2018 Sumanth Chinthagunta
 
-import { ID, IRole, IUser, LanguagesEnum, PermissionsEnum, RolesEnum } from '@gauzy/contracts';
-import { isNotEmpty } from '@gauzy/utils';
+import { ID, IRole, IUser, LanguagesEnum, PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { trace } from '@opentelemetry/api';
 import { Request, Response } from 'express';

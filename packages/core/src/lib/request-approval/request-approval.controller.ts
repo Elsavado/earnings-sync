@@ -8,7 +8,7 @@ import {
 	RequestApprovalStatusTypesEnum,
 	IPagination,
 	ID
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { Query, HttpStatus, UseGuards, Get, Post, Body, HttpCode, Put, Param, Controller, Delete, UsePipes } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';

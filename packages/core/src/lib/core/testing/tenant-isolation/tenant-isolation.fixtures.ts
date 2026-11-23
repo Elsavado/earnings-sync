@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { IUser, PermissionsEnum } from '@gauzy/contracts';
+import { IUser, PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../context';
 
 export interface ITenantFixture {

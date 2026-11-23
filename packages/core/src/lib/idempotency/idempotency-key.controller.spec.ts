@@ -51,8 +51,8 @@ import '../core/entities/internal';
 
 import { HttpException, HttpStatus, NotFoundException, RequestMethod } from '@nestjs/common';
 import { HTTP_CODE_METADATA, METHOD_METADATA, PATH_METADATA } from '@nestjs/common/constants';
-import { IdempotencyStatus, PermissionsEnum } from '@gauzy/contracts';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
+import { IdempotencyStatus, PermissionsEnum } from '@irtranscripts/contracts';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { ApiErrorCode } from '../core/errors/api-error-codes';
 import { ApiException } from '../core/errors/api-exception';
 import { PermissionGuard, TenantPermissionGuard } from '../shared/guards';

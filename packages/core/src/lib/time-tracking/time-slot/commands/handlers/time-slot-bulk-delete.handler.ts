@@ -1,7 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import * as chalk from 'chalk';
-import { ID, ITimeLog, ITimeSlot } from '@gauzy/contracts';
-import { isEmpty, isNotEmpty } from '@gauzy/utils';
+import { ID, ITimeLog, ITimeSlot } from '@irtranscripts/contracts';
+import { isEmpty, isNotEmpty } from '@irtranscripts/utils';
 import { TimeSlotBulkDeleteCommand } from '../time-slot-bulk-delete.command';
 import { RequestContext } from '../../../../core/context';
 import { MultiORM, MultiORMEnum, getORMType } from './../../../../core/utils';

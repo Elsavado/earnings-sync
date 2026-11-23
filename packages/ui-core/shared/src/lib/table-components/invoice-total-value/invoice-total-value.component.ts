@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { filter, tap } from 'rxjs/operators';
 import { untilDestroyed, UntilDestroy } from '@ngneat/until-destroy';
-import { IOrganization } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
+import { IOrganization } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

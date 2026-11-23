@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ChatSidebarService } from '@gauzy/ui-core/core';
+import { ChatSidebarService } from '@irtranscripts/ui-core/core';
 import { AiChatSidebarComponent } from './ai-chat-sidebar.component';
 
 /**

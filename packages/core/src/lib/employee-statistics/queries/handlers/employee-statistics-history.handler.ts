@@ -7,7 +7,7 @@ import {
 	IEmployeeStatisticsHistoryFindInput,
 	RecurringExpenseDefaultCategoriesEnum,
 	IDateRangePicker
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { EmployeeStatisticsHistoryQuery } from '../employee-statistics-history.query';
 import { recurringExpenseMonths, recurringExpenseStart } from '../../recurring-expense-start';
 

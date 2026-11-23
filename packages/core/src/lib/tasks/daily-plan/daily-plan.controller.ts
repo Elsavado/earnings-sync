@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ID, IDailyPlan, IDailyPlanTasksUpdateInput, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IDailyPlan, IDailyPlanTasksUpdateInput, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { CrudController, BaseQueryDTO } from '../../core/crud';
 import { UseValidationPipe } from '../../shared/pipes';
 import { CreateDailyPlanDTO, RemoveTaskFromManyPlansDTO, UpdateDailyPlanDTO } from './dto';

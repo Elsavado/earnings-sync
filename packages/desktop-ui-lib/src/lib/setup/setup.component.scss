@@ -85,7 +85,7 @@ $height: calc(100vh - 10.5rem);
 .card-item {
   border-radius: $border-radius;
   text-align: left;
-  box-shadow: var(--gauzy-shadow);
+  box-shadow: var(--irtranscripts-shadow);
 }
 
 .icon-item {
@@ -98,7 +98,7 @@ $height: calc(100vh - 10.5rem);
 }
 
 .card-item-icon {
-  background: var(--gauzy-background-transparent-1) 0 0 no-repeat padding-box;
+  background: var(--irtranscripts-background-transparent-1) 0 0 no-repeat padding-box;
   text-align: center;
   padding-top: 40px;
   border-radius: 0 $border-radius $border-radius 0;
@@ -137,7 +137,7 @@ $height: calc(100vh - 10.5rem);
 .card-small-item {
   border-radius: $border-radius;
   text-align: left;
-  box-shadow: var(--gauzy-shadow);
+  box-shadow: var(--irtranscripts-shadow);
   min-height: 6rem;
 
   nb-card-body {
@@ -159,7 +159,7 @@ $height: calc(100vh - 10.5rem);
 
 .integration-label {
   font-size: 11px;
-  color: var(--gauzy-text-color-2);
+  color: var(--irtranscripts-text-color-2);
   font-weight: 600;
 }
 
@@ -273,7 +273,7 @@ $height: calc(100vh - 10.5rem);
 }
 
 .main-card-body {
-  background-color: var(--gauzy-card-2);
+  background-color: var(--irtranscripts-card-2);
   padding: 1rem;
 }
 
@@ -292,5 +292,5 @@ input {
 }
 
 ::ng-deep .ssl nb-card {
-  background-color: var(--gauzy-card-2);
+  background-color: var(--irtranscripts-card-2);
 }

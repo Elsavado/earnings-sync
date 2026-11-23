@@ -1,8 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { RelationId } from 'typeorm';
 import { IsEmail, IsEnum, IsOptional, IsString, IsUUID } from 'class-validator';
-import { isMySQL } from '@gauzy/config';
-import { IEmailHistory, IEmailTemplate, IUser, EmailStatusEnum, ID } from '@gauzy/contracts';
+import { isMySQL } from '@irtranscripts/config';
+import { IEmailHistory, IEmailTemplate, IUser, EmailStatusEnum, ID } from '@irtranscripts/contracts';
 import { EmailTemplate, TenantOrganizationBaseEntity, User } from '../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from './../core/decorators/entity';
 import { MikroOrmEmailHistoryRepository } from './repository/mikro-orm-email-history.repository';

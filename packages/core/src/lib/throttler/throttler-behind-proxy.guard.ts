@@ -1,7 +1,7 @@
 import { ThrottlerGuard } from '@nestjs/throttler';
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { GqlContextType, GqlExecutionContext } from '@nestjs/graphql';
-import { PUBLIC_METHOD_METADATA } from '@gauzy/constants';
+import { PUBLIC_METHOD_METADATA } from '@irtranscripts/constants';
 import { resolveThrottlerTracker, throttlerTrackerOptions } from './tracker';
 import { resolveUserThrottlerTracker } from './user-tracker';
 

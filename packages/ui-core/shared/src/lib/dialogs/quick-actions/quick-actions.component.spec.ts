@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { QuickActionsComponent } from './quick-actions.component';
 import { DialogsModule } from '../dialogs.module';
-import { TimeTrackerService } from '@gauzy/ui-core/core';
+import { TimeTrackerService } from '@irtranscripts/ui-core/core';
 describe('QuickActionsComponent', () => {
 	let component: QuickActionsComponent;
 	let fixture: ComponentFixture<QuickActionsComponent>;

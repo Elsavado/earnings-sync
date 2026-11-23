@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IDocument } from '@gauzy/contracts';
+import { IDocument } from '@irtranscripts/contracts';
 import { DocumentUploadService } from '../../services/document-upload.service';
 import { ReplaceDocumentFileCommand } from '../replace-document-file.command';
 

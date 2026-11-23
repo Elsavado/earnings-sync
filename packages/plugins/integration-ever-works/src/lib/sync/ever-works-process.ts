@@ -3,12 +3,12 @@ import { ModuleRef } from '@nestjs/core';
 import { CommandHandlerNotFoundException } from '@nestjs/cqrs';
 import { randomUUID } from 'node:crypto';
 import { ClsServiceManager } from 'nestjs-cls';
-import { ID } from '@gauzy/contracts';
-import { EmployeeService, OrganizationProjectService, RequestContext, TaskService } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { EmployeeService, OrganizationProjectService, RequestContext, TaskService } from '@irtranscripts/core';
 import { assertLeaseFence } from './ever-works-lease-fence';
 
 /**
- * What a process needs for the sync's Gauzy writes (plan 03 §C.4 step 4), and the one place those writes
+ * What a process needs for the sync's IRTranscripts writes (plan 03 §C.4 step 4), and the one place those writes
  * enter a request context of their own.
  *
  * The platform's services and commands read the tenant, the organization and the author
@@ -46,7 +46,7 @@ export interface EverWorksSyncRequestUser {
 	permissions: never[];
 }
 
-/** The user a sync write is signed in as (`userId` = the attributed Gauzy user; `null` = none). */
+/** The user a sync write is signed in as (`userId` = the attributed IRTranscripts user; `null` = none). */
 export function syncRequestUser(
 	scope: { tenantId: ID; organizationId: ID },
 	userId: ID | null | undefined,
@@ -140,7 +140,7 @@ export async function runInSyncRequestContext<T>(
 	);
 }
 
-/** The platform services the sync's Gauzy writes dispatch to; each comes with its module's command handlers. */
+/** The platform services the sync's IRTranscripts writes dispatch to; each comes with its module's command handlers. */
 const WRITE_SERVICES: ReadonlyArray<readonly [string, Type<unknown>]> = [
 	['TaskService', TaskService as Type<unknown>],
 	['OrganizationProjectService', OrganizationProjectService as Type<unknown>],
@@ -148,7 +148,7 @@ const WRITE_SERVICES: ReadonlyArray<readonly [string, Type<unknown>]> = [
 ];
 
 /**
- * Whether this process can make the sync's Gauzy writes: it hosts the platform's task, project and
+ * Whether this process can make the sync's IRTranscripts writes: it hosts the platform's task, project and
  * employee services (and with them the command handlers the writes dispatch to). The API does; the
  * worker does not today. Decided once, after the module graph is built.
  */
@@ -164,7 +164,7 @@ export class EverWorksProcessCapability {
 		return this.missing;
 	}
 
-	canWriteGauzy(): boolean {
+	canWriteIRTranscripts(): boolean {
 		return this.missingWriteServices().length === 0;
 	}
 

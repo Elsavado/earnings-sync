@@ -72,7 +72,7 @@ export const INBOX_ITEM_INDEXES: IndexSpec[] = [
 /**
  * `inbox_item` (plan 04 §2, G-P3-1): the questions, approvals, escalations and notices addressed to users.
  *
- * A plugin migration: it is registered only where `GAUZY_INBOX_ENABLED=true` loads the plugin, so an
+ * A plugin migration: it is registered only where `IRTRANSCRIPTS_INBOX_ENABLED=true` loads the plugin, so an
  * installation that has not switched the Inbox on never gets the table. Idempotent on every dialect
  * (`IF NOT EXISTS` and probes; a re-run issues no DDL, and repairs an index or key a failed run left out),
  * serialised on Postgres with an advisory lock, and reversible (`down` drops the table).

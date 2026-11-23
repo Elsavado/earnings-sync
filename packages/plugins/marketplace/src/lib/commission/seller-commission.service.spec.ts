@@ -1,14 +1,14 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a commission calculator needs and none of which is
  * available outside a running application. The seam is therefore doubled at the module boundary and
  * **the calculator under test is the real one**, together with the real money helper it computes
  * through: the assertions below are about the amounts it produces and never about which methods it
  * called.
  *
- * `@gauzy/config` is read at import time by other packages of the workspace, so it is doubled too.
+ * `@irtranscripts/config` is read at import time by other packages of the workspace, so it is doubled too.
  */
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	// `@UsePipes(new AbstractValidationPipe(…))` runs when the controller class is defined, and Nest
 	// refuses a pipe without `transform`; the double carries both so the suite can load.
 	AbstractValidationPipe: class AbstractValidationPipe {
@@ -19,11 +19,11 @@ jest.mock('@gauzy/core', () => ({
 			return value;
 		}
 	},
-	Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+	Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 	// The decimal comparison the commission bands are decided by is the kernel's own, so the double
 	// hands over the real one: a comparison doubled here would agree with the service about arithmetic
 	// the platform never performs.
-	compareDecimalStrings: jest.requireActual('@gauzy/core/src/lib/money/decimal').compareDecimalStrings,
+	compareDecimalStrings: jest.requireActual('@irtranscripts/core/src/lib/money/decimal').compareDecimalStrings,
 	RequestContext: {
 		currentUser: () => null,
 		currentUserId: () => null,
@@ -34,7 +34,7 @@ jest.mock('@gauzy/core', () => ({
 	}
 }));
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	DatabaseTypeEnum: {
 		mongodb: 'mongodb',
 		sqlite: 'sqlite',
@@ -53,8 +53,8 @@ import {
 	ICommissionTier,
 	IResolvedCommission,
 	RoundingMode
-} from '@gauzy/contracts';
-import { Money } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { Money } from '@irtranscripts/core';
 import { SellerCommissionService } from './seller-commission.service';
 
 /**
@@ -405,7 +405,7 @@ describe('SellerCommissionService — the band boundaries of a graduated schedul
 
 	it('partitions a schedule by exact comparison, so two boundaries a double cannot tell apart are two', () => {
 		// The boundaries are stated as exact decimals here. `ICommissionTier` types them as `number` today,
-		// which is the remaining half of this defect and lives in `@gauzy/contracts`: a schedule whose
+		// which is the remaining half of this defect and lives in `@irtranscripts/contracts`: a schedule whose
 		// bands meet below a double's resolution cannot be *expressed* through that type, so the widening
 		// to `DecimalString | number` is what makes the gap below reachable from a real tenant's data. The
 		// comparison itself is already exact, which is what this pins.

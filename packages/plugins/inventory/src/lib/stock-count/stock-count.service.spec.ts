@@ -1,14 +1,14 @@
 /**
  * Three module boundaries are doubled here, and the reason is the same for all three.
  *
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a count service needs and none of which is available
  * outside a running application; its nested `uuid` is ESM-only, so reading one entity would fail
- * under jest. `@gauzy/config` reads the process environment at import time. Both are therefore
+ * under jest. `@irtranscripts/config` reads the process environment at import time. Both are therefore
  * doubled at the module boundary, and **the services under test are the real ones**: the count
  * service and the real ledger engine the closing step writes through.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/**
@@ -68,7 +68,7 @@ jest.mock('@gauzy/core', () => {
 
 	return {
 		// The statement helpers are pure and dialect-driven; loading the real module here would pull
-		// `@gauzy/config` and the request context into a suite that doubles the barrel on purpose.
+		// `@irtranscripts/config` and the request context into a suite that doubles the barrel on purpose.
 		quoteIdentifier: (identifier: string) => `"${identifier}"`,
 		prepareSQLQuery: (query: string) => query,
 		TenantAwareCrudService,
@@ -107,7 +107,7 @@ jest.mock('@gauzy/core', () => {
 		// The exact-decimal primitives the variance and the correcting movement are computed with. The
 		// real ones, because a variance asserted against arithmetic this suite re-implemented would be
 		// a variance nobody has tested.
-		...jest.requireActual('@gauzy/core/src/lib/money/decimal'),
+		...jest.requireActual('@irtranscripts/core/src/lib/money/decimal'),
 		RequestContext: {
 			// The engine reads the version the current request accepted from here, and a unit test has no
 			// request: the accepted version is then absent, which is the case the engine's own
@@ -124,7 +124,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 jest.mock(
-	'@gauzy/config',
+	'@irtranscripts/config',
 	() => ({
 		isMySQL: () => false,
 		isPostgres: () => false,
@@ -140,7 +140,7 @@ jest.mock(
 );
 
 import { FindOperator } from 'typeorm';
-import { Product, ProductVariant, Warehouse, WarehouseProduct, WarehouseProductVariant } from '@gauzy/core';
+import { Product, ProductVariant, Warehouse, WarehouseProduct, WarehouseProductVariant } from '@irtranscripts/core';
 import {
 	StockCountLineStatus,
 	StockCountMode,

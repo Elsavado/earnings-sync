@@ -1,6 +1,6 @@
-import { isMySQL, isPostgres } from '@gauzy/config';
-import { ID, PluginBillingPeriod, PluginBillingStatus } from '@gauzy/contracts';
-import { MultiORMColumn, MultiORMEntity, MultiORMManyToOne, TenantOrganizationBaseEntity } from '@gauzy/core';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
+import { ID, PluginBillingPeriod, PluginBillingStatus } from '@irtranscripts/contracts';
+import { MultiORMColumn, MultiORMEntity, MultiORMManyToOne, TenantOrganizationBaseEntity } from '@irtranscripts/core';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDate, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, Min } from 'class-validator';
 import { JoinColumn, Relation, RelationId } from 'typeorm';

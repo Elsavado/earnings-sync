@@ -13,7 +13,7 @@ import {
 	MinLength,
 	ValidateNested
 } from 'class-validator';
-import { IUserRegistrationInput } from '@gauzy/contracts';
+import { IUserRegistrationInput } from '@irtranscripts/contracts';
 import { CHECKOUT_SESSION_ID_PATTERN } from './../../shared/billing/billing-product';
 import { Match } from './../../shared/validators';
 import { TermsAcceptanceClaimDTO } from './../../terms-acceptance/dto';

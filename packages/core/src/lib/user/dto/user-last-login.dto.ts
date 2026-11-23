@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsDate, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ILastLoginAtInput } from '@gauzy/contracts';
+import { ILastLoginAtInput } from '@irtranscripts/contracts';
 
 /**
  * User last login timestamp input DTO validation

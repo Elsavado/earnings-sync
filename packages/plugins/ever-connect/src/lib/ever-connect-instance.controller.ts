@@ -13,8 +13,8 @@ import {
 	UseGuards
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { RolesEnum } from '@gauzy/contracts';
-import { RoleGuard, Roles } from '@gauzy/core';
+import { RolesEnum } from '@irtranscripts/contracts';
+import { RoleGuard, Roles } from '@irtranscripts/core';
 import { ConnectResult, EverConnectConnectionService } from './ever-connect-connection.service';
 import { EntitlementImportResult, EverConnectEntitlementService } from './ever-connect-entitlement.service';
 import { EverConnectIntegrationStateService, IntegrationView } from './ever-connect-integration-state.service';

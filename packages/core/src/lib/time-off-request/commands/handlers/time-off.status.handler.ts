@@ -1,8 +1,8 @@
 import { ICommandHandler, CommandHandler } from '@nestjs/cqrs';
 import { NotFoundException } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
-import { isMySQL, isPostgres } from '@gauzy/config';
-import { ID, StatusTypesEnum, StatusTypesMapRequestApprovalEnum } from '@gauzy/contracts';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
+import { ID, StatusTypesEnum, StatusTypesMapRequestApprovalEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../../core/context';
 import { RequestApproval } from '../../../core/entities/internal';
 import { TimeOffStatusCommand } from '../time-off.status.command';

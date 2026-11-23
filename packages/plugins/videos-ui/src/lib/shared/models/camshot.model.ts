@@ -1,4 +1,4 @@
-import { ICamshot as ICamshotCore, ICloneable, ID, IEmployee } from '@gauzy/contracts';
+import { ICamshot as ICamshotCore, ICloneable, ID, IEmployee } from '@irtranscripts/contracts';
 
 export interface ICamshot extends ICamshotCore {
 	id: string;

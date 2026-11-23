@@ -1,3 +1,3 @@
-# Changelog for @gauzy/plugin-videos-ui
+# Changelog for @irtranscripts/plugin-videos-ui
 
 ## [Unreleased]

@@ -1,5 +1,5 @@
 import { Inject, Injectable, Logger, Optional } from '@nestjs/common';
-import { ISearchProvider, ISearchProviderHealth } from '@gauzy/contracts';
+import { ISearchProvider, ISearchProviderHealth } from '@irtranscripts/contracts';
 import { SEARCH_SETTING_DEFAULTS } from '../search.settings';
 import { DatabaseSearchProvider } from './database-search.provider';
 import { SEARCH_PROVIDERS } from './search-provider.tokens';

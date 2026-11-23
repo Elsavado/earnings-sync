@@ -1,8 +1,8 @@
 import { BadRequestException, HttpException, ValidationPipe } from '@nestjs/common';
 
-// Keep the whole @gauzy/core entity graph (and its database config) out of this suite: the DTO only
+// Keep the whole @irtranscripts/core entity graph (and its database config) out of this suite: the DTO only
 // extends TenantOrganizationBaseDTO, and the service only needs a request context and a command bus.
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	TenantOrganizationBaseDTO: class TenantOrganizationBaseDTO {},
 	RequestContext: { currentTenantId: jest.fn() },
 	IntegrationService: class IntegrationService {},
@@ -13,11 +13,11 @@ jest.mock('@gauzy/core', () => ({
 		) {}
 	}
 }));
-jest.mock('@gauzy/config', () => ({ environment: { github: {} } }));
+jest.mock('@irtranscripts/config', () => ({ environment: { github: {} } }));
 // @nestjs/axios ships a raw `index.ts` this project's jest config does not transform.
 jest.mock('@nestjs/axios', () => ({ HttpService: class HttpService {} }));
 
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { GITHUB_INSTALLATION_ID_PATTERN, GithubAppInstallDTO, GithubSetupActionEnum } from './dto/github-app-install.dto';
 import { GithubService } from './github.service';
 

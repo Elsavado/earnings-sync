@@ -23,18 +23,18 @@
  * parity requirement is about: one stub is what makes "the same method with the same identifier" visible
  * without a database behind it.
  *
- * `@gauzy/core` is **not** doubled here, unlike the two sibling specs of this directory. Those substitute
+ * `@irtranscripts/core` is **not** doubled here, unlike the two sibling specs of this directory. Those substitute
  * it because they exercise the connection helpers and need nothing back from it; this suite reads the
- * permission metadata `@gauzy/core`'s own `Permissions` decorator writes, and a no-op double would leave
+ * permission metadata `@irtranscripts/core`'s own `Permissions` decorator writes, and a no-op double would leave
  * both surfaces unstated so that every comparison below passed on two `undefined`s. The barrel loads
  * under this package's `transformIgnorePatterns`, which is why the sibling plugin packages state that
  * exception.
  */
 
 import { FieldDefinitionNode, ObjectTypeDefinitionNode, ObjectTypeExtensionNode, TypeNode } from 'graphql';
-import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionGuard, TenantPermissionGuard } from '@gauzy/core';
-import { FEATURE_GRAPHQL } from '@gauzy/core/src/lib/feature/graphql-feature.code';
+import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionGuard, TenantPermissionGuard } from '@irtranscripts/core';
+import { FEATURE_GRAPHQL } from '@irtranscripts/core/src/lib/feature/graphql-feature.code';
 import { WarehouseFeatures } from '../../warehouse.features';
 import { WarehousePermissions } from '../../warehouse.permissions';
 import { CarrierManifestController } from '../../carrier-manifest/carrier-manifest.controller';

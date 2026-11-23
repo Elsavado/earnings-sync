@@ -8,7 +8,7 @@ import {
 	Optional,
 	UnauthorizedException
 } from '@nestjs/common';
-import { INBOX_EMAIL_PROVIDER_REGISTRY } from '@gauzy/contracts';
+import { INBOX_EMAIL_PROVIDER_REGISTRY } from '@irtranscripts/contracts';
 import {
 	IEmailProviderPlugin,
 	IEmailProviderRegistry,
@@ -22,7 +22,7 @@ import {
 	ParsedInboundEmail,
 	referencesOf,
 	safeFilename
-} from '@gauzy/plugin-inbox';
+} from '@irtranscripts/plugin-inbox';
 import {
 	FetchLike,
 	fetchDownloader,
@@ -76,7 +76,7 @@ const addresses = (values: unknown): Array<{ address: string; name?: string }> =
  * - **Outbound.** A nodemailer transport over `POST /emails` for the core transport seam.
  * - **Test connection.** `GET /domains` with the API key (a sending-only key is reported as valid but restricted).
  *
- * The plugin registers with the Inbox email provider registry when that is loaded (`GAUZY_INBOX_EMAIL_ENABLED=true`);
+ * The plugin registers with the Inbox email provider registry when that is loaded (`IRTRANSCRIPTS_INBOX_EMAIL_ENABLED=true`);
  * otherwise it stays idle.
  */
 @Injectable()
@@ -124,7 +124,7 @@ export class ResendProvider implements IEmailProviderPlugin, IInboundEmailProvid
 	onModuleInit(): void {
 		if (!this.registry) {
 			this.logger.warn(
-				'The Inbox email features are off (GAUZY_INBOX_EMAIL_ENABLED): the Resend provider stays idle.'
+				'The Inbox email features are off (IRTRANSCRIPTS_INBOX_EMAIL_ENABLED): the Resend provider stays idle.'
 			);
 			return;
 		}

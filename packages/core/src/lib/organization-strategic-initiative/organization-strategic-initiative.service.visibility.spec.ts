@@ -1,7 +1,7 @@
 import '../core/entities/internal';
 
 import { NotFoundException } from '@nestjs/common';
-import { OrganizationStrategicVisibilityScopeEnum, PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { OrganizationStrategicVisibilityScopeEnum, PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from '../core/crud';
 import { RequestContext } from '../core/context';
 import { Organization, UserOrganization } from '../core/entities/internal';
@@ -16,7 +16,7 @@ const OTHER = 'e0000000-0000-4000-8000-0000000000bb';
 const USER = 'f0000000-0000-4000-8000-000000000001';
 
 /**
- * Who sees an initiative (G-P2-4 visibility rule; local Gauzy ↔ Ever Works e2e, matrix row 12): a team-scoped
+ * Who sees an initiative (G-P2-4 visibility rule; local IRTranscripts ↔ Ever Works e2e, matrix row 12): a team-scoped
  * initiative an Ever Works Mission became answered 404 to its own steward, an admin who is not on the team.
  * `RequestContext.currentEmployeeId()` is empty for a user who may act for every employee
  * (`CHANGE_SELECTED_EMPLOYEE`), so the steward check never matched an admin — nor did their team membership.

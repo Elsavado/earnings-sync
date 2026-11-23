@@ -1,7 +1,7 @@
 {
-	"name": "@gauzy/config",
+	"name": "@irtranscripts/config",
 	"version": "0.1.0",
-	"description": "Ever Gauzy Platform Config module",
+	"description": "Ever IRTranscripts Platform Config module",
 	"author": {
 		"name": "Ever Co. LTD",
 		"email": "ever@ever.co",
@@ -27,10 +27,10 @@
 		"lib:watch": "yarn nx build config --watch"
 	},
 	"dependencies": {
-		"@gauzy/constants": "^0.1.0",
-		"@gauzy/common": "^0.1.0",
-		"@gauzy/contracts": "^0.1.0",
-		"@gauzy/utils": "^0.1.0",
+		"@irtranscripts/constants": "^0.1.0",
+		"@irtranscripts/common": "^0.1.0",
+		"@irtranscripts/contracts": "^0.1.0",
+		"@irtranscripts/utils": "^0.1.0",
 		"@mikro-orm/better-sqlite": "^6.6.17",
 		"@mikro-orm/core": "^6.6.17",
 		"@mikro-orm/mysql": "^6.6.17",
@@ -60,7 +60,7 @@
 		"config",
 		"nest",
 		"nestjs",
-		"gauzy",
+		"irtranscripts",
 		"platform",
 		"module",
 		"configuration"

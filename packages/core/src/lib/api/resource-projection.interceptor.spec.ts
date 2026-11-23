@@ -1,5 +1,5 @@
 import { CallHandler, ExecutionContext } from '@nestjs/common';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { firstValueFrom, of } from 'rxjs';
 import { FieldVisibility } from './field-visibility.service';
 import { ResourceProjectionInterceptor } from './resource-projection.interceptor';

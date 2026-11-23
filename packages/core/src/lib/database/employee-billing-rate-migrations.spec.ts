@@ -1,5 +1,5 @@
 import { QueryRunner } from 'typeorm';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 import { AlterEmployeeBillingRateColumnsToNumeric1790000014000 } from './migrations/1790000014000-AlterEmployeeBillingRateColumnsToNumeric';
 
 type ExecutedQuery = { sql: string; parameters: any[] };

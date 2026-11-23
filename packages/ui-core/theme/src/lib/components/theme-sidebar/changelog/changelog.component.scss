@@ -18,7 +18,7 @@
 }
 
 .panel-header {
-  @include gauzy-panel-header();
+  @include irtranscripts-panel-header();
   flex: 0 0 auto;
   position: sticky;
   top: calc(-1 * #{$panel-pad});
@@ -27,11 +27,11 @@
 }
 
 .panel-title {
-  @include gauzy-panel-title();
+  @include irtranscripts-panel-title();
 }
 
 .panel-close {
-  @include gauzy-panel-close();
+  @include irtranscripts-panel-close();
 }
 
 .panel-body {

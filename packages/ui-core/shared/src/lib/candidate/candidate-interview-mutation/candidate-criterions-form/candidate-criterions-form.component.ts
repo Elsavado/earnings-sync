@@ -1,9 +1,9 @@
-import { ICandidateTechnologies, ICandidatePersonalQualities, IOrganization } from '@gauzy/contracts';
+import { ICandidateTechnologies, ICandidatePersonalQualities, IOrganization } from '@irtranscripts/contracts';
 import { Component, OnInit, OnDestroy, Input, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { Store } from '@gauzy/ui-core/core';
-import { CandidatePersonalQualitiesService, CandidateTechnologiesService } from '@gauzy/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
+import { CandidatePersonalQualitiesService, CandidateTechnologiesService } from '@irtranscripts/ui-core/core';
 
 @Component({
     selector: 'ga-candidate-criterions-form',

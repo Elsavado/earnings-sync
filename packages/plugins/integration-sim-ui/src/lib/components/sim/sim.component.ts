@@ -4,8 +4,8 @@ import { NbMenuItem, NbRouteTab } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
 import { filter, tap } from 'rxjs';
-import { SimStoreService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { SimStoreService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 const INTEGRATION_SIM_PAGE_LINK = '/pages/integrations/sim';
 
 @UntilDestroy({ checkProperties: true })

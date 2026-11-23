@@ -9,13 +9,13 @@ $button-radius: nb-theme(button-rectangle-border-radius);
         margin-right: 5px;
         border-radius: nb-theme(button-rectangle-border-radius);
         border: unset;
-        background-color: nb-theme(gauzy-background-transparent-1);
+        background-color: nb-theme(irtranscripts-background-transparent-1);
     }
 }
 
 .custom-input {
     // The same height as the selectors this control stands next to in the header
-    // band — both sides resolve `gauzy-header-control-height`.
+    // band — both sides resolve `irtranscripts-header-control-height`.
     //
     // This was `height: inherit` against an auto-height parent, i.e. whatever the
     // contents came to. The contents are an `<input>`, and the global
@@ -23,11 +23,11 @@ $button-radius: nb-theme(button-rectangle-border-radius);
     // that field to a FULL-size control no matter what `height` is set on it
     // below — so the pill wrapped a 38px field and came out ~10px taller than
     // every other control in the row.
-    height: nb-theme(gauzy-header-control-height);
+    height: nb-theme(irtranscripts-header-control-height);
     display: flex;
     align-items: center;
-    background: var(--gauzy-card-1);
-    box-shadow: var(--gauzy-shadow) inset;
+    background: var(--irtranscripts-card-1);
+    box-shadow: var(--irtranscripts-shadow) inset;
     border-radius: nb-theme(button-rectangle-border-radius);
     /* I've used padding so you can see the edges of the elements. */
     padding: 2px 0px 2px 5px;
@@ -53,7 +53,7 @@ $button-radius: nb-theme(button-rectangle-border-radius);
         line-height: 11px;
         letter-spacing: 0em;
         text-align: left;
-        color: nb-theme(gauzy-text-color-2);
+        color: nb-theme(irtranscripts-text-color-2);
     }
     input.single-range {
         width: 103px;
@@ -228,7 +228,7 @@ $button-radius: nb-theme(button-rectangle-border-radius);
     line-height: 11px;
     letter-spacing: 0em;
     text-align: center;
-    color: nb-theme(gauzy-text-color-1);
+    color: nb-theme(irtranscripts-text-color-1);
     @include nb-ltr(margin-left, 9px);
     @include nb-rtl(margin-right, 12px);
 }

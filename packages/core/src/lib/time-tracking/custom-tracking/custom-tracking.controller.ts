@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { TenantPermissionGuard, PermissionGuard, EmployeeTrackedDataGuard } from '../../shared/guards';
-import { PermissionsEnum, ITrackingSession, ITimeLog, ITrackingSessionResponse } from '@gauzy/contracts';
+import { PermissionsEnum, ITrackingSession, ITimeLog, ITrackingSessionResponse } from '@irtranscripts/contracts';
 import { Permissions } from '../../shared/decorators';
 import { UUIDValidationPipe, UseValidationPipe, BulkBodyLoadTransformPipe } from '../../shared/pipes';
 import { CustomTrackingService } from './custom-tracking.service';

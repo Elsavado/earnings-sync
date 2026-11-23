@@ -21,7 +21,7 @@ import {
 /**
  * The plugin's statements on real databases: the migration (up, up again, down, up), the
  * connection row and its compare-and-set operations, the integration states, the catalog row under
- * concurrent starts, the link record in Gauzy's integration tables, the audit, and what is stored
+ * concurrent starts, the link record in IRTranscripts's integration tables, the audit, and what is stored
  * encrypted.
  */
 const TABLES = PLUGIN_TABLES.filter((table) => table !== 'ever_instance').sort();
@@ -224,7 +224,7 @@ describe.each(TEST_TARGETS)('EverConnect store on $name', (target) => {
 		expect(types).toHaveLength(1);
 	});
 
-	it('a link record in Gauzy integration tables, archived on removal; membership check', async () => {
+	it('a link record in IRTranscripts integration tables, archived on removal; membership check', async () => {
 		const tenant = await seedTenant(dataSource, d, 'Acme', '2026-01-01 00:00:00', 'ops@acme.example');
 		const store = new EverConnectStore(dataSource, now);
 		expect(await store.isMember(tenant.tenantId, tenant.organizationId, tenant.superAdminId)).toBe(true);

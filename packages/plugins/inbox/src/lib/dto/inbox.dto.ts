@@ -20,7 +20,7 @@ import {
 	IInboxReplyInput,
 	InboxItemKindEnum,
 	InboxTabEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 /** A query-string boolean (`true` / `false`); anything else is left as is for the validator to refuse. */
 const toBoolean = ({ value }: { value: unknown }) => (value === 'true' ? true : value === 'false' ? false : value);

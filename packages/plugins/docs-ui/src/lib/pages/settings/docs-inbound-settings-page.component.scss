@@ -2,15 +2,15 @@
 // Custom SMTP, Anonymous usage statistics): a card surface, 12px body, hairline panels with a
 // quiet header, label | value rows, monospace wells for addresses and DNS values, small buttons.
 //
-// Every custom property carries a fallback — `--gauzy-*` is undefined in the material themes.
+// Every custom property carries a fallback — `--irtranscripts-*` is undefined in the material themes.
 // Font sizes are set on each text element: the theme's global paragraph rule (~15px) beats a
 // size inherited from a container.
-$border: var(--gauzy-border-default-color, var(--divider-color, rgba(126, 126, 143, 0.24)));
+$border: var(--irtranscripts-border-default-color, var(--divider-color, rgba(126, 126, 143, 0.24)));
 $divider: 1px solid $border;
 $hairline: inset 0 0 0 1px $border;
 $muted: var(--text-hint-color, rgba(126, 126, 143, 1));
-$radius: var(--gauzy-radius-sm, 0.5rem);
-$tint: var(--gauzy-hover-tint, rgba(126, 126, 143, 0.08));
+$radius: var(--irtranscripts-radius-sm, 0.5rem);
+$tint: var(--irtranscripts-hover-tint, rgba(126, 126, 143, 0.08));
 $mono: var(--font-family-monospace, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
 
 :host {
@@ -25,7 +25,7 @@ $mono: var(--font-family-monospace, ui-monospace, SFMono-Regular, Menlo, Consola
 	min-height: 12rem;
 	padding: 1rem 1.25rem 1.25rem;
 	border-radius: var(--card-border-radius, 0.5rem);
-	background-color: var(--gauzy-card-2, var(--card-background-color));
+	background-color: var(--irtranscripts-card-2, var(--card-background-color));
 	font-size: 0.75rem;
 	line-height: 1.125rem;
 }
@@ -282,9 +282,9 @@ button[nbButton] {
 }
 
 // The dark themes give an OFF switch `color-basic-transparent-default` (~8%), which all but
-// vanishes on the dark panel — the same fix as Settings > Roles & Permissions. Gauzy Light
+// vanishes on the dark panel — the same fix as Settings > Roles & Permissions. IRTranscripts Light
 // already sets a solid grey track and is left alone.
-@each $dark in (gauzy-dark, dark, cosmic, material-dark) {
+@each $dark in (irtranscripts-dark, dark, cosmic, material-dark) {
 	:host-context(.nb-theme-#{$dark}) .docs-inbound-row nb-toggle {
 		--toggle-basic-background-color: rgba(255, 255, 255, 0.16);
 		--toggle-basic-border-color: rgba(255, 255, 255, 0.24);

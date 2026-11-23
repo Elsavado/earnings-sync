@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, IsDate, IsBoolean, IsNumber } from 'class-validator';
 import { JoinColumn, RelationId } from 'typeorm';
-import { EmployeeAppointmentStatus, ID, IEmployee, IEmployeeAppointment } from '@gauzy/contracts';
+import { EmployeeAppointmentStatus, ID, IEmployee, IEmployeeAppointment } from '@irtranscripts/contracts';
 import { AppointmentEmployee, Employee, TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { MultiORMColumn, MultiORMEntity, MultiORMManyToOne, MultiORMOneToMany } from './../core/decorators/entity';
 import { MikroOrmEmployeeAppointmentRepository } from './repository/mikro-orm-employee-appointment.repository';

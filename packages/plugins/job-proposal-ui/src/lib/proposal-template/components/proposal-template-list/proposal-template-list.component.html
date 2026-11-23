@@ -10,13 +10,13 @@
 		</div>
 	</nb-card-header>
 	<nb-card-body class="p-0">
-		<div class="gauzy-button-container">
-			<ngx-gauzy-button-action
+		<div class="irtranscripts-button-container">
+			<ngx-irtranscripts-button-action
 				[hasLayoutSelector]="false"
 				[buttonTemplateVisible]="visibleButton"
 				[buttonTemplate]="actionButtons"
 				[isDisable]="!selectedItem && disableButton"
-			></ngx-gauzy-button-action>
+			></ngx-irtranscripts-button-action>
 		</div>
 		<nb-tabset (changeTab)="onTabChange($event)">
 			<nb-tab [tabTitle]="'PROPOSAL_TEMPLATE.BROWSE' | translate" [tabId]="proposalTemplateTabsEnum.ACTIONS">

@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { DelayedError, Job } from 'bullmq';
-import { QueueJobHandler, QueueWorker, QueueWorkerHost } from '@gauzy/scheduler';
+import { QueueJobHandler, QueueWorker, QueueWorkerHost } from '@irtranscripts/scheduler';
 import { getDocsConfig } from '../../docs.config';
 import { DOCS_TENANT_AI_CONCURRENCY, DOCS_TENANT_BUSY_DEFER_DELAY_MS } from '../../docs.constants';
 import {

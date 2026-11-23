@@ -164,7 +164,7 @@ function toIntegration(row: Row): IntegrationRecord {
 	};
 }
 
-/** A Gauzy organization already has a live link (one live link per organization). */
+/** A IRTranscripts organization already has a live link (one live link per organization). */
 export class LiveLinkExistsError extends Error {
 	constructor() {
 		super('This organization already has a live link.');
@@ -172,11 +172,11 @@ export class LiveLinkExistsError extends Error {
 	}
 }
 
-/** The unique key of a live link: its Gauzy tenant and organization. */
+/** The unique key of a live link: its IRTranscripts tenant and organization. */
 export const liveKeyOf = (tenantId: string, organizationId: string): string => `${tenantId}|${organizationId}`;
 
 /**
- * Reads and writes the plugin's tables, and Gauzy's own record of a tenant link (an
+ * Reads and writes the plugin's tables, and IRTranscripts's own record of a tenant link (an
  * `integration_tenant` row named `Ever_Connect` with its settings).
  */
 @Injectable()
@@ -256,7 +256,7 @@ export class EverConnectStore {
 
 	// ── Tenant links ──────────────────────────────────────────────────────────
 
-	/** The live link of one Gauzy organization (not unlinked), or `null`. */
+	/** The live link of one IRTranscripts organization (not unlinked), or `null`. */
 	async linkOf(tenantId: string, organizationId: string): Promise<LinkRecord | null> {
 		const rows = await this.sql.select(LINK, { tenantId, organizationId }, { orderBy: [['createdAt', 'DESC']] });
 		const live = rows.map(toLink).find((link) => link.status !== 'unlinked');
@@ -281,7 +281,7 @@ export class EverConnectStore {
 
 	/**
 	 * Inserts a live link. The unique `liveKey` (`<tenantId>|<organizationId>`) refuses a second live
-	 * link for one Gauzy organization, also when two requests race: {@link LiveLinkExistsError}.
+	 * link for one IRTranscripts organization, also when two requests race: {@link LiveLinkExistsError}.
 	 */
 	async insertLink(
 		values: Omit<LinkRecord, 'id' | 'createdAt' | 'unlinkedAt'> & { linkedByUserId?: string | null }
@@ -322,7 +322,7 @@ export class EverConnectStore {
 		return changed !== 0;
 	}
 
-		/** Removes a link row that was never completed (its Gauzy record could not be written). */
+		/** Removes a link row that was never completed (its IRTranscripts record could not be written). */
 	async deleteLink(linkId: string): Promise<void> {
 		await this.sql.run(`DELETE FROM ${this.sql.q(LINK)} WHERE ${this.sql.q('linkId')} = ${this.sql.ph(1)}`, [linkId]);
 	}
@@ -400,16 +400,16 @@ export class EverConnectStore {
 		}
 	}
 
-	// ── Deleted Gauzy tenants and organizations ───────────────────────────────
+	// ── Deleted IRTranscripts tenants and organizations ───────────────────────────────
 
 	/**
-	 * The (tenant, organization) pairs the plugin's tables still hold although that Gauzy tenant or
+	 * The (tenant, organization) pairs the plugin's tables still hold although that IRTranscripts tenant or
 	 * organization was deleted (or soft-deleted). There are no foreign keys to cascade (the tables are
 	 * the plugin's own), so this is how a deletion reaches them.
 	 */
 	async deletedOwners(): Promise<Array<{ tenantId: string; organizationId: string | null }>> {
 		const q = (c: string) => this.sql.q(c);
-		// Gauzy's ids are uuid on Postgres; the plugin keeps them as text.
+		// IRTranscripts's ids are uuid on Postgres; the plugin keeps them as text.
 		const text = (expr: string) => (this.sql.dialect === 'postgres' ? `${expr}::text` : expr);
 		const found = new Map<string, { tenantId: string; organizationId: string | null }>();
 		for (const table of [LINK, INTEGRATION, LOOKUP_CACHE, AUDIT]) {
@@ -428,7 +428,7 @@ export class EverConnectStore {
 	}
 
 	/**
-	 * Removes what the plugin keeps for a deleted Gauzy organization (or, without `organizationId`, for
+	 * Removes what the plugin keeps for a deleted IRTranscripts organization (or, without `organizationId`, for
 	 * every organization of a deleted tenant): its links, integration states and lookup cache rows.
 	 */
 	async purgeOwner(owner: { tenantId: string; organizationId: string | null }): Promise<void> {
@@ -465,7 +465,7 @@ export class EverConnectStore {
 		return (num(rows[0]?.['n']) ?? 0) > 0;
 	}
 
-	// ── Gauzy's own record of a link: integration_tenant + integration_setting ──
+	// ── IRTranscripts's own record of a link: integration_tenant + integration_setting ──
 
 	/**
 	 * Creates the `integration_tenant` row of a link (name `Ever_Connect`, under the `Ever_Connect`
@@ -512,7 +512,7 @@ export class EverConnectStore {
 		}
 	}
 
-	/** Soft-archives a link's `integration_tenant` row, as Gauzy archives a removed integration. */
+	/** Soft-archives a link's `integration_tenant` row, as IRTranscripts archives a removed integration. */
 	async archiveLinkRecord(integrationTenantId: string): Promise<void> {
 		await this.sql.update('integration_tenant', { isActive: false, isArchived: true }, { id: integrationTenantId });
 	}

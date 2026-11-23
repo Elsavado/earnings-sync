@@ -2,9 +2,9 @@ import * as dotenv from 'dotenv';
 dotenv.config({ quiet: true });
 
 import * as path from 'path';
-import { ApplicationPluginConfig } from '@gauzy/common';
-import { DEFAULT_API_HOST, DEFAULT_API_PORT, DEFAULT_API_BASE_URL, DEFAULT_GRAPHQL_API_PATH } from '@gauzy/constants';
-import {} from '@gauzy/contracts';
+import { ApplicationPluginConfig } from '@irtranscripts/common';
+import { DEFAULT_API_HOST, DEFAULT_API_PORT, DEFAULT_API_BASE_URL, DEFAULT_GRAPHQL_API_PATH } from '@irtranscripts/constants';
+import {} from '@irtranscripts/contracts';
 import { dbTypeOrmConnectionConfig, dbMikroOrmConnectionConfig, dbKnexConnectionConfig } from './database';
 import { resolveSecret } from './environments/secret-resolver';
 
@@ -19,10 +19,10 @@ console.log('Default Config -> process.cwd: ' + process.cwd());
 // TODO: maybe better to use process.cwd() instead of __dirname?
 
 // For Docker environment
-if (__dirname.startsWith('/srv/gauzy')) {
+if (__dirname.startsWith('/srv/irtranscripts')) {
 	// Set paths specific to Docker deployment
-	assetPath = '/srv/gauzy/apps/api/src/assets';
-	assetPublicPath = '/srv/gauzy/apps/api/public';
+	assetPath = '/srv/irtranscripts/apps/api/src/assets';
+	assetPublicPath = '/srv/irtranscripts/apps/api/public';
 } else {
 	// Determine if running in production (dist) or development (src)
 	const isDist = __dirname.includes(path.join('dist'));

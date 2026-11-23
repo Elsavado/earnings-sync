@@ -3,7 +3,7 @@ import * as os from 'os';
 import * as path from 'path';
 // eslint-disable-next-line no-restricted-imports -- CONTROL arm only: the pre-fix compiler call
 import * as rawMjml2html from 'mjml';
-import { EmailTemplateEnum, LanguagesEnum } from '@gauzy/contracts';
+import { EmailTemplateEnum, LanguagesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../../core/context';
 import { EmailTemplateSaveCommand } from '../email-template.save.command';
 
@@ -39,7 +39,7 @@ describe('EmailTemplateSaveHandler (GHSA-48h9-vwf5-h8m7)', () => {
 		} as any);
 
 	beforeAll(() => {
-		dir = fs.mkdtempSync(path.join(os.tmpdir(), 'gauzy-save-'));
+		dir = fs.mkdtempSync(path.join(os.tmpdir(), 'irtranscripts-save-'));
 		secretFile = path.join(dir, 'passwd');
 		fs.writeFileSync(secretFile, `root:${MARKER}`);
 	});

@@ -8,7 +8,7 @@ import {
 	ITimesheetProjectChangeRequest,
 	IUser,
 	TimesheetProjectChangeStatus
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { OrganizationProject, TenantOrganizationBaseEntity, User } from './../../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from './../../core/decorators/entity';
 import { Timesheet } from './timesheet.entity';

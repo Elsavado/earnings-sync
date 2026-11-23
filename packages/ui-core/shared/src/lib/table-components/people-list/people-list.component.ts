@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 /**
  * A single person, normalized out of whatever shape the caller had.
@@ -30,8 +30,8 @@ export interface IPersonListItem {
  * has a box or a border of its own, and names truncate on available WIDTH
  * rather than on a character count, so a short name always renders in full.
  *
- * All metrics come from the `gauzy-people-*` tokens in the shared
- * `$gauzy-density` map (`themes.scss`), so the group stays in step with table
+ * All metrics come from the `irtranscripts-people-*` tokens in the shared
+ * `$irtranscripts-density` map (`themes.scss`), so the group stays in step with table
  * density and works in all registered themes.
  */
 @Component({

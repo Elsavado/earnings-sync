@@ -1,7 +1,7 @@
 import '../core/entities/internal';
 
 import { BadRequestException, ForbiddenException } from '@nestjs/common';
-import { EmployeeNotificationTypeEnum, IUser, PermissionsEnum } from '@gauzy/contracts';
+import { EmployeeNotificationTypeEnum, IUser, PermissionsEnum } from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from '../core/crud/tenant-aware-crud.service';
 import { asTenantUser, createTenantFixture } from '../core/testing/tenant-isolation/tenant-isolation.fixtures';
 import { EmployeeNotificationService } from './employee-notification.service';

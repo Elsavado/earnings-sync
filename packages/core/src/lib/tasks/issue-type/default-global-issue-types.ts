@@ -1,4 +1,4 @@
-import { IIssueType, TaskTypeEnum } from '@gauzy/contracts';
+import { IIssueType, TaskTypeEnum } from '@irtranscripts/contracts';
 
 export const DEFAULT_GLOBAL_ISSUE_TYPES: IIssueType[] = [
 	{

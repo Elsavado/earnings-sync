@@ -1,9 +1,9 @@
 import { Component, Input, OnChanges, type SimpleChanges, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
-import { BaseEntityEnum, IComment, ICommentCreateInput, ICommentUpdateInput, ID, PermissionsEnum } from '@gauzy/contracts';
-import { EmployeesService, Store, ToastrService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { BaseEntityEnum, IComment, ICommentCreateInput, ICommentUpdateInput, ID, PermissionsEnum } from '@irtranscripts/contracts';
+import { EmployeesService, Store, ToastrService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { CommentComposerComponent, ICommentDraft } from './comment-composer.component';
 import {
 	buildCommentThread,

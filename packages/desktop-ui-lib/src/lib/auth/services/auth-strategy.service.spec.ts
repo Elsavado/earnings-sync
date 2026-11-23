@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { IAuthResponse } from '@gauzy/contracts';
+import { IAuthResponse } from '@irtranscripts/contracts';
 import { NbAuthResult } from '@nebular/auth';
 import { firstValueFrom, of, Subject, throwError } from 'rxjs';
 import { AuthStrategy } from './auth-strategy.service';

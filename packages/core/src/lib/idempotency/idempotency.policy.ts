@@ -1,5 +1,5 @@
 import { createHash } from 'crypto';
-import type { IIdempotencyClaim, IIdempotencyKey, JsonData } from '@gauzy/contracts';
+import type { IIdempotencyClaim, IIdempotencyKey, JsonData } from '@irtranscripts/contracts';
 
 /**
  * The retry-safety decisions, kept apart from the transport that asks for them.

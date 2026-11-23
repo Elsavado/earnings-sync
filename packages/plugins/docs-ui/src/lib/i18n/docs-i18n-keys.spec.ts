@@ -9,7 +9,7 @@ import {
 	DocumentSourceEnum,
 	DocumentStatusEnum,
 	DocumentVisibilityEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 // Namespace import on purpose: the workspace sets `esModuleInterop: false`, so under
 // the CommonJS emit Jest uses, a *default* JSON import compiles to `require(…).default`
 // and evaluates to `undefined`. `docs-ui.plugin.ts` can default-import the same file

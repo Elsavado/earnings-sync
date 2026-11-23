@@ -1,7 +1,7 @@
 import { Directive, ComponentRef, HostListener, Input, ElementRef, OnDestroy, OnInit, inject } from '@angular/core';
 import { NbDialogService } from '@nebular/theme';
 import { sortBy } from 'underscore';
-import { IEmployee, IScreenshot } from '@gauzy/contracts';
+import { IEmployee, IScreenshot } from '@irtranscripts/contracts';
 import { GalleryComponent } from './gallery.component';
 import { GalleryService } from './gallery.service';
 

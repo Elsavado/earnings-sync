@@ -1,5 +1,5 @@
 import { IQuery } from '@nestjs/cqrs';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { GetDocumentVersionsQueryDTO } from '../dto/get-document-versions-query.dto';
 
 export class GetDocumentVersionsQuery implements IQuery {

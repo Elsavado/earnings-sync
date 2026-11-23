@@ -4,7 +4,7 @@ import { PaymentMethod } from '../types';
 import { NbCardModule, NbIconModule, NbBadgeModule } from '@nebular/theme';
 
 @Component({
-    selector: 'gauzy-payment-method-section',
+    selector: 'irtranscripts-payment-method-section',
     templateUrl: './payment-method-section.component.html',
     styleUrls: ['./payment-method-section.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

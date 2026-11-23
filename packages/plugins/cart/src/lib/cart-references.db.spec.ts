@@ -11,12 +11,12 @@
  *
  * **Nothing the defect lives in is doubled here.** The services are the real ones over TypeORM repositories of an
  * in-memory better-sqlite3 database; the rows the ids name are real rows of tenant B, of tenant A and of no tenant.
- * `@gauzy/core` is doubled at the module boundary for the reason the package's other suites give (its barrel boots the
+ * `@irtranscripts/core` is doubled at the module boundary for the reason the package's other suites give (its barrel boots the
  * whole application), and its CRUD base is reduced to the tenant-scoped write the real one performs. Every refusal
  * reads the rows back, so a refusal that still wrote something fails too, and every column has a control: the same
  * write naming tenant A's row still works.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared, and mapped below by fixture schemas. */
@@ -53,7 +53,7 @@ jest.mock('@gauzy/core', () => {
 		// The check under test is the platform's own, not a double of it.
 		assertPlainReferencesNotForeign: (...args: unknown[]) =>
 			jest
-				.requireActual('@gauzy/core/src/lib/core/crud/plain-reference-ownership.helper')
+				.requireActual('@irtranscripts/core/src/lib/core/crud/plain-reference-ownership.helper')
 				.assertPlainReferencesNotForeign(...args),
 		BaseEntity,
 		TenantBaseEntity: BaseEntity,

@@ -11,7 +11,7 @@ import { ExecutionContext, NotFoundException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { GLOBAL_MODULE_METADATA, MODULE_METADATA } from '@nestjs/common/constants';
 import { buildSchema, printSchema } from 'graphql';
-import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@gauzy/constants';
+import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { CursorCodec } from '../api/cursor';
 import { statedOrganizations } from '../graphql/graphql-organization-membership.interceptor';
 import { FeatureFlagGuard, PermissionGuard, TenantPermissionGuard } from '../shared/guards';

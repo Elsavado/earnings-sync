@@ -1,7 +1,7 @@
 import { BadRequestException } from '@nestjs/common';
-import { getUnsafeOutboundUrlReason } from '@gauzy/utils';
+import { getUnsafeOutboundUrlReason } from '@irtranscripts/utils';
 
-export { createSsrfSafeHttpsAgent } from '@gauzy/core';
+export { createSsrfSafeHttpsAgent } from '@irtranscripts/core';
 
 /**
  * Validates a tenant-supplied Zapier webhook target URL against the SSRF egress guard.
@@ -13,7 +13,7 @@ export { createSsrfSafeHttpsAgent } from '@gauzy/core';
  * rejected (GHSA-6gg6-vv4f-2x74).
  *
  * The connection-time half of the guard is `createSsrfSafeHttpsAgent` (re-exported above from
- * `@gauzy/core`), which re-checks the resolved IP and so catches DNS rebinding that a URL-literal
+ * `@irtranscripts/core`), which re-checks the resolved IP and so catches DNS rebinding that a URL-literal
  * check cannot.
  *
  * @param url - The webhook target URL to validate.

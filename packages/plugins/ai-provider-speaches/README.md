@@ -1,7 +1,7 @@
-# @gauzy/plugin-ai-provider-speaches
+# @irtranscripts/plugin-ai-provider-speaches
 
-**Local** speech-to-text provider plugin for the Ever Gauzy AI chat engine
-([`@gauzy/plugin-ai-chat`](../ai-chat)) backed by
+**Local** speech-to-text provider plugin for the Ever IRTranscripts AI chat engine
+([`@irtranscripts/plugin-ai-chat`](../ai-chat)) backed by
 [Speaches](https://speaches.ai) (formerly *faster-whisper-server*) — an
 OpenAI-compatible server that runs Whisper models on your own hardware
 (CPU or GPU) with no cloud account and no API key.
@@ -27,7 +27,7 @@ docker run --rm --gpus=all -p 8000:8000 -v hf-hub-cache:/home/ubuntu/.cache/hugg
 
 Models are pulled from the Hugging Face Hub on first use (or pre-pull:
 `curl -X POST http://localhost:8000/v1/models/Systran/faster-whisper-small`).
-Then point Gauzy at it: **Settings → AI Providers → Add AI Voice Provider →
+Then point IRTranscripts at it: **Settings → AI Providers → Add AI Voice Provider →
 Speaches**, base URL `http://localhost:8000/v1` (prefilled), leave the API key
 empty, pick a speech model and tick "Use as default voice provider".
 

@@ -6,11 +6,11 @@ import {
 	createSettingsWindow,
 	createServerWindow,
 	AlwaysOn
-} from '@gauzy/desktop-window';
+} from '@irtranscripts/desktop-window';
 import { app, BrowserWindow, screen } from 'electron';
 import { resolveHtmlPath, getInitialConfig, delaySync } from './util';
 import * as path from 'path';
-import { LocalStore } from '@gauzy/desktop-lib';
+import { LocalStore } from '@irtranscripts/desktop-lib';
 import { ScreenCaptureWindow } from './window/screen-capture-window';
 import MainEvent from './events/events';
 import { MAIN_EVENT, MAIN_EVENT_TYPE } from '../constant';

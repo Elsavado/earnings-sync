@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { In } from 'typeorm';
-import { ID, IIntegrationEntitySettingTied } from '@gauzy/contracts';
+import { ID, IIntegrationEntitySettingTied } from '@irtranscripts/contracts';
 import { RequestContext } from './../core/context';
 import { TenantAwareCrudService } from './../core/crud';
 import { IntegrationEntitySetting } from './../integration-entity-setting/integration-entity-setting.entity';

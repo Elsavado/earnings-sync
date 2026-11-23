@@ -1,11 +1,11 @@
-import { FileStorageProviderEnum, ID, PluginOSArch, PluginOSType, PluginSourceType } from '@gauzy/contracts';
+import { FileStorageProviderEnum, ID, PluginOSArch, PluginOSType, PluginSourceType } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	MultiORMColumn,
 	MultiORMEntity,
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Exclude, Transform } from 'class-transformer';
 import { IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, Matches, Max, Min } from 'class-validator';
@@ -22,7 +22,7 @@ export class PluginSource extends TenantOrganizationBaseEntity implements IPlugi
 	@MultiORMColumn({
 		type: 'simple-enum',
 		enum: PluginSourceType,
-		default: PluginSourceType.GAUZY
+		default: PluginSourceType.IRTRANSCRIPTS
 	})
 	@ApiProperty({ enum: PluginSourceType, description: 'Type of the plugin source' })
 	@IsNotEmpty({ message: 'Plugin source type is required' })
@@ -103,7 +103,7 @@ export class PluginSource extends TenantOrganizationBaseEntity implements IPlugi
 	@MultiORMColumn({ nullable: true })
 	scope?: string;
 
-	// For file uploads (Gauzy sources)
+	// For file uploads (IRTranscripts sources)
 	@ApiProperty({ type: String, description: 'File path for uploaded plugin' })
 	@IsOptional()
 	@IsString({ message: 'File path must be a string' })
@@ -181,10 +181,10 @@ export class PluginSource extends TenantOrganizationBaseEntity implements IPlugi
 	}
 
 	/**
-	 * Check if this is a Gauzy file upload source
+	 * Check if this is a IRTranscripts file upload source
 	 */
-	public isGauzySource(): boolean {
-		return this.type === PluginSourceType.GAUZY;
+	public isIRTranscriptsSource(): boolean {
+		return this.type === PluginSourceType.IRTRANSCRIPTS;
 	}
 
 	/**
@@ -196,7 +196,7 @@ export class PluginSource extends TenantOrganizationBaseEntity implements IPlugi
 				return this.url;
 			case PluginSourceType.NPM:
 				return this.registry ? `${this.registry}/${this.name}` : undefined;
-			case PluginSourceType.GAUZY:
+			case PluginSourceType.IRTRANSCRIPTS:
 				return this.filePath;
 			default:
 				return undefined;
@@ -277,7 +277,7 @@ export class PluginSource extends TenantOrganizationBaseEntity implements IPlugi
 				return `CDN: ${this.url}`;
 			case PluginSourceType.NPM:
 				return `NPM: ${this.scope ? `@${this.scope}/` : ''}${this.name}`;
-			case PluginSourceType.GAUZY:
+			case PluginSourceType.IRTRANSCRIPTS:
 				return `File: ${this.fileName || 'Unknown'}`;
 			default:
 				return 'Unknown Source';
@@ -321,9 +321,9 @@ export class PluginSource extends TenantOrganizationBaseEntity implements IPlugi
 					errors.push('Package name is required for NPM sources');
 				}
 				break;
-			case PluginSourceType.GAUZY:
+			case PluginSourceType.IRTRANSCRIPTS:
 				if (!this.fileName) {
-					errors.push('File name is required for Gauzy sources');
+					errors.push('File name is required for IRTranscripts sources');
 				}
 				if (!this.hasValidFileExtension()) {
 					errors.push('File must be a ZIP archive');
@@ -351,7 +351,7 @@ export class PluginSource extends TenantOrganizationBaseEntity implements IPlugi
 	public static create(data: Partial<PluginSource>): PluginSource {
 		const source = new PluginSource();
 		Object.assign(source, {
-			type: PluginSourceType.GAUZY,
+			type: PluginSourceType.IRTRANSCRIPTS,
 			operatingSystem: PluginOSType.UNIVERSAL,
 			architecture: PluginOSArch.X64,
 			private: false,
@@ -397,7 +397,7 @@ export class PluginSource extends TenantOrganizationBaseEntity implements IPlugi
 	}
 
 	/**
-	 * Create a Gauzy file source
+	 * Create a IRTranscripts file source
 	 */
 	public static createFileSource(
 		fileName: string,
@@ -408,7 +408,7 @@ export class PluginSource extends TenantOrganizationBaseEntity implements IPlugi
 		options?: { mimeType?: string; fileKey?: string }
 	): PluginSource {
 		return this.create({
-			type: PluginSourceType.GAUZY,
+			type: PluginSourceType.IRTRANSCRIPTS,
 			fileName,
 			filePath,
 			fileSize,
@@ -511,10 +511,10 @@ export class PluginSource extends TenantOrganizationBaseEntity implements IPlugi
 	}
 
 	/**
-	 * Get Gauzy file sources only
+	 * Get IRTranscripts file sources only
 	 */
 	public static getFileSources(sources: PluginSource[]): PluginSource[] {
-		return this.filterByType(sources, PluginSourceType.GAUZY);
+		return this.filterByType(sources, PluginSourceType.IRTRANSCRIPTS);
 	}
 
 	/**

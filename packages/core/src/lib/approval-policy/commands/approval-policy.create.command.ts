@@ -1,4 +1,4 @@
-import { IApprovalPolicyCreateInput } from '@gauzy/contracts';
+import { IApprovalPolicyCreateInput } from '@irtranscripts/contracts';
 import { ICommand } from '@nestjs/cqrs';
 
 export class ApprovalPolicyCreateCommand implements ICommand {

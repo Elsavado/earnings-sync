@@ -1,7 +1,7 @@
 {
-	"name": "@gauzy/plugin-auth-keycloak",
+	"name": "@irtranscripts/plugin-auth-keycloak",
 	"version": "0.1.0",
-	"description": "Ever Gauzy Platform plugin that adds Keycloak as an additional sign-in method",
+	"description": "Ever IRTranscripts Platform plugin that adds Keycloak as an additional sign-in method",
 	"author": {
 		"name": "Ever Co. LTD",
 		"email": "ever@ever.co",
@@ -32,11 +32,11 @@
 		"express": "^5.3.0"
 	},
 	"dependencies": {
-		"@gauzy/auth": "^0.1.0",
-		"@gauzy/common": "^0.1.0",
-		"@gauzy/config": "^0.1.0",
-		"@gauzy/core": "^0.1.0",
-		"@gauzy/plugin": "^0.1.0",
+		"@irtranscripts/auth": "^0.1.0",
+		"@irtranscripts/common": "^0.1.0",
+		"@irtranscripts/config": "^0.1.0",
+		"@irtranscripts/core": "^0.1.0",
+		"@irtranscripts/plugin": "^0.1.0",
 		"@nestjs/config": "^12.0.1",
 		"@nestjs/passport": "^12.0.0",
 		"passport": "^0.7.0",
@@ -50,7 +50,7 @@
 		"typescript": "~6.0.3"
 	},
 	"keywords": [
-		"gauzy",
+		"irtranscripts",
 		"keycloak",
 		"oidc",
 		"authentication",

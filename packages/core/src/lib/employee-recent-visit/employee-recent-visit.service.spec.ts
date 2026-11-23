@@ -1,6 +1,6 @@
 import '../core/entities/internal';
 
-import { BaseEntityEnum, IEmployeeRecentVisit } from '@gauzy/contracts';
+import { BaseEntityEnum, IEmployeeRecentVisit } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { EmployeeRecentVisitService } from './employee-recent-visit.service';
 

@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { WithoutInitializers } from '@gauzy/common';
+import { WithoutInitializers } from '@irtranscripts/common';
 import { CreateRefundDTO } from './create-refund.dto';
 
 /**

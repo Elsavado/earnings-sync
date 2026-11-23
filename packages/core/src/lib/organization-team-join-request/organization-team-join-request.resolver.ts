@@ -2,7 +2,7 @@ import { ParseEnumPipe, UseGuards } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { Args, ID, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Throttle } from '@nestjs/throttler';
-import { FeatureFlag, IAppIntegrationConfig, Public } from '@gauzy/common';
+import { FeatureFlag, IAppIntegrationConfig, Public } from '@irtranscripts/common';
 import {
 	ID as Id,
 	IOrganizationTeamJoinRequest,
@@ -11,7 +11,7 @@ import {
 	LanguagesEnum,
 	OrganizationTeamJoinRequestStatusEnum,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	ConnectionFilter,
 	ConnectionPageRequest,

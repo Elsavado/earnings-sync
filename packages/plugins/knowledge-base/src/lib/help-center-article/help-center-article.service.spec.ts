@@ -1,5 +1,5 @@
 /**
- * `@gauzy/core` is a barrel over the whole server core — importing it for real pulls the ORM
+ * `@irtranscripts/core` is a barrel over the whole server core — importing it for real pulls the ORM
  * bootstrap, the request context and every entity into the test runtime. Only the two shapes this
  * service actually uses matter here, so stubs stand in: a minimal CRUD base class and a
  * `sanitizeRichHtml` double. The real allowlist has its own coverage in
@@ -7,7 +7,7 @@
  * is the READ path — that the service runs the corpus through the allowlist at all, and heals the
  * stored row exactly once.
  */
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	TenantAwareCrudService: class TenantAwareCrudService {
 		// Set per test; the project-articles query branches on it
 		ormType = 'typeorm';
@@ -54,7 +54,7 @@ jest.mock('./repository/mikro-orm-help-center-article.repository', () => ({
 	MikroOrmHelpCenterArticleRepository: class MikroOrmHelpCenterArticleRepository {}
 }));
 
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { HelpCenterArticleService } from './help-center-article.service';
 
 const CATEGORY_ID = 'cccccccc-1111-4111-8111-111111111111' as ID;

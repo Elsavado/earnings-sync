@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AddTaskDialogComponent } from './add-task-dialog.component';
 import { AddTaskDialogModule } from './add-task-dialog.module';
-import { AuthService, EmployeesService } from '@gauzy/ui-core/core';
+import { AuthService, EmployeesService } from '@irtranscripts/ui-core/core';
 describe('AddTaskDialogComponent', () => {
 	let component: AddTaskDialogComponent;
 	let fixture: ComponentFixture<AddTaskDialogComponent>;

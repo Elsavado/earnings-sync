@@ -24,7 +24,7 @@ import {
 	IOrganizationProject,
 	IOrganizationContact,
 	ExpenseStatusesEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	Employee,
 	ExpenseCategory,

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IOrganizationDocument, IOrganizationDocumentFindInput } from '@gauzy/contracts';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { IOrganizationDocument, IOrganizationDocumentFindInput } from '@irtranscripts/contracts';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 
 @Injectable({
 	providedIn: 'root'

@@ -1,6 +1,6 @@
 import { Directive, ElementRef, Input, OnDestroy, OnInit, Renderer2, inject } from '@angular/core';
-import { environment } from '@gauzy/ui-config';
-import { AVATAR_DEFAULT_SVG, DEFAULT_SVG } from '@gauzy/ui-core/common';
+import { environment } from '@irtranscripts/ui-config';
+import { AVATAR_DEFAULT_SVG, DEFAULT_SVG } from '@irtranscripts/ui-core/common';
 
 /**
  * Type for image fallback types supported by the directive.

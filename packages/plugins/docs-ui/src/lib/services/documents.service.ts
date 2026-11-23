@@ -14,9 +14,9 @@ import {
 	IDocumentVersion,
 	IPagination,
 	BaseEntityEnum
-} from '@gauzy/contracts';
-import { API_PREFIX, toParams } from '@gauzy/ui-core/common';
-import { Store } from '@gauzy/ui-core/core';
+} from '@irtranscripts/contracts';
+import { API_PREFIX, toParams } from '@irtranscripts/ui-core/common';
+import { Store } from '@irtranscripts/ui-core/core';
 import {
 	IDocumentBulkInput,
 	IDocumentBulkResult,
@@ -54,7 +54,7 @@ export interface IDocumentPathSegment {
 }
 
 /**
- * HTTP client for the Documents backend plugin (`@gauzy/plugin-docs`).
+ * HTTP client for the Documents backend plugin (`@irtranscripts/plugin-docs`).
  * One method per endpoint — `03-backend-plugin.md` is authoritative for DTO
  * shapes and query params; provided at module level so it dies with the chunk.
  *

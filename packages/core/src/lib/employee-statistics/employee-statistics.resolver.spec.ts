@@ -11,7 +11,7 @@ import { BadRequestException, ExecutionContext, ForbiddenException, NotFoundExce
 import { Reflector } from '@nestjs/core';
 import { MODULE_METADATA } from '@nestjs/common/constants';
 import { buildSchema, printSchema } from 'graphql';
-import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@gauzy/constants';
+import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { RequestContext } from '../core/context';
 import { FeatureFlagGuard, TenantPermissionGuard } from '../shared/guards';
 import { EmployeeStatisticsController } from './employee-statistics.controller';
@@ -23,7 +23,7 @@ import {
 	EmployeeStatisticsHistoryQuery,
 	MonthAggregatedEmployeeStatisticsQuery
 } from './queries';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { PermissionGuard } from '../shared/guards/permission.guard';
 
 /**

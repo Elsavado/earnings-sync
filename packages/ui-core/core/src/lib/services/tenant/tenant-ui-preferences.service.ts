@@ -2,8 +2,8 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { firstValueFrom } from 'rxjs';
-import { ITenantUiPreferences, ITenantUiPreferencesUpdateInput, PreferredUiEnum } from '@gauzy/contracts';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { ITenantUiPreferences, ITenantUiPreferencesUpdateInput, PreferredUiEnum } from '@irtranscripts/contracts';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 import { Store } from '../store/store.service';
 
 /** localStorage key prefix; the tenant id is appended so two tenants on one browser never share a mirror. */

@@ -1,9 +1,9 @@
 $button-color: #fa754e;
 $wrapper-padding: 30px;
-$register-background-light-color: var(--gauzy-card-1);
+$register-background-light-color: var(--irtranscripts-card-1);
 
 .card {
-  background: var(--gauzy-card-1);
+  background: var(--irtranscripts-card-1);
 }
 
 // Queries
@@ -175,12 +175,12 @@ $register-background-light-color: var(--gauzy-card-1);
   ::ng-deep .input-full-width {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 0.5px 0.5px 0.5px inset;
     border-radius: var(--border-radius);
-    background-color: var(--gauzy-input-background) !important;
+    background-color: var(--irtranscripts-input-background) !important;
     border: unset;
   }
 
   ::ng-deep ngx-register .register-wrapper .input-full-width {
-    background-color: var(--gauzy-input-background) !important;
+    background-color: var(--irtranscripts-input-background) !important;
   }
 
   ::ng-deep ngx-register .register-wrapper.dark .input-full-width {
@@ -202,7 +202,7 @@ $register-background-light-color: var(--gauzy-card-1);
   }
 
   label {
-    color: var(--gauzy-text-color-2) !important;
+    color: var(--irtranscripts-text-color-2) !important;
     font-weight: 600 !important;
   }
 }

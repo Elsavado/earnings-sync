@@ -1,4 +1,4 @@
-import { PermissionsEnum, RequestApprovalStatusTypesEnum } from '@gauzy/contracts';
+import { PermissionsEnum, RequestApprovalStatusTypesEnum } from '@irtranscripts/contracts';
 
 /**
  * The grants that decide a sharing: the ones the approve, refuse and edit routes state.

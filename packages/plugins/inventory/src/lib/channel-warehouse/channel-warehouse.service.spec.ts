@@ -1,17 +1,17 @@
 /**
  * Two module boundaries are doubled here, for the same reason.
  *
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which an assignment service needs and none of which is
  * available outside a running application; its nested `uuid` is ESM-only, so reading one entity would
- * fail under jest. `@gauzy/config` reads the process environment at import time. Both are therefore
+ * fail under jest. `@irtranscripts/config` reads the process environment at import time. Both are therefore
  * doubled at the module boundary, and **the service under test is the real one**.
  */
 
 /** The organization boundary the base reports: none, unless a test confines the caller. */
 let boundary: { organizationId: string | null } | null = null;
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
@@ -108,7 +108,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 jest.mock(
-	'@gauzy/config',
+	'@irtranscripts/config',
 	() => ({
 		DatabaseTypeEnum: {
 			mongodb: 'mongodb',
@@ -120,7 +120,7 @@ jest.mock(
 	})
 );
 
-import { Warehouse } from '@gauzy/core';
+import { Warehouse } from '@irtranscripts/core';
 import { ChannelWarehouse } from './channel-warehouse.entity';
 import { ChannelWarehouseService } from './channel-warehouse.service';
 

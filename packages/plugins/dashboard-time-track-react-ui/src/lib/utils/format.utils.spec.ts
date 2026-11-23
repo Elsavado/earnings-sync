@@ -1,10 +1,10 @@
-import { TimeFormatEnum } from '@gauzy/contracts';
+import { TimeFormatEnum } from '@irtranscripts/contracts';
 
 /*
- * `@gauzy/ui-core/common` is an Angular barrel; `toTimezone` (the only import) is re-declared with
+ * `@irtranscripts/ui-core/common` is an Angular barrel; `toTimezone` (the only import) is re-declared with
  * its real one-line body (`shared-utils.ts#toTimezone`).
  */
-jest.mock('@gauzy/ui-core/common', () => {
+jest.mock('@irtranscripts/ui-core/common', () => {
 	const m = jest.requireActual('moment-timezone');
 	return { toTimezone: (date: unknown, timezone: string) => m.utc(date as string).tz(timezone) };
 });

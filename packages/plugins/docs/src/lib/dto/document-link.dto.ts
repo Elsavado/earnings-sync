@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import { IsEnum, IsOptional, IsUUID } from 'class-validator';
-import { BaseEntityEnum, ID, IDocumentLinkCreateInput, JsonData } from '@gauzy/contracts';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { BaseEntityEnum, ID, IDocumentLinkCreateInput, JsonData } from '@irtranscripts/contracts';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 
 /**
  * Create payload for `POST /api/plugins/docs/links` — idempotent on

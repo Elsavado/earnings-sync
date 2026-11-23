@@ -11,9 +11,9 @@ import { ExecutionContext, NotFoundException } from '@nestjs/common';
 import { MODULE_METADATA } from '@nestjs/common/constants';
 import { Reflector } from '@nestjs/core';
 import { buildSchema, printSchema } from 'graphql';
-import { FeatureEnum } from '@gauzy/contracts';
-import { FEATURE_METADATA, PERMISSIONS_METADATA, PUBLIC_METHOD_METADATA } from '@gauzy/constants';
-import { gauzyToggleFeatures } from '@gauzy/config';
+import { FeatureEnum } from '@irtranscripts/contracts';
+import { FEATURE_METADATA, PERMISSIONS_METADATA, PUBLIC_METHOD_METADATA } from '@irtranscripts/constants';
+import { irtranscriptsToggleFeatures } from '@irtranscripts/config';
 import { RequestContext } from '../core/context/request-context';
 import { FeatureService } from '../feature/feature.service';
 import { FeatureFlagGuard } from '../shared/guards';
@@ -382,7 +382,7 @@ describe('StatsResolver — a capability that is switched off is not served', ()
 	 * with the switch off and on, so the pair is its own control.
 	 */
 	describe('with the deployment’s own FEATURE_OPEN_STATS switch', () => {
-		const configured = gauzyToggleFeatures as Record<string, boolean>;
+		const configured = irtranscriptsToggleFeatures as Record<string, boolean>;
 		let previous: boolean;
 
 		beforeEach(() => {

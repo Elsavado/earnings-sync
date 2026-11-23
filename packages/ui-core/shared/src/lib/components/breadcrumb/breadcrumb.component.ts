@@ -4,7 +4,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { merge, of } from 'rxjs';
 import { catchError, filter, map, startWith } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
-import { NavMenuBuilderService, NavMenuSectionItem } from '@gauzy/ui-core/core';
+import { NavMenuBuilderService, NavMenuSectionItem } from '@irtranscripts/ui-core/core';
 import { BreadcrumbTailService } from './breadcrumb-tail.service';
 
 /**

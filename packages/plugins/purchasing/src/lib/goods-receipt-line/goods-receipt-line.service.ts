@@ -1,8 +1,8 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult, EntityManager, FindOptionsWhere, In, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { DecimalString, ID } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { DecimalString, ID } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { GoodsReceipt } from '../goods-receipt/goods-receipt.entity';
 import { GoodsReceiptStatus } from '../purchasing.types';
 import { immutableMembers, movedMembers } from '../purchasing.immutable';

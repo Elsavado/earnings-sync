@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { ITag, ITagUpdateInput } from '@gauzy/contracts';
+import { ITag, ITagUpdateInput } from '@irtranscripts/contracts';
 
 export class TagUpdateCommand implements ICommand {
 	static readonly type = '[Tag] Update Tag';

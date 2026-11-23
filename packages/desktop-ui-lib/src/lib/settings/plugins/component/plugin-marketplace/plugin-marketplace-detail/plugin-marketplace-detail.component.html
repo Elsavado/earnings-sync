@@ -215,7 +215,7 @@
 				size="small"
 				class="action-btn edit-btn"
 				(click)="editPlugin()"
-				*gauzySpinnerButton="editing && isSelected"
+				*irtranscriptsSpinnerButton="editing && isSelected"
 				[nbTooltip]="'PLUGIN.ACTIONS.EDIT' | translate"
 			>
 				<nb-icon icon="edit-outline"></nb-icon>
@@ -240,7 +240,7 @@
 		<div class="installation-control">
 			@if(showProgress) {
 			<div class="progress-indicator">
-				<nb-icon *gauzySpinnerButton="true" icon="sync-outline"></nb-icon>
+				<nb-icon *irtranscriptsSpinnerButton="true" icon="sync-outline"></nb-icon>
 				<span class="progress-text">
 					{{ installing ? ('PLUGIN.INSTALLING' | translate) : ('PLUGIN.UNINSTALLING' | translate) }}
 				</span>

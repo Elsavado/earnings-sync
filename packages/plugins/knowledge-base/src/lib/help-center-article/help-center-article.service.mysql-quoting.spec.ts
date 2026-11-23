@@ -1,8 +1,8 @@
 /**
- * `@gauzy/core` is a barrel over the whole server core; stubs stand in for the shapes this service uses.
+ * `@irtranscripts/core` is a barrel over the whole server core; stubs stand in for the shapes this service uses.
  * `prepareSQLQuery` is stubbed as it behaves on MySQL: every double-quoted identifier becomes back-quoted.
  */
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	TenantAwareCrudService: class TenantAwareCrudService {
 		constructor(public readonly typeOrmRepository: any, public readonly mikroOrmRepository: any) {}
 
@@ -35,7 +35,7 @@ jest.mock('./repository/mikro-orm-help-center-article.repository', () => ({
 	MikroOrmHelpCenterArticleRepository: class MikroOrmHelpCenterArticleRepository {}
 }));
 
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { HelpCenterArticleService } from './help-center-article.service';
 
 /**

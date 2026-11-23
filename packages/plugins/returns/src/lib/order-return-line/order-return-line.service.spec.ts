@@ -5,7 +5,7 @@
 const mockOrm = { type: 'typeorm' };
 
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — the configuration, the ORM, the
+ * `@irtranscripts/core` boots the whole application graph from its barrel — the configuration, the ORM, the
  * job registry, the module scanner — none of which a line service needs and none of which is
  * available outside a running application. The seam is therefore doubled at the module boundary,
  * exactly as the catalogue and inventory packages' service specs do, and **the service under test is
@@ -16,7 +16,7 @@ const mockOrm = { type: 'typeorm' };
  * caller: a lookup by a missing id raises `NotFoundException`, `create` answers with the saved row,
  * and `softDelete` marks the row rather than erasing it.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
@@ -126,7 +126,7 @@ jest.mock('@gauzy/core', () => {
 		BaseEvent: class {},
 		EventBus: class {},
 		MultiORMEnum: { TypeORM: 'typeorm', MikroORM: 'mikro-orm' },
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		SequenceService: class {},
 		Warehouse: class Warehouse {},
 		RequestContext: {
@@ -142,7 +142,7 @@ jest.mock('@gauzy/core', () => {
 
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { FindOperator } from 'typeorm';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { OrderReturnStatus } from '../returns.types';
 import { OrderReturnLineService } from './order-return-line.service';
 

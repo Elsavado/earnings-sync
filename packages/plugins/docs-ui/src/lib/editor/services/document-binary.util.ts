@@ -68,7 +68,7 @@ export function loadCrdtEncoder(): Promise<ICrdtEncoder | null> {
  * @param encoder The loaded encoder, or `null` when the chunk is not ready yet.
  * @param schema The editor's ProseMirror schema — the JSON is parsed against it.
  * @param contentJson The canonical JSON being saved (already upload-sanitized).
- * @param maxBytes Cap on the raw update size, mirroring `GAUZY_DOCS_MAX_BINARY_BYTES`.
+ * @param maxBytes Cap on the raw update size, mirroring `IRTRANSCRIPTS_DOCS_MAX_BINARY_BYTES`.
  * @returns Base64 of the Yjs update, or `null` when it is unavailable, empty or over the cap.
  */
 export function encodeContentBinary(

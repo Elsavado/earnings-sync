@@ -10,7 +10,7 @@ export interface EverWorksSyncContextState {
 const storage = new AsyncLocalStorage<EverWorksSyncContextState>();
 
 /**
- * Loop guard level 1 (plan 03 §C.2): the inbound applier runs every Gauzy write inside
+ * Loop guard level 1 (plan 03 §C.2): the inbound applier runs every IRTranscripts write inside
  * {@link EverWorksSyncContext.run}; every outbound trigger (the `TaskEvent` listener, the entity
  * subscribers) checks {@link EverWorksSyncContext.isApplying} first and skips what the sync itself wrote.
  * The context follows the asynchronous work it was started for and nothing else.

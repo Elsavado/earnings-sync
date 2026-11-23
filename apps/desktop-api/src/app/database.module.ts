@@ -3,10 +3,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { EntityCaseNamingStrategy } from '@mikro-orm/core';
 import { BetterSqliteDriver, Options as MikroOrmSqliteOptions } from '@mikro-orm/better-sqlite';
-import { Wakatime } from '@gauzy/plugin-integration-wakatime';
+import { Wakatime } from '@irtranscripts/plugin-integration-wakatime';
 
 const coreEntities = [Wakatime];
-const dbPath = process.env.GAUZY_USER_PATH ? `${process.env.GAUZY_USER_PATH}/gauzy.sqlite3` : '';
+const dbPath = process.env.IRTRANSCRIPTS_USER_PATH ? `${process.env.IRTRANSCRIPTS_USER_PATH}/irtranscripts.sqlite3` : '';
 
 @Module({
 	imports: [

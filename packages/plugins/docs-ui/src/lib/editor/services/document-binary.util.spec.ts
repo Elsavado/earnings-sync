@@ -37,7 +37,7 @@ describe('encodeContentBinary', () => {
 	});
 
 	it('drops the field rather than sending an update the server would reject', () => {
-		// The server caps at `GAUZY_DOCS_MAX_BINARY_BYTES`; over it, the whole content save
+		// The server caps at `IRTRANSCRIPTS_DOCS_MAX_BINARY_BYTES`; over it, the whole content save
 		// would 400 — the JSON matters, the reserved seed does not.
 		expect(encodeContentBinary(encoderOf(new Uint8Array([1, 2, 3, 4])), schema, json, 3)).toBeNull();
 	});

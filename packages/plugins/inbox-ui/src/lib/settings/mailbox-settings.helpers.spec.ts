@@ -6,7 +6,7 @@ import {
 	InboxMailboxOwnerTypeEnum,
 	InboxMailboxPurposeEnum,
 	InboxProviderAccountStatusEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	agentOfMailbox,
 	domainStatusTone,

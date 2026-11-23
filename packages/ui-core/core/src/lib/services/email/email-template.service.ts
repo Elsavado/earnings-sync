@@ -7,10 +7,10 @@ import {
 	ICustomizableEmailTemplate,
 	IEmailTemplateSaveInput,
 	IPagination
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { firstValueFrom } from 'rxjs';
-import { toParams } from '@gauzy/ui-core/common';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { toParams } from '@irtranscripts/ui-core/common';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 
 @Injectable({
 	providedIn: 'root'

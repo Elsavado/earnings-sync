@@ -1,6 +1,6 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { RequestContext } from '@gauzy/core';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { RequestContext } from '@irtranscripts/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { GetSoundshotCountQuery } from '../get-soundshot-count.query';
 import { SoundshotService } from '../../services/soundshot.service';
 

@@ -1,8 +1,8 @@
 import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
-import { FeatureEnum, ID, IFeature, IFeatureOrganization, IFeatureOrganizationUpdateInput, ITenant } from '@gauzy/contracts';
-import { isNotEmpty } from '@gauzy/utils';
+import { FeatureEnum, ID, IFeature, IFeatureOrganization, IFeatureOrganizationUpdateInput, ITenant } from '@irtranscripts/contracts';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { TenantAwareCrudService } from './../core/crud';
 import { RequestContext } from './../core/context';
 import { evictFeatureFlagEntries } from './../shared/guards/feature-flag.guard';

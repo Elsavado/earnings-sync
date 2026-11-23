@@ -19,7 +19,7 @@ const COLLEAGUES = [CALLER, 'team-mate', 'project-mate'];
 
 /**
  * `GET /employee/members` refused an employee who named no team, which emptied every member list of the
- * Plane UI (pm.gauzy.co) for non-admins. Naming neither now lists the caller's colleagues.
+ * Plane UI (pm.irtranscripts.com) for non-admins. Naming neither now lists the caller's colleagues.
  */
 describe('EmployeeController.getMembers — scoped to the people the caller works with', () => {
 	let findMembers: jest.Mock;

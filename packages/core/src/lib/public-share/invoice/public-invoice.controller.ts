@@ -1,9 +1,9 @@
 import { UseInterceptors, Controller, Get, Param, Query, Put, Body } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { Public } from '@gauzy/common';
+import { Public } from '@irtranscripts/common';
 import { FindOptionsWhere, UpdateResult } from 'typeorm';
-import { HttpStatus, IInvoice } from '@gauzy/contracts';
+import { HttpStatus, IInvoice } from '@irtranscripts/contracts';
 import { Invoice } from './../../core/entities/internal';
 import { UseValidationPipe } from '../../shared/pipes';
 import { PublicTransformInterceptor } from './../public-transform.interceptor';

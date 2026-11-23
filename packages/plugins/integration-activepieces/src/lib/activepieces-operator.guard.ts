@@ -1,5 +1,5 @@
 import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
-import { isInstallationOperator } from '@gauzy/core';
+import { isInstallationOperator } from '@irtranscripts/core';
 
 /** The `code` of the refusal {@link ActivepiecesOperatorGuard} answers. */
 export const ACTIVEPIECES_OPERATOR_ONLY = 'ACTIVEPIECES_OPERATOR_ONLY';

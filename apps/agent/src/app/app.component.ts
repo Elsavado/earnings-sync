@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, HostBinding, NgZone, OnDestroy, OnInit, Renderer2, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { IAuthResponse, IUser } from '@gauzy/contracts';
+import { IAuthResponse, IUser } from '@irtranscripts/contracts';
 import {
 	ActivityWatchElectronService,
 	AuthService,
@@ -9,7 +9,7 @@ import {
 	LanguageElectronService,
 	Store,
 	TokenRefreshService
-} from '@gauzy/desktop-ui-lib';
+} from '@irtranscripts/desktop-ui-lib';
 import { NbToastrService } from '@nebular/theme';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';

@@ -1,7 +1,7 @@
 import '../core/entities/internal';
 
 import { ConflictException, NotFoundException } from '@nestjs/common';
-import { LanguagesEnum, OrganizationTeamJoinRequestStatusEnum } from '@gauzy/contracts';
+import { LanguagesEnum, OrganizationTeamJoinRequestStatusEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { TenantAwareCrudService } from '../core/crud';
 import { OrganizationTeamJoinRequestService } from './organization-team-join-request.service';

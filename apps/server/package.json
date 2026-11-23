@@ -1,9 +1,9 @@
 {
-	"name": "@gauzy/server",
+	"name": "@irtranscripts/server",
 	"version": "0.1.0",
-	"description": "Ever Gauzy Server",
+	"description": "Ever IRTranscripts Server",
 	"license": "AGPL-3.0",
-	"homepage": "https://gauzy.co",
+	"homepage": "https://irtranscripts.com",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/ever-co/ever-gauzy.git"

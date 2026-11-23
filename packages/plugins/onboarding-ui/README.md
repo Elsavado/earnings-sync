@@ -1,10 +1,10 @@
-# @gauzy/plugin-onboarding-ui
+# @irtranscripts/plugin-onboarding-ui
 
-This library was generated with [Nx](https://nx.dev). It contains the Onboarding UI Plugin for the Gauzy platform.
+This library was generated with [Nx](https://nx.dev). It contains the Onboarding UI Plugin for the IRTranscripts platform.
 
 ## Features
 
-- **Onboarding UI Plugin:** Provides a user-friendly interface for onboarding new users into the Gauzy platform.
+- **Onboarding UI Plugin:** Provides a user-friendly interface for onboarding new users into the IRTranscripts platform.
 
 ## Building
 
@@ -23,7 +23,7 @@ After building your library with `yarn nx build plugin-onboarding-ui`, go to the
 Install the Onboarding UI Plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-onboarding-ui
+npm install @irtranscripts/plugin-onboarding-ui
 # or
-yarn add @gauzy/plugin-onboarding-ui
+yarn add @irtranscripts/plugin-onboarding-ui
 ```

@@ -1,5 +1,5 @@
 import { IntersectionType, PickType } from '@nestjs/swagger';
-import { IIntegrationTenantFindInput } from '@gauzy/contracts';
+import { IIntegrationTenantFindInput } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../core/dto';
 import { RelationsQueryDTO } from '../../shared/dto';
 import { IntegrationTenant } from '../integration-tenant.entity';

@@ -6,7 +6,7 @@ import {
 	createSetupWindow,
 	PluginMarketplaceWindow,
 	setLaunchPathAndLoad
-} from '@gauzy/desktop-window';
+} from '@irtranscripts/desktop-window';
 import { BrowserWindow } from 'electron';
 import { LocalStore } from './desktop-store';
 import { DesktopUpdater } from './desktop-updater';

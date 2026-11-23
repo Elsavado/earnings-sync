@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, ParseUUIDPipe, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
-import { ID, PermissionsEnum } from '@gauzy/contracts';
+import { ID, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	Idempotent,
 	Permissions,
@@ -9,7 +9,7 @@ import {
 	UUIDValidationPipe,
 	UseValidationPipe,
 	Versioned
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { InventoryPermission } from './../inventory.permissions';
 import { InventoryErrorCode, inventoryError } from './../inventory.errors';
 import { StockLevelService } from './stock-level.service';

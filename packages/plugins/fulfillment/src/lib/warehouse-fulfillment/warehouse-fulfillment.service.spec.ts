@@ -1,9 +1,9 @@
 /**
  * Two module boundaries are doubled here, and the reason is the same for both.
  *
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a read of a shipment needs and none of which is
- * available outside a running application. `@gauzy/plugin-order`'s barrel re-exports the whole order
+ * available outside a running application. `@irtranscripts/plugin-order`'s barrel re-exports the whole order
  * and cart domain, and the only thing this capability wants from it is the variant an order line
  * names. Both seams are therefore doubled at the module boundary and **the services under test are
  * the real ones**: the capability the location reads, and the real shipment service it composes and
@@ -14,13 +14,13 @@
  * `update` accepts either an identifier or a criteria object, which is the form the freeze uses so
  * that the row it writes is the row the caller's scope selected.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	// The platform's exact decimal primitives are pulled through the seam rather than restated: this
 	// double replaces the application graph the barrel boots, not the arithmetic the assertions below
 	// turn on.
-	const decimals = jest.requireActual('@gauzy/core/src/lib/money/decimal');
+	const decimals = jest.requireActual('@irtranscripts/core/src/lib/money/decimal');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
@@ -132,7 +132,7 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-jest.mock('@gauzy/plugin-order', () => ({
+jest.mock('@irtranscripts/plugin-order', () => ({
 	// The variant lives on the order line, which is another package's row: the suite hands the
 	// capability its own reader below, so the class here is only the module's identity.
 	OrderLineService: class OrderLineService {}
@@ -140,8 +140,8 @@ jest.mock('@gauzy/plugin-order', () => ({
 
 import { ConflictException, NotFoundException } from '@nestjs/common';
 import { FindOperator } from 'typeorm';
-import { FulfillmentDirection, FulfillmentStatusDetail } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { FulfillmentDirection, FulfillmentStatusDetail } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { FulfillmentLineService } from '../fulfillment-line/fulfillment-line.service';
 import { FulfillmentService } from '../fulfillment/fulfillment.service';
 import { WarehouseFulfillmentService } from './warehouse-fulfillment.service';

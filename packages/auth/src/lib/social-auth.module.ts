@@ -1,6 +1,6 @@
 import { DynamicModule, Module, Provider } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
-import { ConfigModule } from '@gauzy/config';
+import { ConfigModule } from '@irtranscripts/config';
 import { AuthGuards, Controllers, Strategies } from './internal';
 import { SocialAuthService } from './social-auth.service';
 

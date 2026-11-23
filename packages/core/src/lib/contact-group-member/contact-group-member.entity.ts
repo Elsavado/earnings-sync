@@ -1,7 +1,7 @@
 import { JoinColumn, RelationId } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDate, IsEnum, IsOptional, IsUUID } from 'class-validator';
-import { ContactGroupSource, ID, IContactGroup, IContactGroupMember, IOrganizationContact } from '@gauzy/contracts';
+import { ContactGroupSource, ID, IContactGroup, IContactGroupMember, IOrganizationContact } from '@irtranscripts/contracts';
 import { OrganizationContact, TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from '../core/decorators/entity';
 import { ContactGroup } from '../contact-group/contact-group.entity';

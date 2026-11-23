@@ -3,7 +3,7 @@ import { BadRequestException, ConflictException, Injectable, Logger, NotFoundExc
 import { CommandBus } from '@nestjs/cqrs';
 import { randomUUID } from 'node:crypto';
 import { DataSource, EntityManager, In, IsNull } from 'typeorm';
-import { ID, IntegrationEntity, VisibilityLevelEnum } from '@gauzy/contracts';
+import { ID, IntegrationEntity, VisibilityLevelEnum } from '@irtranscripts/contracts';
 import {
 	IntegrationEntitySetting,
 	IntegrationSetting,
@@ -14,7 +14,7 @@ import {
 	RequestContext,
 	TaskView,
 	Tenant
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { EverWorksCatalogService } from '../ever-works-catalog.service';
 import { EVER_WORKS_INTEGRATION_NAME } from '../ever-works.constants';
 import { EverWorksSettingName as S } from '../ever-works-setting.enum';
@@ -35,7 +35,7 @@ import {
 	EverWorksDomain
 } from './ever-works-mapping.defaults';
 
-/** A mapping (one Gauzy organization ↔ one pinned Ever Works organization) as the API returns it. */
+/** A mapping (one IRTranscripts organization ↔ one pinned Ever Works organization) as the API returns it. */
 export interface EverWorksMappingView {
 	integrationTenantId: ID;
 	organizationId: ID;
@@ -65,7 +65,7 @@ type Mapping = IntegrationTenant & { id: ID; tenantId: ID; organizationId: ID };
 
 /**
  * Organization mapping and settings (plan 06 G-P1-4): one `integration_tenant` named `Ever_Works` per
- * mapped Gauzy organization, pointing at the tenant's connection and one pinned Ever Works organization;
+ * mapped IRTranscripts organization, pointing at the tenant's connection and one pinned Ever Works organization;
  * the settings of plan 06 as `integration_setting` rows (none of them secret), the per-entity `sync`
  * toggles as `integration_entity_setting` rows, the "Idea" issue type and "Ideas" view seeded for the
  * organization, and the "Ever Works" and "Ever Works — Ideas" projects created when needed.
@@ -174,7 +174,7 @@ export class EverWorksMappingService {
 		this.logger.log(`Organization ${scope.organizationId} mapped to Ever Works organization ${pinned.id} (mapping ${mapping.id}).`);
 		const created = await this.reload(mapping.id);
 		// A restored mapping keeps its directions: when it mirrors agent mail, the webhook asks for it again.
-		if (this.directions(created)['agentEmail'] === 'ew_to_gauzy') {
+		if (this.directions(created)['agentEmail'] === 'ew_to_irtranscripts') {
 			await this.connections.refreshWebhookEvents(connection.id as ID, scope.tenantId);
 		}
 		return this.view(created);

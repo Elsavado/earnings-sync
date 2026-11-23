@@ -22,7 +22,7 @@ import { NbDialogService } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
 import { Editor, Extension } from '@tiptap/core';
 import { firstValueFrom } from 'rxjs';
-import { ID, IDocument, JsonData } from '@gauzy/contracts';
+import { ID, IDocument, JsonData } from '@irtranscripts/contracts';
 import { stripDataUrlImages } from './extensions/base64-guard.plugin';
 import { collectBlockIds, setCommentedBlocks } from './extensions/block-comments.plugin';
 import { createDocumentEditorExtensions } from './extensions/document-extensions';

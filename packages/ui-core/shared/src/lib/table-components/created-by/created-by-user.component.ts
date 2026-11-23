@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
-import { ID, IUser } from '@gauzy/contracts';
+import { ID, IUser } from '@irtranscripts/contracts';
 
 @Component({
 	selector: 'ngx-created-by-user',

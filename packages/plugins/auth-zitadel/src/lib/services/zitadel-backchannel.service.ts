@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, Logger, ServiceUnavailableException } from '@nestjs/common';
-import { OidcLogoutTokenService, isOidcError } from '@gauzy/auth';
+import { OidcLogoutTokenService, isOidcError } from '@irtranscripts/auth';
 import { ZitadelAccountService } from './zitadel-account.service';
 import { ZitadelConfigService } from './zitadel-config.service';
 import { ZitadelSessionService } from './zitadel-session.service';
@@ -14,8 +14,8 @@ import { unverifiedIssuer } from './zitadel-token-signin.service';
  * issuer's signature, the issuer itself, the logout event, freshness and a single use of its `jti`.
  *
  * A token that fails validation or repeats a `jti` answers 400 and changes nothing. A token naming a
- * session (`sid`) ends the Gauzy sessions opened through that session; a token naming only a subject
- * ends every Gauzy session opened through Ever ID by the accounts linked to that subject. The `jti`
+ * session (`sid`) ends the IRTranscripts sessions opened through that session; a token naming only a subject
+ * ends every IRTranscripts session opened through Ever ID by the accounts linked to that subject. The `jti`
  * is reserved atomically before anything is ended, so a copy of the token can never end sessions
  * opened later; when ending them fails, the reservation is released and the answer is 503, so the
  * identity provider can send the same logout again.

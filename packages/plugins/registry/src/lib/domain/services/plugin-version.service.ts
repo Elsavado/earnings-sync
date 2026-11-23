@@ -1,5 +1,5 @@
-import { ID } from '@gauzy/contracts';
-import { MultiORMEnum } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { MultiORMEnum } from '@irtranscripts/core';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { UpdatePluginVersionDTO } from '../../shared/dto/update-plugin-version.dto';
 import { IPluginSource } from '../../shared/models/plugin-source.model';

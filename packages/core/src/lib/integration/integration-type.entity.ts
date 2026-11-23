@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Unique } from 'typeorm';
 import { IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
-import { IIntegration, IIntegrationType } from '@gauzy/contracts';
+import { IIntegration, IIntegrationType } from '@irtranscripts/contracts';
 import { BaseEntity, Integration } from '../core/entities/internal';
 import { MultiORMColumn, MultiORMEntity, MultiORMManyToMany } from './../core/decorators/entity';
 import { MikroOrmIntegrationTypeRepository } from './repository/mikro-orm-integration-type.repository';

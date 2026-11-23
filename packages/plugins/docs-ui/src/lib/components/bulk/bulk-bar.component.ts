@@ -2,9 +2,9 @@ import { Component, EventEmitter, HostListener, Input, OnChanges, Output, type S
 import { NbDialogService } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
-import { ID, ITag, PermissionsEnum } from '@gauzy/contracts';
-import { ToastrService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { ID, ITag, PermissionsEnum } from '@irtranscripts/contracts';
+import { ToastrService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { DOCS_BULK_MAX_IDS, DOCS_BULK_MAX_INLINE_ERRORS } from '../../docs.constants';
 import { DocumentBulkAction, IDocumentBulkResult, IDocumentBulkResultItem } from '../../models/docs-api.model';
 

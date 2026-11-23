@@ -1,5 +1,5 @@
 import { NotFoundException } from '@nestjs/common';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../context';
 import { assertCallerOwnsUpload } from './own-upload.helper';
 

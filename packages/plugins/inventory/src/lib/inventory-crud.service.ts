@@ -1,5 +1,5 @@
 import { DeleteResult, FindOptionsWhere } from 'typeorm';
-import { LegacyFindOneOptions, TenantAwareCrudService, TenantOrganizationBaseEntity } from '@gauzy/core';
+import { LegacyFindOneOptions, TenantAwareCrudService, TenantOrganizationBaseEntity } from '@irtranscripts/core';
 
 /**
  * The CRUD base of the inventory services: they keep every caller inside the platform's organization boundary.

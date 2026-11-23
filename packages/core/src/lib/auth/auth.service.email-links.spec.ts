@@ -1,7 +1,7 @@
 import '../core/entities/internal';
 
-import { environment } from '@gauzy/config';
-import { LanguagesEnum } from '@gauzy/contracts';
+import { environment } from '@irtranscripts/config';
+import { LanguagesEnum } from '@irtranscripts/contracts';
 import { AuthService } from './auth.service';
 
 /**

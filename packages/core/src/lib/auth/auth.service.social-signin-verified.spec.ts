@@ -4,7 +4,7 @@
  */
 import '../core/entities/internal';
 import { UnauthorizedException } from '@nestjs/common';
-import { ProviderEnum } from '@gauzy/contracts';
+import { ProviderEnum } from '@irtranscripts/contracts';
 import { Column, DataSource, Entity, PrimaryColumn, Repository } from 'typeorm';
 import { MultiORMEnum } from '../core/utils';
 import { UserService } from '../user/user.service';
@@ -16,7 +16,7 @@ import {
 } from './social-signin-verified-account';
 
 /**
- * Owner decision 5: a provider sign-in matches only when the provider reports the email verified AND the Gauzy
+ * Owner decision 5: a provider sign-in matches only when the provider reports the email verified AND the IRTranscripts
  * account has confirmed that address itself; when the address owns several workspaces, the person picks one in
  * the workspace picker the password sign-in shows. Built on ever-co/ever-gauzy#11291, which only skipped an
  * unconfirmed account that had no tenant: an unconfirmed account INSIDE a tenant (an admin of another tenant set

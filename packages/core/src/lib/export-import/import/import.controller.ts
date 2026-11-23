@@ -1,7 +1,7 @@
 import { Controller, HttpStatus, Post, Body, UseGuards, UseInterceptors, Logger } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CommandBus } from '@nestjs/cqrs';
-import { ImportStatusEnum, ImportTypeEnum, PermissionsEnum, UploadedFile } from '@gauzy/contracts';
+import { ImportStatusEnum, ImportTypeEnum, PermissionsEnum, UploadedFile } from '@irtranscripts/contracts';
 import { ImportService } from './import.service';
 import { generateImportArchiveFileName } from './import-archive-file-name';
 import { IMPORT_ARCHIVE_LIMITS } from './import-archive-extract';

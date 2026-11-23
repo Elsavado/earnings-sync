@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ITimeLogFilters } from '@gauzy/contracts';
+import { ITimeLogFilters } from '@irtranscripts/contracts';
 import { Observable } from 'rxjs';
 import { RequestQuery } from '../../+state/request/request.query';
 import { RequestStore } from '../../+state/request/request.store';
 import { NbButtonModule, NbPopoverModule, NbIconModule } from '@nebular/theme';
-import { GauzyFiltersComponent } from '../../shared/features/gauzy-filters/gauzy-filters.component';
+import { IRTranscriptsFiltersComponent } from '../../shared/features/irtranscripts-filters/irtranscripts-filters.component';
 import { AutoRefreshComponent } from '../../shared/ui/auto-refresh/auto-refresh.component';
 import { AsyncPipe } from '@angular/common';
 
@@ -13,7 +13,7 @@ import { AsyncPipe } from '@angular/common';
     templateUrl: './filter.component.html',
     styleUrls: ['./filter.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [NbButtonModule, NbPopoverModule, NbIconModule, GauzyFiltersComponent, AutoRefreshComponent, AsyncPipe]
+    imports: [NbButtonModule, NbPopoverModule, NbIconModule, IRTranscriptsFiltersComponent, AutoRefreshComponent, AsyncPipe]
 })
 export class FilterComponent {
 	constructor(private readonly store: RequestStore, private readonly query: RequestQuery) {}

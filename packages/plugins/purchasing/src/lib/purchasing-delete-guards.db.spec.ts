@@ -16,11 +16,11 @@
  * **Here nothing the defect lives in is doubled but the CRUD base.** The services are the package's own; the
  * database is an in-memory better-sqlite3 connection whose foreign keys cascade exactly as the migration's do;
  * the repositories are TypeORM's own, so a soft-deleted row is skipped by every ordinary read the way it is in
- * production. `@gauzy/core` is doubled at the module boundary for the reason the package's other suites give —
+ * production. `@irtranscripts/core` is doubled at the module boundary for the reason the package's other suites give —
  * its barrel boots the whole application — and its CRUD base is reduced to the tenant-scoped reads and writes the
  * real one performs. Every refusal reads the rows back, so a refusal that still wrote something fails too.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 	const { ApiErrorCode, commitVersionedUpdate } = require('./testing/versioned-write.double');
 
@@ -90,8 +90,8 @@ jest.mock('@gauzy/core', () => {
 	return {
 		ApiErrorCode,
 		commitVersionedUpdate,
-		readAffectedRows: jest.requireActual('@gauzy/core/src/lib/database/database.helper').readAffectedRows,
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		readAffectedRows: jest.requireActual('@irtranscripts/core/src/lib/database/database.helper').readAffectedRows,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		TenantAwareCrudService,
 		BaseEntity,
 		TenantBaseEntity: BaseEntity,
@@ -132,7 +132,7 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	isMySQL: () => false,
 	isPostgres: () => false,
 	DatabaseTypeEnum: {
@@ -149,7 +149,7 @@ const mockCaller: { tenantId: string | null; organizationId: string | null } = {
 
 import 'reflect-metadata';
 import { DataSource, EntitySchema } from 'typeorm';
-import { Warehouse } from '@gauzy/core';
+import { Warehouse } from '@irtranscripts/core';
 import { GoodsReceiptLine } from './goods-receipt-line/goods-receipt-line.entity';
 import { GoodsReceiptLineService } from './goods-receipt-line/goods-receipt-line.service';
 import { GoodsReceipt } from './goods-receipt/goods-receipt.entity';

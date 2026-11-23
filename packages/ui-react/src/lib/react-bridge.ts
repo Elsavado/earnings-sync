@@ -7,7 +7,7 @@ import {
 	UiBridgeMountOptions,
 	UiBridgeMountResult,
 	UI_BRIDGE_FRAMEWORK
-} from '@gauzy/plugin-ui';
+} from '@irtranscripts/plugin-ui';
 
 // Convenience type aliases
 export type ReactBridgeConfig = UiBridgeConfig;

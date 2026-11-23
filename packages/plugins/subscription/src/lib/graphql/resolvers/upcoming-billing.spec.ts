@@ -16,8 +16,8 @@
  * Nothing is doubled here but the service: the controller, the resolver and the document are the real ones.
  */
 
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { IDEMPOTENT_METADATA_KEY, PermissionGuard, TenantPermissionGuard, VERSIONED_METADATA_KEY } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { IDEMPOTENT_METADATA_KEY, PermissionGuard, TenantPermissionGuard, VERSIONED_METADATA_KEY } from '@irtranscripts/core';
 import { FieldDefinitionNode, ObjectTypeDefinitionNode, ObjectTypeExtensionNode, TypeNode } from 'graphql';
 import { SubscriptionPermissions } from '../../subscription.permissions';
 import { SubscriptionController } from '../../subscription/subscription.controller';

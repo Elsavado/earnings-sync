@@ -1,5 +1,5 @@
 import { IntersectionType, PartialType, PickType } from '@nestjs/swagger';
-import { IDashboardUpdateInput } from '@gauzy/contracts';
+import { IDashboardUpdateInput } from '@irtranscripts/contracts';
 import { Dashboard } from '../dashboard.entity';
 import { CreateDashboardDTO } from './create-dashboard.dto';
 

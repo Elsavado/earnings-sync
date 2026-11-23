@@ -1,5 +1,5 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — the configuration, the ORM, the
+ * `@irtranscripts/core` boots the whole application graph from its barrel — the configuration, the ORM, the
  * job registry, the module scanner — none of which a manifest service needs and none of which is
  * available outside a running application. The seam is therefore doubled at the module boundary,
  * as the catalogue and inventory packages' service specs do, and **the service under test is the
@@ -11,7 +11,7 @@
  * TypeORM's `UpdateResult`, and a write against an id that is not there is a miss rather than a
  * silent no-op.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
@@ -101,7 +101,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 import { NotFoundException } from '@nestjs/common';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { CarrierManifestStatus, IWarehouseFulfillmentPort, MANIFEST_NUMBER_KEY } from '../warehouse.types';
 import { CarrierManifestService } from './carrier-manifest.service';
 

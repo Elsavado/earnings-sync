@@ -3,14 +3,14 @@ import { HttpRequest, HttpHandler, type HttpEvent, HttpInterceptor } from '@angu
 import { Observable } from 'rxjs';
 import { Store } from '../services';
 import { TokenRequestCloner } from '../auth';
-import { API_PREFIX, GAUZY_ENV } from './../constants/app.constants';
+import { API_PREFIX, IRTRANSCRIPTS_ENV } from './../constants/app.constants';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
 	private readonly requestCloner = inject(TokenRequestCloner);
 	private readonly store = inject(Store);
 
-	constructor(@Inject(GAUZY_ENV) private readonly environment: any) {}
+	constructor(@Inject(IRTRANSCRIPTS_ENV) private readonly environment: any) {}
 
 	isApiRequest(url: string): boolean {
 		try {

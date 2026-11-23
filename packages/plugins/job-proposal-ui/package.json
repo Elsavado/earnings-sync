@@ -1,7 +1,7 @@
 {
-	"name": "@gauzy/plugin-job-proposal-ui",
+	"name": "@irtranscripts/plugin-job-proposal-ui",
 	"version": "0.1.0",
-	"description": "A UI plugin for managing job proposals within the Ever Gauzy platform.",
+	"description": "A UI plugin for managing job proposals within the Ever IRTranscripts platform.",
 	"author": {
 		"name": "Ever Co. LTD",
 		"email": "ever@ever.co",
@@ -31,9 +31,9 @@
 		"@angular/forms": "22.2.2",
 		"@angular/platform-browser": "22.2.2",
 		"@angular/router": "22.2.2",
-		"@gauzy/contracts": "^0.1.0",
-		"@gauzy/plugin-ui": "^0.1.0",
-		"@gauzy/ui-core": "^0.1.0",
+		"@irtranscripts/contracts": "^0.1.0",
+		"@irtranscripts/plugin-ui": "^0.1.0",
+		"@irtranscripts/ui-core": "^0.1.0",
 		"@nebular/theme": "^18.0.0",
 		"@ng-select/ng-select": "^24.2.1",
 		"@ngneat/until-destroy": "^10.0.0",
@@ -52,7 +52,7 @@
 		"jest-preset-angular": "17.0.2"
 	},
 	"keywords": [
-		"Ever Gauzy",
+		"Ever IRTranscripts",
 		"job proposal",
 		"UI plugin",
 		"Angular",

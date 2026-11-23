@@ -10,8 +10,8 @@ import {
 	TenantPermissionGuard,
 	deliverPayloadAsIs,
 	tenantScopedTopicStream
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { SubscriptionFeatures } from '../../subscription.features';
 import { SubscriptionPermissions } from '../../subscription.permissions';
 import { SUBSCRIPTION_STREAMED_EVENTS } from '../../subscription-streamed-events';

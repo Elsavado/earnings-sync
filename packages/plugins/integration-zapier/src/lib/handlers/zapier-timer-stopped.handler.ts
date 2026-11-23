@@ -1,6 +1,6 @@
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { Injectable } from '@nestjs/common';
-import { TimerStoppedEvent } from '@gauzy/core';
+import { TimerStoppedEvent } from '@irtranscripts/core';
 import { ZapierWebhookService } from '../zapier-webhook.service';
 
 @Injectable()

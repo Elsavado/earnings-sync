@@ -1,4 +1,4 @@
-import { IBasePerTenantAndOrganizationEntityModel, IntegrationEnum, ITimeLog } from '@gauzy/contracts';
+import { IBasePerTenantAndOrganizationEntityModel, IntegrationEnum, ITimeLog } from '@irtranscripts/contracts';
 
 export type ZapierGrantType = 'authorization_code' | 'refresh_token';
 export type ActionType = 'start' | 'stop';

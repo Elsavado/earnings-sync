@@ -8,7 +8,7 @@ import {
 	MultiORMOneToMany,
 	MultiORMOneToOne,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { MikroOrmCampaignRepository } from './repository/mikro-orm-campaign.repository';
 import { CampaignStatus, ICampaign, ICampaignBudget, IPromotion } from '../promotion.types';
 import { CampaignBudget } from '../campaign-budget/campaign-budget.entity';

@@ -1,4 +1,4 @@
-import { KeyResultTypeEnum, KpiOperatorEnum } from '@gauzy/contracts';
+import { KeyResultTypeEnum, KpiOperatorEnum } from '@irtranscripts/contracts';
 import { goalProgress, keyResultProgress } from './keyresult-progress';
 
 /**

@@ -1,7 +1,7 @@
 import '../../core/entities/internal';
 
 import { ForbiddenException } from '@nestjs/common';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../core/context';
 import { MultiORMEnum } from '../../core/utils';
 import { ManagedEmployeeService } from '../../employee/managed-employee.service';

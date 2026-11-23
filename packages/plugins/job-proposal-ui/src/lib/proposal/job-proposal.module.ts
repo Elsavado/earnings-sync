@@ -9,9 +9,9 @@ import {
 	IOnPluginUiDestroy,
 	PluginUiDefinition,
 	PLUGIN_DEFINITION
-} from '@gauzy/plugin-ui';
-import { FeatureEnum, PermissionsEnum } from '@gauzy/contracts';
-import { LoggerService, NavMenuBuilderService, PageRouteRegistryService, Store } from '@gauzy/ui-core/core';
+} from '@irtranscripts/plugin-ui';
+import { FeatureEnum, PermissionsEnum } from '@irtranscripts/contracts';
+import { LoggerService, NavMenuBuilderService, PageRouteRegistryService, Store } from '@irtranscripts/ui-core/core';
 import {
 	SmartDataViewLayoutModule,
 	SharedModule,
@@ -26,7 +26,7 @@ import {
 	TagsColorInputModule,
 	NebularModule,
 	FavoriteToggleModule
-} from '@gauzy/ui-core/shared';
+} from '@irtranscripts/ui-core/shared';
 import { getProposalsRoutes, JOB_PROPOSAL_PAGE_LINK } from './job-proposal.routes';
 import { COMPONENTS } from './components';
 

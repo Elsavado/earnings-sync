@@ -1,6 +1,6 @@
 import '../../../core/entities/internal';
 
-import { IntegrationEntity } from '@gauzy/contracts';
+import { IntegrationEntity } from '@irtranscripts/contracts';
 import { RequestContext } from '../../../core/context';
 import { TimeSlotCreateCommand } from '../../../time-tracking/time-slot/commands';
 import { IntegrationMapSyncEntityCommand } from '../integration-map.sync-entity.command';
@@ -8,7 +8,7 @@ import { IntegrationMapSyncTimeSlotCommand } from '../integration-map.sync-time-
 import { IntegrationMapSyncTimeSlotHandler } from './integration-map.sync-time-slot.handler';
 
 /**
- * A Hubstaff slot that is not mapped yet gets a Gauzy time slot. It was created blank (every activity value 0),
+ * A Hubstaff slot that is not mapped yet gets a IRTranscripts time slot. It was created blank (every activity value 0),
  * and the time log saved right after skips a slot whose start already exists, so the slot's activity was lost.
  */
 describe('IntegrationMapSyncTimeSlotHandler', () => {
@@ -34,7 +34,7 @@ describe('IntegrationMapSyncTimeSlotHandler', () => {
 	afterEach(() => jest.restoreAllMocks());
 
 	it("creates the missing time slot with the slot's activity, then maps it", async () => {
-		const execute = jest.fn().mockResolvedValueOnce({ id: 'gauzy-slot-1' }).mockResolvedValueOnce({ id: 'map-1' });
+		const execute = jest.fn().mockResolvedValueOnce({ id: 'irtranscripts-slot-1' }).mockResolvedValueOnce({ id: 'map-1' });
 		const integrationMapService = { findOneByWhereOptions: jest.fn().mockRejectedValue(new Error('not found')) };
 		const handler = new IntegrationMapSyncTimeSlotHandler({ execute } as never, integrationMapService as never);
 
@@ -53,7 +53,7 @@ describe('IntegrationMapSyncTimeSlotHandler', () => {
 		});
 		expect(map).toBeInstanceOf(IntegrationMapSyncEntityCommand);
 		expect(map.input).toMatchObject({
-			gauzyId: 'gauzy-slot-1',
+			irtranscriptsId: 'irtranscripts-slot-1',
 			sourceId: '42',
 			entity: IntegrationEntity.TIME_SLOT,
 			integrationId: 'integration-1',

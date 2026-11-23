@@ -1,4 +1,4 @@
-import { AiProviderEnum, IAiChatModel } from '@gauzy/contracts';
+import { AiProviderEnum, IAiChatModel } from '@irtranscripts/contracts';
 import {
 	IAiChatProviderDefinition,
 	IAiProviderCredentials,
@@ -6,7 +6,7 @@ import {
 	isPrivateAiProviderEndpointAllowed,
 	transcribeMultipart,
 	trimTrailingSlash
-} from '@gauzy/plugin-ai-chat';
+} from '@irtranscripts/plugin-ai-chat';
 
 /** Stable provider id used by the registry, the UI and BYOK credentials. */
 const PROVIDER_ID = AiProviderEnum.WHISPER_CPP;

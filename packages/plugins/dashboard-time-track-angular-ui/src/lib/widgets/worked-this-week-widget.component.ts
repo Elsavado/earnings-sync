@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
-import { DurationFormatPipe } from '@gauzy/ui-core/shared';
+import { DurationFormatPipe } from '@irtranscripts/ui-core/shared';
 import { BaseTimeTrackCounterWidgetComponent } from './base-time-track-counter-widget.component';
 import { TimeTrackCounterCardComponent } from './time-track-counter-card.component';
 import { RangePeriod } from './time-track-widget.utils';

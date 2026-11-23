@@ -45,30 +45,30 @@ function findPackages(dir) {
 const packages = findPackages('packages');
 console.log('Found', packages.length, 'packages\n');
 
-const gauzyPkgNameToNxName = {
-	'@gauzy/constants': 'constants',
-	'@gauzy/contracts': 'contracts',
-	'@gauzy/common': 'common',
-	'@gauzy/utils': 'utils',
-	'@gauzy/config': 'config',
-	'@gauzy/plugin': 'plugin',
-	'@gauzy/auth': 'auth',
-	'@gauzy/core': 'core',
-	'@gauzy/ui-core': 'ui-core',
-	'@gauzy/ui-config': 'ui-config',
-	'@gauzy/ui-auth': 'ui-auth',
-	'@gauzy/desktop-lib': 'desktop-lib',
-	'@gauzy/desktop-ui-lib': 'desktop-ui-lib',
-	'@gauzy/desktop-window': 'desktop-window',
-	'@gauzy/desktop-core': 'desktop-core',
-	'@gauzy/desktop-activity': 'desktop-activity',
-	'@gauzy/mcp-server': 'mcp-server',
-	'@gauzy/plugin-integration-ai': 'plugin-integration-ai',
-	'@gauzy/plugin-integration-github': 'plugin-integration-github',
-	'@gauzy/plugin-integration-hubstaff': 'plugin-integration-hubstaff',
-	'@gauzy/plugin-integration-upwork': 'plugin-integration-upwork',
-	'@gauzy/plugin-job-proposal': 'plugin-job-proposal',
-	'@gauzy/plugin-job-search': 'plugin-job-search'
+const irtranscriptsPkgNameToNxName = {
+	'@irtranscripts/constants': 'constants',
+	'@irtranscripts/contracts': 'contracts',
+	'@irtranscripts/common': 'common',
+	'@irtranscripts/utils': 'utils',
+	'@irtranscripts/config': 'config',
+	'@irtranscripts/plugin': 'plugin',
+	'@irtranscripts/auth': 'auth',
+	'@irtranscripts/core': 'core',
+	'@irtranscripts/ui-core': 'ui-core',
+	'@irtranscripts/ui-config': 'ui-config',
+	'@irtranscripts/ui-auth': 'ui-auth',
+	'@irtranscripts/desktop-lib': 'desktop-lib',
+	'@irtranscripts/desktop-ui-lib': 'desktop-ui-lib',
+	'@irtranscripts/desktop-window': 'desktop-window',
+	'@irtranscripts/desktop-core': 'desktop-core',
+	'@irtranscripts/desktop-activity': 'desktop-activity',
+	'@irtranscripts/mcp-server': 'mcp-server',
+	'@irtranscripts/plugin-integration-ai': 'plugin-integration-ai',
+	'@irtranscripts/plugin-integration-github': 'plugin-integration-github',
+	'@irtranscripts/plugin-integration-hubstaff': 'plugin-integration-hubstaff',
+	'@irtranscripts/plugin-integration-upwork': 'plugin-integration-upwork',
+	'@irtranscripts/plugin-job-proposal': 'plugin-job-proposal',
+	'@irtranscripts/plugin-job-search': 'plugin-job-search'
 };
 
 const issues = [];
@@ -79,9 +79,9 @@ for (const pkg of packages) {
 		const projJson = JSON.parse(fs.readFileSync(pkg.projPath, 'utf8'));
 
 		const deps = { ...pkgJson.dependencies, ...pkgJson.peerDependencies };
-		const gauzyDeps = Object.keys(deps).filter((d) => d.startsWith('@gauzy/'));
+		const irtranscriptsDeps = Object.keys(deps).filter((d) => d.startsWith('@irtranscripts/'));
 
-		const nxNames = gauzyDeps.map((d) => gauzyPkgNameToNxName[d]).filter(Boolean);
+		const nxNames = irtranscriptsDeps.map((d) => irtranscriptsPkgNameToNxName[d]).filter(Boolean);
 		const currentImplicit = projJson.implicitDependencies || [];
 
 		const missing = nxNames.filter((n) => !currentImplicit.includes(n));

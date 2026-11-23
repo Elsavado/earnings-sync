@@ -1,15 +1,15 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry — none of which a totals function needs, and none of which is available outside a running
  * application. The seam is therefore doubled at the module boundary, with the *real* `Money` value
  * object loaded from its own module so that the arithmetic under test is the platform's.
  */
-jest.mock('@gauzy/core', () => ({
-	Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money
+jest.mock('@irtranscripts/core', () => ({
+	Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money
 }));
 
-import { CurrencyCode, RoundingMode } from '@gauzy/contracts';
-import { Money } from '@gauzy/core/src/lib/money/money';
+import { CurrencyCode, RoundingMode } from '@irtranscripts/contracts';
+import { Money } from '@irtranscripts/core/src/lib/money/money';
 import { ITotalsAdjustment, ITotalsContext, ITotalsLine, ITotalsTaxLine, TotalsCalculator } from './totals-calculator';
 
 /**

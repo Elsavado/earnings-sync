@@ -14,8 +14,8 @@ import { MODULE_METADATA } from '@nestjs/common/constants';
 import { Reflector } from '@nestjs/core';
 import { SUBSCRIPTION_OPTIONS_METADATA } from '@nestjs/graphql/dist/graphql.constants';
 import { buildSchema, GraphQLEnumType, GraphQLInputObjectType, GraphQLObjectType, parse, printSchema } from 'graphql';
-import { PermissionsEnum, WebhookDeliveryStatus } from '@gauzy/contracts';
-import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@gauzy/constants';
+import { PermissionsEnum, WebhookDeliveryStatus } from '@irtranscripts/contracts';
+import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { CursorCodec } from '../api/cursor';
 import { EncryptionService } from '../common/encryption/encryption.service';
 import { RequestContext } from '../core/context';
@@ -1117,17 +1117,17 @@ describe('WebhookResolver — the streamed facts are produced by the services bo
 
 	beforeEach(() => {
 		tenant = jest.spyOn(RequestContext, 'currentTenantId').mockReturnValue(TENANT);
-		allowPrivateNetwork = process.env.GAUZY_WEBHOOK_ALLOW_PRIVATE_NETWORK;
-		delete process.env.GAUZY_WEBHOOK_ALLOW_PRIVATE_NETWORK;
+		allowPrivateNetwork = process.env.IRTRANSCRIPTS_WEBHOOK_ALLOW_PRIVATE_NETWORK;
+		delete process.env.IRTRANSCRIPTS_WEBHOOK_ALLOW_PRIVATE_NETWORK;
 	});
 
 	afterEach(() => {
 		tenant.mockRestore();
 		jest.restoreAllMocks();
 		if (allowPrivateNetwork === undefined) {
-			delete process.env.GAUZY_WEBHOOK_ALLOW_PRIVATE_NETWORK;
+			delete process.env.IRTRANSCRIPTS_WEBHOOK_ALLOW_PRIVATE_NETWORK;
 		} else {
-			process.env.GAUZY_WEBHOOK_ALLOW_PRIVATE_NETWORK = allowPrivateNetwork;
+			process.env.IRTRANSCRIPTS_WEBHOOK_ALLOW_PRIVATE_NETWORK = allowPrivateNetwork;
 		}
 	});
 

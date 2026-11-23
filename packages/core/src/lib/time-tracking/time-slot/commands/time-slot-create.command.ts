@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { ITimeSlotCreateInput } from '@gauzy/contracts';
+import { ITimeSlotCreateInput } from '@irtranscripts/contracts';
 
 export class TimeSlotCreateCommand implements ICommand {
 	static readonly type = '[TimeSlot] Create TimeSlot';

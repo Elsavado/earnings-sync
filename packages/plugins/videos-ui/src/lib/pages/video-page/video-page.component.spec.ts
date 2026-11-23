@@ -1,11 +1,11 @@
-// `VideoPageComponent` extends `BaseSelectorFilterComponent` and pulls `GauzyFiltersComponent` /
-// `TimeZoneService` from the `@gauzy/ui-core/shared` barrel. Importing that barrel transitively loads
+// `VideoPageComponent` extends `BaseSelectorFilterComponent` and pulls `IRTranscriptsFiltersComponent` /
+// `TimeZoneService` from the `@irtranscripts/ui-core/shared` barrel. Importing that barrel transitively loads
 // `selectors.module` -> `ngx-daterangepicker-material` -> `dayjs/esm` — ESM this suite's
 // `transformIgnorePatterns` does not transform, so the real barrel fails to parse under jest (same
 // approach as the sibling `video`/`camshot-list`/`video-item` specs). Stub only the symbols the
 // component genuinely uses: a base class that supplies the `subject$` its `ngOnInit` subscribes to,
-// plus the `GauzyFiltersComponent` view-child token and the `TimeZoneService` DI token.
-jest.mock('@gauzy/ui-core/shared', () => {
+// plus the `IRTranscriptsFiltersComponent` view-child token and the `TimeZoneService` DI token.
+jest.mock('@irtranscripts/ui-core/shared', () => {
 	const { Subject } = require('rxjs');
 	return {
 		BaseSelectorFilterComponent: class BaseSelectorFilterComponent {
@@ -16,15 +16,15 @@ jest.mock('@gauzy/ui-core/shared', () => {
 				return request;
 			}
 		},
-		GauzyFiltersComponent: class GauzyFiltersComponent {},
+		IRTranscriptsFiltersComponent: class IRTranscriptsFiltersComponent {},
 		TimeZoneService: class TimeZoneService {}
 	};
 });
 
 // The component also injects `Store`, `DateRangePickerBuilderService` and `TimesheetFilterService`
-// from the `@gauzy/ui-core/core` barrel. Stub those DI tokens so the real (equally heavy) barrel is
+// from the `@irtranscripts/ui-core/core` barrel. Stub those DI tokens so the real (equally heavy) barrel is
 // never loaded; the TestBed provides doubles for each below.
-jest.mock('@gauzy/ui-core/core', () => ({
+jest.mock('@irtranscripts/ui-core/core', () => ({
 	Store: class Store {},
 	DateRangePickerBuilderService: class DateRangePickerBuilderService {},
 	TimesheetFilterService: class TimesheetFilterService {}
@@ -35,8 +35,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Actions } from '@ngneat/effects-ng';
 import { TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
-import { DateRangePickerBuilderService, Store, TimesheetFilterService } from '@gauzy/ui-core/core';
-import { TimeZoneService } from '@gauzy/ui-core/shared';
+import { DateRangePickerBuilderService, Store, TimesheetFilterService } from '@irtranscripts/ui-core/core';
+import { TimeZoneService } from '@irtranscripts/ui-core/shared';
 import { VideoQuery } from '../../+state/video.query';
 import { VideoStore } from '../../+state/video.store';
 import { VideoPageComponent } from './video-page.component';
@@ -73,7 +73,7 @@ describe('VideoPageComponent', () => {
 				{ provide: TimesheetFilterService, useValue: {} },
 				{ provide: TranslateService, useValue: { get: jest.fn(() => of('')), instant: jest.fn((k: string) => k) } }
 			],
-			// The template renders custom elements (`ngx-gauzy-filters`, `plug-video-list`,
+			// The template renders custom elements (`ngx-irtranscripts-filters`, `plug-video-list`,
 			// `ngx-no-data-message`) and the `nbInfiniteList` directive that are not declared here; the
 			// global test-setup enables errorOnUnknownElements/Properties, so suppress them.
 			schemas: [NO_ERRORS_SCHEMA]

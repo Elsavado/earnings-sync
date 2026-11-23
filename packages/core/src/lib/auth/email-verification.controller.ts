@@ -11,8 +11,8 @@ import {
 } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
-import { FeatureFlag, Public } from '@gauzy/common';
-import { FeatureEnum } from '@gauzy/contracts';
+import { FeatureFlag, Public } from '@irtranscripts/common';
+import { FeatureEnum } from '@irtranscripts/contracts';
 import { EmailConfirmationService } from './email-confirmation.service';
 import { FeatureFlagGuard } from './../shared/guards';
 import { UseValidationPipe } from '../shared/pipes';

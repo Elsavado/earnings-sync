@@ -1,5 +1,5 @@
 import { ConflictException } from '@nestjs/common';
-import { IUser } from '@gauzy/contracts';
+import { IUser } from '@irtranscripts/contracts';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { AuthService } from '../../../auth/auth.service';
 import { InviteService } from '../../invite.service';

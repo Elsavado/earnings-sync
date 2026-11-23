@@ -2,7 +2,7 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 
 interface IAuthContext {
 	authKey?: string;
-	/** Whether this caller may run as the GAUZY_AUTO_LOGIN account when it has no login of its own */
+	/** Whether this caller may run as the IRTRANSCRIPTS_AUTO_LOGIN account when it has no login of its own */
 	sharesAutoLogin?: boolean;
 }
 
@@ -10,7 +10,7 @@ const authContext = new AsyncLocalStorage<IAuthContext>();
 
 export interface IRunWithAuthKeyOptions {
 	/**
-	 * Whether the caller may fall back to the GAUZY_AUTO_LOGIN account (see {@link isLocalCaller}).
+	 * Whether the caller may fall back to the IRTRANSCRIPTS_AUTO_LOGIN account (see {@link isLocalCaller}).
 	 * Left out, the enclosing call's answer is kept, and outside any call the fallback is allowed, as stdio needs.
 	 */
 	sharesAutoLogin?: boolean;
@@ -18,7 +18,7 @@ export interface IRunWithAuthKeyOptions {
 
 /**
  * Run `fn` on behalf of one HTTP or WebSocket caller (a session id or an OAuth subject).
- * AuthManager reads and writes that caller's Gauzy login instead of the process-wide one.
+ * AuthManager reads and writes that caller's IRTranscripts login instead of the process-wide one.
  * With no key the process-wide login is used, which is what stdio relies on.
  */
 export function runWithAuthKey<T>(authKey: string | undefined, fn: () => T, options: IRunWithAuthKeyOptions = {}): T {
@@ -34,7 +34,7 @@ export function getAuthKey(): string | undefined {
 }
 
 /**
- * Whether the current caller may run as the GAUZY_AUTO_LOGIN account when it has no login of its own
+ * Whether the current caller may run as the IRTRANSCRIPTS_AUTO_LOGIN account when it has no login of its own
  */
 export function mayShareAutoLogin(): boolean {
 	return authContext.getStore()?.sharesAutoLogin ?? true;

@@ -2,7 +2,7 @@ import type { ChangeDetectorRef } from '@angular/core';
 import moment from 'moment';
 import timezone from 'moment-timezone';
 import { TimerRangePickerComponent } from './timer-range-picker.component';
-import type { TimeZoneService } from '../../timesheet/gauzy-filters/timezone-filter/time-zone.service';
+import type { TimeZoneService } from '../../timesheet/irtranscripts-filters/timezone-filter/time-zone.service';
 
 /**
  * The picker is a ControlValueAccessor with no template logic worth a TestBed: `writeValue` (read)

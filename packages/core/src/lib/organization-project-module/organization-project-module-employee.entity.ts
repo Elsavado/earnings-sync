@@ -1,7 +1,7 @@
 import { RelationId } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsDateString, IsNotEmpty, IsOptional, IsUUID } from 'class-validator';
-import { ID, IEmployee, IOrganizationProjectModuleEmployee, IRole } from '@gauzy/contracts';
+import { ID, IEmployee, IOrganizationProjectModuleEmployee, IRole } from '@irtranscripts/contracts';
 import { Employee, OrganizationProjectModule, Role, TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from '../core/decorators/entity';
 import { MikroOrmOrganizationProjectModuleEmployeeRepository } from './repository/mikro-orm-organization-project-module-employee.repository';

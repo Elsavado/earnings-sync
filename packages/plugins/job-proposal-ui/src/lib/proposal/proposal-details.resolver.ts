@@ -1,8 +1,8 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, ResolveFn, Router } from '@angular/router';
 import { Observable, catchError, of } from 'rxjs';
-import { IProposal } from '@gauzy/contracts';
-import { ProposalsService } from '@gauzy/ui-core/core';
+import { IProposal } from '@irtranscripts/contracts';
+import { ProposalsService } from '@irtranscripts/ui-core/core';
 
 /**
  * Resolver function to fetch a proposal by its ID.

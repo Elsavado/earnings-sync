@@ -10,8 +10,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { RequestContext, Sequence } from '@gauzy/core';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { RequestContext, Sequence } from '@irtranscripts/core';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 /** Default width of an allocated number, matching the platform’s document numbers. */
 const DEFAULT_PADDING = 6;

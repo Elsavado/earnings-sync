@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { EntityManager, EntityTarget, FindOptionsWhere, ObjectLiteral } from 'typeorm';
-import { EmployeeKindEnum } from '@gauzy/contracts';
+import { EmployeeKindEnum } from '@irtranscripts/contracts';
 
 /**
  * The domain an agent employee's login identity defaults to. Under the RFC 2606 `.invalid` top-level

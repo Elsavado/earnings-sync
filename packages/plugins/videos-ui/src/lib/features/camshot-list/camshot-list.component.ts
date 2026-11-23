@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, type SimpleChanges } from '@angular/core';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { Actions } from '@ngneat/effects-ng';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { combineLatest, distinctUntilChanged, filter, map, Observable, take, tap } from 'rxjs';
@@ -8,7 +8,7 @@ import { CamshotQuery } from '../../+state/camshot/camshot.query';
 import { CamshotStore } from '../../+state/camshot/camshot.store';
 import { ICamshot } from '../../shared/models/camshot.model';
 import { NbDialogService } from '@nebular/theme';
-import { AlertModalComponent } from '@gauzy/ui-core/shared';
+import { AlertModalComponent } from '@irtranscripts/ui-core/shared';
 import { CamshotViewerComponent } from '../../shared/ui/camshot/camshot-viewer/camshot-viewer.component';
 
 @UntilDestroy({ checkProperties: true })

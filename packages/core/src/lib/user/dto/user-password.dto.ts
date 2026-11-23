@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty } from "class-validator";
-import { IUserPasswordInput } from "@gauzy/contracts";
+import { IUserPasswordInput } from "@irtranscripts/contracts";
 
 /**
  * User password input DTO validation

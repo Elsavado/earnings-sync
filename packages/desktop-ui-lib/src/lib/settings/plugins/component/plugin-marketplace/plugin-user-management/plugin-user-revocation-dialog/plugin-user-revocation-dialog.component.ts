@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IUser } from '@gauzy/contracts';
+import { IUser } from '@irtranscripts/contracts';
 import { NbDialogRef } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 import { PluginSubscriptionAccessFacade } from '../../+state/plugin-subscription-access.facade';
 
 @Component({
-	selector: 'gauzy-plugin-user-revocation-dialog',
+	selector: 'irtranscripts-plugin-user-revocation-dialog',
 	templateUrl: './plugin-user-revocation-dialog.component.html',
 	styleUrls: ['./plugin-user-revocation-dialog.component.scss'],
 	changeDetection: ChangeDetectionStrategy.Eager,

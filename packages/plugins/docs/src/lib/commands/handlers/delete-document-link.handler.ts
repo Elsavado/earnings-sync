@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IDocumentLink } from '@gauzy/contracts';
+import { IDocumentLink } from '@irtranscripts/contracts';
 import { DocumentLinkService } from '../../services/document-link.service';
 import { DeleteDocumentLinkCommand } from '../delete-document-link.command';
 

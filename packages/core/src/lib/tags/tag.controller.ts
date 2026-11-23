@@ -16,7 +16,7 @@ import {
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CommandBus } from '@nestjs/cqrs';
 import { UpdateResult } from 'typeorm';
-import { ID, IPagination, ITag, ITagCreateInput, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IPagination, ITag, ITagCreateInput, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	BulkExecutor,
 	BulkOperation,

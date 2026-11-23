@@ -11,7 +11,7 @@ $button-radius: var(--button-rectangle-border-radius);
 		margin-right: 5px;
 		border-radius: var(--button-rectangle-border-radius);
 		border: unset;
-		background-color: var(--gauzy-background-transparent-1);
+		background-color: var(--irtranscripts-background-transparent-1);
 	}
 }
 
@@ -19,8 +19,8 @@ $button-radius: var(--button-rectangle-border-radius);
 	height: inherit;
 	display: flex;
 	align-items: center;
-	background: var(--gauzy-card-1);
-	box-shadow: var(--gauzy-shadow) inset;
+	background: var(--irtranscripts-card-1);
+	box-shadow: var(--irtranscripts-shadow) inset;
 	border-radius: var(--button-rectangle-border-radius);
 	/* I've used padding so you can see the edges of the elements. */
 	padding: 2px 0px 2px 5px;
@@ -39,7 +39,7 @@ $button-radius: var(--button-rectangle-border-radius);
 		line-height: 11px;
 		letter-spacing: 0em;
 		text-align: left;
-		color: var(--gauzy-text-color-2);
+		color: var(--irtranscripts-text-color-2);
 	}
 
 	input.single-range {
@@ -205,7 +205,7 @@ $button-radius: var(--button-rectangle-border-radius);
 	line-height: 11px;
 	letter-spacing: 0em;
 	text-align: center;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 	@include nb-ltr(margin-left, 9px);
 	@include nb-rtl(margin-right, 12px);
 }

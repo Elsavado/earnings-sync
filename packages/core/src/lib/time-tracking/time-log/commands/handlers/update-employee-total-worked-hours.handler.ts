@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { ConfigService, DatabaseTypeEnum } from '@gauzy/config';
-import { ID } from '@gauzy/contracts';
+import { ConfigService, DatabaseTypeEnum } from '@irtranscripts/config';
+import { ID } from '@irtranscripts/contracts';
 import { prepareSQLQuery as p } from './../../../../database/database.helper';
 import { RequestContext } from './../../../../core/context';
 import { MultiORM, MultiORMEnum, getORMType } from './../../../../core/utils';

@@ -7,8 +7,8 @@ import {
 	IIntegrationTenant,
 	IntegrationEntity,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
 import { Permissions } from '../shared/decorators';
 import { FeatureFlagGuard, PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { FEATURE_GRAPHQL } from '../feature/graphql-feature.code';

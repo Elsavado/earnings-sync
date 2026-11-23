@@ -8,7 +8,7 @@ import { Camshot } from './entity/camshot.entity';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { TypeOrmCamshotRepository } from './repositories/type-orm-camshot.repository';
 import { MikroOrmCamshotRepository } from './repositories/mikro-orm-camshot.repository';
-import { RolePermissionModule } from '@gauzy/core';
+import { RolePermissionModule } from '@irtranscripts/core';
 import { CamshotSubscriber } from './subscribers/camshot.subscriber';
 import { queryHandlers } from './queries';
 

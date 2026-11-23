@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm';
 import { faker } from '@faker-js/faker';
-import { ICountry, IMerchant, IOrganization, ITenant } from '@gauzy/contracts';
+import { ICountry, IMerchant, IOrganization, ITenant } from '@irtranscripts/contracts';
 import { Merchant, Contact, ImageAsset, Country } from './../core/entities/internal';
 import { getEmailWithPostfix } from '../core/seeds/utils';
 

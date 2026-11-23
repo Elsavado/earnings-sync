@@ -1,11 +1,11 @@
 import { ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
-import { SubscriptionRequiredGuard } from '@gauzy/core';
+import { SubscriptionRequiredGuard } from '@irtranscripts/core';
 
 /** The outcome of the subscription check of a sign-up. */
 export type ZitadelSubscriptionCheck = { allowed: true } | { allowed: false; checkoutUrl: string; message?: string };
 
 /**
- * Runs Gauzy's own subscription gate of the register route for an Ever ID sign-up.
+ * Runs IRTranscripts's own subscription gate of the register route for an Ever ID sign-up.
  *
  * It calls the unchanged `SubscriptionRequiredGuard` with the same request shape `POST /auth/register`
  * presents, so the rule is identical: a self-hosted install without billing lets everyone through,
@@ -37,7 +37,7 @@ export class ZitadelSubscriptionGateService {
 /**
  * Removes the e-mail address from a checkout URL.
  *
- * Gauzy appends `?email=...` to the configured checkout URL as text, so when that URL already has a
+ * IRTranscripts appends `?email=...` to the configured checkout URL as text, so when that URL already has a
  * query the address ends up inside another parameter's value; that tail is cut as well. Should an
  * address still appear anywhere, the whole query is dropped.
  *

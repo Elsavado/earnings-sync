@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { EventBus, User } from '@gauzy/core';
+import { EventBus, User } from '@irtranscripts/core';
 import { ZitadelLinkMethod } from '../entities/zitadel-account.entity';
 import { ZitadelAccountLinkedEvent, ZitadelAccountUnlinkedEvent } from '../events/zitadel-account.events';
 import { ZitadelIdentity } from './zitadel-account.service';

@@ -1,5 +1,5 @@
-import { ID, PluginOSArch, PluginOSType } from '@gauzy/contracts';
-import { logger } from '@gauzy/desktop-core';
+import { ID, PluginOSArch, PluginOSType } from '@irtranscripts/contracts';
+import { logger } from '@irtranscripts/desktop-core';
 import { ipcMain, IpcMainEvent } from 'electron';
 import * as os from 'node:os';
 import * as path from 'node:path';

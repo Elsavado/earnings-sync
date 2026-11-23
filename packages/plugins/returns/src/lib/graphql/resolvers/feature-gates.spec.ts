@@ -22,19 +22,19 @@
 const mockDeclaredFlags = new Map<unknown, string[]>();
 
 /**
- * The kernel barrel is doubled for the reason this package's other suites state — `@gauzy/core` boots the
+ * The kernel barrel is doubled for the reason this package's other suites state — `@irtranscripts/core` boots the
  * whole application graph from its barrel — and with the same double as the soft-delete suite, which
  * loads the same fourteen classes.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { SetMetadata, UsePipes, ValidationPipe } = require('@nestjs/common');
-	const { PERMISSIONS_METADATA } = require('@gauzy/constants');
+	const { PERMISSIONS_METADATA } = require('@irtranscripts/constants');
 
 	// The kernel's own declarations and its conditional write, so the classes under test are declared
 	// with the platform's decorators rather than with no-ops.
-	const idempotency = jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.policy');
-	const versioned = jest.requireActual('@gauzy/core/src/lib/concurrency/versioned.decorator');
-	const versionedWrite = jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write');
+	const idempotency = jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.policy');
+	const versioned = jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned.decorator');
+	const versionedWrite = jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
@@ -68,7 +68,7 @@ jest.mock('@gauzy/core', () => {
 	return {
 		// The shared GraphQL gate, which the resolvers read from the public barrel rather than from a path into
 		// the kernel's sources: the declaring module's own value, so the assertions below compare against it.
-		FEATURE_GRAPHQL: jest.requireActual('@gauzy/core/src/lib/feature/graphql-feature.code').FEATURE_GRAPHQL,
+		FEATURE_GRAPHQL: jest.requireActual('@irtranscripts/core/src/lib/feature/graphql-feature.code').FEATURE_GRAPHQL,
 		CrudController,
 		CrudService,
 		TenantAwareCrudService: CrudService,
@@ -93,7 +93,7 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		BaseEvent: class {},
 		EventBus: class {},
 		PermissionGuard: class PermissionGuard {},
@@ -115,18 +115,18 @@ jest.mock('@gauzy/core', () => {
 		Warehouse: class Warehouse {},
 		UseValidationPipe: (options: unknown) => UsePipes(new ValidationPipe(options as never)),
 		Permissions: (...permissions: string[]) => SetMetadata(PERMISSIONS_METADATA, permissions),
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
 		IDEMPOTENT_METADATA_KEY: idempotency.IDEMPOTENT_METADATA_KEY,
 		Versioned: versioned.Versioned,
 		commitVersionedUpdate: versionedWrite.commitVersionedUpdate,
 		versionExpectationOf: versionedWrite.versionExpectationOf,
 		// The page window and the connection the list fields answer with are the kernel's own, so a
 		// resolver that is loaded here is loaded with the platform's helpers rather than with holes.
-		resolveConnectionWindow: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		resolveConnectionWindow: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.resolveConnectionWindow,
-		connectionFromOffsetPage: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		connectionFromOffsetPage: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.connectionFromOffsetPage,
-		paginateRows: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection').paginateRows,
+		paginateRows: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection').paginateRows,
 		RequestContext: {
 			currentUser: () => null,
 			currentUserId: () => null,
@@ -139,11 +139,11 @@ jest.mock('@gauzy/core', () => {
 });
 
 /**
- * The feature-flag decorator is the only value these modules read from `@gauzy/common`, and it is
+ * The feature-flag decorator is the only value these modules read from `@irtranscripts/common`, and it is
  * recorded: a class statement is kept against the class, a field statement against the field's function.
  */
 jest.mock(
-	'@gauzy/common',
+	'@irtranscripts/common',
 	() => ({
 		FeatureFlag:
 			(feature: string) =>
@@ -155,7 +155,7 @@ jest.mock(
 	})
 );
 
-import { FEATURE_GRAPHQL } from '@gauzy/core/src/lib/feature/graphql-feature.code';
+import { FEATURE_GRAPHQL } from '@irtranscripts/core/src/lib/feature/graphql-feature.code';
 import { ReturnsFeatures } from '../../returns.features';
 import { OrderClaimController } from '../../order-claim/order-claim.controller';
 import { OrderClaimLineController } from '../../order-claim-line/order-claim-line.controller';

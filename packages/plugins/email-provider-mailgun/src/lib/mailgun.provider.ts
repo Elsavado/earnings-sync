@@ -9,7 +9,7 @@ import {
 	UnauthorizedException
 } from '@nestjs/common';
 import { createHash, createHmac, timingSafeEqual } from 'node:crypto';
-import { INBOX_EMAIL_PROVIDER_REGISTRY } from '@gauzy/contracts';
+import { INBOX_EMAIL_PROVIDER_REGISTRY } from '@irtranscripts/contracts';
 import {
 	derivedMessageId,
 	formatAddress,
@@ -30,7 +30,7 @@ import {
 	referencesOf,
 	safeFilename,
 	toVerdict
-} from '@gauzy/plugin-inbox';
+} from '@irtranscripts/plugin-inbox';
 
 /** The Mailgun API of each region (https, no redirects). */
 export const MAILGUN_API_BASE_URLS = { us: 'https://api.mailgun.net', eu: 'https://api.eu.mailgun.net' } as const;
@@ -169,7 +169,7 @@ export class MailgunProvider implements IEmailProviderPlugin, IInboundEmailProvi
 	onModuleInit(): void {
 		if (!this.registry) {
 			this.logger.warn(
-				'The Inbox email features are off (GAUZY_INBOX_EMAIL_ENABLED): the Mailgun provider stays idle.'
+				'The Inbox email features are off (IRTRANSCRIPTS_INBOX_EMAIL_ENABLED): the Mailgun provider stays idle.'
 			);
 			return;
 		}

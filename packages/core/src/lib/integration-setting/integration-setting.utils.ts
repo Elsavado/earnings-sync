@@ -1,6 +1,6 @@
 import { ForbiddenException } from '@nestjs/common';
-import { IntegrationEnum } from '@gauzy/contracts';
-import { isNotEmpty, isObject } from '@gauzy/utils';
+import { IntegrationEnum } from '@irtranscripts/contracts';
+import { isNotEmpty, isObject } from '@irtranscripts/utils';
 import { maskSecret } from '../core/decorators/is-secret';
 
 // Assuming you have fetched sensitive keys specific entity
@@ -41,11 +41,11 @@ export const nonSecretSettingKeys = [
  * for example, pointed a tenant's integration at another tenant's GitHub App installation and
  * skipped every check the install flow makes (GHSA-4rwq-65wh-45h4).
  *
- * The only first-party caller is the Gauzy AI settings card (integration-ai-ui), which edits
+ * The only first-party caller is the IRTranscripts AI settings card (integration-ai-ui), which edits
  * exactly these four keys. A new user-editable setting has to be added here explicitly.
  */
 export const userEditableIntegrationSettings: Readonly<Record<string, readonly string[]>> = Object.freeze({
-	[IntegrationEnum.GAUZY_AI]: Object.freeze(['apiKey', 'apiSecret', 'openAiSecretKey', 'openAiOrganizationId'])
+	[IntegrationEnum.IRTRANSCRIPTS_AI]: Object.freeze(['apiKey', 'apiSecret', 'openAiSecretKey', 'openAiOrganizationId'])
 });
 
 /**

@@ -1,5 +1,5 @@
 import { EventSubscriber } from 'typeorm';
-import { BaseEntityEventSubscriber, Token } from '@gauzy/core';
+import { BaseEntityEventSubscriber, Token } from '@irtranscripts/core';
 import { IssuedPlatformToken, PLATFORM_REFRESH_TOKEN_TYPE, ZitadelTokenBinding } from './zitadel-token-binding';
 
 /**

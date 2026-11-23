@@ -1,4 +1,4 @@
-import { IMatchingCriterions } from '@gauzy/contracts';
+import { IMatchingCriterions } from '@irtranscripts/contracts';
 import { ICommand } from '@nestjs/cqrs';
 
 export class SaveEmployeeCriterionCommand implements ICommand {

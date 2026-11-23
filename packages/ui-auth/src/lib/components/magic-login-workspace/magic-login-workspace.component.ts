@@ -3,9 +3,9 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { EMPTY, firstValueFrom } from 'rxjs';
 import { catchError, filter, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { IAuthResponse, IUserSigninWorkspaceResponse, IWorkspaceResponse } from '@gauzy/contracts';
-import { sleep } from '@gauzy/ui-core/common';
-import { AuthService, ErrorHandlingService, Store } from '@gauzy/ui-core/core';
+import { IAuthResponse, IUserSigninWorkspaceResponse, IWorkspaceResponse } from '@irtranscripts/contracts';
+import { sleep } from '@irtranscripts/ui-core/common';
+import { AuthService, ErrorHandlingService, Store } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

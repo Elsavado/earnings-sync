@@ -13,7 +13,7 @@ import { isDocsQueueEnabled, isDocsQueueWorkerEnabled } from './docs.config';
  * the API crash-looped.
  *
  * The default is now derived from `isSchedulerQueueRootEnabled()` — the SAME expression that
- * `@gauzy/core`'s `AppModule`, its `SeederModule.forPlugins()` and `apps/worker`'s `AppModule`
+ * `@irtranscripts/core`'s `AppModule`, its `SeederModule.forPlugins()` and `apps/worker`'s `AppModule`
  * each evaluate to decide whether to register a root. The distinction the old comment protected
  * is therefore intact: the gate still answers "does a root exist in this process?", it just has
  * a truthful way to answer it now instead of defaulting to "no".
@@ -28,8 +28,8 @@ describe('isDocsQueueEnabled', () => {
 		delete process.env['REDIS_ENABLED'];
 		delete process.env['SCHEDULER_QUEUE_ENABLED'];
 		delete process.env['WORKER_QUEUE_ENABLED'];
-		delete process.env['GAUZY_DOCS_QUEUE_ENABLED'];
-		delete process.env['GAUZY_DOCS_QUEUE_WORKER_ENABLED'];
+		delete process.env['IRTRANSCRIPTS_DOCS_QUEUE_ENABLED'];
+		delete process.env['IRTRANSCRIPTS_DOCS_QUEUE_WORKER_ENABLED'];
 	});
 
 	afterEach(() => {
@@ -37,7 +37,7 @@ describe('isDocsQueueEnabled', () => {
 	});
 
 	it('is OFF when nothing is configured, so the pipeline dispatches inline', () => {
-		delete process.env['GAUZY_DOCS_QUEUE_ENABLED'];
+		delete process.env['IRTRANSCRIPTS_DOCS_QUEUE_ENABLED'];
 		delete process.env['SCHEDULER_QUEUE_ENABLED'];
 		delete process.env['REDIS_ENABLED'];
 
@@ -45,7 +45,7 @@ describe('isDocsQueueEnabled', () => {
 	});
 
 	it('turns ON when Redis is enabled, because that is when a root is registered', () => {
-		delete process.env['GAUZY_DOCS_QUEUE_ENABLED'];
+		delete process.env['IRTRANSCRIPTS_DOCS_QUEUE_ENABLED'];
 		delete process.env['SCHEDULER_QUEUE_ENABLED'];
 		process.env['REDIS_ENABLED'] = 'true';
 
@@ -55,7 +55,7 @@ describe('isDocsQueueEnabled', () => {
 	});
 
 	it('stays OFF when the shared root switch is off, even with Redis enabled', () => {
-		delete process.env['GAUZY_DOCS_QUEUE_ENABLED'];
+		delete process.env['IRTRANSCRIPTS_DOCS_QUEUE_ENABLED'];
 		process.env['SCHEDULER_QUEUE_ENABLED'] = 'false';
 		process.env['REDIS_ENABLED'] = 'true';
 
@@ -71,7 +71,7 @@ describe('isDocsQueueEnabled', () => {
 	 * `targets queue "docs-processing" but queueing is disabled`.
 	 */
 	it('stays OFF when the worker-local WORKER_QUEUE_ENABLED removes the root', () => {
-		delete process.env['GAUZY_DOCS_QUEUE_ENABLED'];
+		delete process.env['IRTRANSCRIPTS_DOCS_QUEUE_ENABLED'];
 		delete process.env['SCHEDULER_QUEUE_ENABLED'];
 		process.env['REDIS_ENABLED'] = 'true';
 		process.env['WORKER_QUEUE_ENABLED'] = 'false';
@@ -80,14 +80,14 @@ describe('isDocsQueueEnabled', () => {
 	});
 
 	it('an explicit true wins where no root would otherwise exist', () => {
-		process.env['GAUZY_DOCS_QUEUE_ENABLED'] = 'true';
+		process.env['IRTRANSCRIPTS_DOCS_QUEUE_ENABLED'] = 'true';
 		delete process.env['REDIS_ENABLED'];
 
 		expect(isDocsQueueEnabled()).toBe(true);
 	});
 
 	it('an explicit false wins over anything else in the environment', () => {
-		process.env['GAUZY_DOCS_QUEUE_ENABLED'] = 'false';
+		process.env['IRTRANSCRIPTS_DOCS_QUEUE_ENABLED'] = 'false';
 		process.env['REDIS_ENABLED'] = 'true';
 
 		expect(isDocsQueueEnabled()).toBe(false);
@@ -108,8 +108,8 @@ describe('isDocsQueueWorkerEnabled', () => {
 		delete process.env['REDIS_ENABLED'];
 		delete process.env['SCHEDULER_QUEUE_ENABLED'];
 		delete process.env['WORKER_QUEUE_ENABLED'];
-		delete process.env['GAUZY_DOCS_QUEUE_ENABLED'];
-		delete process.env['GAUZY_DOCS_QUEUE_WORKER_ENABLED'];
+		delete process.env['IRTRANSCRIPTS_DOCS_QUEUE_ENABLED'];
+		delete process.env['IRTRANSCRIPTS_DOCS_QUEUE_WORKER_ENABLED'];
 	});
 
 	afterEach(() => {
@@ -117,15 +117,15 @@ describe('isDocsQueueWorkerEnabled', () => {
 	});
 
 	it('follows the queue gate by default, so a single-process deployment drains its own queue', () => {
-		delete process.env['GAUZY_DOCS_QUEUE_WORKER_ENABLED'];
-		delete process.env['GAUZY_DOCS_QUEUE_ENABLED'];
+		delete process.env['IRTRANSCRIPTS_DOCS_QUEUE_WORKER_ENABLED'];
+		delete process.env['IRTRANSCRIPTS_DOCS_QUEUE_ENABLED'];
 		process.env['REDIS_ENABLED'] = 'true';
 
 		expect(isDocsQueueWorkerEnabled()).toBe(true);
 	});
 
 	it('can be turned off on its own to make a process a pure producer', () => {
-		process.env['GAUZY_DOCS_QUEUE_WORKER_ENABLED'] = 'false';
+		process.env['IRTRANSCRIPTS_DOCS_QUEUE_WORKER_ENABLED'] = 'false';
 		process.env['REDIS_ENABLED'] = 'true';
 
 		expect(isDocsQueueEnabled()).toBe(true);
@@ -133,16 +133,16 @@ describe('isDocsQueueWorkerEnabled', () => {
 	});
 
 	it('is never ON without the queue — a @Processor without a root fails the bootstrap', () => {
-		process.env['GAUZY_DOCS_QUEUE_WORKER_ENABLED'] = 'true';
-		process.env['GAUZY_DOCS_QUEUE_ENABLED'] = 'false';
+		process.env['IRTRANSCRIPTS_DOCS_QUEUE_WORKER_ENABLED'] = 'true';
+		process.env['IRTRANSCRIPTS_DOCS_QUEUE_ENABLED'] = 'false';
 		process.env['REDIS_ENABLED'] = 'true';
 
 		expect(isDocsQueueWorkerEnabled()).toBe(false);
 	});
 
 	it('is OFF wherever no root exists at all', () => {
-		delete process.env['GAUZY_DOCS_QUEUE_WORKER_ENABLED'];
-		delete process.env['GAUZY_DOCS_QUEUE_ENABLED'];
+		delete process.env['IRTRANSCRIPTS_DOCS_QUEUE_WORKER_ENABLED'];
+		delete process.env['IRTRANSCRIPTS_DOCS_QUEUE_ENABLED'];
 		delete process.env['REDIS_ENABLED'];
 
 		expect(isDocsQueueWorkerEnabled()).toBe(false);

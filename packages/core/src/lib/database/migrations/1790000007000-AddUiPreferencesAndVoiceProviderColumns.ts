@@ -1,12 +1,12 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 /** Per-driver DDL: the statements `up()` runs in order, and the ones `down()` runs to revert them. */
 type DriverStatements = { readonly up: readonly string[]; readonly down: readonly string[] };
 
 /**
- * Two per-tenant UI features that landed together (ever-gauzy PR #9989):
+ * Two per-tenant UI features that landed together (ever-irtranscripts PR #9989):
  *
  * - `user.uiPreferences` — the per-user, per-feature UI state blob
  *   (`{ aiChat: { expanded, position, width, maximized } }`, …). Driver-aware type like

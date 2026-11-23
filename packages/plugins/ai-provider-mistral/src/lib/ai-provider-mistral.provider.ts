@@ -1,4 +1,4 @@
-import { AiProviderEnum, IAiChatModel } from '@gauzy/contracts';
+import { AiProviderEnum, IAiChatModel } from '@irtranscripts/contracts';
 import {
 	IAiChatModelList,
 	IAiChatProviderDefinition,
@@ -13,7 +13,7 @@ import {
 	mergeCatalogue,
 	prettifyModelId,
 	transcribeViaOpenAiCompatible
-} from '@gauzy/plugin-ai-chat';
+} from '@irtranscripts/plugin-ai-chat';
 
 /** Stable provider id used by the registry, the UI and BYOK credentials. */
 const PROVIDER_ID = AiProviderEnum.MISTRAL;

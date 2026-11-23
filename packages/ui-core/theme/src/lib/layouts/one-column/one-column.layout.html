@@ -79,12 +79,12 @@
 						[class.not-collapsed]="!isCollapse() && isExpanded()"
 						[class.compacted]="!isExpanded()"
 					>
-						<ngx-gauzy-logo
+						<ngx-irtranscripts-logo
 							[controlled]="trigger()"
 							[isWorkspaceOpen]="isWorkspaceOpen()"
 							(onCollapsed)="onCollapse($event)"
 							(onWorkspaceToggle)="onWorkspaceToggle($event)"
-						></ngx-gauzy-logo>
+						></ngx-irtranscripts-logo>
 					</div>
 				</div>
 
@@ -93,7 +93,7 @@
 				</div>
 
 				<div class="sidebar-footer" [class.compacted]="!isExpanded()">
-					<gauzy-user [user$]="user$" [showIdentity]="isExpanded()" (clicked)="toggleUserMenu()"></gauzy-user>
+					<irtranscripts-user [user$]="user$" [showIdentity]="isExpanded()" (clicked)="toggleUserMenu()"></irtranscripts-user>
 				</div>
 			</div>
 		</nb-sidebar>
@@ -143,9 +143,9 @@
 </nb-layout>
 
 @if (isOpen()) {
-	<gauzy-user-menu [user$]="user$" (close)="closeUserMenu()"></gauzy-user-menu>
+	<irtranscripts-user-menu [user$]="user$" (close)="closeUserMenu()"></irtranscripts-user-menu>
 }
 
 @if (isWorkspaceOpen()) {
-	<gauzy-workspace-menu (close)="closeWorkspaceMenu()"></gauzy-workspace-menu>
+	<irtranscripts-workspace-menu (close)="closeWorkspaceMenu()"></irtranscripts-workspace-menu>
 }

@@ -1,14 +1,14 @@
-// `@gauzy/core`'s barrel drags in the whole entity graph (pre-existing circular import). Only the
+// `@irtranscripts/core`'s barrel drags in the whole entity graph (pre-existing circular import). Only the
 // token helpers are needed, loaded from their own file; the other collaborators are stand-ins.
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const helpers = jest.requireActual('../../../../core/src/lib/auth/purpose-token');
 	return { isAccessTokenPayload: helpers.isAccessTokenPayload, JWT_ALGORITHMS: helpers.JWT_ALGORITHMS };
 });
 // The session-cookie codec is pure (zlib only); load the real one from its own file so the spec
 // reads cookies exactly as production does without booting the proxy's Nest module graph.
-jest.mock('@ever-gauzy/plugin-integration-plane-api', () => {
+jest.mock('@ever-irtranscripts/plugin-integration-plane-api', () => {
 	const { dirname, join } = jest.requireActual('path');
-	const entry = require.resolve('@ever-gauzy/plugin-integration-plane-api');
+	const entry = require.resolve('@ever-irtranscripts/plugin-integration-plane-api');
 	return {
 		mountPlaneProxy: jest.fn(),
 		...jest.requireActual(join(dirname(entry), 'config/utils/session-cookie.utils'))
@@ -16,14 +16,14 @@ jest.mock('@ever-gauzy/plugin-integration-plane-api', () => {
 });
 jest.mock('./plane-integration.service', () => ({ PlaneIntegrationService: class PlaneIntegrationService {} }));
 
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 import { sign, verify } from 'jsonwebtoken';
-import { encodeSessionToken } from '@ever-gauzy/plugin-integration-plane-api';
+import { encodeSessionToken } from '@ever-irtranscripts/plugin-integration-plane-api';
 import { PlaneProxyService } from './plane-proxy.service';
 
 /**
  * GHSA-28wv-vrxj-rp4q — the Plane proxy trusted the `tenantId` of ANY JWT_SECRET-signed token as a
- * Gauzy session (Bearer header and session cookie alike), so an invoice-share or estimate token
+ * IRTranscripts session (Bearer header and session cookie alike), so an invoice-share or estimate token
  * held by an outside customer bound the proxy to that tenant.
  */
 describe('PlaneProxyService token checks (GHSA-28wv-vrxj-rp4q)', () => {

@@ -14,7 +14,7 @@ import {
 import { DomSanitizer } from '@angular/platform-browser';
 import { renderToHTMLString } from '@tiptap/static-renderer';
 import { firstValueFrom } from 'rxjs';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { DocumentsService } from '../../services/documents.service';
 import { createStaticExtensions } from '../extensions/document-extensions';
 import { renderMarkdownToSanitizedHtml, sanitizeHtml } from './markdown-render.util';

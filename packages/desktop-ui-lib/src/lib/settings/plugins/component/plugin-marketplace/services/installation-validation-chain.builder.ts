@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IPlugin } from '@gauzy/contracts';
+import { IPlugin } from '@irtranscripts/contracts';
 import { catchError, defer, map, Observable, of, tap } from 'rxjs';
 import { IInstallationValidationContext, InstallationValidator } from './installation-validator.abstract';
 import { AccessValidator } from './validators/access.validator';

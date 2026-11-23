@@ -1,7 +1,7 @@
 {
-	"name": "@gauzy/plugin-legal-ui",
+	"name": "@irtranscripts/plugin-legal-ui",
 	"version": "0.1.0",
-	"description": "A plugin for the legal UI in the Ever Gauzy platform, providing components and modules for managing legal documents and agreements.",
+	"description": "A plugin for the legal UI in the Ever IRTranscripts platform, providing components and modules for managing legal documents and agreements.",
 	"author": {
 		"name": "Ever Co. LTD",
 		"email": "ever@ever.co",
@@ -29,7 +29,7 @@
 	},
 	"dependencies": {
 		"@angular/router": "22.2.2",
-		"@gauzy/ui-core": "^0.1.0",
+		"@irtranscripts/ui-core": "^0.1.0",
 		"@nebular/auth": "^18.0.0",
 		"@ngx-translate/core": "^18.0.0",
 		"tslib": "^2.8.1"
@@ -44,7 +44,7 @@
 		"plugin",
 		"angular",
 		"ui",
-		"gauzy"
+		"irtranscripts"
 	],
 	"engines": {
 		"node": ">=26",

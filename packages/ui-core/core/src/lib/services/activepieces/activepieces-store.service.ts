@@ -4,7 +4,7 @@ import {
 	ID,
 	IActivepiecesConnection,
 	IActivepiecesMcpServerPublic
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 @Injectable({
 	providedIn: 'root'

@@ -1,10 +1,10 @@
 // Forward so mixins are available to importers
 @forward 'themes';
 @forward 'var';
-@forward './gauzy/gauzy-overrides';
+@forward './irtranscripts/irtranscripts-overrides';
 @use 'themes' as *;
 @use 'var' as *;
-@use './gauzy/gauzy-overrides' as *;
+@use './irtranscripts/irtranscripts-overrides' as *;
 
 @mixin mobile-table-styles {
   :host ::ng-deep {
@@ -63,7 +63,7 @@
 nb-card,
 nb-card-body,
 .card {
-  background-color: nb-theme(gauzy-card-2);
+  background-color: nb-theme(irtranscripts-card-2);
   border-color: nb-theme(border-basic-color-3);
 }
 
@@ -110,7 +110,7 @@ nb-card-body,
     height: 30px;
 
     & button.select-button {
-      background-color: nb-theme(gauzy-card-1) !important;
+      background-color: nb-theme(irtranscripts-card-1) !important;
       border-radius: nb-theme(select-rectangle-border-radius);
       padding-top: 2px !important;
       padding-bottom: 0px !important;
@@ -130,7 +130,7 @@ nb-card-body,
 
 :host {
   .card {
-    background-color: nb-theme(gauzy-card-1);
+    background-color: nb-theme(irtranscripts-card-1);
     border-radius: nb-theme(border-radius);
     & nb-card-header,
     nb-accordion-item-header {
@@ -139,7 +139,7 @@ nb-card-body,
       border-bottom: none;
     }
     & nb-card-body {
-      background-color: nb-theme(gauzy-card-2);
+      background-color: nb-theme(irtranscripts-card-2);
     }
   }
 
@@ -161,12 +161,12 @@ nb-card-body,
   }
 
   nb-accordion-item-body {
-    background-color: var(--gauzy-sidebar-background-2);
+    background-color: var(--irtranscripts-sidebar-background-2);
     border-radius: 0 0 var(--border-radius) var(--border-radius);
   }
 
   nb-card-body {
-    background-color: var(--gauzy-card-2);
+    background-color: var(--irtranscripts-card-2);
   }
 
   ::ng-deep {
@@ -189,13 +189,13 @@ nb-card-body,
 .daily-time-report {
   nb-card-body,
   nb-accordion-item-body {
-    background-color: nb-theme(gauzy-card-1);
+    background-color: nb-theme(irtranscripts-card-1);
   }
 }
 .table-row {
   border-radius: 8px;
   height: 86px;
-  background-color: nb-theme(gauzy-card-1);
+  background-color: nb-theme(irtranscripts-card-1);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -212,7 +212,7 @@ nb-card-body,
 }
 
 .columns-header {
-  background-color: nb-theme(gauzy-card-2);
+  background-color: nb-theme(irtranscripts-card-2);
   border-radius: 8px;
   margin-bottom: 10px;
   padding-top: 12px;

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { DeepPartial, FindOptionsWhere, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { ID } from '@gauzy/contracts';
-import { RequestContext, assertPlainReferencesNotForeign } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { RequestContext, assertPlainReferencesNotForeign } from '@irtranscripts/core';
 import { CART_PROMOTION_REFERENCES } from '../cart.references';
 import { CommerceCartPromotion } from './commerce-cart-promotion.entity';
 import { TypeOrmCommerceCartPromotionRepository } from './repository/type-orm-commerce-cart-promotion.repository';

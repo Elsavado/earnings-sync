@@ -36,7 +36,7 @@ import {
 	ValidateTokenHandler
 } from './queries';
 
-import { SchedulerModule } from '@gauzy/scheduler';
+import { SchedulerModule } from '@irtranscripts/scheduler';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { IJwtService, ITokenConfig } from './interfaces';
 import { MikroOrmTokenRepository, TypeOrmTokenRepository } from './repositories';

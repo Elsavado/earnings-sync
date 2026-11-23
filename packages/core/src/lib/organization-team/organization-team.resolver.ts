@@ -3,7 +3,7 @@ import { FormerEmployeesInterceptor } from '../employee/former-employees.interce
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Args, ID, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { requireOrganization } from '../graphql/organization-required';
-import { FeatureFlag } from '@gauzy/common';
+import { FeatureFlag } from '@irtranscripts/common';
 import {
 	ID as Id,
 	IDateRangePicker,
@@ -15,7 +15,7 @@ import {
 	IPagination,
 	ITag,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	ConnectionFilter,
 	ConnectionPageRequest,

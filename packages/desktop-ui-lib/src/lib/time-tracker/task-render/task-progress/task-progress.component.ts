@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { TaskRenderComponent } from '../task-render.component';
-import { progressStatus } from '@gauzy/ui-core/common';
+import { progressStatus } from '@irtranscripts/ui-core/common';
 import { TaskEstimateComponent } from '../task-estimate/task-estimate.component';
 import { Observable, tap } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -11,7 +11,7 @@ import { AsyncPipe } from '@angular/common';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
-    selector: 'gauzy-task-progress',
+    selector: 'irtranscripts-task-progress',
     templateUrl: './task-progress.component.html',
     styleUrls: ['./task-progress.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,

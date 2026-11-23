@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { IPlugin, IPluginSource, PluginSourceType } from '@gauzy/contracts';
+import { IPlugin, IPluginSource, PluginSourceType } from '@irtranscripts/contracts';
 import { Observable, Subject } from 'rxjs';
 import { PluginMarketplaceQuery } from '../../../+state/queries/plugin-marketplace.query';
 import { PluginSourceQuery } from '../../../+state/queries/plugin-source.query';
@@ -9,7 +9,7 @@ import { AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-    selector: 'gauzy-plugin-source-code-tab',
+    selector: 'irtranscripts-plugin-source-code-tab',
     templateUrl: './source-code-tab.component.html',
     styleUrls: ['./source-code-tab.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

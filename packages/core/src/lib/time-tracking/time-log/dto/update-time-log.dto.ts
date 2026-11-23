@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import { IsEnum, IsOptional } from "class-validator";
-import { IManualTimeInput, TimeLogSourceEnum, TimeLogType } from "@gauzy/contracts";
+import { IManualTimeInput, TimeLogSourceEnum, TimeLogType } from "@irtranscripts/contracts";
 import { ManualTimeLogDTO } from "./manual-time-log.dto";
 
 export class UpdateManualTimeLogDTO extends ManualTimeLogDTO implements IManualTimeInput {

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { firstValueFrom, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { IAuthResponse, IOrganizationCreateInput, IUserSigninWorkspaceResponse, IWorkSpace } from '@gauzy/contracts';
+import { IAuthResponse, IOrganizationCreateInput, IUserSigninWorkspaceResponse, IWorkSpace } from '@irtranscripts/contracts';
 import { AuthService } from '../auth';
 import { ErrorHandlingService } from '../notification';
 import { Store } from '../store';

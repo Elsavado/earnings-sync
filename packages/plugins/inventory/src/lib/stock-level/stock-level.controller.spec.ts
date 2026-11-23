@@ -1,10 +1,10 @@
 /**
  * Two module boundaries are doubled here, and the reason is the same for both.
  *
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a stock level resource needs and none of which is
  * available outside a running application; its nested `uuid` is ESM-only, so reading one entity would
- * fail under jest. `@gauzy/config` reads the process environment at import time. Both are therefore
+ * fail under jest. `@irtranscripts/config` reads the process environment at import time. Both are therefore
  * doubled at the module boundary, and **the resource under test is the real one**: the controller over
  * the real ledger engine, with the real entities it names and the real error vocabulary it refuses
  * with. The platform entity classes are identity rather than behaviour — the engine uses them to name
@@ -14,9 +14,9 @@
  * constants, so the assertions below are made against the metadata a guard actually reads rather than
  * against the decorator’s prose.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException, SetMetadata } = require('@nestjs/common');
-	const { PERMISSIONS_METADATA } = require('@gauzy/constants');
+	const { PERMISSIONS_METADATA } = require('@irtranscripts/constants');
 
 	/**
 	 * The platform’s conditional write and its reader for the version a request accepted. The engine
@@ -75,7 +75,7 @@ jest.mock('@gauzy/core', () => {
 
 	return {
 		// The statement helpers are pure and dialect-driven; loading the real module here would pull
-		// `@gauzy/config` and the request context into a suite that doubles the barrel on purpose.
+		// `@irtranscripts/config` and the request context into a suite that doubles the barrel on purpose.
 		quoteIdentifier: (identifier: string) => `"${identifier}"`,
 		prepareSQLQuery: (query: string) => query,
 		TenantAwareCrudService,
@@ -140,7 +140,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 jest.mock(
-	'@gauzy/config',
+	'@irtranscripts/config',
 	() => ({
 		isMySQL: () => false,
 		isPostgres: () => false,
@@ -155,8 +155,8 @@ jest.mock(
 	})
 );
 
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { Product, PermissionGuard, TenantPermissionGuard, WarehouseProduct, WarehouseProductVariant } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { Product, PermissionGuard, TenantPermissionGuard, WarehouseProduct, WarehouseProductVariant } from '@irtranscripts/core';
 import { StockMovement } from './../stock-movement/stock-movement.entity';
 import { StockMovementReferenceType, StockMovementType } from './../inventory.enums';
 import { StockLevelController } from './stock-level.controller';

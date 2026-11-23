@@ -20,12 +20,12 @@
  *
  * The tables are fixture schemas carrying the columns the services read and write, bound to the
  * package's own entity classes (and to the kernel's entity classes, which the barrel double below
- * declares). `@gauzy/core` is doubled at the module boundary for the reason the package's other suites
+ * declares). `@irtranscripts/core` is doubled at the module boundary for the reason the package's other suites
  * give — its barrel boots the whole application — and the members this suite depends on for behaviour
  * are the kernel's own: the exact-decimal helpers, and the versioned write the package's other suites
  * share.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 	const { commitVersionedUpdate, versionExpectationOf } = require('./testing/versioned-write.double');
 
@@ -59,7 +59,7 @@ jest.mock('@gauzy/core', () => {
 	}
 
 	return {
-		...jest.requireActual('@gauzy/core/src/lib/money/decimal'),
+		...jest.requireActual('@irtranscripts/core/src/lib/money/decimal'),
 		quoteIdentifier: (identifier: string) => `"${identifier}"`,
 		prepareSQLQuery: (query: string) => query,
 		TenantAwareCrudService,
@@ -109,11 +109,11 @@ jest.mock('@gauzy/core', () => {
 });
 
 /**
- * `@gauzy/config`'s barrel reads the process environment at import time; the two members this suite and
+ * `@irtranscripts/config`'s barrel reads the process environment at import time; the two members this suite and
  * the engine read — the dialect vocabulary and the production `invalidWhereValuesBehavior` — are the
  * real ones from the module that declares them.
  */
-jest.mock('@gauzy/config', () => jest.requireActual('@gauzy/config/src/lib/database-helpers'));
+jest.mock('@irtranscripts/config', () => jest.requireActual('@irtranscripts/config/src/lib/database-helpers'));
 
 /** The caller the request context answers with; `null` is a caller with no request (a worker). */
 const mockCaller: { tenantId: string | null; organizationId: string | null } = { tenantId: null, organizationId: null };
@@ -121,8 +121,8 @@ const mockCaller: { tenantId: string | null; organizationId: string | null } = {
 import 'reflect-metadata';
 import { NotFoundException } from '@nestjs/common';
 import { DataSource, EntitySchema } from 'typeorm';
-import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@gauzy/config';
-import { Product, ProductVariant, Warehouse, WarehouseProduct, WarehouseProductVariant } from '@gauzy/core';
+import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@irtranscripts/config';
+import { Product, ProductVariant, Warehouse, WarehouseProduct, WarehouseProductVariant } from '@irtranscripts/core';
 import {
 	StockAdjustmentStatus,
 	StockAdjustmentType,

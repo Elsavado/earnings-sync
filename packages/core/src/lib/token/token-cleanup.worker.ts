@@ -1,4 +1,4 @@
-import { QueueJobHandler, QueueWorker, QueueWorkerHost } from '@gauzy/scheduler';
+import { QueueJobHandler, QueueWorker, QueueWorkerHost } from '@irtranscripts/scheduler';
 import { Injectable, Logger } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { Job } from 'bullmq';

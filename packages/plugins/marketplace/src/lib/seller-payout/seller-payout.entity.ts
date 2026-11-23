@@ -9,7 +9,7 @@ import {
 	JsonData,
 	SellerPayoutMode,
 	SellerPayoutStatus
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	JsonColumn,
@@ -19,7 +19,7 @@ import {
 	MultiORMOneToMany,
 	TenantOrganizationBaseEntity,
 	User
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { MikroOrmSellerPayoutRepository } from './repository/mikro-orm-seller-payout.repository';
 import { Seller } from '../seller/seller.entity';
 import { SellerPayoutLine } from '../seller-payout-line/seller-payout-line.entity';

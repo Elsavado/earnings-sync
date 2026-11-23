@@ -13,7 +13,7 @@ import {
 	Length,
 	MaxLength
 } from 'class-validator';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 import { OrderLineKind } from '../../order.types';
 
 /**

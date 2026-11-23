@@ -5,7 +5,7 @@ import {
 	IPagination,
 	ID,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	Body,
 	Controller,

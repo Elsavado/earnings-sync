@@ -5,11 +5,11 @@ import {
 	TimeLogSourceEnum,
 	TimerSyncStateEnum,
 	TimerActionTypeEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { app, screen } from 'electron';
 import * as moment from 'moment';
 import { DesktopActiveWindow } from './desktop-active-window';
-import { DesktopEventCounter } from '@gauzy/desktop-activity';
+import { DesktopEventCounter } from '@irtranscripts/desktop-activity';
 import NotificationDesktop from './desktop-notifier';
 import { detectActiveWindow, getScreenshot } from './desktop-screenshot';
 import { LocalStore } from './desktop-store';
@@ -17,7 +17,7 @@ import { metaData } from './desktop-wakatime';
 import { ActivityWatchEventManager, ActivityWatchEventTableList, ActivityWatchService } from './integrations';
 import { IOfflineMode } from './interfaces';
 import { DesktopOfflineModeHandler, Timer, TimerService, UserService } from './offline';
-import { logger } from '@gauzy/desktop-core';
+import { logger } from '@irtranscripts/desktop-core';
 import { AuditLogHandler } from './audit';
 import { redactSecretsForLog } from './config/desktop-secrets';
 import {
@@ -187,7 +187,7 @@ export default class TimerHandler {
 				const appSetting = LocalStore.getStore('appSetting');
 
 				await this.processWithQueue(
-					`gauzy-queue`,
+					`irtranscripts-queue`,
 					{
 						type: 'update-duration-timer',
 						data: {

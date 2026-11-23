@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DataSource, In } from 'typeorm';
-import { ID, IntegrationEntity } from '@gauzy/contracts';
-import { IntegrationEntitySetting, IntegrationTenant } from '@gauzy/core';
+import { ID, IntegrationEntity } from '@irtranscripts/contracts';
+import { IntegrationEntitySetting, IntegrationTenant } from '@irtranscripts/core';
 import { EverWorksConnection } from '../connection/ever-works-connection.entity';
 import { EVER_WORKS_INTEGRATION_NAME } from '../ever-works.constants';
 import { EverWorksSettingName as S } from '../ever-works-setting.enum';
@@ -65,7 +65,7 @@ export class EverWorksMappingContextService {
 		return context;
 	}
 
-	/** For the engine: the active mapping of a Gauzy organization, or `null`. */
+	/** For the engine: the active mapping of a IRTranscripts organization, or `null`. */
 	async forOrganization(tenantId: ID, organizationId: ID): Promise<EverWorksMappingContext | null> {
 		const mapping = await this.dataSource.getRepository(IntegrationTenant).findOne({
 			where: { tenantId, organizationId, name: EVER_WORKS_INTEGRATION_NAME, isActive: true, isArchived: false },

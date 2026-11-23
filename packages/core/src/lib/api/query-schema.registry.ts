@@ -1,5 +1,5 @@
 import { DynamicModule, Type } from '@nestjs/common';
-import { getApiQuerySchemasFromPlugins } from '@gauzy/plugin';
+import { getApiQuerySchemasFromPlugins } from '@irtranscripts/plugin';
 import { ApiQuerySchema, isApiQuerySchema } from './query-schema';
 import * as coreQuerySchemaModule from './query-schemas';
 

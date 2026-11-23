@@ -19,6 +19,6 @@ Copied unchanged from ever-works `develop` (`50677f3b1`, contract
   `examples/error.transition_blocked.json`
 
 They carry the `.test.json` suffix because they are test data: the egress
-audit's static scan does not count the Ever Works and Gauzy addresses inside
+audit's static scan does not count the Ever Works and IRTranscripts addresses inside
 them as product code. Refresh them by copying the files again when the
 contract version changes; never edit them by hand.

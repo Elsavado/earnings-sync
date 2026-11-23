@@ -1,0 +1,36 @@
+// tslint:disable: nx-enforce-module-boundaries
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NbDialogModule, NbCardModule, NbButtonModule, NbIconModule, NbSpinnerModule } from '@nebular/theme';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { NgxPermissionsModule } from 'ngx-permissions';
+import { TranslatePipe } from '@ngx-translate/core';
+import {
+	EditTimeLogModalModule,
+	IRTranscriptsFiltersModule,
+	SharedModule,
+	ViewTimeLogModalModule
+} from '@irtranscripts/ui-core/shared';
+import { CalendarRoutingModule } from './calendar-routing.module';
+import { CalendarComponent } from './calendar/calendar.component';
+
+@NgModule({
+	declarations: [CalendarComponent],
+	imports: [
+		CommonModule,
+		TranslatePipe,
+		NgxPermissionsModule.forChild(),
+		FullCalendarModule,
+		NbButtonModule,
+		NbCardModule,
+		NbDialogModule,
+		NbIconModule,
+		NbSpinnerModule,
+		CalendarRoutingModule,
+		SharedModule,
+		EditTimeLogModalModule,
+		ViewTimeLogModalModule,
+		IRTranscriptsFiltersModule
+	]
+})
+export class CalendarModule {}

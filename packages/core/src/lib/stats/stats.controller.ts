@@ -1,6 +1,6 @@
 import { Controller, Get, Logger, UseGuards } from '@nestjs/common';
-import { FeatureEnum } from '@gauzy/contracts';
-import { FeatureFlag, Public } from '@gauzy/common';
+import { FeatureEnum } from '@irtranscripts/contracts';
+import { FeatureFlag, Public } from '@irtranscripts/common';
 import { StatsService } from './stats.service';
 import { GlobalStats } from './stats.types';
 import { StatsGuard } from './stats.guard';

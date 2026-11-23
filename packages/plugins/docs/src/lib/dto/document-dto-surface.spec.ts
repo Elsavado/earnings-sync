@@ -9,10 +9,10 @@
  *   endpoints fell back to whatever the service assumed. They now inherit the platform's
  *   organization-ownership check.
  *
- * `@gauzy/core` boots the whole application graph on import, so its DTO base is stubbed with a
+ * `@irtranscripts/core` boots the whole application graph on import, so its DTO base is stubbed with a
  * plain class here; the assertions are about what the *plugin's* DTOs declare on top of it.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { IsOptional, IsUUID } = jest.requireActual('class-validator');
 	class TenantOrganizationBaseDTO {
 		organizationId?: string;

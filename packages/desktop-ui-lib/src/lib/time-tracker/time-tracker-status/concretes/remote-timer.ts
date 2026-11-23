@@ -1,4 +1,4 @@
-import { ITimeLog, TimeLogSourceEnum } from '@gauzy/contracts';
+import { ITimeLog, TimeLogSourceEnum } from '@irtranscripts/contracts';
 import { IRemoteTimer } from '../interfaces';
 
 export class RemoteTimer implements IRemoteTimer {

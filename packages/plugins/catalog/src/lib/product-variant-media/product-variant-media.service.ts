@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { EntityManager, IsNull, Not } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { ImageAsset, ProductVariant, RequestContext } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { ImageAsset, ProductVariant, RequestContext } from '@irtranscripts/core';
 import { assertAllInCallerScope, assertInCallerScope, callerScope } from '../catalog.scope';
 import { ProductVariantMedia } from './product-variant-media.entity';
 import { MikroOrmProductVariantMediaRepository } from './repository/mikro-orm-product-variant-media.repository';

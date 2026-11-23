@@ -18,7 +18,7 @@ describe('equipment_sharing.version migration on SQLite', () => {
 	beforeEach(async () => {
 		dbPath = path.join(
 			os.tmpdir(),
-			`gauzy-equipment-sharing-version-${process.pid}-${Date.now()}-${Math.random()}.sqlite3`
+			`irtranscripts-equipment-sharing-version-${process.pid}-${Date.now()}-${Math.random()}.sqlite3`
 		);
 		dataSource = new DataSource({ type: 'better-sqlite3', database: dbPath, synchronize: false, logging: false });
 		await dataSource.initialize();

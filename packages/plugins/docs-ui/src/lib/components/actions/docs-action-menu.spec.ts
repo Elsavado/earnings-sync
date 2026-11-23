@@ -1,5 +1,5 @@
 import { NbMenuItem } from '@nebular/theme';
-import { DocumentKindEnum, DocumentKnowledgeStatusEnum, ID, IDocument } from '@gauzy/contracts';
+import { DocumentKindEnum, DocumentKnowledgeStatusEnum, ID, IDocument } from '@irtranscripts/contracts';
 import {
 	buildDocsActionMenu,
 	docsActionMenuSignature,

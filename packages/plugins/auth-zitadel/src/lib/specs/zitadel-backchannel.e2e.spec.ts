@@ -1,4 +1,4 @@
-import { BACKCHANNEL_LOGOUT_EVENT } from '@gauzy/auth';
+import { BACKCHANNEL_LOGOUT_EVENT } from '@irtranscripts/auth';
 import { TEST_CLIENT_BASE_URL, TEST_CLIENT_ID, TestBrowser, ZitadelTestApp, createZitadelTestApp } from '../fixtures/zitadel-test-app';
 
 // The first use of `jose` (an ES module that ts-jest compiles on load) and key generation can take

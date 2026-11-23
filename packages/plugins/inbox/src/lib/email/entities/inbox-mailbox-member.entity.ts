@@ -1,5 +1,5 @@
-import { ID, InboxMailboxMemberRoleEnum } from '@gauzy/contracts';
-import { MultiORMColumn, MultiORMEntity, TenantOrganizationBaseEntity } from '@gauzy/core';
+import { ID, InboxMailboxMemberRoleEnum } from '@irtranscripts/contracts';
+import { MultiORMColumn, MultiORMEntity, TenantOrganizationBaseEntity } from '@irtranscripts/core';
 import { MikroOrmInboxMailboxMemberRepository } from './inbox-email.repositories';
 
 /**

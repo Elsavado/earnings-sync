@@ -13,7 +13,7 @@ const requestContext = {
 };
 
 jest.mock(
-	'@gauzy/core',
+	'@irtranscripts/core',
 	() => ({
 		RequestContext: {
 			currentTenantId: () => requestContext.tenantId,
@@ -28,7 +28,7 @@ jest.mock(
 		prepareSQLQuery: (sql: string) => sql
 	})
 );
-jest.mock('@gauzy/config', () => ({ isSqlite: () => false, isBetterSqlite3: () => false }));
+jest.mock('@irtranscripts/config', () => ({ isSqlite: () => false, isBetterSqlite3: () => false }));
 jest.mock('../entities/document-link.entity', () => ({ DocumentLink: class {} }));
 jest.mock('../repositories/type-orm-document-link.repository', () => ({ TypeOrmDocumentLinkRepository: class {} }));
 jest.mock('../repositories/mikro-orm-document-link.repository', () => ({ MikroOrmDocumentLinkRepository: class {} }));
@@ -39,7 +39,7 @@ jest.mock('./document.service', () => ({
 jest.mock('../dto', () => ({}));
 
 import { NotFoundException } from '@nestjs/common';
-import { BaseEntityEnum } from '@gauzy/contracts';
+import { BaseEntityEnum } from '@irtranscripts/contracts';
 import { DocumentLinkService } from './document-link.service';
 
 /** Records the query the service builds so the emitted scope can be asserted. */

@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { Observable, catchError, filter, of, switchMap, tap } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { IEmployee, IEventType } from '@gauzy/contracts';
+import { IEmployee, IEventType } from '@irtranscripts/contracts';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { EmployeesService, ErrorHandlingService, EventTypeService } from '@gauzy/ui-core/core';
+import { EmployeesService, ErrorHandlingService, EventTypeService } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy()
 @Component({

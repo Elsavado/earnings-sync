@@ -12,8 +12,8 @@ import { GLOBAL_MODULE_METADATA, MODULE_METADATA } from '@nestjs/common/constant
 import { Reflector } from '@nestjs/core';
 import { SUBSCRIPTION_OPTIONS_METADATA } from '@nestjs/graphql/dist/graphql.constants';
 import { buildSchema, printSchema } from 'graphql';
-import { EventOutboxStatus, PermissionsEnum } from '@gauzy/contracts';
-import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@gauzy/constants';
+import { EventOutboxStatus, PermissionsEnum } from '@irtranscripts/contracts';
+import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { CursorCodec } from '../api/cursor';
 import { RequestContext } from '../core/context';
 import { FeatureModule } from '../feature/feature.module';

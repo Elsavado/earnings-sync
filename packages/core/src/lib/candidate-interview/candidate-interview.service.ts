@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ICandidateInterview, ID } from '@gauzy/contracts';
+import { ICandidateInterview, ID } from '@irtranscripts/contracts';
 import { RequestContext } from './../core/context';
 import { TenantAwareCrudService } from './../core/crud';
 import { TypeOrmCandidateInterviewRepository } from './repository/type-orm-candidate-interview.repository';

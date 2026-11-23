@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import moment from 'moment';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { isNotEmpty, toTimezone } from '@gauzy/ui-core/common';
-import { IDateRangePicker } from '@gauzy/contracts';
+import { isNotEmpty, toTimezone } from '@irtranscripts/ui-core/common';
+import { IDateRangePicker } from '@irtranscripts/contracts';
 import { IDatePickerConfig } from './selector-builder-types';
 
 // Define the default date picker configuration

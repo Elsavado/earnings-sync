@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ID, IOrganization, ISelectedEmployee, TimeFormatEnum } from '@gauzy/contracts';
+import { ID, IOrganization, ISelectedEmployee, TimeFormatEnum } from '@irtranscripts/contracts';
 
 /**
  * Ambient context handed to every widget rendered on a dashboard canvas.

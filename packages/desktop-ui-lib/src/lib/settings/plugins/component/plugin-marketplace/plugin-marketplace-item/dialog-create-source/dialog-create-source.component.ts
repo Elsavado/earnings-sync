@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IPlugin, IPluginSource, IPluginVersion, PluginSourceType } from '@gauzy/contracts';
+import { IPlugin, IPluginSource, IPluginVersion, PluginSourceType } from '@irtranscripts/contracts';
 import { NbDialogRef, NbCardModule, NbIconModule, NbButtonModule } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { tap } from 'rxjs';

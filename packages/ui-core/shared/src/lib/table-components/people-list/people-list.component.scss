@@ -9,8 +9,8 @@
 // member, the overlap, and a name column so narrow that "Julia" came out as
 // "Jul…". Nothing here has a box, a border, or a width in characters.
 //
-// Every metric comes from the `gauzy-people-*` keys of the shared
-// `$gauzy-density` map in `themes.scss`, merged last into all registered
+// Every metric comes from the `irtranscripts-people-*` keys of the shared
+// `$irtranscripts-density` map in `themes.scss`, merged last into all registered
 // themes, so this stays in step with table density and never hardcodes a
 // colour that would break the near-black dark themes.
 
@@ -25,11 +25,11 @@
 	display: flex;
 	align-items: center;
 	flex-wrap: nowrap;
-	gap: nb-theme(gauzy-people-gap);
+	gap: nb-theme(irtranscripts-people-gap);
 	min-width: 0;
 	// The avatar is the tallest thing in the group, so the whole cell costs the
 	// row exactly one line box.
-	line-height: nb-theme(gauzy-people-avatar-size);
+	line-height: nb-theme(irtranscripts-people-avatar-size);
 	// The same vertical inset the pill renderers carry as a literal 5px
 	// (`ngx-employee-links`, and `ngx-contact-links` on Invoices). This group
 	// deliberately draws no pill — no fill, no radius, nothing around a person —
@@ -46,13 +46,13 @@
 	// that is already padded, and the 0.5rem would only be blank space added to
 	// the card.
 	&:not(.is-wrapped) {
-		padding-block: var(--gauzy-people-chip-padding-y, 0.25rem);
+		padding-block: var(--irtranscripts-people-chip-padding-y, 0.25rem);
 	}
 
 	// Cards have room for several lines; grid cells do not.
 	&.is-wrapped {
 		flex-wrap: wrap;
-		row-gap: nb-theme(gauzy-people-gap);
+		row-gap: nb-theme(irtranscripts-people-gap);
 	}
 }
 
@@ -60,11 +60,11 @@
 .person {
 	display: inline-flex;
 	align-items: center;
-	gap: nb-theme(gauzy-people-gap);
+	gap: nb-theme(irtranscripts-people-gap);
 	min-width: 0;
 	max-width: 100%;
 	color: nb-theme(text-basic-color);
-	font-size: nb-theme(gauzy-people-font-size);
+	font-size: nb-theme(irtranscripts-people-font-size);
 	text-decoration: none;
 
 	&.is-link {
@@ -85,7 +85,7 @@
 	// Truncation is on WIDTH, never on a character count: a short name renders
 	// in full and only a genuinely long one picks up an ellipsis.
 	min-width: 0;
-	max-width: nb-theme(gauzy-people-name-max-width);
+	max-width: nb-theme(irtranscripts-people-name-max-width);
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -96,8 +96,8 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	width: nb-theme(gauzy-people-avatar-size);
-	height: nb-theme(gauzy-people-avatar-size);
+	width: nb-theme(irtranscripts-people-avatar-size);
+	height: nb-theme(irtranscripts-people-avatar-size);
 	border-radius: 50%;
 	overflow: hidden;
 	// ── The initials fallback, which has to read as an avatar ────────────────
@@ -121,7 +121,7 @@
 	// colour at 8-10% alpha, so a brand-coloured glyph on it is that colour on
 	// very nearly the card behind it: in material-dark that is #e91d63 on #1f1f1f,
 	// about 3.8:1, and these initials are the smallest type in the component
-	// (`gauzy-people-initials-font-size`, 9px) — the one place in the cell that
+	// (`irtranscripts-people-initials-font-size`, 9px) — the one place in the cell that
 	// can least afford it. `text-basic-color` is the highest-contrast text token
 	// every theme registers and is what the names beside these bubbles already
 	// use, so it clears 4.5:1 at both ends of the range. The tint still does the
@@ -142,7 +142,7 @@
 }
 
 .person-initials {
-	font-size: nb-theme(gauzy-people-initials-font-size);
+	font-size: nb-theme(irtranscripts-people-initials-font-size);
 	font-weight: 600;
 	line-height: 1;
 	letter-spacing: 0;
@@ -155,16 +155,16 @@
 	display: inline-flex;
 	align-items: center;
 	flex: 0 0 auto;
-	gap: nb-theme(gauzy-people-stack-gap);
+	gap: nb-theme(irtranscripts-people-stack-gap);
 }
 
 .is-more {
 	// Wider than tall, so it has to opt out of the square avatar box.
 	width: auto;
-	min-width: nb-theme(gauzy-people-avatar-size);
+	min-width: nb-theme(irtranscripts-people-avatar-size);
 	padding: 0 0.25rem;
 	// A pill: any radius at or above half the height reads as fully round.
-	border-radius: nb-theme(gauzy-people-avatar-size);
+	border-radius: nb-theme(irtranscripts-people-avatar-size);
 	// One step up from the initials bubble above rather than, as before, the only
 	// filled thing in the cell — which made "+1", the least informative item in
 	// the group, the loudest. Still distinguishable, because it is a count and
@@ -174,7 +174,7 @@
 	// one step more fill does not buy a brand-coloured glyph the contrast it is
 	// short of. What separates this chip from a person is still the stronger tint.
 	color: nb-theme(text-basic-color);
-	font-size: nb-theme(gauzy-people-initials-font-size);
+	font-size: nb-theme(irtranscripts-people-initials-font-size);
 	font-weight: 600;
 	cursor: default;
 }

@@ -1,7 +1,7 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CommandBus } from '@nestjs/cqrs';
-import { isNotEmpty } from '@gauzy/utils';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { RequestContext } from './../../../../core/context';
 import { ImportRecordFindOrFailCommand } from './../../../import-record';
 import { ExportEntityClass, omitExportRedactionPlaceholders } from '../../../export-redact.decorator';

@@ -2,10 +2,10 @@
 kind: Service
 apiVersion: v1
 metadata:
-    name: gauzy-demo
+    name: irtranscripts-demo
 spec:
     selector:
-        app: gauzy-demo-webapp
+        app: irtranscripts-demo-webapp
     ports:
         - name: web
           protocol: TCP
@@ -15,10 +15,10 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-    name: gauzy-demo-api
+    name: irtranscripts-demo-api
 spec:
     selector:
-        app: gauzy-demo-api
+        app: irtranscripts-demo-api
     ports:
         - name: web
           protocol: TCP
@@ -28,22 +28,22 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: gauzy-demo-api
+    name: irtranscripts-demo-api
 spec:
     replicas: 1
     selector:
         matchLabels:
-            app: gauzy-demo-api
+            app: irtranscripts-demo-api
     template:
         metadata:
             labels:
-                app: gauzy-demo-api
+                app: irtranscripts-demo-api
         spec:
             securityContext:
                 seccompProfile:
                     type: RuntimeDefault
             containers:
-                - name: gauzy-demo-api
+                - name: irtranscripts-demo-api
                   securityContext:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
@@ -76,12 +76,12 @@ spec:
                       - name: SENTRY_POSTGRES_TRACKING_ENABLED
                         value: '$SENTRY_POSTGRES_TRACKING_ENABLED'
                       - name: API_BASE_URL
-                        value: 'https://apidemocivo.gauzy.co'
+                        value: 'https://apidemocivo.irtranscripts.com'
                       - name: CLIENT_BASE_URL
-                        value: 'https://democivo.gauzy.co'
+                        value: 'https://democivo.irtranscripts.com'
                       # Signing/session secrets: never commit a value here, it is public (GHSA-39j7-x845-4w3c).
                       # Inject real ones from a secret store. Left empty, this DEMO=true API still
-                      # falls back to the published defaults in code (held, see resolveSecret in @gauzy/config).
+                      # falls back to the published defaults in code (held, see resolveSecret in @irtranscripts/config).
                       - name: EXPRESS_SESSION_SECRET
                         value: ''
                       - name: JWT_SECRET
@@ -111,22 +111,22 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: gauzy-demo-webapp
+    name: irtranscripts-demo-webapp
 spec:
     replicas: 1
     selector:
         matchLabels:
-            app: gauzy-demo-webapp
+            app: irtranscripts-demo-webapp
     template:
         metadata:
             labels:
-                app: gauzy-demo-webapp
+                app: irtranscripts-demo-webapp
         spec:
             securityContext:
                 seccompProfile:
                     type: RuntimeDefault
             containers:
-                - name: gauzy-demo-webapp
+                - name: irtranscripts-demo-webapp
                   securityContext:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
@@ -140,9 +140,9 @@ spec:
                       - name: DEMO
                         value: 'true'
                       - name: API_BASE_URL
-                        value: 'https://apidemocivo.gauzy.co'
+                        value: 'https://apidemocivo.irtranscripts.com'
                       - name: CLIENT_BASE_URL
-                        value: 'https://democivo.gauzy.co'
+                        value: 'https://democivo.irtranscripts.com'
                       - name: SENTRY_DSN
                         value: '$SENTRY_DSN'
                       - name: CHATWOOT_SDK_TOKEN
@@ -161,16 +161,16 @@ spec:
                         value: '23.3332736'
                       - name: DEFAULT_CURRENCY
                         value: 'USD'
-                      - name: GAUZY_GITHUB_CLIENT_ID
-                        value: '$GAUZY_GITHUB_CLIENT_ID'
-                      - name: GAUZY_GITHUB_APP_NAME
-                        value: '$GAUZY_GITHUB_APP_NAME'
-                      - name: GAUZY_GITHUB_REDIRECT_URL
-                        value: '$GAUZY_GITHUB_REDIRECT_URL'
-                      - name: GAUZY_GITHUB_POST_INSTALL_URL
-                        value: '$GAUZY_GITHUB_POST_INSTALL_URL'
-                      - name: GAUZY_GITHUB_APP_ID
-                        value: '$GAUZY_GITHUB_APP_ID'
+                      - name: IRTRANSCRIPTS_GITHUB_CLIENT_ID
+                        value: '$IRTRANSCRIPTS_GITHUB_CLIENT_ID'
+                      - name: IRTRANSCRIPTS_GITHUB_APP_NAME
+                        value: '$IRTRANSCRIPTS_GITHUB_APP_NAME'
+                      - name: IRTRANSCRIPTS_GITHUB_REDIRECT_URL
+                        value: '$IRTRANSCRIPTS_GITHUB_REDIRECT_URL'
+                      - name: IRTRANSCRIPTS_GITHUB_POST_INSTALL_URL
+                        value: '$IRTRANSCRIPTS_GITHUB_POST_INSTALL_URL'
+                      - name: IRTRANSCRIPTS_GITHUB_APP_ID
+                        value: '$IRTRANSCRIPTS_GITHUB_APP_ID'
                       - name: JITSU_BROWSER_URL
                         value: '$JITSU_BROWSER_URL'
                       - name: JITSU_BROWSER_WRITE_KEY
@@ -191,47 +191,47 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-    name: gauzy-demo
+    name: irtranscripts-demo
     namespace: default
     annotations:
         kubernetes.io/ingress.class: traefik
 spec:
     rules:
-        - host: democivo.gauzy.co
+        - host: democivo.irtranscripts.com
           http:
               paths:
                   - backend:
                         service:
-                            name: gauzy-demo
+                            name: irtranscripts-demo
                             port:
                                 number: 4200
                     path: /
                     pathType: Prefix
     tls:
         - hosts:
-              - democivo.gauzy.co
-          secretName: democivo.gauzy.co-tls
+              - democivo.irtranscripts.com
+          secretName: democivo.irtranscripts.com-tls
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-    name: gauzy-demo-api
+    name: irtranscripts-demo-api
     namespace: default
     annotations:
         kubernetes.io/ingress.class: traefik
 spec:
     rules:
-        - host: apidemocivo.gauzy.co
+        - host: apidemocivo.irtranscripts.com
           http:
               paths:
                   - backend:
                         service:
-                            name: gauzy-demo-api
+                            name: irtranscripts-demo-api
                             port:
                                 number: 3000
                     path: /
                     pathType: Prefix
     tls:
         - hosts:
-              - apidemocivo.gauzy.co
-          secretName: apidemocivo.gauzy.co-tls
+              - apidemocivo.irtranscripts.com
+          secretName: apidemocivo.irtranscripts.com-tls

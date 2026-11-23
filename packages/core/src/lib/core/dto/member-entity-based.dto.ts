@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsArray, IsOptional, IsUUID } from 'class-validator';
-import { ID, IMemberEntityBased } from '@gauzy/contracts';
+import { ID, IMemberEntityBased } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from './tenant-organization-base.dto';
 
 export class MemberEntityBasedDTO extends TenantOrganizationBaseDTO implements IMemberEntityBased {

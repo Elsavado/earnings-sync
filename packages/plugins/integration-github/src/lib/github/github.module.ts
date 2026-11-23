@@ -11,8 +11,8 @@ import {
 	OrganizationProjectModule,
 	PluginCommonModule,
 	RolePermissionModule
-} from '@gauzy/core';
-import { ConfigModule, environment } from '@gauzy/config';
+} from '@irtranscripts/core';
+import { ConfigModule, environment } from '@irtranscripts/config';
 import { ProbotModule } from '../probot/probot.module';
 import { CommandHandlers } from './commands/handlers';
 import { GithubEventSubscriber } from './github-event.subscriber';
@@ -55,7 +55,7 @@ const { github } = environment;
 		// Probot Configuration
 		ProbotModule.forRoot({
 			isGlobal: true,
-			// Webhook URL in GitHub will be: https://api.gauzy.co/api/integration/github/webhook
+			// Webhook URL in GitHub will be: https://api.irtranscripts.com/api/integration/github/webhook
 			path: 'integration/github/webhook',
 			config: {
 				/** Client Configuration */

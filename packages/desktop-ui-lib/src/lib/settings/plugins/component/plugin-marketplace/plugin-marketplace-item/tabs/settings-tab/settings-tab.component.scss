@@ -7,10 +7,10 @@
   padding: 1.5rem 0;
 
   .header-card {
-    background: var(--gauzy-card-1);
+    background: var(--irtranscripts-card-1);
     border-radius: calc(var(--border-radius) * 1.5);
     padding: 1.5rem;
-    box-shadow: var(--gauzy-shadow);
+    box-shadow: var(--irtranscripts-shadow);
 
     .header-content {
       display: flex;
@@ -44,12 +44,12 @@
             font-size: 1.125rem;
             font-weight: 600;
             margin-bottom: 0.25rem;
-            color: var(--gauzy-text-color-1);
+            color: var(--irtranscripts-text-color-1);
           }
 
           .section-description {
             font-size: 0.875rem;
-            color: var(--gauzy-text-color-2);
+            color: var(--irtranscripts-text-color-2);
           }
         }
       }
@@ -58,10 +58,10 @@
 
   .settings-overview-card {
     nb-card {
-      background: var(--gauzy-card-1);
+      background: var(--irtranscripts-card-1);
       border: 1px solid rgba(0, 0, 0, 0.08);
       border-radius: calc(var(--border-radius) * 1.5);
-      box-shadow: var(--gauzy-shadow);
+      box-shadow: var(--irtranscripts-shadow);
 
       nb-card-body {
         padding: 2rem;
@@ -95,12 +95,12 @@
               font-size: 1.125rem;
               font-weight: 600;
               margin-bottom: 0.5rem;
-              color: var(--gauzy-text-color-1);
+              color: var(--irtranscripts-text-color-1);
             }
 
             .info-description {
               font-size: 0.9375rem;
-              color: var(--gauzy-text-color-2);
+              color: var(--irtranscripts-text-color-2);
               margin-bottom: 0;
               line-height: 1.6;
             }
@@ -126,7 +126,7 @@
                 border: 1px solid rgba(255, 170, 0, 0.3);
                 border-radius: calc(var(--border-radius) * 1);
                 font-size: 0.875rem;
-                color: var(--gauzy-text-color-1);
+                color: var(--irtranscripts-text-color-1);
 
                 nb-icon {
                   font-size: 1.25rem;
@@ -154,7 +154,7 @@
         font-size: 1rem;
         font-weight: 600;
         margin: 0;
-        color: var(--gauzy-text-color-1);
+        color: var(--irtranscripts-text-color-1);
       }
     }
 
@@ -167,10 +167,10 @@
         display: flex;
         gap: 1rem;
         padding: 1.5rem;
-        background: var(--gauzy-card-1);
+        background: var(--irtranscripts-card-1);
         border: 1px solid rgba(0, 0, 0, 0.08);
         border-radius: calc(var(--border-radius) * 1.5);
-        box-shadow: var(--gauzy-shadow);
+        box-shadow: var(--irtranscripts-shadow);
         transition: all 0.2s ease;
 
         &:hover {
@@ -235,12 +235,12 @@
             font-size: 0.9375rem;
             font-weight: 600;
             margin-bottom: 0.375rem;
-            color: var(--gauzy-text-color-1);
+            color: var(--irtranscripts-text-color-1);
           }
 
           .feature-description {
             font-size: 0.8125rem;
-            color: var(--gauzy-text-color-2);
+            color: var(--irtranscripts-text-color-2);
             margin-bottom: 0;
             line-height: 1.5;
           }

@@ -1,6 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { assertCallerOwnsUpload } from '@gauzy/core';
+import { assertCallerOwnsUpload } from '@irtranscripts/core';
 import { GetCamshotQuery } from '../get-camshot.query';
 import { ICamshot } from '../../models/camshot.model';
 import { CamshotService } from '../../services/camshot.service';

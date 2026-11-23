@@ -23,7 +23,7 @@
             <nb-icon icon="layers-outline" class="field-icon"></nb-icon>
             <label class="field-label">{{ 'PLUGIN.FORM.VERSION' | translate }}</label>
           </div>
-          <gauzy-version-selector [pluginId]="pluginId"></gauzy-version-selector>
+          <irtranscripts-version-selector [pluginId]="pluginId"></irtranscripts-version-selector>
         </div>
 
         <div class="field-wrapper">
@@ -31,10 +31,10 @@
             <nb-icon icon="code-outline" class="field-icon"></nb-icon>
             <label class="field-label">{{ 'PLUGIN.FORM.SOURCE' | translate }}</label>
           </div>
-          <gauzy-source-selector
+          <irtranscripts-source-selector
             [pluginId]="pluginId"
             [versionId]="versionId$ | async"
-          ></gauzy-source-selector>
+          ></irtranscripts-source-selector>
         </div>
 
         @if (showAuthToken) {

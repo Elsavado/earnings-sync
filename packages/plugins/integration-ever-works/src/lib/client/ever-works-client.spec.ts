@@ -87,7 +87,7 @@ describe('EverWorksClient', () => {
 		expect(request.method).toBe('GET');
 		expect(request.url).toBe('https://api.example.test/api/integrations/v1/whoami');
 		expect(request.headers['Authorization']).toBe(`Bearer ${FAKE_KEY}`);
-		expect(request.headers['User-Agent']).toMatch(/^ever-gauzy-ever-works\//);
+		expect(request.headers['User-Agent']).toMatch(/^ever-irtranscripts-ever-works\//);
 		expect(request.headers['X-Scope-Slug']).toBeUndefined();
 		// A read carries no origin and no idempotency key.
 		expect(request.headers['X-Sync-Origin']).toBeUndefined();
@@ -101,7 +101,7 @@ describe('EverWorksClient', () => {
 		await c.request('PATCH', '/tasks/t1', { body: { title: 'y' }, ifMatchVersion: 7 });
 		const [post, patch] = transport.sent;
 		expect(post.headers).toMatchObject({
-			'X-Sync-Origin': 'gauzy:c0ffee00-0000-4000-8000-000000000001',
+			'X-Sync-Origin': 'irtranscripts:c0ffee00-0000-4000-8000-000000000001',
 			'X-Scope-Slug': 'acme',
 			'X-Act-As-User': 'u1',
 			'Idempotency-Key': 'create-1',
@@ -122,7 +122,7 @@ describe('EverWorksClient', () => {
 
 	it('builds the query, skipping empty values', async () => {
 		const transport = scripted([ok({ events: [], nextCursor: null, hasMore: false, head: '0' })]);
-		await client(transport).c.events({ after: '41', limit: 100, types: ['task.*', 'team.*'], excludeOrigin: 'gauzy:c1' });
+		await client(transport).c.events({ after: '41', limit: 100, types: ['task.*', 'team.*'], excludeOrigin: 'irtranscripts:c1' });
 		expect(transport.sent[0].url).toBe(
 			'https://api.example.test/api/integrations/v1/events?after=41&limit=100&types=task.*%2Cteam.*&excludeOrigin=gauzy%3Ac1'
 		);

@@ -34,12 +34,12 @@ describe('pdf.js assets for the Documents preview', () => {
 		});
 	});
 
-	it('is served by every build target of the web app (apps/gauzy/project.json assets)', () => {
+	it('is served by every build target of the web app (apps/irtranscripts/project.json assets)', () => {
 		let root = __dirname;
 		while (!existsSync(join(root, 'nx.json')) && dirname(root) !== root) {
 			root = dirname(root);
 		}
-		const project = JSON.parse(readFileSync(join(root, 'apps/gauzy/project.json'), 'utf8'));
+		const project = JSON.parse(readFileSync(join(root, 'apps/irtranscripts/project.json'), 'utf8'));
 		const targetsWithAssets = Object.entries<any>(project.targets).filter(([, target]) => target.options?.assets);
 
 		expect(targetsWithAssets.map(([name]) => name)).toEqual(expect.arrayContaining(['build']));

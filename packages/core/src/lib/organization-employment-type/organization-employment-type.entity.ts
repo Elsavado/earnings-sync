@@ -1,6 +1,6 @@
 import { JoinTable } from 'typeorm';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { ICandidate, IEmployee, IOrganizationEmploymentType, ITag } from '@gauzy/contracts';
+import { ICandidate, IEmployee, IOrganizationEmploymentType, ITag } from '@irtranscripts/contracts';
 import { Candidate, Employee, Tag, TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { MultiORMColumn, MultiORMEntity, MultiORMManyToMany } from './../core/decorators/entity';
 import { MikroOrmOrganizationEmploymentTypeRepository } from './repository/mikro-orm-organization-employment-type.repository';

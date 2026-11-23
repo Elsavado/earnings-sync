@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  color: var(--gauzy-text-color-1);
+  color: var(--irtranscripts-text-color-1);
 }
 
 .form-header {
@@ -11,10 +11,10 @@
   align-items: center;
   gap: 16px;
   padding: 24px;
-  background: var(--gauzy-card-1);
-  border: 1px solid var(--gauzy-card-2);
+  background: var(--irtranscripts-card-1);
+  border: 1px solid var(--irtranscripts-card-2);
   border-radius: calc(var(--border-radius) * 1.5);
-  box-shadow: var(--gauzy-shadow);
+  box-shadow: var(--irtranscripts-shadow);
 }
 
 .title-block {
@@ -28,7 +28,7 @@
   height: 48px;
   display: grid;
   place-items: center;
-  background: var(--gauzy-card-2);
+  background: var(--irtranscripts-card-2);
   border-radius: calc(var(--border-radius) * 1.5);
 }
 
@@ -38,19 +38,19 @@
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
   }
 
   .plan-name {
     margin: 0;
     font-size: 22px;
     font-weight: 700;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
   }
 
   .subtitle {
     margin: 4px 0 0;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
     font-size: 14px;
   }
 }
@@ -63,14 +63,14 @@
 
 nb-card.form-section {
   border-radius: calc(var(--border-radius) * 1.25);
-  background: var(--gauzy-card-1);
-  border: 1px solid var(--gauzy-card-2);
+  background: var(--irtranscripts-card-1);
+  border: 1px solid var(--irtranscripts-card-2);
   box-shadow: none;
 }
 
 ::ng-deep nb-card-header {
   padding: 20px 24px;
-  border-bottom: 1px solid var(--gauzy-card-2);
+  border-bottom: 1px solid var(--irtranscripts-card-2);
 }
 
 ::ng-deep nb-card-body {
@@ -90,7 +90,7 @@ nb-card.form-section {
 
   .hint {
     margin: 4px 0 0;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
     font-size: 13px;
   }
 }
@@ -106,16 +106,16 @@ nb-card.form-section {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    border: 1px solid var(--gauzy-card-2);
+    border: 1px solid var(--irtranscripts-card-2);
     border-radius: calc(var(--border-radius) * 1.25);
-    background: var(--gauzy-card-1);
+    background: var(--irtranscripts-card-1);
     padding: 14px 16px;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
   &:hover label {
-    border-color: var(--gauzy-text-color-2);
-    box-shadow: var(--gauzy-shadow);
+    border-color: var(--irtranscripts-text-color-2);
+    box-shadow: var(--irtranscripts-shadow);
   }
 }
 
@@ -127,7 +127,7 @@ nb-card.form-section {
 
   .label {
     font-weight: 600;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
   }
 }
 
@@ -142,14 +142,14 @@ nb-card.form-section {
   }
 
   .suffix {
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
     font-size: 13px;
   }
 }
 
 .description {
   margin: 0;
-  color: var(--gauzy-text-color-2);
+  color: var(--irtranscripts-text-color-2);
   font-size: 13px;
 }
 
@@ -169,23 +169,23 @@ nb-card.form-section {
   label {
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--gauzy-card-2);
+    border: 1px solid var(--irtranscripts-card-2);
     border-radius: calc(var(--border-radius) * 1.25);
     padding: 14px 16px;
     gap: 12px;
-    background: var(--gauzy-card-1);
+    background: var(--irtranscripts-card-1);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
   &:hover label {
-    border-color: var(--gauzy-text-color-2);
-    box-shadow: var(--gauzy-shadow);
+    border-color: var(--irtranscripts-text-color-2);
+    box-shadow: var(--irtranscripts-shadow);
   }
 
   &.checked label {
     border-color: var(--color-primary-400);
-    box-shadow: var(--gauzy-shadow);
-    background: var(--gauzy-card-2);
+    box-shadow: var(--irtranscripts-shadow);
+    background: var(--irtranscripts-card-2);
   }
 
   label:focus-within {
@@ -216,11 +216,11 @@ nb-card.form-section {
 
   .title {
     font-weight: 600;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
   }
 
   .subtitle {
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
     font-size: 13px;
   }
 }
@@ -246,7 +246,7 @@ nb-card.form-section {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
     font-size: 13px;
   }
 }
@@ -258,19 +258,19 @@ nb-card.form-section {
   gap: 10px;
   padding: 12px 14px;
   margin-bottom: 12px;
-  border: 1px dashed var(--gauzy-card-2);
+  border: 1px dashed var(--irtranscripts-card-2);
   border-radius: calc(var(--border-radius) * 1.1);
-  background: var(--gauzy-card-2);
+  background: var(--irtranscripts-card-2);
 
   .note-title {
     margin: 0;
     font-weight: 600;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
   }
 
   .note-copy {
     margin: 2px 0 0;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
     font-size: 13px;
   }
 }
@@ -297,7 +297,7 @@ nb-card.form-section {
     align-items: center;
     gap: 6px;
     font-weight: 600;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
     margin: 0;
   }
 
@@ -307,7 +307,7 @@ nb-card.form-section {
 
   .help-icon {
     font-size: 16px;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
   }
 
   nb-form-field {
@@ -350,7 +350,7 @@ nb-card.form-section {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--gauzy-text-color-1);
+  color: var(--irtranscripts-text-color-1);
 }
 
 .checkbox-help {
@@ -358,14 +358,14 @@ nb-card.form-section {
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  color: var(--gauzy-text-color-2);
+  color: var(--irtranscripts-text-color-2);
   font-size: 13px;
 }
 
 a {
   text-decoration: none;
   font-weight: 600;
-  color: var(--gauzy-text-color-1);
+  color: var(--irtranscripts-text-color-1);
 
   &:hover {
     text-decoration: underline;
@@ -378,7 +378,7 @@ a {
   gap: 12px;
   margin-top: 16px;
   padding-top: 16px;
-  border-top: 1px solid var(--gauzy-card-2);
+  border-top: 1px solid var(--irtranscripts-card-2);
 
   button {
     display: inline-flex;
@@ -406,8 +406,8 @@ a {
   margin-top: 12px;
   padding: 12px;
   border-radius: var(--border-radius);
-  background: var(--gauzy-card-2);
-  color: var(--gauzy-text-color-1);
+  background: var(--irtranscripts-card-2);
+  color: var(--irtranscripts-text-color-1);
 }
 
 .form {

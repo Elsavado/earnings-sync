@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 /**
  * Creates `ever_instance`, the one-row identity of this installation used by the anonymous usage
- * statistics plugin (`@gauzy/plugin-ever-instance`, `@gauzy/plugin-ever-stats`): a random id, the
+ * statistics plugin (`@irtranscripts/plugin-ever-instance`, `@irtranscripts/plugin-ever-stats`): a random id, the
  * statistics key (its private part encrypted), the operator switch, and columns reserved for the Ever
  * Platform connection. Times are epoch milliseconds.
  *

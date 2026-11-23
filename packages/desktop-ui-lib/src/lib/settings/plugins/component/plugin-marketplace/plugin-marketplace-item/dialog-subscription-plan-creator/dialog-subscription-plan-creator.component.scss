@@ -1,7 +1,7 @@
 .dialog-card {
-  background: var(--gauzy-card-1);
+  background: var(--irtranscripts-card-1);
   border-radius: calc(var(--border-radius) * 1.25);
-  box-shadow: var(--gauzy-shadow);
+  box-shadow: var(--irtranscripts-shadow);
   width: 80vw;
   height: 90vh;
 }
@@ -24,18 +24,18 @@
   height: 2.5rem;
   display: grid;
   place-items: center;
-  background: var(--gauzy-card-2);
+  background: var(--irtranscripts-card-2);
   border-radius: calc(var(--border-radius) * 1.1);
 }
 
 .title {
   margin: 0;
-  color: var(--gauzy-text-color-1);
+  color: var(--irtranscripts-text-color-1);
 }
 
 .subtitle {
   margin: 0;
-  color: var(--gauzy-text-color-2);
+  color: var(--irtranscripts-text-color-2);
   font-size: 0.875rem;
 }
 

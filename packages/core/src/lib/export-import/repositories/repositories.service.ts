@@ -2,9 +2,9 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { camelCase } from 'typeorm/util/StringUtils';
-import { ConfigService } from '@gauzy/config';
-import { getEntitiesFromPlugins } from '@gauzy/plugin';
-import { isFunction } from '@gauzy/utils';
+import { ConfigService } from '@irtranscripts/config';
+import { getEntitiesFromPlugins } from '@irtranscripts/plugin';
+import { isFunction } from '@irtranscripts/utils';
 import { ConnectionEntityManager } from '../../database/connection-entity-manager';
 import { isExportSkipped } from '../skip-export.decorator';
 import {

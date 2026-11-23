@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { IOrganizationProject } from '@gauzy/contracts';
+import { IOrganizationProject } from '@irtranscripts/contracts';
 
 export class OrganizationProjectRelatedIssueTypeBulkCreateCommand
 	implements ICommand

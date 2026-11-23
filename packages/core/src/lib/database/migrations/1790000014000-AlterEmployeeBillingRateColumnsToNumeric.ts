@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 /**
  * Employee bill/pay rates (`billRateValue`, `minimumBillingRate`) were stored as integers, so a
@@ -140,7 +140,7 @@ export class AlterEmployeeBillingRateColumnsToNumeric1790000014000 implements Mi
 	 * reads. While it waits for a long-running transaction, every later query on the table queues
 	 * behind it, with no upper bound. Give up after 5 s instead: the migration rolls back, requests
 	 * flow again, and the API's TypeORM connection retry (every few seconds) runs it again.
-	 * With `migrationsTransactionMode: 'each'`, which every Gauzy entry point uses, `SET LOCAL` lasts
+	 * With `migrationsTransactionMode: 'each'`, which every IRTranscripts entry point uses, `SET LOCAL` lasts
 	 * only until this migration's transaction ends.
 	 */
 	private async postgresLimitLockWait(queryRunner: QueryRunner): Promise<void> {

@@ -13,7 +13,7 @@ import {
 	InboxItemBodyFormatEnum,
 	InboxItemKindEnum,
 	InboxItemSourceEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { InboxEmail } from '../entities/inbox-email.entity';
 import { InboxEmailAttachment } from '../entities/inbox-email-attachment.entity';
 import { InboxEmailThread } from '../entities/inbox-email-thread.entity';
@@ -90,7 +90,7 @@ export function countThreadMessages(manager: EntityManager, threadId: ID, tenant
 		.getCount();
 }
 
-/** The reason the webhook held the message in the quarantine (its `x-gauzy-inbox-hold` header), if it did. */
+/** The reason the webhook held the message in the quarantine (its `x-irtranscripts-inbox-hold` header), if it did. */
 export function heldBy(email: Pick<InboxEmail, 'headers'>): string | null {
 	if (!email.headers) return null;
 	try {
@@ -156,7 +156,7 @@ export class InboxEmailProcessor implements IInboxEmailProcessor, OnApplicationB
 
 	onApplicationBootstrap(): void {
 		if (!this.config().workerEnabled) {
-			this.logger.log('GAUZY_INBOX_EMAIL_WORKER=off: received messages are stored, another process works them.');
+			this.logger.log('IRTRANSCRIPTS_INBOX_EMAIL_WORKER=off: received messages are stored, another process works them.');
 			return;
 		}
 		// A failed sweep (the database away) is logged; the next interval tries again.
@@ -478,7 +478,7 @@ export class InboxEmailProcessor implements IInboxEmailProcessor, OnApplicationB
 	): Promise<ID> {
 		const type = String(this.dataSource.options.type);
 		if (type === 'postgres') {
-			await manager.query('SELECT pg_advisory_xact_lock(hashtext($1))', [`gauzy-inbox:thread:${mailbox.id}`]);
+			await manager.query('SELECT pg_advisory_xact_lock(hashtext($1))', [`irtranscripts-inbox:thread:${mailbox.id}`]);
 		} else if (type === 'mysql' || type === 'mariadb') {
 			await manager.query('SELECT `id` FROM `inbox_mailbox` WHERE `id` = ? FOR UPDATE', [mailbox.id]);
 		}

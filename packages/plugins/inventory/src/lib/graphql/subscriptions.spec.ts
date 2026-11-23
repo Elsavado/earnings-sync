@@ -15,9 +15,9 @@
 import { AsyncLocalStorage } from 'async_hooks';
 import { ClsService } from 'nestjs-cls';
 import { SUBSCRIPTION_OPTIONS_METADATA } from '@nestjs/graphql/dist/graphql.constants';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { isObservable, Observable } from 'rxjs';
-import { deliverPayloadAsIs, EventBus, observableToAsyncIterable, RequestContext } from '@gauzy/core';
+import { deliverPayloadAsIs, EventBus, observableToAsyncIterable, RequestContext } from '@irtranscripts/core';
 import { InventoryPermission } from './../inventory.permissions';
 import {
 	InventoryLevelChangedEvent,

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, inject, ChangeDetectionStrategy } from '@angular/core';
-import { ICandidate, ICandidateInterview, IEmployee } from '@gauzy/contracts';
+import { ICandidate, ICandidateInterview, IEmployee } from '@irtranscripts/contracts';
 import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
-import { CandidatesService } from '@gauzy/ui-core/core';
+import { CandidatesService } from '@irtranscripts/ui-core/core';
 
 @Component({
 	selector: 'ga-candidate-email',

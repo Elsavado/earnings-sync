@@ -8,7 +8,7 @@ import { ITeamDashboardMember } from './teams-dashboard.types';
  * Flat list of every team member in scope: status dot, avatar, how much of the
  * working day they logged, and their activity percentage.
  *
- * Extracted from `gauzy-team-member` in its "classic" mode — the compact row the
+ * Extracted from `irtranscripts-team-member` in its "classic" mode — the compact row the
  * legacy Teams dashboard renders inside each team card. Working members come
  * first, matching the legacy order, and a person on two teams appears once per
  * team (their numbers differ per team, because time is logged against a team).

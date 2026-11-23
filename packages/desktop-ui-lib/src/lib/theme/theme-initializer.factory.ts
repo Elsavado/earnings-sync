@@ -2,8 +2,8 @@ import { NbThemeService } from '@nebular/theme';
 import { ElectronService } from '../electron/services';
 
 const themes = {
-    light: 'gauzy-light',
-    dark: 'gauzy-dark'
+    light: 'irtranscripts-light',
+    dark: 'irtranscripts-dark'
 }
 export function ThemeInitializerFactory(
     themeService: NbThemeService,

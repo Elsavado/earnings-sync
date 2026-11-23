@@ -1,7 +1,7 @@
 {
-	"name": "@gauzy/plugin-jitsu-analytics",
+	"name": "@irtranscripts/plugin-jitsu-analytics",
 	"version": "0.1.0",
-	"description": "Ever Gauzy Platform Jitsu Analytics Plugin",
+	"description": "Ever IRTranscripts Platform Jitsu Analytics Plugin",
 	"author": {
 		"name": "Ever Co. LTD",
 		"email": "ever@ever.co",
@@ -31,9 +31,9 @@
 		"@nestjs/core": "^12.0.0"
 	},
 	"dependencies": {
-		"@gauzy/config": "^0.1.0",
-		"@gauzy/core": "^0.1.0",
-		"@gauzy/plugin": "^0.1.0",
+		"@irtranscripts/config": "^0.1.0",
+		"@irtranscripts/core": "^0.1.0",
+		"@irtranscripts/plugin": "^0.1.0",
 		"@jitsu/js": "^1.11.0",
 		"chalk": "^4.1.0",
 		"node-fetch": "^3.3.2",
@@ -46,7 +46,7 @@
 		"typescript": "~6.0.3"
 	},
 	"keywords": [
-		"gauzy",
+		"irtranscripts",
 		"plugin",
 		"analytics",
 		"jitsu",

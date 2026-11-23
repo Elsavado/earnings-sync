@@ -3,7 +3,7 @@ import {
 	DocumentReviewStatusEnum,
 	DocumentStatusEnum,
 	DocumentVisibilityEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	DOCUMENT_MAX_TAKE,
 	normalizeDocumentFacets,

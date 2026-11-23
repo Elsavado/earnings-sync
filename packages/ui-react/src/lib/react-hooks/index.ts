@@ -6,4 +6,4 @@ export { useTranslation } from './use-translation';
 export { usePluginEvents, usePluginEvent, type UsePluginEventsReturn } from './use-plugin-events';
 export { useTypedEvent, useTypedEventListener } from './use-typed-event';
 export { useDynamicPlugin } from './use-dynamic-plugin';
-export { type PluginEvent, type EmitOptions, type SubscribeOptions } from '@gauzy/plugin-ui';
+export { type PluginEvent, type EmitOptions, type SubscribeOptions } from '@irtranscripts/plugin-ui';

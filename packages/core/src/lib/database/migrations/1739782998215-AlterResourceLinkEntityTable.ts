@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 export class AlterResourceLinkEntityTable1739782998215 implements MigrationInterface {
 	name = 'AlterResourceLinkEntityTable1739782998215';

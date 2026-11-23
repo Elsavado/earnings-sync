@@ -6,7 +6,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { RolePermissionModule } from '@gauzy/core';
+import { RolePermissionModule } from '@irtranscripts/core';
 import { ChannelWarehouse } from './channel-warehouse.entity';
 import { ChannelWarehouseController } from './channel-warehouse.controller';
 import { ChannelWarehouseService } from './channel-warehouse.service';

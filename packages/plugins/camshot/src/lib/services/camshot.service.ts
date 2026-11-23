@@ -6,14 +6,14 @@ import {
 	fileContentToBuffer,
 	TenantAwareCrudService,
 	thumbnailFileName
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { Camshot } from '../entity/camshot.entity';
 import { TypeOrmCamshotRepository } from '../repositories/type-orm-camshot.repository';
 import { MikroOrmCamshotRepository } from '../repositories/mikro-orm-camshot.repository';
 import { FileDTO } from '../dtos/file.dto';
 import { validate } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
-import { FileStorageProviderEnum } from '@gauzy/contracts';
+import { FileStorageProviderEnum } from '@irtranscripts/contracts';
 import { IPreparedFile } from '../models/prepare.model';
 import * as path from 'path';
 

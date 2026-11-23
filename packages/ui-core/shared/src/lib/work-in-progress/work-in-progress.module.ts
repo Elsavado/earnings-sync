@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ROUTES, RouterModule } from '@angular/router';
 import { NbCardModule, NbIconModule } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
-import { PageRouteRegistryService } from '@gauzy/ui-core/core';
+import { PageRouteRegistryService } from '@irtranscripts/ui-core/core';
 import { WorkInProgressComponent } from './work-in-progress.component';
 import { createWorkInProgressRoutes } from './work-in-progress.routes';
 

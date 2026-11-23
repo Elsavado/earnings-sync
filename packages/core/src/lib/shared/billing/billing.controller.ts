@@ -1,4 +1,4 @@
-import { RolesEnum } from '@gauzy/contracts';
+import { RolesEnum } from '@irtranscripts/contracts';
 import {
 	BadRequestException,
 	Body,
@@ -199,7 +199,7 @@ export class BillingController {
 		);
 	}
 
-	/** The Ever product this deployment sells (`BILLING_PRODUCT`, default `gauzy`). */
+	/** The Ever product this deployment sells (`BILLING_PRODUCT`, default `irtranscripts`). */
 	private productKey(): string {
 		const product = this.billingService.product;
 		if (!product) {
@@ -255,7 +255,7 @@ export class BillingController {
 	/**
 	 * Only same-origin return URLs.
 	 *
-	 * There is no hardcoded fallback on purpose. Defaulting to `https://app.gauzy.co` would send a
+	 * There is no hardcoded fallback on purpose. Defaulting to `https://app.irtranscripts.com` would send a
 	 * self-hosted operator's own users to a domain that operator does not control — so if
 	 * `CLIENT_BASE_URL` is not configured, this refuses rather than guesses.
 	 */

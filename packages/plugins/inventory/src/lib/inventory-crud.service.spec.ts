@@ -2,7 +2,7 @@ import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 /**
- * `@gauzy/core` boots the whole application graph from its barrel, so it is doubled at the module boundary: the base
+ * `@irtranscripts/core` boots the whole application graph from its barrel, so it is doubled at the module boundary: the base
  * the inventory services inherit is reduced to the reads and the delete it states. The organization boundary itself —
  * who it confines, and how every read, write and delete of the base keeps to it — is proven against real stores on
  * both ORMs in core (`tenant-aware-crud.service.organization-boundary.spec.ts`). What is proven here is that the
@@ -14,7 +14,7 @@ const deleted: unknown[] = [];
 /** The rows the stand-in base finds: what a caller inside the boundary reaches. */
 const reachable = new Set<string>();
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	class TenantAwareCrudService {

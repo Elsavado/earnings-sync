@@ -12,7 +12,7 @@ import {
 	MaxLength,
 	Min
 } from 'class-validator';
-import { DecimalString, ID, IWarehouse } from '@gauzy/contracts';
+import { DecimalString, ID, IWarehouse } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	JsonColumn,
@@ -21,7 +21,7 @@ import {
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity,
 	Warehouse
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { CarrierManifestStatus, ICarrierManifest } from '../warehouse.types';
 import { MikroOrmCarrierManifestRepository } from './repository/mikro-orm-carrier-manifest.repository';
 

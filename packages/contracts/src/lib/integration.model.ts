@@ -33,7 +33,7 @@ export interface IIntegrationEntitySettingTied extends IBasePerTenantAndOrganiza
 
 export interface IIntegrationMap extends IBasePerTenantAndOrganizationEntityModel, IRelationalIntegrationTenant {
 	sourceId: string;
-	gauzyId: ID;
+	irtranscriptsId: ID;
 }
 
 export interface IIntegrationViewModel {
@@ -109,7 +109,7 @@ export interface IIntegrationMapSyncEntity<T> extends IIntegrationMapSyncBase {
 }
 
 export interface IIntegrationMapSyncEntityInput extends IIntegrationMapSyncBase {
-	gauzyId: ID;
+	irtranscriptsId: ID;
 	entity: IntegrationEntity;
 }
 
@@ -142,7 +142,7 @@ export enum IntegrationEnum {
 	IMPORT_EXPORT = 'Import_Export',
 	UPWORK = 'Upwork',
 	HUBSTAFF = 'Hubstaff',
-	GAUZY_AI = 'Gauzy_AI',
+	IRTRANSCRIPTS_AI = 'IRTranscripts_AI',
 	GITHUB = 'Github',
 	JIRA = 'Jira',
 	MakeCom = 'MakeCom',

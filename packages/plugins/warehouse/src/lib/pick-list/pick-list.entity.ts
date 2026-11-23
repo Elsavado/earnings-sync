@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { JoinColumn, RelationId } from 'typeorm';
 import { IsDate, IsEnum, IsInt, IsNotEmpty, IsOptional, IsString, IsUUID, MaxLength, Min } from 'class-validator';
-import { ID, IUser, IWarehouse } from '@gauzy/contracts';
+import { ID, IUser, IWarehouse } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	JsonColumn,
@@ -12,7 +12,7 @@ import {
 	TenantOrganizationBaseEntity,
 	User,
 	Warehouse
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { IPickList, IPickListLine, IPickWave, IWarehouseZone, PickListStatus } from '../warehouse.types';
 import { PickListLine } from '../pick-list-line/pick-list-line.entity';
 import { PickWave } from '../pick-wave/pick-wave.entity';

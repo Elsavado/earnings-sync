@@ -1,6 +1,6 @@
 import { ApiPropertyOptional, IntersectionType, PartialType, PickType } from '@nestjs/swagger';
 import { IsArray, IsBoolean, IsOptional, IsString } from 'class-validator';
-import { IOrganizationProject, IOrganizationTeam } from '@gauzy/contracts';
+import { IOrganizationProject, IOrganizationTeam } from '@irtranscripts/contracts';
 import { MemberEntityBasedDTO, TenantOrganizationBaseDTO } from './../../core/dto';
 import { RelationalTagDTO } from './../../tags/dto';
 import { OrganizationTeam } from './../organization-team.entity';

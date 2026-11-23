@@ -4,7 +4,7 @@ import * as jwt from 'jsonwebtoken';
 // the whole entity graph for a unit test.
 jest.mock('./tenant-setting.service', () => ({ TenantSettingService: class {} }));
 // The secret the API signs its access tokens with.
-jest.mock('@gauzy/config', () => ({ environment: { JWT_SECRET: 'test-secret' } }));
+jest.mock('@irtranscripts/config', () => ({ environment: { JWT_SECRET: 'test-secret' } }));
 
 import {
 	EMPTY_TENANT_SETTINGS_TTL_MS,

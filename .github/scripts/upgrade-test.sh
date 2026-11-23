@@ -41,10 +41,10 @@ BOOT_TIMEOUT_MIN="${BOOT_TIMEOUT_MIN:-60}"
 
 LABEL="$DB"
 [ "$MODE" = fresh ] && LABEL="$DB-fresh"
-NET="gauzy-upgrade"
-API="gauzy-upgrade-api"
-PG="gauzy-upgrade-pg"
-VOL="gauzy-upgrade-$LABEL"
+NET="irtranscripts-upgrade"
+API="irtranscripts-upgrade-api"
+PG="irtranscripts-upgrade-pg"
+VOL="irtranscripts-upgrade-$LABEL"
 OUT="$RESULTS_DIR/$LABEL"
 mkdir -p "$OUT"
 : >"$OUT/checks.tsv"
@@ -100,12 +100,12 @@ chmod 600 "$ENV_FILE"
 	done
 	if [ "$DB" = sqlite ]; then
 		echo "DB_TYPE=better-sqlite3"
-		echo "DB_PATH=/data/gauzy.sqlite3"
+		echo "DB_PATH=/data/irtranscripts.sqlite3"
 	else
 		echo "DB_TYPE=postgres"
 		echo "DB_HOST=$PG"
 		echo "DB_PORT=5432"
-		echo "DB_NAME=gauzy"
+		echo "DB_NAME=irtranscripts"
 		echo "DB_USER=postgres"
 		echo "DB_PASS=$PG_PASSWORD"
 		echo "DB_SSL_MODE=false"
@@ -186,14 +186,14 @@ error_lines() {
 dump_migrations() {
 	if [ "$DB" = sqlite ]; then
 		# better-sqlite3 from the after image; the database file is closed (the API container is stopped).
-		docker run --rm --network none -v "$VOL:/data" -w /srv/gauzy --entrypoint node "$AFTER_IMAGE" -e '
+		docker run --rm --network none -v "$VOL:/data" -w /srv/irtranscripts --entrypoint node "$AFTER_IMAGE" -e '
 			const Database = require("better-sqlite3");
-			const db = new Database("/data/gauzy.sqlite3", { fileMustExist: true });
+			const db = new Database("/data/irtranscripts.sqlite3", { fileMustExist: true });
 			const exists = db.prepare("SELECT name FROM sqlite_master WHERE type = ? AND name = ?").get("table", "migrations");
 			if (exists) for (const row of db.prepare("SELECT timestamp, name FROM migrations ORDER BY timestamp, name").all()) console.log(row.timestamp + "\t" + row.name);
 			db.close();' >"$1"
 	else
-		docker exec "$PG" psql -U postgres -d gauzy -v ON_ERROR_STOP=1 -AtF $'\t' -c \
+		docker exec "$PG" psql -U postgres -d irtranscripts -v ON_ERROR_STOP=1 -AtF $'\t' -c \
 			"SELECT \"timestamp\", \"name\" FROM \"migrations\" ORDER BY \"timestamp\", \"name\"" >"$1" 2>/dev/null || : >"$1"
 	fi
 }
@@ -222,14 +222,14 @@ if [ "$DB" = sqlite ]; then
 	check "database" info "SQLite (better-sqlite3), file on a volume shared by both boots"
 else
 	docker rm -f "$PG" >/dev/null 2>&1 || true
-	docker run -d --name "$PG" --network "$NET" -e POSTGRES_PASSWORD="$PG_PASSWORD" -e POSTGRES_DB=gauzy "$POSTGRES_IMAGE" >/dev/null
+	docker run -d --name "$PG" --network "$NET" -e POSTGRES_PASSWORD="$PG_PASSWORD" -e POSTGRES_DB=irtranscripts "$POSTGRES_IMAGE" >/dev/null
 	# Over TCP: the official image first runs its init scripts on a socket-only server, then restarts.
 	for i in $(seq 1 60); do
-		docker exec "$PG" pg_isready -h 127.0.0.1 -U postgres -d gauzy >/dev/null 2>&1 && break
+		docker exec "$PG" pg_isready -h 127.0.0.1 -U postgres -d irtranscripts >/dev/null 2>&1 && break
 		[ "$i" = 60 ] && { check "database" fail "$POSTGRES_IMAGE not ready within 2 min"; exit 1; }
 		sleep 2
 	done
-	check "database" info "$(docker exec "$PG" psql -U postgres -d gauzy -Atc 'SHOW server_version') ($POSTGRES_IMAGE), one container shared by both boots"
+	check "database" info "$(docker exec "$PG" psql -U postgres -d irtranscripts -Atc 'SHOW server_version') ($POSTGRES_IMAGE), one container shared by both boots"
 fi
 
 # ---------------------------------------------------------------------------------------------- before

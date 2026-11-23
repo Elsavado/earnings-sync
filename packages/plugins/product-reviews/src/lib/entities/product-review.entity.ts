@@ -1,8 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { JoinColumn, RelationId } from 'typeorm';
 import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsUUID, Max, Min } from 'class-validator';
-import { ID, IProduct, IUser } from '@gauzy/contracts';
-import { isBetterSqlite3 } from '@gauzy/config';
+import { ID, IProduct, IUser } from '@irtranscripts/contracts';
+import { isBetterSqlite3 } from '@irtranscripts/config';
 import {
 	MultiORMEntity,
 	MultiORMColumn,
@@ -12,7 +12,7 @@ import {
 	ColumnIndex,
 	User,
 	VirtualMultiOrmColumn
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { IProductReview, ProductReviewStatus, ProductReviewStatusEnum } from '../product-review.types';
 import { MikroOrmProductReviewRepository } from './repository/mikro-orm-product-review.repository';
 

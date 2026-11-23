@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { IGoal, IGoalFindInput, IGoalResponse } from '@gauzy/contracts';
+import { IGoal, IGoalFindInput, IGoalResponse } from '@irtranscripts/contracts';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { firstValueFrom, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 import { ToastrService } from '../notification';
 
 @Injectable({

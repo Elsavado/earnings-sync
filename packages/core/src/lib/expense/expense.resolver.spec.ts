@@ -12,8 +12,8 @@ import { BadRequestException, ExecutionContext, NotFoundException } from '@nestj
 import { GLOBAL_MODULE_METADATA, MODULE_METADATA } from '@nestjs/common/constants';
 import { Reflector } from '@nestjs/core';
 import { buildSchema, printSchema } from 'graphql';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@gauzy/constants';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { CursorCodec } from '../api/cursor';
 import { BulkExecutor } from '../api/bulk-executor.service';
 import { RequestContext } from '../core/context';

@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-inbox-ui
+ * Public API Surface of @irtranscripts/plugin-inbox-ui
  */
 export * from './lib/inbox-ui.constants';
 export * from './lib/inbox-ui.helpers';

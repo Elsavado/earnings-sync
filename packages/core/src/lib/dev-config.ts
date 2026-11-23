@@ -1,6 +1,6 @@
-import { ApplicationPluginConfig } from '@gauzy/common';
-import { DEFAULT_API_BASE_URL, DEFAULT_API_HOST, DEFAULT_API_PORT, DEFAULT_GRAPHQL_API_PATH } from '@gauzy/constants';
-import { dbTypeOrmConnectionConfig, dbMikroOrmConnectionConfig, dbKnexConnectionConfig } from '@gauzy/config';
+import { ApplicationPluginConfig } from '@irtranscripts/common';
+import { DEFAULT_API_BASE_URL, DEFAULT_API_HOST, DEFAULT_API_PORT, DEFAULT_GRAPHQL_API_PATH } from '@irtranscripts/constants';
+import { dbTypeOrmConnectionConfig, dbMikroOrmConnectionConfig, dbKnexConnectionConfig } from '@irtranscripts/config';
 
 /**
  * Application plugin configuration for development environment.

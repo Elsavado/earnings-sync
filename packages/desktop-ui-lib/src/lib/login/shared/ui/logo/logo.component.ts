@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { GAUZY_ENV } from '../../../../constants';
+import { IRTRANSCRIPTS_ENV } from '../../../../constants';
 
 @Component({
-	selector: 'gauzy-logo',
+	selector: 'irtranscripts-logo',
 	templateUrl: './logo.component.html',
 	styleUrls: ['./logo.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
@@ -11,7 +11,7 @@ import { GAUZY_ENV } from '../../../../constants';
 export class LogoComponent {
 	constructor(
 		private readonly _domSanitizer: DomSanitizer,
-		@Inject(GAUZY_ENV)
+		@Inject(IRTRANSCRIPTS_ENV)
 		private readonly _environment: any
 	) {}
 

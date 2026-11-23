@@ -1,6 +1,6 @@
 import { ConflictException, Injectable, Logger, OnApplicationBootstrap } from '@nestjs/common';
-import { JobExecutionStatus, JobTrigger } from '@gauzy/contracts';
-import { JobExecutionService } from '@gauzy/core';
+import { JobExecutionStatus, JobTrigger } from '@irtranscripts/contracts';
+import { JobExecutionService } from '@irtranscripts/core';
 import {
 	SchedulerRunHandle,
 	SchedulerRunOutcome,
@@ -10,7 +10,7 @@ import {
 	SchedulerRunStatus,
 	SchedulerRunTrigger,
 	SchedulerService
-} from '@gauzy/scheduler';
+} from '@irtranscripts/scheduler';
 
 /**
  * Writes this process's scheduled runs into the ledger.

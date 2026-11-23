@@ -7,15 +7,15 @@
  * real `ExtractionRegistryService`, and the resulting success/failure is handed to the
  * real `DocumentProcessingService` so the row patches it writes are asserted end to end.
  *
- * `@gauzy/core` boots the entire application graph on import (entities → bootstrap), so
+ * `@irtranscripts/core` boots the entire application graph on import (entities → bootstrap), so
  * the handful of framework seams this service touches — `FileStorage`, `RequestContext`,
  * `EventBus` — are mocked at the module boundary. Everything under test is real.
  */
 jest.mock(
-	'@gauzy/core',
+	'@irtranscripts/core',
 	() => ({
 		// The real storage read helper (dependency-free), so the specs read what the providers really return.
-		...jest.requireActual('@gauzy/core/src/lib/core/file-storage/helpers/stored-file-content'),
+		...jest.requireActual('@irtranscripts/core/src/lib/core/file-storage/helpers/stored-file-content'),
 		FileStorage: class {
 			getProvider() {
 				return { getFile: async () => Buffer.alloc(0) };
@@ -28,7 +28,7 @@ jest.mock(
 		EventBus: class {}
 	})
 );
-jest.mock('@gauzy/config', () => ({ isSqlite: () => false, isBetterSqlite3: () => false }));
+jest.mock('@irtranscripts/config', () => ({ isSqlite: () => false, isBetterSqlite3: () => false }));
 jest.mock('../docs.config', () => ({ getDocsConfig: () => ({ maxExtractedChars: 500_000 }) }));
 jest.mock('../entities/document.entity', () => ({ Document: class {} }));
 jest.mock('../events/document.event', () => ({ DocumentEvent: class {} }));
@@ -42,7 +42,7 @@ import {
 	DocumentReviewReasonEnum,
 	DocumentReviewStatusEnum,
 	DocumentStatusEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { DocsPermanentError, DocsTransientError } from '../knowledge/errors';
 import {
 	createCorruptPdf,
@@ -114,7 +114,7 @@ const buildService = (fileBytes: unknown, ocrService?: any) => {
 	);
 
 	// The storage seam: the pipeline reads the blob through the recorded provider.
-	const { FileStorage } = jest.requireMock('@gauzy/core') as any;
+	const { FileStorage } = jest.requireMock('@irtranscripts/core') as any;
 	FileStorage.prototype.getProvider = () => ({ getFile: async () => fileBytes });
 
 	return { service, repository, updates };

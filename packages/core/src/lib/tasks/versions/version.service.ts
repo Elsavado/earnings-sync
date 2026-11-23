@@ -9,8 +9,8 @@ import {
 	ITaskVersionCreateInput,
 	ITaskVersionFindInput,
 	ITenant
-} from '@gauzy/contracts';
-import { isPostgres } from '@gauzy/config';
+} from '@irtranscripts/contracts';
+import { isPostgres } from '@irtranscripts/config';
 import { TaskMetadataService } from '../task-metadata.service';
 import { RequestContext } from '../../core/context';
 import { MultiORMEnum } from '../../core/utils';

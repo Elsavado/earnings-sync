@@ -1,11 +1,11 @@
 // cspell:ignore EAAB googleusercontent tokeninfo
 import { UnauthorizedException } from '@nestjs/common';
-import { ProviderEnum } from '@gauzy/contracts';
+import { ProviderEnum } from '@irtranscripts/contracts';
 import {
 	ISocialAuthClientsConfig,
 	resolveSocialAuthClients,
 	TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR
-} from '@gauzy/config';
+} from '@irtranscripts/config';
 import { firstValueFrom, Observable, of, throwError } from 'rxjs';
 import { DataSource, EntitySchema, Repository } from 'typeorm';
 import { normalizeSocialIdentity, SOCIAL_AUTH_FAILED_MESSAGE, verifySocialAccessToken } from './verify-oauth-tokens';
@@ -46,10 +46,10 @@ const fail =
 		throwError(() => Object.assign(new Error(`Request failed with status code ${status}`), { status }));
 
 const CLIENTS: ISocialAuthClientsConfig = {
-	google: { clientIds: ['gauzy-google.apps.googleusercontent.com', 'teams-google.apps.googleusercontent.com'] },
+	google: { clientIds: ['irtranscripts-google.apps.googleusercontent.com', 'teams-google.apps.googleusercontent.com'] },
 	github: {
 		apps: [
-			{ clientId: 'gauzy-gh', clientSecret: 'gauzy-gh-secret' },
+			{ clientId: 'irtranscripts-gh', clientSecret: 'irtranscripts-gh-secret' },
 			{ clientId: 'teams-gh', clientSecret: 'teams-gh-secret' }
 		]
 	},
@@ -100,7 +100,7 @@ describe('verifySocialAccessToken (GHSA-58x4-7mw9-gmqg)', () => {
 			const { http } = mockHttp([
 				tokeninfo({
 					aud: 'something-else',
-					azp: 'gauzy-google.apps.googleusercontent.com',
+					azp: 'irtranscripts-google.apps.googleusercontent.com',
 					sub: '1',
 					email: 'a@b.co',
 					email_verified: true
@@ -140,7 +140,7 @@ describe('verifySocialAccessToken (GHSA-58x4-7mw9-gmqg)', () => {
 		it.each([['false'], [false], [undefined]])('rejects email_verified=%p', async (emailVerified) => {
 			const { http } = mockHttp([
 				tokeninfo({
-					aud: 'gauzy-google.apps.googleusercontent.com',
+					aud: 'irtranscripts-google.apps.googleusercontent.com',
 					sub: '1',
 					email: 'victim@ever.co',
 					email_verified: emailVerified
@@ -152,7 +152,7 @@ describe('verifySocialAccessToken (GHSA-58x4-7mw9-gmqg)', () => {
 		it('fails closed when no Google client is configured', async () => {
 			const { http } = mockHttp([
 				tokeninfo({
-					aud: 'gauzy-google.apps.googleusercontent.com',
+					aud: 'irtranscripts-google.apps.googleusercontent.com',
 					sub: '1',
 					email: 'a@b.co',
 					email_verified: 'true'
@@ -198,7 +198,7 @@ describe('verifySocialAccessToken (GHSA-58x4-7mw9-gmqg)', () => {
 			// Each app is introspected with its OWN credentials.
 			const introspections = calls.filter((c) => c.method === 'post');
 			expect(introspections.map((c) => c.config.auth)).toEqual([
-				{ username: 'gauzy-gh', password: 'gauzy-gh-secret' },
+				{ username: 'irtranscripts-gh', password: 'irtranscripts-gh-secret' },
 				{ username: 'teams-gh', password: 'teams-gh-secret' }
 			]);
 		});
@@ -399,22 +399,22 @@ describe('normalizeSocialIdentity (GHSA-58x4-7mw9-gmqg)', () => {
 });
 
 describe('resolveSocialAuthClients', () => {
-	it("defaults to Gauzy's own OAuth apps and appends the extra first-party clients", () => {
+	it("defaults to IRTranscripts's own OAuth apps and appends the extra first-party clients", () => {
 		const clients = resolveSocialAuthClients({
-			GOOGLE_CLIENT_ID: 'gauzy-google',
-			GAUZY_GITHUB_OAUTH_CLIENT_ID: 'gauzy-gh',
-			GAUZY_GITHUB_OAUTH_CLIENT_SECRET: 'gauzy-gh-secret',
+			GOOGLE_CLIENT_ID: 'irtranscripts-google',
+			IRTRANSCRIPTS_GITHUB_OAUTH_CLIENT_ID: 'irtranscripts-gh',
+			IRTRANSCRIPTS_GITHUB_OAUTH_CLIENT_SECRET: 'irtranscripts-gh-secret',
 			FACEBOOK_CLIENT_ID: '1111',
 			FACEBOOK_CLIENT_SECRET: 'fb-secret',
-			GAUZY_SOCIAL_AUTH_GOOGLE_CLIENT_IDS: 'teams-google, gauzy-google ,',
-			GAUZY_SOCIAL_AUTH_GITHUB_APPS: 'teams-gh:teams:secret:with:colons,broken',
-			GAUZY_SOCIAL_AUTH_FACEBOOK_APPS: '2222:fb2-secret'
+			IRTRANSCRIPTS_SOCIAL_AUTH_GOOGLE_CLIENT_IDS: 'teams-google, irtranscripts-google ,',
+			IRTRANSCRIPTS_SOCIAL_AUTH_GITHUB_APPS: 'teams-gh:teams:secret:with:colons,broken',
+			IRTRANSCRIPTS_SOCIAL_AUTH_FACEBOOK_APPS: '2222:fb2-secret'
 		});
 		expect(clients).toEqual({
-			google: { clientIds: ['gauzy-google', 'teams-google'] },
+			google: { clientIds: ['irtranscripts-google', 'teams-google'] },
 			github: {
 				apps: [
-					{ clientId: 'gauzy-gh', clientSecret: 'gauzy-gh-secret' },
+					{ clientId: 'irtranscripts-gh', clientSecret: 'irtranscripts-gh-secret' },
 					{ clientId: 'teams-gh', clientSecret: 'teams:secret:with:colons' }
 				]
 			},
@@ -431,8 +431,8 @@ describe('resolveSocialAuthClients', () => {
 		expect(
 			resolveSocialAuthClients({
 				GOOGLE_CLIENT_ID: 'XXXXXXX',
-				GAUZY_GITHUB_OAUTH_CLIENT_ID: 'XXXXXXX',
-				GAUZY_GITHUB_OAUTH_CLIENT_SECRET: 'XXXXXXX',
+				IRTRANSCRIPTS_GITHUB_OAUTH_CLIENT_ID: 'XXXXXXX',
+				IRTRANSCRIPTS_GITHUB_OAUTH_CLIENT_SECRET: 'XXXXXXX',
 				FACEBOOK_CLIENT_ID: '',
 				FACEBOOK_CLIENT_SECRET: ''
 			})

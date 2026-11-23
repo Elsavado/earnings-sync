@@ -1,7 +1,7 @@
 import { BadRequestException, ForbiddenException, HttpException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { ID, ITag, IDocumentCategory, PermissionsEnum } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { ID, ITag, IDocumentCategory, PermissionsEnum } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { DOCS_BULK_ACTION_UNSUPPORTED, DOCS_BULK_MOVE_PARENT_REQUIRED } from '../../docs.constants';
 import { DocumentBulkActionEnum, IDocumentBulkResult, IDocumentBulkResultItem } from '../../dto/bulk-action.dto';
 import { DocumentService } from '../../services/document.service';

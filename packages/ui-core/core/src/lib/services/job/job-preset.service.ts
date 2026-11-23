@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import { ID, IEmployeePresetInput, IGetJobPresetInput, IJobPreset, IMatchingCriterions } from '@gauzy/contracts';
-import { API_PREFIX, toParams } from '@gauzy/ui-core/common';
+import { ID, IEmployeePresetInput, IGetJobPresetInput, IJobPreset, IMatchingCriterions } from '@irtranscripts/contracts';
+import { API_PREFIX, toParams } from '@irtranscripts/ui-core/common';
 
 @Injectable({
 	providedIn: 'root'

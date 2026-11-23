@@ -8,7 +8,7 @@ import {
 	IPaginationParam,
 	IProposalCreateInput,
 	IProposalFindInput
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	Permissions,
 	PermissionGuard,
@@ -19,7 +19,7 @@ import {
 	FindOptionsQueryDTO,
 	CrudFactory,
 	CountQueryDTO
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { ProposalCreateCommand, ProposalUpdateCommand } from './commands';
 import { ProposalService } from './proposal.service';
 import { Proposal } from './proposal.entity';

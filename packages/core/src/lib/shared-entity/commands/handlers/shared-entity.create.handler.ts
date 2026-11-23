@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
-import { ISharedEntity } from "@gauzy/contracts";
+import { ISharedEntity } from "@irtranscripts/contracts";
 import { SharedEntityCreateCommand } from "../shared-entity.create.command";
 import { SharedEntityService } from "../../shared-entity.service";
 

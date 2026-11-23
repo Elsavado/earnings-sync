@@ -4,9 +4,9 @@ import { filter, Observable, of as observableOf } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { NbComponentSize } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { IRole, IUser, RolesEnum } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
-import { RoleService } from '@gauzy/ui-core/core';
+import { IRole, IUser, RolesEnum } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
+import { RoleService } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

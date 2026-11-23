@@ -2,8 +2,8 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { FindOptionsOrder, FindOptionsRelations, FindOptionsSelect, FindOptionsWhere } from 'typeorm';
 import { plainToClass, Transform, TransformFnParams, Type } from 'class-transformer';
 import { IsNotEmpty, IsOptional, Max, Min, ValidateNested } from 'class-validator';
-import { PlainObject } from '@gauzy/contracts';
-import { parseObject, parseToBoolean } from '@gauzy/utils';
+import { PlainObject } from '@irtranscripts/contracts';
+import { parseObject, parseToBoolean } from '@irtranscripts/utils';
 import { canonicalizeFindOptionsRelations } from '../utils';
 import { TenantOrganizationBaseDTO } from './tenant-organization-base.dto';
 

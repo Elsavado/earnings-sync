@@ -6,7 +6,7 @@
  * platform's command, uniqueness of both sides of a pair, validation of directions and projects,
  * organization isolation, and unmap/remap resuming the same mapping.
  *
- * `@gauzy/core` is doubled at the module boundary (its barrel boots the whole application); its
+ * `@irtranscripts/core` is doubled at the module boundary (its barrel boots the whole application); its
  * entities are mapped by fixture schemas over the same table names.
  */
 const mockCaller: { tenantId: string | null; userId: string | null; organizationId: string | null } = {
@@ -15,7 +15,7 @@ const mockCaller: { tenantId: string | null; userId: string | null; organization
 	organizationId: null
 };
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	const entity = (name: string) => ({ [name]: class {} })[name];
 	return {
@@ -63,7 +63,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { BadRequestException, ConflictException, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { DataSource, EntitySchema } from 'typeorm';
-import { IntegrationEntity } from '@gauzy/contracts';
+import { IntegrationEntity } from '@irtranscripts/contracts';
 import {
 	Employee,
 	EmployeeNotification,
@@ -78,7 +78,7 @@ import {
 	TaskView,
 	Tenant,
 	UserOrganization
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { TestEverWorksClientFactory } from '../client/ever-works-client.factory';
 import { EverWorksCatalogService } from '../ever-works-catalog.service';
 import { EverWorksScopeService } from '../ever-works-scope.service';
@@ -229,7 +229,7 @@ describe('Ever Works organization mapping on SQLite', () => {
 	beforeAll(async () => {
 		process.env['ENCRYPTION_KEY'] = randomBytes(32).toString('base64');
 		dir = mkdtempSync(join(tmpdir(), 'ever-works-mapping-'));
-		const file = join(dir, 'gauzy.sqlite');
+		const file = join(dir, 'irtranscripts.sqlite');
 		const core = new DataSource({ type: 'better-sqlite3', database: file, entities: coreSchemas, synchronize: true });
 		await core.initialize();
 		await core.destroy();
@@ -266,7 +266,7 @@ describe('Ever Works organization mapping on SQLite', () => {
 			new TestEverWorksClientFactory(mock.transport()),
 			scopes,
 			new EverWorksNotifier(dataSource),
-			{ defaultApiUrl: null, appUrl: null, gauzyApiUrl: null }
+			{ defaultApiUrl: null, appUrl: null, irtranscriptsApiUrl: null }
 		);
 		// The platform's OrganizationProjectCreateCommand, reduced to what it stores.
 		commandBus = {
@@ -329,9 +329,9 @@ describe('Ever Works organization mapping on SQLite', () => {
 		const view = await mappings.create({ everWorksOrganizationId: ewOrgs[0].id });
 		const refresh = jest.spyOn(connections, 'refreshWebhookEvents').mockResolvedValue(undefined);
 		const connection = await connections.current();
-		await mappings.update(view.integrationTenantId, { directions: { tasks: 'ew_to_gauzy' } });
+		await mappings.update(view.integrationTenantId, { directions: { tasks: 'ew_to_irtranscripts' } });
 		expect(refresh).not.toHaveBeenCalled();
-		await mappings.update(view.integrationTenantId, { directions: { agentEmail: 'ew_to_gauzy' } });
+		await mappings.update(view.integrationTenantId, { directions: { agentEmail: 'ew_to_irtranscripts' } });
 		expect(refresh).toHaveBeenCalledWith(connection?.id, A.tenantId);
 		await mappings.remove(view.integrationTenantId);
 		expect(refresh).toHaveBeenCalledTimes(2);
@@ -346,17 +346,17 @@ describe('Ever Works organization mapping on SQLite', () => {
 		const view = await mappings.create({ everWorksOrganizationId: ewOrgs[0].id });
 		const project = await dataSource.getRepository(OrganizationProject).save({ id: randomUUID(), tenantId: A.tenantId, organizationId: A.organizationId, name: 'P' });
 		const updated = await mappings.update(view.integrationTenantId, {
-			directions: { tasks: 'ew_to_gauzy', docs: 'off' },
+			directions: { tasks: 'ew_to_irtranscripts', docs: 'off' },
 			defaultProjectId: (project as { id: string }).id,
 			includeTriageTasks: true,
 			entitySettings: [{ entity: IntegrationEntity.DOCUMENT, sync: false }]
 		});
-		expect(updated.directions).toMatchObject({ tasks: 'ew_to_gauzy', docs: 'off', teams: 'both' });
+		expect(updated.directions).toMatchObject({ tasks: 'ew_to_irtranscripts', docs: 'off', teams: 'both' });
 		expect(updated.defaultProjectId).toBe((project as { id: string }).id);
 		expect(updated.includeTriageTasks).toBe(true);
 		expect(updated.entitySettings.find((s) => s.entity === IntegrationEntity.DOCUMENT)?.sync).toBe(false);
 		await expect(mappings.update(view.integrationTenantId, { directions: { payroll: 'both' } })).rejects.toThrow(/Unknown synced domain/);
-		await expect(mappings.update(view.integrationTenantId, { directions: { agents: 'gauzy_to_ew' } })).rejects.toThrow(/agents syncs/);
+		await expect(mappings.update(view.integrationTenantId, { directions: { agents: 'irtranscripts_to_ew' } })).rejects.toThrow(/agents syncs/);
 		const foreign = await dataSource.getRepository(OrganizationProject).save({ id: randomUUID(), tenantId: B.tenantId, organizationId: B.organizationId, name: 'X' });
 		await expect(mappings.update(view.integrationTenantId, { ideasProjectId: (foreign as { id: string }).id })).rejects.toBeInstanceOf(BadRequestException);
 		// A toggle for an entity Ever Works does not sync is refused, and nothing of that update is written.
@@ -449,7 +449,7 @@ describe('Ever Works organization mapping on SQLite', () => {
 		it('each entity turns off exactly its own domains; KEY_RESULT and COMMENT turn none off', async () => {
 			const created = await mappings.create({ everWorksOrganizationId: ewOrgs[0].id });
 			// Every domain on first (agent mail is off by default), so each toggle shows what it turns off.
-			const view = await mappings.update(created.integrationTenantId, { directions: { agentEmail: 'ew_to_gauzy' } });
+			const view = await mappings.update(created.integrationTenantId, { directions: { agentEmail: 'ew_to_irtranscripts' } });
 			const stored = view.directions as Record<string, string>;
 			const expected: Array<[IntegrationEntity, string[]]> = [
 				[IntegrationEntity.EMPLOYEE, ['members']],

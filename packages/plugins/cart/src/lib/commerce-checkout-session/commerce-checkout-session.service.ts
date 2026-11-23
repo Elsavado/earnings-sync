@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DeepPartial } from 'typeorm';
-import { CommerceCheckoutSessionStatus, ID, IPagination } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { CommerceCheckoutSessionStatus, ID, IPagination } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { CommerceCheckoutSession } from './commerce-checkout-session.entity';
 import { TypeOrmCommerceCheckoutSessionRepository } from './repository/type-orm-commerce-checkout-session.repository';
 import { MikroOrmCommerceCheckoutSessionRepository } from './repository/mikro-orm-commerce-checkout-session.repository';

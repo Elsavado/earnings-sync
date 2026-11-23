@@ -1,5 +1,5 @@
-import { ApplicationPluginConfig } from '@gauzy/common';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@gauzy/plugin';
+import { ApplicationPluginConfig } from '@irtranscripts/common';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@irtranscripts/plugin';
 import { INBOX_MIGRATIONS } from './database/inbox-migrations';
 import { INBOX_ENTITIES, InboxModule } from './inbox.module';
 import { InboxResolver } from './graphql/inbox.resolver';
@@ -8,9 +8,9 @@ import { inboxSchemaExtensions } from './graphql/inbox.schema';
 export { INBOX_MIGRATIONS };
 
 /**
- * The Gauzy Inbox (`@gauzy/plugin-inbox`, plan 04, G-P3-1).
+ * The IRTranscripts Inbox (`@irtranscripts/plugin-inbox`, plan 04, G-P3-1).
  *
- * Gauzy is production: the plugin is listed by `apps/api/src/plugins.ts` only when `GAUZY_INBOX_ENABLED` is
+ * IRTranscripts is production: the plugin is listed by `apps/api/src/plugins.ts` only when `IRTRANSCRIPTS_INBOX_ENABLED` is
  * exactly `true` (`isInboxEnabled`). Off (the default) it is not loaded at all: no route, no GraphQL field, no table
  * (its migrations are not even registered) and no role grant.
  */

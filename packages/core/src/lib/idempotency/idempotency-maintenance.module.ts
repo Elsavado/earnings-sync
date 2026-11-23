@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { SchedulerModule } from '@gauzy/scheduler';
+import { SchedulerModule } from '@irtranscripts/scheduler';
 import { IdempotencyModule } from './idempotency.module';
 import { IdempotencyCleanupScheduler } from './idempotency-cleanup.scheduler';
 import { IdempotencyCleanupWorker } from './idempotency-cleanup.worker';

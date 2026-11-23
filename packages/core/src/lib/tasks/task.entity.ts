@@ -27,8 +27,8 @@ import {
 	TaskStatusEnum,
 	TaskSyncScopeEnum,
 	TaskTypeEnum
-} from '@gauzy/contracts';
-import { isMySQL } from '@gauzy/config';
+} from '@irtranscripts/contracts';
+import { isMySQL } from '@irtranscripts/config';
 import {
 	Activity,
 	DailyPlan,
@@ -171,7 +171,7 @@ export class Task extends TenantOrganizationBaseEntity implements ITask {
 	public?: boolean;
 
 	/**
-	 * Which integrations may sync the task out of Gauzy: `all` (every enabled integration, by its own rules),
+	 * Which integrations may sync the task out of IRTranscripts: `all` (every enabled integration, by its own rules),
 	 * `ever-platform` (only Ever Works and the other first-party Ever integrations; never GitHub, Sim, …) or `none`.
 	 * A task without a value is `all`, so existing tasks keep syncing as before.
 	 */

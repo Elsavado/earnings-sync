@@ -6,7 +6,7 @@ import {
 	IEventConsumer,
 	IEventConsumerContext,
 	IEventEnvelope
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { EventDelivery } from './event-delivery.entity';
 import { EventConsumerRegistry, EventConsumerRunOutcome, EventOrderGapError } from './event-consumer.registry';
 import { EventOutboxService } from './event-outbox.service';

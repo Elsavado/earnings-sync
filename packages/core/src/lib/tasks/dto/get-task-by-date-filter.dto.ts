@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDate, IsOptional, ValidateIf } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ITaskDateFilterInput } from '@gauzy/contracts';
+import { ITaskDateFilterInput } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../core/dto';
 import { IsBeforeDate } from './../../shared/validators';
 

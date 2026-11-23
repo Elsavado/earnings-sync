@@ -17,7 +17,7 @@
  *   not do this" and "there is nothing here".
  *
  * Three module boundaries are doubled, and the reason is the same for all three: the base CRUD class
- * reaches the entity barrel and with it the whole application graph, `@gauzy/config` reads the process
+ * reaches the entity barrel and with it the whole application graph, `@irtranscripts/config` reads the process
  * environment at import time, and the request context is what a write runs inside. A fourth is
  * doubled for a load-order reason: the guards barrel reaches the employee repository and, through it,
  * the entity graph from the wrong end — where `RolePermissionController` is decorated before the guard
@@ -59,8 +59,8 @@ jest.mock('../core/context/request-context', () => ({
 	}
 }));
 
-jest.mock('@gauzy/config', () => ({
-	...jest.requireActual('@gauzy/config'),
+jest.mock('@irtranscripts/config', () => ({
+	...jest.requireActual('@irtranscripts/config'),
 	isPostgres: () => true,
 	isMySQL: () => false
 }));
@@ -79,8 +79,8 @@ jest.mock('@gauzy/config', () => ({
 import '../core/entities/internal';
 
 import { BadRequestException, HttpException } from '@nestjs/common';
-import { ChannelStatus, PermissionsEnum } from '@gauzy/contracts';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
+import { ChannelStatus, PermissionsEnum } from '@irtranscripts/contracts';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { ChannelController } from './channel.controller';
 import { ChannelEventPublisher, CHANNEL_EVENT_NAMES } from './channel-event.publisher';

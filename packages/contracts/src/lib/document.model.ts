@@ -316,7 +316,7 @@ export interface IDocumentLinkCreateInput extends IBasePerTenantAndOrganizationE
  * How an organization's inbound capture address is hosted.
  *
  * `PLATFORM` — the zero-config default. The address lives on the deployment-wide inbound domain
- * (`GAUZY_DOCS_INBOUND_DOMAIN`) and is distinguished only by an unguessable per-organization token:
+ * (`IRTRANSCRIPTS_DOCS_INBOUND_DOMAIN`) and is distinguished only by an unguessable per-organization token:
  * `docs-<token>@<platform domain>`. One relay, one webhook secret, every tenant served.
  *
  * `CUSTOM_DOMAIN` — the organization publishes its own domain and routes it at us. The address is
@@ -359,7 +359,7 @@ export interface IDocumentInboundAddress extends IBasePerTenantAndOrganizationEn
 	/** The resolved address, maintained by the server. Unique across the deployment. */
 	address: string;
 	domainStatus: DocumentInboundDomainStatusEnum;
-	/** Value the organization must publish at `_gauzy-docs.<domain>` in TXT. Never a secret. */
+	/** Value the organization must publish at `_irtranscripts-docs.<domain>` in TXT. Never a secret. */
 	domainVerificationToken?: string | null;
 	domainVerifiedAt?: Date | null;
 	domainLastCheckedAt?: Date | null;

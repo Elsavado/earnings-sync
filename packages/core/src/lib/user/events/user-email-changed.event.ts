@@ -1,5 +1,5 @@
 import { IEvent } from '@nestjs/cqrs';
-import { IUser } from '@gauzy/contracts';
+import { IUser } from '@irtranscripts/contracts';
 
 /**
  * Published after a user's e-mail address was changed to one that has not been confirmed yet.

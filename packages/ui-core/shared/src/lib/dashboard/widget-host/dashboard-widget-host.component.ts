@@ -22,7 +22,7 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Observable, from, isObservable, of } from 'rxjs';
 import { map, shareReplay, take } from 'rxjs/operators';
-import { ID, IDashboardWidgetPlacement, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IDashboardWidgetPlacement, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	DASHBOARD_GRID_COLUMNS,
 	DASHBOARD_WIDGET_CONFIG,
@@ -35,7 +35,7 @@ import {
 	WidgetConfigField,
 	WidgetRegistryConfig,
 	WidgetRegistryService
-} from '@gauzy/ui-core/core';
+} from '@irtranscripts/ui-core/core';
 import { toErrorMessage } from './base-dashboard-widget.component';
 
 /** What the host is currently rendering inside its card body. */

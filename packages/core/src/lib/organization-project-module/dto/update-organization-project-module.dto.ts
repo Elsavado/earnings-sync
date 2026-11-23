@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/swagger';
-import { IOrganizationProjectModuleUpdateInput } from '@gauzy/contracts';
-import { WithoutInitializers } from '@gauzy/common';
+import { IOrganizationProjectModuleUpdateInput } from '@irtranscripts/contracts';
+import { WithoutInitializers } from '@irtranscripts/common';
 import { CreateOrganizationProjectModuleDTO } from './create-organization-project-module.dto';
 
 /**

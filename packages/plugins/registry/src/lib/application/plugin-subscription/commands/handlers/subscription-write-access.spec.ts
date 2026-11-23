@@ -1,6 +1,6 @@
-// `@gauzy/core` and the registry's barrels drag in the entity graph; the handlers only need the caller and the services.
+// `@irtranscripts/core` and the registry's barrels drag in the entity graph; the handlers only need the caller and the services.
 const mockContext = { userId: 'user-a' as string | null };
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	RequestContext: {
 		currentUserId: () => mockContext.userId,
 		currentTenantId: () => 'tenant-a',
@@ -14,7 +14,7 @@ jest.mock('../../../../domain', () => ({
 jest.mock('../../../../domain/entities', () => ({ PluginSubscription: class PluginSubscription {} }));
 jest.mock('../../../../shared', () => ({}));
 
-import { PluginSubscriptionStatus } from '@gauzy/contracts';
+import { PluginSubscriptionStatus } from '@irtranscripts/contracts';
 import { NotFoundException } from '@nestjs/common';
 import { RenewPluginSubscriptionCommand } from '../renew-plugin-subscription.command';
 import { UpdatePluginSubscriptionCommand } from '../update-plugin-subscription.command';

@@ -1,5 +1,5 @@
-import { ID } from '@gauzy/contracts';
-import { ColumnIndex, MultiORMColumn, MultiORMEntity, TenantOrganizationBaseEntity } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { ColumnIndex, MultiORMColumn, MultiORMEntity, TenantOrganizationBaseEntity } from '@irtranscripts/core';
 import {
 	MikroOrmEverWorksEntityLinkRepository,
 	MikroOrmEverWorksInboundEventRepository,
@@ -23,9 +23,9 @@ export enum EverWorksLinkType {
 	INBOX_ITEM = 'INBOX_ITEM',
 	DOC_FOLDER = 'DOC_FOLDER',
 	DOC = 'DOC',
-	/** A Gauzy mailbox message handed to an Ever Works agent (P4c): the inbox email ↔ the EW email message. */
+	/** A IRTranscripts mailbox message handed to an Ever Works agent (P4c): the inbox email ↔ the EW email message. */
 	AGENT_EMAIL = 'AGENT_EMAIL',
-	/** An Ever Works agent email mirrored into the Gauzy Inbox (P4c, read-only): the EW message ↔ the inbox item. */
+	/** An Ever Works agent email mirrored into the IRTranscripts Inbox (P4c, read-only): the EW message ↔ the inbox item. */
 	AGENT_EMAIL_MIRROR = 'AGENT_EMAIL_MIRROR'
 }
 
@@ -33,7 +33,7 @@ export enum EverWorksLinkState {
 	OK = 'ok',
 	CONFLICT = 'conflict',
 	ERROR = 'error',
-	/** The Gauzy record is gone (hard delete); the orphan sweep pushes the delete policy. */
+	/** The IRTranscripts record is gone (hard delete); the orphan sweep pushes the delete policy. */
 	ORPHANED = 'orphaned',
 	/** No longer synced (e.g. the Ever Works record turned `private`); both records are kept. */
 	UNLINKED = 'unlinked'
@@ -61,7 +61,7 @@ export enum EverWorksOutboundStatus {
 }
 
 /**
- * The identity map (plan 03 §C.1): one Gauzy record ↔ one Ever Works record per mapping, with the
+ * The identity map (plan 03 §C.1): one IRTranscripts record ↔ one Ever Works record per mapping, with the
  * snapshot of the shared fields at the last sync (the base of the 3-way merge and of the "nothing
  * changed" loop guard). Unique on both sides per mapping and type.
  */
@@ -75,7 +75,7 @@ export class EverWorksEntityLink extends TenantOrganizationBaseEntity {
 	entityType!: EverWorksLinkType;
 
 	@MultiORMColumn({ type: 'varchar', length: 36 })
-	gauzyId!: ID;
+	irtranscriptsId!: ID;
 
 	@MultiORMColumn({ type: 'varchar', length: 64 })
 	ewId!: string;
@@ -87,7 +87,7 @@ export class EverWorksEntityLink extends TenantOrganizationBaseEntity {
 	ewUpdatedAt?: Date;
 
 	@MultiORMColumn({ nullable: true })
-	gauzyUpdatedAt?: Date;
+	irtranscriptsUpdatedAt?: Date;
 
 	/** JSON: the normalised shared fields at the last sync. */
 	@MultiORMColumn({ type: 'text', nullable: true })
@@ -168,7 +168,7 @@ export class EverWorksInboundEvent extends TenantOrganizationBaseEntity {
 }
 
 /**
- * A Gauzy change waiting to be pushed (plan 03 §C.2–C.3). Coalesced: one pending row per mapping, type
+ * A IRTranscripts change waiting to be pushed (plan 03 §C.2–C.3). Coalesced: one pending row per mapping, type
  * and record; a new trigger merges into it. Each row is a hint: the push recomputes the full state.
  */
 @MultiORMEntity('ever_works_outbound_change', { mikroOrmRepository: () => MikroOrmEverWorksOutboundChangeRepository })
@@ -181,7 +181,7 @@ export class EverWorksOutboundChange extends TenantOrganizationBaseEntity {
 	entityType!: EverWorksLinkType;
 
 	@MultiORMColumn({ type: 'varchar', length: 36 })
-	gauzyId!: ID;
+	irtranscriptsId!: ID;
 
 	@MultiORMColumn({ type: 'varchar', length: 8, default: 'upsert' })
 	op!: 'upsert' | 'delete';
@@ -224,7 +224,7 @@ export class EverWorksSyncLog extends TenantOrganizationBaseEntity {
 	entityType?: string | null;
 
 	@MultiORMColumn({ type: 'varchar', length: 36, nullable: true })
-	gauzyId?: ID | null;
+	irtranscriptsId?: ID | null;
 
 	@MultiORMColumn({ type: 'varchar', length: 64, nullable: true })
 	ewId?: string | null;

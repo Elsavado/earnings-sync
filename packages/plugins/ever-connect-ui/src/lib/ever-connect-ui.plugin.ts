@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { defineDeclarativePlugin, PluginRouteInput } from '@gauzy/plugin-ui';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { defineDeclarativePlugin, PluginRouteInput } from '@irtranscripts/plugin-ui';
 import en from '../i18n/en.json';
 
 /** Path of the page, relative to `/pages/integrations` (the `redirectUrl` of the integration). */
@@ -48,7 +48,7 @@ export const EVER_CONNECT_ROUTE: PluginRouteInput = {
 };
 
 /**
- * Ever Platform UI plugin (`@gauzy/plugin-ever-connect-ui`): Integrations > Ever Platform. The page
+ * Ever Platform UI plugin (`@irtranscripts/plugin-ever-connect-ui`): Integrations > Ever Platform. The page
  * asks the API first; where the Ever Platform module is not loaded (the default) it only says so.
  */
 export const EverConnectUiPlugin = defineDeclarativePlugin('ever-connect', {

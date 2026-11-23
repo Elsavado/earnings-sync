@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { EventBusModule, Payment, PaymentInstrumentModule, RolePermissionModule } from '@gauzy/core';
+import { EventBusModule, Payment, PaymentInstrumentModule, RolePermissionModule } from '@irtranscripts/core';
 import { PaymentProvider } from './payment-provider/payment-provider.entity';
 import { PaymentCollection } from './payment-collection/payment-collection.entity';
 import { PaymentSession } from './payment-session/payment-session.entity';

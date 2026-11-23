@@ -7,8 +7,8 @@ import {
 	DocumentStatusEnum,
 	ID,
 	IDocument
-} from '@gauzy/contracts';
-import { isBetterSqlite3, isSqlite } from '@gauzy/config';
+} from '@irtranscripts/contracts';
+import { isBetterSqlite3, isSqlite } from '@irtranscripts/config';
 import {
 	EventBus,
 	FileContentTooLargeError,
@@ -16,7 +16,7 @@ import {
 	readStorageFileAsBuffer,
 	RequestContext,
 	StorageFileReadError
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { getDocsConfig } from '../docs.config';
 import { DOCS_EXTRACTED_TEXT_EDITED, DOCS_NOT_A_FILE } from '../docs.constants';
 import { ReprocessDocumentDTO, UpdateExtractedTextDTO } from '../dto';

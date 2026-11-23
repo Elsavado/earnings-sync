@@ -24,7 +24,7 @@ import {
 	NbLayoutModule
 } from '@nebular/theme';
 import { DatePipe, UpperCasePipe } from '@angular/common';
-import { ILogItems, TLogLevel } from '@gauzy/contracts';
+import { ILogItems, TLogLevel } from '@irtranscripts/contracts';
 
 @Component({
 	selector: 'audit-trail-logger',

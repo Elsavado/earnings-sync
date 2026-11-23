@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { IsNull } from 'typeorm';
-import { ISMTPConfig } from '@gauzy/common';
-import { ICustomSmtp, ICustomSmtpFindInput, IVerifySMTPTransport } from '@gauzy/contracts';
-import { isEmpty } from '@gauzy/utils';
+import { ISMTPConfig } from '@irtranscripts/common';
+import { ICustomSmtp, ICustomSmtpFindInput, IVerifySMTPTransport } from '@irtranscripts/contracts';
+import { isEmpty } from '@irtranscripts/utils';
 import { TenantAwareCrudService } from './../core/crud';
 import { SMTPUtils } from './../email-send/utils';
 import { CustomSmtp } from './custom-smtp.entity';

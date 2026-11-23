@@ -1,10 +1,10 @@
 import type { NbStatus } from '../themeTokens';
 
 /**
- * Maps a percentage to the Nebular status Gauzy paints it with.
+ * Maps a percentage to the Nebular status IRTranscripts paints it with.
  *
- * A byte-for-byte mirror of `progressStatus()` in `@gauzy/ui-core/common` (kept local so this
- * package stays free of Angular/@gauzy dependencies): 0–25 danger, 26–50 warning, 51–75 info,
+ * A byte-for-byte mirror of `progressStatus()` in `@irtranscripts/ui-core/common` (kept local so this
+ * package stays free of Angular/@irtranscripts dependencies): 0–25 danger, 26–50 warning, 51–75 info,
  * above success.
  *
  * @param value Percentage (0–100).

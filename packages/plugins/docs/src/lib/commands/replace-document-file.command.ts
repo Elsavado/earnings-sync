@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { ID, UploadedFile } from '@gauzy/contracts';
+import { ID, UploadedFile } from '@irtranscripts/contracts';
 import { ReplaceDocumentFileDTO } from '../dto';
 
 export class ReplaceDocumentFileCommand implements ICommand {

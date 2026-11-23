@@ -33,8 +33,8 @@ import {
 	InboxMailboxPurposeEnum,
 	InboxProviderAccountScopeEnum,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { InboxNamedLocks } from '../database/named-locks';
 import { InboxMailbox } from '../entities/inbox-mailbox.entity';
 import { InboxMailboxMember } from '../entities/inbox-mailbox-member.entity';
@@ -56,8 +56,8 @@ import {
 
 const scrypt = promisify(scryptCallback) as (password: string, salt: string, keylen: number) => Promise<Buffer>;
 
-/** The TXT record name a custom domain is proven with: `_gauzy-inbox.<domain>`. */
-export const INBOX_DOMAIN_TXT_PREFIX = '_gauzy-inbox';
+/** The TXT record name a custom domain is proven with: `_irtranscripts-inbox.<domain>`. */
+export const INBOX_DOMAIN_TXT_PREFIX = '_irtranscripts-inbox';
 const DNS_TIMEOUT_MS = 5_000;
 /** The resolver's answers that the record does not exist (no such name, or no TXT record): a real "missing". */
 const DNS_NO_RECORD: readonly string[] = ['ENOTFOUND', 'ENODATA'];
@@ -101,11 +101,11 @@ interface OwnerNames {
 /**
  * Mailbox management (plan 04 §3 `/mailboxes`, §5.1, G-P4-1): the addresses an organization receives mail at.
  *
- * - **Platform addresses** are allocated on `GAUZY_INBOX_DOMAIN`, the organization encoded in the local part —
+ * - **Platform addresses** are allocated on `IRTRANSCRIPTS_INBOX_DOMAIN`, the organization encoded in the local part —
  *   `<first>.<last>.<orgSlug>` for an employee, `<name>.<orgSlug>` for the organization (several), `<team>.<orgSlug>`
  *   for a team — with a numeric suffix on a collision. They receive through the platform route.
  * - **Custom domains**: any `x@acme.com` once the organization proves the domain with a DNS TXT record at
- *   `_gauzy-inbox.<domain>` — each mailbox with its own value (several TXT values can sit at that name), and each
+ *   `_irtranscripts-inbox.<domain>` — each mailbox with its own value (several TXT values can sit at that name), and each
  *   check changes only that mailbox; they receive through a provider account of the organization (or the tenant).
  * - **Forwarding**: a platform address the user forwards an existing mailbox to (no DNS change).
  * - **Auto-provisioning** (opt-in per organization): a mailbox for every employee, now and on each new employee (never
@@ -232,7 +232,7 @@ export class InboxMailboxService implements IInboundAddressNamespace {
 				...this.toMailbox(row),
 				...(row.kind === InboxMailboxKindEnum.FORWARDING || row.kind === InboxMailboxKindEnum.PLATFORM
 					? {
-							forwardingInstructions: `Forward the mail you want in Gauzy to ${row.address} (in your mail provider's forwarding settings); it then arrives in your Inbox.`
+							forwardingInstructions: `Forward the mail you want in IRTranscripts to ${row.address} (in your mail provider's forwarding settings); it then arrives in your Inbox.`
 						}
 					: {})
 			}));
@@ -275,7 +275,7 @@ export class InboxMailboxService implements IInboundAddressNamespace {
 			if (!domain || !localPart)
 				throw new BadRequestException('A custom-domain mailbox needs a domain and a local part.');
 			const reserved = getInboxEmailConfig().domain;
-			if (isWithinDomain(domain, reserved) || isWithinDomain(domain, process.env['GAUZY_DOCS_INBOUND_DOMAIN'])) {
+			if (isWithinDomain(domain, reserved) || isWithinDomain(domain, process.env['IRTRANSCRIPTS_DOCS_INBOUND_DOMAIN'])) {
 				throw new BadRequestException('That domain is reserved by the platform.');
 			}
 			address = `${localPart}@${domain}`;
@@ -314,7 +314,7 @@ export class InboxMailboxService implements IInboundAddressNamespace {
 							domain,
 							domainStatus: domain ? InboxMailboxDomainStatusEnum.PENDING : null,
 							domainVerificationToken: domain
-								? `gauzy-inbox-verify=${randomBytes(16).toString('hex')}`
+								? `irtranscripts-inbox-verify=${randomBytes(16).toString('hex')}`
 								: null,
 							isDefault: false,
 							autoProvisioned: false,
@@ -395,7 +395,7 @@ export class InboxMailboxService implements IInboundAddressNamespace {
 		return this.get(id, organizationId);
 	}
 
-	/** Looks up `_gauzy-inbox.<domain>` IN TXT: the expected value verifies; a verified domain whose record is gone fails. */
+	/** Looks up `_irtranscripts-inbox.<domain>` IN TXT: the expected value verifies; a verified domain whose record is gone fails. */
 	async verify(id: ID, organizationId?: ID): Promise<IInboxMailboxDomainVerification> {
 		const row = await this.managed(id, organizationId);
 		if (row.kind !== InboxMailboxKindEnum.CUSTOM_DOMAIN || !row.domain) {
@@ -632,7 +632,7 @@ export class InboxMailboxService implements IInboundAddressNamespace {
 
 	// ---------------------------------------------------------------- the address namespace
 
-	/** Whether a domain is the platform mailbox domain (`GAUZY_INBOX_DOMAIN`) or under it (the Docs hook asks). */
+	/** Whether a domain is the platform mailbox domain (`IRTRANSCRIPTS_INBOX_DOMAIN`) or under it (the Docs hook asks). */
 	isReservedDomain(domain: string): boolean {
 		return isWithinDomain(normalizeDomain(domain) ?? domain.trim().toLowerCase(), getInboxEmailConfig().domain);
 	}
@@ -800,11 +800,11 @@ export class InboxMailboxService implements IInboundAddressNamespace {
 		}
 	}
 
-	/** A free platform address for the owner on `GAUZY_INBOX_DOMAIN` (a chosen name part, else the owner's names). */
+	/** A free platform address for the owner on `IRTRANSCRIPTS_INBOX_DOMAIN` (a chosen name part, else the owner's names). */
 	private async allocate(organizationId: ID, chosen: string | null, owner: OwnerNames): Promise<string> {
 		const domain = getInboxEmailConfig().domain;
 		if (!domain)
-			throw new BadRequestException('GAUZY_INBOX_DOMAIN is not set: this server has no platform mailbox domain.');
+			throw new BadRequestException('IRTRANSCRIPTS_INBOX_DOMAIN is not set: this server has no platform mailbox domain.');
 		const name = chosen === null || chosen === undefined || chosen === '' ? owner.name : chosenLocalPart(chosen);
 		if (!name) throw new BadRequestException('The name of the address is letters, digits, dashes and dots.');
 		const orgSlug = await this.organizationSlug(organizationId);

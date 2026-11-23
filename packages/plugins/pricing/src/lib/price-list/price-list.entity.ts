@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsDateString, IsEnum, IsInt, IsOptional, IsString, IsUUID, Length, MaxLength, Min } from 'class-validator';
-import { CurrencyCode, ID } from '@gauzy/contracts';
+import { CurrencyCode, ID } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	JsonColumn,
@@ -8,7 +8,7 @@ import {
 	MultiORMEntity,
 	MultiORMOneToMany,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { PriceListStatus, PriceListType } from '../pricing.types';
 import { ProductPrice } from '../product-price/product-price.entity';
 import { MikroOrmPriceListRepository } from './repository/mikro-orm-price-list.repository';

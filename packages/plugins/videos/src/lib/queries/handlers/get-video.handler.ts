@@ -1,6 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { assertCallerOwnsUpload } from '@gauzy/core';
+import { assertCallerOwnsUpload } from '@irtranscripts/core';
 import { VideosService } from '../../services/videos.service';
 import { IVideo } from '../../video.model';
 import { GetVideoQuery } from '../get-video.query';

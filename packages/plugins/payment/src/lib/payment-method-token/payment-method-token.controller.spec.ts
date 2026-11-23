@@ -1,6 +1,6 @@
 /**
- * The module boundaries are doubled for the reason the account-holder suite states: `@gauzy/core`
- * boots the whole application graph from its barrel and `@gauzy/config` reads the environment at
+ * The module boundaries are doubled for the reason the account-holder suite states: `@irtranscripts/core`
+ * boots the whole application graph from its barrel and `@irtranscripts/config` reads the environment at
  * import time, neither of which a resource needs. **The resource under test is the real one**: the
  * controller and the lifecycle service it delegates to, over a stubbed kernel service and a real
  * field-visibility decision — the same decision the REST projection and the GraphQL field gate ask.
@@ -8,9 +8,9 @@
  * The permission decorator is doubled with the platform's own metadata key, so the assertions below
  * are made against the metadata a guard reads. The card-data pipe is the package's own and runs.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { SetMetadata, UsePipes, ValidationPipe } = require('@nestjs/common');
-	const { PERMISSIONS_METADATA } = require('@gauzy/constants');
+	const { PERMISSIONS_METADATA } = require('@irtranscripts/constants');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
@@ -90,7 +90,7 @@ jest.mock('@gauzy/core', () => {
 		Permissions: (...permissions: string[]) => SetMetadata(PERMISSIONS_METADATA, permissions),
 		// Retry safety is left real: the kernel's own decorator writes the declaration, under the
 		// kernel's own metadata key, and the suite below drives the kernel's own interceptor over it.
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
 		VisibleWith: (permission: string) => (target: object, property: string) =>
 			Reflect.defineMetadata('__visible:with__', permission, target, property),
 		PaymentAccountHolder: class PaymentAccountHolder {},
@@ -110,7 +110,7 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	DatabaseTypeEnum: {
 		mongodb: 'mongodb',
 		sqlite: 'sqlite',
@@ -125,7 +125,7 @@ jest.mock('@gauzy/config', () => ({
  * constructor signature is emitted as a value, so the service is doubled at its own module: the
  * interceptor the retry suite below drives is the real one.
  */
-jest.mock('@gauzy/core/src/lib/idempotency/idempotency.service', () => ({
+jest.mock('@irtranscripts/core/src/lib/idempotency/idempotency.service', () => ({
 	IdempotencyService: class IdempotencyService {}
 }));
 
@@ -137,10 +137,10 @@ import { ArgumentMetadata, PipeTransform, RequestMethod, ValidationPipe } from '
 import { METHOD_METADATA, PATH_METADATA, PIPES_METADATA } from '@nestjs/common/constants';
 import { Reflector } from '@nestjs/core';
 import { from, lastValueFrom } from 'rxjs';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { FieldVisibility, PermissionGuard, TenantPermissionGuard } from '@gauzy/core';
-import { IdempotencyInterceptor } from '@gauzy/core/src/lib/idempotency/idempotency.interceptor';
-import { IDEMPOTENT_METADATA_KEY } from '@gauzy/core/src/lib/idempotency/idempotency.policy';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { FieldVisibility, PermissionGuard, TenantPermissionGuard } from '@irtranscripts/core';
+import { IdempotencyInterceptor } from '@irtranscripts/core/src/lib/idempotency/idempotency.interceptor';
+import { IDEMPOTENT_METADATA_KEY } from '@irtranscripts/core/src/lib/idempotency/idempotency.policy';
 import { PaymentPermission } from '../payment.permissions';
 import { PAYMENT_METHOD_CARD_DATA_NOT_ACCEPTED, RejectCardDataPipe } from '../payment.card-data.pipe';
 import { PaymentMethodTokenController } from './payment-method-token.controller';

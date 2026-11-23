@@ -1,6 +1,6 @@
 import { Component, OnChanges, type SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { DefaultFilter } from 'angular2-smart-table';
-import { IExpenseCategory } from '@gauzy/contracts';
+import { IExpenseCategory } from '@irtranscripts/contracts';
 
 @Component({
     selector: 'ga-expense-category-select-filter',

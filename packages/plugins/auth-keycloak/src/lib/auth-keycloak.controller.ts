@@ -1,6 +1,6 @@
 import { Controller, Get, Header, Inject, Query, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { Public } from '@gauzy/common';
+import { Public } from '@irtranscripts/common';
 import { KeycloakPublicConfig, KeycloakSignInService } from './keycloak-sign-in.service';
 import { SOCIAL_SIGN_IN, SocialSignInPort } from './social-sign-in.port';
 
@@ -36,7 +36,7 @@ export class AuthKeycloakController {
 	}
 
 	/**
-	 * Keycloak redirects back here. A verified e-mail signs the person in to the Gauzy account that owns
+	 * Keycloak redirects back here. A verified e-mail signs the person in to the IRTranscripts account that owns
 	 * it, exactly as the other social sign-ins do; an unknown e-mail goes to the register page and
 	 * nothing is created.
 	 */

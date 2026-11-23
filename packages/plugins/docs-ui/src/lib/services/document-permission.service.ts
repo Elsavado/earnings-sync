@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { DocumentVisibilityEnum, ID, PermissionsEnum } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
+import { DocumentVisibilityEnum, ID, PermissionsEnum } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
 
 /**
  * The minimal document projection the ownership check inspects.

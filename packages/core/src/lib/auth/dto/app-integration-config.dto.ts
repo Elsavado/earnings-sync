@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional, IsString } from 'class-validator';
-import { IAppIntegrationConfig } from '@gauzy/common';
+import { IAppIntegrationConfig } from '@irtranscripts/common';
 
 /**
  * DTO mirroring {@link IAppIntegrationConfig}.

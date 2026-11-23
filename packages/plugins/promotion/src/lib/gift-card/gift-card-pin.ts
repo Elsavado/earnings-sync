@@ -1,5 +1,5 @@
 import { createHash, createHmac, hkdfSync, timingSafeEqual } from 'crypto';
-import { isKnownDefaultSecret } from '@gauzy/contracts';
+import { isKnownDefaultSecret } from '@irtranscripts/contracts';
 
 /**
  * How a gift card's second factor is stored and checked.
@@ -20,7 +20,7 @@ import { isKnownDefaultSecret } from '@gauzy/contracts';
  * ## The key
  *
  * Derived for this one purpose with HKDF-SHA256, as the platform derives its other storage keys
- * (`@gauzy/plugin-ever-instance`), from the first of:
+ * (`@irtranscripts/plugin-ever-instance`), from the first of:
  *
  * 1. `ENCRYPTION_KEY` — the platform's at-rest secret;
  * 2. `JWT_SECRET` — when it is not a value published in the repository.
@@ -44,7 +44,7 @@ export const GIFT_CARD_PIN_KEYED_PREFIX = 'h1:';
 
 const KEYED_FORM = /^h1:([kj]):([0-9a-f]{8}):([0-9a-f]{64})$/;
 const LEGACY_FORM = /^[0-9a-f]{64}$/i;
-const HKDF_SALT = Buffer.from('gauzy:gift-card-pin', 'utf8');
+const HKDF_SALT = Buffer.from('irtranscripts:gift-card-pin', 'utf8');
 const HKDF_INFO = Buffer.from('gift-card-pin-v1', 'utf8');
 
 const isSet = (value: string | undefined): value is string => typeof value === 'string' && value.trim() !== '';

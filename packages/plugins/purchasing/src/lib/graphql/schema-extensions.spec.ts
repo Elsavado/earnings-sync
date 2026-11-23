@@ -167,17 +167,17 @@ describe('the purchasing document — the mutations that mirror the purchase-ord
  *   the VIEW grant, and a withdrawal served under a read grant is the defect the controllers' own
  *   overrides exist to close on the other surface.
  *
- * The kernel barrel is doubled, for the reason this package's other suites state: `@gauzy/core` boots
+ * The kernel barrel is doubled, for the reason this package's other suites state: `@irtranscripts/core` boots
  * the application graph from its barrel, so a suite that reads one controller through it pays for the
  * platform. `Permissions` is the one decorator carried across as the platform writes it — real
  * `SetMetadata` under the real `PERMISSIONS_METADATA` key — because the two readings compared below are
  * exactly that metadata. The three controllers and the three resolvers under test are the real ones.
  */
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { SetMetadata, UsePipes, ValidationPipe } = require('@nestjs/common');
-	const { PERMISSIONS_METADATA } = require('@gauzy/constants');
-	const idempotency = jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.policy');
+	const { PERMISSIONS_METADATA } = require('@irtranscripts/constants');
+	const idempotency = jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.policy');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
@@ -262,7 +262,7 @@ jest.mock('@gauzy/core', () => {
 		Warehouse: class Warehouse {},
 		UseValidationPipe: (options: unknown) => UsePipes(new ValidationPipe(options as never)),
 		Permissions: (...permissions: string[]) => SetMetadata(PERMISSIONS_METADATA, permissions),
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
 		IDEMPOTENT_METADATA_KEY: idempotency.IDEMPOTENT_METADATA_KEY,
 		RequestContext: {
 			currentUser: () => null,
@@ -275,7 +275,7 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-jest.mock('@gauzy/common', () => ({
+jest.mock('@irtranscripts/common', () => ({
 	FeatureFlag: () => () => undefined
 }));
 
@@ -289,7 +289,7 @@ jest.mock('../vendor-product-term/vendor-product-term.service', () => ({
 	VendorProductTermService: class VendorProductTermService {}
 }));
 
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { GoodsReceiptController } from '../goods-receipt/goods-receipt.controller';
 import { GoodsReceiptLineController } from '../goods-receipt-line/goods-receipt-line.controller';
 import { VendorProductTermController } from '../vendor-product-term/vendor-product-term.controller';

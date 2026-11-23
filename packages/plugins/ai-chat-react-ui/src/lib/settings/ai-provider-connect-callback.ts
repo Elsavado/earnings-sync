@@ -2,7 +2,7 @@ import { EnvironmentProviders, inject, provideEnvironmentInitializer } from '@an
 import { Router } from '@angular/router';
 
 /** sessionStorage key holding the in-flight Connect (PKCE) state. */
-export const CONNECT_SESSION_KEY = 'gauzy_ai_provider_connect';
+export const CONNECT_SESSION_KEY = 'irtranscripts_ai_provider_connect';
 
 /**
  * How long a started Connect flow may wait for the provider to redirect back. OpenRouter's code

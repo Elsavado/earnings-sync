@@ -48,7 +48,7 @@ jest.mock('../desktop-wakatime', () => ({ metaData: { removeActivity: (...args: 
 
 jest.mock('../offline', () => ({ Timer: jest.requireActual('../offline/models/timer.model').Timer }));
 
-import { PersistentQueue } from '@gauzy/desktop-activity';
+import { PersistentQueue } from '@irtranscripts/desktop-activity';
 import { AsyncTimerSyncQueue, ASYNC_TIMER_SYNC_QUEUE_FILE, isAsyncTimerDataSyncEnabled } from './async-timer-sync-queue';
 import { ITimerQueueJob, TimerQueueProcessor } from './timer-queue-processor';
 
@@ -251,7 +251,7 @@ describe('AsyncTimerSyncQueue', () => {
 		const { queue } = openQueue(timers);
 
 		for (let second = 1; second <= 5; second++) {
-			await queue.processWithQueue('gauzy-queue', duration(1, second * 1000), knex);
+			await queue.processWithQueue('irtranscripts-queue', duration(1, second * 1000), knex);
 		}
 
 		expect(await queue.drain()).toBe(true);
@@ -265,10 +265,10 @@ describe('AsyncTimerSyncQueue', () => {
 		const { queue } = openQueue(timers, offline);
 		timers.hold();
 
-		await queue.processWithQueue('gauzy-queue', duration(1, 1000), knex);
+		await queue.processWithQueue('irtranscripts-queue', duration(1, 1000), knex);
 		expect(timers.writes).toEqual([]);
 		offline.enabled = true;
-		await queue.processWithQueue('gauzy-queue', duration(1, 2000), knex);
+		await queue.processWithQueue('irtranscripts-queue', duration(1, 2000), knex);
 		expect(timers.writes).toEqual([expect.objectContaining({ id: 1, synced: false, duration: undefined })]);
 
 		// Offline sync uploads the timer before the stored durations run…
@@ -289,8 +289,8 @@ describe('AsyncTimerSyncQueue', () => {
 		const raw = new PersistentQueue({ dbPath: path.join(userData, ASYNC_TIMER_SYNC_QUEUE_FILE) });
 		let release: () => void = () => undefined;
 		const stuck = new Promise<void>((resolve) => (release = resolve));
-		raw.register('gauzy-queue', () => stuck);
-		await raw.enqueue('gauzy-queue', duration(1, 1000));
+		raw.register('irtranscripts-queue', () => stuck);
+		await raw.enqueue('irtranscripts-queue', duration(1, 1000));
 		await raw.close(20);
 		release();
 
@@ -308,7 +308,7 @@ describe('AsyncTimerSyncQueue', () => {
 		const timers = fakeTimerService();
 		const { queue } = openQueue(timers);
 		timers.hold();
-		await queue.processWithQueue('gauzy-queue', duration(1, 1000), knex);
+		await queue.processWithQueue('irtranscripts-queue', duration(1, 1000), knex);
 
 		expect(await queue.settle(50)).toBe(false);
 		expect(queue.isIdle()).toBe(false);
@@ -321,9 +321,9 @@ describe('AsyncTimerSyncQueue', () => {
 		const before = fakeTimerService();
 		const { queue: first } = openQueue(before);
 		before.hold();
-		await first.processWithQueue('gauzy-queue', duration(1, 1000), knex);
-		await first.processWithQueue('gauzy-queue', { type: 'window_events', data: [{ eventId: 5 }] }, knex);
-		await first.processWithQueue('gauzy-queue', duration(1, 2000), knex);
+		await first.processWithQueue('irtranscripts-queue', duration(1, 1000), knex);
+		await first.processWithQueue('irtranscripts-queue', { type: 'window_events', data: [{ eventId: 5 }] }, knex);
+		await first.processWithQueue('irtranscripts-queue', duration(1, 2000), knex);
 		await until(() => before.update.mock.calls.length === 1);
 		// The app goes away while the first job is still writing.
 		await first.close(20);
@@ -343,14 +343,14 @@ describe('AsyncTimerSyncQueue', () => {
 		const { queue, onJobFailed } = openQueue(timers, fakeOfflineMode(), { maxRetries: 2 });
 
 		timers.failures = 2;
-		await queue.processWithQueue('gauzy-queue', duration(1, 1000), knex);
+		await queue.processWithQueue('irtranscripts-queue', duration(1, 1000), knex);
 		expect(await queue.drain()).toBe(true);
 		expect(timers.writes).toHaveLength(1);
 		expect(onJobFailed).not.toHaveBeenCalled();
 
 		timers.failures = 3;
-		await queue.processWithQueue('gauzy-queue', duration(1, 2000), knex);
-		await queue.processWithQueue('gauzy-queue', duration(1, 3000), knex);
+		await queue.processWithQueue('irtranscripts-queue', duration(1, 2000), knex);
+		await queue.processWithQueue('irtranscripts-queue', duration(1, 3000), knex);
 		expect(await queue.drain()).toBe(true);
 		expect(onJobFailed).toHaveBeenCalledTimes(1);
 		expect(onJobFailed.mock.calls[0][0]).toMatchObject({ type: 'update-duration-timer', data: { id: 1, duration: 2000 } });
@@ -361,7 +361,7 @@ describe('AsyncTimerSyncQueue', () => {
 		const timers = fakeTimerService();
 		const { queue } = openQueue(timers);
 
-		await queue.processWithQueue('gauzy-queue', duration(1, 1000), knex);
+		await queue.processWithQueue('irtranscripts-queue', duration(1, 1000), knex);
 		await queue.processWithQueue('other-queue', duration(2, 2000), knex);
 
 		expect(await queue.drain()).toBe(true);
@@ -372,7 +372,7 @@ describe('AsyncTimerSyncQueue', () => {
 		const { queue } = openQueue(fakeTimerService());
 		await queue.close();
 
-		await expect(queue.processWithQueue('gauzy-queue', duration(1, 1), knex)).rejects.toThrow('closed');
+		await expect(queue.processWithQueue('irtranscripts-queue', duration(1, 1), knex)).rejects.toThrow('closed');
 	});
 
 	describe('openLeftovers', () => {
@@ -389,8 +389,8 @@ describe('AsyncTimerSyncQueue', () => {
 			const before = fakeTimerService();
 			const { queue: first } = openQueue(before);
 			before.hold();
-			await first.processWithQueue('gauzy-queue', duration(1, 1000), knex);
-			await first.processWithQueue('gauzy-queue', duration(1, 2000), knex);
+			await first.processWithQueue('irtranscripts-queue', duration(1, 1000), knex);
+			await first.processWithQueue('irtranscripts-queue', duration(1, 2000), knex);
 			await first.close(20);
 
 			const after = fakeTimerService();

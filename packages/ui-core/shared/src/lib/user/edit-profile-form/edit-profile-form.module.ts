@@ -12,7 +12,7 @@ import {
 } from '@nebular/theme';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslatePipe } from '@ngx-translate/core';
-import { OrganizationsService, RoleService } from '@gauzy/ui-core/core';
+import { OrganizationsService, RoleService } from '@irtranscripts/ui-core/core';
 import { EditProfileFormComponent } from './edit-profile-form.component';
 import { UserFormsModule } from '../forms/user-forms.module';
 import { ImageUploaderModule } from '../../image-uploader/image-uploader.module';

@@ -3,7 +3,7 @@ import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import * as jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import { Cache } from 'cache-manager';
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 import { isAccessTokenPayload, JWT_ALGORITHMS } from '../../auth/purpose-token';
 import { TenantSettingService } from './tenant-setting.service';
 

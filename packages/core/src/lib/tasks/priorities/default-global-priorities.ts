@@ -1,5 +1,5 @@
-import { ucFirst } from '@gauzy/utils';
-import { ITaskPriority, TaskPriorityEnum } from '@gauzy/contracts';
+import { ucFirst } from '@irtranscripts/utils';
+import { ITaskPriority, TaskPriorityEnum } from '@irtranscripts/contracts';
 
 export const DEFAULT_GLOBAL_PRIORITIES: ITaskPriority[] = [
 	{

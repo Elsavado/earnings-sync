@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { UpworkComponent } from './upwork.component';
 import { ActivatedRoute } from '@angular/router';
-import { Store, UpworkStoreService } from '@gauzy/ui-core/core';
+import { Store, UpworkStoreService } from '@irtranscripts/ui-core/core';
 import { IntegrationUpworkUiModule } from '../../integration-upwork-ui.module';
 
 describe('UpworkComponent', () => {

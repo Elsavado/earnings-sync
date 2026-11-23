@@ -1,5 +1,5 @@
 import { IEvent } from '@nestjs/cqrs';
-import { ITimerStatus } from '@gauzy/contracts';
+import { ITimerStatus } from '@irtranscripts/contracts';
 
 export class TimerStatusUpdatedEvent implements IEvent {
 	constructor(public readonly status: ITimerStatus) {}

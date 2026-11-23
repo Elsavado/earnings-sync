@@ -1,7 +1,7 @@
 /*
- * Public API Surface of @gauzy/ui-react-components
+ * Public API Surface of @irtranscripts/ui-react-components
  *
- * Reusable React UI components and design tokens for Gauzy dashboards.
+ * Reusable React UI components and design tokens for IRTranscripts dashboards.
  * No Angular or plugin-system dependencies — pure React + TypeScript.
  */
 
@@ -36,7 +36,7 @@ export { WidgetCard, type WidgetCardProps } from './lib/components/WidgetCard';
 export { Progress, type ProgressProps } from './lib/components/Progress';
 export { ColorDots, type ColorDotsProps } from './lib/components/ColorDots';
 
-// Components — theme-adaptive Nebular ports (paint with the active Gauzy theme's CSS variables)
+// Components — theme-adaptive Nebular ports (paint with the active IRTranscripts theme's CSS variables)
 export {
 	CounterPoint,
 	computeCounterPoints,

@@ -1,5 +1,5 @@
 /**
- * Root ESLint flat config for the Ever Gauzy workspace.
+ * Root ESLint flat config for the Ever IRTranscripts workspace.
  *
  * ESLint 9 reads `eslint.config.js` and never reads `.eslintrc.json`. The previous version of
  * this file did:
@@ -31,7 +31,7 @@ const everPlatformBoundary = require('./tools/ever-platform/import-boundary.cjs'
 // After `=` there is no such ambiguity. `name` is a real ESLint 9 flat-config field, which
 // surfaces in config inspection; typescript-eslint's own bundled configs set it too.
 const globalIgnores = {
-	name: 'gauzy/global-ignores',
+	name: 'irtranscripts/global-ignores',
 	ignores: [
 		'**/node_modules',
 		'**/dist',
@@ -46,17 +46,17 @@ const globalIgnores = {
 		'packages/core/src/lib/database/migrations/**',
 		// Codegen output.
 		'**/*.generated.ts',
-		'packages/plugins/integration-ai/src/lib/sdk/gauzy-ai-sdk.ts',
+		'packages/plugins/integration-ai/src/lib/sdk/irtranscripts-ai-sdk.ts',
 		'**/src/assets/**'
 	]
 };
 
-// The import boundary of the optional Ever Platform modules (`@gauzy/plugin-ever-*`): only the
+// The import boundary of the optional Ever Platform modules (`@irtranscripts/plugin-ever-*`): only the
 // modules and the two plugin lists import them, through their entry points; the rules are in
 // tools/ever-platform/import-boundary.cjs, which the CI check (check-import-boundary.mjs) reads too.
 // A rule of its own, so a project config's `no-restricted-imports` never replaces it.
 const everPlatformImportBoundary = {
-	name: 'gauzy/ever-platform-import-boundary',
+	name: 'irtranscripts/ever-platform-import-boundary',
 	files: ['**/*.ts', '**/*.tsx', '**/*.cts', '**/*.mts', '**/*.js', '**/*.jsx', '**/*.cjs', '**/*.mjs'],
 	plugins: { 'ever-platform': everPlatformBoundary.plugin },
 	rules: { 'ever-platform/import-boundary': 'error' }
@@ -90,7 +90,7 @@ module.exports = [
 						// uses (`type:shared`: auth/common/config/constants/contracts/plugin/scheduler/utils,
 						// plus the UI foundations below), but never on a specific integration (`type:plugin`,
 						// every package under `packages/plugins/*`). Core already depends on plugins only
-						// through `@gauzy/plugin`'s neutral contract (`GauzyCorePlugin`/`IOnPluginBootstrap`),
+						// through `@irtranscripts/plugin`'s neutral contract (`IRTranscriptsCorePlugin`/`IOnPluginBootstrap`),
 						// never a concrete plugin package by name — this rule makes that direction
 						// structurally impossible to regress, rather than relying on it staying true by
 						// convention.
@@ -107,7 +107,7 @@ module.exports = [
 						//
 						// `type:plugin-extension-point` is a second tag layered onto the small set of plugins
 						// that are genuinely, currently depended on by other plugins (confirmed by grepping
-						// every real `@gauzy/plugin-*` import across `packages/plugins/*/src` while building
+						// every real `@irtranscripts/plugin-*` import across `packages/plugins/*/src` while building
 						// this rule):
 						//   - `ai-chat`            — a real, intentional SPI: 15 `ai-provider-*` plugins
 						//                            implement its provider interface; `docs` feature-detects
@@ -117,7 +117,7 @@ module.exports = [
 						//                            grandfathered so a real, working integration isn't broken
 						//                            by this rule; a real fix (a shared contract or a
 						//                            command/event instead of a direct import) is follow-up work.
-						//   - `integration-ai`     — imported by `job-search` (GauzyAIService/GauzyAIModule).
+						//   - `integration-ai`     — imported by `job-search` (IRTranscriptsAIService/IRTranscriptsAIModule).
 						//                            Same grandfathered-not-endorsed status as `job-proposal`.
 						//   - `job-employee-ui`, `job-matching-ui`, `job-proposal-ui`, `job-search-ui` —
 						//                            assembled by the `jobs-ui` aggregator plugin, an

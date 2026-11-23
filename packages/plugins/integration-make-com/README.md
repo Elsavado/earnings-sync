@@ -1,10 +1,10 @@
-# @gauzy/plugin-integration-make-com
+# @irtranscripts/plugin-integration-make-com
 
 This library was generated with [Nx](https://nx.dev).
 
 ## Overview
 
-The Integration Make.com plugin is a Gauzy plugin that provides a user-friendly interface for integrating Make.com with the Gauzy platform. This integration allows you to automate workflows and connect Gauzy with other applications through Make.com's powerful automation platform.
+The Integration Make.com plugin is a IRTranscripts plugin that provides a user-friendly interface for integrating Make.com with the IRTranscripts platform. This integration allows you to automate workflows and connect IRTranscripts with other applications through Make.com's powerful automation platform.
 
 ## Features
 
@@ -40,14 +40,14 @@ The plugin supports the following integration settings:
 2. **Install the Plugin**
 
     ```bash
-    npm install @gauzy/plugin-integration-make-com
+    npm install @irtranscripts/plugin-integration-make-com
     # or
-    yarn add @gauzy/plugin-integration-make-com
+    yarn add @irtranscripts/plugin-integration-make-com
     ```
 
 3. **Configure Integration Settings**
 
-    - Navigate to your Gauzy instance's integration settings
+    - Navigate to your IRTranscripts instance's integration settings
     - Select Make.com integration
     - Enter your Make.com client ID and client secret
     - Authorize the integration through the OAuth flow
@@ -55,9 +55,9 @@ The plugin supports the following integration settings:
 
 4. **Environment Variables**
    The following environment variables can be configured:
-    - `GAUZY_MAKE_BASE_URL`: Make.com API base URL (default: https://www.make.com)
-    - `GAUZY_MAKE_POST_INSTALL_URL`: URL to redirect after installation
-    - `GAUZY_MAKE_REDIRECT_URL`: OAuth redirect URL
+    - `IRTRANSCRIPTS_MAKE_BASE_URL`: Make.com API base URL (default: https://www.make.com)
+    - `IRTRANSCRIPTS_MAKE_POST_INSTALL_URL`: URL to redirect after installation
+    - `IRTRANSCRIPTS_MAKE_REDIRECT_URL`: OAuth redirect URL
 
 ## Building
 

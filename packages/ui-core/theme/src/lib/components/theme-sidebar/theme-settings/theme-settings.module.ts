@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { DirectivesModule } from '@gauzy/ui-core/shared';
+import { DirectivesModule } from '@irtranscripts/ui-core/shared';
 import { NbButtonModule, NbCardModule, NbIconModule, NbSelectModule, NbTooltipModule } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LayoutSelectorModule } from './components/layout-selector/layout-selector.module';

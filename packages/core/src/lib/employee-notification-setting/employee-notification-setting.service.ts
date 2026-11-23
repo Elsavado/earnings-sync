@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { FindOptionsWhere } from 'typeorm';
-import { ID, IEmployeeNotificationSettingCreateInput } from '@gauzy/contracts';
+import { ID, IEmployeeNotificationSettingCreateInput } from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from '../core/crud/tenant-aware-crud.service';
 import { assertHasOwnEmployee } from '../core/crud/own-employee.helper';
 import { RequestContext } from '../core/context/request-context';

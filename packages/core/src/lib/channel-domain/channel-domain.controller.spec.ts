@@ -8,8 +8,8 @@ import '../core/entities/internal';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { BadRequestException, HttpException } from '@nestjs/common';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { ChannelDomainController } from './channel-domain.controller';
 
@@ -45,8 +45,8 @@ jest.mock('../core/context/request-context', () => ({
 	}
 }));
 
-jest.mock('@gauzy/config', () => ({
-	...jest.requireActual('@gauzy/config'),
+jest.mock('@irtranscripts/config', () => ({
+	...jest.requireActual('@irtranscripts/config'),
 	isPostgres: () => true,
 	isMySQL: () => false
 }));

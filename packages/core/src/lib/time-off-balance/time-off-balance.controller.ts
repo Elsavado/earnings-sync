@@ -1,6 +1,6 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { IPagination, ITimeOffBalance, PermissionsEnum } from '@gauzy/contracts';
+import { IPagination, ITimeOffBalance, PermissionsEnum } from '@irtranscripts/contracts';
 import { Permissions } from './../shared/decorators';
 import { PermissionGuard, TenantPermissionGuard } from './../shared/guards';
 import { UseValidationPipe } from './../shared/pipes';

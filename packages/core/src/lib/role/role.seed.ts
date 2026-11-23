@@ -4,7 +4,7 @@
 
 import { DataSource } from 'typeorm';
 import { Role } from './role.entity';
-import { IRole, ITenant, RolesEnum, SYSTEM_DEFAULT_ROLES } from '@gauzy/contracts';
+import { IRole, ITenant, RolesEnum, SYSTEM_DEFAULT_ROLES } from '@irtranscripts/contracts';
 
 export const createRoles = async (dataSource: DataSource, tenants: ITenant[]): Promise<IRole[]> => {
 	try {

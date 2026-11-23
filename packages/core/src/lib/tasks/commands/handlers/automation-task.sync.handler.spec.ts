@@ -1,6 +1,6 @@
 import '../../../core/entities/internal';
 
-import { ITaskCreateInput, ITaskUpdateInput } from '@gauzy/contracts';
+import { ITaskCreateInput, ITaskUpdateInput } from '@irtranscripts/contracts';
 import { asTenantUser, createTenantFixture } from '../../../core/testing/tenant-isolation/tenant-isolation.fixtures';
 import { AutomationTaskSyncHandler } from './automation-task.sync.handler';
 

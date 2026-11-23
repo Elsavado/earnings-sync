@@ -1,7 +1,7 @@
 {
-	"name": "@gauzy/ui-auth",
+	"name": "@irtranscripts/ui-auth",
 	"version": "0.1.0",
-	"description": "A UI module for authentication in the Ever Gauzy Platform, providing reusable components and services for managing user authentication.",
+	"description": "A UI module for authentication in the Ever IRTranscripts Platform, providing reusable components and services for managing user authentication.",
 	"author": {
 		"name": "Ever Co. LTD",
 		"email": "ever@ever.co",
@@ -30,10 +30,10 @@
 	"dependencies": {
 		"@angular/forms": "22.2.2",
 		"@angular/router": "22.2.2",
-		"@gauzy/constants": "^0.1.0",
-		"@gauzy/contracts": "^0.1.0",
-		"@gauzy/ui-config": "^0.1.0",
-		"@gauzy/ui-core": "^0.1.0",
+		"@irtranscripts/constants": "^0.1.0",
+		"@irtranscripts/contracts": "^0.1.0",
+		"@irtranscripts/ui-config": "^0.1.0",
+		"@irtranscripts/ui-core": "^0.1.0",
 		"@nebular/auth": "^18.0.0",
 		"@nebular/theme": "^18.0.0",
 		"@ngneat/until-destroy": "^10.0.0",
@@ -54,7 +54,7 @@
 		"ui",
 		"authentication",
 		"auth",
-		"gauzy",
+		"irtranscripts",
 		"ever-co"
 	],
 	"engines": {

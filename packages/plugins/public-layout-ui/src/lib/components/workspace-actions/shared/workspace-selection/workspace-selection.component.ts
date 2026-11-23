@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { IWorkspaceResponse } from '@gauzy/contracts';
+import { IWorkspaceResponse } from '@irtranscripts/contracts';
 
 /**
  * Shared workspace selection component.
@@ -41,8 +41,8 @@ export class WorkspaceSelectionComponent {
 
 	setDefaultLogo(event: Event) {
 		const el = event.target as HTMLImageElement;
-		if (el && el.src !== '/assets/images/logos/logo_Gauzy.png') {
-			el.src = '/assets/images/logos/logo_Gauzy.png';
+		if (el && el.src !== '/assets/images/logos/logo_IRTranscripts.png') {
+			el.src = '/assets/images/logos/logo_IRTranscripts.png';
 		}
 	}
 	/**

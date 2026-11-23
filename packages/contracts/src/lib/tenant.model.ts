@@ -56,7 +56,7 @@ export interface ITenantSetting
 /**
  * The UI framework a tenant prefers for the surfaces that ship in BOTH flavours.
  *
- * Gauzy is progressively re-building pages in React next to their Angular originals; this
+ * IRTranscripts is progressively re-building pages in React next to their Angular originals; this
  * tenant-wide switch decides which flavour every user of the tenant gets. It is a global
  * preference (not per organization / user), persisted as the `preferredUi` tenant setting.
  */

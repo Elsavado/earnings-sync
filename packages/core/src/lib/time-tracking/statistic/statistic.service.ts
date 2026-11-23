@@ -29,8 +29,8 @@ import {
 	IProfileActivity,
 	IWeeklyStatisticsActivities,
 	ITodayStatisticsActivities
-} from '@gauzy/contracts';
-import { ArraySum, isNotEmpty } from '@gauzy/utils';
+} from '@irtranscripts/contracts';
+import { ArraySum, isNotEmpty } from '@irtranscripts/utils';
 import {
 	ConfigService,
 	DatabaseTypeEnum,
@@ -39,7 +39,7 @@ import {
 	isMySQL,
 	isPostgres,
 	isSqlite
-} from '@gauzy/config';
+} from '@irtranscripts/config';
 import {
 	getActivityDurationQueryString,
 	getActivityTimeSlotFilterQueryString,

@@ -28,7 +28,7 @@
  * `packages/core/src/lib`, because a root field bound in either place is bound.
  *
  * A flag-gated plugin — one `apps/api/src/plugins.ts` lists only behind its own flag, such as the Inbox behind
- * `GAUZY_INBOX_ENABLED` — is not in the default composition, so the snapshot does not carry its SDL, and it must
+ * `IRTRANSCRIPTS_INBOX_ENABLED` — is not in the default composition, so the snapshot does not carry its SDL, and it must
  * not: a deployment with the flag off serves none of it. Its resolvers are still in the source, though, so they are
  * held to the SDL the plugin registers when it is on: `GATED_PLUGIN_SCHEMAS` names that document, the gate reads it
  * on top of the snapshot, and both directions below then cover the plugin's fields as they cover everyone else's.
@@ -60,13 +60,13 @@ const PLUGIN_LIST = join(ROOT, 'apps', 'api', 'src', 'plugins.ts');
 const GATED_PLUGIN_SCHEMAS = [
 	{
 		plugin: 'InboxPlugin',
-		flag: 'GAUZY_INBOX_ENABLED',
+		flag: 'IRTRANSCRIPTS_INBOX_ENABLED',
 		file: 'packages/plugins/inbox/src/lib/graphql/inbox.schema.ts',
 		exportName: 'inboxSchemaExtensions'
 	},
 	{
 		plugin: 'InboxEmailPlugin',
-		flag: 'GAUZY_INBOX_EMAIL_ENABLED',
+		flag: 'IRTRANSCRIPTS_INBOX_EMAIL_ENABLED',
 		file: 'packages/plugins/inbox/src/lib/email/graphql/inbox-email.schema.ts',
 		exportName: 'inboxEmailSchemaExtensions'
 	}

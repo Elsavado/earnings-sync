@@ -15,8 +15,8 @@ export enum ServerState {
 export interface DesktopServerOptions {
 	/**
 	 * Whether the API (and the web UI) may listen on the network, as the stored `lanAccess` setting
-	 * says. Only Gauzy Server and Gauzy API Server set it; without it they listen on the loopback
-	 * address only, as Gauzy Desktop's integrated server always does.
+	 * says. Only IRTranscripts Server and IRTranscripts API Server set it; without it they listen on the loopback
+	 * address only, as IRTranscripts Desktop's integrated server always does.
 	 */
 	allowLanAccess?: boolean;
 }

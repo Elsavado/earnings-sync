@@ -17,7 +17,7 @@ import { getMigrationsConfig } from '../bootstrap';
  * service to test, matching every other harness in this improvement effort (TASK 1–6) avoiding a
  * live Postgres/MySQL/Redis dependency in this sandboxed environment. It is also the engine this
  * repo already runs full migrations against today, incidentally, in the self-hosted Playwright E2E
- * job (which deletes `apps/api/data/gauzy.sqlite3` and boots the API against an empty file) — this
+ * job (which deletes `apps/api/data/irtranscripts.sqlite3` and boots the API against an empty file) — this
  * test gives that same coverage a direct, explicit test failure instead of only surfacing as "the API
  * never came up" inside a 10-minute E2E poll loop.
  *
@@ -65,7 +65,7 @@ describe('TypeORM migrations: fresh SQLite database smoke test', () => {
 		// A real temp FILE, not `:memory:` — several migrations reference `queryRunner.connection`
 		// options / pragma behavior that only apply to a file-backed connection, matching how the
 		// app and CLI actually run migrations in practice.
-		dbPath = path.join(os.tmpdir(), `gauzy-migration-smoke-${process.pid}-${Date.now()}.sqlite3`);
+		dbPath = path.join(os.tmpdir(), `irtranscripts-migration-smoke-${process.pid}-${Date.now()}.sqlite3`);
 		const { migrations } = getMigrationsConfig();
 
 		dataSource = new DataSource({

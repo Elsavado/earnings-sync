@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IPlugin } from '@gauzy/contracts';
+import { IPlugin } from '@irtranscripts/contracts';
 import { Observable, of } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { FreePluginInstallationStrategy } from './free-plugin-installation.strategy';

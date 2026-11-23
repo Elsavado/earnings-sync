@@ -5,7 +5,7 @@ import {
 	ValidatorConstraintInterface
 } from "class-validator";
 import { isEmpty } from "underscore";
-import { ID, ITenant } from "@gauzy/contracts";
+import { ID, ITenant } from "@irtranscripts/contracts";
 import { RequestContext } from "../../../core/context";
 
 /**

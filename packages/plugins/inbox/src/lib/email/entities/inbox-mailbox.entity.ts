@@ -4,8 +4,8 @@ import {
 	InboxMailboxKindEnum,
 	InboxMailboxOwnerTypeEnum,
 	InboxMailboxPurposeEnum
-} from '@gauzy/contracts';
-import { ExportRedacted, MultiORMColumn, MultiORMEntity, TenantOrganizationBaseEntity } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { ExportRedacted, MultiORMColumn, MultiORMEntity, TenantOrganizationBaseEntity } from '@irtranscripts/core';
 import { MikroOrmInboxMailboxRepository } from './inbox-email.repositories';
 
 /**
@@ -14,7 +14,7 @@ import { MikroOrmInboxMailboxRepository } from './inbox-email.repositories';
  * its recipient address alone, so two rows with one address would make the receiving tenant depend on row order.
  *
  * `providerAccountId` names the provider account the mailbox receives through; `null` is the platform default (the
- * platform route on `GAUZY_INBOX_DOMAIN`). Mail for the mailbox is accepted only from that account.
+ * platform route on `IRTRANSCRIPTS_INBOX_DOMAIN`). Mail for the mailbox is accepted only from that account.
  *
  * Only `varchar` and `text` columns carry an explicit type (an explicit `timestamp` breaks better-sqlite3).
  */
@@ -59,7 +59,7 @@ export class InboxMailbox extends TenantOrganizationBaseEntity {
 	@MultiORMColumn({ type: 'varchar', length: 16, nullable: true })
 	domainStatus?: InboxMailboxDomainStatusEnum | null;
 
-	/** The value published at `_gauzy-inbox.<domain>` to prove the organization controls the domain. */
+	/** The value published at `_irtranscripts-inbox.<domain>` to prove the organization controls the domain. */
 	@ExportRedacted({ blank: true })
 	@MultiORMColumn({ type: 'varchar', length: 128, nullable: true })
 	domainVerificationToken?: string | null;

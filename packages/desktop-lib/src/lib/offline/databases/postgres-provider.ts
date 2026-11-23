@@ -40,7 +40,7 @@ export class PostgresProvider implements IClientServerProvider {
 	}
 
 	private _initialization() {
-		this._database = 'gauzy_timer_db';
+		this._database = 'irtranscripts_timer_db';
 		const cfg = LocalStore.getApplicationConfig().config['postgres'];
 		if (!cfg) {
 			throw new AppError('POSTGRES', 'PostgreSQL configuration is missing');

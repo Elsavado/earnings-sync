@@ -1,6 +1,6 @@
 import { EventSubscriber } from 'typeorm';
-import { EmployeeKindEnum } from '@gauzy/contracts';
-import { extractNameFromEmail, sluggable } from '@gauzy/utils';
+import { EmployeeKindEnum } from '@irtranscripts/contracts';
+import { extractNameFromEmail, sluggable } from '@irtranscripts/utils';
 import { Employee } from './employee.entity';
 import { getORMType, getUserDummyImage, MultiORM, MultiORMEnum } from '../core/utils';
 import { Organization, UserOrganization } from '../core/entities/internal';

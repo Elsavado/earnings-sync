@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { IProductCreateInput } from '@gauzy/contracts';
+import { IProductCreateInput } from '@irtranscripts/contracts';
 
 export class ProductCreateCommand implements ICommand {
 	static readonly type = '[Product] Register';

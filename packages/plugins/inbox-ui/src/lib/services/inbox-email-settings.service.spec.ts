@@ -1,6 +1,6 @@
 import { HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { InboxMailboxOwnerTypeEnum, InboxProviderAccountStatusEnum } from '@gauzy/contracts';
+import { InboxMailboxOwnerTypeEnum, InboxProviderAccountStatusEnum } from '@irtranscripts/contracts';
 import { InboxEmailSettingsService } from './inbox-email-settings.service';
 
 /** The Inbox email management routes (the root test defaults provide the testing HttpClient). */

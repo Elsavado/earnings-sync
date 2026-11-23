@@ -1,14 +1,14 @@
 import { app, ipcMain, systemPreferences, powerMonitor } from 'electron';
 import * as path from 'path';
 import { promises as fs } from 'fs';
-import { logger as log, store } from '@gauzy/desktop-core';
+import { logger as log, store } from '@irtranscripts/desktop-core';
 import {
 	AppError,
 	LocalStore,
 	DesktopThemeListener,
 	ProviderFactory,
 	TranslateService,
-} from '@gauzy/desktop-lib';
+} from '@irtranscripts/desktop-lib';
 import {
 	getApiBaseUrl,
 	getAuthConfig,
@@ -293,10 +293,10 @@ export async function InitApp() {
 	app.setName(process.env.NAME || 'Agent App');
 
 	// Add node modules path
-	log.info('Gauzy Agent Node Modules Path', path.join(__dirname, 'node_modules'));
+	log.info('IRTranscripts Agent Node Modules Path', path.join(__dirname, 'node_modules'));
 
-	process.env.GAUZY_USER_PATH = app.getPath('userData');
-	log.info(`GAUZY_USER_PATH: ${process.env.GAUZY_USER_PATH}`);
+	process.env.IRTRANSCRIPTS_USER_PATH = app.getPath('userData');
+	log.info(`IRTRANSCRIPTS_USER_PATH: ${process.env.IRTRANSCRIPTS_USER_PATH}`);
 
 	process.on('uncaughtException', (error) => {
 		throw new AppError('MAINUNEXCEPTION', error.message);

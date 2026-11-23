@@ -19,7 +19,7 @@ jest.mock('../../../request-approval/request-approval.service', () => ({ Request
 jest.mock('../../equipment-sharing.service', () => ({ EquipmentSharingService: class {} }));
 jest.mock('../../equipment-sharing.entity', () => ({ EquipmentSharing: class {} }));
 
-import { PermissionsEnum, RequestApprovalStatusTypesEnum } from '@gauzy/contracts';
+import { PermissionsEnum, RequestApprovalStatusTypesEnum } from '@irtranscripts/contracts';
 import { EquipmentSharingCreateCommand } from '../equipment-sharing.create.command';
 import { EquipmentSharingCreateHandler } from './equipment-sharing.create.handler';
 

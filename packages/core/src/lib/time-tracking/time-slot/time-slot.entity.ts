@@ -11,8 +11,8 @@ import {
 	ITimeSlotSession,
 	ID,
 	JsonData
-} from '@gauzy/contracts';
-import { isMySQL, isPostgres } from '@gauzy/config';
+} from '@irtranscripts/contracts';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
 import { Activity, Employee, Screenshot, TenantOrganizationBaseEntity, TimeLog } from './../../core/entities/internal';
 import {
 	ColumnIndex,

@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDateString, IsInt, IsOptional, IsString, IsUUID, MaxLength, Min } from 'class-validator';
-import { ID, ISearchDocument, JsonData } from '@gauzy/contracts';
+import { ID, ISearchDocument, JsonData } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { ColumnIndex, JsonArrayColumn, JsonbColumn, MultiORMColumn, MultiORMEntity } from '../core/decorators/entity';
 import { MikroOrmSearchDocumentRepository } from './repository/mikro-orm-search-document.repository';

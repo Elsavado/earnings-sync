@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { EMPTY, from, interval, Subject } from 'rxjs';
 import { catchError, distinctUntilChanged, filter, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { GAUZY_ENV } from '../constants';
+import { IRTRANSCRIPTS_ENV } from '../constants';
 import { LanguageElectronService } from '../language/language-electron.service';
 import { ServerConnectionService, Store } from '../services';
 import { NbLayoutModule } from '@nebular/theme';
@@ -26,7 +26,7 @@ export class ServerDownPage implements OnInit, OnDestroy {
 		private readonly serverConnectionService: ServerConnectionService,
 		private readonly router: Router,
 		private readonly route: ActivatedRoute,
-		@Inject(GAUZY_ENV)
+		@Inject(IRTRANSCRIPTS_ENV)
 		private readonly environment: any,
 		private readonly languageElectronService: LanguageElectronService
 	) {

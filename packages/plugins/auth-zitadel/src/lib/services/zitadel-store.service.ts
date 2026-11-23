@@ -1,7 +1,7 @@
 import { createHash, randomBytes } from 'node:crypto';
 import { Inject, Injectable, Optional } from '@nestjs/common';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { EVER_REDIS_CLIENT } from '@gauzy/core';
+import { EVER_REDIS_CLIENT } from '@irtranscripts/core';
 
 /** Minimal shape of the platform cache this store uses. */
 export interface ZitadelCache {
@@ -52,7 +52,7 @@ const CLAIM_TTL_MS = 10 * 60 * 1000;
 /**
  * Longest time one attempt may hold a key. An attempt releases it as soon as it is done; this only
  * bounds how long a key reads as busy when an attempt never finishes (a crashed replica). It is far
- * above what a code check or Gauzy's register path takes.
+ * above what a code check or IRTranscripts's register path takes.
  */
 export const HOLD_TTL_MS = 30 * 1000;
 

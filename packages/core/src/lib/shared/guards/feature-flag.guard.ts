@@ -2,8 +2,8 @@ import { CanActivate, ExecutionContext, Inject, Injectable, NotFoundException } 
 import { Reflector } from '@nestjs/core';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
-import { requiredFeatureFlags } from '@gauzy/common';
-import { FeatureEnum } from '@gauzy/contracts';
+import { requiredFeatureFlags } from '@irtranscripts/common';
+import { FeatureEnum } from '@irtranscripts/contracts';
 import { FeatureService } from './../../feature/feature.service';
 import { RequestContext } from './../../core/context';
 

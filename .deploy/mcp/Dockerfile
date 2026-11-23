@@ -1,4 +1,4 @@
-# Ever Gauzy MCP
+# Ever IRTranscripts MCP
 
 # Transport settings
 ARG MCP_TRANSPORT
@@ -56,11 +56,11 @@ ARG THROTTLE_TTL
 ARG THROTTLE_LIMIT
 ARG MCP_TRUSTED_PROXIES
 
-# Required Gauzy API settings
+# Required IRTranscripts API settings
 ARG API_BASE_URL
-ARG GAUZY_AUTH_EMAIL
-ARG GAUZY_AUTH_PASSWORD
-ARG GAUZY_AUTO_LOGIN
+ARG IRTRANSCRIPTS_AUTH_EMAIL
+ARG IRTRANSCRIPTS_AUTH_PASSWORD
+ARG IRTRANSCRIPTS_AUTO_LOGIN
 
 # Server configuration
 ARG MCP_WS_PORT
@@ -107,11 +107,11 @@ RUN set -- --fetch-retries=5 --fetch-retry-mintimeout=20000 --fetch-retry-maxtim
     && npm install yarn -g --force "$@" \
     && npm install --quiet ts-node@10.9.2 -g "$@"
 
-RUN mkdir /srv/gauzy-mcp && chown -R node:node /srv/gauzy-mcp
+RUN mkdir /srv/irtranscripts-mcp && chown -R node:node /srv/irtranscripts-mcp
 
 USER node:node
 
-WORKDIR /srv/gauzy-mcp
+WORKDIR /srv/irtranscripts-mcp
 
 COPY --chown=node:node apps/mcp/package.json ./apps/mcp/
 COPY --chown=node:node packages/mcp-server/package.json ./packages/mcp-server/
@@ -164,7 +164,7 @@ COPY --chown=node:node packages/utils ./packages/utils/
 # BUILD
 FROM dependencies AS build
 
-WORKDIR /srv/gauzy-mcp
+WORKDIR /srv/irtranscripts-mcp
 
 # Copy the node_modules from the dependencies stage
 COPY --chown=node:node tsconfig.base.json tsconfig.json ./
@@ -184,7 +184,7 @@ ENV NODE_OPTIONS=${NODE_OPTIONS:-"--max-old-space-size=30000"}
 ENV NODE_ENV=production
 ENV IS_DOCKER=true
 
-RUN rm -rf /srv/gauzy-mcp/dist
+RUN rm -rf /srv/irtranscripts-mcp/dist
 
 RUN yarn build:mcp:prod
 
@@ -204,13 +204,13 @@ RUN set -- --fetch-retries=5 --fetch-retry-mintimeout=20000 --fetch-retry-maxtim
     && npm install --quiet ts-node@10.9.2 -g "$@"
 
 # Create working directory with correct ownership so node user can create symlinks
-RUN mkdir -p /srv/gauzy-mcp && chown node:node /srv/gauzy-mcp
+RUN mkdir -p /srv/irtranscripts-mcp && chown node:node /srv/irtranscripts-mcp
 
 USER node:node
 
-WORKDIR /srv/gauzy-mcp
+WORKDIR /srv/irtranscripts-mcp
 
-COPY --chown=node:node --from=build /srv/gauzy-mcp/dist .
+COPY --chown=node:node --from=build /srv/irtranscripts-mcp/dist .
 
 # Create dist -> . symlink so ../../../dist/ paths in package.json resolve correctly in Docker
 RUN ln -s . dist
@@ -249,7 +249,7 @@ RUN --mount=type=secret,id=VERDACCIO_TOKEN,uid=1000 \
 # PROD
 FROM proddependencies AS production
 
-WORKDIR /srv/gauzy-mcp
+WORKDIR /srv/irtranscripts-mcp
 
 RUN yarn cache clean
 
@@ -267,19 +267,19 @@ ENV MCP_CORS_CREDENTIALS=${MCP_CORS_CREDENTIALS:-true}
 
 # AUTH
 ENV MCP_AUTH_ENABLED=${MCP_AUTH_ENABLED:-true}
-ENV MCP_AUTH_RESOURCE_URI=${MCP_AUTH_RESOURCE_URI:-https://mcpdemo.gauzy.co}
+ENV MCP_AUTH_RESOURCE_URI=${MCP_AUTH_RESOURCE_URI:-https://mcpdemo.irtranscripts.com}
 ENV MCP_AUTH_REQUIRED_SCOPES=${MCP_AUTH_REQUIRED_SCOPES:-mcp.read,mcp.write}
 ENV MCP_AUTH_SERVERS=${MCP_AUTH_SERVERS:-"[]"}
 
 # JWT validation options
-ENV MCP_AUTH_JWT_AUDIENCE=${MCP_AUTH_JWT_AUDIENCE:-https://mcp.gauzy.co}
-ENV MCP_AUTH_JWT_ISSUER=${MCP_AUTH_JWT_ISSUER:-https://auth.gauzy.co}
+ENV MCP_AUTH_JWT_AUDIENCE=${MCP_AUTH_JWT_AUDIENCE:-https://mcp.irtranscripts.com}
+ENV MCP_AUTH_JWT_ISSUER=${MCP_AUTH_JWT_ISSUER:-https://auth.irtranscripts.com}
 ENV MCP_AUTH_JWT_ALGORITHMS=${MCP_AUTH_JWT_ALGORITHMS:-RS256,ES256}
-ENV MCP_AUTH_JWT_JWKS_URI=${MCP_AUTH_JWT_JWKS_URI:-https://auth.gauzy.co/.well-known/jwks.json}
+ENV MCP_AUTH_JWT_JWKS_URI=${MCP_AUTH_JWT_JWKS_URI:-https://auth.irtranscripts.com/.well-known/jwks.json}
 ENV MCP_AUTH_JWT_PUBLIC_KEY=${MCP_AUTH_JWT_PUBLIC_KEY}
 
 # Token Introspection (Alternative to JWT validation)
-ENV MCP_AUTH_INTROSPECTION_ENDPOINT=${MCP_AUTH_INTROSPECTION_ENDPOINT:-https://auth.gauzy.co/token/introspect}
+ENV MCP_AUTH_INTROSPECTION_ENDPOINT=${MCP_AUTH_INTROSPECTION_ENDPOINT:-https://auth.irtranscripts.com/token/introspect}
 ENV MCP_AUTH_INTROSPECTION_CLIENT_ID=${MCP_AUTH_INTROSPECTION_CLIENT_ID}
 ENV MCP_AUTH_INTROSPECTION_CLIENT_SECRET=${MCP_AUTH_INTROSPECTION_CLIENT_SECRET}
 
@@ -308,11 +308,11 @@ ENV THROTTLE_TTL=${THROTTLE_TTL:-60000}
 ENV THROTTLE_LIMIT=${THROTTLE_LIMIT:-100}
 ENV MCP_TRUSTED_PROXIES=${MCP_TRUSTED_PROXIES:-192.168.1.1,10.0.0.1}
 
-# Required Gauzy API settings
-ENV API_BASE_URL=${API_BASE_URL:-https://apidemo.gauzy.co}
-ENV GAUZY_AUTH_EMAIL=${GAUZY_AUTH_EMAIL}
-ENV GAUZY_AUTH_PASSWORD=${GAUZY_AUTH_PASSWORD}
-ENV GAUZY_AUTO_LOGIN=${GAUZY_AUTO_LOGIN:-true}
+# Required IRTranscripts API settings
+ENV API_BASE_URL=${API_BASE_URL:-https://apidemo.irtranscripts.com}
+ENV IRTRANSCRIPTS_AUTH_EMAIL=${IRTRANSCRIPTS_AUTH_EMAIL}
+ENV IRTRANSCRIPTS_AUTH_PASSWORD=${IRTRANSCRIPTS_AUTH_PASSWORD}
+ENV IRTRANSCRIPTS_AUTO_LOGIN=${IRTRANSCRIPTS_AUTO_LOGIN:-true}
 
 # Server configuration
 ENV MCP_WS_PORT=${MCP_WS_PORT:-3002}

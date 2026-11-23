@@ -11,8 +11,8 @@ import { ExecutionContext, NotFoundException } from '@nestjs/common';
 import { MODULE_METADATA } from '@nestjs/common/constants';
 import { Reflector } from '@nestjs/core';
 import { buildSchema, printSchema } from 'graphql';
-import { PermissionsEnum, ReportGroupFilterEnum, TimeLogSourceEnum, TimeLogType } from '@gauzy/contracts';
-import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@gauzy/constants';
+import { PermissionsEnum, ReportGroupFilterEnum, TimeLogSourceEnum, TimeLogType } from '@irtranscripts/contracts';
+import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { CursorCodec } from '../../api/cursor';
 import { RequestContext } from '../../core/context';
 import {

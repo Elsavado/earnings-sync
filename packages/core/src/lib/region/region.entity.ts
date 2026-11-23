@@ -7,7 +7,7 @@ import {
 	IRegionCountry,
 	IChannelRegion,
 	JsonData
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { TenantOrganizationBaseEntity } from '../core/entities/internal';
 import {
 	ColumnIndex,

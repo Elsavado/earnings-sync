@@ -26,8 +26,8 @@ import { errorText } from '../shared/ever-works-ui.utils';
 					<tr>
 						<th>{{ 'EVER_WORKS.PREVIEW.PHASE' | translate }}</th>
 						<th>{{ 'EVER_WORKS.PREVIEW.IN_EVER_WORKS' | translate }}</th>
-						<th>{{ 'EVER_WORKS.PREVIEW.IN_GAUZY' | translate }}</th>
-						<th>{{ 'EVER_WORKS.PREVIEW.CREATES_IN_GAUZY' | translate }}</th>
+						<th>{{ 'EVER_WORKS.PREVIEW.IN_IRTRANSCRIPTS' | translate }}</th>
+						<th>{{ 'EVER_WORKS.PREVIEW.CREATES_IN_IRTRANSCRIPTS' | translate }}</th>
 						<th>{{ 'EVER_WORKS.PREVIEW.CREATES_IN_EVER_WORKS' | translate }}</th>
 						<th>{{ 'EVER_WORKS.PREVIEW.TO_PAIR' | translate }}</th>
 					</tr>
@@ -57,13 +57,13 @@ import { errorText } from '../shared/ever-works-ui.utils';
 								}
 							</td>
 							<td>
-								@if (row.gauzy) {
-									{{ 'EVER_WORKS.PREVIEW.LINKED_OF' | translate: { linked: row.gauzy.linked, total: row.gauzy.total } }}
+								@if (row.irtranscripts) {
+									{{ 'EVER_WORKS.PREVIEW.LINKED_OF' | translate: { linked: row.irtranscripts.linked, total: row.irtranscripts.total } }}
 								} @else {
 									—
 								}
 							</td>
-							<td data-test="creates-in-gauzy">{{ row.creates.inGauzy }}</td>
+							<td data-test="creates-in-irtranscripts">{{ row.creates.inIRTranscripts }}</td>
 							<td data-test="creates-in-ever-works">{{ row.creates.inEverWorks }}</td>
 							<td data-test="to-pair">{{ toPair(row) }}</td>
 						</tr>
@@ -130,6 +130,6 @@ export class EverWorksPreviewComponent implements OnChanges {
 
 	toPair(row: EverWorksSyncPhasePreview): string {
 		if (!row.toPair) return '—';
-		return row.toPair.gauzy ? `${row.toPair.everWorks} / ${row.toPair.gauzy}` : String(row.toPair.everWorks);
+		return row.toPair.irtranscripts ? `${row.toPair.everWorks} / ${row.toPair.irtranscripts}` : String(row.toPair.everWorks);
 	}
 }

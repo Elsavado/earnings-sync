@@ -1,7 +1,7 @@
 import '../../core/entities/internal';
 
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
-import { RolesEnum } from '@gauzy/contracts';
+import { RolesEnum } from '@irtranscripts/contracts';
 import { CrudService } from '../../core/crud/crud.service';
 import { TenantAwareCrudService } from '../../core/crud/tenant-aware-crud.service';
 import { RequestContext } from '../../core/context';
@@ -128,8 +128,8 @@ describe('TenantSetting — the Documents storage limit is the installation oper
 			const { service } = buildService([UI_ROW]);
 			const update = jest.spyOn(TenantAwareCrudService.prototype, 'update').mockResolvedValue({} as any);
 
-			await service.update(UI_ROW.id, { value: 'gauzy' });
-			expect(update).toHaveBeenCalledWith(UI_ROW.id, { value: 'gauzy' });
+			await service.update(UI_ROW.id, { value: 'irtranscripts' });
+			expect(update).toHaveBeenCalledWith(UI_ROW.id, { value: 'irtranscripts' });
 
 			jest.restoreAllMocks();
 			asOperator();

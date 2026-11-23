@@ -1,6 +1,6 @@
-import { ConfigService, environment } from '@gauzy/config';
-import { LanguagesEnum } from '@gauzy/contracts';
-import { isSchedulerQueueRootEnabled, SchedulerModule } from '@gauzy/scheduler';
+import { ConfigService, environment } from '@irtranscripts/config';
+import { LanguagesEnum } from '@irtranscripts/contracts';
+import { isSchedulerQueueRootEnabled, SchedulerModule } from '@irtranscripts/scheduler';
 import { createKeyvNonBlocking } from '@keyv/redis';
 import { CacheModule as NestCacheModule } from '@nestjs/cache-manager';
 import { Module, OnModuleInit } from '@nestjs/common';
@@ -83,7 +83,7 @@ import { ImportModule } from '../export-import/import/import.module';
 import { FavoriteModule } from '../favorite/favorite.module';
 import { GlobalFavoriteModule } from '../favorite/global-favorite-service.module';
 import { FeatureModule } from '../feature/feature.module';
-import { GauzyCloudModule } from '../gauzy-cloud/gauzy-cloud.module';
+import { IRTranscriptsCloudModule } from '../irtranscripts-cloud/irtranscripts-cloud.module';
 import { GoalGeneralSettingModule } from '../goal-general-setting/goal-general-setting.module';
 import { GoalKpiTemplateModule } from '../goal-kpi-template/goal-kpi-template.module';
 import { GoalKpiModule } from '../goal-kpi/goal-kpi.module';
@@ -404,7 +404,7 @@ if (environment.EVER_TEAMS_CLIENT_IP_SECRET?.trim() && !clientIpSecretOf(environ
 					environment.isElectron && environment.electronResourcesPath
 						? path.resolve(
 								environment.electronResourcesPath,
-								'app.asar.unpacked/node_modules/@gauzy/core/src/lib/i18n'
+								'app.asar.unpacked/node_modules/@irtranscripts/core/src/lib/i18n'
 						  )
 						: path.resolve(__dirname, '../i18n/'),
 				watch: !environment.production
@@ -599,7 +599,7 @@ if (environment.EVER_TEAMS_CLIENT_IP_SECRET?.trim() && !clientIpSecretOf(environ
 		SeederModule,
 		WarehouseModule,
 		MerchantModule,
-		GauzyCloudModule,
+		IRTranscriptsCloudModule,
 		ContactModule,
 		PublicShareModule,
 		EmailResetModule,

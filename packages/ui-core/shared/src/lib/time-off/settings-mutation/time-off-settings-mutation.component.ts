@@ -2,8 +2,8 @@ import { Component, OnInit, Input, OnDestroy, ChangeDetectionStrategy } from '@a
 import { filter, firstValueFrom, tap } from 'rxjs';
 import { NbDialogRef } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { IEmployee, IOrganization, IOrganizationTeam, ITimeOffPolicy } from '@gauzy/contracts';
-import { EmployeesService, Store } from '@gauzy/ui-core/core';
+import { IEmployee, IOrganization, IOrganizationTeam, ITimeOffPolicy } from '@irtranscripts/contracts';
+import { EmployeesService, Store } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

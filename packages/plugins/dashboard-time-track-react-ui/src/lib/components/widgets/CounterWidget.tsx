@@ -1,6 +1,6 @@
 import '../nebular-jsx';
 import { type ReactNode } from 'react';
-import { CounterPoint, Spinner } from '@gauzy/ui-react-components';
+import { CounterPoint, Spinner } from '@irtranscripts/ui-react-components';
 
 export interface CounterWidgetProps {
 	/** Translated title ("Members worked", …). */
@@ -22,7 +22,7 @@ export interface CounterWidgetProps {
 /**
  * One counter card of the widget row — the `<nb-card [nbSpinner]><nb-card-body>` block each of
  * the six `gaWidgetTemplate`s renders: title (`.header-widget > .title`), figure (`.h1`) and the
- * `gauzy-counter-point` strip inside `.counter-container`.
+ * `irtranscripts-counter-point` strip inside `.counter-container`.
  */
 export function CounterWidget({ title, value, loading, total, counterValue, color, progress = false }: CounterWidgetProps) {
 	return (

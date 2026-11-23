@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { getUnsafeOutboundUrlReason } from '@gauzy/utils';
+import { getUnsafeOutboundUrlReason } from '@irtranscripts/utils';
 import { EVER_WORKS_CONTRACT_VERSION, EVER_WORKS_PLUGIN_VERSION } from '../ever-works.constants';
 import {
 	EverWorksCreateWebhook,
@@ -15,7 +15,7 @@ import { isEverWorksLoopbackUrl } from './ever-works-loopback';
 export const EVER_WORKS_CONTRACT_PATH = `/integrations/v${EVER_WORKS_CONTRACT_VERSION}`;
 
 /** `User-Agent` of every call (plan 02 §4). */
-export const EVER_WORKS_USER_AGENT = `ever-gauzy-ever-works/${EVER_WORKS_PLUGIN_VERSION}`;
+export const EVER_WORKS_USER_AGENT = `ever-irtranscripts-ever-works/${EVER_WORKS_PLUGIN_VERSION}`;
 
 /** A response from Ever Works that is not a success. Carries no key, no header and no request body. */
 export class EverWorksApiError extends Error {
@@ -67,7 +67,7 @@ export interface EverWorksClientOptions {
 	/** The integration key (`ew_int_…`). Kept in memory for the client's lifetime only. */
 	apiKey: string;
 	transport: EverWorksTransport;
-	/** The Gauzy connection id; `X-Sync-Origin: gauzy:<id>` on every write. */
+	/** The IRTranscripts connection id; `X-Sync-Origin: irtranscripts:<id>` on every write. */
 	connectionId?: string | null;
 	/** `X-Scope-Slug`: the pinned Ever Works organization the org-scoped calls are for. */
 	scopeSlug?: string | null;
@@ -218,7 +218,7 @@ export class EverWorksClient {
 		};
 		const scopeSlug = options.scopeSlug === undefined ? this.options.scopeSlug : options.scopeSlug;
 		if (scopeSlug) headers['X-Scope-Slug'] = scopeSlug;
-		if (isWrite && this.options.connectionId) headers['X-Sync-Origin'] = `gauzy:${this.options.connectionId}`;
+		if (isWrite && this.options.connectionId) headers['X-Sync-Origin'] = `irtranscripts:${this.options.connectionId}`;
 		if (isWrite && options.actAsUserId) headers['X-Act-As-User'] = options.actAsUserId;
 		if (idempotencyKey) headers['Idempotency-Key'] = idempotencyKey;
 		if (options.ifMatchVersion !== undefined && method !== 'GET') headers['If-Match'] = `"${options.ifMatchVersion}"`;

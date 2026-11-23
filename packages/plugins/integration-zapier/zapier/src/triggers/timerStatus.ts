@@ -156,7 +156,7 @@ export default {
 	noun: 'Timer',
 	display: {
 		label: 'Timer Status',
-		description: 'Triggers when timer status changes in Gauzy.'
+		description: 'Triggers when timer status changes in IRTranscripts.'
 	},
 	operation: {
 		type: 'hook',

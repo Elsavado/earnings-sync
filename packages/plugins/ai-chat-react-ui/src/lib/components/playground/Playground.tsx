@@ -5,10 +5,10 @@ import {
 	lastAssistantMessageIsCompleteWithApprovalResponses,
 	lastAssistantMessageIsCompleteWithToolCalls
 } from 'ai';
-import { useInjector } from '@gauzy/ui-react';
-import { Store } from '@gauzy/ui-core/core';
-import { environment } from '@gauzy/ui-config';
-import type { IAiChatConfig } from '@gauzy/contracts';
+import { useInjector } from '@irtranscripts/ui-react';
+import { Store } from '@irtranscripts/ui-core/core';
+import { environment } from '@irtranscripts/ui-config';
+import type { IAiChatConfig } from '@irtranscripts/contracts';
 import { playgroundTheme as t } from '../../playground-theme';
 import { chatMarkdownCss } from '../../chat-markdown-css';
 import { PlaygroundHeader } from './PlaygroundHeader';
@@ -30,7 +30,7 @@ export interface PlaygroundProps {
 }
 
 /**
- * Playground — full AI chat playground wired to the Gauzy backend.
+ * Playground — full AI chat playground wired to the IRTranscripts backend.
  *
  * Renders a settings panel (model selector, system prompt, parameter
  * sliders) on the left and a streaming chat panel on the right.

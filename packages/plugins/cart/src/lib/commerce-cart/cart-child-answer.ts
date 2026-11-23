@@ -1,4 +1,4 @@
-import { formatEntityTag, parseEntityVersion } from '@gauzy/core';
+import { formatEntityTag, parseEntityVersion } from '@irtranscripts/core';
 
 /**
  * What the child-resource create routes (`POST /cart-lines`, `POST /cart-shipping-methods`) share in their

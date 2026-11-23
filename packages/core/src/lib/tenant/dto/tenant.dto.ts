@@ -1,4 +1,4 @@
-import { IImageAsset, ITenant } from "@gauzy/contracts";
+import { IImageAsset, ITenant } from "@irtranscripts/contracts";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { IsNotEmpty, IsString, IsOptional, IsUUID } from "class-validator";
 

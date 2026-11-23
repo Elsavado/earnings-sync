@@ -19,7 +19,7 @@ import { LatLng } from 'leaflet';
 import moment from 'moment';
 import { filter, tap } from 'rxjs/operators';
 import { NbStepperComponent } from '@nebular/theme';
-import { DEFAULT_DATE_FORMATS } from '@gauzy/constants';
+import { DEFAULT_DATE_FORMATS } from '@irtranscripts/constants';
 import {
 	BonusTypeEnum,
 	ICountry,
@@ -31,10 +31,10 @@ import {
 	IUser,
 	CurrenciesEnum,
 	IImageAsset
-} from '@gauzy/contracts';
-import { environment as ENV } from '@gauzy/ui-config';
-import { DUMMY_PROFILE_IMAGE, retrieveNameFromEmail } from '@gauzy/ui-core/common';
-import { Store, ToastrService } from '@gauzy/ui-core/core';
+} from '@irtranscripts/contracts';
+import { environment as ENV } from '@irtranscripts/ui-config';
+import { DUMMY_PROFILE_IMAGE, retrieveNameFromEmail } from '@irtranscripts/ui-core/common';
+import { Store, ToastrService } from '@irtranscripts/ui-core/core';
 import { FormHelpers, LeafletMapComponent, LocationFormComponent } from '../../forms';
 
 @UntilDestroy({ checkProperties: true })

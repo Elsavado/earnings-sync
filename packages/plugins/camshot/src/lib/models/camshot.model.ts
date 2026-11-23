@@ -5,7 +5,7 @@ import {
 	ID,
 	IRelationalUser,
 	ITimeSlot
-} from "@gauzy/contracts";
+} from "@irtranscripts/contracts";
 
 export interface ICamshot extends ICamshotContract,
 	IBasePerTenantAndOrganizationEntityModel,

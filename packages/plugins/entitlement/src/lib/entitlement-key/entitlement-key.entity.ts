@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { JoinColumn, RelationId } from 'typeorm';
 import { IsDate, IsEmail, IsEnum, IsInt, IsNotEmpty, IsOptional, IsString, IsUUID, MaxLength, Min } from 'class-validator';
-import { ID, JsonData } from '@gauzy/contracts';
+import { ID, JsonData } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	IsSecret,
@@ -11,7 +11,7 @@ import {
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity,
 	ExportRedacted,
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { EntitlementKeyStatus, LicenceKeyFormat } from '../entitlement.enums';
 import { Entitlement } from '../entitlement/entitlement.entity';
 import { MikroOrmEntitlementKeyRepository } from './repository/mikro-orm-entitlement-key.repository';

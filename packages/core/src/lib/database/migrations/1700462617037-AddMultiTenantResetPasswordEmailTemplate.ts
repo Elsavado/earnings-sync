@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 import * as chalk from "chalk";
-import { EmailTemplateEnum } from "@gauzy/contracts";
+import { EmailTemplateEnum } from "@irtranscripts/contracts";
 import { EmailTemplateUtils } from "../../email-template/utils";
-import { DatabaseTypeEnum } from "@gauzy/config";
+import { DatabaseTypeEnum } from "@irtranscripts/config";
 
 export class AddMultiTenantResetPasswordEmailTemplate1700462617037 implements MigrationInterface {
 

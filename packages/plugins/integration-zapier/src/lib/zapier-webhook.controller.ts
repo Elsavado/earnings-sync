@@ -14,9 +14,9 @@ import {
 	UseGuards
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PermissionGuard, Permissions } from '@gauzy/core';
-import { getUnsafeOutboundUrlReason } from '@gauzy/utils';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PermissionGuard, Permissions } from '@irtranscripts/core';
+import { getUnsafeOutboundUrlReason } from '@irtranscripts/utils';
 import { IZapierCreateWebhookInput } from './zapier.types';
 import { ZapierWebhookService } from './zapier-webhook.service';
 import { ZapierService } from './zapier.service';

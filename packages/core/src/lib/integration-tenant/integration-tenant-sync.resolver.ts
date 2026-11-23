@@ -1,7 +1,7 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, ID, Resolver, Subscription } from '@nestjs/graphql';
-import { ID as Id, PermissionsEnum } from '@gauzy/contracts';
-import { FeatureFlag } from '@gauzy/common';
+import { ID as Id, PermissionsEnum } from '@irtranscripts/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
 import { Permissions } from '../shared/decorators';
 import { FeatureFlagGuard, PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { FEATURE_GRAPHQL } from '../feature/graphql-feature.code';

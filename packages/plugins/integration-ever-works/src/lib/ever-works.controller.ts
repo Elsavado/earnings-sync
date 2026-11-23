@@ -1,7 +1,7 @@
 import { Controller, Get, Header, Inject, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PermissionGuard, Permissions, TenantPermissionGuard } from '@gauzy/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PermissionGuard, Permissions, TenantPermissionGuard } from '@irtranscripts/core';
 import { EverWorksConfig } from './ever-works-config';
 import {
 	EVER_WORKS_CONTRACT_VERSION,

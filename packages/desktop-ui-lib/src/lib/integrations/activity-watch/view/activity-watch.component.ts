@@ -6,7 +6,7 @@ import { AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-    selector: 'gauzy-activity-watch',
+    selector: 'irtranscripts-activity-watch',
     templateUrl: './activity-watch.component.html',
     styleUrls: ['./activity-watch.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,

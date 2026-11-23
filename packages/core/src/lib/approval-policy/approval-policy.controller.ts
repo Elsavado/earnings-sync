@@ -8,7 +8,7 @@ import {
 	IListQueryInput,
 	IRequestApprovalFindInput,
 	ID
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { Permissions } from './../shared/decorators';
 import { PermissionGuard, TenantPermissionGuard } from './../shared/guards';
 import { ParseJsonPipe, UseValidationPipe, UUIDValidationPipe } from './../shared/pipes';

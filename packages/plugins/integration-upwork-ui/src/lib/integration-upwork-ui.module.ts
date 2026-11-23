@@ -22,9 +22,9 @@ import {
 	IOnPluginUiDestroy,
 	PluginUiDefinition,
 	PLUGIN_DEFINITION
-} from '@gauzy/plugin-ui';
-import { LoggerService, NavMenuBuilderService, PageRouteRegistryService } from '@gauzy/ui-core/core';
-import { SmartDataViewLayoutModule, SelectorsModule, SharedModule, TableComponentsModule } from '@gauzy/ui-core/shared';
+} from '@irtranscripts/plugin-ui';
+import { LoggerService, NavMenuBuilderService, PageRouteRegistryService } from '@irtranscripts/ui-core/core';
+import { SmartDataViewLayoutModule, SelectorsModule, SharedModule, TableComponentsModule } from '@irtranscripts/ui-core/shared';
 import { UpworkComponent } from './components/upwork/upwork.component';
 import { UpworkAuthorizeComponent } from './components/upwork-authorize/upwork-authorize.component';
 import { TransactionsComponent } from './components/transactions/transactions.component';

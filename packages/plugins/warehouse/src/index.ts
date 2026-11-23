@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-warehouse
+ * Public API Surface of @irtranscripts/plugin-warehouse
  */
 export * from './lib/warehouse.plugin';
 export * from './lib/warehouse.module';

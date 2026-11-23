@@ -17,7 +17,7 @@ failing case for each), so a future change to the helpers can't silently turn th
 
 ## Why in-process CQRS event handlers, not a real BullMQ/Redis queue
 
-This repo's real queue (`@gauzy/scheduler`, BullMQ-backed) has no Redis/in-memory-Redis test
+This repo's real queue (`@irtranscripts/scheduler`, BullMQ-backed) has no Redis/in-memory-Redis test
 double anywhere in the suite — every existing queue-adjacent spec stubs the scheduler layer out
 entirely at the module boundary and calls the plain class underneath directly (see
 `packages/plugins/docs/src/lib/knowledge/queue/docs-processing.worker.spec.ts`). Exercising a real
@@ -65,19 +65,19 @@ exactly the kind of side effect (row creation, outbound webhook) this task is ab
 
 Getting (3) into a committed spec at all required unblocking a separate, pre-existing testability
 gap: `packages/plugins/integration-zapier` had **no working path to unit-test anything that imports
-`@gauzy/core`**. That package's `tsconfig.json` sets `strict: true,
+`@irtranscripts/core`**. That package's `tsconfig.json` sets `strict: true,
 noPropertyAccessFromIndexSignature: true` (stricter than `packages/core`'s own settings, and
-stricter than other plugins with existing `@gauzy/core`-importing specs, e.g.
+stricter than other plugins with existing `@irtranscripts/core`-importing specs, e.g.
 `packages/plugins/ai-chat`, `packages/plugins/docs`, both `strict: false`). Under ts-jest, importing
 anything that transitively reaches `packages/core/src/lib/bootstrap/index.ts` (which every
-`@gauzy/core` barrel import does) re-type-checked that file under the CONSUMING package's stricter
+`@irtranscripts/core` barrel import does) re-type-checked that file under the CONSUMING package's stricter
 settings and failed on ~5 plain `process.env.X` accesses unrelated to this task. Fixed at the
 test-tooling layer only (`packages/plugins/integration-zapier/jest.config.ts` +
 `tsconfig.spec.json`): `isolatedModules: true` on the ts-jest transform (transpile per-file instead
-of type-checking the whole program — the same reason `@gauzy/core`'s own bootstrap doesn't need to
+of type-checking the whole program — the same reason `@irtranscripts/core`'s own bootstrap doesn't need to
 satisfy a downstream consumer's stricter flags) plus the same `transformIgnorePatterns` +
 `allowJs: true` `packages/core/jest.config.ts`/`tsconfig.spec.json` already had for the ESM-only
-deps (`uuid`, ...) reached through `@gauzy/core`'s entity graph. No production code touched by this
+deps (`uuid`, ...) reached through `@irtranscripts/core`'s entity graph. No production code touched by this
 part of the fix. (Since then the pattern has moved to the root `jest.preset.js`, and `allowJs` turned
 out not to matter for it: ts-jest >= 29.3.2 compiles `.js` under `node_modules` regardless. The
 pattern is what lets the ESM-only dependencies through; `allowJs` only affects repository-local

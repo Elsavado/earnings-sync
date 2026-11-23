@@ -1,4 +1,4 @@
-import { IPagination } from '@gauzy/contracts';
+import { IPagination } from '@irtranscripts/contracts';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { PluginSubscriptionService } from '../../../../domain';
 import { IPluginSubscription } from '../../../../shared';

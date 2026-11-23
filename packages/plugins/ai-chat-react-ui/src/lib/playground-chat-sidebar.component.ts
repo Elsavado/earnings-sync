@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactHostDirective } from '@gauzy/ui-react';
+import { ReactHostDirective } from '@irtranscripts/ui-react';
 import { PlaygroundChatSidebar } from './components/playground/PlaygroundChatSidebar';
 
 /**

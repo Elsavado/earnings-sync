@@ -1,8 +1,8 @@
 import { inject } from '@angular/core';
 import { ResolveFn, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { catchError, EMPTY, Observable } from 'rxjs';
-import { IOrganization } from '@gauzy/contracts';
-import { ErrorHandlingService, OrganizationsService } from '@gauzy/ui-core/core';
+import { IOrganization } from '@irtranscripts/contracts';
+import { ErrorHandlingService, OrganizationsService } from '@irtranscripts/ui-core/core';
 
 /**
  * Resolves the organization data before activating the route.

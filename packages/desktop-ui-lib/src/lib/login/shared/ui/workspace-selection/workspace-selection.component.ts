@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { IWorkspaceResponse } from '@gauzy/contracts';
+import { IWorkspaceResponse } from '@irtranscripts/contracts';
 import { NbCardModule, NbIconModule, NbListModule } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
 import { DebounceClickDirective } from '../../../../directives/debounce-click.directive';

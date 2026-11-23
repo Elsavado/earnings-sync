@@ -11,7 +11,7 @@ import { join } from 'node:path';
 import { ExecutionContext, NotFoundException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { buildSchema, printSchema } from 'graphql';
-import { FEATURE_METADATA, PERMISSIONS_METADATA, PUBLIC_METHOD_METADATA } from '@gauzy/constants';
+import { FEATURE_METADATA, PERMISSIONS_METADATA, PUBLIC_METHOD_METADATA } from '@irtranscripts/constants';
 import { FeatureFlagGuard } from '../shared/guards';
 import { ApiKeyAuthGuard } from '../shared/guards/api-key-auth.guard';
 import { EmailCheckController } from './email-check.controller';

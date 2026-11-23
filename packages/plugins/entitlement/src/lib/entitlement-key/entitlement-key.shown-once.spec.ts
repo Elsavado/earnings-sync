@@ -19,12 +19,12 @@
  *    are the two inherited ones, both retire the row through `softRemove`, and no source file of the plugin
  *    calls a hard delete (`05` §1.7: only a retention job deletes from these three tables).
  */
-jest.mock('@gauzy/common', () => ({ FeatureFlag: () => () => undefined }));
+jest.mock('@irtranscripts/common', () => ({ FeatureFlag: () => () => undefined }));
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: no controller here is mapped onto a Nest application. */
 	const decorator = () => () => undefined;
-	const permissions = jest.requireActual('@gauzy/core/src/lib/shared/decorators/permissions.decorator');
+	const permissions = jest.requireActual('@irtranscripts/core/src/lib/shared/decorators/permissions.decorator');
 
 	/** The kernel's own delegations for the inherited lifecycle routes (`crud.controller.ts`). */
 	class CrudController {
@@ -59,7 +59,7 @@ jest.mock('@gauzy/core', () => {
 	class BaseEntity {}
 
 	return {
-		FEATURE_GRAPHQL: jest.requireActual('@gauzy/core/src/lib/feature/graphql-feature.code').FEATURE_GRAPHQL,
+		FEATURE_GRAPHQL: jest.requireActual('@irtranscripts/core/src/lib/feature/graphql-feature.code').FEATURE_GRAPHQL,
 		CrudController,
 		CrudService,
 		TenantAwareCrudService,
@@ -102,7 +102,7 @@ jest.mock('@gauzy/core', () => {
 		ProductVariant: class {},
 		Idempotent: decorator,
 		Versioned: decorator,
-		versionExpectationOf: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		versionExpectationOf: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.versionExpectationOf,
 		RequestContext: {
 			currentUser: () => null,
@@ -129,7 +129,7 @@ import { METHOD_METADATA, PATH_METADATA } from '@nestjs/common/constants';
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { FieldDefinitionNode, Kind } from 'graphql';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { EntitlementPermissions } from '../entitlement.permissions';
 import { EntitlementController } from '../entitlement/entitlement.controller';
 import { EntitlementActivationController } from '../entitlement-activation/entitlement-activation.controller';
@@ -243,7 +243,7 @@ describe('a licence key is shown once, at issue (owner decision 9, 2026-10-13)',
 		it.each(CONTROLLERS)(
 			'%p overrides every DELETE route the real CrudController declares, so none is inherited unread',
 			(controller) => {
-				// `@gauzy/core` is doubled in this suite, so the base the controllers extend here carries no route
+				// `@irtranscripts/core` is doubled in this suite, so the base the controllers extend here carries no route
 				// metadata. The real base is read as source instead: every `@Delete(...)` handler it declares
 				// must be one each controller overrides — an override replaces the inherited route, and a
 				// DELETE route the kernel adds later would otherwise reach the hard delete from these

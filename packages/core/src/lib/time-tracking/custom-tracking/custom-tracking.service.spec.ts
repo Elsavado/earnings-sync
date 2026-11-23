@@ -20,7 +20,7 @@ import { TimeSlotService } from '../time-slot/time-slot.service';
 import { TimeLogService } from '../time-log/time-log.service';
 import { ProcessTrackingDataCommand } from './commands/process-tracking-data.command';
 import { ProcessTrackingDataDTO } from './dto/process-tracking-data.dto';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 describe('CustomTrackingService', () => {
 	let service: CustomTrackingService;
 	let commandBus: CommandBus;

@@ -68,7 +68,7 @@ const INDEXES: IndexSpec[] = [
 ];
 
 /**
- * `ever_works_connection` (plan 02 §4, G-P1-3): one Gauzy tenant's connection to Ever Works, with the
+ * `ever_works_connection` (plan 02 §4, G-P1-3): one IRTranscripts tenant's connection to Ever Works, with the
  * integration key and the webhook signing secret stored only encrypted.
  *
  * A plugin migration: it is registered only where `EVER_WORKS_ENABLED=true` loads the plugin, so an

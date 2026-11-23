@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { AccountingTemplateTypeEnum, IAccountingTemplate } from '@gauzy/contracts';
-import { isMySQL } from '@gauzy/config';
+import { AccountingTemplateTypeEnum, IAccountingTemplate } from '@irtranscripts/contracts';
+import { isMySQL } from '@irtranscripts/config';
 import { TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity } from './../core/decorators/entity';
 import { MikroOrmAccountingTemplateRepository } from './repository/mikro-orm-accounting-template.repository';

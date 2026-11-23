@@ -1,7 +1,7 @@
 import { JoinTable } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { IExpense, IExpenseCategory, ITag } from '@gauzy/contracts';
+import { IExpense, IExpenseCategory, ITag } from '@irtranscripts/contracts';
 import { Expense, Tag, TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { MultiORMColumn, MultiORMEntity, MultiORMManyToMany, MultiORMOneToMany } from './../core/decorators/entity';
 import { MikroOrmExpenseCategoryRepository } from './repository/mikro-orm-expense-category.repository';

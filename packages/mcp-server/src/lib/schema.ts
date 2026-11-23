@@ -96,7 +96,7 @@ const ActivityLogActionEnum = z.enum(['CREATED', 'UPDATED', 'DELETED', 'VIEWED',
 
 const ActivityLogEntityEnum = z.enum(['USER', 'EMPLOYEE', 'TASK', 'PROJECT', 'GOAL', 'INVOICE', 'EXPENSE', 'DEAL', 'CANDIDATE']);
 
-// Actor type enum - matches ActorTypeEnum from @gauzy/contracts
+// Actor type enum - matches ActorTypeEnum from @irtranscripts/contracts
 const ActorTypeEnum = z.enum(['System', 'User', 'Agent']);
 
 // Sort order enum - shared across all tools

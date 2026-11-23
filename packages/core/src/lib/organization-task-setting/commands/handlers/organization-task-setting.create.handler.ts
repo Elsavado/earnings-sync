@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IOrganizationTaskSetting } from '@gauzy/contracts';
+import { IOrganizationTaskSetting } from '@irtranscripts/contracts';
 import { OrganizationTaskSettingService } from '../../organization-task-setting.service';
 import { OrganizationTaskSettingCreateCommand } from '../organization-task-setting.create.command';
 

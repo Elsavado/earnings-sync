@@ -38,7 +38,7 @@ export function normalizeQuotaBytes(raw: string | number | null | undefined): nu
 /**
  * Resolves the effective quota: the per-organization setting override
  * (`docs.<organizationId>.quotaBytes`) wins when set to a usable value, otherwise the
- * deployment default from `GAUZY_DOCS_ORG_QUOTA_BYTES`.
+ * deployment default from `IRTRANSCRIPTS_DOCS_ORG_QUOTA_BYTES`.
  *
  * An explicit `"0"` override means "unlimited for this organization" and therefore
  * deliberately overrides a non-zero deployment default.

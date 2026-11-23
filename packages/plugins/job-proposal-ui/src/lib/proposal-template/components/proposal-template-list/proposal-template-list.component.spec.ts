@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProposalTemplateListComponent } from './proposal-template-list.component';
 import { JobProposalTemplateModule } from '../../job-proposal-template.module';
-import { PipesModule } from '@gauzy/ui-core/shared';
+import { PipesModule } from '@irtranscripts/ui-core/shared';
 describe('ProposalTemplateListComponent', () => {
 	let component: ProposalTemplateListComponent;
 	let fixture: ComponentFixture<ProposalTemplateListComponent>;

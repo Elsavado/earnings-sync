@@ -22,7 +22,7 @@ jest.mock('./docs-queue.service', () => ({ DocsQueueService: class {} }));
 jest.mock('../thumbnail/document-thumbnail.service', () => ({ DocumentThumbnailService: class {} }));
 jest.mock('../../services/docs-feature.service', () => ({ DocsFeatureService: class {} }));
 
-import { DocumentKnowledgeStatusEnum } from '@gauzy/contracts';
+import { DocumentKnowledgeStatusEnum } from '@irtranscripts/contracts';
 import { DOCS_JOB_CLASSIFY, DOCS_JOB_EXTRACT } from './constants';
 import { DocsPipelineService } from './docs-pipeline.service';
 import { inlineStageJob } from './docs-pipeline.types';

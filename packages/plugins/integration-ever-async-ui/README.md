@@ -1,12 +1,12 @@
 <!-- markdownlint-configure-file
-{"MD043":{"headings":["# @gauzy/plugin-integration-ever-async-ui"]}}
+{"MD043":{"headings":["# @irtranscripts/plugin-integration-ever-async-ui"]}}
 -->
 
-# @gauzy/plugin-integration-ever-async-ui
+# @irtranscripts/plugin-integration-ever-async-ui
 
 Angular configuration page for [Ever Async](https://async.ever.co), available at
 **Integrations → Ever Async** (`/pages/integrations/ever-async`). It uses the
-currently selected Gauzy organization.
+currently selected IRTranscripts organization.
 
 The page lets an authorized user select projects, map Slack or Discord
 identities to employees, enable or disable sharing, and generate or rotate a
@@ -15,7 +15,7 @@ platform, workspace or server ID, and user ID so multiple connected workspaces
 remain distinct.
 
 After saving, use the displayed integration details and one-time API credentials
-to add an Ever Gauzy connection in the chosen Ever Async tenant's
+to add an Ever IRTranscripts connection in the chosen Ever Async tenant's
 **Connections** page. Select the Slack and Discord connections for work context
 there. A self-hosted TOML example is also available.
 

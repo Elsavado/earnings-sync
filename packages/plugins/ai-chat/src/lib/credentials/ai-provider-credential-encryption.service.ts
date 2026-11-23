@@ -1,6 +1,6 @@
 import { Injectable, Logger, ServiceUnavailableException } from '@nestjs/common';
 import { createCipheriv, createDecipheriv, randomBytes } from 'crypto';
-import { generateEncryptionKey } from '@gauzy/utils';
+import { generateEncryptionKey } from '@irtranscripts/utils';
 
 /** AES-256 requires exactly a 32-byte key. */
 const REQUIRED_KEY_BYTES = 32;
@@ -18,9 +18,9 @@ export const AI_CREDENTIAL_ENCRYPTION_ALGORITHM = 'aes-256-gcm';
  * `EncryptionService` mechanism exactly (AES-256-GCM, random 16-byte IV,
  * output format `{ivHex}:{authTagHex}:{cipherHex}`), keyed by the
  * **`ENCRYPTION_KEY`** environment variable — a base64-encoded 32-byte key
- * (generate one with `generateEncryptionKey()` from `@gauzy/utils`).
+ * (generate one with `generateEncryptionKey()` from `@irtranscripts/utils`).
  *
- * The core service is not part of the `@gauzy/core` public API, so the same
+ * The core service is not part of the `@irtranscripts/core` public API, so the same
  * mechanism is replicated here rather than inventing a new one. Both read the
  * same `ENCRYPTION_KEY` secret, so values remain interoperable.
  *
@@ -50,7 +50,7 @@ export class AiProviderCredentialEncryptionService {
 				this.keyError =
 					`ENCRYPTION_KEY is invalid: it must be a base64-encoded ${REQUIRED_KEY_BYTES}-byte key ` +
 					`(decoded ${this.key.length} bytes). Generate one with generateEncryptionKey() from ` +
-					`@gauzy/utils or \`openssl rand -base64 32\`.`;
+					`@irtranscripts/utils or \`openssl rand -base64 32\`.`;
 				this.logger.error(this.keyError);
 			}
 		} else {

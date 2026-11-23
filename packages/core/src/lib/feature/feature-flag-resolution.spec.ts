@@ -14,8 +14,8 @@ jest.mock('uuid', () => {
  */
 import '../core/entities/internal';
 
-import { gauzyToggleFeatures } from '@gauzy/config';
-import { FeatureEnum } from '@gauzy/contracts';
+import { irtranscriptsToggleFeatures } from '@irtranscripts/config';
+import { FeatureEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { Feature } from './feature.entity';
 import { FeatureSubscriber } from './feature.subscriber';
@@ -193,14 +193,14 @@ describe('the catalogue read the double models', () => {
 		// The deployment's configuration does not name the code and the catalogue does not mark it on,
 		// so the value the resolution receives is a definite `false` — never `undefined`. This is the
 		// premise every case below rests on: the field is populated, and it still is not the answer.
-		expect(gauzyToggleFeatures['FEATURE_WAREHOUSE']).toBeUndefined();
+		expect(irtranscriptsToggleFeatures['FEATURE_WAREHOUSE']).toBeUndefined();
 		expect(loaded.isEnabled).toBe(false);
 	});
 
 	it('assigns it `true` for a code the catalogue marks on by default', async () => {
 		const loaded = await loadCatalogueRow(CATALOGUE[1]);
 
-		expect(gauzyToggleFeatures['FEATURE_ORDER']).toBeUndefined();
+		expect(irtranscriptsToggleFeatures['FEATURE_ORDER']).toBeUndefined();
 		expect(loaded.isEnabled).toBe(true);
 	});
 });
@@ -292,7 +292,7 @@ describe('FeatureService.isFeatureEnabled', () => {
 
 		// the read misses exactly as it always did — and the configured answer is what it returns,
 		// which is `true` for this code
-		expect(gauzyToggleFeatures[FeatureEnum.FEATURE_DOCUMENTS]).toBe(true);
+		expect(irtranscriptsToggleFeatures[FeatureEnum.FEATURE_DOCUMENTS]).toBe(true);
 		await expect(service.isFeatureEnabled(FeatureEnum.FEATURE_DOCUMENTS)).resolves.toBe(true);
 	});
 
@@ -328,13 +328,13 @@ describe('FeatureService.isFeatureEnabled', () => {
 		);
 		const GRAPHQL = commerceCode('FEATURE_GRAPHQL');
 
-		expect(gauzyToggleFeatures['FEATURE_GRAPHQL']).toBeUndefined();
+		expect(irtranscriptsToggleFeatures['FEATURE_GRAPHQL']).toBeUndefined();
 		await expect(service.isFeatureEnabled(GRAPHQL)).resolves.toBe(true);
 		await expect(service.isFeatureEnabled(ORDER)).resolves.toBe(true);
 		// a code the catalogue marks off stays off, and a code configuration names keeps its answer
 		await expect(service.isFeatureEnabled(WAREHOUSE)).resolves.toBe(false);
 		await expect(service.isFeatureEnabled(FeatureEnum.FEATURE_DOCUMENTS)).resolves.toBe(
-			!!gauzyToggleFeatures[FeatureEnum.FEATURE_DOCUMENTS]
+			!!irtranscriptsToggleFeatures[FeatureEnum.FEATURE_DOCUMENTS]
 		);
 		// still no stored toggle was read: another tenant's switched-off row cannot answer for nobody
 		expect(catalogue.findOneBy).not.toHaveBeenCalled();
@@ -382,7 +382,7 @@ describe('the six capabilities a seeded catalogue row left switched off', () => 
 	afterEach(() => jest.restoreAllMocks());
 
 	it('are codes the deployment configuration does not name', () => {
-		CAPABILITY_CODES.forEach((code) => expect(gauzyToggleFeatures[code]).toBeUndefined());
+		CAPABILITY_CODES.forEach((code) => expect(irtranscriptsToggleFeatures[code]).toBeUndefined());
 	});
 
 	it.each(CAPABILITY_CODES)('resolves %s as enabled once its tenant toggle is enabled', async (code) => {

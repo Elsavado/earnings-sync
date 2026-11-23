@@ -1,4 +1,4 @@
-import { TimerSyncStateEnum } from '@gauzy/contracts';
+import { TimerSyncStateEnum } from '@irtranscripts/contracts';
 
 export interface TimerTO {
 	id?: number;

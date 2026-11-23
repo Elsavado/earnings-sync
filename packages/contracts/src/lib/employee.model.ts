@@ -130,9 +130,9 @@ export interface IEmployee extends IBasePerTenantAndOrganizationEntityModel, ITa
 	allowDeleteTime?: boolean;
 	trackKeyboardMouseActivity?: boolean;
 	trackAllDisplays?: boolean;
-	/** Upwork ID For Gauzy AI*/
+	/** Upwork ID For IRTranscripts AI*/
 	upworkId?: string;
-	/** LinkedIn ID For Gauzy AI*/
+	/** LinkedIn ID For IRTranscripts AI*/
 	linkedInId?: string;
 	/** Employee status (Online/Offline) */
 	isOnline?: boolean;
@@ -214,9 +214,9 @@ export interface IEmployeeUpdateInput extends IBasePerTenantAndOrganizationEntit
 	allowDeleteTime?: boolean;
 	trackKeyboardMouseActivity?: boolean;
 	trackAllDisplays?: boolean;
-	/** Upwork ID For Gauzy AI*/
+	/** Upwork ID For IRTranscripts AI*/
 	upworkId?: string;
-	/** LinkedIn ID For Gauzy AI*/
+	/** LinkedIn ID For IRTranscripts AI*/
 	linkedInId?: string;
 	/** Employee status (Online/Offline) */
 	isOnline?: boolean;
@@ -240,9 +240,9 @@ export interface IEmployeeCreateInput extends IBasePerTenantAndOrganizationEntit
 	description?: string;
 	originalUrl?: string;
 	isActive?: boolean;
-	/** Upwork ID For Gauzy AI*/
+	/** Upwork ID For IRTranscripts AI*/
 	upworkId?: string;
-	/** LinkedIn ID For Gauzy AI*/
+	/** LinkedIn ID For IRTranscripts AI*/
 	linkedInId?: string;
 	/** Employee status (Online/Offline) */
 	isOnline?: boolean;

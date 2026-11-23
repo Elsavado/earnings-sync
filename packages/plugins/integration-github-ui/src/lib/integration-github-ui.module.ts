@@ -18,7 +18,7 @@ import {
 	ProjectSelectModule,
 	RepositorySelectorModule,
 	SharedModule
-} from '@gauzy/ui-core/shared';
+} from '@irtranscripts/ui-core/shared';
 import { IntegrationGithubRoutes } from './integration-github.routes';
 import { IntegrationGithubLayoutComponent } from './integration-github.layout.component';
 import { GithubWizardComponent } from './components/wizard/wizard.component';

@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IScreeningTask } from '@gauzy/contracts';
+import { IScreeningTask } from '@irtranscripts/contracts';
 import { ScreeningTasksService } from '../../screening-tasks.service';
 import { ScreeningTaskCreateCommand } from '../screening-task.create.command';
 

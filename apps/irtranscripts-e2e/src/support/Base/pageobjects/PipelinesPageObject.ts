@@ -1,0 +1,23 @@
+export const PipelinesPage = {
+	gridButtonCss: 'div.layout-switch > button',
+	addPipelineButtonCss: '.irtranscripts-button-container button[status="success"]',
+	pipelineNameInputCss: 'nb-dialog-container input[formcontrolname="name"]',
+	descriptionInputCss: 'nb-dialog-container [formcontrolname="description"]',
+	createPipelineButtonCss: 'nb-dialog-container nb-card-footer > button[status="primary"]',
+	selectTableRowCss: 'table > tbody > tr.angular2-smart-row',
+	editPipelineButtonCss: '.irtranscripts-button-container button.action.primary',
+	updateButtonCss: 'nb-dialog-container nb-card-footer > button[status="info"]',
+	deletePipelineButtonCss: '.irtranscripts-button-container button.action:not(.primary):not(.secondary)',
+	confirmDeleteButtonCss: 'nb-card-footer > button[status="danger"]',
+	toastrMessageCss: 'nb-toast.ng-trigger',
+	verifyPipelineCss: 'div.ng-star-inserted',
+	stageButtonCss: 'nb-card-header > button',
+	namePlaceholderCss: 'input[placeholder="Name"]',
+	detailsButtonCss: '.irtranscripts-button-container button.action.secondary',
+	titleInputCss: 'input[placeholder="Title"]',
+	createDealButtonCss: 'nb-card-footer > button[status="primary"]',
+	addDealPipelineButtonCss: '.irtranscripts-button-container button[status="success"]',
+	probabilityInputCss: 'nb-select[formcontrolname="probability"]',
+	dropdownOptionCss: 'ul.option-list > nb-option',
+	backButtonCss: 'ngx-back-navigation > div.main > button'
+};

@@ -61,14 +61,14 @@ import {
 	setupAkitaStorageHandler,
 	TranslateLoader,
 	TranslateService
-} from '@gauzy/desktop-lib';
+} from '@irtranscripts/desktop-lib';
 import {
 	createAboutWindow,
 	createServerWindow,
 	installNavigationGuard,
 	PluginMarketplaceWindow,
 	SplashScreen
-} from '@gauzy/desktop-window';
+} from '@irtranscripts/desktop-window';
 import * as Sentry from '@sentry/electron/main';
 import { setupTitlebar } from 'custom-electron-titlebar/main';
 import { autoUpdater } from 'electron-updater';
@@ -77,15 +77,15 @@ import { initSentry } from './sentry';
 remoteMain.initialize();
 
 // the folder where all app data will be stored (e.g. sqlite DB, settings, cache, etc)
-// C:\Users\USERNAME\AppData\Roaming\gauzy-server
+// C:\Users\USERNAME\AppData\Roaming\irtranscripts-server
 
-process.env.GAUZY_USER_PATH = app.getPath('userData');
-log.info(`GAUZY_USER_PATH: ${process.env.GAUZY_USER_PATH}`);
+process.env.IRTRANSCRIPTS_USER_PATH = app.getPath('userData');
+log.info(`IRTRANSCRIPTS_USER_PATH: ${process.env.IRTRANSCRIPTS_USER_PATH}`);
 
-process.env.GAUZY_SEED_PATH = path.join(__dirname, 'api', 'assets', 'seed');
-log.info(`GAUZY_SEED_PATH: ${process.env.GAUZY_SEED_PATH}`);
+process.env.IRTRANSCRIPTS_SEED_PATH = path.join(__dirname, 'api', 'assets', 'seed');
+log.info(`IRTRANSCRIPTS_SEED_PATH: ${process.env.IRTRANSCRIPTS_SEED_PATH}`);
 
-const sqlite3filename = `${process.env.GAUZY_USER_PATH}/gauzy.sqlite3`;
+const sqlite3filename = `${process.env.IRTRANSCRIPTS_USER_PATH}/irtranscripts.sqlite3`;
 log.info(`Sqlite DB path: ${sqlite3filename}`);
 
 try {
@@ -124,7 +124,7 @@ const pathWindow: IPathWindow = {
 	ui: uiPath,
 	dir: dirPath,
 	timeTrackerUi: timeTrackerUIPath,
-	gauzyUi: '',
+	irtranscriptsUi: '',
 	preloadPath: path.join(__dirname, 'preload/preload.js')
 };
 
@@ -162,7 +162,7 @@ LocalStore.setFilePath({
 });
 
 // Register custom protocol for deep linking
-const appProtocol = process.env.PROTOCOL || 'gauzy-api-server';
+const appProtocol = process.env.PROTOCOL || 'irtranscripts-api-server';
 if (process.defaultApp) {
 	if (process.argv.length >= 2) {
 		app.setAsDefaultProtocolClient(appProtocol, process.execPath, [path.resolve(process.argv[1])]);
@@ -496,11 +496,11 @@ const contextMenu = () => {
 			id: 'server_help',
 			label: TranslateService.instant('TIMER_TRACKER.MENU.HELP'),
 			click() {
-				shell.openExternal('https://gauzy.co');
+				shell.openExternal('https://irtranscripts.com');
 			}
 		},
 		{
-			id: 'gauzy-about',
+			id: 'irtranscripts-about',
 			label: TranslateService.instant('MENU.ABOUT'),
 			enabled: true,
 			async click() {
@@ -525,8 +525,8 @@ ipcMain.on('start_server', async (event, arg) => {
 	await initializeConfig(arg);
 });
 
-ipcMain.on('run_gauzy_server', async (event, arg) => {
-	console.log('Run Gauzy Server Event Handler');
+ipcMain.on('run_irtranscripts_server', async (event, arg) => {
+	console.log('Run IRTranscripts Server Event Handler');
 	await runServer();
 });
 
@@ -534,8 +534,8 @@ const stopServer = () => {
 	desktopServer.stop();
 };
 
-ipcMain.on('stop_gauzy_server', (event, arg) => {
-	console.log('Stop Gauzy Server Event Handler');
+ipcMain.on('stop_irtranscripts_server', (event, arg) => {
+	console.log('Stop IRTranscripts Server Event Handler');
 	stopServer();
 });
 
@@ -568,7 +568,7 @@ app.on('ready', async () => {
 		await appState();
 
 		updater.settingWindow = settingsWindow;
-		updater.gauzyWindow = serverWindow;
+		updater.irtranscriptsWindow = serverWindow;
 		appWindowManager.updater = updater;
 		await updater.checkUpdate();
 	} catch (error) {

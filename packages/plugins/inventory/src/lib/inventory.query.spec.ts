@@ -9,7 +9,7 @@
  * off was answered the soft-deleted rows, and a `total` that counted them, on both ORMs.
  *
  * The handlers here are the real ones, driven with exactly what Nest hands them — a plain object of
- * strings — over a service stub that records the options its paged read was given. `@gauzy/core` is the
+ * strings — over a service stub that records the options its paged read was given. `@irtranscripts/core` is the
  * real barrel, as it is in `graphql/write-routes.spec.ts`: the controllers are built from the kernel's own
  * decorators, and nothing here needs the application to boot.
  */

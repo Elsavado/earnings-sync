@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-auth-zitadel
+ * Public API Surface of @irtranscripts/plugin-auth-zitadel
  */
 export {
 	ZITADEL_ENABLED_ENV,

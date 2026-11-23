@@ -5,7 +5,7 @@ import {
 	PluginScope,
 	PluginSubscriptionStatus,
 	PluginSubscriptionType
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { FindOptionsWhere, In } from 'typeorm';
 import { IPluginSubscription } from '../../shared/models/plugin-subscription.model';

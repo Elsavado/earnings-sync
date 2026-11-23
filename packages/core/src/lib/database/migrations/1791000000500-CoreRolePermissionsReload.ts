@@ -1,7 +1,7 @@
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 import * as chalk from 'chalk';
 import { MigrationInterface, QueryRunner } from 'typeorm';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { RolePermissionUtils } from '../../role-permission/utils';
 import { DEFAULT_ROLE_PERMISSIONS } from '../../role-permission/default-role-permissions';
 import { prepareSQLQuery as p } from '../database.helper';

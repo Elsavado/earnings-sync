@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { faker } from '@faker-js/faker';
 import { htmlToText } from 'html-to-text';
-import { environment as env } from '@gauzy/config';
-import { GauzyAIService } from '@gauzy/plugin-integration-ai';
+import { environment as env } from '@irtranscripts/config';
+import { IRTranscriptsAIService } from '@irtranscripts/plugin-integration-ai';
 import {
 	IEmployeeJobApplication,
 	IEmployee,
@@ -19,8 +19,8 @@ import {
 	IntegrationEnum,
 	IntegrationEntity,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { EmployeeService, IntegrationTenantService, RequestContext } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { EmployeeService, IntegrationTenantService, RequestContext } from '@irtranscripts/core';
 import { EmployeeJobPost } from './employee-job.entity';
 import { JobPost } from './jobPost.entity';
 
@@ -28,31 +28,31 @@ import { JobPost } from './jobPost.entity';
 export class EmployeeJobPostService {
 	constructor(
 		private readonly _employeeService: EmployeeService,
-		private readonly _gauzyAIService: GauzyAIService,
+		private readonly _irtranscriptsAIService: IRTranscriptsAIService,
 		private readonly _integrationTenantService: IntegrationTenantService
 	) {}
 
 	/**
 	 * Updates job visibility
-	 * @param hide Should job be hidden or visible. This will set isActive field to false in Gauzy AI
-	 * @param employeeId If employeeId set, job will be set not active only for that specific employee (using EmployeeJobPost record update in Gauzy AI)
-	 * If employeeId is not set, job will be set not active for all employees (using JobPost record update in Gauzy AI)
+	 * @param hide Should job be hidden or visible. This will set isActive field to false in IRTranscripts AI
+	 * @param employeeId If employeeId set, job will be set not active only for that specific employee (using EmployeeJobPost record update in IRTranscripts AI)
+	 * If employeeId is not set, job will be set not active for all employees (using JobPost record update in IRTranscripts AI)
 	 * @param providerCode e.g. 'upwork'
 	 * @param providerJobId Unique job id in the provider, e.g. in Upwork
 	 */
 	public async updateVisibility(input: IVisibilityJobPostInput): Promise<boolean> {
-		return await this._gauzyAIService.updateVisibility(input);
+		return await this._irtranscriptsAIService.updateVisibility(input);
 	}
 
 	/**
 	 * Create Employee Job Application and updates Employee Job Post record that employee applied for a job
-	 * @param applied This will set isApplied and appliedDate fields in Gauzy AI
+	 * @param applied This will set isApplied and appliedDate fields in IRTranscripts AI
 	 * @param employeeId Employee who applied for a job
 	 * @param providerCode e.g. 'upwork', 'linkedin', 'indeed', etc.
 	 * @param providerJobId Unique job id in the provider, e.g. Job Id in Upwork
 	 */
 	public async updateApplied(input: IEmployeeJobApplication): Promise<IUpdateEmployeeJobPostAppliedResult> {
-		return await this._gauzyAIService.updateApplied(input);
+		return await this._irtranscriptsAIService.updateApplied(input);
 	}
 
 	/**
@@ -72,11 +72,11 @@ export class EmployeeJobPostService {
 			// Handle the error here, you might want to throw it or return a specific error result
 		}
 		// Return the result of applying for the job
-		return await this._gauzyAIService.apply(input);
+		return await this._irtranscriptsAIService.apply(input);
 	}
 
 	/**
-	 * Find all available Jobs matched to Gauzy Employees
+	 * Find all available Jobs matched to IRTranscripts Employees
 	 * @param data
 	 */
 	public async findAll(data: IGetEmployeeJobPostInput): Promise<IPagination<IEmployeeJobPost>> {
@@ -84,7 +84,7 @@ export class EmployeeJobPostService {
 		let jobs: IPagination<IEmployeeJobPost>;
 
 		try {
-			if (env.gauzyAIGraphQLEndpoint) {
+			if (env.irtranscriptsAIGraphQLEndpoint) {
 				const filters: IGetEmployeeJobPostFilters = data.filters;
 
 				const { organizationId } = data.filters;
@@ -100,7 +100,7 @@ export class EmployeeJobPostService {
 				const integration = await this._integrationTenantService.getIntegrationByOptions({
 					organizationId,
 					tenantId,
-					name: IntegrationEnum.GAUZY_AI
+					name: IntegrationEnum.IRTRANSCRIPTS_AI
 				});
 
 				// Check if integration exists
@@ -114,10 +114,10 @@ export class EmployeeJobPostService {
 						entityType: IntegrationEntity.JOB_MATCHING
 					});
 
-					const result = await this._gauzyAIService.getEmployeesJobPosts(data);
+					const result = await this._irtranscriptsAIService.getEmployeesJobPosts(data);
 					if (result === null) {
 						if (env.production) {
-							// OK, so for some reason connection go Gauzy AI failed, we can't get jobs ...
+							// OK, so for some reason connection go IRTranscripts AI failed, we can't get jobs ...
 							jobs = {
 								items: [],
 								total: 0
@@ -172,7 +172,7 @@ export class EmployeeJobPostService {
 	 * @returns
 	 */
 	public async preProcessEmployeeJobApplication(params: IEmployeeJobApplication) {
-		return await this._gauzyAIService.preProcessEmployeeJobApplication(params);
+		return await this._irtranscriptsAIService.preProcessEmployeeJobApplication(params);
 	}
 
 	/**
@@ -181,7 +181,7 @@ export class EmployeeJobPostService {
 	 * @param employeeJobApplicationId
 	 */
 	public async generateAIProposal(employeeJobApplicationId: string): Promise<void> {
-		return await this._gauzyAIService.generateAIProposalForEmployeeJobApplication(employeeJobApplicationId);
+		return await this._irtranscriptsAIService.generateAIProposalForEmployeeJobApplication(employeeJobApplicationId);
 	}
 
 	/**
@@ -191,7 +191,7 @@ export class EmployeeJobPostService {
 	 * @returns
 	 */
 	public async getEmployeeJobApplication(employeeJobApplicationId: string) {
-		return await this._gauzyAIService.getEmployeeJobApplication(employeeJobApplicationId);
+		return await this._irtranscriptsAIService.getEmployeeJobApplication(employeeJobApplicationId);
 	}
 
 	/**

@@ -1,4 +1,4 @@
-@use 'gauzy/_gauzy-dialogs' as *;
+@use 'irtranscripts/_irtranscripts-dialogs' as *;
 
 :host {
 	.main {
@@ -10,11 +10,11 @@
 		width: 95%;
 	}
 	nb-card {
-		background-color: var(--gauzy-card-1);
+		background-color: var(--irtranscripts-card-1);
 		nb-card-body {
-			background-color: var(--gauzy-card-2);
+			background-color: var(--irtranscripts-card-2);
 			nb-card, nb-card-body {
-				background-color: var(--gauzy-card-1);
+				background-color: var(--irtranscripts-card-1);
 				border-radius: var(--border-radius);
 			}
 		}
@@ -42,10 +42,10 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		color: var(--gauzy-text-color-2);
+		color: var(--irtranscripts-text-color-2);
 	}
 	.my-drop-zone {
-		border: dashed 3px var(--gauzy-border-default-color);
+		border: dashed 3px var(--irtranscripts-border-default-color);
 		border-radius: var(--border-radius);
 	}
 	.nv-file-over {
@@ -59,7 +59,7 @@
 		gap: 4px;
 		margin-bottom: 4px;
 		.sync {
-			color: var(--gauzy-text-color-2);
+			color: var(--irtranscripts-text-color-2);
 			cursor: pointer;
 			&.spin {
 				color: var(--text-primary-color);

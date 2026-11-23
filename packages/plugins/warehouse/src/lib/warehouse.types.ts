@@ -1,4 +1,4 @@
-import { DecimalString, ID, IBasePerTenantAndOrganizationEntityModel } from '@gauzy/contracts';
+import { DecimalString, ID, IBasePerTenantAndOrganizationEntityModel } from '@irtranscripts/contracts';
 
 /**
  * Warehouse management.

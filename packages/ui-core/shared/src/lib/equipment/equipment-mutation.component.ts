@@ -1,14 +1,14 @@
 import { OnInit, Component, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
-import { IEquipment, ITag, IOrganization, IImageAsset } from '@gauzy/contracts';
+import { IEquipment, ITag, IOrganization, IImageAsset } from '@irtranscripts/contracts';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject, firstValueFrom, filter, tap } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { environment as ENV } from '@gauzy/ui-config';
-import { EquipmentService, ImageAssetService, ToastrService } from '@gauzy/ui-core/core';
-import { Store } from '@gauzy/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { environment as ENV } from '@irtranscripts/ui-config';
+import { EquipmentService, ImageAssetService, ToastrService } from '@irtranscripts/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
 import { SelectAssetComponent } from '../select-asset-modal/select-asset.component';
 
 @UntilDestroy({ checkProperties: true })

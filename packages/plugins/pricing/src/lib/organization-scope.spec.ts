@@ -1,5 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
-import { RequestContext, TenantAwareCrudService } from '@gauzy/core';
+import { RequestContext, TenantAwareCrudService } from '@irtranscripts/core';
 import { ExchangeRateService } from './exchange-rate/exchange-rate.service';
 import { assertOrganizationUnchanged, organizationForCreate } from './organization-scope';
 import { PriceListService } from './price-list/price-list.service';

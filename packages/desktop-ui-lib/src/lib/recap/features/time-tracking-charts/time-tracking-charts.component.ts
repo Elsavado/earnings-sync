@@ -1,7 +1,7 @@
 import { AsyncPipe, PercentPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { ITimeSlot } from '@gauzy/contracts';
-import { progressStatus } from '@gauzy/ui-core/common';
+import { ITimeSlot } from '@irtranscripts/contracts';
+import { progressStatus } from '@irtranscripts/ui-core/common';
 import { NbBadgeModule, NbCardModule } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslatePipe } from '@ngx-translate/core';

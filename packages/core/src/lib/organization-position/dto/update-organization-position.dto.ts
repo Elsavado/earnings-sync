@@ -1,4 +1,4 @@
-import { IOrganizationPosition } from "@gauzy/contracts";
+import { IOrganizationPosition } from "@irtranscripts/contracts";
 import { IntersectionType } from "@nestjs/mapped-types";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsString } from "class-validator";

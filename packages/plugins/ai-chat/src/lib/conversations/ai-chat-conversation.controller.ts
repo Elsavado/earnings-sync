@@ -1,7 +1,7 @@
 import { Controller, Delete, Get, HttpCode, HttpStatus, NotFoundException, Param, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ID, PermissionsEnum } from '@gauzy/contracts';
-import { PermissionGuard, Permissions, RequestContext, TenantPermissionGuard, UUIDValidationPipe } from '@gauzy/core';
+import { ID, PermissionsEnum } from '@irtranscripts/contracts';
+import { PermissionGuard, Permissions, RequestContext, TenantPermissionGuard, UUIDValidationPipe } from '@irtranscripts/core';
 import { AiChatConversationService } from './ai-chat-conversation.service';
 
 /**

@@ -3,8 +3,8 @@ import { Params, Router } from '@angular/router';
 import { createEffect, ofType } from '@ngneat/effects';
 import { Actions } from '@ngneat/effects-ng';
 import { catchError, debounceTime, EMPTY, switchMap, tap } from 'rxjs';
-import { IDocument, IPagination } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
+import { IDocument, IPagination } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
 import { DOCS_CARDS_PAGE_SIZE, DOCS_DEFAULT_PAGE_SIZE, DOCS_FILTER_DEBOUNCE_MS } from '../docs.constants';
 import { IDocumentFindInput } from '../models/docs-api.model';
 import {

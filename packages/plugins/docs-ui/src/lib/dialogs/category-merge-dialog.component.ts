@@ -3,7 +3,7 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NbButtonModule, NbCardModule, NbDialogRef, NbSelectModule } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
-import { ID, IDocumentCategory } from '@gauzy/contracts';
+import { ID, IDocumentCategory } from '@irtranscripts/contracts';
 
 /**
  * Merge a category into another (`POST /categories/:id/merge`): every document

@@ -2,8 +2,8 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
 import { chain } from 'underscore';
 import * as moment from 'moment';
-import { DatabaseTypeEnum } from '@gauzy/config';
-import { isEmpty, isNotEmpty } from '@gauzy/utils';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
+import { isEmpty, isNotEmpty } from '@irtranscripts/utils';
 
 export class AdjustTimeLogStopDate1644491785525 implements MigrationInterface {
 	name = 'AdjustTimeLogStopDate1644491785525';

@@ -9,7 +9,7 @@
  */
 import { ApiPropertyOptional, PartialType, PickType } from '@nestjs/swagger';
 import { IsBoolean, IsOptional } from 'class-validator';
-import { IOAuthClientUpdateInput } from '@gauzy/contracts';
+import { IOAuthClientUpdateInput } from '@irtranscripts/contracts';
 import { CreateOAuthClientDTO } from './create-oauth-client.dto';
 
 export class UpdateOAuthClientDTO

@@ -1,8 +1,8 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import type { AcceptanceRecord } from 'terms-acceptance';
-import { Public } from '@gauzy/common';
-import { ITermsAcceptanceDocument, PermissionsEnum } from '@gauzy/contracts';
+import { Public } from '@irtranscripts/common';
+import { ITermsAcceptanceDocument, PermissionsEnum } from '@irtranscripts/contracts';
 import { Permissions } from '../shared/decorators';
 import { PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { UseValidationPipe } from '../shared/pipes';

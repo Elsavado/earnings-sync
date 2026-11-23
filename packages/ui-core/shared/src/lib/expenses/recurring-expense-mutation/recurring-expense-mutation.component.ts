@@ -15,7 +15,7 @@ import {
 	Store,
 	ToastrService,
 	defaultDateFormat
-} from '@gauzy/ui-core/core';
+} from '@irtranscripts/ui-core/core';
 import {
 	ComponentType,
 	IRecurringExpenseModel,
@@ -24,9 +24,9 @@ import {
 	IEmployee,
 	IOrganization,
 	IExpenseCategory
-} from '@gauzy/contracts';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/contracts';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { EmployeeSelectorComponent } from '../../selectors/employee/employee.component';
 import { DEFAULT_CATEGORIES } from './recurring-expense.setting';
 

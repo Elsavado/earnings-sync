@@ -4,7 +4,7 @@
  *
  * Since 26.x electron-builder skips that install when the project directory, the app directory OR the workspace
  * root has a `node_modules` - and this workspace root always has one - and then packs the dependencies of the
- * workspace root instead of the app's own: a desktop-timer package built that way had none of `@gauzy/desktop-lib`,
+ * workspace root instead of the app's own: a desktop-timer package built that way had none of `@irtranscripts/desktop-lib`,
  * `knex`, `electron-store` or `better-sqlite3`, so it could not start. With the app's own tree in place,
  * electron-builder rebuilds its native modules for Electron (`npmRebuild`) and packs exactly that tree.
  *

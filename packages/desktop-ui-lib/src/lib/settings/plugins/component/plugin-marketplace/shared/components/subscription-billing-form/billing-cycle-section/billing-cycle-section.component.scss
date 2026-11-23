@@ -4,16 +4,16 @@
 
 ::ng-deep nb-card.form-section {
   border-radius: calc(var(--border-radius) * 1.5);
-  background: var(--gauzy-card-1);
-  border: 1px solid var(--gauzy-card-2);
-  box-shadow: var(--gauzy-shadow);
+  background: var(--irtranscripts-card-1);
+  border: 1px solid var(--irtranscripts-card-2);
+  box-shadow: var(--irtranscripts-shadow);
   margin-bottom: 24px;
   overflow: hidden;
 }
 
 ::ng-deep nb-card-header {
   padding: 24px;
-  border-bottom: 1px solid var(--gauzy-card-2);
+  border-bottom: 1px solid var(--irtranscripts-card-2);
   background: transparent;
 }
 
@@ -28,7 +28,7 @@
 
   nb-icon {
     font-size: 24px;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
     margin-top: 2px;
   }
 
@@ -36,12 +36,12 @@
     margin: 0 0 4px;
     font-size: 16px;
     font-weight: 700;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
   }
 
   .hint {
     margin: 0;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
     font-size: 14px;
   }
 }
@@ -69,9 +69,9 @@
     width: 100%;
     height: 100%;
     padding: 24px;
-    border: 2px solid var(--gauzy-card-2);
+    border: 2px solid var(--irtranscripts-card-2);
     border-radius: var(--border-radius);
-    background: var(--gauzy-card-1);
+    background: var(--irtranscripts-card-1);
     transition: all 0.2s ease-in-out;
     cursor: pointer;
     position: relative;
@@ -80,9 +80,9 @@
 
   // Hover state
   &:hover label {
-    border-color: var(--gauzy-text-color-2);
+    border-color: var(--irtranscripts-text-color-2);
     transform: translateY(-2px);
-    box-shadow: var(--gauzy-shadow);
+    box-shadow: var(--irtranscripts-shadow);
   }
 
   // Selected state
@@ -109,7 +109,7 @@
   .label {
     font-size: 16px;
     font-weight: 700;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
     text-transform: capitalize;
   }
 }
@@ -123,12 +123,12 @@
   .price {
     font-size: 28px;
     font-weight: 800;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
     line-height: 1;
   }
 
   .suffix {
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
     font-size: 14px;
     font-weight: 500;
   }
@@ -136,7 +136,7 @@
 
 .description {
   margin: 0;
-  color: var(--gauzy-text-color-2);
+  color: var(--irtranscripts-text-color-2);
   font-size: 14px;
   line-height: 1.5;
 }

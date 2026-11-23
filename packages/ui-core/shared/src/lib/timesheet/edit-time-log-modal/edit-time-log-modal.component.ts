@@ -14,9 +14,9 @@ import {
 	ISelectedEmployee,
 	TimeLogType,
 	TimeLogSourceEnum
-} from '@gauzy/contracts';
-import { toUTC, toLocal, distinctUntilChange } from '@gauzy/ui-core/common';
-import { Store, TimesheetService, ToastrService } from '@gauzy/ui-core/core';
+} from '@irtranscripts/contracts';
+import { toUTC, toLocal, distinctUntilChange } from '@irtranscripts/ui-core/common';
+import { Store, TimesheetService, ToastrService } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

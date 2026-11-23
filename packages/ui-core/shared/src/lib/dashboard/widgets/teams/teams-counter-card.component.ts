@@ -7,7 +7,7 @@ import { CounterPointComponent } from '../../../counter-point/counter-point.comp
  * Presentational body shared by the four Teams counter widgets.
  *
  * It renders the inside of the legacy Teams dashboard counter (large value, an
- * optional "/total" suffix and the `gauzy-counter-point` strip) and adds the two
+ * optional "/total" suffix and the `irtranscripts-counter-point` strip) and adds the two
  * states a canvas-hosted widget needs but the legacy page never had: a loading
  * skeleton and a recoverable error state.
  *

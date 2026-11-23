@@ -1,10 +1,10 @@
-import { HelpCenterActionEnum, HelpCenterFlagEnum, IHelpCenter, IOrganization } from '@gauzy/contracts';
+import { HelpCenterActionEnum, HelpCenterFlagEnum, IHelpCenter, IOrganization } from '@irtranscripts/contracts';
 import { Component, ViewChild, OnInit, OnDestroy, Output, EventEmitter, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { TreeComponent, ITreeOptions } from '@ali-hm/angular-tree-component';
 import { firstValueFrom } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { ErrorHandlingService, HelpCenterService, Store, ToastrService } from '@gauzy/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { ErrorHandlingService, HelpCenterService, Store, ToastrService } from '@irtranscripts/ui-core/core';
 import { TranslateService } from '@ngx-translate/core';
 import { NbDialogService, NbMenuItem, NbMenuService } from '@nebular/theme';
 import { AddIconComponent } from './add-icon/add-icon.component';

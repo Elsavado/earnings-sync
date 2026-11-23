@@ -1,7 +1,7 @@
 import '../core/entities/internal';
 
 import { ForbiddenException } from '@nestjs/common';
-import { IntegrationEnum } from '@gauzy/contracts';
+import { IntegrationEnum } from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from '../core/crud/tenant-aware-crud.service';
 import { IntegrationTenantService } from './integration-tenant.service';
 import { IntegrationTenantController } from './integration-tenant.controller';
@@ -59,7 +59,7 @@ describe('POST /integration-tenant (GHSA-4rwq-65wh-45h4)', () => {
 	describe.each([
 		[IntegrationEnum.GITHUB, 'installation_id', VICTIM_INSTALLATION_ID],
 		[IntegrationEnum.GITHUB, 'setup_action', 'install'],
-		[IntegrationEnum.GITHUB, 'sync_tag', 'gauzy'],
+		[IntegrationEnum.GITHUB, 'sync_tag', 'irtranscripts'],
 		[IntegrationEnum.GITHUB, 'access_token', 'ghs_victim'],
 		[IntegrationEnum.HUBSTAFF, 'access_token', 'victim-token'],
 		[IntegrationEnum.UPWORK, 'accessToken', 'victim-token'],
@@ -67,7 +67,7 @@ describe('POST /integration-tenant (GHSA-4rwq-65wh-45h4)', () => {
 		[IntegrationEnum.MakeCom, 'make_organization_id', '42'],
 		[IntegrationEnum.ACTIVE_PIECES, 'project_id', 'victim-project'],
 		[IntegrationEnum.PLANE, 'plane_mode', 'cloud'],
-		// A Gauzy AI key name on another provider's integration is not client-writable either.
+		// A IRTranscripts AI key name on another provider's integration is not client-writable either.
 		[IntegrationEnum.GITHUB, 'apiKey', 'planted']
 	])('%s / %s (server-managed)', (provider, settingsName, settingsValue) => {
 		it('is refused, and nothing is written', async () => {
@@ -92,7 +92,7 @@ describe('POST /integration-tenant (GHSA-4rwq-65wh-45h4)', () => {
 	it('refuses a server-managed setting even when it rides along with an allowlisted one', async () => {
 		await expect(
 			controller.create(
-				body(IntegrationEnum.GAUZY_AI, [
+				body(IntegrationEnum.IRTRANSCRIPTS_AI, [
 					{ settingsName: 'apiKey', settingsValue: 'mine' },
 					{ settingsName: 'installation_id', settingsValue: VICTIM_INSTALLATION_ID }
 				]) as any
@@ -105,7 +105,7 @@ describe('POST /integration-tenant (GHSA-4rwq-65wh-45h4)', () => {
 	it('refuses a cascade update that targets an existing row by id (no settingsName)', async () => {
 		await expect(
 			controller.create(
-				body(IntegrationEnum.GAUZY_AI, [
+				body(IntegrationEnum.IRTRANSCRIPTS_AI, [
 					{ id: 'c0c0c0c0-c0c0-4c0c-8c0c-c0c0c0c0c0c0', settingsValue: VICTIM_INSTALLATION_ID }
 				]) as any
 			)
@@ -117,7 +117,7 @@ describe('POST /integration-tenant (GHSA-4rwq-65wh-45h4)', () => {
 	it.each([['a string' as any], [{ settingsName: 'apiKey' } as any], [1 as any]])(
 		'fails closed when `settings` is not an array (%p)',
 		async (settings) => {
-			await expect(controller.create(body(IntegrationEnum.GAUZY_AI, settings) as any)).rejects.toBeInstanceOf(
+			await expect(controller.create(body(IntegrationEnum.IRTRANSCRIPTS_AI, settings) as any)).rejects.toBeInstanceOf(
 				ForbiddenException
 			);
 
@@ -126,17 +126,17 @@ describe('POST /integration-tenant (GHSA-4rwq-65wh-45h4)', () => {
 	);
 
 	describe.each(['apiKey', 'apiSecret', 'openAiSecretKey', 'openAiOrganizationId'])(
-		'Gauzy AI / %s (user-editable)',
+		'IRTranscripts AI / %s (user-editable)',
 		(settingsName) => {
 			it('is created and reaches the service unchanged', async () => {
-				const input = body(IntegrationEnum.GAUZY_AI, [{ settingsName, settingsValue: 'my-key' }]);
+				const input = body(IntegrationEnum.IRTRANSCRIPTS_AI, [{ settingsName, settingsValue: 'my-key' }]);
 
 				await controller.create(input as any);
 
 				expect(persist).toHaveBeenCalledTimes(1);
 				expect(persist).toHaveBeenCalledWith(
 					expect.objectContaining({
-						name: IntegrationEnum.GAUZY_AI,
+						name: IntegrationEnum.IRTRANSCRIPTS_AI,
 						settings: [expect.objectContaining({ settingsName, settingsValue: 'my-key' })]
 					})
 				);

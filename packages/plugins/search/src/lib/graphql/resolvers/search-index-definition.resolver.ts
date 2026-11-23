@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { BadRequestException, UseGuards } from '@nestjs/common';
-import { ID, ISearchIndexField, SearchFieldKind, SearchReindexScope } from '@gauzy/contracts';
+import { ID, ISearchIndexField, SearchFieldKind, SearchReindexScope } from '@irtranscripts/contracts';
 import {
 	FEATURE_GRAPHQL,
 	FeatureFlagGuard,
@@ -13,8 +13,8 @@ import {
 	connectionFromOffsetPage,
 	paginateRows,
 	resolveConnectionWindow
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { SearchIndexDefinitionService } from '../../services/search-index-definition.service';
 import { SearchReindexService, ISearchReindexRun } from '../../services/search-reindex.service';
 import { SearchPermissions } from '../../search.permissions';

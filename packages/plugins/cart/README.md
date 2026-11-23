@@ -1,6 +1,6 @@
-# @gauzy/plugin-cart
+# @irtranscripts/plugin-cart
 
-The cart family of the Ever Gauzy platform: what a buyer is assembling before it
+The cart family of the Ever IRTranscripts platform: what a buyer is assembling before it
 becomes an order.
 
 ## What this package owns
@@ -58,7 +58,7 @@ Checkout itself is `POST /api/carts/:id/complete`.
 
 ## Dependencies
 
-`@gauzy/plugin-catalog` (a line is only addable for a published variant),
-`@gauzy/plugin-pricing` (the price a line carries is resolved, never authored)
-and `@gauzy/plugin-inventory` (availability and the reservations checkout
+`@irtranscripts/plugin-catalog` (a line is only addable for a published variant),
+`@irtranscripts/plugin-pricing` (the price a line carries is resolved, never authored)
+and `@irtranscripts/plugin-inventory` (availability and the reservations checkout
 takes).

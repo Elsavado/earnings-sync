@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
-import { PageRouteRegistryService } from '@gauzy/ui-core/core';
-import { NotFoundComponent } from '@gauzy/ui-core/shared';
+import { PageRouteRegistryService } from '@irtranscripts/ui-core/core';
+import { NotFoundComponent } from '@irtranscripts/ui-core/shared';
 import {
 	AppointmentFormComponent,
 	ConfirmAppointmentComponent,

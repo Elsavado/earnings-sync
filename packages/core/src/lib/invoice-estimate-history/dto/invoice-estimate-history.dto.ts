@@ -1,4 +1,4 @@
-import { ID, IInvoice, IUser } from '@gauzy/contracts';
+import { ID, IInvoice, IUser } from '@irtranscripts/contracts';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty, IsObject, IsOptional, IsString, IsUUID } from 'class-validator';
 import { TenantOrganizationBaseDTO } from '../../core/dto';

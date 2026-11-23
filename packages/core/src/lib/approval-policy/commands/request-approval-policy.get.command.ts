@@ -1,4 +1,4 @@
-import { IListQueryInput, IRequestApprovalFindInput } from '@gauzy/contracts';
+import { IListQueryInput, IRequestApprovalFindInput } from '@irtranscripts/contracts';
 import { ICommand } from '@nestjs/cqrs';
 
 export class RequestApprovalPolicyGetCommand implements ICommand {

@@ -1,6 +1,6 @@
 import * as chalk from 'chalk';
 import { Type } from '@nestjs/common';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@gauzy/plugin';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@irtranscripts/plugin';
 import { CreateReturnTables1791000000300 } from './database/migrations/1791000000300-CreateReturnTables';
 import { AddReturnsLinePositiveChecks1791000000432 } from './database/migrations/1791000000432-AddReturnsLinePositiveChecks';
 import { AddOrderReturnVersionColumn1791000000590 } from './database/migrations/1791000000590-AddOrderReturnVersionColumn';
@@ -18,7 +18,7 @@ import { RETURNS_PERMISSIONS } from './returns.permissions';
  * capabilities have to be present before the endpoints can do anything: this plugin reads the
  * fulfilled quantities of an order and asks the payment capability to issue a refund.
  */
-const RETURNS_DEPENDS_ON: string[] = ['@gauzy/plugin-order', '@gauzy/plugin-payment'];
+const RETURNS_DEPENDS_ON: string[] = ['@irtranscripts/plugin-order', '@irtranscripts/plugin-payment'];
 
 /**
  * Returns, claims and exchanges.

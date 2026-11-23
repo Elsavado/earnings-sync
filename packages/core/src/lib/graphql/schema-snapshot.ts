@@ -1,7 +1,7 @@
 import { DynamicModule, Type } from '@nestjs/common';
 import { GraphQLTypesLoader } from '@nestjs/graphql';
-import { getPluginExtensions } from '@gauzy/plugin';
-import { isNotEmpty } from '@gauzy/utils';
+import { getPluginExtensions } from '@irtranscripts/plugin';
+import { isNotEmpty } from '@irtranscripts/utils';
 import * as fs from 'fs';
 import { buildSchema, extendSchema, GraphQLSchema, printSchema } from 'graphql';
 import * as path from 'path';

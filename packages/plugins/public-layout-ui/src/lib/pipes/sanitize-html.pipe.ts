@@ -12,13 +12,13 @@ import { DomSanitizer } from '@angular/platform-browser';
  * on one.
  *
  * 🛑 Returns a PLAIN STRING, not a `SafeHtml`, and that is deliberate — the same reasoning as
- * `renderMarkdownToSanitizedHtml` in `@gauzy/plugin-docs-ui`. Binding a plain string keeps BOTH
+ * `renderMarkdownToSanitizedHtml` in `@irtranscripts/plugin-docs-ui`. Binding a plain string keeps BOTH
  * passes: the explicit one here (so the neutralized output is directly testable) and Angular's own
  * on binding. Sanitization is idempotent, so legitimate editor output renders unchanged.
  *
  * Depth in front of this pipe, not instead of it: the public API sanitizes `overview` /
  * `description` on the way out with the server-side **allowlist** sanitizer
- * (`@gauzy/core` `core/html-sanitizer`), whose `allowedSchemes` are `http`/`https`/`mailto`/`tel`
+ * (`@irtranscripts/core` `core/html-sanitizer`), whose `allowedSchemes` are `http`/`https`/`mailto`/`tel`
  * only. That covers the one gap Angular's own URL check leaves — it is a denylist of exactly one
  * scheme (`javascript:`), so `data:text/html;base64,…` and `vbscript:…` survive it.
  */

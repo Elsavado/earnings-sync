@@ -1,11 +1,11 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — the configuration, the ORM, the
+ * `@irtranscripts/core` boots the whole application graph from its barrel — the configuration, the ORM, the
  * job registry, the module scanner — none of which a read of two columns needs and none of which is
  * available outside a running application. The seam is doubled at the module boundary, exactly as the
  * package's other service specs do, and **the service under test is the real one**: only the entity
  * classes, the request context and the two repositories are substituted.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
@@ -48,7 +48,7 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { ProductVariantSaleService } from './product-variant-sale.service';
 
 /**

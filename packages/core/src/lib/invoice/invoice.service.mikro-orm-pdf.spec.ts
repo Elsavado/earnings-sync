@@ -16,7 +16,7 @@ import { join } from 'node:path';
  * **What is real here.** One better-sqlite3 database whose tables TypeORM created from the platform's own mapping,
  * as the migrations create them; the core entities imported under `DB_ORM=mikro-orm`, so MikroORM maps them as it
  * does in production (eager translations, relation-id mirrors) and is opened with the platform's own
- * `autoJoinRefsForFilters` (`@gauzy/config`); and the real `InvoiceService`, whose read and whose document
+ * `autoJoinRefsForFilters` (`@irtranscripts/config`); and the real `InvoiceService`, whose read and whose document
  * definition are the platform's, run over each ORM's repository in turn against the same rows. Only what the
  * rendering is handed to is stood in for: the i18n service answers each label's key, and the PDF maker answers the
  * document definition it was given, which is what is compared. The entities are imported in a registry kept open
@@ -92,8 +92,8 @@ async function renderThroughBothOrms(): Promise<{ typeorm: IRendered; mikroorm: 
 			const { MikroORM, EntityCaseNamingStrategy } = require('@mikro-orm/core');
 			const { BetterSqliteDriver } = require('@mikro-orm/better-sqlite');
 			const { SoftDeleteHandler } = require('mikro-orm-soft-delete');
-			const { MIKRO_ORM_AUTO_JOIN_REFS_FOR_FILTERS } = require('@gauzy/config');
-			const { InvoiceTypeEnum } = require('@gauzy/contracts');
+			const { MIKRO_ORM_AUTO_JOIN_REFS_FOR_FILTERS } = require('@irtranscripts/config');
+			const { InvoiceTypeEnum } = require('@irtranscripts/contracts');
 			const { CrudService } = require('../core/crud/crud.service');
 			const { RequestContext } = require('../core/context/request-context');
 			const { MikroOrmBaseEntityRepository } = require('../core/repository/mikro-orm-base-entity.repository');

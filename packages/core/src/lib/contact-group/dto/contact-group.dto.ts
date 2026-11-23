@@ -16,9 +16,9 @@ import {
 	MinLength,
 	ValidateNested
 } from 'class-validator';
-import { ContactGroupType, ID, JsonData } from '@gauzy/contracts';
+import { ContactGroupType, ID, JsonData } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../core/dto';
-import { parseToBoolean } from '@gauzy/utils';
+import { parseToBoolean } from '@irtranscripts/utils';
 
 /**
  * What a caller states when it creates a group.

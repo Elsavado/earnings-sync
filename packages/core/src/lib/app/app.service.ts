@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as chalk from 'chalk';
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 import { SeedDataService } from '../core/seeds/seed-data.service';
 import { UserService } from '../user/user.service';
 import { getPublishedSeedAccounts } from '../bootstrap/validate-secrets';
@@ -58,12 +58,12 @@ export class AppService {
 				return;
 			}
 			// Do not change the "INSECURE ACCOUNTS:" prefix or the ", " separator: the desktop apps read this
-			// line to warn their user (DESKTOP_API_PUBLISHED_PASSWORDS_MARKER in @gauzy/desktop-lib).
+			// line to warn their user (DESKTOP_API_PUBLISHED_PASSWORDS_MARKER in @irtranscripts/desktop-lib).
 			console.error(chalk.bgRed.whiteBright.bold(` INSECURE ACCOUNTS: ${matches.join(', ')} `));
 			console.error(
 				chalk.red(
 					`${matches.join(', ')} still ${matches.length === 1 ? 'uses its' : 'use their'} published default ` +
-						'password from the Gauzy README. Anyone who can reach the login page can sign in as ' +
+						'password from the IRTranscripts README. Anyone who can reach the login page can sign in as ' +
 						`${matches.length === 1 ? 'it' : 'them'}. Change ${matches.length === 1 ? 'that password' : 'those passwords'} ` +
 						'now (or deactivate the account).'
 				)

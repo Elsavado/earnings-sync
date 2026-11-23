@@ -1,4 +1,4 @@
-import { DecimalString } from '@gauzy/contracts';
+import { DecimalString } from '@irtranscripts/contracts';
 
 /**
  * Exact decimal primitives, with no rounding policy of their own.

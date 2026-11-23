@@ -1,7 +1,7 @@
 import { Injectable, CanActivate, ExecutionContext, Logger } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { isJSON } from 'class-validator';
-import { RequestMethodEnum } from '@gauzy/contracts';
+import { RequestMethodEnum } from '@irtranscripts/contracts';
 import { RequestContext } from './../../core/context';
 
 // Per-request trace lines: printed at debug level, i.e. only when LOG_LEVEL is debug/verbose (or unset).

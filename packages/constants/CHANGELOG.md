@@ -1,3 +1,3 @@
-# Changelog for @gauzy/constants
+# Changelog for @irtranscripts/constants
 
 ## [Unreleased]

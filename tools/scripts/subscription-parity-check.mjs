@@ -197,9 +197,9 @@ const REFUSED = new Map([
 const AGGREGATES_WITHOUT_A_FIELD = new Map([
 	[
 		'inbox_item',
-		'`inbox_item.created` (@gauzy/plugin-inbox, G-P3-6) is addressed to the item’s recipients and streamed through ' +
+		'`inbox_item.created` (@irtranscripts/plugin-inbox, G-P3-6) is addressed to the item’s recipients and streamed through ' +
 			'`events(names:)`; a typed field waits until this gate reads the SDL of a flag-gated plugin, as the field-binding ' +
-			'gate does through its GATED_PLUGIN_SCHEMAS (the Inbox is off unless GAUZY_INBOX_ENABLED=true, so a field of its ' +
+			'gate does through its GATED_PLUGIN_SCHEMAS (the Inbox is off unless IRTRANSCRIPTS_INBOX_ENABLED=true, so a field of its ' +
 			'own is in no snapshot).'
 	]
 ]);

@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import moment from 'moment';
-import { toTimezone } from '@gauzy/ui-core/common';
+import { toTimezone } from '@irtranscripts/ui-core/common';
 
 @Pipe({
 	name: 'utcToTimezone',

@@ -2,8 +2,8 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Logger, Module, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { EventBusModule, FeatureModule, RolePermissionModule, TenantSettingModule } from '@gauzy/core';
-import { SchedulerModule } from '@gauzy/scheduler';
+import { EventBusModule, FeatureModule, RolePermissionModule, TenantSettingModule } from '@irtranscripts/core';
+import { SchedulerModule } from '@irtranscripts/scheduler';
 import { DocumentActivityLogSubscriber } from './activity/document-activity-log.subscriber';
 import { ChatCaptureSubscriber } from './capture/chat-capture.subscriber';
 import { isDocsQueueEnabled, isDocsQueueWorkerEnabled } from './docs.config';
@@ -121,12 +121,12 @@ const QUEUE_WORKER_ENABLED = isDocsQueueWorkerEnabled();
 		// stray Redis worker connection in every API process (and throws
 		// `Worker requires a connection` at `onModuleInit`).
 		// Separately gated from the queue itself so a deployment running a dedicated
-		// `apps/worker` can set `GAUZY_DOCS_QUEUE_WORKER_ENABLED=false` here and keep the API a
+		// `apps/worker` can set `IRTRANSCRIPTS_DOCS_QUEUE_WORKER_ENABLED=false` here and keep the API a
 		// pure producer.
 		...(QUEUE_WORKER_ENABLED ? [DocsProcessingWorker] : []),
 		DocsRecoveryService,
 		// Registers docs_search / docs_read with the AI chat engine's tool registry
-		// (no-op when @gauzy/plugin-ai-chat is absent or GAUZY_DOCS_AI_ENABLED is false).
+		// (no-op when @irtranscripts/plugin-ai-chat is absent or IRTRANSCRIPTS_DOCS_AI_ENABLED is false).
 		DocsChatToolsService,
 		// The chat tools consume the retrieval service through this optional token.
 		{ provide: DOCS_KNOWLEDGE_SEARCH_SERVICE, useExisting: DocumentKnowledgeSearchService },
@@ -135,7 +135,7 @@ const QUEUE_WORKER_ENABLED = isDocsQueueWorkerEnabled();
 		RetrievalLogService,
 		{ provide: DOCS_RETRIEVAL_LOG, useExisting: RetrievalLogService },
 		// M5 capture channels (07 §17): inbound email (public signed webhook, disabled unless
-		// GAUZY_DOCS_INBOUND_EMAIL_ENABLED=true) and AI-chat attachments (registered no-op
+		// IRTRANSCRIPTS_DOCS_INBOUND_EMAIL_ENABLED=true) and AI-chat attachments (registered no-op
 		// until the chat plugin exports its attachment event).
 		GenericSignedWebhookAdapter,
 		{ provide: DOCS_INBOUND_EMAIL_ADAPTER, useExisting: GenericSignedWebhookAdapter },

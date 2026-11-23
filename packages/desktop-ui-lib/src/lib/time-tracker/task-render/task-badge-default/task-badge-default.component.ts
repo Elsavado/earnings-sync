@@ -1,11 +1,11 @@
 import { TitleCasePipe } from '@angular/common';
 import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { TaskStatusEnum } from '@gauzy/contracts';
+import { TaskStatusEnum } from '@irtranscripts/contracts';
 import { NbBadgeModule, NbComponentStatus } from '@nebular/theme';
 import { ReplacePipe } from '../../pipes/replace.pipe';
 
 @Component({
-	selector: 'gauzy-task-badge-default',
+	selector: 'irtranscripts-task-badge-default',
 	templateUrl: './task-badge-default.component.html',
 	styleUrls: ['./task-badge-default.component.scss'],
 	changeDetection: ChangeDetectionStrategy.Eager,

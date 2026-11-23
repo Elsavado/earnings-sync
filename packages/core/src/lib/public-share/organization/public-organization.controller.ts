@@ -2,8 +2,8 @@ import { Controller, Get, HttpStatus, Param, Query, UseInterceptors } from '@nes
 import { QueryBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { FindOptionsWhere } from 'typeorm';
-import { IOrganization, IOrganizationContact, IPagination } from '@gauzy/contracts';
-import { Public } from '@gauzy/common';
+import { IOrganization, IOrganizationContact, IPagination } from '@irtranscripts/contracts';
+import { Public } from '@irtranscripts/common';
 import { Organization, OrganizationContact, OrganizationProject } from './../../core/entities/internal';
 import { UseValidationPipe } from '../../shared/pipes';
 import { TenantOrganizationBaseDTO } from './../../core/dto';

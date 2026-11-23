@@ -6,7 +6,7 @@ import {
 	DocumentSourceEnum,
 	DocumentStatusEnum,
 	ID
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { DOCS_DEFAULT_PAGE_SIZE } from '../docs.constants';
 import { IDocumentFacetBucket } from './docs-api.model';
 

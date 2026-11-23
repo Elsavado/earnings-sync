@@ -1,6 +1,6 @@
 // cspell:ignore Aways
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — the configuration, the ORM, the
+ * `@irtranscripts/core` boots the whole application graph from its barrel — the configuration, the ORM, the
  * job registry, the module scanner — none of which a position service needs and none of which is
  * available outside a running application. The seam is therefore doubled at the module boundary,
  * as the catalogue and inventory packages' service specs do, and **the service under test is the
@@ -22,7 +22,7 @@
  * version, zero means it moved on or is gone, and the read-back decides which of the two the caller
  * is told about.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { HttpException, HttpStatus, NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
@@ -211,15 +211,15 @@ jest.mock('@gauzy/core', () => {
 		// many times a name used twice is bound, and which quote a column gets. A doubled helper would let
 		// every closure assertion below pass while the statement the service issued was one no driver
 		// accepts — which is exactly the failure the helpers exist to prevent.
-		prepareSQLQuery: jest.requireActual('@gauzy/core/src/lib/database/database.helper').prepareSQLQuery,
-		toPositionalStatement: jest.requireActual('@gauzy/core/src/lib/database/database.helper')
+		prepareSQLQuery: jest.requireActual('@irtranscripts/core/src/lib/database/database.helper').prepareSQLQuery,
+		toPositionalStatement: jest.requireActual('@irtranscripts/core/src/lib/database/database.helper')
 			.toPositionalStatement
 	};
 });
 
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { FindOperator } from 'typeorm';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import {
 	IWarehouseStockLedgerPort,
 	WAREHOUSE_BIN_CAPACITY_UNIT_UNDECLARED,

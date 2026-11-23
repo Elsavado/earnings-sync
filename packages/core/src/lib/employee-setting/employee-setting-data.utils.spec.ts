@@ -1,5 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
-import { EmployeeSettingDataOperationEnum } from '@gauzy/contracts';
+import { EmployeeSettingDataOperationEnum } from '@irtranscripts/contracts';
 import {
 	applyEmployeeSettingDataOperations,
 	MAX_EMPLOYEE_SETTING_DATA_OPERATIONS,

@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsObject, IsString, ValidateIf } from 'class-validator';
-import { ID, IEmployee, IEmployeeEntityInput } from '@gauzy/contracts';
+import { ID, IEmployee, IEmployeeEntityInput } from '@irtranscripts/contracts';
 import { Employee } from './../employee.entity';
 import { IsEmployeeBelongsToOrganization } from './../../shared/validators';
 

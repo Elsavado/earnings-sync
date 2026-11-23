@@ -1,6 +1,6 @@
 import { pluck, reduce } from 'underscore';
-import { ITimeLog, ITimeSlot, TimeLogType } from '@gauzy/contracts';
-import { ArraySum } from '@gauzy/utils';
+import { ITimeLog, ITimeSlot, TimeLogType } from '@irtranscripts/contracts';
+import { ArraySum } from '@irtranscripts/utils';
 
 /**
  * Calculates the average of an array of numbers.

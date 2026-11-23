@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsOptional, IsUUID } from 'class-validator';
-import { DocumentShareAccessEnum, ID } from '@gauzy/contracts';
+import { DocumentShareAccessEnum, ID } from '@irtranscripts/contracts';
 
 /**
  * Body of `POST /api/plugins/docs/documents/:id/shares` (03 §4.12).

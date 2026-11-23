@@ -1,5 +1,5 @@
 import { DynamicModule, Global, Module, Provider, Type } from '@nestjs/common';
-import { TenantSettingModule } from '@gauzy/core';
+import { TenantSettingModule } from '@irtranscripts/core';
 import { PosthogModuleOptions, PosthogModuleAsyncOptions, PosthogOptionsFactory } from './posthog.interfaces';
 import { POSTHOG_MODULE_OPTIONS, POSTHOG_TOKEN } from './posthog.constants';
 import { PosthogService } from './posthog.service';

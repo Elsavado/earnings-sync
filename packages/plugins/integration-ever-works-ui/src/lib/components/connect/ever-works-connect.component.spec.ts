@@ -8,7 +8,7 @@ const ORGANIZATION_ID = '11111111-2222-4333-8444-555555555555';
 const VALIDATION: EverWorksKeyValidation = {
 	apiBaseUrl: 'https://api.example.test/api',
 	keyId: 'k1',
-	keyName: 'Ever Gauzy — Acme',
+	keyName: 'Ever IRTranscripts — Acme',
 	keyPrefix: 'ew_int_ab',
 	tenant: { id: 'ew-tenant', slug: 'acme-tenant' },
 	organizations: [{ id: 'ew-org-1', slug: 'acme', displayName: 'Acme' }],
@@ -25,7 +25,7 @@ const CONNECTION = {
 	id: 'c1',
 	status: 'active',
 	ewTenant: { id: 'ew-tenant', slug: 'acme-tenant' },
-	key: { id: 'k1', name: 'Ever Gauzy — Acme', prefix: 'ew_int_ab' },
+	key: { id: 'k1', name: 'Ever IRTranscripts — Acme', prefix: 'ew_int_ab' },
 	pinnedOrganizations: [{ id: 'ew-org-1', slug: 'acme', displayName: 'Acme' }],
 	webhook: { registered: false, subscriptionId: null, url: null }
 } as unknown as EverWorksConnection;
@@ -80,7 +80,7 @@ describe('EverWorksConnectComponent', () => {
 	it('starts with the key steps and the preset link; the default API URL is prefilled', () => {
 		const { component, find, click } = render({ newKeyUrl: 'https://app.example.test/settings/api-keys?new=integration&preset=ever-gauzy' });
 		expect(component.step).toBe('key');
-		expect(find('create-key')?.getAttribute('href')).toContain('preset=ever-gauzy');
+		expect(find('create-key')?.getAttribute('href')).toContain('preset=ever-irtranscripts');
 		click('have-key');
 		expect(component.step).toBe('connect');
 		expect(component.apiBaseUrl).toBe('https://api.example.test/api');

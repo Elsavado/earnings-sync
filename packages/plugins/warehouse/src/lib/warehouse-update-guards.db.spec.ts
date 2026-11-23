@@ -15,11 +15,11 @@
  * are TypeORM's own, so a refused edit is read back from the table rather than from a double. The stock ledger is
  * a port to another package and is the one thing doubled rather than run: it records each request, and writes a row
  * the way the inventory ledger does — on the caller's TypeORM transaction when it is handed one, on its own
- * otherwise — so a movement a rolled-back pick wrote is read back from the table too. `@gauzy/core` is doubled at the module
+ * otherwise — so a movement a rolled-back pick wrote is read back from the table too. `@irtranscripts/core` is doubled at the module
  * boundary for the reason the package's other suites give, its CRUD base reduced to the tenant-scoped reads and
  * writes the real one performs.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared, and mapped below by fixture schemas. */

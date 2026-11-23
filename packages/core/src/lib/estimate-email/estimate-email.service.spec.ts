@@ -1,7 +1,7 @@
 import '../core/entities/internal';
 
 import { BadRequestException } from '@nestjs/common';
-import { environment, TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@gauzy/config';
+import { environment, TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@irtranscripts/config';
 import { instanceToPlain } from 'class-transformer';
 import { sign, verify } from 'jsonwebtoken';
 import { DataSource, EntitySchema, MoreThan, Repository } from 'typeorm';

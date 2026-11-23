@@ -1,4 +1,4 @@
-import { ID, IUser } from '@gauzy/contracts';
+import { ID, IUser } from '@irtranscripts/contracts';
 import { createAction, props } from '@ngneat/effects';
 
 /**

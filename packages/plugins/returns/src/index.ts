@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-returns
+ * Public API Surface of @irtranscripts/plugin-returns
  */
 export * from './lib/returns.plugin';
 export * from './lib/returns.module';

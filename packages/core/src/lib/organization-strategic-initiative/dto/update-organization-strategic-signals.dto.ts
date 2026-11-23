@@ -5,7 +5,7 @@ import {
 	IOrganizationStrategicSignalsUpdateInput,
 	OrganizationStrategicConfidenceLevelEnum,
 	OrganizationStrategicPerceivedMomentumEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 /**
  * Update Organization Strategic Signals data validation request DTO

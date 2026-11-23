@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional, IsArray } from 'class-validator';
-import { ID, ITimeLogFilters } from '@gauzy/contracts';
+import { ID, ITimeLogFilters } from '@irtranscripts/contracts';
 import { DateRangeQueryDTO } from './date-range-query.dto';
 
 /**

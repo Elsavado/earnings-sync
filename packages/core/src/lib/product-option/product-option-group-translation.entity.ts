@@ -2,7 +2,7 @@ import { JoinColumn, RelationId } from 'typeorm';
 import {
 	IProductOptionGroupTranslation,
 	LanguagesEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { IsString, IsEnum } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { TenantOrganizationBaseEntity } from '../core/entities/internal';

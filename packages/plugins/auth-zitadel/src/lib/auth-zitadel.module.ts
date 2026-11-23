@@ -1,6 +1,6 @@
 import { Logger, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { OidcModule } from '@gauzy/auth';
+import { OidcModule } from '@irtranscripts/auth';
 import {
 	AuthModule,
 	AuthService,
@@ -11,7 +11,7 @@ import {
 	TermsAcceptanceService,
 	Token,
 	User
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { AuthZitadelController } from './auth-zitadel.controller';
 import { parseZitadelSettings } from './auth-zitadel.config';
 import { AUTH_ZITADEL_SETTINGS } from './auth-zitadel.tokens';
@@ -19,7 +19,7 @@ import { ZITADEL_ENTITIES } from './entities';
 import { ZitadelConfiguredGuard } from './guards/zitadel-configured.guard';
 import { ZitadelHandoffThrottleGuard } from './guards/zitadel-handoff-throttle.guard';
 import { ZitadelRetryAfterInterceptor } from './http/zitadel-retry';
-import { GAUZY_AUTH } from './ports/gauzy-auth.port';
+import { IRTRANSCRIPTS_AUTH } from './ports/irtranscripts-auth.port';
 import { TERMS_DOCUMENTS } from './ports/terms-documents.port';
 import { ZitadelAccountService } from './services/zitadel-account.service';
 import { ZitadelBackchannelService } from './services/zitadel-backchannel.service';
@@ -71,8 +71,8 @@ export const AUTH_ZITADEL_SERVICES = [
 
 /**
  * Ever ID sign-in: routes under `/api/auth/zitadel`, built on the shared OIDC library of
- * `@gauzy/auth`. Gauzy's own authentication service provides the e-mail code, the register path and
- * the subscription gate, so those rules stay Gauzy's own.
+ * `@irtranscripts/auth`. IRTranscripts's own authentication service provides the e-mail code, the register path and
+ * the subscription gate, so those rules stay IRTranscripts's own.
  */
 @Module({
 	imports: [
@@ -85,7 +85,7 @@ export const AUTH_ZITADEL_SERVICES = [
 	controllers: [AuthZitadelController],
 	providers: [
 		settingsProvider,
-		{ provide: GAUZY_AUTH, useExisting: AuthService },
+		{ provide: IRTRANSCRIPTS_AUTH, useExisting: AuthService },
 		{ provide: TERMS_DOCUMENTS, useExisting: TermsAcceptanceService },
 		SubscriptionRequiredGuard,
 		...AUTH_ZITADEL_SERVICES

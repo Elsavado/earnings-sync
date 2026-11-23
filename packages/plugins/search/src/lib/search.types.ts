@@ -5,7 +5,7 @@ import {
 	ISearchResult,
 	ISearchSort,
 	SearchMatchMode
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 /**
  * Where a page sits in a result set.

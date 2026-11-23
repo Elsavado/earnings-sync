@@ -1,5 +1,5 @@
 import { IQuery } from '@nestjs/cqrs';
-import { IOrganizationRecurringExpenseFindInput } from '@gauzy/contracts';
+import { IOrganizationRecurringExpenseFindInput } from '@irtranscripts/contracts';
 
 export class OrganizationRecurringExpenseFindSplitExpenseQuery
 	implements IQuery {

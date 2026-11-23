@@ -1,4 +1,4 @@
-import { BackupStrategy, GuiDrag } from '@gauzy/ui-core/common';
+import { BackupStrategy, GuiDrag } from '@irtranscripts/ui-core/common';
 
 export class LocalStorageStrategy implements BackupStrategy {
 	private _serializables: Partial<GuiDrag>[];

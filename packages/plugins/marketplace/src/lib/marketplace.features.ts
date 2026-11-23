@@ -1,5 +1,5 @@
-import { FeatureEnum } from '@gauzy/contracts';
-import { PluginFeatureContribution } from '@gauzy/plugin';
+import { FeatureEnum } from '@irtranscripts/contracts';
+import { PluginFeatureContribution } from '@irtranscripts/plugin';
 
 /**
  * A marketplace feature code, in the type `@FeatureFlag` takes.

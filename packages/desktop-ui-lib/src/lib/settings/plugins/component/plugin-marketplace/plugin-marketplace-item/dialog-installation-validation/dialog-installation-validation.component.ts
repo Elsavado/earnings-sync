@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ID, IPluginSource, IPluginVersion } from '@gauzy/contracts';
+import { ID, IPluginSource, IPluginVersion } from '@irtranscripts/contracts';
 import { NbDialogRef, NbCardModule, NbIconModule, NbButtonModule, NbInputModule } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { combineLatest, filter, map, Observable, tap } from 'rxjs';

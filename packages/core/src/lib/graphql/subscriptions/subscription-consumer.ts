@@ -5,7 +5,7 @@ import {
 	IEventConsumer,
 	IEventConsumerContext,
 	IEventEnvelope
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { EventConsumerRegistry } from '../../event-outbox/event-consumer.registry';
 import { SubscriptionCatalogue } from './subscription-catalogue';
 import { GraphqlSubscriptionHub, SubscriptionEnvelope } from './subscription-hub.service';

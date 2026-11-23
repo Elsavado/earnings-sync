@@ -2,7 +2,7 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { RecoverCamshotCommand } from '../recover-camshot.command';
 import { CamshotService } from '../../services/camshot.service';
 import { NotFoundException } from '@nestjs/common';
-import { assertCallerOwnsUpload } from '@gauzy/core';
+import { assertCallerOwnsUpload } from '@irtranscripts/core';
 import { ICamshot } from '../../models/camshot.model';
 
 @CommandHandler(RecoverCamshotCommand)

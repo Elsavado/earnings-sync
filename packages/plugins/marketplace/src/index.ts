@@ -1,5 +1,5 @@
 /**
- * Public API surface of @gauzy/plugin-marketplace
+ * Public API surface of @irtranscripts/plugin-marketplace
  *
  * The plugin class is the entry point the platform loads; everything else is exported because a
  * consumer outside this package legitimately needs it — the order package calls the split, the payment

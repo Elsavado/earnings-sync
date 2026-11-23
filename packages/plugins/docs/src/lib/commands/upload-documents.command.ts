@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { UploadedFile } from '@gauzy/contracts';
+import { UploadedFile } from '@irtranscripts/contracts';
 import { UploadDocumentsDTO } from '../dto';
 
 export class UploadDocumentsCommand implements ICommand {

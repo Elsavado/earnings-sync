@@ -1,9 +1,9 @@
 import * as chalk from 'chalk';
 import * as path from 'path';
 import { DataSource } from 'typeorm';
-import { ApplicationPluginConfig } from '@gauzy/common';
-import { environment as env, DatabaseTypeEnum } from '@gauzy/config';
-import { IReport, IReportCategory, IReportOrganization, ITenant } from '@gauzy/contracts';
+import { ApplicationPluginConfig } from '@irtranscripts/common';
+import { environment as env, DatabaseTypeEnum } from '@irtranscripts/config';
+import { IReport, IReportCategory, IReportOrganization, ITenant } from '@irtranscripts/contracts';
 import { Organization } from './../core/entities/internal';
 import { getDefaultOrganizations } from './../organization/organization.seed';
 import { ReportCategory } from './report-category.entity';
@@ -196,7 +196,7 @@ async function cleanReport(dataSource: DataSource, config: Partial<ApplicationPl
 
 		// Determine the base directory for assets
 		const dir = isElectron
-			? path.resolve(env.gauzyUserPath, 'public/reports')
+			? path.resolve(env.irtranscriptsUserPath, 'public/reports')
 			: path.resolve(config.assetOptions?.assetPublicPath || publicDir, 'reports'); // Custom public directory path from configuration.
 
 		console.log('Report Cleaner -> assetPublicPath: ' + dir);

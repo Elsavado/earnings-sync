@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { IScreenshotUpdateInput } from '@gauzy/contracts';
+import { IScreenshotUpdateInput } from '@irtranscripts/contracts';
 
 export class ScreenshotUpdateCommand implements ICommand {
 	static readonly type = '[Screenshot] Update Screenshot';

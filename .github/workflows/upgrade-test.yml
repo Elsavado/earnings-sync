@@ -16,7 +16,7 @@ name: Upgrade Test
 # unchanged. Dispatch with gated_plugins=false to leave it out.
 #
 # Nothing leaves the runner. The after image is built with `push: false` and tagged
-# `gauzy-api-upgrade-after:<sha>`, a name no deployment or image updater follows (the build step is the one
+# `irtranscripts-api-upgrade-after:<sha>`, a name no deployment or image updater follows (the build step is the one
 # docker-build-check.yml, #10551, uses — and the build needs that PR's Yarn-in-the-build-stage fix: Node 26 images ship
 # no Yarn). The before image is only pulled — a public package, no registry login. The databases are a throwaway
 # volume / container, and every secret is random per run.
@@ -71,7 +71,7 @@ env:
   DOCKER_BUILD_RECORD_UPLOAD: false
   DOCKER_BUILD_SUMMARY: false
   BEFORE_IMAGE: ${{ inputs.before_image || 'ghcr.io/ever-co/gauzy-api-demo:latest' }}
-  AFTER_IMAGE: gauzy-api-upgrade-after:${{ github.sha }}
+  AFTER_IMAGE: irtranscripts-api-upgrade-after:${{ github.sha }}
   POSTGRES_IMAGE: ${{ inputs.postgres_image || 'postgres:16' }}
   DATABASES: ${{ inputs.databases || 'both' }}
   RESULTS_DIR: ${{ github.workspace }}/upgrade-test-results
@@ -81,7 +81,7 @@ env:
   # With these set, upgrade-test.sh boots this branch once more on the same database with the switches on and adds
   # its checks as a "<db>-gated" column; the switches-off checks are unchanged. Empty (dispatched with
   # gated_plugins=false) = no such boot. A switch no plugin of this branch reads is harmless.
-  GATED_PLUGIN_FLAGS: ${{ (github.event_name != 'workflow_dispatch' || inputs.gated_plugins) && 'EVER_WORKS_ENABLED=true GAUZY_INBOX_ENABLED=true GAUZY_INBOX_EMAIL_ENABLED=true EMAIL_PROVIDER_RESEND_ENABLED=true EMAIL_PROVIDER_POSTMARK_ENABLED=true EMAIL_PROVIDER_MAILGUN_ENABLED=true EMAIL_PROVIDER_SENDGRID_ENABLED=true EMAIL_PROVIDER_SES_ENABLED=true' || '' }}
+  GATED_PLUGIN_FLAGS: ${{ (github.event_name != 'workflow_dispatch' || inputs.gated_plugins) && 'EVER_WORKS_ENABLED=true IRTRANSCRIPTS_INBOX_ENABLED=true IRTRANSCRIPTS_INBOX_EMAIL_ENABLED=true EMAIL_PROVIDER_RESEND_ENABLED=true EMAIL_PROVIDER_POSTMARK_ENABLED=true EMAIL_PROVIDER_MAILGUN_ENABLED=true EMAIL_PROVIDER_SENDGRID_ENABLED=true EMAIL_PROVIDER_SES_ENABLED=true' || '' }}
   # Routes of those plugins the super admin reads after that boot (each must answer 200).
   GATED_SMOKE_PATHS: /api/integration/ever-works/status,/api/inbox/items/counts,/api/inbox/providers
 
@@ -125,7 +125,7 @@ jobs:
             NODE_ENV=development
             DEMO=true
             NX_BRANCH=${{ github.head_ref || github.ref_name }}
-            GAUZY_APP_COMMIT=${{ github.sha }}
+            IRTRANSCRIPTS_APP_COMMIT=${{ github.sha }}
 
       - name: Free the build cache
         run: docker buildx prune --all --force >/dev/null 2>&1 || true
@@ -139,12 +139,12 @@ jobs:
           mkdir -p "$RESULTS_DIR"
           docker pull --quiet "$BEFORE_IMAGE"
           image_env() { docker image inspect -f '{{range .Config.Env}}{{println .}}{{end}}' "$BEFORE_IMAGE" | sed -n "s/^$1=//p"; }
-          before_commit="$(image_env GAUZY_APP_COMMIT)"
-          before_version="$(image_env GAUZY_APP_VERSION)"
+          before_commit="$(image_env IRTRANSCRIPTS_APP_COMMIT)"
+          before_version="$(image_env IRTRANSCRIPTS_APP_VERSION)"
           digest="$(docker image inspect -f '{{join .RepoDigests ", "}}' "$BEFORE_IMAGE")"
           develop_tip="$(git ls-remote "https://github.com/${GITHUB_REPOSITORY}.git" refs/heads/develop | cut -f1)"
           if [ -z "$before_commit" ]; then
-            echo "::error::$BEFORE_IMAGE carries no GAUZY_APP_COMMIT, so the migrations it already has cannot be known"
+            echo "::error::$BEFORE_IMAGE carries no IRTRANSCRIPTS_APP_COMMIT, so the migrations it already has cannot be known"
             exit 1
           fi
           if [ "$before_commit" = "$develop_tip" ]; then
@@ -256,6 +256,6 @@ jobs:
       - name: Clean up
         if: always()
         run: |
-          docker rm -f gauzy-upgrade-api gauzy-upgrade-pg 2>/dev/null || true
-          docker network rm gauzy-upgrade 2>/dev/null || true
+          docker rm -f irtranscripts-upgrade-api irtranscripts-upgrade-pg 2>/dev/null || true
+          docker network rm irtranscripts-upgrade 2>/dev/null || true
           docker image rm "$AFTER_IMAGE" "$BEFORE_IMAGE" 2>/dev/null || true

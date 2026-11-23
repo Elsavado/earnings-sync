@@ -1,5 +1,5 @@
 import { IsNull } from 'typeorm';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { MultiORM, MultiORMEnum } from '../core/utils';
 
 /**

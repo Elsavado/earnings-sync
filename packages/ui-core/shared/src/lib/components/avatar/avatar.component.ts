@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
-import { EmployeeKindEnum, ID, IEmployee, PermissionsEnum } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
+import { EmployeeKindEnum, ID, IEmployee, PermissionsEnum } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
 
 const AGENT_BADGE_KEY = 'EMPLOYEES_PAGE.AGENT_BADGE';
 

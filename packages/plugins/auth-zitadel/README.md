@@ -2,7 +2,7 @@
 {
   "MD043": {
     "headings": [
-      "# @gauzy/plugin-auth-zitadel",
+      "# @irtranscripts/plugin-auth-zitadel",
       "## Switching it on",
       "## Routes",
       "## How it works",
@@ -15,10 +15,10 @@
 }
 -->
 
-# @gauzy/plugin-auth-zitadel
+# @irtranscripts/plugin-auth-zitadel
 
-Ever ID as an additional way to sign in to Ever Gauzy, built on the shared
-OpenID Connect library of `@gauzy/auth`. Ever ID runs on
+Ever ID as an additional way to sign in to Ever IRTranscripts, built on the shared
+OpenID Connect library of `@irtranscripts/auth`. Ever ID runs on
 [ZITADEL](https://zitadel.com); any standard OpenID Provider configured the
 same way works too. Every existing sign-in method keeps working exactly as
 before.
@@ -41,8 +41,8 @@ Settings on the API (defaults in brackets):
   their server forwards them.
 - `ZITADEL_LINK_MODE` (`explicit`): `explicit` connects accounts only from
   Settings. `confirmed` (Ever Cloud only) also connects at sign-in, after
-  Gauzy's one-time e-mail code.
-- `ZITADEL_SIGNUP_ENABLED` (`false`): Ever Cloud only. A person new to Gauzy
+  IRTranscripts's one-time e-mail code.
+- `ZITADEL_SIGNUP_ENABLED` (`false`): Ever Cloud only. A person new to IRTranscripts
   may create a workspace with Ever ID after confirming it.
 - `ZITADEL_BACKCHANNEL_LOGOUT_ENABLED` (`true`): ends the sessions opened
   through Ever ID when the identity provider signs the person out.
@@ -84,17 +84,17 @@ All under `/api/auth/zitadel`:
   linking.
 - `POST /handoff` (anyone): redeems the one-time key of a redirect, once.
 - `POST /confirm` (anyone): `confirmed` mode only; completes a link with
-  Gauzy's one-time e-mail code (five tries).
+  IRTranscripts's one-time e-mail code (five tries).
 - `POST /signup/details`, `POST /signup` (anyone): the Ever Cloud sign-up
   confirmation page and the confirmation itself. The details list the legal
   documents to accept (in the `language` header's language, as `/signup`
   checks them), each with an absolute URL: the web app's page for it, or
-  the document's own address when Gauzy publishes one.
+  the document's own address when IRTranscripts publishes one.
 - `POST /token` (first-party apps): exchanges an Ever ID token of an allowed
   client for the workspace list. An access token is accepted only when its
   `aud` names an allowed client. The app may add its `appName`, `appLogo`,
   `appSignature`, `appLink`, `companyName` and `companyLink` (links https
-  only) for Gauzy's one-time code e-mail; a link carrying the code is never
+  only) for IRTranscripts's one-time code e-mail; a link carrying the code is never
   taken from a request.
 - `POST /link`, `GET /link/start`, `POST /link/preview`,
   `POST /link/confirm` (signed-in user): connect an Ever ID from Settings.
@@ -118,31 +118,31 @@ answers 404 and no outbound request is made.
 ## How it works
 
 - **Sign-in.** After the issuer confirms the person, the plugin looks up the
-  Gauzy users linked to that Ever ID and hands the browser an opaque one-time
+  IRTranscripts users linked to that Ever ID and hands the browser an opaque one-time
   key. The web app redeems it for the workspace list and signs in through
   the unchanged `POST /api/auth/signin.workspace`. No token, e-mail address
-  or other personal data is ever put in a URL. Gauzy's own access and
+  or other personal data is ever put in a URL. IRTranscripts's own access and
   refresh tokens are issued exactly as for the e-mail code sign-in. The
   workspace tokens in the list are valid for 15 minutes, or less when
   `JWT_TOKEN_EXPIRATION_TIME` is shorter (the window in which the sign-in
   is bound to its Ever ID session, see back-channel logout).
-- **Team lists.** When a link is confirmed with Gauzy's code for another
+- **Team lists.** When a link is confirmed with IRTranscripts's code for another
   first-party app (`/confirm` with a key from `/token`), each workspace
-  carries the team list Gauzy's own code check returns (`current_teams`), as
-  Gauzy's e-mail code sign-in does for that app. The other answers carry
+  carries the team list IRTranscripts's own code check returns (`current_teams`), as
+  IRTranscripts's e-mail code sign-in does for that app. The other answers carry
   none: the plugin makes no team lookups of its own.
 - **No silent linking, no silent accounts.** An e-mail match alone never
   connects an Ever ID to an account and never creates one. A person without
-  a link is sent to Gauzy's register page (prefilled), or, in `confirmed`
-  mode, proves the mailbox with Gauzy's own one-time code first.
+  a link is sent to IRTranscripts's register page (prefilled), or, in `confirmed`
+  mode, proves the mailbox with IRTranscripts's own one-time code first.
 - **Linking from Settings.** Settings > Connected identities asks the
   signed-in person to sign in to Ever ID again (a fresh login, at most five
   minutes old, with a verified e-mail) and to confirm on a screen that shows
   both addresses. Accounts with the same address in other workspaces are
-  linked only when ticked and proved with Gauzy's one-time code.
+  linked only when ticked and proved with IRTranscripts's one-time code.
 - **Ever Cloud sign-up.** With `ZITADEL_SIGNUP_ENABLED=true` on Ever Cloud, a
-  person new to Gauzy is offered "Create a Gauzy workspace with this Ever
-  ID". Nothing is created until they confirm; then Gauzy's own register path
+  person new to IRTranscripts is offered "Create a IRTranscripts workspace with this Ever
+  ID". Nothing is created until they confirm; then IRTranscripts's own register path
   runs behind its own subscription check. Without a subscription the
   confirmed sign-up waits on the server (keyed to the Ever ID, for
   `ZITADEL_CONFIRM_TTL_S`) while the person goes through checkout, and
@@ -150,18 +150,18 @@ answers 404 and no outbound request is made.
   was created but not linked (a step failed) also finishes then, without a
   new code. One sign-up runs at a time per Ever ID, so two tabs never create
   two accounts. The account starts without a workspace (tenant), as with
-  Gauzy's register page: its workspace token signs in to it, and the app
+  IRTranscripts's register page: its workspace token signs in to it, and the app
   then sets the workspace up.
 - **Organization rules.** Optional hints in the ID token can remove a
   workspace from a sign-in (for example an organization that requires its
   company sign-in); they never grant access.
-- **Back-channel logout.** Each Gauzy session opened through Ever ID is bound
+- **Back-channel logout.** Each IRTranscripts session opened through Ever ID is bound
   to the refresh token of its sign-in. When the identity provider reports
   that session ended (or, for a token naming only a subject, every session
   of that person), that refresh token and the ones rotated from it are
   revoked, so the session cannot be renewed; sessions opened some other way
   keep working. Access tokens already issued stay valid until they expire
-  (`JWT_TOKEN_EXPIRATION_TIME`), because Gauzy checks them by signature. A
+  (`JWT_TOKEN_EXPIRATION_TIME`), because IRTranscripts checks them by signature. A
   logout token is accepted once and only while fresh; when the sessions
   cannot be ended the answer is 503, so the identity provider can retry.
   Another first-party app listed in `ZITADEL_ALLOWED_AUDIENCES` may forward
@@ -185,7 +185,7 @@ Four tables, created by the core migration listed in `MIGRATIONS.md`:
 - `zitadel_session`: sessions opened through Ever ID;
 - `zitadel_logout_jti`: the logout token replay cache.
 
-Ever ID tokens are never stored. Deleting a Gauzy user deletes that user's
+Ever ID tokens are never stored. Deleting a IRTranscripts user deletes that user's
 links and session records with it (foreign keys with `ON DELETE CASCADE`).
 
 ## Turning it off

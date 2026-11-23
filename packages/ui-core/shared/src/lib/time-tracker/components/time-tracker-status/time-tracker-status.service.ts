@@ -14,9 +14,9 @@ import {
 	switchMap,
 	tap
 } from 'rxjs';
-import { IEmployee, ITimerStatus, IUser } from '@gauzy/contracts';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
-import { ITimerIcon, ITimerSynced, Store, TimeTrackerService } from '@gauzy/ui-core/core';
+import { IEmployee, ITimerStatus, IUser } from '@irtranscripts/contracts';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
+import { ITimerIcon, ITimerSynced, Store, TimeTrackerService } from '@irtranscripts/ui-core/core';
 import { TimerIconFactory } from './factory';
 import { TimerSynced } from './concretes';
 

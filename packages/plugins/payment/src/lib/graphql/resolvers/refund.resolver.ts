@@ -1,6 +1,6 @@
 import { Args, Mutation, Parent, Query, ResolveField, Resolver, Subscription } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { ID, PermissionsEnum } from '@gauzy/contracts';
+import { ID, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	deliverPayloadAsIs,
 	EventBus,
@@ -13,8 +13,8 @@ import {
 	IConnectionPageSelection,
 	resolveConnectionWindow,
 	tenantScopedEventStream
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { PaymentRefundedEvent, RefundCreatedEvent } from '../../events';
 import { RefundService } from '../../refund/refund.service';
 import { RefundLineService } from '../../refund-line/refund-line.service';

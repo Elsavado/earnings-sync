@@ -1,4 +1,4 @@
-import { IIntegrationTenantUpdateInput } from '@gauzy/contracts';
+import { IIntegrationTenantUpdateInput } from '@irtranscripts/contracts';
 import { IntersectionType, PickType } from '@nestjs/swagger';
 import { TenantOrganizationBaseDTO } from '../../core/dto';
 import { IntegrationTenant } from '../integration-tenant.entity';

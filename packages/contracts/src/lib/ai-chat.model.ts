@@ -4,8 +4,8 @@ import { IBasePerTenantAndOrganizationEntityModel } from './base-entity.model';
  * Well-known AI provider identifiers.
  *
  * Each provider is implemented as its own backend plugin
- * (e.g. `@gauzy/plugin-ai-provider-anthropic`) that registers itself
- * with the `@gauzy/plugin-ai-chat` provider registry. Additional
+ * (e.g. `@irtranscripts/plugin-ai-provider-anthropic`) that registers itself
+ * with the `@irtranscripts/plugin-ai-chat` provider registry. Additional
  * providers may register with ids outside this enum.
  */
 export enum AiProviderEnum {
@@ -13,7 +13,7 @@ export enum AiProviderEnum {
 	OPENAI = 'openai',
 	OPENROUTER = 'openrouter',
 	VERCEL_GATEWAY = 'vercel-gateway',
-	GAUZY_AI = 'gauzy-ai',
+	IRTRANSCRIPTS_AI = 'irtranscripts-ai',
 	GEMINI = 'gemini',
 	GROK = 'grok',
 	/** Groq cloud — OpenAI-compatible chat + Whisper speech-to-text. */

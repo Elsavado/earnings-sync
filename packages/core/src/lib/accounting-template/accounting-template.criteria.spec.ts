@@ -1,5 +1,5 @@
 import { DataSource, DataSourceOptions, EntitySchema, Repository } from 'typeorm';
-import { AccountingTemplateTypeEnum, LanguagesEnum } from '@gauzy/contracts';
+import { AccountingTemplateTypeEnum, LanguagesEnum } from '@irtranscripts/contracts';
 import { globalAccountingTemplateWhere, tenantAccountingTemplateWhere } from './accounting-template.criteria';
 
 /**
@@ -76,7 +76,7 @@ describe('accounting-template criteria (GHSA-44pv-34gx-q9p4)', () => {
 	let ignore: { dataSource: DataSource; templates: Repository<any> };
 
 	beforeAll(async () => {
-		fixed = await openDataSource({ null: 'sql-null', undefined: 'ignore' }); // what @gauzy/config ships now
+		fixed = await openDataSource({ null: 'sql-null', undefined: 'ignore' }); // what @irtranscripts/config ships now
 		ignore = await openDataSource({ null: 'ignore', undefined: 'ignore' }); // what it shipped before
 	});
 

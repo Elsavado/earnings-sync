@@ -1,14 +1,14 @@
-import { createMcpServer, createAndStartMcpServer } from '@gauzy/mcp-server';
+import { createMcpServer, createAndStartMcpServer } from '@irtranscripts/mcp-server';
 import log from 'electron-log';
 
 async function testMcpServer() {
-	log.info('🧪 Testing Gauzy MCP Server...\n');
+	log.info('🧪 Testing IRTranscripts MCP Server...\n');
 
 	try {
 		const { version } = createMcpServer();
 
 		log.info('✅ MCP Server created successfully');
-		log.info(`📋 Server: gauzy-mcp-server v${version}`);
+		log.info(`📋 Server: irtranscripts-mcp-server v${version}`);
 		log.info('🛠️  Server capabilities: tools');
 
 		// Show the capabilities that we configured
@@ -16,7 +16,7 @@ async function testMcpServer() {
 			tools: true,
 			resources: false,
 			prompts: false,
-			server_name: 'gauzy-mcp-server',
+			server_name: 'irtranscripts-mcp-server',
 			server_version: version
 		};
 		log.info('📊 Capabilities:', JSON.stringify(capabilities, null, 2));
@@ -25,7 +25,7 @@ async function testMcpServer() {
 		log.info('\n💡 To use with Claude Desktop:');
 		log.info('   1. Build the server: yarn build:prod');
 		log.info('   2. Configure Claude Desktop with the build/index.js path');
-		log.info('   3. Start asking Claude about your Gauzy data!');
+		log.info('   3. Start asking Claude about your IRTranscripts data!');
 
 	} catch (error) {
 		log.error('❌ MCP Server test failed:', error);
@@ -41,11 +41,11 @@ async function main() {
 	}
 
 	// Normal MCP server startup with automatic transport detection
-	log.info('🚀 Starting Gauzy MCP Server...');
+	log.info('🚀 Starting IRTranscripts MCP Server...');
 
 	const { transport } = await createAndStartMcpServer();
 
-	log.info(`✅ Gauzy MCP Server running on ${transport.type} transport`);
+	log.info(`✅ IRTranscripts MCP Server running on ${transport.type} transport`);
 
 	if (transport.type === 'http' && transport.url) {
 		log.info(`🌐 HTTP transport available at: ${transport.url}`);

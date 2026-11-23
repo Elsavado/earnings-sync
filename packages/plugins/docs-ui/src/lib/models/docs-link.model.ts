@@ -1,4 +1,4 @@
-import { BaseEntityEnum, ID } from '@gauzy/contracts';
+import { BaseEntityEnum, ID } from '@irtranscripts/contracts';
 
 /**
  * The business records a `DocumentLink` can point at from the Documents UI

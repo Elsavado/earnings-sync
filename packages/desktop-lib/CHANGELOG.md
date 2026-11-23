@@ -1,3 +1,3 @@
-# Changelog for @gauzy/desktop-lib
+# Changelog for @irtranscripts/desktop-lib
 
 ## [Unreleased]

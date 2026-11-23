@@ -1,4 +1,4 @@
-# @gauzy/scheduler
+# @irtranscripts/scheduler
 
 Reusable background jobs for NestJS modules using:
 
@@ -25,7 +25,7 @@ Use the scheduler in 2 layers:
 
 ```ts
 import { Module } from '@nestjs/common';
-import { SchedulerModule } from '@gauzy/scheduler';
+import { SchedulerModule } from '@irtranscripts/scheduler';
 import { TokenCleanupJobsModule } from './token-cleanup-jobs.module';
 
 @Module({
@@ -64,7 +64,7 @@ Decorate a method with `@ScheduledJob`. If `queueName` is set, the method return
 ```ts
 import { Injectable, Logger } from '@nestjs/common';
 import { CronExpression } from '@nestjs/schedule';
-import { ScheduledJob } from '@gauzy/scheduler';
+import { ScheduledJob } from '@irtranscripts/scheduler';
 
 @Injectable()
 export class TokenCleanupScheduler {
@@ -102,7 +102,7 @@ Use `QueueWorkerHost` and map queue job names to handlers with `@QueueJobHandler
 ```ts
 import { Injectable, Logger } from '@nestjs/common';
 import { Job } from 'bullmq';
-import { QueueJobHandler, QueueWorker, QueueWorkerHost } from '@gauzy/scheduler';
+import { QueueJobHandler, QueueWorker, QueueWorkerHost } from '@irtranscripts/scheduler';
 
 @Injectable()
 @QueueWorker('token-maintenance')
@@ -137,7 +137,7 @@ Register queues and providers for the feature.
 
 ```ts
 import { Module } from '@nestjs/common';
-import { SchedulerModule } from '@gauzy/scheduler';
+import { SchedulerModule } from '@irtranscripts/scheduler';
 import { TokenCleanupScheduler } from './token-cleanup.scheduler';
 import { TokenCleanupWorker } from './token-cleanup.worker';
 
@@ -156,7 +156,7 @@ export class TokenCleanupJobsModule {}
 
 ```ts
 import { Controller, Get, Param, Post } from '@nestjs/common';
-import { SchedulerService } from '@gauzy/scheduler';
+import { SchedulerService } from '@irtranscripts/scheduler';
 
 @Controller('scheduler')
 export class SchedulerController {

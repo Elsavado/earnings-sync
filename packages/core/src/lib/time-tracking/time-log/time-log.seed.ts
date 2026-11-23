@@ -3,7 +3,7 @@ import { Brackets, DataSource, WhereExpressionBuilder } from 'typeorm';
 import { faker } from '@faker-js/faker';
 import { chain, chunk, omit } from 'underscore';
 import * as moment from 'moment';
-import { ApplicationPluginConfig } from '@gauzy/common';
+import { ApplicationPluginConfig } from '@irtranscripts/common';
 import {
 	TimeLogSourceEnum,
 	TimeLogType,
@@ -12,8 +12,8 @@ import {
 	ITenant,
 	ITimesheet,
 	ITimeLog
-} from '@gauzy/contracts';
-import { getRandomElement, isEmpty } from '@gauzy/utils';
+} from '@irtranscripts/contracts';
+import { getRandomElement, isEmpty } from '@irtranscripts/utils';
 import { createRandomScreenshot } from '../screenshot/screenshot.seed';
 import { createTimeSlots } from '../time-slot/time-slot.seed';
 import { OrganizationProject, Screenshot, TimeLog, Timesheet, TimeSlot } from './../../core/entities/internal';

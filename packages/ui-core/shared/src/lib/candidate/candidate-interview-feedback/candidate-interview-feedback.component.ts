@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ViewChild, ChangeDetectionStrategy } from '@a
 import { NbDialogRef } from '@nebular/theme';
 import { UntypedFormBuilder, Validators, FormArray } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import {
 	CandidateStatusEnum,
 	ICandidateFeedback,
@@ -11,14 +11,14 @@ import {
 	ICandidatePersonalQualities,
 	ICandidateInterview,
 	IOrganization
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	CandidateCriterionsRatingService,
 	CandidateFeedbacksService,
 	CandidatesService,
 	ToastrService
-} from '@gauzy/ui-core/core';
-import { Store } from '@gauzy/ui-core/core';
+} from '@irtranscripts/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
 import { EmployeeSelectorComponent } from '../../selectors/employee';
 
 @Component({

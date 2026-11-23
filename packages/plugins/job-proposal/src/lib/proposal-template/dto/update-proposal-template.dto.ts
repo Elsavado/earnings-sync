@@ -1,4 +1,4 @@
-import { IEmployeeProposalTemplateUpdateInput } from '@gauzy/contracts';
+import { IEmployeeProposalTemplateUpdateInput } from '@irtranscripts/contracts';
 import { ProposalTemplateDTO } from './proposal-template.dto';
 
 /**

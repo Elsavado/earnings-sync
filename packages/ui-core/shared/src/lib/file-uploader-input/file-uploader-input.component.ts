@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, AfterViewInit, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { IImageAsset } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
+import { IImageAsset } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
 import { ImageUploaderBaseComponent } from '../image-uploader/image-uploader-base.component';
 
 @Component({

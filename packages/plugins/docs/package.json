@@ -1,5 +1,5 @@
 {
-	"name": "@gauzy/plugin-docs",
+	"name": "@irtranscripts/plugin-docs",
 	"version": "0.1.0",
 	"description": "This plugin provides the Documents hub: uploads, wiki pages, folders, categories, versions, links and AI knowledge",
 	"author": {
@@ -27,12 +27,12 @@
 		"lib:watch": "yarn nx build plugin-docs --watch"
 	},
 	"dependencies": {
-		"@gauzy/config": "^0.1.0",
-		"@gauzy/contracts": "^0.1.0",
-		"@gauzy/core": "^0.1.0",
-		"@gauzy/plugin": "^0.1.0",
-		"@gauzy/plugin-ai-chat": "^0.1.0",
-		"@gauzy/scheduler": "^0.1.0",
+		"@irtranscripts/config": "^0.1.0",
+		"@irtranscripts/contracts": "^0.1.0",
+		"@irtranscripts/core": "^0.1.0",
+		"@irtranscripts/plugin": "^0.1.0",
+		"@irtranscripts/plugin-ai-chat": "^0.1.0",
+		"@irtranscripts/scheduler": "^0.1.0",
 		"@nestjs/throttler": "^6.7.1",
 		"ai": "^7.0.138",
 		"bullmq": "^6.3.13",
@@ -66,7 +66,7 @@
 		"file-upload",
 		"ai-knowledge",
 		"plugin",
-		"gauzy",
+		"irtranscripts",
 		"docs-plugin"
 	],
 	"engines": {

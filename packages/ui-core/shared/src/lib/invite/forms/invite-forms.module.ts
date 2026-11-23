@@ -15,7 +15,7 @@ import {
 } from '@nebular/theme';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslatePipe } from '@ngx-translate/core';
-import { InviteService, RoleService } from '@gauzy/ui-core/core';
+import { InviteService, RoleService } from '@irtranscripts/ui-core/core';
 import { SharedModule } from '../../shared.module';
 import { ContactSelectModule } from '../../contact-select/contact-select.module';
 import { RoleFormFieldModule } from '../../user/forms/fields/role/role.module';

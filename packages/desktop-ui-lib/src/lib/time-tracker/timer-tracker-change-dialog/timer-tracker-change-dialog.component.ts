@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
 import { NbDialogRef, NbCardModule, NbButtonModule, NbIconModule } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { combineLatest, concatMap, filter, map, Observable, startWith, tap } from 'rxjs';
@@ -28,7 +28,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
-	selector: 'gauzy-timer-tracker-change-dialog',
+	selector: 'irtranscripts-timer-tracker-change-dialog',
 	templateUrl: './timer-tracker-change-dialog.component.html',
 	styleUrls: ['./timer-tracker-change-dialog.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,

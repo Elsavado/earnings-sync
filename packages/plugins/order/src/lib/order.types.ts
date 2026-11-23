@@ -1,6 +1,6 @@
 import { DeepPartial } from 'typeorm';
-import { DecimalString, ID } from '@gauzy/contracts';
-import { TenantOrganizationBaseEntity, versionExpectationOf } from '@gauzy/core';
+import { DecimalString, ID } from '@irtranscripts/contracts';
+import { TenantOrganizationBaseEntity, versionExpectationOf } from '@irtranscripts/core';
 
 /**
  * A record as a caller supplies it: the entity's own columns, plus the tenancy columns the base entity

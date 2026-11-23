@@ -1,3 +1,3 @@
-# Changelog for @gauzy/auth
+# Changelog for @irtranscripts/auth
 
 ## [Unreleased]

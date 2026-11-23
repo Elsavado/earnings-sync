@@ -4,7 +4,7 @@
  * A URL-literal check cannot see through DNS: `https://evil.example.com` is a perfectly public
  * string that can resolve to `169.254.169.254`. The Make.com and Zapier fixes close that with an
  * `https.Agent` whose `lookup` re-checks the RESOLVED address (`createSsrfSafeHttpsAgent` in
- * `@gauzy/core`). The same rule is applied here, at two points:
+ * `@irtranscripts/core`). The same rule is applied here, at two points:
  *
  * 1. A pre-flight: the URL-literal check, then resolve-then-check of the host, before any socket is
  *    opened. It refuses early and names nothing in its error.
@@ -21,7 +21,7 @@
  * That closes the rebinding residual the pre-flight alone left open. `allowPrivateHost` switches both
  * checks off together, and only server-side provenance may set it.
  *
- * Node's `dns`, `http` and `https` live in THIS plugin, never in `@gauzy/utils` — that package is
+ * Node's `dns`, `http` and `https` live in THIS plugin, never in `@irtranscripts/utils` — that package is
  * reachable from browser bundles and those imports would break them. The pure predicates stay next
  * door in `outbound-url-guard.ts`.
  */
@@ -30,7 +30,7 @@ import { lookup as dnsLookup } from 'dns';
 import type { LookupAddress, LookupOptions } from 'dns';
 import { isIP } from 'net';
 import type { LookupFunction } from 'net';
-import { isPrivateOrLoopbackHost } from '@gauzy/utils';
+import { isPrivateOrLoopbackHost } from '@irtranscripts/utils';
 import type { IAiProviderCredentials } from '../provider.types';
 import { fetchOverNodeHttp } from './fetch-over-node-http';
 import { getUnsafeAiOutboundUrlReason, isPrivateAiProviderBaseUrlAllowed } from './outbound-url-guard';
@@ -354,7 +354,7 @@ async function assertOutboundTargetAllowed(
  *   and that is refused unless the deployment opted in — the residual of GHSA-w3mx-m5cr-3gxp. A DNS
  *   pre-flight would add nothing here, since no tenant-chosen name is involved.
  *
- * Private targets follow the `GAUZY_AI_CHAT_ALLOW_PRIVATE_BASE_URLS` deployment flag either way,
+ * Private targets follow the `IRTRANSCRIPTS_AI_CHAT_ALLOW_PRIVATE_BASE_URLS` deployment flag either way,
  * exactly as `isPrivateAiProviderEndpointAllowed` decides for the catalogue and speech paths.
  *
  * @param credentials - The credentials the provider model is being created with.

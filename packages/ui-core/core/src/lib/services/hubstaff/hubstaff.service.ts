@@ -15,9 +15,9 @@ import {
 	IntegrationEntity,
 	IDateRangeActivityFilter,
 	IEntitySettingToSync
-} from '@gauzy/contracts';
-import { API_PREFIX, toParams } from '@gauzy/ui-core/common';
-import { environment } from '@gauzy/ui-config';
+} from '@irtranscripts/contracts';
+import { API_PREFIX, toParams } from '@irtranscripts/ui-core/common';
+import { environment } from '@irtranscripts/ui-config';
 
 const TODAY = new Date();
 
@@ -213,7 +213,7 @@ export class HubstaffService {
 			.currentValue.filter((setting) => setting.sync)
 			.find((setting) => setting.entity === IntegrationEntity.ORGANIZATION);
 
-		// if organization is set to true, map all entities to this organizations, else use hubstaff organizations id and map all entities to current selected gauzy organization
+		// if organization is set to true, map all entities to this organizations, else use hubstaff organizations id and map all entities to current selected irtranscripts organization
 		if (organizationEntityToSync && organizationEntityToSync.sync) {
 			const organizationsMap$ = this._http.post<IIntegrationMap[]>(
 				`${API_PREFIX}/integration/hubstaff/sync-organizations`,
@@ -238,7 +238,7 @@ export class HubstaffService {
 			organizations.map((organization) =>
 				this._http.post(`${API_PREFIX}/integration/hubstaff/auto-sync/${integrationId}`, {
 					dateRange,
-					gauzyId: organizationId ? organizationId : organization.gauzyId,
+					irtranscriptsId: organizationId ? organizationId : organization.irtranscriptsId,
 					sourceId: organization.sourceId ? organization.sourceId : organization.id,
 					token: this.ACCESS_TOKEN
 				})

@@ -1,4 +1,4 @@
-import { IInvoice } from '@gauzy/contracts';
+import { IInvoice } from '@irtranscripts/contracts';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { FindPublicInvoiceQuery } from '../find-public-invoice.query';
 import { PublicInvoiceService } from './../../public-invoice.service';

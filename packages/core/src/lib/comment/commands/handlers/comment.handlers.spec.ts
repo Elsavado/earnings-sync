@@ -1,7 +1,7 @@
 import '../../../core/entities/internal';
 
 import { BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
-import { ICommentCreateInput, ICommentUpdateInput } from '@gauzy/contracts';
+import { ICommentCreateInput, ICommentUpdateInput } from '@irtranscripts/contracts';
 import { CommentCreateCommand } from '../comment.create.command';
 import { CommentUpdateCommand } from '../comment.update.command';
 import { CommentCreateHandler } from './comment.create.handler';

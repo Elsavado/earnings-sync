@@ -1,4 +1,4 @@
-import { StartDateUpdateTypeEnum } from '@gauzy/contracts';
+import { StartDateUpdateTypeEnum } from '@irtranscripts/contracts';
 
 /**
  * `RecurringExpenseEditHandler` is shared by employee recurring expenses (which have an

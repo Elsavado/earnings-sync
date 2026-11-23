@@ -10,7 +10,7 @@ import {
 	type RequiredDocument
 } from 'terms-acceptance';
 import { TypeOrmAcceptanceAdapter } from 'terms-acceptance/typeorm';
-import { ITermsAcceptanceClaim, ITermsAcceptanceDocument } from '@gauzy/contracts';
+import { ITermsAcceptanceClaim, ITermsAcceptanceDocument } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { TypeOrmTermsAcceptanceRepository } from './repository/type-orm-terms-acceptance.repository';
 
@@ -27,7 +27,7 @@ import { TypeOrmTermsAcceptanceRepository } from './repository/type-orm-terms-ac
 const corpus = require('@ever-co/legal/index.json') as CorpusIndex;
 
 /** The product id this deployment publishes under in the legal corpus. */
-export const TERMS_PRODUCT = 'gauzy';
+export const TERMS_PRODUCT = 'irtranscripts';
 
 /** The most documents one acceptance may name; the corpus publishes a handful per product. */
 export const MAX_CLAIMS_PER_ACCEPTANCE = 20;

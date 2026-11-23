@@ -1,6 +1,6 @@
 import type { IncomingMessage } from 'node:http';
 import { json, urlencoded } from 'express';
-import { DEFAULT_GRAPHQL_API_PATH } from '@gauzy/constants';
+import { DEFAULT_GRAPHQL_API_PATH } from '@irtranscripts/constants';
 
 /** The environment variable that raises or lowers the GraphQL body ceiling, in bytes. */
 export const GRAPHQL_MAX_BODY_BYTES_ENV = 'GRAPHQL_MAX_BODY_BYTES';

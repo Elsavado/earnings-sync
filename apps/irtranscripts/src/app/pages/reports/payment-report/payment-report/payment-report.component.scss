@@ -1,0 +1,29 @@
+@use 'irtranscripts/_irtranscripts-overrides' as *;
+@use 'report-table' as *;
+@forward 'report';
+
+:host {
+  .filters {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+  ::ng-deep {
+    ng-select {
+      min-width: 10rem;
+    }
+    @include ng-select-overrides(
+      2rem,
+      $default-button-radius,
+      $default-box-shadow
+    );
+
+    // The library theme leaves these triggers white, which on the dark themes
+    // is near-white text on a white pill.
+    @include report-filter-select();
+  }
+}
+
+.report-body{
+	height: calc(100% - 8rem) !important;
+}

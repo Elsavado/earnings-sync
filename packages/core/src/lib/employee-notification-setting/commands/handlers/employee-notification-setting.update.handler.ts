@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { UpdateResult } from 'typeorm';
-import { IEmployeeNotificationSetting } from '@gauzy/contracts';
+import { IEmployeeNotificationSetting } from '@irtranscripts/contracts';
 import { EmployeeNotificationSettingService } from '../../employee-notification-setting.service';
 import { EmployeeNotificationSettingUpdateCommand } from '../employee-notification-setting.update.command';
 

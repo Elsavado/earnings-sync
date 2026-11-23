@@ -10,7 +10,7 @@ import {
 	IMarkAllAsReadResponse,
 	IPagination,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { Between, DeleteResult, FindOptionsWhere, In, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { TenantAwareCrudService } from '../core/crud/tenant-aware-crud.service';

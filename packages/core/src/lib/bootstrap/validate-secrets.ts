@@ -1,11 +1,11 @@
 import * as chalk from 'chalk';
-import { environment, isGeneratedSecret } from '@gauzy/config';
-import { isKnownDefaultSecret } from '@gauzy/contracts';
+import { environment, isGeneratedSecret } from '@irtranscripts/config';
+import { isKnownDefaultSecret } from '@irtranscripts/contracts';
 
 /**
  * The authentication/session secrets checked at startup. Each is weak when it is unset, blank, one
  * of the published `KNOWN_DEFAULT_SECRETS` (whichever key it was published for — `refreshSecretKey`
- * as JWT_SECRET is just as public), or the per-process random value `@gauzy/config` substitutes when
+ * as JWT_SECRET is just as public), or the per-process random value `@irtranscripts/config` substitutes when
  * the variable is unset (GHSA-chm8-2ggf-pgjq, GHSA-39j7-x845-4w3c).
  */
 const CHECKED_SECRETS: ReadonlyArray<string> = [
@@ -23,7 +23,7 @@ const CHECKED_SECRETS: ReadonlyArray<string> = [
  * - Additionally refuses to start in a real production deployment (`NODE_ENV=production` and
  *   `DEMO !== 'true'`), unless the operator explicitly opts out via `ALLOW_INSECURE_JWT_SECRET=true`.
  *
- * An unset secret no longer means a published literal anywhere, DEMO included: `@gauzy/config`
+ * An unset secret no longer means a published literal anywhere, DEMO included: `@irtranscripts/config`
  * substitutes a random per-process value (see `resolveSecret`), which this guard still reports as
  * "unset". The daily-reset demo and local development are exempted from the hard FAILURE so they
  * keep booting out of the box, and both are still warned — but neither can sign with a key that is
@@ -182,9 +182,9 @@ export interface SeedCredentialOptions {
  * credentials.
  *
  * The desktop apps (`IS_ELECTRON`) are no longer exempt. They used to be, because they seeded the
- * published passwords while Gauzy Server listened on the network (GHSA-4r2r-mv32-3468 residual); each
+ * published passwords while IRTranscripts Server listened on the network (GHSA-4r2r-mv32-3468 residual); each
  * launcher now passes random per-install `DEMO_*_PASSWORD` values and shows them to the user once
- * after the seed (`DesktopSignInNotices` in `@gauzy/desktop-lib`), so a desktop seed passes this check
+ * after the seed (`DesktopSignInNotices` in `@irtranscripts/desktop-lib`), so a desktop seed passes this check
  * like any other deployment. A desktop seed that would still use a published password is refused in
  * a production build, with the same `ALLOW_INSECURE_SEED_CREDENTIALS` override.
  *

@@ -3,7 +3,7 @@ import { log, functions as logFunctions } from 'electron-log';
 import { ILogger } from './types';
 
 export class Logger implements ILogger {
-	constructor(private readonly name = process.env.DESCRIPTION || 'Gauzy') {}
+	constructor(private readonly name = process.env.DESCRIPTION || 'IRTranscripts') {}
 
 	public setup(): void {
 		Object.assign(console, { ...logFunctions, log });

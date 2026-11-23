@@ -6,7 +6,7 @@ import {
 	DEFAULT_INVITE_EXPIRY_PERIOD,
 	DEFAULT_PROFIT_BASED_BONUS,
 	DEFAULT_STANDARD_WORK_HOURS_PER_DAY
-} from '@gauzy/constants';
+} from '@irtranscripts/constants';
 import {
 	DefaultValueDateTypeEnum,
 	IOrganization,
@@ -30,7 +30,7 @@ import {
 	ID,
 	BonusTypeEnum,
 	CurrenciesEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	AccountingTemplate,
 	Contact,

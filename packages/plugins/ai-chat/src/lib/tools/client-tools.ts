@@ -17,14 +17,14 @@ export async function buildClientTools(): Promise<Record<string, Tool>> {
 	return {
 		list_pages: tool({
 			description:
-				'List the Gauzy platform pages the current user can open in the canvas (main content area). ' +
+				'List the IRTranscripts platform pages the current user can open in the canvas (main content area). ' +
 				'Returns page paths, titles and descriptions. Use before open_page when unsure of a path.',
 			inputSchema: z.object({})
 		}),
 
 		open_page: tool({
 			description:
-				'Open a Gauzy platform page in the canvas (the main content area next to this chat). ' +
+				'Open a IRTranscripts platform page in the canvas (the main content area next to this chat). ' +
 				'Use list_pages to discover valid paths. Only in-app absolute paths are allowed.',
 			inputSchema: z.object({
 				path: z.string().describe("Absolute in-app route, e.g. '/pages/tasks/dashboard'"),

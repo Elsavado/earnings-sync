@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsEnum, IsInt, IsOptional, IsString, IsUUID, Length, Max, MaxLength, Min, ValidateNested } from 'class-validator';
-import { PaymentAccountHolderStatus, PaymentAccountHolderType } from '@gauzy/contracts';
+import { PaymentAccountHolderStatus, PaymentAccountHolderType } from '@irtranscripts/contracts';
 
 /**
  * The narrowing members of the account list, as the endpoint catalogue states them.

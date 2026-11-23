@@ -1,13 +1,13 @@
 /**
- * `@gauzy/ui-core/core` is a barrel over the whole app core — importing it pulls Akita's
+ * `@irtranscripts/ui-core/core` is a barrel over the whole app core — importing it pulls Akita's
  * untranspiled ESM into the CommonJS test runtime. The service only reads `Store.userId` and
  * `Store.hasPermission()`, so a stub standing in for it keeps the suite honest without booting
  * the app graph (same shape as `documents.service.spec.ts`).
  */
-jest.mock('@gauzy/ui-core/core', () => ({ Store: class Store {} }));
+jest.mock('@irtranscripts/ui-core/core', () => ({ Store: class Store {} }));
 
-import { DocumentVisibilityEnum, ID, PermissionsEnum } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
+import { DocumentVisibilityEnum, ID, PermissionsEnum } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
 import { DocumentPermissionService, IDocsMutableTarget } from './document-permission.service';
 
 const ME = 'aaaaaaaa-1111-4111-8111-111111111111' as ID;

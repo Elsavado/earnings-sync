@@ -2,7 +2,7 @@ import { ICommandHandler, CommandHandler } from '@nestjs/cqrs';
 import { SoundshotService } from '../../services/soundshot.service';
 import { DeleteSoundshotCommand } from '../delete-soundshot.command';
 import { NotFoundException, BadRequestException } from '@nestjs/common';
-import { assertCallerOwnsUpload, RequestContext } from '@gauzy/core';
+import { assertCallerOwnsUpload, RequestContext } from '@irtranscripts/core';
 
 @CommandHandler(DeleteSoundshotCommand)
 export class DeleteSoundshotCommandHandler implements ICommandHandler<DeleteSoundshotCommand> {

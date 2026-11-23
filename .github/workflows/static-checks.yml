@@ -296,11 +296,11 @@ jobs:
         if: always()
         run: node tools/scripts/design-name-triage-check.mjs
 
-      # The packaged Gauzy Desktop / Server / API Server fork an embedded API whose bundle require()s every
-      # @gauzy package at load, and electron-builder ships only what the app manifest lists in "dependencies".
-      # The released Gauzy Server v111.50.14 lacked 17 of them (ai-chat, docs, the AI providers), so its API could
+      # The packaged IRTranscripts Desktop / Server / API Server fork an embedded API whose bundle require()s every
+      # @irtranscripts package at load, and electron-builder ships only what the app manifest lists in "dependencies".
+      # The released IRTranscripts Server v111.50.14 lacked 17 of them (ai-chat, docs, the AI providers), so its API could
       # not start; nothing in the monorepo's builds or tests can see that.
-      - name: The packaged desktop apps ship every @gauzy package their embedded API requires
+      - name: The packaged desktop apps ship every @irtranscripts package their embedded API requires
         if: always()
         run: node tools/scripts/desktop-api-dependency-check.mjs
 
@@ -399,7 +399,7 @@ jobs:
 
       # A virtual mock of a package that resolves is filed under the bare name, a plain one under the resolved
       # path, and Jest's per-worker id cache mixes the two across spec files: plugin-purchasing's feature-gate
-      # spec failed on every cold cache because its @gauzy/common mock was missed after a virtual one ran first.
+      # spec failed on every cold cache because its @irtranscripts/common mock was missed after a virtual one ran first.
       - name: No spec mocks a workspace package virtually
         if: always()
         run: node tools/scripts/jest-virtual-mock-check.mjs

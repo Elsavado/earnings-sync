@@ -1,4 +1,4 @@
-@use 'gauzy/_gauzy-dialogs' as *;
+@use 'irtranscripts/_irtranscripts-dialogs' as *;
 
 .form-group {
 	display: flex;
@@ -7,7 +7,7 @@
 
 .main {
 	width: 645px;
-	background-color: var(--gauzy-card-1);
+	background-color: var(--irtranscripts-card-1);
 }
 
 label {

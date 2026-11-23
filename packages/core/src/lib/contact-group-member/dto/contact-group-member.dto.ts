@@ -12,8 +12,8 @@ import {
 	Min,
 	ValidateNested
 } from 'class-validator';
-import { ContactGroupSource, ID } from '@gauzy/contracts';
-import { parseToBoolean } from '@gauzy/utils';
+import { ContactGroupSource, ID } from '@irtranscripts/contracts';
+import { parseToBoolean } from '@irtranscripts/utils';
 
 /**
  * One party joining a group, as a membership write states it.

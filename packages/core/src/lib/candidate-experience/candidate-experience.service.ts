@@ -1,4 +1,4 @@
-import { IPagination } from '@gauzy/contracts';
+import { IPagination } from '@irtranscripts/contracts';
 import { Injectable } from '@nestjs/common';
 import { FindManyOptions } from 'typeorm';
 import { TenantAwareCrudService } from './../core/crud';

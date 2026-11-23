@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { DeepPartial, FindOptionsWhere, In, IsNull, Not, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { CurrencyCode, DecimalString, ID, RoundingMode } from '@gauzy/contracts';
+import { CurrencyCode, DecimalString, ID, RoundingMode } from '@irtranscripts/contracts';
 import {
 	LegacyFindOneOptions,
 	Money,
@@ -9,7 +9,7 @@ import {
 	ProductVariantPrice,
 	RequestContext,
 	TenantAwareCrudService
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import {
 	IPriceComputation,
 	IPriceContext,

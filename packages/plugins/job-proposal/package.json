@@ -1,7 +1,7 @@
 {
-	"name": "@gauzy/plugin-job-proposal",
+	"name": "@irtranscripts/plugin-job-proposal",
 	"version": "0.1.0",
-	"description": "Ever Gauzy Platform Job Proposal Plugin",
+	"description": "Ever IRTranscripts Platform Job Proposal Plugin",
 	"author": {
 		"name": "Ever Co. LTD",
 		"email": "ever@ever.co",
@@ -32,12 +32,12 @@
 	},
 	"dependencies": {
 		"@faker-js/faker": "^10.6.0",
-		"@gauzy/common": "^0.1.0",
-		"@gauzy/config": "^0.1.0",
-		"@gauzy/contracts": "^0.1.0",
-		"@gauzy/core": "^0.1.0",
-		"@gauzy/plugin": "^0.1.0",
-		"@gauzy/utils": "^0.1.0",
+		"@irtranscripts/common": "^0.1.0",
+		"@irtranscripts/config": "^0.1.0",
+		"@irtranscripts/contracts": "^0.1.0",
+		"@irtranscripts/core": "^0.1.0",
+		"@irtranscripts/plugin": "^0.1.0",
+		"@irtranscripts/utils": "^0.1.0",
 		"@mikro-orm/nestjs": "^6.1.2",
 		"@nestjs/cqrs": "^12.1.0",
 		"@nestjs/mapped-types": "^12.0.0",
@@ -58,7 +58,7 @@
 	"keywords": [
 		"job-proposal",
 		"plugin",
-		"Ever Gauzy",
+		"Ever IRTranscripts",
 		"NestJS",
 		"typescript",
 		"microservices",

@@ -9,9 +9,9 @@ const PREVIEW: EverWorksSyncPreview = {
 	isEnabled: true,
 	directions: {},
 	phases: [
-		{ phase: 'agents', domain: 'agents', direction: 'ew_to_gauzy', supported: true, note: null, everWorks: { total: 3, linked: 1, truncated: false }, gauzy: null, creates: { inGauzy: 2, inEverWorks: 0 }, toPair: null },
-		{ phase: 'teams', domain: 'teams', direction: 'both', supported: true, note: 'unpaired records wait for their tab', everWorks: { total: 2, linked: 1, truncated: false }, gauzy: { total: 4, linked: 1 }, creates: { inGauzy: 0, inEverWorks: 0 }, toPair: { everWorks: 1, gauzy: 3 } },
-		{ phase: 'goals', domain: 'goals', direction: 'both', supported: false, note: 'not synced by this version yet', everWorks: null, gauzy: null, creates: { inGauzy: 0, inEverWorks: 0 }, toPair: null }
+		{ phase: 'agents', domain: 'agents', direction: 'ew_to_irtranscripts', supported: true, note: null, everWorks: { total: 3, linked: 1, truncated: false }, irtranscripts: null, creates: { inIRTranscripts: 2, inEverWorks: 0 }, toPair: null },
+		{ phase: 'teams', domain: 'teams', direction: 'both', supported: true, note: 'unpaired records wait for their tab', everWorks: { total: 2, linked: 1, truncated: false }, irtranscripts: { total: 4, linked: 1 }, creates: { inIRTranscripts: 0, inEverWorks: 0 }, toPair: { everWorks: 1, irtranscripts: 3 } },
+		{ phase: 'goals', domain: 'goals', direction: 'both', supported: false, note: 'not synced by this version yet', everWorks: null, irtranscripts: null, creates: { inIRTranscripts: 0, inEverWorks: 0 }, toPair: null }
 	]
 };
 
@@ -35,7 +35,7 @@ describe('EverWorksPreviewComponent', () => {
 		const { el } = render();
 		expect(api.preview).toHaveBeenCalledWith('org-1', 'm1');
 		const agents = el.querySelector('[data-test="phase-agents"]') as HTMLElement;
-		expect(agents.querySelector('[data-test="creates-in-gauzy"]')?.textContent?.trim()).toBe('2');
+		expect(agents.querySelector('[data-test="creates-in-irtranscripts"]')?.textContent?.trim()).toBe('2');
 		const teams = el.querySelector('[data-test="phase-teams"]') as HTMLElement;
 		expect(teams.querySelector('[data-test="to-pair"]')?.textContent?.trim()).toBe('1 / 3');
 		const goals = el.querySelector('[data-test="phase-goals"]') as HTMLElement;

@@ -3,7 +3,7 @@ import { Controller, Get, HttpStatus, Query, UseGuards, HttpCode, Put, Param, Bo
 import { CommandBus } from '@nestjs/cqrs';
 import { FindOptionsWhere } from 'typeorm';
 import { I18nLang } from 'nestjs-i18n';
-import { LanguagesEnum, IPagination, PermissionsEnum, IProductCategoryTranslatable } from '@gauzy/contracts';
+import { LanguagesEnum, IPagination, PermissionsEnum, IProductCategoryTranslatable } from '@irtranscripts/contracts';
 import { ProductCategory } from './product-category.entity';
 import { ProductCategoryService } from './product-category.service';
 import { CrudController, BaseQueryDTO } from './../core/crud';

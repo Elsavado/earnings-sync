@@ -12,7 +12,7 @@ import {
 	UsePipes
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import {
 	AbstractValidationPipe,
 	CrudController,
@@ -22,7 +22,7 @@ import {
 	TenantPermissionGuard,
 	UUIDValidationPipe,
 	UseValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { CATALOG_PERMISSION_VALUES, catalogPermission } from '../catalog.permissions';
 import { CreateCollectionProductDTO, UpdateCollectionProductDTO } from './dto';
 import { CollectionProduct } from './collection-product.entity';

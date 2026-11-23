@@ -1,8 +1,8 @@
 // cspell:ignore bdquo hellip laquo larr ldquo lsquo middot ndash plusmn raquo rarr rdquo rsquo sbquo
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { EVER_WORKS_LINK_SOURCE } from '../ever-works.constants';
 import { EVER_WORKS_IDEA_ISSUE_TYPE } from '../mapping/ever-works-mapping.defaults';
-import { EverWorksTaskStatus, GauzyStatusFlags, gauzyStatusToEverWorks } from '../sync/mappers/status-priority.mapper';
+import { EverWorksTaskStatus, IRTranscriptsStatusFlags, irtranscriptsStatusToEverWorks } from '../sync/mappers/status-priority.mapper';
 import type { EverWorksTeamScope } from '../teams/ever-works-team-scope';
 
 /** Ever Works idea statuses (contract v1 `idea.schema.json`, closed set). */
@@ -41,10 +41,10 @@ export const EVER_WORKS_IDEA_TITLE_MAX = 120;
 export const EVER_WORKS_IDEA_DESCRIPTION_MAX = 100_000;
 
 /** The `issueType` spelling of an idea task (the seeded issue type's value, plan 01 §8). */
-export const GAUZY_IDEA_ISSUE_TYPE = EVER_WORKS_IDEA_ISSUE_TYPE.value;
+export const IRTRANSCRIPTS_IDEA_ISSUE_TYPE = EVER_WORKS_IDEA_ISSUE_TYPE.value;
 
 /**
- * Whether a Gauzy task is an idea: its issue type is the organization's seeded "Idea" type (by id) or
+ * Whether a IRTranscripts task is an idea: its issue type is the organization's seeded "Idea" type (by id) or
  * spelled "Idea". Idea tasks sync as Ever Works ideas (`IDEA_TASK`), never as Ever Works tasks.
  */
 export function isIdeaTask(
@@ -56,14 +56,14 @@ export function isIdeaTask(
 	return (
 		String(task.issueType ?? '')
 			.trim()
-			.toLowerCase() === GAUZY_IDEA_ISSUE_TYPE.toLowerCase()
+			.toLowerCase() === IRTRANSCRIPTS_IDEA_ISSUE_TYPE.toLowerCase()
 	);
 }
 
 /**
- * EW → G (plan 01 §8): the Ever Works task status whose Gauzy status an idea status takes — pending →
+ * EW → G (plan 01 §8): the Ever Works task status whose IRTranscripts status an idea status takes — pending →
  * open, queued / building → in progress, accepted → done, dismissed → cancelled, failed → blocked.
- * Unknown → `null` (leave the Gauzy status unchanged).
+ * Unknown → `null` (leave the IRTranscripts status unchanged).
  */
 export function ideaStatusAsTaskStatus(status: string | null | undefined): EverWorksTaskStatus | null {
 	switch (status) {
@@ -84,16 +84,16 @@ export function ideaStatusAsTaskStatus(status: string | null | undefined): EverW
 }
 
 /**
- * G → EW: what a Gauzy status change does to the idea. Only dismissing (Gauzy cancelled) and restoring
+ * G → EW: what a IRTranscripts status change does to the idea. Only dismissing (IRTranscripts cancelled) and restoring
  * (out of cancelled) are pushed; accepting and building stay Ever Works actions (spend safety, D9), so
  * any other move is not pushed.
  */
 export function ideaStatusAction(
 	everWorksStatus: string | null | undefined,
-	gauzyStatus: string | null | undefined,
-	flags: GauzyStatusFlags = {}
+	irtranscriptsStatus: string | null | undefined,
+	flags: IRTranscriptsStatusFlags = {}
 ): 'dismiss' | 'restore' | null {
-	const mapped = gauzyStatusToEverWorks(gauzyStatus, flags);
+	const mapped = irtranscriptsStatusToEverWorks(irtranscriptsStatus, flags);
 	if (mapped === null) return null;
 	const cancelled = mapped === 'cancelled';
 	if (cancelled && everWorksStatus === 'pending') return 'dismiss';
@@ -110,7 +110,7 @@ const escapeHtml = (text: string) =>
 		.replace(/'/g, '&#39;');
 
 /**
- * EW → G: an idea's plain-text description as Gauzy task HTML — escaped, one paragraph per blank-line
+ * EW → G: an idea's plain-text description as IRTranscripts task HTML — escaped, one paragraph per blank-line
  * block, single line breaks kept. Nothing from Ever Works is rendered as markup.
  */
 export function ideaTextToHtml(text: string | null | undefined): string {
@@ -124,7 +124,7 @@ export function ideaTextToHtml(text: string | null | undefined): string {
 		.join('');
 }
 
-/** G → EW: a Gauzy task's HTML description as the plain text of an idea (the inverse of {@link ideaTextToHtml}). */
+/** G → EW: a IRTranscripts task's HTML description as the plain text of an idea (the inverse of {@link ideaTextToHtml}). */
 export function htmlToIdeaText(html: string | null | undefined): string {
 	return (
 		String(html ?? '')
@@ -193,8 +193,8 @@ function decodeReference(ref: string): string | undefined {
 }
 
 /**
- * An idea text as it reads after a trip through Gauzy (text → HTML → text): the form snapshots keep, so
- * whitespace Ever Works has and Gauzy drops never flaps back as a change (lossy fields never flap).
+ * An idea text as it reads after a trip through IRTranscripts (text → HTML → text): the form snapshots keep, so
+ * whitespace Ever Works has and IRTranscripts drops never flaps back as a change (lossy fields never flap).
  */
 export function normalizeIdeaText(text: string | null | undefined): string {
 	return htmlToIdeaText(ideaTextToHtml(text));
@@ -208,11 +208,11 @@ export interface IdeaSharedFields {
 }
 
 /**
- * G → EW: the idea a Gauzy task makes. The title is cut to Ever Works' 120 characters (the full title
+ * G → EW: the idea a IRTranscripts task makes. The title is cut to Ever Works' 120 characters (the full title
  * then opens the description, plan 01 §7); an empty description takes the title, since Ever Works
  * requires one.
  */
-export function gauzyTaskToIdea(
+export function irtranscriptsTaskToIdea(
 	task: { title?: string | null; description?: string | null },
 	scope: EverWorksTeamScope,
 	keepTeamIds: ReadonlyArray<string> = []
@@ -226,7 +226,7 @@ export function gauzyTaskToIdea(
 	if (fullTitle.length > EVER_WORKS_IDEA_TITLE_MAX && !description.startsWith(fullTitle))
 		description = description ? `${fullTitle}\n\n${description}` : fullTitle;
 	if (!description) description = title;
-	// Ever Works teams Gauzy cannot map stay on the idea: Gauzy never had them, so it never removes them.
+	// Ever Works teams IRTranscripts cannot map stay on the idea: IRTranscripts never had them, so it never removes them.
 	const teamIds = [...new Set([...scope.teamIds, ...keepTeamIds])].sort();
 	return {
 		title,
@@ -275,14 +275,14 @@ export function everWorksIdeaShared(idea: EverWorksIdea, before: Partial<IdeaSha
 	};
 }
 
-/** The Gauzy tag an idea's `source` becomes (plan 01 §8). */
+/** The IRTranscripts tag an idea's `source` becomes (plan 01 §8). */
 export function ideaSourceTag(source: string | null | undefined): string | null {
 	const value = String(source ?? '').trim();
 	return value ? `source:${value}`.slice(0, 120) : null;
 }
 
-/** The Gauzy task that made an Ever Works idea (its `externalLinks` back to Gauzy through this connection), or `null`. */
-export function gauzyTaskOfIdea(idea: EverWorksIdea, connectionId: ID): ID | null {
+/** The IRTranscripts task that made an Ever Works idea (its `externalLinks` back to IRTranscripts through this connection), or `null`. */
+export function irtranscriptsTaskOfIdea(idea: EverWorksIdea, connectionId: ID): ID | null {
 	const link = (idea.externalLinks ?? []).find(
 		(l) =>
 			l.source === EVER_WORKS_LINK_SOURCE &&

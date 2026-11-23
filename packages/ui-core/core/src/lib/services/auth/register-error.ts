@@ -2,7 +2,7 @@
  * What the register form can tell a person whose sign-up the API refused.
  *
  * Every register error used to become "Something went wrong, please try again." That hid the one
- * refusal people can act on: on a deployment that sells subscriptions (app.gauzy.co), the API answers
+ * refusal people can act on: on a deployment that sells subscriptions (app.irtranscripts.com), the API answers
  * 403 with `{ message: 'A subscription is required…', checkoutUrl }` for an email with no paid plan.
  * Retrying cannot help that person; going to the checkout can.
  */

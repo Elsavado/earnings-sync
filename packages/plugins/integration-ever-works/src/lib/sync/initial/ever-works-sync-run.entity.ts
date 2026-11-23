@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { ID } from '@gauzy/contracts';
-import { ColumnIndex, MikroOrmBaseEntityRepository, MultiORMColumn, MultiORMEntity, TenantOrganizationBaseEntity } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { ColumnIndex, MikroOrmBaseEntityRepository, MultiORMColumn, MultiORMEntity, TenantOrganizationBaseEntity } from '@irtranscripts/core';
 
 /** Why a run started. */
 export type EverWorksSyncRunMode = 'initial' | 'resync';

@@ -1,5 +1,5 @@
-import { BaseEvent } from '@gauzy/core';
-import { DecimalString, ID } from '@gauzy/contracts';
+import { BaseEvent } from '@irtranscripts/core';
+import { DecimalString, ID } from '@irtranscripts/contracts';
 
 /**
  * Raised when a provider authorises an attempt.

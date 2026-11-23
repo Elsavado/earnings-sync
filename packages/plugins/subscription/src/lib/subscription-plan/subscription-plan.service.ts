@@ -1,7 +1,7 @@
 import { BadRequestException, ConflictException, Inject, Injectable, NotFoundException, Optional } from '@nestjs/common';
 import { In } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { Money, RequestContext, isUniqueViolation } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { Money, RequestContext, isUniqueViolation } from '@irtranscripts/core';
 import {
 	ISubscriptionCatalogPort,
 	ISubscriptionPlan,

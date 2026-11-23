@@ -2,8 +2,8 @@ import { Directive, OnInit, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable, Subject, combineLatest, of } from 'rxjs';
 import { catchError, distinctUntilChanged, filter, map, startWith, switchMap, tap } from 'rxjs/operators';
-import { ID } from '@gauzy/contracts';
-import { IDashboardWidgetContext } from '@gauzy/ui-core/core';
+import { ID } from '@irtranscripts/contracts';
+import { IDashboardWidgetContext } from '@irtranscripts/ui-core/core';
 import { BaseDashboardWidgetComponent } from '../../widget-host/base-dashboard-widget.component';
 // Reused rather than re-derived: the history endpoint is scoped exactly like the
 // `/employee-statistics/months` one the HR widgets read, so both the employee

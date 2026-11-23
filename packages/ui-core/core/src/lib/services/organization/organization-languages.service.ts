@@ -4,9 +4,9 @@ import {
 	IOrganizationLanguageCreateInput,
 	IOrganizationLanguage,
 	IOrganizationLanguageFindInput
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { firstValueFrom } from 'rxjs';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 
 @Injectable({
 	providedIn: 'root'

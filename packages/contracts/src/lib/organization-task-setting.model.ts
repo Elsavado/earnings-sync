@@ -1,4 +1,4 @@
-import { TaskProofOfCompletionTypeEnum } from '@gauzy/constants';
+import { TaskProofOfCompletionTypeEnum } from '@irtranscripts/constants';
 import { IRelationalOrganizationProject } from './organization-projects.model';
 import { IRelationalOrganizationTeam } from './organization-team.model';
 import { IBasePerTenantAndOrganizationEntityModel } from './base-entity.model';

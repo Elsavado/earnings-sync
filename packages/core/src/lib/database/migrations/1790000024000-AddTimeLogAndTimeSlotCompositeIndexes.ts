@@ -1,5 +1,5 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 import * as chalk from 'chalk';
 
 /** The names `TimeLog` and `TimeSlot` declare for these indexes, so schema diffs stay quiet. */

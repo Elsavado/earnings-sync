@@ -7,10 +7,10 @@
  * for, and that the contracts cache (seeded with `[]`) does not block the first load.
  *
  * `Store` is replaced by a token-only class so the spec never loads the Akita store, and the
- * `@gauzy/ui-core/common` barrel is reduced to the two members these services use.
+ * `@irtranscripts/ui-core/common` barrel is reduced to the two members these services use.
  */
 jest.mock('../store/store.service', () => ({ Store: class Store {} }));
-jest.mock('@gauzy/ui-core/common', () => ({
+jest.mock('@irtranscripts/ui-core/common', () => ({
 	API_PREFIX: '/api',
 	isNotEmpty: jest.requireActual('../../../../../common/src/lib/utils/shared-utils').isNotEmpty
 }));

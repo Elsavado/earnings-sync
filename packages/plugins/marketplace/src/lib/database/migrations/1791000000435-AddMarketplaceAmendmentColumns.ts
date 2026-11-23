@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
-import { addCheckConstraint, ICheckConstraintDefinition } from '@gauzy/core';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
+import { addCheckConstraint, ICheckConstraintDefinition } from '@irtranscripts/core';
 
 /**
  * The columns the marketplace adds to tables it does not own, and the rules that come with them.

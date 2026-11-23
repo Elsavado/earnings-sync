@@ -9,7 +9,7 @@ jest.mock('posthog-node', () => ({
 	}))
 }));
 
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	RequestContext: { currentRequest: jest.fn().mockReturnValue(null) }
 }));
 

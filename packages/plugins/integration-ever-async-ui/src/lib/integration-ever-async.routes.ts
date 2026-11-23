@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PluginRouteInput } from '@gauzy/plugin-ui';
-import { PermissionsGuard } from '@gauzy/ui-core/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PluginRouteInput } from '@irtranscripts/plugin-ui';
+import { PermissionsGuard } from '@irtranscripts/ui-core/core';
 import { EverAsyncConnectComponent } from './components/ever-async-connect/ever-async-connect.component';
 import { IntegrationEverAsyncLayoutComponent } from './integration-ever-async.layout.component';
 

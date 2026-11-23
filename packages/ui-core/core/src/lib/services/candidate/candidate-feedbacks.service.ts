@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import { ICandidateFeedback, ICandidateFeedbackFindInput, ICandidateFeedbackCreateInput } from '@gauzy/contracts';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { ICandidateFeedback, ICandidateFeedbackFindInput, ICandidateFeedbackCreateInput } from '@irtranscripts/contracts';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 
 @Injectable({
 	providedIn: 'root'

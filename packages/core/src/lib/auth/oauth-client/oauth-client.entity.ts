@@ -4,7 +4,7 @@
  * What changed from the single-app version:
  *
  * Previously, there was no entity at all. The single OAuth client was
- * hardcoded via `GAUZY_OAUTH_APP_*` env vars in `packages/config` and
+ * hardcoded via `IRTRANSCRIPTS_OAUTH_APP_*` env vars in `packages/config` and
  * read by `SocialAuthService.getOAuthAppConfig()`. Every third party
  * (only Activepieces existed) shared the same `client_id`/`client_secret`.
  *
@@ -23,7 +23,7 @@
 
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { ArrayNotEmpty, IsArray, IsBoolean, IsEnum, IsInt, IsOptional, IsString, Max, MaxLength, Min } from 'class-validator';
-import { IOAuthClient, OAuthClientType, OAuthGrantType } from '@gauzy/contracts';
+import { IOAuthClient, OAuthClientType, OAuthGrantType } from '@irtranscripts/contracts';
 import { ColumnIndex, JsonColumn, MultiORMColumn, MultiORMEntity } from '../../core/decorators/entity';
 import { TenantBaseEntity } from '../../core/entities/internal';
 import { ExportRedacted } from '../../export-import/export-redact.decorator';
@@ -32,7 +32,7 @@ import { ExportRedacted } from '../../export-import/export-redact.decorator';
 export class OAuthClient extends TenantBaseEntity implements IOAuthClient {
 	/**
 	 * Public client identifier exposed to third parties.
-	 * Generated as `gauzy_<base64url>` by `OAuthClientService.create`.
+	 * Generated as `irtranscripts_<base64url>` by `OAuthClientService.create`.
 	 */
 	@ApiProperty({ type: String, maxLength: 100 })
 	@IsString()
@@ -42,7 +42,7 @@ export class OAuthClient extends TenantBaseEntity implements IOAuthClient {
 	clientId: string;
 
 	/**
-	 * scrypt-hashed client secret (via `@gauzy/utils` `hashPassword`).
+	 * scrypt-hashed client secret (via `@irtranscripts/utils` `hashPassword`).
 	 * Null only for `public` clients.
 	 * The plaintext is returned EXACTLY ONCE on creation / rotation
 	 * and is never persisted in plaintext or returned by any read endpoint.

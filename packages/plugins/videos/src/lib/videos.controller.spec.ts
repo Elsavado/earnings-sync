@@ -1,6 +1,6 @@
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { EmployeeTrackedDataGuard, PermissionGuard, TenantPermissionGuard } from '@gauzy/core';
+import { EmployeeTrackedDataGuard, PermissionGuard, TenantPermissionGuard } from '@irtranscripts/core';
 import { VideosController } from './videos.controller';
 
 /**

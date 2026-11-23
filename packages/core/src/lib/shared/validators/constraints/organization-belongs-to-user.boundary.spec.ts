@@ -1,6 +1,6 @@
 import '../../../core/entities/internal';
 
-import { RolesEnum } from '@gauzy/contracts';
+import { RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../../core/context';
 import { Organization, UserOrganization } from '../../../core/entities/internal';
 import { assertCurrentUserBelongsToOrganization } from '../../../user-organization/assert-organization-membership';

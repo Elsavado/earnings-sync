@@ -8,12 +8,12 @@
  * claimed in and the service the version is read from doubled — those are the two seams that reach a
  * database.
  *
- * `@gauzy/core`'s barrel boots the whole application graph, so it is doubled at the module boundary
+ * `@irtranscripts/core`'s barrel boots the whole application graph, so it is doubled at the module boundary
  * exactly as the neighbouring suites do. The kernel classes themselves are required from their own
  * modules, where the module boundary does not apply.
  */
-jest.mock('@gauzy/plugin-cart', () => ({
-	TotalsCalculator: jest.requireActual('@gauzy/plugin-cart/src/lib/totals/totals-calculator').TotalsCalculator
+jest.mock('@irtranscripts/plugin-cart', () => ({
+	TotalsCalculator: jest.requireActual('@irtranscripts/plugin-cart/src/lib/totals/totals-calculator').TotalsCalculator
 }));
 
 /**
@@ -24,9 +24,9 @@ jest.mock('@gauzy/plugin-cart', () => ({
  * the whole entity graph, none of which a route's declaration needs, so the one seam is closed here
  * and the store is supplied by the suite instead.
  */
-jest.mock('@gauzy/core/src/lib/idempotency/idempotency.service', () => ({ IdempotencyService: class {} }));
+jest.mock('@irtranscripts/core/src/lib/idempotency/idempotency.service', () => ({ IdempotencyService: class {} }));
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
@@ -70,16 +70,16 @@ jest.mock('@gauzy/core', () => {
 		JsonColumn: decorator,
 		// The two conventions are the ones under test, so the decorators that declare them are the real
 		// ones: a route's behaviour is decided by the metadata they write.
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
-		Versioned: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned.decorator').Versioned,
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		Versioned: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned.decorator').Versioned,
 		VersionedColumn: decorator,
 		Permissions: decorator,
 		UseValidationPipe: decorator,
 		PermissionGuard: class {},
 		TenantPermissionGuard: class {},
-		commitVersionedUpdate: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		commitVersionedUpdate: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.commitVersionedUpdate,
-		versionExpectationOf: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		versionExpectationOf: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.versionExpectationOf,
 		ColumnNumericTransformerPipe: class {
 			to(value: unknown) {
@@ -89,7 +89,7 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		RequestContext: {
 			currentUser: () => null,
 			currentUserId: () => null,
@@ -107,19 +107,19 @@ jest.mock('@gauzy/core', () => {
 import { HttpStatus } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { lastValueFrom, of } from 'rxjs';
-import { IdempotencyOutcome } from '@gauzy/contracts';
+import { IdempotencyOutcome } from '@irtranscripts/contracts';
 import { OrderController } from './order.controller';
 
 const { IdempotencyInterceptor } = jest.requireActual(
-	'@gauzy/core/src/lib/idempotency/idempotency.interceptor'
+	'@irtranscripts/core/src/lib/idempotency/idempotency.interceptor'
 );
 const { IDEMPOTENT_METADATA_KEY, IDEMPOTENCY_REPLAYED_HEADER } = jest.requireActual(
-	'@gauzy/core/src/lib/idempotency/idempotency.policy'
+	'@irtranscripts/core/src/lib/idempotency/idempotency.policy'
 );
-const { VersionGuard } = jest.requireActual('@gauzy/core/src/lib/concurrency/version.guard');
-const { VersionInterceptor } = jest.requireActual('@gauzy/core/src/lib/concurrency/version.interceptor');
-const { VERSION_EXPECTATION_PROPERTY } = jest.requireActual('@gauzy/core/src/lib/concurrency/version.util');
-const { versionExpectationOf } = jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write');
+const { VersionGuard } = jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.guard');
+const { VersionInterceptor } = jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.interceptor');
+const { VERSION_EXPECTATION_PROPERTY } = jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util');
+const { versionExpectationOf } = jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write');
 
 /** The http execution context a route handler runs under. */
 function httpContext(handler: any, request: any, response?: any): any {

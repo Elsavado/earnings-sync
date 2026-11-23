@@ -1,5 +1,5 @@
-import { environment as env } from '@gauzy/config';
-import { ApplicationPluginConfig } from '@gauzy/common';
+import { environment as env } from '@irtranscripts/config';
+import { ApplicationPluginConfig } from '@irtranscripts/common';
 import * as chalk from 'chalk';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -84,7 +84,7 @@ export function copyAssets(
 
 		// Determine the base directory for assets
 		const assetPublicPath = isElectron
-			? path.resolve(env.gauzyUserPath, 'public')
+			? path.resolve(env.irtranscriptsUserPath, 'public')
 			: config.assetOptions.assetPublicPath || publicDir;
 
 		// Default seed directory for assets
@@ -98,7 +98,7 @@ export function copyAssets(
 			: defaultSeedDir;
 
 		// Determine the source directory
-		const sourceDir = isElectron ? path.join(env.gauzySeedPath, destDir) : customSeedDir;
+		const sourceDir = isElectron ? path.join(env.irtranscriptsSeedPath, destDir) : customSeedDir;
 
 		// File path
 		const filepath = filename.replace(/\\/g, '/');
@@ -150,7 +150,7 @@ export async function cleanAssets(config: Partial<ApplicationPluginConfig>, dest
 
 	// Determine the directory to clean based on the environment
 	const dir = env.isElectron
-		? path.resolve(env.gauzyUserPath, 'public', destDir) // Electron-specific path
+		? path.resolve(env.irtranscriptsUserPath, 'public', destDir) // Electron-specific path
 		: path.join(config.assetOptions.assetPublicPath, destDir); // Standard path for other environments
 
 	// Delete old files in the directory except for `rimraf` and `.gitkeep`.

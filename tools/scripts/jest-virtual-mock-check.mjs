@@ -2,22 +2,22 @@
 /**
  * Gate: no spec mocks a workspace package with `{ virtual: true }`.
  *
- * `virtual: true` is Jest's escape hatch for a module that does not exist. Every `@gauzy/*` package resolves (the
+ * `virtual: true` is Jest's escape hatch for a module that does not exist. Every `@irtranscripts/*` package resolves (the
  * Nx resolver falls back to the TypeScript path mapping), so on one of them the flag changes only one thing: the
  * id Jest files the mock under. A plain mock is filed under the module's resolved path (`…/packages/common/src/
- * index.ts`), a virtual one under its bare name (`@gauzy/common`).
+ * index.ts`), a virtual one under its bare name (`@irtranscripts/common`).
  *
  * The two ids do not mix, and Jest does not keep them apart. The resolver that computes a module's id is created
  * once per project in each worker process and caches the id by the requiring file and the name, across every spec
  * file that worker runs, while the set of virtual mocks belongs to one spec file. So a spec that mocks
- * `@gauzy/common` virtually leaves `goods-receipt.controller.ts → @gauzy/common` cached under the bare name, and a
+ * `@irtranscripts/common` virtually leaves `goods-receipt.controller.ts → @irtranscripts/common` cached under the bare name, and a
  * later spec in the same worker that mocks it plainly files its mock under the path: the controller's `require`
  * misses the mock and loads the real module. The reverse happens too — any spec that loads the module without
  * mocking it caches the path form, and a later virtual mock is then missed.
  *
  * Which specs share a worker depends on the durations Jest recorded in its cache, so the failure appears on a cold
  * cache (every CI runner) and vanishes on a warm one. It did, in `plugin-purchasing`: `feature-gate.spec.ts` read
- * the codes its `@gauzy/common` mock recorded and found none, because the controllers had been decorated by the
+ * the codes its `@irtranscripts/common` mock recorded and found none, because the controllers had been decorated by the
  * real `@FeatureFlag` — only when the controller specs, which mocked the module virtually, had run first in the
  * same worker.
  *

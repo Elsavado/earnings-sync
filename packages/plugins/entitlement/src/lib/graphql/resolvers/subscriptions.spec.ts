@@ -18,8 +18,8 @@ import { AsyncLocalStorage } from 'async_hooks';
 import { NotFoundException } from '@nestjs/common';
 import { ClsService } from 'nestjs-cls';
 import { SUBSCRIPTION_OPTIONS_METADATA } from '@nestjs/graphql/dist/graphql.constants';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { deliverPayloadAsIs, EventBus, RequestContext } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { deliverPayloadAsIs, EventBus, RequestContext } from '@irtranscripts/core';
 import { EntitlementPermissions } from '../../entitlement.permissions';
 import {
 	EntitlementActivatedEvent,

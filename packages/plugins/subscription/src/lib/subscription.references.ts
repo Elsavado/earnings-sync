@@ -8,9 +8,9 @@
  * order a billing run raises, and from there onto its invoice, which loads the contact.
  *
  * `SubscriptionService` holds these columns to the caller's tenant with `assertPlainReferencesNotForeign`
- * (`@gauzy/core`).
+ * (`@irtranscripts/core`).
  */
-import { PlainReferenceColumns } from '@gauzy/core';
+import { PlainReferenceColumns } from '@irtranscripts/core';
 
 /** The plain id columns of a subscription. */
 export const SUBSCRIPTION_REFERENCES: PlainReferenceColumns = {

@@ -40,7 +40,7 @@ import { isIP } from 'node:net';
  * ({@link pinnedWebhookLookup}): the address that is checked is the address the socket connects to.
  *
  * **It can be turned off, deliberately and in one place.** An installation that genuinely posts to
- * an endpoint on its own network sets `GAUZY_WEBHOOK_ALLOW_PRIVATE_NETWORK=true`. It is off unless
+ * an endpoint on its own network sets `IRTRANSCRIPTS_WEBHOOK_ALLOW_PRIVATE_NETWORK=true`. It is off unless
  * stated, because the safe default has to be the one an installation gets without knowing this
  * document exists.
  */
@@ -63,7 +63,7 @@ const RESOLVED_REFUSAL = 'A webhook endpoint must not resolve to a private, loop
  * @returns True when the deny list is disabled.
  */
 export function allowsPrivateNetworkEndpoints(): boolean {
-	return process.env.GAUZY_WEBHOOK_ALLOW_PRIVATE_NETWORK === 'true';
+	return process.env.IRTRANSCRIPTS_WEBHOOK_ALLOW_PRIVATE_NETWORK === 'true';
 }
 
 /**

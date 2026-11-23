@@ -1,7 +1,7 @@
 /**
  * The cart's two adoption conventions, asserted through the routes that adopt them.
  *
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a controller spec needs and none of which is available
  * outside a running application. The seam is therefore doubled at the module boundary, as the cart
  * service spec doubles it, and everything the conventions are made of is the *real* thing: the
@@ -26,7 +26,7 @@
  * its constructor, and the metadata its `@Injectable()` emits names it as a value, so the module is
  * substituted here rather than left to resolve.
  */
-jest.mock('@gauzy/core/src/lib/idempotency/idempotency.service', () => ({
+jest.mock('@irtranscripts/core/src/lib/idempotency/idempotency.service', () => ({
 	IdempotencyService: class IdempotencyService {}
 }));
 
@@ -40,7 +40,7 @@ jest.mock('@gauzy/core/src/lib/idempotency/idempotency.service', () => ({
  */
 jest.mock('./commerce-cart.service', () => ({ CommerceCartService: class CommerceCartService {} }));
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: nothing here is mapped onto a database or a module graph. */
 	const decorator = () => () => undefined;
 
@@ -50,7 +50,7 @@ jest.mock('@gauzy/core', () => {
 	 * stopped agreeing on the key they use.
 	 */
 	const { VERSIONED_METADATA_KEY, VERSION_EXPECTATION_PROPERTY } = jest.requireActual(
-		'@gauzy/core/src/lib/concurrency/version.util'
+		'@irtranscripts/core/src/lib/concurrency/version.util'
 	);
 
 	/** The base controller, reduced to what a route inherits: the service it delegates to. */
@@ -96,16 +96,16 @@ jest.mock('@gauzy/core', () => {
 		// The export mark the cart's token digest carries; nothing is exported here.
 		ExportRedacted: decorator,
 		ColumnNumericTransformerPipe: class {},
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
-		IDEMPOTENT_METADATA_KEY: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.policy')
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		IDEMPOTENT_METADATA_KEY: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.policy')
 			.IDEMPOTENT_METADATA_KEY,
-		IdempotencyInterceptor: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.interceptor')
+		IdempotencyInterceptor: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.interceptor')
 			.IdempotencyInterceptor,
-		Versioned: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned.decorator').Versioned,
-		VersionGuard: jest.requireActual('@gauzy/core/src/lib/concurrency/version.guard').VersionGuard,
-		VersionInterceptor: jest.requireActual('@gauzy/core/src/lib/concurrency/version.interceptor')
+		Versioned: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned.decorator').Versioned,
+		VersionGuard: jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.guard').VersionGuard,
+		VersionInterceptor: jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.interceptor')
 			.VersionInterceptor,
-		versionExpectationOf: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		versionExpectationOf: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.versionExpectationOf
 	};
 });
@@ -120,7 +120,7 @@ import {
 	VERSION_EXPECTATION_PROPERTY,
 	VersionGuard,
 	VersionInterceptor
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { CommerceCartController } from './commerce-cart.controller';
 
 /** The cart every request in this suite acts on, and the version it currently holds. */

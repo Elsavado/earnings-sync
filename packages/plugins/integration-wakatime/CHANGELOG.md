@@ -1,3 +1,3 @@
-# Changelog for @gauzy/plugin-integration-wakatime
+# Changelog for @irtranscripts/plugin-integration-wakatime
 
 ## [Unreleased]

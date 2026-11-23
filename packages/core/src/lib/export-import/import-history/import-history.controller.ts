@@ -1,7 +1,7 @@
 import { Controller, Get, HttpStatus, Param, Res, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
-import { ID, IImportHistory, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IImportHistory, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { PermissionGuard, TenantPermissionGuard } from './../../shared/guards';
 import { Permissions } from './../../shared/decorators';
 import { UUIDValidationPipe } from './../../shared/pipes';

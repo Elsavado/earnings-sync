@@ -1,8 +1,8 @@
 import { Component, inject, Input, OnChanges, type SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { NbPopoverDirective } from '@nebular/theme';
-import { ISelectedEmployee } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
+import { ISelectedEmployee } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
 import {
 	IRecordViewField,
 	IRecordViewPerson,

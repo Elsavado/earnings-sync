@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-job-matching-ui
+ * Public API Surface of @irtranscripts/plugin-job-matching-ui
  */
 export * from './lib/job-matching-plugin';
 export * from './lib/job-matching.module';

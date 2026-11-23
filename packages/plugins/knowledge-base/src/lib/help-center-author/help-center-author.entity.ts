@@ -1,8 +1,8 @@
 import { RelationId } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
-import { IEmployee, IHelpCenterArticle, IHelpCenterAuthor } from '@gauzy/contracts';
-import { MultiORMEntity, Employee, TenantOrganizationBaseEntity, MultiORMManyToOne, ColumnIndex, MultiORMColumn } from '@gauzy/core';
+import { IEmployee, IHelpCenterArticle, IHelpCenterAuthor } from '@irtranscripts/contracts';
+import { MultiORMEntity, Employee, TenantOrganizationBaseEntity, MultiORMManyToOne, ColumnIndex, MultiORMColumn } from '@irtranscripts/core';
 import { HelpCenterArticle } from './../entities';
 import { MikroOrmHelpCenterAuthorRepository } from './repository/mikro-orm-help-center-author.repository';
 

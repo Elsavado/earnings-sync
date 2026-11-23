@@ -45,7 +45,7 @@ export const PLUGIN_WIDGET_REGISTRY = new InjectionToken<IDeclarativeWidgetRegis
 
 /**
  * Minimal interface for applying nav sections/items.
- * Implemented by NavMenuBuilderService from @gauzy/ui-core.
+ * Implemented by NavMenuBuilderService from @irtranscripts/ui-core.
  */
 export interface IDeclarativeNavBuilder {
 	addNavMenuSection(config: unknown, before?: string): void;
@@ -54,7 +54,7 @@ export interface IDeclarativeNavBuilder {
 
 /**
  * Minimal interface for registering page routes.
- * Implemented by PageRouteRegistryService from @gauzy/ui-core.
+ * Implemented by PageRouteRegistryService from @irtranscripts/ui-core.
  */
 export interface IDeclarativePageRouteRegistry {
 	registerPageRoute(config: unknown): void;
@@ -70,7 +70,7 @@ export interface IDeclarativeExtensionRegistryOptions {
 
 /**
  * Minimal interface for registering extensions.
- * Implemented by PageExtensionRegistryService from @gauzy/plugin-ui.
+ * Implemented by PageExtensionRegistryService from @irtranscripts/plugin-ui.
  */
 export interface IDeclarativeExtensionRegistry {
 	register(extension: PageExtensionDefinition, options?: IDeclarativeExtensionRegistryOptions): void;
@@ -79,7 +79,7 @@ export interface IDeclarativeExtensionRegistry {
 
 /**
  * Minimal interface for registering page tabs.
- * Implemented by PageTabRegistryService from @gauzy/ui-core.
+ * Implemented by PageTabRegistryService from @irtranscripts/ui-core.
  */
 export interface IDeclarativePageTabRegistry {
 	registerPageTab(config: unknown): void;
@@ -88,7 +88,7 @@ export interface IDeclarativePageTabRegistry {
 
 /**
  * Minimal interface for registering dashboard-builder widgets.
- * Implemented by WidgetRegistryService from @gauzy/ui-core.
+ * Implemented by WidgetRegistryService from @irtranscripts/ui-core.
  *
  * `registerOrReplaceWidget` is used (not `registerWidget`) so re-registering a
  * plugin — e.g. after it is toggled off and on — never throws on duplicate ids.
@@ -130,7 +130,7 @@ export const PLUGIN_TRANSLATE_SERVICE = new InjectionToken<IPluginTranslateServi
 
 /**
  * Minimal interface for the backing translate service (e.g. `TranslateService` from `@ngx-translate/core`).
- * Used by the built-in `TranslateAdapterService` inside `@gauzy/plugin-ui`.
+ * Used by the built-in `TranslateAdapterService` inside `@irtranscripts/plugin-ui`.
  *
  * The host application provides the concrete service via:
  * ```typescript
@@ -218,16 +218,16 @@ export const PLUGIN_FEATURE_CHECKER = new InjectionToken<IPluginFeatureChecker>(
 // ─── Backing Store Interface ─────────────────────────────────────────────────
 
 /**
- * Minimal interface for the application's backing store (e.g. `Store` from `@gauzy/ui-core/core`).
+ * Minimal interface for the application's backing store (e.g. `Store` from `@irtranscripts/ui-core/core`).
  *
  * Used by the built-in `PermissionAdapterService` and `FeatureAdapterService` inside
- * `@gauzy/plugin-ui`. The host application provides its store via:
+ * `@irtranscripts/plugin-ui`. The host application provides its store via:
  *
  * ```typescript
  * { provide: PLUGIN_APP_STORE, useExisting: Store }
  * ```
  *
- * This avoids a dependency from `@gauzy/plugin-ui` → `@gauzy/ui-core/core`.
+ * This avoids a dependency from `@irtranscripts/plugin-ui` → `@irtranscripts/ui-core/core`.
  */
 export interface IPluginAppStore {
 	hasPermission(permission: any): boolean;

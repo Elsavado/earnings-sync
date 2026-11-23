@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 export class CreateKnowledgeBaseArticleVersionTable1770214889980 implements MigrationInterface {
     name = 'CreateKnowledgeBaseArticleVersionTable1770214889980';

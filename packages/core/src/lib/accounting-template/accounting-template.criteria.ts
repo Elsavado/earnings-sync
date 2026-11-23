@@ -1,6 +1,6 @@
 import { FindOptionsWhere, IsNull } from 'typeorm';
 import { FilterQuery as MikroFilterQuery } from '@mikro-orm/core';
-import { AccountingTemplateTypeEnum, IAccountingTemplate, ID, LanguagesEnum } from '@gauzy/contracts';
+import { AccountingTemplateTypeEnum, IAccountingTemplate, ID, LanguagesEnum } from '@irtranscripts/contracts';
 
 /**
  * The (languageCode, templateType) pair a template lookup is keyed on.

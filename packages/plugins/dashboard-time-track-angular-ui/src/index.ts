@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-dashboard-time-track-angular-ui
+ * Public API Surface of @irtranscripts/plugin-dashboard-time-track-angular-ui
  *
  * Only the plugin definition is exported from the barrel to preserve
  * lazy loading. The module and component are loaded on demand via

@@ -1,4 +1,4 @@
-import { ICandidate, ICandidateSource } from '@gauzy/contracts';
+import { ICandidate, ICandidateSource } from '@irtranscripts/contracts';
 import { ApiProperty } from '@nestjs/swagger';
 import { Candidate, TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { MultiORMColumn, MultiORMEntity, MultiORMOneToOne } from './../core/decorators/entity';

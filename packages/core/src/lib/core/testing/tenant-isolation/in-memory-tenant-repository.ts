@@ -1,5 +1,5 @@
 import { DeleteResult, FindOperator, UpdateResult } from 'typeorm';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 export type FakeRow = Record<string, any> & { id?: ID };
 

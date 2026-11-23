@@ -16,7 +16,7 @@ import { join } from 'node:path';
  *
  * **What is real here.** One better-sqlite3 database whose tables TypeORM created from the platform's own mapping;
  * the core entities imported under `DB_ORM=mikro-orm`, so MikroORM maps `Token` as it does in production, opened
- * with the platform's own `autoJoinRefsForFilters` (`@gauzy/config`); the real `TokenRepository` over each ORM's
+ * with the platform's own `autoJoinRefsForFilters` (`@irtranscripts/config`); the real `TokenRepository` over each ORM's
  * repository in turn, and the real handlers and config registry over it. Only the JWT service (whose `verify`
  * answers the payload of the token it is handed) and the hasher are stood in for. Each ORM works on tokens of its
  * own, so what one ORM writes cannot decide what the other answers; the outcomes and the rows each left behind
@@ -78,7 +78,7 @@ async function runThroughBothOrms(): Promise<{ typeorm: IRun; mikroorm: IRun }> 
 			const { MikroORM, EntityCaseNamingStrategy } = require('@mikro-orm/core');
 			const { BetterSqliteDriver } = require('@mikro-orm/better-sqlite');
 			const { SoftDeleteHandler } = require('mikro-orm-soft-delete');
-			const { MIKRO_ORM_AUTO_JOIN_REFS_FOR_FILTERS } = require('@gauzy/config');
+			const { MIKRO_ORM_AUTO_JOIN_REFS_FOR_FILTERS } = require('@irtranscripts/config');
 			const { CrudService } = require('../core/crud/crud.service');
 			const { MultiORMEnum } = require('../core/utils');
 			const { Token } = require('./entities/token.entity');

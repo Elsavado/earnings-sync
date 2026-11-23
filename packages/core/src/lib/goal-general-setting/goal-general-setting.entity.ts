@@ -1,4 +1,4 @@
-import { IGoalGeneralSetting, GoalOwnershipEnum } from '@gauzy/contracts';
+import { IGoalGeneralSetting, GoalOwnershipEnum } from '@irtranscripts/contracts';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum } from 'class-validator';
 import { TenantOrganizationBaseEntity } from '../core/entities/internal';

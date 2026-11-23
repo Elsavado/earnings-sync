@@ -26,7 +26,7 @@ export const LEGAL_CORPUS_VERSION = '0.5.0';
 export const LEGAL_CORPUS_NAME = 'Ever';
 
 /** Product the bundled documents were rendered for. */
-export const LEGAL_PRODUCT = 'gauzy';
+export const LEGAL_PRODUCT = 'irtranscripts';
 
 /** Locale used when no localized document exists. The corpus currently publishes English only. */
 export const LEGAL_DEFAULT_LOCALE = 'en';

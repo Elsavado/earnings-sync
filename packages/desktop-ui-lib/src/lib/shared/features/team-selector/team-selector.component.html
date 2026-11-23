@@ -1,4 +1,4 @@
-<gauzy-select
+<irtranscripts-select
 	class="w-100"
 	label="CONTEXT_MENU.TEAM"
 	[selectedItem]="$safeNavigationMigration((selected$ | async)?.id)"
@@ -14,4 +14,4 @@
 	[hasError]="error$ | async"
 	[typeahead]="search$"
 	(scrollToEnd)="onShowMore()"
-></gauzy-select>
+></irtranscripts-select>

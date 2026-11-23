@@ -2,10 +2,10 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { ID, IEmployee, ISelectedEmployee, ITimeSlotStatistics, PermissionsEnum, TimeFormatEnum } from '@gauzy/contracts';
-import { EmployeesService, Store, ToastrService } from '@gauzy/ui-core/core';
-import { TimeZoneService } from '@gauzy/ui-core/shared';
-import { useInjector, useObservable, useTranslation, useTypedEvent } from '@gauzy/ui-react';
+import { ID, IEmployee, ISelectedEmployee, ITimeSlotStatistics, PermissionsEnum, TimeFormatEnum } from '@irtranscripts/contracts';
+import { EmployeesService, Store, ToastrService } from '@irtranscripts/ui-core/core';
+import { TimeZoneService } from '@irtranscripts/ui-core/shared';
+import { useInjector, useObservable, useTranslation, useTypedEvent } from '@irtranscripts/ui-react';
 import './nebular-jsx';
 import { WidgetVisibilityChangedEvent } from '../dashboard-time-track-react-ui.events';
 import { useDashboardLayout } from '../hooks/use-dashboard-layout';

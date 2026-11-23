@@ -1,13 +1,13 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { DeepPartial, DeleteResult, FindManyOptions, FindOptionsWhere, In } from 'typeorm';
-import { ID, IPagination } from '@gauzy/contracts';
+import { ID, IPagination } from '@irtranscripts/contracts';
 import {
 	LegacyFindOneOptions,
 	RequestContext,
 	TenantAwareCrudService,
 	addDecimalStrings,
 	compareDecimalStrings
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { TaxAmountType, TaxPartType, TaxWriteInput } from '../tax.types';
 import { confiningOrganizationId } from '../organization-boundary';
 import { inCallerOrganization } from '../write-rules';

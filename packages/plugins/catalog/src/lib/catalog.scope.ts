@@ -9,8 +9,8 @@
  */
 import { NotFoundException } from '@nestjs/common';
 import { EntityManager, EntityTarget, In, IsNull, ObjectLiteral } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 
 /**
  * The caller's tenant and organization as criteria, each only when the credential states it.

@@ -1,3 +1,3 @@
-# Changelog for @gauzy/plugin-integration-jira
+# Changelog for @irtranscripts/plugin-integration-jira
 
 ## [Unreleased]

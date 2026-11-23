@@ -3,7 +3,7 @@
  * never fail the delivery; `read` answers a stored, delivered inbound message of the tenant with its addresses,
  * threading headers and (non-inline) attachment metadata, and nothing for anything else.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	return {
 		ColumnIndex: decorator,
@@ -18,7 +18,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 import 'reflect-metadata';
-import { InboxEmailDirectionEnum, InboxEmailStatusEnum } from '@gauzy/contracts';
+import { InboxEmailDirectionEnum, InboxEmailStatusEnum } from '@irtranscripts/contracts';
 import { InboxEmail } from '../entities/inbox-email.entity';
 import { InboxEmailAttachment } from '../entities/inbox-email-attachment.entity';
 import { InboxMailbox } from '../entities/inbox-mailbox.entity';

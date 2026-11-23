@@ -11,8 +11,8 @@
 $gap-lg: 1rem;
 $gap-md: 0.75rem;
 $gap-sm: 0.5rem;
-$hairline: 1px solid var(--gauzy-border-default-color);
-$radius: var(--gauzy-radius-sm, 0.5rem);
+$hairline: 1px solid var(--irtranscripts-border-default-color);
+$radius: var(--irtranscripts-radius-sm, 0.5rem);
 
 // Header (with the tabs) and footer stay put; only the body scrolls between them.
 nb-card.dialog {
@@ -23,7 +23,7 @@ nb-card.dialog {
 	max-height: calc(100vh - 4rem);
 	margin: 0;
 	overflow: hidden;
-	background-color: var(--gauzy-card-1);
+	background-color: var(--irtranscripts-card-1);
 }
 
 /* ── Header ──────────────────────────────────────────────────────────────── */
@@ -56,13 +56,13 @@ nb-card.dialog {
 	font-size: 1rem;
 	font-weight: 600;
 	line-height: 1.5rem;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 }
 
 .dialog-subtitle {
 	font-size: 0.8125rem;
 	line-height: 1.25rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 	overflow-wrap: anywhere;
 }
 
@@ -77,7 +77,7 @@ nb-card.dialog {
 	border: 0;
 	border-radius: $radius;
 	background: transparent;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 	cursor: pointer;
 
 	nb-icon {
@@ -87,8 +87,8 @@ nb-card.dialog {
 	}
 
 	&:hover {
-		background-color: var(--gauzy-hover-tint);
-		color: var(--gauzy-text-color-1);
+		background-color: var(--irtranscripts-hover-tint);
+		color: var(--irtranscripts-text-color-1);
 	}
 }
 
@@ -115,7 +115,7 @@ nb-card.dialog {
 	font-size: 0.8125rem;
 	font-weight: 500;
 	line-height: 1.25rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 	white-space: nowrap;
 	cursor: pointer;
 
@@ -136,7 +136,7 @@ nb-card.dialog {
 	}
 
 	&:hover {
-		color: var(--gauzy-text-color-1);
+		color: var(--irtranscripts-text-color-1);
 	}
 
 	&:focus-visible {
@@ -160,7 +160,7 @@ nb-card.dialog {
 	min-height: 0;
 	padding: $gap-lg 1.25rem;
 	overflow-y: auto;
-	background-color: var(--gauzy-card-2);
+	background-color: var(--irtranscripts-card-2);
 }
 
 /*
@@ -174,7 +174,7 @@ nb-card.dialog {
 	.ng-select .ng-select-container,
 	ga-rich-text-editor .rich-text-editor,
 	ga-rich-text-editor .rich-text-editor__content {
-		background-color: var(--gauzy-card-1) !important;
+		background-color: var(--irtranscripts-card-1) !important;
 	}
 }
 
@@ -191,15 +191,15 @@ nb-card.dialog {
 .section {
 	padding: $gap-lg 1.25rem;
 	border-radius: $radius;
-	background-color: var(--gauzy-card-1);
-	box-shadow: inset 0 0 0 1px var(--gauzy-border-default-color);
+	background-color: var(--irtranscripts-card-1);
+	box-shadow: inset 0 0 0 1px var(--irtranscripts-border-default-color);
 }
 
 .section-help {
 	margin: 0 0 $gap-sm;
 	font-size: 0.8125rem;
 	line-height: 1.25rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 }
 
 .grid {
@@ -225,7 +225,7 @@ nb-card.dialog {
 	font-size: 0.75rem;
 	font-weight: 600;
 	line-height: 1rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 }
 
 textarea[nbInput] {
@@ -237,7 +237,7 @@ textarea[nbInput] {
 	font-size: 0.8125rem;
 	font-style: italic;
 	line-height: 1.25rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 }
 
 /* ── Awards and languages: a hairline list with a delete action per row ─── */
@@ -283,14 +283,14 @@ textarea[nbInput] {
 	flex: 1 1 auto;
 	min-width: 0;
 	font-size: 0.875rem;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 	overflow-wrap: anywhere;
 }
 
 .item-meta {
 	flex: 0 0 auto;
 	font-size: 0.8125rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 	font-variant-numeric: tabular-nums;
 }
 
@@ -305,7 +305,7 @@ textarea[nbInput] {
 	border: 0;
 	border-radius: $radius;
 	background: transparent;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 	cursor: pointer;
 
 	nb-icon {
@@ -338,8 +338,8 @@ textarea[nbInput] {
 	max-width: 100%;
 	padding: 0.25rem 0.25rem 0.25rem 0.75rem;
 	border-radius: 999px;
-	background-color: var(--gauzy-card-2);
-	box-shadow: inset 0 0 0 1px var(--gauzy-border-default-color);
+	background-color: var(--irtranscripts-card-2);
+	box-shadow: inset 0 0 0 1px var(--irtranscripts-border-default-color);
 	font-size: 0.8125rem;
 	line-height: 1.25rem;
 	transition: box-shadow 0.15s ease;
@@ -352,7 +352,7 @@ textarea[nbInput] {
 .lang-chip-name {
 	min-width: 0;
 	font-weight: 500;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 	overflow-wrap: anywhere;
 }
 
@@ -376,7 +376,7 @@ textarea[nbInput] {
 	border: 0;
 	border-radius: 50%;
 	background: transparent;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 	cursor: pointer;
 
 	nb-icon {
@@ -404,7 +404,7 @@ textarea[nbInput] {
 	gap: $gap-md;
 	padding: $gap-md;
 	border-radius: $radius;
-	background-color: var(--gauzy-card-2);
+	background-color: var(--irtranscripts-card-2);
 }
 
 .field--narrow {
@@ -480,7 +480,7 @@ textarea[nbInput] {
 	::ng-deep .text {
 		font-size: 0.8125rem;
 		font-weight: 400;
-		color: var(--gauzy-text-color-1);
+		color: var(--irtranscripts-text-color-1);
 	}
 }
 
@@ -493,7 +493,7 @@ textarea[nbInput] {
 	gap: $gap-sm;
 	padding: $gap-md 1.25rem;
 	border-top: $hairline;
-	background-color: var(--gauzy-card-1);
+	background-color: var(--irtranscripts-card-1);
 }
 
 /* ── Narrow viewports ────────────────────────────────────────────────────── */

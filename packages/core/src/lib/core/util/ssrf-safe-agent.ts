@@ -1,7 +1,7 @@
 import * as https from 'https';
 import * as dns from 'dns';
 import type { LookupFunction } from 'net';
-import { isPrivateOrLoopbackHost } from '@gauzy/utils';
+import { isPrivateOrLoopbackHost } from '@irtranscripts/utils';
 
 /**
  * Creates an HTTPS agent whose DNS resolver rejects any hostname that resolves to a private,
@@ -10,13 +10,13 @@ import { isPrivateOrLoopbackHost } from '@gauzy/utils';
  * Validating the RESOLVED IP at connection time — not just the URL literal — is what closes
  * DNS-rebinding / hostname-based SSRF: a public-looking hostname that resolves to an internal
  * address is refused before the socket connects, with no time-of-check/time-of-use gap. Use it
- * alongside a URL-level check (see `getUnsafeOutboundUrlReason` in `@gauzy/utils`) and
+ * alongside a URL-level check (see `getUnsafeOutboundUrlReason` in `@irtranscripts/utils`) and
  * `maxRedirects: 0`, since a 30x to an internal host would otherwise be followed by the default
  * agent (GHSA-534m-c6mh-mp98, GHSA-6gg6-vv4f-2x74).
  *
- * Lives in `@gauzy/core` rather than `@gauzy/utils` because it depends on the Node `https`/`dns`
- * built-ins: `@gauzy/utils` is reachable from browser bundles, which those imports would break.
- * The pure URL predicates stay in `@gauzy/utils` and are safe to share with the web app.
+ * Lives in `@irtranscripts/core` rather than `@irtranscripts/utils` because it depends on the Node `https`/`dns`
+ * built-ins: `@irtranscripts/utils` is reachable from browser bundles, which those imports would break.
+ * The pure URL predicates stay in `@irtranscripts/utils` and are safe to share with the web app.
  *
  * @returns An `https.Agent` that blocks connections to non-public addresses.
  */

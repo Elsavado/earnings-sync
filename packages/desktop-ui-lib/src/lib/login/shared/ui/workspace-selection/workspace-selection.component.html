@@ -1,6 +1,6 @@
 <section class="workspace-selection-container">
   <div class="logo">
-    <gauzy-logo></gauzy-logo>
+    <irtranscripts-logo></irtranscripts-logo>
     <h4>
       <strong>{{ 'WORKSPACES.SELECTION.WELCOME_BACK' | translate }}</strong
         ><br />
@@ -44,7 +44,7 @@
                 <nb-icon
                   status="primary"
                   icon="arrow-forward-outline"
-                  *gauzySpinnerButton="(workspace.token === selected?.token) && loading"
+                  *irtranscriptsSpinnerButton="(workspace.token === selected?.token) && loading"
                   [options]="{ animation: { type: 'shake' } }"
                 ></nb-icon>
               </div>

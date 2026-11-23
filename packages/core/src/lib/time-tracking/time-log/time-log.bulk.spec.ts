@@ -7,9 +7,9 @@ import '../../core/entities/internal';
 
 import { ExecutionContext, ForbiddenException, RequestMethod } from '@nestjs/common';
 import { METHOD_METADATA, PATH_METADATA } from '@nestjs/common/constants';
-import { environment as env } from '@gauzy/config';
-import { PermissionsEnum, RolesEnum, TimeLogSourceEnum, TimeLogType } from '@gauzy/contracts';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
+import { environment as env } from '@irtranscripts/config';
+import { PermissionsEnum, RolesEnum, TimeLogSourceEnum, TimeLogType } from '@irtranscripts/contracts';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { BulkExecutor } from '../../api/bulk-executor.service';
 import { readBulkOperation } from '../../api/bulk.decorator';
 import { FieldVisibility } from '../../api/field-visibility.service';

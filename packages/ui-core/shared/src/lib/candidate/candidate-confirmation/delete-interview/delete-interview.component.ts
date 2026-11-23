@@ -1,4 +1,4 @@
-import { ICandidateInterview } from '@gauzy/contracts';
+import { ICandidateInterview } from '@irtranscripts/contracts';
 import { Component, OnDestroy, Input, ChangeDetectionStrategy } from '@angular/core';
 import { NbDialogRef } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
@@ -9,8 +9,8 @@ import {
 	CandidatePersonalQualitiesService,
 	CandidateTechnologiesService,
 	ToastrService
-} from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 
 @UntilDestroy()
 @Component({

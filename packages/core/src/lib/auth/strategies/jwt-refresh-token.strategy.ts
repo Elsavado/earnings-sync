@@ -1,5 +1,5 @@
-import { environment } from '@gauzy/config';
-import { IUser } from '@gauzy/contracts';
+import { environment } from '@irtranscripts/config';
+import { IUser } from '@irtranscripts/contracts';
 import { Injectable, Logger, ServiceUnavailableException, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';

@@ -1,5 +1,5 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a delivery choice needs and none of which is available
  * outside a running application. The seam is therefore doubled at the module boundary, exactly as the
  * sibling packages' service specs do, and **the service under test is the real one**: only the CRUD
@@ -15,13 +15,13 @@
  * `success: false` instead of raising, and the double states that pair too because the code guard
  * below is built from it.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	// The kernel's conditional write is pulled through the seam rather than re-implemented: the edit
 	// cases below are about what the platform's `UPDATE … WHERE id = :id AND version = :expected` does
 	// with a version that moved on, and a stand-in here would assert this suite's own idea of a lock.
-	const versionedWrite = jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write');
+	const versionedWrite = jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
@@ -146,8 +146,8 @@ jest.mock('@gauzy/core', () => {
 });
 
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { ShippingPriceType } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { ShippingPriceType } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { ShippingOptionService } from './shipping-option.service';
 
 /**

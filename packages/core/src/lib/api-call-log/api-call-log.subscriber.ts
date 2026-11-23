@@ -1,6 +1,6 @@
 import { Logger } from '@nestjs/common';
 import { EventSubscriber } from 'typeorm';
-import { isBetterSqlite3, isSqlite } from '@gauzy/config';
+import { isBetterSqlite3, isSqlite } from '@irtranscripts/config';
 import { BaseEntityEventSubscriber } from '../core/entities/subscribers/base-entity-event.subscriber';
 import { MultiOrmEntityManager } from '../core/entities/subscribers/entity-event-subscriber.types';
 import { ApiCallLog } from './api-call-log.entity';

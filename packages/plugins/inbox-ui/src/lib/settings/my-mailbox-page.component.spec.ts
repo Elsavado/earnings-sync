@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
-import { InboxMailboxKindEnum, InboxMailboxOwnerTypeEnum, PermissionsEnum } from '@gauzy/contracts';
-import { Store, ToastrService } from '@gauzy/ui-core/core';
+import { InboxMailboxKindEnum, InboxMailboxOwnerTypeEnum, PermissionsEnum } from '@irtranscripts/contracts';
+import { Store, ToastrService } from '@irtranscripts/ui-core/core';
 import { InboxEmailSettingsService } from '../services/inbox-email-settings.service';
 import { InboxMyMailboxPageComponent } from './my-mailbox-page.component';
 
@@ -49,7 +49,7 @@ describe('InboxMyMailboxPageComponent', () => {
 					kind: InboxMailboxKindEnum.PLATFORM,
 					ownerType: InboxMailboxOwnerTypeEnum.EMPLOYEE,
 					forwardingInstructions:
-						'Forward the mail you want in Gauzy to ada.lovelace.acme@inbox.example.test.'
+						'Forward the mail you want in IRTranscripts to ada.lovelace.acme@inbox.example.test.'
 				},
 				{
 					id: 'm2',
@@ -61,7 +61,7 @@ describe('InboxMyMailboxPageComponent', () => {
 		);
 		const { find } = render();
 		expect(find('my-mailbox-m1')?.textContent).toContain('ada.lovelace.acme@inbox.example.test');
-		expect(find('instructions-m1')?.textContent).toContain('Forward the mail you want in Gauzy');
+		expect(find('instructions-m1')?.textContent).toContain('Forward the mail you want in IRTranscripts');
 		expect(find('instructions-m2')).toBeNull();
 		// Not a manager: no link to the settings.
 		expect(find('manage')).toBeNull();

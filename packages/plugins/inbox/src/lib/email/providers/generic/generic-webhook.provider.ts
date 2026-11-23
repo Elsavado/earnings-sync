@@ -7,7 +7,7 @@ import {
 	UnauthorizedException
 } from '@nestjs/common';
 import { createHmac } from 'node:crypto';
-import { verifyWebhookSignature, WEBHOOK_SIGNATURE_TOLERANCE_SECONDS } from '@gauzy/core';
+import { verifyWebhookSignature, WEBHOOK_SIGNATURE_TOLERANCE_SECONDS } from '@irtranscripts/core';
 import {
 	derivedMessageId,
 	messageIdOf,
@@ -31,7 +31,7 @@ import {
 } from '../email-provider.types';
 
 /** The signature header of the generic webhook: `t=<unix seconds>,v1=<hex HMAC-SHA256 of "<t>.<raw body>">`. */
-export const GENERIC_SIGNATURE_HEADER = 'x-gauzy-inbox-signature';
+export const GENERIC_SIGNATURE_HEADER = 'x-irtranscripts-inbox-signature';
 
 /** The most messages one generic delivery may carry. */
 export const GENERIC_MAX_MESSAGES = 20;
@@ -74,11 +74,11 @@ function strings(value: unknown): string[] {
 
 /**
  * The built-in generic signed webhook (plan 04 §5.2): the format the Cloudflare Email Worker (the platform default
- * on `GAUZY_INBOX_DOMAIN`) posts to `/api/inbox/inbound/generic/platform`, and that any relay can post to a generic
+ * on `IRTRANSCRIPTS_INBOX_DOMAIN`) posts to `/api/inbox/inbound/generic/platform`, and that any relay can post to a generic
  * provider account.
  *
- * **Verification.** `X-Gauzy-Inbox-Signature: t=<unix seconds>,v1=<hex>` — HMAC-SHA256 over `<t>.<raw body>`
- * keyed with the account's signing secret (the platform route: `GAUZY_INBOX_PLATFORM_SECRET`), 5-minute window,
+ * **Verification.** `X-IRTranscripts-Inbox-Signature: t=<unix seconds>,v1=<hex>` — HMAC-SHA256 over `<t>.<raw body>`
+ * keyed with the account's signing secret (the platform route: `IRTRANSCRIPTS_INBOX_PLATFORM_SECRET`), 5-minute window,
  * constant-time compare; the delivery (timestamp + the signature that verified) is made single use by the pipeline
  * (Redis `SET NX` when available). No raw body, no secret, a stale or forged signature: refused. There is no unsigned
  * mode.

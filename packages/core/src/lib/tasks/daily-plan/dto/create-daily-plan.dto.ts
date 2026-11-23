@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional, IntersectionType } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsDate, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsUUID, Min } from 'class-validator';
-import { DailyPlanStatusEnum, ID, IDailyPlanCreateInput } from '@gauzy/contracts';
+import { DailyPlanStatusEnum, ID, IDailyPlanCreateInput } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../../core/dto';
 import { EmployeeFeatureDTO } from '../../../employee/dto';
 import { OrganizationTeamFeatureDTO } from '../../../organization-team/dto';

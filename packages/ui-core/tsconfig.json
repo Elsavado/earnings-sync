@@ -10,8 +10,8 @@
 		"noFallthroughCasesInSwitch": true,
 		"baseUrl": ".",
 		"paths": {
-			"@gauzy/ui-core/*": ["./*/src/index.ts"],
-			"@gauzy/ui-config": ["./../../dist/packages/ui-config"]
+			"@irtranscripts/ui-core/*": ["./*/src/index.ts"],
+			"@irtranscripts/ui-config": ["./../../dist/packages/ui-config"]
 		},
 		"module": "preserve",
 		"moduleResolution": "bundler"

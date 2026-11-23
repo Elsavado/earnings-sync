@@ -106,7 +106,7 @@ describe('AlterInvoiceNumberUniquePerTenant (SQLite) — GHSA-57hw-jqpj-ww97', (
 		).map((index: { name: string }) => index.name);
 
 	beforeEach(async () => {
-		dbPath = path.join(os.tmpdir(), `gauzy-invoice-unique-${process.pid}-${Date.now()}-${Math.random()}.sqlite3`);
+		dbPath = path.join(os.tmpdir(), `irtranscripts-invoice-unique-${process.pid}-${Date.now()}-${Math.random()}.sqlite3`);
 		dataSource = new DataSource({
 			type: 'better-sqlite3',
 			database: dbPath,

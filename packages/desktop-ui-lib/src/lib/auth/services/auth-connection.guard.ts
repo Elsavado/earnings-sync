@@ -3,7 +3,7 @@ import { CanActivateFn, Router, UrlTree } from '@angular/router';
 import { selectPersistStateInit } from '@datorama/akita';
 import { combineLatest, from, Observable, of, switchMap } from 'rxjs';
 import { catchError, map, take } from 'rxjs/operators';
-import { GAUZY_ENV } from '../../constants';
+import { IRTRANSCRIPTS_ENV } from '../../constants';
 import { PersistQuery, PersistState, ServerConnectionService } from '../../services';
 
 /**
@@ -60,7 +60,7 @@ export const authConnectionGuard: CanActivateFn = (route, state): Observable<boo
 	const router = inject(Router);
 	const persistQuery = inject(PersistQuery);
 	const config = inject(AUTH_CONNECTION_GUARD_CONFIG);
-	const env = inject(GAUZY_ENV);
+	const env = inject(IRTRANSCRIPTS_ENV);
 	const serverConnectionService = inject(ServerConnectionService);
 
 	return from(serverConnectionService.checkServerConnection(env.API_BASE_URL)).pipe(

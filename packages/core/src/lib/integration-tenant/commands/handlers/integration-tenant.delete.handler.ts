@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { DeleteResult } from 'typeorm';
-import { IntegrationEnum } from '@gauzy/contracts';
+import { IntegrationEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../../core/context';
 import { EventBus } from '../../../event-bus/event-bus';
 import { BaseEntityEventTypeEnum } from '../../../event-bus/base-entity-event';

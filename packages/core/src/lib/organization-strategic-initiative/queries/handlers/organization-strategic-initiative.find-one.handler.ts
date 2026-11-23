@@ -1,5 +1,5 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { IOrganizationStrategicInitiative } from '@gauzy/contracts';
+import { IOrganizationStrategicInitiative } from '@irtranscripts/contracts';
 import { OrganizationStrategicInitiativeFindOneQuery } from '../organization-strategic-initiative.find-one.query';
 import { OrganizationStrategicInitiativeService } from '../../organization-strategic-initiative.service';
 

@@ -1,7 +1,7 @@
 {
-	"name": "@gauzy/ui-react",
+	"name": "@irtranscripts/ui-react",
 	"version": "0.1.0",
-	"description": "React-to-Angular bridge for Gauzy UI plugins. Renders React components inside Angular with access to Angular services.",
+	"description": "React-to-Angular bridge for IRTranscripts UI plugins. Renders React components inside Angular with access to Angular services.",
 	"author": {
 		"name": "Ever Co. LTD",
 		"email": "ever@ever.co",
@@ -26,7 +26,7 @@
 	"peerDependencies": {
 		"@angular/common": "22.2.2",
 		"@angular/core": "22.2.2",
-		"@gauzy/plugin-ui": "*",
+		"@irtranscripts/plugin-ui": "*",
 		"react": "^19.3.0",
 		"react-dom": "^19.3.0",
 		"rxjs": "^7.0.0"
@@ -39,12 +39,12 @@
 		"jest-preset-angular": "17.0.2"
 	},
 	"keywords": [
-		"gauzy",
+		"irtranscripts",
 		"ui-react",
 		"angular",
 		"react",
 		"plugin",
-		"ever-gauzy"
+		"ever-irtranscripts"
 	],
 	"engines": {
 		"node": ">=26",

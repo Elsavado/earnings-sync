@@ -9,7 +9,7 @@ import {
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { JwtPayload } from 'jsonwebtoken';
-import { environment as env } from '@gauzy/config';
+import { environment as env } from '@irtranscripts/config';
 import { IAuthenticatedUser } from '../../core/context/types';
 import { DATABASE_UNAVAILABLE_MESSAGE, isDatabaseUnavailableError } from '../../core/errors/database-unavailable';
 import { AuthService } from '../auth.service';

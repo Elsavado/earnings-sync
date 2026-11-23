@@ -1,8 +1,8 @@
 // cspell:ignore dmarc
-// `@gauzy/plugin-inbox` from source with its real MIME parser and outbound helper; `@gauzy/core` (whose barrel boots
+// `@irtranscripts/plugin-inbox` from source with its real MIME parser and outbound helper; `@irtranscripts/core` (whose barrel boots
 // the application) is not needed by the parts used here.
-jest.mock('@gauzy/core', () => ({}));
-jest.mock('@gauzy/plugin-inbox', () => ({
+jest.mock('@irtranscripts/core', () => ({}));
+jest.mock('@irtranscripts/plugin-inbox', () => ({
 	...jest.requireActual('../../../inbox/src/lib/email/inbound/mime'),
 	...jest.requireActual('../../../inbox/src/lib/email/providers/outbound-mail')
 }));
@@ -222,10 +222,10 @@ describe('Postmark email provider', () => {
 		});
 
 		it('reports the server, and a refused token', async () => {
-			const ok = recorder({ 'GET https://api.postmarkapp.com/server': { body: { Name: 'Gauzy inbox' } } });
+			const ok = recorder({ 'GET https://api.postmarkapp.com/server': { body: { Name: 'IRTranscripts inbox' } } });
 			expect(await new PostmarkProvider(undefined, ok.fetcher).verifyAccount(account)).toEqual({
 				ok: true,
-				message: 'Connected to the Postmark server "Gauzy inbox".'
+				message: 'Connected to the Postmark server "IRTranscripts inbox".'
 			});
 			const refused = recorder({
 				'GET https://api.postmarkapp.com/server': {

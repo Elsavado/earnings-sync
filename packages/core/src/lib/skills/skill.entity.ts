@@ -1,6 +1,6 @@
 import { JoinTable } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IEmployee, IOrganization, ISkill } from '@gauzy/contracts';
+import { IEmployee, IOrganization, ISkill } from '@irtranscripts/contracts';
 import {
 	Employee,
 	Organization,

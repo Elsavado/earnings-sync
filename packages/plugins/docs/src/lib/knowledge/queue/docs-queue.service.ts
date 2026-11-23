@@ -1,7 +1,7 @@
 import { Injectable, Logger, Optional, OnModuleInit } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import { JobsOptions } from 'bullmq';
-import { SchedulerQueueService } from '@gauzy/scheduler';
+import { SchedulerQueueService } from '@irtranscripts/scheduler';
 import {
 	DOCS_BULK_IMPORT_JOB_PRIORITY,
 	DOCS_JOB_ATTEMPTS,
@@ -40,7 +40,7 @@ export function toBullMqJobId(jobId: string): string {
 /**
  * The single dispatch seam of the `docs-processing` pipeline. Two modes:
  *
- * **QUEUED** — a `@gauzy/scheduler` root with queueing exists in this process, so
+ * **QUEUED** — a `@irtranscripts/scheduler` root with queueing exists in this process, so
  * `SchedulerQueueService` resolves and every job goes to BullMQ with the standard retry policy
  * (`attempts: 3`, exponential backoff from a 120 s base, `removeOnComplete: 500` /
  * `removeOnFail: 1000`) and a deterministic job id `docs:<stage>:<documentId>` — duplicate
@@ -100,7 +100,7 @@ export class DocsQueueService implements OnModuleInit {
 			);
 		} else {
 			this.logger.log(
-				'docs-processing dispatch mode: INLINE — no @gauzy/scheduler root in this process, so pipeline ' +
+				'docs-processing dispatch mode: INLINE — no @irtranscripts/scheduler root in this process, so pipeline ' +
 					'stages run in-process on a background task (single attempt per stage, failures dead-letter ' +
 					'onto the document row). Import SchedulerModule.forRoot() to use the BullMQ queue instead.'
 			);

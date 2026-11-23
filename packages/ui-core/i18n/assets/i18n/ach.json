@@ -708,7 +708,7 @@
 		"TOTAL_INCOME_OR_MONTHLY_INCOME": "crwdns4634:0crwdne4634:0",
 		"PROFITS": "crwdns4636:0crwdne4636:0",
 		"BONUSES_PAID": "crwdns4638:0crwdne4638:0",
-		"TOTAL_HOURS_WORKED_OVER_GAUZY": "crwdns4790:0crwdne4790:0",
+		"TOTAL_HOURS_WORKED_OVER_IRTRANSCRIPTS": "crwdns4790:0crwdne4790:0",
 		"MINIMUM_PROJECT_SIZE": "crwdns4642:0crwdne4642:0",
 		"PROJECTS_COUNT": "crwdns4644:0crwdne4644:0",
 		"CLIENTS_COUNT": "crwdns4824:0crwdne4824:0",
@@ -749,7 +749,7 @@
 		"INTEGRATIONS": "crwdns8128:0crwdne8128:0",
 		"UPWORK": "crwdns3200:0crwdne3200:0",
 		"ZAPIER": "Zapier",
-		"GAUZY_AI": "Gauzy AI",
+		"IRTRANSCRIPTS_AI": "IRTranscripts AI",
 		"ACTIVEPIECES": "Activepieces",
 		"MAKE_COM": "Make.com",
 		"PROPOSALS": "crwdns2104:0crwdne2104:0",
@@ -1132,8 +1132,8 @@
 		"CORPORATE": "crwdns2114:0crwdne2114:0",
 		"MATERIAL_LIGHT_THEME": "crwdns10948:0crwdne10948:0",
 		"MATERIAL_DARK_THEME": "crwdns10950:0crwdne10950:0",
-		"GAUZY_LIGHT": "crwdns11000:0crwdne11000:0",
-		"GAUZY_DARK": "crwdns11002:0crwdne11002:0",
+		"IRTRANSCRIPTS_LIGHT": "crwdns11000:0crwdne11000:0",
+		"IRTRANSCRIPTS_DARK": "crwdns11002:0crwdne11002:0",
 		"LANGUAGE": "crwdns2116:0crwdne2116:0",
 		"ENGLISH": "crwdns2118:0crwdne2118:0",
 		"BULGARIAN": "crwdns2120:0crwdne2120:0",
@@ -1153,7 +1153,7 @@
 	"CHANGELOG_MENU": {
 		"HEADER": "crwdns10190:0crwdne10190:0",
 		"LEARN_MORE_URL": "crwdns10192:0crwdne10192:0",
-		"GAUZY_FEATURES": "crwdns11168:0crwdne11168:0"
+		"IRTRANSCRIPTS_FEATURES": "crwdns11168:0crwdne11168:0"
 	},
 	"REPORT_PAGE": {
 		"MEMBERS_WORKED": "crwdns8242:0crwdne8242:0",
@@ -1393,9 +1393,9 @@
 				"SETTINGS": "Ter"
 			},
 			"TOOLTIP": {
-				"TRIGGERS": "Lok ma gonyo eno ni tic ma tye i Gauzy ki gitye ki twero tiyo kwede tic i Zapier.",
-				"ACTIONS": "Tic eno ni tic ma tye i Zapier ki gitye ki twero tiyo kwede tic i Gauzy.",
-				"WEBHOOKS": "Webhooks eno ni tic ma tye i Zapier ki gitye ki twero tiyo kwede tic i Gauzy.",
+				"TRIGGERS": "Lok ma gonyo eno ni tic ma tye i IRTranscripts ki gitye ki twero tiyo kwede tic i Zapier.",
+				"ACTIONS": "Tic eno ni tic ma tye i Zapier ki gitye ki twero tiyo kwede tic i IRTranscripts.",
+				"WEBHOOKS": "Webhooks eno ni tic ma tye i Zapier ki gitye ki twero tiyo kwede tic i IRTranscripts.",
 				"SETTINGS": "Ter eno ni ter ma kigoyo i tic kwede Zapier."
 			},
 			"MESSAGE": {
@@ -1412,7 +1412,7 @@
 				"WEBHOOK_URL": "URL pa Webhook",
 				"WEBHOOK_URL_PLACEHOLDER": "Ket URL pa webhook",
 				"WEBHOOK_URL_INVALID": "Tim ber ket URL pa webhook ma tye",
-				"WEBHOOK_INFO": "Webhook eno ni tic ma tye i Zapier ki gitye ki twero tiyo kwede tic i Gauzy.",
+				"WEBHOOK_INFO": "Webhook eno ni tic ma tye i Zapier ki gitye ki twero tiyo kwede tic i IRTranscripts.",
 				"SAVE": "Gam ter"
 			},
 			"ACTIONS": {
@@ -1908,8 +1908,8 @@
 		"KIND_HUMAN": "People",
 		"KIND_AGENT": "Agents",
 		"AGENT_BADGE": "Agent",
-		"MANAGED_BY_EVER_WORKS": "Managed by Ever Works: this agent's name and profile are changed in Ever Works and synced to Gauzy.",
-		"MANAGED_EXTERNALLY": "Managed externally: this agent's name and profile are changed in the system it comes from and synced to Gauzy.",
+		"MANAGED_BY_EVER_WORKS": "Managed by Ever Works: this agent's name and profile are changed in Ever Works and synced to IRTranscripts.",
+		"MANAGED_EXTERNALLY": "Managed externally: this agent's name and profile are changed in the system it comes from and synced to IRTranscripts.",
 		"OPEN_MANAGED_AGENT": "Open agent page",
 		"HEADER": "crwdns10268:0crwdne10268:0",
 		"ADD_EMPLOYEE": "crwdns220:0crwdne220:0",
@@ -4211,9 +4211,9 @@
 		"THE_PAGE_YOU_WERE_LOOKING_FOR_DOES_NOT_EXIST": "crwdns2253:0crwdne2253:0"
 	},
 	"HELP_PAGE": {
-		"INTRO": "Find documentation, get answers, and reach the team behind Gauzy.",
+		"INTRO": "Find documentation, get answers, and reach the team behind IRTranscripts.",
 		"DOCUMENTATION": "Documentation",
-		"DOCUMENTATION_DESC": "Guides and reference for every Gauzy feature.",
+		"DOCUMENTATION_DESC": "Guides and reference for every IRTranscripts feature.",
 		"FAQ": "FAQ",
 		"FAQ_DESC": "Answers to the most common questions.",
 		"SUPPORT_CHAT": "Support Chat",
@@ -4222,9 +4222,9 @@
 		"REPORT_ISSUE_DESC": "Found a bug? Open an issue on GitHub.",
 		"GITHUB": "GitHub",
 		"GITHUB_DESC": "Source code, releases, and discussions.",
-		"WEBSITE": "Gauzy Website",
-		"WEBSITE_DESC": "Learn more about the Gauzy platform.",
-		"ABOUT_LINK": "About Gauzy",
+		"WEBSITE": "IRTranscripts Website",
+		"WEBSITE_DESC": "Learn more about the IRTranscripts platform.",
+		"ABOUT_LINK": "About IRTranscripts",
 		"ABOUT_LINK_DESC": "Version details, license, and links.",
 		"HELP": "crwdns2255:0crwdne2255:0",
 		"KNOWLEDGE_BASE": "crwdns6960:0crwdne6960:0",
@@ -4667,7 +4667,7 @@
 	},
 	"ABOUT_PAGE": {
 		"COPYRIGHT": "Copyright © 2019-{{year}}, Ever Co. LTD. All rights reserved.",
-		"DESCRIPTION": "Ever® Gauzy™ is an Open Business Management Platform for Collaborative, On-Demand and Sharing Economies — ERP, CRM, HRM, ATS and Project Management with integrated time tracking.",
+		"DESCRIPTION": "Ever® IRTranscripts™ is an Open Business Management Platform for Collaborative, On-Demand and Sharing Economies — ERP, CRM, HRM, ATS and Project Management with integrated time tracking.",
 		"LICENSE": "Open source, released under the",
 		"VERSION_DETAILS": "Version Details",
 		"VERSION_MISMATCH": "The web app and the API were built from different commits — a deployment may still be rolling out.",
@@ -4679,7 +4679,7 @@
 		"ABOUT": "crwdns2257:0crwdne2257:0",
 		"GITHUB": {
 			"TITLE": "On GitHub",
-			"DESCRIPTION": "Ever Gauzy is developed in the open: follow the releases, report an issue or contribute.",
+			"DESCRIPTION": "Ever IRTranscripts is developed in the open: follow the releases, report an issue or contribute.",
 			"RELEASES": "Releases",
 			"ISSUES": "Issues",
 			"PULL_REQUESTS": "Pull requests",
@@ -5137,7 +5137,7 @@
 		"PERMISSIONS": {
 			"MENU_LABEL": "Twero pa kal",
 			"TITLE": "Twero pa kal",
-			"DESCRIPTION": "Gauzy mito twero mogo pa macOS me nongo tic mamegi ki kare. Nen ki juk ki kwene.",
+			"DESCRIPTION": "IRTranscripts mito twero mogo pa macOS me nongo tic mamegi ki kare. Nen ki juk ki kwene.",
 			"SCREEN_RECORDING": "Gwoko mony",
 			"SCREEN_RECORDING_DESC": "Mite me cup cal mony ma ityer kare me tic.",
 			"STATUS": "Tic",
@@ -5155,7 +5155,7 @@
 			"RELAUNCH": "Cak doki",
 			"RELAUNCH_DESC": "Omiyogi twero ento pud pe ityer mony? Dii Cak doki me tiyo ki lok manyen.",
 			"DIALOG_TITLE": "Twero me Gwoko Mony Mite",
-			"DIALOG_DESC": "Gauzy mito twero me gwoko mony me cup cal mony kare me tic mamegi. Tim ber imiy twero me acaki.",
+			"DIALOG_DESC": "IRTranscripts mito twero me gwoko mony me cup cal mony kare me tic mamegi. Tim ber imiy twero me acaki.",
 			"POLLING_HINT": "Dirica man boti pore kene ka omiyogi twero.",
 			"START_ANYWAY": "Cak pe ki cup mony",
 			"ACCESSIBILITY": "Twero me Donyo",
@@ -5610,7 +5610,7 @@
 			},
 			"SUGGESTED_ENDPOINT": "Endpoint for this region:",
 			"USE_SUGGESTION": "Use it",
-			"SAVE_NOTE": "When you save, Gauzy uses these credentials to create the bucket in Wasabi. If Wasabi rejects the request, the settings are not saved.",
+			"SAVE_NOTE": "When you save, IRTranscripts uses these credentials to create the bucket in Wasabi. If Wasabi rejects the request, the settings are not saved.",
 			"LABELS": {
 				"ACCESS_KEY_ID": "crwdns10976:0crwdne10976:0",
 				"SECRET_ACCESS_KEY": "crwdns10978:0crwdne10978:0",
@@ -5785,7 +5785,7 @@
 			}
 		}
 	},
-	"GAUZY_MAINTENANCE": "crwdns10034:0crwdne10034:0",
+	"IRTRANSCRIPTS_MAINTENANCE": "crwdns10034:0crwdne10034:0",
 	"LEGAL": {
 		"PRIVACY_POLICY": "crwdns9998:0crwdne9998:0",
 		"TERMS_AND_CONDITIONS": "crwdns10000:0crwdne10000:0",

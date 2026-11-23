@@ -1,7 +1,7 @@
 import '../core/entities/internal';
 
 import { BadRequestException } from '@nestjs/common';
-import { IOrganizationStrategicInitiativeRead, OrganizationStrategicVisibilityScopeEnum } from '@gauzy/contracts';
+import { IOrganizationStrategicInitiativeRead, OrganizationStrategicVisibilityScopeEnum } from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from '../core/crud';
 import { RequestContext } from '../core/context';
 import { OrganizationTeam, UserOrganization } from '../core/entities/internal';

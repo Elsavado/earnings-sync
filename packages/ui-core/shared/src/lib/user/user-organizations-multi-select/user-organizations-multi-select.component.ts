@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
-import { IOrganization } from '@gauzy/contracts';
+import { IOrganization } from '@irtranscripts/contracts';
 
 @Component({
     selector: 'ga-user-organizations-multi-select',

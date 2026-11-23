@@ -1,14 +1,14 @@
-# @gauzy/plugin-integration-hubstaff
+# @irtranscripts/plugin-integration-hubstaff
 
 This library was generated with [Nx](https://nx.dev).
 
 ## Overview
 
-The Integration Hubstaff plugin is a Gauzy plugin that provides a user-friendly interface for integrating Hubstaff with the Gauzy platform.
+The Integration Hubstaff plugin is a IRTranscripts plugin that provides a user-friendly interface for integrating Hubstaff with the IRTranscripts platform.
 
 ## Features
 
-- **Integration Hubstaff**: Provides a user-friendly interface for integrating Hubstaff with the Gauzy platform.
+- **Integration Hubstaff**: Provides a user-friendly interface for integrating Hubstaff with the IRTranscripts platform.
 
 ## Building
 
@@ -27,7 +27,7 @@ After building your library with `yarn nx build plugin-integration-hubstaff`, go
 Install the Integration Hubstaff plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-integration-hubstaff
+npm install @irtranscripts/plugin-integration-hubstaff
 # or
-yarn add @gauzy/plugin-integration-hubstaff
+yarn add @irtranscripts/plugin-integration-hubstaff
 ```

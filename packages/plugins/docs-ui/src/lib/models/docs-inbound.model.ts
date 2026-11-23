@@ -3,7 +3,7 @@ import {
 	IDocumentInboundAddress,
 	IDocumentInboundAddressSecret,
 	IDocumentInboundDomainVerification
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 /**
  * Plugin-local wire models for the inbound email capture endpoints (spec 07 §17.2).
@@ -19,7 +19,7 @@ import {
  * ```
  *
  * The row entity (`IDocumentInboundAddress`), both inputs, the secret envelope and the
- * verification descriptor all already live in `@gauzy/contracts`. What is local here is the
+ * verification descriptor all already live in `@irtranscripts/contracts`. What is local here is the
  * *view* type, the create envelope and the client-side mirrors of the server's validation.
  */
 

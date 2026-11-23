@@ -12,7 +12,7 @@ import {
 	IdempotencyOutcome,
 	RoundingMode,
 	TaxLineOwnerType
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	AdjustmentService,
 	ChannelService,
@@ -25,16 +25,16 @@ import {
 	compareDecimalStrings,
 	isValidDecimalString,
 	normalizeDecimalString
-} from '@gauzy/core';
-import { CommerceCartService } from '@gauzy/plugin-cart';
-import { PricePreferenceService } from '@gauzy/plugin-pricing';
-import { TaxRateService } from '@gauzy/plugin-tax';
+} from '@irtranscripts/core';
+import { CommerceCartService } from '@irtranscripts/plugin-cart';
+import { PricePreferenceService } from '@irtranscripts/plugin-pricing';
+import { TaxRateService } from '@irtranscripts/plugin-tax';
 import type {
 	ISubscriptionOrderGatewayPort,
 	ISubscriptionOrderRequest,
 	ISubscriptionOrderResult,
 	ISubscriptionProrationOrderRequest
-} from '@gauzy/plugin-subscription';
+} from '@irtranscripts/plugin-subscription';
 import { Order } from '../order/order.entity';
 import { OrderService } from '../order/order.service';
 import { TypeOrmOrderRepository } from '../order/repository/type-orm-order.repository';

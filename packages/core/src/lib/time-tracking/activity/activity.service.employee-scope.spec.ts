@@ -5,7 +5,7 @@
 import '../../core/entities/internal';
 
 import { knex as createKnex, Knex } from 'knex';
-import { IGetActivitiesInput, IUser, PermissionsEnum } from '@gauzy/contracts';
+import { IGetActivitiesInput, IUser, PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../core/context';
 import { MultiORMEnum } from '../../core/utils';
 import { NO_ACCESSIBLE_EMPLOYEE_ID } from '../../employee/managed-employee.service';

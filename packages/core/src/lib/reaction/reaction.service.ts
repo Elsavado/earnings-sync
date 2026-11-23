@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult, FindOptionsWhere, SaveOptions, UpdateResult } from 'typeorm';
-import { ID, IReaction, IReactionCreateInput, IReactionUpdateInput } from '@gauzy/contracts';
+import { ID, IReaction, IReactionCreateInput, IReactionUpdateInput } from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from './../core/crud/tenant-aware-crud.service';
 import { IFindOneOptions } from '../core/crud/icrud.service';
 import { RequestContext } from '../core/context/request-context';

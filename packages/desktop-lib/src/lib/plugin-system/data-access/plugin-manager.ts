@@ -1,5 +1,5 @@
-import { ID } from '@gauzy/contracts';
-import { logger } from '@gauzy/desktop-core';
+import { ID } from '@irtranscripts/contracts';
+import { logger } from '@irtranscripts/desktop-core';
 import { app, MenuItemConstructorOptions } from 'electron';
 import { existsSync } from 'node:fs';
 import * as fs from 'node:fs/promises';

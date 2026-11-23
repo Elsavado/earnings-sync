@@ -10,7 +10,7 @@ import { IPersonListItem } from '../people-list/people-list.component';
  * group wrap and name more people, because it has the room.
  */
 @Component({
-	selector: 'gauzy-project-organization-employees',
+	selector: 'irtranscripts-project-organization-employees',
 	templateUrl: './project-organization-employees.component.html',
 	styleUrls: ['./project-organization-employees.component.scss'],
 	changeDetection: ChangeDetectionStrategy.Eager,

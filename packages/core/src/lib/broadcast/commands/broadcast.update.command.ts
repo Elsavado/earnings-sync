@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { IBroadcastUpdateInput, ID } from '@gauzy/contracts';
+import { IBroadcastUpdateInput, ID } from '@irtranscripts/contracts';
 
 export class BroadcastUpdateCommand implements ICommand {
 	static readonly type = '[Broadcast] Update';

@@ -1,9 +1,9 @@
 import { DataSource } from 'typeorm';
 import * as chalk from 'chalk';
 import * as path from 'path';
-import { ApplicationPluginConfig } from '@gauzy/common';
-import { environment as env, DatabaseTypeEnum } from '@gauzy/config';
-import { IFeature, IFeatureOrganization, ITenant } from '@gauzy/contracts';
+import { ApplicationPluginConfig } from '@irtranscripts/common';
+import { environment as env, DatabaseTypeEnum } from '@irtranscripts/config';
+import { IFeature, IFeatureOrganization, ITenant } from '@irtranscripts/contracts';
 import { DEFAULT_FEATURES } from './default-features';
 import { FeatureOrganization } from './feature-organization.entity';
 import { Feature } from './feature.entity';
@@ -174,7 +174,7 @@ async function cleanFeature(dataSource: DataSource, config: Partial<ApplicationP
 
 		// Determine the base directory for assets
 		const dir = isElectron
-			? path.resolve(env.gauzyUserPath, 'public/features')
+			? path.resolve(env.irtranscriptsUserPath, 'public/features')
 			: path.resolve(config.assetOptions?.assetPublicPath || publicDir, 'features'); // Custom public directory path from configuration.
 
 		console.log('Feature Cleaner -> dir: ' + dir);

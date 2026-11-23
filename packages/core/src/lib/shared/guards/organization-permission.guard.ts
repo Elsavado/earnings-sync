@@ -1,13 +1,13 @@
-import { MultiORM, environment as env } from '@gauzy/config';
+import { MultiORM, environment as env } from '@irtranscripts/config';
 import { CanActivate, ExecutionContext, Inject, Injectable, Type } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { GqlContextType, GqlExecutionContext } from '@nestjs/graphql';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { Brackets, EntityTarget, In, WhereExpressionBuilder } from 'typeorm';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { ID, IOrganization, PermissionsEnum, RolesEnum } from '@gauzy/contracts';
-import { deduplicate, isEmpty, isNotEmpty } from '@gauzy/utils';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { ID, IOrganization, PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
+import { deduplicate, isEmpty, isNotEmpty } from '@irtranscripts/utils';
 import { RequestContext } from './../../core/context';
 import {
 	IOrganizationPolicyTarget,

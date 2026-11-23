@@ -27,8 +27,8 @@ import {
 	IPagination,
 	PermissionsEnum,
 	IIntegrationMap
-} from '@gauzy/contracts';
-import { ParseJsonPipe, PermissionGuard, Permissions, TenantPermissionGuard, UUIDValidationPipe } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { ParseJsonPipe, PermissionGuard, Permissions, TenantPermissionGuard, UUIDValidationPipe } from '@irtranscripts/core';
 import { UpworkTransactionService } from './upwork-transaction.service';
 import { UpworkService } from './upwork.service';
 

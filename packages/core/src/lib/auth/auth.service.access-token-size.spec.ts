@@ -2,7 +2,7 @@ import '../core/entities/internal';
 
 import { randomUUID } from 'node:crypto';
 import { decode, sign } from 'jsonwebtoken';
-import { PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { AuthService } from './auth.service';
 import { ACCESS_TOKEN_TYPE } from '../access-token/type.token';

@@ -1,7 +1,7 @@
 import { Column, JoinColumn, JoinTable, RelationId } from 'typeorm';
 import { Property as MikroORMProperty } from '@mikro-orm/core';
 import * as chalk from 'chalk';
-import { ApplicationPluginConfig, CustomEmbeddedFields, RelationCustomEmbeddedFieldConfig } from '@gauzy/common';
+import { ApplicationPluginConfig, CustomEmbeddedFields, RelationCustomEmbeddedFieldConfig } from '@irtranscripts/common';
 import {
 	getColumnType,
 	parseMikroOrmColumnOptions,

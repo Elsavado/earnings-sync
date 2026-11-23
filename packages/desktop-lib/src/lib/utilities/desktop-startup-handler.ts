@@ -4,7 +4,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { TranslateService } from '../translation';
 
-const DB_FILENAME = 'gauzy.sqlite3';
+const DB_FILENAME = 'irtranscripts.sqlite3';
 
 export async function handleDesktopStartup(): Promise<number> {
 	const configs = LocalStore.getStore('configs');

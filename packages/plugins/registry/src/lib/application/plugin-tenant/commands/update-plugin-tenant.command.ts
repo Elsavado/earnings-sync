@@ -1,4 +1,4 @@
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { ICommand } from '@nestjs/cqrs';
 import { UpdatePluginTenantDTO } from '../../../shared/dto/update-plugin-tenant.dto';
 

@@ -24,7 +24,7 @@ jest.mock('uuid', () => {
  */
 import '../core/entities/internal';
 
-import { FeatureEnum } from '@gauzy/contracts';
+import { FeatureEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { featureFlagCacheKey, featureFlagCacheKeyFor, evictFeatureFlagEntries } from '../shared/guards/feature-flag.guard';
 import { FeatureOrganizationService } from './feature-organization.service';

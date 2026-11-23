@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from "chalk";
-import { DatabaseTypeEnum } from "@gauzy/config";
+import { DatabaseTypeEnum } from "@irtranscripts/config";
 
 export class AddIndexesColumnsToTheTimeLogTable1680172332764 implements MigrationInterface {
 	name = 'AddIndexesColumnsToTheTimeLogTable1680172332764';

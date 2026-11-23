@@ -1,4 +1,4 @@
-@use 'gauzy/_gauzy-dialogs' as *;
+@use 'irtranscripts/_irtranscripts-dialogs' as *;
 
 // Same shell as the add-employee dialog: header with step bar, a body that
 // scrolls on its own, and a fixed footer holding the step's actions.
@@ -9,10 +9,10 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  background-color: var(--gauzy-card-1);
+  background-color: var(--irtranscripts-card-1);
   border: none;
   border-radius: nb-theme(border-radius);
-  box-shadow: inset 0 0 0 1px var(--gauzy-border-default-color);
+  box-shadow: inset 0 0 0 1px var(--irtranscripts-border-default-color);
   overflow: hidden;
 }
 
@@ -22,7 +22,7 @@
   flex-direction: column;
   gap: 1rem;
   padding: 1.25rem 1.5rem 0;
-  border-bottom: 1px solid var(--gauzy-border-default-color);
+  border-bottom: 1px solid var(--irtranscripts-border-default-color);
 
   .header-row {
     display: flex;
@@ -44,7 +44,7 @@
     height: 2.25rem;
     border-radius: 50%;
     object-fit: cover;
-    box-shadow: inset 0 0 0 1px var(--gauzy-border-default-color);
+    box-shadow: inset 0 0 0 1px var(--irtranscripts-border-default-color);
   }
 
   .heading {
@@ -86,8 +86,8 @@
   justify-content: center;
   width: 2.25rem;
   height: 2.25rem;
-  border-radius: var(--gauzy-radius-sm);
-  box-shadow: inset 0 0 0 1px var(--gauzy-border-default-color);
+  border-radius: var(--irtranscripts-radius-sm);
+  box-shadow: inset 0 0 0 1px var(--irtranscripts-border-default-color);
 
   nb-icon {
     font-size: 1.125rem;
@@ -101,7 +101,7 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem 0;
-  border-top: 1px solid var(--gauzy-border-default-color);
+  border-top: 1px solid var(--irtranscripts-border-default-color);
 
   .step {
     display: flex;
@@ -122,7 +122,7 @@
     border-radius: 50%;
     font-size: 0.6875rem;
     font-weight: 500;
-    box-shadow: inset 0 0 0 1px var(--gauzy-border-default-color);
+    box-shadow: inset 0 0 0 1px var(--irtranscripts-border-default-color);
 
     nb-icon {
       font-size: 0.875rem;
@@ -149,7 +149,7 @@
     flex: 1;
     height: 1px;
     min-width: 1rem;
-    background-color: var(--gauzy-border-default-color);
+    background-color: var(--irtranscripts-border-default-color);
 
     &.done {
       background-color: nb-theme(color-primary-default);
@@ -374,7 +374,7 @@
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
   background-color: transparent;
-  border-top: 1px solid var(--gauzy-border-default-color);
+  border-top: 1px solid var(--irtranscripts-border-default-color);
 
   .spacer {
     flex: 1;

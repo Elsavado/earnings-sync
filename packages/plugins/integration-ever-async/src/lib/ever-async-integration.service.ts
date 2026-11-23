@@ -15,7 +15,7 @@ import { promisify } from 'util';
 import { DataSource, EntityManager, In } from 'typeorm';
 import { firstValueFrom } from 'rxjs';
 import { isUUID } from 'class-validator';
-import { ID, IntegrationEnum, IntegrationTypeEnum } from '@gauzy/contracts';
+import { ID, IntegrationEnum, IntegrationTypeEnum } from '@irtranscripts/contracts';
 import {
 	createSsrfSafeHttpsAgent,
 	Employee,
@@ -28,8 +28,8 @@ import {
 	RequestContext,
 	Task,
 	UserOrganization
-} from '@gauzy/core';
-import { getUnsafeOutboundUrlReason } from '@gauzy/utils';
+} from '@irtranscripts/core';
+import { getUnsafeOutboundUrlReason } from '@irtranscripts/utils';
 import { ConfigureEverAsyncIntegrationDto, UpdateEverAsyncSettingsDto } from './dto';
 import { EverAsyncSettingName as Setting } from './ever-async-setting.enum';
 

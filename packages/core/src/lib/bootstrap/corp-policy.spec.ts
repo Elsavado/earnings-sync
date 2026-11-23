@@ -7,7 +7,7 @@ import { resolveCorpPolicy } from './index';
  * Two failure modes this guards:
  * - helmet THROWS while initializing on an unknown policy string, so a typo in `CORP_POLICY` would
  *   stop the API from booting at all — the old `as` cast asserted the type without checking it;
- * - the production default must stay `same-site` (so app.gauzy.co can embed API-served assets while
+ * - the production default must stay `same-site` (so app.irtranscripts.com can embed API-served assets while
  *   third-party origins cannot), while a deployment that serves API and web app from two different
  *   sites — `*.onrender.com` is a public suffix, so its subdomains are cross-site — can opt out.
  */

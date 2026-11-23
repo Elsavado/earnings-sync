@@ -13,8 +13,8 @@ import {
 	PATH_METADATA,
 	PIPES_METADATA
 } from '@nestjs/common/constants';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { PermissionGuard } from '../shared/guards';
 import { TASK_SETTING_WRITE_METADATA, TaskSettingPermissionGuard } from './task-setting-access';
 import { IssueTypeController } from './issue-type/issue-type.controller';

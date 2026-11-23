@@ -1,5 +1,5 @@
 {
-	"name": "@gauzy/plugin-jobs-ui",
+	"name": "@irtranscripts/plugin-jobs-ui",
 	"version": "0.1.0",
 	"description": "Jobs plugin UI - layout and routing for job-related features.",
 	"author": {
@@ -29,13 +29,13 @@
 	},
 	"dependencies": {
 		"@angular/router": "22.2.2",
-		"@gauzy/contracts": "^0.1.0",
-		"@gauzy/plugin-job-employee-ui": "^0.1.0",
-		"@gauzy/plugin-job-matching-ui": "^0.1.0",
-		"@gauzy/plugin-job-proposal-ui": "^0.1.0",
-		"@gauzy/plugin-job-search-ui": "^0.1.0",
-		"@gauzy/plugin-ui": "^0.1.0",
-		"@gauzy/ui-core": "^0.1.0",
+		"@irtranscripts/contracts": "^0.1.0",
+		"@irtranscripts/plugin-job-employee-ui": "^0.1.0",
+		"@irtranscripts/plugin-job-matching-ui": "^0.1.0",
+		"@irtranscripts/plugin-job-proposal-ui": "^0.1.0",
+		"@irtranscripts/plugin-job-search-ui": "^0.1.0",
+		"@irtranscripts/plugin-ui": "^0.1.0",
+		"@irtranscripts/ui-core": "^0.1.0",
 		"rxjs": "^7.8.2",
 		"tslib": "^2.8.1"
 	},
@@ -48,7 +48,7 @@
 		"Angular",
 		"UI",
 		"plugin",
-		"Ever Gauzy",
+		"Ever IRTranscripts",
 		"jobs"
 	],
 	"engines": {

@@ -1,6 +1,6 @@
 import { request as httpsRequest } from 'node:https';
-import { createSsrfSafeHttpsAgent } from '@gauzy/core';
-import { getUnsafeOutboundUrlReason } from '@gauzy/utils';
+import { createSsrfSafeHttpsAgent } from '@irtranscripts/core';
+import { getUnsafeOutboundUrlReason } from '@irtranscripts/utils';
 
 /** The Resend API (https only, no redirects followed). */
 export const RESEND_API_BASE_URL = 'https://api.resend.com';

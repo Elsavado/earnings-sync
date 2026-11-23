@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { IScreeningTaskCreateInput } from '@gauzy/contracts';
+import { IScreeningTaskCreateInput } from '@irtranscripts/contracts';
 
 export class ScreeningTaskCreateCommand implements ICommand {
 	static readonly type = '[ScreeningTask] Create';

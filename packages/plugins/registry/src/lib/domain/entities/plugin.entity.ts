@@ -1,4 +1,4 @@
-import { ID, IUser, PluginStatus, PluginType } from '@gauzy/contracts';
+import { ID, IUser, PluginStatus, PluginType } from '@irtranscripts/contracts';
 import {
 	BaseEntity,
 	ColumnIndex,
@@ -7,7 +7,7 @@ import {
 	MultiORMManyToOne,
 	MultiORMOneToMany,
 	User
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDate, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 import { Index, JoinColumn, Relation, RelationId } from 'typeorm';
@@ -139,7 +139,7 @@ export class Plugin extends BaseEntity implements IPlugin {
 	@MultiORMColumn({ default: false })
 	isFeatured?: boolean;
 
-	@ApiProperty({ type: Boolean, description: 'Whether the plugin is verified by Gauzy', default: false })
+	@ApiProperty({ type: Boolean, description: 'Whether the plugin is verified by IRTranscripts', default: false })
 	@IsOptional()
 	@ColumnIndex()
 	@MultiORMColumn({ default: false })

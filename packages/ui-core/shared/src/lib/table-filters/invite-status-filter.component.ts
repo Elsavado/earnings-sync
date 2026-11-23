@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { DefaultFilter } from 'angular2-smart-table';
-import { InviteStatusEnum } from '@gauzy/contracts';
+import { InviteStatusEnum } from '@irtranscripts/contracts';
 
 @Component({
 	selector: 'ga-invite-status-filter',

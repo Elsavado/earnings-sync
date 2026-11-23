@@ -9,8 +9,8 @@ import {
 	OfferingCondition,
 	OfferingFulfilmentMode,
 	OfferingStatus
-} from '@gauzy/contracts';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 
 /**
  * An offering as the API accepts it.

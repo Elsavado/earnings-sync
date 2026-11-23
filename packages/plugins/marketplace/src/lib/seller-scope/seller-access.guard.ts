@@ -2,9 +2,9 @@ import { CanActivate, ExecutionContext, ForbiddenException, Inject, Injectable, 
 import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { FindOptionsWhere } from 'typeorm';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { ID, PermissionsEnum } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { ID, PermissionsEnum } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { Seller } from '../seller/seller.entity';
 import { TypeOrmSellerRepository } from '../seller/repository/type-orm-seller.repository';
 import { ISellerScope } from './seller-scope';

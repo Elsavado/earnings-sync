@@ -4,7 +4,7 @@
  * temporary folder: a root (`public`) and a sibling (`public-secret`) whose name starts with the root's, so a
  * naive "starts with the root" check would let it through.
  */
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	environment: { baseUrl: 'http://localhost:3000', isElectron: false },
 	getConfig: () => ({ assetOptions: {} })
 }));
@@ -31,7 +31,7 @@ describe('LocalProvider — keys stay inside the root folder (#10674)', () => {
 	});
 
 	beforeEach(() => {
-		base = fs.mkdtempSync(join(tmpdir(), 'gauzy-local-provider-'));
+		base = fs.mkdtempSync(join(tmpdir(), 'irtranscripts-local-provider-'));
 		root = join(base, 'public');
 		fs.mkdirSync(join(root, 'uploads'), { recursive: true });
 		fs.writeFileSync(join(root, 'uploads', 'inside.txt'), 'inside');

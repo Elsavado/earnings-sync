@@ -7,7 +7,7 @@ import {
 	IUpdateTimesheetProjectChangeStatus,
 	PermissionsEnum,
 	TimesheetProjectChangeStatus
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { RequestContext } from './../../core/context';
 import { TenantAwareCrudService } from './../../core/crud';
 import { Task } from './../../core/entities/internal';

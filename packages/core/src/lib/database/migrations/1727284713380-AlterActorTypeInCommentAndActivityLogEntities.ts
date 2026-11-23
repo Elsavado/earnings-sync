@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 export class AlterActorTypeInCommentAndActivityLogEntities1727284713380 implements MigrationInterface {
 	name = 'AlterActorTypeInCommentAndActivityLogEntities1727284713380';

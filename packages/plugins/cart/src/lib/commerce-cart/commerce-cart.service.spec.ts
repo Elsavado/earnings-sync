@@ -1,6 +1,6 @@
 // cspell:ignore TENOFF SHIPFREE
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a cart service needs and none of which is available
  * outside a running application. The seam is therefore doubled at the module boundary, exactly as
  * the docs package's service specs do, and the *services under test are the real ones*: only the base
@@ -14,7 +14,7 @@
 /** The platform's cross-tenant reference check, recorded: every child service and the cart itself run it. */
 const mockAssertReferences = jest.fn(async (..._args: unknown[]) => undefined);
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException, SetMetadata } = require('@nestjs/common');
 
 	/**
@@ -22,7 +22,7 @@ jest.mock('@gauzy/core', () => {
 	 * string literal: a spec that spelled it out would keep passing after the decorator and the guard
 	 * stopped agreeing on the key they use.
 	 */
-	const { VERSIONED_METADATA_KEY } = jest.requireActual('@gauzy/core/src/lib/concurrency/version.util');
+	const { VERSIONED_METADATA_KEY } = jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
@@ -171,23 +171,23 @@ jest.mock('@gauzy/core', () => {
 		// The convention as this suite needs it: the metadata the real decorator records, written on the
 		// same key. The decorator itself is not required, because it also applies the version guard —
 		// and the guard injects the idempotency service, which extends the CRUD service, which imports
-		// the entity registry. Required here, `@gauzy/core` loads in an order where
+		// the entity registry. Required here, `@irtranscripts/core` loads in an order where
 		// `class TenantAwareCrudService extends CrudService` runs before `CrudService` is defined, and
 		// the suite fails to load rather than failing an assertion. No guard runs in this suite.
 		Versioned: (options: unknown = {}) => SetMetadata(VERSIONED_METADATA_KEY, options),
 		// The conditional update the routes reach for is used for real, not doubled: what the suite
 		// asserts about a versioned write is the behaviour of the kernel's own statement.
-		commitVersionedUpdate: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		commitVersionedUpdate: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.commitVersionedUpdate,
-		versionExpectationOf: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		versionExpectationOf: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.versionExpectationOf,
 		// The comparison an aggregate makes before it writes a child row, and the refusal it raises, are
 		// the kernel's own too: a doubled comparison would agree with the service by construction, and
 		// what this suite asserts is that a stale expectation is refused before anything is written.
-		matchesExpectation: jest.requireActual('@gauzy/core/src/lib/concurrency/version.util').matchesExpectation,
-		parseEntityVersion: jest.requireActual('@gauzy/core/src/lib/concurrency/version.util').parseEntityVersion,
-		ApiException: jest.requireActual('@gauzy/core/src/lib/core/errors/api-exception').ApiException,
-		ApiErrorCode: jest.requireActual('@gauzy/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
+		matchesExpectation: jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util').matchesExpectation,
+		parseEntityVersion: jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util').parseEntityVersion,
+		ApiException: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-exception').ApiException,
+		ApiErrorCode: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
 		ColumnNumericTransformerPipe: class {
 			to(value: unknown) {
 				return value;
@@ -196,12 +196,12 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		// The precision table decides how many decimals a cart is priced at when the caller states
 		// none, so the real one is used: a double that answered "two" for every currency would make
 		// the three-decimal case below pass for the wrong reason.
-		currencyPrecision: jest.requireActual('@gauzy/core/src/lib/money/currency-precision').currencyPrecision,
-		normalizeDecimalString: jest.requireActual('@gauzy/core/src/lib/money/decimal').normalizeDecimalString,
+		currencyPrecision: jest.requireActual('@irtranscripts/core/src/lib/money/currency-precision').currencyPrecision,
+		normalizeDecimalString: jest.requireActual('@irtranscripts/core/src/lib/money/decimal').normalizeDecimalString,
 		// The child services' cross-tenant reference check reads a real database; it is exercised in
 		// `cart-references.db.spec.ts`, and the order the cart's verbs run it in is asserted below.
 		assertPlainReferencesNotForeign: (...args: unknown[]) => mockAssertReferences(...args),
@@ -221,8 +221,8 @@ jest.mock('@gauzy/core', () => {
 
 import { createHash } from 'node:crypto';
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
-import { AdjustmentOwnerType, CommerceCartStatus, CommerceCheckoutSessionStatus, TaxLineOwnerType } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { AdjustmentOwnerType, CommerceCartStatus, CommerceCheckoutSessionStatus, TaxLineOwnerType } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { CommerceCartService } from './commerce-cart.service';
 import { CommerceCartLineService } from '../commerce-cart-line/commerce-cart-line.service';
 import { CommerceCartPromotionService } from '../commerce-cart-promotion/commerce-cart-promotion.service';
@@ -1226,7 +1226,7 @@ describe('CommerceCartService — money', () => {
 		// a 10.00 discount evenly, so an implementation that rounded each part independently would
 		// store 9.99 and quietly under-refund the buyer.
 		const { service, tables, ledger } = cartFixture();
-		const { Money } = jest.requireActual('@gauzy/core/src/lib/money/money');
+		const { Money } = jest.requireActual('@irtranscripts/core/src/lib/money/money');
 		const cart = await service.create({ channelId: 'channel-1', currency: 'USD' });
 
 		await service.addLine(cart.id, { variantId: 'v1', title: 'A', quantity: 1, unitPrice: 33.33 });

@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { In, IsNull } from 'typeorm';
-import { ID, IEventEnvelope, ISearchDocument, ISearchIndexRegistration, ISearchProvider } from '@gauzy/contracts';
-import { TypeOrmSearchIndexDefinitionRepository } from '@gauzy/core';
+import { ID, IEventEnvelope, ISearchDocument, ISearchIndexRegistration, ISearchProvider } from '@irtranscripts/contracts';
+import { TypeOrmSearchIndexDefinitionRepository } from '@irtranscripts/core';
 import { SearchIndexRegistry } from '../registry/search-index.registry';
 import { SearchProviderRegistry } from '../providers/search-provider.registry';
 import { IScopedSearchDelete, ISearchDeleteScope } from '../providers/database-search.provider';
@@ -297,7 +297,7 @@ export class SearchIndexerService {
 	 * has one, and an unstated tenant keeps the previous cross-tenant behaviour for the sweeps that
 	 * genuinely mean it.
 	 *
-	 * The third parameter is additive: `ISearchProvider.delete` in `@gauzy/contracts` declares two,
+	 * The third parameter is additive: `ISearchProvider.delete` in `@irtranscripts/contracts` declares two,
 	 * and a provider that has not been widened ignores it and behaves exactly as it did.
 	 *
 	 * @param provider The provider that holds the documents.

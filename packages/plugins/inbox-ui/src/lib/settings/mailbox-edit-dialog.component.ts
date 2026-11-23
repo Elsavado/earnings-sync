@@ -12,7 +12,7 @@ import {
 	NbToggleModule
 } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
-import { ID, IInboxMailbox, IInboxProviderAccount, InboxMailboxKindEnum } from '@gauzy/contracts';
+import { ID, IInboxMailbox, IInboxProviderAccount, InboxMailboxKindEnum } from '@irtranscripts/contracts';
 import { IInboxDirectoryEntry, InboxDirectoryService } from '../services/inbox-directory.service';
 import { InboxEmailSettingsService } from '../services/inbox-email-settings.service';
 import { apiErrorMessage } from './inbox-settings.helpers';

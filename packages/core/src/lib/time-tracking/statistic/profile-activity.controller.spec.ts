@@ -30,8 +30,8 @@ import {
 	ROUTE_ARGS_METADATA
 } from '@nestjs/common/constants';
 import { RouteParamtypes } from '@nestjs/common/enums/route-paramtypes.enum';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { IProfileActivity } from '@gauzy/contracts';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { IProfileActivity } from '@irtranscripts/contracts';
 import { EmployeeModule } from '../../employee/employee.module';
 import { OrganizationProjectModule } from '../../organization-project/organization-project.module';
 import { RolePermissionModule } from '../../role-permission/role-permission.module';

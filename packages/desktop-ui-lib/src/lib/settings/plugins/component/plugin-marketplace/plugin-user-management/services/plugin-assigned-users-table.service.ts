@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IUser } from '@gauzy/contracts';
+import { IUser } from '@irtranscripts/contracts';
 import { Cell } from 'angular2-smart-table';
 import { Observable } from 'rxjs';
 import { PluginUserAssignment } from '../../+state/stores/plugin-user-assignment.store';

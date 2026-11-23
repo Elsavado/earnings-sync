@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { RelationId, Unique, JoinColumn } from 'typeorm';
-import { ID, ITimeSlot, ITimeSlotMinute, JsonData } from '@gauzy/contracts';
-import { isMySQL, isPostgres } from '@gauzy/config';
+import { ID, ITimeSlot, ITimeSlotMinute, JsonData } from '@irtranscripts/contracts';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
 import { IsNumber, IsDateString, IsUUID, IsOptional, IsObject } from 'class-validator';
 import { TenantOrganizationBaseEntity } from '../../../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from '../../../core/decorators/entity';

@@ -1,12 +1,12 @@
 /**
  * What the entitlement consumer does with a subscription's cancellation.
  *
- * The consumer is the real one. `@gauzy/core` is doubled at the module boundary, as the package's other
+ * The consumer is the real one. `@irtranscripts/core` is doubled at the module boundary, as the package's other
  * suites do, and so is the entitlement service it writes through: what is under test is the decision the
  * consumer takes from the payload, which is `SubscriptionService.cancel`'s — the subscription package's
  * own suite hands this consumer the payload that service actually appends.
  */
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	EventConsumerRegistry: class EventConsumerRegistry {}
 }));
 
@@ -14,7 +14,7 @@ jest.mock('../entitlement/entitlement.service', () => ({
 	EntitlementService: class EntitlementService {}
 }));
 
-import { IEventEnvelope } from '@gauzy/contracts';
+import { IEventEnvelope } from '@irtranscripts/contracts';
 import { EntitlementRevocationReason } from '../entitlement.types';
 import { EntitlementGrantConsumer } from './entitlement-grant.consumer';
 

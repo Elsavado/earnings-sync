@@ -8,7 +8,7 @@ import {
 	ISellerSettlement,
 	JsonData,
 	SellerSettlementStatus
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	JsonColumn,
@@ -17,7 +17,7 @@ import {
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity,
 	User
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { MikroOrmSellerSettlementRepository } from './repository/mikro-orm-seller-settlement.repository';
 import { Seller } from '../seller/seller.entity';
 import { SellerPayout } from '../seller-payout/seller-payout.entity';

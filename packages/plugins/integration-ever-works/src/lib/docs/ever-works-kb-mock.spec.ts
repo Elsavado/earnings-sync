@@ -45,7 +45,7 @@ describe('mock Ever Works Knowledge Base (contract v1 CR-7)', () => {
 			title: 'Refunds',
 			class: 'freeform',
 			body: '# Refunds',
-			externalRef: { source: 'gauzy', externalId: 'g-doc-1' }
+			externalRef: { source: 'irtranscripts', externalId: 'g-doc-1' }
 		};
 		const created = await client.request<EverWorksKbDocument>('POST', '/kb/documents', { body, idempotencyKey: 'k1', actAsUserId: 'ew-user-1' });
 		expect(created).toMatchObject({ title: 'Refunds', scope: { type: 'organization', id: ewOrg.id }, source: 'user', reviewState: 'accepted', revision: 1, version: 1 });

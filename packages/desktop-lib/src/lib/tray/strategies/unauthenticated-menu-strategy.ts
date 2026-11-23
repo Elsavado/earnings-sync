@@ -24,8 +24,8 @@ export class UnauthenticatedMenuStrategy implements IMenuStrategy {
 		const appConfig = this.configStore.getStore('configs');
 		const menu: MenuItemConstructorOptions[] = [];
 
-		// Main window (if gauzy)
-		if (appConfig && appConfig.gauzyWindow) {
+		// Main window (if irtranscripts)
+		if (appConfig && appConfig.irtranscriptsWindow) {
 			menu.push(
 				new MenuItemBuilder()
 					.withId('8')

@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 export class AlterOrganizationProjectCustomEntityFields1720177290238 implements MigrationInterface {
 	name = 'AlterOrganizationProjectCustomEntityFields1720177290238';

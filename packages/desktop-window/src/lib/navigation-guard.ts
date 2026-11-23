@@ -30,7 +30,7 @@ function isHttp(url: URL): boolean {
 /**
  * Whether a page shown in these contents runs with more than a web page's rights: Node in the page's own world
  * (`nodeIntegration` without context isolation), or a preload, whose globals or `contextBridge` surface the page
- * reaches. Most of the desktop windows are built this way (the timer, the Gauzy window, setup, settings...).
+ * reaches. Most of the desktop windows are built this way (the timer, the IRTranscripts window, setup, settings...).
  */
 export function isPrivilegedContents(contents: WebContents): boolean {
 	// Not in Electron's public typings; absent at runtime it reads as privileged (the safe answer).

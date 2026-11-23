@@ -1,7 +1,7 @@
 {
-	"product": "gauzy",
+	"product": "irtranscripts",
 	"compose": ["compose.egress-audit.yml"],
-	"project": "ever-audit-gauzy",
+	"project": "ever-audit-irtranscripts",
 	"subnet": "10.231.7.0/24",
 	"api_service": "api",
 	"process_services": ["api"],
@@ -66,7 +66,7 @@
 			"required_rows": []
 		},
 		"entitlement_ladder": {
-			"description": "The connection on against the mock platform, with entitlement documents dated so the stored one is in grace, then paused, one issued in the future (refused, the stored one kept) and one slightly ahead (accepted): the ladder follows each, Gauzy's own routes answer the same at every step, and only the connection's documented calls are made.",
+			"description": "The connection on against the mock platform, with entitlement documents dated so the stored one is in grace, then paused, one issued in the future (refused, the stored one kept) and one slightly ahead (accepted): the ladder follows each, IRTranscripts's own routes answer the same at every step, and only the connection's documented calls are made.",
 			"env": {
 				"EVER_CONNECT_ENABLED": "true",
 				"EVER_CONNECT_CODE": "EVC-TEST-0000-0001",

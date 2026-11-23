@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { NbComponentStatus } from '@nebular/theme';
-import { TaskStatusEnum } from '@gauzy/contracts';
+import { TaskStatusEnum } from '@irtranscripts/contracts';
 
 @Component({
     selector: 'ngx-status-view',
@@ -11,7 +11,7 @@ import { TaskStatusEnum } from '@gauzy/contracts';
 				display: flex;
 			}
 			/* Status pill in a smart-table cell. Sized from the shared
-			   table-density tokens ($gauzy-density in themes.scss); the
+			   table-density tokens ($irtranscripts-density in themes.scss); the
 			   literals are CSS-var fallbacks only. 'align-items: center'
 			   below is what makes the explicit height safe to shrink. */
 			.badge {
@@ -21,12 +21,12 @@ import { TaskStatusEnum } from '@gauzy/contracts';
 				align-items: center;
 				position: relative;
 				width: fit-content;
-				height: var(--gauzy-table-badge-height, 1.25rem);
-				padding: var(--gauzy-table-chip-padding-y, 0.0625rem) var(--gauzy-table-chip-padding-x, 0.375rem);
+				height: var(--irtranscripts-table-badge-height, 1.25rem);
+				padding: var(--irtranscripts-table-chip-padding-y, 0.0625rem) var(--irtranscripts-table-chip-padding-x, 0.375rem);
 				white-space: nowrap;
-				font-size: var(--gauzy-table-header-font-size, 0.75rem);
+				font-size: var(--irtranscripts-table-header-font-size, 0.75rem);
 				font-weight: 600;
-				line-height: var(--gauzy-table-header-line-height, 0.9375rem);
+				line-height: var(--irtranscripts-table-header-line-height, 0.9375rem);
 				letter-spacing: 0em;
 				text-align: left;
 			}

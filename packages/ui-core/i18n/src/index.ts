@@ -1,5 +1,5 @@
 /*
- * Public API Surface of @gauzy/ui-core/i18n
+ * Public API Surface of @irtranscripts/ui-core/i18n
  */
 // Modules
 export * from './lib/i18n.module';

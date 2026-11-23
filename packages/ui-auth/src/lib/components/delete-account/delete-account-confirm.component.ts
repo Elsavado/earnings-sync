@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestro
 import { DOCUMENT } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AccountDeletionOutcomeEnum, IAccountDeletionPreview, IAccountDeletionResult } from '@gauzy/contracts';
+import { AccountDeletionOutcomeEnum, IAccountDeletionPreview, IAccountDeletionResult } from '@irtranscripts/contracts';
 import { AccountDeletionService } from './account-deletion.service';
 import { useNoReferrer } from './referrer-policy';
 

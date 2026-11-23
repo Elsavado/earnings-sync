@@ -1,6 +1,6 @@
-import { FileStorageOption, FileStorageProvider, FileStorageProviderEnum } from '@gauzy/contracts';
-import { environment } from '@gauzy/config';
-import { isEmpty, isNotEmpty } from '@gauzy/utils';
+import { FileStorageOption, FileStorageProvider, FileStorageProviderEnum } from '@irtranscripts/contracts';
+import { environment } from '@irtranscripts/config';
+import { isEmpty, isNotEmpty } from '@irtranscripts/utils';
 import * as Providers from './providers';
 import { Provider } from './providers/provider';
 import { RequestContext } from './../../core/context';

@@ -1,4 +1,4 @@
-import { IDeal, IPipelineStage, IOrganizationContact, ID } from '@gauzy/contracts';
+import { IDeal, IPipelineStage, IOrganizationContact, ID } from '@irtranscripts/contracts';
 import { JoinColumn, RelationId } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, Min, Max, IsInt, IsOptional, IsUUID } from 'class-validator';

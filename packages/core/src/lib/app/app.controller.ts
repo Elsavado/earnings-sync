@@ -1,14 +1,14 @@
 import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as moment from 'moment';
-import { Public } from '@gauzy/common';
-import { IAppSetting, IAppVersionInfo } from '@gauzy/contracts';
+import { Public } from '@irtranscripts/common';
+import { IAppSetting, IAppVersionInfo } from '@irtranscripts/contracts';
 
 // Application version + deployed commit, embedded at Docker build time via
-// GAUZY_APP_VERSION / GAUZY_APP_COMMIT env vars (see .deploy/*/Dockerfile).
+// IRTRANSCRIPTS_APP_VERSION / IRTRANSCRIPTS_APP_COMMIT env vars (see .deploy/*/Dockerfile).
 // Empty when running from source without those set.
-const APP_VERSION = process.env.GAUZY_APP_VERSION || '';
-const APP_COMMIT = process.env.GAUZY_APP_COMMIT || '';
+const APP_VERSION = process.env.IRTRANSCRIPTS_APP_VERSION || '';
+const APP_COMMIT = process.env.IRTRANSCRIPTS_APP_COMMIT || '';
 
 @Controller()
 @Public() // This seems to be a custom decorator indicating that this controller's endpoints are public

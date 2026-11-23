@@ -13,9 +13,9 @@ module.exports = [
 				'error',
 				{
 					paths: [
-						{ name: '@gauzy/plugin-jitsu-analytics', message: 'The anonymous statistics never use analytics plugins.' },
-						{ name: '@gauzy/plugin-posthog', message: 'The anonymous statistics never use analytics plugins.' },
-						{ name: '@gauzy/plugin-ever-connect', message: 'The anonymous statistics are independent of the Ever Platform connection.' }
+						{ name: '@irtranscripts/plugin-jitsu-analytics', message: 'The anonymous statistics never use analytics plugins.' },
+						{ name: '@irtranscripts/plugin-posthog', message: 'The anonymous statistics never use analytics plugins.' },
+						{ name: '@irtranscripts/plugin-ever-connect', message: 'The anonymous statistics are independent of the Ever Platform connection.' }
 					]
 				}
 			]

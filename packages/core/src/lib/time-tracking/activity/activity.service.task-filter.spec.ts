@@ -4,7 +4,7 @@
  */
 import '../../core/entities/internal';
 
-import { IGetActivitiesInput } from '@gauzy/contracts';
+import { IGetActivitiesInput } from '@irtranscripts/contracts';
 import { MultiORMEnum } from '../../core/utils';
 import { executedFilters, mockRequestContext, RecordingQueryBuilder } from '../testing/recording-query-builder';
 import { ActivityService } from './activity.service';

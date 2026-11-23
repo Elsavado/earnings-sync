@@ -1,5 +1,5 @@
 import { Logger } from '@nestjs/common';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@gauzy/plugin';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@irtranscripts/plugin';
 import { AuthZitadelModule } from './auth-zitadel.module';
 import { ZITADEL_ENTITIES } from './entities';
 import { ZitadelTokenSubscriber } from './subscribers/zitadel-token.subscriber';

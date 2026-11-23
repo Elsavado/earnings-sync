@@ -1,5 +1,5 @@
 import { IQuery } from "@nestjs/cqrs";
-import { BaseQueryDTO } from "@gauzy/core";
+import { BaseQueryDTO } from "@irtranscripts/core";
 import { ICamshot } from "../models/camshot.model";
 
 export class ListCamshotQuery implements IQuery {

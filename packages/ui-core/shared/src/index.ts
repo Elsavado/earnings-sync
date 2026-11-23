@@ -1,5 +1,5 @@
 /*
- * Public API Surface of @gauzy/ui-core/shared
+ * Public API Surface of @irtranscripts/ui-core/shared
  */
 export * from './lib/shared.module';
 export * from './lib/nebular';
@@ -28,7 +28,7 @@ export * from './lib/feature-toggle';
 export * from './lib/file-uploader-input';
 export * from './lib/forms';
 export * from './lib/gallery';
-export * from './lib/gauzy-button-action';
+export * from './lib/irtranscripts-button-action';
 export * from './lib/invite';
 export * from './lib/income';
 export * from './lib/invoice';

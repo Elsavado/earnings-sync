@@ -1,4 +1,4 @@
-import { IUserEmailInput, IUserTokenInput } from "@gauzy/contracts";
+import { IUserEmailInput, IUserTokenInput } from "@irtranscripts/contracts";
 import { IntersectionType } from "@nestjs/swagger";
 import { UserEmailDTO, UserTokenDTO } from "../../user/dto";
 

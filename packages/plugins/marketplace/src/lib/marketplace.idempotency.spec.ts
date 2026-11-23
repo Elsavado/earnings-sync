@@ -15,12 +15,12 @@
  * applied afterwards, so two operations that share one would replay each other's responses — hence the
  * uniqueness assertion below, which is the one property a reader of the declarations cannot see.
  *
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which reading a decorator's metadata needs, so it is doubled
  * at the module boundary exactly as the package's other specifications do. The retry-safety declaration
  * is taken from its own modules, because that declaration is what is being read.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
@@ -98,27 +98,27 @@ jest.mock('@gauzy/core', () => {
 		ProductVariant: class {},
 		User: class {},
 		Warehouse: class {},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		// The decimal comparison the commission bands and the settlement's discrepancy are decided by is
 		// the kernel's own, so the double hands over the real one: a comparison doubled here would agree
 		// with the service about arithmetic the platform never performs.
-		compareDecimalStrings: jest.requireActual('@gauzy/core/src/lib/money/decimal').compareDecimalStrings,
+		compareDecimalStrings: jest.requireActual('@irtranscripts/core/src/lib/money/decimal').compareDecimalStrings,
 		isUniqueViolation: (error: any) => Boolean(error?.code === '23505'),
 		// The kernel is the subject here, so its own modules answer rather than a second copy of them.
-		IDEMPOTENT_METADATA_KEY: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.policy')
+		IDEMPOTENT_METADATA_KEY: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.policy')
 			.IDEMPOTENT_METADATA_KEY,
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
 		// The offering controller declares a bulk route, so the decorator that declares what a route
 		// accepts and the executor it is run by are the kernel's own rather than a second copy of either:
 		// the declaration is read back here, and a doubled one would prove nothing about the route.
-		BulkOperation: jest.requireActual('@gauzy/core/src/lib/api/bulk.decorator').BulkOperation,
-		bulkOptionsOf: jest.requireActual('@gauzy/core/src/lib/api/bulk.decorator').bulkOptionsOf,
+		BulkOperation: jest.requireActual('@irtranscripts/core/src/lib/api/bulk.decorator').BulkOperation,
+		bulkOptionsOf: jest.requireActual('@irtranscripts/core/src/lib/api/bulk.decorator').bulkOptionsOf,
 		BulkExecutor: class {},
 		FieldVisibility: class {}
 	};
 });
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	DatabaseTypeEnum: {
 		mongodb: 'mongodb',
 		sqlite: 'sqlite',
@@ -129,7 +129,7 @@ jest.mock('@gauzy/config', () => ({
 }));
 
 import { MODULE_METADATA } from '@nestjs/common/constants';
-import { IDEMPOTENT_METADATA_KEY } from '@gauzy/core';
+import { IDEMPOTENT_METADATA_KEY } from '@irtranscripts/core';
 import { SellerController } from './seller/seller.controller';
 import { SellerModule } from './seller/seller.module';
 import { SellerOfferingController } from './seller-offering/seller-offering.controller';

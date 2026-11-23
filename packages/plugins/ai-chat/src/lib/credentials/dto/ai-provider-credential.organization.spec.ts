@@ -3,10 +3,10 @@
  * admin with no organization selected saves (and completes the OpenRouter Connect flow) without one. Both DTOs
  * extended the REQUIRED `TenantOrganizationBaseDTO`, so that first save failed with "organization must be an
  * object; organizationId must be a UUID". They now extend a partial base, which still checks an organization that
- * IS sent. `@gauzy/core` boots the whole application graph on import, so its base is stubbed here with the same
+ * IS sent. `@irtranscripts/core` boots the whole application graph on import, so its base is stubbed here with the same
  * "one of the two is required" rule and a stand-in for the membership check.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { ApiProperty } = jest.requireActual('@nestjs/swagger');
 	const { IsIn, IsObject, IsUUID, ValidateIf } = jest.requireActual('class-validator');
 	const isSent = (value: unknown) => value !== undefined && value !== null && value !== '';
@@ -28,7 +28,7 @@ jest.mock('@gauzy/core', () => {
 
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 import { ConnectAiProviderCredentialDTO } from './connect-ai-provider-credential.dto';
 import { CreateAiProviderCredentialDTO } from './create-ai-provider-credential.dto';
 import { UpdateAiProviderCredentialDTO } from './update-ai-provider-credential.dto';

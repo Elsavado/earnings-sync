@@ -1,7 +1,7 @@
 import { ExportRedacted } from '../export-import/export-redact.decorator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDateString, IsEnum, IsInt, IsOptional, IsString, IsUUID } from 'class-validator';
-import { ID, IIdempotencyKey, IdempotencyStatus, JsonData } from '@gauzy/contracts';
+import { ID, IIdempotencyKey, IdempotencyStatus, JsonData } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { ColumnIndex, JsonColumn, MultiORMColumn, MultiORMEntity } from '../core/decorators/entity';
 import { MikroOrmIdempotencyKeyRepository } from './repository/mikro-orm-idempotency-key.repository';

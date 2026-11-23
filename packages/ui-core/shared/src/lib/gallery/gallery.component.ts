@@ -5,10 +5,10 @@ import { filter } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { saveAs } from 'file-saver';
 import { sortBy } from 'underscore';
-import { IEmployee, TimeFormatEnum } from '@gauzy/contracts';
+import { IEmployee, TimeFormatEnum } from '@irtranscripts/contracts';
 import { GalleryItem } from './gallery.directive';
 import { GalleryService } from './gallery.service';
-import { TimeZoneService } from '../timesheet/gauzy-filters/timezone-filter';
+import { TimeZoneService } from '../timesheet/irtranscripts-filters/timezone-filter';
 import { Observable } from 'rxjs';
 
 export const fadeInOutAnimation = trigger('fadeInOut', [

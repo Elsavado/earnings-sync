@@ -3,7 +3,7 @@
  * E.g. for example, "Business Trip", "Borrow Items", ...
  * Approval Policy table has the many to one relationship to the Organization table and Tenant by organizationId and tenantId
  */
-import { IEquipmentSharing, IEquipmentSharingPolicy } from '@gauzy/contracts';
+import { IEquipmentSharing, IEquipmentSharingPolicy } from '@irtranscripts/contracts';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
 import { EquipmentSharing, TenantOrganizationBaseEntity } from '../core/entities/internal';

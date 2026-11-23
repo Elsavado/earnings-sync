@@ -1,4 +1,4 @@
-# Migrations of @gauzy/plugin-ever-instance
+# Migrations of @irtranscripts/plugin-ever-instance
 
 Plugins cannot carry their own migrations yet, so `ever_instance` is created by `packages/core/src/lib/database/migrations/1790000021000-EverInstance.ts`. Move it here once plugins can own migrations.
 

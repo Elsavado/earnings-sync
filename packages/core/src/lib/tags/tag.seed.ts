@@ -1,7 +1,7 @@
 import { DataSource } from 'typeorm';
 import { faker } from '@faker-js/faker';
 import { DEFAULT_GLOBAL_TAGS, DEFAULT_ORGANIZATION_TAGS } from './default-tags';
-import { IOrganization, ITagType, ITenant } from '@gauzy/contracts';
+import { IOrganization, ITagType, ITenant } from '@irtranscripts/contracts';
 import { Tag } from './../core/entities/internal';
 
 export const createDefaultTags = async (

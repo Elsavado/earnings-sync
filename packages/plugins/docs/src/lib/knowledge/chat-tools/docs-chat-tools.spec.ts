@@ -4,14 +4,14 @@
  * Two properties are asserted here, and both were real defects:
  *
  * 1. **The feature flag is read from the DATABASE, per organization.** The gate used to read the
- *    process-wide `gauzyToggleFeatures` map, so an organization that had switched Documents off
+ *    process-wide `irtranscriptsToggleFeatures` map, so an organization that had switched Documents off
  *    still got `docs_search` / `docs_read` — these tools call the search/read services directly,
  *    so `FeatureFlagGuard` never runs on this path and there is no second line of defense.
  * 2. **A search emits clickable citations as a data part**, not merely as tool output. Tool output
  *    goes to the MODEL, which is free to paraphrase or invent a link; the chips the user clicks
  *    must be built from what retrieval actually returned in their own RBAC scope.
  *
- * Every heavy collaborator is stubbed at the module boundary — importing `@gauzy/core` or the
+ * Every heavy collaborator is stubbed at the module boundary — importing `@irtranscripts/core` or the
  * document services for real would pull the whole Nest application graph into a unit test.
  */
 jest.mock('../../entities/document.entity', () => ({ Document: class {} }));
@@ -20,7 +20,7 @@ jest.mock('../../services/docs-feature.service', () => ({ DocsFeatureService: cl
 // `RequestContext` is the only thing this service takes from core; importing core for real
 // would drag the whole application graph in. The spies are created INSIDE the factory (and read
 // back through the import below) so they exist by the time the module under test requires them.
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	RequestContext: {
 		hasPermission: jest.fn(() => true),
 		currentTenantId: jest.fn(() => 'tenant-1'),
@@ -29,8 +29,8 @@ jest.mock('@gauzy/core', () => ({
 }));
 jest.mock('../../docs.config', () => ({ getDocsConfig: () => config }));
 
-import { DocumentKindEnum } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { DocumentKindEnum } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { DocsChatToolsService, DOCS_CHAT_TOOL_FACTORY_ID } from './docs-chat-tools.service';
 import { DOCS_CITATIONS_DATA_PART } from './docs-citations';
 import { IDocsKnowledgeSearchHit } from './docs-knowledge-search.types';

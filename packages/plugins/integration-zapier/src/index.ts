@@ -1,4 +1,4 @@
 /**
- * Public API Surface of @gauzy/plugin-integration-zapier
+ * Public API Surface of @irtranscripts/plugin-integration-zapier
  */
 export * from './lib/integration-zapier.plugin';

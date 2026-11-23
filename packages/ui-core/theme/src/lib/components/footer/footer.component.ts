@@ -2,12 +2,12 @@ import { Component, HostListener, Inject, OnInit, ViewChild, ChangeDetectionStra
 import { HttpClient } from '@angular/common/http';
 import { NbPopoverDirective } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { IAppVersionInfo, IUser } from '@gauzy/contracts';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { IAppVersionInfo, IUser } from '@irtranscripts/contracts';
 import { of } from 'rxjs';
 import { catchError, filter, tap } from 'rxjs/operators';
-import { Environment, GAUZY_ENV } from '@gauzy/ui-config';
-import { Store } from '@gauzy/ui-core/core';
+import { Environment, IRTRANSCRIPTS_ENV } from '@irtranscripts/ui-config';
+import { Store } from '@irtranscripts/ui-core/core';
 
 /** Version + commit of one side (web or api) for the footer's "Version" popover. */
 interface IVersionDisplay {
@@ -74,7 +74,7 @@ export class FooterComponent extends TranslationBaseComponent implements OnInit 
 		public translationService: TranslateService,
 		private readonly store: Store,
 		private readonly http: HttpClient,
-		@Inject(GAUZY_ENV) readonly environment: Environment
+		@Inject(IRTRANSCRIPTS_ENV) readonly environment: Environment
 	) {
 		super(translationService);
 

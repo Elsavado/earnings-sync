@@ -12,7 +12,7 @@ import {
 	UseGuards
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ID, IPagination, RolesEnum } from '@gauzy/contracts';
+import { ID, IPagination, RolesEnum } from '@irtranscripts/contracts';
 import { BaseQueryDTO } from './../core/crud';
 import { Roles } from '../shared/decorators';
 import { RoleGuard, TenantPermissionGuard } from '../shared/guards';

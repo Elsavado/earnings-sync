@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as sharpModule from 'sharp';
-import { DocumentKindEnum } from '@gauzy/contracts';
-import { FileStorage, readStorageFileAsBuffer } from '@gauzy/core';
+import { DocumentKindEnum } from '@irtranscripts/contracts';
+import { FileStorage, readStorageFileAsBuffer } from '@irtranscripts/core';
 import { Document } from '../../entities/document.entity';
 import { TypeOrmDocumentRepository } from '../../repositories/type-orm-document.repository';
 import { PdfRasterizerService } from '../extraction/pdf-rasterizer.service';

@@ -1,8 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsOptional, IsUUID } from 'class-validator';
 import { JoinColumn, RelationId } from 'typeorm';
-import { BaseEntityEnum, ID, IDocument, IDocumentLink, JsonData } from '@gauzy/contracts';
-import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne, TenantOrganizationBaseEntity } from '@gauzy/core';
+import { BaseEntityEnum, ID, IDocument, IDocumentLink, JsonData } from '@irtranscripts/contracts';
+import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne, TenantOrganizationBaseEntity } from '@irtranscripts/core';
 import { MikroOrmDocumentLinkRepository } from '../repositories/mikro-orm-document-link.repository';
 import { jsonColumnType } from './column-types';
 import { Document } from './document.entity';

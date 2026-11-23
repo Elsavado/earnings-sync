@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, of, shareReplay } from 'rxjs';
-import { IEmployee } from '@gauzy/contracts';
-import { EmployeesService, Store } from '@gauzy/ui-core/core';
+import { IEmployee } from '@irtranscripts/contracts';
+import { EmployeesService, Store } from '@irtranscripts/ui-core/core';
 import { filterMentionCandidates, IMentionCandidate, MENTION_TRIGGER } from './document-comments.model';
 
 /**

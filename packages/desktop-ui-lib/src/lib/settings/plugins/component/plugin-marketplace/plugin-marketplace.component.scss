@@ -8,7 +8,7 @@
   display: grid;
   /* Use a flexible sidebar width that adapts without forcing fixed heights */
   grid-template-columns: minmax(280px, 340px) 1fr;
-  background: var(--gauzy-card-2);
+  background: var(--irtranscripts-card-2);
   height: 100%;
   overflow: hidden;
   padding: 1rem;
@@ -110,7 +110,7 @@
       font-size: 16px;
       font-weight: 600;
       line-height: 20px;
-      color: var(--gauzy-text-color-1);
+      color: var(--irtranscripts-text-color-1);
     }
 
     .results-stats {
@@ -156,10 +156,10 @@
     button[nbButton].appearance-filled.status-basic {
       background-color: transparent;
       border-color: var(--border-basic-color-4);
-      color: var(--gauzy-text-color-1);
+      color: var(--irtranscripts-text-color-1);
 
       &:hover {
-        background-color: var(--gauzy-hover-tint);
+        background-color: var(--irtranscripts-hover-tint);
       }
     }
 
@@ -260,7 +260,7 @@
 
   .upload-fab {
     background: var(--color-primary-default);
-    box-shadow: var(--gauzy-shadow);
+    box-shadow: var(--irtranscripts-shadow);
     border-radius: 50%;
     width: 56px;
     height: 56px;
@@ -332,7 +332,7 @@
   display: flex;
   justify-content: space-between;
   padding: 1rem;
-  background: var(--gauzy-card-1);
+  background: var(--irtranscripts-card-1);
   border: 1px solid var(--border-basic-color-2);
   border-radius: var(--border-radius);
   margin-bottom: 0.75rem;

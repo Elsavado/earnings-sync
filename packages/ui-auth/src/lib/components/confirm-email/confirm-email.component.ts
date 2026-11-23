@@ -4,9 +4,9 @@ import { HttpStatusCode } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter, tap } from 'rxjs/operators';
-import { ROUTES } from '@gauzy/ui-core/common';
-import { AuthService, Store } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { ROUTES } from '@irtranscripts/ui-core/common';
+import { AuthService, Store } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { IConfirmEmailOutcome } from './confirm-email.resolver';
 
 @UntilDestroy({ checkProperties: true })

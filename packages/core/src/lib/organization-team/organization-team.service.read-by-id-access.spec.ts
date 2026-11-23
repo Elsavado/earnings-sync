@@ -1,7 +1,7 @@
 import '../core/entities/internal';
 
 import { BadRequestException, HttpException, NotFoundException } from '@nestjs/common';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { TenantAwareCrudService } from '../core/crud';
 import { GetOrganizationTeamStatisticQuery } from './queries';

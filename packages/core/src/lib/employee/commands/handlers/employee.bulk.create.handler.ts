@@ -1,6 +1,6 @@
 import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { BadRequestException } from '@nestjs/common';
-import { IEmployee } from '@gauzy/contracts';
+import { IEmployee } from '@irtranscripts/contracts';
 import { EmployeeBulkCreateCommand } from '../employee.bulk.create.command';
 import { EmployeeCreateCommand } from '../employee.create.command';
 

@@ -1,7 +1,7 @@
 import { JoinColumn } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID, MaxLength } from 'class-validator';
-import { CommerceCheckoutSessionStatus, ICommerceCheckoutSession, ID } from '@gauzy/contracts';
+import { CommerceCheckoutSessionStatus, ICommerceCheckoutSession, ID } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	JsonColumn,
@@ -9,7 +9,7 @@ import {
 	MultiORMEntity,
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { CommerceCart } from '../commerce-cart/commerce-cart.entity';
 import { MikroOrmCommerceCheckoutSessionRepository } from './repository/mikro-orm-commerce-checkout-session.repository';
 

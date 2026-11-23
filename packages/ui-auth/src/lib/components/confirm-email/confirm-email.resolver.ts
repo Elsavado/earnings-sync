@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ActivatedRouteSnapshot, ResolveFn, Router } from '@angular/router';
 import { catchError, Observable, of } from 'rxjs';
-import { AuthService } from '@gauzy/ui-core/core';
+import { AuthService } from '@irtranscripts/ui-core/core';
 
 /**
  * The outcome of `POST /auth/email/verify`, as the confirm-email page reads it.

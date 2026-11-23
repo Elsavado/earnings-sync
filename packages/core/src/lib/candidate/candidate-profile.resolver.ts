@@ -1,6 +1,6 @@
 import { NotFoundException, UseGuards } from '@nestjs/common';
 import { Args, ID, Int, Query, Mutation, Resolver } from '@nestjs/graphql';
-import { ID as Id, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID as Id, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	ConnectionFieldKind,
 	ConnectionFilter,
@@ -10,7 +10,7 @@ import {
 	GraphqlConnection,
 	buildConnection
 } from '../api/graphql-connection';
-import { FeatureFlag } from '@gauzy/common';
+import { FeatureFlag } from '@irtranscripts/common';
 import { Permissions } from '../shared/decorators';
 import { FeatureFlagGuard, PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { FEATURE_GRAPHQL } from '../feature/graphql-feature.code';

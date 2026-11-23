@@ -8,7 +8,7 @@ import {
 	InboxMailboxKindEnum,
 	InboxMailboxOwnerTypeEnum,
 	InboxProviderAccountStatusEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 /**
  * Settings → Inbox → Mailboxes (G-P4-1): the rules of the mailbox forms, as pure functions — the same checks as the
@@ -200,7 +200,7 @@ export interface IMailboxEditFormState {
 	allowlist: string;
 	providerAccountId: ID | null;
 	isDefault: boolean;
-	/** The Ever Works agent (its agent employee's Gauzy id, or an Ever Works id already stored); `null`: none. */
+	/** The Ever Works agent (its agent employee's IRTranscripts id, or an Ever Works id already stored); `null`: none. */
 	everWorksAgentId: string | null;
 }
 

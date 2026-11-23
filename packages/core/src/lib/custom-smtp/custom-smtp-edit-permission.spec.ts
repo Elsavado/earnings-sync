@@ -6,8 +6,8 @@ import '../core/entities/internal';
 
 import { HttpStatus, RequestMethod } from '@nestjs/common';
 import { HTTP_CODE_METADATA, METHOD_METADATA, PATH_METADATA } from '@nestjs/common/constants';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionGroups, PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionGroups, PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 import { DEFAULT_ROLE_PERMISSIONS } from '../role-permission/default-role-permissions';
 import { CustomSmtpController } from './custom-smtp.controller';
 import { CustomSmtpResolver } from './custom-smtp.resolver';

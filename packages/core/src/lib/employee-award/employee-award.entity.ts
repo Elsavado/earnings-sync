@@ -1,6 +1,6 @@
 import { RelationId } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { IEmployee, IEmployeeAward } from '@gauzy/contracts';
+import { IEmployee, IEmployeeAward } from '@irtranscripts/contracts';
 import { Employee, TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from './../core/decorators/entity';
 import { MikroOrmEmployeeAwardRepository } from './repository/mikro-orm-employee-award.repository';

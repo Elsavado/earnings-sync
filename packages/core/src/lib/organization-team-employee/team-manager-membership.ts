@@ -1,5 +1,5 @@
 import { FindOptionsWhere, In } from 'typeorm';
-import { RolesEnum } from '@gauzy/contracts';
+import { RolesEnum } from '@irtranscripts/contracts';
 import type { OrganizationTeamEmployee } from './organization-team-employee.entity';
 
 /**

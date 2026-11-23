@@ -1,5 +1,5 @@
 /**
- * Contribution contracts a plugin declares through the `@GauzyCorePlugin` decorator.
+ * Contribution contracts a plugin declares through the `@IRTranscriptsCorePlugin` decorator.
  *
  * Every contribution is additive: the platform unions what plugins declare with the values it
  * already ships, so a plugin never edits a platform enum to register itself, and an installation

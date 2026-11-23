@@ -1,4 +1,4 @@
-import { FileStorageProvider, IBasePerTenantAndOrganizationEntityModel, ITimeSlot, IEmployee, ID, IDeleteEntity } from "@gauzy/contracts";
+import { FileStorageProvider, IBasePerTenantAndOrganizationEntityModel, ITimeSlot, IEmployee, ID, IDeleteEntity } from "@irtranscripts/contracts";
 
 export interface IVideo extends IBasePerTenantAndOrganizationEntityModel {
 	// Core video properties

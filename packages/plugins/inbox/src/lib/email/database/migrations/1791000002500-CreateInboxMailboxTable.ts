@@ -59,7 +59,7 @@ export const INBOX_MAILBOX_FOREIGN_KEYS: EmailTableForeignKey[] = [
  * `inbox_mailbox` (plan 04 §2, §5.1, G-P4-2): the addresses mail is received for (employee, organization, team);
  * the address is unique across the deployment.
  *
- * Registered only where `GAUZY_INBOX_ENABLED=true` and `GAUZY_INBOX_EMAIL_ENABLED=true` load the Inbox email plugin.
+ * Registered only where `IRTRANSCRIPTS_INBOX_ENABLED=true` and `IRTRANSCRIPTS_INBOX_EMAIL_ENABLED=true` load the Inbox email plugin.
  * Idempotent on every dialect (a re-run issues no DDL and repairs what a failed run left out), serialised on
  * Postgres, reversible (`down` drops the table).
  */

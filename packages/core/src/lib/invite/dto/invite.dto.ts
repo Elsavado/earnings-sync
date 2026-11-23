@@ -1,4 +1,4 @@
-import { InvitationExpirationEnum, InvitationTypeEnum } from '@gauzy/contracts';
+import { InvitationExpirationEnum, InvitationTypeEnum } from '@irtranscripts/contracts';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, ArrayNotEmpty, IsOptional, ValidateIf, IsString } from 'class-validator';
 import { TenantOrganizationBaseDTO } from './../../core/dto';

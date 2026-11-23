@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { defineDeclarativePlugin, PluginRouteInput } from '@gauzy/plugin-ui';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { defineDeclarativePlugin, PluginRouteInput } from '@irtranscripts/plugin-ui';
 import en from '../i18n/en.json';
 
 /** Path of the page, relative to `/pages/integrations` (the `redirectUrl` of the catalog row). */
@@ -47,7 +47,7 @@ export const EVER_WORKS_ROUTE: PluginRouteInput = {
 };
 
 /**
- * Ever Works UI plugin (`@gauzy/plugin-integration-ever-works-ui`): Integrations > Ever Works. The page
+ * Ever Works UI plugin (`@irtranscripts/plugin-integration-ever-works-ui`): Integrations > Ever Works. The page
  * asks the API first; where the Ever Works plugin is not loaded (the default) it only says so.
  */
 export const IntegrationEverWorksUiPlugin = defineDeclarativePlugin('integration-ever-works', {

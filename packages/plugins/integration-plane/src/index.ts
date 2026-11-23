@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-integration-plane
+ * Public API Surface of @irtranscripts/plugin-integration-plane
  */
 export * from './lib/integration-plane.plugin';
 export * from './lib/plane.module';

@@ -17,11 +17,11 @@ jest.mock('uuid', () => {
  * and is the one Jest cannot parse; mocking the package keeps the suite about the mapping it is testing
  * rather than about the kernel's module graph.
  */
-jest.mock('@gauzy/core', () => ({ JobExecutionService: class JobExecutionService {} }));
+jest.mock('@irtranscripts/core', () => ({ JobExecutionService: class JobExecutionService {} }));
 
 import { ConflictException } from '@nestjs/common';
-import { JobExecutionStatus, JobTrigger } from '@gauzy/contracts';
-import { SchedulerRunRecorder, SchedulerService } from '@gauzy/scheduler';
+import { JobExecutionStatus, JobTrigger } from '@irtranscripts/contracts';
+import { SchedulerRunRecorder, SchedulerService } from '@irtranscripts/scheduler';
 import { SchedulerLedgerBootstrap } from './scheduler-ledger.bootstrap';
 
 /**

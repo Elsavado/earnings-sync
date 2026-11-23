@@ -33,7 +33,7 @@ export const PAGE_EXTENSION_SLOTS = {
 	/** Sidebar footer. */
 	SIDEBAR_FOOTER: 'sidebar-footer',
 
-	// ─── Tab pages (align with PageTabsetPageId from @gauzy/ui-core) ─
+	// ─── Tab pages (align with PageTabsetPageId from @irtranscripts/ui-core) ─
 	/** Dashboard tabs (tabset: dashboard-page). */
 	DASHBOARD_TABS: 'dashboard-page',
 

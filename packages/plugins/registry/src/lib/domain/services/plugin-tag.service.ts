@@ -1,5 +1,5 @@
-import { ID, IPagination } from '@gauzy/contracts';
-import { MultiORMEnum, RequestContext } from '@gauzy/core';
+import { ID, IPagination } from '@irtranscripts/contracts';
+import { MultiORMEnum, RequestContext } from '@irtranscripts/core';
 import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import { FindOptionsWhere, In } from 'typeorm';
 import {

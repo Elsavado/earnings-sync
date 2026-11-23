@@ -6,8 +6,8 @@ import {
 	OidcTransactionCookieOptions,
 	OidcTransactionService,
 	isOidcError
-} from '@gauzy/auth';
-import { ID } from '@gauzy/contracts';
+} from '@irtranscripts/auth';
+import { ID } from '@irtranscripts/contracts';
 import { ZITADEL_TRANSACTION_COOKIE } from '../auth-zitadel.tokens';
 import { ZitadelConfigService } from './zitadel-config.service';
 import { ZitadelLinkService } from './zitadel-link.service';

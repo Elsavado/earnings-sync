@@ -28,7 +28,7 @@ import {
 	IEmployee,
 	IEmployeePresence,
 	ID
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { CrudController, FindOptionsQueryDTO, BaseQueryDTO } from './../core/crud';
 import { RequestContext } from './../core/context';
 import { TenantOrganizationBaseDTO } from './../core/dto';

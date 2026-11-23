@@ -12,9 +12,9 @@ import {
 	NbTooltipModule
 } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
-import { SharedModule, OrganizationsStepFormModule, PasswordFormFieldModule } from '@gauzy/ui-core/shared';
-import { ThemeModule } from '@gauzy/ui-core/theme';
-import { TenantService, OrganizationsService, UsersService, WorkspaceAuthService } from '@gauzy/ui-core/core';
+import { SharedModule, OrganizationsStepFormModule, PasswordFormFieldModule } from '@irtranscripts/ui-core/shared';
+import { ThemeModule } from '@irtranscripts/ui-core/theme';
+import { TenantService, OrganizationsService, UsersService, WorkspaceAuthService } from '@irtranscripts/ui-core/core';
 import { WorkspaceCreateComponent } from './workspace-create.component';
 import { CountdownTimerService, WorkspaceSharedModule } from '../shared';
 

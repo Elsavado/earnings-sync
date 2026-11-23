@@ -1,5 +1,5 @@
 import { CanActivate, ExecutionContext, Inject, Injectable, NotFoundException, Optional } from '@nestjs/common';
-import { EverOperatorService } from '@gauzy/plugin-ever-instance';
+import { EverOperatorService } from '@irtranscripts/plugin-ever-instance';
 import { isEverStatsEnabled } from '../ever-stats-enabled';
 import { EVER_STATS_ENV } from '../ever-stats-scheduler.service';
 

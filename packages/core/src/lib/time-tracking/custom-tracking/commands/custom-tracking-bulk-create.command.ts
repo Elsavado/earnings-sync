@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { IProcessTrackingDataInput } from '@gauzy/contracts';
+import { IProcessTrackingDataInput } from '@irtranscripts/contracts';
 
 /**
  * Command for bulk creation of custom tracking data

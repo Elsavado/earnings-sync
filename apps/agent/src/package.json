@@ -1,10 +1,10 @@
 {
-	"name": "gauzy-agent",
-	"productName": "Gauzy Agent",
+	"name": "irtranscripts-agent",
+	"productName": "IRTranscripts Agent",
 	"version": "0.1.0",
-	"description": "Gauzy Agent",
+	"description": "IRTranscripts Agent",
 	"license": "AGPL-3.0",
-	"homepage": "https://gauzy.co",
+	"homepage": "https://irtranscripts.com",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/ever-co/ever-gauzy.git"
@@ -20,9 +20,9 @@
 	},
 	"main": "index.js",
 	"build": {
-		"appId": "com.ever.gauzyagent",
+		"appId": "com.ever.irtranscriptsagent",
 		"artifactName": "${name}-${arch}-${version}.${ext}",
-		"productName": "Gauzy Agent",
+		"productName": "IRTranscripts Agent",
 		"copyright": "Copyright © 2019-Present. Ever Co. LTD",
 		"beforeBuild": "tools/electron/before-build.js",
 		"afterSign": "tools/notarize.js",
@@ -40,7 +40,7 @@
 		"publish": [
 			{
 				"provider": "github",
-				"repo": "ever-gauzy-agent",
+				"repo": "ever-irtranscripts-agent",
 				"releaseType": "release"
 			}
 		],
@@ -85,7 +85,7 @@
 				"AppImage",
 				"flatpak"
 			],
-			"executableName": "gauzy-agent",
+			"executableName": "irtranscripts-agent",
 			"artifactName": "${name}-${arch}-${version}.${ext}",
 			"synopsis": "Desktop",
 			"category": "Development"
@@ -149,14 +149,14 @@
 		"electron-util": "^1.0.0",
 		"node-fetch": "^3.3.2",
 		"node-notifier": "^11.0.0",
-		"@gauzy/common": "file:../../../dist/packages/common",
-		"@gauzy/contracts": "file:../../../dist/packages/contracts",
-		"@gauzy/desktop-core": "file:../../../dist/packages/desktop-core",
-		"@gauzy/desktop-activity": "file:../../../dist/packages/desktop-activity",
-		"@gauzy/desktop-lib": "file:../../../dist/packages/desktop-lib",
-		"@gauzy/desktop-window": "file:../../../dist/packages/desktop-window",
-		"@gauzy/ui-config": "file:../../../dist/packages/ui-config",
-		"@gauzy/constants": "file:../../../dist/packages/constants",
+		"@irtranscripts/common": "file:../../../dist/packages/common",
+		"@irtranscripts/contracts": "file:../../../dist/packages/contracts",
+		"@irtranscripts/desktop-core": "file:../../../dist/packages/desktop-core",
+		"@irtranscripts/desktop-activity": "file:../../../dist/packages/desktop-activity",
+		"@irtranscripts/desktop-lib": "file:../../../dist/packages/desktop-lib",
+		"@irtranscripts/desktop-window": "file:../../../dist/packages/desktop-window",
+		"@irtranscripts/ui-config": "file:../../../dist/packages/ui-config",
+		"@irtranscripts/constants": "file:../../../dist/packages/constants",
 		"@electron/remote": "^2.1.3",
 		"@sentry/electron": "8.1.0",
 		"@sentry/profiling-node": "11.4.0",
@@ -170,14 +170,14 @@
 		"is-online": "^12.0.2"
 	},
 	"resolutions": {
-		"@gauzy/common": "file:../../../dist/packages/common",
-		"@gauzy/contracts": "file:../../../dist/packages/contracts",
-		"@gauzy/desktop-core": "file:../../../dist/packages/desktop-core",
-		"@gauzy/desktop-activity": "file:../../../dist/packages/desktop-activity",
-		"@gauzy/desktop-lib": "file:../../../dist/packages/desktop-lib",
-		"@gauzy/desktop-window": "file:../../../dist/packages/desktop-window",
-		"@gauzy/ui-config": "file:../../../dist/packages/ui-config",
-		"@gauzy/constants": "file:../../../dist/packages/constants",
+		"@irtranscripts/common": "file:../../../dist/packages/common",
+		"@irtranscripts/contracts": "file:../../../dist/packages/contracts",
+		"@irtranscripts/desktop-core": "file:../../../dist/packages/desktop-core",
+		"@irtranscripts/desktop-activity": "file:../../../dist/packages/desktop-activity",
+		"@irtranscripts/desktop-lib": "file:../../../dist/packages/desktop-lib",
+		"@irtranscripts/desktop-window": "file:../../../dist/packages/desktop-window",
+		"@irtranscripts/ui-config": "file:../../../dist/packages/ui-config",
+		"@irtranscripts/constants": "file:../../../dist/packages/constants",
 		"knex": "3.3.0",
 		"uiohook-napi": "1.5.5",
 		"**/embedded-queue/nedb": "npm:@seald-io/nedb@^4.1.2",

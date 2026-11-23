@@ -1,7 +1,7 @@
 import { Controller, UseGuards, HttpStatus, Post, Body, Get, Query } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { ITimeLog, ITimerStatus, PermissionsEnum } from '@gauzy/contracts';
+import { ITimeLog, ITimerStatus, PermissionsEnum } from '@irtranscripts/contracts';
 import { PermissionGuard, TenantPermissionGuard } from './../../shared/guards';
 import { Permissions } from './../../shared/decorators';
 import { UseValidationPipe } from '../../shared/pipes';

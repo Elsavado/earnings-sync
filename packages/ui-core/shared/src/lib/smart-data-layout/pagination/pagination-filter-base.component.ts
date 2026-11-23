@@ -2,8 +2,8 @@ import { AfterViewInit, Component, ChangeDetectionStrategy } from '@angular/core
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject, BehaviorSubject } from 'rxjs';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { cleanKeys, isNotEmpty, mergeDeep } from '@gauzy/ui-core/common';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { cleanKeys, isNotEmpty, mergeDeep } from '@irtranscripts/ui-core/common';
 
 // Interfaces
 export interface IPaginationBase {

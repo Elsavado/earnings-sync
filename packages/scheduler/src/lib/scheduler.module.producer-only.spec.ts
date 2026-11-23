@@ -99,7 +99,7 @@ describe('SchedulerModule.forRoot — producer-only shape', () => {
 	/**
 	 * 🛑 The reason every caller passes `enableQueueing` EXPLICITLY instead of leaning on the
 	 * default: `normalizeSchedulerModuleOptions`'s `DEFAULT_MODULE_OPTIONS` is a module-level
-	 * const, so `REDIS_ENABLED` is snapshotted the first time `@gauzy/scheduler` is required.
+	 * const, so `REDIS_ENABLED` is snapshotted the first time `@irtranscripts/scheduler` is required.
 	 * Anything that mutates the environment after that (a test, a late `dotenv` load) is invisible
 	 * to the default. `isSchedulerQueueRootEnabled()` is a FUNCTION precisely so the apps and the
 	 * plugin gates read the environment at the moment they build their metadata.

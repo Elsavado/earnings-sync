@@ -9,7 +9,7 @@ import * as fs from 'node:fs';
 import * as fsp from 'node:fs/promises';
 import * as os from 'node:os';
 import * as path from 'node:path';
-import { isFunction, isNotEmpty } from '@gauzy/utils';
+import { isFunction, isNotEmpty } from '@irtranscripts/utils';
 import { RequestContext } from './../../core/context';
 import { ExportEntityClass, redactForExport } from '../export-redact.decorator';
 import { toSpreadsheetSafeCsvRow } from '../spreadsheet-safe-row';
@@ -90,7 +90,7 @@ export class ExportService {
 	 */
 	async createExportJob(): Promise<IExportJob> {
 		const id = uuidv4();
-		const workDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'gauzy-export-'));
+		const workDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'irtranscripts-export-'));
 
 		try {
 			const csvDir = path.join(workDir, 'csv');

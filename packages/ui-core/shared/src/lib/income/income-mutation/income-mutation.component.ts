@@ -1,13 +1,13 @@
 import { AfterViewInit, Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Validators, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
-import { IIncome, ITag, IOrganization, ICurrency, ISelectedEmployee } from '@gauzy/contracts';
+import { IIncome, ITag, IOrganization, ICurrency, ISelectedEmployee } from '@irtranscripts/contracts';
 import { debounceTime, filter, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
-import { OrganizationSettingService, Store } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
+import { OrganizationSettingService, Store } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { FormHelpers } from '../../forms/helpers';
 
 @UntilDestroy({ checkProperties: true })

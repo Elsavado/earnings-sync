@@ -10,8 +10,8 @@ import {
 	InboxItemKindEnum,
 	InboxItemPriorityEnum,
 	InboxItemSourceEnum
-} from '@gauzy/contracts';
-import { Employee, EmployeeNotification, IntegrationTenant } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { Employee, EmployeeNotification, IntegrationTenant } from '@irtranscripts/core';
 import { EVER_WORKS_INTEGRATION_NAME } from '../ever-works.constants';
 import { EverWorksSettingName } from '../ever-works-setting.enum';
 import { EverWorksConnection } from './ever-works-connection.entity';
@@ -44,12 +44,12 @@ interface EverWorksNotice {
 /**
  * Notices for the admin who connected Ever Works (plan 06 G-P3-5).
  *
- * - **Where the Inbox is loaded** (`GAUZY_INBOX_ENABLED=true`): an Inbox `NOTICE` from `source = SYSTEM`,
+ * - **Where the Inbox is loaded** (`IRTRANSCRIPTS_INBOX_ENABLED=true`): an Inbox `NOTICE` from `source = SYSTEM`,
  *   one per connection, kind and admin (`ever_works_notice` / `<connectionId>:<kind>:<userId>`). A repeat updates it and marks
  *   it unread and not archived again, so a recurring problem resurfaces instead of piling up. The admin needs no
  *   employee record.
  * - **Otherwise**, or when the Inbox refuses: the earlier fallback, an employee notification (the bell of
- *   Gauzy and Ever Teams) for that admin's employee in the organization the connection was made from. An admin
+ *   IRTranscripts and Ever Teams) for that admin's employee in the organization the connection was made from. An admin
  *   without an employee record there gets the notice in the API log only.
  * - Once that organization is deleted (the connection is kept with `organizationId` NULL, review F59), the notices
  *   go to the organization of the oldest active mapping through the connection.
@@ -69,7 +69,7 @@ export class EverWorksNotifier {
 			kind: 'needs_reauth',
 			title: 'Ever Works needs a new key',
 			message:
-				'Ever Works no longer accepts the integration key of this Gauzy tenant, so the sync is paused. Open Integrations → Ever Works and enter a new integration key.',
+				'Ever Works no longer accepts the integration key of this IRTranscripts tenant, so the sync is paused. Open Integrations → Ever Works and enter a new integration key.',
 			priority: InboxItemPriorityEnum.HIGH,
 			metadata: { status: connection.status }
 		});

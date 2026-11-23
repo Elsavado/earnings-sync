@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
-import { IntegrationEnum, PermissionsEnum } from '@gauzy/contracts';
-import { IntegrationResolver, PageRouteRegistryConfig, PermissionsGuard } from '@gauzy/ui-core/core';
+import { IntegrationEnum, PermissionsEnum } from '@irtranscripts/contracts';
+import { IntegrationResolver, PageRouteRegistryConfig, PermissionsGuard } from '@irtranscripts/ui-core/core';
 import { JobSearchComponent } from './components/job-search/job-search.component';
 
 /** Path for the job search (browse) tab under /pages/jobs. */
@@ -44,7 +44,7 @@ export function getJobSearchRoutes(): Route[] {
 					only: [PermissionsEnum.ORG_JOB_SEARCH],
 					redirectTo: JOB_SEARCH_PAGE_LINK
 				},
-				integration: IntegrationEnum.GAUZY_AI,
+				integration: IntegrationEnum.IRTRANSCRIPTS_AI,
 				relations: ['integration', 'entitySettings']
 			},
 			resolve: { integration: IntegrationResolver }

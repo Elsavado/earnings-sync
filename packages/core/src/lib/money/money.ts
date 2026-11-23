@@ -5,7 +5,7 @@ import {
 	IMoneyDisplayOptions,
 	MoneySymbolPosition,
 	RoundingMode
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { currencyPrecision } from './currency-precision';
 import {
 	MAX_INTEGER_DIGITS,

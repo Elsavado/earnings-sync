@@ -5,7 +5,7 @@ import {
 	IIntegrationEntitySetting,
 	IIntegrationEntitySettingTied,
 	IntegrationEntity
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	IntegrationEntitySetting,
 	TenantOrganizationBaseEntity

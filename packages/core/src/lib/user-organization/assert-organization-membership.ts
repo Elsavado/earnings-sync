@@ -1,7 +1,7 @@
 import { BadRequestException, ForbiddenException } from '@nestjs/common';
 import { isUUID } from 'class-validator';
 import { EntityManager } from 'typeorm';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { TENANT_ADMIN_ROLES } from '../core/crud/organization-boundary';
 import { Organization, UserOrganization } from '../core/entities/internal';

@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 /** The databases this migration runs on. Both SQLite drivers share one entry. */
 type Dialect = 'postgres' | 'sqlite' | 'mysql';
@@ -46,7 +46,7 @@ export class AddEquipmentSharingVersion1791000003320 implements MigrationInterfa
 	 * The MySQL named lock of this migration. MySQL refuses lock names over 64 characters, so the name carries the
 	 * timestamp rather than the class name.
 	 */
-	readonly mysqlLockName = `gauzy:migration:${this.advisoryLockKey}`;
+	readonly mysqlLockName = `irtranscripts:migration:${this.advisoryLockKey}`;
 
 	public async up(queryRunner: QueryRunner): Promise<void> {
 		console.log(chalk.yellow(this.name + ' start running!'));

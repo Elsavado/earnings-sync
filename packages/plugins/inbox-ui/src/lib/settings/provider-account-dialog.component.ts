@@ -19,7 +19,7 @@ import {
 	IInboxProviderAccountCreated,
 	IInboxProviderAccountUpdateInput,
 	InboxProviderAccountScopeEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { InboxEmailSettingsService } from '../services/inbox-email-settings.service';
 import { apiErrorMessage } from './inbox-settings.helpers';
 import { InboxProviderConfigFormComponent } from './provider-config-form.component';

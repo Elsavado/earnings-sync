@@ -3,7 +3,7 @@ import { Controller, Query, Get, HttpStatus, Param, Post, Body, HttpCode, Put, D
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UseGuards } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
-import { ID, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { PermissionGuard, TenantPermissionGuard } from '../../shared/guards';
 import { Permissions } from '../../shared/decorators';
 import { UseValidationPipe, UUIDValidationPipe, AbstractValidationPipe } from '../../shared/pipes';

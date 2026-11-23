@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { QueueJobHandler, QueueWorker, QueueWorkerHost } from '@gauzy/scheduler';
+import { QueueJobHandler, QueueWorker, QueueWorkerHost } from '@irtranscripts/scheduler';
 import { Job } from 'bullmq';
-import { EventOutboxStatus, IEventConsumer, IEventEnvelope } from '@gauzy/contracts';
+import { EventOutboxStatus, IEventConsumer, IEventEnvelope } from '@irtranscripts/contracts';
 import {
 	EVENT_OUTBOX_DISPATCH_BATCH_SIZE,
 	EVENT_OUTBOX_DISPATCH_JOB,

@@ -1,15 +1,15 @@
 import { CurrencyPipe } from '@angular/common';
 import { ChartConfiguration, ChartType, TooltipItem } from 'chart.js';
-import { CurrencyPosition, IMonthAggregatedEmployeeStatistics, IOrganization } from '@gauzy/contracts';
-import { environment } from '@gauzy/ui-config';
-import { months } from '@gauzy/ui-core/core';
+import { CurrencyPosition, IMonthAggregatedEmployeeStatistics, IOrganization } from '@irtranscripts/contracts';
+import { environment } from '@irtranscripts/ui-config';
+import { months } from '@irtranscripts/ui-core/core';
 import { CurrencyPositionPipe } from '../../../pipes/currency-position.pipe';
 import { EMPLOYEE_CHART_KINDS, EmployeeChartKind } from './employee-chart.constants';
 
 // Re-exported so a component importing this module keeps getting the whole
 // vocabulary from one place. `charts.widgets.ts` must NOT come through here —
 // it imports the constants module directly, or the registry chunk drags the
-// dataset builders (and `@gauzy/ui-config`) into the initial bundle.
+// dataset builders (and `@irtranscripts/ui-config`) into the initial bundle.
 export * from './employee-chart.constants';
 
 /**
@@ -91,7 +91,7 @@ export function resolveEmployeeChartPalette(
 	variables: ThemeVariables,
 	element?: Element | null
 ): IEmployeeChartPalette {
-	// `chartjs` is the block every Gauzy theme declares for Chart.js specifically;
+	// `chartjs` is the block every IRTranscripts theme declares for Chart.js specifically;
 	// preferring it keeps these widgets consistent with the report line chart.
 	const chartJs = (variables?.['chartjs'] ?? {}) as { textColor?: string; axisLineColor?: string };
 
@@ -246,7 +246,7 @@ export function toMonthLabels(statistics: readonly IMonthAggregatedEmployeeStati
  * @param value - The amount.
  * @param organization - Organization owning the currency + its position.
  * @param currencyPipe - Angular's currency pipe.
- * @param positionPipe - Gauzy's symbol-position pipe.
+ * @param positionPipe - IRTranscripts's symbol-position pipe.
  * @returns The formatted amount; falls back to the raw currency string when the
  *          position pipe cannot parse it.
  */

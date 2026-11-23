@@ -1,8 +1,8 @@
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	environment: {
 		demo: false,
-		clientBaseUrl: 'https://app.gauzy.co',
-		appIntegrationConfig: { appName: 'Gauzy', appLink: 'https://app.gauzy.co' }
+		clientBaseUrl: 'https://app.irtranscripts.com',
+		appIntegrationConfig: { appName: 'IRTranscripts', appLink: 'https://app.irtranscripts.com' }
 	}
 }));
 jest.mock('../core/entities/internal', () => ({
@@ -34,7 +34,7 @@ jest.mock('./repository/type-orm-account-deletion-request.repository', () => ({
 }));
 
 import { ConflictException, GoneException } from '@nestjs/common';
-import { AccountDeletionOutcomeEnum } from '@gauzy/contracts';
+import { AccountDeletionOutcomeEnum } from '@irtranscripts/contracts';
 import {
 	ACCOUNT_DELETION_INVALID_LINK_MESSAGE,
 	ACCOUNT_DELETION_PARTIAL_MESSAGE,
@@ -140,7 +140,7 @@ describe('AccountDeletionService', () => {
 
 			const { deletionLink } = emailService.sendAccountDeletionLink.mock.calls[0][0];
 			// The caller's link points at a foreign origin, so the deployment's own page is used.
-			expect(deletionLink).toMatch(/^https:\/\/app\.gauzy\.co\/#\/auth\/delete-account\/confirm\?token=[A-Za-z0-9_-]{43}$/);
+			expect(deletionLink).toMatch(/^https:\/\/app\.irtranscripts\.co\/#\/auth\/delete-account\/confirm\?token=[A-Za-z0-9_-]{43}$/);
 			expect(hashAccountDeletionToken(decodeURIComponent(deletionLink.split('token=')[1]))).toBe(stored.tokenHash);
 		});
 
@@ -319,6 +319,6 @@ describe('the confirmation link in the deletion email', () => {
 
 	it('ignores EMAIL_LINK_ALLOWED_ORIGINS=*: the token must not go to whatever site the caller names', () => {
 		process.env['EMAIL_LINK_ALLOWED_ORIGINS'] = '*';
-		expect(confirmUrl('https://attacker.example/steal')).toBe('https://app.gauzy.co/#/auth/delete-account/confirm');
+		expect(confirmUrl('https://attacker.example/steal')).toBe('https://app.irtranscripts.com/#/auth/delete-account/confirm');
 	});
 });

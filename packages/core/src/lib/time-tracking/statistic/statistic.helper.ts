@@ -1,4 +1,4 @@
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 import { prepareSQLQuery as p } from './../../database/database.helper';
 
 /**

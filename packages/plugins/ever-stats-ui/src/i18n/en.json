@@ -24,7 +24,7 @@
 	"DESTINATION": "Sent to",
 	"KEY_WARNING": {
 		"encryption_key_unset": "The statistics key is stored encrypted with JWT_SECRET. Set ENCRYPTION_KEY to protect it with its own key; it is stored again under it at the next start.",
-		"jwt_secret_default": "The statistics key is stored encrypted with a JWT_SECRET published in the Gauzy repository. Set ENCRYPTION_KEY (and a unique JWT_SECRET); it is stored again under it at the next start.",
+		"jwt_secret_default": "The statistics key is stored encrypted with a JWT_SECRET published in the IRTranscripts repository. Set ENCRYPTION_KEY (and a unique JWT_SECRET); it is stored again under it at the next start.",
 		"no_secret": "The statistics key is stored encrypted with a fixed value from the public source code, because neither ENCRYPTION_KEY nor JWT_SECRET was set when it was stored (DEMO=true, ALLOW_INSECURE_JWT_SECRET=true or development). Set ENCRYPTION_KEY: it is stored again under it at the next start."
 	},
 	"WHAT_IS_SENT": "What is sent",

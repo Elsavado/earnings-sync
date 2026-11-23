@@ -2,7 +2,7 @@ import { DestroyRef, Directive, OnInit, type Signal, inject, signal } from '@ang
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { Observable } from 'rxjs';
-import { DASHBOARD_WIDGET_CONFIG, DASHBOARD_WIDGET_CONTEXT, IDashboardWidgetContext } from '@gauzy/ui-core/core';
+import { DASHBOARD_WIDGET_CONFIG, DASHBOARD_WIDGET_CONTEXT, IDashboardWidgetContext } from '@irtranscripts/ui-core/core';
 
 /**
  * Base class for every widget rendered on a dashboard canvas.

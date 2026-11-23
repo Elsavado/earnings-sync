@@ -1,6 +1,6 @@
 import { IntersectionType, OmitType } from '@nestjs/swagger';
-import { IHelpCenterArticle } from '@gauzy/contracts';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { IHelpCenterArticle } from '@irtranscripts/contracts';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 import { HelpCenterArticle } from '../help-center-article.entity';
 
 /**

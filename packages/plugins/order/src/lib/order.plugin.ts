@@ -1,8 +1,8 @@
 import * as chalk from 'chalk';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@gauzy/plugin';
-import { cartCheckoutRegistry } from '@gauzy/plugin-cart';
-import { PricingPlugin } from '@gauzy/plugin-pricing';
-import { TaxPlugin } from '@gauzy/plugin-tax';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@irtranscripts/plugin';
+import { cartCheckoutRegistry } from '@irtranscripts/plugin-cart';
+import { PricingPlugin } from '@irtranscripts/plugin-pricing';
+import { TaxPlugin } from '@irtranscripts/plugin-tax';
 import { ALL_ORDER_ENTITIES } from './entities';
 import { OrderModule } from './order.module';
 import { OrderCheckoutHandler } from './checkout/order-checkout.handler';

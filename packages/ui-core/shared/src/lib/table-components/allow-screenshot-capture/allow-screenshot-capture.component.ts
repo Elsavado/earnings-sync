@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
-import { IEmployee } from '@gauzy/contracts';
+import { IEmployee } from '@irtranscripts/contracts';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
-    selector: 'gauzy-allow-screenshot-capture',
+    selector: 'irtranscripts-allow-screenshot-capture',
     templateUrl: './allow-screenshot-capture.component.html',
     styleUrls: ['./allow-screenshot-capture.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,

@@ -1,6 +1,6 @@
-// `@gauzy/core` and the entities drag in the whole graph; the service only needs the request's tenant.
+// `@irtranscripts/core` and the entities drag in the whole graph; the service only needs the request's tenant.
 const mockContext = { tenantId: 'tenant-a' as string | null };
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	MultiORMEnum: { TypeORM: 'typeorm', MikroORM: 'mikro-orm' },
 	parseFindOptionsRelations: (relations: string[]) => relations,
 	RequestContext: { currentTenantId: () => mockContext.tenantId }

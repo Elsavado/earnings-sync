@@ -1,7 +1,7 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Context, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { FindOptionsWhere } from 'typeorm';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import {
 	FEATURE_GRAPHQL,
 	FeatureFlagGuard,
@@ -11,8 +11,8 @@ import {
 	TenantPermissionGuard,
 	Versioned,
 	versionExpectationOf
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { SubscriptionFeatures } from '../../subscription.features';
 import { SubscriptionPermissions } from '../../subscription.permissions';
 import {

@@ -17,7 +17,7 @@ envPaths.forEach((envPath) => {
 	try {
 		dotenv.config({ path: envPath });
 		// Only log in debug mode and only to stderr to avoid interfering with MCP responses
-		if (process.env.GAUZY_MCP_DEBUG === 'true') {
+		if (process.env.IRTRANSCRIPTS_MCP_DEBUG === 'true') {
 			console.error(`✓ Loaded environment from: ${envPath}`);
 		}
 	} catch (error) {
@@ -29,17 +29,17 @@ envPaths.forEach((envPath) => {
 function validateProductionEnvironment(): void {
 	const errors: string[] = [];
 
-	if (!process.env.API_BASE_URL && !process.env.GAUZY_API_BASE_URL) {
-		errors.push('API_BASE_URL or GAUZY_API_BASE_URL is required');
+	if (!process.env.API_BASE_URL && !process.env.IRTRANSCRIPTS_API_BASE_URL) {
+		errors.push('API_BASE_URL or IRTRANSCRIPTS_API_BASE_URL is required');
 	}
 
 	// Check for authentication credentials
-	if (process.env.GAUZY_AUTO_LOGIN === 'true') {
-		if (!process.env.GAUZY_AUTH_EMAIL) {
-			errors.push('GAUZY_AUTH_EMAIL is required when GAUZY_AUTO_LOGIN is enabled');
+	if (process.env.IRTRANSCRIPTS_AUTO_LOGIN === 'true') {
+		if (!process.env.IRTRANSCRIPTS_AUTH_EMAIL) {
+			errors.push('IRTRANSCRIPTS_AUTH_EMAIL is required when IRTRANSCRIPTS_AUTO_LOGIN is enabled');
 		}
-		if (!process.env.GAUZY_AUTH_PASSWORD) {
-			errors.push('GAUZY_AUTH_PASSWORD is required when GAUZY_AUTO_LOGIN is enabled');
+		if (!process.env.IRTRANSCRIPTS_AUTH_PASSWORD) {
+			errors.push('IRTRANSCRIPTS_AUTH_PASSWORD is required when IRTRANSCRIPTS_AUTO_LOGIN is enabled');
 		}
 	}
 
@@ -57,7 +57,7 @@ validateProductionEnvironment();
 
 // Get base URL with fallbacks
 function getBaseUrl(): string {
-	return process.env.API_BASE_URL || process.env.GAUZY_API_BASE_URL || '';
+	return process.env.API_BASE_URL || process.env.IRTRANSCRIPTS_API_BASE_URL || '';
 }
 
 // Get timeout with validation
@@ -72,15 +72,15 @@ function getTimeout(): number {
 export const environment: IEnvironment = {
 	production: true,
 	envName: 'production',
-	mcpAppName: process.env.MCP_APP_NAME || 'Gauzy MCP Server',
-	appId: process.env.MCP_APP_ID || 'co.gauzy.mcp-server',
+	mcpAppName: process.env.MCP_APP_NAME || 'IRTranscripts MCP Server',
+	appId: process.env.MCP_APP_ID || 'co.irtranscripts.mcp-server',
 	baseUrl: getBaseUrl(),
 	apiTimeout: getTimeout(),
-	debug: process.env.GAUZY_MCP_DEBUG === 'true',
+	debug: process.env.IRTRANSCRIPTS_MCP_DEBUG === 'true',
 	nodeEnv: 'production',
 	auth: {
-		email: process.env.GAUZY_AUTH_EMAIL || '',
-		password: process.env.GAUZY_AUTH_PASSWORD || '',
-		autoLogin: process.env.GAUZY_AUTO_LOGIN === 'true'
+		email: process.env.IRTRANSCRIPTS_AUTH_EMAIL || '',
+		password: process.env.IRTRANSCRIPTS_AUTH_PASSWORD || '',
+		autoLogin: process.env.IRTRANSCRIPTS_AUTO_LOGIN === 'true'
 	}
 };

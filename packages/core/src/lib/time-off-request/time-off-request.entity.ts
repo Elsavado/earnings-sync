@@ -5,7 +5,7 @@ import {
 	ITimeOffPolicy,
 	StatusTypesEnum,
 	IImageAsset as IDocumentAsset
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsString, IsEnum, IsOptional, IsDate, IsBoolean, IsUUID } from 'class-validator';
 import { Employee, ImageAsset, TenantOrganizationBaseEntity, TimeOffPolicy } from '../core/entities/internal';

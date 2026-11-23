@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { ID, IEquipmentSharingCreateInput } from '@gauzy/contracts';
+import { ID, IEquipmentSharingCreateInput } from '@irtranscripts/contracts';
 
 export class EquipmentSharingCreateCommand implements ICommand {
 	static readonly type = '[EquipmentSharing] Create';

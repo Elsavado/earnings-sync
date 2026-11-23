@@ -1,8 +1,8 @@
 import { Logger, NotFoundException } from '@nestjs/common';
 import { ICommandHandler, CommandBus, CommandHandler } from '@nestjs/cqrs';
 import * as moment from 'moment';
-import { ID, ITimeLog, ITimeSlot, ITimesheet, TimeLogSourceEnum } from '@gauzy/contracts';
-import { isEmpty } from '@gauzy/utils';
+import { ID, ITimeLog, ITimeSlot, ITimesheet, TimeLogSourceEnum } from '@irtranscripts/contracts';
+import { isEmpty } from '@irtranscripts/utils';
 import { TimesheetFirstOrCreateCommand, TimesheetRecalculateCommand } from './../../../timesheet/commands';
 import { TimeSlotBulkDeleteCommand } from '../../../time-slot/commands/time-slot-bulk-delete.command';
 import { TimeSlotService } from '../../../time-slot/time-slot.service';

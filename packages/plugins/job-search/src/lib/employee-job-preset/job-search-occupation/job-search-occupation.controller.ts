@@ -1,7 +1,7 @@
 import { Controller, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { CrudController, PermissionGuard, Permissions, TenantPermissionGuard } from '@gauzy/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { CrudController, PermissionGuard, Permissions, TenantPermissionGuard } from '@irtranscripts/core';
 import { JobSearchOccupationService } from './job-search-occupation.service';
 import { JobSearchOccupation } from './job-search-occupation.entity';
 

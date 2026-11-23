@@ -5,7 +5,7 @@ import {
 	ID,
 	IRequestApproval,
 	RequestApprovalStatusTypesEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	RequestApprovalService,
 	RequestContext,
@@ -14,7 +14,7 @@ import {
 	isValidDecimalString,
 	normalizeDecimalString,
 	toUnitsAtScale
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { IOrderApprovalPort, IOrderApprovalRequest } from '../order.types';
 
 /**

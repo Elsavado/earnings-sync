@@ -1,7 +1,7 @@
 import { Injectable, Logger, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import { Subscription, filter, catchError, EMPTY, concatMap, from } from 'rxjs';
-import { isTaskSyncAllowed } from '@gauzy/contracts';
-import { EventBus, TaskEvent } from '@gauzy/core';
+import { isTaskSyncAllowed } from '@irtranscripts/contracts';
+import { EventBus, TaskEvent } from '@irtranscripts/core';
 import { SimService } from '../sim.service';
 import { SimEventName, SimEventType } from '../dto/event-mapping.dto';
 

@@ -1,13 +1,13 @@
 import { Controller, Get, HttpException, HttpStatus, Logger, Param, Query, Req, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
-import { IGithubIssue, IGithubRepository, IGithubRepositoryResponse, PermissionsEnum } from '@gauzy/contracts';
+import { IGithubIssue, IGithubRepository, IGithubRepositoryResponse, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	PermissionGuard,
 	Permissions,
 	TenantOrganizationBaseDTO,
 	TenantPermissionGuard,
 	UseValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { OctokitResponse, OctokitService } from '../probot/octokit.service';
 import { GithubIssuesQueryDTO } from './dto';
 import { GithubIntegrationTenantGuard } from './github-integration-tenant.guard';

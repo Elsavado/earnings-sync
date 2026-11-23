@@ -1,6 +1,6 @@
 import { Controller, Get, Header, Inject, NotFoundException, Optional } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Public } from '@gauzy/common';
+import { Public } from '@irtranscripts/common';
 import { isEverStatsEnabled } from './ever-stats-enabled';
 import { EVER_STATS_ENV } from './ever-stats-scheduler.service';
 import { EverStatsService } from './ever-stats.service';

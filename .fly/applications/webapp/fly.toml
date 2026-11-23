@@ -1,4 +1,4 @@
-app = "ever-gauzy-webapp"
+app = "ever-irtranscripts-webapp"
 kill_signal = "SIGINT"
 kill_timeout = 30
 primary_region = "lax"
@@ -10,7 +10,7 @@ primary_region = "lax"
   DEMO="true"
   API_BASE_URL="https://ever-gauzy-api.fly.dev"
   CLIENT_BASE_URL="https://ever-gauzy-webapp.fly.dev"
-  # Your own Sentry DSN (https://docs.sentry.io/concepts/key-terms/dsn-explainer/). Leave it empty to disable Sentry: a DSN shipped here would send every install's errors to the Ever Gauzy project.
+  # Your own Sentry DSN (https://docs.sentry.io/concepts/key-terms/dsn-explainer/). Leave it empty to disable Sentry: a DSN shipped here would send every install's errors to the Ever IRTranscripts project.
   SENTRY_DSN=""
   CHATWOOT_SDK_TOKEN="jFoSXEjGmqhUhqU3zfgkFfMt"
   CLOUDINARY_API_KEY="256868982483961"

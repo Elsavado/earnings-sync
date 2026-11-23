@@ -1,4 +1,4 @@
-import { IPluginSubscription } from '@gauzy/contracts';
+import { IPluginSubscription } from '@irtranscripts/contracts';
 import { BadRequestException } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { PluginSubscriptionAccessService } from '../../../../domain';

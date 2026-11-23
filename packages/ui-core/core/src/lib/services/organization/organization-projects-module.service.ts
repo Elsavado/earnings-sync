@@ -1,8 +1,8 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { IOrganizationProjectModule, IPagination, ID, IOrganizationProjectModuleFindInput } from '@gauzy/contracts';
-import { API_PREFIX, toParams } from '@gauzy/ui-core/common';
+import { IOrganizationProjectModule, IPagination, ID, IOrganizationProjectModuleFindInput } from '@irtranscripts/contracts';
+import { API_PREFIX, toParams } from '@irtranscripts/ui-core/common';
 import { catchError } from 'rxjs/operators';
 import { CrudService } from '../crud';
 import { ToastrService } from '../notification';

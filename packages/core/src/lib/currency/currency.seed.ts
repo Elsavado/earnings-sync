@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { ICurrency, DEFAULT_CURRENCIES } from '@gauzy/contracts';
+import { ICurrency, DEFAULT_CURRENCIES } from '@irtranscripts/contracts';
 import { Currency } from './currency.entity';
 
 export const createCurrencies = async (

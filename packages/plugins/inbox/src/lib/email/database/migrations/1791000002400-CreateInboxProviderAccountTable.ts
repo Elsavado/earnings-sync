@@ -56,7 +56,7 @@ export const INBOX_PROVIDER_ACCOUNT_INDEXES: IndexSpec[] = [
 
 /**
  * `inbox_provider_account` (plan 04 §2, G-P4-2): the email provider accounts of a tenant or an organization, with
- * their credentials encrypted. Registered only where `GAUZY_INBOX_ENABLED=true` and `GAUZY_INBOX_EMAIL_ENABLED=true`
+ * their credentials encrypted. Registered only where `IRTRANSCRIPTS_INBOX_ENABLED=true` and `IRTRANSCRIPTS_INBOX_EMAIL_ENABLED=true`
  * load the Inbox email plugin. Idempotent on every dialect, serialised on Postgres, reversible.
  */
 export class CreateInboxProviderAccountTable1791000002400 implements MigrationInterface {

@@ -3,7 +3,7 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
 import { NbToggleComponent } from '@nebular/theme';
 import { of, Subject, throwError } from 'rxjs';
-import { Store } from '@gauzy/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
 import type { EverWorksConflict, EverWorksConnection, EverWorksMapping, EverWorksSyncStatus } from '../../services/ever-works.service';
 import { EverWorksUiService } from '../../services/ever-works.service';
 import { EverWorksSettingsComponent, SETTINGS_POLL_MS } from './ever-works-settings.component';
@@ -15,7 +15,7 @@ const STATUS = { enabled: true, pluginVersion: '0.1.0', contractVersion: '1', de
 const CONNECTION = {
 	id: 'c1',
 	status: 'active',
-	key: { id: 'k1', name: 'Ever Gauzy', prefix: 'ew_int_ab' },
+	key: { id: 'k1', name: 'Ever IRTranscripts', prefix: 'ew_int_ab' },
 	webhook: { registered: true, subscriptionId: 's1', url: 'u' }
 } as unknown as EverWorksConnection;
 const MAPPING = {
@@ -62,10 +62,10 @@ const CONFLICT = {
 	createdAt: '2026-10-16T22:00:00.000Z',
 	direction: 'inbound',
 	entityType: 'TEAM',
-	gauzyId: 'g1',
+	irtranscriptsId: 'g1',
 	ewId: 'e1',
 	message: null,
-	details: { field: 'name', gauzyValue: 'Platform', everWorksValue: 'Platform team', winner: 'ever_works' },
+	details: { field: 'name', irtranscriptsValue: 'Platform', everWorksValue: 'Platform team', winner: 'ever_works' },
 	resolved: false,
 	resolvedAt: null,
 	resolvedByUserId: null,

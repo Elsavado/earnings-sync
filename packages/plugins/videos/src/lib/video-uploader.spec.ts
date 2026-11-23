@@ -1,6 +1,6 @@
-// `@gauzy/core` drags in the entity graph; the rule only reads the caller from the request context.
+// `@irtranscripts/core` drags in the entity graph; the rule only reads the caller from the request context.
 const mockCaller = { employeeId: 'employee-own' as string | null, mayActForOthers: false };
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	RequestContext: {
 		currentEmployeeId: () => mockCaller.employeeId,
 		hasPermission: () => mockCaller.mayActForOthers

@@ -1,4 +1,4 @@
-import { CurrencyCode, DecimalString, IBasePerTenantAndOrganizationEntityModel, ID } from '@gauzy/contracts';
+import { CurrencyCode, DecimalString, IBasePerTenantAndOrganizationEntityModel, ID } from '@irtranscripts/contracts';
 
 /**
  * Returns, claims and exchanges.

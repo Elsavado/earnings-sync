@@ -19,15 +19,15 @@ import {
 	FileStorageProviderEnum,
 	ID,
 	UploadedFile
-} from '@gauzy/contracts';
-import { isBetterSqlite3, isSqlite } from '@gauzy/config';
+} from '@irtranscripts/contracts';
+import { isBetterSqlite3, isSqlite } from '@irtranscripts/config';
 import {
 	FileContentTooLargeError,
 	FileStorage,
 	readStorageFileAsBuffer,
 	RequestContext,
 	StorageFileReadError
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { getDocsConfig } from '../docs.config';
 import {
 	DOCS_FILE_TOO_LARGE,
@@ -107,7 +107,7 @@ interface IUploadBatchContext {
 	tenantId: ID;
 	organizationId: ID;
 	storageProvider: FileStorageProviderEnum;
-	/** Per-file size cap in bytes (`GAUZY_DOCS_MAX_FILE_SIZE`). */
+	/** Per-file size cap in bytes (`IRTRANSCRIPTS_DOCS_MAX_FILE_SIZE`). */
 	maxFileSize: number;
 	importToKnowledge: boolean;
 	defaultVisibility: DocumentVisibilityEnum;

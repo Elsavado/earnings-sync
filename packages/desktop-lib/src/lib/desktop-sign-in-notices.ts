@@ -1,5 +1,5 @@
 import { BrowserWindow, clipboard, dialog, MessageBoxOptions, MessageBoxReturnValue } from 'electron';
-import { store } from '@gauzy/desktop-core';
+import { store } from '@irtranscripts/desktop-core';
 import {
 	DESKTOP_SEED_CREDENTIALS_STORE_KEY,
 	DesktopSeedAccountEmails,
@@ -36,8 +36,8 @@ function translate(key: string, fallback: string, params?: Record<string, string
 }
 
 /**
- * The sign-in notices of the desktop apps that run the API locally (Gauzy Desktop with the
- * integrated server, Gauzy Server, Gauzy API Server).
+ * The sign-in notices of the desktop apps that run the API locally (IRTranscripts Desktop with the
+ * integrated server, IRTranscripts Server, IRTranscripts API Server).
  *
  * - Before each start the app takes this install's random seed passwords from
  *   {@link provisionSeedCredentials} and hands them to the API (`DEMO_*_PASSWORD`).
@@ -166,7 +166,7 @@ export class DesktopSignInNotices {
 		for (;;) {
 			const detail = translate(
 				'TIMER_TRACKER.DIALOG.SEED_CREDENTIALS_DETAIL',
-				'This installation created its accounts with random passwords instead of the published defaults.\n\n{{accounts}}\n\nYou can change a password later on your profile page in Gauzy.',
+				'This installation created its accounts with random passwords instead of the published defaults.\n\n{{accounts}}\n\nYou can change a password later on your profile page in IRTranscripts.',
 				{ accounts: text }
 			);
 			const { response } = await this.messageBox(window, {
@@ -228,7 +228,7 @@ export class DesktopSignInNotices {
 			),
 			detail: translate(
 				'TIMER_TRACKER.DIALOG.PUBLISHED_PASSWORDS_DETAIL',
-				'{{accounts}} still sign in with the default password published in the Gauzy documentation. Anyone who can reach this server can sign in with it. Sign in to Gauzy and change it on the profile page.',
+				'{{accounts}} still sign in with the default password published in the IRTranscripts documentation. Anyone who can reach this server can sign in with it. Sign in to IRTranscripts and change it on the profile page.',
 				{ accounts: this.publishedPasswordAccounts.join(', ') }
 			),
 			buttons: [translate('BUTTONS.OK', 'OK')],

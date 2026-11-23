@@ -1,11 +1,11 @@
 import '../../core/entities/internal';
 
-jest.mock('@gauzy/config', () => ({ ...jest.requireActual('@gauzy/config'), isMySQL: jest.fn() }));
+jest.mock('@irtranscripts/config', () => ({ ...jest.requireActual('@irtranscripts/config'), isMySQL: jest.fn() }));
 
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
-import { isMySQL } from '@gauzy/config';
-import { IGetTimeSlotInput } from '@gauzy/contracts';
+import { isMySQL } from '@irtranscripts/config';
+import { IGetTimeSlotInput } from '@irtranscripts/contracts';
 import { MultiORMEnum } from '../../core/utils';
 import { mockRequestContext } from '../testing/recording-query-builder';
 import { TypeOrmTimeSlotRepository } from './repository/type-orm-time-slot.repository';

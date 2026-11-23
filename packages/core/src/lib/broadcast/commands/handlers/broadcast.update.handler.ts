@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { UpdateResult } from 'typeorm';
-import { IBroadcast } from '@gauzy/contracts';
+import { IBroadcast } from '@irtranscripts/contracts';
 import { BroadcastUpdateCommand } from '../broadcast.update.command';
 import { BroadcastService } from '../../broadcast.service';
 

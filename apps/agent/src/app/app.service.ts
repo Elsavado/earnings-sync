@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import { UserOrganizationService } from '@gauzy/desktop-ui-lib';
-import { IUser } from '@gauzy/contracts';
+import { UserOrganizationService } from '@irtranscripts/desktop-ui-lib';
+import { IUser } from '@irtranscripts/contracts';
 
 @Injectable({
 	providedIn: 'root'

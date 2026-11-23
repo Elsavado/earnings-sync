@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/node';
 import type { Integration } from '@sentry/core';
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 import { SentryPluginOptions } from './sentry.types';
 
 /**

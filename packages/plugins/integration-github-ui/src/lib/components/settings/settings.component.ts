@@ -9,10 +9,10 @@ import {
 	IIntegrationTenant,
 	IntegrationEntity,
 	IntegrationEnum
-} from '@gauzy/contracts';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { ErrorHandlingService, ToastrService } from '@gauzy/ui-core/core';
-import { IntegrationEntitySettingService, IntegrationEntitySettingServiceStoreService } from '@gauzy/ui-core/core';
+} from '@irtranscripts/contracts';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { ErrorHandlingService, ToastrService } from '@irtranscripts/ui-core/core';
+import { IntegrationEntitySettingService, IntegrationEntitySettingServiceStoreService } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy()
 @Component({

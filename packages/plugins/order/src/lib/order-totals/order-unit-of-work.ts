@@ -1,6 +1,6 @@
 import { Injectable, Optional } from '@nestjs/common';
 import { MikroORM, RequestContext as MikroOrmRequestContext } from '@mikro-orm/core';
-import { MultiORMEnum, getORMType } from '@gauzy/core';
+import { MultiORMEnum, getORMType } from '@irtranscripts/core';
 
 /**
  * A persistence context of its own for one unit of a pass that no request is behind.

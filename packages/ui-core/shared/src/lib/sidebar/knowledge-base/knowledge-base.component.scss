@@ -1,10 +1,10 @@
-@use 'gauzy/_gauzy-dialogs' as *;
+@use 'irtranscripts/_irtranscripts-dialogs' as *;
 
 .card {
 	display: flex;
 	flex-direction: column;
 	width: 500px;
-	background-color: var(--gauzy-card-1);
+	background-color: var(--irtranscripts-card-1);
 	border-radius: var(--border-radius);
 
 	nb-card-body {
@@ -26,7 +26,7 @@
 	input,
 	::ng-deep nb-select.appearance-outline.status-basic .select-button,
 	::ng-deep .ng-select .ng-select-container {
-		background-color: var(--gauzy-sidebar-background-4) !important;
+		background-color: var(--irtranscripts-sidebar-background-4) !important;
 		border: unset;
 	}
 

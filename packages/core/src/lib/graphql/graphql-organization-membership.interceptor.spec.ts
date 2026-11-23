@@ -10,7 +10,7 @@ import { Reflector } from '@nestjs/core';
 import { ExecutionContextHost } from '@nestjs/core/helpers/execution-context-host';
 import { buildSchema, GraphQLObjectType, GraphQLSchema } from 'graphql';
 import { lastValueFrom, of } from 'rxjs';
-import { PUBLIC_METHOD_METADATA } from '@gauzy/constants';
+import { PUBLIC_METHOD_METADATA } from '@irtranscripts/constants';
 import { ApiErrorCode } from '../core/errors/api-error-codes';
 import { ApiException } from '../core/errors/api-exception';
 import { RequestContext } from '../core/context';

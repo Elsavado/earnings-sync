@@ -1,7 +1,7 @@
 {
-	"name": "@gauzy/plugin-returns",
+	"name": "@irtranscripts/plugin-returns",
 	"version": "0.1.0",
-	"description": "Ever Gauzy Platform Returns Plugin — post-purchase returns, claims and exchanges",
+	"description": "Ever IRTranscripts Platform Returns Plugin — post-purchase returns, claims and exchanges",
 	"author": {
 		"name": "Ever Co. LTD",
 		"email": "ever@ever.co",
@@ -31,12 +31,12 @@
 		"@nestjs/core": "^12.0.0"
 	},
 	"dependencies": {
-		"@gauzy/common": "^0.1.0",
-		"@gauzy/config": "^0.1.0",
-		"@gauzy/contracts": "^0.1.0",
-		"@gauzy/core": "^0.1.0",
-		"@gauzy/plugin": "^0.1.0",
-		"@gauzy/utils": "^0.1.0",
+		"@irtranscripts/common": "^0.1.0",
+		"@irtranscripts/config": "^0.1.0",
+		"@irtranscripts/contracts": "^0.1.0",
+		"@irtranscripts/core": "^0.1.0",
+		"@irtranscripts/plugin": "^0.1.0",
+		"@irtranscripts/utils": "^0.1.0",
 		"@mikro-orm/nestjs": "^6.1.2",
 		"@nestjs/graphql": "^14.0.3",
 		"@nestjs/mapped-types": "^12.0.0",
@@ -60,7 +60,7 @@
 		"exchanges",
 		"rma",
 		"plugin",
-		"Ever Gauzy",
+		"Ever IRTranscripts",
 		"NestJS",
 		"typescript",
 		"microservices",

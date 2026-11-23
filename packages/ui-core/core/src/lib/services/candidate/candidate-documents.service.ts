@@ -6,9 +6,9 @@ import {
 	ICandidateDocument,
 	ICandidateDocumentFindInput,
 	IPagination
-} from '@gauzy/contracts';
-import { toParams } from '@gauzy/ui-core/common';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { toParams } from '@irtranscripts/ui-core/common';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 
 @Injectable({
 	providedIn: 'root'

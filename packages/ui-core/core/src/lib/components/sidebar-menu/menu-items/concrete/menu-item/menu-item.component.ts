@@ -12,7 +12,7 @@ import { merge } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgxPermissionsModule, NgxPermissionsObject, NgxPermissionsService } from 'ngx-permissions';
-import { IUser } from '@gauzy/contracts';
+import { IUser } from '@irtranscripts/contracts';
 import { IMenuItem, IMenuItemFocusChangeEvent } from '../../interface/menu-item.interface';
 import { Store } from '../../../../../services/store/store.service';
 import { JitsuService } from '../../../../../services/analytics/jitsu.service';

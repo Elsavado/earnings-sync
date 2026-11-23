@@ -1,5 +1,5 @@
-import { ID } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { NotFoundException } from '@nestjs/common';
 import { PluginService, PluginSubscriptionService } from '../../../../domain';
 import { PluginSubscription } from '../../../../domain/entities';

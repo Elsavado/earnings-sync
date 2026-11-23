@@ -2,14 +2,14 @@
 @use '../legal-document';
 
 :host {
-  background-color: var(--gauzy-card-2);
+  background-color: var(--irtranscripts-card-2);
   border-radius: var(--border-radius);
   height: calc(100vh - 11rem);
   overflow: auto;
   font-family: inherit !important;
 
   ::ng-deep h1 {
-    background: var(--gauzy-card-2);
+    background: var(--irtranscripts-card-2);
     border-radius: var(--border-radius) var(--border-radius) 0 0;
     padding: 10px 30px;
     margin: -10px -30px 10px;
@@ -34,25 +34,25 @@
 
 ::ng-deep {
   h1 {
-    color: var(--gauzy-text-color-1) !important;
+    color: var(--irtranscripts-text-color-1) !important;
     font-size: 24px !important;
     font-weight: 400 !important;
   }
 
   h2 {
-    color: var(--gauzy-text-color-2) !important;
+    color: var(--irtranscripts-text-color-2) !important;
     font-size: 18px !important;
     font-weight: 600 !important;
   }
 
   h3 {
-    color: var(--gauzy-text-color-1) !important;
+    color: var(--irtranscripts-text-color-1) !important;
     font-size: 16px !important;
     font-weight: 600 !important;
   }
 
   h4 {
-    color: var(--gauzy-text-color-2) !important;
+    color: var(--irtranscripts-text-color-2) !important;
     font-size: 13px !important;
     font-weight: 600 !important;
   }
@@ -338,10 +338,10 @@
   .box_primary {
     // The trailing `(0 0 0 / 15%)` left behind by an old find-and-replace made
     // both declarations invalid, so this box drew no edge at all.
-    box-shadow: var(--gauzy-shadow) !important;
+    box-shadow: var(--irtranscripts-shadow) !important;
     border: unset !important;
     border-radius: var(--border-radius) !important;
-    background: var(--gauzy-card-4) !important;
+    background: var(--irtranscripts-card-4) !important;
   }
 
   .box_content {
@@ -1392,10 +1392,10 @@
   .iubenda_vip_policy .box_primary {
     // The trailing `(0 0 0 / 15%)` left behind by an old find-and-replace made
     // both declarations invalid, so this box drew no edge at all.
-    box-shadow: var(--gauzy-shadow) !important;
+    box-shadow: var(--irtranscripts-shadow) !important;
     border: unset !important;
     border-radius: var(--border-radius) !important;
-    background: var(--gauzy-card-4) !important;
+    background: var(--irtranscripts-card-4) !important;
   }
 
   .iubenda_vip_policy .tc-deactivated h1 {

@@ -1,5 +1,5 @@
 import { ModuleMetadata, Type } from '@nestjs/common';
-import { ExtensionConfigurationOptions, ApplicationPluginConfigurationFn } from '@gauzy/common';
+import { ExtensionConfigurationOptions, ApplicationPluginConfigurationFn } from '@irtranscripts/common';
 import {
 	PluginFeatureContribution,
 	PluginPermissionContribution,

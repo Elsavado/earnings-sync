@@ -1,6 +1,6 @@
 import { EventSubscriber } from 'typeorm';
-import { isObject } from '@gauzy/utils';
-import { isBetterSqlite3, isSqlite } from '@gauzy/config';
+import { isObject } from '@irtranscripts/utils';
+import { isBetterSqlite3, isSqlite } from '@irtranscripts/config';
 import { BaseEntityEventSubscriber } from '../../core/entities/subscribers/base-entity-event.subscriber';
 import { Activity } from './activity.entity';
 

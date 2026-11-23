@@ -4,7 +4,7 @@ import {
 	IEmailTransportRequest,
 	IEmailTransportResolution,
 	IEmailTransportResolver
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { InboxProviderAccount } from '../entities/inbox-provider-account.entity';
 import { EmailProviderRegistry } from '../providers/email-provider.registry';
 import { InboxProviderAccountService } from '../provider-accounts/inbox-provider-account.service';
@@ -13,7 +13,7 @@ import { InboxProviderAccountService } from '../provider-accounts/inbox-provider
 export const INBOX_EMAIL_TRANSPORT_RESOLVER_ID = 'inbox-provider-accounts';
 
 /**
- * Supplies `@gauzy/core`'s email transport seam (plan 04 §5.5) with the provider accounts' API transports, in the
+ * Supplies `@irtranscripts/core`'s email transport seam (plan 04 §5.5) with the provider accounts' API transports, in the
  * plan's order:
  *
  * 1. the account the sender names (an Inbox reply: the provider account of the mailbox it is sent from);

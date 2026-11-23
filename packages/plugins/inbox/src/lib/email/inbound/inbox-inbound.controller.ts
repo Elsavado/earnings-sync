@@ -13,7 +13,7 @@ import {
 	UseGuards
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Public } from '@gauzy/common';
+import { Public } from '@irtranscripts/common';
 import { INBOX_INBOUND_ROUTE } from '../inbox-email.constants';
 import { IInboundWebhookRequest } from '../providers/email-provider.types';
 import { getInboxEmailConfig } from './inbox-email.config';
@@ -33,7 +33,7 @@ interface InboundHttpRequest {
 }
 
 /**
- * A per-client-address bucket on the provider webhook (`GAUZY_INBOX_INBOUND_REQUESTS_PER_MINUTE`, default 600).
+ * A per-client-address bucket on the provider webhook (`IRTRANSCRIPTS_INBOX_INBOUND_REQUESTS_PER_MINUTE`, default 600).
  * Keyed on the client address Express resolves (forwarding headers only through the proxies the platform trusts, so
  * a proxy in front of the API is not one shared bucket); excess requests get 429 with `Retry-After`.
  */
@@ -67,8 +67,8 @@ export class InboxInboundRateLimitGuard implements CanActivate {
 
 /**
  * `POST /api/inbox/inbound/:providerId/:accountId` (plan 04 §3, §5.3): the provider webhook. `@Public()` — a provider
- * has no Gauzy credential; the account's own secret proves the request (`provider.inbound.verify`), and the platform
- * route `/inbound/generic/platform` is proven with `GAUZY_INBOX_PLATFORM_SECRET`. Unknown providers and accounts answer
+ * has no IRTranscripts credential; the account's own secret proves the request (`provider.inbound.verify`), and the platform
+ * route `/inbound/generic/platform` is proven with `IRTRANSCRIPTS_INBOX_PLATFORM_SECRET`. Unknown providers and accounts answer
  * 404, unproven requests 401, and a stored delivery 202 with `{ accepted, duplicates, dropped }`.
  *
  * The signature is computed over the raw body, which the API captures for every JSON and URL-encoded form request,

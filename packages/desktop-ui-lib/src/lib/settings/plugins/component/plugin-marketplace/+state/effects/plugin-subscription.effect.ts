@@ -3,7 +3,7 @@ import { createEffect, ofType } from '@ngneat/effects';
 import { Actions } from '@ngneat/effects-ng';
 import { catchError, concatMap, exhaustMap, finalize, map, of, switchMap, take, tap } from 'rxjs';
 
-import { IPlugin } from '@gauzy/contracts';
+import { IPlugin } from '@irtranscripts/contracts';
 import { NbDialogService } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
 import { PluginActions } from '../../../+state/plugin.action';

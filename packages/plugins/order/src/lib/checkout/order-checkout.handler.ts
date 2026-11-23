@@ -1,12 +1,12 @@
 import { BadRequestException, Inject, Injectable, Logger, Optional } from '@nestjs/common';
-import { ID, OrderStatus } from '@gauzy/contracts';
+import { ID, OrderStatus } from '@irtranscripts/contracts';
 import {
 	CommerceCart,
 	CommerceCartService,
 	ICartCheckoutContext,
 	ICartCheckoutHandler,
 	ICartCheckoutResult
-} from '@gauzy/plugin-cart';
+} from '@irtranscripts/plugin-cart';
 import { OrderService } from '../order/order.service';
 import { OrderPaymentLedgerService } from '../order-payment/order-payment-ledger.service';
 import { IOrderCheckoutPaymentsPort, ORDER_CHECKOUT_PAYMENTS } from '../order.types';

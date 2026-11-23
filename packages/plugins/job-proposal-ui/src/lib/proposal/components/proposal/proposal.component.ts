@@ -20,7 +20,7 @@ import {
 	PermissionsEnum,
 	IEmployee,
 	ID
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	DateRangePickerBuilderService,
 	ErrorHandlingService,
@@ -28,8 +28,8 @@ import {
 	ServerDataSource,
 	Store,
 	ToastrService
-} from '@gauzy/ui-core/core';
-import { API_PREFIX, ComponentEnum, distinctUntilChange, toUTC } from '@gauzy/ui-core/common';
+} from '@irtranscripts/ui-core/core';
+import { API_PREFIX, ComponentEnum, distinctUntilChange, toUTC } from '@irtranscripts/ui-core/common';
 import {
 	ActionConfirmationComponent,
 	ClickableLinkComponent,
@@ -46,7 +46,7 @@ import {
 	TagsColorFilterComponent,
 	TagsOnlyComponent,
 	getAdjustDateRangeFutureAllowed
-} from '@gauzy/ui-core/shared';
+} from '@irtranscripts/ui-core/shared';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

@@ -62,7 +62,7 @@ jest.mock('electron', () => ({
 }));
 jest.mock('is-online', () => ({ __esModule: true, default: jest.fn(async () => false) }));
 jest.mock('../../environments/environment', () => ({ environment: {} }), { virtual: true });
-jest.mock('@gauzy/desktop-activity', () => ({
+jest.mock('@irtranscripts/desktop-activity', () => ({
 	ActivityState: { active: 'active', idle: 'idle' },
 	ActivityWindow: { getInstance: () => ({ retrieveAndFlushActivities: () => [] }) },
 	KbMouseTimer: { getInstance: () => mockTimerModule },
@@ -77,7 +77,7 @@ jest.mock('@gauzy/desktop-activity', () => ({
 		})
 	}
 }));
-jest.mock('@gauzy/desktop-lib', () => ({
+jest.mock('@irtranscripts/desktop-lib', () => ({
 	KbMouseActivityService: jest.fn(() => mockActivityService),
 	LocalStore: {
 		getStore: (key: string) => mockStore[key],

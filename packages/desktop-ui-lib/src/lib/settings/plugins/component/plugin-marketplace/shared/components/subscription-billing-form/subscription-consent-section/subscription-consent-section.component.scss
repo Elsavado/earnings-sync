@@ -1,7 +1,7 @@
 .form-section {
   border-radius: calc(var(--border-radius) * 1.25);
-  background: var(--gauzy-card-1);
-  border: 1px solid var(--gauzy-card-2);
+  background: var(--irtranscripts-card-1);
+  border: 1px solid var(--irtranscripts-card-2);
   box-shadow: none;
 }
 
@@ -23,7 +23,7 @@
 
   .hint {
     margin: 4px 0 0;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
     font-size: 13px;
   }
 }
@@ -45,7 +45,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--gauzy-text-color-1);
+  color: var(--irtranscripts-text-color-1);
 }
 
 .checkbox-help {
@@ -53,7 +53,7 @@
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  color: var(--gauzy-text-color-2);
+  color: var(--irtranscripts-text-color-2);
   font-size: 13px;
 }
 

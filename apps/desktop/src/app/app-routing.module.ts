@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
-import { authConnectionGuard, noAuthGuard } from '@gauzy/desktop-ui-lib';
+import { authConnectionGuard, noAuthGuard } from '@irtranscripts/desktop-ui-lib';
 
 const routes: Routes = [
 	{
@@ -10,51 +10,51 @@ const routes: Routes = [
 	},
 	{
 		path: 'setup',
-		loadComponent: () => import('@gauzy/desktop-ui-lib').then((m) => m.SetupComponent)
+		loadComponent: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.SetupComponent)
 	},
 	{
 		path: 'time-tracker',
 		canActivate: [authConnectionGuard],
-		loadComponent: () => import('@gauzy/desktop-ui-lib').then((m) => m.TimeTrackerComponent),
-		loadChildren: () => import('@gauzy/desktop-ui-lib').then((m) => m.RecapModule)
+		loadComponent: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.TimeTrackerComponent),
+		loadChildren: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.RecapModule)
 	},
 	{
 		path: 'auth',
 		canActivate: [noAuthGuard],
-		loadChildren: () => import('@gauzy/desktop-ui-lib').then((m) => m.AuthModule)
+		loadChildren: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.AuthModule)
 	},
 	{
 		path: 'screen-capture',
-		loadComponent: () => import('@gauzy/desktop-ui-lib').then((m) => m.ScreenCaptureComponent)
+		loadComponent: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.ScreenCaptureComponent)
 	},
 	{
 		path: 'plugins',
 		canActivate: [authConnectionGuard],
-		loadChildren: () => import('@gauzy/desktop-ui-lib').then((m) => m.PluginRoutingModule)
+		loadChildren: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.PluginRoutingModule)
 	},
 	{
 		path: 'settings',
-		loadComponent: () => import('@gauzy/desktop-ui-lib').then((m) => m.SettingsComponent)
+		loadComponent: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.SettingsComponent)
 	},
 	{
 		path: 'updater',
-		loadComponent: () => import('@gauzy/desktop-ui-lib').then((m) => m.UpdaterComponent)
+		loadComponent: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.UpdaterComponent)
 	},
 	{
 		path: 'viewer',
-		loadComponent: () => import('@gauzy/desktop-ui-lib').then((m) => m.ImageViewerComponent)
+		loadComponent: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.ImageViewerComponent)
 	},
 	{
 		path: 'about',
-		loadComponent: () => import('@gauzy/desktop-ui-lib').then((m) => m.AboutComponent)
+		loadComponent: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.AboutComponent)
 	},
 	{
 		path: 'splash-screen',
-		loadComponent: () => import('@gauzy/desktop-ui-lib').then((m) => m.SplashScreenComponent)
+		loadComponent: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.SplashScreenComponent)
 	},
 	{
 		path: 'always-on',
-		loadComponent: () => import('@gauzy/desktop-ui-lib').then((m) => m.AlwaysOnComponent)
+		loadComponent: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.AlwaysOnComponent)
 	},
 	{
 		path: '**',

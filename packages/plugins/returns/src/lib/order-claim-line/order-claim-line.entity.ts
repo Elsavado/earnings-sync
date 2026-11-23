@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { JoinColumn, RelationId } from 'typeorm';
 import { IsBoolean, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
-import { DecimalString, ID, IProductVariant } from '@gauzy/contracts';
+import { DecimalString, ID, IProductVariant } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	JsonColumn,
@@ -10,7 +10,7 @@ import {
 	MultiORMManyToOne,
 	ProductVariant,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { IOrderClaim, IOrderClaimLine, OrderClaimReason } from '../returns.types';
 import { OrderClaim } from '../order-claim/order-claim.entity';
 import { MikroOrmOrderClaimLineRepository } from './repository/mikro-orm-order-claim-line.repository';

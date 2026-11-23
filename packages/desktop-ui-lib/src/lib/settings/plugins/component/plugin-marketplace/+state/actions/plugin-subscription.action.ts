@@ -1,4 +1,4 @@
-import { IPlugin } from '@gauzy/contracts';
+import { IPlugin } from '@irtranscripts/contracts';
 // Plugin Subscription Actions for @ngneat/effects
 import { createAction } from '@ngneat/effects';
 import {

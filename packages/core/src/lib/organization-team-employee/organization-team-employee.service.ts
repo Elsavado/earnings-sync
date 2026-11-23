@@ -11,7 +11,7 @@ import {
 	IOrganizationTeamEmployeeUpdateInput,
 	PermissionsEnum,
 	RolesEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from './../core/crud';
 import { RequestContext } from './../core/context';
 import { LegacyFindOneOptions } from './../core/utils';

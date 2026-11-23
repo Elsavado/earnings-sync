@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { ID, IImportHistory, IPagination } from '@gauzy/contracts';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { ID, IImportHistory, IPagination } from '@irtranscripts/contracts';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 
 @Injectable({
 	providedIn: 'root'

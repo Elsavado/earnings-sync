@@ -4,7 +4,7 @@ import { join } from 'node:path';
 /**
  * The Ever Platform host and the variable that points the statistics at it appear only in the
  * statistics packages, the environment sample, documentation and the egress audit's inputs (which
- * point a module loaded by mistake at a sealed test address): no other code of Gauzy can reach the
+ * point a module loaded by mistake at a sealed test address): no other code of IRTranscripts can reach the
  * statistics endpoint.
  */
 const ALLOWED = [

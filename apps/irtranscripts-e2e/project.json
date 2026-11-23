@@ -1,0 +1,23 @@
+{
+	"name": "irtranscripts-e2e",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"projectType": "application",
+	"sourceRoot": "apps/irtranscripts-e2e/src",
+	"targets": {
+		"e2e": {
+			"executor": "@nx/playwright:playwright",
+			"options": {
+				"config": "apps/irtranscripts-e2e/playwright.config.ts"
+			}
+		},
+		"playwright": {
+			"executor": "@nx/playwright:playwright",
+			"options": {
+				"config": "apps/irtranscripts-e2e/playwright.config.ts"
+			}
+		},
+		"lint": {
+			"executor": "@nx/eslint:lint"
+		}
+	}
+}

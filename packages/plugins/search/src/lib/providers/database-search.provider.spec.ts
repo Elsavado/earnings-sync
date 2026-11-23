@@ -1,13 +1,13 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which the built-in provider needs and none of which is
  * available outside a running application. The seam is doubled at the module boundary and **the
  * provider under test is the real one**: what is substituted is the query builder, which records the
  * statement the provider states rather than executing it.
  *
- * `@gauzy/config` is read at import time by the provider's dialect detection, so it is doubled too.
+ * `@irtranscripts/config` is read at import time by the provider's dialect detection, so it is doubled too.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
@@ -43,7 +43,7 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	DatabaseTypeEnum: {
 		mongodb: 'mongodb',
 		sqlite: 'sqlite',
@@ -53,8 +53,8 @@ jest.mock('@gauzy/config', () => ({
 	}
 }));
 
-import { ISearchIndexRegistration, SearchFieldKind, SearchFilterOperator, SearchSortDirection } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { ISearchIndexRegistration, SearchFieldKind, SearchFilterOperator, SearchSortDirection } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { SearchIndexRegistry } from '../registry/search-index.registry';
 import { DatabaseSearchProvider } from './database-search.provider';
 

@@ -10,7 +10,7 @@ import { join } from 'node:path';
 import { ExecutionContext, NotFoundException } from '@nestjs/common';
 import { MetadataScanner, Reflector } from '@nestjs/core';
 import { buildSchema, printSchema } from 'graphql';
-import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@gauzy/constants';
+import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { CursorCodec } from '../api/cursor';
 import { FeatureFlagGuard, TenantPermissionGuard } from '../shared/guards';
 import { KeyResultUpdateController } from './keyresult-update.controller';

@@ -1,4 +1,4 @@
-import { InboxItemKindEnum, InboxItemStatusEnum, InboxTabEnum } from '@gauzy/contracts';
+import { InboxItemKindEnum, InboxItemStatusEnum, InboxTabEnum } from '@irtranscripts/contracts';
 import {
 	apiTabOf,
 	escalationDetails,
@@ -130,7 +130,7 @@ describe('Inbox UI helpers', () => {
 		expect(routedNoticeOf(answered('resumed'))).toEqual({ alreadyDecided: false, routed: 'resumed' });
 		expect(routedNoticeOf(answered('local'))).toBeNull();
 		expect(routedNoticeOf(answered(null))).toBeNull();
-		expect(routedNoticeOf({ source: 'GAUZY', response: null } as never)).toBeNull();
+		expect(routedNoticeOf({ source: 'IRTRANSCRIPTS', response: null } as never)).toBeNull();
 	});
 
 	it('names the (virtual) mailbox a source lists an item under, as text', () => {

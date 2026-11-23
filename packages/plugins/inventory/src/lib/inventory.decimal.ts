@@ -1,5 +1,5 @@
-import { DecimalString, RoundingMode } from '@gauzy/contracts';
-import { STORAGE_SCALE, WORKING_SCALE, roundingStrategies } from '@gauzy/core';
+import { DecimalString, RoundingMode } from '@irtranscripts/contracts';
+import { STORAGE_SCALE, WORKING_SCALE, roundingStrategies } from '@irtranscripts/core';
 
 /**
  * Presents an inventory valuation in the wire form the schema's `Decimal` promises: exact decimal text

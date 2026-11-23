@@ -1,7 +1,7 @@
 import { BadRequestException, ConflictException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { SelectQueryBuilder } from 'typeorm';
-import { ID, IPagination } from '@gauzy/contracts';
-import { BaseQueryDTO, RequestContext, TenantAwareCrudService, prepareSQLQuery as p } from '@gauzy/core';
+import { ID, IPagination } from '@irtranscripts/contracts';
+import { BaseQueryDTO, RequestContext, TenantAwareCrudService, prepareSQLQuery as p } from '@irtranscripts/core';
 import { DOCS_CATEGORY_EXISTS, DOCS_CATEGORY_SYSTEM } from '../docs.constants';
 import { CreateDocumentCategoryDTO, UpdateDocumentCategoryDTO } from '../dto';
 import { DocumentCategory } from '../entities/document-category.entity';

@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, HttpException, PipeTransform, Type } from '@nestjs/common';
 import { PIPES_METADATA, ROUTE_ARGS_METADATA } from '@nestjs/common/constants';
 import { RouteParamtypes } from '@nestjs/common/enums/route-paramtypes.enum';
-import type { ID } from '@gauzy/contracts';
+import type { ID } from '@irtranscripts/contracts';
 import { ApiErrorCode, DEFAULT_CODE_BY_STATUS } from '../core/errors/api-error-codes';
 import { ApiException } from '../core/errors/api-exception';
 import {

@@ -10,7 +10,7 @@ import {
 	Optional,
 	ServiceUnavailableException
 } from '@nestjs/common';
-import { EstimateStatusTypesEnum, ID, OrderStatus, PermissionsEnum } from '@gauzy/contracts';
+import { EstimateStatusTypesEnum, ID, OrderStatus, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	ApiErrorCode,
 	ApiException,
@@ -18,7 +18,7 @@ import {
 	addDecimalStrings,
 	compareDecimalStrings,
 	subtractDecimalStrings
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { Order } from '../order/order.entity';
 import { OrderService } from '../order/order.service';
 import {

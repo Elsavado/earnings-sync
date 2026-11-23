@@ -1,4 +1,4 @@
-import { IBasePerTenantEntityModel, ITenant, IUserCodeInput, IUserEmailInput, IUserTokenInput } from '@gauzy/contracts';
+import { IBasePerTenantEntityModel, ITenant, IUserCodeInput, IUserEmailInput, IUserTokenInput } from '@irtranscripts/contracts';
 import { ApiProperty, IntersectionType } from '@nestjs/swagger';
 import { IsNotEmpty, IsUUID } from 'class-validator';
 import { UserCodeDTO, UserEmailDTO, UserTokenDTO } from './../../user/dto';

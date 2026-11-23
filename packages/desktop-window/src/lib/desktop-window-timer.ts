@@ -2,7 +2,7 @@ import * as remoteMain from '@electron/remote/main';
 import { BrowserWindow, screen } from 'electron';
 import * as url from 'node:url';
 import { attachTitlebarToWindow } from 'custom-electron-titlebar/main';
-import { WindowManager, RegisteredWindow, store } from '@gauzy/desktop-core';
+import { WindowManager, RegisteredWindow, store } from '@irtranscripts/desktop-core';
 import { handleCloseEvent, setLaunchPathAndLoad } from './utils/desktop-window-utils';
 import { isOwnFilePage } from './navigation-guard';
 /**

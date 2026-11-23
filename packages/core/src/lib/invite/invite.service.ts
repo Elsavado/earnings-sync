@@ -17,8 +17,8 @@ import {
 } from 'typeorm';
 import { addDays } from 'date-fns';
 import { pick } from 'underscore';
-import { ConfigService } from '@gauzy/config';
-import { DEFAULT_INVITE_EXPIRY_PERIOD } from '@gauzy/constants';
+import { ConfigService } from '@irtranscripts/config';
+import { DEFAULT_INVITE_EXPIRY_PERIOD } from '@irtranscripts/constants';
 import {
 	canInviteWithRole,
 	ICreateEmailInvitesInput,
@@ -41,9 +41,9 @@ import {
 	IPagination,
 	ID,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { IAppIntegrationConfig } from '@gauzy/common';
-import { generateAlphaNumericCode, isEmpty, isNotEmpty } from '@gauzy/utils';
+} from '@irtranscripts/contracts';
+import { IAppIntegrationConfig } from '@irtranscripts/common';
+import { generateAlphaNumericCode, isEmpty, isNotEmpty } from '@irtranscripts/utils';
 import { BaseQueryDTO, TenantAwareCrudService } from './../core/crud';
 import { RequestContext } from './../core/context';
 import { assertFirstPartyRequest } from '../auth/oauth-app-first-party';

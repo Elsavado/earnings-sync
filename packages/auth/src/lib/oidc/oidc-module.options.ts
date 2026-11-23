@@ -1,5 +1,5 @@
 /** Injection token of {@link OidcModuleOptions}. */
-export const OIDC_MODULE_OPTIONS = 'GAUZY_OIDC_MODULE_OPTIONS';
+export const OIDC_MODULE_OPTIONS = 'IRTRANSCRIPTS_OIDC_MODULE_OPTIONS';
 
 /** Settings of the OIDC library. */
 export interface OidcModuleOptions {

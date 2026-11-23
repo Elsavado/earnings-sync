@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm';
-import { getConfig } from '@gauzy/config';
-import { IIntegration, IIntegrationType } from '@gauzy/contracts';
+import { getConfig } from '@irtranscripts/config';
+import { IIntegration, IIntegrationType } from '@irtranscripts/contracts';
 import { cleanAssets, copyAssets } from './../core/seeds/utils';
 import { Integration } from './integration.entity';
 import { DEFAULT_INTEGRATIONS } from './default-integration';

@@ -1,4 +1,4 @@
-import { ICDNSource, IPluginSource } from '@gauzy/contracts';
+import { ICDNSource, IPluginSource } from '@irtranscripts/contracts';
 import { ISourceStrategy } from '../../shared/plugin.model';
 
 export class CdnSourceStrategy implements ISourceStrategy<ICDNSource> {

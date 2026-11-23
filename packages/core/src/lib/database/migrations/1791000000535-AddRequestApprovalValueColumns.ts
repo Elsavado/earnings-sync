@@ -39,7 +39,7 @@
  */
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 /**
  * The table this migration extends. The name carries no prefix: it is the platform's own approval

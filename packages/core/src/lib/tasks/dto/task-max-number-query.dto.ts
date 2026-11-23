@@ -1,4 +1,4 @@
-import { IGetTaskOptions } from '@gauzy/contracts';
+import { IGetTaskOptions } from '@irtranscripts/contracts';
 import { IntersectionType, PickType } from '@nestjs/swagger';
 import { TenantOrganizationBaseDTO } from '../../core/dto';
 import { Task } from './../task.entity';

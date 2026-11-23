@@ -4,7 +4,7 @@ import {
 	ITimeOffPolicy,
 	LeaveAccrualFrequencyEnum,
 	LeaveTypeEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsString, IsNotEmpty, IsBoolean, IsEnum, IsNumber, IsOptional, Min } from 'class-validator';
 import { Employee, TenantOrganizationBaseEntity, TimeOffRequest } from '../core/entities/internal';

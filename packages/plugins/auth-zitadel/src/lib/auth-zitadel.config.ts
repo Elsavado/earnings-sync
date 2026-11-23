@@ -3,7 +3,7 @@ import { Logger } from '@nestjs/common';
 /** The switch that loads the plugin. Off unless set to exactly `true`. */
 export const ZITADEL_ENABLED_ENV = 'ZITADEL_ENABLED';
 
-/** How a person without a link may be connected to an existing Gauzy account. */
+/** How a person without a link may be connected to an existing IRTranscripts account. */
 export type ZitadelLinkMode = 'explicit' | 'confirmed';
 
 /** Why an issuer from `ZITADEL_ISSUERS` was not accepted. */
@@ -24,7 +24,7 @@ export interface AuthZitadelSettings {
 	allowedAudiences: string[];
 	/** The link mode in effect (`confirmed` only on Ever Cloud). */
 	linkMode: ZitadelLinkMode;
-	/** The confirmed sign-up path for people new to Gauzy (Ever Cloud only). */
+	/** The confirmed sign-up path for people new to IRTranscripts (Ever Cloud only). */
 	signupEnabled: boolean;
 	backchannelLogoutEnabled: boolean;
 	handoffTtlSeconds: number;

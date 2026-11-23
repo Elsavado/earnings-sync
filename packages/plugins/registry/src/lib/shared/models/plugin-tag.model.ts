@@ -1,4 +1,4 @@
-import type { IBasePerTenantAndOrganizationEntityModel, ID, IPluginTag as PluginTagModel } from '@gauzy/contracts';
+import type { IBasePerTenantAndOrganizationEntityModel, ID, IPluginTag as PluginTagModel } from '@irtranscripts/contracts';
 
 /**
  * Interface representing a Plugin-Tag relationship entity.

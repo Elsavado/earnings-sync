@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { EventOutboxModule, FeatureModule, RolePermissionModule } from '@gauzy/core';
+import { EventOutboxModule, FeatureModule, RolePermissionModule } from '@irtranscripts/core';
 import { SellerTransaction } from './seller-transaction.entity';
 import { SellerTransactionController } from './seller-transaction.controller';
 import { SellerTransactionService } from './seller-transaction.service';

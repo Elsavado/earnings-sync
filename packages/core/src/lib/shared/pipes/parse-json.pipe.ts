@@ -29,7 +29,7 @@ export interface ParseJsonPipeOptions {
  * configured to translate `null` into `IS NULL` — the fail-closed choice for server code, which spells
  * `IS NULL` out with the explicit `IsNull()` operator — so the client's meaning is preserved here by
  * removing the key before the value ever reaches a query. See TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR
- * in @gauzy/config (GHSA-44pv-34gx-q9p4).
+ * in @irtranscripts/config (GHSA-44pv-34gx-q9p4).
  */
 /** Maximum nesting depth accepted for a `?data=` JSON query object. */
 export const MAX_QUERY_JSON_DEPTH = 32;

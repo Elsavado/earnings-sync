@@ -1,4 +1,4 @@
-# @gauzy/plugin-job-proposal
+# @irtranscripts/plugin-job-proposal
 
 ## Overview
 
@@ -27,7 +27,7 @@ After building your library with `yarn nx build plugin-job-proposal`, go to the 
 To install the Job Proposal Plugin, simply run the following command in your terminal:
 
 ```bash
-npm install @gauzy/plugin-job-proposal
+npm install @irtranscripts/plugin-job-proposal
 # or
-yarn add @gauzy/plugin-job-proposal
+yarn add @irtranscripts/plugin-job-proposal
 ```

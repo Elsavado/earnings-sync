@@ -26,7 +26,7 @@
 }
 
 .selector-list {
-  border: 1px solid var(--gauzy-card-border);
+  border: 1px solid var(--irtranscripts-card-border);
   border-radius: calc(var(--border-radius) * 1);
   overflow: hidden;
 }
@@ -38,18 +38,18 @@
   padding: 0.5rem 1rem;
   cursor: pointer;
   transition: background-color 0.15s ease;
-  border-bottom: 1px solid var(--gauzy-card-border);
+  border-bottom: 1px solid var(--irtranscripts-card-border);
 
   &:last-child {
     border-bottom: none;
   }
 
   &:hover {
-    background-color: var(--gauzy-card-hover);
+    background-color: var(--irtranscripts-card-hover);
   }
 
   &.selected {
-    background-color: var(--gauzy-sidebar-background-color);
+    background-color: var(--irtranscripts-sidebar-background-color);
   }
 }
 

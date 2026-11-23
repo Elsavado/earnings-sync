@@ -81,7 +81,7 @@ function valueName(line: string): string | undefined {
 
 export class RegistryGuard {
 	private readonly snapshots: Snapshot[] = [];
-	private readonly dir = mkdtempSync(join(tmpdir(), 'gauzy-e2e-reg-'));
+	private readonly dir = mkdtempSync(join(tmpdir(), 'irtranscripts-e2e-reg-'));
 	private seq = 0;
 
 	static get supported(): boolean {

@@ -1,5 +1,5 @@
 import { randomBytes } from 'node:crypto';
-import { IEmailProviderConfigProperty, IEmailProviderConfigSchema } from '@gauzy/contracts';
+import { IEmailProviderConfigProperty, IEmailProviderConfigSchema } from '@irtranscripts/contracts';
 
 /** A configuration value refused by the provider's form, with the field it is about. */
 export class ProviderConfigError extends Error {

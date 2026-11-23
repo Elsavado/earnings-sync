@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import {
 	IBaseEntityWithMembers,
 	ComponentLayoutStyleEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { IPersonListItem } from '../table-components/people-list/people-list.component';
 
 @Component({

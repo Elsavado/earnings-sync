@@ -5,7 +5,7 @@
  */
 import '../core/entities/internal';
 import { UnauthorizedException } from '@nestjs/common';
-import { LanguagesEnum } from '@gauzy/contracts';
+import { LanguagesEnum } from '@irtranscripts/contracts';
 import { Column, DataSource, Entity, PrimaryColumn, Repository } from 'typeorm';
 import { RequestContext } from '../core/context';
 import { MultiORMEnum } from '../core/utils';

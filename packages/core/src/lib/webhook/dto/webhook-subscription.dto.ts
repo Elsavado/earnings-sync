@@ -15,8 +15,8 @@ import {
 	MinLength,
 	ValidateNested
 } from 'class-validator';
-import { ID, JsonData } from '@gauzy/contracts';
-import { parseToBoolean } from '@gauzy/utils';
+import { ID, JsonData } from '@irtranscripts/contracts';
+import { parseToBoolean } from '@irtranscripts/utils';
 
 /**
  * What a caller states when it subscribes an endpoint.

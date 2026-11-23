@@ -1,17 +1,17 @@
 /**
  * Q7-W1a — a cart's discount and tax rows travel onto the order it became.
  *
- * `@gauzy/core` is doubled at the module boundary (its barrel boots the whole application graph); the two
+ * `@irtranscripts/core` is doubled at the module boundary (its barrel boots the whole application graph); the two
  * ledger services are replaced by one in-memory ledger that both reads and appends, so the suite asserts
  * what the order's owners hold afterwards rather than which calls were made.
  */
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	AdjustmentService: class {},
 	TaxLineService: class {},
-	Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money
+	Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money
 }));
 
-import { AdjustmentOwnerType, AdjustmentType, TaxLineOwnerType } from '@gauzy/contracts';
+import { AdjustmentOwnerType, AdjustmentType, TaxLineOwnerType } from '@irtranscripts/contracts';
 import { OrderCartLedgerCarryover } from './order-cart-ledger-carryover.service';
 
 /** One in-memory ledger table with the two calls the carry-over makes. */

@@ -1,4 +1,4 @@
-import { UploadedFile } from '@gauzy/contracts';
+import { UploadedFile } from '@irtranscripts/contracts';
 
 /**
  * Interface for file processing strategy

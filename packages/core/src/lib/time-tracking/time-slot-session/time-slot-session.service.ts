@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Between } from 'typeorm';
-import { ID, ITimeSlotSession } from '@gauzy/contracts';
+import { ID, ITimeSlotSession } from '@irtranscripts/contracts';
 import { TimeSlotSession } from './time-slot-session.entity';
 import { MikroOrmTimeSlotSessionRepository, TypeOrmTimeSlotSessionRepository } from './repository';
 import { TenantAwareCrudService } from '../../core/crud';

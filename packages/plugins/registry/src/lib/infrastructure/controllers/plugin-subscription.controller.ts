@@ -1,5 +1,5 @@
-import { IPagination, PermissionsEnum, PluginSubscriptionStatus } from '@gauzy/contracts';
-import { PermissionGuard, Permissions, RequestContext, TenantPermissionGuard } from '@gauzy/core';
+import { IPagination, PermissionsEnum, PluginSubscriptionStatus } from '@irtranscripts/contracts';
+import { PermissionGuard, Permissions, RequestContext, TenantPermissionGuard } from '@irtranscripts/core';
 import {
 	Body,
 	Controller,

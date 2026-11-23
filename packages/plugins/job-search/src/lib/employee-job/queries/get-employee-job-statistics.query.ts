@@ -1,4 +1,4 @@
-import { Employee, BaseQueryDTO } from '@gauzy/core';
+import { Employee, BaseQueryDTO } from '@irtranscripts/core';
 import { IQuery } from '@nestjs/cqrs';
 
 export class GetEmployeeJobStatisticsQuery implements IQuery {

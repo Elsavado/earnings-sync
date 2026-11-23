@@ -88,11 +88,11 @@
 						{{ counts?.employeesCount || 0 }}
 					</div>
 					<div class="counter-container">
-						<gauzy-counter-point
+						<irtranscripts-counter-point
 							[total]="employeesCount"
 							[value]="counts?.employeesCount || 0"
 							[color]="'#0088FE'"
-						></gauzy-counter-point>
+						></irtranscripts-counter-point>
 					</div>
 				</nb-card-body>
 			</nb-card>
@@ -113,11 +113,11 @@
 					{{ counts?.projectsCount || 0 }}
 				</div>
 				<div class="counter-container">
-					<gauzy-counter-point
+					<irtranscripts-counter-point
 						[total]="projectCount"
 						[value]="counts?.projectsCount || 0"
 						[color]="'#00D68F'"
-					></gauzy-counter-point>
+					></irtranscripts-counter-point>
 				</div>
 			</nb-card-body>
 		</nb-card>
@@ -134,7 +134,7 @@
 			</div>
 			<div class="h1">{{ counts?.todayActivities || 0 }}%</div>
 			<div class="counter-container">
-				<gauzy-counter-point [progress]="true" [value]="counts?.todayActivities || 0"></gauzy-counter-point>
+				<irtranscripts-counter-point [progress]="true" [value]="counts?.todayActivities || 0"></irtranscripts-counter-point>
 			</div>
 		</nb-card-body>
 	</nb-card>
@@ -152,11 +152,11 @@
 				{{ counts?.todayDuration || 0 | durationFormat }}
 			</div>
 			<div class="counter-container">
-				<gauzy-counter-point
+				<irtranscripts-counter-point
 					[total]="period"
 					[value]="counts?.todayDuration || 0"
 					[color]="'#00D68F'"
-				></gauzy-counter-point>
+				></irtranscripts-counter-point>
 			</div>
 		</nb-card-body>
 	</nb-card>
@@ -187,11 +187,11 @@
 				{{ counts?.weekDuration || 0 | durationFormat }}
 			</div>
 			<div class="counter-container">
-				<gauzy-counter-point
+				<irtranscripts-counter-point
 					[total]="period"
 					[value]="counts?.weekDuration || 0"
 					[color]="'#00D68E'"
-				></gauzy-counter-point>
+				></irtranscripts-counter-point>
 			</div>
 		</nb-card-body>
 	</nb-card>
@@ -217,7 +217,7 @@
 			</div>
 			<div class="h1">{{ counts?.weekActivities || 0 }}%</div>
 			<div class="counter-container">
-				<gauzy-counter-point [progress]="true" [value]="counts?.weekActivities || 0"></gauzy-counter-point>
+				<irtranscripts-counter-point [progress]="true" [value]="counts?.weekActivities || 0"></irtranscripts-counter-point>
 			</div>
 		</nb-card-body>
 	</nb-card>

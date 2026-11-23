@@ -1,4 +1,4 @@
-import { ITimeSlot, TimerSyncStateEnum, TimerActionTypeEnum } from '@gauzy/contracts';
+import { ITimeSlot, TimerSyncStateEnum, TimerActionTypeEnum } from '@irtranscripts/contracts';
 import { concatMap, defer, of, repeat, timer as synchronizer } from 'rxjs';
 import { BACKGROUND_SYNC_OFFLINE_INTERVAL } from '../../constants/app.constants';
 import { ElectronService } from '../../electron/services';

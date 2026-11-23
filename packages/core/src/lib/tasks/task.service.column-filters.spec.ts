@@ -1,6 +1,6 @@
 import '../core/entities/internal';
 
-import { TaskPriorityEnum, TaskStatusEnum } from '@gauzy/contracts';
+import { TaskPriorityEnum, TaskStatusEnum } from '@irtranscripts/contracts';
 import { Between, In, IsNull, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
 import { TaskService } from './task.service';
 

@@ -19,8 +19,8 @@ import {
  * instead of waiting for a vendor-specific adapter.
  *
  * Signature scheme — HMAC-SHA256 over `"<timestamp>.<rawBody>"` keyed with
- * `GAUZY_DOCS_INBOUND_WEBHOOK_SECRET`, sent hex-encoded in `x-gauzy-docs-signature` with the
- * timestamp in `x-gauzy-docs-timestamp` (Unix seconds or milliseconds):
+ * `IRTRANSCRIPTS_DOCS_INBOUND_WEBHOOK_SECRET`, sent hex-encoded in `x-irtranscripts-docs-signature` with the
+ * timestamp in `x-irtranscripts-docs-timestamp` (Unix seconds or milliseconds):
  *
  * ```
  * signature = hex(HMAC_SHA256(secret, `${timestamp}.${rawBody}`))

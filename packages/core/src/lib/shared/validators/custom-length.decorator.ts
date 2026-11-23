@@ -1,5 +1,5 @@
 import { registerDecorator, ValidationArguments, ValidationOptions, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
-import { ALPHA_NUMERIC_CODE_LENGTH } from '@gauzy/constants';
+import { ALPHA_NUMERIC_CODE_LENGTH } from '@irtranscripts/constants';
 
 export function length(text: string, length: number): boolean {
     return (typeof text === 'string' && typeof length === 'number') && (text.length == length);

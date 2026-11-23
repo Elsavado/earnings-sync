@@ -6,8 +6,8 @@ import {
 	ICandidateCriterionsRating,
 	ICandidateTechnologies,
 	IPagination
-} from '@gauzy/contracts';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 
 @Injectable()
 export class CandidateCriterionsRatingService {

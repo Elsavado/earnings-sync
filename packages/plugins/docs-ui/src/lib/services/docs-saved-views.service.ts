@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Store } from '@gauzy/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
 import { randomIdToken } from './local-id.util';
 import {
 	DOCS_SAVED_VIEWS_KEY_PREFIX,
@@ -17,7 +17,7 @@ import {
 /**
  * Device-local named filter views (`01-ux-spec.md` §5, phased M5).
  *
- * Storage is `localStorage['gauzy_docs_saved_views_<orgId>']` — **never** the
+ * Storage is `localStorage['irtranscripts_docs_saved_views_<orgId>']` — **never** the
  * server in v1 (spec 04 §13 open question: "confirm device-local vs server-side
  * when M5 is scoped"; this suite ships device-local). Because the URL is already
  * the single source of truth for browse state (§5.1), a view stores nothing but

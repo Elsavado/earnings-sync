@@ -1,7 +1,7 @@
 import { Inject, Injectable, Logger, OnModuleDestroy, OnModuleInit, Optional } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 import { Subscription } from 'rxjs';
-import { EverConnectKeyUnreadableError, EverInstanceKeyError } from '@gauzy/plugin-ever-instance';
+import { EverConnectKeyUnreadableError, EverInstanceKeyError } from '@irtranscripts/plugin-ever-instance';
 import { EverConnectCleanupService } from './ever-connect-cleanup.service';
 import type { EverConnectConfig } from './ever-connect-config';
 import { EverConnectConnectionService } from './ever-connect-connection.service';
@@ -164,7 +164,7 @@ export class EverConnectScheduler implements OnModuleInit, OnModuleDestroy {
 			return false;
 		}
 		try {
-			// A deleted Gauzy organization is cleaned up before anything is sent for it.
+			// A deleted IRTranscripts organization is cleaned up before anything is sent for it.
 			await this.cleanup
 				.reconcile()
 				.catch((error) => this.logger.warn(`Deleted organizations could not be cleaned up now (${errorCode(error)}).`));

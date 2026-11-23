@@ -81,7 +81,7 @@ export const MAX_AUDIT_PAGE = 10_000;
 
 /**
  * The audit of the Ever Platform connection (`ever_connect_audit`). It only adds rows; no row is
- * ever changed. Rows are removed only with the Gauzy tenant or organization they belong to, once that
+ * ever changed. Rows are removed only with the IRTranscripts tenant or organization they belong to, once that
  * was deleted ({@link purge}); the installation keeps one row saying a deleted organization's link was
  * removed, without its ids.
  */
@@ -177,7 +177,7 @@ export class EverConnectAuditService {
 	}
 
 	/**
-	 * Removes the rows of a deleted Gauzy organization (or of every organization of a deleted tenant,
+	 * Removes the rows of a deleted IRTranscripts organization (or of every organization of a deleted tenant,
 	 * without `organizationId`). Returns the number of rows removed.
 	 */
 	async purge(owner: { tenantId: string; organizationId?: string | null }): Promise<number> {

@@ -1,4 +1,4 @@
-import { IBasePerTenantAndOrganizationEntityModel, IntegrationEnum } from '@gauzy/contracts';
+import { IBasePerTenantAndOrganizationEntityModel, IntegrationEnum } from '@irtranscripts/contracts';
 
 export type GrantType = 'authorization_code' | 'refresh_token';
 
@@ -16,9 +16,9 @@ export enum MakeSettingName {
 	AUTH_CODE = 'auth_code',
 	/** The Make.com zone for API calls, e.g. "us2", "eu1" */
 	ZONE = 'make_zone',
-	/** The Make.com organization ID (their side, not Gauzy) */
+	/** The Make.com organization ID (their side, not IRTranscripts) */
 	MAKE_ORGANIZATION_ID = 'make_organization_id',
-	/** The Make.com team ID (their side, not Gauzy) */
+	/** The Make.com team ID (their side, not IRTranscripts) */
 	MAKE_TEAM_ID = 'make_team_id',
 }
 

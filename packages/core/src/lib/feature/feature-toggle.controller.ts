@@ -3,9 +3,9 @@ import { CommandBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { EnhancedFeatureInterface } from 'unleash-client/lib/feature';
 import { getFeatureToggleDefinitions } from 'unleash-client';
-import { FeatureEnum, IFeature, IFeatureOrganization, IPagination, PermissionsEnum } from '@gauzy/contracts';
-import { Public } from '@gauzy/common';
-import { environment } from '@gauzy/config';
+import { FeatureEnum, IFeature, IFeatureOrganization, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
+import { Public } from '@irtranscripts/common';
+import { environment } from '@irtranscripts/config';
 import { Feature } from './feature.entity';
 import { FeatureService } from './feature.service';
 import { FeatureOrganizationService } from './feature-organization.service';
@@ -38,7 +38,7 @@ export class FeatureToggleController {
 		if (unleashConfig.url) {
 			featureToggles = getFeatureToggleDefinitions();
 
-			// only support gauzy feature and removed other
+			// only support irtranscripts feature and removed other
 			const featureEnums: string[] = Object.values(FeatureEnum);
 			if (featureToggles) {
 				featureToggles = featureToggles.filter((toggle: EnhancedFeatureInterface) =>

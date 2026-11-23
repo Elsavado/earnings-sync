@@ -1,5 +1,5 @@
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PluginPermissionContribution } from '@gauzy/plugin';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PluginPermissionContribution } from '@irtranscripts/plugin';
 
 /**
  * The permission catalogue this plugin contributes.

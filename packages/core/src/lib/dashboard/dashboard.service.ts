@@ -7,7 +7,7 @@ import {
 	IDashboardCreateInput,
 	IDashboardUpdateInput,
 	ID
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { DeleteResult, SaveOptions } from 'typeorm';
 import { TenantAwareCrudService } from '../core/crud/tenant-aware-crud.service';
 import { IFindOneOptions } from '../core/crud/icrud.service';

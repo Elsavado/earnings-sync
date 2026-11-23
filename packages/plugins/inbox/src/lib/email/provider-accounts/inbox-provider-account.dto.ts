@@ -6,7 +6,7 @@ import {
 	IInboxProviderAccountUpdateInput,
 	InboxProviderAccountScopeEnum,
 	InboxProviderAccountStatusEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 /** `?organizationId=` of the management routes (else the request's selected organization). */
 export class InboxOrganizationQueryDTO {

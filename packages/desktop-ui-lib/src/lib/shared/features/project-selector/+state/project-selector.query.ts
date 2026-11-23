@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IOrganizationProject } from '@gauzy/contracts';
+import { IOrganizationProject } from '@irtranscripts/contracts';
 import { filter, map, Observable, startWith } from 'rxjs';
 import { SelectorQuery } from '../../../+state/selector.query';
 import { ProjectSelectorStore } from './project-selector.store';

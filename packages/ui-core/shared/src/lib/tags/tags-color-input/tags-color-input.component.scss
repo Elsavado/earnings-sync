@@ -108,8 +108,8 @@
 	// A `<span>`, so unlike the chips beside it there is no badge radius to
 	// inherit — it resolves the same token by hand to sit on their corner.
 	border-radius: nb-theme(badge-border-radius);
-	background-color: var(--gauzy-hover-tint, rgba(126, 126, 143, 0.12));
-	color: var(--gauzy-text-color-2);
+	background-color: var(--irtranscripts-hover-tint, rgba(126, 126, 143, 0.12));
+	color: var(--irtranscripts-text-color-2);
 	font-size: nb-theme(text-caption-font-size);
 	font-weight: 600;
 	line-height: 1rem;
@@ -127,11 +127,11 @@
 		&:focus,
 		&:active,
 		&:visited {
-			box-shadow: var(--gauzy-shadow) inset !important;
+			box-shadow: var(--irtranscripts-shadow) inset !important;
 		}
 	}
 	.ng-select .ng-select-container {
-		box-shadow: var(--gauzy-shadow) inset !important;
+		box-shadow: var(--irtranscripts-shadow) inset !important;
 	}
 }
 

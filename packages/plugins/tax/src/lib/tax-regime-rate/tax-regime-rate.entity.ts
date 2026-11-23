@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsUUID } from 'class-validator';
-import { ID } from '@gauzy/contracts';
-import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne, TenantOrganizationBaseEntity } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne, TenantOrganizationBaseEntity } from '@irtranscripts/core';
 import { TaxRate } from '../tax-rate/tax-rate.entity';
 import { TaxRegime } from '../tax-regime/tax-regime.entity';
 import { MikroOrmTaxRegimeRateRepository } from './repository/mikro-orm-tax-regime-rate.repository';

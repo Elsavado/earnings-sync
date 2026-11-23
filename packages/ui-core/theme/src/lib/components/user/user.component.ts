@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { IUser } from '@gauzy/contracts';
+import { IUser } from '@irtranscripts/contracts';
 import { filter, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 @Component({
-    selector: 'gauzy-user',
+    selector: 'irtranscripts-user',
     templateUrl: './user.component.html',
     styleUrls: ['./user.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,

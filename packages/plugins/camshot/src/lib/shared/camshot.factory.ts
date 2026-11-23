@@ -1,5 +1,5 @@
-import { PermissionsEnum } from '@gauzy/contracts';
-import { RequestContext } from "@gauzy/core";
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { RequestContext } from "@irtranscripts/core";
 import { CreateCamshotDTO } from "../dtos/create-camshot.dto";
 import { ICamshot } from '../models/camshot.model';
 

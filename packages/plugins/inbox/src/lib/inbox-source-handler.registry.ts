@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { IInboxSourceHandler, IInboxSourceHandlerRegistry } from '@gauzy/contracts';
+import { IInboxSourceHandler, IInboxSourceHandlerRegistry } from '@irtranscripts/contracts';
 
 /**
  * The sources that act on the replies of their inbox items (plan 04 §4). A plugin that feeds the inbox — the

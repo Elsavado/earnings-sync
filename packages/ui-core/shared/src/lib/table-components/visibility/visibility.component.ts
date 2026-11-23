@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
-    selector: 'gauzy-visibility',
+    selector: 'irtranscripts-visibility',
     templateUrl: './visibility.component.html',
     styleUrls: ['./visibility.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,

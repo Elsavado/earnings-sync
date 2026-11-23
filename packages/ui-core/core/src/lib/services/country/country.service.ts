@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, EMPTY, Observable, Subject } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ICountry, IPagination } from '@gauzy/contracts';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { ICountry, IPagination } from '@irtranscripts/contracts';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 
 @UntilDestroy()
 @Injectable({ providedIn: 'root' })

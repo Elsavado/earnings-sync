@@ -1,7 +1,7 @@
 import { Body, Controller, Get, HttpStatus, Param, Patch, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { ApiBody, ApiResponse, ApiTags, ApiOperation, ApiQuery, ApiParam } from '@nestjs/swagger';
 import { UpdateResult } from 'typeorm';
-import { ID, IEmployeeProposalTemplate, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IEmployeeProposalTemplate, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	CrudController,
 	Permissions,
@@ -10,7 +10,7 @@ import {
 	UUIDValidationPipe,
 	UseValidationPipe,
 	BaseQueryDTO
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { EmployeeProposalTemplate } from './employee-proposal-template.entity';
 import { EmployeeProposalTemplateService } from './employee-proposal-template.service';
 import { CreateProposalTemplateDTO, UpdateProposalTemplateDTO } from './dto';

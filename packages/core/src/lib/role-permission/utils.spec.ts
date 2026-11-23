@@ -1,6 +1,6 @@
 import { DataSource, EntitySchema, QueryRunner } from 'typeorm';
-import { environment } from '@gauzy/config';
-import { PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { environment } from '@irtranscripts/config';
+import { PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 import { RolePermissionUtils } from './utils';
 import { DEFAULT_ROLE_PERMISSIONS } from './default-role-permissions';
 
@@ -88,7 +88,7 @@ const DEMO_EXCLUDED_PERMISSIONS: PermissionsEnum[] = [
 ];
 
 /**
- * `environment.demo` is read from `process.env.DEMO` once, when `@gauzy/config` loads — so without
+ * `environment.demo` is read from `process.env.DEMO` once, when `@irtranscripts/config` loads — so without
  * pinning it, the expected row counts here depend on whichever `.env` file happened to be loaded
  * into the test process. Nx loads the committed `.env.local` (DEMO=true) into every task by default,
  * which is why this suite failed in CI with 5016 rows (24 roles x 209) against 5064 (24 x 211) while

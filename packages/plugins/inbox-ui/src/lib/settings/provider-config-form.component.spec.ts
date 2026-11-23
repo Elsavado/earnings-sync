@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { IEmailProviderConfigSchema, IInboxProviderAccount } from '@gauzy/contracts';
+import { IEmailProviderConfigSchema, IInboxProviderAccount } from '@irtranscripts/contracts';
 import { InboxProviderConfigFormComponent } from './provider-config-form.component';
 import {
 	initialProviderConfigState,

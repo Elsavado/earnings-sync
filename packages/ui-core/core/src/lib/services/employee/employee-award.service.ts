@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IEmployeeAward, IEmployeeAwardFindInput, IEmployeeAwardCreateInput, IPagination } from '@gauzy/contracts';
+import { IEmployeeAward, IEmployeeAwardFindInput, IEmployeeAwardCreateInput, IPagination } from '@irtranscripts/contracts';
 import { Observable } from 'rxjs';
-import { toParams } from '@gauzy/ui-core/common';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { toParams } from '@irtranscripts/ui-core/common';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 
 @Injectable({
 	providedIn: 'root'

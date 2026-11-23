@@ -1,0 +1,56 @@
+import { NgModule } from '@angular/core';
+import {
+	NbBadgeModule,
+	NbButtonModule,
+	NbCardModule,
+	NbCheckboxModule,
+	NbDialogModule,
+	NbIconModule,
+	NbInputModule,
+	NbRouteTabsetModule,
+	NbSelectModule,
+	NbSpinnerModule,
+	NbTooltipModule,
+	NbRadioModule
+} from '@nebular/theme';
+import { NgxPermissionsModule } from 'ngx-permissions';
+import { TranslatePipe } from '@ngx-translate/core';
+import {
+	SmartDataViewLayoutModule,
+	CardGridModule,
+	RecordViewModule,
+	RequestApprovalMutationModule,
+	SharedModule
+} from '@irtranscripts/ui-core/shared';
+import { RequestApprovalService } from '@irtranscripts/ui-core/core';
+import { ApprovalsComponent } from './approvals.component';
+import { ApprovalsRoutingModule } from './approvals-routing.module';
+import { RequestApprovalActionComponent } from './table-components/request-approval-action/request-approval-action.component';
+
+@NgModule({
+	imports: [
+		NbBadgeModule,
+		NbButtonModule,
+		NbCardModule,
+		NbCheckboxModule,
+		NbDialogModule.forChild(),
+		NbIconModule,
+		NbInputModule,
+		NbRouteTabsetModule,
+		NbSelectModule,
+		NbSpinnerModule,
+		CardGridModule,
+		NbTooltipModule,
+		NbRadioModule,
+		ApprovalsRoutingModule,
+		SharedModule,
+		RecordViewModule,
+		RequestApprovalMutationModule,
+		TranslatePipe,
+		NgxPermissionsModule.forChild(),
+		SmartDataViewLayoutModule
+	],
+	declarations: [ApprovalsComponent, RequestApprovalActionComponent],
+	providers: [RequestApprovalService]
+})
+export class ApprovalsModule {}

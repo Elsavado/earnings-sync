@@ -8,7 +8,7 @@ import {
 	IEquipmentSharing,
 	IEquipmentSharingPolicy,
 	IOrganizationTeam
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	Employee,
 	Equipment,

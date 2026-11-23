@@ -1,0 +1,12 @@
+{
+	"/api": {
+		"target": "https://apidemo.irtranscripts.com",
+		"secure": true,
+		"changeOrigin": true,
+		"headers": {
+			"Origin": "https://demo.irtranscripts.com",
+			"Referer": "https://demo.irtranscripts.com/"
+		},
+		"logLevel": "debug"
+	}
+}

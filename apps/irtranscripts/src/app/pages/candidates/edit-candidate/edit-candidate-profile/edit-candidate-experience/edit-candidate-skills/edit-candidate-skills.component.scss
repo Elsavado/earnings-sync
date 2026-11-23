@@ -1,0 +1,17 @@
+@use 'irtranscripts/_irtranscripts-table' as *;
+@use 'irtranscripts/_irtranscripts-dialogs' as *;
+
+form {
+  background-color: var(--irtranscripts-card-2);
+  border-radius: nb-theme(border-radius);
+  padding: 1rem;
+}
+
+.skill {
+  background-color: nb-theme(background-basic-color-1);
+  margin-bottom: 8px;
+}
+
+:host {
+  @include dialog(var(--irtranscripts-card-2), var(--irtranscripts-card-1));
+}

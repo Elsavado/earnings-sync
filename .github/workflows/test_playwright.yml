@@ -242,7 +242,7 @@ jobs:
 
       - name: Generate dev config
         # Writes packages/ui-config/src/lib/environments/environment.ts (gitignored), which the web
-        # bundle compiles in — so it must precede the gauzy build. Kept in its original position,
+        # bundle compiles in — so it must precede the irtranscripts build. Kept in its original position,
         # right after build:package:all.
         run: yarn config:dev
 
@@ -252,8 +252,8 @@ jobs:
         # api`), i.e. it webpack-compiled the whole API itself. `nx serve api` is just
         # `nx build api -c development` followed by `node dist/apps/api/main.js`, so building that
         # same bundle here — once — lets every shard skip the compile and run without a webpack
-        # watcher competing for the pod's RAM. The build also copies the built @gauzy/* packages
-        # into dist/apps/api/node_modules/@gauzy (apps/api/config/custom-webpack.config.js), so the
+        # watcher competing for the pod's RAM. The build also copies the built @irtranscripts/* packages
+        # into dist/apps/api/node_modules/@irtranscripts (apps/api/config/custom-webpack.config.js), so the
         # tarball carries everything the bundle resolves at runtime.
         run: |
           yarn nx build api -c development --parallel=1 \
@@ -263,8 +263,8 @@ jobs:
           NX_ISOLATE_PLUGINS: 'false'
           NX_DAEMON: 'false'
 
-      - name: Build Web (gauzy) for static serving
-        # The Angular dev server (nx serve gauzy) OOMs over a long e2e run. Build once and serve the
+      - name: Build Web (irtranscripts) for static serving
+        # The Angular dev server (nx serve irtranscripts) OOMs over a long e2e run. Build once and serve the
         # static output instead — stable + low memory. The app uses hash routing + an absolute API
         # URL baked into the bundle, so a plain static file server is sufficient (no proxy/SPA fallback).
         #
@@ -304,23 +304,23 @@ jobs:
           # own package.json "bin" instead of hard-coding the path.
           nx_bin=$(node -p "const path = require('path'); const p = require('nx/package.json'); path.join(path.dirname(require.resolve('nx/package.json')), typeof p.bin === 'string' ? p.bin : p.bin.nx)")
           echo "nx CLI: $nx_bin"
-          build() { node --max-old-space-size=$heap_mb "$nx_bin" build gauzy -c ci; }
-          build || { echo "::warning::gauzy build failed — retry 1 (nx cache skips done deps)"; build; }
+          build() { node --max-old-space-size=$heap_mb "$nx_bin" build irtranscripts -c ci; }
+          build || { echo "::warning::irtranscripts build failed — retry 1 (nx cache skips done deps)"; build; }
           # The bundle bakes the API URL as http://localhost:3000; the API runs on :3001 in the test
           # job (this shared runner's :3000 is taken by other dev processes), so repoint the built
           # bundle at :3001 BEFORE it is packed — the test job serves this artifact verbatim.
-          matches=$(grep -rl 'localhost:3000' dist/apps/gauzy --include='*.js' || true)
+          matches=$(grep -rl 'localhost:3000' dist/apps/irtranscripts --include='*.js' || true)
           if [ -n "$matches" ]; then
             printf '%s\n' "$matches" | xargs -r sed -i 's#localhost:3000#localhost:3001#g'
             echo "repointed $(printf '%s\n' "$matches" | wc -l) bundle file(s) at :3001"
           fi
           # Assert the END STATE rather than the edit: the whole suite fails at login if the served
           # bundle talks to the wrong port, and that must not be discovered 79 specs later.
-          if grep -rq 'localhost:3000' dist/apps/gauzy --include='*.js'; then
-            echo "::error::dist/apps/gauzy still references localhost:3000 after the rewrite"; exit 1
+          if grep -rq 'localhost:3000' dist/apps/irtranscripts --include='*.js'; then
+            echo "::error::dist/apps/irtranscripts still references localhost:3000 after the rewrite"; exit 1
           fi
-          if ! grep -rq 'localhost:3001' dist/apps/gauzy --include='*.js'; then
-            echo "::error::dist/apps/gauzy references no API URL on :3001 — the built bundle would never reach the e2e API"; exit 1
+          if ! grep -rq 'localhost:3001' dist/apps/irtranscripts --include='*.js'; then
+            echo "::error::dist/apps/irtranscripts references no API URL on :3001 — the built bundle would never reach the e2e API"; exit 1
           fi
         env:
           NX_NO_CLOUD: true
@@ -330,13 +330,13 @@ jobs:
       - name: Pack build output
         shell: bash
         # One tarball per app instead of raw directories: dist/apps/api alone is ~17k files (the
-        # copied @gauzy/* packages) and upload/download-artifact is far slower per-file than
+        # copied @irtranscripts/* packages) and upload/download-artifact is far slower per-file than
         # per-byte. Source maps are dropped — nothing in an e2e run reads them (headless Chromium
         # only fetches .map with devtools open, node only with --enable-source-maps) and they are
         # roughly half the payload.
         run: |
           tar --exclude='*.map' -cf api-dist.tar dist/apps/api
-          tar --exclude='*.map' -cf web-dist.tar dist/apps/gauzy
+          tar --exclude='*.map' -cf web-dist.tar dist/apps/irtranscripts
           ls -lh api-dist.tar web-dist.tar
 
       - name: Upload prebuilt API + Web bundles
@@ -430,17 +430,17 @@ jobs:
       - name: Unpack prebuilt API + Web bundles
         shell: bash
         # Both tarballs carry workspace-root-relative paths, so they land exactly where the API
-        # (dist/apps/api) and the static server (dist/apps/gauzy) expect them. Clear the targets
+        # (dist/apps/api) and the static server (dist/apps/irtranscripts) expect them. Clear the targets
         # first: this runner's filesystem persists between runs (same reason the DB is reset
         # below), and tar only overwrites — leftovers from an older build would linger.
         run: |
-          rm -rf dist/apps/api dist/apps/gauzy
+          rm -rf dist/apps/api dist/apps/irtranscripts
           tar -xf .artifacts/api-dist.tar
           tar -xf .artifacts/web-dist.tar
           test -f dist/apps/api/main.js || { echo "::error::dist/apps/api/main.js missing after unpack"; exit 1; }
-          test -f dist/apps/gauzy/index.html || { echo "::error::dist/apps/gauzy/index.html missing after unpack"; exit 1; }
+          test -f dist/apps/irtranscripts/index.html || { echo "::error::dist/apps/irtranscripts/index.html missing after unpack"; exit 1; }
           # The bundle this job is about to serve must point at the API port this job starts.
-          if grep -rq 'localhost:3000' dist/apps/gauzy --include='*.js'; then
+          if grep -rq 'localhost:3000' dist/apps/irtranscripts --include='*.js'; then
             echo "::error::served web bundle still references localhost:3000 — the :3001 rewrite did not survive the build job"; exit 1
           fi
           echo "✅ unpacked API + web bundles (web repointed at :3001)"
@@ -451,14 +451,14 @@ jobs:
         # causes flaky failures (duplicate names, wrong grid counts) or a demo-state onboarding
         # redirect. Start each run from an empty DB so the API auto-seeds the default org/admin.
         # MUST stay in the job that runs the tests, immediately before the API boots.
-        run: rm -f apps/api/data/gauzy.sqlite3*
+        run: rm -f apps/api/data/irtranscripts.sqlite3*
 
       - name: Run API in background
         shell: bash
         # Was `yarn start:api:forever` (forever + `nx serve api`). `nx serve` only builds and then
         # runs dist/apps/api/main.js, and that build now happens in the `build` job — so run the
         # prebuilt bundle directly. Same file, same workspace-root cwd — which is what both the
-        # .env lookup and the sqlite path in @gauzy/config resolve against — minus the webpack
+        # .env lookup and the sqlite path in @irtranscripts/config resolve against — minus the webpack
         # watcher.
         #
         # The committed `.env.local` (local-dev defaults: API_PORT=3000, API_BASE_URL=:3000, DEMO=true)
@@ -484,7 +484,7 @@ jobs:
           NODE_OPTIONS: --max-old-space-size=12288
           DEMO: 'false'
           # The suite signs in as the seeded accounts with their published passwords
-          # (apps/gauzy-e2e/src/support/Base/pagedata/LoginPageData.ts), so this job seeds exactly
+          # (apps/irtranscripts-e2e/src/support/Base/pagedata/LoginPageData.ts), so this job seeds exactly
           # those values on purpose. Pinned here, together with the explicit override, so the seed
           # guard (GHSA-4r2r-mv32-3468) never depends on the API build configuration above staying
           # non-production: a production build would otherwise refuse to seed and fail every spec.
@@ -493,7 +493,7 @@ jobs:
           DEMO_EMPLOYEE_PASSWORD: '12345678'
           ALLOW_INSECURE_SEED_CREDENTIALS: 'true'
           # MUST be set in the process env (not just .env) before the API starts: the sqlite-vs-postgres
-          # column-type guards (isBetterSqlite3() in @gauzy/config) are captured at module load, before
+          # column-type guards (isBetterSqlite3() in @irtranscripts/config) are captured at module load, before
           # the app reads .env. Without this the timestamp columns resolve to Postgres 'timestamp' and
           # better-sqlite3 rejects them -> API crashes at DataSource.initialize -> every spec fails at login.
           DB_TYPE: 'better-sqlite3'
@@ -511,7 +511,7 @@ jobs:
           MAIL_PORT: '2525'
 
       - name: Serve Web (static) in background
-        run: forever start apps/gauzy-e2e/tools/serve-web.js dist/apps/gauzy 4200
+        run: forever start apps/irtranscripts-e2e/tools/serve-web.js dist/apps/irtranscripts 4200
 
       - name: Install Playwright browser (chromium)
         shell: bash
@@ -559,7 +559,7 @@ jobs:
           done
 
       - name: Run Playwright tests
-        working-directory: apps/gauzy-e2e
+        working-directory: apps/irtranscripts-e2e
         # MUST be bash: `run:` defaults to PowerShell on this Windows self-hosted runner, where `&&` is a
         # parse error (FullyQualifiedErrorId: InvalidEndOfLine) — so the chained command never runs.
         shell: bash
@@ -581,7 +581,7 @@ jobs:
         with:
           # One report per shard — download all four to triage a full run.
           name: playwright-report-shard-${{ matrix.shard }}
-          path: apps/gauzy-e2e/playwright-report
+          path: apps/irtranscripts-e2e/playwright-report
           # 1 day, matching every other artifact here. Four of these per run share the org's Actions
           # storage with the ~2.87 GB dependency archive; at 14 days they had grown to 3.72 GB across
           # 100 copies and tipped the quota over, which stops NEW reports uploading — the accumulated

@@ -11,13 +11,13 @@
  * compared against is the delegation the platform really makes rather than a restatement of it.
  *
  * This package reaches the kernel's real barrel already — its service specs do — so the reason the
- * sibling packages give for doubling `@gauzy/core` (the ESM-only `uuid` nested in the entity graph)
+ * sibling packages give for doubling `@irtranscripts/core` (the ESM-only `uuid` nested in the entity graph)
  * does not apply here: `transformIgnorePatterns` in this package's jest config transforms it instead.
  */
 
 import { FieldDefinitionNode, ObjectTypeDefinitionNode, ObjectTypeExtensionNode, TypeNode } from 'graphql';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionGuard, TenantPermissionGuard } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionGuard, TenantPermissionGuard } from '@irtranscripts/core';
 import { PRICING_PERMISSION_VALUES, pricingPermission } from '../../pricing.permissions';
 import { PriceListController } from '../../price-list/price-list.controller';
 import { schemaExtensions } from '../schema-extensions';

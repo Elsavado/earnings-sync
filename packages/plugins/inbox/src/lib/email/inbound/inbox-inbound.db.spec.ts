@@ -6,7 +6,7 @@
  * through the real `InboxService`), and the message API (read access, raw, thread, reply through the transport seam,
  * release).
  *
- * `@gauzy/core` is doubled at the module boundary (its barrel boots the whole application); the webhook signature
+ * `@irtranscripts/core` is doubled at the module boundary (its barrel boots the whole application); the webhook signature
  * helpers are the real ones.
  */
 const mockCaller: {
@@ -16,7 +16,7 @@ const mockCaller: {
 	permissions: string[];
 } = { tenantId: null, userId: null, organizationId: null, permissions: [] };
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	class BaseEntity {}
 	class UserOrganization {}
@@ -65,8 +65,8 @@ import {
 	InboxMailboxMemberRoleEnum,
 	InboxMailboxOwnerTypeEnum,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { UserOrganization } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { UserOrganization } from '@irtranscripts/core';
 import { signWebhookPayload } from '../../../../../../core/src/lib/webhook/webhook-signature';
 import { INBOX_MIGRATIONS } from '../../database/inbox-migrations';
 import { InboxItem } from '../../entities/inbox-item.entity';
@@ -294,7 +294,7 @@ class QueuedProcessor extends InboxEmailProcessor {
 
 /** The settings with the platform secret. */
 function config(overrides: Partial<InboxEmailConfig> = {}): InboxEmailConfig {
-	return { ...getInboxEmailConfig({ GAUZY_INBOX_PLATFORM_SECRET: PLATFORM_SECRET }), ...overrides };
+	return { ...getInboxEmailConfig({ IRTRANSCRIPTS_INBOX_PLATFORM_SECRET: PLATFORM_SECRET }), ...overrides };
 }
 
 describe('Inbound email pipeline on SQLite', () => {
@@ -360,7 +360,7 @@ describe('Inbound email pipeline on SQLite', () => {
 	};
 
 	beforeAll(() => {
-		directory = mkdtempSync(join(tmpdir(), 'gauzy-inbox-inbound-'));
+		directory = mkdtempSync(join(tmpdir(), 'irtranscripts-inbox-inbound-'));
 	});
 
 	afterAll(() => {
@@ -478,7 +478,7 @@ describe('Inbound email pipeline on SQLite', () => {
 			]);
 			expect(new Set(rows.map((row) => row.rawStorageKey)).size).toBe(1);
 			expect(rows.find((row) => row.mailboxId === adaBox.id)?.headers).toContain(
-				'"x-gauzy-inbox-tag":"invoices"'
+				'"x-irtranscripts-inbox-tag":"invoices"'
 			);
 		});
 
@@ -526,7 +526,7 @@ describe('Inbound email pipeline on SQLite', () => {
 			await processor.drain();
 			const held = await dataSource.getRepository(InboxEmail).findOneByOrFail({ messageId: '<m-2@acme.test>' });
 			expect([held.status, held.inboxItemId ?? null]).toEqual([InboxEmailStatusEnum.QUARANTINED, null]);
-			expect(JSON.parse(held.headers as string)['x-gauzy-inbox-hold']).toBe('unverified-sender');
+			expect(JSON.parse(held.headers as string)['x-irtranscripts-inbox-hold']).toBe('unverified-sender');
 
 			const later = SAMPLE_MIME.replace('Message-ID: <m-2@acme.test>', 'Message-ID: <m-8@acme.test>');
 			const proven = mime(later, ['support.ever@inbox.example.test']);
@@ -556,7 +556,7 @@ describe('Inbound email pipeline on SQLite', () => {
 			const body = mime(SAMPLE_MIME, ['support.ever@inbox.example.test']);
 			expect((await deliver({ ...body, authenticationResults: 'mx; dmarc=none' })).accepted).toBe(1);
 			const held = await dataSource.getRepository(InboxEmail).findOneByOrFail({ messageId: '<m-2@acme.test>' });
-			expect(JSON.parse(held.headers as string)['x-gauzy-inbox-hold']).toBe('virus');
+			expect(JSON.parse(held.headers as string)['x-irtranscripts-inbox-hold']).toBe('virus');
 		});
 
 		it('stores a message whose address lists overflow a MySQL text column, cut to fit, instead of failing every retry (review F109)', async () => {

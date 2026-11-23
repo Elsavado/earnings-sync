@@ -11,8 +11,8 @@ import { join } from 'node:path';
 import { ExecutionContext, NotFoundException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { buildSchema, printSchema } from 'graphql';
-import { OAuthClientType, OAuthGrantType, PermissionsEnum } from '@gauzy/contracts';
-import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@gauzy/constants';
+import { OAuthClientType, OAuthGrantType, PermissionsEnum } from '@irtranscripts/contracts';
+import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { CursorCodec } from '../../api/cursor';
 import { FeatureFlagGuard, PermissionGuard, TenantPermissionGuard } from '../../shared/guards';
 import { OAuthClientController } from './oauth-client.controller';
@@ -50,7 +50,7 @@ const ROWS = [
 	{
 		id: CLIENT,
 		tenantId: TENANT,
-		clientId: 'gauzy_first',
+		clientId: 'irtranscripts_first',
 		name: 'First app',
 		description: 'The first registered client',
 		clientType: OAuthClientType.CONFIDENTIAL,
@@ -67,7 +67,7 @@ const ROWS = [
 	{
 		id: OTHER,
 		tenantId: TENANT,
-		clientId: 'gauzy_second',
+		clientId: 'irtranscripts_second',
 		name: 'Second app',
 		description: null,
 		clientType: OAuthClientType.CONFIDENTIAL,
@@ -330,7 +330,7 @@ describe('OAuthClientResolver — the connection contract', () => {
 		const byName = await resolver.oauthClients({ name: { ilike: 'second%' } });
 		expect(byName.nodes.map((node) => node.id)).toEqual([OTHER]);
 
-		const byClientId = await resolver.oauthClients({ clientId: { eq: 'gauzy_first' } });
+		const byClientId = await resolver.oauthClients({ clientId: { eq: 'irtranscripts_first' } });
 		expect(byClientId.nodes.map((node) => node.id)).toEqual([CLIENT]);
 
 		const byPkce = await resolver.oauthClients({ pkceRequired: { eq: false } });

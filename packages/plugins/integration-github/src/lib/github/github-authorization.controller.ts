@@ -1,8 +1,8 @@
 import { Controller, Get, HttpException, HttpStatus, Logger, Query, Res } from '@nestjs/common';
 import { Response } from 'express';
-import { IGithubIntegrationConfig, Public } from '@gauzy/common';
-import { ConfigService } from '@gauzy/config';
-import { IGithubAppInstallInput } from '@gauzy/contracts';
+import { IGithubIntegrationConfig, Public } from '@irtranscripts/common';
+import { ConfigService } from '@irtranscripts/config';
+import { IGithubAppInstallInput } from '@irtranscripts/contracts';
 import { GithubOAuthStateService } from './github-oauth-state.service';
 import { signGithubInstallProof } from './github-install-proof';
 import { GithubInstallationOwnershipService } from './github-installation-ownership.service';
@@ -32,7 +32,7 @@ export class GitHubAuthorizationController {
 			const { postInstallUrl } = this._config.get('github') as IGithubIntegrationConfig;
 
 			// Editing an installation on GitHub (setup_action=update) redirects here without the state
-			// nonce Gauzy only mints for new connections. Nothing can be bound without it, so send the
+			// nonce IRTranscripts only mints for new connections. Nothing can be bound without it, so send the
 			// user back to the app instead of answering with a raw 400 page.
 			if (query && !query.state && query.setup_action === 'update') {
 				return response.redirect(`${postInstallUrl}?setup_action=update`);

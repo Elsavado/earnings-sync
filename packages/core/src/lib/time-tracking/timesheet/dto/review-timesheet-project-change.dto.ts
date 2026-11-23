@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsIn, IsOptional, IsString, MaxLength } from 'class-validator';
 import { Transform, TransformFnParams } from 'class-transformer';
-import { IUpdateTimesheetProjectChangeStatus, TimesheetProjectChangeStatus } from '@gauzy/contracts';
+import { IUpdateTimesheetProjectChangeStatus, TimesheetProjectChangeStatus } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from './../../../core/dto';
 
 /**

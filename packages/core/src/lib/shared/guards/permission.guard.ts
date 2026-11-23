@@ -2,9 +2,9 @@ import { CanActivate, ExecutionContext, Inject, Injectable, Logger, Type } from 
 import { Reflector } from '@nestjs/core';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { deduplicate, isEmpty } from '@gauzy/utils';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { deduplicate, isEmpty } from '@irtranscripts/utils';
 import { RequestContext } from './../../core/context';
 import {
 	narrowPermissionsToOAuthAppScopes,

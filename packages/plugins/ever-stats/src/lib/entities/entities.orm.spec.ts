@@ -2,12 +2,12 @@ import 'reflect-metadata';
 import { MikroORM } from '@mikro-orm/core';
 import { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
 import { DataSource } from 'typeorm';
-import { EverInstanceEvents, EverInstanceService } from '@gauzy/plugin-ever-instance';
+import { EverInstanceEvents, EverInstanceService } from '@irtranscripts/plugin-ever-instance';
 import { EverStatsStore } from '../ever-stats.store';
 import { EVER_STATS_ENTITIES } from './index';
 
 /**
- * Gauzy registers plugin entities with BOTH ORMs at boot, whichever one `DB_ORM` selects, and each
+ * IRTranscripts registers plugin entities with BOTH ORMs at boot, whichever one `DB_ORM` selects, and each
  * refuses an entity it cannot map (MikroORM: "entity is missing @PrimaryKey()"). These checks run
  * the same discovery as the API, so an entity that would stop the API from booting fails here.
  */

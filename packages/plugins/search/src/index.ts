@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-search
+ * Public API Surface of @irtranscripts/plugin-search
  *
  * The package exports the plugin class the host registers, the module that wires it, the catalogues it
  * contributes to the platform, its migration, its GraphQL document and resolvers, and every service,

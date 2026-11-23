@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { SOFT_DELETABLE_FILTER } from 'mikro-orm-soft-delete';
 import { isUUID } from 'class-validator';
-import { EmailStatusEnum, IEmailHistory, IPagination } from '@gauzy/contracts';
-import { parseToBoolean } from '@gauzy/utils';
+import { EmailStatusEnum, IEmailHistory, IPagination } from '@irtranscripts/contracts';
+import { parseToBoolean } from '@irtranscripts/utils';
 import { BaseQueryDTO, TenantAwareCrudService } from '../core/crud';
 import { RequestContext } from '../core/context';
 import { MultiORMEnum, resolveRequestedPage } from '../core/utils';

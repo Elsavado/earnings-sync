@@ -8,7 +8,7 @@
         "strict": false,
         "esModuleInterop": false,
         "noUncheckedSideEffectImports": false,
-        "outDir": "../../dist/apps/gauzy-server",
+        "outDir": "../../dist/apps/irtranscripts-server",
         "sourceMap": true,
         "declaration": false,
         "moduleResolution": "node",

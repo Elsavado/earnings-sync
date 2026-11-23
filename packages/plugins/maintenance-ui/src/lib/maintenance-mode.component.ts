@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Location } from '@angular/common';
-import { environment } from '@gauzy/ui-config';
-import { ServerConnectionService, Store } from '@gauzy/ui-core/core';
+import { environment } from '@irtranscripts/ui-config';
+import { ServerConnectionService, Store } from '@irtranscripts/ui-core/core';
 
 @Component({
     selector: 'ga-maintenance-mode',

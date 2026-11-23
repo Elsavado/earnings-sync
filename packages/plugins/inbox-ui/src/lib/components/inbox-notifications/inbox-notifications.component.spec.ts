@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject, of, Subject } from 'rxjs';
-import { IEmployeeNotification } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
+import { IEmployeeNotification } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
 import { InboxNotificationsService } from '../../services/inbox-ui.service';
 import { InboxNotificationsComponent } from './inbox-notifications.component';
 
 const notification = (id: string, isRead: boolean) => ({ id, isRead, message: `Note ${id}` }) as IEmployeeNotification;
 
-/** The Notifications tab: Gauzy's own notifications of my employee. */
+/** The Notifications tab: IRTranscripts's own notifications of my employee. */
 describe('InboxNotificationsComponent', () => {
 	const api = { list: jest.fn(), markRead: jest.fn(), markAllRead: jest.fn() };
 

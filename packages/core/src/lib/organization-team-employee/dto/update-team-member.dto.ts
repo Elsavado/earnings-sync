@@ -1,4 +1,4 @@
-import { IOrganizationTeamEmployeeUpdateInput } from '@gauzy/contracts';
+import { IOrganizationTeamEmployeeUpdateInput } from '@irtranscripts/contracts';
 import { IntersectionType, PickType } from '@nestjs/swagger';
 import { OrganizationTeamEmployee } from './../../core/entities/internal';
 import { UpdateOrganizationTeamActiveTaskDTO } from './update-organization-team-active-task.dto';

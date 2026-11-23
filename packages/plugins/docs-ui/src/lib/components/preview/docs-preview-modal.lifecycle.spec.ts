@@ -10,7 +10,7 @@ jest.mock('./pdf-viewer.component', () => {
 });
 
 import { Subject } from 'rxjs';
-import { DocumentKindEnum, IDocument } from '@gauzy/contracts';
+import { DocumentKindEnum, IDocument } from '@irtranscripts/contracts';
 import { DocsPreviewModalComponent } from './docs-preview-modal.component';
 
 /**

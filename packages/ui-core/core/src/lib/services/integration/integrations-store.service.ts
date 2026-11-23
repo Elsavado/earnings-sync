@@ -6,7 +6,7 @@ import {
 	IIntegrationGroupTypeOption,
 	IntegrationTypeEnum,
 	IntegrationTypeGroupEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { IntegrationsService } from './integrations.service';
 import { tap, map, distinctUntilChanged, debounceTime, catchError, finalize, mergeMap } from 'rxjs/operators';

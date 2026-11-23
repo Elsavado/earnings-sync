@@ -70,7 +70,7 @@
 		"TO_INVOICE": "لإصدار فاتورة",
 		"PUBLIC_APPOINTMENT_BOOK": "حجز موعد عام للجمهور",
 		"SAVE_AS_DRAFT": "حفظ كمسودة",
-		"SAVE_AND_SEND_CONTACT": "حفظ وإرسال إلى جهة الاتصال في Gauzy",
+		"SAVE_AND_SEND_CONTACT": "حفظ وإرسال إلى جهة الاتصال في IRTranscripts",
 		"SAVE_AND_SEND_EMAIL": "حفظ وإرسال عبر البريد الإلكتروني",
 		"EVENT_TYPES": "أنواع الأحداث",
 		"SEARCH": "بحث",
@@ -659,8 +659,8 @@
 			"ALL_TEAMS": "كل الفرق",
 			"UPWORK_API_KEY": "مفتاح واجهة برمجة التطبيقات لـ Upwork",
 			"UPWORK_SECRET": "سرّ أبورك",
-			"GAUZY_API_KEY": "مفتاح Gauzy AI",
-			"GAUZY_API_SECRET": "سر Gauzy AI",
+			"IRTRANSCRIPTS_API_KEY": "مفتاح IRTranscripts AI",
+			"IRTRANSCRIPTS_API_SECRET": "سر IRTranscripts AI",
 			"SELECT_COMPANY": "الشركة",
 			"TYPE_SEARCH_REQUEST": "اكتب طلب البحث الخاص بك هنا...",
 			"SELECT_ICON": "الأيقونة",
@@ -810,7 +810,7 @@
 		"TOTAL_INCOME_OR_MONTHLY_INCOME": "إجمالي الدخل / الدخل الشهري",
 		"PROFITS": "الأرباح",
 		"BONUSES_PAID": "المكافآت المدفوعة",
-		"TOTAL_HOURS_WORKED_OVER_GAUZY": "إجمالي ساعات العمل في متجاوز",
+		"TOTAL_HOURS_WORKED_OVER_IRTRANSCRIPTS": "إجمالي ساعات العمل في متجاوز",
 		"MINIMUM_PROJECT_SIZE": "الحد الأدنى لحجم المشروع",
 		"PROJECTS_COUNT": "عدد المشاريع",
 		"CLIENTS_COUNT": "عدد العملاء",
@@ -853,7 +853,7 @@
 		"UPWORK": "أبوورك",
 		"MAKE_COM": "Make.com",
 		"ZAPIER": "Zapier",
-		"GAUZY_AI": "جوزي الذكاء الاصطناعي",
+		"IRTRANSCRIPTS_AI": "جوزي الذكاء الاصطناعي",
 		"ACTIVEPIECES": "Activepieces",
 		"PROPOSALS": "مقترحات",
 		"TIME_OFF": "وقت مرتاح",
@@ -905,11 +905,11 @@
 			"CORRECT_FILE_NAME": "يجب أن يكون اسم الملف: \"archive.zip\"",
 			"DOWNLOAD_TEMPLATES": "تحميل القوالب",
 			"MIGRATE_TO_CLOUD": "تهاجر إلى سحابة إيفر غوزي",
-			"IMPORT_INFO": "انقر على \"استيراد\" لاستيراد بياناتك إلى قاعدة بيانات Gauzy.",
-			"EXPORT_INFO": "انقر على \"تصدير\" لتصدير البيانات من قاعدة البيانات Gauzy.",
-			"DOWNLOAD_TEMPLATES_INFO": "انقر على \"تنزيل القوالب\" لتحميل أرشيف مضغوط بتنسيق CSV يحتوي على قوالب لبيانات Gauzy.",
-			"MIGRATE_TO_CLOUD_INFO": "انقر على \"انتقل إلى Ever Gauzy Cloud\" للانتقال من الإصدار المستضاف ذاتيًا إلى الإصدار السحابي.",
-			"MIGRATE_SUCCESSFULLY": "نقل Gauzy Cloud بنجاح لـ '{{ tenant }}'!",
+			"IMPORT_INFO": "انقر على \"استيراد\" لاستيراد بياناتك إلى قاعدة بيانات IRTranscripts.",
+			"EXPORT_INFO": "انقر على \"تصدير\" لتصدير البيانات من قاعدة البيانات IRTranscripts.",
+			"DOWNLOAD_TEMPLATES_INFO": "انقر على \"تنزيل القوالب\" لتحميل أرشيف مضغوط بتنسيق CSV يحتوي على قوالب لبيانات IRTranscripts.",
+			"MIGRATE_TO_CLOUD_INFO": "انقر على \"انتقل إلى Ever IRTranscripts Cloud\" للانتقال من الإصدار المستضاف ذاتيًا إلى الإصدار السحابي.",
+			"MIGRATE_SUCCESSFULLY": "نقل IRTranscripts Cloud بنجاح لـ '{{ tenant }}'!",
 			"ACCOUNTING_TEMPLATE": "قالب المحاسبة",
 			"ACTIVITY": "النشاط",
 			"APPROVAL_POLICY": "سياسة الموافقة",
@@ -1157,7 +1157,7 @@
 		"ACCOUNTING_TEMPLATES": "قوالب المحاسبة",
 		"FOCUS": "التركيز",
 		"APPLICATIONS": "تطبيقات",
-		"OPEN_GA_BROWSER": "افتح Gauzy في المتصفح",
+		"OPEN_GA_BROWSER": "افتح IRTranscripts في المتصفح",
 		"START_SERVER": "تشغيل الخادم",
 		"STOP_SERVER": "توقف الخادم",
 		"DOCUMENTS": "المستندات",
@@ -1233,8 +1233,8 @@
 		"CORPORATE": "شركة",
 		"MATERIAL_LIGHT_THEME": "مادة خفيفة",
 		"MATERIAL_DARK_THEME": "المواد المظلمة",
-		"GAUZY_LIGHT": "ضوء شفاف",
-		"GAUZY_DARK": "غامق وضبابي",
+		"IRTRANSCRIPTS_LIGHT": "ضوء شفاف",
+		"IRTRANSCRIPTS_DARK": "غامق وضبابي",
 		"LANGUAGE": "اللغة",
 		"ENGLISH": "الإنجليزية",
 		"FRENCH": "الفرنسية",
@@ -1264,7 +1264,7 @@
 	"CHANGELOG_MENU": {
 		"HEADER": "ما الجديد؟",
 		"LEARN_MORE_URL": "تعلم المزيد",
-		"GAUZY_FEATURES": "ميزات Gauzy"
+		"IRTRANSCRIPTS_FEATURES": "ميزات IRTranscripts"
 	},
 	"REPORT_PAGE": {
 		"MEMBERS_WORKED": "أعضاء العمل",
@@ -1329,7 +1329,7 @@
 			"MANUAL_ACTIVITY": "لم يتم العثور على أي سجلات. يرجى تحديد نطاق التاريخ، الموظف، أو المشروع.",
 			"AMOUNT_OWED": "لا يوجد مبلغ مستحق",
 			"WEEKLY_TIME_AND_ACTIVITY": "ليس لديك أي وقت أو نشاط متتبع حتى الآن لهذه الأيام.",
-			"DAILY_TIME_AND_ACTIVITY": "لا توجد وقت ونشاط تم تتبعه حتى الآن لهذا اليوم. يرجى استخدام تطبيق مؤقت سطح المكتب <a href={{downloadURL}} rel=\"noopener\" target=\"_blank\">Gauzy</a>.",
+			"DAILY_TIME_AND_ACTIVITY": "لا توجد وقت ونشاط تم تتبعه حتى الآن لهذا اليوم. يرجى استخدام تطبيق مؤقت سطح المكتب <a href={{downloadURL}} rel=\"noopener\" target=\"_blank\">IRTranscripts</a>.",
 			"PROJECT_BUDGET": "لم تقم بإنشاء أي مشروع بميزانية.",
 			"CLIENT_BUDGET": "لم تقم بإنشاء أي عميل بميزانية."
 		},
@@ -1349,7 +1349,7 @@
 			"DATE_RANGE_PLACEHOLDER": "اختر تاريخًا بين",
 			"CLIENT_ID": "معرف عميل Hubstaff",
 			"CLIENT_SECRET": "سر العميل في Hubstaff",
-			"GRANT_PERMISSION": "سيتم نقلك إلى Hubstaff التمكين لمنح إذن لـ Gauzy المقبلة.",
+			"GRANT_PERMISSION": "سيتم نقلك إلى Hubstaff التمكين لمنح إذن لـ IRTranscripts المقبلة.",
 			"ENTER_CLIENT_SECRET": "أدخل السر الخاص بالعميل للحصول على رمز الوصول."
 		},
 		"UPWORK_PAGE": {
@@ -1359,7 +1359,7 @@
 			"SUCCESSFULLY_AUTHORIZED": "تم التفويض بنجاح",
 			"API_KEY": "مفتاح واجهة برمجة التطبيقات لـ Upwork",
 			"SECRET": "سر أبورك",
-			"NEXT_STEP_INFO": "سيتم نقلك إلى Upwork لمنح إذن لـ Gauzy.",
+			"NEXT_STEP_INFO": "سيتم نقلك إلى Upwork لمنح إذن لـ IRTranscripts.",
 			"CONTRACTS": "عقود",
 			"SYNCED_CONTRACTS": "عقود متزامنة",
 			"SELECT_DATE": "التاريخ",
@@ -1503,9 +1503,9 @@
 				"SETTINGS": "الإعدادات"
 			},
 			"TOOLTIP": {
-				"TRIGGERS": "المحفزات هي أحداث تحدث في Gauzy ويمكن استخدامها لتحفيز الإجراءات في Zapier.",
-				"ACTIONS": "الإجراءات هي أحداث تحدث في Zapier ويمكن استخدامها لتحفيز الإجراءات في Gauzy.",
-				"WEBHOOKS": "الويب هوكس هي أحداث تحدث في Zapier ويمكن استخدامها لتحفيز الإجراءات في Gauzy.",
+				"TRIGGERS": "المحفزات هي أحداث تحدث في IRTranscripts ويمكن استخدامها لتحفيز الإجراءات في Zapier.",
+				"ACTIONS": "الإجراءات هي أحداث تحدث في Zapier ويمكن استخدامها لتحفيز الإجراءات في IRTranscripts.",
+				"WEBHOOKS": "الويب هوكس هي أحداث تحدث في Zapier ويمكن استخدامها لتحفيز الإجراءات في IRTranscripts.",
 				"SETTINGS": "الإعدادات هي إعدادات تكامل Zapier."
 			},
 			"MESSAGE": {
@@ -1522,7 +1522,7 @@
 				"WEBHOOK_URL": "رابط الويب هوك",
 				"WEBHOOK_URL_PLACEHOLDER": "أدخل رابط الويب هوك",
 				"WEBHOOK_URL_INVALID": "الرجاء إدخال رابط ويب هوك صالح",
-				"WEBHOOK_INFO": "الويب هوك هو رابط يتم استخدامه لتحديث البيانات في Gauzy بناءً على حدث معين في Zapier.",
+				"WEBHOOK_INFO": "الويب هوك هو رابط يتم استخدامه لتحديث البيانات في IRTranscripts بناءً على حدث معين في Zapier.",
 				"SAVE": "حفظ الإعدادات"
 			},
 			"ACTIONS": {
@@ -1558,9 +1558,9 @@
 				}
 			}
 		},
-		"GAUZY_AI_PAGE": {
-			"API_KEY": "مفتاح Gauzy AI",
-			"API_SECRET": "Gauzy AI سري"
+		"IRTRANSCRIPTS_AI_PAGE": {
+			"API_KEY": "مفتاح IRTranscripts AI",
+			"API_SECRET": "IRTranscripts AI سري"
 		},
 		"ACTIVEPIECES_PAGE": {
 			"TITLE": "Activepieces",
@@ -2022,8 +2022,8 @@
 		"KIND_HUMAN": "الأشخاص",
 		"KIND_AGENT": "الوكلاء",
 		"AGENT_BADGE": "وكيل",
-		"MANAGED_BY_EVER_WORKS": "يُدار بواسطة Ever Works: يتم تغيير اسم هذا الوكيل وملفه الشخصي في Ever Works ومزامنتهما مع Gauzy.",
-		"MANAGED_EXTERNALLY": "يُدار خارجيًا: يتم تغيير اسم هذا الوكيل وملفه الشخصي في النظام الذي جاء منه ومزامنتهما مع Gauzy.",
+		"MANAGED_BY_EVER_WORKS": "يُدار بواسطة Ever Works: يتم تغيير اسم هذا الوكيل وملفه الشخصي في Ever Works ومزامنتهما مع IRTranscripts.",
+		"MANAGED_EXTERNALLY": "يُدار خارجيًا: يتم تغيير اسم هذا الوكيل وملفه الشخصي في النظام الذي جاء منه ومزامنتهما مع IRTranscripts.",
 		"OPEN_MANAGED_AGENT": "فتح صفحة الوكيل",
 		"HEADER": "إدارة الموظفين",
 		"ADD_EMPLOYEE": "إضافة موظف",
@@ -4441,9 +4441,9 @@
 		"REDIRECT_TO_HOME": "سيتم توجيهك إلى الصفحة الرئيسية قريباً"
 	},
 	"HELP_PAGE": {
-		"INTRO": "اعثر على الوثائق واحصل على إجابات وتواصل مع فريق Gauzy.",
+		"INTRO": "اعثر على الوثائق واحصل على إجابات وتواصل مع فريق IRTranscripts.",
 		"DOCUMENTATION": "الوثائق",
-		"DOCUMENTATION_DESC": "أدلة ومراجع لكل ميزة في Gauzy.",
+		"DOCUMENTATION_DESC": "أدلة ومراجع لكل ميزة في IRTranscripts.",
 		"FAQ": "الأسئلة الشائعة",
 		"FAQ_DESC": "إجابات على الأسئلة الأكثر شيوعًا.",
 		"SUPPORT_CHAT": "دردشة الدعم",
@@ -4452,9 +4452,9 @@
 		"REPORT_ISSUE_DESC": "وجدت خطأ؟ افتح مشكلة على GitHub.",
 		"GITHUB": "GitHub",
 		"GITHUB_DESC": "الكود المصدري والإصدارات والنقاشات.",
-		"WEBSITE": "موقع Gauzy",
-		"WEBSITE_DESC": "اعرف المزيد عن منصة Gauzy.",
-		"ABOUT_LINK": "حول Gauzy",
+		"WEBSITE": "موقع IRTranscripts",
+		"WEBSITE_DESC": "اعرف المزيد عن منصة IRTranscripts.",
+		"ABOUT_LINK": "حول IRTranscripts",
 		"ABOUT_LINK_DESC": "تفاصيل الإصدار والترخيص والروابط.",
 		"HELP": "مساعدة",
 		"KNOWLEDGE_BASE": "قاعدة المعرفة",
@@ -4903,7 +4903,7 @@
 	},
 	"ABOUT_PAGE": {
 		"COPYRIGHT": "‏Copyright © 2019-{{year}}, Ever Co. LTD. جميع الحقوق محفوظة.",
-		"DESCRIPTION": "‏Ever® Gauzy™ هي منصة مفتوحة لإدارة الأعمال للاقتصادات التعاونية وعند الطلب والتشاركية — ERP وCRM وHRM وATS وإدارة المشاريع مع تتبع الوقت المدمج.",
+		"DESCRIPTION": "‏Ever® IRTranscripts™ هي منصة مفتوحة لإدارة الأعمال للاقتصادات التعاونية وعند الطلب والتشاركية — ERP وCRM وHRM وATS وإدارة المشاريع مع تتبع الوقت المدمج.",
 		"LICENSE": "مفتوحة المصدر، صادرة بموجب ترخيص",
 		"VERSION_DETAILS": "تفاصيل الإصدار",
 		"VERSION_MISMATCH": "تم بناء تطبيق الويب وواجهة API من commits مختلفة — قد يكون هناك نشر قيد التنفيذ.",
@@ -4915,7 +4915,7 @@
 		"ABOUT": "حول",
 		"GITHUB": {
 			"TITLE": "على GitHub",
-			"DESCRIPTION": "يُطوَّر Ever Gauzy بشكل مفتوح: تابع الإصدارات أو أبلغ عن مشكلة أو ساهم.",
+			"DESCRIPTION": "يُطوَّر Ever IRTranscripts بشكل مفتوح: تابع الإصدارات أو أبلغ عن مشكلة أو ساهم.",
 			"RELEASES": "الإصدارات",
 			"ISSUES": "المشكلات",
 			"PULL_REQUESTS": "طلبات الدمج",
@@ -5391,10 +5391,10 @@
 		"WAIT_FOR": "في انتظار {{ name }} للبدء...",
 		"SETUP": {
 			"WELCOME": "مرحبًا",
-			"TITLE": "مرحبًا بك في Ever® Gauzy™ - منصة إدارة الأعمال مفتوحة المصدر (ERP/CRM/HRM)",
+			"TITLE": "مرحبًا بك في Ever® IRTranscripts™ - منصة إدارة الأعمال مفتوحة المصدر (ERP/CRM/HRM)",
 			"LABEL": "يوفر تطبيق سطح المكتب الشفاف وظائف كاملة لمنصة الشفافية المتاحة مباشرة على جهاز الكمبيوتر المكتبي أو الكمبيوتر المحمول الخاص بك. بالإضافة إلى ذلك، يتيح تتبع وقت العمل وتسجيل النشاط، والقدرة على تلقي تذكيرات / إشعارات التتبع.",
-			"TITLE_SERVER": "معالج تثبيت خادم Gauzy",
-			"LABEL_SERVER": "تطبيق سطح المكتب Gauzy يوفر جميع وظائف منصة Gauzy بشكل كامل متاحة مباشرة على جهاز الكمبيوتر المكتبي أو الكمبيوتر المحمول الخاص بك. بالإضافة إلى ذلك، يتيح تتبع وقت العمل وتسجيل النشاط، والقدرة على تلقي تذكيرات/إشعارات التتبع.",
+			"TITLE_SERVER": "معالج تثبيت خادم IRTranscripts",
+			"LABEL_SERVER": "تطبيق سطح المكتب IRTranscripts يوفر جميع وظائف منصة IRTranscripts بشكل كامل متاحة مباشرة على جهاز الكمبيوتر المكتبي أو الكمبيوتر المحمول الخاص بك. بالإضافة إلى ذلك، يتيح تتبع وقت العمل وتسجيل النشاط، والقدرة على تلقي تذكيرات/إشعارات التتبع.",
 			"FUNCTIONALITIES": "وظائف",
 			"WHAT_WOULD_LIKE_USE": "ما الذي ترغب في استخدامه؟",
 			"SELECT_MULTIPLE_OPTIONS": "يمكنك اختيار خيار واحد فقط أو كل الخيارات.",
@@ -5403,7 +5403,7 @@
 			"HOW_GONNA_USE_GP": "كيف ستستخدم منصة جوزي؟",
 			"SELECT_ONE_OPTION": "يجب أن تختار خيار واحد فقط من الخيارات أدناه.",
 			"INTEGRATED": "مُتكامل",
-			"INSTALL_GP_LOCAL": "قم بتثبيت وتشغيل منصة Gauzy على جهاز الكمبيوتر المحلي الخاص بك.",
+			"INSTALL_GP_LOCAL": "قم بتثبيت وتشغيل منصة IRTranscripts على جهاز الكمبيوتر المحلي الخاص بك.",
 			"CUSTOM_NETWORK": "مخصص / شبكة",
 			"SEPARATE_SERVER": "الاتصال بخادم منفصل في شبكة عملك.",
 			"LIVE": "حي / مباشر",
@@ -5413,7 +5413,7 @@
 			"LEGAL_NOTE": "قانوني: جميع أسماء المنتجات وأسماء العلامات التجارية والشعارات والعلامات التجارية المسجلة هي ملك لأصحابها. ليس لدينا أي ارتباط أو تأييد أو رعاية أو دعم من الشركات الخارجية المذكورة أو العلامات التجارية أو المنتجات أو المواقع أو الخدمات. يتم توفير روابط البرمجيات الخارجية للراحة ولأغراض معلوماتية فقط؛ لا تشكل تأييدًا أو موافقة على أي من المنتجات أو الخدمات أو الآراء من قبل الشركة أو المنظمة أو الفرد. نستخدم الشعارات وأسماء العلامات التجارية المعنية فقط للإعلان عن أن منتجنا يستخدم منتجات وتقنيات مماثلة أو يحتوي على تكامل مدمج مع الخدمات المقابلة.",
 			"SETTING": "إعداد",
 			"READY_FOR_ADVANCED_SETTINGS": "هل أنت مستعد لبعض الإعدادات المتقدمة؟",
-			"FINAL_STEP_GP": "هذه هي الخطوة الأخيرة حيث يمكنك التفصيل في منصة Gauzy الخاصة بك.",
+			"FINAL_STEP_GP": "هذه هي الخطوة الأخيرة حيث يمكنك التفصيل في منصة IRTranscripts الخاصة بك.",
 			"PORT": "ميناء",
 			"PORT_API": "بورت آبي",
 			"UI": "واجهة المستخدم (UI)",
@@ -5424,8 +5424,8 @@
 			"USER": "مستخدم",
 			"PASSWORD": "كلمة المرور",
 			"UI_HOSTNAME": "اسم المضيف أو عنوان IP واجهة المستخدم (UI)",
-			"TITLE_SERVER_API": "معالج تثبيت خادم API الخاص بـ Ever Gauzy",
-			"LABEL_SERVER_API": "يوفر تطبيق سطح المكتب Ever Gauzy API Server الوظائف الكاملة لمنصة Gauzy المتوفرة مباشرة على جهاز الكمبيوتر المكتبي أو الكمبيوتر المحمول. بالإضافة إلى ذلك، فهو يسمح بتتبع وقت العمل وتسجيل النشاط والقدرة على تلقي تذكيرات/إشعارات التتبع",
+			"TITLE_SERVER_API": "معالج تثبيت خادم API الخاص بـ Ever IRTranscripts",
+			"LABEL_SERVER_API": "يوفر تطبيق سطح المكتب Ever IRTranscripts API Server الوظائف الكاملة لمنصة IRTranscripts المتوفرة مباشرة على جهاز الكمبيوتر المكتبي أو الكمبيوتر المحمول. بالإضافة إلى ذلك، فهو يسمح بتتبع وقت العمل وتسجيل النشاط والقدرة على تلقي تذكيرات/إشعارات التتبع",
 			"UNABLE_TO_CONNECT": "غير قادر على الاتصال بالخادم. يرجى التحقق من مضيف API أو اتصال الإنترنت الخاص بك.",
 			"JWT_SECRET": "سر JWT",
 			"JWT_SECRET_PLACEHOLDER": "أدخل مفتاحاً سرياً لـ JWT",
@@ -5599,7 +5599,7 @@
 			"ERROR_OCCURRED": "حدث خطأ",
 			"DB_CLEANUP_TITLE": "إصدار قاعدة البيانات قديم على الأرجح",
 			"DB_CLEANUP_MESSAGE": "تم اكتشاف إصدار جديد من التطبيق. لتجنب أي تغييرات قد تُسبب مشاكل، هل تودّ مسح قاعدة البيانات المحلية واستخدام قاعدة بيانات جديدة؟",
-			"DB_CLEANUP_DETAIL": "ستؤدي إزالة قاعدة البيانات إلى حذف البيانات المخزنة محليًا. البيانات التي تمت مزامنتها بالفعل مع الخادم ستظل محفوظة بأمان على سحابة Gauzy.",
+			"DB_CLEANUP_DETAIL": "ستؤدي إزالة قاعدة البيانات إلى حذف البيانات المخزنة محليًا. البيانات التي تمت مزامنتها بالفعل مع الخادم ستظل محفوظة بأمان على سحابة IRTranscripts.",
 			"DB_CLEANUP_REMOVE": "إزالة قاعدة البيانات",
 			"DB_CLEANUP_KEEP": "الاحتفاظ بها",
 			"DB_CLEANUP_UNSYNCED_TITLE": "تم اكتشاف بيانات غير متزامنة",
@@ -5611,7 +5611,7 @@
 			"AND_JOIN": "and",
 			"SEED_CREDENTIALS_TITLE": "بيانات تسجيل الدخول الخاصة بك",
 			"SEED_CREDENTIALS_MESSAGE": "احفظ كلمات المرور هذه الآن. لن تُعرض إلا مرة واحدة.",
-			"SEED_CREDENTIALS_DETAIL": "أنشأ هذا التثبيت حساباته بكلمات مرور عشوائية بدلاً من القيم الافتراضية المنشورة.\n\n{{ accounts }}\n\nيمكنك تغيير كلمة المرور لاحقاً من صفحة ملفك الشخصي في Gauzy.",
+			"SEED_CREDENTIALS_DETAIL": "أنشأ هذا التثبيت حساباته بكلمات مرور عشوائية بدلاً من القيم الافتراضية المنشورة.\n\n{{ accounts }}\n\nيمكنك تغيير كلمة المرور لاحقاً من صفحة ملفك الشخصي في IRTranscripts.",
 			"SEED_CREDENTIALS_COPIED": "تم النسخ إلى الحافظة.",
 			"SEED_CREDENTIALS_COPY_FAILED": "تعذّر النسخ إلى الحافظة. اضغط «نسخ» للمحاولة مرة أخرى، أو دوّن كلمات المرور قبل التأكيد.",
 			"SEED_CREDENTIALS_SAVED": "لقد حفظتها",
@@ -5621,7 +5621,7 @@
 			"SEED_PASSWORD": "كلمة المرور",
 			"PUBLISHED_PASSWORDS_TITLE": "كلمة المرور الافتراضية لا تزال مستخدمة",
 			"PUBLISHED_PASSWORDS_MESSAGE": "غيّر كلمة المرور الافتراضية لهذه الحسابات.",
-			"PUBLISHED_PASSWORDS_DETAIL": "لا تزال الحسابات {{ accounts }} تسجّل الدخول بكلمة المرور الافتراضية المنشورة في وثائق Gauzy. يمكن لأي شخص يصل إلى هذا الخادم تسجيل الدخول بها. سجّل الدخول إلى Gauzy وغيّرها من صفحة الملف الشخصي."
+			"PUBLISHED_PASSWORDS_DETAIL": "لا تزال الحسابات {{ accounts }} تسجّل الدخول بكلمة المرور الافتراضية المنشورة في وثائق IRTranscripts. يمكن لأي شخص يصل إلى هذا الخادم تسجيل الدخول بها. سجّل الدخول إلى IRTranscripts وغيّرها من صفحة الملف الشخصي."
 		},
 		"NO_LIMIT": "∞ لا حدود",
 		"TASK": "مهمة",
@@ -5698,7 +5698,7 @@
 		"PERMISSIONS": {
 			"MENU_LABEL": "أذونات النظام",
 			"TITLE": "أذونات النظام",
-			"DESCRIPTION": "يتطلب Gauzy بعض أذونات macOS لتتبع عملك بدقة. راجعها وأدِرها من هنا.",
+			"DESCRIPTION": "يتطلب IRTranscripts بعض أذونات macOS لتتبع عملك بدقة. راجعها وأدِرها من هنا.",
 			"SCREEN_RECORDING": "تسجيل الشاشة",
 			"SCREEN_RECORDING_DESC": "مطلوب لالتقاط لقطات الشاشة تلقائيًا خلال جلسات العمل المتتبَّعة.",
 			"STATUS": "الحالة",
@@ -5716,7 +5716,7 @@
 			"RELAUNCH": "إعادة التشغيل",
 			"RELAUNCH_DESC": "هل منحت الإذن ولا تزال غير قادر على التقاط الشاشة؟ انقر على إعادة التشغيل لتطبيق التغييرات.",
 			"DIALOG_TITLE": "مطلوب إذن تسجيل الشاشة",
-			"DIALOG_DESC": "يحتاج Gauzy إلى إذن تسجيل الشاشة لالتقاط لقطات أثناء جلسة العمل. يرجى منح الوصول للمتابعة.",
+			"DIALOG_DESC": "يحتاج IRTranscripts إلى إذن تسجيل الشاشة لالتقاط لقطات أثناء جلسة العمل. يرجى منح الوصول للمتابعة.",
 			"POLLING_HINT": "سيُغلق هذا الحوار تلقائيًا بمجرد منح الإذن.",
 			"START_ANYWAY": "البدء بدون لقطة شاشة",
 			"ACCESSIBILITY": "إمكانية الوصول",
@@ -6044,7 +6044,7 @@
 			"email-invoice": "فاتورة البريد الإلكتروني",
 			"invite-employee": "دعوة الموظف",
 			"invite-user": "دعوة المستخدم",
-			"invite-gauzy-teams": "ادعُ فِرق Gauzy",
+			"invite-irtranscripts-teams": "ادعُ فِرق IRTranscripts",
 			"appointment-confirmation": "تأكيد الموعد",
 			"appointment-cancellation": "إلغاء الموعد",
 			"equipment": "إنشاء المعدات",
@@ -6219,7 +6219,7 @@
 			},
 			"SUGGESTED_ENDPOINT": "نقطة النهاية لهذه المنطقة:",
 			"USE_SUGGESTION": "استخدمها",
-			"SAVE_NOTE": "عند الحفظ، يستخدم Gauzy بيانات الاعتماد هذه لإنشاء الحاوية في Wasabi. إذا رفضت Wasabi الطلب، فلن تُحفظ الإعدادات.",
+			"SAVE_NOTE": "عند الحفظ، يستخدم IRTranscripts بيانات الاعتماد هذه لإنشاء الحاوية في Wasabi. إذا رفضت Wasabi الطلب، فلن تُحفظ الإعدادات.",
 			"LABELS": {
 				"ACCESS_KEY_ID": "معرّف مفتاح الوصول",
 				"SECRET_ACCESS_KEY": "مفتاح الوصول السري",
@@ -6398,7 +6398,7 @@
 			}
 		}
 	},
-	"GAUZY_MAINTENANCE": "{{ companySite }} @ الصيانة",
+	"IRTRANSCRIPTS_MAINTENANCE": "{{ companySite }} @ الصيانة",
 	"LEGAL": {
 		"PRIVACY_POLICY": "سياسة الخصوصية",
 		"TERMS_AND_CONDITIONS": "الشروط والأحكام",
@@ -6784,7 +6784,7 @@
 			"SOURCE_TYPES": {
 				"CDN": "CDN",
 				"NPM": "NPM",
-				"GAUZY": "Gauzy"
+				"IRTRANSCRIPTS": "IRTranscripts"
 			},
 			"CDN": {
 				"URL": "رابط CDN",
@@ -6955,7 +6955,7 @@
 	},
 	"OAUTH_CLIENTS": {
 		"TITLE": "عملاء OAuth",
-		"SUBTITLE": "تسجيل وإدارة تطبيقات الطرف الثالث التي يمكنها طلب الوصول إلى Ever Gauzy نيابة عن المستخدمين الخاصين بك.",
+		"SUBTITLE": "تسجيل وإدارة تطبيقات الطرف الثالث التي يمكنها طلب الوصول إلى Ever IRTranscripts نيابة عن المستخدمين الخاصين بك.",
 		"STATUS": {
 			"ACTIVE": "نشط",
 			"INACTIVE": "غير نشط"

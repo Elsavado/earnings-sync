@@ -4,9 +4,9 @@ import { Observable, of } from 'rxjs';
 import { catchError, filter, switchMap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
-import { IInvoice } from '@gauzy/contracts';
-import { ErrorHandlingService, InvoicesService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { IInvoice } from '@irtranscripts/contracts';
+import { ErrorHandlingService, InvoicesService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

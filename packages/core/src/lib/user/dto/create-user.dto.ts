@@ -1,6 +1,6 @@
 import { ApiPropertyOptional, IntersectionType, PartialType } from "@nestjs/swagger";
 import { IsEnum, IsOptional } from "class-validator";
-import { IUserCreateInput, LanguagesEnum } from "@gauzy/contracts";
+import { IUserCreateInput, LanguagesEnum } from "@irtranscripts/contracts";
 import { Trimmed } from "../../shared/decorators/trim.decorator";
 import { RoleFeatureDTO } from "./../../role/dto";
 import { UserEmailDTO } from "./user-email.dto";

@@ -14,9 +14,9 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CommandBus } from '@nestjs/cqrs';
-import { IChangelog, IChangelogCreateInput, IChangelogUpdateInput, ID, IPagination, RolesEnum } from '@gauzy/contracts';
-import { AuthGuard, CrudController, RoleGuard, Roles, UUIDValidationPipe } from '@gauzy/core';
-import { Public } from '@gauzy/common';
+import { IChangelog, IChangelogCreateInput, IChangelogUpdateInput, ID, IPagination, RolesEnum } from '@irtranscripts/contracts';
+import { AuthGuard, CrudController, RoleGuard, Roles, UUIDValidationPipe } from '@irtranscripts/core';
+import { Public } from '@irtranscripts/common';
 import { DeleteResult } from 'typeorm';
 import { Changelog } from './changelog.entity';
 import { ChangelogService } from './changelog.service';

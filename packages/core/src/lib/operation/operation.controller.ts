@@ -11,7 +11,7 @@ import {
 	UseGuards
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ID, IOperation, IOperationStep, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IOperation, IOperationStep, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { paginateRows, resolveRestPage } from '../api/graphql-connection';
 import { ApiErrorCode } from '../core/errors/api-error-codes';
 import { Idempotent } from '../idempotency/idempotent.decorator';

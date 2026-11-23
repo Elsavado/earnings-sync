@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-integration-zapier-ui
+ * Public API Surface of @irtranscripts/plugin-integration-zapier-ui
  */
 
 export * from './lib/components/zapier-actions/zapier-actions.component';

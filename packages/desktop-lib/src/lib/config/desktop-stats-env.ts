@@ -1,10 +1,10 @@
 /**
- * The anonymous usage statistics settings of the API a desktop app runs locally (Gauzy Desktop with
- * its integrated server, Gauzy Server, Gauzy API Server).
+ * The anonymous usage statistics settings of the API a desktop app runs locally (IRTranscripts Desktop with
+ * its integrated server, IRTranscripts Server, IRTranscripts API Server).
  *
  * - `EVER_INSTALL_SOURCE=desktop`: the report counts the installation as a desktop one. Applied
  *   after the user's additional settings, so it cannot be changed there.
- * - `GAUZY_APP_VERSION`: the release of the desktop app, so the report carries it (the API reads
+ * - `IRTRANSCRIPTS_APP_VERSION`: the release of the desktop app, so the report carries it (the API reads
  *   it; a desktop build sets nothing else).
  * - `EVER_STATS_ENABLED`: the settings field is free text, while the API switches the statistics
  *   off only for the exact value `false`. `false`, `off`, `no`, `0` and `disabled`, in any case and
@@ -29,7 +29,7 @@ export function applyDesktopStatsEnv(target: Record<string, string | undefined>,
 export function desktopStatsEnv(additional: object | null | undefined, version: string): Record<string, string> {
 	const env: Record<string, string> = { EVER_INSTALL_SOURCE: 'desktop' };
 	if (typeof version === 'string' && version.trim()) {
-		env['GAUZY_APP_VERSION'] = version.trim();
+		env['IRTRANSCRIPTS_APP_VERSION'] = version.trim();
 	}
 	const raw = (additional as Record<string, unknown> | null | undefined)?.['EVER_STATS_ENABLED'];
 	if (typeof raw === 'string' && raw.trim() !== '') {

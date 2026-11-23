@@ -7,7 +7,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import { IsNumber, IsOptional, IsString, IsUUID, IsBoolean, IsInt, Min } from 'class-validator';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 
 /**
  * StockTransferLine request DTO validation.

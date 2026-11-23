@@ -4,14 +4,14 @@ import { Observable, EMPTY, of, combineLatest } from 'rxjs';
 import { NbMenuItem, NbMenuService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
-import { IUser, IWorkSpace, IUserSigninWorkspaceResponse } from '@gauzy/contracts';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
-import { Store, AuthService, ToastrService, WorkspaceResetService } from '@gauzy/ui-core/core';
+import { IUser, IWorkSpace, IUserSigninWorkspaceResponse } from '@irtranscripts/contracts';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
+import { Store, AuthService, ToastrService, WorkspaceResetService } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
-	selector: 'ngx-gauzy-workspaces',
+	selector: 'ngx-irtranscripts-workspaces',
 	templateUrl: './workspaces.component.html',
 	styleUrls: ['./workspaces.component.scss'],
 	changeDetection: ChangeDetectionStrategy.Eager,

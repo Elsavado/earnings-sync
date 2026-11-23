@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsOptional } from 'class-validator';
-import { EmployeeKindEnum } from '@gauzy/contracts';
+import { EmployeeKindEnum } from '@irtranscripts/contracts';
 import { BaseQueryDTO } from '../../core/crud';
 import { Employee } from '../employee.entity';
 

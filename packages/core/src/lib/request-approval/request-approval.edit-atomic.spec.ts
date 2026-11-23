@@ -5,13 +5,13 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { LockMode } from '@mikro-orm/core';
 import { FindOperator } from 'typeorm';
-import { isMySQL, isPostgres } from '@gauzy/config';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
 import {
 	ApprovalPolicyTypesStringEnum,
 	PermissionsEnum,
 	RequestApprovalStatusTypesEnum,
 	RolesEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { CrudService } from '../core/crud/crud.service';
 import { RequestApprovalEmployee, RequestApprovalTeam } from '../core/entities/internal';
@@ -42,8 +42,8 @@ import {
  * The last block pins the statements each ORM arm sends.
  */
 
-jest.mock('@gauzy/config', () => ({
-	...jest.requireActual('@gauzy/config'),
+jest.mock('@irtranscripts/config', () => ({
+	...jest.requireActual('@irtranscripts/config'),
 	isPostgres: jest.fn(() => false),
 	isMySQL: jest.fn(() => false)
 }));

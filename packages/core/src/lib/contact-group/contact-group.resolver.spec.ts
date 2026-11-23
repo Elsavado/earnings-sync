@@ -11,8 +11,8 @@ import { BadRequestException, ExecutionContext, HttpException, NotFoundException
 import { Reflector } from '@nestjs/core';
 import { buildSchema, printSchema } from 'graphql';
 import { SUBSCRIPTION_OPTIONS_METADATA } from '@nestjs/graphql/dist/graphql.constants';
-import { ContactGroupSource, ContactGroupType, PermissionsEnum } from '@gauzy/contracts';
-import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@gauzy/constants';
+import { ContactGroupSource, ContactGroupType, PermissionsEnum } from '@irtranscripts/contracts';
+import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { CursorCodec } from '../api/cursor';
 import { GraphqlPubSub } from '../graphql/subscriptions/graphql-pubsub.service';
 import { SubscriptionCatalogue } from '../graphql/subscriptions/subscription-catalogue';

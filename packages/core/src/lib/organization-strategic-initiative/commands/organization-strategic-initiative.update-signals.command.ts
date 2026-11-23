@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { ID, IOrganizationStrategicSignals } from '@gauzy/contracts';
+import { ID, IOrganizationStrategicSignals } from '@irtranscripts/contracts';
 
 /**
  * Command to update strategic signals of an initiative.

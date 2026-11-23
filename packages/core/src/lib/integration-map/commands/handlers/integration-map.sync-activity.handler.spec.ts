@@ -1,7 +1,7 @@
 import '../../../core/entities/internal';
 
 import { NotFoundException } from '@nestjs/common';
-import { IntegrationEntity } from '@gauzy/contracts';
+import { IntegrationEntity } from '@irtranscripts/contracts';
 import { RequestContext } from '../../../core/context';
 import { ActivityCreateCommand, ActivityUpdateCommand } from '../../../time-tracking/activity/commands';
 import { IntegrationMapSyncEntityCommand } from '../integration-map.sync-entity.command';
@@ -31,7 +31,7 @@ describe('IntegrationMapSyncActivityHandler', () => {
 	afterEach(() => jest.restoreAllMocks());
 
 	it('rejects when the update of the mapped activity fails, creating nothing', async () => {
-		const integrationMap = { id: 'map-1', gauzyId: 'activity-1' };
+		const integrationMap = { id: 'map-1', irtranscriptsId: 'activity-1' };
 		const { execute, handler } = setup({ findOneByWhereOptions: jest.fn().mockResolvedValue(integrationMap) });
 		execute.mockRejectedValue(new Error('update failed'));
 
@@ -42,7 +42,7 @@ describe('IntegrationMapSyncActivityHandler', () => {
 	});
 
 	it('updates a copy of the entity with the mapped id and returns the map', async () => {
-		const integrationMap = { id: 'map-1', gauzyId: 'activity-1' };
+		const integrationMap = { id: 'map-1', irtranscriptsId: 'activity-1' };
 		const { execute, handler } = setup({ findOneByWhereOptions: jest.fn().mockResolvedValue(integrationMap) });
 		execute.mockResolvedValue({ id: 'activity-1' });
 		const entity = activity();
@@ -68,7 +68,7 @@ describe('IntegrationMapSyncActivityHandler', () => {
 		expect(create.input).toEqual(activity());
 		expect(map).toBeInstanceOf(IntegrationMapSyncEntityCommand);
 		expect(map.input).toMatchObject({
-			gauzyId: 'activity-new',
+			irtranscriptsId: 'activity-new',
 			entity: IntegrationEntity.ACTIVITY,
 			sourceId: '42',
 			integrationId: 'integration-1',

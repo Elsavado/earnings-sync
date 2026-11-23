@@ -1,6 +1,6 @@
 import { IntersectionType, OmitType } from '@nestjs/swagger';
 import { IsObject, IsOptional, IsUUID } from 'class-validator';
-import { ID, IDashboardCreateInput, IEmployee } from '@gauzy/contracts';
+import { ID, IDashboardCreateInput, IEmployee } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../core/dto';
 import { IsEmployeeBelongsToOrganization } from '../../shared/validators';
 import { Dashboard } from '../dashboard.entity';

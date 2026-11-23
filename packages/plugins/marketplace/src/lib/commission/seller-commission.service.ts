@@ -7,8 +7,8 @@ import {
 	ICommissionTier,
 	IResolvedCommission,
 	RoundingMode
-} from '@gauzy/contracts';
-import { Money, compareDecimalStrings } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { Money, compareDecimalStrings } from '@irtranscripts/core';
 
 /**
  * A resolved commission and the arithmetic it produced, ready to be snapshotted onto a ledger row.

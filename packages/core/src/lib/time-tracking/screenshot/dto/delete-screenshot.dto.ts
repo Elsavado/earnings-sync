@@ -1,4 +1,4 @@
-import { IDeleteScreenshot } from '@gauzy/contracts';
+import { IDeleteScreenshot } from '@irtranscripts/contracts';
 import { ForceDeleteBaseDTO } from '../../../core/dto';
 import { Screenshot } from '../screenshot.entity';
 

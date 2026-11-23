@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { FindOptionsWhere, SelectQueryBuilder } from 'typeorm';
-import { PermissionsEnum, IGetTimeSlotInput, ID, ITimeSlot, ITimeSlotMinute } from '@gauzy/contracts';
-import { isEmpty, isNotEmpty } from '@gauzy/utils';
+import { PermissionsEnum, IGetTimeSlotInput, ID, ITimeSlot, ITimeSlotMinute } from '@irtranscripts/contracts';
+import { isEmpty, isNotEmpty } from '@irtranscripts/utils';
 import { RequestContext } from '../../core/context';
 import { TenantAwareCrudService } from './../../core/crud';
 import { moment } from '../../core/moment-extend';

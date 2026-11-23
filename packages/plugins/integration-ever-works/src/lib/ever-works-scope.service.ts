@@ -1,8 +1,8 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { isUUID } from 'class-validator';
 import { DataSource } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { RequestContext, UserOrganization } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { RequestContext, UserOrganization } from '@irtranscripts/core';
 
 /** The caller's tenant, user and organization, after the membership check. */
 export interface EverWorksScope {

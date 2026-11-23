@@ -1,5 +1,5 @@
 import { ArgumentMetadata, BadRequestException, ValidationPipe } from '@nestjs/common';
-import { DailyPlanStatusEnum } from '@gauzy/contracts';
+import { DailyPlanStatusEnum } from '@irtranscripts/contracts';
 
 /**
  * The organization and employee membership checks need a request context and a database, and this

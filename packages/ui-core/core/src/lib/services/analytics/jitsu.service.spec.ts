@@ -1,4 +1,4 @@
-jest.mock('@gauzy/ui-config', () => ({ environment: { JITSU_BROWSER_URL: '', JITSU_BROWSER_WRITE_KEY: '' } }));
+jest.mock('@irtranscripts/ui-config', () => ({ environment: { JITSU_BROWSER_URL: '', JITSU_BROWSER_WRITE_KEY: '' } }));
 jest.mock('@jitsu/js', () => ({ jitsuAnalytics: jest.fn(), emptyAnalytics: { page: jest.fn() } }));
 
 import { NavigationEnd } from '@angular/router';

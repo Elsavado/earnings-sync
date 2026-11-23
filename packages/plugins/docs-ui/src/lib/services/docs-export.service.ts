@@ -1,7 +1,7 @@
 import { Injectable, SecurityContext, inject } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { catchError, firstValueFrom, of } from 'rxjs';
-import { DocumentKindEnum, ID, IDocument } from '@gauzy/contracts';
+import { DocumentKindEnum, ID, IDocument } from '@irtranscripts/contracts';
 import { stripUnsafeUrls } from '../editor/read-only/safe-url.util';
 import { DocumentsService } from './documents.service';
 

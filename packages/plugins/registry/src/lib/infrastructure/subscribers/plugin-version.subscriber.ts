@@ -1,4 +1,4 @@
-import { BaseEntityEventSubscriber } from '@gauzy/core';
+import { BaseEntityEventSubscriber } from '@irtranscripts/core';
 import { Logger } from '@nestjs/common';
 import { DataSource, EventSubscriber, InsertEvent, UpdateEvent } from 'typeorm';
 import { PluginVersion } from '../../domain/entities/plugin-version.entity';

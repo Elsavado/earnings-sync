@@ -3,7 +3,7 @@
 <div class="custom-card">
 	@if(count) {
 	<div class="custom-card-header">
-		<ngx-gauzy-filters
+		<ngx-irtranscripts-filters
 			[isTimeFormat]="true"
 			[saveFilters]="(datePickerConfig$ | async).isSaveDatePicker"
 			(filtersChange)="filtersChange($event)"
@@ -11,7 +11,7 @@
 			[hasSourceFilter]="false"
 			[hasActivityLevelFilter]="false"
 		>
-		</ngx-gauzy-filters>
+		</ngx-irtranscripts-filters>
 	</div>
 	@defer{
 	<div

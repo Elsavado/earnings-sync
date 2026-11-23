@@ -15,7 +15,7 @@ import * as path from 'path';
  * Loading `select-in` does not help: those reference joins stay in the root statement (72).
  *
  * TypeORM joins only what it is asked for: `employee` and `timeSlots`, which it filters on. The platform's MikroORM
- * configuration now does the same (`MIKRO_ORM_AUTO_JOIN_REFS_FOR_FILTERS` in `@gauzy/config`), and this suite
+ * configuration now does the same (`MIKRO_ORM_AUTO_JOIN_REFS_FOR_FILTERS` in `@irtranscripts/config`), and this suite
  * measures the read against it and against MikroORM's own default, and the TypeORM read beside it.
  *
  * The entities are imported under `DB_ORM=mikro-orm` in a registry kept open while both ORMs build their metadata
@@ -82,13 +82,13 @@ function summarize(row: any): IRead['rows'][number] {
 async function measure(): Promise<IMeasurement> {
 	const previous = process.env.DB_ORM;
 	process.env.DB_ORM = 'mikro-orm';
-	const file = path.join(os.tmpdir(), `gauzy-time-log-joins-${process.pid}-${Date.now()}.sqlite3`);
+	const file = path.join(os.tmpdir(), `irtranscripts-time-log-joins-${process.pid}-${Date.now()}.sqlite3`);
 	const measurement = {} as IMeasurement;
 
 	try {
 		await jest.isolateModulesAsync(async () => {
 			const { coreEntities } = require('../../core/entities');
-			const { dbMikroOrmConnectionConfig } = require('@gauzy/config');
+			const { dbMikroOrmConnectionConfig } = require('@irtranscripts/config');
 			const { DataSource } = require('typeorm');
 			const { MikroORM } = require('@mikro-orm/core');
 			const { MultiORMEnum } = require('../../core/utils');

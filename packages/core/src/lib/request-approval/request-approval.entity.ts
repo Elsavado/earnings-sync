@@ -18,7 +18,7 @@ import {
 	CurrencyCode,
 	DecimalString,
 	ID
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	ApprovalPolicy,
 	RequestApprovalEmployee,

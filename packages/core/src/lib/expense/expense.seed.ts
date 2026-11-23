@@ -1,11 +1,11 @@
 import { DataSource } from 'typeorm';
 import { faker } from '@faker-js/faker';
-import { IOrganization, IEmployee, IExpenseCategory, IOrganizationVendor, ITenant } from '@gauzy/contracts';
+import { IOrganization, IEmployee, IExpenseCategory, IOrganizationVendor, ITenant } from '@irtranscripts/contracts';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as csv from 'csv-parser';
 import * as moment from 'moment';
-import { environment as env } from '@gauzy/config';
+import { environment as env } from '@irtranscripts/config';
 import { Expense } from './../core/entities/internal';
 
 /**

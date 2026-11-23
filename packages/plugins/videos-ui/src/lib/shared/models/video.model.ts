@@ -4,7 +4,7 @@ import {
 	ITimeSlot,
 	IEmployee,
 	ID
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 export interface IVideo extends IBasePerTenantAndOrganizationEntityModel {
 	// Core video properties

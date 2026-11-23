@@ -1,5 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 /**
  * The organization a GraphQL write is narrowed to, refused when the caller names none.

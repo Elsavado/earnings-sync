@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
-import { CurrencyCode } from '@gauzy/contracts';
+import { CurrencyCode } from '@irtranscripts/contracts';
 import { SubscriptionBillingPeriod } from '../../subscription.types';
 import { SubscriptionPlanDTO } from './subscription-plan.dto';
 

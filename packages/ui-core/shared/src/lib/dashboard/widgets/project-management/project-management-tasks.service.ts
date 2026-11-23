@@ -2,9 +2,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, Subject, throwError } from 'rxjs';
 import { catchError, map, shareReplay, startWith, switchMap, takeUntil } from 'rxjs/operators';
-import { IPagination, ITask } from '@gauzy/contracts';
-import { API_PREFIX, toParams } from '@gauzy/ui-core/common';
-import { IDashboardWidgetContext, STATISTICS_CACHE_TTL_MS } from '@gauzy/ui-core/core';
+import { IPagination, ITask } from '@irtranscripts/contracts';
+import { API_PREFIX, toParams } from '@irtranscripts/ui-core/common';
+import { IDashboardWidgetContext, STATISTICS_CACHE_TTL_MS } from '@irtranscripts/ui-core/core';
 import { IProjectManagementSnapshot } from './project-management-dashboard.types';
 import { buildProjectManagementSnapshot, projectManagementScopeKey, scopedId } from './project-management-widget.utils';
 

@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm';
-import { getConfig } from '@gauzy/config';
-import { ITaskPriority } from '@gauzy/contracts';
+import { getConfig } from '@irtranscripts/config';
+import { ITaskPriority } from '@irtranscripts/contracts';
 import { cleanAssets, copyAssets } from './../../core/seeds/utils';
 import { DEFAULT_GLOBAL_PRIORITIES } from './default-global-priorities';
 import { TaskPriority } from './priority.entity';

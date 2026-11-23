@@ -1,8 +1,8 @@
 import { DataSource } from 'typeorm';
-import { IEmployee, IOrganization, ITenant, RecurringExpenseDefaultCategoriesEnum } from '@gauzy/contracts';
+import { IEmployee, IOrganization, ITenant, RecurringExpenseDefaultCategoriesEnum } from '@irtranscripts/contracts';
 import { faker } from '@faker-js/faker';
 import * as moment from 'moment';
-import { environment as env } from '@gauzy/config';
+import { environment as env } from '@irtranscripts/config';
 import { EmployeeRecurringExpense } from './employee-recurring-expense.entity';
 
 export const createRandomEmployeeRecurringExpense = async (

@@ -1,9 +1,9 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { EntityManager, IsNull } from 'typeorm';
-import { restatesStoredValue } from '@gauzy/common';
-import { DatabaseTypeEnum } from '@gauzy/config';
-import { DecimalString, ID, IPagination } from '@gauzy/contracts';
-import { Money, readAffectedRows } from '@gauzy/core';
+import { restatesStoredValue } from '@irtranscripts/common';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
+import { DecimalString, ID, IPagination } from '@irtranscripts/contracts';
+import { Money, readAffectedRows } from '@irtranscripts/core';
 import { PaymentCollection } from './payment-collection.entity';
 import { TypeOrmPaymentCollectionRepository } from './repository/type-orm-payment-collection.repository';
 import { MikroOrmPaymentCollectionRepository } from './repository/mikro-orm-payment-collection.repository';

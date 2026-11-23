@@ -9,9 +9,9 @@
 @use '@nebular/theme/styles/theming' as *;
 // @nebular out of the box themes
 @use '@nebular/theme/styles/themes' as *;
-// Shared gauzy token maps — without them every gauzy-* custom property this
+// Shared irtranscripts token maps — without them every irtranscripts-* custom property this
 // theme emits is EMPTY, and all the modern surfaces render broken on it.
-@use '../gauzy-theme-maps' as gz;
+@use '../irtranscripts-theme-maps' as gz;
 
 $theme: (
   color-primary-100: #e8cbfe,
@@ -494,7 +494,7 @@ $theme: (
 );
 
 $nb-themes: nb-register-theme(
-	map.merge(map.merge($theme, gz.$gauzy-canvas-light), gz.$gauzy-shared-light),
+	map.merge(map.merge($theme, gz.$irtranscripts-canvas-light), gz.$irtranscripts-shared-light),
 	material-light,
 	default
 );

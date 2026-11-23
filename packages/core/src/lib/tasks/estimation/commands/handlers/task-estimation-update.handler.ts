@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { ITaskEstimation, ITaskEstimationUpdateInput } from '@gauzy/contracts';
+import { ITaskEstimation, ITaskEstimationUpdateInput } from '@irtranscripts/contracts';
 import { CommandBus } from '@nestjs/cqrs';
 import { TaskEstimationService } from '../../task-estimation.service';
 import { TaskEstimationUpdateCommand } from '../task-estimation-update.command';

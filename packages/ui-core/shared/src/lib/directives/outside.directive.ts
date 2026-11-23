@@ -1,7 +1,7 @@
 import { Directive, ElementRef, EventEmitter, Output, HostListener, inject } from '@angular/core';
 
 @Directive({
-	selector: '[gauzyOutside]',
+	selector: '[irtranscriptsOutside]',
 	standalone: true
 })
 export class OutsideDirective {

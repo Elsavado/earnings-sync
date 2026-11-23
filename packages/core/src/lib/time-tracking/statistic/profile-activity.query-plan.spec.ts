@@ -5,8 +5,8 @@ jest.mock('dotenv', () => ({
 import * as dotenv from 'dotenv';
 import '../../core/entities/internal';
 
-import { DatabaseTypeEnum } from '@gauzy/config';
-import { ID, IGetProfileActivity, IProfileActivity } from '@gauzy/contracts';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
+import { ID, IGetProfileActivity, IProfileActivity } from '@irtranscripts/contracts';
 import { DataSource, EntitySchema, Repository, SelectQueryBuilder } from 'typeorm';
 import { MultiORMEnum } from '../../core/utils';
 import {

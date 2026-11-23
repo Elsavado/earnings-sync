@@ -13,10 +13,10 @@
  *
  * **Nothing the defect lives in is doubled.** The table and its indexes are the catalog migration's own
  * SQLite DDL (run by the migration itself); the service is the real one over a TypeORM repository of that
- * database. `@gauzy/core` is doubled at the module boundary for the reason the package's other suites give
+ * database. `@irtranscripts/core` is doubled at the module boundary for the reason the package's other suites give
  * (its barrel boots the whole application); only the base class and the request context's readers stand in.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 
 	class BaseEntity {}
@@ -54,7 +54,7 @@ const ORG = '3c7e0000-0000-4000-8000-0000000000a1';
 
 import 'reflect-metadata';
 import { DataSource, EntitySchema } from 'typeorm';
-import { ImageAsset, ProductVariant } from '@gauzy/core';
+import { ImageAsset, ProductVariant } from '@irtranscripts/core';
 import { CreateCatalogTables1791000000100 } from '../database/migrations/1791000000100-CreateCatalogTables';
 import { ProductVariantMedia } from './product-variant-media.entity';
 import { ProductVariantMediaService } from './product-variant-media.service';

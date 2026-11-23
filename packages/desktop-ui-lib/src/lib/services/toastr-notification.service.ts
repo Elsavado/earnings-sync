@@ -1,6 +1,6 @@
 import { Inject, Injectable, Optional } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
-import { GAUZY_ENV } from '../constants';
+import { IRTRANSCRIPTS_ENV } from '../constants';
 import { NotificationService } from './notification.service';
 
 @Injectable({
@@ -10,12 +10,12 @@ export class ToastrNotificationService extends NotificationService {
 	constructor(
 		private readonly _toastrService: NbToastrService,
 		@Optional()
-		@Inject(GAUZY_ENV)
+		@Inject(IRTRANSCRIPTS_ENV)
 		environment: any
 	) {
 		super();
 		this._notification = {
-			title: environment?.DESCRIPTION || 'Gauzy',
+			title: environment?.DESCRIPTION || 'IRTranscripts',
 			message: ''
 		};
 	}

@@ -11,7 +11,7 @@ import {
 	PaymentAccountHolderStatus,
 	PaymentAccountHolderType,
 	PaymentAccountVerificationStatus
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { OrganizationContact, TenantOrganizationBaseEntity } from '../core/entities/internal';
 import {
 	ColumnIndex,

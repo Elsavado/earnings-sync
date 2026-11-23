@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsInt, IsOptional, IsString, IsUUID, Length, Min } from 'class-validator';
 import { RelationId } from 'typeorm';
-import { CurrencyCode, DecimalString, ID, JsonData } from '@gauzy/contracts';
+import { CurrencyCode, DecimalString, ID, JsonData } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseEntity } from '../core/entities/internal';
 import {
 	ColumnIndex,

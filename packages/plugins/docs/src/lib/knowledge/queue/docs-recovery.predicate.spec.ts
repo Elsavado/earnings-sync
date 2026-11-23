@@ -1,4 +1,4 @@
-import { DocumentKindEnum, DocumentKnowledgeStatusEnum, DocumentStatusEnum } from '@gauzy/contracts';
+import { DocumentKindEnum, DocumentKnowledgeStatusEnum, DocumentStatusEnum } from '@irtranscripts/contracts';
 import { classifyRecoveryAction, IRecoveryThresholds } from './docs-recovery.predicate';
 
 const thresholds: IRecoveryThresholds = {

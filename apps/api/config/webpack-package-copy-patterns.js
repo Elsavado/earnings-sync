@@ -100,18 +100,18 @@ function getDirectoryEntries(dir) {
 }
 
 /**
- * The compiled `@gauzy/config` module that knows which environment file the package should export.
+ * The compiled `@irtranscripts/config` module that knows which environment file the package should export.
  * It lives in the package's own dist, so it exists whenever the package does.
  */
 const CONFIG_ENVIRONMENT_SELECTOR = path.join('src', 'lib', 'environments', 'select-compiled-environment.js');
 
 /**
- * Builds the copy transform that gives the application its own `@gauzy/config` environment.
+ * Builds the copy transform that gives the application its own `@irtranscripts/config` environment.
  *
  * `environment.ts` (development) and `environment.prod.ts` (production) are both compiled into
- * `dist/packages/config`, which is shared by every build in the workspace; `@gauzy/config` is externalized,
+ * `dist/packages/config`, which is shared by every build in the workspace; `@irtranscripts/config` is externalized,
  * so a `fileReplacements` entry of this webpack build never reaches it. The copy into this app's
- * `node_modules/@gauzy/config` is where the choice belongs: the `environment.js` written there is the
+ * `node_modules/@irtranscripts/config` is where the choice belongs: the `environment.js` written there is the
  * compiled file of the requested environment, whatever `dist/packages/config` currently holds, so two
  * builds with different configurations running at the same time cannot affect each other.
  *
@@ -138,7 +138,7 @@ function configEnvironmentTransform(configPackageDir, environment) {
  * @param {string} packageJsonPath - Path to package.json
  * @param {string} targetNodeModulesDir - Target node_modules directory
  * @param {Array} patterns - Array to add patterns to
- * @param {{environment?: 'development'|'production'}} [options] - `environment`: the `@gauzy/config`
+ * @param {{environment?: 'development'|'production'}} [options] - `environment`: the `@irtranscripts/config`
  *   environment this build ships (see `configEnvironmentTransform`); omitted, the package is copied as compiled.
  * @returns {number} 1 if package was skipped, 0 otherwise
  */
@@ -157,7 +157,7 @@ function processPackageDirectory(fullPath, packageJsonPath, targetNodeModulesDir
 		return 1;
 	}
 
-	const selectsEnvironment = packageJson.name === '@gauzy/config' && options.environment;
+	const selectsEnvironment = packageJson.name === '@irtranscripts/config' && options.environment;
 
 	patterns.push({
 		from: fullPath,
@@ -170,7 +170,7 @@ function processPackageDirectory(fullPath, packageJsonPath, targetNodeModulesDir
 		// Terser pass also minified every copied package and turned `class InventoryPlugin` into an anonymous
 		// class named after its decorator alias (`InventoryPlugin_1`). Plugin dependencies (`dependsOn`) are
 		// matched by class name, so a production build of the API refused to boot ("Plugin InventoryPlugin_1
-		// requires "@gauzy/plugin-catalog", which is not present in the configured plugin list"), and any other
+		// requires "@irtranscripts/plugin-catalog", which is not present in the configured plugin list"), and any other
 		// name-based lookup (Nest's logger contexts, `constructor.name` checks) saw mangled names too.
 		info: { minimized: true }
 	});
@@ -185,7 +185,7 @@ function processPackageDirectory(fullPath, packageJsonPath, targetNodeModulesDir
  *
  * @param {string} distPackagesDir - Source directory containing built packages.
  * @param {string} targetNodeModulesDir - Destination directory inside dist/apps/api.
- * @param {{environment?: 'development'|'production'}} [options] - `environment`: which `@gauzy/config`
+ * @param {{environment?: 'development'|'production'}} [options] - `environment`: which `@irtranscripts/config`
  *   environment this build ships (`environment.ts` or `environment.prod.ts`, see `configEnvironmentTransform`).
  *   Omitted, every package is copied exactly as compiled.
  * @returns {Array} Array of copy patterns for CopyWebpackPlugin.

@@ -5,7 +5,7 @@ import { Injectable, NgZone, OnDestroy, inject, provideAppInitializer, type Envi
  * The CSS custom property every ng-select overlay pane carries: the width of the select it
  * belongs to. `_overrides.scss` uses it as the pane's `min-width`.
  */
-export const NG_SELECT_TRIGGER_WIDTH_VAR = '--gauzy-ng-select-trigger-width';
+export const NG_SELECT_TRIGGER_WIDTH_VAR = '--irtranscripts-ng-select-trigger-width';
 
 /**
  * Restores "a dropdown panel is never narrower than its select" for every ng-select in the app.

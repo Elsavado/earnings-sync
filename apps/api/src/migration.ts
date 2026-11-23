@@ -1,6 +1,6 @@
 import * as yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import { createMigration, generateMigration, revertLastDatabaseMigration, runDatabaseMigrations } from '@gauzy/core';
+import { createMigration, generateMigration, revertLastDatabaseMigration, runDatabaseMigrations } from '@irtranscripts/core';
 import { pluginConfig } from './plugin.config';
 
 // yargs 18 removed the global singleton: build the parser from this process's arguments.

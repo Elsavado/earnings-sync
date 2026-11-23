@@ -1,4 +1,4 @@
-# @gauzy/plugin-camshot
+# @irtranscripts/plugin-camshot
 
 This library was generated with [Nx](https://nx.dev). This plugin provides functionality to upload and manage camera shots.
 
@@ -26,7 +26,7 @@ After building your library with `yarn nx build plugin-camshot`, go to the dist 
 Install the Camshot plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-camshot
+npm install @irtranscripts/plugin-camshot
 # or
-yarn add @gauzy/plugin-camshot
+yarn add @irtranscripts/plugin-camshot
 ```

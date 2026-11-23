@@ -1,5 +1,5 @@
 import { IntersectionType, OmitType } from "@nestjs/swagger";
-import { ISharedEntityCreateInput } from "@gauzy/contracts";
+import { ISharedEntityCreateInput } from "@irtranscripts/contracts";
 import { TenantOrganizationBaseDTO } from "../../core/dto";
 import { SharedEntity } from "../shared-entity.entity";
 

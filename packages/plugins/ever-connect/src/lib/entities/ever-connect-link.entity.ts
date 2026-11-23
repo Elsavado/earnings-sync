@@ -1,9 +1,9 @@
 import { PrimaryKey } from '@mikro-orm/core';
 import { PrimaryColumn } from 'typeorm';
-import { ColumnIndex, MultiORMColumn, MultiORMEntity, SkipExport } from '@gauzy/core';
+import { ColumnIndex, MultiORMColumn, MultiORMEntity, SkipExport } from '@irtranscripts/core';
 
 /**
- * One Gauzy organization linked to one Ever organization (a tenant link). Gauzy's own record of the
+ * One IRTranscripts organization linked to one Ever organization (a tenant link). IRTranscripts's own record of the
  * link is the `integration_tenant` row named `Ever_Connect` (`integrationTenantId`), with the link
  * id, the Ever organization, its handle and the link status as its settings; this row keeps what
  * does not fit there: the link's entitlement document, stored encrypted.
@@ -26,7 +26,7 @@ export class EverConnectLink {
 	@MultiORMColumn({ type: 'varchar', length: 36 })
 	organizationId: string;
 
-	/** The Gauzy `integration_tenant` row of this link. */
+	/** The IRTranscripts `integration_tenant` row of this link. */
 	@MultiORMColumn({ type: 'varchar', length: 36, nullable: true })
 	integrationTenantId?: string | null;
 

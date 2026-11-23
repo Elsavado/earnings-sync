@@ -6,7 +6,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { RolePermissionModule } from '@gauzy/core';
+import { RolePermissionModule } from '@irtranscripts/core';
 import { InventorySequenceModule } from './../inventory-sequence.module';
 import { StockLevelModule } from './../stock-level/stock-level.module';
 import { StockCount } from './stock-count.entity';

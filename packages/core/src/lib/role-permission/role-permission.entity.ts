@@ -1,7 +1,7 @@
 
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { RelationId } from 'typeorm';
-import { PermissionsEnum, IRolePermission } from '@gauzy/contracts';
+import { PermissionsEnum, IRolePermission } from '@irtranscripts/contracts';
 import { Role, TenantBaseEntity } from '../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from './../core/decorators/entity';
 import { MikroOrmRolePermissionRepository } from './repository/mikro-orm-role-permission.repository';

@@ -2,7 +2,7 @@
 import '../core/entities/internal';
 
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 import { decode, sign, verify } from 'jsonwebtoken';
 import { TokenPurposeEnum, verifyPurposeToken } from '../auth/purpose-token';
 import { EmployeeAppointmentService } from './employee-appointment.service';

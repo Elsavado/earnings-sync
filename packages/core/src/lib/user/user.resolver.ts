@@ -12,7 +12,7 @@ import {
 	IUserUiPreferencesUpdateInput,
 	LanguagesEnum,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	ConnectionFilter,
 	ConnectionPageRequest,
@@ -20,7 +20,7 @@ import {
 	GraphqlConnection,
 	buildConnection
 } from '../api/graphql-connection';
-import { FeatureFlag } from '@gauzy/common';
+import { FeatureFlag } from '@irtranscripts/common';
 import { IBulkCreateInput, IBulkCreatePayload, applyAsSingleCreate, toBulkCreatePayload } from '../api/bulk-create';
 import { BulkExecutor } from '../api/bulk-executor.service';
 import { bulkOptionsOf } from '../api/bulk.decorator';

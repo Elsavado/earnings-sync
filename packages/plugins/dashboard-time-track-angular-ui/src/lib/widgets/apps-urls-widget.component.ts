@@ -5,9 +5,9 @@ import { TranslatePipe } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { IActivitiesStatistics } from '@gauzy/contracts';
-import { IDashboardWidgetContext, normalizeDurationPercentage } from '@gauzy/ui-core/core';
-import { ActivityItemModule } from '@gauzy/ui-core/shared';
+import { IActivitiesStatistics } from '@irtranscripts/contracts';
+import { IDashboardWidgetContext, normalizeDurationPercentage } from '@irtranscripts/ui-core/core';
+import { ActivityItemModule } from '@irtranscripts/ui-core/shared';
 import { BaseTimeTrackListWidgetComponent } from './base-time-track-list-widget.component';
 import { TimeTrackWidgetStateComponent } from './time-track-widget-state.component';
 

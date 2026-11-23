@@ -1,11 +1,11 @@
 /**
  * TASK 9 (improvement roadmap) — Unified Observability and Correlation IDs.
  *
- * `@gauzy/core` boots the entire application graph on import (entities -> bootstrap), so — same as
+ * `@irtranscripts/core` boots the entire application graph on import (entities -> bootstrap), so — same as
  * `document-processing.transitions.spec.ts` — the framework seam this test touches
  * (`RequestContext`) is mocked at the module boundary; `snapshotOf()` itself is real.
  */
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	FileStorage: class {},
 	EventBus: class {},
 	RequestContext: {
@@ -13,7 +13,7 @@ jest.mock('@gauzy/core', () => ({
 		currentCorrelationId: jest.fn()
 	}
 }));
-jest.mock('@gauzy/config', () => ({ isSqlite: () => false, isBetterSqlite3: () => false }));
+jest.mock('@irtranscripts/config', () => ({ isSqlite: () => false, isBetterSqlite3: () => false }));
 jest.mock('../docs.config', () => ({ getDocsConfig: () => ({ maxExtractedChars: 500_000 }) }));
 jest.mock('../entities/document.entity', () => ({ Document: class {} }));
 jest.mock('../events/document.event', () => ({ DocumentEvent: class {} }));
@@ -22,8 +22,8 @@ jest.mock('../dto', () => ({}));
 jest.mock('./document.service', () => ({ DocumentService: class {} }));
 jest.mock('../knowledge/queue/docs-queue.service', () => ({ DocsQueueService: class {} }));
 
-import { IDocument } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { IDocument } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { DocumentProcessingService } from './document-processing.service';
 
 describe('DocumentProcessingService.snapshotOf — correlation id propagation', () => {

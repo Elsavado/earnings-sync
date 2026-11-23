@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsObject, IsUUID, ValidateIf } from 'class-validator';
-import { ID, IOrganizationTeam, IRelationalOrganizationTeam } from '@gauzy/contracts';
+import { ID, IOrganizationTeam, IRelationalOrganizationTeam } from '@irtranscripts/contracts';
 import { OrganizationTeam } from '../organization-team.entity';
 
 export class OrganizationTeamFeatureDTO implements IRelationalOrganizationTeam {

@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IRole } from '@gauzy/contracts';
+import { IRole } from '@irtranscripts/contracts';
 import { RolePermissionService } from '../../../role-permission/role-permission.service';
 import { RoleService } from '../../role.service';
 import { TenantRoleBulkCreateCommand } from '../tenant-role-bulk-create.command';

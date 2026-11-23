@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { DocumentKnowledgeStatusEnum, DocumentReviewStatusEnum, IDocument } from '@gauzy/contracts';
+import { DocumentKnowledgeStatusEnum, DocumentReviewStatusEnum, IDocument } from '@irtranscripts/contracts';
 
 /**
  * AI knowledge badge; a PENDING review overlays the amber review pill next to it.
@@ -26,10 +26,10 @@ import { DocumentKnowledgeStatusEnum, DocumentReviewStatusEnum, IDocument } from
 				align-items: center;
 				gap: 0.25rem;
 				max-width: 100%;
-				height: var(--gauzy-table-badge-height, 1.25rem);
-				padding: 0 var(--gauzy-table-chip-padding-x, 0.375rem);
+				height: var(--irtranscripts-table-badge-height, 1.25rem);
+				padding: 0 var(--irtranscripts-table-chip-padding-x, 0.375rem);
 				border-radius: var(--docs-radius, 0.375rem);
-				font-size: var(--gauzy-table-chip-font-size, 0.6875rem);
+				font-size: var(--irtranscripts-table-chip-font-size, 0.6875rem);
 				line-height: 1;
 				white-space: nowrap;
 				overflow: hidden;

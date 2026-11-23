@@ -1,5 +1,5 @@
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PageRouteRegistryConfig, PermissionsGuard } from '@gauzy/ui-core/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PageRouteRegistryConfig, PermissionsGuard } from '@irtranscripts/ui-core/core';
 import { JobEmployeeComponent } from './components/job-employee/job-employee.component';
 
 /** Path for the job employee tab under /pages/jobs. */

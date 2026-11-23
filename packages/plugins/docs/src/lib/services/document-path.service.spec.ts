@@ -7,14 +7,14 @@
  * so the walk happens server-side and an unreadable segment collapses to `{ id: null, restricted:
  * true }` with no other field at all.
  *
- * `@gauzy/core` boots the whole application graph on import, so the framework seams are mocked at
+ * `@irtranscripts/core` boots the whole application graph on import, so the framework seams are mocked at
  * the module boundary; the service under test is the real one.
  */
 const requestContext = {
 	tenantId: 'tenant-1' as string | null
 };
 
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	RequestContext: {
 		currentTenantId: () => requestContext.tenantId
 	}
@@ -25,7 +25,7 @@ jest.mock('./document.service', () => ({ DocumentService: class {} }));
 jest.mock('./document-access.service', () => ({ DocumentAccessService: class {} }));
 
 import { NotFoundException } from '@nestjs/common';
-import { DocumentKindEnum, DocumentVisibilityEnum } from '@gauzy/contracts';
+import { DocumentKindEnum, DocumentVisibilityEnum } from '@irtranscripts/contracts';
 import { DocumentPathService } from './document-path.service';
 
 /** A row stub carrying only the columns the walk projects. */

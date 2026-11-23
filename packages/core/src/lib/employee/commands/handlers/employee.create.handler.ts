@@ -7,9 +7,9 @@ import {
 	IUser,
 	LanguagesEnum,
 	RolesEnum
-} from '@gauzy/contracts';
-import { environment } from '@gauzy/config';
-import { isEmpty } from '@gauzy/utils';
+} from '@irtranscripts/contracts';
+import { environment } from '@irtranscripts/config';
+import { isEmpty } from '@irtranscripts/utils';
 import { RequestContext } from './../../../core/context';
 import { AuthService } from '../../../auth/auth.service';
 import { UserOrganizationService } from '../../../user-organization/user-organization.services';

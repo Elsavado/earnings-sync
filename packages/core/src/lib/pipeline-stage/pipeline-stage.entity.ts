@@ -1,4 +1,4 @@
-import { IPipeline, IPipelineStage as IStage } from '@gauzy/contracts';
+import { IPipeline, IPipelineStage as IStage } from '@irtranscripts/contracts';
 import { JoinColumn, RelationId } from 'typeorm';
 import { IsNotEmpty, IsNumber, IsOptional, IsString, Min } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';

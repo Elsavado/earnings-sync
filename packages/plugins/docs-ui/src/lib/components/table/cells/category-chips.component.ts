@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { IDocument, IDocumentCategory } from '@gauzy/contracts';
+import { IDocument, IDocumentCategory } from '@irtranscripts/contracts';
 
 /** Category chips: up to 3 colored chips + "+N" overflow. */
 @Component({
@@ -23,7 +23,7 @@ import { IDocument, IDocumentCategory } from '@gauzy/contracts';
 			.docs-chips {
 				display: inline-flex;
 				align-items: center;
-				gap: var(--gauzy-table-chip-gap, 0.1875rem);
+				gap: var(--irtranscripts-table-chip-gap, 0.1875rem);
 				flex-wrap: wrap;
 				max-width: 100%;
 				min-width: 0;
@@ -32,11 +32,11 @@ import { IDocument, IDocumentCategory } from '@gauzy/contracts';
 				display: inline-flex;
 				align-items: center;
 				max-width: 9rem;
-				height: var(--gauzy-table-badge-height, 1.25rem);
-				padding: 0 var(--gauzy-table-chip-padding-x, 0.375rem);
+				height: var(--irtranscripts-table-badge-height, 1.25rem);
+				padding: 0 var(--irtranscripts-table-chip-padding-x, 0.375rem);
 				border-radius: var(--docs-radius, 0.375rem);
-				font-size: var(--gauzy-table-chip-font-size, 0.6875rem);
-				line-height: var(--gauzy-table-chip-line-height, 0.875rem);
+				font-size: var(--irtranscripts-table-chip-font-size, 0.6875rem);
+				line-height: var(--irtranscripts-table-chip-line-height, 0.875rem);
 				white-space: nowrap;
 				overflow: hidden;
 				text-overflow: ellipsis;

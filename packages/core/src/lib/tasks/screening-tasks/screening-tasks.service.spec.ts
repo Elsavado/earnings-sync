@@ -1,6 +1,6 @@
 import '../../core/entities/internal';
 
-import { ScreeningTaskStatusEnum, TaskStatusEnum } from '@gauzy/contracts';
+import { ScreeningTaskStatusEnum, TaskStatusEnum } from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from '../../core/crud';
 import { asTenantUser, createTenantFixture } from '../../core/testing/tenant-isolation/tenant-isolation.fixtures';
 import { ScreeningTasksService } from './screening-tasks.service';
@@ -162,7 +162,7 @@ describe('ScreeningTasksService.create — the number of the task', () => {
 		self = {
 			taskService,
 			organizationProjectService: {
-				findOneByIdString: jest.fn().mockResolvedValue({ id: 'project-1', name: 'Gauzy' })
+				findOneByIdString: jest.fn().mockResolvedValue({ id: 'project-1', name: 'IRTranscripts' })
 			},
 			mentionService: { publishMention: jest.fn() },
 			eventBus: { publish: jest.fn() },

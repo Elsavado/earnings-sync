@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 
 const BASE = `${API_PREFIX}/integration/ever-works`;
 
@@ -66,22 +66,22 @@ export interface EverWorksConnection {
 }
 
 /** How a domain syncs. */
-export type EverWorksDirection = 'both' | 'ew_to_gauzy' | 'gauzy_to_ew' | 'suggest' | 'link_only' | 'off';
+export type EverWorksDirection = 'both' | 'ew_to_irtranscripts' | 'irtranscripts_to_ew' | 'suggest' | 'link_only' | 'off';
 
 /** The synced domains and the directions each one may take (the API refuses anything else). */
 export const EVER_WORKS_DOMAINS: Readonly<Record<string, ReadonlyArray<EverWorksDirection>>> = {
 	members: ['suggest', 'off'],
-	agents: ['ew_to_gauzy', 'off'],
-	teams: ['both', 'ew_to_gauzy', 'gauzy_to_ew', 'off'],
+	agents: ['ew_to_irtranscripts', 'off'],
+	teams: ['both', 'ew_to_irtranscripts', 'irtranscripts_to_ew', 'off'],
 	works: ['link_only', 'off'],
-	missions: ['ew_to_gauzy', 'both', 'off'],
-	goals: ['both', 'ew_to_gauzy', 'gauzy_to_ew', 'off'],
-	ideas: ['both', 'ew_to_gauzy', 'gauzy_to_ew', 'off'],
-	tasks: ['both', 'ew_to_gauzy', 'gauzy_to_ew', 'off'],
-	inbox: ['ew_to_gauzy', 'off'],
-	docs: ['both', 'ew_to_gauzy', 'gauzy_to_ew', 'off'],
-	// The read-only copy of Ever Works agent mail in the Gauzy Inbox (off by default).
-	agentEmail: ['off', 'ew_to_gauzy']
+	missions: ['ew_to_irtranscripts', 'both', 'off'],
+	goals: ['both', 'ew_to_irtranscripts', 'irtranscripts_to_ew', 'off'],
+	ideas: ['both', 'ew_to_irtranscripts', 'irtranscripts_to_ew', 'off'],
+	tasks: ['both', 'ew_to_irtranscripts', 'irtranscripts_to_ew', 'off'],
+	inbox: ['ew_to_irtranscripts', 'off'],
+	docs: ['both', 'ew_to_irtranscripts', 'irtranscripts_to_ew', 'off'],
+	// The read-only copy of Ever Works agent mail in the IRTranscripts Inbox (off by default).
+	agentEmail: ['off', 'ew_to_irtranscripts']
 };
 
 /** One organization mapping and its settings. */
@@ -127,13 +127,13 @@ export interface EverWorksPersonRow {
 	/** How the pairing was made (absent from an older API, `null` while unpaired). */
 	matchedBy?: EverWorksMatchSource | null;
 	suggestion: { employeeId: string; reason: 'ever_id' | 'verified_email' } | null;
-	/** A Gauzy invitation still pending for the member's e-mail (absent from an older API). */
-	gauzyInvite?: { inviteId: string; expireDate: string | null } | null;
+	/** A IRTranscripts invitation still pending for the member's e-mail (absent from an older API). */
+	irtranscriptsInvite?: { inviteId: string; expireDate: string | null } | null;
 }
 /** How a People-tab pairing was made: the same Ever ID, an accepted verified-e-mail suggestion, or by hand. */
 export type EverWorksMatchSource = 'ever_id' | 'verified_email' | 'manual';
-/** "Invite to Gauzy": a new invitation, or the one still pending for that e-mail. */
-export interface EverWorksInviteToGauzyResult {
+/** "Invite to IRTranscripts": a new invitation, or the one still pending for that e-mail. */
+export interface EverWorksInviteToIRTranscriptsResult {
 	status: 'invited' | 'pending';
 	inviteId: string;
 	email: string;
@@ -166,7 +166,7 @@ export interface EverWorksPeopleDecision {
 	acceptSuggestions?: boolean;
 }
 
-/** Agents tab (agents are one way, Ever Works → Gauzy). */
+/** Agents tab (agents are one way, Ever Works → IRTranscripts). */
 export interface EverWorksAgentRow {
 	ewAgentId: string;
 	employeeId: string;
@@ -192,7 +192,7 @@ export interface EverWorksTeamsDecision {
 	links?: Array<{ ewTeamId: string; teamId: string }>;
 	unlinks?: string[];
 	acceptSuggestions?: boolean;
-	createInGauzy?: string[];
+	createInIRTranscripts?: string[];
 	createInEverWorks?: string[];
 }
 
@@ -214,7 +214,7 @@ export interface EverWorksProjectsDecision {
 	links?: Array<{ ewWorkId: string; projectId: string }>;
 	unlinks?: string[];
 	acceptSuggestions?: boolean;
-	createInGauzy?: string[];
+	createInIRTranscripts?: string[];
 }
 
 /** Initiatives ↔ Missions tab (missions ↔ strategic initiatives, plan 06 G-P2-2). */
@@ -223,7 +223,7 @@ export interface EverWorksMissionRow {
 	title: string;
 	status: string | null;
 	linkedInitiativeId: string | null;
-	/** A same-title Gauzy initiative the admin may confirm (never paired silently). */
+	/** A same-title IRTranscripts initiative the admin may confirm (never paired silently). */
 	suggestion: { initiativeId: string; reason: 'same_title' } | null;
 }
 export interface EverWorksInitiativesView {
@@ -235,9 +235,9 @@ export interface EverWorksInitiativesDecision {
 	links?: Array<{ ewMissionId: string; initiativeId: string }>;
 	unlinks?: string[];
 	acceptSuggestions?: boolean;
-	/** Ever Works missions to create as Gauzy initiatives. */
-	createInGauzy?: string[];
-	/** Gauzy initiatives to create in Ever Works (as paused missions; the missions direction must be "both"). */
+	/** Ever Works missions to create as IRTranscripts initiatives. */
+	createInIRTranscripts?: string[];
+	/** IRTranscripts initiatives to create in Ever Works (as paused missions; the missions direction must be "both"). */
 	createInEverWorks?: string[];
 }
 
@@ -249,9 +249,9 @@ export interface EverWorksSyncPhasePreview {
 	supported: boolean;
 	note: string | null;
 	everWorks: { total: number; linked: number; truncated: boolean } | null;
-	gauzy: { total: number; linked: number } | null;
-	creates: { inGauzy: number; inEverWorks: number };
-	toPair: { everWorks: number; gauzy: number } | null;
+	irtranscripts: { total: number; linked: number } | null;
+	creates: { inIRTranscripts: number; inEverWorks: number };
+	toPair: { everWorks: number; irtranscripts: number } | null;
 }
 export interface EverWorksSyncPreview {
 	integrationTenantId: string;
@@ -318,7 +318,7 @@ export interface EverWorksSyncLogEntry {
 	createdAt: string | null;
 	direction: string;
 	entityType: string | null;
-	gauzyId: string | null;
+	irtranscriptsId: string | null;
 	ewId: string | null;
 	action: string;
 	status: 'ok' | 'skipped' | 'conflict' | 'error';
@@ -327,21 +327,21 @@ export interface EverWorksSyncLogEntry {
 	resolvedAt: string | null;
 }
 
-/** One conflict (both values in Gauzy terms, and the side that won). */
+/** One conflict (both values in IRTranscripts terms, and the side that won). */
 export interface EverWorksConflict {
 	id: string;
 	createdAt: string | null;
 	direction: string;
 	entityType: string | null;
-	gauzyId: string | null;
+	irtranscriptsId: string | null;
 	ewId: string | null;
 	message: string | null;
 	details: {
 		field: string;
-		gauzyField?: string;
-		gauzyValue: unknown;
+		irtranscriptsField?: string;
+		irtranscriptsValue: unknown;
 		everWorksValue: unknown;
-		winner: 'gauzy' | 'ever_works';
+		winner: 'irtranscripts' | 'ever_works';
 		resolution?: 'keep' | 'use_other';
 	} | null;
 	resolved: boolean;
@@ -437,12 +437,12 @@ export class EverWorksUiService {
 		return this.http.put<EverWorksPeopleView>(`${this.mapping(integrationTenantId)}/people`, decision, this.org(organizationId));
 	}
 
-	/** Invites an unpaired Ever Works member to Gauzy (the platform's employee invitation, Employee role). */
-	inviteToGauzy(organizationId: string | null, integrationTenantId: string, body: { ewUserId: string }): Observable<EverWorksInviteToGauzyResult> {
-		return this.http.post<EverWorksInviteToGauzyResult>(`${this.mapping(integrationTenantId)}/people/invite-to-gauzy`, body, this.org(organizationId));
+	/** Invites an unpaired Ever Works member to IRTranscripts (the platform's employee invitation, Employee role). */
+	inviteToIRTranscripts(organizationId: string | null, integrationTenantId: string, body: { ewUserId: string }): Observable<EverWorksInviteToIRTranscriptsResult> {
+		return this.http.post<EverWorksInviteToIRTranscriptsResult>(`${this.mapping(integrationTenantId)}/people/invite-to-irtranscripts`, body, this.org(organizationId));
 	}
 
-	/** Invites an unpaired Gauzy person into the mapped Ever Works organization. */
+	/** Invites an unpaired IRTranscripts person into the mapped Ever Works organization. */
 	inviteToEverWorks(organizationId: string | null, integrationTenantId: string, body: { employeeId: string }): Observable<EverWorksInviteToEverWorksResult> {
 		return this.http.post<EverWorksInviteToEverWorksResult>(`${this.mapping(integrationTenantId)}/people/invite-to-ever-works`, body, this.org(organizationId));
 	}

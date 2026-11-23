@@ -1,6 +1,6 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, Optional } from '@nestjs/common';
-import { DecimalString, ID } from '@gauzy/contracts';
-import { Money, RequestContext, SequenceService } from '@gauzy/core';
+import { DecimalString, ID } from '@irtranscripts/contracts';
+import { Money, RequestContext, SequenceService } from '@irtranscripts/core';
 import {
 	IOrderExchangeLineInput,
 	IOrderFulfillmentPort,

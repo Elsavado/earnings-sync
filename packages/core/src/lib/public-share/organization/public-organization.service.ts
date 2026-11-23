@@ -1,4 +1,4 @@
-import { IOrganization, IOrganizationContact, IPagination } from '@gauzy/contracts';
+import { IOrganization, IOrganizationContact, IPagination } from '@irtranscripts/contracts';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { FindOptionsSelect, FindOptionsWhere } from 'typeorm';
 import { MultiORM, MultiORMEnum, getORMType, parseFindOptionsRelations } from '../../core/utils';

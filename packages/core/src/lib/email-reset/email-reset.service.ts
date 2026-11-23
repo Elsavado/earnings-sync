@@ -1,8 +1,8 @@
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ForbiddenException, HttpStatus, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { IsNull, MoreThanOrEqual, SelectQueryBuilder } from 'typeorm';
-import { ID, IEmailReset, IEmailResetFindInput, IOrganization, LanguagesEnum, PermissionsEnum } from '@gauzy/contracts';
-import { generateAlphaNumericCode } from '@gauzy/utils';
+import { ID, IEmailReset, IEmailResetFindInput, IOrganization, LanguagesEnum, PermissionsEnum } from '@irtranscripts/contracts';
+import { generateAlphaNumericCode } from '@irtranscripts/utils';
 import { RequestContext } from '../core/context';
 import { UserService } from '../user/user.service';
 import { TenantAwareCrudService } from '../core/crud';

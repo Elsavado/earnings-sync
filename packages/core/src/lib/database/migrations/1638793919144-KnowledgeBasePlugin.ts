@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 import * as chalk from "chalk";
-import { DatabaseTypeEnum } from "@gauzy/config";
+import { DatabaseTypeEnum } from "@irtranscripts/config";
 
 export class KnowledgeBasePlugin1638793919144 implements MigrationInterface {
     name = 'KnowledgeBasePlugin1638793919144';

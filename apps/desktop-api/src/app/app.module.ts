@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { WakatimeModule } from '@gauzy/plugin-integration-wakatime';
+import { WakatimeModule } from '@irtranscripts/plugin-integration-wakatime';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from './database.module';
 
-require('app-root-path').setPath(process.env.GAUZY_USER_PATH);
+require('app-root-path').setPath(process.env.IRTRANSCRIPTS_USER_PATH);
 
 @Module({
 	imports: [DatabaseModule, WakatimeModule],

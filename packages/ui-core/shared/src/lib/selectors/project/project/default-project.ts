@@ -1,4 +1,4 @@
-import { IOrganizationProject, TaskListTypeEnum } from '@gauzy/contracts';
+import { IOrganizationProject, TaskListTypeEnum } from '@irtranscripts/contracts';
 
 export const ALL_PROJECT_SELECTED: IOrganizationProject = {
 	id: '',

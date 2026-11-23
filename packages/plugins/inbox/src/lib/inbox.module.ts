@@ -1,8 +1,8 @@
 import { Global, Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { INBOX_ITEM_WRITER, INBOX_SOURCE_HANDLER_REGISTRY } from '@gauzy/contracts';
-import { RolePermissionModule } from '@gauzy/core';
+import { INBOX_ITEM_WRITER, INBOX_SOURCE_HANDLER_REGISTRY } from '@irtranscripts/contracts';
+import { RolePermissionModule } from '@irtranscripts/core';
 import { InboxItem } from './entities/inbox-item.entity';
 import { InboxItemRecipient } from './entities/inbox-item-recipient.entity';
 import { InboxController } from './inbox.controller';
@@ -15,7 +15,7 @@ import { InboxRealtime } from './realtime/inbox-realtime';
 export const INBOX_ENTITIES = [InboxItem, InboxItemRecipient];
 
 /**
- * The Inbox module (`@gauzy/plugin-inbox`), loaded only when `GAUZY_INBOX_ENABLED=true`.
+ * The Inbox module (`@irtranscripts/plugin-inbox`), loaded only when `IRTRANSCRIPTS_INBOX_ENABLED=true`.
  *
  * Global, so the plugins that feed the inbox reach its registry and writer through the
  * `INBOX_SOURCE_HANDLER_REGISTRY` / `INBOX_ITEM_WRITER` tokens with `@Optional() @Inject(…)` — without

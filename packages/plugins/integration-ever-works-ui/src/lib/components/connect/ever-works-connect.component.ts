@@ -25,7 +25,7 @@ export interface EverWorksConnectResult {
 
 /**
  * Connect an organization to Ever Works (plan 02 §1): create the integration key in Ever Works (a deep
- * link with the "Ever Gauzy" preset), enter the API URL and the key, **Validate** (`whoami`: tenant,
+ * link with the "Ever IRTranscripts" preset), enter the API URL and the key, **Validate** (`whoami`: tenant,
  * pinned organizations, scopes, API version), connect, map this organization to a pinned Ever Works
  * organization, review the matches (people, agents, teams, projects), choose the entities and directions,
  * and from the dry run **Start**: the webhook is registered (best effort) and the first sync starts.

@@ -10,8 +10,8 @@ import {
 	IUpworkClientSecretPair,
 	IntegrationEnum,
 	isUpworkExistingAuthorization
-} from '@gauzy/contracts';
-import { IntegrationsService, Store, UpworkService } from '@gauzy/ui-core/core';
+} from '@irtranscripts/contracts';
+import { IntegrationsService, Store, UpworkService } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy()
 @Component({

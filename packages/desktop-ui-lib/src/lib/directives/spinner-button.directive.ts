@@ -1,7 +1,7 @@
 import { Directive, Input, Renderer2, TemplateRef, ViewContainerRef, inject } from '@angular/core';
 import { NbSpinnerComponent } from '@nebular/theme';
 
-@Directive({ selector: '[gauzySpinnerButton]' })
+@Directive({ selector: '[irtranscriptsSpinnerButton]' })
 export class SpinnerButtonDirective {
 	private _isSpinning: boolean | null = null;
 	private _spinner: HTMLElement | null = null;
@@ -9,7 +9,7 @@ export class SpinnerButtonDirective {
 	private _templateRef = inject(TemplateRef<any>);
 	private _render = inject(Renderer2);
 
-	@Input('gauzySpinnerButton')
+	@Input('irtranscriptsSpinnerButton')
 	set show(value: boolean) {
 		if (!!value !== this._isSpinning) {
 			this._viewContainer.clear();

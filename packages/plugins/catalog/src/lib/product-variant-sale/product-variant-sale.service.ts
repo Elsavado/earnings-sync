@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { ProductVariant, ProductVariantSetting, RequestContext } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { ProductVariant, ProductVariantSetting, RequestContext } from '@irtranscripts/core';
 
 /**
  * How a variant is sold: whether it is offered on recurring terms, and which variant represents its

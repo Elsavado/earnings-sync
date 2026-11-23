@@ -1,14 +1,14 @@
 /**
  * The funding reader, exercised over the ledger rows it reads.
  *
- * `@gauzy/core` boots the whole application graph from its barrel, so the boundary is doubled here the
+ * `@irtranscripts/core` boots the whole application graph from its barrel, so the boundary is doubled here the
  * way the package's other suites double it — while the money layer the reader sums with stays **the real
  * one**, because every assertion below is about an amount and a double that rounded differently would
- * make the suite agree with a defect. `@gauzy/config` is read at import time by other packages of the
+ * make the suite agree with a defect. `@irtranscripts/config` is read at import time by other packages of the
  * workspace, so it is doubled too.
  */
-jest.mock('@gauzy/core', () => {
-	const decimal = jest.requireActual('@gauzy/core/src/lib/money/decimal');
+jest.mock('@irtranscripts/core', () => {
+	const decimal = jest.requireActual('@irtranscripts/core/src/lib/money/decimal');
 
 	return {
 		// `@UsePipes(new AbstractValidationPipe(…))` runs when the controller class is defined, and Nest
@@ -33,7 +33,7 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	DatabaseTypeEnum: {
 		mongodb: 'mongodb',
 		sqlite: 'sqlite',
@@ -43,7 +43,7 @@ jest.mock('@gauzy/config', () => ({
 	}
 }));
 
-import { AdjustmentFunding, AdjustmentOwnerType } from '@gauzy/contracts';
+import { AdjustmentFunding, AdjustmentOwnerType } from '@irtranscripts/contracts';
 import { SellerFundingService } from './seller-funding.service';
 
 const TENANT = 'tenant-1';

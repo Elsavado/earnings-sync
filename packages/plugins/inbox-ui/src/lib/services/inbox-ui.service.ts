@@ -12,16 +12,16 @@ import {
 	IMarkAllAsReadResponse,
 	IPagination,
 	InboxTabEnum
-} from '@gauzy/contracts';
-import { API_PREFIX, toParams } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { API_PREFIX, toParams } from '@irtranscripts/ui-core/common';
 import { INBOX_UI_PAGE_SIZE } from '../inbox-ui.constants';
 
 const INBOX = `${API_PREFIX}/inbox/items`;
 const NOTIFICATIONS = `${API_PREFIX}/employee-notification`;
 
 /**
- * The Inbox routes of the API (`@gauzy/plugin-inbox`, `/api/inbox/items*`). They exist only where the API
- * loads the plugin (`GAUZY_INBOX_ENABLED=true`): elsewhere every call answers 404. The recipient is always the
+ * The Inbox routes of the API (`@irtranscripts/plugin-inbox`, `/api/inbox/items*`). They exist only where the API
+ * loads the plugin (`IRTRANSCRIPTS_INBOX_ENABLED=true`): elsewhere every call answers 404. The recipient is always the
  * signed-in user, taken by the API from the credential.
  */
 @Injectable({ providedIn: 'root' })
@@ -81,7 +81,7 @@ export class InboxUiService {
 }
 
 /**
- * Gauzy's own notifications (mentions, assignments, comments: `EmployeeNotification`), read live from
+ * IRTranscripts's own notifications (mentions, assignments, comments: `EmployeeNotification`), read live from
  * `/api/employee-notification` for the Notifications tab — not copied into the inbox (plan 04 §1).
  */
 @Injectable({ providedIn: 'root' })

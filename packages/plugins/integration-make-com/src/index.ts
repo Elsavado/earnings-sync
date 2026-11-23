@@ -1,4 +1,4 @@
 /**
- * Public API Surface of @gauzy/plugin-integration-make-com
+ * Public API Surface of @irtranscripts/plugin-integration-make-com
  */
 export * from './lib/integration-make-com.plugin';

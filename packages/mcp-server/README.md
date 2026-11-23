@@ -1,10 +1,10 @@
-# Gauzy MCP Server - Shared Package
+# IRTranscripts MCP Server - Shared Package
 
-A comprehensive TypeScript package that provides the core MCP (Model Context Protocol) server implementation for the Gauzy platform. This package serves as the foundation for both the standalone MCP server and the Electron desktop application.
+A comprehensive TypeScript package that provides the core MCP (Model Context Protocol) server implementation for the IRTranscripts platform. This package serves as the foundation for both the standalone MCP server and the Electron desktop application.
 
 ## Overview
 
-The `@gauzy/mcp-server` package contains all the shared functionality needed to interact with Gauzy's API through the Model Context Protocol. It provides a complete set of tools, authentication management, and server utilities that can be used by different consumer applications.
+The `@irtranscripts/mcp-server` package contains all the shared functionality needed to interact with IRTranscripts's API through the Model Context Protocol. It provides a complete set of tools, authentication management, and server utilities that can be used by different consumer applications.
 
 ## Architecture
 
@@ -26,10 +26,10 @@ This package is designed to be consumed by:
 
 ```bash
 # Install as a dependency
-npm install @gauzy/mcp-server
+npm install @irtranscripts/mcp-server
 
 # Or with yarn
-yarn add @gauzy/mcp-server
+yarn add @irtranscripts/mcp-server
 ```
 
 ## Package Build
@@ -50,7 +50,7 @@ yarn nx lint mcp-server
 ### Basic Server Setup
 
 ```typescript
-import { McpServer } from '@gauzy/mcp-server';
+import { McpServer } from '@irtranscripts/mcp-server';
 import { environment } from './environments/environment';
 
 // Create and start the MCP server
@@ -61,12 +61,12 @@ server.start();
 ### Using Individual Tools
 
 ```typescript
-import { AuthTool, TimerTool, ProjectTool } from '@gauzy/mcp-server/tools';
-import { ApiClient } from '@gauzy/mcp-server';
+import { AuthTool, TimerTool, ProjectTool } from '@irtranscripts/mcp-server/tools';
+import { ApiClient } from '@irtranscripts/mcp-server';
 
 // Initialize API client
 const apiClient = new ApiClient({
-  baseUrl: 'https://api.gauzy.co',
+  baseUrl: 'https://api.irtranscripts.com',
   email: 'user@example.com',
   password: 'password'
 });
@@ -80,13 +80,13 @@ const projectTool = new ProjectTool(apiClient);
 ### Server Manager
 
 ```typescript
-import { McpServerManager } from '@gauzy/mcp-server';
+import { McpServerManager } from '@irtranscripts/mcp-server';
 
 const manager = new McpServerManager();
 
 // Start server with configuration
 await manager.start({
-  apiBaseUrl: 'https://api.gauzy.co',
+  apiBaseUrl: 'https://api.irtranscripts.com',
   authEmail: 'user@example.com',
   authPassword: 'password',
   autoLogin: true
@@ -405,7 +405,7 @@ class McpServerManager {
 
 #### ApiClient
 
-HTTP client for communicating with Gauzy API.
+HTTP client for communicating with IRTranscripts API.
 
 ```typescript
 class ApiClient {
@@ -437,16 +437,16 @@ class AuthManager {
 ### Required Variables
 
 ```bash
-API_BASE_URL=https://api.gauzy.co    # Gauzy API endpoint
+API_BASE_URL=https://api.irtranscripts.com    # IRTranscripts API endpoint
 ```
 
 ### Optional Variables
 
 ```bash
-GAUZY_AUTH_EMAIL=user@example.com    # Auto-login email
-GAUZY_AUTH_PASSWORD=password         # Auto-login password
-GAUZY_AUTO_LOGIN=true               # Enable auto-login
-GAUZY_MCP_DEBUG=true                # Enable debug logging
+IRTRANSCRIPTS_AUTH_EMAIL=user@example.com    # Auto-login email
+IRTRANSCRIPTS_AUTH_PASSWORD=password         # Auto-login password
+IRTRANSCRIPTS_AUTO_LOGIN=true               # Enable auto-login
+IRTRANSCRIPTS_MCP_DEBUG=true                # Enable debug logging
 NODE_ENV=development                # Environment mode
 ```
 
@@ -492,7 +492,7 @@ NODE_ENV=development                # Environment mode
 Enable comprehensive debugging:
 
 ```bash
-GAUZY_MCP_DEBUG=true yarn nx build mcp-server
+IRTRANSCRIPTS_MCP_DEBUG=true yarn nx build mcp-server
 ```
 
 This provides:

@@ -9,7 +9,7 @@ import {
 	OrderChangeType,
 	OrderStatus,
 	OrderTransactionType
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	ApiErrorCode,
 	ApiException,
@@ -21,7 +21,7 @@ import {
 	matchesExpectation,
 	parseEntityVersion,
 	subtractDecimalStrings
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { OrderChange } from './order-change.entity';
 import { TypeOrmOrderChangeRepository } from './repository/type-orm-order-change.repository';
 import { MikroOrmOrderChangeRepository } from './repository/mikro-orm-order-change.repository';
@@ -86,11 +86,11 @@ const NON_TERMINAL_STATUSES = [
  * believe a shipment had been created. They are therefore refused, with the owning package named.
  */
 const DELEGATED_ACTIONS: Partial<Record<OrderChangeActionType, string>> = {
-	[OrderChangeActionType.FULFILLMENT_CREATE]: '@gauzy/plugin-fulfillment',
-	[OrderChangeActionType.TRANSFER_CREATE]: '@gauzy/plugin-inventory',
-	[OrderChangeActionType.PROMOTION_ADD]: '@gauzy/plugin-promotion',
-	[OrderChangeActionType.PROMOTION_REMOVE]: '@gauzy/plugin-promotion',
-	[OrderChangeActionType.RECEIVE_RETURN_ITEM]: '@gauzy/plugin-returns'
+	[OrderChangeActionType.FULFILLMENT_CREATE]: '@irtranscripts/plugin-fulfillment',
+	[OrderChangeActionType.TRANSFER_CREATE]: '@irtranscripts/plugin-inventory',
+	[OrderChangeActionType.PROMOTION_ADD]: '@irtranscripts/plugin-promotion',
+	[OrderChangeActionType.PROMOTION_REMOVE]: '@irtranscripts/plugin-promotion',
+	[OrderChangeActionType.RECEIVE_RETURN_ITEM]: '@irtranscripts/plugin-returns'
 };
 
 /**

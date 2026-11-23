@@ -1,6 +1,6 @@
-import { IOrganizationGithubRepositoryUpdateInput } from '@gauzy/contracts';
+import { IOrganizationGithubRepositoryUpdateInput } from '@irtranscripts/contracts';
 import { IntersectionType, PickType } from '@nestjs/swagger';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 import { OrganizationGithubRepository } from '../github-repository.entity';
 
 /**

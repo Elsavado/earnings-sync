@@ -3,7 +3,7 @@ import { ICurrentApplication } from './interfaces';
 import { CurrentApplication, DataApplication } from './contexts';
 import * as moment from 'moment';
 import { LocalStore } from './desktop-store';
-import { ActivityWindow } from '@gauzy/desktop-activity';
+import { ActivityWindow } from '@irtranscripts/desktop-activity';
 
 export class DesktopActiveWindow extends EventEmitter {
 	/**

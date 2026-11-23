@@ -1,7 +1,7 @@
 // Must stay first: loads the entity graph before the handler pulls an entity.
 import '../../../core/entities/internal';
 
-import { IEmployeeAppointmentUpdateInput } from '@gauzy/contracts';
+import { IEmployeeAppointmentUpdateInput } from '@irtranscripts/contracts';
 import { EmployeeAppointmentUpdateCommand } from '../employee-appointment.update.command';
 import { EmployeeAppointmentUpdateHandler } from './employee-appointment.update.handler';
 

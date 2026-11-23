@@ -1,5 +1,5 @@
 import { IQuery } from '@nestjs/cqrs';
-import { BaseEntityEnum, ID } from '@gauzy/contracts';
+import { BaseEntityEnum, ID } from '@irtranscripts/contracts';
 
 /**
  * Serves both link list directions: by business record (`entity` + `entityId`) or by document

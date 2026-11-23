@@ -1,5 +1,5 @@
 import { createHmac, timingSafeEqual } from 'crypto';
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 
 /**
  * A short-lived, signed statement that the GitHub user who completed an install flow is entitled to a
@@ -16,7 +16,7 @@ const PROOF_PATTERN = /^(\d{13})\.([a-f0-9]{64})$/;
 
 function proofKey(): Buffer {
 	// A key derived for this one purpose, so a proof is never interchangeable with a JWT.
-	return createHmac('sha256', String(environment.JWT_SECRET ?? '')).update('gauzy:github-install-proof:v1').digest();
+	return createHmac('sha256', String(environment.JWT_SECRET ?? '')).update('irtranscripts:github-install-proof:v1').digest();
 }
 
 function signature(state: string, installationId: string, expiresAt: number): string {

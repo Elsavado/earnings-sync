@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { IOrganization, PermissionsEnum, IOrganizationContact, IEmployee, IOrganizationAward, IOrganizationLanguage } from '@gauzy/contracts';
+import { IOrganization, PermissionsEnum, IOrganizationContact, IEmployee, IOrganizationAward, IOrganizationLanguage } from '@irtranscripts/contracts';
 import { NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Observable, of, Subject } from 'rxjs';
@@ -15,8 +15,8 @@ import {
 	OrganizationsService,
 	Store,
 	ToastrService
-} from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { PublicPageOrganizationMutationComponent } from '../mutation/public-page-organization-mutation/public-page-organization-mutation.component';
 
 /** The sections of the public page, in tab order. */

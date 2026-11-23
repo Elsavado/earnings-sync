@@ -9,7 +9,7 @@ import {
 	RolePermissionModule,
 	RuleModule,
 	SequenceModule
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { resolvers } from './graphql/resolvers';
 import { EntitlementGrantConsumer } from './events/entitlement-grant.consumer';
 import { EntitlementOrderLinePolicyAdapter } from './events/entitlement-order-line-policy.adapter';

@@ -7,9 +7,9 @@ import '../../core/entities/internal';
 
 import { ExecutionContext, NotFoundException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { FeatureFlag } from '@gauzy/common';
-import { FEATURE_METADATA } from '@gauzy/constants';
-import { FeatureEnum } from '@gauzy/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
+import { FEATURE_METADATA } from '@irtranscripts/constants';
+import { FeatureEnum } from '@irtranscripts/contracts';
 import { FEATURE_GRAPHQL } from '../../feature/graphql-feature.code';
 import { featureFlagCacheKey, FeatureFlagGuard } from './feature-flag.guard';
 

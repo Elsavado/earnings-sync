@@ -3,7 +3,7 @@ import {
 	IOrganizationFindInput,
 	IOrganizationStoreState,
 	IOrganizationUpdateInput
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Query, Store as AkitaStore, StoreConfig } from '@datorama/akita';

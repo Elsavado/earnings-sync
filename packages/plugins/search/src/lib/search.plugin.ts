@@ -1,6 +1,6 @@
 import * as chalk from 'chalk';
 import { Type } from '@nestjs/common';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@gauzy/plugin';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@irtranscripts/plugin';
 import { resolvers } from './graphql/resolvers';
 import { schemaExtensions } from './graphql/schema-extensions';
 import { SEARCH_FEATURE_CONTRIBUTIONS } from './search.features';

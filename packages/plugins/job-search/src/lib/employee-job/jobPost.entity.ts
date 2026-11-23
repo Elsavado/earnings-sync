@@ -1,10 +1,10 @@
-import { Model } from '@gauzy/core';
+import { Model } from '@irtranscripts/core';
 import {
 	IJobPost,
 	JobPostSourceEnum,
 	JobPostStatusEnum,
 	JobPostTypeEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 export class JobPost extends Model implements IJobPost {
 	jobPostId: string;

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { FindManyOptions } from 'typeorm';
-import { ID, IPagination } from '@gauzy/contracts';
+import { ID, IPagination } from '@irtranscripts/contracts';
 import { InventoryErrorCode, inventoryError } from './../inventory.errors';
 import { assertVariantInScope, requestScope } from './../inventory.scope';
 import { StockTransferStatus } from './../inventory.enums';

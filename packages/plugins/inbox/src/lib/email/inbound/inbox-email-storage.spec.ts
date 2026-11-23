@@ -3,7 +3,7 @@ const mockProvider = { name: 'LOCAL', putFile: jest.fn(), getFile: jest.fn() };
 const mockPickedUnder: unknown[] = [];
 let mockRequest: unknown = null;
 
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	FileStorage: class {
 		getProvider() {
 			mockPickedUnder.push(mockRequest);
@@ -32,15 +32,15 @@ describe('InboxEmailStorage', () => {
 	let directory: string;
 
 	beforeEach(() => {
-		directory = mkdtempSync(join(tmpdir(), 'gauzy-inbox-storage-'));
-		process.env['GAUZY_INBOX_LOCAL_STORAGE_PATH'] = directory;
+		directory = mkdtempSync(join(tmpdir(), 'irtranscripts-inbox-storage-'));
+		process.env['IRTRANSCRIPTS_INBOX_LOCAL_STORAGE_PATH'] = directory;
 		mockProvider.name = 'LOCAL';
 		mockPickedUnder.length = 0;
 		jest.clearAllMocks();
 	});
 
 	afterEach(() => {
-		delete process.env['GAUZY_INBOX_LOCAL_STORAGE_PATH'];
+		delete process.env['IRTRANSCRIPTS_INBOX_LOCAL_STORAGE_PATH'];
 		rmSync(directory, { recursive: true, force: true });
 	});
 

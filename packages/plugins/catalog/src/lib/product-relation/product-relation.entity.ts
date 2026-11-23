@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsInt, IsNotEmpty, IsUUID, Min } from 'class-validator';
 import { JoinColumn, RelationId } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne, Product, TenantOrganizationBaseEntity } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne, Product, TenantOrganizationBaseEntity } from '@irtranscripts/core';
 import { ProductRelationType } from '../catalog.types';
 import { MikroOrmProductRelationRepository } from './repository/mikro-orm-product-relation.repository';
 

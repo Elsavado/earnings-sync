@@ -1,6 +1,6 @@
 import { Body, Controller, HttpCode, HttpStatus, Post, Req } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Public } from '@gauzy/common';
+import { Public } from '@irtranscripts/common';
 import { IInboundEmailResponse, InboundEmailService } from './inbound-email.service';
 import { IInboundWebhookRequest } from './inbound-email.types';
 
@@ -8,10 +8,10 @@ import { IInboundWebhookRequest } from './inbound-email.types';
  * `POST /api/plugins/docs/inbound-email` — the provider-agnostic inbound-email capture
  * webhook (`07-ai-knowledge.md` §17.2).
  *
- * Why it is `@Public()`: an ESP has no Gauzy JWT. Authentication is the **webhook
+ * Why it is `@Public()`: an ESP has no IRTranscripts JWT. Authentication is the **webhook
  * signature** (verified by the bound adapter before anything else is read) plus the
  * **per-organization recipient token**, and the whole route is inert unless
- * `GAUZY_DOCS_INBOUND_EMAIL_ENABLED=true` — a disabled deployment answers 404 to every
+ * `IRTRANSCRIPTS_DOCS_INBOUND_EMAIL_ENABLED=true` — a disabled deployment answers 404 to every
  * call, so nothing is exposed by default.
  *
  * All gate ordering, size caps, attachments-only enforcement and the

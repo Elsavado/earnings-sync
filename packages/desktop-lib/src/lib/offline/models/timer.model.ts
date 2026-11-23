@@ -1,6 +1,6 @@
 import { Serializable } from '../../interfaces';
 import { TimerTO } from '../dto';
-import { TimerSyncStateEnum } from '@gauzy/contracts';
+import { TimerSyncStateEnum } from '@irtranscripts/contracts';
 
 export class Timer implements TimerTO, Serializable<TimerTO> {
 	private _id?: number;

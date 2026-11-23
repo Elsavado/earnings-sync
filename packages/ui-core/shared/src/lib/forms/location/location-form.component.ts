@@ -17,11 +17,11 @@ import { FormArray, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms'
 import { TranslateService } from '@ngx-translate/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { pick, isEmpty } from 'underscore';
-import { ICountry, IGeoLocationCreateObject } from '@gauzy/contracts';
-import { environment as env } from '@gauzy/ui-config';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { CountryService } from '@gauzy/ui-core/core';
-import { convertPrecisionFloatDigit } from '@gauzy/ui-core/common';
+import { ICountry, IGeoLocationCreateObject } from '@irtranscripts/contracts';
+import { environment as env } from '@irtranscripts/ui-config';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { CountryService } from '@irtranscripts/ui-core/core';
+import { convertPrecisionFloatDigit } from '@irtranscripts/ui-core/common';
 import { FormHelpers } from '../helpers';
 
 /**

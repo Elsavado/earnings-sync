@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { DeepPartial, DeleteResult, FindManyOptions, FindOptionsWhere } from 'typeorm';
-import { ID, IPagination } from '@gauzy/contracts';
+import { ID, IPagination } from '@irtranscripts/contracts';
 import {
 	PlainReferenceColumns,
 	RequestContext,
@@ -8,7 +8,7 @@ import {
 	assertPlainReferencesNotForeign,
 	compareDecimalStrings,
 	subtractDecimalStrings
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { ILineInvoicePosition, OrderLineInvoiceDirection, OrderLineInvoiceStatus } from '../order.types';
 import { OrderLine } from '../order-line/order-line.entity';
 import { Order } from '../order/order.entity';

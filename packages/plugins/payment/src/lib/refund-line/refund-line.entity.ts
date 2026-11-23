@@ -9,8 +9,8 @@ import {
 	MultiORMEntity,
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
-import { DecimalString, ID } from '@gauzy/contracts';
+} from '@irtranscripts/core';
+import { DecimalString, ID } from '@irtranscripts/contracts';
 import { MikroOrmRefundLineRepository } from './repository/mikro-orm-refund-line.repository';
 import { IRefund, IRefundLine } from '../payment.types';
 import { Refund } from '../refund/refund.entity';

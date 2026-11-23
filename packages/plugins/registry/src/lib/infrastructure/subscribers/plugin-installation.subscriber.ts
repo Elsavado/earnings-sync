@@ -1,4 +1,4 @@
-import { PluginInstallationStatus } from '@gauzy/contracts';
+import { PluginInstallationStatus } from '@irtranscripts/contracts';
 import { Logger } from '@nestjs/common';
 import { DataSource, EntitySubscriberInterface, EventSubscriber, InsertEvent } from 'typeorm';
 import { PluginInstallation } from '../../domain/entities/plugin-installation.entity';

@@ -1,5 +1,5 @@
 import { IEvent } from '@nestjs/cqrs';
-import { ITimeLog } from '@gauzy/contracts';
+import { ITimeLog } from '@irtranscripts/contracts';
 
 export class TimerStoppedEvent implements IEvent {
 	constructor(public readonly timeLog: ITimeLog) {}

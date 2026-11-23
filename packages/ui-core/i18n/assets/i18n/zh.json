@@ -656,8 +656,8 @@
 			"ALL_TEAMS": "所有团队",
 			"UPWORK_API_KEY": "Upwork API 密钥",
 			"UPWORK_SECRET": "Upwork机密",
-			"GAUZY_API_KEY": "Gauzy AI关键",
-			"GAUZY_API_SECRET": "Gauzy AI 秘密",
+			"IRTRANSCRIPTS_API_KEY": "IRTranscripts AI关键",
+			"IRTRANSCRIPTS_API_SECRET": "IRTranscripts AI 秘密",
 			"SELECT_COMPANY": "公司",
 			"TYPE_SEARCH_REQUEST": "在此处输入您的搜索请求...",
 			"SELECT_ICON": "图标",
@@ -811,7 +811,7 @@
 		"TOTAL_INCOME_OR_MONTHLY_INCOME": "总收入/月收入",
 		"PROFITS": "利润",
 		"BONUSES_PAID": "奖金支付",
-		"TOTAL_HOURS_WORKED_OVER_GAUZY": "高级工作场所应用程序Gauzy统计的总工作时间.",
+		"TOTAL_HOURS_WORKED_OVER_IRTRANSCRIPTS": "高级工作场所应用程序IRTranscripts统计的总工作时间.",
 		"MINIMUM_PROJECT_SIZE": "最小项目规模",
 		"PROJECTS_COUNT": "项目总数",
 		"CLIENTS_COUNT": "客户计数",
@@ -853,7 +853,7 @@
 		"INTEGRATIONS": "应用程序和集成",
 		"UPWORK": "Upwork: 艾普沃克",
 		"ZAPIER": "Zapier",
-		"GAUZY_AI": "Gauzy AI 云知能",
+		"IRTRANSCRIPTS_AI": "IRTranscripts AI 云知能",
 		"ACTIVEPIECES": "Activepieces",
 		"PROPOSALS": "提议",
 		"TIME_OFF": "休假",
@@ -906,11 +906,11 @@
 			"CORRECT_FILE_NAME": "文件名应为：\"archive.zip\"",
 			"DOWNLOAD_TEMPLATES": "下载模板",
 			"MIGRATE_TO_CLOUD": "迁移至永远薄雾云",
-			"IMPORT_INFO": "点击“导入”将您的数据导入到Gauzy数据库中。",
-			"EXPORT_INFO": "点击“导出”按钮以从Gauzy数据库导出数据。",
-			"DOWNLOAD_TEMPLATES_INFO": "点击“下载模板”以下载包含Gauzy数据格式的CSV模板的Zip存档。",
-			"MIGRATE_TO_CLOUD_INFO": "点击“迁移到 Ever Gauzy 云”以从自助托管版迁移到云版。",
-			"MIGRATE_SUCCESSFULLY": "'{{ tenant }}' 的Gauzy云迁移成功！",
+			"IMPORT_INFO": "点击“导入”将您的数据导入到IRTranscripts数据库中。",
+			"EXPORT_INFO": "点击“导出”按钮以从IRTranscripts数据库导出数据。",
+			"DOWNLOAD_TEMPLATES_INFO": "点击“下载模板”以下载包含IRTranscripts数据格式的CSV模板的Zip存档。",
+			"MIGRATE_TO_CLOUD_INFO": "点击“迁移到 Ever IRTranscripts 云”以从自助托管版迁移到云版。",
+			"MIGRATE_SUCCESSFULLY": "'{{ tenant }}' 的IRTranscripts云迁移成功！",
 			"ACCOUNTING_TEMPLATE": "会计模板",
 			"ACTIVITY": "活动",
 			"APPROVAL_POLICY": "批准政策",
@@ -1158,7 +1158,7 @@
 		"ACCOUNTING_TEMPLATES": "会计模板",
 		"FOCUS": "焦点",
 		"APPLICATIONS": "应用程序",
-		"OPEN_GA_BROWSER": "在浏览器中打开 Gauzy",
+		"OPEN_GA_BROWSER": "在浏览器中打开 IRTranscripts",
 		"START_SERVER": "开始服务器",
 		"STOP_SERVER": "停止服务器",
 		"DOCUMENTS": "文件",
@@ -1234,8 +1234,8 @@
 		"CORPORATE": "公司",
 		"MATERIAL_LIGHT_THEME": "材料光",
 		"MATERIAL_DARK_THEME": "材料黑暗",
-		"GAUZY_LIGHT": "雾蒙蒙的光线",
-		"GAUZY_DARK": "幽暗的薄纱",
+		"IRTRANSCRIPTS_LIGHT": "雾蒙蒙的光线",
+		"IRTRANSCRIPTS_DARK": "幽暗的薄纱",
 		"LANGUAGE": "语言",
 		"BULGARIAN": "保加利亚语",
 		"ENGLISH": "英语",
@@ -1265,7 +1265,7 @@
 	"CHANGELOG_MENU": {
 		"HEADER": "有什么新的吗？",
 		"LEARN_MORE_URL": "了解更多",
-		"GAUZY_FEATURES": "薄厚特徵"
+		"IRTRANSCRIPTS_FEATURES": "薄厚特徵"
 	},
 	"REPORT_PAGE": {
 		"MEMBERS_WORKED": "成员工作",
@@ -1330,7 +1330,7 @@
 			"MANUAL_ACTIVITY": "未找到记录。请选择日期范围、员工或项目。",
 			"AMOUNT_OWED": "没有欠款。",
 			"WEEKLY_TIME_AND_ACTIVITY": "你这几天还没有任何的跟踪时间和活动。",
-			"DAILY_TIME_AND_ACTIVITY": "当天尚未追踪时间和活动。请使用<a href={{downloadURL}} rel=\"noopener\" target=\"_blank\">Gauzy桌面计时器应用</a>。",
+			"DAILY_TIME_AND_ACTIVITY": "当天尚未追踪时间和活动。请使用<a href={{downloadURL}} rel=\"noopener\" target=\"_blank\">IRTranscripts桌面计时器应用</a>。",
 			"PROJECT_BUDGET": "你还没有创建任何有预算的项目。",
 			"CLIENT_BUDGET": "您还没有创建任何有预算的客户。"
 		},
@@ -1350,7 +1350,7 @@
 			"DATE_RANGE_PLACEHOLDER": "在之间选择日期",
 			"CLIENT_ID": "Hubstaff 客户端 ID",
 			"CLIENT_SECRET": "Hubstaff客户秘密",
-			"GRANT_PERMISSION": "接下来，您将被带到Hubstaff以授予Gauzy权限。",
+			"GRANT_PERMISSION": "接下来，您将被带到Hubstaff以授予IRTranscripts权限。",
 			"ENTER_CLIENT_SECRET": "输入客户端秘钥以获取访问令牌。"
 		},
 		"UPWORK_PAGE": {
@@ -1360,7 +1360,7 @@
 			"SUCCESSFULLY_AUTHORIZED": "成功授权",
 			"API_KEY": "Upwork API密钥",
 			"SECRET": "Upwork秘密",
-			"NEXT_STEP_INFO": "接下来你将被带到Upwork以授权给Gauzy。",
+			"NEXT_STEP_INFO": "接下来你将被带到Upwork以授权给IRTranscripts。",
 			"CONTRACTS": "合同",
 			"SYNCED_CONTRACTS": "同步合同",
 			"SELECT_DATE": "日期",
@@ -1504,9 +1504,9 @@
 				"SETTINGS": "设置"
 			},
 			"TOOLTIP": {
-				"TRIGGERS": "触发器是发生在Gauzy中的事件，可用于触发Zapier中的动作。",
-				"ACTIONS": "动作是发生在Zapier中的事件，可用于触发Gauzy中的动作。",
-				"WEBHOOKS": "Webhooks是发生在Zapier中的事件，可用于触发Gauzy中的动作。",
+				"TRIGGERS": "触发器是发生在IRTranscripts中的事件，可用于触发Zapier中的动作。",
+				"ACTIONS": "动作是发生在Zapier中的事件，可用于触发IRTranscripts中的动作。",
+				"WEBHOOKS": "Webhooks是发生在Zapier中的事件，可用于触发IRTranscripts中的动作。",
 				"SETTINGS": "设置是Zapier集成的配置。"
 			},
 			"MESSAGE": {
@@ -1523,7 +1523,7 @@
 				"WEBHOOK_URL": "Webhook URL",
 				"WEBHOOK_URL_PLACEHOLDER": "输入webhook URL",
 				"WEBHOOK_URL_INVALID": "请输入有效的webhook URL",
-				"WEBHOOK_INFO": "Webhook是Zapier中的事件，可用于触发Gauzy中的动作。",
+				"WEBHOOK_INFO": "Webhook是Zapier中的事件，可用于触发IRTranscripts中的动作。",
 				"SAVE": "保存设置"
 			},
 			"ACTIONS": {
@@ -1559,8 +1559,8 @@
 				}
 			}
 		},
-		"GAUZY_AI_PAGE": {
-			"API_KEY": "Gauzy AI 密钥",
+		"IRTRANSCRIPTS_AI_PAGE": {
+			"API_KEY": "IRTranscripts AI 密钥",
 			"API_SECRET": "AI秘密"
 		},
 		"ACTIVEPIECES_PAGE": {
@@ -2023,8 +2023,8 @@
 		"KIND_HUMAN": "人员",
 		"KIND_AGENT": "智能体",
 		"AGENT_BADGE": "智能体",
-		"MANAGED_BY_EVER_WORKS": "由 Ever Works 管理：此智能体的名称和资料在 Ever Works 中修改，并同步到 Gauzy。",
-		"MANAGED_EXTERNALLY": "由外部系统管理：此智能体的名称和资料在其来源系统中修改，并同步到 Gauzy。",
+		"MANAGED_BY_EVER_WORKS": "由 Ever Works 管理：此智能体的名称和资料在 Ever Works 中修改，并同步到 IRTranscripts。",
+		"MANAGED_EXTERNALLY": "由外部系统管理：此智能体的名称和资料在其来源系统中修改，并同步到 IRTranscripts。",
 		"OPEN_MANAGED_AGENT": "打开智能体页面",
 		"HEADER": "管理员工",
 		"ADD_EMPLOYEE": "添加员工",
@@ -4443,9 +4443,9 @@
 		"REDIRECT_TO_HOME": "您将很快被重定向到主页"
 	},
 	"HELP_PAGE": {
-		"INTRO": "查找文档、获取解答并联系 Gauzy 团队。",
+		"INTRO": "查找文档、获取解答并联系 IRTranscripts 团队。",
 		"DOCUMENTATION": "文档",
-		"DOCUMENTATION_DESC": "涵盖 Gauzy 每项功能的指南与参考。",
+		"DOCUMENTATION_DESC": "涵盖 IRTranscripts 每项功能的指南与参考。",
 		"FAQ": "常见问题",
 		"FAQ_DESC": "最常见问题的解答。",
 		"SUPPORT_CHAT": "支持聊天",
@@ -4454,9 +4454,9 @@
 		"REPORT_ISSUE_DESC": "发现了 Bug？请在 GitHub 上提交 issue。",
 		"GITHUB": "GitHub",
 		"GITHUB_DESC": "源代码、版本发布与讨论。",
-		"WEBSITE": "Gauzy 官网",
-		"WEBSITE_DESC": "进一步了解 Gauzy 平台。",
-		"ABOUT_LINK": "关于 Gauzy",
+		"WEBSITE": "IRTranscripts 官网",
+		"WEBSITE_DESC": "进一步了解 IRTranscripts 平台。",
+		"ABOUT_LINK": "关于 IRTranscripts",
 		"ABOUT_LINK_DESC": "版本详情、许可证与链接。",
 		"HELP": "帮助",
 		"KNOWLEDGE_BASE": "知识库",
@@ -4905,7 +4905,7 @@
 	},
 	"ABOUT_PAGE": {
 		"COPYRIGHT": "Copyright © 2019-{{year}}, Ever Co. LTD. 保留所有权利。",
-		"DESCRIPTION": "Ever® Gauzy™ 是一个面向协作、按需与共享经济的开放式业务管理平台 — 集 ERP、CRM、HRM、ATS 与项目管理于一体，并内置时间跟踪。",
+		"DESCRIPTION": "Ever® IRTranscripts™ 是一个面向协作、按需与共享经济的开放式业务管理平台 — 集 ERP、CRM、HRM、ATS 与项目管理于一体，并内置时间跟踪。",
 		"LICENSE": "开源软件，发布许可证为",
 		"VERSION_DETAILS": "版本详情",
 		"VERSION_MISMATCH": "Web 应用与 API 构建自不同的提交 — 部署可能正在进行中。",
@@ -4917,7 +4917,7 @@
 		"ABOUT": "关于",
 		"GITHUB": {
 			"TITLE": "GitHub 上的项目",
-			"DESCRIPTION": "Ever Gauzy 以开源方式开发：关注版本发布、报告问题或参与贡献。",
+			"DESCRIPTION": "Ever IRTranscripts 以开源方式开发：关注版本发布、报告问题或参与贡献。",
 			"RELEASES": "版本发布",
 			"ISSUES": "问题",
 			"PULL_REQUESTS": "拉取请求",
@@ -5385,7 +5385,7 @@
 		"VIEW_TIMESHEET": "查看工时记录",
 		"ADD_TIME": "添加时间",
 		"TODAY": "今天",
-		"ALERT_DESKTOP_DOWNLOAD": "为了更灵活地跟踪时间和活动，请<a href={{downloadURL}} rel=\"noopener\" target=\"_blank\">下载并使用</a> <a href={{downloadURL}} rel=\"noopener\" target=\"_blank\">Gauzy桌面计时器应用</a>。",
+		"ALERT_DESKTOP_DOWNLOAD": "为了更灵活地跟踪时间和活动，请<a href={{downloadURL}} rel=\"noopener\" target=\"_blank\">下载并使用</a> <a href={{downloadURL}} rel=\"noopener\" target=\"_blank\">IRTranscripts桌面计时器应用</a>。",
 		"STATUS": "时间跟踪器已经在{{source}}中运行。",
 		"VERSION": "版本 v{{ version }}",
 		"OS": "操作系统: {{ os }} {{ systemVersion }} ({{ arch }})",
@@ -5393,19 +5393,19 @@
 		"WAIT_FOR": "等待{{ name }}开始...",
 		"SETUP": {
 			"WELCOME": "欢迎",
-			"TITLE": "欢迎使用Ever® Gauzy™ - 开放源代码的企业管理平台（ERP/CRM/HRM）",
-			"LABEL": "Gauzy 桌面应用程序为您的台式计算机或笔记本电脑提供 Gauzy 平台的所有功能。此外，它还可以追踪工作时间，记录活动，并能够接收追踪提醒/通知。",
+			"TITLE": "欢迎使用Ever® IRTranscripts™ - 开放源代码的企业管理平台（ERP/CRM/HRM）",
+			"LABEL": "IRTranscripts 桌面应用程序为您的台式计算机或笔记本电脑提供 IRTranscripts 平台的所有功能。此外，它还可以追踪工作时间，记录活动，并能够接收追踪提醒/通知。",
 			"TITLE_SERVER": "透明服务器安装向导",
-			"LABEL_SERVER": "Gauzy桌面应用程序提供了Gauzy平台的完整功能，可以直接在您的台式计算机或笔记本电脑上使用。此外，它还允许跟踪工作时间、记录活动，并具有接收跟踪提醒/通知的功能。",
+			"LABEL_SERVER": "IRTranscripts桌面应用程序提供了IRTranscripts平台的完整功能，可以直接在您的台式计算机或笔记本电脑上使用。此外，它还允许跟踪工作时间、记录活动，并具有接收跟踪提醒/通知的功能。",
 			"FUNCTIONALITIES": "功能性",
 			"WHAT_WOULD_LIKE_USE": "你想使用什么？",
 			"SELECT_MULTIPLE_OPTIONS": "您可以选择一个选项或选择两个选项。",
 			"TIME_ACTIVITY_FEATURES": "时间与活动跟踪功能",
-			"GP_FEATURES": "Gauzy平台特点",
-			"HOW_GONNA_USE_GP": "你打算如何使用Gauzy平台？",
+			"GP_FEATURES": "IRTranscripts平台特点",
+			"HOW_GONNA_USE_GP": "你打算如何使用IRTranscripts平台？",
 			"SELECT_ONE_OPTION": "您必须选择以下选项中的一个。",
 			"INTEGRATED": "综合",
-			"INSTALL_GP_LOCAL": "在您的本地计算机上安装和运行Gauzy平台。",
+			"INSTALL_GP_LOCAL": "在您的本地计算机上安装和运行IRTranscripts平台。",
 			"CUSTOM_NETWORK": "自定义 / 网络",
 			"SEPARATE_SERVER": "连接到你工作网络中的一个独立服务器。",
 			"LIVE": "活着",
@@ -5415,7 +5415,7 @@
 			"LEGAL_NOTE": "法律：所有产品名称，品牌名称，徽标，商标和注册商标均为其各自所有者的财产。我们与所提及的第三方公司，品牌，产品，网站或服务无任何关联或认可，赞助或支持。提供第三方软件的链接仅作为便利和信息目的提供；它们并不构成对该公司，组织或个人的任何产品，服务或意见的认可或批准。我们仅使用相应的徽标和品牌名称来宣传我们的产品所使用的相应产品和技术，或与相应服务进行内置集成。",
 			"SETTING": "设置",
 			"READY_FOR_ADVANCED_SETTINGS": "你准备好进行一些高级设置了吗？",
-			"FINAL_STEP_GP": "这是最后一步，你可以从中深入理解你的Gauzy平台的具体细节。",
+			"FINAL_STEP_GP": "这是最后一步，你可以从中深入理解你的IRTranscripts平台的具体细节。",
 			"PORT": "港口",
 			"PORT_API": "端口 API",
 			"UI": "界面",
@@ -5426,8 +5426,8 @@
 			"USER": "用户",
 			"PASSWORD": "密码",
 			"UI_HOSTNAME": "界面主机名/ IP地址",
-			"TITLE_SERVER_API": "Ever Gauzy API 服务器安装向导",
-			"LABEL_SERVER_API": "Ever Gauzy API Server 桌面应用程序提供 Gauzy 平台的全部功能，可直接在您的台式计算机或笔记本电脑上使用。此外，它还允许跟踪工作时间、活动记录以及接收跟踪提醒/通知的功能。",
+			"TITLE_SERVER_API": "Ever IRTranscripts API 服务器安装向导",
+			"LABEL_SERVER_API": "Ever IRTranscripts API Server 桌面应用程序提供 IRTranscripts 平台的全部功能，可直接在您的台式计算机或笔记本电脑上使用。此外，它还允许跟踪工作时间、活动记录以及接收跟踪提醒/通知的功能。",
 			"UNABLE_TO_CONNECT": "Unable to connect to the server. Please check your API host or internet connection.",
 			"JWT_SECRET": "JWT 密钥",
 			"JWT_SECRET_PLACEHOLDER": "请输入 JWT 的密钥",
@@ -5601,7 +5601,7 @@
 			"ERROR_OCCURRED": "发生错误",
 			"DB_CLEANUP_TITLE": "数据库版本可能已过时",
 			"DB_CLEANUP_MESSAGE": "检测到应用程序的新版本。为避免兼容性问题，是否希望清除本地数据库并使用新的数据库？",
-			"DB_CLEANUP_DETAIL": "删除数据库将清除本地缓存的数据。已与服务器同步的数据将安全地保留在 Gauzy 云中。",
+			"DB_CLEANUP_DETAIL": "删除数据库将清除本地缓存的数据。已与服务器同步的数据将安全地保留在 IRTranscripts 云中。",
 			"DB_CLEANUP_REMOVE": "删除数据库",
 			"DB_CLEANUP_KEEP": "保留",
 			"DB_CLEANUP_UNSYNCED_TITLE": "检测到未同步数据",
@@ -5613,7 +5613,7 @@
 			"AND_JOIN": "and",
 			"SEED_CREDENTIALS_TITLE": "您的登录信息",
 			"SEED_CREDENTIALS_MESSAGE": "请立即保存这些密码。它们只显示一次。",
-			"SEED_CREDENTIALS_DETAIL": "此安装使用随机密码创建了账户，而不是公开的默认密码。\n\n{{ accounts }}\n\n之后您可以在 Gauzy 的个人资料页面中更改密码。",
+			"SEED_CREDENTIALS_DETAIL": "此安装使用随机密码创建了账户，而不是公开的默认密码。\n\n{{ accounts }}\n\n之后您可以在 IRTranscripts 的个人资料页面中更改密码。",
 			"SEED_CREDENTIALS_COPIED": "已复制到剪贴板。",
 			"SEED_CREDENTIALS_COPY_FAILED": "无法复制到剪贴板。请点击“复制”重试，或在确认前记下密码。",
 			"SEED_CREDENTIALS_SAVED": "我已保存",
@@ -5623,7 +5623,7 @@
 			"SEED_PASSWORD": "密码",
 			"PUBLISHED_PASSWORDS_TITLE": "仍在使用默认密码",
 			"PUBLISHED_PASSWORDS_MESSAGE": "请更改这些账户的默认密码。",
-			"PUBLISHED_PASSWORDS_DETAIL": "{{ accounts }} 仍在使用 Gauzy 文档中公开的默认密码登录。任何能访问此服务器的人都可以用它登录。请登录 Gauzy 并在个人资料页面中更改密码。"
+			"PUBLISHED_PASSWORDS_DETAIL": "{{ accounts }} 仍在使用 IRTranscripts 文档中公开的默认密码登录。任何能访问此服务器的人都可以用它登录。请登录 IRTranscripts 并在个人资料页面中更改密码。"
 		},
 		"NO_LIMIT": "∞ 无限制 (wúxiànzhì)",
 		"TASK": "任务",
@@ -5700,7 +5700,7 @@
 		"PERMISSIONS": {
 			"MENU_LABEL": "系统权限",
 			"TITLE": "系统权限",
-			"DESCRIPTION": "Gauzy 需要某些 macOS 权限来准确追踪您的工作。在此查看和管理这些权限。",
+			"DESCRIPTION": "IRTranscripts 需要某些 macOS 权限来准确追踪您的工作。在此查看和管理这些权限。",
 			"SCREEN_RECORDING": "屏幕录制",
 			"SCREEN_RECORDING_DESC": "在您的工作会话期间自动截图所必需的。",
 			"STATUS": "状态",
@@ -5718,7 +5718,7 @@
 			"RELAUNCH": "重新启动",
 			"RELAUNCH_DESC": "已授权但仍无法捕获屏幕？点击重新启动以应用更改。",
 			"DIALOG_TITLE": "需要屏幕录制权限",
-			"DIALOG_DESC": "Gauzy 需要屏幕录制权限才能在您的工作会话期间截图。请授权以继续。",
+			"DIALOG_DESC": "IRTranscripts 需要屏幕录制权限才能在您的工作会话期间截图。请授权以继续。",
 			"POLLING_HINT": "授权后此对话框将自动关闭。",
 			"START_ANYWAY": "不截图直接开始",
 			"ACCESSIBILITY": "辅助功能",
@@ -6046,7 +6046,7 @@
 			"email-invoice": "电子邮件发票",
 			"invite-employee": "邀请员工",
 			"invite-user": "邀请用户",
-			"invite-gauzy-teams": "邀请Gauzy Teams",
+			"invite-irtranscripts-teams": "邀请IRTranscripts Teams",
 			"appointment-confirmation": "预约确认",
 			"appointment-cancellation": "取消预约",
 			"equipment": "设备创建",
@@ -6221,7 +6221,7 @@
 			},
 			"SUGGESTED_ENDPOINT": "该区域的端点：",
 			"USE_SUGGESTION": "使用",
-			"SAVE_NOTE": "保存时，Gauzy 会使用这些凭据在 Wasabi 中创建存储桶。如果 Wasabi 拒绝请求，设置将不会保存。",
+			"SAVE_NOTE": "保存时，IRTranscripts 会使用这些凭据在 Wasabi 中创建存储桶。如果 Wasabi 拒绝请求，设置将不会保存。",
 			"LABELS": {
 				"ACCESS_KEY_ID": "访问密钥 ID",
 				"SECRET_ACCESS_KEY": "秘密访问密钥",
@@ -6400,7 +6400,7 @@
 			}
 		}
 	},
-	"GAUZY_MAINTENANCE": "{{ companySite }} 正在维修",
+	"IRTRANSCRIPTS_MAINTENANCE": "{{ companySite }} 正在维修",
 	"LEGAL": {
 		"PRIVACY_POLICY": "隐私政策",
 		"TERMS_AND_CONDITIONS": "条款与条件",
@@ -6786,7 +6786,7 @@
 			"SOURCE_TYPES": {
 				"CDN": "CDN",
 				"NPM": "NPM",
-				"GAUZY": "Gauzy"
+				"IRTRANSCRIPTS": "IRTranscripts"
 			},
 			"CDN": {
 				"URL": "CDN URL",
@@ -6963,7 +6963,7 @@
 	},
 	"OAUTH_CLIENTS": {
 		"TITLE": "OAuth客户端",
-		"SUBTITLE": "注册和管理可以代表您的用户请求访问Ever Gauzy的第三方应用程序。",
+		"SUBTITLE": "注册和管理可以代表您的用户请求访问Ever IRTranscripts的第三方应用程序。",
 		"STATUS": {
 			"ACTIVE": "活跃",
 			"INACTIVE": "不活跃"

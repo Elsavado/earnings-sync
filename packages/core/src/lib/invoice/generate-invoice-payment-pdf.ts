@@ -1,4 +1,4 @@
-import { IPayment, IOrganization, IOrganizationContact, IInvoice } from '@gauzy/contracts';
+import { IPayment, IOrganization, IOrganizationContact, IInvoice } from '@irtranscripts/contracts';
 
 import { formatCurrencyAmount } from './invoice-currency.util';
 import { formatInvoiceDay } from './invoice-date.util';

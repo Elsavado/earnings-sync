@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { NbBadgeModule, NbComponentStatus, NbProgressBarModule } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
-import { progressStatus } from '@gauzy/ui-core/common';
+import { progressStatus } from '@irtranscripts/ui-core/common';
 import { ComponentsModule } from '../../../components/components.module';
 import { DurationFormatPipe } from '../../../pipes/duration-format.pipe';
 import { ITeamDashboardMember } from './teams-dashboard.types';
@@ -11,7 +11,7 @@ import { toPercentage } from './teams-widget.utils';
  * The compact member row of the Teams dashboard: status dot, avatar, how much of
  * the working day is logged, and the activity badge.
  *
- * Extracted from `gauzy-team-member` in its "classic" mode, and shared by every
+ * Extracted from `irtranscripts-team-member` in its "classic" mode, and shared by every
  * Teams widget that lists people — the flat member list and the per-team overview
  * both render this exact row, so the chrome cannot drift between them.
  *

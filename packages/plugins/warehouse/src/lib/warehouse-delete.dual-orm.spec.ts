@@ -23,11 +23,11 @@
  *
  * The tables are fixture schemas carrying the columns the services read and write, mapped as each ORM maps
  * the production entities; on MikroORM `zoneId` and `warehouseId` are `persist: false` mirrors of their
- * relations and `parentId` is a plain column, as the entity states. `@gauzy/core` is doubled at the module
+ * relations and `parentId` is a plain column, as the entity states. `@irtranscripts/core` is doubled at the module
  * boundary as the package's other suites double it; the SQL helpers and the TypeORM-to-MikroORM criteria
  * translation are the kernel's own.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared, and mapped below by fixture schemas. */
 	const decorator = () => () => undefined;
 
@@ -56,8 +56,8 @@ jest.mock('@gauzy/core', () => {
 		}
 	}
 
-	const utils = jest.requireActual('@gauzy/core/src/lib/core/utils');
-	const helpers = jest.requireActual('@gauzy/core/src/lib/database/database.helper');
+	const utils = jest.requireActual('@irtranscripts/core/src/lib/core/utils');
+	const helpers = jest.requireActual('@irtranscripts/core/src/lib/database/database.helper');
 
 	return {
 		TenantAwareCrudService,
@@ -109,7 +109,7 @@ import { EntityCaseNamingStrategy, EntitySchema as MikroOrmEntitySchema, MikroOR
 import { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
 import { EntityRepository } from '@mikro-orm/knex';
 import { SOFT_DELETABLE_FILTER } from 'mikro-orm-soft-delete';
-import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@gauzy/config';
+import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@irtranscripts/config';
 import { IWarehouseStockLedgerPort, WarehouseBinType, WarehouseZoneType } from './warehouse.types';
 import { WarehouseBin } from './warehouse-bin/warehouse-bin.entity';
 import { WarehouseBinService } from './warehouse-bin/warehouse-bin.service';

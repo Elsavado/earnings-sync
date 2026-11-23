@@ -1,14 +1,14 @@
 /**
  * The component is exercised by instantiating it directly — the package's established test shape
- * (`document-comments.component.spec.ts`). Both `@gauzy/ui-core` barrels are stubbed: `core`
+ * (`document-comments.component.spec.ts`). Both `@irtranscripts/ui-core` barrels are stubbed: `core`
  * drags Akita's untranspiled ESM into the CommonJS runtime, and `i18n` only contributes the
  * translation base class, whose single job here is `getTranslation()`.
  *
  * The translation stub deliberately mimics the app's real `MissingTranslationHandler`: an
  * unknown key comes back **verbatim**. That is what the raw-enum fallback has to survive.
  */
-jest.mock('@gauzy/ui-core/core', () => ({ Store: class Store {} }));
-jest.mock('@gauzy/ui-core/i18n', () => ({
+jest.mock('@irtranscripts/ui-core/core', () => ({ Store: class Store {} }));
+jest.mock('@irtranscripts/ui-core/i18n', () => ({
 	TranslationBaseComponent: class TranslationBaseComponent {
 		constructor(public readonly translateService: unknown) {}
 		getTranslation(key: string): string {
@@ -27,7 +27,7 @@ jest.mock('@gauzy/ui-core/i18n', () => ({
 }));
 
 import { of, throwError } from 'rxjs';
-import { ActionTypeEnum, ActorTypeEnum, IActivityLog, ID } from '@gauzy/contracts';
+import { ActionTypeEnum, ActorTypeEnum, IActivityLog, ID } from '@irtranscripts/contracts';
 import { DOCS_ACTIVITY_MAX_ITEMS, DOCS_ACTIVITY_PAGE_SIZE } from '../../services/document-activity.service';
 import { DocsDetailActivityComponent } from './docs-detail-activity.component';
 

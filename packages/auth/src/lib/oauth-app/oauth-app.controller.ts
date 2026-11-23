@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Header, HttpCode, HttpException, HttpStatus, Logger, Param, Post, Query, Req, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { randomBytes } from 'crypto';
-import { Public } from '@gauzy/common';
+import { Public } from '@irtranscripts/common';
 import { OAuthAppConfig, OAuthAppPendingRequest, SocialAuthService } from '../social-auth.service';
 
 interface OAuthAppAuthorizeQuery {
@@ -24,7 +24,7 @@ interface OAuthAppTokenRequestDto {
 	redirect_uri?: string;
 }
 
-@Controller('/integration/ever-gauzy/oauth')
+@Controller('/integration/ever-irtranscripts/oauth')
 export class OAuthAppController {
 	private readonly logger = new Logger(OAuthAppController.name);
 

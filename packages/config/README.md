@@ -1,6 +1,6 @@
-# @gauzy/config
+# @irtranscripts/config
 
-This library was generated with [Nx](https://nx.dev). It contains the configuration for the Gauzy API platform.
+This library was generated with [Nx](https://nx.dev). It contains the configuration for the IRTranscripts API platform.
 
 ## Building
 
@@ -10,7 +10,7 @@ Run `nx build config` to build the library.
 
 `src/lib/environments/environment.ts` (development) and `environment.prod.ts`
 (production) are both compiled. The package is consumed prebuilt — the API and
-worker externalize `@gauzy/*` and copy `dist/packages/config` into their own
+worker externalize `@irtranscripts/*` and copy `dist/packages/config` into their own
 `node_modules` — so a `fileReplacements` entry in their webpack builds cannot
 swap the two. The compiled file is selected instead
 (`src/lib/environments/select-compiled-environment.ts`, used from `dist/`):
@@ -40,7 +40,7 @@ After building your library with `yarn nx build config`, go to the dist folder `
 To install the API config Library, simply run the following command in your terminal:
 
 ```bash
-npm install @gauzy/config
+npm install @irtranscripts/config
 # or
-yarn add @gauzy/config
+yarn add @irtranscripts/config
 ```

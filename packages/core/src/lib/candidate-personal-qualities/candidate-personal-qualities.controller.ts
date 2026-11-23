@@ -7,7 +7,7 @@ import {
 	IPagination,
 	ICandidatePersonalQualitiesCreateInput,
 	ID
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { CrudController } from './../core/crud';
 import { RoleGuard, TenantPermissionGuard } from './../shared/guards';
 import { Roles } from './../shared/decorators';

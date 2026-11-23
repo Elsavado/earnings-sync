@@ -8,7 +8,7 @@ import {
 	IOrganizationContact,
 	IUser,
 	JsonData
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { OrganizationContact, TenantOrganizationBaseEntity, User } from '../core/entities/internal';
 import { ColumnIndex, JsonColumn, MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from '../core/decorators/entity';
 import { ColumnNumericTransformerPipe } from '../shared/pipes';

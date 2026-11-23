@@ -9,7 +9,7 @@ import {
 	Optional
 } from '@nestjs/common';
 import { createHash } from 'node:crypto';
-import { EverInstanceService } from '@gauzy/plugin-ever-instance';
+import { EverInstanceService } from '@irtranscripts/plugin-ever-instance';
 import { EverConnectAuditService } from './ever-connect-audit.service';
 import { deniedByEnv } from './ever-connect-config';
 import type { EverConnectConfig } from './ever-connect-config';
@@ -28,9 +28,9 @@ import {
 import { EverConnectSignals } from './ever-connect-signals';
 import { EverConnectStore, IntegrationRecord, LinkRecord } from './ever-connect.store';
 import {
-	GAUZY_INTEGRATIONS,
-	gauzyIntegration,
-	GauzyIntegrationDefinition,
+	IRTRANSCRIPTS_INTEGRATIONS,
+	irtranscriptsIntegration,
+	IRTranscriptsIntegrationDefinition,
 	offeredOn,
 	sharedDefinition
 } from './integrations/integration-definitions';
@@ -162,9 +162,9 @@ export class EverConnectIntegrationStateService {
 		this.now = clock?.now ?? (() => Date.now());
 	}
 
-	/** The integrations Gauzy offers on this installation (never `stats_link` on Ever Cloud). */
-	offered(): GauzyIntegrationDefinition[] {
-		return GAUZY_INTEGRATIONS.filter((definition) => offeredOn(definition, this.config.cloud));
+	/** The integrations IRTranscripts offers on this installation (never `stats_link` on Ever Cloud). */
+	offered(): IRTranscriptsIntegrationDefinition[] {
+		return IRTRANSCRIPTS_INTEGRATIONS.filter((definition) => offeredOn(definition, this.config.cloud));
 	}
 
 	/** Whether the operator (or the environment) denies `key` for every organization. */
@@ -229,7 +229,7 @@ export class EverConnectIntegrationStateService {
 
 	private async apply(
 		scope: string,
-		definition: GauzyIntegrationDefinition,
+		definition: IRTranscriptsIntegrationDefinition,
 		remote: RemoteState | undefined,
 		owner: Partial<LinkRecord>
 	): Promise<void> {
@@ -378,7 +378,7 @@ export class EverConnectIntegrationStateService {
 	}
 
 	private async view(
-		definition: GauzyIntegrationDefinition,
+		definition: IRTranscriptsIntegrationDefinition,
 		row: IntegrationRecord | null,
 		scoped: boolean
 	): Promise<IntegrationView> {
@@ -426,7 +426,7 @@ export class EverConnectIntegrationStateService {
 		);
 		const views: IntegrationView[] = [];
 		for (const row of rows) {
-			const definition = gauzyIntegration(row.name);
+			const definition = irtranscriptsIntegration(row.name);
 			if (definition && offeredOn(definition, this.config.cloud)) {
 				views.push(await this.view(definition, row, true));
 			}
@@ -437,8 +437,8 @@ export class EverConnectIntegrationStateService {
 	// ── Consent, switching off, accepting ─────────────────────────────────────
 
 	/** The definition of an offered key, else 404. */
-	private offeredDefinition(key: string): GauzyIntegrationDefinition {
-		const definition = gauzyIntegration(key);
+	private offeredDefinition(key: string): IRTranscriptsIntegrationDefinition {
+		const definition = irtranscriptsIntegration(key);
 		if (!definition || !offeredOn(definition, this.config.cloud)) {
 			throw new NotFoundException();
 		}
@@ -447,7 +447,7 @@ export class EverConnectIntegrationStateService {
 
 	/** The scope of `key` for this organization: `instance`, or its link (409 when it has none). */
 	private async scopeOf(
-		definition: GauzyIntegrationDefinition,
+		definition: IRTranscriptsIntegrationDefinition,
 		context: IntegrationContext
 	): Promise<{ scope: string; link: LinkRecord | null }> {
 		if (definition.instanceWide) {
@@ -737,7 +737,7 @@ export class EverConnectIntegrationStateService {
 	private async tellPolicy(key: string, wereOn: IntegrationRecord[]): Promise<void> {
 		const connection = await this.store.connection();
 		if (connection.status !== 'connected') return;
-		const definition = gauzyIntegration(key);
+		const definition = irtranscriptsIntegration(key);
 		const link = definition?.instanceWide ? null : (await this.store.liveLinks())[0];
 		if (!definition?.instanceWide && !link) return;
 		try {
@@ -987,4 +987,4 @@ export class EverConnectIntegrationStateService {
 
 /** Keys of the definitions (for specs). */
 export const OFFERED_KEYS = (cloud: boolean): IntegrationKey[] =>
-	GAUZY_INTEGRATIONS.filter((d) => offeredOn(d, cloud)).map((d) => d.key);
+	IRTRANSCRIPTS_INTEGRATIONS.filter((d) => offeredOn(d, cloud)).map((d) => d.key);

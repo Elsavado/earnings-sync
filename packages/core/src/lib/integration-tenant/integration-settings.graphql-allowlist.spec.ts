@@ -1,7 +1,7 @@
 import '../core/entities/internal';
 
 import { ForbiddenException } from '@nestjs/common';
-import { IntegrationEnum } from '@gauzy/contracts';
+import { IntegrationEnum } from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from '../core/crud/tenant-aware-crud.service';
 import { IntegrationSettingResolver } from '../integration-setting/integration-setting.resolver';
 import { IntegrationSettingService } from '../integration-setting/integration-setting.service';
@@ -11,7 +11,7 @@ import { IntegrationTenantService } from './integration-tenant.service';
 /**
  * The GraphQL twins of the allowlisted integration routes (SEC-E-03, GHSA-4rwq-65wh-45h4).
  *
- * A client may write only the integration settings on the allowlist (the Gauzy AI keys); `installation_id`, OAuth
+ * A client may write only the integration settings on the allowlist (the IRTranscripts AI keys); `installation_id`, OAuth
  * tokens and account / workspace ids are written by the integrations themselves and the server trusts them. The REST
  * routes enforce that — `POST /integration-tenant` checks every stated setting, `PUT /integration-tenant/:id` accepts
  * no settings at all (its DTO whitelist strips them), `PUT /integration-setting/:id` goes through `updateEditableSetting`
@@ -49,7 +49,7 @@ describe('createIntegrationTenant writes only the settings the route lets a clie
 		[IntegrationEnum.GITHUB, 'installation_id'],
 		[IntegrationEnum.GITHUB, 'access_token'],
 		[IntegrationEnum.HUBSTAFF, 'access_token'],
-		// A Gauzy AI key name on another provider's integration is not client-writable either.
+		// A IRTranscripts AI key name on another provider's integration is not client-writable either.
 		[IntegrationEnum.GITHUB, 'apiKey']
 	])('refuses %s / %s, and nothing is written', async (provider, settingsName) => {
 		// The failure scenario: a tenant admin binds their GitHub integration to another tenant's App installation.
@@ -62,7 +62,7 @@ describe('createIntegrationTenant writes only the settings the route lets a clie
 	it('refuses a server-managed setting riding along with an allowlisted one', async () => {
 		await expect(
 			resolver.createIntegrationTenant(
-				input(IntegrationEnum.GAUZY_AI, [
+				input(IntegrationEnum.IRTRANSCRIPTS_AI, [
 					{ settingsName: 'apiKey', settingsValue: 'key' },
 					{ settingsName: 'access_token', settingsValue: 'planted' }
 				])
@@ -80,7 +80,7 @@ describe('createIntegrationTenant writes only the settings the route lets a clie
 
 	it('connects with the allowlisted settings, and with none', async () => {
 		await resolver.createIntegrationTenant(
-			input(IntegrationEnum.GAUZY_AI, [{ settingsName: 'apiKey', settingsValue: 'key' }])
+			input(IntegrationEnum.IRTRANSCRIPTS_AI, [{ settingsName: 'apiKey', settingsValue: 'key' }])
 		);
 		await resolver.createIntegrationTenant(input(IntegrationEnum.GITHUB, undefined));
 
@@ -162,7 +162,7 @@ describe('updateIntegrationSetting rewrites only an allowlisted value — as the
 	});
 
 	it('writes only the value of an allowlisted row', async () => {
-		jest.spyOn(service, 'findOneByIdString').mockResolvedValue(stored(IntegrationEnum.GAUZY_AI, 'apiKey') as any);
+		jest.spyOn(service, 'findOneByIdString').mockResolvedValue(stored(IntegrationEnum.IRTRANSCRIPTS_AI, 'apiKey') as any);
 
 		await resolver.updateIntegrationSetting({ id: ROW_ID, organizationId: ORGANIZATION_ID, settingsValue: 'rotated' });
 

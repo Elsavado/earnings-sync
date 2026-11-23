@@ -1,4 +1,4 @@
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { IQuery } from '@nestjs/cqrs';
 
 export class GetSubscriptionAccessQuery implements IQuery {

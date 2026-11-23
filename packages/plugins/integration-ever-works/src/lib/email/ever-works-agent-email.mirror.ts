@@ -10,8 +10,8 @@ import {
 	InboxItemKindEnum,
 	InboxItemPriorityEnum,
 	InboxItemSourceEnum
-} from '@gauzy/contracts';
-import { Employee, User } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { Employee, User } from '@irtranscripts/core';
 import type { EverWorksEmailMessage, EverWorksEventEnvelope } from '../client/ever-works-client.types';
 import { EverWorksConnectionService } from '../connection/ever-works-connection.service';
 import { EverWorksMappingContext, EverWorksMappingContextService } from '../mapping/ever-works-mapping-context.service';
@@ -35,7 +35,7 @@ export const MIRROR_RECOVERY_ATTEMPTS = 3;
 /** The longest text body a mirrored item keeps (the full message stays in Ever Works, `webUrl`). */
 export const MIRRORED_EMAIL_BODY_MAX = 100_000;
 
-/** The Gauzy Inbox item of one Ever Works agent email (read-only: replying stays in Ever Works). */
+/** The IRTranscripts Inbox item of one Ever Works agent email (read-only: replying stays in Ever Works). */
 export function mirroredEmailUpsertOf(
 	message: EverWorksEmailMessage,
 	scope: { tenantId: ID; organizationId: ID; recipientUserId: ID },
@@ -78,21 +78,21 @@ export function mirroredEmailUpsertOf(
 			}
 		},
 		recipients: [{ userId: scope.recipientUserId }],
-		// The owner's pairing may be replaced: the former Gauzy user stops reading the copy.
+		// The owner's pairing may be replaced: the former IRTranscripts user stops reading the copy.
 		replaceRecipients: true
 	};
 }
 
 /**
- * The read-only mirror of Ever Works agent mail, Ever Works → Gauzy (plan 04 §6, G-P4-6 part 2; CR-11): the
+ * The read-only mirror of Ever Works agent mail, Ever Works → IRTranscripts (plan 04 §6, G-P4-6 part 2; CR-11): the
  * `email.message.received|sent|status_changed` events (recipient-scoped, served to a key holding `email:read`) become
- * Gauzy Inbox `EMAIL` items (`source = EVER_WORKS`, identity `ever_works_email` / the EW message id) of the Gauzy user
+ * IRTranscripts Inbox `EMAIL` items (`source = EVER_WORKS`, identity `ever_works_email` / the EW message id) of the IRTranscripts user
  * paired with the agent's owner, listed under the virtual mailbox "Ever Works — <agent>", linked to the agent employee
  * and the task. They are copies to read: a reply stays in Ever Works.
  *
- * - **Optional, per mapping:** the `agentEmail` direction (`ew_to_gauzy` | `off`, default **off**); off, the events are
+ * - **Optional, per mapping:** the `agentEmail` direction (`ew_to_irtranscripts` | `off`, default **off**); off, the events are
  *   skipped (not left deferred).
- * - A message Gauzy handed to the agent itself (the bridge's `AGENT_EMAIL` link) is already in the Gauzy Inbox: skipped.
+ * - A message IRTranscripts handed to the agent itself (the bridge's `AGENT_EMAIL` link) is already in the IRTranscripts Inbox: skipped.
  * - An owner not paired yet waits (deferred, like the inbox) until the People tab pairs them.
  * - An event whose body was left out (over 256 KiB) is completed from `GET /email/messages/:id`.
  */
@@ -114,21 +114,21 @@ export class EverWorksAgentEmailMirror implements EverWorksInboundHandler {
 			: null;
 		if (!context) return { status: 'skipped', message: 'no mapping for the Ever Works organization' };
 		if (!context.isEnabled) return { status: 'skipped', message: 'the mapping is disabled' };
-		if ((context.directions as Record<string, string | undefined>)['agentEmail'] !== 'ew_to_gauzy') {
+		if ((context.directions as Record<string, string | undefined>)['agentEmail'] !== 'ew_to_irtranscripts') {
 			return { status: 'skipped', message: 'agent mail is not mirrored (the agentEmail direction is off)' };
 		}
 		if (!this.inbox) {
 			// Switched on but not loaded in this process: a process that hosts the Inbox applies it.
-			return process.env['GAUZY_INBOX_ENABLED'] === 'true'
-				? { status: 'deferred', message: 'the Gauzy Inbox is not loaded in this process' }
-				: { status: 'skipped', message: 'the Gauzy Inbox is off (GAUZY_INBOX_ENABLED)' };
+			return process.env['IRTRANSCRIPTS_INBOX_ENABLED'] === 'true'
+				? { status: 'deferred', message: 'the IRTranscripts Inbox is not loaded in this process' }
+				: { status: 'skipped', message: 'the IRTranscripts Inbox is off (IRTRANSCRIPTS_INBOX_ENABLED)' };
 		}
 		let message = { ...((envelope.data ?? {}) as unknown as EverWorksEmailMessage), id: envelope.aggregate.id };
 		const handedOff = await this.links.byEw(context.integrationTenantId, EverWorksLinkType.AGENT_EMAIL, message.id);
 		if (handedOff)
 			return {
 				status: 'skipped',
-				message: 'handed to the agent from Gauzy: the message is in the Gauzy Inbox already'
+				message: 'handed to the agent from IRTranscripts: the message is in the IRTranscripts Inbox already'
 			};
 		const link = await this.links.byEw(
 			context.integrationTenantId,
@@ -140,11 +140,11 @@ export class EverWorksAgentEmailMirror implements EverWorksInboundHandler {
 			return { status: 'skipped', message: 'already applied (version)' };
 		}
 		if (!message.ownerUserId) return { status: 'skipped', message: 'the message names no owner' };
-		const recipientUserId = await this.gauzyUserOf(context, message.ownerUserId);
+		const recipientUserId = await this.irtranscriptsUserOf(context, message.ownerUserId);
 		if (!recipientUserId) {
 			return {
 				status: 'deferred',
-				message: `the agent's owner (Ever Works user ${message.ownerUserId}) is not matched to a Gauzy member yet: match them on the People tab`
+				message: `the agent's owner (Ever Works user ${message.ownerUserId}) is not matched to a IRTranscripts member yet: match them on the People tab`
 			};
 		}
 		if (message.bodyOmitted) {
@@ -162,8 +162,8 @@ export class EverWorksAgentEmailMirror implements EverWorksInboundHandler {
 			: null;
 		const scope = { tenantId: context.tenantId, organizationId: context.organizationId, recipientUserId };
 		const extras = {
-			taskId: (task?.gauzyId as ID | undefined) ?? null,
-			agentEmployeeId: (live?.gauzyId as ID | undefined) ?? null,
+			taskId: (task?.irtranscriptsId as ID | undefined) ?? null,
+			agentEmployeeId: (live?.irtranscriptsId as ID | undefined) ?? null,
 			agentName: (this.links.snapshot<{ name?: string }>(live).name as string | undefined) ?? null
 		};
 		// The version again, right before the write: a newer one applied meanwhile (by another process) wins.
@@ -177,7 +177,7 @@ export class EverWorksAgentEmailMirror implements EverWorksInboundHandler {
 		}
 		const result = await this.inbox.upsertExternal(mirroredEmailUpsertOf(message, scope, extras));
 		if (!result.recipientUserIds.includes(recipientUserId)) {
-			return { status: 'deferred', message: 'the matched Gauzy user is not a user of this tenant' };
+			return { status: 'deferred', message: 'the matched IRTranscripts user is not a user of this tenant' };
 		}
 		// The link write is the engine's monotonic version check (#10827). Refused, another process applied a newer
 		// version while this one worked (its lease lapsed): the copy is written again from the message as Ever Works
@@ -194,7 +194,7 @@ export class EverWorksAgentEmailMirror implements EverWorksInboundHandler {
 					organizationId: context.organizationId,
 					integrationTenantId: context.integrationTenantId,
 					entityType: EverWorksLinkType.AGENT_EMAIL_MIRROR,
-					gauzyId: written.itemId,
+					irtranscriptsId: written.itemId,
 					ewId: message.id,
 					ewVersion: written.version,
 					ewUpdatedAt: written.message.updatedAt ?? null,
@@ -220,12 +220,12 @@ export class EverWorksAgentEmailMirror implements EverWorksInboundHandler {
 		}
 	}
 
-	/** The Gauzy user paired with an Ever Works user (MEMBER link → employee of the organization). */
-	private async gauzyUserOf(context: EverWorksMappingContext, ewUserId: string): Promise<ID | null> {
+	/** The IRTranscripts user paired with an Ever Works user (MEMBER link → employee of the organization). */
+	private async irtranscriptsUserOf(context: EverWorksMappingContext, ewUserId: string): Promise<ID | null> {
 		const link = await this.links.byEw(context.integrationTenantId, EverWorksLinkType.MEMBER, ewUserId);
-		if (!link?.gauzyId || link.state === EverWorksLinkState.UNLINKED) return null;
+		if (!link?.irtranscriptsId || link.state === EverWorksLinkState.UNLINKED) return null;
 		const employee = await this.dataSource.getRepository(Employee).findOne({
-			where: { id: link.gauzyId, tenantId: context.tenantId, organizationId: context.organizationId },
+			where: { id: link.irtranscriptsId, tenantId: context.tenantId, organizationId: context.organizationId },
 			select: { id: true, userId: true }
 		});
 		if (!employee?.userId) return null;

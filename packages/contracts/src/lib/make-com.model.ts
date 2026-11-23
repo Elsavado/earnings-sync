@@ -1,4 +1,4 @@
-import { IBasePerTenantAndOrganizationEntityModel } from '@gauzy/contracts';
+import { IBasePerTenantAndOrganizationEntityModel } from '@irtranscripts/contracts';
 
 export type GrantType = 'authorization_code' | 'refresh_token';
 

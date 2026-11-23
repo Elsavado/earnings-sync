@@ -1,5 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
-import { IRule, IRuleCreateInput, RuleOperator, RuleOwnerType, RuleScope, RuleValueType } from '@gauzy/contracts';
+import { IRule, IRuleCreateInput, RuleOperator, RuleOwnerType, RuleScope, RuleValueType } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context/request-context';
 import { Rule } from './rule.entity';
 import { RuleValidationCode } from './rule.validator';

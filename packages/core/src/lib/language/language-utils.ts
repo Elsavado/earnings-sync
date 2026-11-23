@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker';
 import { QueryRunner } from 'typeorm';
 import { v4 as uuidV4 } from 'uuid';
-import { DatabaseTypeEnum } from '@gauzy/config';
-import { ILanguage, LanguagesEnum } from '@gauzy/contracts';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
+import { ILanguage, LanguagesEnum } from '@irtranscripts/contracts';
 import allLanguages from './all-languages';
 import { Language } from './language.entity';
 

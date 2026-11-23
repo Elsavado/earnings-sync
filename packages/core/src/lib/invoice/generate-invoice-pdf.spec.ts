@@ -1,4 +1,4 @@
-import { CurrencyPosition, DiscountTaxTypeEnum, InvoiceTypeEnum } from '@gauzy/contracts';
+import { CurrencyPosition, DiscountTaxTypeEnum, InvoiceTypeEnum } from '@irtranscripts/contracts';
 import { generateInvoicePdfDefinition } from './generate-invoice-pdf';
 import { generateInvoicePaymentPdfDefinition } from './generate-invoice-payment-pdf';
 
@@ -203,7 +203,7 @@ describe('generateInvoicePdfDefinition', () => {
 
 		it.each([
 			[InvoiceTypeEnum.BY_EMPLOYEE_HOURS, { employee: { user: { name: 'Jane Doe' } } }, 'Jane Doe'],
-			[InvoiceTypeEnum.BY_PROJECT_HOURS, { project: { name: 'Gauzy' } }, 'Gauzy'],
+			[InvoiceTypeEnum.BY_PROJECT_HOURS, { project: { name: 'IRTranscripts' } }, 'IRTranscripts'],
 			[InvoiceTypeEnum.BY_TASK_HOURS, { task: { title: 'Fix PDF' } }, 'Fix PDF'],
 			[InvoiceTypeEnum.BY_PRODUCTS, { product: { name: 'Widget', translations: [] } }, 'Widget'],
 			[InvoiceTypeEnum.BY_EXPENSES, { expense: { purpose: 'Travel' } }, 'Travel']

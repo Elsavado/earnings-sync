@@ -1,15 +1,15 @@
 import { app } from 'electron';
-import { logger as log } from '@gauzy/desktop-core';
+import { logger as log } from '@irtranscripts/desktop-core';
 import * as Sentry from '@sentry/electron/main';
 import { initSentry } from '../../sentry';
 import * as path from 'path';
-import { DialogErrorHandler } from '@gauzy/desktop-lib';
+import { DialogErrorHandler } from '@irtranscripts/desktop-lib';
 
 export function InitLogger() {
 	log.setup();
 
 	// Add node modules path
-	log.info('Gauzy Agent Node Modules Path', path.join(__dirname, 'node_modules'));
+	log.info('IRTranscripts Agent Node Modules Path', path.join(__dirname, 'node_modules'));
 
 	// Initialize Sentry
 	initSentry();

@@ -1,4 +1,4 @@
-import { IPluginSource } from '@gauzy/contracts';
+import { IPluginSource } from '@irtranscripts/contracts';
 
 // Strategy Pattern for different source types
 export interface ISourceStrategy<T = unknown> {

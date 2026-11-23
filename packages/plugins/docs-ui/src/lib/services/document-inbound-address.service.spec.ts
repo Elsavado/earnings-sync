@@ -1,10 +1,10 @@
 /**
- * `@gauzy/ui-core/core` is a barrel over the whole app core — importing it pulls Akita's
+ * `@irtranscripts/ui-core/core` is a barrel over the whole app core — importing it pulls Akita's
  * untranspiled ESM into the CommonJS test runtime. The service only ever reads
  * `Store.selectedOrganization`, so a stub keeps the suite honest without booting the app graph
  * (same treatment as `document-activity.service.spec.ts`).
  */
-jest.mock('@gauzy/ui-core/core', () => ({ Store: class Store {} }));
+jest.mock('@irtranscripts/ui-core/core', () => ({ Store: class Store {} }));
 
 import { HttpParams } from '@angular/common/http';
 import { firstValueFrom, Observable, of } from 'rxjs';
@@ -13,8 +13,8 @@ import {
 	DocumentInboundDomainStatusEnum,
 	ID,
 	IDocumentInboundAddress
-} from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
+} from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
 import { DocumentInboundAddressService } from './document-inbound-address.service';
 
 const ORGANIZATION_ID = 'eeeeeeee-1111-4111-8111-111111111111' as ID;
@@ -50,7 +50,7 @@ function wireRow(overrides: Partial<IDocumentInboundAddress> = {}): IDocumentInb
 	return {
 		id: ADDRESS_ID,
 		kind: DocumentInboundAddressKindEnum.PLATFORM,
-		address: 'docs-abc123@inbound.gauzy.co',
+		address: 'docs-abc123@inbound.irtranscripts.com',
 		domainStatus: DocumentInboundDomainStatusEnum.VERIFIED,
 		senderAllowlist: [],
 		importBodyAsNote: false,
@@ -178,7 +178,7 @@ describe('DocumentInboundAddressService (spec 07 §17.2)', () => {
 
 		await firstValueFrom(service.getVerification(ADDRESS_ID));
 
-		// The record NAME is derived from a backend constant (`_gauzy-docs.<domain>`); a UI that
+		// The record NAME is derived from a backend constant (`_irtranscripts-docs.<domain>`); a UI that
 		// guessed it would keep telling people to publish the wrong record if that prefix moved.
 		expect(http.last.method).toBe('GET');
 		expect(http.last.url).toMatch(new RegExp(`/inbound-addresses/${ADDRESS_ID}/verification$`));

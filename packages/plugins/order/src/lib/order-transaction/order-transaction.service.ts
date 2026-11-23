@@ -1,7 +1,7 @@
 ﻿import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { DeepPartial } from 'typeorm';
-import { ID, OrderTransactionType } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { ID, OrderTransactionType } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { OrderTransaction } from './order-transaction.entity';
 import { Order } from '../order/order.entity';
 import { orderLedgerAppendOnly } from '../order-ledger.append-only';

@@ -7,7 +7,7 @@ import {
 	IProjectsStatistics,
 	ITasksStatistics,
 	ITimeSlot
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { TimeTrackerDateManager } from '../../services';
 import { IDateRangePicker } from '../shared/features/date-range-picker/date-picker.interface';
 

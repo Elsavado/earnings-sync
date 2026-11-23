@@ -4,7 +4,7 @@
 
 import { ArgumentMetadata, Injectable, NotAcceptableException, NotFoundException, PipeTransform } from '@nestjs/common';
 import { isUUID } from 'class-validator';
-import { isEmpty } from '@gauzy/utils';
+import { isEmpty } from '@irtranscripts/utils';
 
 /**
  * UUID Validation Pipe

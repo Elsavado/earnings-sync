@@ -10,8 +10,8 @@ import {
 	NbCheckboxModule
 } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Store } from '@gauzy/ui-core/core';
-import { EquipmentService, ImageAssetService } from '@gauzy/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
+import { EquipmentService, ImageAssetService } from '@irtranscripts/ui-core/core';
 import { TagsColorInputModule } from '../tags/tags-color-input/tags-color-input.module';
 import { CurrencyModule } from '../modules/currency/currency.module';
 import { EquipmentMutationComponent } from './equipment-mutation.component';

@@ -2,7 +2,7 @@
 // Provides a high-level API for components to interact with subscription access state
 
 import { Injectable } from '@angular/core';
-import { PluginScope } from '@gauzy/contracts';
+import { PluginScope } from '@irtranscripts/contracts';
 import { Actions } from '@ngneat/effects-ng';
 import { Observable } from 'rxjs';
 import {

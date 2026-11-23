@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ConnectionEntityManager, SeedDataService, randomSeedConfig } from '@gauzy/core';
+import { ConnectionEntityManager, SeedDataService, randomSeedConfig } from '@irtranscripts/core';
 import { createDefaultProposals, createRandomProposals } from './proposal.seed';
 
 /**

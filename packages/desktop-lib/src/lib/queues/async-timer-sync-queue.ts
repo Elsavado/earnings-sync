@@ -1,4 +1,4 @@
-import { PersistentQueue } from '@gauzy/desktop-activity';
+import { PersistentQueue } from '@irtranscripts/desktop-activity';
 import { app } from 'electron';
 import { Knex } from 'knex';
 import * as fs from 'node:fs';
@@ -7,10 +7,10 @@ import { IOfflineMode } from '../interfaces';
 import { ITimerQueueJob, TimerQueueJobType, TimerQueueProcessor } from './timer-queue-processor';
 
 /** File in the app's user data folder holding the jobs of the asynchronous timer data sync. */
-export const ASYNC_TIMER_SYNC_QUEUE_FILE = 'gauzy-timer-sync-queue.sqlite3';
+export const ASYNC_TIMER_SYNC_QUEUE_FILE = 'irtranscripts-timer-sync-queue.sqlite3';
 
 /** The queue name the desktop timer uses for all its jobs. */
-export const DEFAULT_TIMER_QUEUE = 'gauzy-queue';
+export const DEFAULT_TIMER_QUEUE = 'irtranscripts-queue';
 
 /** `appSetting.asyncTimerDataSync`: off unless explicitly `true`. */
 export function isAsyncTimerDataSyncEnabled(appSetting: { asyncTimerDataSync?: unknown } | null | undefined): boolean {
@@ -22,7 +22,7 @@ export interface IAsyncTimerSyncQueueOptions {
 	offlineMode: IOfflineMode;
 	/** Reports a job that failed all its attempts; the job is then dropped. */
 	onJobFailed: (job: ITimerQueueJob, error: unknown) => void | Promise<void>;
-	/** Defaults to `<userData>/gauzy-timer-sync-queue.sqlite3`. */
+	/** Defaults to `<userData>/irtranscripts-timer-sync-queue.sqlite3`. */
 	dbPath?: string;
 	/** Further attempts after a failure (default 3). */
 	maxRetries?: number;

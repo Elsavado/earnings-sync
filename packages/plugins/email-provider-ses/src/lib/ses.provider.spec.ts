@@ -1,8 +1,8 @@
 // cspell:ignore dmarc AKID AKIDEXAMPLE AKIDX Jalr FEMI MDENG CYEXAMPLEKEY amazonses
-// `@gauzy/plugin-inbox` from source with its real MIME parser and settings; `@gauzy/core` (whose barrel boots the
+// `@irtranscripts/plugin-inbox` from source with its real MIME parser and settings; `@irtranscripts/core` (whose barrel boots the
 // application) is not needed by the parts used here.
-jest.mock('@gauzy/core', () => ({}));
-jest.mock('@gauzy/plugin-inbox', () => ({
+jest.mock('@irtranscripts/core', () => ({}));
+jest.mock('@irtranscripts/plugin-inbox', () => ({
 	...jest.requireActual('../../../inbox/src/lib/email/inbound/mime'),
 	...jest.requireActual('../../../inbox/src/lib/email/inbound/inbox-email.config'),
 	...jest.requireActual('../../../inbox/src/lib/email/inbound/inbox-email-processor.types')

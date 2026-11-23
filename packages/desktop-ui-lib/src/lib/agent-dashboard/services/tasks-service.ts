@@ -6,9 +6,9 @@ import { TaskStatusCacheService, Store } from '../../services';
 import {
 	IPagination,
 	ITaskStatus
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { API_PREFIX } from '../../constants';
-import { toParams } from '@gauzy/ui-core/common';
+import { toParams } from '@irtranscripts/ui-core/common';
 
 @Injectable({ providedIn: 'root' })
 export class TasksService {

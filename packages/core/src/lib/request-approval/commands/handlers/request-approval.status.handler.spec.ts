@@ -2,13 +2,13 @@
 import '../../../core/entities/internal';
 
 import { ConflictException, ForbiddenException, NotFoundException } from '@nestjs/common';
-import { PERMISSIONS_METADATA, ROLES_METADATA } from '@gauzy/constants';
+import { PERMISSIONS_METADATA, ROLES_METADATA } from '@irtranscripts/constants';
 import {
 	ApprovalPolicyTypesStringEnum,
 	PermissionsEnum,
 	RequestApprovalStatusTypesEnum,
 	RolesEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { RequestContext } from '../../../core/context';
 import { CrudService } from '../../../core/crud/crud.service';
 import { MultiORMEnum } from '../../../core/utils';

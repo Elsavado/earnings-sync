@@ -1,4 +1,4 @@
-# @gauzy/plugin-job-search-ui
+# @irtranscripts/plugin-job-search-ui
 
 This library was generated with [Nx](https://nx.dev).
 
@@ -19,7 +19,7 @@ After building your library with `yarn nx build plugin-job-search-ui`, go to the
 Install the Job Search UI Plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-job-search-ui
+npm install @irtranscripts/plugin-job-search-ui
 # or
-yarn add @gauzy/plugin-job-search-ui
+yarn add @irtranscripts/plugin-job-search-ui
 ```

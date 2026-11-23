@@ -1,5 +1,5 @@
 import { LoggerService } from '@nestjs/common';
-import { isDevelopment } from '@gauzy/config';
+import { isDevelopment } from '@irtranscripts/config';
 
 /**
  * Emits a DEBUG entry only when the API runs as a development instance (see `isDevelopment`).

@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, OnDestr
 import { NbButtonModule, NbIconModule, NbProgressBarModule } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { DocumentsService } from '../../services/documents.service';
 import { AngularNodeViewComponent } from '../node-view/angular-node-view-renderer';
 import { IImageSource, resolveImageSource } from '../read-only/raw-image.util';

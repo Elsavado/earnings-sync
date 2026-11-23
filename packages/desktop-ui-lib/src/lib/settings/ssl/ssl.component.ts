@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, NgZone, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { IProxyConfig } from '@gauzy/contracts';
+import { IProxyConfig } from '@irtranscripts/contracts';
 import { ElectronService } from '../../electron/services/electron/electron.service';
 import { NbCardModule, NbToggleModule, NbIconModule, NbTooltipModule, NbInputModule, NbButtonModule } from '@nebular/theme';
 import { FormsModule } from '@angular/forms';
@@ -14,7 +14,7 @@ interface ICheckSslResponse {
 }
 
 @Component({
-    selector: 'gauzy-ssl',
+    selector: 'irtranscripts-ssl',
     templateUrl: './ssl.component.html',
     styleUrls: ['./ssl.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,

@@ -9,9 +9,9 @@ jest.mock('@sentry/node', () => ({
 	addBreadcrumb: jest.fn()
 }));
 
-// SentryService only reads the current request's tenant settings from @gauzy/core; with no request
+// SentryService only reads the current request's tenant settings from @irtranscripts/core; with no request
 // in flight it falls back to "enabled when a DSN is configured".
-jest.mock('@gauzy/core', () => ({ RequestContext: { currentRequest: () => undefined } }));
+jest.mock('@irtranscripts/core', () => ({ RequestContext: { currentRequest: () => undefined } }));
 
 const DSN = 'https://public@o0.ingest.sentry.io/0';
 

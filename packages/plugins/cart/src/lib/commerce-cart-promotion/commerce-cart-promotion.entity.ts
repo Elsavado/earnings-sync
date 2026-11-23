@@ -2,7 +2,7 @@ import { DecimalAmount } from '../shared/is-decimal-amount.validator';
 import { JoinColumn } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, MaxLength } from 'class-validator';
-import { ICommerceCartPromotion, ID } from '@gauzy/contracts';
+import { ICommerceCartPromotion, ID } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	ColumnNumericTransformerPipe,
@@ -10,7 +10,7 @@ import {
 	MultiORMEntity,
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { CommerceCart } from '../commerce-cart/commerce-cart.entity';
 import { MikroOrmCommerceCartPromotionRepository } from './repository/mikro-orm-commerce-cart-promotion.repository';
 

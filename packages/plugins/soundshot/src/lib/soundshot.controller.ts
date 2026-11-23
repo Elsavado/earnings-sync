@@ -1,4 +1,4 @@
-import { ID, IPagination, ISoundshot, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IPagination, ISoundshot, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	assertNotMarkupContent,
 	audioUploadFileFilter,
@@ -16,7 +16,7 @@ import {
 	UploadedFileStorage,
 	UseValidationPipe,
 	UUIDValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import {
 	BadRequestException,
 	Body,

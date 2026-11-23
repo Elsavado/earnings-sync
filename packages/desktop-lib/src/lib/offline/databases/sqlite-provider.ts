@@ -29,7 +29,7 @@ export class SqliteProvider implements IServerLessProvider {
 			// But we need to install it manually and instead we prefer to use 'better-sqlite3'
 			client: 'better-sqlite3',
 			connection: {
-				filename: path.resolve(app?.getPath('userData') || __dirname, 'gauzy.sqlite3'),
+				filename: path.resolve(app?.getPath('userData') || __dirname, 'irtranscripts.sqlite3'),
 				timezone: 'utc'
 			},
 			pool: {

@@ -1,12 +1,12 @@
 import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '@gauzy/ui-config';
+import { environment } from '@irtranscripts/ui-config';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { catchError, map } from 'rxjs/operators';
 import { combineLatest, Observable, of } from 'rxjs';
-import { IAppConfig } from '@gauzy/contracts';
-import { API_PREFIX } from '@gauzy/ui-core/common';
-import { AppService } from '@gauzy/ui-core/core';
+import { IAppConfig } from '@irtranscripts/contracts';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
+import { AppService } from '@irtranscripts/ui-core/core';
 
 /**
  * Interface representing a social link.

@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
-import { DecimalString, FulfillmentStatus, OrderStatus, OrderPaymentStatus } from '@gauzy/contracts';
-import { compareDecimalStrings, subtractDecimalStrings } from '@gauzy/core';
+import { DecimalString, FulfillmentStatus, OrderStatus, OrderPaymentStatus } from '@irtranscripts/contracts';
+import { compareDecimalStrings, subtractDecimalStrings } from '@irtranscripts/core';
 
 /**
  * A figure as the caller states it: exact decimal text, or the number form of one.

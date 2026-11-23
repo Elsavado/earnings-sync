@@ -8,7 +8,7 @@ import { Soundshot } from './entity/soundshot.entity';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { TypeOrmSoundshotRepository } from './repositories/type-orm-soundshot.repository';
 import { MikroOrmSoundshotRepository } from './repositories/mikro-orm-soundshot.repository';
-import { RolePermissionModule } from '@gauzy/core';
+import { RolePermissionModule } from '@irtranscripts/core';
 import { SoundshotSubscriber } from './subscribers/soundshot.subscriber';
 import { queryHandlers } from './queries';
 

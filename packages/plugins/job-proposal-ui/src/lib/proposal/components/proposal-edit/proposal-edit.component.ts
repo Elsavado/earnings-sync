@@ -4,16 +4,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { debounceTime, filter, tap } from 'rxjs/operators';
-import { IProposal, ITag } from '@gauzy/contracts';
+import { IProposal, ITag } from '@irtranscripts/contracts';
 import {
 	ErrorHandlingService,
 	OrganizationSettingService,
 	ProposalsService,
 	ToastrService,
 	UrlPatternValidator
-} from '@gauzy/ui-core/core';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/ui-core/core';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

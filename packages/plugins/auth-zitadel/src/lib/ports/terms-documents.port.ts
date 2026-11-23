@@ -1,7 +1,7 @@
-import { ITermsAcceptanceDocument } from '@gauzy/contracts';
+import { ITermsAcceptanceDocument } from '@irtranscripts/contracts';
 
 /**
- * The legal documents Gauzy currently requires a new account to accept. Provided by Gauzy's own terms
+ * The legal documents IRTranscripts currently requires a new account to accept. Provided by IRTranscripts's own terms
  * acceptance service, so the Ever ID sign-up requires exactly what the register form requires.
  */
 export interface TermsDocumentsPort {

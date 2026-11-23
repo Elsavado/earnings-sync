@@ -1,7 +1,7 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
-import { ConfigModule } from '@gauzy/config';
+import { ConfigModule } from '@irtranscripts/config';
 import {
 	IntegrationEntitySettingModule,
 	IntegrationEntitySettingTiedModule,
@@ -15,7 +15,7 @@ import {
 	RolePermissionModule,
 	ScreenshotModule,
 	UserModule
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { HUBSTAFF_API_URL } from './hubstaff.config';
 import { HubstaffService } from './hubstaff.service';
 import { HubstaffController } from './hubstaff.controller';

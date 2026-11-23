@@ -12,13 +12,13 @@ import {
 	ITaskPriorityFindInput,
 	PermissionsEnum,
 	TaskPriorityEnum
-} from '@gauzy/contracts';
-import { distinctUntilChange, sluggable } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { distinctUntilChange, sluggable } from '@irtranscripts/ui-core/common';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Store } from '@gauzy/ui-core/core';
-import { TaskPrioritiesService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { ToastrService } from '@gauzy/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
+import { TaskPrioritiesService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { ToastrService } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

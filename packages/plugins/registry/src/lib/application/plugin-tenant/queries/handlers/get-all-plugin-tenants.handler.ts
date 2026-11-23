@@ -1,4 +1,4 @@
-import { RequestContext, parseFindOptionsRelations } from '@gauzy/core';
+import { RequestContext, parseFindOptionsRelations } from '@irtranscripts/core';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { FindManyOptions, FindOptionsWhere } from 'typeorm';
 import { PluginTenant, PluginTenantService } from '../../../../domain';

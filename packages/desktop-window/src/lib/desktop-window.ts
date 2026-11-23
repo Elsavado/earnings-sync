@@ -2,31 +2,31 @@ import * as remoteMain from '@electron/remote/main';
 import { BrowserWindow, ipcMain, screen } from 'electron';
 import * as url from 'node:url';
 import { attachTitlebarToWindow } from 'custom-electron-titlebar/main';
-import { WindowManager, RegisteredWindow, store } from '@gauzy/desktop-core';
+import { WindowManager, RegisteredWindow, store } from '@irtranscripts/desktop-core';
 import { handleCloseEvent } from './utils/desktop-window-utils';
 
 /**
- * Creates and initializes the Gauzy main window for the Electron application.
+ * Creates and initializes the IRTranscripts main window for the Electron application.
  *
  * This function sets up a new Electron `BrowserWindow` instance with the specified settings,
  * loads the appropriate URL or file path, and attaches listeners for close and IPC events.
  * It also registers the window with the `WindowManager` for centralized control.
  *
- * @param {Electron.BrowserWindow | null} gauzyWindow - The Gauzy window instance to initialize or recreate.
+ * @param {Electron.BrowserWindow | null} irtranscriptsWindow - The IRTranscripts window instance to initialize or recreate.
  * @param {boolean} serve - Indicates if the application is running in development mode (serve).
  * @param {object} config - The configuration object containing app-specific settings.
  * @param {string} filePath - The path to the local file to load if not in serve mode.
  * @param {string} [preloadPath] - An optional path to the preload script for the window.
- * @returns {Promise<Electron.BrowserWindow>} - A promise resolving to the initialized Gauzy window.
+ * @returns {Promise<Electron.BrowserWindow>} - A promise resolving to the initialized IRTranscripts window.
  */
-export async function createGauzyWindow(
-	gauzyWindow: Electron.BrowserWindow | null,
+export async function createIRTranscriptsWindow(
+	irtranscriptsWindow: Electron.BrowserWindow | null,
 	serve: boolean,
 	config: any,
 	filePath: string,
 	preloadPath?: string
 ): Promise<Electron.BrowserWindow> {
-	console.info('Creating Gauzy main window: Initialization process started');
+	console.info('Creating IRTranscripts main window: Initialization process started');
 	// Get the WindowManager instance
 	const manager = WindowManager.getInstance();
 
@@ -34,13 +34,13 @@ export async function createGauzyWindow(
 	const mainWindowSettings = windowSetting(preloadPath);
 
 	// Create a new BrowserWindow instance
-	gauzyWindow = new BrowserWindow(mainWindowSettings);
+	irtranscriptsWindow = new BrowserWindow(mainWindowSettings);
 
 	// Enable remote handling for the window
-	remoteMain.enable(gauzyWindow.webContents);
+	remoteMain.enable(irtranscriptsWindow.webContents);
 
 	// Hide the window if configured to do so in the config
-	hideWindowIfConfigured(gauzyWindow, config);
+	hideWindowIfConfigured(irtranscriptsWindow, config);
 
 	let launchPath: string;
 	// Load the appropriate URL or file path
@@ -49,56 +49,56 @@ export async function createGauzyWindow(
 		require('electron-reload')(__dirname, { electron: electronPath });
 
 		launchPath = `http://localhost:${config.GAUZY_UI_DEFAULT_PORT}`;
-		await gauzyWindow.loadURL(launchPath);
+		await irtranscriptsWindow.loadURL(launchPath);
 	} else {
-		launchPath = await setLaunchPathAndLoad(gauzyWindow, filePath);
+		launchPath = await setLaunchPathAndLoad(irtranscriptsWindow, filePath);
 	}
 
 	console.log('Launched Electron with:', launchPath);
 
 	// Handle close event
-	handleCloseEvent(gauzyWindow);
+	handleCloseEvent(irtranscriptsWindow);
 
 	// Init main listener for electron
 	initMainListener();
 
-	console.info('Gauzy main window creation completed successfully');
+	console.info('IRTranscripts main window creation completed successfully');
 
 	// Register the window with the WindowManager
-	manager.register(RegisteredWindow.MAIN, gauzyWindow);
+	manager.register(RegisteredWindow.MAIN, irtranscriptsWindow);
 
 	// Additional configuration for preloadPath
 	if (preloadPath) {
-		attachTitlebarToWindow(gauzyWindow, {
+		attachTitlebarToWindow(irtranscriptsWindow, {
 			minWidth: mainWindowSettings.width,
 			minHeight: mainWindowSettings.height,
 		});
-		gauzyWindow.webContents.send('adjust_view');
+		irtranscriptsWindow.webContents.send('adjust_view');
 	}
 
-	manager.overrideSystemContextMenu(gauzyWindow);
+	manager.overrideSystemContextMenu(irtranscriptsWindow);
 
 	// Return the created window
-	return gauzyWindow;
+	return irtranscriptsWindow;
 }
 
 /**
- * Conditionally hides the Gauzy window based on the configuration.
+ * Conditionally hides the IRTranscripts window based on the configuration.
  *
- * If the `gauzyWindow` property in the `config` object is falsy, this function
+ * If the `irtranscriptsWindow` property in the `config` object is falsy, this function
  * hides the provided `BrowserWindow` instance.
  *
- * @param {Electron.BrowserWindow} gauzyWindow - The window to be hidden.
- * @param {{ gauzyWindow?: string }} config - Configuration with an optional `gauzyWindow` property.
+ * @param {Electron.BrowserWindow} irtranscriptsWindow - The window to be hidden.
+ * @param {{ irtranscriptsWindow?: string }} config - Configuration with an optional `irtranscriptsWindow` property.
  */
-function hideWindowIfConfigured(gauzyWindow: Electron.BrowserWindow, config: { gauzyWindow?: string }): void {
-	if (!config.gauzyWindow) {
-		gauzyWindow.hide();
+function hideWindowIfConfigured(irtranscriptsWindow: Electron.BrowserWindow, config: { irtranscriptsWindow?: string }): void {
+	if (!config.irtranscriptsWindow) {
+		irtranscriptsWindow.hide();
 	}
 }
 
 /**
- * Sets the launch path for the Gauzy window and loads the specified URL.
+ * Sets the launch path for the IRTranscripts window and loads the specified URL.
  *
  * This function constructs a `file:` protocol URL using the provided file path and
  * loads it into the Electron `BrowserWindow` instance.
@@ -119,7 +119,7 @@ async function setLaunchPathAndLoad(window: Electron.BrowserWindow, filePath: st
 	await window.loadURL(launchPath);
 
 	// Log the loaded URL for debugging purposes
-	console.info(`Loaded URL in Gauzy window: ${launchPath}`);
+	console.info(`Loaded URL in IRTranscripts window: ${launchPath}`);
 	return launchPath;
 }
 
@@ -154,7 +154,7 @@ const windowSetting = (preloadPath?: string): Electron.BrowserWindowConstructorO
 		height: sizes.height,
 		x: 0,
 		y: 0,
-		title: process.env.DESCRIPTION || 'Gauzy Desktop',
+		title: process.env.DESCRIPTION || 'IRTranscripts Desktop',
 		show: false,
 		icon: filesPath.iconPath
 	};

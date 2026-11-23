@@ -11,15 +11,15 @@ import {
 	IAiChatModelCatalogue,
 	IAiChatProvider,
 	IAiSpeechErrorBody
-} from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { loadAiSdk } from './esm-loader';
 import { AiProviderRegistry } from './provider-registry';
 import { IAiChatProviderDefinition, IAiProviderCredentials } from './provider.types';
 import { isSpeechProviderError } from './speech/speech-provider-error';
 import { buildSystemPrompt } from './system-prompt';
-import { GauzyApiClient } from './tools/gauzy-api-client';
-import { buildGauzyTools, GAUZY_TOOLS_REQUIRING_APPROVAL } from './tools/gauzy-tools';
+import { IRTranscriptsApiClient } from './tools/irtranscripts-api-client';
+import { buildIRTranscriptsTools, IRTRANSCRIPTS_TOOLS_REQUIRING_APPROVAL } from './tools/irtranscripts-tools';
 import { buildClientTools, CLIENT_TOOLS_REQUIRING_APPROVAL } from './tools/client-tools';
 import { createMcpTools } from './tools/mcp-tools';
 import { createDeferredDataPartWriter } from './tools/data-parts';
@@ -49,7 +49,7 @@ export const MAX_AUDIO_BYTES = 25 * 1024 * 1024;
 const MAX_STEPS = 12;
 
 /**
- * The operator's master switch: `GAUZY_AI_CHAT_ENABLED=false` turns the whole feature off.
+ * The operator's master switch: `IRTRANSCRIPTS_AI_CHAT_ENABLED=false` turns the whole feature off.
  *
  * Read per call rather than once at import so a test (or a config reload) sees the current value.
  * It must gate every path that reaches a model provider, not only `/config`: the UI hides itself
@@ -57,10 +57,10 @@ const MAX_STEPS = 12;
  * paid stream on a server whose operator switched the feature off.
  */
 export const isAiChatGloballyDisabled = (): boolean =>
-	process.env.GAUZY_AI_CHAT_ENABLED?.trim().toLowerCase() === 'false';
+	process.env.IRTRANSCRIPTS_AI_CHAT_ENABLED?.trim().toLowerCase() === 'false';
 
 /** Message of the 503 every provider-reaching route answers while the master switch is off. */
-const GLOBALLY_DISABLED_MESSAGE = 'AI chat is disabled on this server (GAUZY_AI_CHAT_ENABLED=false).';
+const GLOBALLY_DISABLED_MESSAGE = 'AI chat is disabled on this server (IRTRANSCRIPTS_AI_CHAT_ENABLED=false).';
 
 export interface IStreamChatArgs {
 	/** UI messages from the `useChat` client. */
@@ -87,7 +87,7 @@ export interface IStreamChatArgs {
  * AiChatService
  *
  * The chat engine: resolves the tenant's AI provider + model, assembles the
- * tool set (curated Gauzy REST tools with the user's own JWT, client/canvas
+ * tool set (curated IRTranscripts REST tools with the user's own JWT, client/canvas
  * tools, optional MCP tools) and streams a Vercel AI SDK UI message stream
  * back to the browser.
  */
@@ -122,7 +122,7 @@ export class AiChatService {
 			employeeId: RequestContext.currentEmployeeId() ?? undefined
 		};
 
-		const apiClient = new GauzyApiClient(args.authorizationHeader, {
+		const apiClient = new IRTranscriptsApiClient(args.authorizationHeader, {
 			...(requestDefaults.tenantId ? { 'Tenant-Id': requestDefaults.tenantId } : {}),
 			...(requestDefaults.organizationId ? { 'Organization-Id': requestDefaults.organizationId } : {})
 		});
@@ -131,12 +131,12 @@ export class AiChatService {
 		// `createUIMessageStream`'s execute callback below, which runs AFTER the tool map has to
 		// be built — so factories get this buffering writer now and it is bound there.
 		const dataParts = createDeferredDataPartWriter();
-		// Contributions from OTHER plugins (e.g. @gauzy/plugin-docs' docs_search/docs_read),
+		// Contributions from OTHER plugins (e.g. @irtranscripts/plugin-docs' docs_search/docs_read),
 		// resolved through the static AiChatToolRegistry. resolveAll() is error-isolated per
 		// factory and returns an empty contribution when nothing is registered, so behavior is
 		// unchanged on installs without contributing plugins.
-		const [gauzyTools, clientTools, mcp, registryContribution] = await Promise.all([
-			buildGauzyTools(apiClient, requestDefaults),
+		const [irtranscriptsTools, clientTools, mcp, registryContribution] = await Promise.all([
+			buildIRTranscriptsTools(apiClient, requestDefaults),
 			buildClientTools(),
 			createMcpTools(args.authorizationHeader),
 			AiChatToolRegistry.resolveAll({
@@ -163,7 +163,7 @@ export class AiChatService {
 		// collision — a plugin must never be able to shadow a built-in tool.
 		const tools = {
 			...registryContribution.tools,
-			...gauzyTools,
+			...irtranscriptsTools,
 			...clientTools,
 			...((mcp?.tools as any) ?? {})
 		} as any;
@@ -176,7 +176,7 @@ export class AiChatService {
 			(name) => tools[name] === registryContribution.tools[name]
 		);
 		const approvalRequired = [
-			...GAUZY_TOOLS_REQUIRING_APPROVAL,
+			...IRTRANSCRIPTS_TOOLS_REQUIRING_APPROVAL,
 			...CLIENT_TOOLS_REQUIRING_APPROVAL,
 			...mcpToolNames,
 			...registryApproval
@@ -428,12 +428,12 @@ export class AiChatService {
 			// getConfig() (above) correctly passes only the configured ones. That asymmetry was a
 			// live outage: resolveDefaultProvider's last step is `const first = configuredIds[0]`,
 			// returned WITHOUT a credential check, and AiProviderRegistry.list() sorts ascending by
-			// `order`, where gauzy-ai is 10 — always first. So on any install with no tenant-level
-			// default, `definition` became gauzy-ai. Being non-null, it also skipped the
+			// `order`, where irtranscripts-ai is 10 — always first. So on any install with no tenant-level
+			// default, `definition` became irtranscripts-ai. Being non-null, it also skipped the
 			// "first provider that has credentials" search that used to sit here, and the request
-			// then died at the `no usable credentials` throw below — or, if GAUZY_AI_API_KEY happened
+			// then died at the `no usable credentials` throw below — or, if IRTRANSCRIPTS_AI_API_KEY happened
 			// to be set (the unrelated integration-ai plugin shares that exact variable), at
-			// gauzy-ai's createModel, which throws 'not implemented yet' unconditionally.
+			// irtranscripts-ai's createModel, which throws 'not implemented yet' unconditionally.
 			// Meanwhile GET /config advertised a healthy default, so the UI looked configured and
 			// every single turn failed.
 			// Credentials alone are not enough: a placeholder provider whose createModel still throws
@@ -504,7 +504,7 @@ export class AiChatService {
 					)
 				);
 			}
-			// GAUZY_AI_CHAT_DEFAULT_MODEL is deliberately NOT consulted here: it is provider-agnostic
+			// IRTRANSCRIPTS_AI_CHAT_DEFAULT_MODEL is deliberately NOT consulted here: it is provider-agnostic
 			// (.env.sample ships an Anthropic-native slug) and would name a model this provider would
 			// reject. A tenant default cannot apply either — a usable tenant credential would have
 			// produced source:'tenant' and never reached this branch.
@@ -517,7 +517,7 @@ export class AiChatService {
 		const modelId =
 			requestedModelId ||
 			tenantCredential?.defaultModel ||
-			process.env.GAUZY_AI_CHAT_DEFAULT_MODEL ||
+			process.env.IRTRANSCRIPTS_AI_CHAT_DEFAULT_MODEL ||
 			definition.defaultModel;
 
 		const model = await definition.createModel(modelId, credentials);
@@ -879,12 +879,12 @@ export class AiChatService {
 			}
 		}
 
-		const envDefault = process.env.GAUZY_AI_CHAT_DEFAULT_PROVIDER;
+		const envDefault = process.env.IRTRANSCRIPTS_AI_CHAT_DEFAULT_PROVIDER;
 		if (envDefault && configuredIds.includes(envDefault)) {
 			return {
 				defaultProvider: envDefault,
-				...(process.env.GAUZY_AI_CHAT_DEFAULT_MODEL
-					? { defaultModel: process.env.GAUZY_AI_CHAT_DEFAULT_MODEL }
+				...(process.env.IRTRANSCRIPTS_AI_CHAT_DEFAULT_MODEL
+					? { defaultModel: process.env.IRTRANSCRIPTS_AI_CHAT_DEFAULT_MODEL }
 					: {})
 			};
 		}

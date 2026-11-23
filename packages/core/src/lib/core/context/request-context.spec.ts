@@ -1,6 +1,6 @@
 import { AsyncLocalStorage } from 'async_hooks';
-import { PermissionsEnum, RolesEnum } from '@gauzy/contracts';
-import { environment as env } from '@gauzy/config';
+import { PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
+import { environment as env } from '@irtranscripts/config';
 import { HttpException } from '@nestjs/common';
 import { sign } from 'jsonwebtoken';
 import { ClsService } from 'nestjs-cls';

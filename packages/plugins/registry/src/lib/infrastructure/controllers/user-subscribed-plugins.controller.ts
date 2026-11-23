@@ -1,5 +1,5 @@
-import { HttpStatus, IPagination, PluginSubscriptionStatus } from '@gauzy/contracts';
-import { PermissionGuard, RequestContext, TenantPermissionGuard } from '@gauzy/core';
+import { HttpStatus, IPagination, PluginSubscriptionStatus } from '@irtranscripts/contracts';
+import { PermissionGuard, RequestContext, TenantPermissionGuard } from '@irtranscripts/core';
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { QueryBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';

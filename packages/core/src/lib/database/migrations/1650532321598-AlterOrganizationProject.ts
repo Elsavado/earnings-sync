@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 import * as chalk from "chalk";
 import { seedProjectMembersCount } from "../../organization-project/organization-project.seed";
-import { DatabaseTypeEnum } from "@gauzy/config";
+import { DatabaseTypeEnum } from "@irtranscripts/config";
 
 export class AlterOrganizationProject1650532321598 implements MigrationInterface {
 

@@ -1,10 +1,10 @@
 /**
- * The part of Gauzy's social sign-in the Keycloak routes use. It is provided by the core
+ * The part of IRTranscripts's social sign-in the Keycloak routes use. It is provided by the core
  * authentication service, the same one the Google, GitHub and Microsoft routes use.
  */
 export interface SocialSignInPort {
 	/**
-	 * Finds the Gauzy user that owns one of the verified addresses and issues its token. Only an account that has
+	 * Finds the IRTranscripts user that owns one of the verified addresses and issues its token. Only an account that has
 	 * confirmed the address matches; when several do, `workspaces` carries the workspace picker's sign-in code instead.
 	 */
 	validateOAuthLoginEmail(emails: Array<{ value: string; verified: boolean }>): Promise<{
@@ -24,4 +24,4 @@ export interface SocialSignInPort {
 }
 
 /** Injection token of {@link SocialSignInPort}. */
-export const SOCIAL_SIGN_IN = 'GAUZY_KEYCLOAK_SOCIAL_SIGN_IN';
+export const SOCIAL_SIGN_IN = 'IRTRANSCRIPTS_KEYCLOAK_SOCIAL_SIGN_IN';

@@ -1,4 +1,4 @@
-import { ScheduledJob } from '@gauzy/scheduler';
+import { ScheduledJob } from '@irtranscripts/scheduler';
 import { Injectable, Logger } from '@nestjs/common';
 import { CronExpression } from '@nestjs/schedule';
 import { ITokenJob } from './interfaces';

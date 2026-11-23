@@ -25,7 +25,7 @@
  * build, re-hash, compare.
  */
 export interface ITermsAcceptanceDocument {
-	/** Stable document identifier, `<document>:<product>` — e.g. `tos:gauzy`. */
+	/** Stable document identifier, `<document>:<product>` — e.g. `tos:irtranscripts`. */
 	documentId: string;
 	/** Published version of the document, e.g. `1.0.0`. */
 	version: string;

@@ -1,6 +1,6 @@
-# @gauzy/plugin-product-reviews
+# @irtranscripts/plugin-product-reviews
 
-This library was generated with [Nx](https://nx.dev). It contains the product reviews plugin for the Gauzy platform.
+This library was generated with [Nx](https://nx.dev). It contains the product reviews plugin for the IRTranscripts platform.
 
 ## Building
 
@@ -19,7 +19,7 @@ After building your library with `yarn nx build plugin-product-reviews`, go to t
 Install the Product Reviews Plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-product-reviews
+npm install @irtranscripts/plugin-product-reviews
 # or
-yarn add @gauzy/plugin-product-reviews
+yarn add @irtranscripts/plugin-product-reviews
 ```

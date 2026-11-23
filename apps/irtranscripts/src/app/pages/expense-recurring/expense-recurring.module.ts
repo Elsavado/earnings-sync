@@ -1,0 +1,41 @@
+import { NgModule } from '@angular/core';
+import {
+	NbCardModule,
+	NbButtonModule,
+	NbInputModule,
+	NbIconModule,
+	NbDialogModule,
+	NbSpinnerModule,
+	NbTooltipModule
+} from '@nebular/theme';
+import { TranslatePipe } from '@ngx-translate/core';
+import { NgxPermissionsModule } from 'ngx-permissions';
+import {
+	RecordViewModule,
+	RecurringExpenseBlockModule,
+	SmartDataViewLayoutModule,
+	SharedModule
+} from '@irtranscripts/ui-core/shared';
+import { ExpenseRecurringRoutingModule } from './expense-recurring-routing.module';
+import { ExpenseRecurringComponent } from './expense-recurring.component';
+
+@NgModule({
+	imports: [
+		ExpenseRecurringRoutingModule,
+		SharedModule,
+		NbCardModule,
+		NbButtonModule,
+		NbInputModule,
+		NbIconModule,
+		NbSpinnerModule,
+		NbTooltipModule,
+		NbDialogModule.forChild(),
+		NgxPermissionsModule.forChild(),
+		TranslatePipe,
+		RecurringExpenseBlockModule,
+		RecordViewModule,
+		SmartDataViewLayoutModule
+	],
+	declarations: [ExpenseRecurringComponent]
+})
+export class ExpenseRecurringModule {}

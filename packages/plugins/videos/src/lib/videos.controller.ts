@@ -1,4 +1,4 @@
-import { FileStorageProviderEnum, ID, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { FileStorageProviderEnum, ID, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	assertNotMarkupContent,
 	FileStorage,
@@ -16,7 +16,7 @@ import {
 	UploadedFileStorage,
 	UseValidationPipe,
 	UUIDValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import {
 	BadRequestException,
 	Body,

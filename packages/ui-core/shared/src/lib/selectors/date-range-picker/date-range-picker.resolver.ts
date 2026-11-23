@@ -1,11 +1,11 @@
 import { ActivatedRouteSnapshot, ResolveFn } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import moment from 'moment';
-import { IDateRangePicker } from '@gauzy/contracts';
-import { parseToBoolean } from '@gauzy/ui-core/common';
+import { IDateRangePicker } from '@irtranscripts/contracts';
+import { parseToBoolean } from '@irtranscripts/ui-core/common';
 // TYPE-ONLY on purpose: a value import from the core barrel pulls the whole app graph
 // (store -> @datorama/akita) into every route resolution and into this file's unit test.
-import type { IDatePickerConfig } from '@gauzy/ui-core/core';
+import type { IDatePickerConfig } from '@irtranscripts/ui-core/core';
 
 /**
  * Mirrors `DEFAULT_DATE_PICKER_CONFIG.unitOfTime`, kept local for the reason above. It is only

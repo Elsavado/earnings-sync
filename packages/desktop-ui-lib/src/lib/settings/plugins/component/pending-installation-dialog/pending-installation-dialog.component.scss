@@ -1,4 +1,4 @@
-@use 'gauzy/_gauzy-dialogs' as *;
+@use 'irtranscripts/_irtranscripts-dialogs' as *;
 
 // Animations
 @keyframes pulse {
@@ -84,9 +84,9 @@
   max-height: 85vh;
   display: flex;
   flex-direction: column;
-  background: var(--gauzy-card-1);
+  background: var(--irtranscripts-card-1);
   border-radius: calc(var(--border-radius) * 2.5);
-  box-shadow: var(--gauzy-shadow), 0 8px 32px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--irtranscripts-shadow), 0 8px 32px rgba(0, 0, 0, 0.12);
   overflow: hidden;
 }
 
@@ -95,7 +95,7 @@
   align-items: flex-start;
   justify-content: space-between;
   padding: 1.25rem 1.5rem;
-  background: linear-gradient(135deg, var(--color-primary-100) 0%, var(--gauzy-card-1) 100%);
+  background: linear-gradient(135deg, var(--color-primary-100) 0%, var(--irtranscripts-card-1) 100%);
   border-bottom: 1px solid var(--divider-color);
 
   .header-content {
@@ -128,13 +128,13 @@
         margin: 0;
         font-weight: 700;
         font-size: 1.125rem;
-        color: var(--gauzy-text-color-1);
+        color: var(--irtranscripts-text-color-1);
         line-height: 1.3;
       }
 
       .subtitle {
         font-size: 0.8125rem;
-        color: var(--gauzy-text-color-2);
+        color: var(--irtranscripts-text-color-2);
         line-height: 1.4;
         max-width: 400px;
       }
@@ -153,7 +153,7 @@
 
     nb-icon {
       font-size: 1.25rem;
-      color: var(--gauzy-text-color-2);
+      color: var(--irtranscripts-text-color-2);
     }
   }
 }
@@ -205,12 +205,12 @@ nb-card-body {
     .loading-text {
       font-size: 1rem;
       font-weight: 600;
-      color: var(--gauzy-text-color-1);
+      color: var(--irtranscripts-text-color-1);
     }
 
     .loading-subtext {
       font-size: 0.8125rem;
-      color: var(--gauzy-text-color-2);
+      color: var(--irtranscripts-text-color-2);
     }
   }
 }
@@ -355,13 +355,13 @@ nb-card-body {
     margin: 0 0 0.5rem;
     font-weight: 700;
     font-size: 1.125rem;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
   }
 
   .empty-state-description {
     margin: 0 0 1.5rem;
     font-size: 0.875rem;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
     max-width: 320px;
     line-height: 1.5;
   }
@@ -379,7 +379,7 @@ nb-card-body {
     .list-title {
       font-size: 0.75rem;
       font-weight: 600;
-      color: var(--gauzy-text-color-2);
+      color: var(--irtranscripts-text-color-2);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
@@ -398,7 +398,7 @@ nb-card-body {
     border: 1px solid var(--divider-color);
     border-radius: calc(var(--border-radius) * 1.5);
     overflow: hidden;
-    background: var(--gauzy-card-2);
+    background: var(--irtranscripts-card-2);
   }
 
   .plugin-item {
@@ -408,7 +408,7 @@ nb-card-body {
     padding: 1rem 1.25rem;
     gap: 1rem;
     border-bottom: 1px solid var(--divider-color);
-    background: var(--gauzy-card-2);
+    background: var(--irtranscripts-card-2);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     animation: slideIn 0.3s ease;
 
@@ -422,17 +422,17 @@ nb-card-body {
     }
 
     &.is-installing {
-      background: linear-gradient(90deg, var(--color-info-100) 0%, var(--gauzy-card-2) 100%);
+      background: linear-gradient(90deg, var(--color-info-100) 0%, var(--irtranscripts-card-2) 100%);
       border-left: 3px solid var(--color-info-500);
     }
 
     &.has-error {
-      background: linear-gradient(90deg, var(--color-danger-100) 0%, var(--gauzy-card-2) 100%);
+      background: linear-gradient(90deg, var(--color-danger-100) 0%, var(--irtranscripts-card-2) 100%);
       border-left: 3px solid var(--color-danger-500);
     }
 
     &.is-installed {
-      background: linear-gradient(90deg, var(--color-success-100) 0%, var(--gauzy-card-2) 100%);
+      background: linear-gradient(90deg, var(--color-success-100) 0%, var(--irtranscripts-card-2) 100%);
       border-left: 3px solid var(--color-success-500);
       opacity: 0.95;
     }
@@ -515,7 +515,7 @@ nb-card-body {
       .plugin-name {
         font-weight: 600;
         font-size: 0.9375rem;
-        color: var(--gauzy-text-color-1);
+        color: var(--irtranscripts-text-color-1);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -525,7 +525,7 @@ nb-card-body {
       .plugin-version-badge {
         font-size: 0.6875rem;
         font-weight: 600;
-        color: var(--gauzy-text-color-2);
+        color: var(--irtranscripts-text-color-2);
         background: var(--background-basic-color-3);
         padding: 0.125rem 0.375rem;
         border-radius: 4px;
@@ -549,7 +549,7 @@ nb-card-body {
 
       .plugin-description {
         font-size: 0.75rem;
-        color: var(--gauzy-text-color-2);
+        color: var(--irtranscripts-text-color-2);
         line-height: 1.5;
 
         button {
@@ -675,7 +675,7 @@ nb-card-body {
   justify-content: space-between;
   padding: 1rem 1.5rem;
   border-top: 1px solid var(--divider-color);
-  background: var(--gauzy-card-2);
+  background: var(--irtranscripts-card-2);
   gap: 1rem;
 
   .footer-info {
@@ -689,7 +689,7 @@ nb-card-body {
         align-items: center;
         gap: 0.375rem;
         font-size: 0.8125rem;
-        color: var(--gauzy-text-color-2);
+        color: var(--irtranscripts-text-color-2);
         background: var(--background-basic-color-3);
         padding: 0.375rem 0.75rem;
         border-radius: calc(var(--border-radius) * 1.25);

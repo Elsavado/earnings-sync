@@ -11,8 +11,8 @@ import { InjectDataSource } from '@nestjs/typeorm';
 import { createHash, randomUUID } from 'node:crypto';
 import { DataSource, EntityManager, IsNull, LessThan, MoreThan, Not } from 'typeorm';
 import { pick } from 'underscore';
-import { environment } from '@gauzy/config';
-import { deepMerge } from '@gauzy/utils';
+import { environment } from '@irtranscripts/config';
+import { deepMerge } from '@irtranscripts/utils';
 import {
 	AccountDeletionOutcomeEnum,
 	IAccountDeletionAccount,
@@ -22,7 +22,7 @@ import {
 	ID,
 	LanguagesEnum,
 	RolesEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	allowedEmailLink,
 	allowedEmailLinkOrigins,
@@ -699,7 +699,7 @@ export class AccountDeletionService {
 			});
 		}
 
-		const name = `gauzy:account-deletion:${emailHash.slice(0, 32)}`;
+		const name = `irtranscripts:account-deletion:${emailHash.slice(0, 32)}`;
 		const runner = this.dataSource.createQueryRunner();
 		await runner.connect();
 		try {
@@ -768,7 +768,7 @@ export class AccountDeletionService {
 	/**
 	 * Every account of an address, with what deleting it does.
 	 *
-	 * One Gauzy user exists per tenant ("workspace"). When nobody else uses the workspace, it goes as a
+	 * One IRTranscripts user exists per tenant ("workspace"). When nobody else uses the workspace, it goes as a
 	 * whole; otherwise only the user's own account does, and `soleAdmin` warns when they are its last admin.
 	 * Soft-deleted accounts count on both sides: one with this address is deleted too, and another member's
 	 * soft-deleted (restorable) account keeps the workspace from being deleted whole.
@@ -942,7 +942,7 @@ function add(total: ErasureCounts, more: ErasureCounts): void {
 	}
 }
 
-/** `locale` (or its language part, `pt-BR` → `pt`) when Gauzy has emails in it, otherwise undefined. */
+/** `locale` (or its language part, `pt-BR` → `pt`) when IRTranscripts has emails in it, otherwise undefined. */
 function supportedLanguage(locale?: string): LanguagesEnum | undefined {
 	const languages = Object.values(LanguagesEnum) as string[];
 	for (const candidate of [locale, locale?.split(/[-_]/)[0]]) {

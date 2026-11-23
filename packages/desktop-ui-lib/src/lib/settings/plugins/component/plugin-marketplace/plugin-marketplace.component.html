@@ -141,7 +141,7 @@ selectedView = query.selectedView$ | async;
 					[disabled]="isOffline"
 					class="upload-fab"
 				>
-					<nb-icon *gauzySpinnerButton="uploading" icon="cloud-upload-outline"></nb-icon>
+					<nb-icon *irtranscriptsSpinnerButton="uploading" icon="cloud-upload-outline"></nb-icon>
 					@if (uploading) {
 					<span class="upload-progress">{{ progress | percent : '1.2-2' }}</span>
 					}

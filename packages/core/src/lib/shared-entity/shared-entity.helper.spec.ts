@@ -1,6 +1,6 @@
 import { BadRequestException, ForbiddenException } from '@nestjs/common';
 import { EntityMetadata } from 'typeorm';
-import { IShareRule } from '@gauzy/contracts';
+import { IShareRule } from '@irtranscripts/contracts';
 import {
 	assertShareRulesAreSafe,
 	buildSharedEntitySelect,

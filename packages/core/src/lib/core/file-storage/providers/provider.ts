@@ -1,5 +1,5 @@
 import { StorageEngine } from 'multer';
-import { FileStorageOption, FileStorageProvider, FileSystem, UploadedFile } from '@gauzy/contracts';
+import { FileStorageOption, FileStorageProvider, FileSystem, UploadedFile } from '@irtranscripts/contracts';
 import type { StoredFileContent } from '../helpers/stored-file-content';
 
 export abstract class Provider<T> {

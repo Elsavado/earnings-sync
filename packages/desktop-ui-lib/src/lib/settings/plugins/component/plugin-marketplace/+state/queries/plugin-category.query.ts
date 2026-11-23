@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Query } from '@datorama/akita';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IPluginCategoryTree } from '../../../../services/plugin-category.service';

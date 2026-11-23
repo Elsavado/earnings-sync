@@ -1,15 +1,15 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { Subject, Subscription } from 'rxjs';
 import { DataSource, EventSubscriber } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { BaseEntityEventSubscriber, Goal, KeyResult, KeyResultUpdate, RequestContext } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { BaseEntityEventSubscriber, Goal, KeyResult, KeyResultUpdate, RequestContext } from '@irtranscripts/core';
 import { EverWorksLinkType } from '../sync/entities/ever-works-sync.entities';
 import { EverWorksSyncContext } from '../sync/ever-works-sync.context';
 import { EverWorksOutboundQueue } from '../sync/outbound/ever-works-outbound.queue';
 import { runDetached } from '../sync/outbound/ever-works-detached';
 
 /**
- * A Gauzy goal or key result changed. The row as the ORM handed it to the subscriber: a partial update
+ * A IRTranscripts goal or key result changed. The row as the ORM handed it to the subscriber: a partial update
  * saves only the fields sent (no organization, maybe no goal), so the capture reads what is missing.
  */
 export interface EverWorksGoalSignal {
@@ -148,14 +148,14 @@ export class EverWorksGoalCapture implements OnModuleInit, OnModuleDestroy {
 		const op = change.deleted ? 'delete' : 'upsert';
 		const enqueue = (
 			entityType: EverWorksLinkType.GOAL | EverWorksLinkType.KEY_RESULT,
-			gauzyId: ID,
+			irtranscriptsId: ID,
 			scope: { tenantId: ID; organizationId: ID },
 			upsert = false
 		) =>
 			this.queue.enqueue({
 				...scope,
 				entityType,
-				gauzyId,
+				irtranscriptsId,
 				op: upsert ? 'upsert' : op,
 				actorUserId: change.actorUserId
 			});

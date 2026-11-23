@@ -1,4 +1,4 @@
-import { ID, ISearchDocument, ISearchIndexField, ISearchIndexRegistration, JsonData, SearchFieldKind } from '@gauzy/contracts';
+import { ID, ISearchDocument, ISearchIndexField, ISearchIndexRegistration, JsonData, SearchFieldKind } from '@irtranscripts/contracts';
 
 /**
  * The key a document's own normalised weight is stored under inside its attribute map.

@@ -45,9 +45,9 @@ import {
 	IAdvancedTaskFiltering,
 	EmployeeNotificationTypeEnum,
 	NotificationActionTypeEnum
-} from '@gauzy/contracts';
-import { isEmpty, isNotEmpty } from '@gauzy/utils';
-import { isPostgres, isSqlite } from '@gauzy/config';
+} from '@irtranscripts/contracts';
+import { isEmpty, isNotEmpty } from '@irtranscripts/utils';
+import { isPostgres, isSqlite } from '@irtranscripts/config';
 import { TenantAwareCrudService, BaseQueryDTO } from './../core/crud';
 import { IPartialEntity } from './../core/crud/icrud.service';
 import { sanitizeRichHtml } from './../core/html-sanitizer';
@@ -1365,7 +1365,7 @@ export class TaskService extends TenantAwareCrudService<Task> {
 	 * The key is what a person reads off a board or types into a link (`FUL-12`), and the create handler is
 	 * what writes it: the prefix is the first three characters of the project's name and the number is one
 	 * above that project's highest. So the number is unique within a project, but the prefix is not unique
-	 * across projects — "Gauzy" and "Gauzy Teams" both file under `Gau`. A caller that states the project
+	 * across projects — "IRTranscripts" and "IRTranscripts Teams" both file under `Gau`. A caller that states the project
 	 * reads exactly one row; a caller that does not and hits two is refused rather than handed whichever
 	 * row the store returned first, because a node read that silently picks one is a wrong answer with no
 	 * way to tell it is one.

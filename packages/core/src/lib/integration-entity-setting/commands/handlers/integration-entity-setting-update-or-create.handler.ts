@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IIntegrationEntitySetting } from '@gauzy/contracts';
+import { IIntegrationEntitySetting } from '@irtranscripts/contracts';
 import { IntegrationEntitySettingUpdateOrCreateCommand } from '../integration-entity-setting-update-or-create.command';
 import { IntegrationEntitySettingService } from '../../integration-entity-setting.service';
 import { IntegrationTenantService } from '../../../integration-tenant/integration-tenant.service';

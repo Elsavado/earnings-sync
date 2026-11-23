@@ -1,7 +1,7 @@
 import * as chalk from 'chalk';
-import { ApplicationPluginConfig } from '@gauzy/common';
-import { SeederModule } from '@gauzy/core';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy, IOnPluginSeedable } from '@gauzy/plugin';
+import { ApplicationPluginConfig } from '@irtranscripts/common';
+import { SeederModule } from '@irtranscripts/core';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy, IOnPluginSeedable } from '@irtranscripts/plugin';
 import { EmployeeJobPostModule } from './employee-job/employee-job.module';
 import { EmployeeJobPresetModule, entities } from './employee-job-preset/employee-job-preset.module';
 import { JobPreset } from './employee-job-preset/job-preset.entity';

@@ -7,10 +7,10 @@ import {
 	OAuthAppConfig,
 	OAuthAppPendingRequest,
 	SocialSignInAuthData
-} from '@gauzy/auth';
-import { IAppIntegrationConfig } from '@gauzy/common';
-import { environment } from '@gauzy/config';
-import { DEMO_PASSWORD_LESS_MAGIC_CODE } from '@gauzy/constants';
+} from '@irtranscripts/auth';
+import { IAppIntegrationConfig } from '@irtranscripts/common';
+import { environment } from '@irtranscripts/config';
+import { DEMO_PASSWORD_LESS_MAGIC_CODE } from '@irtranscripts/constants';
 import {
 	IAuthResponse,
 	IChangePasswordRequest,
@@ -39,8 +39,8 @@ import {
 	PermissionsEnum,
 	ProviderEnum,
 	RolesEnum
-} from '@gauzy/contracts';
-import { buildQueryString, deepMerge, generateAlphaNumericCode, isNotEmpty } from '@gauzy/utils';
+} from '@irtranscripts/contracts';
+import { buildQueryString, deepMerge, generateAlphaNumericCode, isNotEmpty } from '@irtranscripts/utils';
 import { wrap } from '@mikro-orm/core';
 import { HttpService } from '@nestjs/axios';
 import {
@@ -987,7 +987,7 @@ export class AuthService extends SocialAuthService {
 
 	/**
 	 * Check if any user with the given provider infos exists
-	 * This function is used to facilitate the GauzyAdapter in Ever Teams try to create new Users or only signin them
+	 * This function is used to facilitate the IRTranscriptsAdapter in Ever Teams try to create new Users or only signin them
 
 	 * @param input An object that contains the provider name and the provider Account ID
 	 * @returns A promise that resolves to a boolean specifying if the user exists or not
@@ -1852,7 +1852,7 @@ export class AuthService extends SocialAuthService {
 	}
 
 	/**
-	 * Resolves a sign-in through an identity provider (Google, GitHub, Microsoft, Twitter, Keycloak...) to Gauzy.
+	 * Resolves a sign-in through an identity provider (Google, GitHub, Microsoft, Twitter, Keycloak...) to IRTranscripts.
 	 *
 	 * Owner decision 5: an account matches only when the provider reports the email verified AND the account has
 	 * confirmed that address itself (`UserService.findOAuthLoginUsers`). One match is signed in. Several are never

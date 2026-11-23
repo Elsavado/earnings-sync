@@ -18,8 +18,8 @@ import {
 	ITimeLogFilters,
 	ITimeLogTodayFilters,
 	ITimeSlotStatistics
-} from '@gauzy/contracts';
-import { isNotEmpty, toUtcOffset } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { isNotEmpty, toUtcOffset } from '@irtranscripts/ui-core/common';
 import { IDashboardWidgetContext } from './dashboard-widget-context';
 import { TimesheetStatisticsService } from '../timesheet/timesheet-statistics.service';
 import { EmployeeTrackedDataAccessService } from '../timesheet/employee-tracked-data-access.service';

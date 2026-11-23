@@ -1,8 +1,8 @@
 import { Component, Input, OnChanges, type SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
-import { ID } from '@gauzy/contracts';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { ID } from '@irtranscripts/contracts';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { DOCS_ACTIVITY_MAX_ITEMS, DocumentActivityService } from '../../services/document-activity.service';
 import {
 	IDocumentActivityChange,

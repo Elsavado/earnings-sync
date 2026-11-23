@@ -1,6 +1,6 @@
 import { BadRequestException, Body, Controller, Get, HttpStatus, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { FeatureFlag } from '@gauzy/common';
+import { FeatureFlag } from '@irtranscripts/common';
 import {
 	DocumentInboundAddressKindEnum,
 	FeatureEnum,
@@ -8,7 +8,7 @@ import {
 	IDocumentInboundAddressSecret,
 	IDocumentInboundDomainVerification,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	FeatureFlagGuard,
 	PermissionGuard,
@@ -17,7 +17,7 @@ import {
 	TenantPermissionGuard,
 	UUIDValidationPipe,
 	UseValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { InboundAddressService } from '../capture/inbound-address.service';
 import { DocumentInboundAddress } from '../entities/document-inbound-address.entity';
 import {

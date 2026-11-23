@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDate, IsEnum, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 import { Exclude } from 'class-transformer';
-import { IImportHistory, ImportStatusEnum } from '@gauzy/contracts';
+import { IImportHistory, ImportStatusEnum } from '@irtranscripts/contracts';
 import { TenantBaseEntity } from '../../core/entities/internal';
 import { MultiORMColumn, MultiORMEntity, VirtualMultiOrmColumn } from '../../core/decorators/entity';
 import { MikroOrmImportHistoryRepository } from './repository/mikro-orm-import-history.repository';

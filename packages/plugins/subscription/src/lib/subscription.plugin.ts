@@ -1,5 +1,5 @@
 import * as chalk from 'chalk';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@gauzy/plugin';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@irtranscripts/plugin';
 import { CreateSubscriptionTables1791000000320 } from './database/migrations/1791000000320-CreateSubscriptionTables';
 import {
 	AddSubscriptionVersionColumn1791000000575
@@ -19,10 +19,10 @@ import { SUBSCRIPTION_PERMISSIONS } from './subscription.permissions';
  * rather than discovered at request time.
  */
 const SUBSCRIPTION_DEPENDS_ON: string[] = [
-	'@gauzy/plugin-catalog',
-	'@gauzy/plugin-pricing',
-	'@gauzy/plugin-order',
-	'@gauzy/plugin-payment'
+	'@irtranscripts/plugin-catalog',
+	'@irtranscripts/plugin-pricing',
+	'@irtranscripts/plugin-order',
+	'@irtranscripts/plugin-payment'
 ];
 
 /**

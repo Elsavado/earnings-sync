@@ -10,7 +10,7 @@ import {
 	NbToggleModule
 } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
-import { FeatureService, FeatureStoreService } from '@gauzy/ui-core/core';
+import { FeatureService, FeatureStoreService } from '@irtranscripts/ui-core/core';
 import { CountdownConfirmationModule } from '../user/forms/countdown-confirmation/countdown-confirmation.module';
 import { FeatureToggleComponent } from './feature-toggle.component';
 

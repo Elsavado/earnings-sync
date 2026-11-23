@@ -1,5 +1,5 @@
-import { getConfig } from '@gauzy/config';
-import { PluginFeatureContribution, PluginPermissionContribution, getFeaturesFromPlugins, getPermissionsFromPlugins } from '@gauzy/plugin';
+import { getConfig } from '@irtranscripts/config';
+import { PluginFeatureContribution, PluginPermissionContribution, getFeaturesFromPlugins, getPermissionsFromPlugins } from '@irtranscripts/plugin';
 
 /**
  * Pure readers for what the configured plugins declare.

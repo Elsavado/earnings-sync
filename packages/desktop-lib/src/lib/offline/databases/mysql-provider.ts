@@ -48,7 +48,7 @@ export class MysqlProvider implements IClientServerProvider {
 	}
 
 	private _initialization() {
-		this._database = 'gauzy_timer_db';
+		this._database = 'irtranscripts_timer_db';
 		const cfg = LocalStore.getApplicationConfig().config['mysql'];
 		if (!cfg) {
 			throw new AppError('MYSQL', 'MysqlSQL configuration is missing');

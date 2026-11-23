@@ -9,8 +9,8 @@ import {
 	DocumentStatusEnum,
 	DocumentVisibilityEnum,
 	ID
-} from '@gauzy/contracts';
-import { BaseQueryDTO } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { BaseQueryDTO } from '@irtranscripts/core';
 import { Document } from '../entities/document.entity';
 
 /**

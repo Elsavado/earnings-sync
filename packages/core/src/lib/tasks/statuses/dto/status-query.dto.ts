@@ -1,5 +1,5 @@
 import { IntersectionType, PartialType, PickType } from '@nestjs/swagger';
-import { ITaskStatusFindInput } from '@gauzy/contracts';
+import { ITaskStatusFindInput } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from './../../../core/dto';
 import { TaskStatus } from './../status.entity';
 

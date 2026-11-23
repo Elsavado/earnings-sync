@@ -1,7 +1,7 @@
 {
 	"keyId": "3bf3b5d7-9eaf-4be8-8c13-8e9fabbccdde",
-	"keyName": "Ever Gauzy — Acme",
-	"integrationKind": "ever-gauzy",
+	"keyName": "Ever IRTranscripts — Acme",
+	"integrationKind": "ever-irtranscripts",
 	"tenant": {
 		"id": "7c1e9a52-3b0d-4c8e-9f21-5d6a7b8c9d01",
 		"slug": "ruslan"

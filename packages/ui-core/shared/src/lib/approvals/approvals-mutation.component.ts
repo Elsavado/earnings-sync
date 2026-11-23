@@ -12,16 +12,16 @@ import {
 	IRequestApprovalCreateInput,
 	ApprovalPolicyTypesStringEnum,
 	ITag
-} from '@gauzy/contracts';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/contracts';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 
-import { Store } from '@gauzy/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
 import {
 	ApprovalPolicyService,
 	EmployeesService,
 	OrganizationTeamsService,
 	RequestApprovalService
-} from '@gauzy/ui-core/core';
+} from '@irtranscripts/ui-core/core';
 import { FormHelpers } from '../forms/helpers';
 
 @UntilDestroy({ checkProperties: true })

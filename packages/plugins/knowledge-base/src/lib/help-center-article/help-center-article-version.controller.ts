@@ -16,7 +16,7 @@ import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { DeepPartial, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { ID, IHelpCenterArticle, IHelpCenterArticleVersion, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IHelpCenterArticle, IHelpCenterArticleVersion, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	AbstractValidationPipe,
 	CrudController,
@@ -26,7 +26,7 @@ import {
 	TenantPermissionGuard,
 	UUIDValidationPipe,
 	BaseQueryDTO
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { HelpCenterArticleVersion } from './help-center-article-version.entity';
 import { HelpCenterArticleVersionService } from './help-center-article-version.service';
 

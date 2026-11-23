@@ -8,8 +8,8 @@ import {
 	ID,
 	IEmployeeStatisticsHistory,
 	IEmployeeStatisticsHistoryFindInput
-} from '@gauzy/contracts';
-import { EmployeeStatisticsService, IDashboardWidgetContext, STATISTICS_CACHE_TTL_MS } from '@gauzy/ui-core/core';
+} from '@irtranscripts/contracts';
+import { EmployeeStatisticsService, IDashboardWidgetContext, STATISTICS_CACHE_TTL_MS } from '@irtranscripts/ui-core/core';
 
 /**
  * Window in which repeated invalidations of the same scope collapse into one.

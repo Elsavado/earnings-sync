@@ -1,7 +1,7 @@
 import { CallHandler, ExecutionContext, HttpException } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
 import { Observable, catchError, throwError } from 'rxjs';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { SentryInterceptor, SentryInterceptorOptions } from './ntegral';
 
 /**

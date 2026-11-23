@@ -1,4 +1,4 @@
-import { ITaskStatus, TaskStatusEnum } from '@gauzy/contracts';
+import { ITaskStatus, TaskStatusEnum } from '@irtranscripts/contracts';
 
 export const DEFAULT_GLOBAL_STATUSES: ITaskStatus[] = [
 	{

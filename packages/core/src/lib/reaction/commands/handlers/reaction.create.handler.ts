@@ -1,6 +1,6 @@
 import { HttpStatus, HttpException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { ActorTypeEnum, IReaction } from '@gauzy/contracts';
+import { ActorTypeEnum, IReaction } from '@irtranscripts/contracts';
 import { RequestContext } from '../../../core/context/request-context';
 import { ReactionService } from '../../reaction.service';
 import { ReactionCreateCommand } from '../reaction.create.command';

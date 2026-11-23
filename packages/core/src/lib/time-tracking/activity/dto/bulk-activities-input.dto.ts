@@ -1,5 +1,5 @@
 import { IntersectionType } from '@nestjs/swagger';
-import { IActivity, IBulkActivitiesInput } from '@gauzy/contracts';
+import { IActivity, IBulkActivitiesInput } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../../core/dto';
 import { EmployeeFeatureDTO } from '../../../employee/dto';
 

@@ -1,7 +1,7 @@
 @let versions = query.versions$| async; @let isAvailable = (query.count$ | async) > 0; @let isLoading = query.isLoading$
 | async; @let selected = query.version$| async;
 
-<gauzy-select
+<irtranscripts-select
 	class="w-100"
 	[selectedItem]="$safeNavigationMigration(selected?.id)"
 	[items]="versions"
@@ -13,4 +13,4 @@
 	[isLoading]="isLoading"
 	(scrollToEnd)="loadMore()"
 >
-</gauzy-select>
+</irtranscripts-select>

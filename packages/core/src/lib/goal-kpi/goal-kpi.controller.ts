@@ -14,7 +14,7 @@ import {
 	UsePipes
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { IKPI, IPagination, PermissionsEnum, ID } from '@gauzy/contracts';
+import { IKPI, IPagination, PermissionsEnum, ID } from '@irtranscripts/contracts';
 import { CrudController } from './../core/crud';
 import { GoalKPI } from './goal-kpi.entity';
 import { GoalKpiService } from './goal-kpi.service';

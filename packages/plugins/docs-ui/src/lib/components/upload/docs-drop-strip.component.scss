@@ -11,7 +11,7 @@
 	min-height: 3rem;
 	border: 1px dashed var(--docs-hairline, rgba(126, 126, 143, 0.35));
 	border-radius: var(--docs-radius-lg, 0.5rem);
-	background: var(--docs-surface, var(--gauzy-card-1));
+	background: var(--docs-surface, var(--irtranscripts-card-1));
 	color: var(--docs-text-muted, var(--text-hint-color));
 	cursor: pointer;
 	user-select: none;
@@ -24,7 +24,7 @@
 
 	&:hover {
 		border-color: var(--color-primary-default);
-		background: var(--docs-hover, var(--gauzy-card-2));
+		background: var(--docs-hover, var(--irtranscripts-card-2));
 	}
 
 	&:focus-visible {

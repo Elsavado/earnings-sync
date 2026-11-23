@@ -53,7 +53,7 @@ export interface DependencyValidationResult {
  *
  * @example
  * ```ts
- * import { validatePluginDependencies, flattenPlugins } from '@gauzy/plugin-ui';
+ * import { validatePluginDependencies, flattenPlugins } from '@irtranscripts/plugin-ui';
  *
  * const allPlugins = flattenPlugins(config.plugins);
  * const result = validatePluginDependencies(allPlugins);

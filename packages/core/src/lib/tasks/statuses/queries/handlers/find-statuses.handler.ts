@@ -1,6 +1,6 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { BadRequestException } from '@nestjs/common';
-import { IPagination, ITaskStatus } from '@gauzy/contracts';
+import { IPagination, ITaskStatus } from '@irtranscripts/contracts';
 import { TaskStatusService } from '../../status.service';
 import { FindStatusesQuery } from '../find-statuses.query';
 

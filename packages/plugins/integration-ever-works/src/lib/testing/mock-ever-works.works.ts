@@ -37,7 +37,7 @@ export class MockEverWorksWorks {
 				organizationId,
 				entityType: 'work',
 				entityId: id,
-				source: (link['source'] as string) ?? 'gauzy',
+				source: (link['source'] as string) ?? 'irtranscripts',
 				installationId: (link['installationId'] as string | null | undefined) ?? null,
 				externalId: link['externalId'] as string,
 				externalUrl: (link['externalUrl'] as string | null | undefined) ?? null
@@ -139,11 +139,11 @@ export class MockEverWorksWorks {
 		const ref = input['externalRef'] as
 			| { source?: string; installationId?: string | null; externalId?: string; externalUrl?: string | null }
 			| undefined;
-		if (ref && ref.source !== 'gauzy')
+		if (ref && ref.source !== 'irtranscripts')
 			return MockEverWorksServer.error(
 				400,
 				'validation_failed',
-				'externalRef.source must be the key\'s link source ("gauzy").'
+				'externalRef.source must be the key\'s link source ("irtranscripts").'
 			);
 		if (ref?.externalId) {
 			const existing = this.visible(context).find((work) =>

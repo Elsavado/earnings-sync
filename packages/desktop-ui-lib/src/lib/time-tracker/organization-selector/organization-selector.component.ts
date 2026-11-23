@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, EventEmitter, Input, NgZone, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
-import { IOrganization, IUser } from '@gauzy/contracts';
+import { IOrganization, IUser } from '@irtranscripts/contracts';
 import { uniq } from 'underscore';
 import { ElectronService } from '../../electron/services';
 import { Store } from '../../services';

@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
-import { ConfigModule } from '@gauzy/config';
+import { ConfigModule } from '@irtranscripts/config';
 import {
 	IntegrationModule,
 	IntegrationSettingModule,
 	IntegrationTenantModule,
 	PluginCommonModule,
 	RolePermissionModule
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { EverAsyncConnectorController, EverAsyncConnectorGuard } from './ever-async-connector.controller';
 import { EverAsyncRateLimitGuard } from './ever-async-rate-limit.guard';
 import { EverAsyncController } from './ever-async.controller';

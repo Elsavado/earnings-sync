@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
-import { IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { paginateRows, resolveRestPage } from '../api/graphql-connection';
 import { UUIDValidationPipe, UseValidationPipe } from '../shared/pipes';
 import { Permissions } from '../shared/decorators';

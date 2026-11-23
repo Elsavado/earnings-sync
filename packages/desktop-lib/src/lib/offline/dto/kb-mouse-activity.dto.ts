@@ -1,4 +1,4 @@
-import { ActivityState } from '@gauzy/desktop-activity';
+import { ActivityState } from '@irtranscripts/desktop-activity';
 export type TMouseEvents = {
 	moveTo: {
 		from: {

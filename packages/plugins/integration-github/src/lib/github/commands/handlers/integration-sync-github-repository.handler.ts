@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { GithubRepositoryStatusEnum, IOrganizationGithubRepository } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { GithubRepositoryStatusEnum, IOrganizationGithubRepository } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { GithubRepositoryService } from './../../repository/github-repository.service';
 import { IntegrationSyncGithubRepositoryCommand } from '../integration-sync-github-repository.command';
 

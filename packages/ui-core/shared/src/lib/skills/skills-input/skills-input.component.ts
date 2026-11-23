@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { NgModel, UntypedFormGroup } from '@angular/forms';
-import { SkillsService } from '@gauzy/ui-core/core';
+import { SkillsService } from '@irtranscripts/ui-core/core';
 
 @Component({
     selector: 'ngx-skills-input',

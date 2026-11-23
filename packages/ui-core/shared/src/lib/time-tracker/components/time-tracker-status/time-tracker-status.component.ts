@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ITimerIcon } from '@gauzy/ui-core/core';
+import { ITimerIcon } from '@irtranscripts/ui-core/core';
 import { TimeTrackerStatusService } from './time-tracker-status.service';
 
 @Component({

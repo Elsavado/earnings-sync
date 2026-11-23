@@ -1,3 +1,3 @@
-# Changelog for @gauzy/plugin-public-layout-ui
+# Changelog for @irtranscripts/plugin-public-layout-ui
 
 ## [Unreleased]

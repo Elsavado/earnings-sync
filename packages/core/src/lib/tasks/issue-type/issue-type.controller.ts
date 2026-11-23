@@ -24,7 +24,7 @@ import {
 	IPaginationParam,
 	ID,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { CountQueryDTO } from '../../shared/dto';
 import { UseValidationPipe, AbstractValidationPipe, UUIDValidationPipe } from '../../shared/pipes';
 import { TenantPermissionGuard } from '../../shared/guards';

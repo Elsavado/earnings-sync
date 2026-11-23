@@ -1,7 +1,7 @@
 // Must stay first: loads the entity graph before any handler pulls an entity (see activity.controller.spec.ts).
 import '../../../../core/entities/internal';
 
-import { ITimeLog, TimeLogSourceEnum } from '@gauzy/contracts';
+import { ITimeLog, TimeLogSourceEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../../../core/context';
 import { IntegrationMapSyncTimeLogCommand } from '../../../../integration-map/commands/integration-map.sync-time-log.command';
 import { IntegrationMapSyncTimeLogHandler } from '../../../../integration-map/commands/handlers/integration-map.sync-time-log.handler';

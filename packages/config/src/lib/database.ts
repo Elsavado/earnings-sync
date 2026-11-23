@@ -106,7 +106,7 @@ export const DEFAULT_DB_POOL_MIN = 0;
  *
  * - TCP keep-alive (DB_KEEP_ALIVE, on unless set to `false`): a connection a load balancer or a database
  *   failover silently dropped is detected by the kernel instead of hanging the next query on it.
- * - `application_name` (DB_APPLICATION_NAME, default `gauzy`): the API's connections are named in
+ * - `application_name` (DB_APPLICATION_NAME, default `irtranscripts`): the API's connections are named in
  *   `pg_stat_activity`, which is where a stuck query or an exhausted pool is diagnosed.
  * - DB_STATEMENT_TIMEOUT / DB_LOCK_TIMEOUT / DB_IDLE_IN_TRANSACTION_SESSION_TIMEOUT (milliseconds, unset =
  *   PostgreSQL's own default, i.e. none): server-side limits that stop one runaway query, lock wait or
@@ -123,7 +123,7 @@ export function postgresConnectionExtras(env: NodeJS.ProcessEnv = process.env): 
 		extras.keepAlive = true;
 		extras.keepAliveInitialDelayMillis = 10000;
 	}
-	const applicationName = env.DB_APPLICATION_NAME === undefined ? 'gauzy' : env.DB_APPLICATION_NAME.trim();
+	const applicationName = env.DB_APPLICATION_NAME === undefined ? 'irtranscripts' : env.DB_APPLICATION_NAME.trim();
 	if (applicationName) {
 		extras.application_name = applicationName;
 	}
@@ -512,8 +512,8 @@ switch (dbType) {
 		console.log('Better Sqlite3 Path __dirname: ->', __dirname);
 
 		const dbPath = isDist
-			? path.resolve(process.cwd(), 'apps/api/data/gauzy.sqlite3') // For dist structure
-			: path.resolve(__dirname, '../../../../apps/api/data/gauzy.sqlite3'); // For src structure
+			? path.resolve(process.cwd(), 'apps/api/data/irtranscripts.sqlite3') // For dist structure
+			: path.resolve(__dirname, '../../../../apps/api/data/irtranscripts.sqlite3'); // For src structure
 
 		const sqlitePath = process.env.DB_PATH || dbPath;
 		console.log('Better Sqlite DB Path: ' + sqlitePath);

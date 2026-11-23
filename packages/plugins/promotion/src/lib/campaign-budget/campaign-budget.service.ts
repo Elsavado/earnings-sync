@@ -1,13 +1,13 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { isMySQL, isSqlite } from '@gauzy/config';
-import { CurrencyCode, DecimalString, ID, IPagination } from '@gauzy/contracts';
+import { isMySQL, isSqlite } from '@irtranscripts/config';
+import { CurrencyCode, DecimalString, ID, IPagination } from '@irtranscripts/contracts';
 import {
 	Money,
 	MultiORMEnum,
 	readAffectedRows,
 	RequestContext,
 	toPositionalStatement
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { CampaignBudget } from './campaign-budget.entity';
 import { TypeOrmCampaignBudgetRepository } from './repository/type-orm-campaign-budget.repository';
 import { MikroOrmCampaignBudgetRepository } from './repository/mikro-orm-campaign-budget.repository';
@@ -635,7 +635,7 @@ export class CampaignBudgetService extends TenantScopedCrudService<CampaignBudge
 	 * `conditionalIncrement` compares `used + :amount` against the ceiling and adds the same `:amount`
 	 * to the column, so the single named value is two placeholders carrying the same figure.
 	 *
-	 * **Superseded by `toPositionalStatement` in `@gauzy/core`**, which both branches of
+	 * **Superseded by `toPositionalStatement` in `@irtranscripts/core`**, which both branches of
 	 * {@link execute} now go through: it does the same rewrite, chooses `$1` for Postgres under TypeORM
 	 * and `?` for MikroORM, and is the one copy every package shares. This one stays because it is part of
 	 * this service's surface and something may still call it; it delegates rather than keeping a

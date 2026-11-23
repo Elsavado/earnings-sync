@@ -6,13 +6,13 @@ const nxPreset = require('@nx/jest/preset').default;
 //
 // This list used to live in `packages/core/jest.config.ts` (with a copy in integration-zapier), so
 // the other projects that inherit this preset started without it. That is why the videos,
-// job-proposal and wakatime service/controller specs — whose testing modules load `@gauzy/core` —
+// job-proposal and wakatime service/controller specs — whose testing modules load `@irtranscripts/core` —
 // failed to load. It lives here so a project gets it by inheriting the preset. Keep it to packages
 // actually reached by a spec, and add whole dependency subtrees (walk for `"type": "module"`) rather
 // than one package per failing run:
 //   sanitize-html + its parser stack -> rich-html-sanitizer / public-html-sanitizer
 //   uuid                             -> time-tracking + email-check suites, and any spec that loads
-//                                       `@gauzy/core` for real
+//                                       `@irtranscripts/core` for real
 //   camelcase                        -> time-tracking suites
 //   @faker-js/faker                  -> reached through the entity graph (core/seeds)
 //   @nestjs/axios                    -> ships a raw `index.ts` that re-exports `./dist`
@@ -20,7 +20,7 @@ const nxPreset = require('@nx/jest/preset').default;
 //   lodash-es                        -> Angular UI code, and angular2-smart-table's .mjs bundle
 //   d3-*, internmap                  -> @swimlane/ngx-charts (desktop-ui-lib's recap module, which the
 //                                       desktop apps' shells load through the library's entry point)
-//   jose                             -> the shared OpenID Connect library in `@gauzy/auth` (the auth,
+//   jose                             -> the shared OpenID Connect library in `@irtranscripts/auth` (the auth,
 //                                       auth-keycloak and auth-zitadel suites)
 //   marked                           -> docs-ui's markdown rendering (ESM-only from marked 16, `.esm.js`)
 //   hash-it                          -> desktop-ui-lib's cache services (ESM-only from hash-it 7)
@@ -42,7 +42,7 @@ const nxPreset = require('@nx/jest/preset').default;
 //     why the `.mjs` alternative lives here. Still defining their own: `docs` (a narrower list),
 //     `integration-zapier` (a copy of this list, which has to track it) and the three React
 //     projects (`.mjs` only, which is all they need today).
-//   - `@gauzy/*` is deliberately absent, and adding it would do nothing. Jest resolves workspace
+//   - `@irtranscripts/*` is deliberately absent, and adding it would do nothing. Jest resolves workspace
 //     packages to their real source path (`packages/<pkg>/src/index.ts`), which has no
 //     `node_modules/` segment, so this pattern is never consulted for them.
 //

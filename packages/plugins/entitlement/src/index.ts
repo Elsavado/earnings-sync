@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-entitlement
+ * Public API Surface of @irtranscripts/plugin-entitlement
  */
 export * from './lib/entitlement.plugin';
 export * from './lib/entitlement.module';

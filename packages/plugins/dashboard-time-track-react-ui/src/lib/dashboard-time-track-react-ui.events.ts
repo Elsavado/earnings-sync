@@ -1,4 +1,4 @@
-import { definePluginEvent } from '@gauzy/plugin-ui';
+import { definePluginEvent } from '@irtranscripts/plugin-ui';
 
 // ─── Type-Safe Event Contracts ──────────────────────────────────────────────
 

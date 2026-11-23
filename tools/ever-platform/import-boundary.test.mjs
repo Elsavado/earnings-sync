@@ -26,7 +26,7 @@ const EXPECTED = {
 	'packages/plugins/ever-connect/src/index.ts': [6],
 	'packages/plugins/ever-connect-ui/src/ui-imports-server.ts': [2],
 	'apps/api/src/plugins.ts': [],
-	'apps/gauzy/src/app/deep-import.ts': [2, 3]
+	'apps/irtranscripts/src/app/deep-import.ts': [2, 3]
 };
 
 function fixtureFiles() {
@@ -69,13 +69,13 @@ test('the scanner fails each known-bad fixture on exactly its lines', () => {
 });
 
 test('the plugin lists may import the modules through their entry points, nobody their files', () => {
-	assert.equal(violation('apps/api/src/plugins.ts', '@gauzy/plugin-ever-connect'), null);
-	assert.equal(violation('apps/gauzy/src/plugin-ui.config.ts', '@gauzy/plugin-ever-stats-ui'), null);
-	assert.match(violation('apps/api/src/plugins.ts', '@gauzy/plugin-ever-connect/src/lib/sdk'), /entry point/);
-	assert.equal(violation('packages/plugins/ever-connect/src/lib/a.ts', '@gauzy/plugin-ever-instance'), null);
-	assert.equal(violation('packages/core/src/lib/a.ts', '@gauzy/plugin-integration-ever-async'), null);
+	assert.equal(violation('apps/api/src/plugins.ts', '@irtranscripts/plugin-ever-connect'), null);
+	assert.equal(violation('apps/irtranscripts/src/plugin-ui.config.ts', '@irtranscripts/plugin-ever-stats-ui'), null);
+	assert.match(violation('apps/api/src/plugins.ts', '@irtranscripts/plugin-ever-connect/src/lib/sdk'), /entry point/);
+	assert.equal(violation('packages/plugins/ever-connect/src/lib/a.ts', '@irtranscripts/plugin-ever-instance'), null);
+	assert.equal(violation('packages/core/src/lib/a.ts', '@irtranscripts/plugin-integration-ever-async'), null);
 	assert.match(
-		violation('packages/core/src/lib/a.ts', '@gauzy/plugin-ever-instance'),
+		violation('packages/core/src/lib/a.ts', '@irtranscripts/plugin-ever-instance'),
 		/optional Ever Platform module/
 	);
 });
@@ -83,7 +83,7 @@ test('the plugin lists may import the modules through their entry points, nobody
 test('a specifier inside a string or a comment is not an import', () => {
 	assert.deepEqual(
 		specifiers(
-			`const s = "import x from '@gauzy/plugin-ever-connect'";\n// require('@nestjs/axios')\nimport { a } from './a';\n`
+			`const s = "import x from '@irtranscripts/plugin-ever-connect'";\n// require('@nestjs/axios')\nimport { a } from './a';\n`
 		).map((s) => s.specifier),
 		['./a']
 	);

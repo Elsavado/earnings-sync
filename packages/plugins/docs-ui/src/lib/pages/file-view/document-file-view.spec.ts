@@ -1,4 +1,4 @@
-import { DocumentKindEnum } from '@gauzy/contracts';
+import { DocumentKindEnum } from '@irtranscripts/contracts';
 import { documentViewRedirect } from './document-file-view';
 
 /**

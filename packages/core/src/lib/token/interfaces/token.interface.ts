@@ -1,4 +1,4 @@
-import { IBaseEntityModel, IPagination, IUser } from '@gauzy/contracts';
+import { IBaseEntityModel, IPagination, IUser } from '@irtranscripts/contracts';
 
 export enum TokenStatus {
 	ACTIVE = 'ACTIVE',

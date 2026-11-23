@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult, UpdateResult } from 'typeorm';
-import { ID, IPagination, IRolePermission, IRolePermissions, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IPagination, IRolePermission, IRolePermissions, PermissionsEnum } from '@irtranscripts/contracts';
 import { CrudController, BaseQueryDTO } from './../core/crud';
 import { Permissions } from './../shared/decorators';
 import { PermissionGuard, TenantPermissionGuard } from './../shared/guards';
@@ -37,7 +37,7 @@ export class RolePermissionController extends CrudController<RolePermission> {
 	 * @param input
 	 * @returns
 	 */
-	@ApiOperation({ summary: 'Import role-permissions from self hosted to gauzy cloud hosted in bulk' })
+	@ApiOperation({ summary: 'Import role-permissions from self hosted to irtranscripts cloud hosted in bulk' })
 	@ApiResponse({
 		status: HttpStatus.CREATED,
 		description: 'Role Permissions have been successfully imported.'
@@ -46,7 +46,7 @@ export class RolePermissionController extends CrudController<RolePermission> {
 		status: HttpStatus.BAD_REQUEST,
 		description: 'Invalid input, The request body may contain clues as to what went wrong'
 	})
-	@Permissions(PermissionsEnum.MIGRATE_GAUZY_CLOUD)
+	@Permissions(PermissionsEnum.MIGRATE_IRTRANSCRIPTS_CLOUD)
 	@Post('/import/migrate')
 	async importRole(@Body() input: any) {
 		return await this._rolePermissionService.migrateImportRecord(input);

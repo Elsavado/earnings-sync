@@ -1,7 +1,7 @@
 import { FindOptionsWhere, MoreThan } from 'typeorm';
 import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import * as moment from 'moment';
-import { ID, IEstimateEmail, IInvoice } from '@gauzy/contracts';
+import { ID, IEstimateEmail, IInvoice } from '@irtranscripts/contracts';
 import { isNonEmptyString, signPurposeToken, TokenPurposeEnum, verifyPurposeToken } from '../auth/purpose-token';
 import { RequestContext } from '../core/context';
 import { TenantAwareCrudService } from './../core/crud';

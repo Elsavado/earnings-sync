@@ -7,7 +7,7 @@ import { MysqlProvider } from './mysql-provider';
 import { LocalStore } from '../../desktop-store';
 import { AppError } from '../../error-handler';
 import { BetterSqliteProvider } from './better-sqlite-provider';
-import { logger } from '@gauzy/desktop-core';
+import { logger } from '@irtranscripts/desktop-core';
 
 export class ProviderFactory implements IDatabaseProvider {
 	private _dbContext: DatabaseProviderContext;

@@ -17,8 +17,8 @@ import {
 	AuthStrategy,
 	DEFAULT_TIMEOUT,
 	ElectronService,
-	GAUZY_ENV,
-	GauzyStorageService,
+	IRTRANSCRIPTS_ENV,
+	IRTranscriptsStorageService,
 	LanguageInterceptor,
 	LanguageModule,
 	LoggerService,
@@ -34,10 +34,10 @@ import {
 	TenantInterceptor,
 	TimeoutInterceptor,
 	TokenInterceptor
-} from '@gauzy/desktop-ui-lib';
-import { environment as gauzyEnvironment } from '@gauzy/ui-config';
-import { provideI18n } from '@gauzy/ui-core/i18n';
-import { TablerIconsModule } from '@gauzy/ui-core/icons';
+} from '@irtranscripts/desktop-ui-lib';
+import { environment as irtranscriptsEnvironment } from '@irtranscripts/ui-config';
+import { provideI18n } from '@irtranscripts/ui-core/i18n';
+import { TablerIconsModule } from '@irtranscripts/ui-core/icons';
 import {
 	NbDatepickerModule,
 	NbDialogModule,
@@ -79,7 +79,7 @@ bootstrapApplication(AppComponent, {
 		importProvidersFrom(
 			BrowserModule,
 			AppRoutingModule,
-			NgxDesktopThemeModule, // Required for custom Gauzy themes and theme initializer
+			NgxDesktopThemeModule, // Required for custom IRTranscripts themes and theme initializer
 			NbDialogModule.forRoot(),
 			NbToastrModule.forRoot(),
 			NbThemeModule,
@@ -99,9 +99,9 @@ bootstrapApplication(AppComponent, {
 		LoggerService,
 		Store,
 		provideAppInitializer(() => {
-			const storage = inject(GauzyStorageService);
+			const storage = inject(IRTranscriptsStorageService);
 			persistState({
-				key: '_gauzyStore',
+				key: '_irtranscriptsStore',
 				enableInNonBrowser: true,
 				storage
 			});
@@ -176,9 +176,9 @@ bootstrapApplication(AppComponent, {
 		}),
 		{ provide: DEFAULT_TIMEOUT, useValue: 80000 },
 		{
-			provide: GAUZY_ENV,
+			provide: IRTRANSCRIPTS_ENV,
 			useValue: {
-				...gauzyEnvironment,
+				...irtranscriptsEnvironment,
 				...environment
 			}
 		},

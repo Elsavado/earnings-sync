@@ -1,7 +1,7 @@
 import { JoinColumn } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsOptional, IsUUID } from 'class-validator';
-import { ID, IFulfillmentLine } from '@gauzy/contracts';
+import { ID, IFulfillmentLine } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	ColumnNumericTransformerPipe,
@@ -10,7 +10,7 @@ import {
 	MultiORMEntity,
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { Fulfillment } from '../fulfillment/fulfillment.entity';
 import { MikroOrmFulfillmentLineRepository } from './repository/mikro-orm-fulfillment-line.repository';
 

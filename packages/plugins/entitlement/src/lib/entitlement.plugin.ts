@@ -1,6 +1,6 @@
 import * as chalk from 'chalk';
 import { Type } from '@nestjs/common';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@gauzy/plugin';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@irtranscripts/plugin';
 import { ENTITLEMENT_MIGRATIONS } from './database/migrations';
 import { resolvers } from './graphql/resolvers';
 import { schemaExtensions } from './graphql/schema-extensions';
@@ -16,7 +16,7 @@ import { ENTITLEMENT_PERMISSIONS } from './entitlement.permissions';
  * `product` and `product_variant` are created by this plugin's migration, and the grant path consumes
  * the order's events.
  */
-const ENTITLEMENT_DEPENDS_ON: string[] = ['@gauzy/plugin-catalog', '@gauzy/plugin-order'];
+const ENTITLEMENT_DEPENDS_ON: string[] = ['@irtranscripts/plugin-catalog', '@irtranscripts/plugin-order'];
 
 /**
  * Entitlements, activations and licence keys.

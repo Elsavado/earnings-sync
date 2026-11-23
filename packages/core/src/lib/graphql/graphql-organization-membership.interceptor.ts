@@ -4,7 +4,7 @@ import type { ValidationArguments } from 'class-validator';
 import { GqlContextType, GqlExecutionContext } from '@nestjs/graphql';
 import { GraphQLArgument, GraphQLInputType, GraphQLResolveInfo, isInputObjectType, isListType, isNonNullType } from 'graphql';
 import { Observable } from 'rxjs';
-import { PUBLIC_METHOD_METADATA } from '@gauzy/constants';
+import { PUBLIC_METHOD_METADATA } from '@irtranscripts/constants';
 import { ApiErrorCode } from '../core/errors/api-error-codes';
 import { ApiException } from '../core/errors/api-exception';
 import { RequestContext } from '../core/context';

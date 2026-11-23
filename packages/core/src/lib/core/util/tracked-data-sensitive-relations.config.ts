@@ -1,4 +1,4 @@
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { SensitiveRelationConfig } from '../decorators/sensitive-relations.decorator';
 import { RequestContext } from '../context';
 

@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IPipeline, IPipelineStage } from '@gauzy/contracts';
+import { IPipeline, IPipelineStage } from '@irtranscripts/contracts';
 import { PipelineStage, TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { MultiORMColumn, MultiORMEntity, MultiORMOneToMany } from './../core/decorators/entity';
 import { MikroOrmPipelineRepository } from './repository/mikro-orm-pipeline.repository';

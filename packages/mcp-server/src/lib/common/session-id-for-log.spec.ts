@@ -2,7 +2,7 @@ import { sessionIdForLog } from './error-utils';
 
 /**
  * Session ids were logged whole at info level ("Session created: <id> for user …"), and a session id is a bearer
- * credential: presented as a header, a cookie or `?sessionId=`, it acts with that session's Gauzy login.
+ * credential: presented as a header, a cookie or `?sessionId=`, it acts with that session's IRTranscripts login.
  */
 describe('sessionIdForLog', () => {
 	const ID = 'mcp_lx3k2a_0123456789abcdef0123456789abcdef';

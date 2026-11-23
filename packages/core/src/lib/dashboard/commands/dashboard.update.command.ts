@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { ID, IDashboardUpdateInput } from '@gauzy/contracts';
+import { ID, IDashboardUpdateInput } from '@irtranscripts/contracts';
 
 export class DashboardUpdateCommand implements ICommand {
 	static readonly type = '[Dashboard] Update';

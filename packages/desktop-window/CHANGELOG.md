@@ -1,3 +1,3 @@
-# Changelog for @gauzy/desktop-window
+# Changelog for @irtranscripts/desktop-window
 
 ## [Unreleased]

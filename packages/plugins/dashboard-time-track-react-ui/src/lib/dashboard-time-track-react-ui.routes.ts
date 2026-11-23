@@ -1,11 +1,11 @@
-import { PreferredUiEnum } from '@gauzy/contracts';
+import { PreferredUiEnum } from '@irtranscripts/contracts';
 import {
 	BookmarkQueryParamsResolver,
 	PageRouteRegistryConfig,
 	preferredUiCanMatch,
 	standardDashboardGuard
-} from '@gauzy/ui-core/core';
-import { DateRangePickerResolver } from '@gauzy/ui-core/shared';
+} from '@irtranscripts/ui-core/core';
+import { DateRangePickerResolver } from '@irtranscripts/ui-core/shared';
 import { DashboardTimeTrackReactUiPageComponent } from './dashboard-time-track-react-ui-page.component';
 
 /**

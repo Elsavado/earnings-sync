@@ -1,7 +1,7 @@
 import { DataSource } from 'typeorm';
-import { CurrenciesEnum, IEmployee, IOrganization, ITenant, IUser, PayPeriodEnum, RolesEnum } from '@gauzy/contracts';
+import { CurrenciesEnum, IEmployee, IOrganization, ITenant, IUser, PayPeriodEnum, RolesEnum } from '@irtranscripts/contracts';
 import { faker } from '@faker-js/faker';
-import { environment as env } from '@gauzy/config';
+import { environment as env } from '@irtranscripts/config';
 import { Employee } from './../core/entities/internal';
 import { getDefaultOrganization } from './../organization/organization.seed';
 

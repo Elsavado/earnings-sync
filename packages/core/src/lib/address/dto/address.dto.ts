@@ -17,10 +17,10 @@ import {
 	MinLength,
 	ValidateNested
 } from 'class-validator';
-import { AddressOwnerType, ID, JsonData } from '@gauzy/contracts';
+import { AddressOwnerType, ID, JsonData } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../core/dto';
 import { AddressRoleEnum } from '../../address-role/address-role.enums';
-import { parseToBoolean } from '@gauzy/utils';
+import { parseToBoolean } from '@irtranscripts/utils';
 
 /**
  * What a caller states when it records an address in the book.

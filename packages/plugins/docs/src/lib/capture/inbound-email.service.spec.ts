@@ -9,14 +9,14 @@
  * exactly like the upload endpoint's:
  * `documents/<tenantId>/<organizationId>/<uuid>.<canonicalExtension>`.
  *
- * `@gauzy/core` boots the whole application graph on import, so its `FileStorage` /
+ * `@irtranscripts/core` boots the whole application graph on import, so its `FileStorage` /
  * `TenantSetting` seams are mocked at the module boundary. The sniffer, the key builder and
  * the service under test are real.
  */
 const putFile = jest.fn();
 
 jest.mock(
-	'@gauzy/core',
+	'@irtranscripts/core',
 	() => ({
 		FileStorage: class {
 			getProvider() {
@@ -27,7 +27,7 @@ jest.mock(
 		RequestContext: { currentUserId: () => undefined }
 	})
 );
-jest.mock('@gauzy/config', () => ({ isSqlite: () => false, isBetterSqlite3: () => false }));
+jest.mock('@irtranscripts/config', () => ({ isSqlite: () => false, isBetterSqlite3: () => false }));
 jest.mock('../docs.config', () => ({
 	getDocsConfig: () => ({
 		inboundEmailEnabled: true,

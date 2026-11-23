@@ -4,7 +4,7 @@
 		font-size: 12px;
 		font-weight: 500;
 		text-align: left;
-		color: var(--gauzy-text-color-2);
+		color: var(--irtranscripts-text-color-2);
 	}
 
 	::ng-deep {
@@ -47,12 +47,12 @@ nb-list-item {
 		width: 28px;
 		height: 28px;
 		border-radius: var(--border-radius);
-		box-shadow: var(--gauzy-shadow);
+		box-shadow: var(--irtranscripts-shadow);
 		object-fit: cover;
 	}
 
 	.title {
-		color: var(--gauzy-text-color-1);
+		color: var(--irtranscripts-text-color-1);
 		font-size: 14px;
 		font-weight: 600;
 		line-height: 17px;
@@ -62,6 +62,6 @@ nb-list-item {
 
 .duration {
 	font-weight: 500;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 	font-size: 14px;
 }

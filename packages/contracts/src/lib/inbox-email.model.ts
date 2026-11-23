@@ -2,9 +2,9 @@
 import { IBasePerTenantAndOrganizationEntityModel, ID } from './base-entity.model';
 
 /**
- * Email for the Gauzy Inbox (`@gauzy/plugin-inbox`, plan 04 §5, Phase 4): mailboxes, the inbound pipeline and the
+ * Email for the IRTranscripts Inbox (`@irtranscripts/plugin-inbox`, plan 04 §5, Phase 4): mailboxes, the inbound pipeline and the
  * email provider plugins (Resend, Postmark, Mailgun, SendGrid, Amazon SES, ...). Off unless both
- * `GAUZY_INBOX_ENABLED` and `GAUZY_INBOX_EMAIL_ENABLED` are exactly `true`.
+ * `IRTRANSCRIPTS_INBOX_ENABLED` and `IRTRANSCRIPTS_INBOX_EMAIL_ENABLED` are exactly `true`.
  */
 
 /** Who a provider account belongs to: the whole tenant, or one organization. */
@@ -141,7 +141,7 @@ export interface IInboxProviderAccountCheck {
 }
 
 /**
- * The injection token of `@gauzy/plugin-inbox`'s email provider registry, present when the Inbox email features
+ * The injection token of `@irtranscripts/plugin-inbox`'s email provider registry, present when the Inbox email features
  * are on. A provider plugin injects it with `@Optional() @Inject(…)` and registers itself at bootstrap; when the
  * Inbox email features are off the token is absent and the plugin stays idle.
  */
@@ -151,13 +151,13 @@ export const INBOX_EMAIL_PROVIDER_REGISTRY = 'INBOX_EMAIL_PROVIDER_REGISTRY';
 
 /** How a mailbox receives. */
 export enum InboxMailboxKindEnum {
-	/** An address on the platform domain (`GAUZY_INBOX_DOMAIN`), received by the platform route. */
+	/** An address on the platform domain (`IRTRANSCRIPTS_INBOX_DOMAIN`), received by the platform route. */
 	PLATFORM = 'PLATFORM',
 	/** An address on an organization's own, verified domain, received through a provider account. */
 	CUSTOM_DOMAIN = 'CUSTOM_DOMAIN',
 	/** A platform address the user forwards an existing mailbox to (no DNS change). */
 	FORWARDING = 'FORWARDING',
-	/** An existing mailbox Gauzy reads (IMAP, Gmail, Microsoft 365; P5). */
+	/** An existing mailbox IRTranscripts reads (IMAP, Gmail, Microsoft 365; P5). */
 	CONNECTED = 'CONNECTED'
 }
 
@@ -195,7 +195,7 @@ export interface IInboxMailbox extends IBasePerTenantAndOrganizationEntityModel 
 	ownerEmployeeId?: ID | null;
 	ownerTeamId?: ID | null;
 	purpose: InboxMailboxPurposeEnum;
-	/** `null`: the platform default (the platform route on `GAUZY_INBOX_DOMAIN`). */
+	/** `null`: the platform default (the platform route on `IRTRANSCRIPTS_INBOX_DOMAIN`). */
 	providerAccountId?: ID | null;
 	senderAllowlist?: string[];
 	domain?: string | null;
@@ -322,7 +322,7 @@ export interface IInboxMailboxCreateInput {
 	ownerEmployeeId?: ID;
 	/** TEAM mailboxes. */
 	ownerTeamId?: ID;
-	/** Defaults to PLATFORM (an address on `GAUZY_INBOX_DOMAIN`). */
+	/** Defaults to PLATFORM (an address on `IRTRANSCRIPTS_INBOX_DOMAIN`). */
 	kind?: InboxMailboxKindEnum.PLATFORM | InboxMailboxKindEnum.CUSTOM_DOMAIN | InboxMailboxKindEnum.FORWARDING;
 	/**
 	 * The address's local part: chosen for a custom domain; for a platform address the name part (`support` of
@@ -399,7 +399,7 @@ export interface IInboxOrganizationEmailSettings {
 	/** Create a mailbox for every new employee (agents never get one). */
 	autoProvisionEmployees: boolean;
 	/**
-	 * The platform mailbox domain of this server (`GAUZY_INBOX_DOMAIN`), the one platform addresses are allocated on;
+	 * The platform mailbox domain of this server (`IRTRANSCRIPTS_INBOX_DOMAIN`), the one platform addresses are allocated on;
 	 * `null` when none is set (then only custom-domain mailboxes can be created).
 	 */
 	platformDomain?: string | null;

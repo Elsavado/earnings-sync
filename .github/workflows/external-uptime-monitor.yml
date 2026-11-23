@@ -7,9 +7,9 @@ name: External Uptime Monitor
 #  Every other workflow in this repository deliberately targets the self-hosted ARC pool
 #  (`vars.RUNNER_LINUX_X64_4` / `_8`). This one is a DELIBERATE, DOCUMENTED EXCEPTION.
 #
-#  WHY: every existing probe of app.gauzy.co / api.gauzy.co runs INSIDE the `ever-k8s`
+#  WHY: every existing probe of app.irtranscripts.com / api.irtranscripts.com runs INSIDE the `ever-k8s`
 #  homelab cluster. On 2026-08-15 a routing fault at the owner's ISP (Orange, Spain) made
-#  Cloudflare's 188.114.96.0/22 prefix unreachable *from the homelab only*. All gauzy.co
+#  Cloudflare's 188.114.96.0/22 prefix unreachable *from the homelab only*. All irtranscripts.com
 #  hostnames resolve into that prefix, so every internal probe went red at once and it
 #  looked exactly like "production is down". It was not - real users were served the whole
 #  time. Hours were lost chasing a false alarm.
@@ -173,7 +173,7 @@ jobs:
       #  On the Free plan Bot Fight Mode CANNOT be skipped by a WAF custom rule (no Skip / Allow action
       #  reaches it - it runs outside the Ruleset Engine). The one thing that takes precedence is an IP
       #  Access rule that matches first. So, for the length of one run only:
-      #    1. allow THIS runner's own IPv4 egress address on the gauzy.co zone (not account-wide);
+      #    1. allow THIS runner's own IPv4 egress address on the irtranscripts.com zone (not account-wide);
       #    2. probe;
       #    3. delete the rule in an `always()` step, even if the probe failed or the run was cancelled;
       #    4. every run also deletes OUR rules older than 20 minutes (longer than the 15-minute job
@@ -181,7 +181,7 @@ jobs:
       #  Bot Fight Mode stays on for everyone else.
       #
       #  Token: repo secret CLOUDFLARE_UPTIME_ALLOWLIST_TOKEN = a Cloudflare API token limited to zone
-      #  gauzy.co with Zone:Read + Zone:Firewall Services:Edit and nothing else. It reaches only this
+      #  irtranscripts.com with Zone:Read + Zone:Firewall Services:Edit and nothing else. It reaches only this
       #  step and the clean-up step. A pull request from a fork can never see it: GitHub gives fork
       #  PRs no secrets, the job is skipped for fork PRs (`if:` above), and this workflow does not use
       #  `pull_request_target`. With no token the probe still runs, and a challenged probe is reported
@@ -191,7 +191,7 @@ jobs:
         id: cfallow
         env:
           CF_TOKEN: ${{ secrets.CLOUDFLARE_UPTIME_ALLOWLIST_TOKEN }}
-          CF_ZONE_NAME: gauzy.co
+          CF_ZONE_NAME: irtranscripts.com
           EGRESS_IP: ${{ steps.egress.outputs.ip }}
         run: |
           # Never fails the run: if Cloudflare cannot be asked, the probe still runs and its report says
@@ -199,7 +199,7 @@ jobs:
           set -euo pipefail
           # Outputs: zone_id; rule_id only when THIS run created the rule (only then may it delete it);
           # uncertain=true when a create may have taken effect but could not be confirmed either way.
-          NOTE_TAG='ever-gauzy-uptime-monitor'
+          NOTE_TAG='ever-irtranscripts-uptime-monitor'
           API='https://api.cloudflare.com/client/v4'
 
           if [ -z "${CF_TOKEN}" ]; then
@@ -308,16 +308,16 @@ jobs:
           # `prod-web` is half the CRITICAL surface, so it must not pass on a bare 2xx: nginx will
           # answer 200 for a wrong-image deploy, a different app on the hostname, or a default
           # page. `<ga-app` is the Angular root selector, verified present in the live index.html.
-          # Be honest about what this buys: it closes "the content served is not the Gauzy app",
+          # Be honest about what this buys: it closes "the content served is not the IRTranscripts app",
           # NOT "the app boots in a browser" - the selector is in index.html whether or not the JS
           # bundle loads. It also cannot detect a bad route: this is an SPA, so a bogus path
           # correctly returns the same shell (measured: /bogus-xyz-9931 -> 200, identical bytes).
           TARGETS=(
-            'prod-web|critical|https://app.gauzy.co/|<ga-app'
-            'prod-api|critical|https://api.gauzy.co/api/health|"status"[[:space:]]*:[[:space:]]*"ok"'
-            'marketing|warn|https://gauzy.co/|'
-            'stage-web|warn|https://stage.gauzy.co/|'
-            'stage-api|warn|https://apistage.gauzy.co/api/health|"status"[[:space:]]*:[[:space:]]*"ok"'
+            'prod-web|critical|https://app.irtranscripts.com/|<ga-app'
+            'prod-api|critical|https://api.irtranscripts.com/api/health|"status"[[:space:]]*:[[:space:]]*"ok"'
+            'marketing|warn|https://irtranscripts.com/|'
+            'stage-web|warn|https://stage.irtranscripts.com/|'
+            'stage-api|warn|https://apistage.irtranscripts.com/api/health|"status"[[:space:]]*:[[:space:]]*"ok"'
           )
 
           # Rehearsal target from workflow_dispatch, so the alert path can be exercised on demand
@@ -374,7 +374,7 @@ jobs:
               # "the origin answered with an error".
               w=$(curl -4 -sS -L --max-redirs 5 \
                     --connect-timeout "${CONNECT_TIMEOUT}" --max-time "${MAX_TIME}" \
-                    -A 'ever-gauzy-external-uptime-monitor (+https://github.com/ever-co/ever-gauzy)' \
+                    -A 'ever-irtranscripts-external-uptime-monitor (+https://github.com/ever-co/ever-gauzy)' \
                     -D "$body.hdr" \
                     -o "$body" \
                     -w '%{http_code}|%{time_namelookup}|%{time_connect}|%{time_appconnect}|%{time_starttransfer}|%{time_total}|%{remote_ip}' \
@@ -463,7 +463,7 @@ jobs:
             echo
             echo "Observed from GitHub-hosted runner egress IP \`${EGRESS_IP}\` (outside the homelab)."
             if [ -n "${CF_ALLOW_RULE}" ]; then
-              echo "Temporary Cloudflare allow rule for that IP on gauzy.co: \`${CF_ALLOW_RULE}\` (removed by the next step)."
+              echo "Temporary Cloudflare allow rule for that IP on irtranscripts.com: \`${CF_ALLOW_RULE}\` (removed by the next step)."
             else
               echo "No temporary Cloudflare allow rule this run (see the step before the probe), so Bot Fight Mode may challenge the probe."
             fi
@@ -661,7 +661,7 @@ jobs:
           echo "::error::The probe step itself failed - this run is NOT evidence about production. Investigate the runner/tooling, not the endpoints."
 
       - name: Fail the run if the temporary allow rule was left behind
-        # A leftover rule lets one Azure IP past Bot Fight Mode on gauzy.co until a later run's sweep
+        # A leftover rule lets one Azure IP past Bot Fight Mode on irtranscripts.com until a later run's sweep
         # removes it. Rare, but it must be loud, not a warning in a log. Two ways to get here: this run
         # owns a rule (rule_id) that the clean-up step did not confirm removed - it failed, or it was
         # interrupted before saying so - or the allow step could not tell whether its create took
@@ -676,10 +676,10 @@ jobs:
         run: |
           # A run's sweep removes only rules older than 20 minutes, and the next scheduled run starts
           # ~15 minutes after this one, so it is usually the SECOND run after this one (~30 minutes).
-          WHERE="Cloudflare dashboard → gauzy.co → Security → WAF → Tools → IP Access Rules, note 'ever-gauzy-uptime-monitor run ${GITHUB_RUN_ID}/${GITHUB_RUN_ATTEMPT}'"
+          WHERE="Cloudflare dashboard → irtranscripts.com → Security → WAF → Tools → IP Access Rules, note 'ever-irtranscripts-uptime-monitor run ${GITHUB_RUN_ID}/${GITHUB_RUN_ATTEMPT}'"
           if [ -n "${RULE_ID}" ]; then
-            echo "::error::Temporary Cloudflare allow rule ${RULE_ID} on gauzy.co could not be removed. A later run deletes it once it is older than 20 minutes (usually the second scheduled run after this one, ~30 minutes). To remove it now: ${WHERE}."
+            echo "::error::Temporary Cloudflare allow rule ${RULE_ID} on irtranscripts.com could not be removed. A later run deletes it once it is older than 20 minutes (usually the second scheduled run after this one, ~30 minutes). To remove it now: ${WHERE}."
           else
-            echo "::error::Could not confirm whether this run created a temporary Cloudflare allow rule on gauzy.co. If it did, a later run deletes it once it is older than 20 minutes (~30 minutes). To check now: ${WHERE}."
+            echo "::error::Could not confirm whether this run created a temporary Cloudflare allow rule on irtranscripts.com. If it did, a later run deletes it once it is older than 20 minutes (~30 minutes). To check now: ${WHERE}."
           fi
           exit 1

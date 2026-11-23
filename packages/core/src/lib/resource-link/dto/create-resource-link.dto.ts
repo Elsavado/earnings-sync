@@ -1,5 +1,5 @@
 import { IntersectionType } from '@nestjs/swagger';
-import { IResourceLinkCreateInput } from '@gauzy/contracts';
+import { IResourceLinkCreateInput } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../core/dto';
 import { ResourceLink } from '../resource-link.entity';
 

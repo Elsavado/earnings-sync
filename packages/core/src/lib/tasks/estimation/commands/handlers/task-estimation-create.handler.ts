@@ -1,4 +1,4 @@
-import { ITaskEstimation } from '@gauzy/contracts';
+import { ITaskEstimation } from '@irtranscripts/contracts';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { BadRequestException } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';

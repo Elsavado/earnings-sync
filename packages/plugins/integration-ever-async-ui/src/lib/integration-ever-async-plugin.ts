@@ -1,5 +1,5 @@
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PluginUiDefinition } from '@gauzy/plugin-ui';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PluginUiDefinition } from '@irtranscripts/plugin-ui';
 import { IntegrationEverAsyncUiModule } from './integration-ever-async-ui.module';
 import { INTEGRATION_EVER_ASYNC_PAGE_ROUTE } from './integration-ever-async.routes';
 

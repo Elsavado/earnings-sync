@@ -12,7 +12,7 @@ import {
 	MaxLength,
 	Min
 } from 'class-validator';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	ColumnNumericTransformerPipe,
@@ -22,7 +22,7 @@ import {
 	MultiORMManyToOne,
 	MultiORMOneToMany,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { TaxCategory } from '../tax-category/tax-category.entity';
 import { TaxAmountType, TaxDirection } from '../tax.types';
 import { TaxRatePart } from '../tax-rate-part/tax-rate-part.entity';

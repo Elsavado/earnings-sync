@@ -1,4 +1,4 @@
-import { IApprovalPolicyUpdateInput } from "@gauzy/contracts";
+import { IApprovalPolicyUpdateInput } from "@irtranscripts/contracts";
 import { ApprovalPolicyDTO } from "./approval-policy.dto";
 
 /**

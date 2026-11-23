@@ -1,6 +1,6 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { DocumentKindEnum, IDocument } from '@gauzy/contracts';
+import { DocumentKindEnum, IDocument } from '@irtranscripts/contracts';
 import { DocumentKnowledgeService } from '../../services/document-knowledge.service';
 import { DocumentService } from '../../services/document.service';
 import { DocumentSettingsService } from '../../services/document-settings.service';

@@ -41,7 +41,7 @@
 :host {
   nb-card,
   nb-card-body {
-    background-color: var(--gauzy-card-2);
+    background-color: var(--irtranscripts-card-2);
   }
   nb-card-body {
     // The time zone line moved into the title row, handing its ~2.5rem back to the body
@@ -56,10 +56,10 @@
   [nbButton].appearance-outline.status-primary,
   [nbButton].appearance-outline.status-basic {
     border-width: 0;
-    box-shadow: var(--gauzy-shadow);
+    box-shadow: var(--irtranscripts-shadow);
   }
 }
 
 // The calendar itself (toolbar, grid, events, month view) is styled globally by
-// the `full-calendar()` mixin in gauzy/_gauzy-overrides.scss, shared by every
+// the `full-calendar()` mixin in irtranscripts/_irtranscripts-overrides.scss, shared by every
 // FullCalendar in the app.

@@ -15,7 +15,7 @@ import {
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { DeepPartial } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { IOrganizationAward, IPagination, ID, PermissionsEnum } from '@gauzy/contracts';
+import { IOrganizationAward, IPagination, ID, PermissionsEnum } from '@irtranscripts/contracts';
 import { CrudController } from './../core/crud';
 import { OrganizationAwardService } from './organization-award.service';
 import { OrganizationAward } from './organization-award.entity';

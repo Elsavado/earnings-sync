@@ -1,4 +1,4 @@
-import { ILastOrganization, ILastTeam, IUserEmailInput, IUserTokenInput } from '@gauzy/contracts';
+import { ILastOrganization, ILastTeam, IUserEmailInput, IUserTokenInput } from '@irtranscripts/contracts';
 import { ICommand } from '@nestjs/cqrs';
 
 export class WorkspaceSigninVerifyTokenCommand implements ICommand {

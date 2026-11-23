@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { TimeOffRequest } from '../time-off-request.entity';
 
 export class TimeOffUpdateCommand implements ICommand {

@@ -2,8 +2,8 @@
 import '../core/entities/internal';
 
 import { ForbiddenException } from '@nestjs/common';
-import { isMySQL, isPostgres } from '@gauzy/config';
-import { ApprovalPolicyTypesStringEnum, RequestApprovalStatusTypesEnum, RolesEnum } from '@gauzy/contracts';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
+import { ApprovalPolicyTypesStringEnum, RequestApprovalStatusTypesEnum, RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { CrudService } from '../core/crud/crud.service';
 import { TenantAwareCrudService } from '../core/crud/tenant-aware-crud.service';
@@ -28,8 +28,8 @@ import { EquipmentSharingService, IEquipmentSharingInPlaceTransaction } from './
  * pins the statements the TypeORM arm sends.
  */
 
-jest.mock('@gauzy/config', () => ({
-	...jest.requireActual('@gauzy/config'),
+jest.mock('@irtranscripts/config', () => ({
+	...jest.requireActual('@irtranscripts/config'),
 	isPostgres: jest.fn(() => false),
 	isMySQL: jest.fn(() => false)
 }));

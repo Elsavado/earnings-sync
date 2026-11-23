@@ -6,10 +6,10 @@
  * `@Processor` host is never constructed and this process idles while the API keeps doing the
  * work — with no error anywhere. These tests pin the wiring.
  *
- * `@gauzy/core`, `@gauzy/plugin` and `@gauzy/scheduler` are barrels over the ORM bootstrap and the
+ * `@irtranscripts/core`, `@irtranscripts/plugin` and `@irtranscripts/scheduler` are barrels over the ORM bootstrap and the
  * BullMQ root; only the module tokens matter here, so stubs stand in for the real classes.
  */
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	ActivityLogModule: class ActivityLogModule {},
 	DatabaseModule: class DatabaseModule {},
 	EventOutboxDispatchScheduleModule: class EventOutboxDispatchScheduleModule {},
@@ -21,7 +21,7 @@ jest.mock('@gauzy/core', () => ({
 	TokenModule: { forRoot: jest.fn(() => ({ module: class TokenModule {} })) }
 }));
 
-jest.mock('@gauzy/plugin', () => {
+jest.mock('@irtranscripts/plugin', () => {
 	class PluginModule {}
 	return {
 		PluginModule: Object.assign(PluginModule, {
@@ -30,7 +30,7 @@ jest.mock('@gauzy/plugin', () => {
 	};
 });
 
-jest.mock('@gauzy/scheduler', () => ({
+jest.mock('@irtranscripts/scheduler', () => ({
 	SchedulerModule: {
 		forRoot: jest.fn(() => ({ module: class SchedulerModule {} })),
 		forFeature: jest.fn(() => ({ module: class SchedulerModule {} }))
@@ -63,9 +63,9 @@ jest.mock('./worker.constants', () => {
 // pulls the polyfill in, and without it the reads below come back undefined.
 import 'reflect-metadata';
 import { MODULE_METADATA } from '@nestjs/common/constants';
-import { ActivityLogModule, MentionModule } from '@gauzy/core';
-import { PluginModule } from '@gauzy/plugin';
-import { SchedulerModule } from '@gauzy/scheduler';
+import { ActivityLogModule, MentionModule } from '@irtranscripts/core';
+import { PluginModule } from '@irtranscripts/plugin';
+import { SchedulerModule } from '@irtranscripts/scheduler';
 import { AppModule } from './app.module';
 
 const imports = (): any[] => Reflect.getMetadata(MODULE_METADATA.IMPORTS, AppModule) ?? [];
@@ -140,7 +140,7 @@ describe('worker AppModule', () => {
 
 		await jest.isolateModulesAsync(async () => {
 			const { AppModule: Isolated } = await import('./app.module');
-			const core = await import('@gauzy/core');
+			const core = await import('@irtranscripts/core');
 			const order: any[] = Reflect.getMetadata(MODULE_METADATA.IMPORTS, Isolated) ?? [];
 
 			// A control first: the queue-gated maintenance modules are present, so an absence below is the

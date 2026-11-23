@@ -1,4 +1,4 @@
-import { DocumentKindEnum, ID } from '@gauzy/contracts';
+import { DocumentKindEnum, ID } from '@irtranscripts/contracts';
 
 /**
  * The custom UI-message data part `docs_search` writes onto the chat stream (spec `07` §11.3,

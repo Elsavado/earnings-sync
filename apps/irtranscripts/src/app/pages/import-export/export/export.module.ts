@@ -1,0 +1,35 @@
+import { NgModule } from '@angular/core';
+import {
+	NbButtonModule,
+	NbCardModule,
+	NbCheckboxModule,
+	NbIconModule,
+	NbInputModule,
+	NbRadioModule,
+	NbSpinnerModule
+} from '@nebular/theme';
+import { ExportAllService } from '@irtranscripts/ui-core/core';
+import { TranslatePipe } from '@ngx-translate/core';
+import { FileUploaderModule, SharedModule } from '@irtranscripts/ui-core/shared';
+import { ExportComponent } from './export.component';
+import { ExportRoutingModule } from './export-routing.module';
+
+@NgModule({
+	imports: [
+		NbButtonModule,
+		NbCardModule,
+		NbCheckboxModule,
+		NbIconModule,
+		NbInputModule,
+		NbRadioModule,
+		NbSpinnerModule,
+		TranslatePipe,
+		FileUploaderModule,
+		SharedModule,
+		ExportRoutingModule
+	],
+	declarations: [ExportComponent],
+	exports: [ExportComponent],
+	providers: [ExportAllService]
+})
+export class ExportModule {}

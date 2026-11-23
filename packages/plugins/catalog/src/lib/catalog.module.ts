@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { EventBusModule, Product, ProductTranslation, ProductVariant, ProductVariantSetting, RolePermissionModule } from '@gauzy/core';
+import { EventBusModule, Product, ProductTranslation, ProductVariant, ProductVariantSetting, RolePermissionModule } from '@irtranscripts/core';
 import { CatalogItemService } from './catalog-item/catalog-item.service';
 import { ProductVariantSaleService } from './product-variant-sale/product-variant-sale.service';
 import { Collection } from './collection/collection.entity';

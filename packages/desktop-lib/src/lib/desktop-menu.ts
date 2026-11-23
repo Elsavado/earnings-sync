@@ -1,5 +1,5 @@
-import { logger } from '@gauzy/desktop-core';
-import { createAboutWindow } from '@gauzy/desktop-window';
+import { logger } from '@irtranscripts/desktop-core';
+import { createAboutWindow } from '@irtranscripts/desktop-window';
 import { BrowserWindow, ipcMain, Menu, MenuItemConstructorOptions, shell } from 'electron';
 import { AppWindowManager } from './app-window-manager';
 import { LocalStore } from './desktop-store';
@@ -46,10 +46,10 @@ export class AppMenu {
 		this.windowPath = windowPath;
 		const isZoomEnabled = isZoomVisible ?? false;
 		this.applicationMenu = {
-			label: 'Gauzy',
+			label: 'IRTranscripts',
 			submenu: [
 				{
-					id: 'gauzy-about',
+					id: 'irtranscripts-about',
 					label: TranslateService.instant('MENU.ABOUT'),
 					enabled: true,
 					async click() {
@@ -85,7 +85,7 @@ export class AppMenu {
 				{
 					label: TranslateService.instant('TIMER_TRACKER.MENU.LEARN_MORE'),
 					click() {
-						shell.openExternal(process.env.COMPANY_SITE_LINK || 'https://gauzy.co/');
+						shell.openExternal(process.env.COMPANY_SITE_LINK || 'https://irtranscripts.com/');
 					}
 				},
 				{

@@ -5,7 +5,7 @@ import {
 	RuleEvaluationContext,
 	RuleOperator,
 	RuleValueType
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { compareDecimalStrings, normalizeDecimalString } from '../money/decimal';
 import { RULE_MAX_MATCH_INPUT } from './rule.pattern-safety';
 import { RULE_MATCHES_PATTERN_OPTIONS, sanitizeRegExp } from './rule.validator';

@@ -16,7 +16,7 @@ import { FormerEmployeesInterceptor } from '../employee/former-employees.interce
 import { CommandBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
-import { ID, IOrganizationSprint, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IOrganizationSprint, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { CrudController, BaseQueryDTO } from './../core/crud';
 import { Permissions } from './../shared/decorators';
 import { PermissionGuard, TenantPermissionGuard } from './../shared/guards';

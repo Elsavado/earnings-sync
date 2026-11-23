@@ -32,21 +32,21 @@ for (const config of pluginTsconfigs) {
 
 		let modified = false;
 
-		// Remove paths if it only contains @gauzy paths that point to dist
+		// Remove paths if it only contains @irtranscripts paths that point to dist
 		if (json.compilerOptions && json.compilerOptions.paths) {
 			const paths = json.compilerOptions.paths;
-			const gauzyPaths = Object.keys(paths).filter((k) => k.startsWith('@gauzy/'));
+			const irtranscriptsPaths = Object.keys(paths).filter((k) => k.startsWith('@irtranscripts/'));
 
-			if (gauzyPaths.length > 0) {
-				// Check if all gauzy paths point to dist
-				const allDistPaths = gauzyPaths.every((k) => {
+			if (irtranscriptsPaths.length > 0) {
+				// Check if all irtranscripts paths point to dist
+				const allDistPaths = irtranscriptsPaths.every((k) => {
 					const pathValues = paths[k];
 					return pathValues.some((p) => p.includes('/dist/'));
 				});
 
 				if (allDistPaths) {
 					// Remove these paths - let them inherit from parent
-					for (const k of gauzyPaths) {
+					for (const k of irtranscriptsPaths) {
 						delete paths[k];
 					}
 
@@ -56,7 +56,7 @@ for (const config of pluginTsconfigs) {
 					}
 
 					modified = true;
-					console.log('Removed @gauzy paths from:', config.name);
+					console.log('Removed @irtranscripts paths from:', config.name);
 				}
 			}
 		}

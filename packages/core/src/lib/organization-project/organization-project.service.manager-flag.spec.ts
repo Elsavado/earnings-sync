@@ -1,7 +1,7 @@
 import '../core/entities/internal';
 
 import { Brackets } from 'typeorm';
-import { PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { CrudService, TenantAwareCrudService } from '../core/crud';
 import { MultiORMEnum } from '../core/utils';

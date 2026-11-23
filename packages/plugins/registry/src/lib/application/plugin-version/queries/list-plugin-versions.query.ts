@@ -1,5 +1,5 @@
-import { ID } from '@gauzy/contracts';
-import { BaseQueryDTO } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { BaseQueryDTO } from '@irtranscripts/core';
 import { IQuery } from '@nestjs/cqrs';
 import { IPluginVersion } from '../../../shared';
 

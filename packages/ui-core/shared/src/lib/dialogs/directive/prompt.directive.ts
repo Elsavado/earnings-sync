@@ -2,7 +2,7 @@ import { Directive, Input, Output, HostListener, EventEmitter, OnDestroy, inject
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NbDialogService } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { PromptComponent, PromptDialogOptions } from '../prompt/prompt.component';
 
 @UntilDestroy({ checkProperties: true })

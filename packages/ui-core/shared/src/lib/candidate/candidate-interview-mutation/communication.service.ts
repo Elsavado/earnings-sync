@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ICandidatePersonalQualities, ICandidateTechnologies } from '@gauzy/contracts';
+import { ICandidatePersonalQualities, ICandidateTechnologies } from '@irtranscripts/contracts';
 import { Subject } from 'rxjs';
 
 @Injectable({

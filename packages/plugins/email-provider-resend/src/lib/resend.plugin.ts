@@ -1,9 +1,9 @@
-import { ApplicationPluginConfig } from '@gauzy/common';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@gauzy/plugin';
+import { ApplicationPluginConfig } from '@irtranscripts/common';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@irtranscripts/plugin';
 import { EmailProviderResendModule } from './resend.module';
 
 /**
- * Resend as an Inbox email provider (`@gauzy/plugin-email-provider-resend`, plan 04 §5.2, G-P4-4): the reference
+ * Resend as an Inbox email provider (`@irtranscripts/plugin-email-provider-resend`, plan 04 §5.2, G-P4-4): the reference
  * provider plugin the others copy.
  *
  * `apps/api/src/plugins.ts` lists it only when `EMAIL_PROVIDER_RESEND_ENABLED` is exactly `true`, and only after the

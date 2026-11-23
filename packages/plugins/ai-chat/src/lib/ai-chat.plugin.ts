@@ -1,5 +1,5 @@
 import * as chalk from 'chalk';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@gauzy/plugin';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@irtranscripts/plugin';
 import { AiChatModule } from './ai-chat.module';
 import { AiProviderCredential } from './credentials/ai-provider-credential.entity';
 import { AiChatConversation } from './conversations/ai-chat-conversation.entity';
@@ -13,8 +13,8 @@ import { AiChatConversation } from './conversations/ai-chat-conversation.entity'
  * - `/api/ai-chat/credentials` — per-tenant BYOK provider credentials (encrypted at rest)
  *
  * AI providers are contributed by separate plugins
- * (`@gauzy/plugin-ai-provider-anthropic`, `-openai`, `-openrouter`,
- * `-vercel-gateway`, `-gauzy-ai`) via the {@link AiProviderRegistry}.
+ * (`@irtranscripts/plugin-ai-provider-anthropic`, `-openai`, `-openrouter`,
+ * `-vercel-gateway`, `-irtranscripts-ai`) via the {@link AiProviderRegistry}.
  */
 @Plugin({
 	imports: [AiChatModule],

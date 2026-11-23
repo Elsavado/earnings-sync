@@ -40,14 +40,14 @@
  * `graphql/resolvers/index.ts` says the same about its three read-through aggregates.
  *
  * This package reaches the kernel's real barrel already — `RequestContext` and `Money` are imported
- * from it by the service specs — so the reason the sibling packages give for doubling `@gauzy/core`
+ * from it by the service specs — so the reason the sibling packages give for doubling `@irtranscripts/core`
  * (the ESM-only `uuid` nested in the request context) does not apply here: `transformIgnorePatterns`
  * in this package's jest config transforms it instead.
  */
 
 import { FieldDefinitionNode, ObjectTypeDefinitionNode, ObjectTypeExtensionNode, TypeNode } from 'graphql';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionGuard, TenantPermissionGuard } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionGuard, TenantPermissionGuard } from '@irtranscripts/core';
 import { PromotionPermission } from '../../promotion.permissions';
 import { CampaignController } from '../../campaign/campaign.controller';
 import { CampaignBudgetController } from '../../campaign-budget/campaign-budget.controller';

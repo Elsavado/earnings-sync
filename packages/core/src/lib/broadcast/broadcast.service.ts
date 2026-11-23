@@ -17,8 +17,8 @@ import {
 	NotificationActionTypeEnum,
 	PermissionsEnum,
 	RolesEnum
-} from '@gauzy/contracts';
-import { parseToBoolean } from '@gauzy/utils';
+} from '@irtranscripts/contracts';
+import { parseToBoolean } from '@irtranscripts/utils';
 import { BaseQueryDTO, TenantAwareCrudService } from '../core/crud';
 import { RequestContext } from '../core/context';
 import { parseFindOptionsRelations } from '../core/utils';

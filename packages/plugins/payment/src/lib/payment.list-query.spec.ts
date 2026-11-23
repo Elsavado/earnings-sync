@@ -23,9 +23,9 @@
  * is Postgres-only. The GraphQL connection of the session service is driven over the same rows, so the
  * REST route's `skip` and the connection's `offset` are compared as the same question.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { SetMetadata } = require('@nestjs/common');
-	const { PERMISSIONS_METADATA } = require('@gauzy/constants');
+	const { PERMISSIONS_METADATA } = require('@irtranscripts/constants');
 
 	/** A no-op decorator factory: nothing here is mapped, validated or guarded. */
 	const decorator = () => () => undefined;
@@ -34,14 +34,14 @@ jest.mock('@gauzy/core', () => {
 
 	return {
 		// The kernel's own CRUD base and MikroORM repository base: the reads under test are theirs.
-		CrudService: jest.requireActual('@gauzy/core/src/lib/core/crud/crud.service').CrudService,
+		CrudService: jest.requireActual('@irtranscripts/core/src/lib/core/crud/crud.service').CrudService,
 		MikroOrmBaseEntityRepository: jest.requireActual(
-			'@gauzy/core/src/lib/core/repository/mikro-orm-base-entity.repository'
+			'@irtranscripts/core/src/lib/core/repository/mikro-orm-base-entity.repository'
 		).MikroOrmBaseEntityRepository,
 		// The connection helpers the GraphQL list answers with are the kernel's own as well.
-		connectionFromOffsetPage: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		connectionFromOffsetPage: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.connectionFromOffsetPage,
-		resolveConnectionWindow: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		resolveConnectionWindow: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.resolveConnectionWindow,
 		RequestContext: {
 			currentTenantId: () => mockCaller.tenantId,
@@ -90,7 +90,7 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		BaseEvent: class {},
 		EventBus: class {},
 		Payment: class Payment {},
@@ -105,7 +105,7 @@ import { Column, DataSource, DeleteDateColumn, Entity as TypeOrmEntity, PrimaryC
 import { Entity as MikroEntity, MikroORM, PrimaryKey, Property } from '@mikro-orm/core';
 import { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
 import { SoftDeletable, SoftDeleteHandler } from 'mikro-orm-soft-delete';
-import { CrudService, MikroOrmBaseEntityRepository } from '@gauzy/core';
+import { CrudService, MikroOrmBaseEntityRepository } from '@irtranscripts/core';
 import { toPaymentListOptions } from './payment.list-query';
 import { PaymentCaptureController } from './payment-capture/payment-capture.controller';
 import { PaymentCaptureService } from './payment-capture/payment-capture.service';

@@ -3,13 +3,13 @@ import { NbDialogService } from '@nebular/theme';
 import { filter, take, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { sortBy } from 'underscore';
-import { ITimeSlot, IScreenshot, ITimeLog, IOrganization, IEmployee, TimeFormatEnum, ID } from '@gauzy/contracts';
-import { DEFAULT_SVG, distinctUntilChange, isNotEmpty, progressStatus } from '@gauzy/ui-core/common';
-import { ErrorHandlingService, Store, TimesheetService, ToastrService } from '@gauzy/ui-core/core';
+import { ITimeSlot, IScreenshot, ITimeLog, IOrganization, IEmployee, TimeFormatEnum, ID } from '@irtranscripts/contracts';
+import { DEFAULT_SVG, distinctUntilChange, isNotEmpty, progressStatus } from '@irtranscripts/ui-core/common';
+import { ErrorHandlingService, Store, TimesheetService, ToastrService } from '@irtranscripts/ui-core/core';
 import { GalleryItem } from '../../../gallery/gallery.directive';
 import { ViewScreenshotsModalComponent } from '../view-screenshots-modal/view-screenshots-modal.component';
 import { GalleryService } from '../../../gallery/gallery.service';
-import { TimeZoneService } from '../../gauzy-filters/timezone-filter';
+import { TimeZoneService } from '../../irtranscripts-filters/timezone-filter';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

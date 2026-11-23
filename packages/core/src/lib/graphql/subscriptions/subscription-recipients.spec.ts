@@ -1,7 +1,7 @@
 import { AsyncLocalStorage } from 'async_hooks';
 import { ClsService } from 'nestjs-cls';
 import { Subject } from 'rxjs';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../core/context/request-context';
 import { GraphqlPubSub } from './graphql-pubsub.service';
 import { openPlatformEventStream } from './platform-events.resolver';

@@ -2,7 +2,7 @@ import { NotFoundException, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FormerEmployeesInterceptor } from '../employee/former-employees.interceptor';
 import { CommandBus } from '@nestjs/cqrs';
 import { Args, ID, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { FeatureFlag } from '@gauzy/common';
+import { FeatureFlag } from '@irtranscripts/common';
 import {
 	ID as Id,
 	IOrganizationProjectModule,
@@ -11,7 +11,7 @@ import {
 	IPagination,
 	ITask,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	ConnectionFilter,
 	ConnectionPageRequest,

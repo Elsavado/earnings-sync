@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { LanguageElectronService } from '@gauzy/desktop-ui-lib';
+import { LanguageElectronService } from '@irtranscripts/desktop-ui-lib';
 
 @Component({
-	selector: 'gauzy-root',
+	selector: 'irtranscripts-root',
 	template: '<router-outlet></router-outlet>',
 	changeDetection: ChangeDetectionStrategy.Eager,
 	imports: [RouterOutlet]

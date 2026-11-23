@@ -1,6 +1,6 @@
 import { ICommand } from '@nestjs/cqrs';
 import { DeleteCamshotDTO } from '../dtos/delete-camshot.dto';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 export class DeleteCamshotCommand implements ICommand {
 	public static readonly type = '[Camshot] Delete';

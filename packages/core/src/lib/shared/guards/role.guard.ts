@@ -1,8 +1,8 @@
 import { Injectable, CanActivate, ExecutionContext, Type, Logger } from '@nestjs/common';
-import { ROLES_METADATA } from '@gauzy/constants';
-import { RolesEnum } from '@gauzy/contracts';
+import { ROLES_METADATA } from '@irtranscripts/constants';
+import { RolesEnum } from '@irtranscripts/contracts';
 import { Reflector } from '@nestjs/core';
-import { isEmpty } from '@gauzy/utils';
+import { isEmpty } from '@irtranscripts/utils';
 import { RequestContext } from './../../core/context';
 
 // Per-request trace lines: printed at debug level, i.e. only when LOG_LEVEL is debug/verbose (or unset).

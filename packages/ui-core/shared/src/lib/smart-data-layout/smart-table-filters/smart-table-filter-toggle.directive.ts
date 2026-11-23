@@ -46,11 +46,11 @@ export class SmartTableFilterToggleDirective implements OnInit, AfterViewInit, O
 	/**
 	 * One app-wide preference: 'open' | 'closed'.
 	 *
-	 * Mirrored as a literal in the e2e fixtures (apps/gauzy-e2e/tests/support/
+	 * Mirrored as a literal in the e2e fixtures (apps/irtranscripts-e2e/tests/support/
 	 * fixtures.ts and bdd.ts) — they run in a separate build that cannot import
 	 * this class. Rename both sides together.
 	 */
-	static readonly STORAGE_KEY = 'gauzy.smartTable.filtersOpen';
+	static readonly STORAGE_KEY = 'irtranscripts.smartTable.filtersOpen';
 
 	@HostBinding('class.ga-filters-collapsed') collapsed = true;
 

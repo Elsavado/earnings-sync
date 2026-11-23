@@ -1,6 +1,6 @@
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ErrorHandlingService } from '@gauzy/ui-core/core';
+import { ErrorHandlingService } from '@irtranscripts/ui-core/core';
 import { Observable, Subscription } from 'rxjs';
 import { IDownloadProgress, IFileDownloadOptions } from '../../models/video-download.model';
 import { FileSaveStrategy } from './strategies/file-save.strategy';

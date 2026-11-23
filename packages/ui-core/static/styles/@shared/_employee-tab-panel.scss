@@ -4,7 +4,7 @@
 @use 'var' as v;
 
 $tab-radius: nb-theme(border-radius);
-$tab-hairline: 1px solid var(--gauzy-border-default-color);
+$tab-hairline: 1px solid var(--irtranscripts-border-default-color);
 
 @mixin employee-tab-host {
   display: flex;
@@ -13,7 +13,7 @@ $tab-hairline: 1px solid var(--gauzy-border-default-color);
   min-height: 0;
   height: auto;
   overflow-y: auto;
-  background-color: var(--gauzy-card-2);
+  background-color: var(--irtranscripts-card-2);
   @include nb-ltr(border-radius, 0 $tab-radius $tab-radius $tab-radius);
   @include nb-rtl(border-radius, $tab-radius 0 $tab-radius $tab-radius);
 }
@@ -34,7 +34,7 @@ $tab-hairline: 1px solid var(--gauzy-border-default-color);
     flex: 1 1 auto;
     min-width: 0;
     min-height: 0;
-    background-color: var(--gauzy-card-3);
+    background-color: var(--irtranscripts-card-3);
     border: $tab-hairline;
     border-radius: $tab-radius;
   }

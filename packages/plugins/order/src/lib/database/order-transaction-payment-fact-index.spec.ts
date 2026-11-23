@@ -1,9 +1,9 @@
-// `@gauzy/core` is doubled for the reason the package's other migration suites state: the migration set
+// `@irtranscripts/core` is doubled for the reason the package's other migration suites state: the migration set
 // imports a helper from its barrel, which boots the whole application graph. The tick under test calls
 // nothing in it.
-jest.mock('@gauzy/core', () => ({}));
+jest.mock('@irtranscripts/core', () => ({}));
 
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 import { AddOrderTransactionPaymentFactUniqueIndex1791000000793 } from './migrations/1791000000793-AddOrderTransactionPaymentFactUniqueIndex';
 import { AddOrderCartUniqueIndex1791000000782, ALL_ORDER_MIGRATIONS } from './order-migrations';
 

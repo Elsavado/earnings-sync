@@ -1,7 +1,7 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { GauzyAIService } from '@gauzy/plugin-integration-ai';
-import { IEmployee, IPagination, PermissionsEnum } from '@gauzy/contracts';
-import { EmployeeService, RequestContext } from '@gauzy/core';
+import { IRTranscriptsAIService } from '@irtranscripts/plugin-integration-ai';
+import { IEmployee, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
+import { EmployeeService, RequestContext } from '@irtranscripts/core';
 import { GetEmployeeJobStatisticsQuery } from '../get-employee-job-statistics.query';
 
 @QueryHandler(GetEmployeeJobStatisticsQuery)
@@ -9,9 +9,9 @@ export class GetEmployeeJobStatisticsHandler implements IQueryHandler<GetEmploye
 	/**
 	 *
 	 * @param employeeService
-	 * @param gauzyAIService
+	 * @param irtranscriptsAIService
 	 */
-	constructor(private readonly employeeService: EmployeeService, private readonly gauzyAIService: GauzyAIService) {}
+	constructor(private readonly employeeService: EmployeeService, private readonly irtranscriptsAIService: IRTranscriptsAIService) {}
 
 	/**
 	 * Executes the GetEmployeeJobStatisticsQuery to fetch paginated employee data
@@ -38,7 +38,7 @@ export class GetEmployeeJobStatisticsHandler implements IQueryHandler<GetEmploye
 		// Use Promise.all for concurrent requests
 		const [paginationResult, employeesStatistics] = await Promise.all([
 			this.employeeService.paginate(options),
-			this.gauzyAIService.getEmployeesStatistics()
+			this.irtranscriptsAIService.getEmployeesStatistics()
 		]);
 
 		let { items, total } = paginationResult;

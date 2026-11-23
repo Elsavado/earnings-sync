@@ -3,7 +3,7 @@ import type { IncomingHttpHeaders } from 'node:http';
 /**
  * Whether a request comes from this machine, and from nothing but this machine.
  *
- * The GAUZY_AUTO_LOGIN account is the login of whoever runs the server: a caller with no login of its own may act as
+ * The IRTRANSCRIPTS_AUTO_LOGIN account is the login of whoever runs the server: a caller with no login of its own may act as
  * that account over HTTP and WebSocket only when it is that person, on the same machine. Anyone else who can reach the
  * port — another host on the network, a public deployment, a reverse proxy in front of it — logs in with their own
  * credentials (the `login` tool).

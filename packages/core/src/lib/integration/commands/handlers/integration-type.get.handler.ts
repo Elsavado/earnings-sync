@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IIntegrationType } from '@gauzy/contracts';
+import { IIntegrationType } from '@irtranscripts/contracts';
 import { IntegrationTypeGetCommand } from '../integration-type.get.command';
 import { IntegrationTypeService } from '../../integration-type.service';
 

@@ -1,4 +1,4 @@
-import { DocumentKindEnum, DocumentKnowledgeStatusEnum, DocumentStatusEnum } from '@gauzy/contracts';
+import { DocumentKindEnum, DocumentKnowledgeStatusEnum, DocumentStatusEnum } from '@irtranscripts/contracts';
 
 /** The action the recovery sweep takes for one stale row. */
 export type RecoveryAction = 'reenqueue-extract' | 'mark-failed' | 'reenqueue-chunk' | null;

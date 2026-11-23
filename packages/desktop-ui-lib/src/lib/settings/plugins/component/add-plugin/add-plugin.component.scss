@@ -5,14 +5,14 @@ nb-card {
   display: flex;
   flex-direction: column;
   border-radius: calc(var(--border-radius) * 2);
-  box-shadow: var(--gauzy-shadow);
-  background: var(--gauzy-card-1);
+  box-shadow: var(--irtranscripts-shadow);
+  background: var(--irtranscripts-card-1);
   animation: fadeIn 0.3s ease-in-out;
 
   @media (max-width: 576px) {
     max-width: 96vw;
     border-radius: calc(var(--border-radius) * 1.5);
-    box-shadow: var(--gauzy-shadow);
+    box-shadow: var(--irtranscripts-shadow);
   }
 
   @media (min-width: 577px) and (max-width: 768px) {
@@ -34,7 +34,7 @@ nb-card {
 // Header
 nb-card-header {
   padding: 1.75rem 1.5rem;
-  background: var(--gauzy-card-1);
+  background: var(--irtranscripts-card-1);
   border-bottom: 1px solid var(--border-basic-color-3);
 
   @media (max-width: 576px) {
@@ -65,7 +65,7 @@ h4 {
   font-size: 1.25rem;
   font-weight: 600;
   line-height: 1.4;
-  color: var(--gauzy-text-color-1);
+  color: var(--irtranscripts-text-color-1);
 
   @media (max-width: 576px) {
     font-size: 1.125rem;
@@ -75,19 +75,19 @@ h4 {
 .subtitle {
   font-size: 0.875rem;
   font-weight: 400;
-  color: var(--gauzy-text-color-2);
+  color: var(--irtranscripts-text-color-2);
   line-height: 1.4;
 }
 
 .close-button {
   flex-shrink: 0;
   padding: 0.5rem;
-  color: var(--gauzy-text-color-2);
+  color: var(--irtranscripts-text-color-2);
   transition: all 0.2s ease-in-out;
   border-radius: var(--border-radius);
 
   &:hover {
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
     background: var(--background-basic-color-2);
     transform: rotate(90deg);
   }
@@ -107,7 +107,7 @@ h4 {
 // Body
 nb-card-body {
   padding: 1.75rem 1.5rem;
-  background: var(--gauzy-card-2);
+  background: var(--irtranscripts-card-2);
   overflow: auto;
   max-height: 80vh !important;
 
@@ -124,7 +124,7 @@ nb-card-body {
 .description {
   font-size: 0.9375rem;
   font-weight: 400;
-  color: var(--gauzy-text-color-2);
+  color: var(--irtranscripts-text-color-2);
   line-height: 1.65;
   margin-bottom: 1.75rem;
   max-width: 100%;
@@ -166,13 +166,13 @@ nb-card-body {
   cursor: pointer;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   border: 2px solid transparent;
-  background: var(--gauzy-card-1);
+  background: var(--irtranscripts-card-1);
   border-radius: calc(var(--border-radius) * 1.5);
-  box-shadow: var(--gauzy-shadow);
+  box-shadow: var(--irtranscripts-shadow);
 
   &:hover:not(.disabled) {
     transform: translateY(-3px);
-    box-shadow: var(--gauzy-shadow);
+    box-shadow: var(--irtranscripts-shadow);
     border-color: var(--color-primary-default);
 
     .option-icon-container {
@@ -256,7 +256,7 @@ nb-card-body {
   .option-title {
     margin: 0 0 0.5rem 0;
     font-weight: 600;
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
     font-size: 1rem;
 
     @media (max-width: 576px) {
@@ -266,7 +266,7 @@ nb-card-body {
 
   .option-description {
     margin: 0;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
     font-size: 0.875rem;
     line-height: 1.5;
 
@@ -295,13 +295,13 @@ nb-card-body {
 }
 
 .back-button {
-  color: var(--gauzy-text-color-2);
+  color: var(--irtranscripts-text-color-2);
   padding: 0.25rem;
   transition: all 0.2s ease-in-out;
   border-radius: 50%;
 
   &:hover {
-    color: var(--gauzy-text-color-1);
+    color: var(--irtranscripts-text-color-1);
     background: var(--background-basic-color-2);
     transform: translateX(-2px);
   }
@@ -321,7 +321,7 @@ nb-card-body {
 .form-title {
   font-size: 1rem;
   font-weight: 600;
-  color: var(--gauzy-text-color-1);
+  color: var(--irtranscripts-text-color-1);
 }
 
 .form-group {
@@ -333,7 +333,7 @@ nb-card-body {
 .form-label {
   font-size: 0.875rem;
   font-weight: 500;
-  color: var(--gauzy-text-color-1);
+  color: var(--irtranscripts-text-color-1);
 
   .required {
     color: var(--color-danger-default);
@@ -348,7 +348,7 @@ input[nbInput] {
   min-height: 44px;
 
   &::placeholder {
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
     opacity: 0.65;
   }
 
@@ -383,7 +383,7 @@ input[nbInput] {
   flex-direction: column;
   gap: 1rem;
   padding: 1rem;
-  background: var(--gauzy-card-2);
+  background: var(--irtranscripts-card-2);
   border-radius: var(--border-radius);
   border: 1px solid var(--border-basic-color-3);
   animation: slideDown 0.2s ease-in-out;
@@ -431,14 +431,14 @@ input[nbInput] {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, color-mix(in srgb, var(--gauzy-card-1) 25%, transparent), transparent);
+    background: linear-gradient(135deg, color-mix(in srgb, var(--irtranscripts-card-1) 25%, transparent), transparent);
     opacity: 0;
     transition: opacity 0.25s ease-in-out;
   }
 
   &:hover:not([disabled]) {
     transform: translateY(-2px);
-    box-shadow: var(--gauzy-shadow);
+    box-shadow: var(--irtranscripts-shadow);
 
     &::before {
       opacity: 1;
@@ -447,7 +447,7 @@ input[nbInput] {
 
   &:active:not([disabled]) {
     transform: translateY(0);
-    box-shadow: var(--gauzy-shadow);
+    box-shadow: var(--irtranscripts-shadow);
   }
 
   &:focus {

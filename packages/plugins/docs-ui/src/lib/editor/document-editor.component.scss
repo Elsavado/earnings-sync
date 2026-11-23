@@ -2,7 +2,7 @@
  * Tier-2 editor chrome (spec 05 §3.9 — the canonical theme lives in the global
  * `rich-text-editor()` mixin once Tier 1 lands; this sheet carries the
  * `.gz-document-editor`-scoped styles for the editor lazy chunk, everything
- * through Nebular/Gauzy CSS custom properties).
+ * through Nebular/IRTranscripts CSS custom properties).
  */
 /* KaTeX (spec 05 §5 Mathematics) is a GLOBAL stylesheet owned by the host app,
    NOT a component style — deliberately:
@@ -17,7 +17,7 @@
         them; referenced from the app's global `styles` array the package's own
         directory is the resolution base and the fonts are emitted normally.
    The host app therefore adds `node_modules/katex/dist/katex.min.css` to its
-   build `styles` (see `apps/gauzy/project.json`); consumers of this library
+   build `styles` (see `apps/irtranscripts/project.json`); consumers of this library
    must do the same — documented in this package's README. */
 
 .gz-document-editor {

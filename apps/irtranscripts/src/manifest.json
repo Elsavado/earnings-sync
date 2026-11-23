@@ -1,0 +1,10 @@
+{
+    "name": "IRTranscripts",
+    "short_name": "irtranscripts",
+    "theme_color": "#666",
+    "background_color": "#fff",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "/"
+  }
+  

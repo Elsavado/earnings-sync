@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-promotion
+ * Public API Surface of @irtranscripts/plugin-promotion
  *
  * The package exports its plugin class, its module, its entities, its services and its GraphQL
  * contribution. A consumer that needs the promotion engine takes `PromotionService` from here rather

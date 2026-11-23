@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ToastrService } from '@gauzy/ui-core/core';
+import { ToastrService } from '@irtranscripts/ui-core/core';
 import { BehaviorSubject, Observable, firstValueFrom, from, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { IShareData } from '../models/share-video.model';

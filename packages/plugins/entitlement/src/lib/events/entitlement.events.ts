@@ -1,5 +1,5 @@
-import { BaseEvent } from '@gauzy/core';
-import { ID } from '@gauzy/contracts';
+import { BaseEvent } from '@irtranscripts/core';
+import { ID } from '@irtranscripts/contracts';
 import { Entitlement } from '../entitlement/entitlement.entity';
 import { EntitlementActivation } from '../entitlement-activation/entitlement-activation.entity';
 

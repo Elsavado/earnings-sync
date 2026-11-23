@@ -32,7 +32,7 @@ import {
 	ITask,
 	IUser,
 	IWarehouse
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	Candidate,
 	Employee,

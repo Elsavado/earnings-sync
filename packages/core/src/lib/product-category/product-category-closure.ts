@@ -1,6 +1,6 @@
 import { EntityManager as TypeOrmEntityManager } from 'typeorm';
 import { EntityManager as MikroOrmEntityManager } from '@mikro-orm/knex';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 /** The table the closure lives in, as `1791000000550-AddProductCategoryClosure` creates it. */
 export const PRODUCT_CATEGORY_CLOSURE_TABLE = 'product_category_closure';

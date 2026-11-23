@@ -1,8 +1,8 @@
 import { BadRequestException, ExecutionContext, InternalServerErrorException } from '@nestjs/common';
 
 jest.mock('@sentry/node', () => ({}));
-// The interceptors and SentryService read the current request's tenant settings from @gauzy/core.
-jest.mock('@gauzy/core', () => ({ RequestContext: { currentRequest: () => undefined } }));
+// The interceptors and SentryService read the current request's tenant settings from @irtranscripts/core.
+jest.mock('@irtranscripts/core', () => ({ RequestContext: { currentRequest: () => undefined } }));
 // The GraphQL interceptor reads the operation's context through `GqlExecutionContext`.
 jest.mock('@nestjs/graphql', () => ({ GqlExecutionContext: { create: (context: any) => context.gql } }), {
 	virtual: true

@@ -1,4 +1,4 @@
-import { CurrencyCode, DecimalString, ID } from '@gauzy/contracts';
+import { CurrencyCode, DecimalString, ID } from '@irtranscripts/contracts';
 import { TaxCategory } from '../tax-category/tax-category.entity';
 import { TaxRate } from '../tax-rate/tax-rate.entity';
 import { TaxRatePart } from '../tax-rate-part/tax-rate-part.entity';

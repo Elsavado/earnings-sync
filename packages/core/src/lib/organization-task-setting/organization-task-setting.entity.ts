@@ -1,6 +1,6 @@
 import { RelationId } from 'typeorm';
-import { TaskProofOfCompletionTypeEnum } from '@gauzy/constants';
-import { ID, IOrganizationProject, IOrganizationTaskSetting, IOrganizationTeam } from '@gauzy/contracts';
+import { TaskProofOfCompletionTypeEnum } from '@irtranscripts/constants';
+import { ID, IOrganizationProject, IOrganizationTaskSetting, IOrganizationTeam } from '@irtranscripts/contracts';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsEnum, IsNumber, IsOptional, IsUUID } from 'class-validator';
 import { OrganizationProject, OrganizationTeam, TenantOrganizationBaseEntity } from '../core/entities/internal';

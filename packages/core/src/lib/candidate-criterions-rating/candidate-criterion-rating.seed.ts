@@ -7,7 +7,7 @@ import {
 	ICandidateTechnologies,
 	IOrganization,
 	ITenant
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { CandidateCriterionsRating } from './candidate-criterion-rating.entity';
 import {
 	CandidateFeedback,

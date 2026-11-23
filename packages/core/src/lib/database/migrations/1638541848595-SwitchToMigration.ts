@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 import * as chalk from "chalk";
-import { DatabaseTypeEnum } from "@gauzy/config";
+import { DatabaseTypeEnum } from "@irtranscripts/config";
 
 export class SwitchToMigration1638541848595 implements MigrationInterface {
     name = 'SwitchToMigration1638541848595'
@@ -296,7 +296,7 @@ export class SwitchToMigration1638541848595 implements MigrationInterface {
         await queryRunner.query(`CREATE INDEX IF NOT EXISTS "IDX_23e9cfcf1bfff07dcc3254378d" ON "integration_entity_setting" ("tenantId") `);
         await queryRunner.query(`CREATE INDEX IF NOT EXISTS "IDX_c6c01e38eebd8b26b9214b9044" ON "integration_entity_setting" ("organizationId") `);
         await queryRunner.query(`CREATE INDEX IF NOT EXISTS "IDX_f80ff4ebbf0b33a67dce598911" ON "integration_entity_setting" ("integrationId") `);
-        await queryRunner.query(`CREATE TABLE IF NOT EXISTS "integration_map" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "tenantId" uuid, "organizationId" uuid, "entity" character varying NOT NULL, "sourceId" bigint NOT NULL, "gauzyId" character varying NOT NULL, "integrationId" uuid NOT NULL, CONSTRAINT "PK_04fadd5eb551bbeba50aced5d0a" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE IF NOT EXISTS "integration_map" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "tenantId" uuid, "organizationId" uuid, "entity" character varying NOT NULL, "sourceId" bigint NOT NULL, "irtranscriptsId" character varying NOT NULL, "integrationId" uuid NOT NULL, CONSTRAINT "PK_04fadd5eb551bbeba50aced5d0a" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE INDEX IF NOT EXISTS "IDX_eec3d6064578610ddc609dd360" ON "integration_map" ("tenantId") `);
         await queryRunner.query(`CREATE INDEX IF NOT EXISTS "IDX_7022dafd72c1b92f7d50691441" ON "integration_map" ("organizationId") `);
         await queryRunner.query(`CREATE INDEX IF NOT EXISTS "IDX_c327ea26bda3d349a1eceb5658" ON "integration_map" ("integrationId") `);
@@ -3179,7 +3179,7 @@ export class SwitchToMigration1638541848595 implements MigrationInterface {
         await queryRunner.query(`CREATE INDEX "IDX_23e9cfcf1bfff07dcc3254378d" ON "integration_entity_setting" ("tenantId") `);
         await queryRunner.query(`CREATE INDEX "IDX_c6c01e38eebd8b26b9214b9044" ON "integration_entity_setting" ("organizationId") `);
         await queryRunner.query(`CREATE INDEX "IDX_f80ff4ebbf0b33a67dce598911" ON "integration_entity_setting" ("integrationId") `);
-        await queryRunner.query(`CREATE TABLE IF NOT EXISTS "integration_map" ("id" varchar PRIMARY KEY NOT NULL, "createdAt" datetime NOT NULL DEFAULT (datetime('now')), "updatedAt" datetime NOT NULL DEFAULT (datetime('now')), "tenantId" varchar, "organizationId" varchar, "entity" varchar NOT NULL, "sourceId" bigint NOT NULL, "gauzyId" varchar NOT NULL, "integrationId" varchar NOT NULL)`);
+        await queryRunner.query(`CREATE TABLE IF NOT EXISTS "integration_map" ("id" varchar PRIMARY KEY NOT NULL, "createdAt" datetime NOT NULL DEFAULT (datetime('now')), "updatedAt" datetime NOT NULL DEFAULT (datetime('now')), "tenantId" varchar, "organizationId" varchar, "entity" varchar NOT NULL, "sourceId" bigint NOT NULL, "irtranscriptsId" varchar NOT NULL, "integrationId" varchar NOT NULL)`);
         await queryRunner.query(`CREATE INDEX "IDX_eec3d6064578610ddc609dd360" ON "integration_map" ("tenantId") `);
         await queryRunner.query(`CREATE INDEX "IDX_7022dafd72c1b92f7d50691441" ON "integration_map" ("organizationId") `);
         await queryRunner.query(`CREATE INDEX "IDX_c327ea26bda3d349a1eceb5658" ON "integration_map" ("integrationId") `);
@@ -4222,8 +4222,8 @@ export class SwitchToMigration1638541848595 implements MigrationInterface {
         await queryRunner.query(`DROP INDEX "IDX_eec3d6064578610ddc609dd360"`);
         await queryRunner.query(`DROP INDEX "IDX_7022dafd72c1b92f7d50691441"`);
         await queryRunner.query(`DROP INDEX "IDX_c327ea26bda3d349a1eceb5658"`);
-        await queryRunner.query(`CREATE TABLE "temporary_integration_map" ("id" varchar PRIMARY KEY NOT NULL, "createdAt" datetime NOT NULL DEFAULT (datetime('now')), "updatedAt" datetime NOT NULL DEFAULT (datetime('now')), "tenantId" varchar, "organizationId" varchar, "entity" varchar NOT NULL, "sourceId" bigint NOT NULL, "gauzyId" varchar NOT NULL, "integrationId" varchar NOT NULL, CONSTRAINT "FK_eec3d6064578610ddc609dd360e" FOREIGN KEY ("tenantId") REFERENCES "tenant" ("id") ON DELETE CASCADE ON UPDATE NO ACTION, CONSTRAINT "FK_7022dafd72c1b92f7d506914411" FOREIGN KEY ("organizationId") REFERENCES "organization" ("id") ON DELETE CASCADE ON UPDATE CASCADE, CONSTRAINT "FK_c327ea26bda3d349a1eceb5658e" FOREIGN KEY ("integrationId") REFERENCES "integration_tenant" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION)`);
-        await queryRunner.query(`INSERT INTO "temporary_integration_map"("id", "createdAt", "updatedAt", "tenantId", "organizationId", "entity", "sourceId", "gauzyId", "integrationId") SELECT "id", "createdAt", "updatedAt", "tenantId", "organizationId", "entity", "sourceId", "gauzyId", "integrationId" FROM "integration_map"`);
+        await queryRunner.query(`CREATE TABLE "temporary_integration_map" ("id" varchar PRIMARY KEY NOT NULL, "createdAt" datetime NOT NULL DEFAULT (datetime('now')), "updatedAt" datetime NOT NULL DEFAULT (datetime('now')), "tenantId" varchar, "organizationId" varchar, "entity" varchar NOT NULL, "sourceId" bigint NOT NULL, "irtranscriptsId" varchar NOT NULL, "integrationId" varchar NOT NULL, CONSTRAINT "FK_eec3d6064578610ddc609dd360e" FOREIGN KEY ("tenantId") REFERENCES "tenant" ("id") ON DELETE CASCADE ON UPDATE NO ACTION, CONSTRAINT "FK_7022dafd72c1b92f7d506914411" FOREIGN KEY ("organizationId") REFERENCES "organization" ("id") ON DELETE CASCADE ON UPDATE CASCADE, CONSTRAINT "FK_c327ea26bda3d349a1eceb5658e" FOREIGN KEY ("integrationId") REFERENCES "integration_tenant" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION)`);
+        await queryRunner.query(`INSERT INTO "temporary_integration_map"("id", "createdAt", "updatedAt", "tenantId", "organizationId", "entity", "sourceId", "irtranscriptsId", "integrationId") SELECT "id", "createdAt", "updatedAt", "tenantId", "organizationId", "entity", "sourceId", "irtranscriptsId", "integrationId" FROM "integration_map"`);
         await queryRunner.query(`DROP TABLE "integration_map"`);
         await queryRunner.query(`ALTER TABLE "temporary_integration_map" RENAME TO "integration_map"`);
         await queryRunner.query(`CREATE INDEX "IDX_eec3d6064578610ddc609dd360" ON "integration_map" ("tenantId") `);
@@ -6557,8 +6557,8 @@ export class SwitchToMigration1638541848595 implements MigrationInterface {
         await queryRunner.query(`DROP INDEX "IDX_7022dafd72c1b92f7d50691441"`);
         await queryRunner.query(`DROP INDEX "IDX_eec3d6064578610ddc609dd360"`);
         await queryRunner.query(`ALTER TABLE "integration_map" RENAME TO "temporary_integration_map"`);
-        await queryRunner.query(`CREATE TABLE "integration_map" ("id" varchar PRIMARY KEY NOT NULL, "createdAt" datetime NOT NULL DEFAULT (datetime('now')), "updatedAt" datetime NOT NULL DEFAULT (datetime('now')), "tenantId" varchar, "organizationId" varchar, "entity" varchar NOT NULL, "sourceId" bigint NOT NULL, "gauzyId" varchar NOT NULL, "integrationId" varchar NOT NULL)`);
-        await queryRunner.query(`INSERT INTO "integration_map"("id", "createdAt", "updatedAt", "tenantId", "organizationId", "entity", "sourceId", "gauzyId", "integrationId") SELECT "id", "createdAt", "updatedAt", "tenantId", "organizationId", "entity", "sourceId", "gauzyId", "integrationId" FROM "temporary_integration_map"`);
+        await queryRunner.query(`CREATE TABLE "integration_map" ("id" varchar PRIMARY KEY NOT NULL, "createdAt" datetime NOT NULL DEFAULT (datetime('now')), "updatedAt" datetime NOT NULL DEFAULT (datetime('now')), "tenantId" varchar, "organizationId" varchar, "entity" varchar NOT NULL, "sourceId" bigint NOT NULL, "irtranscriptsId" varchar NOT NULL, "integrationId" varchar NOT NULL)`);
+        await queryRunner.query(`INSERT INTO "integration_map"("id", "createdAt", "updatedAt", "tenantId", "organizationId", "entity", "sourceId", "irtranscriptsId", "integrationId") SELECT "id", "createdAt", "updatedAt", "tenantId", "organizationId", "entity", "sourceId", "irtranscriptsId", "integrationId" FROM "temporary_integration_map"`);
         await queryRunner.query(`DROP TABLE "temporary_integration_map"`);
         await queryRunner.query(`CREATE INDEX "IDX_c327ea26bda3d349a1eceb5658" ON "integration_map" ("integrationId") `);
         await queryRunner.query(`CREATE INDEX "IDX_7022dafd72c1b92f7d50691441" ON "integration_map" ("organizationId") `);

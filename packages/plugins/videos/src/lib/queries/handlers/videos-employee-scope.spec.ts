@@ -1,9 +1,9 @@
 /**
- * `@gauzy/core` is mocked so this suite stays a unit test: importing it for real pulls the whole entity
+ * `@irtranscripts/core` is mocked so this suite stays a unit test: importing it for real pulls the whole entity
  * graph, which takes minutes to compile.
  */
 jest.mock('../../services/videos.service', () => ({ VideosService: class {} }));
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	BaseQueryDTO: class {},
 	RequestContext: {
 		hasPermission: jest.fn(),
@@ -15,9 +15,9 @@ jest.mock('@gauzy/core', () => ({
 }));
 
 import { NotFoundException } from '@nestjs/common';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
-import { assertCallerOwnsUpload } from '@gauzy/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
+import { assertCallerOwnsUpload } from '@irtranscripts/core';
 import { GetVideosQueryHandler } from './get-videos.handler';
 import { GetVideoQueryHandler } from './get-video.handler';
 import { GetVideosQuery } from '../get-videos.query';

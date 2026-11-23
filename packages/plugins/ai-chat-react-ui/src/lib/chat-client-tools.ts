@@ -1,5 +1,5 @@
 import type { Injector } from '@angular/core';
-import { AgentFormBridgeService, AgentPageBridgeService } from '@gauzy/ui-core/core';
+import { AgentFormBridgeService, AgentPageBridgeService } from '@irtranscripts/ui-core/core';
 
 /** Tool names executed in the browser (declared server-side without `execute`). */
 export const CLIENT_TOOL_NAMES = ['list_pages', 'open_page', 'read_page', 'fill_form', 'submit_form'] as const;
@@ -16,7 +16,7 @@ export function isClientTool(toolName: string): toolName is ClientToolName {
  * These tools drive the Angular app next to the chat: opening pages via
  * the router and reading / filling / submitting the forms of whatever
  * page is on screen. The heavy lifting lives in `AgentPageBridgeService`
- * and `AgentFormBridgeService` (@gauzy/ui-core), reached through the
+ * and `AgentFormBridgeService` (@irtranscripts/ui-core), reached through the
  * Angular injector provided by the React bridge.
  *
  * Returns the tool output to stream back to the model. Throws are caught

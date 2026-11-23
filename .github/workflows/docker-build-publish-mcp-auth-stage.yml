@@ -1,4 +1,4 @@
-name: Build and Publish Gauzy MCP Auth Image Stage
+name: Build and Publish IRTranscripts MCP Auth Image Stage
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
 
 concurrency:
   # One group PER WORKFLOW (never a group shared across the six non-prod image builds:
-  # that shared `gauzy-docker-build` group did not queue them, it STARVED them — GitHub
+  # that shared `irtranscripts-docker-build` group did not queue them, it STARVED them — GitHub
   # keeps exactly one pending run per group, so an unrelated workflow's run cancelled
   # whichever run was waiting, and environments silently kept serving their old image).
   #
@@ -21,7 +21,7 @@ concurrency:
   # that actually ships needs its own tagged image. The alternative — letting a
   # superseded build run for three hours on a fleet where one install takes 2-3 h —
   # delays the image that IS wanted by exactly that long.
-  group: gauzy-docker-build-${{ github.workflow }}-${{ github.ref }}
+  group: irtranscripts-docker-build-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 # docker/build-push-action uploads a build record artifact and a job summary for every build.
 # The record holds every build-arg value in plain text, and on a public repo anyone signed in to
@@ -31,7 +31,7 @@ env:
   DOCKER_BUILD_SUMMARY: false
 
 jobs:
-  gauzy-mcp-auth:
+  irtranscripts-mcp-auth:
     runs-on: ${{ vars.RUNNER_LINUX_X64_8 || 'ubuntu-24.04' }}
     timeout-minutes: 300
     steps:
@@ -56,8 +56,8 @@ jobs:
           platforms: linux/amd64
           tags: |
             ghcr.io/ever-co/gauzy-mcp-auth-stage:latest
-            everco/gauzy-mcp-auth-stage:latest
-            registry.digitalocean.com/ever/gauzy-mcp-auth-stage:latest
+            everco/irtranscripts-mcp-auth-stage:latest
+            registry.digitalocean.com/ever/irtranscripts-mcp-auth-stage:latest
           cache-from: type=registry,ref=ghcr.io/ever-co/gauzy-mcp-auth-stage:latest
           cache-to: type=inline
           build-args: |
@@ -84,9 +84,9 @@ jobs:
       - name: Push to Docker Hub Registry
         run: |
           for attempt in 1 2 3 4 5; do
-            docker push everco/gauzy-mcp-auth-stage:latest && break
+            docker push everco/irtranscripts-mcp-auth-stage:latest && break
             [ "$attempt" = 5 ] && exit 1
-            echo "::warning::docker push everco/gauzy-mcp-auth-stage:latest failed (attempt $attempt of 5), retrying in $((attempt * 15)) s"
+            echo "::warning::docker push everco/irtranscripts-mcp-auth-stage:latest failed (attempt $attempt of 5), retrying in $((attempt * 15)) s"
             sleep $((attempt * 15))
           done
 
@@ -104,9 +104,9 @@ jobs:
         if: ${{ vars.DO_ENABLED == 'true' }}
         run: |
           for attempt in 1 2 3 4 5; do
-            docker push registry.digitalocean.com/ever/gauzy-mcp-auth-stage:latest && break
+            docker push registry.digitalocean.com/ever/irtranscripts-mcp-auth-stage:latest && break
             [ "$attempt" = 5 ] && exit 1
-            echo "::warning::docker push registry.digitalocean.com/ever/gauzy-mcp-auth-stage:latest failed (attempt $attempt of 5), retrying in $((attempt * 15)) s"
+            echo "::warning::docker push registry.digitalocean.com/ever/irtranscripts-mcp-auth-stage:latest failed (attempt $attempt of 5), retrying in $((attempt * 15)) s"
             sleep $((attempt * 15))
           done
 

@@ -1,7 +1,7 @@
 import '../../core/entities/internal';
 
 import { ForbiddenException } from '@nestjs/common';
-import { ID, IGetProfileActivity } from '@gauzy/contracts';
+import { ID, IGetProfileActivity } from '@irtranscripts/contracts';
 import { IsNull } from 'typeorm';
 import { RequestContext } from '../../core/context';
 import { StatisticService } from './statistic.service';

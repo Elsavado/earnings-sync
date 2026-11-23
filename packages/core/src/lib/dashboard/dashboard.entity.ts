@@ -3,8 +3,8 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { EntityRepositoryType } from '@mikro-orm/core';
 import { JoinColumn, RelationId } from 'typeorm';
 import { IsBoolean, IsNotEmpty, IsObject, IsOptional, IsString, IsUUID } from 'class-validator';
-import { isMySQL, isPostgres } from '@gauzy/config';
-import { ID, IDashboard, IEmployee, JsonData } from '@gauzy/contracts';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
+import { ID, IDashboard, IEmployee, JsonData } from '@irtranscripts/contracts';
 import { DashboardWidget, Employee, TenantOrganizationBaseEntity } from '../core/entities/internal';
 import {
 	ColumnIndex,

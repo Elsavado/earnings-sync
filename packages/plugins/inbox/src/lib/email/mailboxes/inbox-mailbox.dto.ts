@@ -22,7 +22,7 @@ import {
 	InboxMailboxKindEnum,
 	InboxMailboxMemberRoleEnum,
 	InboxMailboxOwnerTypeEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 const KINDS = [
 	InboxMailboxKindEnum.PLATFORM,

@@ -6,7 +6,7 @@ import { AddEmployeeKind1791000000721 } from './migrations/1791000000721-AddEmpl
 import { CreateEmployeeAgentProfileTable1791000000722 } from './migrations/1791000000722-CreateEmployeeAgentProfileTable';
 
 /**
- * The two migrations of the agent-employee change (Gauzy ↔ Ever Works, G-P1-1), run for real on SQLite
+ * The two migrations of the agent-employee change (IRTranscripts ↔ Ever Works, G-P1-1), run for real on SQLite
  * (the demo database) against a minimal fixture of the tables they touch or reference.
  *
  * - `employee.kind` arrives as `NOT NULL DEFAULT 'human'` with TypeORM's index, existing rows read `human`,
@@ -25,7 +25,7 @@ describe('agent employee migrations on SQLite', () => {
 	let dbPath: string;
 
 	beforeEach(async () => {
-		dbPath = path.join(os.tmpdir(), `gauzy-agent-employee-${process.pid}-${Date.now()}-${Math.random()}.sqlite3`);
+		dbPath = path.join(os.tmpdir(), `irtranscripts-agent-employee-${process.pid}-${Date.now()}-${Math.random()}.sqlite3`);
 		dataSource = new DataSource({
 			type: 'better-sqlite3',
 			database: dbPath,

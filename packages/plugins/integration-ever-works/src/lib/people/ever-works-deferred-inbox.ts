@@ -9,7 +9,7 @@ export const DEFERRED_INBOX_SAMPLE = 5;
 
 /**
  * One Ever Works member's inbox items that wait for a pairing (plan 04 §4): an item whose recipient is not paired
- * with a Gauzy person is not delivered; its event waits as `deferred` and is listed on the People tab.
+ * with a IRTranscripts person is not delivered; its event waits as `deferred` and is listed on the People tab.
  */
 export interface EverWorksDeferredInboxRow {
 	ewUserId: string;

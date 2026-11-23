@@ -1,6 +1,6 @@
 import { DynamicModule } from '@nestjs/common';
 import * as chalk from 'chalk';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@gauzy/plugin';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@irtranscripts/plugin';
 import { JITSU_MODULE_PROVIDER_CONFIG, JitsuModuleOptions } from './jitsu.types';
 import { isJitsuServerConfigured, parseOptions } from './jitsu-helper';
 import { JitsuAnalyticsService } from './jitsu-analytics.service';

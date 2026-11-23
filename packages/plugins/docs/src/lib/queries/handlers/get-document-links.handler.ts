@@ -1,5 +1,5 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { IDocumentLink, IPagination } from '@gauzy/contracts';
+import { IDocumentLink, IPagination } from '@irtranscripts/contracts';
 import { DocumentLinkService } from '../../services/document-link.service';
 import { GetDocumentLinksQuery } from '../get-document-links.query';
 

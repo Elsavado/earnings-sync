@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
-import { ID, IPagination } from '@gauzy/contracts';
+import { ID, IPagination } from '@irtranscripts/contracts';
 import {
 	AbstractValidationPipe,
 	CrudController,
@@ -25,7 +25,7 @@ import {
 	UseValidationPipe,
 	Versioned,
 	versionExpectationOf
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { CommerceCartShippingMethod } from './commerce-cart-shipping-method.entity';
 import { CommerceCartShippingMethodService } from './commerce-cart-shipping-method.service';
 import { CommerceCartService } from '../commerce-cart/commerce-cart.service';

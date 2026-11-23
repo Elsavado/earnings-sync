@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { DataSource } from 'typeorm';
-import { ISearchIndexField, ISearchIndexRegistration, SearchFieldKind } from '@gauzy/contracts';
+import { ISearchIndexField, ISearchIndexRegistration, SearchFieldKind } from '@irtranscripts/contracts';
 
 /**
  * The set of field kinds a declaration may use.

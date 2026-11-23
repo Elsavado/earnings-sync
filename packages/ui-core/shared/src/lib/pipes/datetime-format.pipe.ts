@@ -2,9 +2,9 @@ import { Pipe, PipeTransform, inject } from '@angular/core';
 import { filter } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import moment from 'moment';
-import { IOrganization, RegionsEnum, TimeFormatEnum } from '@gauzy/contracts';
-import { isEmpty } from '@gauzy/ui-core/common';
-import { Store } from '@gauzy/ui-core/core';
+import { IOrganization, RegionsEnum, TimeFormatEnum } from '@irtranscripts/contracts';
+import { isEmpty } from '@irtranscripts/ui-core/common';
+import { Store } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Pipe({

@@ -2,7 +2,7 @@ import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
 import type { EntityManager, EntityMetadata, MikroORM as MikroOrmInstance } from '@mikro-orm/core';
-import type { IPagination } from '@gauzy/contracts';
+import type { IPagination } from '@irtranscripts/contracts';
 import type { BaseQueryDTO } from '../../core/crud';
 
 /**
@@ -130,7 +130,7 @@ export async function openSyncedProjectsStore(options: ISyncedProjectsStoreOptio
 	const previous = process.env.DB_ORM;
 	process.env.DB_ORM = 'mikro-orm';
 
-	const file = path.join(os.tmpdir(), `gauzy-synced-projects-${process.pid}-${Date.now()}.sqlite`);
+	const file = path.join(os.tmpdir(), `irtranscripts-synced-projects-${process.pid}-${Date.now()}.sqlite`);
 	let store: ISyncedProjectsStore | undefined;
 
 	try {
@@ -141,7 +141,7 @@ export async function openSyncedProjectsStore(options: ISyncedProjectsStoreOptio
 			const { BetterSqliteDriver } = require('@mikro-orm/better-sqlite');
 			const { SoftDeleteHandler } = require('mikro-orm-soft-delete');
 			const { DataSource } = require('typeorm');
-			const { defineConfig } = require('@gauzy/config');
+			const { defineConfig } = require('@irtranscripts/config');
 			const { coreEntities } = require('../../core/entities');
 			const {
 				registerMikroOrmCustomFields,

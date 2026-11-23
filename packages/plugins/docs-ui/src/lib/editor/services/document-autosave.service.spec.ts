@@ -1,15 +1,15 @@
 /**
- * `@gauzy/ui-core/core` is a barrel over the whole app core — importing it (via
+ * `@irtranscripts/ui-core/core` is a barrel over the whole app core — importing it (via
  * `DocumentsService`, which is only ever a DI token here) pulls Akita's
  * untranspiled ESM into the CommonJS test runtime.
  */
-jest.mock('@gauzy/ui-core/core', () => ({ Store: class Store {} }));
+jest.mock('@irtranscripts/ui-core/core', () => ({ Store: class Store {} }));
 
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injector, NgZone } from '@angular/core';
 import { fakeAsync, tick } from '@angular/core/testing';
 import { Subject, of, throwError } from 'rxjs';
-import { IDocument } from '@gauzy/contracts';
+import { IDocument } from '@irtranscripts/contracts';
 import { DocumentsService } from '../../services/documents.service';
 import { DocumentAutosaveService, IAutosavePayload } from './document-autosave.service';
 

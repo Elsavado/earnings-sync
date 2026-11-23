@@ -1,7 +1,7 @@
 import { Controller, Get, Param, HttpStatus, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ILanguage, IPagination } from '@gauzy/contracts';
-import { Public } from '@gauzy/common';
+import { ILanguage, IPagination } from '@irtranscripts/contracts';
+import { Public } from '@irtranscripts/common';
 import { Language } from './language.entity';
 import { LanguageService } from './language.service';
 

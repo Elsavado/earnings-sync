@@ -1,4 +1,4 @@
-import { SchedulerModule } from '@gauzy/scheduler';
+import { SchedulerModule } from '@irtranscripts/scheduler';
 import { Module } from '@nestjs/common';
 import { WorkerLifecycleJob } from './jobs/worker-lifecycle.job';
 import { WorkerLifecycleProcessor } from './processors/worker-lifecycle.processor';

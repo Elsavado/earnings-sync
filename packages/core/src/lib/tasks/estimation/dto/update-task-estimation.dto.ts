@@ -1,4 +1,4 @@
-import { ITaskEstimationUpdateInput } from '@gauzy/contracts';
+import { ITaskEstimationUpdateInput } from '@irtranscripts/contracts';
 import { CreateTaskEstimationDTO } from './create-task-estimation.dto';
 
 /**

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
-import { ICandidate } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
-import { CandidatesService, ErrorHandlingService } from '@gauzy/ui-core/core';
+import { ICandidate } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
+import { CandidatesService, ErrorHandlingService } from '@irtranscripts/ui-core/core';
 import { BaseCandidateSelectorComponent } from '../base-candidate-selector.component';
 
 @Component({

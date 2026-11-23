@@ -1,4 +1,4 @@
-import { ID, IRole, IUser, PluginScope } from '@gauzy/contracts';
+import { ID, IRole, IUser, PluginScope } from '@irtranscripts/contracts';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {

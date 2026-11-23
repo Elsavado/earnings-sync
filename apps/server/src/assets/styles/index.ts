@@ -3,4 +3,4 @@ export * from './theme.cosmic';
 export * from './theme.dark';
 export * from './theme.default';
 export * from './material';
-export * from './gauzy';
+export * from './irtranscripts';

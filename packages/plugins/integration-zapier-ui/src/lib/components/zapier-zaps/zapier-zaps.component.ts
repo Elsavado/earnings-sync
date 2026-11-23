@@ -3,10 +3,10 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { tap, catchError, finalize, switchMap, map, distinctUntilChanged } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
-import { ZapierService, ToastrService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { ZapierService, ToastrService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { TranslateService } from '@ngx-translate/core';
-import { IZapierZap, IZapierZapStep, IZapierCreateZapInput, ID } from '@gauzy/contracts';
+import { IZapierZap, IZapierZapStep, IZapierCreateZapInput, ID } from '@irtranscripts/contracts';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy({ checkProperties: true })
@@ -123,7 +123,7 @@ export class ZapierZapsComponent extends TranslationBaseComponent implements OnI
 	}
 
 	/**
-	 * Submit the create-zap form and POST the payload via the Gauzy backend.
+	 * Submit the create-zap form and POST the payload via the IRTranscripts backend.
 	 */
 	submitCreateZap(): void {
 		if (this.createZapForm.invalid) {

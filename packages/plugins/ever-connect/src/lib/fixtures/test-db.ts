@@ -101,7 +101,7 @@ export async function migrateUp(dataSource: DataSource): Promise<void> {
 }
 
 /**
- * The core tables the plugin reads and writes, with the columns it uses (Gauzy's real tables have
+ * The core tables the plugin reads and writes, with the columns it uses (IRTranscripts's real tables have
  * more; these are enough to prove the statements on each database).
  */
 export async function createCoreTables(dataSource: DataSource, d: TestDialect): Promise<void> {

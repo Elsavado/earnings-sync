@@ -1,6 +1,6 @@
-# Contributing to Gauzy Platform
+# Contributing to IRTranscripts Platform
 
-We would love for you to contribute to Gauzy Platform!
+We would love for you to contribute to IRTranscripts Platform!
 
 ## Submitting Pull Requests
 
@@ -25,7 +25,7 @@ You are more than welcome to submit future requests here https://github.com/ever
 ## Legal
 
 This is an open source project.  
-Contributions you make to this public Gauzy Platform repository are completely voluntary.  
+Contributions you make to this public IRTranscripts Platform repository are completely voluntary.  
 When you submit an issue, bug report, question, enhancement, pull request, etc., you are offering your contribution without expectation of payment, you expressly waive any future pay claims against the Ever Co. LTD related to your contribution, and you acknowledge that this does not create an obligation on the part of the Ever Co. LTD of any kind. Furthermore, your contributing to this project does not create an employer-employee relationship between the Ever Co. LTD and the contributor.
 
 See also "Submitting Pull Requests" section above for more information on CAA/CLA, required for any contributions.

@@ -1,5 +1,5 @@
-jest.mock('@gauzy/config', () => ({
-	...jest.requireActual('@gauzy/config'),
+jest.mock('@irtranscripts/config', () => ({
+	...jest.requireActual('@irtranscripts/config'),
 	getConfig: () => ({ dbConnectionOptions: { type: 'better-sqlite3' } }),
 	isMySQL: () => false
 }));
@@ -33,7 +33,7 @@ describe('organization project members count, on SQLite', () => {
 	beforeEach(async () => {
 		dbPath = path.join(
 			os.tmpdir(),
-			`gauzy-project-members-count-${process.pid}-${Date.now()}-${Math.random()}.sqlite3`
+			`irtranscripts-project-members-count-${process.pid}-${Date.now()}-${Math.random()}.sqlite3`
 		);
 		dataSource = new DataSource({ type: 'better-sqlite3', database: dbPath, synchronize: false, logging: false });
 		await dataSource.initialize();

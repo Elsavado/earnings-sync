@@ -1,0 +1,52 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import {
+	NbBadgeModule,
+	NbButtonModule,
+	NbCardModule,
+	NbIconModule,
+	NbInputModule,
+	NbRadioModule,
+	NbSpinnerModule,
+	NbToastrModule,
+	NbTooltipModule
+} from '@nebular/theme';
+import { NgxPermissionsModule } from 'ngx-permissions';
+import { FileUploadModule } from 'ng2-file-upload';
+import { ExportAllService } from '@irtranscripts/ui-core/core';
+import { TranslatePipe } from '@ngx-translate/core';
+import { FileUploaderModule, IRTranscriptsButtonActionModule, SharedModule } from '@irtranscripts/ui-core/shared';
+import { ImportComponent } from './import.component';
+import { ImportRoutingModule } from './import-routing.module';
+
+@NgModule({
+	declarations: [ImportComponent],
+    exports: [ImportComponent],
+	imports: [
+		CommonModule,
+        FormsModule,
+        FileUploadModule,
+        NbBadgeModule,
+        NbButtonModule,
+        NbCardModule,
+        NbIconModule,
+        NbInputModule,
+        NbRadioModule,
+        NbSpinnerModule,
+        NbToastrModule.forRoot(),
+        NbTooltipModule,
+        ImportRoutingModule,
+        NgxPermissionsModule.forChild(),
+        TranslatePipe,
+        SharedModule,
+        FileUploaderModule,
+        IRTranscriptsButtonActionModule
+	],
+	providers: [
+		ExportAllService,
+		provideHttpClient(withXhr(), withInterceptorsFromDi())
+	]
+})
+export class ImportModule {}

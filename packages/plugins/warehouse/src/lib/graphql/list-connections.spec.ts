@@ -9,14 +9,14 @@
  * handed one down would be passing an argument the method does not accept while its `pageInfo` claimed a
  * page had been taken.
  *
- * The module boundaries are doubled for the reason this package's service specs state: `@gauzy/core`
+ * The module boundaries are doubled for the reason this package's service specs state: `@irtranscripts/core`
  * boots the whole application graph from its barrel. Three things are deliberately real, because they are
  * what this suite is about: **the connection helpers are the kernel's own** (a double would let the page
  * arithmetic drift from the contract in a suite that still passed, which is the class of defect this
  * conversion removed), the resolvers are the package's own, and the SDL is the document the endpoint
  * composes.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: nothing here is mapped onto a module graph. */
 	const decorator = () => () => undefined;
 
@@ -33,16 +33,16 @@ jest.mock('@gauzy/core', () => {
 		Idempotent: decorator,
 		// The page window, the row slicer and the connection are taken from the kernel rather than
 		// restated, as are the cursors and the caps this package's own `pagination` module re-exports.
-		connectionFromOffsetPage: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		connectionFromOffsetPage: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.connectionFromOffsetPage,
-		resolveConnectionWindow: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		resolveConnectionWindow: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.resolveConnectionWindow,
-		paginateRows: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection').paginateRows,
-		decodeOffsetCursor: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection').decodeOffsetCursor,
-		encodeOffsetCursor: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection').encodeOffsetCursor,
-		DEFAULT_CONNECTION_PAGE_SIZE: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		paginateRows: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection').paginateRows,
+		decodeOffsetCursor: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection').decodeOffsetCursor,
+		encodeOffsetCursor: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection').encodeOffsetCursor,
+		DEFAULT_CONNECTION_PAGE_SIZE: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.DEFAULT_CONNECTION_PAGE_SIZE,
-		MAX_CONNECTION_PAGE_SIZE: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		MAX_CONNECTION_PAGE_SIZE: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.MAX_CONNECTION_PAGE_SIZE
 	};
 });

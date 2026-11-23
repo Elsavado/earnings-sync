@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsString, IsOptional, IsUUID, IsNumber } from 'class-validator';
 import { JoinColumn, RelationId } from 'typeorm';
-import { ID, IIntegrationTenant } from '@gauzy/contracts';
+import { ID, IIntegrationTenant } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	IntegrationTenant,
@@ -9,7 +9,7 @@ import {
 	MultiORMEntity,
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { MikroOrmSimWorkflowExecutionRepository } from './repository/mikro-orm-sim-workflow-execution.repository';
 
 @MultiORMEntity('integration_sim_workflow_execution', {

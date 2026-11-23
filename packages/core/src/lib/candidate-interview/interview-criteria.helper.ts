@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
 import { FilterQuery } from '@mikro-orm/core';
 import { SOFT_DELETABLE_FILTER } from 'mikro-orm-soft-delete';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { MikroOrmBaseEntityRepository } from '../core/repository/mikro-orm-base-entity.repository';
 import { MultiORM, MultiORMEnum } from '../core/utils';

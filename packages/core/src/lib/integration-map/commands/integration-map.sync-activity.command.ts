@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { IActivity, IIntegrationMapSyncEntity } from '@gauzy/contracts';
+import { IActivity, IIntegrationMapSyncEntity } from '@irtranscripts/contracts';
 
 export class IntegrationMapSyncActivityCommand implements ICommand {
 	static readonly type = '[Integration Map] Sync Activity';

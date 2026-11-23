@@ -1,7 +1,7 @@
 import { IntersectionType } from "@nestjs/mapped-types";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsString } from "class-validator";
-import { IIntegrationSettingUpdateInput } from "@gauzy/contracts";
+import { IIntegrationSettingUpdateInput } from "@irtranscripts/contracts";
 import { TenantOrganizationBaseDTO } from "../../core/dto";
 
 /**

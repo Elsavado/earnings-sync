@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
-import { ID, IFavorite } from '@gauzy/contracts';
+import { ID, IFavorite } from '@irtranscripts/contracts';
 import { UseValidationPipe, UUIDValidationPipe } from './../shared/pipes';
 import { TenantPermissionGuard } from '../shared/guards';
 import { CrudController, BaseQueryDTO } from '../core/crud';

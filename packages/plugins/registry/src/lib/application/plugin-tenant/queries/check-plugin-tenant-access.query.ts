@@ -1,4 +1,4 @@
-import { ID, IRole } from '@gauzy/contracts';
+import { ID, IRole } from '@irtranscripts/contracts';
 import { IQuery } from '@nestjs/cqrs';
 
 export class CheckPluginTenantAccessQuery implements IQuery {

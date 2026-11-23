@@ -1,7 +1,7 @@
 {
-	"name": "@gauzy/plugin-ai-chat-react-ui",
+	"name": "@irtranscripts/plugin-ai-chat-react-ui",
 	"version": "0.1.0",
-	"description": "React AI Chat plugin using Vercel AI SDK, providing a collapsible chat sidebar for the Gauzy platform",
+	"description": "React AI Chat plugin using Vercel AI SDK, providing a collapsible chat sidebar for the IRTranscripts platform",
 	"author": {
 		"name": "Ever Co. LTD",
 		"email": "ever@ever.co",
@@ -33,12 +33,12 @@
 		"@ai-sdk/react": "^4.0.141",
 		"ai": "^7.0.138",
 		"streamdown": "^2.7.0",
-		"@gauzy/contracts": "^0.1.0",
-		"@gauzy/plugin-ui": "^0.1.0",
-		"@gauzy/ui-config": "^0.1.0",
-		"@gauzy/ui-core": "^0.1.0",
-		"@gauzy/ui-react": "^0.1.0",
-		"@gauzy/ui-react-components": "^0.1.0",
+		"@irtranscripts/contracts": "^0.1.0",
+		"@irtranscripts/plugin-ui": "^0.1.0",
+		"@irtranscripts/ui-config": "^0.1.0",
+		"@irtranscripts/ui-core": "^0.1.0",
+		"@irtranscripts/ui-react": "^0.1.0",
+		"@irtranscripts/ui-react-components": "^0.1.0",
 		"tslib": "^2.8.1"
 	},
 	"devDependencies": {
@@ -51,7 +51,7 @@
 		"React",
 		"UI",
 		"plugin",
-		"Ever Gauzy",
+		"Ever IRTranscripts",
 		"AI",
 		"chat",
 		"Vercel AI SDK"

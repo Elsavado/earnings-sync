@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { isNotEmpty } from '@gauzy/utils';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { KnowledgeBaseArticleBulkDeleteCommand } from '..';
 import { HelpCenterAuthorService } from '../../help-center-author.service';
 

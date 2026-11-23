@@ -7,7 +7,7 @@ import { NbIconModule, NbBadgeModule } from '@nebular/theme';
  * Following Single Responsibility Principle
  */
 @Component({
-    selector: 'gauzy-subscription-status-badge',
+    selector: 'irtranscripts-subscription-status-badge',
     templateUrl: './subscription-status-badge.component.html',
     styleUrls: ['./subscription-status-badge.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

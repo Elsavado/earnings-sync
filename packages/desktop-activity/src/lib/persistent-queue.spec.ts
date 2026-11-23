@@ -80,12 +80,12 @@ describe('PersistentQueue', () => {
 
 	it('gives each queue name exactly one processor and its own table', () => {
 		const queue = openQueue();
-		queue.register('gauzy-queue', async () => undefined);
+		queue.register('irtranscripts-queue', async () => undefined);
 
-		expect(queue.has('gauzy-queue')).toBe(true);
-		expect(() => queue.register('gauzy-queue', async () => undefined)).toThrow('already has a processor');
+		expect(queue.has('irtranscripts-queue')).toBe(true);
+		expect(() => queue.register('irtranscripts-queue', async () => undefined)).toThrow('already has a processor');
 		// Both names reduce to the same table name: refused rather than silently mixing two queues.
-		expect(() => queue.register('gauzy_queue', async () => undefined)).toThrow('would share the table');
+		expect(() => queue.register('irtranscripts_queue', async () => undefined)).toThrow('would share the table');
 		expect(() => queue.register('--', async () => undefined)).toThrow('Invalid queue name');
 	});
 

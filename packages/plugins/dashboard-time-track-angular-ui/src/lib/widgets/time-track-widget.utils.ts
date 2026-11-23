@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 // Type-only import keeps this module free of cross-package runtime dependencies,
 // so it stays trivially unit-testable.
-import type { IDashboardWidgetContext } from '@gauzy/ui-core/core';
+import type { IDashboardWidgetContext } from '@irtranscripts/ui-core/core';
 
 /**
  * Granularity of the selected reporting window.
@@ -21,7 +21,7 @@ export enum RangePeriod {
 const SECONDS_IN_DAY = 86400;
 
 // NOTE: request shaping for `/timesheet/statistics/*` deliberately lives in
-// `TimesheetStatisticsCacheService.buildStatisticsRequest` (@gauzy/ui-core/core)
+// `TimesheetStatisticsCacheService.buildStatisticsRequest` (@irtranscripts/ui-core/core)
 // and must NOT be duplicated here — it applies the organization's UTC offset,
 // and a second, offset-free implementation is exactly what makes a canvas widget
 // disagree with the standard Time Tracking page about the same numbers.
@@ -141,7 +141,7 @@ function resolveWorkingSeconds(context: IDashboardWidgetContext): number {
  * context change that CANNOT affect the response — a new `organization` object
  * identity after an unrelated store write, a currency or time-format switch —
  * does not re-run the fetch. The fields are exactly the ones
- * `buildStatisticsRequest` (@gauzy/ui-core/core) puts on the wire, so the
+ * `buildStatisticsRequest` (@irtranscripts/ui-core/core) puts on the wire, so the
  * comparator can never be narrower than the payload it guards.
  *
  * @param context The ambient dashboard widget context.

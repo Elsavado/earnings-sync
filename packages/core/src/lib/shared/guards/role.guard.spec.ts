@@ -1,5 +1,5 @@
-import { PermissionsEnum, RolesEnum } from '@gauzy/contracts';
-import { environment as env } from '@gauzy/config';
+import { PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
+import { environment as env } from '@irtranscripts/config';
 import { sign } from 'jsonwebtoken';
 import { RequestContext } from '../../core/context';
 import { RoleGuard } from './role.guard';

@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { DeleteResult } from 'typeorm';
-import { ID, IPagination, ITaskView, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IPagination, ITaskView, PermissionsEnum } from '@irtranscripts/contracts';
 import { UUIDValidationPipe, UseValidationPipe, AbstractValidationPipe } from '../../shared/pipes';
 import { PermissionGuard, TenantPermissionGuard } from '../../shared/guards';
 import { CrudController, FindOptionsQueryDTO, BaseQueryDTO } from '../../core/crud';

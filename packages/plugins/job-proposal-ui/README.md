@@ -1,4 +1,4 @@
-# @gauzy/plugin-job-proposal-ui
+# @irtranscripts/plugin-job-proposal-ui
 
 This library was generated with [Nx](https://nx.dev).
 
@@ -19,7 +19,7 @@ After building your library with `yarn nx build plugin-job-proposal-ui`, go to t
 Install the Job Proposal UI Plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-job-proposal-ui
+npm install @irtranscripts/plugin-job-proposal-ui
 # or
-yarn add @gauzy/plugin-job-proposal-ui
+yarn add @irtranscripts/plugin-job-proposal-ui
 ```

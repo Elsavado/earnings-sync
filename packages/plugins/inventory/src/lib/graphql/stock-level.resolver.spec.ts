@@ -1,10 +1,10 @@
 /**
  * Two module boundaries are doubled here, and the reason is the same for both.
  *
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a GraphQL resolver needs and none of which is available
  * outside a running application; its nested `uuid` is ESM-only, so reading one entity would fail under
- * jest. `@gauzy/config` reads the process environment at import time. Both are therefore doubled at the
+ * jest. `@irtranscripts/config` reads the process environment at import time. Both are therefore doubled at the
  * module boundary, and **the resolvers under test are the real ones**, bound to a stubbed service so
  * what a field delegates to is asserted rather than inferred.
  *
@@ -12,9 +12,9 @@
  * constants, so the assertions below are made against the metadata a guard actually reads rather than
  * against the decorator’s prose.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { SetMetadata } = require('@nestjs/common');
-	const { PERMISSIONS_METADATA } = require('@gauzy/constants');
+	const { PERMISSIONS_METADATA } = require('@irtranscripts/constants');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
@@ -88,23 +88,23 @@ jest.mock('@gauzy/core', () => {
 		// implementations rather than stand-ins written here: a `resolveConnectionWindow` this factory
 		// invented would let a suite agree with itself about a window the platform does not compute, which
 		// is the one thing a resolver suite must not do.
-		connectionFromOffsetPage: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		connectionFromOffsetPage: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.connectionFromOffsetPage,
-		resolveConnectionWindow: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		resolveConnectionWindow: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.resolveConnectionWindow,
-		paginateRows: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection').paginateRows,
+		paginateRows: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection').paginateRows,
 		// The kernel's tenant-scoped stream and its payload option, the real ones for the same reason: the
 		// level streams are built on them, and a stand-in would let the suite agree with itself about whose
 		// events a subscriber hears.
-		deliverPayloadAsIs: jest.requireActual('@gauzy/core/src/lib/graphql/subscriptions/plugin-subscription')
+		deliverPayloadAsIs: jest.requireActual('@irtranscripts/core/src/lib/graphql/subscriptions/plugin-subscription')
 			.deliverPayloadAsIs,
-		tenantScopedEventStream: jest.requireActual('@gauzy/core/src/lib/graphql/subscriptions/plugin-subscription')
+		tenantScopedEventStream: jest.requireActual('@irtranscripts/core/src/lib/graphql/subscriptions/plugin-subscription')
 			.tenantScopedEventStream
 	};
 });
 
 jest.mock(
-	'@gauzy/config',
+	'@irtranscripts/config',
 	() => ({
 		DatabaseTypeEnum: {
 			mongodb: 'mongodb',
@@ -122,8 +122,8 @@ import { join } from 'node:path';
 import { print } from 'graphql';
 import { ClsService } from 'nestjs-cls';
 import { from } from 'rxjs';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionGuard, TenantPermissionGuard } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionGuard, TenantPermissionGuard } from '@irtranscripts/core';
 import { StockLevelController } from './../stock-level/stock-level.controller';
 import { inventorySchemaExtensions } from './inventory.schema';
 import { StockLevelResolver } from './stock-level.resolver';
@@ -275,7 +275,7 @@ describe('StockLevelResolver — one concept, two protocols, the same names (doc
 
 	it('asks the paged read for no rows when a backward walk reaches the first level', async () => {
 		const { service, resolver } = surfaces();
-		const { encodeOffsetCursor } = jest.requireActual('@gauzy/core/src/lib/api/graphql-connection');
+		const { encodeOffsetCursor } = jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection');
 
 		service.listLevels.mockResolvedValueOnce({ items: [], total: 7 });
 
@@ -348,14 +348,14 @@ const TENANT = 'tenant-of-the-subscriber';
  *
  * The level streams are the kernel's tenant-scoped stream, which captures the subscriber from the request
  * context when it opens and refuses an operation that has none. The request context is the kernel's own,
- * over a real CLS store — the `RequestContext` the `@gauzy/core` double exports above is a different
+ * over a real CLS store — the `RequestContext` the `@irtranscripts/core` double exports above is a different
  * object, read by nothing here.
  *
  * @param open Opens the stream.
  * @returns The stream.
  */
 function asSubscriber<T>(open: () => T): T {
-	const { RequestContext } = jest.requireActual('@gauzy/core/src/lib/core/context/request-context');
+	const { RequestContext } = jest.requireActual('@irtranscripts/core/src/lib/core/context/request-context');
 
 	if (!RequestContext['clsService']) {
 		RequestContext.setClsService(new ClsService(new AsyncLocalStorage()));

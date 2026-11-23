@@ -11,7 +11,7 @@ import {
 	UseGuards
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { IContactCredential, IContactCredentialFindInput, IContactCredentialPublic, ID, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { IContactCredential, IContactCredentialFindInput, IContactCredentialPublic, ID, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { paginateRows, resolveRestPage } from '../api/graphql-connection';
 import { UUIDValidationPipe, UseValidationPipe } from '../shared/pipes';
 import { Permissions } from '../shared/decorators';

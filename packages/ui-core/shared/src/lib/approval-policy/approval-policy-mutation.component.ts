@@ -1,13 +1,13 @@
 import { OnInit, Component, Input, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormGroup, UntypedFormBuilder, Validators, FormGroupDirective } from '@angular/forms';
-import { IApprovalPolicy, IApprovalPolicyCreateInput, IOrganization } from '@gauzy/contracts';
+import { IApprovalPolicy, IApprovalPolicyCreateInput, IOrganization } from '@irtranscripts/contracts';
 import { NbDialogRef } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
 import { filter, tap } from 'rxjs/operators';
-import { Store } from '@gauzy/ui-core/core';
-import { ApprovalPolicyService, ToastrService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { Store } from '@irtranscripts/ui-core/core';
+import { ApprovalPolicyService, ToastrService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { FormHelpers } from '../forms/helpers';
 
 @UntilDestroy({ checkProperties: true })

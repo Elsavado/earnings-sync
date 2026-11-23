@@ -1,5 +1,5 @@
-jest.mock('@gauzy/config', () => ({
-	...jest.requireActual('@gauzy/config'),
+jest.mock('@irtranscripts/config', () => ({
+	...jest.requireActual('@irtranscripts/config'),
 	isPostgres: jest.fn(() => false),
 	isMySQL: jest.fn(() => false)
 }));
@@ -8,8 +8,8 @@ import '../core/entities/internal';
 
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { LockMode } from '@mikro-orm/core';
-import { isPostgres } from '@gauzy/config';
-import { EmployeeSettingDataOperationEnum, PermissionsEnum } from '@gauzy/contracts';
+import { isPostgres } from '@irtranscripts/config';
+import { EmployeeSettingDataOperationEnum, PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { CrudService } from '../core/crud/crud.service';
 import { MultiORMEnum } from '../core/utils';

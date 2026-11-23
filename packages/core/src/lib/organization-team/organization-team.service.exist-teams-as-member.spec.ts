@@ -2,7 +2,7 @@ import '../core/entities/internal';
 
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { IsNull } from 'typeorm';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { OrganizationTeamService } from './organization-team.service';
 

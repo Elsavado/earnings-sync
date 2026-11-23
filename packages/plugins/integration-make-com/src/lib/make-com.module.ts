@@ -1,6 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
-import { ConfigModule } from '@gauzy/config';
+import { ConfigModule } from '@irtranscripts/config';
 import { CqrsModule } from '@nestjs/cqrs';
 import {
 	IntegrationModule,
@@ -8,7 +8,7 @@ import {
 	IntegrationTenantModule,
 	RolePermissionModule,
 	UserModule
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { MakeComController } from './make-com.controller';
 import { MakeComAuthorizationController } from './make-com-authorization.controller';
 import { MakeComApiController } from './make-com-api.controller';

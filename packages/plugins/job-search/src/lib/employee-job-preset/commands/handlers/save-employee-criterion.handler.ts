@@ -1,8 +1,8 @@
 import { BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { GauzyAIService } from '@gauzy/plugin-integration-ai';
-import { IMatchingCriterions, PermissionsEnum } from '@gauzy/contracts';
-import { RequestContext, TypeOrmEmployeeRepository } from '@gauzy/core';
+import { IRTranscriptsAIService } from '@irtranscripts/plugin-integration-ai';
+import { IMatchingCriterions, PermissionsEnum } from '@irtranscripts/contracts';
+import { RequestContext, TypeOrmEmployeeRepository } from '@irtranscripts/core';
 import { EmployeeUpworkJobsSearchCriterion } from '../../employee-upwork-jobs-search-criterion.entity';
 import { SaveEmployeeCriterionCommand } from '../save-employee-criterion.command';
 import { TypeOrmEmployeeUpworkJobsSearchCriterionRepository } from '../../repository/type-orm-employee-upwork-jobs-search-criterion.repository';
@@ -13,7 +13,7 @@ export class SaveEmployeeCriterionHandler implements ICommandHandler<SaveEmploye
 	constructor(
 		private readonly typeOrmEmployeeRepository: TypeOrmEmployeeRepository,
 		private readonly typeOrmEmployeeUpworkJobsSearchCriterionRepository: TypeOrmEmployeeUpworkJobsSearchCriterionRepository,
-		private readonly _gauzyAIService: GauzyAIService,
+		private readonly _irtranscriptsAIService: IRTranscriptsAIService,
 		private readonly typeOrmJobPresetRepository: TypeOrmJobPresetRepository
 	) {}
 
@@ -85,8 +85,8 @@ export class SaveEmployeeCriterionHandler implements ICommandHandler<SaveEmploye
 			tenantId
 		});
 
-		// Sync Gauzy AI criteria with the employee
-		this._gauzyAIService.syncGauzyEmployeeJobSearchCriteria(employee, criteria);
+		// Sync IRTranscripts AI criteria with the employee
+		this._irtranscriptsAIService.syncIRTranscriptsEmployeeJobSearchCriteria(employee, criteria);
 
 		return creation;
 	}

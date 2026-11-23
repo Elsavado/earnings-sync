@@ -3,8 +3,8 @@ import { HttpTestingController } from '@angular/common/http/testing';
 import { NbButtonModule, NbIconModule } from '@nebular/theme';
 import { provideTranslateService, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
-import { environment } from '@gauzy/ui-config';
-import { AppService } from '@gauzy/ui-core/core';
+import { environment } from '@irtranscripts/ui-config';
+import { AppService } from '@irtranscripts/ui-core/core';
 import { ISignInProvider, SocialLinksComponent, configuredSignInLink } from './social-links.component';
 import { EverIdLoginLabelComponent, everIdLoginLabelParts } from './ever-id-login-label.component';
 

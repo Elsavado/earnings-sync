@@ -1,6 +1,6 @@
 import { BadRequestException, Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Query, UseGuards, UsePipes } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ID, IPagination } from '@gauzy/contracts';
+import { ID, IPagination } from '@irtranscripts/contracts';
 import {
 	AbstractValidationPipe,
 	BaseQueryDTO,
@@ -14,8 +14,8 @@ import {
 	UUIDValidationPipe,
 	UseValidationPipe,
 	Versioned
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { PickListLine } from '../pick-list-line/pick-list-line.entity';
 import { PickListLineService } from '../pick-list-line/pick-list-line.service';
 import { WarehouseFeatures } from '../warehouse.features';

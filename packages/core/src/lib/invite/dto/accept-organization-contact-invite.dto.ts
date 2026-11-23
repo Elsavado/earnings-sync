@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsNotEmpty, IsObject, IsString, IsUUID, MinLength, ValidateNested } from 'class-validator';
-import { ID, IOrganizationContactAcceptInviteInput, IOrganizationCreateInput, IUser } from '@gauzy/contracts';
+import { ID, IOrganizationContactAcceptInviteInput, IOrganizationCreateInput, IUser } from '@irtranscripts/contracts';
 import { AcceptInviteUserDTO } from './accept-invite.dto';
 
 /**

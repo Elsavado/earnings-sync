@@ -11,8 +11,8 @@ import {
 	Req
 } from '@nestjs/common';
 import { Request } from 'express';
-import { IIntegrationTenant, PermissionsEnum } from '@gauzy/contracts';
-import { PermissionGuard, Permissions, TenantPermissionGuard, UseValidationPipe } from '@gauzy/core';
+import { IIntegrationTenant, PermissionsEnum } from '@irtranscripts/contracts';
+import { PermissionGuard, Permissions, TenantPermissionGuard, UseValidationPipe } from '@irtranscripts/core';
 import { GithubSyncService } from './github-sync.service';
 import { ProcessGithubIssueSyncDTO } from './dto';
 import { GithubIntegrationTenantGuard } from './github-integration-tenant.guard';

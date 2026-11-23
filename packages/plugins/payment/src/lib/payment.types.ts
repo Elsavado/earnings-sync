@@ -6,7 +6,7 @@ import {
 	IPagination,
 	IPaymentAccountHolder,
 	IPaymentMethodToken
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 /**
  * The payment domain's value sets and in-memory shapes.

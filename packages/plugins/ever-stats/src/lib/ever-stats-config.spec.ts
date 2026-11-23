@@ -24,12 +24,12 @@ describe('EVER_STATS_ENABLED', () => {
 });
 
 describe('readEverStatsConfig', () => {
-	it('with no environment at all: on, https://api.ever.co, ZZ, gauzy, daily, self-hosted', () => {
+	it('with no environment at all: on, https://api.ever.co, ZZ, irtranscripts, daily, self-hosted', () => {
 		const warn = jest.fn();
 		expect(readEverStatsConfig({}, warn)).toEqual({
 			apiUrl: 'https://api.ever.co',
 			country: 'ZZ',
-			serves: ['gauzy'],
+			serves: ['irtranscripts'],
 			intervalS: 86400,
 			installSource: 'self-hosted'
 		});
@@ -78,13 +78,13 @@ describe('readEverStatsConfig', () => {
 	});
 
 	it('reads EVER_STATS_SERVES', () => {
-		expect(readEverStatsConfig({ EVER_STATS_SERVES: 'gauzy,teams' }).serves).toEqual(['gauzy', 'teams']);
-		expect(readEverStatsConfig({ EVER_STATS_SERVES: 'teams, gauzy' }).serves).toEqual(['gauzy', 'teams']);
+		expect(readEverStatsConfig({ EVER_STATS_SERVES: 'irtranscripts,teams' }).serves).toEqual(['irtranscripts', 'teams']);
+		expect(readEverStatsConfig({ EVER_STATS_SERVES: 'teams, irtranscripts' }).serves).toEqual(['irtranscripts', 'teams']);
 		expect(readEverStatsConfig({ EVER_STATS_SERVES: 'teams' }).serves).toEqual(['teams']);
 		const warn = jest.fn();
-		expect(readEverStatsConfig({ EVER_STATS_SERVES: 'gauzy,works' }, warn).serves).toEqual(['gauzy']);
+		expect(readEverStatsConfig({ EVER_STATS_SERVES: 'irtranscripts,works' }, warn).serves).toEqual(['irtranscripts']);
 		expect(warn).toHaveBeenCalledTimes(1);
-		expect(servesTeams({ EVER_STATS_SERVES: 'gauzy,teams' })).toBe(true);
+		expect(servesTeams({ EVER_STATS_SERVES: 'irtranscripts,teams' })).toBe(true);
 		expect(servesTeams({})).toBe(false);
 	});
 

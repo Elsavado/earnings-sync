@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IUserOrganization } from '@gauzy/contracts';
+import { IUserOrganization } from '@irtranscripts/contracts';
 import { createEffect, ofType } from '@ngneat/effects';
 import { Actions } from '@ngneat/effects-ng';
 import { TranslateService } from '@ngx-translate/core';

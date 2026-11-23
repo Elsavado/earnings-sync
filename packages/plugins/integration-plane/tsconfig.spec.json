@@ -7,7 +7,7 @@
 		// points at this file, which did not exist because the package had no specs yet.
 		"allowJs": true,
 		// Transpile each file on its own instead of type-checking the whole program: importing
-		// `@gauzy/core` would re-check its SOURCE under this package's stricter
+		// `@irtranscripts/core` would re-check its SOURCE under this package's stricter
 		// `noPropertyAccessFromIndexSignature`, which fails on unrelated `process.env.X` accesses.
 		"isolatedModules": true,
 		"types": ["jest", "node"]

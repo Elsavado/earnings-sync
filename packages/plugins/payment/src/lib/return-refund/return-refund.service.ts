@@ -1,8 +1,8 @@
 import { BadRequestException, ConflictException, ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
-import { CurrencyCode, DecimalString, ID, PermissionsEnum } from '@gauzy/contracts';
-import { Money, Payment, RequestContext, compareDecimalStrings } from '@gauzy/core';
+import { CurrencyCode, DecimalString, ID, PermissionsEnum } from '@irtranscripts/contracts';
+import { Money, Payment, RequestContext, compareDecimalStrings } from '@irtranscripts/core';
 import { PaymentPermission } from '../payment.permissions';
 import {
 	IRefund,

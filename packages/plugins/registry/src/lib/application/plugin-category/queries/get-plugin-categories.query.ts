@@ -1,4 +1,4 @@
-import { LegacyFindManyOptions } from '@gauzy/core';
+import { LegacyFindManyOptions } from '@irtranscripts/core';
 import { IQuery } from '@nestjs/cqrs';
 import { PluginCategory } from '../../../domain';
 

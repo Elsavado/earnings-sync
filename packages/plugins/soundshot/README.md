@@ -1,4 +1,4 @@
-# @gauzy/plugin-soundshot
+# @irtranscripts/plugin-soundshot
 
 This library was generated with [Nx](https://nx.dev). This plugin provides functionality to upload and manage sound shots.
 
@@ -26,7 +26,7 @@ After building your library with `yarn nx build plugin-soundshot`, go to the dis
 Install the Soundshot plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-soundshot
+npm install @irtranscripts/plugin-soundshot
 # or
-yarn add @gauzy/plugin-soundshot
+yarn add @irtranscripts/plugin-soundshot
 ```

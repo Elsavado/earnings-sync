@@ -1,3 +1,3 @@
-# Changelog for @gauzy/plugin-integration-ai
+# Changelog for @irtranscripts/plugin-integration-ai
 
 ## [Unreleased]

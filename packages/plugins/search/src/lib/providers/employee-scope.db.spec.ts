@@ -1,12 +1,12 @@
 /**
- * The module boundaries are doubled for the reason this package's other suites state: `@gauzy/core` boots the whole
- * application graph from its barrel and `@gauzy/config` reads the environment at import time. What is real here is
+ * The module boundaries are doubled for the reason this package's other suites state: `@irtranscripts/core` boots the whole
+ * application graph from its barrel and `@irtranscripts/config` reads the environment at import time. What is real here is
  * everything between a source row and a page of hits: the shipped income declaration, the document builder, the
  * built-in provider and the SQL it states, executed by an in-memory better-sqlite3 database through a real TypeORM
  * repository.
  */
 const mockCaller = { employeeId: null as string | null, changesEmployee: false };
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 
 	class BaseEntity {}
@@ -42,7 +42,7 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	DatabaseTypeEnum: {
 		mongodb: 'mongodb',
 		sqlite: 'sqlite',

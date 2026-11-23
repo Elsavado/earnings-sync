@@ -1,6 +1,6 @@
 import { DeepPartial, ObjectLiteral, Repository } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { MikroOrmBaseEntityRepository, MultiORM, MultiORMEnum, RequestContext, wrapSerialize } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { MikroOrmBaseEntityRepository, MultiORM, MultiORMEnum, RequestContext, wrapSerialize } from '@irtranscripts/core';
 
 /**
  * The tenancy of an order, which every row written *about* the order carries.

@@ -9,7 +9,7 @@ import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
 // it initialized was invisible to the specs and all 17 component suites died with
 // "Need to call TestBed.initTestEnvironment() first". We therefore ALSO initialize the instance the
 // specs actually use, from THIS file (same module instance as the specs). Mirrors the inline
-// workaround in @gauzy/plugin-docs-ui's menu-editor-rebinding.spec.ts, hoisted to the global setup.
+// workaround in @irtranscripts/plugin-docs-ui's menu-editor-rebinding.spec.ts, hoisted to the global setup.
 setupZoneTestEnv({
 	errorOnUnknownElements: true,
 	errorOnUnknownProperties: true

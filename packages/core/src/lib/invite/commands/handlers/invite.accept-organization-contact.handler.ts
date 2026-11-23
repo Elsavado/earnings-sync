@@ -8,7 +8,7 @@ import {
 	IOrganizationCreateInput,
 	ITenant,
 	RolesEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { UpdateResult } from 'typeorm';
 import { TenantFeatureOrganizationCreateCommand } from './../../../tenant/commands';

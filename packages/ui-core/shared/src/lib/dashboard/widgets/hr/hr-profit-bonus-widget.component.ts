@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, type Signal } from '@angular/core';
-import { BonusTypeEnum } from '@gauzy/contracts';
+import { BonusTypeEnum } from '@irtranscripts/contracts';
 import { BaseHrInfoWidgetComponent } from './base-hr-info-widget.component';
 import { HrInfoCardComponent } from './hr-info-card.component';
 import { HR_BLOCK_COLORS } from './hr-statistics.utils';

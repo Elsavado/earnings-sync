@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IDocument } from '@gauzy/contracts';
+import { IDocument } from '@irtranscripts/contracts';
 import { DocumentService } from '../../services/document.service';
 import { DocumentVersionService } from '../../services/document-version.service';
 import { RestoreDocumentVersionCommand } from '../restore-document-version.command';

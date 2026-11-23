@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsEnum, IsInt, IsOptional, IsString, MaxLength, Min } from 'class-validator';
-import { IdempotencyStatus } from '@gauzy/contracts';
+import { IdempotencyStatus } from '@irtranscripts/contracts';
 
 /**
  * The narrowing an operator's key list accepts.

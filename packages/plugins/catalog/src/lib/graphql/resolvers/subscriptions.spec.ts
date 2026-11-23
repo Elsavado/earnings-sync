@@ -18,8 +18,8 @@
 import { AsyncLocalStorage } from 'async_hooks';
 import { ClsService } from 'nestjs-cls';
 import { SUBSCRIPTION_OPTIONS_METADATA } from '@nestjs/graphql/dist/graphql.constants';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { deliverPayloadAsIs, EventBus, RequestContext } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { deliverPayloadAsIs, EventBus, RequestContext } from '@irtranscripts/core';
 import { CATALOG_PERMISSION_VALUES, catalogPermission } from '../../catalog.permissions';
 import { CollectionChangedEvent, ProductPublishedEvent, ProductUnpublishedEvent } from '../../events';
 import { CollectionResolver } from './collection.resolver';

@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { API_PREFIX } from '@gauzy/ui-core/common';
-import { IUser } from '@gauzy/contracts';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
+import { IUser } from '@irtranscripts/contracts';
 import { Router } from '@angular/router';
 import { Store } from '../store/store.service';
 import { PermissionsService } from '../permission/permissions.service';

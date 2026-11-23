@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { ID, PluginOSArch, PluginOSType } from '@gauzy/contracts';
+import { ID, PluginOSArch, PluginOSType } from '@irtranscripts/contracts';
 import { EMPTY, Observable } from 'rxjs';
 import { ElectronService } from '../../../electron/services';
 import type { IPlugin } from './plugin-loader.service';

@@ -1,6 +1,6 @@
-# @gauzy/plugin-dashboard-time-track-angular-ui
+# @irtranscripts/plugin-dashboard-time-track-angular-ui
 
-This library provides a standalone Angular plugin for the **Time Tracking** dashboard in the Ever Gauzy platform.
+This library provides a standalone Angular plugin for the **Time Tracking** dashboard in the Ever IRTranscripts platform.
 
 ## Overview
 
@@ -11,7 +11,7 @@ The `dashboard-time-track-angular-ui` plugin extracts the time-tracking dashboar
 - **Decoupled Architecture**: Moves legacy time-tracking logic into a standalone library.
 - **Lazy Loading**: Integrated with `defineDeclarativePlugin` for on-demand loading.
 - **Dynamic Routing**: Registers the `time-tracking` route under the `dashboard-sections` location.
-- **Dashboard Integration**: Automatically adds a "Time Tracking" tab to the Gauzy dashboard tabset.
+- **Dashboard Integration**: Automatically adds a "Time Tracking" tab to the IRTranscripts dashboard tabset.
 - **I18n Support**: Full localization support for 13+ languages.
 - **Permissions**: Respects `ADMIN_DASHBOARD_VIEW` and `TIME_TRACKING_DASHBOARD` permissions.
 
@@ -43,11 +43,11 @@ yarn nx lint plugin-dashboard-time-track-angular-ui
 
 ## Usage
 
-Add the plugin to your `plugin-ui.config.ts` (located in `apps/gauzy/src/plugin-ui.config.ts`):
+Add the plugin to your `plugin-ui.config.ts` (located in `apps/irtranscripts/src/plugin-ui.config.ts`):
 
 ```typescript
-import { PluginUiConfig } from '@gauzy/plugin-ui';
-import { DashboardTimeTrackAngularUiPlugin } from '@gauzy/plugin-dashboard-time-track-angular-ui';
+import { PluginUiConfig } from '@irtranscripts/plugin-ui';
+import { DashboardTimeTrackAngularUiPlugin } from '@irtranscripts/plugin-dashboard-time-track-angular-ui';
 
 export const uiPluginConfig: PluginUiConfig = {
   plugins: [

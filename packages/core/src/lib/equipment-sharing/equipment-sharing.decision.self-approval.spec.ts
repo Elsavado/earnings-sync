@@ -3,7 +3,7 @@ import '../core/entities/internal';
 
 import { ForbiddenException } from '@nestjs/common';
 import { In } from 'typeorm';
-import { RequestApprovalStatusTypesEnum, RolesEnum } from '@gauzy/contracts';
+import { RequestApprovalStatusTypesEnum, RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { CrudService } from '../core/crud/crud.service';
 import { OrganizationTeamEmployee, RequestApproval } from '../core/entities/internal';
@@ -30,8 +30,8 @@ import { EquipmentSharingService, IEquipmentSharingDecisionTransaction } from '.
  * such a team could still approve it, since only the employees it names were read.
  */
 
-jest.mock('@gauzy/config', () => ({
-	...jest.requireActual('@gauzy/config'),
+jest.mock('@irtranscripts/config', () => ({
+	...jest.requireActual('@irtranscripts/config'),
 	isPostgres: jest.fn(() => false),
 	isMySQL: jest.fn(() => false)
 }));

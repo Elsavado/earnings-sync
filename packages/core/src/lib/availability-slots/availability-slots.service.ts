@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { FindOptionsWhere, In, IsNull } from 'typeorm';
-import { ID, IAvailabilitySlot, IAvailabilitySlotsCreateInput, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IAvailabilitySlot, IAvailabilitySlotsCreateInput, PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from './../core/context';
 import { TenantAwareCrudService } from './../core/crud';
 import { TypeOrmAvailabilitySlotRepository } from './repository/type-orm-availability-slot.repository';

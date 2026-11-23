@@ -7,7 +7,7 @@ import {
 	IActivityWatchEventCollection,
 	ActivityWatchEventType,
 	ActivityWatchCollectEvent
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { ElectronService } from '../../electron/services/electron/electron.service';
 import { ActivityWatchEventService } from './activity-watch-event.service';
 

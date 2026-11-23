@@ -12,13 +12,13 @@
  * 4. The `subtree` delete checked `isArchived` on the ROOT only and silently trashed live,
  *    never-archived descendants.
  */
-jest.mock('@gauzy/config', () => ({ isSqlite: () => false, isBetterSqlite3: () => false }));
+jest.mock('@irtranscripts/config', () => ({ isSqlite: () => false, isBetterSqlite3: () => false }));
 jest.mock('../entities/document.entity', () => ({ Document: class {} }));
 jest.mock('../repositories/type-orm-document.repository', () => ({ TypeOrmDocumentRepository: class {} }));
 
 import { ConflictException } from '@nestjs/common';
 import { FindOperator } from 'typeorm';
-import { DocumentKindEnum } from '@gauzy/contracts';
+import { DocumentKindEnum } from '@irtranscripts/contracts';
 import { DOCS_SUBTREE_NOT_ARCHIVED, DOCS_TREE_CYCLE } from '../docs.constants';
 import { DocumentTreeService } from './document-tree.service';
 

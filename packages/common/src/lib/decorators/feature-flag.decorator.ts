@@ -1,6 +1,6 @@
 import { CustomDecorator } from '@nestjs/common';
-import { FEATURE_METADATA } from '@gauzy/constants';
-import { FeatureEnum } from '@gauzy/contracts';
+import { FEATURE_METADATA } from '@irtranscripts/constants';
+import { FeatureEnum } from '@irtranscripts/contracts';
 
 /**
  * What `FEATURE_METADATA` holds on one target.

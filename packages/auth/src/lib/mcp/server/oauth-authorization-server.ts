@@ -1976,7 +1976,7 @@ export class OAuth2AuthorizationServer {
 			<!DOCTYPE html>
 			<html>
 			<head>
-				<title>Sign In - Gauzy MCP OAuth Server</title>
+				<title>Sign In - IRTranscripts MCP OAuth Server</title>
 				<meta charset="utf-8">
 				<meta name="viewport" content="width=device-width, initial-scale=1">
 				${this.getCommonStyles()}
@@ -2321,7 +2321,7 @@ export class OAuth2AuthorizationServer {
 
 /**
  * Whether an authenticator refused because the account has had too many failed attempts: an HTTP 429, as the
- * Gauzy API's per-account login counter raises it (an `HttpException` whose `getStatus()` is 429).
+ * IRTranscripts API's per-account login counter raises it (an `HttpException` whose `getStatus()` is 429).
  */
 function isTooManyAttempts(error: unknown): boolean {
 	const candidate = error as { getStatus?: () => unknown; status?: unknown } | null;

@@ -9,8 +9,8 @@ import * as csv from 'csv-parser';
 import * as path from 'node:path';
 import * as chalk from 'chalk';
 import { EntityManager as MikroOrmEntityManager } from '@mikro-orm/knex';
-import { canInviteWithRole, ID, IRole, PermissionsEnum, RolesEnum } from '@gauzy/contracts';
-import { isNotEmpty } from '@gauzy/utils';
+import { canInviteWithRole, ID, IRole, PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { convertToDatetime, getORMType, MultiORMEnum } from '../../core/utils';
 import { FileStorage } from '../../core/file-storage';
 import { readStorageFileAsBuffer } from '../../core/file-storage/helpers/stored-file-content';
@@ -184,7 +184,7 @@ export class ImportService {
 	public async createExtractDirectory(): Promise<string> {
 		// `mkdtemp` creates the directory owner-only (0700) on POSIX, so other local users of a shared
 		// `/tmp` cannot read the extracted CSVs; the controller removes it in a `finally`.
-		return await fsp.mkdtemp(path.join(os.tmpdir(), 'gauzy-import-'));
+		return await fsp.mkdtemp(path.join(os.tmpdir(), 'irtranscripts-import-'));
 	}
 
 	/**
@@ -329,7 +329,7 @@ export class ImportService {
 	 * @param extractPath - This request's extraction directory.
 	 * @param entity - The entity whose junction tables to read.
 	 * @param cleanup - Whether the tenant's existing rows were wiped first.
-	 * @param decodeCells - Whether the archive is a marked Gauzy export whose cells carry the
+	 * @param decodeCells - Whether the archive is a marked IRTranscripts export whose cells carry the
 	 * spreadsheet-formula escape. Resolved from the archive manifest when the caller does not say.
 	 */
 	async parseRelationalTables(

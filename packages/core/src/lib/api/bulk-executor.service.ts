@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { EntityManager } from 'typeorm';
 import { ApiErrorCode } from '../core/errors/api-error-codes';
 import { ApiException } from '../core/errors/api-exception';
@@ -427,7 +427,7 @@ class BulkRollbackSignal extends Error {}
  * @returns The savepoint identifier.
  */
 function savepointName(index: number): string {
-	return `gauzy_bulk_item_${Math.trunc(index)}`;
+	return `irtranscripts_bulk_item_${Math.trunc(index)}`;
 }
 
 /**

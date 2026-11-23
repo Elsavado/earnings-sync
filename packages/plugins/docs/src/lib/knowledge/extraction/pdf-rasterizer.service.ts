@@ -61,8 +61,8 @@ export interface IPdfRasterResult {
  * PDF buffer is simply not loadable. Actually rasterizing needs `pdfjs-dist` plus a native
  * canvas (`@napi-rs/canvas`, which `pdfjs-dist` itself declares as an optional dependency).
  * Making those *hard* dependencies of the backend plugin would force a per-platform native
- * binary into every Gauzy API install for two cosmetic/opt-in features, so they are loaded the
- * same defensive way `DocsAiService` loads `@gauzy/plugin-ai-chat`: try, cache, and report
+ * binary into every IRTranscripts API install for two cosmetic/opt-in features, so they are loaded the
+ * same defensive way `DocsAiService` loads `@irtranscripts/plugin-ai-chat`: try, cache, and report
  * "unavailable" forever after a failure.
  *
  * Unavailable is never an error here — it is a capability answer:
@@ -206,7 +206,7 @@ export class PdfRasterizerService {
 	 * Loads `pdfjs-dist` + `@napi-rs/canvas` once, caching both the success and the failure.
 	 *
 	 * `pdfjs-dist` ships ESM only, and this package compiles to CommonJS — so the loader
-	 * mirrors `@gauzy/plugin-ai-chat`'s ESM interop: `require(esm)` first (native on Node >=
+	 * mirrors `@irtranscripts/plugin-ai-chat`'s ESM interop: `require(esm)` first (native on Node >=
 	 * 22.12), then a genuine dynamic `import()` built through the `Function` constructor so
 	 * TypeScript cannot rewrite it back into a `require`.
 	 *
@@ -354,7 +354,7 @@ export function installCanvasGlobals(canvas: ICanvasModule, globals: Record<stri
  * `require` its own copy instead.
  */
 export function createCanvasFactory(canvas: ICanvasModule) {
-	return class GauzyPdfCanvasFactory {
+	return class IRTranscriptsPdfCanvasFactory {
 		// pdf.js constructs it with `{ enableHWA }`; a software canvas has nothing to configure.
 		constructor(_options?: { enableHWA?: boolean }) {}
 
@@ -414,7 +414,7 @@ function resolvePdfjsAssetOptions(pdfjsRoot: string): Record<string, unknown> {
 
 /**
  * `require()` an optional module, falling back to a real dynamic `import()` for ESM-only
- * packages. Mirrors `@gauzy/plugin-ai-chat`'s `esm-loader`, kept local so the Documents
+ * packages. Mirrors `@irtranscripts/plugin-ai-chat`'s `esm-loader`, kept local so the Documents
  * plugin never depends on the chat plugin at load time.
  *
  * @param specifier The module specifier to load.

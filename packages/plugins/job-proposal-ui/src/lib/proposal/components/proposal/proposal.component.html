@@ -20,7 +20,7 @@
 		     <h4> inside the title block, where `.card-header-title`'s own
 		     `space-between` stranded it mid-header, on the title's line but attached
 		     to neither side of it. -->
-		<div class="gauzy-button-container">
+		<div class="irtranscripts-button-container">
 			<ng-template ngxPermissionsOnly="ORG_PROPOSAL_TEMPLATES_VIEW">
 				<button
 					nbButton
@@ -33,12 +33,12 @@
 					{{ 'BUTTONS.MANAGE_TEMPLATES' | translate | titlecase }}
 				</button>
 			</ng-template>
-			<ngx-gauzy-button-action
+			<ngx-irtranscripts-button-action
 				[buttonTemplateVisible]="visibleButton"
 				[isDisable]="disableButton"
 				[buttonTemplate]="actionButtons"
 				[componentName]="viewComponentName"
-			></ngx-gauzy-button-action>
+			></ngx-irtranscripts-button-action>
 		</div>
 	</nb-card-header>
 	<nb-card-body class="content" [nbSpinner]="loading" nbSpinnerStatus="primary" nbSpinnerSize="large">

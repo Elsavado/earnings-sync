@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { IReactionCreateInput } from '@gauzy/contracts';
+import { IReactionCreateInput } from '@irtranscripts/contracts';
 
 export class ReactionCreateCommand implements ICommand {
 	static readonly type = '[Reaction] Create';

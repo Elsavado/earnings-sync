@@ -1,4 +1,4 @@
-# @gauzy/plugin-integration-wakatime
+# @irtranscripts/plugin-integration-wakatime
 
 See more information about [WakaTime](https://wakatime.com).
 
@@ -21,7 +21,7 @@ After building your library with `yarn nx build plugin-integration-wakatime`, go
 Install the Wakatime plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-integration-wakatime
+npm install @irtranscripts/plugin-integration-wakatime
 # or
-yarn add @gauzy/plugin-integration-wakatime
+yarn add @irtranscripts/plugin-integration-wakatime
 ```

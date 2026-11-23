@@ -1,3 +1,3 @@
-# Ever Gauzy Plugins
+# Ever IRTranscripts Plugins
 
-This directory contains all the plugins integrated with Ever Gauzy.
+This directory contains all the plugins integrated with Ever IRTranscripts.

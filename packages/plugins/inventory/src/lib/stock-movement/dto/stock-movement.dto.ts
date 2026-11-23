@@ -7,7 +7,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDate, IsEnum, IsNumber, IsOptional, IsString, IsUUID, MaxLength } from 'class-validator';
 import { StockMovementType } from './../../inventory.enums';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
 
 /**
  * StockMovement request DTO validation.

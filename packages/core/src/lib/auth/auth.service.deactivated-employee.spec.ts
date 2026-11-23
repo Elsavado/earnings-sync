@@ -6,7 +6,7 @@ import { AuthService } from './auth.service';
 import { isDeactivatedEmployee } from './deactivated-employee';
 
 /**
- * A deactivated employee cannot sign in to Gauzy (owner decision 6, core follow-up of ever-co/ever-gauzy#11324).
+ * A deactivated employee cannot sign in to IRTranscripts (owner decision 6, core follow-up of ever-co/ever-gauzy#11324).
  *
  * `login()` and `workspaceSigninVerifyToken()` meant to refuse an inactive employee, but they asked
  * `EmployeeService.findOneByUserId`, which reads ACTIVE records only: a deactivated employee read as "no

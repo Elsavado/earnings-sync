@@ -1,10 +1,10 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { HeaderResolver, I18nModule } from 'nestjs-i18n';
 import * as path from 'path';
-import { ConfigModule, environment } from '@gauzy/config';
-import { getDynamicPluginsModules } from '@gauzy/plugin';
-import { isSchedulerQueueRootEnabled, SchedulerModule } from '@gauzy/scheduler';
-import { LanguagesEnum } from '@gauzy/contracts';
+import { ConfigModule, environment } from '@irtranscripts/config';
+import { getDynamicPluginsModules } from '@irtranscripts/plugin';
+import { isSchedulerQueueRootEnabled, SchedulerModule } from '@irtranscripts/scheduler';
+import { LanguagesEnum } from '@irtranscripts/contracts';
 import { DatabaseModule } from './../../database/database.module';
 import { ActivityLogModule } from '../../activity-log/activity-log.module';
 import { MentionModule } from '../../mention/mention.module';
@@ -28,7 +28,7 @@ export class SeederModule {
 	 */
 	static forPlugins(): DynamicModule {
 		const i18nLoaderOptions = {
-			path: environment.isElectron && environment.electronResourcesPath ? path.resolve(environment.electronResourcesPath, 'app.asar.unpacked/node_modules/@gauzy/core/src/lib/i18n')
+			path: environment.isElectron && environment.electronResourcesPath ? path.resolve(environment.electronResourcesPath, 'app.asar.unpacked/node_modules/@irtranscripts/core/src/lib/i18n')
 				: path.resolve(__dirname, '../../i18n/'),
 			watch: !environment.production
 		};

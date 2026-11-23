@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ToastrService } from '@gauzy/ui-core/core';
+import { ToastrService } from '@irtranscripts/ui-core/core';
 import { BehaviorSubject, filter, switchMap, withLatestFrom } from 'rxjs';
 import {
 	DownloadStatus,

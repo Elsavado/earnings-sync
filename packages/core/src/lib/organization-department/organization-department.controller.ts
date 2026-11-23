@@ -5,7 +5,7 @@ import {
 	IOrganizationDepartmentCreateInput,
 	IPagination,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	Body,
 	Controller,

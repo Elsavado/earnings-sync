@@ -270,7 +270,7 @@ describe.each([
 	beforeEach(async () => {
 		harness = await createHarness();
 		process.env.DB_ORM = harness.orm;
-		extractPath = await fsp.mkdtemp(path.join(os.tmpdir(), 'gauzy-import-closure-'));
+		extractPath = await fsp.mkdtemp(path.join(os.tmpdir(), 'irtranscripts-import-closure-'));
 
 		const repositoriesService: any = {
 			buildRepositoriesRelationsGraph: jest.fn(async () => [
@@ -431,7 +431,7 @@ describe("ImportService: an imported category tree read through TypeORM's tree r
 			logging: false
 		});
 		await dataSource.initialize();
-		extractPath = await fsp.mkdtemp(path.join(os.tmpdir(), 'gauzy-import-closure-'));
+		extractPath = await fsp.mkdtemp(path.join(os.tmpdir(), 'irtranscripts-import-closure-'));
 	});
 
 	afterEach(async () => {

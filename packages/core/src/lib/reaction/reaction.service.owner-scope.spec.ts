@@ -5,7 +5,7 @@
 import '../core/entities/internal';
 
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { CrudService } from '../core/crud/crud.service';
 import { RequestContext } from '../core/context/request-context';
 import { ReactionService } from './reaction.service';

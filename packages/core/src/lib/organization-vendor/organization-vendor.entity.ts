@@ -1,7 +1,7 @@
 import { JoinTable } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, IsOptional, IsInt, IsNumber, IsUUID, Length, MaxLength } from 'class-validator';
-import { ID, IExpense, IOrganizationVendor, ITag } from '@gauzy/contracts';
+import { ID, IExpense, IOrganizationVendor, ITag } from '@irtranscripts/contracts';
 import { Expense, Tag, TenantOrganizationBaseEntity } from '../core/entities/internal';
 import {
 	ColumnIndex,

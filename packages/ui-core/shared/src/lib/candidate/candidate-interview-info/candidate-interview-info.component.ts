@@ -3,16 +3,16 @@ import { firstValueFrom } from 'rxjs';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { ICandidateInterview, ICandidate, IOrganization } from '@gauzy/contracts';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { ICandidateInterview, ICandidate, IOrganization } from '@irtranscripts/contracts';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import {
 	CandidateInterviewService,
 	CandidateInterviewersService,
 	CandidatesService,
 	EmployeesService,
 	ToastrService
-} from '@gauzy/ui-core/core';
-import { Store } from '@gauzy/ui-core/core';
+} from '@irtranscripts/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
 import { CandidateInterviewMutationComponent } from '../candidate-interview-mutation/candidate-interview-mutation.component';
 
 @UntilDestroy({ checkProperties: true })

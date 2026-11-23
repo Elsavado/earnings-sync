@@ -73,15 +73,15 @@
  * kernel's own where a controller extends it, and the document the fields are read out of is the real one.
  */
 
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	EventBus,
 	IDEMPOTENT_METADATA_KEY,
 	PermissionGuard,
 	TenantPermissionGuard,
 	VERSIONED_METADATA_KEY
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import {
 	FieldDefinitionNode,
 	ObjectTypeDefinitionNode,

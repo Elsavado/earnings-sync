@@ -1,7 +1,7 @@
 import '../core/entities/internal';
 
 import { BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
-import { StatusTypesEnum } from '@gauzy/contracts';
+import { StatusTypesEnum } from '@irtranscripts/contracts';
 import { TimeOffRequestService } from './time-off-request.service';
 
 /**

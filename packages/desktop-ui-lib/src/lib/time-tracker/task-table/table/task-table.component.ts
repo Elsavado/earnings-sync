@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
-import { ITask, ITaskStatus, ITaskUpdateInput, TaskStatusEnum } from '@gauzy/contracts';
+import { ITask, ITaskStatus, ITaskUpdateInput, TaskStatusEnum } from '@irtranscripts/contracts';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Angular2SmartTableComponent, Cell, Angular2SmartTableModule } from 'angular2-smart-table';

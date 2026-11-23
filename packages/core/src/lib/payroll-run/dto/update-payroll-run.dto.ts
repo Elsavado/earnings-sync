@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/swagger';
-import { IPayrollRunUpdateInput } from '@gauzy/contracts';
+import { IPayrollRunUpdateInput } from '@irtranscripts/contracts';
 import { CreatePayrollRunDTO } from './create-payroll-run.dto';
 
 /**

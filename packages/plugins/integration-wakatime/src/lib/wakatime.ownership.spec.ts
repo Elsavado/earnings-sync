@@ -1,6 +1,6 @@
 import { ForbiddenException } from '@nestjs/common';
-import { IUser } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { IUser } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { WakatimeController } from './wakatime.controller';
 import { WakatimeService } from './wakatime.service';
 
@@ -19,7 +19,7 @@ describe('WakaTime heartbeats are filed under the caller', () => {
 		type: 'file',
 		time: 1729670400,
 		entity: '/src/app.ts',
-		project: 'gauzy',
+		project: 'irtranscripts',
 		user_agent: 'wakatime/v1 (linux-x) go1 vscode/1.0 vscode-wakatime/1.0',
 		...overrides
 	});

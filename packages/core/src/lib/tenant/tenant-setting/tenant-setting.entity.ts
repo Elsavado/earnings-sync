@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsEnum, IsOptional, IsString, IsUUID, MaxLength } from 'class-validator';
-import { ITenant, ID } from '@gauzy/contracts';
+import { ITenant, ID } from '@irtranscripts/contracts';
 import { TenantBaseEntity } from '../../core/entities/internal';
 import { ColumnIndex, JsonColumn, MultiORMColumn, MultiORMEntity } from '../../core/decorators/entity';
 import { SettingScope } from '../../core/enums/kernel-extension.enums';

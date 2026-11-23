@@ -1,7 +1,7 @@
 import { ActivatedRouteSnapshot, ResolveFn } from '@angular/router';
 import { Observable, catchError, map, of } from 'rxjs';
 import { inject } from '@angular/core';
-import { IOrganization } from '@gauzy/contracts';
+import { IOrganization } from '@irtranscripts/contracts';
 import { OrganizationsService } from '../services';
 
 /**

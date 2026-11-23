@@ -4,7 +4,7 @@
 
 import { ApiProperty, ApiPropertyOptional, IntersectionType } from '@nestjs/swagger';
 import { IsArray, IsNotEmpty, IsOptional, IsString, IsUUID, Matches } from 'class-validator';
-import { IDailyPlan, IDailyPlansTasksUpdateInput, IEmployee } from '@gauzy/contracts';
+import { IDailyPlan, IDailyPlansTasksUpdateInput, IEmployee } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../../core/dto';
 
 export class RemoveTaskFromManyPlansDTO

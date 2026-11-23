@@ -2,8 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { IAuthResponse, IWorkspaceResponse } from '@gauzy/contracts';
-import { AuthService, Store } from '@gauzy/ui-core/core';
+import { IAuthResponse, IWorkspaceResponse } from '@irtranscripts/contracts';
+import { AuthService, Store } from '@irtranscripts/ui-core/core';
 
 /**
  * Accepts only a path inside the web app (one leading slash, no scheme, no backslash).

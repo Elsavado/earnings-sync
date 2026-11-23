@@ -32,9 +32,9 @@ import {
 	DocumentReviewStatusEnum,
 	IDocument,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { Store, ToastrService } from '@gauzy/ui-core/core';
-import { FavoriteToggleModule } from '@gauzy/ui-core/shared';
+} from '@irtranscripts/contracts';
+import { Store, ToastrService } from '@irtranscripts/ui-core/core';
+import { FavoriteToggleModule } from '@irtranscripts/ui-core/shared';
 import { DocumentsActions } from '../../+state/documents.actions';
 import { BlockCommentThreadComponent } from '../../editor/comments/block-comment-thread.component';
 import { DocumentEditorComponent, IEditorStats, ITocAnchor } from '../../editor/document-editor.component';

@@ -1,5 +1,5 @@
 import { Injectable, BadRequestException, HttpException, NotFoundException } from '@nestjs/common';
-import { ID, IPagination, IProductCategoryTranslatable, LanguagesEnum } from '@gauzy/contracts';
+import { ID, IPagination, IProductCategoryTranslatable, LanguagesEnum } from '@irtranscripts/contracts';
 import { Brackets, DeepPartial, DeleteResult, FindOptionsWhere, In, IsNull } from 'typeorm';
 import { FilterQuery } from '@mikro-orm/core';
 // The two modules the service actually names, rather than the `core/crud` barrel: the barrel re-exports

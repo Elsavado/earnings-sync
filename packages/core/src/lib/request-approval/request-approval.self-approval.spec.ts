@@ -8,7 +8,7 @@ import {
 	PermissionsEnum,
 	RequestApprovalStatusTypesEnum,
 	RolesEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { CrudService } from '../core/crud/crud.service';
 import {
@@ -41,8 +41,8 @@ import {
  * The real service runs over a fake of the answer's transaction; the last blocks pin the statements each ORM arm sends.
  */
 
-jest.mock('@gauzy/config', () => ({
-	...jest.requireActual('@gauzy/config'),
+jest.mock('@irtranscripts/config', () => ({
+	...jest.requireActual('@irtranscripts/config'),
 	isPostgres: jest.fn(() => false),
 	isMySQL: jest.fn(() => false)
 }));

@@ -2,7 +2,7 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { RecoverSoundshotCommand } from '../recover-soundshot.command';
 import { SoundshotService } from '../../services/soundshot.service';
 import { NotFoundException } from '@nestjs/common';
-import { assertCallerOwnsUpload } from '@gauzy/core';
+import { assertCallerOwnsUpload } from '@irtranscripts/core';
 import { ISoundshot } from '../../models/soundshot.model';
 
 @CommandHandler(RecoverSoundshotCommand)

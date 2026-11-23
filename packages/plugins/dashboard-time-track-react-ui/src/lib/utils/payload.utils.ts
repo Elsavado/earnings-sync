@@ -6,9 +6,9 @@ import {
 	IOrganization,
 	ITimeLogFilters,
 	ITimeLogTodayFilters
-} from '@gauzy/contracts';
-import { isNotEmpty, toUtcOffset } from '@gauzy/ui-core/common';
-import { getAdjustDateRangeFutureAllowed } from '@gauzy/ui-core/shared';
+} from '@irtranscripts/contracts';
+import { isNotEmpty, toUtcOffset } from '@irtranscripts/ui-core/common';
+import { getAdjustDateRangeFutureAllowed } from '@irtranscripts/ui-core/shared';
 
 /** The Angular-side selection state the statistics payload is derived from. */
 export interface TimeTrackingContext {

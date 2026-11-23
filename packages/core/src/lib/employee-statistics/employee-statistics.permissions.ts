@@ -1,4 +1,4 @@
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 
 /**
  * Who may read the employee statistics: exactly who may open the dashboard tab that shows them.

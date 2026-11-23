@@ -2,8 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, shareReplay } from 'rxjs/operators';
-import { ITermsAcceptanceClaim, ITermsAcceptanceDocument, IUserSigninWorkspaceResponse } from '@gauzy/contracts';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { ITermsAcceptanceClaim, ITermsAcceptanceDocument, IUserSigninWorkspaceResponse } from '@irtranscripts/contracts';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 
 const BASE = `${API_PREFIX}/auth/zitadel`;
 

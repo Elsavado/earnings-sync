@@ -1,7 +1,7 @@
 import { JoinColumn, RelationId } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsInt, IsNotEmpty, IsNumber, IsOptional, IsUUID, Max, Min } from 'class-validator';
-import { ID, IEmployee, ITimeOffBalance, ITimeOffPolicy } from '@gauzy/contracts';
+import { ID, IEmployee, ITimeOffBalance, ITimeOffPolicy } from '@irtranscripts/contracts';
 import { Employee, TenantOrganizationBaseEntity, TimeOffPolicy } from '../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from './../core/decorators/entity';
 import { ColumnNumericTransformerPipe } from './../shared/pipes';

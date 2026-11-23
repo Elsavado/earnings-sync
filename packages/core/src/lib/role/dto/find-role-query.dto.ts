@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import { IsOptional, IsString } from "class-validator";
-import { IRole, IRoleFindInput, RolesEnum } from "@gauzy/contracts";
+import { IRole, IRoleFindInput, RolesEnum } from "@irtranscripts/contracts";
 import { TenantBaseDTO } from "./../../core/dto";
 
 /**

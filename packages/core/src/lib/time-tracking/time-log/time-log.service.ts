@@ -33,9 +33,9 @@ import {
 	IPaginationParam,
 	ID,
 	RolesEnum
-} from '@gauzy/contracts';
-import { environment as env } from '@gauzy/config';
-import { isEmpty, isNotEmpty } from '@gauzy/utils';
+} from '@irtranscripts/contracts';
+import { environment as env } from '@irtranscripts/config';
+import { isEmpty, isNotEmpty } from '@irtranscripts/utils';
 import { TenantAwareCrudService } from './../../core/crud';
 import {
 	DeleteTimeSpanCommand,

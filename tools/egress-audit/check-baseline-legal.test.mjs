@@ -29,10 +29,10 @@ const growth = (...added) => ({
 /** A stand-in for the vendored documents: the DPIA links of @ever-co/legal 0.5.0, and the Terms'. */
 const DOCUMENTS = {
 	dpia: hrefs(
-		'<a href="https://gauzy.co/dpa">DPA</a> <a href="https://gauzy.co/privacy">Privacy</a> ' +
-			'<a href="https://gauzy.co/subprocessors">list</a> <a href="https://gauzy.co/security">Security</a>'
+		'<a href="https://irtranscripts.com/dpa">DPA</a> <a href="https://irtranscripts.com/privacy">Privacy</a> ' +
+			'<a href="https://irtranscripts.com/subprocessors">list</a> <a href="https://irtranscripts.com/security">Security</a>'
 	),
-	tos: hrefs('<a href="https://gauzy.co/tos">Terms</a>')
+	tos: hrefs('<a href="https://irtranscripts.com/tos">Terms</a>')
 };
 const hrefsOf = (document) => DOCUMENTS[document] ?? null;
 const verdict = (added, harness = growth(...added)) =>
@@ -45,10 +45,10 @@ const verdict = (added, harness = growth(...added)) =>
 	});
 
 const DPIA_LINKS = [
-	'https://gauzy.co/dpa',
-	'https://gauzy.co/privacy',
-	'https://gauzy.co/security',
-	'https://gauzy.co/subprocessors'
+	'https://irtranscripts.com/dpa',
+	'https://irtranscripts.com/privacy',
+	'https://irtranscripts.com/security',
+	'https://irtranscripts.com/subprocessors'
 ];
 
 test('the DPIA links on both DPIA pages pass when the DPIA document writes them', () => {
@@ -88,61 +88,61 @@ test('the links of a document are read as the browser leg records them', () => {
 	assert.deepEqual(
 		[
 			...hrefs(
-				'<p><a href="https://gauzy.co">x</a> <a id="l" href="https://gauzy.co/dpa#s2">y</a> ' +
-					'<a href="https://gauzy.co/x?a=1&amp;b=2">z</a> <a href="#s2">in page</a> a &lt; b > c</p>'
+				'<p><a href="https://irtranscripts.com">x</a> <a id="l" href="https://irtranscripts.com/dpa#s2">y</a> ' +
+					'<a href="https://irtranscripts.com/x?a=1&amp;b=2">z</a> <a href="#s2">in page</a> a &lt; b > c</p>'
 			)
 		],
-		['https://gauzy.co/', 'https://gauzy.co/dpa', 'https://gauzy.co/x?a=&b=']
+		['https://irtranscripts.com/', 'https://irtranscripts.com/dpa', 'https://irtranscripts.com/x?a=&b=']
 	);
 	assert.deepEqual(
-		[...hrefs('<p><a title="href=\'https://gauzy.co/extra\'">x</a> <a data-href="https://gauzy.co/b">b</a></p>')],
+		[...hrefs('<p><a title="href=\'https://irtranscripts.com/extra\'">x</a> <a data-href="https://irtranscripts.com/b">b</a></p>')],
 		[]
 	);
 	assert.deepEqual(
-		[...hrefs('<a href="https://gauzy.co/dpa" href="https://gauzy.co/extra">x</a>')],
-		['https://gauzy.co/dpa']
+		[...hrefs('<a href="https://irtranscripts.com/dpa" href="https://irtranscripts.com/extra">x</a>')],
+		['https://irtranscripts.com/dpa']
 	);
-	assert.deepEqual([...hrefs('<p>href="https://gauzy.co/e"</p> <div data-href="https://gauzy.co/a"></div>')], []);
+	assert.deepEqual([...hrefs('<p>href="https://irtranscripts.com/e"</p> <div data-href="https://irtranscripts.com/a"></div>')], []);
 	// Any & but &amp; depends on HTML's reference tables (&#x80; reads as U+20AC): that href excuses nothing.
 	assert.deepEqual(
 		[
 			...hrefs(
-				'<a href="https://gauzy.co/&#x80;">x</a> <a href="https://gauzy.co/x?a=1&b=2">y</a> ' +
-					'<a href="https://gauzy.co/dpa">z</a>'
+				'<a href="https://irtranscripts.com/&#x80;">x</a> <a href="https://irtranscripts.com/x?a=1&b=2">y</a> ' +
+					'<a href="https://irtranscripts.com/dpa">z</a>'
 			)
 		],
-		['https://gauzy.co/dpa']
+		['https://irtranscripts.com/dpa']
 	);
 });
 
 test('markup the corpus does not render to makes the whole document unreadable, so it excuses nothing', () => {
-	const link = '<a href="https://gauzy.co/dpa">a real link</a>';
+	const link = '<a href="https://irtranscripts.com/dpa">a real link</a>';
 	for (const markup of [
 		// link-shaped text where the browser makes no link
-		'<!-- <a href="https://gauzy.co/extra">x</a> -->',
-		'<!-- <a href="https://gauzy.co/extra">x</a>',
-		'<p title="<a href=\'https://gauzy.co/extra\'>x</a>">p</p>',
-		'<p>text</p title="<a href=\'https://gauzy.co/extra\'>x</a>">',
-		'<template><a href="https://gauzy.co/extra">x</a></template>',
-		'<textarea></textarea-extra><a href="https://gauzy.co/extra"></textarea>',
-		'<script>"</script-not><a href=\'https://gauzy.co/extra\'>"</script>',
-		'<plaintext></plaintext><a href="https://gauzy.co/extra">',
-		'<a-widget href="https://gauzy.co/extra"></a-widget>',
-		'<area href="https://gauzy.co/extra">',
-		'<link href="https://gauzy.co/extra">',
+		'<!-- <a href="https://irtranscripts.com/extra">x</a> -->',
+		'<!-- <a href="https://irtranscripts.com/extra">x</a>',
+		'<p title="<a href=\'https://irtranscripts.com/extra\'>x</a>">p</p>',
+		'<p>text</p title="<a href=\'https://irtranscripts.com/extra\'>x</a>">',
+		'<template><a href="https://irtranscripts.com/extra">x</a></template>',
+		'<textarea></textarea-extra><a href="https://irtranscripts.com/extra"></textarea>',
+		'<script>"</script-not><a href=\'https://irtranscripts.com/extra\'>"</script>',
+		'<plaintext></plaintext><a href="https://irtranscripts.com/extra">',
+		'<a-widget href="https://irtranscripts.com/extra"></a-widget>',
+		'<area href="https://irtranscripts.com/extra">',
+		'<link href="https://irtranscripts.com/extra">',
 		// anything else outside the plain subset: case, quoting, a `>` or `<` in a value, a stray `<`
-		'<A HREF="https://gauzy.co/extra">x</A>',
-		"<a href='https://gauzy.co/extra'>x</a>",
-		'<a title="a > b" href="https://gauzy.co/extra">x</a>',
+		'<A HREF="https://irtranscripts.com/extra">x</A>',
+		"<a href='https://irtranscripts.com/extra'>x</a>",
+		'<a title="a > b" href="https://irtranscripts.com/extra">x</a>',
 		'<p>a < b</p>',
 		// only HTML's ASCII whitespace separates a tag's name and attributes, not   or \v
-		'<a href="https://gauzy.co/extra">x</a>',
-		'<a\vhref="https://gauzy.co/extra">x</a>',
-		'<a href="https://gauzy.co/extra" >x</a>'
+		'<a href="https://irtranscripts.com/extra">x</a>',
+		'<a\vhref="https://irtranscripts.com/extra">x</a>',
+		'<a href="https://irtranscripts.com/extra" >x</a>'
 	]) {
 		assert.equal(hrefs(`<p>${link}</p>${markup}`), null, markup);
 		assert.equal(
-			covered(entry('/legal/dpia', 'https://gauzy.co/dpa'), () => hrefs(`${link}${markup}`)),
+			covered(entry('/legal/dpia', 'https://irtranscripts.com/dpa'), () => hrefs(`${link}${markup}`)),
 			false,
 			markup
 		);
@@ -151,13 +151,13 @@ test('markup the corpus does not render to makes the whole document unreadable, 
 
 test('only the html a generated document renders counts, not its header comment or other fields', () => {
 	const source = [
-		'/** <a href="https://gauzy.co/comment">in the header</a> */',
-		"export const X = { domain: 'gauzy.co', note: '<a href=\"https://gauzy.co/field\">x</a>',",
-		'\thtml: `<p>See <a href="https://gauzy.co/dpa">the DPA</a>, \\`code\\` and \\${x}.</p>`',
+		'/** <a href="https://irtranscripts.com/comment">in the header</a> */',
+		"export const X = { domain: 'irtranscripts.com', note: '<a href=\"https://irtranscripts.com/field\">x</a>',",
+		'\thtml: `<p>See <a href="https://irtranscripts.com/dpa">the DPA</a>, \\`code\\` and \\${x}.</p>`',
 		'};'
 	].join('\n');
-	assert.equal(htmlOf(source), '<p>See <a href="https://gauzy.co/dpa">the DPA</a>, `code` and ${x}.</p>');
-	assert.deepEqual([...hrefs(htmlOf(source))], ['https://gauzy.co/dpa']);
+	assert.equal(htmlOf(source), '<p>See <a href="https://irtranscripts.com/dpa">the DPA</a>, `code` and ${x}.</p>');
+	assert.deepEqual([...hrefs(htmlOf(source))], ['https://irtranscripts.com/dpa']);
 	assert.equal(htmlOf('export const X = {};'), null);
 });
 
@@ -175,15 +175,15 @@ test('a link the page does not write, another route, another attribute or anothe
 		// a link no vendored document writes, on a legal page
 		entry('/legal/dpia', 'https://api.ever.co/connect'),
 		// a link the DPIA writes, on a page that is not a legal page
-		entry('/pages/settings/usage-statistics', 'https://gauzy.co/dpa'),
+		entry('/pages/settings/usage-statistics', 'https://irtranscripts.com/dpa'),
 		// a link the DPIA writes, on another legal page whose document does not write it
-		entry('/legal/terms', 'https://gauzy.co/dpa'),
-		entry('/pages/legal', 'https://gauzy.co/dpa'),
+		entry('/legal/terms', 'https://irtranscripts.com/dpa'),
+		entry('/pages/legal', 'https://irtranscripts.com/dpa'),
 		// a route the legal pages do not have
-		entry('/legal/dpia/extra', 'https://gauzy.co/dpa'),
-		entry('/legal/unknown', 'https://gauzy.co/dpa'),
+		entry('/legal/dpia/extra', 'https://irtranscripts.com/dpa'),
+		entry('/legal/unknown', 'https://irtranscripts.com/dpa'),
 		// any attribute but href
-		entry('/legal/dpia', 'https://gauzy.co/dpa', 'src')
+		entry('/legal/dpia', 'https://irtranscripts.com/dpa', 'src')
 	]) {
 		const { exit, problems } = verdict([added]);
 		assert.equal(exit, 1, JSON.stringify(added));
@@ -192,7 +192,7 @@ test('a link the page does not write, another route, another attribute or anothe
 });
 
 test('anything the harness reports besides growth stays a failure, even with covered entries', () => {
-	const added = [entry('/legal/dpia', 'https://gauzy.co/dpa')];
+	const added = [entry('/legal/dpia', 'https://irtranscripts.com/dpa')];
 	for (const problem of [
 		'base_commit changed since origin/develop (65c127cc62 -> 0000000); it is fixed once the baseline exists',
 		`${PATH} /additionalProperties must NOT have additional properties`,

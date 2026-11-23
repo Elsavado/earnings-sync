@@ -1,3 +1,3 @@
-# @gauzy/integration-github
+# @irtranscripts/integration-github
 
 ## [Unreleased]

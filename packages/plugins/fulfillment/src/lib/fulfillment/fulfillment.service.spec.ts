@@ -1,9 +1,9 @@
 /**
  * Two module boundaries are doubled here, and the reason is the same for both.
  *
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a shipment lifecycle needs and none of which is
- * available outside a running application. `@gauzy/plugin-order`'s barrel re-exports the whole order
+ * available outside a running application. `@irtranscripts/plugin-order`'s barrel re-exports the whole order
  * and cart domain, which a service that only reads one line's counters does not need either. Both
  * seams are therefore doubled at the module boundary and **the services under test are the real
  * ones**: the shipment service, and the real `FulfillmentLineService` it writes its lines through, so
@@ -20,22 +20,22 @@
  * `TenantAwareCrudService.update` does. A double that answered `null` instead would silently make the
  * "not found" cases below vacuous.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	// The platform's exact decimal primitives are pulled through the seam rather than restated: this
 	// double replaces the application graph the barrel boots, not the arithmetic the assertions below
 	// turn on, and a subtraction re-implemented here would make the decimal case assert the double.
-	const decimals = jest.requireActual('@gauzy/core/src/lib/money/decimal');
+	const decimals = jest.requireActual('@irtranscripts/core/src/lib/money/decimal');
 	// The kernel's conditional write is the real one for the same reason: the label cases below are
 	// about what `commitVersionedUpdate` does with the version a caller stated and with a version that
 	// moved on, and a re-implementation here would assert the double rather than the platform.
-	const versionedWrite = jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write');
+	const versionedWrite = jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write');
 	// The platform's error type and its catalogue, because the lifecycle move now *reads* the code the
 	// kernel raised in order to decide whether a lost race was a racer heading for the same status. A
 	// stand-in here would let that branch pass against a shape the platform does not produce.
-	const apiException = jest.requireActual('@gauzy/core/src/lib/core/errors/api-exception');
-	const apiErrorCodes = jest.requireActual('@gauzy/core/src/lib/core/errors/api-error-codes');
+	const apiException = jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-exception');
+	const apiErrorCodes = jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-error-codes');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
@@ -172,7 +172,7 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-jest.mock('@gauzy/plugin-order', () => ({
+jest.mock('@irtranscripts/plugin-order', () => ({
 	// The counter writer is a collaborator of this package, not of the thing under test: the suite
 	// hands the service its own line service below, so the class here is only the module's identity.
 	OrderLineService: class OrderLineService {},
@@ -186,19 +186,19 @@ jest.mock('@gauzy/plugin-order', () => ({
 	// what `OrderStateMachine.deriveFulfillmentStatus` reads, so the assertions at the end of this file
 	// are made against the platform's own function rather than against a description of it — a doubled
 	// state machine would let the suite agree with a claim the order package does not make.
-	OrderStateMachine: jest.requireActual('@gauzy/plugin-order/src/lib/order-state-machine/order-state-machine')
+	OrderStateMachine: jest.requireActual('@irtranscripts/plugin-order/src/lib/order-state-machine/order-state-machine')
 		.OrderStateMachine
 }));
 
 import { BadRequestException, ConflictException, Logger, NotFoundException } from '@nestjs/common';
-import { FulfillmentDirection, FulfillmentStatus, FulfillmentStatusDetail, OrderStatus } from '@gauzy/contracts';
+import { FulfillmentDirection, FulfillmentStatus, FulfillmentStatusDetail, OrderStatus } from '@irtranscripts/contracts';
 // Read from the module mock above: the error type and its catalogue are the platform's own, passed
 // through, and the request context is the mock's, so a case can state which organization it runs in.
-import { ApiErrorCode, ApiException, RequestContext } from '@gauzy/core';
+import { ApiErrorCode, ApiException, RequestContext } from '@irtranscripts/core';
 // The state machine the re-derivation is asserted against, read from the module mock above rather than
 // from the package: that mock substitutes the module's collaborators and passes this one through, so this
 // import is the platform's own function and not a double of it.
-import { OrderStateMachine } from '@gauzy/plugin-order';
+import { OrderStateMachine } from '@irtranscripts/plugin-order';
 import { FulfillmentLine } from '../fulfillment-line/fulfillment-line.entity';
 import { FulfillmentLineService } from '../fulfillment-line/fulfillment-line.service';
 import { Fulfillment } from './fulfillment.entity';
@@ -560,7 +560,7 @@ function fulfillmentFixture(options: { seed?: Partial<ITables>; orderService?: a
 			const resolved = new Map<unknown, unknown>([
 				[Fulfillment, fulfillmentRepository],
 				[FulfillmentLine, lineRepository],
-				[jest.requireMock('@gauzy/plugin-order').OrderLine, repository(tables, 'order_line')]
+				[jest.requireMock('@irtranscripts/plugin-order').OrderLine, repository(tables, 'order_line')]
 			]).get(target);
 
 			if (!resolved) {
@@ -1970,7 +1970,7 @@ describe('FulfillmentService — the order’s derived fulfilment state (ADR-26)
 		(fixture.transactionManager as Row).getRepository = (entity: unknown) => {
 			const repository = getRepository(entity) as Row;
 
-			if (entity !== jest.requireMock('@gauzy/plugin-order').OrderLine) {
+			if (entity !== jest.requireMock('@irtranscripts/plugin-order').OrderLine) {
 				return repository;
 			}
 

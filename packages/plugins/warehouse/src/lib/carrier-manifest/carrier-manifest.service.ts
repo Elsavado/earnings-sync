@@ -1,8 +1,8 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, Optional } from '@nestjs/common';
 import { FindOptionsWhere, ObjectLiteral, Repository, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { ID } from '@gauzy/contracts';
-import { RequestContext, SequenceService } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { RequestContext, SequenceService } from '@irtranscripts/core';
 import {
 	CarrierManifestStatus,
 	IWarehouseFulfillmentPort,

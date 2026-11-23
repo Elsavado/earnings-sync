@@ -1,10 +1,10 @@
-# @gauzy/plugin-integration-zapier
+# @irtranscripts/plugin-integration-zapier
 
-This library was generated with [Nx](https://nx.dev). It contains the Zapier Integration plugin for Gauzy platform.
+This library was generated with [Nx](https://nx.dev). It contains the Zapier Integration plugin for IRTranscripts platform.
 
 ## Overview
 
-This plugin provides integration with Zapier, enabling seamless automation between Gauzy and thousands of other apps. It allows you to create custom workflows, automate tasks, and synchronize data across multiple platforms.
+This plugin provides integration with Zapier, enabling seamless automation between IRTranscripts and thousands of other apps. It allows you to create custom workflows, automate tasks, and synchronize data across multiple platforms.
 
 ## Building
 
@@ -24,7 +24,7 @@ After building your library with `yarn nx build plugin-integration-zapier`, go t
 Install the Integration Zapier plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-integration-zapier
+npm install @irtranscripts/plugin-integration-zapier
 # or
-yarn add @gauzy/plugin-integration-zapier
+yarn add @irtranscripts/plugin-integration-zapier
 ```

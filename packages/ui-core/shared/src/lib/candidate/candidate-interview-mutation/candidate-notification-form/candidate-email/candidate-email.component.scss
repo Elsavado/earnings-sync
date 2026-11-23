@@ -7,7 +7,7 @@
   background-color: var(--background-basic-color-1);
   border: none;
   border-radius: nb-theme(border-radius);
-  box-shadow: inset 0 0 0 1px var(--gauzy-border-default-color);
+  box-shadow: inset 0 0 0 1px var(--irtranscripts-border-default-color);
   overflow: hidden;
   transition: box-shadow 0.15s ease-in-out;
 
@@ -27,7 +27,7 @@
   font-size: 0.8125rem;
   line-height: 1.25rem;
   background-color: transparent;
-  border-bottom: 1px solid var(--gauzy-border-default-color);
+  border-bottom: 1px solid var(--irtranscripts-border-default-color);
 }
 
 .info-label {
@@ -50,7 +50,7 @@
   line-height: 1.375rem;
   color: nb-theme(text-basic-color);
   border-radius: 999px;
-  background-color: var(--gauzy-hover-tint);
+  background-color: var(--irtranscripts-hover-tint);
 }
 
 // The subject line reads as the email's title

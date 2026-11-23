@@ -1,7 +1,7 @@
 import { Cascade, EntityName, OneToManyOptions } from '@mikro-orm/core';
 import { RelationOptions as TypeOrmRelationOptions } from 'typeorm';
 import { omit } from 'underscore';
-import { deepClone, isObject } from '@gauzy/utils';
+import { deepClone, isObject } from '@irtranscripts/utils';
 import { MultiORMEnum, getORMType } from '../../../../core/utils';
 import { TypeOrmOneToMany } from './type-orm';
 import { MikroOrmOneToMany } from './mikro-orm';

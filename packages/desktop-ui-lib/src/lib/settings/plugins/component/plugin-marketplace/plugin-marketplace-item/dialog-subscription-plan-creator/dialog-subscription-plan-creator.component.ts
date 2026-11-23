@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { IPlugin, IPluginPlanCreateInput } from '@gauzy/contracts';
+import { IPlugin, IPluginPlanCreateInput } from '@irtranscripts/contracts';
 import { NbDialogRef, NbCardModule, NbIconModule, NbButtonModule } from '@nebular/theme';
 import { Actions } from '@ngneat/effects-ng';
 import { filter, Observable, pairwise, take } from 'rxjs';

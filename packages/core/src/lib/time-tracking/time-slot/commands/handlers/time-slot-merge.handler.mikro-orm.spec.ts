@@ -64,7 +64,7 @@ async function mergeOnMikroOrm(): Promise<IMerged> {
 			const { MikroORM, EntityCaseNamingStrategy } = require('@mikro-orm/core');
 			const { BetterSqliteDriver } = require('@mikro-orm/better-sqlite');
 			const { SoftDeleteHandler } = require('mikro-orm-soft-delete');
-			const { MIKRO_ORM_AUTO_JOIN_REFS_FOR_FILTERS } = require('@gauzy/config');
+			const { MIKRO_ORM_AUTO_JOIN_REFS_FOR_FILTERS } = require('@irtranscripts/config');
 			const { RequestContext } = require('../../../../core/context/request-context');
 			const { TimeSlot } = require('../../time-slot.entity');
 			const { MikroOrmTimeSlotRepository } = require('../../repository/mikro-orm-time-slot.repository');

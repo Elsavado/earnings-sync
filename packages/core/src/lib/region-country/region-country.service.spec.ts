@@ -48,13 +48,13 @@ jest.mock('../core/context/request-context', () => ({
 	}
 }));
 
-jest.mock('@gauzy/config', () => ({
-	...jest.requireActual('@gauzy/config'),
+jest.mock('@irtranscripts/config', () => ({
+	...jest.requireActual('@irtranscripts/config'),
 	isPostgres: () => true,
 	isMySQL: () => false
 }));
 
-import { ChannelStatus } from '@gauzy/contracts';
+import { ChannelStatus } from '@irtranscripts/contracts';
 import { Region } from '../region/region.entity';
 import { RegionService } from '../region/region.service';
 import { RegionCountry } from './region-country.entity';

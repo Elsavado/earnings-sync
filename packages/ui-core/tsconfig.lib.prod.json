@@ -5,10 +5,10 @@
 		"types": ["node", "google.maps"],
 		"baseUrl": "../..",
 		"paths": {
-			"@gauzy/ui-core/*": ["./packages/ui-core/*/src/index.ts"],
-			"@gauzy/ui-config": ["./packages/ui-config/src/index.ts"],
-			"@gauzy/contracts": ["./packages/contracts/src/index.ts"],
-			"@gauzy/constants": ["./packages/constants/src/index.ts"]
+			"@irtranscripts/ui-core/*": ["./packages/ui-core/*/src/index.ts"],
+			"@irtranscripts/ui-config": ["./packages/ui-config/src/index.ts"],
+			"@irtranscripts/contracts": ["./packages/contracts/src/index.ts"],
+			"@irtranscripts/constants": ["./packages/constants/src/index.ts"]
 		}
 	},
 	"angularCompilerOptions": {

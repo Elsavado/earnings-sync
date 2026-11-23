@@ -26,8 +26,8 @@ import {
 	INBOX_ITEM_WRITER,
 	INBOX_SOURCE_HANDLER_REGISTRY,
 	InboxItemSourceEnum
-} from '@gauzy/contracts';
-import { Employee } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { Employee } from '@irtranscripts/core';
 import { EverWorksApiError, EverWorksClient } from '../client/ever-works-client';
 import {
 	EVER_WORKS_INBOX_REPLY_MAX,
@@ -56,24 +56,24 @@ import {
 export const EVER_WORKS_INBOX_AGGREGATE = 'inbox_item';
 
 /**
- * The Ever Works inbox in the Gauzy Inbox (plan 04 §4, G-P3-3).
+ * The Ever Works inbox in the IRTranscripts Inbox (plan 04 §4, G-P3-3).
  *
  * - **EW → G:** the `inbox.item.*` events (served to a key holding `inbox:read`, recipient-scoped, CR-4)
- *   become Gauzy Inbox items (`source = EVER_WORKS`, identity `ever_works` / the EW id) for the Gauzy user
+ *   become IRTranscripts Inbox items (`source = EVER_WORKS`, identity `ever_works` / the EW id) for the IRTranscripts user
  *   matched to the EW recipient. An item whose recipient is not matched yet waits as `deferred` (retried
  *   hourly) until the admin matches the person on the People tab.
  * - **G → EW:** the `EVER_WORKS` source handler. A reply goes to `POST /inbox/items/:id/reply` acting as the
  *   recipient (synchronously, so "already decided in Ever Works" reaches the user); read / unread and archive
- *   go to `PATCH /inbox/items/:id/state`. Snoozing stays in Gauzy.
+ *   go to `PATCH /inbox/items/:id/state`. Snoozing stays in IRTranscripts.
  *
- * Both are optional: where the Gauzy Inbox is off (the default) nothing registers and the events are skipped.
+ * Both are optional: where the IRTranscripts Inbox is off (the default) nothing registers and the events are skipped.
  */
 @Injectable()
 export class EverWorksInboxService implements EverWorksInboundHandler, OnModuleInit, OnModuleDestroy {
 	readonly aggregateTypes = [EVER_WORKS_INBOX_AGGREGATE];
 	private readonly logger = new Logger('EverWorksInbox');
 
-	/** The source handler the Gauzy Inbox calls for `EVER_WORKS` items. */
+	/** The source handler the IRTranscripts Inbox calls for `EVER_WORKS` items. */
 	readonly handler: IInboxSourceHandler = {
 		source: InboxItemSourceEnum.EVER_WORKS,
 		onReply: (item, reply, actor) => this.reply(item, reply, actor),
@@ -115,9 +115,9 @@ export class EverWorksInboxService implements EverWorksInboundHandler, OnModuleI
 		if (!this.inbox) {
 			// Switched on but not loaded in this process (a worker that does not host the Inbox): leave the event
 			// for a process that does, rather than finish it unapplied.
-			return process.env['GAUZY_INBOX_ENABLED'] === 'true'
-				? { status: 'deferred', message: 'the Gauzy Inbox is not loaded in this process' }
-				: { status: 'skipped', message: 'the Gauzy Inbox is off (GAUZY_INBOX_ENABLED)' };
+			return process.env['IRTRANSCRIPTS_INBOX_ENABLED'] === 'true'
+				? { status: 'deferred', message: 'the IRTranscripts Inbox is not loaded in this process' }
+				: { status: 'skipped', message: 'the IRTranscripts Inbox is off (IRTRANSCRIPTS_INBOX_ENABLED)' };
 		}
 		const context = envelope.organizationId
 			? await this.contexts.forEverWorksOrganization(applyContext.connection, envelope.organizationId)
@@ -141,9 +141,9 @@ export class EverWorksInboxService implements EverWorksInboundHandler, OnModuleI
 	}
 
 	/**
-	 * Writes one EW item snapshot into the Gauzy Inbox and records its version on the link: the inbound events,
+	 * Writes one EW item snapshot into the IRTranscripts Inbox and records its version on the link: the inbound events,
 	 * and the item Ever Works answers a reply or a state change with (which may carry a newer answer or state
-	 * than Gauzy has applied yet).
+	 * than IRTranscripts has applied yet).
 	 */
 	private async applySnapshot(
 		context: EverWorksMappingContext,
@@ -160,12 +160,12 @@ export class EverWorksInboxService implements EverWorksInboundHandler, OnModuleI
 					return { status: 'skipped', message: 'already applied (version)' };
 				}
 			}
-			if (!this.inbox) return { status: 'skipped', message: 'the Gauzy Inbox is not loaded in this process' };
-			const recipientUserId = await this.gauzyUserOf(context, item.recipientUserId);
+			if (!this.inbox) return { status: 'skipped', message: 'the IRTranscripts Inbox is not loaded in this process' };
+			const recipientUserId = await this.irtranscriptsUserOf(context, item.recipientUserId);
 			if (!recipientUserId) {
 				return {
 					status: 'deferred',
-					message: `the recipient (Ever Works user ${item.recipientUserId}) is not matched to a Gauzy member yet: match them on the People tab`
+					message: `the recipient (Ever Works user ${item.recipientUserId}) is not matched to a IRTranscripts member yet: match them on the People tab`
 				};
 			}
 			const result = await this.inbox.upsertExternal(
@@ -177,14 +177,14 @@ export class EverWorksInboxService implements EverWorksInboundHandler, OnModuleI
 				)
 			);
 			if (!result.recipientUserIds.includes(recipientUserId)) {
-				return { status: 'deferred', message: 'the matched Gauzy user is not a user of this tenant' };
+				return { status: 'deferred', message: 'the matched IRTranscripts user is not a user of this tenant' };
 			}
 			await this.links.record({
 				tenantId: context.tenantId,
 				organizationId: context.organizationId,
 				integrationTenantId: context.integrationTenantId,
 				entityType: EverWorksLinkType.INBOX_ITEM,
-				gauzyId: result.item.id as ID,
+				irtranscriptsId: result.item.id as ID,
 				ewId: item.id,
 				ewVersion: version,
 				ewUpdatedAt: item.updatedAt ?? null,
@@ -214,7 +214,7 @@ export class EverWorksInboxService implements EverWorksInboundHandler, OnModuleI
 	// ── G → EW (the EVER_WORKS source handler) ─────────────────────────────────────────────────────
 
 	/**
-	 * A reply in Gauzy → `POST /inbox/items/:id/reply`, acting as the replying user's Ever Works account (Ever
+	 * A reply in IRTranscripts → `POST /inbox/items/:id/reply`, acting as the replying user's Ever Works account (Ever
 	 * Works takes it only from the item's recipient). Lost races and answers given in Ever Works first come
 	 * back as `routed: 'already-decided'` with the answer Ever Works holds.
 	 */
@@ -227,7 +227,7 @@ export class EverWorksInboxService implements EverWorksInboundHandler, OnModuleI
 		const ewUserId = await this.everWorksUserOf(context, actor.id);
 		if (!ewUserId) {
 			throw new ForbiddenException(
-				'Your Gauzy account is not matched to an Ever Works member, so the reply cannot be sent as you. Ask an admin to match you on Integrations → Ever Works → People.'
+				'Your IRTranscripts account is not matched to an Ever Works member, so the reply cannot be sent as you. Ask an admin to match you on Integrations → Ever Works → People.'
 			);
 		}
 		const text = typeof reply?.text === 'string' && reply.text.trim() ? reply.text.trim() : null;
@@ -264,7 +264,7 @@ export class EverWorksInboxService implements EverWorksInboundHandler, OnModuleI
 		}
 	}
 
-	/** Read / unread and archive in Gauzy → `PATCH /inbox/items/:id/state` (snoozing stays in Gauzy). */
+	/** Read / unread and archive in IRTranscripts → `PATCH /inbox/items/:id/state` (snoozing stays in IRTranscripts). */
 	async mirrorState(
 		item: IInboxItem,
 		recipient: IInboxItemRecipient,
@@ -278,7 +278,7 @@ export class EverWorksInboxService implements EverWorksInboundHandler, OnModuleI
 		const ewUserId = await this.everWorksUserOf(context, recipient.userId as ID);
 		if (!ewUserId) {
 			this.logger.warn(
-				`Inbox item ${item.id}: the recipient is not matched to an Ever Works member; the state stays in Gauzy.`
+				`Inbox item ${item.id}: the recipient is not matched to an Ever Works member; the state stays in IRTranscripts.`
 			);
 			return;
 		}
@@ -295,9 +295,9 @@ export class EverWorksInboxService implements EverWorksInboundHandler, OnModuleI
 
 	/**
 	 * Applies the item Ever Works answered a reply or a state change with, and records its version, so that a
-	 * queued event of an older version is skipped instead of undoing what was done from Gauzy, and an answer or
-	 * state Ever Works had that Gauzy had not applied yet is not lost behind the newer version. Our own events
-	 * of that change are skipped as echoes, so this is where Gauzy learns the result. Best effort: a failure
+	 * queued event of an older version is skipped instead of undoing what was done from IRTranscripts, and an answer or
+	 * state Ever Works had that IRTranscripts had not applied yet is not lost behind the newer version. Our own events
+	 * of that change are skipped as echoes, so this is where IRTranscripts learns the result. Best effort: a failure
 	 * only means the next event or resync brings it.
 	 */
 	private async rememberVersion(
@@ -319,7 +319,7 @@ export class EverWorksInboxService implements EverWorksInboundHandler, OnModuleI
 
 	// ── Helpers ────────────────────────────────────────────────────────────────────────────────────
 
-	/** Ever Works' refusal of a reply, as the Gauzy user should read it. */
+	/** Ever Works' refusal of a reply, as the IRTranscripts user should read it. */
 	private async refused(error: unknown, client: EverWorksClient, ewItemId: string): Promise<IInboxSourceReplyResult> {
 		if (error instanceof EverWorksApiError) {
 			switch (error.status) {
@@ -385,41 +385,41 @@ export class EverWorksInboxService implements EverWorksInboundHandler, OnModuleI
 		return this.connections.client(context.connection, context.everWorksOrganizationSlug);
 	}
 
-	/** The Gauzy user matched to an Ever Works user (MEMBER link: EW user ↔ G employee of the organization). */
-	private async gauzyUserOf(context: EverWorksMappingContext, ewUserId: string): Promise<ID | null> {
+	/** The IRTranscripts user matched to an Ever Works user (MEMBER link: EW user ↔ G employee of the organization). */
+	private async irtranscriptsUserOf(context: EverWorksMappingContext, ewUserId: string): Promise<ID | null> {
 		const link = await this.links.byEw(context.integrationTenantId, EverWorksLinkType.MEMBER, ewUserId);
 		// A pairing that was undone delivers nothing to that person any more (their Ever Works items stay there).
-		if (!link?.gauzyId || link.state === EverWorksLinkState.UNLINKED) return null;
+		if (!link?.irtranscriptsId || link.state === EverWorksLinkState.UNLINKED) return null;
 		const employee = await this.dataSource.getRepository(Employee).findOne({
-			where: { id: link.gauzyId, tenantId: context.tenantId, organizationId: context.organizationId },
+			where: { id: link.irtranscriptsId, tenantId: context.tenantId, organizationId: context.organizationId },
 			select: { id: true, userId: true }
 		});
 		return (employee?.userId as ID | undefined) ?? null;
 	}
 
-	/** The Ever Works user matched to a Gauzy user, through that user's employee in the organization. */
+	/** The Ever Works user matched to a IRTranscripts user, through that user's employee in the organization. */
 	private async everWorksUserOf(context: EverWorksMappingContext, userId: ID): Promise<string | null> {
 		const employee = await this.dataSource.getRepository(Employee).findOne({
 			where: { userId, tenantId: context.tenantId, organizationId: context.organizationId },
 			select: { id: true }
 		});
 		if (!employee?.id) return null;
-		const link = await this.links.byGauzy(context.integrationTenantId, EverWorksLinkType.MEMBER, employee.id as ID);
+		const link = await this.links.byIRTranscripts(context.integrationTenantId, EverWorksLinkType.MEMBER, employee.id as ID);
 		// Act-as only for a live pairing: an undone one never speaks for that Ever Works member (as everywhere else).
 		return link && link.state !== EverWorksLinkState.UNLINKED ? link.ewId : null;
 	}
 
-	/** The Gauzy task, project and agent of an item, through the integration's links (unlinked → `null`). */
+	/** The IRTranscripts task, project and agent of an item, through the integration's links (unlinked → `null`). */
 	private async linksOf(context: EverWorksMappingContext, item: EverWorksInboxItem): Promise<EverWorksInboxLinks> {
-		const gauzyIdOf = async (type: EverWorksLinkType, ewId: string | null | undefined): Promise<ID | null> =>
+		const irtranscriptsIdOf = async (type: EverWorksLinkType, ewId: string | null | undefined): Promise<ID | null> =>
 			ewId
-				? (((await this.links.byEw(context.integrationTenantId, type, ewId))?.gauzyId as ID | undefined) ??
+				? (((await this.links.byEw(context.integrationTenantId, type, ewId))?.irtranscriptsId as ID | undefined) ??
 					null)
 				: null;
 		return {
-			taskId: await gauzyIdOf(EverWorksLinkType.TASK, item.taskId),
-			projectId: await gauzyIdOf(EverWorksLinkType.PROJECT_WORK, item.workId),
-			agentEmployeeId: await gauzyIdOf(EverWorksLinkType.AGENT, item.agentId)
+			taskId: await irtranscriptsIdOf(EverWorksLinkType.TASK, item.taskId),
+			projectId: await irtranscriptsIdOf(EverWorksLinkType.PROJECT_WORK, item.workId),
+			agentEmployeeId: await irtranscriptsIdOf(EverWorksLinkType.AGENT, item.agentId)
 		};
 	}
 }

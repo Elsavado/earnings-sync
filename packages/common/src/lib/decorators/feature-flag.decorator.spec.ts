@@ -1,6 +1,6 @@
 import 'reflect-metadata';
-import { FEATURE_METADATA } from '@gauzy/constants';
-import { FeatureEnum } from '@gauzy/contracts';
+import { FEATURE_METADATA } from '@irtranscripts/constants';
+import { FeatureEnum } from '@irtranscripts/contracts';
 import { FeatureFlag, featureFlagsOf } from './feature-flag.decorator';
 
 /**

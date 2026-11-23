@@ -1,5 +1,5 @@
 import { FindManyOptions, FindOptionsWhere } from "typeorm";
-import { parseToBoolean } from '@gauzy/utils';
+import { parseToBoolean } from '@irtranscripts/utils';
 
 /**
  * Parses TypeORM `FindManyOptions` to include `loadEagerRelations: false` and converts the 'where' option.

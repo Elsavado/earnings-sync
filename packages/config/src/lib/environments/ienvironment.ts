@@ -22,8 +22,8 @@ import {
 	IMakeComConfig,
 	IPosthogConfig,
 	IZapierConfig
-} from '@gauzy/common';
-import { FileStorageProviderEnum } from '@gauzy/contracts';
+} from '@irtranscripts/common';
+import { FileStorageProviderEnum } from '@irtranscripts/contracts';
 import { ISocialAuthClientsConfig } from './social-auth.helper';
 
 export type LogLevel = 'debug' | 'info' | 'warn' | 'error';
@@ -40,7 +40,7 @@ export interface FileSystem {
 	name: FileStorageProviderEnum;
 }
 
-export interface IGauzyFeatures {
+export interface IIRTranscriptsFeatures {
 	[key: string]: boolean;
 }
 
@@ -157,7 +157,7 @@ export interface IEnvironment {
 	/** SIM (Sim Studio) Configuration */
 	sim?: ISimConfig;
 	isElectron?: boolean;
-	gauzyUserPath?: string;
+	irtranscriptsUserPath?: string;
 	allowSuperAdminRole?: boolean;
 	/**
 	 * Whether a Super Admin may write the report catalogue (`report`, `report_category`). Those tables have no
@@ -166,20 +166,20 @@ export interface IEnvironment {
 	 * (`REPORT_CATALOGUE_AUTHORING_ENABLED=true`).
 	 */
 	reportCatalogueAuthoring?: boolean;
-	gauzySeedPath?: string;
+	irtranscriptsSeedPath?: string;
 	electronResourcesPath?: string;
 
 	/**
-	 * Endpoint for Gauzy AI API (optional), e.g.: http://localhost:3005/graphql
+	 * Endpoint for IRTranscripts AI API (optional), e.g.: http://localhost:3005/graphql
 	 */
-	gauzyAIGraphQLEndpoint?: string;
+	irtranscriptsAIGraphQLEndpoint?: string;
 
 	/**
-	 * Endpoint for Gauzy AI REST API (optional), e.g.: http://localhost:3005/api
+	 * Endpoint for IRTranscripts AI REST API (optional), e.g.: http://localhost:3005/api
 	 */
-	gauzyAIRESTEndpoint?: string;
+	irtranscriptsAIRESTEndpoint?: string;
 
-	gauzyCloudEndpoint?: string;
+	irtranscriptsCloudEndpoint?: string;
 
 	smtpConfig?: ISMTPConfig;
 	defaultCurrency: string;

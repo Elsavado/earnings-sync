@@ -13,7 +13,7 @@ import {
 	UsePipes
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { IGoalKPITemplate, IPagination, PermissionsEnum, ID } from '@gauzy/contracts';
+import { IGoalKPITemplate, IPagination, PermissionsEnum, ID } from '@irtranscripts/contracts';
 import { CrudController } from './../core/crud';
 import { GoalKPITemplate } from './goal-kpi-template.entity';
 import { GoalKpiTemplateService } from './goal-kpi-template.service';

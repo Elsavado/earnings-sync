@@ -1,6 +1,6 @@
 import { RelationId } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { ICandidateInterviewers, ICandidateInterview, IEmployee } from '@gauzy/contracts';
+import { ICandidateInterviewers, ICandidateInterview, IEmployee } from '@irtranscripts/contracts';
 import {
 	CandidateInterview,
 	Employee,

@@ -8,15 +8,15 @@
  * whichever root type it selects and a header could not say which mutation either belongs to.
  *
  * The kernel's own decorators are the real ones here, since a route's behaviour is decided by the
- * metadata they write. `@gauzy/core`'s barrel is doubled at the module boundary for the reason the
+ * metadata they write. `@irtranscripts/core`'s barrel is doubled at the module boundary for the reason the
  * package's other suites state, and the cart package's barrel with it, because the totals service
  * imports the shared calculator through it.
  */
-jest.mock('@gauzy/plugin-cart', () => ({
-	TotalsCalculator: jest.requireActual('@gauzy/plugin-cart/src/lib/totals/totals-calculator').TotalsCalculator
+jest.mock('@irtranscripts/plugin-cart', () => ({
+	TotalsCalculator: jest.requireActual('@irtranscripts/plugin-cart/src/lib/totals/totals-calculator').TotalsCalculator
 }));
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
@@ -24,7 +24,7 @@ jest.mock('@gauzy/core', () => {
 
 	return {
 		// The statement helpers are pure and dialect-driven; loading the real module here would pull
-		// `@gauzy/config` and the request context into a suite that doubles the barrel on purpose.
+		// `@irtranscripts/config` and the request context into a suite that doubles the barrel on purpose.
 		quoteIdentifier: (identifier: string) => `"${identifier}"`,
 		prepareSQLQuery: (query: string) => query,
 		BaseEntity,
@@ -52,29 +52,29 @@ jest.mock('@gauzy/core', () => {
 		// Every resolver class carries the platform's feature guard, so the double provides the class
 		// the resolver imports: an undefined guard handed to the real `@UseGuards` fails the suite.
 		FeatureFlagGuard: class {},
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
 		// Rebuilt rather than required: the real decorator imports the version guard, the interceptor behind
 		// it and the idempotency service behind that, which reaches the entity graph and — under this
 		// workspace's ESM-only `uuid` — fails the whole suite to LOAD. What this suite reads is the
 		// metadata the decorator writes, so that is what the double writes.
 		Versioned: (options: any = {}) =>
 			require('@nestjs/common').SetMetadata(
-				jest.requireActual('@gauzy/core/src/lib/concurrency/version.util').VERSIONED_METADATA_KEY,
+				jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util').VERSIONED_METADATA_KEY,
 				options
 			),
 		VersionedColumn: decorator,
-		commitVersionedUpdate: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		commitVersionedUpdate: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.commitVersionedUpdate,
-		versionExpectationOf: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		versionExpectationOf: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.versionExpectationOf,
 		// The connection helpers the list fields page and answer with, taken from the kernel: a double that
 		// left them undefined would have the suite fail with "not a function" the moment a case called one
 		// of those fields, rather than tell it anything about the page it answered.
-		connectionFromOffsetPage: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		connectionFromOffsetPage: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.connectionFromOffsetPage,
-		resolveConnectionWindow: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		resolveConnectionWindow: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.resolveConnectionWindow,
-		paginateRows: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection').paginateRows,
+		paginateRows: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection').paginateRows,
 		ColumnNumericTransformerPipe: class {
 			to(value: unknown) {
 				return value;
@@ -93,7 +93,7 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		RequestContext: {
 			currentUser: () => null,
 			currentUserId: () => null,
@@ -116,8 +116,8 @@ import { OrderResolver } from './order.resolver';
 import { OrderChangeResolver } from './order-change.resolver';
 import { orderSchemaExtensions } from './schema-extensions';
 
-const { IDEMPOTENT_METADATA_KEY } = jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.policy');
-const { VERSIONED_METADATA_KEY } = jest.requireActual('@gauzy/core/src/lib/concurrency/version.util');
+const { IDEMPOTENT_METADATA_KEY } = jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.policy');
+const { VERSIONED_METADATA_KEY } = jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util');
 
 const reflector = new Reflector();
 
@@ -477,7 +477,7 @@ describe('createOrder — the order is written in the request’s organization (
 	afterEach(() => jest.restoreAllMocks());
 
 	it('stamps the request’s organization on an order the input names none for', async () => {
-		const { RequestContext } = jest.requireMock('@gauzy/core');
+		const { RequestContext } = jest.requireMock('@irtranscripts/core');
 		jest.spyOn(RequestContext, 'currentOrganizationId').mockReturnValue('org-1');
 		const orderService = { create: jest.fn(async (entity: any) => ({ id: 'order-1', ...entity })) };
 
@@ -489,7 +489,7 @@ describe('createOrder — the order is written in the request’s organization (
 	});
 
 	it('keeps an organization the input states', async () => {
-		const { RequestContext } = jest.requireMock('@gauzy/core');
+		const { RequestContext } = jest.requireMock('@irtranscripts/core');
 		jest.spyOn(RequestContext, 'currentOrganizationId').mockReturnValue('org-1');
 		const orderService = { create: jest.fn(async (entity: any) => ({ id: 'order-1', ...entity })) };
 

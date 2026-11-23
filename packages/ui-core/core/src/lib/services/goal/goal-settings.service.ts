@@ -9,11 +9,11 @@ import {
 	IGoalTimeFrameResponse,
 	IKpiResponse,
 	IGeneralSettingResponse
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { firstValueFrom } from 'rxjs';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 import { ToastrService } from '../notification';
 
 @Injectable({

@@ -24,7 +24,7 @@ import {
 	ITaskSizeUpdateInput,
 	ID,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { CrudFactory, BaseQueryDTO } from '../../core/crud';
 import { CountQueryDTO } from '../../shared/dto';
 import { TenantPermissionGuard } from '../../shared/guards';

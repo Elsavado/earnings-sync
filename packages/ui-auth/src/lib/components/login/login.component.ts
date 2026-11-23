@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 import { FormGroupDirective } from '@angular/forms';
 import { NbAuthService, NbLoginComponent, NB_AUTH_OPTIONS } from '@nebular/auth';
 import { CookieService } from 'ngx-cookie-service';
-import { RolesEnum } from '@gauzy/contracts';
-import { patterns } from '@gauzy/constants';
-import { environment } from '@gauzy/ui-config';
-import { ElectronService } from '@gauzy/ui-core/core';
+import { RolesEnum } from '@irtranscripts/contracts';
+import { patterns } from '@irtranscripts/constants';
+import { environment } from '@irtranscripts/ui-config';
+import { ElectronService } from '@irtranscripts/ui-core/core';
 
 @Component({
 	selector: 'ngx-login',

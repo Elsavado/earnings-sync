@@ -34,7 +34,7 @@ export class DesktopQueue {
 		this.dbPath = dbPath;
 		this.online = true;
 		this.isOnlineIntervalCheck = 0;
-		const storePath = path.join(this.dbPath, 'gauzy-queue.sqlite3');
+		const storePath = path.join(this.dbPath, 'irtranscripts-queue.sqlite3');
 		this.storeTimerQueue = new QueueStore({
 			path: storePath,
 			tableName: 'timer_queue'

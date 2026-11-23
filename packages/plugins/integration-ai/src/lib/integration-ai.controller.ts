@@ -6,8 +6,8 @@ import {
 	IIntegrationTenant,
 	IIntegrationTenantUpdateInput,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { PermissionGuard, Permissions, TenantPermissionGuard, UUIDValidationPipe } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { PermissionGuard, Permissions, TenantPermissionGuard, UUIDValidationPipe } from '@irtranscripts/core';
 import { IntegrationAIService } from './integration-ai.service';
 
 @ApiTags('Integrations')
@@ -37,16 +37,16 @@ export class IntegrationAIController {
 	}
 
 	/**
-	 * Update Gauzy AI integration by ID.
+	 * Update IRTranscripts AI integration by ID.
 	 *
 	 * @param id - The ID of the integration to update.
 	 * @param input - The updated data for the integration.
 	 * @returns A promise that resolves to the updated Integration Tenant entity.
 	 */
-	@ApiOperation({ summary: 'Update Gauzy AI integration.' })
+	@ApiOperation({ summary: 'Update IRTranscripts AI integration.' })
 	@ApiResponse({
 		status: HttpStatus.OK,
-		description: 'Update Gauzy AI integration'
+		description: 'Update IRTranscripts AI integration'
 	})
 	@ApiResponse({
 		status: HttpStatus.NOT_FOUND,

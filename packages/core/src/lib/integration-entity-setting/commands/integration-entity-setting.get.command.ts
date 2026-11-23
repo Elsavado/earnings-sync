@@ -1,4 +1,4 @@
-import { IIntegrationTenant } from '@gauzy/contracts';
+import { IIntegrationTenant } from '@irtranscripts/contracts';
 import { ICommand } from '@nestjs/cqrs';
 
 export class IntegrationEntitySettingGetCommand implements ICommand {

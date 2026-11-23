@@ -1,5 +1,5 @@
 /*
- * Public API Surface of @gauzy/plugin-ai-provider-openrouter
+ * Public API Surface of @irtranscripts/plugin-ai-provider-openrouter
  */
 export { AiProviderOpenRouterPlugin } from './lib/ai-provider-openrouter.plugin';
 export { openRouterProviderDefinition } from './lib/ai-provider-openrouter.provider';

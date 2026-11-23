@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
-import { ID, LanguagesEnum } from '@gauzy/contracts';
-import { Product, ProductTranslation, ProductVariant, RequestContext } from '@gauzy/core';
+import { ID, LanguagesEnum } from '@irtranscripts/contracts';
+import { Product, ProductTranslation, ProductVariant, RequestContext } from '@irtranscripts/core';
 import { ICatalogItem } from '../catalog.types';
 
 /**

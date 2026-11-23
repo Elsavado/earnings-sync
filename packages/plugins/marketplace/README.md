@@ -1,4 +1,4 @@
-# @gauzy/plugin-marketplace
+# @irtranscripts/plugin-marketplace
 
 ## Overview
 

@@ -1,6 +1,6 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ITaskMetadataBootstrapResponse } from '@gauzy/contracts';
+import { ITaskMetadataBootstrapResponse } from '@irtranscripts/contracts';
 import { TenantPermissionGuard } from '../../shared/guards';
 import { UseValidationPipe } from '../../shared/pipes';
 import { TaskMetadataBootstrapQueryDTO } from './dto';

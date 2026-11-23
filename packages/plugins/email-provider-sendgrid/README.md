@@ -1,15 +1,15 @@
 <!-- cspell:ignore DMARC -->
 
-# @gauzy/plugin-email-provider-sendgrid
+# @irtranscripts/plugin-email-provider-sendgrid
 
-[SendGrid](https://sendgrid.com) as an email provider of the Gauzy Inbox. It receives with SendGrid Inbound Parse and
+[SendGrid](https://sendgrid.com) as an email provider of the IRTranscripts Inbox. It receives with SendGrid Inbound Parse and
 sends through the SendGrid Mail Send API. It is a copy of the Resend reference plugin (plan 04 §5.2, G-P4-7).
 
 ## Switch
 
 **Off by default.** The API lists the plugin only when `EMAIL_PROVIDER_SENDGRID_ENABLED=true` (exactly). Any other
 value keeps it off and is logged once. The plugin registers with the Inbox email provider registry, so it does
-something only where `GAUZY_INBOX_ENABLED=true` and `GAUZY_INBOX_EMAIL_ENABLED=true` too. It adds no table, no route
+something only where `IRTRANSCRIPTS_INBOX_ENABLED=true` and `IRTRANSCRIPTS_INBOX_EMAIL_ENABLED=true` too. It adds no table, no route
 and no migration.
 
 ## Set up

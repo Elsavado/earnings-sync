@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common';
 import { DeepPartial } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { IOrganizationDocument, IPagination, ID, PermissionsEnum } from '@gauzy/contracts';
+import { IOrganizationDocument, IPagination, ID, PermissionsEnum } from '@irtranscripts/contracts';
 import { CrudController } from './../core/crud';
 import { OrganizationDocument } from './organization-document.entity';
 import { OrganizationDocumentService } from './organization-document.service';

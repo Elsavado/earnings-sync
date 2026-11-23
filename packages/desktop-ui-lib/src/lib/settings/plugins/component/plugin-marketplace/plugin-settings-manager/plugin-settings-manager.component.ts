@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidatorFn, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IPlugin } from '@gauzy/contracts';
+import { IPlugin } from '@irtranscripts/contracts';
 import { NbDialogRef, NbDialogService, NbIconModule, NbButtonModule, NbTooltipModule, NbFormFieldModule, NbInputModule, NbToggleModule, NbSelectModule, NbOptionModule } from '@nebular/theme';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { BehaviorSubject } from 'rxjs';

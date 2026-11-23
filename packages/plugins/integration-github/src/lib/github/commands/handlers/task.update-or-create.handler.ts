@@ -9,15 +9,15 @@ import {
 	IOrganizationProject,
 	IIntegrationTenant,
 	isTaskSyncAllowed
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	IntegrationMapService,
 	IntegrationMapSyncEntityCommand,
 	IntegrationTenantGetCommand,
 	OrganizationProjectService,
 	RequestContext
-} from '@gauzy/core';
-import { arrayToObject } from '@gauzy/utils';
+} from '@irtranscripts/core';
+import { arrayToObject } from '@irtranscripts/utils';
 import { GithubRepositoryIssueService } from './../../repository/issue/github-repository-issue.service';
 import { IntegrationSyncGithubRepositoryIssueCommand } from '../../repository/issue/commands';
 import { GithubSyncService } from '../../github-sync.service';
@@ -34,7 +34,7 @@ export class GithubTaskUpdateOrCreateCommandHandler implements ICommandHandler<G
 	) {}
 
 	/**
-	 * Command handler for the `GithubTaskUpdateOrCreateCommand`, responsible for processing actions when a task is opened in Gauzy.
+	 * Command handler for the `GithubTaskUpdateOrCreateCommand`, responsible for processing actions when a task is opened in IRTranscripts.
 	 *
 	 * @param command - The `GithubTaskUpdateOrCreateCommand` containing the task data to be processed.
 	 */
@@ -124,7 +124,7 @@ export class GithubTaskUpdateOrCreateCommandHandler implements ICommandHandler<G
 									// Check if an integration map already exists for the issue
 									const integrationMap = await this._integrationMapService.findOneByWhereOptions({
 										entity: IntegrationEntity.ISSUE,
-										gauzyId: task.id,
+										irtranscriptsId: task.id,
 										integrationId,
 										organizationId,
 										tenantId,
@@ -170,7 +170,7 @@ export class GithubTaskUpdateOrCreateCommandHandler implements ICommandHandler<G
 									// Step 11: Create a mapping between the task and the GitHub issue
 									return await this._commandBus.execute(
 										new IntegrationMapSyncEntityCommand({
-											gauzyId: task.id,
+											irtranscriptsId: task.id,
 											integrationId,
 											sourceId: issue.id.toString(),
 											entity: IntegrationEntity.ISSUE,

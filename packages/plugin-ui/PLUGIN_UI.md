@@ -1,13 +1,13 @@
-# @gauzy/plugin-ui
+# @irtranscripts/plugin-ui
 
-Core UI plugin infrastructure for Gauzy. Provides types, loader, lifecycle module, extension registry, and conventions for building UI plugins.
+Core UI plugin infrastructure for IRTranscripts. Provides types, loader, lifecycle module, extension registry, and conventions for building UI plugins.
 
 ## Quick Start
 
 ### 1. Define a plugin
 
 ```ts
-import { definePlugin } from '@gauzy/plugin-ui';
+import { definePlugin } from '@irtranscripts/plugin-ui';
 import { MyPluginModule } from './my-plugin.module';
 
 export const MyPlugin = definePlugin('my-plugin', MyPluginModule, {
@@ -95,7 +95,7 @@ Use `dependsOn: ['other-plugin-id']` so dependencies load first. Circular depend
 
 ### Lazy loading
 
-Use `loadModule: () => import('@gauzy/my-plugin').then(m => m.MyPluginModule)` instead of `module` for code-splitting.
+Use `loadModule: () => import('@irtranscripts/my-plugin').then(m => m.MyPluginModule)` instead of `module` for code-splitting.
 
 ### Extension registry
 

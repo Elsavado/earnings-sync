@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { isNotEmpty, toParams } from '@gauzy/ui-core/common';
+import { isNotEmpty, toParams } from '@irtranscripts/ui-core/common';
 import { IFilterConfig, LocalDataSource } from 'angular2-smart-table';
 import { BehaviorSubject, firstValueFrom, Observable, shareReplay } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';

@@ -1,5 +1,5 @@
 /**
- * The `tags` / `tagIds` contract between `@gauzy/contracts` and the document request DTOs.
+ * The `tags` / `tagIds` contract between `@irtranscripts/contracts` and the document request DTOs.
  *
  * `IDocumentCreateInput` publishes `tags?: ITag[]`, but the create DTO declared only
  * `tagIds?: ID[]` — and `POST /documents` / `PUT /documents/:id` validate with
@@ -10,11 +10,11 @@
  * The DTO now accepts both shapes and `resolveTagIds` folds them into the id list the entity
  * relation is built from. Nothing was removed from the contracts package.
  *
- * `@gauzy/core` boots the whole application graph on import, so its DTO base is stubbed with a
+ * `@irtranscripts/core` boots the whole application graph on import, so its DTO base is stubbed with a
  * plain class here (same approach as `document-dto-surface.spec.ts`).
  */
 jest.mock(
-	'@gauzy/core',
+	'@irtranscripts/core',
 	() => {
 		const { IsOptional, IsUUID } = jest.requireActual('class-validator');
 		class TenantOrganizationBaseDTO {
@@ -28,7 +28,7 @@ jest.mock(
 
 import { plainToInstance } from 'class-transformer';
 import { getMetadataStorage, validate } from 'class-validator';
-import { DocumentKindEnum } from '@gauzy/contracts';
+import { DocumentKindEnum } from '@irtranscripts/contracts';
 import { CreateDocumentDTO } from './create-document.dto';
 import { resolveTagIds } from './document-tag-reference';
 import { UpdateDocumentDTO } from './update-document.dto';

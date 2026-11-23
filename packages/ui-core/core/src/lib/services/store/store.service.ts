@@ -19,8 +19,8 @@ import {
 	ComponentLayoutStyleEnum,
 	IOrganizationTeam,
 	IWorkSpace
-} from '@gauzy/contracts';
-import { ComponentEnum, GuiDrag, SYSTEM_DEFAULT_LAYOUT } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { ComponentEnum, GuiDrag, SYSTEM_DEFAULT_LAYOUT } from '@irtranscripts/ui-core/common';
 
 export interface AppState {
 	user: IUser;

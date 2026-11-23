@@ -6,7 +6,7 @@
 // - original code `Copyright (c) 2018 Sumanth Chinthagunta`;
 import { DynamicModule, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import * as path from 'path';
-import { ConfigService, environment } from '@gauzy/config';
+import { ConfigService, environment } from '@irtranscripts/config';
 import { RequestContextMiddleware } from './context';
 import { FileStorageModule } from './file-storage';
 import { GraphqlModule } from '../graphql/graphql.module';

@@ -1,8 +1,8 @@
 import { Logger } from '@nestjs/common';
 import { DataSource, QueryRunner } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
-import { DatabaseTypeEnum } from '@gauzy/config';
-import { IOrganization } from '@gauzy/contracts';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
+import { IOrganization } from '@irtranscripts/contracts';
 import { replacePlaceholders } from '../utils';
 import {
 	DEFAULT_UNIT_FAMILIES,

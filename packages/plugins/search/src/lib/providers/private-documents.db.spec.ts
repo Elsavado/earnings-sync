@@ -1,11 +1,11 @@
 /**
- * The module boundaries are doubled for the reason this package's other suites state: `@gauzy/core`
- * boots the whole application graph from its barrel and `@gauzy/config` reads the environment at import
+ * The module boundaries are doubled for the reason this package's other suites state: `@irtranscripts/core`
+ * boots the whole application graph from its barrel and `@irtranscripts/config` reads the environment at import
  * time. What is real here is everything between a source row and a page of hits: the shipped document
  * declaration, the document builder, the built-in provider and the SQL it states, executed by an
  * in-memory better-sqlite3 database through a real TypeORM repository.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 
 	class BaseEntity {}
@@ -40,7 +40,7 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	DatabaseTypeEnum: {
 		mongodb: 'mongodb',
 		sqlite: 'sqlite',
@@ -51,8 +51,8 @@ jest.mock('@gauzy/config', () => ({
 }));
 
 import { DataSource, EntitySchema } from 'typeorm';
-import { ISearchIndexRegistration } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { ISearchIndexRegistration } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { DOCUMENT_INDEX } from '../definitions/document.definition';
 import { SearchIndexRegistry } from '../registry/search-index.registry';
 import { buildDocument, isRowVisible } from '../services/search-document.builder';

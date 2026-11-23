@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { ITasksStatistics } from '@gauzy/contracts';
+import { ITasksStatistics } from '@irtranscripts/contracts';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface ITaskRender extends ITasksStatistics {

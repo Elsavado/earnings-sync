@@ -1,6 +1,6 @@
 import { HttpException } from '@nestjs/common';
-import { IPagination } from '@gauzy/contracts';
-import { connectionFromOffsetPage } from '@gauzy/core';
+import { IPagination } from '@irtranscripts/contracts';
+import { connectionFromOffsetPage } from '@irtranscripts/core';
 
 /**
  * The shapes every resolver in this package shares.

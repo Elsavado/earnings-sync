@@ -1,7 +1,7 @@
 {
-	"name": "@gauzy/plugin-inbox-ui",
+	"name": "@irtranscripts/plugin-inbox-ui",
 	"version": "0.1.0",
-	"description": "Ever Gauzy UI plugin for the Inbox: /pages/inbox (tabs, filters, detail panes, replies, sandboxed email viewer, Notifications tab) and the header badge; shown only where the API loads @gauzy/plugin-inbox",
+	"description": "Ever IRTranscripts UI plugin for the Inbox: /pages/inbox (tabs, filters, detail panes, replies, sandboxed email viewer, Notifications tab) and the header badge; shown only where the API loads @irtranscripts/plugin-inbox",
 	"author": {
 		"name": "Ever Co. LTD",
 		"url": "https://github.com/ever-co"
@@ -29,9 +29,9 @@
 		"@angular/router": "22.2.2"
 	},
 	"dependencies": {
-		"@gauzy/contracts": "^0.1.0",
-		"@gauzy/plugin-ui": "^0.1.0",
-		"@gauzy/ui-core": "^0.1.0",
+		"@irtranscripts/contracts": "^0.1.0",
+		"@irtranscripts/plugin-ui": "^0.1.0",
+		"@irtranscripts/ui-core": "^0.1.0",
 		"@nebular/theme": "^18.0.0",
 		"@ngx-translate/core": "^18.0.0",
 		"rxjs": "^7.8.2",
@@ -43,7 +43,7 @@
 		"jest-preset-angular": "17.0.2"
 	},
 	"keywords": [
-		"gauzy",
+		"irtranscripts",
 		"inbox",
 		"notifications",
 		"approvals",

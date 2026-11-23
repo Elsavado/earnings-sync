@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import { IsOptional, IsUUID } from "class-validator";
-import { ID, IImageAsset } from "@gauzy/contracts";
+import { ID, IImageAsset } from "@irtranscripts/contracts";
 import { Product, ProductCategoryTranslation } from "./../../core/entities/internal";
 import { TranslatableBaseDTO } from "./../../core/dto";
 

@@ -1,7 +1,7 @@
 import { ParseEnumPipe, ParseUUIDPipe, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { FeatureFlag } from '@gauzy/common';
-import { PermissionsEnum, ID } from '@gauzy/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
+import { PermissionsEnum, ID } from '@irtranscripts/contracts';
 import { AddressRole } from './address-role.entity';
 import { AddressRoleService } from './address-role.service';
 import { AddressRoleEnum } from './address-role.enums';

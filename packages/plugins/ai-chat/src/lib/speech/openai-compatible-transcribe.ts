@@ -205,7 +205,7 @@ const readJsonBounded = async (response: globalThis.Response, maxBytes: number):
 export interface ISpeechRequestBase {
 	/**
 	 * Permit a loopback/private/link-local endpoint for THIS request. Defaults to the deployment's
-	 * `GAUZY_AI_CHAT_ALLOW_PRIVATE_BASE_URLS` flag. Provider plugins pass
+	 * `IRTRANSCRIPTS_AI_CHAT_ALLOW_PRIVATE_BASE_URLS` flag. Provider plugins pass
 	 * `isPrivateAiProviderEndpointAllowed(credentials)`, never a value derived from tenant input.
 	 */
 	allowPrivateHost?: boolean;

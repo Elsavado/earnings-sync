@@ -1,4 +1,4 @@
-import { IUser, LanguagesEnum, PermissionsEnum } from "@gauzy/contracts";
+import { IUser, LanguagesEnum, PermissionsEnum } from "@irtranscripts/contracts";
 import type { IOAuthAppTokenGrant } from "../../auth/oauth-app-scope";
 
 /**

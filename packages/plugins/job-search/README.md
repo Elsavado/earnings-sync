@@ -1,4 +1,4 @@
-# @gauzy/plugin-job-search
+# @irtranscripts/plugin-job-search
 
 ## Overview
 
@@ -26,7 +26,7 @@ After building your library with `yarn nx build plugin-job-search`, go to the di
 To install the Job Search Plugin, simply run the following command in your terminal:
 
 ```bash
-npm install @gauzy/plugin-job-search
+npm install @irtranscripts/plugin-job-search
 # or
-yarn add @gauzy/plugin-job-search
+yarn add @irtranscripts/plugin-job-search
 ```

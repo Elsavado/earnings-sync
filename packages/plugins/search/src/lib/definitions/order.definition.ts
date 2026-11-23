@@ -1,4 +1,4 @@
-import { ISearchIndexRegistration, SearchFieldKind } from '@gauzy/contracts';
+import { ISearchIndexRegistration, SearchFieldKind } from '@irtranscripts/contracts';
 
 /**
  * The grant a caller needs in order to see an order in a search result.

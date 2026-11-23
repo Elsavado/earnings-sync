@@ -1,5 +1,5 @@
 /**
- * Port for creating a Gauzy workspace whose owner is already linked to an Ever ID.
+ * Port for creating a IRTranscripts workspace whose owner is already linked to an Ever ID.
  *
  * Declared now so the provisioning route that will consume it can depend on a stable contract. The
  * implementation is part of that route's work: until it exists nothing provides this token, and no

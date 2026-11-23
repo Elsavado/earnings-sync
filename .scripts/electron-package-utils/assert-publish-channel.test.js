@@ -23,7 +23,7 @@ function project(t, publish, raw) {
 	return dir;
 }
 
-const github = (channel) => ({ provider: 'github', repo: 'ever-gauzy-desktop', releaseType: 'release', channel });
+const github = (channel) => ({ provider: 'github', repo: 'ever-irtranscripts-desktop', releaseType: 'release', channel });
 
 test('passes when every publish entry has the channel of the arch being built', (t) => {
 	const x64 = run('--project', project(t, [github('latest-x64')]), '--arch', 'x64');

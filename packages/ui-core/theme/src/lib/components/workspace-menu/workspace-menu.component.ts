@@ -2,10 +2,10 @@ import { Component, DestroyRef, EventEmitter, inject, OnDestroy, OnInit, Output,
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { GA_MENU_ALWAYS_EXPANDED } from '@gauzy/ui-core/core';
+import { GA_MENU_ALWAYS_EXPANDED } from '@irtranscripts/ui-core/core';
 
 @Component({
-	selector: 'gauzy-workspace-menu',
+	selector: 'irtranscripts-workspace-menu',
 	templateUrl: './workspace-menu.component.html',
 	styleUrls: ['./workspace-menu.component.scss'],
 	changeDetection: ChangeDetectionStrategy.Eager,
@@ -25,7 +25,7 @@ export class WorkspaceMenuComponent implements OnInit, OnDestroy {
 	 * Whether an outside click is allowed to close this panel yet.
 	 *
 	 * The panel is created by the very click that opens it (the switcher in
-	 * `gauzy-logo.component.html`) and `gauzyOutside` listens on `document`, so
+	 * `irtranscripts-logo.component.html`) and `irtranscriptsOutside` listens on `document`, so
 	 * that opening click must never be the one that closes it again. Arming on a
 	 * timer defers it past the end of the current task, which is strictly later
 	 * than the opening click's propagation — that holds whether or not the
@@ -39,7 +39,7 @@ export class WorkspaceMenuComponent implements OnInit, OnDestroy {
 		this.armTimer = setTimeout(() => (this.armed = true));
 
 		// Close once the page picked from the panel has loaded. Its links are INSIDE the panel, so
-		// `gauzyOutside` never dismisses it, and it used to stay open over the new page. Compared on
+		// `irtranscriptsOutside` never dismisses it, and it used to stay open over the new page. Compared on
 		// the path only: pages that rewrite their own query params (the dashboard's date range, for
 		// one) emit NavigationEnd too, and that must not close a panel the user just opened.
 		const pathOf = (url: string) => url.split(/[?#]/)[0];
@@ -62,7 +62,7 @@ export class WorkspaceMenuComponent implements OnInit, OnDestroy {
 	}
 
 	/**
-	 * `gauzyOutside` emits whether the click landed INSIDE this panel.
+	 * `irtranscriptsOutside` emits whether the click landed INSIDE this panel.
 	 *
 	 * This used to arm itself only on an inside click, which meant a user who
 	 * opened the switcher and then clicked anything else could never dismiss it:

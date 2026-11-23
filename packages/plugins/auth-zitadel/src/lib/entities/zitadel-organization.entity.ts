@@ -1,10 +1,10 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsOptional, IsString } from 'class-validator';
-import { ID } from '@gauzy/contracts';
-import { ColumnIndex, MultiORMColumn, MultiORMEntity, TenantOrganizationBaseEntity } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { ColumnIndex, MultiORMColumn, MultiORMEntity, TenantOrganizationBaseEntity } from '@irtranscripts/core';
 
 /**
- * The link between one Gauzy organization and one organization on the Ever Platform.
+ * The link between one IRTranscripts organization and one organization on the Ever Platform.
  *
  * Read by the sign-in flow to honour an organization's sign-in rules (a filtered organization, or
  * one that requires its company sign-in). Rows are written only by the organization-linking flow of

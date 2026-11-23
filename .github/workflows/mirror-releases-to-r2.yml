@@ -1,6 +1,6 @@
 # Mirror desktop-app installers from GitHub Releases into the R2 bucket behind downloads.ever.co.
 #
-# The download links on gauzy.co used to point at ever.sfo3.cdn.digitaloceanspaces.com, which died
+# The download links on irtranscripts.com used to point at ever.sfo3.cdn.digitaloceanspaces.com, which died
 # with the DigitalOcean account and left every desktop download broken. GitHub Releases stays the
 # source of truth and the auto-update feed; R2 is a CDN mirror in front of it.
 #
@@ -51,7 +51,7 @@ jobs:
     #
     # This is a deliberate, narrow exception to the self-hosted-only convention: the entire purpose
     # of this job is to talk to Cloudflare, which a self-hosted runner structurally cannot do.
-    # ever-gauzy is a public repository, so GitHub-hosted minutes are free.
+    # ever-irtranscripts is a public repository, so GitHub-hosted minutes are free.
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     steps:

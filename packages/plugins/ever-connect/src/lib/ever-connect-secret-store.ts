@@ -1,11 +1,11 @@
-import { connectKeyMaterialProblem, EverInstanceKeyError, unwrapKey, wrapKey } from '@gauzy/plugin-ever-instance';
+import { connectKeyMaterialProblem, EverInstanceKeyError, unwrapKey, wrapKey } from '@irtranscripts/plugin-ever-instance';
 
 type Env = Record<string, string | undefined>;
 
 /**
  * Stores what the Ever Platform connection keeps on this installation (entitlement documents) with
- * the same AES-256-GCM encryption as the installation's keys (`@gauzy/plugin-ever-instance`): under
- * `ENCRYPTION_KEY`, or a key derived from a non-default `JWT_SECRET`. Never Gauzy's integration
+ * the same AES-256-GCM encryption as the installation's keys (`@irtranscripts/plugin-ever-instance`): under
+ * `ENCRYPTION_KEY`, or a key derived from a non-default `JWT_SECRET`. Never IRTranscripts's integration
  * setting "wrapping", which only masks a value for display and stores it in clear.
  *
  * A stored value that cannot be decrypted (the secret changed) reads as missing, so the document is

@@ -33,22 +33,22 @@ test('the known-bad fixture fails and names its file, its host and its variable'
 });
 
 test('one more occurrence of a recorded host in a recorded file fails; one less passes', () => {
-	const baseline = { 'packages/config/src/a.ts': { 'gauzy.co': 2 } };
-	assert.deepEqual(codeGrowth({ 'packages/config/src/a.ts': { 'gauzy.co': 3 } }, baseline), [
-		'packages/config/src/a.ts: gauzy.co x3 (recorded: 2)'
+	const baseline = { 'packages/config/src/a.ts': { 'irtranscripts.com': 2 } };
+	assert.deepEqual(codeGrowth({ 'packages/config/src/a.ts': { 'irtranscripts.com': 3 } }, baseline), [
+		'packages/config/src/a.ts: irtranscripts.com x3 (recorded: 2)'
 	]);
-	assert.deepEqual(codeGrowth({ 'packages/config/src/a.ts': { 'gauzy.co': 1 } }, baseline), []);
+	assert.deepEqual(codeGrowth({ 'packages/config/src/a.ts': { 'irtranscripts.com': 1 } }, baseline), []);
 	assert.equal(codeGrowth({ 'packages/core/src/b.ts': { 'api.ever.co': 1 } }, baseline).length, 1);
 });
 
 test('a host new to the built web app fails', () => {
-	assert.deepEqual(bundleGrowth(['gauzy.co', 'api.ever.co'], ['gauzy.co']), ['api.ever.co']);
-	assert.deepEqual(bundleGrowth(['gauzy.co'], ['gauzy.co', 'docs.gauzy.co']), []);
+	assert.deepEqual(bundleGrowth(['irtranscripts.com', 'api.ever.co'], ['irtranscripts.com']), ['api.ever.co']);
+	assert.deepEqual(bundleGrowth(['irtranscripts.com'], ['irtranscripts.com', 'docs.irtranscripts.com']), []);
 });
 
 test('every Ever-owned name counts, names under it included; other hosts do not', () => {
-	assert.deepEqual(occurrences('see https://docs.gauzy.co and https://example.com, mail ops@ever.team'), {
-		'docs.gauzy.co': 1,
+	assert.deepEqual(occurrences('see https://docs.irtranscripts.com and https://example.com, mail ops@ever.team'), {
+		'docs.irtranscripts.com': 1,
 		'ever.team': 1
 	});
 	assert.deepEqual(occurrences('new URL(process.env.EVER_STATS_API_URL)'), { EVER_STATS_API_URL: 1 });
@@ -69,7 +69,7 @@ test('the modules, docs, the audit and tests may name Ever hosts; core code may 
 		assert.equal(allowed(file), true, file);
 	for (const file of [
 		'packages/core/src/lib/user/user.service.ts',
-		'apps/gauzy/src/app/app.component.ts',
+		'apps/irtranscripts/src/app/app.component.ts',
 		'.env.sample',
 		'packages/plugins/ever-connector/x.ts',
 		// The workflows that build and deploy the images stay in the scan: only the monitor is named.

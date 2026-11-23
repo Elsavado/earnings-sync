@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { ICandidateFeedback, ICandidateFeedbackCreateInput } from '@gauzy/contracts';
-import { isNotEmpty } from '@gauzy/utils';
+import { ICandidateFeedback, ICandidateFeedbackCreateInput } from '@irtranscripts/contracts';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { FeedbackUpdateCommand } from '../candidate-feedbacks.update.command';
 import { CandidateFeedbacksService } from '../../candidate-feedbacks.service';
 import { CandidateInterviewService } from '../../../candidate-interview/candidate-interview.service';

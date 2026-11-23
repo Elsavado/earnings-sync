@@ -1,6 +1,6 @@
 import { ApiPropertyOptional, IntersectionType, PickType } from '@nestjs/swagger';
 import { IsEnum, IsOptional, IsUUID } from 'class-validator';
-import { BaseEntityEnum, ID } from '@gauzy/contracts';
+import { BaseEntityEnum, ID } from '@irtranscripts/contracts';
 import { BaseQueryDTO } from '../../core/crud';
 import { TenantOrganizationBaseDTO } from '../../core/dto';
 import { EmployeeRecentVisit } from '../employee-recent-visit.entity';

@@ -5,7 +5,7 @@ import {
 	RegisteredWindow,
 	WindowConfig,
 	WindowManager
-} from '@gauzy/desktop-core';
+} from '@irtranscripts/desktop-core';
 import { screen } from 'electron';
 
 export class AlwaysOn extends BaseWindow implements IBaseWindow {

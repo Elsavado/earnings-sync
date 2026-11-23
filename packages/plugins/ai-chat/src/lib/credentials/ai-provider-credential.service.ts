@@ -6,8 +6,8 @@ import {
 	IAiProviderCredentialCreateInput,
 	IAiProviderCredentialUpdateInput,
 	IPagination
-} from '@gauzy/contracts';
-import { RequestContext, TenantAwareCrudService } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { RequestContext, TenantAwareCrudService } from '@irtranscripts/core';
 import { AiProviderRegistry } from '../provider-registry';
 import { AiProviderCredential } from './ai-provider-credential.entity';
 import { AiProviderCredentialEncryptionService } from './ai-provider-credential-encryption.service';

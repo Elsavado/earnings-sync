@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { CronExpression } from '@nestjs/schedule';
-import { ScheduledJob } from '@gauzy/scheduler';
+import { ScheduledJob } from '@irtranscripts/scheduler';
 import { IOrderTotalsAuditReport, OrderTotalsService } from './order-totals.service';
 
 /** The scheduled entry's name, which is also the key its run is recorded under. */

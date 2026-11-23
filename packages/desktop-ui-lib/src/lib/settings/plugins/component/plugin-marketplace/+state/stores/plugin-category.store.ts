@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store, StoreConfig } from '@datorama/akita';
-import { ID, IPluginCategory as IPluginCategoryBase } from '@gauzy/contracts';
+import { ID, IPluginCategory as IPluginCategoryBase } from '@irtranscripts/contracts';
 import { IPluginCategoryTree } from '../../../../services/plugin-category.service';
 
 /**

@@ -4,35 +4,35 @@ import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
 	{
 		path: '',
-		loadComponent: () => import('@gauzy/desktop-ui-lib').then((m) => m.SetupComponent)
+		loadComponent: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.SetupComponent)
 	},
 	{
 		path: 'setup',
-		loadComponent: () => import('@gauzy/desktop-ui-lib').then((m) => m.SetupComponent)
+		loadComponent: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.SetupComponent)
 	},
 	{
 		path: 'plugins',
-		loadChildren: () => import('@gauzy/desktop-ui-lib').then((m) => m.PluginRoutingModule)
+		loadChildren: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.PluginRoutingModule)
 	},
 	{
 		path: 'settings',
-		loadComponent: () => import('@gauzy/desktop-ui-lib').then((m) => m.SettingsComponent)
+		loadComponent: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.SettingsComponent)
 	},
 	{
 		path: 'updater',
-		loadComponent: () => import('@gauzy/desktop-ui-lib').then((m) => m.UpdaterComponent)
+		loadComponent: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.UpdaterComponent)
 	},
 	{
 		path: 'server-dashboard',
-		loadComponent: () => import('@gauzy/desktop-ui-lib').then((m) => m.ServerDashboardComponent)
+		loadComponent: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.ServerDashboardComponent)
 	},
 	{
 		path: 'about',
-		loadComponent: () => import('@gauzy/desktop-ui-lib').then((m) => m.AboutComponent)
+		loadComponent: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.AboutComponent)
 	},
 	{
 		path: 'splash-screen',
-		loadComponent: () => import('@gauzy/desktop-ui-lib').then((m) => m.SplashScreenComponent)
+		loadComponent: () => import('@irtranscripts/desktop-ui-lib').then((m) => m.SplashScreenComponent)
 	}
 ];
 

@@ -8,7 +8,7 @@
     height: 100%;
 
     .-wrapper {
-      background: nb-theme(gauzy-card-2);
+      background: nb-theme(irtranscripts-card-2);
       border-radius: nb-theme(border-radius);
       padding: 1rem 0;
       width: 100%;
@@ -33,7 +33,7 @@
         line-height: 30px;
         letter-spacing: -1px;
         text-align: left;
-        color: var(--gauzy-text-color-1);
+        color: var(--irtranscripts-text-color-1);
       }
 
       & .sub-title {

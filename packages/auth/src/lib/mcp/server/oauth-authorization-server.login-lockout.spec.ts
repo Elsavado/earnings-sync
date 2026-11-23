@@ -2,7 +2,7 @@ import { OAuth2AuthorizationServer } from './oauth-authorization-server';
 
 /**
  * The login form hands its request to the configured authenticator, so apps/mcp-auth can count failed attempts per
- * account the way the Gauzy API's login does, and tells the user when the account is blocked instead of answering
+ * account the way the IRTranscripts API's login does, and tells the user when the account is blocked instead of answering
  * "server error".
  *
  * The server is built without its constructor (which mounts the whole Express app); only the collaborators

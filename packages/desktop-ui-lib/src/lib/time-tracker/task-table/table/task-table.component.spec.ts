@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TaskTableComponent } from './task-table.component';
-import { IUser } from '@gauzy/contracts';
+import { IUser } from '@irtranscripts/contracts';
 import { Store } from '../../../services';
 describe('TaskTableComponent', () => {
 	let component: TaskTableComponent;

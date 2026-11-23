@@ -1,7 +1,7 @@
 import { Controller, UseGuards, Post, Body, Delete, Param, Get, Put, Query, HttpStatus, HttpCode, UsePipes } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CommandBus } from '@nestjs/cqrs';
-import { RolesEnum, ICandidateTechnologies, IPagination, ID } from '@gauzy/contracts';
+import { RolesEnum, ICandidateTechnologies, IPagination, ID } from '@irtranscripts/contracts';
 import { CrudController } from './../core/crud';
 import { RoleGuard, TenantPermissionGuard } from './../shared/guards';
 import { Roles } from './../shared/decorators';

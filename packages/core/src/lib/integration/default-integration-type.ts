@@ -1,4 +1,4 @@
-import { IntegrationTypeEnum, IntegrationTypeGroupEnum } from "@gauzy/contracts";
+import { IntegrationTypeEnum, IntegrationTypeGroupEnum } from "@irtranscripts/contracts";
 
 export const DEFAULT_INTEGRATION_TYPES = [
     {

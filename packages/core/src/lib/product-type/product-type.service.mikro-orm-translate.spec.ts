@@ -17,7 +17,7 @@ import { join } from 'node:path';
  * **What is real here.** One better-sqlite3 database whose tables TypeORM created from the platform's own mapping,
  * as the migrations create them; the core entities imported under `DB_ORM=mikro-orm`, so MikroORM maps them as it
  * does in production (eager translations, relation-id mirrors) and is opened with the platform's own
- * `autoJoinRefsForFilters` (`@gauzy/config`); and the real `ProductTypeService` and create handler, run over each
+ * `autoJoinRefsForFilters` (`@irtranscripts/config`); and the real `ProductTypeService` and create handler, run over each
  * ORM's repository in turn against the same rows. The entities are imported in a registry kept open while both ORMs
  * build their metadata and every read runs (see `product.service.mikro-orm-translate.spec.ts`), so the reads are
  * collected there and asserted below. Nothing is stood in for: the translations a MikroORM create cascades get their key from `BaseEntity.id`'s
@@ -109,7 +109,7 @@ async function readThroughBothOrms(): Promise<{ typeorm: IReads; mikroorm: IRead
 			const { MikroORM, EntityCaseNamingStrategy } = require('@mikro-orm/core');
 			const { BetterSqliteDriver } = require('@mikro-orm/better-sqlite');
 			const { SoftDeleteHandler } = require('mikro-orm-soft-delete');
-			const { MIKRO_ORM_AUTO_JOIN_REFS_FOR_FILTERS } = require('@gauzy/config');
+			const { MIKRO_ORM_AUTO_JOIN_REFS_FOR_FILTERS } = require('@irtranscripts/config');
 			const { CrudService } = require('../core/crud/crud.service');
 			const { RequestContext } = require('../core/context/request-context');
 			const { MikroOrmBaseEntityRepository } = require('../core/repository/mikro-orm-base-entity.repository');

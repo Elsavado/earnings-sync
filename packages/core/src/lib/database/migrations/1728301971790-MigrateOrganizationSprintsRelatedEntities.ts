@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 export class MigrateOrganizationSprintsRelatedEntities1728301971790 implements MigrationInterface {
 	name = 'MigrateOrganizationSprintsRelatedEntities1728301971790';

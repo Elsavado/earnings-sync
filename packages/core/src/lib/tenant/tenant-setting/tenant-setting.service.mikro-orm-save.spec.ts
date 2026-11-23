@@ -1,6 +1,6 @@
 import '../../core/entities/internal';
 
-import { FileStorageProviderEnum, ITenantSetting } from '@gauzy/contracts';
+import { FileStorageProviderEnum, ITenantSetting } from '@irtranscripts/contracts';
 import { CrudService } from '../../core/crud/crud.service';
 import { MultiORMEnum } from '../../core/utils';
 import { TenantSetting } from './tenant-setting.entity';

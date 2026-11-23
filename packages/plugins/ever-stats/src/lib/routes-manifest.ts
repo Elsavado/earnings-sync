@@ -1,6 +1,6 @@
 import { RequestMethod, Type } from '@nestjs/common';
 import { METHOD_METADATA, PATH_METADATA } from '@nestjs/common/constants';
-import { PUBLIC_METHOD_METADATA } from '@gauzy/constants';
+import { PUBLIC_METHOD_METADATA } from '@irtranscripts/constants';
 
 /** A route that answers without authentication. */
 export interface PublicRoute {

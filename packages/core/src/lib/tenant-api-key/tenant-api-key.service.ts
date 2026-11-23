@@ -1,7 +1,7 @@
 import { BadRequestException, ForbiddenException, HttpStatus, HttpException, Injectable } from '@nestjs/common';
 import { createHash, timingSafeEqual } from 'crypto';
-import { ID, IGenerateApiKey, IGenerateApiKeyResponse } from '@gauzy/contracts';
-import { generatePassword, generateSha256Hash } from '@gauzy/utils';
+import { ID, IGenerateApiKey, IGenerateApiKeyResponse } from '@irtranscripts/contracts';
+import { generatePassword, generateSha256Hash } from '@irtranscripts/utils';
 import { RequestContext } from '../core/context';
 import { TenantAwareCrudService } from '../core/crud';
 import { TenantApiKey } from './tenant-api-key.entity';

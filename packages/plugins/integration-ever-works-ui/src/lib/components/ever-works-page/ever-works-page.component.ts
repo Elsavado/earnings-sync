@@ -6,7 +6,7 @@ import { NbAlertModule, NbButtonModule, NbCardModule } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
 import { distinctUntilChanged, forkJoin, merge, Observable, of, Subject } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { Store } from '@gauzy/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
 import { EverWorksConnection, EverWorksMapping, EverWorksStatus, EverWorksUiService } from '../../services/ever-works.service';
 import { EverWorksConnectComponent, EverWorksConnectResult } from '../connect/ever-works-connect.component';
 import { newKeyUrlOf } from '../shared/ever-works-ui.utils';

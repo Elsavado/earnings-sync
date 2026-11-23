@@ -1,5 +1,5 @@
 import moment from 'moment-timezone';
-import { TimeFormatEnum, TimeZoneEnum } from '@gauzy/contracts';
+import { TimeFormatEnum, TimeZoneEnum } from '@irtranscripts/contracts';
 
 /** Zone used when neither the user nor the organization names one (Angular `getMomentTimezone`). */
 export const DEFAULT_MOMENT_TIMEZONE = 'Etc/UTC';

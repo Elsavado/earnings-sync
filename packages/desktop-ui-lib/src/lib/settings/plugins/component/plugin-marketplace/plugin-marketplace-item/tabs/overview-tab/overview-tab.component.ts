@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IPlugin, IPluginVersion, PluginStatus, PluginType } from '@gauzy/contracts';
+import { IPlugin, IPluginVersion, PluginStatus, PluginType } from '@irtranscripts/contracts';
 import { Actions } from '@ngneat/effects-ng';
 import { Observable, Subject } from 'rxjs';
 import { PluginMarketplaceActions } from '../../../+state/actions/plugin-marketplace.action';
@@ -16,7 +16,7 @@ import { PipeModule } from '../../../../../../../time-tracker/pipes/pipe.module'
 import { ReadMoreDirective } from '../../../../../../../directives/read-more.directive';
 
 @Component({
-    selector: 'gauzy-plugin-overview-tab',
+    selector: 'irtranscripts-plugin-overview-tab',
     templateUrl: './overview-tab.component.html',
     styleUrls: ['./overview-tab.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

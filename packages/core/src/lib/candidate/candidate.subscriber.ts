@@ -1,7 +1,7 @@
 import { EventSubscriber } from 'typeorm';
 import * as moment from 'moment';
-import { CandidateStatusEnum } from '@gauzy/contracts';
-import { average } from '@gauzy/utils';
+import { CandidateStatusEnum } from '@irtranscripts/contracts';
+import { average } from '@irtranscripts/utils';
 import { BaseEntityEventSubscriber } from '../core/entities/subscribers/base-entity-event.subscriber';
 import { Candidate } from './candidate.entity';
 

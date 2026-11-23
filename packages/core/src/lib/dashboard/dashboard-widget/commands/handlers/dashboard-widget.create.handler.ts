@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IDashboardWidget } from '@gauzy/contracts';
+import { IDashboardWidget } from '@irtranscripts/contracts';
 import { DashboardWidgetService } from '../../dashboard-widget.service';
 import { DashboardWidgetCreateCommand } from '../dashboard-widget.create.command';
 

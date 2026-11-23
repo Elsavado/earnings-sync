@@ -3,7 +3,7 @@
  * Activepieces replaced its MCP API in November 2025 ("MCP 2.0"): the named servers listed and read by id at
  * `/v1/mcp-servers` gave way to one MCP server per project, at `/v1/projects/:projectId/mcp-server` (`GET` reads it,
  * `POST` updates its `disabledTools`, `POST …/rotate` rotates its token). The plugin still called the old routes. It
- * now calls the new ones (the old ones stay behind `GAUZY_ACTIVEPIECES_MCP_API=legacy`), keeping the tenant's project
+ * now calls the new ones (the old ones stay behind `IRTRANSCRIPTS_ACTIVEPIECES_MCP_API=legacy`), keeping the tenant's project
  * pinned and the by-id ownership checks of #11410.
  *
  * Both APIs accept only user tokens (`securityAccess.project([PrincipalType.USER], …)`), never an API key: MCP works
@@ -12,18 +12,18 @@
  */
 const mockCurrentTenantId = jest.fn();
 
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	RequestContext: { currentTenantId: () => mockCurrentTenantId() },
 	IntegrationService: class {},
 	IntegrationSettingService: class {},
 	IntegrationTenantService: class {},
 	TenantOrganizationBaseDTO: class {}
 }));
-jest.mock('@gauzy/config', () => ({ ConfigService: class {} }));
+jest.mock('@irtranscripts/config', () => ({ ConfigService: class {} }));
 
 import { HttpException, Logger } from '@nestjs/common';
 import { of, throwError } from 'rxjs';
-import { ActivepiecesConnectionMode } from '@gauzy/contracts';
+import { ActivepiecesConnectionMode } from '@irtranscripts/contracts';
 import { ACTIVEPIECES_MCP_SERVERS_URL, ACTIVEPIECES_PROJECTS_URL } from './activepieces.config';
 import {
 	ActivepiecesCredentialsService,
@@ -96,7 +96,7 @@ function system(
 		signingKeyId: projectTokens ? 'key-1' : '',
 		signingPrivateKey: projectTokens ? 'pem' : '',
 		tenantProjectsEnabled: true,
-		externalIdPrefix: 'gauzy-tenant-',
+		externalIdPrefix: 'irtranscripts-tenant-',
 		mcpApi
 	});
 	const http = {
@@ -309,7 +309,7 @@ describe('Activepieces MCP 2.0 — URLs and bodies', () => {
 	});
 });
 
-describe('Activepieces MCP — the legacy routes stay behind GAUZY_ACTIVEPIECES_MCP_API=legacy', () => {
+describe('Activepieces MCP — the legacy routes stay behind IRTRANSCRIPTS_ACTIVEPIECES_MCP_API=legacy', () => {
 	beforeAll(() => Logger.overrideLogger(false));
 	beforeEach(() => mockCurrentTenantId.mockReturnValue('tenant-a'));
 	afterEach(() => jest.restoreAllMocks());
@@ -319,8 +319,8 @@ describe('Activepieces MCP — the legacy routes stay behind GAUZY_ACTIVEPIECES_
 			mcpApi: 'legacy',
 			answer: {
 				data: [
-					{ id: 'mcp-a', name: 'gauzy', projectId: 'proj-a' },
-					{ id: 'mcp-b', name: 'gauzy', projectId: 'proj-b' }
+					{ id: 'mcp-a', name: 'irtranscripts', projectId: 'proj-a' },
+					{ id: 'mcp-b', name: 'irtranscripts', projectId: 'proj-b' }
 				],
 				next: null,
 				previous: null
@@ -349,7 +349,7 @@ describe('Activepieces MCP — the operator’s read of a project’s server', (
 
 	function platform(platformApiKey: string, mcpApi: 'v2' | 'legacy' = 'v2') {
 		const credentials = {
-			operatorSettings: () => ({ platformApiKey, externalIdPrefix: 'gauzy-tenant-', mcpApi }),
+			operatorSettings: () => ({ platformApiKey, externalIdPrefix: 'irtranscripts-tenant-', mcpApi }),
 			mcpApi: () => mcpApi,
 			requestActivepieces: jest.fn(async (..._args: unknown[]) => server({ projectId: undefined }))
 		};
@@ -421,7 +421,7 @@ describe('Activepieces MCP — refused before the tenant’s project is provisio
 	});
 });
 
-describe('Activepieces MCP — GAUZY_ACTIVEPIECES_MCP_API', () => {
+describe('Activepieces MCP — IRTRANSCRIPTS_ACTIVEPIECES_MCP_API', () => {
 	beforeAll(() => Logger.overrideLogger(false));
 	beforeEach(() => mockCurrentTenantId.mockReturnValue('tenant-a'));
 	afterEach(() => jest.restoreAllMocks());
@@ -446,7 +446,7 @@ describe('Activepieces MCP — GAUZY_ACTIVEPIECES_MCP_API', () => {
 			signingKeyId: '',
 			signingPrivateKey: '',
 			tenantProjectsEnabled: true,
-			externalIdPrefix: 'gauzy-tenant-',
+			externalIdPrefix: 'irtranscripts-tenant-',
 			mcpApi: parseActivepiecesMcpApi('v1')
 		});
 

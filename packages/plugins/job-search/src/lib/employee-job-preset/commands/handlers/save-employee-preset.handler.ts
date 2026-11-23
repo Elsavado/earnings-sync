@@ -1,9 +1,9 @@
 import { In } from 'typeorm';
 import { BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { GauzyAIService } from '@gauzy/plugin-integration-ai';
-import { parseFindOptionsRelations, RequestContext, TypeOrmEmployeeRepository } from '@gauzy/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { IRTranscriptsAIService } from '@irtranscripts/plugin-integration-ai';
+import { parseFindOptionsRelations, RequestContext, TypeOrmEmployeeRepository } from '@irtranscripts/core';
 import { EmployeeUpworkJobsSearchCriterion } from '../../employee-upwork-jobs-search-criterion.entity';
 import { JobPreset } from '../../job-preset.entity';
 import { SaveEmployeePresetCommand } from '../save-employee-preset.command';
@@ -17,7 +17,7 @@ export class SaveEmployeePresetHandler implements ICommandHandler<SaveEmployeePr
 		private readonly _typeOrmJobPresetRepository: TypeOrmJobPresetRepository,
 		private readonly _typeOrmEmployeeRepository: TypeOrmEmployeeRepository,
 		private readonly _typeOrmEmployeeUpworkJobsSearchCriterionRepository: TypeOrmEmployeeUpworkJobsSearchCriterionRepository,
-		private readonly _gauzyAIService: GauzyAIService
+		private readonly _irtranscriptsAIService: IRTranscriptsAIService
 	) {}
 
 	/**
@@ -85,8 +85,8 @@ export class SaveEmployeePresetHandler implements ICommandHandler<SaveEmployeePr
 		// Save new employee job search criteria
 		await this._typeOrmEmployeeUpworkJobsSearchCriterionRepository.save(employeeCriterions);
 
-		// Sync Gauzy employee job search criteria
-		this._gauzyAIService.syncGauzyEmployeeJobSearchCriteria(employee, employeeCriterions);
+		// Sync IRTranscripts employee job search criteria
+		this._irtranscriptsAIService.syncIRTranscriptsEmployeeJobSearchCriteria(employee, employeeCriterions);
 
 		// Find the employee with related data
 		employee = await this._typeOrmEmployeeRepository.findOne({

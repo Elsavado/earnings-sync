@@ -1,7 +1,7 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, ID, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { FeatureFlag } from '@gauzy/common';
-import { GetReportMenuItemsInput, ID as Id, IPagination, RolesEnum, UpdateReportMenuInput } from '@gauzy/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
+import { GetReportMenuItemsInput, ID as Id, IPagination, RolesEnum, UpdateReportMenuInput } from '@irtranscripts/contracts';
 import {
 	ConnectionFilter,
 	ConnectionPageRequest,

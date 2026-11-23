@@ -1,5 +1,5 @@
 import { Brackets, WhereExpressionBuilder } from 'typeorm';
-import { IUser, PermissionsEnum } from '@gauzy/contracts';
+import { IUser, PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../core/context';
 
 export type RecordedClause = {

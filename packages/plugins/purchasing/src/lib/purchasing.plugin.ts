@@ -1,7 +1,7 @@
 import * as chalk from 'chalk';
 import { Type } from '@nestjs/common';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@gauzy/plugin';
-import { IUnitReference, registerUnitReferences } from '@gauzy/core';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@irtranscripts/plugin';
+import { IUnitReference, registerUnitReferences } from '@irtranscripts/core';
 import { migrations } from './database/migrations';
 import { resolvers } from './graphql/resolvers';
 import { schemaExtensions } from './graphql/schema-extensions';
@@ -18,7 +18,7 @@ import { PURCHASING_PERMISSIONS } from './purchasing.permissions';
  * importing their modules — that is what makes the dependency a load-order one rather than a
  * compile-time one.
  */
-const PURCHASING_DEPENDS_ON: string[] = ['@gauzy/plugin-inventory', '@gauzy/plugin-warehouse'];
+const PURCHASING_DEPENDS_ON: string[] = ['@irtranscripts/plugin-inventory', '@irtranscripts/plugin-warehouse'];
 
 /**
  * The unit references this package owns.
@@ -33,7 +33,7 @@ const PURCHASING_UNIT_REFERENCES: IUnitReference[] = [
 	{
 		table: 'purchase_order_line',
 		column: 'unitId',
-		owner: '@gauzy/plugin-purchasing',
+		owner: '@irtranscripts/plugin-purchasing',
 		description: 'The unit a purchase order line is ordered in, which may be a unit of any family.'
 	}
 ];

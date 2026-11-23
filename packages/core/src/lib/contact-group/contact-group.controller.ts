@@ -13,7 +13,7 @@ import {
 	UseGuards
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ContactGroupType, IContactGroup, ID, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ContactGroupType, IContactGroup, ID, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { paginateRows, resolveRestPage } from '../api/graphql-connection';
 import { ApiErrorCode } from '../core/errors/api-error-codes';
 import { CrudController } from '../core/crud';

@@ -2,7 +2,7 @@ import { Injectable, Logger, Module, OnModuleInit } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PluginCommonModule, RolePermissionModule } from '@gauzy/core';
+import { PluginCommonModule, RolePermissionModule } from '@irtranscripts/core';
 import { EverWorksClientFactory } from './client/ever-works-client.factory';
 import { EverWorksConnectionController } from './connection/ever-works-connection.controller';
 import { EverWorksConnection } from './connection/ever-works-connection.entity';
@@ -108,12 +108,12 @@ export class EverWorksHandlersRegistrar implements OnModuleInit {
 		this.loop.registerSweeper(this.tasks);
 		this.pusher.register(this.taskComments);
 		this.loop.registerSweeper(this.taskComments);
-		// EW inbox items → the Gauzy Inbox (skipped while the Gauzy Inbox is off).
+		// EW inbox items → the IRTranscripts Inbox (skipped while the IRTranscripts Inbox is off).
 		this.applier.register(this.inbox);
 		// Mailboxes routed to an Ever Works agent → POST /email/inbound (only queued where the Inbox email features run).
 		this.pusher.register(this.agentEmail);
 		this.loop.registerSweeper(this.agentEmail);
-		// EW agent mail → read-only Gauzy Inbox copies (the agentEmail direction, off by default).
+		// EW agent mail → read-only IRTranscripts Inbox copies (the agentEmail direction, off by default).
 		this.applier.register(this.agentEmailMirror);
 	}
 }
@@ -141,7 +141,7 @@ export const EVER_WORKS_SUBSCRIBERS = [
 export const EVER_WORKS_ENTITIES = [EverWorksConnection, EverWorksEntityLink, EverWorksInboundEvent, EverWorksOutboundChange, EverWorksSyncLog, EverWorksSyncRun];
 
 /**
- * The Ever Works integration module (`@gauzy/plugin-integration-ever-works`). Loaded only when
+ * The Ever Works integration module (`@irtranscripts/plugin-integration-ever-works`). Loaded only when
  * `EVER_WORKS_ENABLED=true` (see `isEverWorksEnabled`).
  *
  * Both ORMs are registered for every entity: the platform selects its ORM at boot, and the paired
@@ -151,7 +151,7 @@ export const EVER_WORKS_ENTITIES = [EverWorksConnection, EverWorksEntityLink, Ev
 	imports: [
 		TypeOrmModule.forFeature(EVER_WORKS_ENTITIES),
 		MikroOrmModule.forFeature(EVER_WORKS_ENTITIES),
-		// Gauzy's tenant and permission guards of the management routes need the role permissions.
+		// IRTranscripts's tenant and permission guards of the management routes need the role permissions.
 		RolePermissionModule,
 		// The platform's event bus (TaskEvent) and command bus (project creation).
 		PluginCommonModule,
@@ -214,7 +214,7 @@ export const EVER_WORKS_ENTITIES = [EverWorksConnection, EverWorksEntityLink, Ev
 		// Missions ↔ Strategic Initiatives (G-P2-2): registers itself with the applier and the pusher.
 		EverWorksInitiativesService,
 		EverWorksInitiativeCapture,
-		// Ever Works Knowledge Base ↔ Gauzy Docs (G-P3-4): registers itself with the applier, the pusher and the loop.
+		// Ever Works Knowledge Base ↔ IRTranscripts Docs (G-P3-4): registers itself with the applier, the pusher and the loop.
 		EverWorksDocsStore,
 		EverWorksDocsService,
 		EverWorksDocumentCapture,

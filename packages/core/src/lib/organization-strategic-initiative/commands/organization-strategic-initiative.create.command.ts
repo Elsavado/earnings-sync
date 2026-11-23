@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { IOrganizationStrategicInitiativeCreateInput } from '@gauzy/contracts';
+import { IOrganizationStrategicInitiativeCreateInput } from '@irtranscripts/contracts';
 
 /**
  * Command to create a new organization strategic initiative.

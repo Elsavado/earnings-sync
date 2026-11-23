@@ -1,4 +1,4 @@
-import { ITasksStatistics } from '@gauzy/contracts';
+import { ITasksStatistics } from '@irtranscripts/contracts';
 import { IStatisticItem } from '../../ui/statistic/statistic.component';
 
 export class TaskStatisticsAdapter implements IStatisticItem {

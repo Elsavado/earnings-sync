@@ -1,6 +1,6 @@
 import { Component, OnDestroy, Input, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { ICandidateInterview, ICandidate, IEmployee } from '@gauzy/contracts';
+import { ICandidateInterview, ICandidate, IEmployee } from '@irtranscripts/contracts';
 import { CandidateEmailComponent } from './candidate-email/candidate-email.component';
 @Component({
     selector: 'ga-candidate-notification-form',

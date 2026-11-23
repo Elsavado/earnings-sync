@@ -1,7 +1,7 @@
 import { RelationId, JoinColumn, JoinTable } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, IsNumber, IsOptional } from 'class-validator';
-import { ID, IEmployee, IEventType, ITag } from '@gauzy/contracts';
+import { ID, IEmployee, IEventType, ITag } from '@irtranscripts/contracts';
 import { Employee, Tag, TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { ColumnNumericTransformerPipe } from './../shared/pipes';
 import {

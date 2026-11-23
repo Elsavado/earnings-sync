@@ -23,8 +23,8 @@ import {
 	IAvailabilitySlot,
 	IOrganization,
 	WeekDaysEnum
-} from '@gauzy/contracts';
-import { convertLocalToTimezone } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { convertLocalToTimezone } from '@irtranscripts/ui-core/common';
 import {
 	AppointmentEmployeesService,
 	AvailabilitySlotsService,
@@ -32,8 +32,8 @@ import {
 	Store,
 	TimeOffService,
 	ToastrService
-} from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { dayOfWeekAsString } from '../../selectors/date-range-picker/date-picker.utils';
 import { pastDaysOfCurrentWeek } from './appointment-calendar.utils';
 import { TimezoneSelectorComponent } from '../timezone-selector/timezone-selector.component';

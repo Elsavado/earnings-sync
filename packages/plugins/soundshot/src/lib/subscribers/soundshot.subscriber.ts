@@ -1,4 +1,4 @@
-import { BaseEntityEventSubscriber } from '@gauzy/core';
+import { BaseEntityEventSubscriber } from '@irtranscripts/core';
 import { Logger } from '@nestjs/common';
 import { DataSource, EventSubscriber, InsertEvent, RemoveEvent } from 'typeorm';
 import { Soundshot } from '../entity/soundshot.entity';

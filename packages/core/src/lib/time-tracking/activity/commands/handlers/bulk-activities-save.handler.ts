@@ -1,7 +1,7 @@
 import { ForbiddenException, Logger } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IActivity, PermissionsEnum } from '@gauzy/contracts';
-import { isEmpty, isNotEmpty } from '@gauzy/utils';
+import { IActivity, PermissionsEnum } from '@irtranscripts/contracts';
+import { isEmpty, isNotEmpty } from '@irtranscripts/utils';
 import { Activity } from '../../activity.entity';
 import { scopeActivitiesForWrite } from '../../activity-write-scope.helper';
 import { BulkActivitiesSaveCommand } from '../bulk-activities-save.command';

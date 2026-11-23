@@ -38,9 +38,9 @@ import {
 	IAiProviderCredential,
 	IAiProviderCredentialCreateInput,
 	IAiProviderCredentialUpdateInput
-} from '@gauzy/contracts';
-import { ChatSidebarService, Store } from '@gauzy/ui-core/core';
-import { ComponentsModule, ConfirmComponent } from '@gauzy/ui-core/shared';
+} from '@irtranscripts/contracts';
+import { ChatSidebarService, Store } from '@irtranscripts/ui-core/core';
+import { ComponentsModule, ConfirmComponent } from '@irtranscripts/ui-core/shared';
 import { AiChatAvailabilityService } from '../ai-chat-availability.service';
 import { AiChatSettingsService } from './ai-chat-settings.service';
 import {

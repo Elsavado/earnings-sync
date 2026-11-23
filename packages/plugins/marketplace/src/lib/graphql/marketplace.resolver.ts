@@ -1,7 +1,7 @@
 import { Args, Context, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { IPagination, PermissionsEnum } from '@gauzy/contracts';
-import type { ID as Id, ISellerPayoutRunResult } from '@gauzy/contracts';
+import { IPagination, PermissionsEnum } from '@irtranscripts/contracts';
+import type { ID as Id, ISellerPayoutRunResult } from '@irtranscripts/contracts';
 import {
 	BulkExecutor,
 	FEATURE_GRAPHQL,
@@ -18,9 +18,9 @@ import {
 	paginateRows,
 	resolveConnectionWindow,
 	toBulkItemOutcomes
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
-import type { BulkItemRequest } from '@gauzy/core';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
+import type { BulkItemRequest } from '@irtranscripts/core';
 import { Seller } from '../seller/seller.entity';
 import { SellerService } from '../seller/seller.service';
 import { SellerOffering } from '../seller-offering/seller-offering.entity';

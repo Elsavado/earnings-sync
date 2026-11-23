@@ -1,23 +1,23 @@
 #!/usr/bin/env node
 /**
- * The packaged desktop apps ship every @gauzy package their embedded API requires.
+ * The packaged desktop apps ship every @irtranscripts package their embedded API requires.
  *
- * Gauzy Desktop, Gauzy Server and Gauzy API Server fork an embedded API (`api/main.js`, built from apps/api by
- * `api:desktop-api` / `api:gauzy-server-api` / `api:server-api`). That bundle keeps every `@gauzy/*` package
- * external — it calls `require("@gauzy/<name>")` at load time — and in the packaged app those modules exist only
+ * IRTranscripts Desktop, IRTranscripts Server and IRTranscripts API Server fork an embedded API (`api/main.js`, built from apps/api by
+ * `api:desktop-api` / `api:irtranscripts-server-api` / `api:server-api`). That bundle keeps every `@irtranscripts/*` package
+ * external — it calls `require("@irtranscripts/<name>")` at load time — and in the packaged app those modules exist only
  * if the app manifest (`apps/<app>/src/package.json`) lists them in "dependencies": electron-builder installs that
  * list and nothing else. A plugin imported by apps/api but missing there is a packaged app whose API exits at load
- * with `Cannot find module '@gauzy/<name>'`, while every build, test and gate that runs from the monorepo passes.
+ * with `Cannot find module '@irtranscripts/<name>'`, while every build, test and gate that runs from the monorepo passes.
  *
- * Measured on the released Gauzy Server v111.50.14 (2026-10-09): app.asar shipped exactly its 43 manifest
- * dependencies, and the embedded API required 47 — `@gauzy/plugin-ai-chat`, `@gauzy/plugin-docs` and fifteen
- * `@gauzy/plugin-ai-provider-*` resolved `MODULE_NOT_FOUND` under Electron.
+ * Measured on the released IRTranscripts Server v111.50.14 (2026-10-09): app.asar shipped exactly its 43 manifest
+ * dependencies, and the embedded API required 47 — `@irtranscripts/plugin-ai-chat`, `@irtranscripts/plugin-docs` and fifteen
+ * `@irtranscripts/plugin-ai-provider-*` resolved `MODULE_NOT_FOUND` under Electron.
  *
  * Three rules, per manifest:
- *   1. every `@gauzy` package apps/api imports at runtime is in "dependencies";
- *   2. every `@gauzy` package reachable from those (their own package.json dependencies) is in "resolutions",
+ *   1. every `@irtranscripts` package apps/api imports at runtime is in "dependencies";
+ *   2. every `@irtranscripts` package reachable from those (their own package.json dependencies) is in "resolutions",
  *      so yarn never looks a workspace package up on the public registry;
- *   3. every `@gauzy` entry points at the dist folder of the workspace package with that name.
+ *   3. every `@irtranscripts` entry points at the dist folder of the workspace package with that name.
  *
  * `--fix` inserts the missing entries (text insertion, so the file keeps its formatting) and exits 0.
  * Exits 1 when a rule fails, listing every gap.
@@ -54,7 +54,7 @@ function walk(dir, test, out = []) {
 
 const toPosix = (path) => path.split(sep).join('/');
 
-/** `@gauzy/<name>` → the workspace folder that publishes it, relative to `packages/`. */
+/** `@irtranscripts/<name>` → the workspace folder that publishes it, relative to `packages/`. */
 const workspace = new Map();
 for (const file of walk(join(ROOT, 'packages'), (path) => path.endsWith(`${sep}package.json`))) {
 	let json;
@@ -63,28 +63,28 @@ for (const file of walk(join(ROOT, 'packages'), (path) => path.endsWith(`${sep}p
 	} catch {
 		continue;
 	}
-	if (typeof json.name === 'string' && json.name.startsWith('@gauzy/') && !workspace.has(json.name)) {
+	if (typeof json.name === 'string' && json.name.startsWith('@irtranscripts/') && !workspace.has(json.name)) {
 		workspace.set(json.name, { dir: toPosix(relative(join(ROOT, 'packages'), dirname(file))), json });
 	}
 }
 
 /**
- * The `@gauzy` packages apps/api loads at runtime: value imports and re-exports, side-effect imports, `require` and
+ * The `@irtranscripts` packages apps/api loads at runtime: value imports and re-exports, side-effect imports, `require` and
  * `import()` — not `import type` / `export type`, and not a declaration whose every named specifier is `type`, which
  * TypeScript erases just the same (`import { type A, type B } from …`).
  */
 const required = new Set();
-/** `@gauzy/<name>` → the first apps/api file that imports it, for the report. */
+/** `@irtranscripts/<name>` → the first apps/api file that imports it, for the report. */
 const importedFrom = new Map();
 /**
- * `import|export <clause> from '@gauzy/<name>[/<subpath>]'`, with the clause captured so a type-only one can be told apart.
+ * `import|export <clause> from '@irtranscripts/<name>[/<subpath>]'`, with the clause captured so a type-only one can be told apart.
  * Every pattern captures the package name alone: a subpath import loads that package all the same.
  */
-const DECLARATION = /^\s*(?:import|export)\s+(?!type\s)([^;]*?)\s+from\s+['"](@gauzy\/[a-z0-9-]+)(?:\/[^'"]*)?['"]/gm;
+const DECLARATION = /^\s*(?:import|export)\s+(?!type\s)([^;]*?)\s+from\s+['"](@irtranscripts\/[a-z0-9-]+)(?:\/[^'"]*)?['"]/gm;
 const RUNTIME = [
-	/^\s*import\s+['"](@gauzy\/[a-z0-9-]+)(?:\/[^'"]*)?['"]/gm,
-	/\brequire\(\s*['"](@gauzy\/[a-z0-9-]+)(?:\/[^'"]*)?['"]\s*\)/g,
-	/\bimport\(\s*['"](@gauzy\/[a-z0-9-]+)(?:\/[^'"]*)?['"]\s*\)/g
+	/^\s*import\s+['"](@irtranscripts\/[a-z0-9-]+)(?:\/[^'"]*)?['"]/gm,
+	/\brequire\(\s*['"](@irtranscripts\/[a-z0-9-]+)(?:\/[^'"]*)?['"]\s*\)/g,
+	/\bimport\(\s*['"](@irtranscripts\/[a-z0-9-]+)(?:\/[^'"]*)?['"]\s*\)/g
 ];
 
 /** True when a declaration's clause is only `{ … }` and every specifier in it is `type …`. */
@@ -115,7 +115,7 @@ for (const file of walk(join(ROOT, API_SOURCES), isRuntimeSource)) {
 	}
 }
 
-/** Everything those packages pull in through their own `@gauzy` dependencies. */
+/** Everything those packages pull in through their own `@irtranscripts` dependencies. */
 const closure = new Set();
 const pending = [...required];
 while (pending.length) {
@@ -125,7 +125,7 @@ while (pending.length) {
 	const pkg = workspace.get(name)?.json;
 	for (const field of ['dependencies', 'peerDependencies']) {
 		for (const dependency of Object.keys(pkg?.[field] ?? {})) {
-			if (dependency.startsWith('@gauzy/') && workspace.has(dependency)) pending.push(dependency);
+			if (dependency.startsWith('@irtranscripts/') && workspace.has(dependency)) pending.push(dependency);
 		}
 	}
 }
@@ -134,9 +134,9 @@ const target = (name) => `file:../../../dist/packages/${workspace.get(name).dir}
 
 /**
  * Inserts `"name": "target"` entries into one top-level object of a manifest, keeping every existing line as it
- * is (only the comma of the entry that stops being last can change): before `"@gauzy/scheduler"` when the block
- * has it (where the existing @gauzy entries end), else after the block's last `@gauzy` entry, else at its start.
- * Works for an empty block (`{}`) and for one with no `@gauzy` entry yet.
+ * is (only the comma of the entry that stops being last can change): before `"@irtranscripts/scheduler"` when the block
+ * has it (where the existing @irtranscripts entries end), else after the block's last `@irtranscripts` entry, else at its start.
+ * Works for an empty block (`{}`) and for one with no `@irtranscripts` entry yet.
  */
 function insert(text, block, names) {
 	const key = text.indexOf(`"${block}":`);
@@ -159,9 +159,9 @@ function insert(text, block, names) {
 		.filter((line) => line.trim() !== '');
 	const added = names.sort().map((name) => `${indent}"${name}": "${target(name)}"`);
 
-	let at = entries.findIndex((line) => line.trim().startsWith('"@gauzy/scheduler"'));
+	let at = entries.findIndex((line) => line.trim().startsWith('"@irtranscripts/scheduler"'));
 	if (at === -1) {
-		const last = entries.map((line) => line.trim().startsWith('"@gauzy/')).lastIndexOf(true);
+		const last = entries.map((line) => line.trim().startsWith('"@irtranscripts/')).lastIndexOf(true);
 		at = last === -1 ? 0 : last + 1;
 	}
 	entries.splice(at, 0, ...added);
@@ -192,7 +192,7 @@ for (const manifest of MANIFESTS) {
 	const wrongTargets = [
 		...Object.entries(dependencies).map(([name, value]) => ['dependencies', name, value]),
 		...Object.entries(resolutions).map(([name, value]) => ['resolutions', name, value])
-	].filter(([, name, value]) => name.startsWith('@gauzy/') && workspace.has(name) && value !== target(name));
+	].filter(([, name, value]) => name.startsWith('@irtranscripts/') && workspace.has(name) && value !== target(name));
 
 	if (FIX) {
 		if (missingDependencies.length) text = insert(text, 'dependencies', missingDependencies);
@@ -215,7 +215,7 @@ for (const manifest of MANIFESTS) {
 	}
 }
 
-// An import of a @gauzy name no workspace package publishes cannot be shipped from dist at all, and it would
+// An import of a @irtranscripts name no workspace package publishes cannot be shipped from dist at all, and it would
 // pass every rule above unnoticed — so it is a failure of its own, reported with the file that imports it.
 const unknown = [...required].filter((name) => !workspace.has(name)).sort();
 for (const name of unknown) {
@@ -224,8 +224,8 @@ for (const name of unknown) {
 
 console.log('desktop API dependency check');
 console.log('============================');
-console.log(`@gauzy packages apps/api loads at runtime : ${required.size}`);
-console.log(`with their @gauzy dependencies            : ${closure.size}`);
+console.log(`@irtranscripts packages apps/api loads at runtime : ${required.size}`);
+console.log(`with their @irtranscripts dependencies            : ${closure.size}`);
 console.log(`manifests checked                         : ${MANIFESTS.length}`);
 if (FIX) console.log(`entries inserted                          : ${fixed}`);
 

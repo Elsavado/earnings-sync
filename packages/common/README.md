@@ -1,6 +1,6 @@
-# @gauzy/common
+# @irtranscripts/common
 
-This library was generated with [Nx](https://nx.dev). It contains the common code used internally in different Gauzy API packages.
+This library was generated with [Nx](https://nx.dev). It contains the common code used internally in different IRTranscripts API packages.
 
 ## Building
 
@@ -19,7 +19,7 @@ After building your library with `yarn nx build common`, go to the dist folder `
 Install the Plugin Module using your preferred package manager:
 
 ```bash
-npm install @gauzy/common
+npm install @irtranscripts/common
 # or
-yarn add @gauzy/common
+yarn add @irtranscripts/common
 ```

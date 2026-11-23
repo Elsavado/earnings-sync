@@ -8,7 +8,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
-	selector: 'gauzy-switch-theme',
+	selector: 'irtranscripts-switch-theme',
 	templateUrl: './switch-theme.component.html',
 	styleUrls: ['./switch-theme.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,

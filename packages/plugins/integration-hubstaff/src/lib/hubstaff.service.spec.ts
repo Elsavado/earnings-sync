@@ -1,6 +1,6 @@
 import { AsyncLocalStorage } from 'async_hooks';
 import { ClsService } from 'nestjs-cls';
-import { IntegrationMapSyncTimeSlotCommand, IntegrationTenantSyncService, RequestContext } from '@gauzy/core';
+import { IntegrationMapSyncTimeSlotCommand, IntegrationTenantSyncService, RequestContext } from '@irtranscripts/core';
 import { HubstaffService, hubstaffSyncCounts } from './hubstaff.service';
 
 /**
@@ -40,7 +40,7 @@ describe('HubstaffService.syncTimeSlots', () => {
 			{} as never
 		);
 		return (slots: ReturnType<typeof slot>[]) =>
-			service.syncTimeSlots('integration-1', 'org-1', { gauzyId: 'employee-1' } as never, slots as never);
+			service.syncTimeSlots('integration-1', 'org-1', { irtranscriptsId: 'employee-1' } as never, slots as never);
 	};
 
 	let unhandled: unknown[];
@@ -121,7 +121,7 @@ describe('HubstaffService.autoSync — the end of a run is recorded (integration
 		);
 		return { service, recordSyncCompleted };
 	};
-	const run = { integrationId: 'integration-1', gauzyId: 'org-1', sourceId: 'hs-org', token: 'token', dateRange: {} as never };
+	const run = { integrationId: 'integration-1', irtranscriptsId: 'org-1', sourceId: 'hs-org', token: 'token', dateRange: {} as never };
 
 	it('records a finished run once, for the organization it synchronised into, with what it handled', async () => {
 		const { service, recordSyncCompleted } = setup([{ entity: 'Client', tiedEntities: [] }]);
@@ -160,7 +160,7 @@ describe('HubstaffService.autoSync — the end of a run is recorded (integration
  * import that ran into a failed one. The cases run the kernel's real `IntegrationTenantSyncService` over a connection
  * table double, with a request context of a real CLS store:
  *
- * - Hubstaff maps each of its organizations to ANY Gauzy organization (`gauzyId`), which need not be the connection's
+ * - Hubstaff maps each of its organizations to ANY IRTranscripts organization (`irtranscriptsId`), which need not be the connection's
  *   own; the recording finds the connection by its id within the tenant and announces it in the connection's own
  *   organization, so a run into another organization is recorded — and was refused with `NotFoundException` after
  *   the import had already run, while the recording narrowed its lookup by the run's organization;
@@ -214,7 +214,7 @@ describe('HubstaffService.autoSync — recording the run never fails the import 
 		jest.spyOn(service as any, '_handleClients').mockResolvedValue([{ id: 'map-1' }]);
 		return service;
 	};
-	const run = { integrationId: CONNECTION, gauzyId: 'org-the-run-synced-into', sourceId: 'hs-org', token: 'token', dateRange: {} as never };
+	const run = { integrationId: CONNECTION, irtranscriptsId: 'org-the-run-synced-into', sourceId: 'hs-org', token: 'token', dateRange: {} as never };
 	const asTenant = <T>(work: () => T): T =>
 		RequestContext.runWithRequest({ user: { id: 'user-1', tenantId: TENANT } } as never, work);
 

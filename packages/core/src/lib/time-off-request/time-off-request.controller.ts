@@ -10,7 +10,7 @@ import {
 	RolesEnum,
 	StatusTypesEnum,
 	ID
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { CrudController, BaseQueryDTO } from './../core/crud';
 import { TimeOffRequest } from './time-off-request.entity';
 import { TimeOffRequestService } from './time-off-request.service';

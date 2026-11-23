@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
-import { IImageAsset } from '@gauzy/contracts';
+import { IImageAsset } from '@irtranscripts/contracts';
 import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
-import { ImageAssetService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { ImageAssetService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { DeleteConfirmationComponent } from '../../user/forms/delete-confirmation/delete-confirmation.component';
 
 @Component({

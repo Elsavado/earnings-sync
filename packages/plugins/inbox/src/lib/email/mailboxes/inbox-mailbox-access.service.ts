@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, In, IsNull } from 'typeorm';
-import { ID, InboxMailboxMemberRoleEnum, InboxMailboxOwnerTypeEnum, PermissionsEnum } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { ID, InboxMailboxMemberRoleEnum, InboxMailboxOwnerTypeEnum, PermissionsEnum } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { InboxMailbox } from '../entities/inbox-mailbox.entity';
 import { InboxMailboxMember } from '../entities/inbox-mailbox-member.entity';
 

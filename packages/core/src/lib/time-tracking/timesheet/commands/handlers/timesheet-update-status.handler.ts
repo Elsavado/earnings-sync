@@ -1,8 +1,8 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { ForbiddenException, NotAcceptableException } from '@nestjs/common';
 import { In } from 'typeorm';
-import { ID, ITimesheet, PermissionsEnum, TimesheetStatus } from '@gauzy/contracts';
-import { isEmpty } from '@gauzy/utils';
+import { ID, ITimesheet, PermissionsEnum, TimesheetStatus } from '@irtranscripts/contracts';
+import { isEmpty } from '@irtranscripts/utils';
 import { RequestContext } from './../../../../core/context';
 import { EmailService } from './../../../../email-send/email.service';
 import { TimesheetUpdateStatusCommand } from '../timesheet-update-status.command';

@@ -1,4 +1,4 @@
-# @gauzy/plugin-tax
+# @irtranscripts/plugin-tax
 
 Tax categories, tax rates, the parts a rate is made of, the regimes that select
 which rates apply, and the resolution a document is taxed through.
@@ -58,7 +58,7 @@ folder `dist/packages/plugins/tax` and run `npm publish`.
 Install the Tax Plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-tax
+npm install @irtranscripts/plugin-tax
 # or
-yarn add @gauzy/plugin-tax
+yarn add @irtranscripts/plugin-tax
 ```

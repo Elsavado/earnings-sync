@@ -1,6 +1,6 @@
 import { ExecutionContext, Logger, NotFoundException } from '@nestjs/common';
 import { ModuleRef, Reflector } from '@nestjs/core';
-import { IdempotencyStatus } from '@gauzy/contracts';
+import { IdempotencyStatus } from '@irtranscripts/contracts';
 import { ApiErrorCode } from '../core/errors/api-error-codes';
 import { ApiException } from '../core/errors/api-exception';
 import { IDEMPOTENT_METADATA_KEY, IDEMPOTENCY_KEY_HEADER } from '../idempotency/idempotency.policy';

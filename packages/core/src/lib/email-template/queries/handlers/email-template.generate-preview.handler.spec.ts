@@ -25,7 +25,7 @@ describe('EmailTemplateGeneratePreviewHandler (GHSA-48h9-vwf5-h8m7)', () => {
 		`<mjml><mj-body><mj-section><mj-column><mj-text>Hello {{name}}</mj-text><mj-include path="${path.relative(process.cwd(), secretFile)}" type="html" /></mj-column></mj-section></mj-body></mjml>`;
 
 	beforeAll(() => {
-		dir = fs.mkdtempSync(path.join(os.tmpdir(), 'gauzy-preview-'));
+		dir = fs.mkdtempSync(path.join(os.tmpdir(), 'irtranscripts-preview-'));
 		secretFile = path.join(dir, 'environ');
 		fs.writeFileSync(secretFile, `DB_PASS=${MARKER}`);
 	});

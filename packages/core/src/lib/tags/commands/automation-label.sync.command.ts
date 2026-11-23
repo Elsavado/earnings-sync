@@ -1,4 +1,4 @@
-import { IIntegrationMapSyncEntity, ITagCreateInput, ITagUpdateInput, IntegrationEntity } from '@gauzy/contracts';
+import { IIntegrationMapSyncEntity, ITagCreateInput, ITagUpdateInput, IntegrationEntity } from '@irtranscripts/contracts';
 
 export class AutomationLabelSyncCommand {
 	constructor(

@@ -1,7 +1,7 @@
 import { ApiTags } from '@nestjs/swagger';
 import { Controller, Get, Query } from '@nestjs/common';
-import { Public } from '@gauzy/common';
-import { IEstimateEmail } from '@gauzy/contracts';
+import { Public } from '@irtranscripts/common';
+import { IEstimateEmail } from '@irtranscripts/contracts';
 import { UseValidationPipe } from '../shared/pipes';
 import { EstimateEmailService } from './estimate-email.service';
 import { FindEstimateEmailQueryDTO } from './dto';

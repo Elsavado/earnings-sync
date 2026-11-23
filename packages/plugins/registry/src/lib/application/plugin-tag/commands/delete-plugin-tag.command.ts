@@ -1,4 +1,4 @@
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { ICommand } from '@nestjs/cqrs';
 import { IPluginTagBulkDeleteInput } from '../../../shared';
 

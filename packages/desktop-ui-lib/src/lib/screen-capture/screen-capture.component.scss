@@ -13,7 +13,7 @@
   width: 16px;
   height: 16px;
   border-radius: calc(var(--border-radius) / 2);
-  box-shadow: var(--gauzy-shadow);
+  box-shadow: var(--irtranscripts-shadow);
 }
 
 .title-window {
@@ -22,7 +22,7 @@
 }
 
 ::ng-deep .layout-container {
-  background-color: var(--gauzy-card-1);
+  background-color: var(--irtranscripts-card-1);
 }
 
 ::ng-deep .nb-theme-default nb-card {

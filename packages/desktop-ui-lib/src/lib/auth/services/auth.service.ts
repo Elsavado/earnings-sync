@@ -11,10 +11,10 @@ import {
 	IUserTokenInput,
 	PermissionsEnum,
 	RolesEnum
-} from '@gauzy/contracts';
-import { toParams } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { toParams } from '@irtranscripts/ui-core/common';
 import { Observable, firstValueFrom, of } from 'rxjs';
-import { GAUZY_ENV } from '../../constants';
+import { IRTRANSCRIPTS_ENV } from '../../constants';
 import { API_PREFIX } from '../../constants/app.constants';
 import { ElectronService } from '../../electron/services';
 import { SKIP_ERROR_NOTIFICATION } from '../../interceptors/skip-error-notification.token';
@@ -25,7 +25,7 @@ export class AuthService {
 	constructor(
 		private http: HttpClient,
 		private readonly electronService: ElectronService,
-		@Inject(GAUZY_ENV)
+		@Inject(IRTRANSCRIPTS_ENV)
 		private readonly _environment: any
 	) {}
 
@@ -137,8 +137,8 @@ export class AuthService {
 	}
 
 	/**
-	 * Switch the signed-in user to another organization of the same tenant: the same call the Gauzy web UI
-	 * makes (`AuthService.switchOrganization` in `@gauzy/ui-core/core`). The API checks the membership and
+	 * Switch the signed-in user to another organization of the same tenant: the same call the IRTranscripts web UI
+	 * makes (`AuthService.switchOrganization` in `@irtranscripts/ui-core/core`). The API checks the membership and
 	 * answers with an access and a refresh token for that organization; the refresh token held before is
 	 * replaced by the new one.
 	 *
@@ -159,7 +159,7 @@ export class AuthService {
 
 	/**
 	 * Ask for an access and a refresh token for the signed-in user's account in a workspace (tenant): the same call the
-	 * Gauzy web UI makes (`AuthService.switchWorkspace` in `@gauzy/ui-core/core`). For the workspace the current token
+	 * IRTranscripts web UI makes (`AuthService.switchWorkspace` in `@irtranscripts/ui-core/core`). For the workspace the current token
 	 * already names, it is the caller's own account, and the answer is the token pair a password sign-in gets. A
 	 * provider (social) sign-in brings an access token only, and a desktop session needs both (`Store.isAuthenticated$`).
 	 *

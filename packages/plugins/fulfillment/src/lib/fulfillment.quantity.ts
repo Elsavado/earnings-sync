@@ -1,5 +1,5 @@
-import { DecimalString } from '@gauzy/contracts';
-import { addDecimalStrings, compareDecimalStrings, subtractDecimalStrings } from '@gauzy/core';
+import { DecimalString } from '@irtranscripts/contracts';
+import { addDecimalStrings, compareDecimalStrings, subtractDecimalStrings } from '@irtranscripts/core';
 
 /**
  * Exact quantity arithmetic for the fulfilment domain.
@@ -11,7 +11,7 @@ import { addDecimalStrings, compareDecimalStrings, subtractDecimalStrings } from
  * the last partial shipment of a decimal quantity is then refused by the guard that compares a
  * requested quantity against the remainder.
  *
- * The arithmetic is not restated here. The platform's exact decimal primitives (`@gauzy/core`) are
+ * The arithmetic is not restated here. The platform's exact decimal primitives (`@irtranscripts/core`) are
  * the one implementation of it, and everything below is this domain's vocabulary over them: what is
  * left to ship, whether a stated quantity is positive at all, and what a counter becomes when a
  * shipment moves it. This is deliberately not the money layer — a quantity is a count of units, with

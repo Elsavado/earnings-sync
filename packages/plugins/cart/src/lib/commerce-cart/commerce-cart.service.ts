@@ -20,7 +20,7 @@ import {
 	IPagination,
 	RoundingMode,
 	TaxLineOwnerType
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	AdjustmentService,
 	IVersionExpectation,
@@ -32,7 +32,7 @@ import {
 	currencyPrecision,
 	normalizeDecimalString,
 	parseEntityVersion
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { CommerceCart } from './commerce-cart.entity';
 import { digestCartToken, issueCartToken } from './cart-token';
 import { CommerceCartLine } from '../commerce-cart-line/commerce-cart-line.entity';

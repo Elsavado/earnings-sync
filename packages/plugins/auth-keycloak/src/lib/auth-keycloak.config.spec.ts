@@ -2,9 +2,9 @@ import { isKeycloakConfigured, isKeycloakEnabled } from './auth-keycloak.config'
 
 describe('Keycloak plugin switch', () => {
 	const configured = {
-		KEYCLOAK_CLIENT_ID: 'gauzy',
+		KEYCLOAK_CLIENT_ID: 'irtranscripts',
 		KEYCLOAK_CLIENT_SECRET: 'not-a-placeholder',
-		KEYCLOAK_REALM: 'gauzy',
+		KEYCLOAK_REALM: 'irtranscripts',
 		KEYCLOAK_AUTH_SERVER_URL: 'https://id.example.test'
 	};
 
@@ -19,7 +19,7 @@ describe('Keycloak plugin switch', () => {
 
 	it('also needs a real client id and secret', () => {
 		expect(isKeycloakEnabled({ KEYCLOAK_ENABLED: 'true' })).toBe(false);
-		expect(isKeycloakEnabled({ KEYCLOAK_ENABLED: 'true', KEYCLOAK_CLIENT_ID: 'gauzy' })).toBe(false);
+		expect(isKeycloakEnabled({ KEYCLOAK_ENABLED: 'true', KEYCLOAK_CLIENT_ID: 'irtranscripts' })).toBe(false);
 		// The sample files ship this placeholder for both values.
 		expect(isKeycloakConfigured({ KEYCLOAK_CLIENT_ID: 'XXXXXXX', KEYCLOAK_CLIENT_SECRET: 'XXXXXXX' })).toBe(false);
 		expect(isKeycloakConfigured({ KEYCLOAK_CLIENT_ID: ' ', KEYCLOAK_CLIENT_SECRET: ' ' })).toBe(false);

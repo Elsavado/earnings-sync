@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult, FindOptionsWhere, UpdateResult } from 'typeorm';
-import { ID, IDeal, IPagination, IPipeline, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IDeal, IPagination, IPipeline, PermissionsEnum } from '@irtranscripts/contracts';
 import { CrudController, FindOptionsQueryDTO, BaseQueryDTO } from './../core/crud';
 import { Pipeline } from './pipeline.entity';
 import { PipelineService } from './pipeline.service';

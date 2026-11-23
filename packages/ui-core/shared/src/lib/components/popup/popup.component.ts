@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter, TemplateRef, ViewChild, ChangeDetectio
 import { NbCardComponent } from '@nebular/theme';
 
 @Component({
-	selector: 'gauzy-under-construction-popup',
+	selector: 'irtranscripts-under-construction-popup',
 	templateUrl: './popup.component.html',
 	styleUrls: ['./popup.component.scss'],
 	changeDetection: ChangeDetectionStrategy.Eager,

@@ -9,12 +9,12 @@ console.log('Using custom Webpack Config -> process.cwd: ' + process.cwd());
 /**
  * Custom Webpack configuration for the API app
  * Handles:
- * - Copying built @gauzy/* packages to dist/apps/api/node_modules
+ * - Copying built @irtranscripts/* packages to dist/apps/api/node_modules
  * - Configuring watch options for development with core source files
  */
 
 const distPackagesDir = path.resolve(__dirname, '../../../dist/packages');
-const targetNodeModulesDir = path.resolve(__dirname, '../../../dist/apps/api/node_modules/@gauzy');
+const targetNodeModulesDir = path.resolve(__dirname, '../../../dist/apps/api/node_modules/@irtranscripts');
 
 module.exports = composePlugins(
 	withNx({
@@ -31,18 +31,18 @@ module.exports = composePlugins(
 				'**/*.spec.ts',
 				'**/*.test.ts'
 				// Note: packages/core/src/**/*.ts is NOT ignored
-				// webpack watches it automatically because @gauzy/core resolves to source via tsconfig-paths
+				// webpack watches it automatically because @irtranscripts/core resolves to source via tsconfig-paths
 			],
 			aggregateTimeout: 300, // Delay rebuild to batch multiple changes
 			poll: false // Use native file system events for better performance
 		};
 
-		// ever-gauzy fix (same as apps/worker/config/webpack.config.js): @nx/webpack's swc-loader
+		// ever-irtranscripts fix (same as apps/worker/config/webpack.config.js): @nx/webpack's swc-loader
 		// configures `jsc` WITHOUT a `target`, so SWC falls back to its es3 default and lowers
 		// `class extends` to `_inherits`/`_call_super`. Any app-source class that extends a
-		// prebuilt, NATIVE `@gauzy/*` class then dies on boot with "Class constructor X cannot be
+		// prebuilt, NATIVE `@irtranscripts/*` class then dies on boot with "Class constructor X cannot be
 		// invoked without 'new'". It bites the API whenever a workspace package is bundled instead
-		// of externalized — e.g. a new plugin whose `node_modules/@gauzy/<pkg>` link is missing
+		// of externalized — e.g. a new plugin whose `node_modules/@irtranscripts/<pkg>` link is missing
 		// (`AiProviderGroqPlugin extends BaseAiProviderPlugin`, 2026-08). Pin the target so the
 		// API's own classes stay native and match the prebuilt packages.
 		const setSwcTargetOnEntry = (entry) => {
@@ -68,9 +68,9 @@ module.exports = composePlugins(
 		// Generate copy patterns for built packages
 		// Logs timing to track performance
 		console.time('✔️ Copying all built package folders to dist node_modules');
-		// The production configuration ships @gauzy/config's environment.prod.ts (see getCopyPatterns).
+		// The production configuration ships @irtranscripts/config's environment.prod.ts (see getCopyPatterns).
 		const environment = ctx?.context?.configurationName === 'production' ? 'production' : 'development';
-		console.log(`   @gauzy/config environment for this build: ${environment}`);
+		console.log(`   @irtranscripts/config environment for this build: ${environment}`);
 		const packagePatterns = getCopyPatterns(distPackagesDir, targetNodeModulesDir, { environment });
 		console.timeEnd('✔️ Copying all built package folders to dist node_modules');
 

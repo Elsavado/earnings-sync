@@ -1,7 +1,7 @@
 import { NotFoundException, UseGuards, UseInterceptors } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { Args, ID, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { FeatureFlag } from '@gauzy/common';
+import { FeatureFlag } from '@irtranscripts/common';
 import {
 	ID as Id,
 	IPagination,
@@ -12,7 +12,7 @@ import {
 	PREFERRED_UI_SETTING_KEY,
 	PermissionsEnum,
 	PreferredUiEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	ConnectionFilter,
 	ConnectionPageRequest,

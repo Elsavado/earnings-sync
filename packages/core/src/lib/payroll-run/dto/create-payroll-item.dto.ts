@@ -11,7 +11,7 @@ import {
 	Max,
 	Min
 } from 'class-validator';
-import { ID, IPayrollItemCreateInput, PayrollItemCategoryEnum, PayrollItemTypeEnum } from '@gauzy/contracts';
+import { ID, IPayrollItemCreateInput, PayrollItemCategoryEnum, PayrollItemTypeEnum } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from './../../core/dto';
 
 /**

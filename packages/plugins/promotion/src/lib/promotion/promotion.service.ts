@@ -1,6 +1,6 @@
 // cspell:ignore reconcil
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { DecimalString, ID, IPagination } from '@gauzy/contracts';
+import { DecimalString, ID, IPagination } from '@irtranscripts/contracts';
 import {
 	EventBus,
 	Money,
@@ -10,7 +10,7 @@ import {
 	quoteIdentifier,
 	readAffectedRows,
 	toPositionalStatement
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { PromotionChangedEvent } from '../events';
 import { Promotion } from './promotion.entity';
 import { TypeOrmPromotionRepository } from './repository/type-orm-promotion.repository';

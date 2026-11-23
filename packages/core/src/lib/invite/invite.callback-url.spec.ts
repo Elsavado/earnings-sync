@@ -4,7 +4,7 @@
  * See invite-accept.security.spec.ts.
  */
 import '../core/entities/internal';
-import { InvitationTypeEnum, RolesEnum } from '@gauzy/contracts';
+import { InvitationTypeEnum, RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { TenantAwareCrudService } from '../core/crud';
 import { InviteService } from './invite.service';
@@ -16,7 +16,7 @@ import { InviteService } from './invite.service';
  */
 describe('InviteService - invitation callbackUrl', () => {
 	const TEAMS = 'https://app.ever.team';
-	const CLIENT = 'https://app.gauzy.co';
+	const CLIENT = 'https://app.irtranscripts.com';
 	const savedAllowList = process.env['EMAIL_LINK_ALLOWED_ORIGINS'];
 
 	let emailService: { inviteTeamMember: jest.Mock; inviteUser: jest.Mock; inviteEmployee: jest.Mock };

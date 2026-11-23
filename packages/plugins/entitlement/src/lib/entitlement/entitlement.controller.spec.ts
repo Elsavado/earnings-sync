@@ -1,5 +1,5 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a resource needs and none of which is available outside
  * a running application. The seam is therefore doubled at the module boundary, and **the two kernels
  * that act on a declaration are the seams left real**: `@Versioned()` with the metadata key it writes,
@@ -14,10 +14,10 @@
  * and response doubles Nest hands a guard and an interceptor. The schema document is real too, and it
  * is parsed here — which is also what proves the document still composes.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { SetMetadata, UsePipes, ValidationPipe } = require('@nestjs/common');
-	const { PERMISSIONS_METADATA } = require('@gauzy/constants');
-	const idempotency = jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.policy');
+	const { PERMISSIONS_METADATA } = require('@irtranscripts/constants');
+	const idempotency = jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.policy');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
@@ -86,19 +86,19 @@ jest.mock('@gauzy/core', () => {
 		// two functions that read and consume the version a caller accepted, the increment that keeps
 		// every writer moving the counter by the same step, and the two keys a spec reads a declaration
 		// and the accepted version from — the same values the barrel publishes.
-		Versioned: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned.decorator').Versioned,
-		VersionGuard: jest.requireActual('@gauzy/core/src/lib/concurrency/version.guard').VersionGuard,
-		VersionInterceptor: jest.requireActual('@gauzy/core/src/lib/concurrency/version.interceptor').VersionInterceptor,
-		commitVersionedUpdate: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write').commitVersionedUpdate,
-		versionExpectationOf: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write').versionExpectationOf,
-		bumpVersion: jest.requireActual('@gauzy/core/src/lib/concurrency/version.util').bumpVersion,
-		VERSIONED_METADATA_KEY: jest.requireActual('@gauzy/core/src/lib/concurrency/version.util').VERSIONED_METADATA_KEY,
-		VERSION_EXPECTATION_PROPERTY: jest.requireActual('@gauzy/core/src/lib/concurrency/version.util')
+		Versioned: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned.decorator').Versioned,
+		VersionGuard: jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.guard').VersionGuard,
+		VersionInterceptor: jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.interceptor').VersionInterceptor,
+		commitVersionedUpdate: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write').commitVersionedUpdate,
+		versionExpectationOf: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write').versionExpectationOf,
+		bumpVersion: jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util').bumpVersion,
+		VERSIONED_METADATA_KEY: jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util').VERSIONED_METADATA_KEY,
+		VERSION_EXPECTATION_PROPERTY: jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util')
 			.VERSION_EXPECTATION_PROPERTY,
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
 		IDEMPOTENT_METADATA_KEY: idempotency.IDEMPOTENT_METADATA_KEY,
-		ApiException: jest.requireActual('@gauzy/core/src/lib/core/errors/api-exception').ApiException,
-		ApiErrorCode: jest.requireActual('@gauzy/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
+		ApiException: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-exception').ApiException,
+		ApiErrorCode: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
 		RequestContext: {
 			currentUser: () => null,
 			currentUserId: () => null,
@@ -119,11 +119,11 @@ jest.mock('@gauzy/core', () => {
  * cannot be loaded outside a running application. The instance the interceptor is handed is the
  * in-memory key store below, which is the seam the behaviour is asserted against.
  */
-jest.mock('@gauzy/core/src/lib/idempotency/idempotency.service', () => ({
+jest.mock('@irtranscripts/core/src/lib/idempotency/idempotency.service', () => ({
 	IdempotencyService: class IdempotencyService {}
 }));
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	DatabaseTypeEnum: {
 		mongodb: 'mongodb',
 		sqlite: 'sqlite',
@@ -136,12 +136,12 @@ jest.mock('@gauzy/config', () => ({
 import { ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { from, lastValueFrom, of } from 'rxjs';
-import { IDEMPOTENT_METADATA_KEY, VERSIONED_METADATA_KEY, VERSION_EXPECTATION_PROPERTY } from '@gauzy/core';
-import { VersionGuard } from '@gauzy/core/src/lib/concurrency/version.guard';
-import { VersionInterceptor } from '@gauzy/core/src/lib/concurrency/version.interceptor';
-import { ApiErrorCode } from '@gauzy/core/src/lib/core/errors/api-error-codes';
-import { ApiException } from '@gauzy/core/src/lib/core/errors/api-exception';
-import { IdempotencyInterceptor } from '@gauzy/core/src/lib/idempotency/idempotency.interceptor';
+import { IDEMPOTENT_METADATA_KEY, VERSIONED_METADATA_KEY, VERSION_EXPECTATION_PROPERTY } from '@irtranscripts/core';
+import { VersionGuard } from '@irtranscripts/core/src/lib/concurrency/version.guard';
+import { VersionInterceptor } from '@irtranscripts/core/src/lib/concurrency/version.interceptor';
+import { ApiErrorCode } from '@irtranscripts/core/src/lib/core/errors/api-error-codes';
+import { ApiException } from '@irtranscripts/core/src/lib/core/errors/api-exception';
+import { IdempotencyInterceptor } from '@irtranscripts/core/src/lib/idempotency/idempotency.interceptor';
 import { EntitlementService } from './entitlement.service';
 import { EntitlementController } from './entitlement.controller';
 import { EntitlementActivationController } from '../entitlement-activation/entitlement-activation.controller';

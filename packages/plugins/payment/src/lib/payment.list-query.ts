@@ -1,5 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
-import { parseToBoolean } from '@gauzy/utils';
+import { parseToBoolean } from '@irtranscripts/utils';
 
 /**
  * The find options one payment list route hands its service.

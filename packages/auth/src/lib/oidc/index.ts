@@ -2,7 +2,7 @@
  * Public surface of the OpenID Connect client library.
  *
  * Only what a sign-in plugin needs is exported; internal helpers stay inside their files so they can
- * change without touching the `@gauzy/auth` API.
+ * change without touching the `@irtranscripts/auth` API.
  */
 export { OidcError, isOidcError } from './errors';
 export type { OidcErrorCode } from './errors';

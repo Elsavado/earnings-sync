@@ -10,11 +10,11 @@
  *
  * **Nothing the defect lives in is doubled here.** The services are the real ones over TypeORM repositories of an
  * in-memory better-sqlite3 database with the production `invalidWhereValuesBehavior`; the channels are real rows of
- * tenant A, of tenant B and of no tenant. `@gauzy/core` is doubled at the module boundary for the reason the package's
+ * tenant A, of tenant B and of no tenant. `@irtranscripts/core` is doubled at the module boundary for the reason the package's
  * other suites give, and its CRUD base is reduced to the tenant-scoped write the real one performs. Every refusal
  * reads the rows back, and every write has a control naming tenant A's own channel.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared, and mapped below by fixture schemas. */
@@ -55,7 +55,7 @@ jest.mock('@gauzy/core', () => {
 		// The check under test is the platform's own, not a double of it.
 		assertPlainReferencesNotForeign: (...args: unknown[]) =>
 			jest
-				.requireActual('@gauzy/core/src/lib/core/crud/plain-reference-ownership.helper')
+				.requireActual('@irtranscripts/core/src/lib/core/crud/plain-reference-ownership.helper')
 				.assertPlainReferencesNotForeign(...args),
 		BaseEntity,
 		TenantBaseEntity: BaseEntity,
@@ -96,10 +96,10 @@ jest.mock('@gauzy/core', () => {
 });
 
 /**
- * `@gauzy/config`'s barrel reads the process environment at import time; the production
+ * `@irtranscripts/config`'s barrel reads the process environment at import time; the production
  * `invalidWhereValuesBehavior` is taken from the module that declares it.
  */
-jest.mock('@gauzy/config', () => jest.requireActual('@gauzy/config/src/lib/database-helpers'));
+jest.mock('@irtranscripts/config', () => jest.requireActual('@irtranscripts/config/src/lib/database-helpers'));
 
 /** The caller the request context answers with. */
 const mockCaller: { tenantId: string | null; organizationId: string | null } = { tenantId: null, organizationId: null };
@@ -107,8 +107,8 @@ const mockCaller: { tenantId: string | null; organizationId: string | null } = {
 import 'reflect-metadata';
 import { ForbiddenException } from '@nestjs/common';
 import { DataSource, EntitySchema } from 'typeorm';
-import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@gauzy/config';
-import { EventBus, Product, ProductVariant } from '@gauzy/core';
+import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@irtranscripts/config';
+import { EventBus, Product, ProductVariant } from '@irtranscripts/core';
 import { PublicationStatus } from './catalog.types';
 import { CollectionChannel } from './collection-channel/collection-channel.entity';
 import { CollectionChannelService } from './collection-channel/collection-channel.service';

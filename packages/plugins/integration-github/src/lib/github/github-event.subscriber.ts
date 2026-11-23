@@ -2,8 +2,8 @@ import { Injectable, OnModuleInit, OnModuleDestroy, Logger, HttpStatus, HttpExce
 import { CommandBus } from '@nestjs/cqrs';
 import { Subject } from 'rxjs';
 import { catchError, filter, takeUntil, tap } from 'rxjs/operators';
-import { IntegrationEnum } from '@gauzy/contracts';
-import { BaseEntityEventTypeEnum, EventBus, IntegrationEvent, RequestContext, TaskEvent } from '@gauzy/core';
+import { IntegrationEnum } from '@irtranscripts/contracts';
+import { BaseEntityEventTypeEnum, EventBus, IntegrationEvent, RequestContext, TaskEvent } from '@irtranscripts/core';
 import { GithubInstallationDeleteCommand, GithubTaskUpdateOrCreateCommand } from './commands';
 
 @Injectable()

@@ -9,8 +9,8 @@ import {
 	IOrganizationTeamUpdateInput,
 	IBasePerTenantAndOrganizationEntityModel,
 	ID
-} from '@gauzy/contracts';
-import { API_PREFIX, toParams } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { API_PREFIX, toParams } from '@irtranscripts/ui-core/common';
 
 @Injectable({
 	providedIn: 'root'

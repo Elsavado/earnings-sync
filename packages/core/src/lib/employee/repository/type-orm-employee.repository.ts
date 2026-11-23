@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Employee } from '../employee.entity';
-import { IEmployee, IEmployeeFindInput } from '@gauzy/contracts';
+import { IEmployee, IEmployeeFindInput } from '@irtranscripts/contracts';
 
 @Injectable()
 export class TypeOrmEmployeeRepository extends Repository<Employee> {

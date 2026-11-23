@@ -67,8 +67,8 @@ ormlogs.log
 /apps/agent/src/environments/environment.prod.ts
 /apps/agent/src/environments/environment.ts
 
-/apps/gauzy/src/environments/environment.prod.ts
-/apps/gauzy/src/environments/environment.ts
+/apps/irtranscripts/src/environments/environment.prod.ts
+/apps/irtranscripts/src/environments/environment.ts
 
 /packages/ui-config/src/lib/environments/environment.prod.ts
 /packages/ui-config/src/lib/environments/environment.ts

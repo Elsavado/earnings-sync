@@ -2,8 +2,8 @@ import { ChangeDetectorRef, Component, ChangeDetectionStrategy } from '@angular/
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
-import { IOrganizationCreateInput, IUserSigninWorkspaceResponse } from '@gauzy/contracts';
-import { ErrorHandlingService, Store, MatchValidator, WorkspaceAuthService } from '@gauzy/ui-core/core';
+import { IOrganizationCreateInput, IUserSigninWorkspaceResponse } from '@irtranscripts/contracts';
+import { ErrorHandlingService, Store, MatchValidator, WorkspaceAuthService } from '@irtranscripts/ui-core/core';
 import { BaseWorkspaceAuthComponent, CountdownTimerService } from '../shared';
 
 @UntilDestroy({ checkProperties: true })

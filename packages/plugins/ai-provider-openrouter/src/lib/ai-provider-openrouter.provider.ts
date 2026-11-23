@@ -1,5 +1,5 @@
 import type { LanguageModel } from 'ai';
-import { AiProviderEnum, IAiChatModel } from '@gauzy/contracts';
+import { AiProviderEnum, IAiChatModel } from '@irtranscripts/contracts';
 import {
 	IAiChatModelList,
 	IAiChatProviderDefinition,
@@ -9,7 +9,7 @@ import {
 	fetchCatalogueJson,
 	importEsm,
 	publicCatalogue
-} from '@gauzy/plugin-ai-chat';
+} from '@irtranscripts/plugin-ai-chat';
 
 /** Stable provider id used by the registry, the UI and BYOK credentials. */
 const PROVIDER_ID = AiProviderEnum.OPENROUTER;
@@ -45,7 +45,7 @@ const FALLBACK_FREE_MODELS: IAiChatModel[] = [
 const FREE_SUFFIX = ':free';
 
 /**
- * Tool calling is not optional here: the agent's whole job is to call Gauzy tools, so a model without
+ * Tool calling is not optional here: the agent's whole job is to call IRTranscripts tools, so a model without
  * it produces a confident, tool-less answer to every question. OpenRouter reports the capability per
  * model, so both lists filter on it.
  */

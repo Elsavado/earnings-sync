@@ -4,7 +4,7 @@
  * Declaring them makes each one resolvable per tenant, per organization and per channel without a
  * code change, and gives an operator the default the plugin assumes when nothing is stored.
  */
-import { PluginSettingContribution } from '@gauzy/plugin';
+import { PluginSettingContribution } from '@irtranscripts/plugin';
 
 /** The setting keys this plugin reads. */
 export const InventorySetting = {

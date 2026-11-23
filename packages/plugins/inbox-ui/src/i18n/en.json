@@ -40,7 +40,7 @@
 	"SOURCE": {
 		"EVER_WORKS": "Ever Works",
 		"EMAIL": "Email",
-		"GAUZY": "Gauzy",
+		"IRTRANSCRIPTS": "IRTranscripts",
 		"SYSTEM": "System"
 	},
 	"STATUS": {
@@ -258,7 +258,7 @@
 			"NO_AGENTS": "No Ever Works agent in this organization: connect Ever Works in Integrations first.",
 			"AGENT_MIRROR_HINT": "To also see the agents' own mail in the Inbox, switch on \"Agent email\" on Integrations → Ever Works → Entities and directions.",
 			"PLATFORM_DOMAIN": "Platform addresses are allocated on {{ domain }}.",
-			"NO_PLATFORM_DOMAIN": "This server has no platform mail domain (GAUZY_INBOX_DOMAIN): only custom-domain mailboxes can be added.",
+			"NO_PLATFORM_DOMAIN": "This server has no platform mail domain (IRTRANSCRIPTS_INBOX_DOMAIN): only custom-domain mailboxes can be added.",
 			"AUTO_PROVISION": "Create a mailbox for every new employee",
 			"PROVISION_EMPLOYEES": "Create the missing employee mailboxes now",
 			"PROVISION_DEFAULT": "Create the default organization mailbox",

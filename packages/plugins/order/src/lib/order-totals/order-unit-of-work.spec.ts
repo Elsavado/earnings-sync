@@ -1,17 +1,17 @@
 /**
- * `@gauzy/core` is doubled at the module boundary: its barrel boots the whole application graph, and
+ * `@irtranscripts/core` is doubled at the module boundary: its barrel boots the whole application graph, and
  * the one question this file asks of it — which ORM the installation is configured for — is a switch a
  * test has to be able to throw. MikroORM itself is **not** doubled: the context a unit runs in is
  * MikroORM's own `RequestContext`, and whether a repository call inside the unit resolves to a fork is
  * exactly what that class answers.
  */
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	MultiORMEnum: { TypeORM: 'typeorm', MikroORM: 'mikro-orm' },
 	getORMType: jest.fn(() => 'typeorm')
 }));
 
 import { RequestContext as MikroOrmRequestContext } from '@mikro-orm/core';
-import { getORMType } from '@gauzy/core';
+import { getORMType } from '@irtranscripts/core';
 import { OrderUnitOfWork, chunk, inOwnUnitOfWork } from './order-unit-of-work';
 
 /**

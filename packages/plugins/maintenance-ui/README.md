@@ -1,4 +1,4 @@
-# @gauzy/plugin-maintenance-ui
+# @irtranscripts/plugin-maintenance-ui
 
 This library was generated with [Nx](https://nx.dev).
 

@@ -21,7 +21,7 @@ import {
 	LanguagesEnum,
 	PermissionsEnum,
 	ReportGroupFilterEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { CrudController, BaseQueryDTO } from '../core/crud';
 import { UUIDValidationPipe, UseValidationPipe } from './../shared/pipes';
 import { PermissionGuard, TenantPermissionGuard } from './../shared/guards';

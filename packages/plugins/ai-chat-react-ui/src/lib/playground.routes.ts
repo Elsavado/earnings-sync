@@ -1,5 +1,5 @@
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PageRouteRegistryConfig, PermissionsGuard } from '@gauzy/ui-core/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PageRouteRegistryConfig, PermissionsGuard } from '@irtranscripts/ui-core/core';
 import { PlaygroundPageComponent } from './playground-page.component';
 
 /** Path segment for the AI Playground under /pages. */

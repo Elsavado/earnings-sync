@@ -4,9 +4,9 @@ import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { IFeature, IRolePermission } from '@gauzy/contracts';
-import { ErrorHandlingService, FeatureStoreService, PermissionsService, Store } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { IFeature, IRolePermission } from '@irtranscripts/contracts';
+import { ErrorHandlingService, FeatureStoreService, PermissionsService, Store } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

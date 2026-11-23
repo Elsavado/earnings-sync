@@ -5,8 +5,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NbButtonModule } from '@nebular/theme';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Subscription, catchError, distinctUntilChanged, map, of, switchMap, tap } from 'rxjs';
-import { IUser } from '@gauzy/contracts';
-import { AuthService, Store } from '@gauzy/ui-core/core';
+import { IUser } from '@irtranscripts/contracts';
+import { AuthService, Store } from '@irtranscripts/ui-core/core';
 
 type ResendState = 'idle' | 'sending' | 'sent' | 'error';
 

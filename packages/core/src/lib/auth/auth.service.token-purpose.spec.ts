@@ -1,8 +1,8 @@
 import '../core/entities/internal';
 
 import { BadRequestException, UnauthorizedException } from '@nestjs/common';
-import { environment, TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@gauzy/config';
-import { ProviderEnum } from '@gauzy/contracts';
+import { environment, TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@irtranscripts/config';
+import { ProviderEnum } from '@irtranscripts/contracts';
 import { sign, verify } from 'jsonwebtoken';
 import { DataSource, EntitySchema, Repository } from 'typeorm';
 import { AuthService } from './auth.service';

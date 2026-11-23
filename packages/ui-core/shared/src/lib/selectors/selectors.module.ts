@@ -12,9 +12,9 @@ import {
 } from '@nebular/theme';
 import { NgxDaterangepickerMd as NgxDateRangePickerMd } from 'ngx-daterangepicker-material';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { WeekDaysEnum } from '@gauzy/contracts';
+import { WeekDaysEnum } from '@irtranscripts/contracts';
 import { TranslatePipe } from '@ngx-translate/core';
-import { EmployeeStore, EmployeesService, OrganizationEditStore, OrganizationsService } from '@gauzy/ui-core/core';
+import { EmployeeStore, EmployeesService, OrganizationEditStore, OrganizationsService } from '@irtranscripts/ui-core/core';
 import { DirectivesModule } from '../directives/directives.module';
 import { DateSelectorComponent } from './date/date.component';
 import { OrganizationSelectorComponent } from './organization/organization.component';

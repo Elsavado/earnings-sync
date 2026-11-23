@@ -8,8 +8,8 @@ import {
 	MultiORMEntity,
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
-import { DecimalString, ID } from '@gauzy/contracts';
+} from '@irtranscripts/core';
+import { DecimalString, ID } from '@irtranscripts/contracts';
 import { MikroOrmPromotionUsageRepository } from './repository/mikro-orm-promotion-usage.repository';
 import { ICoupon, IPromotion, IPromotionUsage, PromotionUsageStatus } from '../promotion.types';
 import { Promotion } from '../promotion/promotion.entity';

@@ -4,7 +4,7 @@
  * checked the uploader but no grant at all, so an uploader whose role had since been lowered kept publishing releases.
  */
 const mockDeclared = new Map<string, string[]>();
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	BaseQueryDTO: class BaseQueryDTO {},
 	FileStorage: class FileStorage {},
 	FileStorageFactory: { create: () => ({}) },
@@ -29,11 +29,11 @@ jest.mock('../../core', () => ({
 jest.mock('../../domain', () => new Proxy({}, { get: () => class {} }));
 jest.mock('../../shared', () => new Proxy({}, { get: () => class {} }));
 jest.mock('../storage', () => ({
-	GauzyStorageProvider: class GauzyStorageProvider {},
+	IRTranscriptsStorageProvider: class IRTranscriptsStorageProvider {},
 	UploadedPluginStorage: () => () => undefined
 }));
 
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import './plugin-management.controller';
 import './plugin-source.controller';
 import './plugin-version.controller';

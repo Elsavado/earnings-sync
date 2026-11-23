@@ -1,6 +1,6 @@
 # MCP Tools Registry Configuration
 
-This directory contains the centralized configuration for all MCP (Model Context Protocol) tools available in the Gauzy MCP Server.
+This directory contains the centralized configuration for all MCP (Model Context Protocol) tools available in the IRTranscripts MCP Server.
 
 ## Files
 

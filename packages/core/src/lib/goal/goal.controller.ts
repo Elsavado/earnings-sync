@@ -14,7 +14,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
-import { IGoal, IPagination, PermissionsEnum, ID } from '@gauzy/contracts';
+import { IGoal, IPagination, PermissionsEnum, ID } from '@irtranscripts/contracts';
 import { GoalService } from './goal.service';
 import { Goal } from './goal.entity';
 import { CrudController } from './../core/crud';

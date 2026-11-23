@@ -1,6 +1,6 @@
 import { ForbiddenException } from '@nestjs/common';
 import { EntityMetadata } from 'typeorm';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { SensitiveRelationConfig } from '../decorators/sensitive-relations.decorator';
 import { RequestContext } from '../context';
 import { normalizeRelationsToPaths } from '../utils';

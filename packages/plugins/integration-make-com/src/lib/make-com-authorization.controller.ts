@@ -1,10 +1,10 @@
 import { Controller, Get, Query, Res, BadRequestException, Logger, UseGuards } from '@nestjs/common';
-import { ConfigService } from '@gauzy/config';
+import { ConfigService } from '@irtranscripts/config';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Response } from 'express';
-import { Public } from '@gauzy/common';
-import { IntegrationEnum, PermissionsEnum } from '@gauzy/contracts';
-import { PermissionGuard, Permissions, TenantPermissionGuard } from '@gauzy/core';
+import { Public } from '@irtranscripts/common';
+import { IntegrationEnum, PermissionsEnum } from '@irtranscripts/contracts';
+import { PermissionGuard, Permissions, TenantPermissionGuard } from '@irtranscripts/core';
 import { MakeComOAuthService } from './make-com-oauth.service';
 import { MAKE_POST_INSTALL_URL } from './make-com.config';
 

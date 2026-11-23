@@ -1,6 +1,6 @@
 // cspell:ignore sqljs
 /**
- * The Ever Works integration (`@gauzy/plugin-integration-ever-works`) at its boundary, on a real SQL
+ * The Ever Works integration (`@irtranscripts/plugin-integration-ever-works`) at its boundary, on a real SQL
  * database (better-sqlite3; the plugin's own migrations, not a synchronised schema) against the mock
  * Ever Works server — plan 06 G-P1-12, in the style of `ever-async-integration.test.cjs`:
  *
@@ -13,12 +13,12 @@
  * - the 412 merge (a push against a newer Ever Works version);
  * - initial-sync resume (a run continues from its checkpoint in another process);
  * - scope: team ↔ organization both ways, a push waiting for an unlinked team, private never synced;
- * - transition revert: a `409 transition_blocked` puts Ever Works' status back into the Gauzy task, with a
+ * - transition revert: a `409 transition_blocked` puts Ever Works' status back into the IRTranscripts task, with a
  *   comment saying why (tasks, G-P1-9, through the real task store on stand-in task tables);
- * - orphan delete: a linked task gone from Gauzy without a captured delete is found by the task sweep, and
+ * - orphan delete: a linked task gone from IRTranscripts without a captured delete is found by the task sweep, and
  *   the delete policy is pushed (Ever Works cancels the task; the link stops syncing).
  *
- * The real plugin modules run through ts-node; `@gauzy/core` is replaced by the few entity classes,
+ * The real plugin modules run through ts-node; `@irtranscripts/core` is replaced by the few entity classes,
  * decorators and helpers the plugin uses (as Ever Async's suite does), so no application boot is needed.
  */
 const assert = require('node:assert/strict');
@@ -43,7 +43,7 @@ const { DataSource, EntitySchema } = require('typeorm');
 
 const PLUGIN = '../packages/plugins/integration-ever-works/src/lib';
 
-// ── @gauzy/core, as far as the plugin uses it ───────────────────────────────────────────────────
+// ── @irtranscripts/core, as far as the plugin uses it ───────────────────────────────────────────────────
 
 const caller = { tenantId: null, userId: null, organizationId: null };
 const entityNames = [
@@ -155,14 +155,14 @@ const core = {
 };
 const originalLoad = Module._load;
 Module._load = function (name, parent, isMain) {
-	if (name === '@gauzy/core') {
+	if (name === '@irtranscripts/core') {
 		core.verifyWebhookSignature ??= originalLoad.call(this, '../packages/core/src/lib/webhook/webhook-signature.ts', module, false).verifyWebhookSignature;
 		return core;
 	}
-	if (name === '@gauzy/common') return { Public: () => () => undefined };
-	if (name === '@gauzy/contracts') return originalLoad.call(this, '../packages/contracts/src/index.ts', module, false);
-	if (name === '@gauzy/constants') return originalLoad.call(this, '../packages/constants/src/index.ts', module, false);
-	if (name === '@gauzy/utils') return originalLoad.call(this, '../packages/utils/src/lib/ssrf-url.ts', module, false);
+	if (name === '@irtranscripts/common') return { Public: () => () => undefined };
+	if (name === '@irtranscripts/contracts') return originalLoad.call(this, '../packages/contracts/src/index.ts', module, false);
+	if (name === '@irtranscripts/constants') return originalLoad.call(this, '../packages/constants/src/index.ts', module, false);
+	if (name === '@irtranscripts/utils') return originalLoad.call(this, '../packages/utils/src/lib/ssrf-url.ts', module, false);
 	return originalLoad.call(this, name, parent, isMain);
 };
 const load = (path) => require(`${PLUGIN}/${path}`);
@@ -192,14 +192,14 @@ const { EverWorksOutboundPusher } = load('sync/outbound/ever-works-outbound.push
 const { EverWorksOutboundQueue } = load('sync/outbound/ever-works-outbound.queue.ts');
 const { EverWorksWebhookController } = load('sync/webhook/ever-works-webhook.controller.ts');
 const { EverWorksTeamCapture, EverWorksTeamMemberSubscriber, EverWorksTeamSubscriber } = load('teams/ever-works-team.signals.ts');
-const { gauzyTeamsFor, isSyncedVisibility, teamScopeFor } = load('teams/ever-works-team-scope.ts');
+const { irtranscriptsTeamsFor, isSyncedVisibility, teamScopeFor } = load('teams/ever-works-team-scope.ts');
 const { EverWorksTeamsService } = load('teams/ever-works-teams.service.ts');
 const { MockEverWorksServer } = load('testing/mock-ever-works.server.ts');
 const { EverWorksSyncContext } = load('sync/ever-works-sync.context.ts');
 const { EverWorksTaskStore } = load('tasks/ever-works-task.store.ts');
 const { EverWorksTaskCommentsService } = load('tasks/ever-works-task-comments.service.ts');
 const { everWorksSideOf } = load('tasks/ever-works-task.mapper.ts');
-const { EverWorksTasksService, gauzySideOf } = load('tasks/ever-works-tasks.service.ts');
+const { EverWorksTasksService, irtranscriptsSideOf } = load('tasks/ever-works-tasks.service.ts');
 const { ActorTypeEnum } = require('../packages/contracts/src/index.ts');
 // The platform's own column transformer (`ActorTypeEnum` ↔ the stored integer), so comments round-trip as in production.
 const { ActorTypeTransformer } = require('../packages/core/src/lib/shared/pipes/actor-type-transform.ts');
@@ -279,7 +279,7 @@ const pluginSchemas = [
 		disconnectedAt: date, leaseOwner: str(), leaseUntil: date, lastFeedPollAt: date, lastWebhookAt: date, resyncRequestedAt: date
 	}),
 	s('EverWorksEntityLink', sync.EverWorksEntityLink, 'ever_works_entity_link', {
-		integrationTenantId: str(false), entityType: str(false), gauzyId: str(false), ewId: str(false), ewVersion: int(), ewUpdatedAt: date, gauzyUpdatedAt: date,
+		integrationTenantId: str(false), entityType: str(false), irtranscriptsId: str(false), ewId: str(false), ewVersion: int(), ewUpdatedAt: date, irtranscriptsUpdatedAt: date,
 		snapshot: txt(), ewOnly: txt(), lastDirection: str(), lastSyncedAt: date, state: str(false), lastError: txt()
 	}),
 	s('EverWorksInboundEvent', sync.EverWorksInboundEvent, 'ever_works_inbound_event', {
@@ -288,11 +288,11 @@ const pluginSchemas = [
 		error: txt(), appliedAt: date
 	}),
 	s('EverWorksOutboundChange', sync.EverWorksOutboundChange, 'ever_works_outbound_change', {
-		integrationTenantId: str(false), entityType: str(false), gauzyId: str(false), op: str(false), changedFieldsHint: txt(), actorUserId: str(), status: str(false),
+		integrationTenantId: str(false), entityType: str(false), irtranscriptsId: str(false), op: str(false), changedFieldsHint: txt(), actorUserId: str(), status: str(false),
 		attempts: int(false), availableAt: date, lastError: txt()
 	}),
 	s('EverWorksSyncLog', sync.EverWorksSyncLog, 'ever_works_sync_log', {
-		integrationTenantId: str(), connectionId: str(), direction: str(false), entityType: str(), gauzyId: str(), ewId: str(), action: str(false), status: str(false),
+		integrationTenantId: str(), connectionId: str(), direction: str(false), entityType: str(), irtranscriptsId: str(), ewId: str(), action: str(false), status: str(false),
 		message: txt(), details: txt(), resolvedByUserId: str(), resolvedAt: date
 	}),
 	s('EverWorksSyncRun', EverWorksSyncRun, 'ever_works_sync_run', {
@@ -345,7 +345,7 @@ const settle = () => new Promise((resolve) => setTimeout(resolve, 100));
 before(async () => {
 	process.env.ENCRYPTION_KEY = randomBytes(32).toString('base64');
 	dir = mkdtempSync(join(tmpdir(), 'ever-works-integration-'));
-	const file = join(dir, 'gauzy.sqlite');
+	const file = join(dir, 'irtranscripts.sqlite');
 	// The platform's tables (a stand-in schema), then the plugin's own migrations on top.
 	const platform = new DataSource({ type: 'better-sqlite3', database: file, entities: coreSchemas, synchronize: true });
 	await platform.initialize();
@@ -369,7 +369,7 @@ after(async () => {
 	else process.env.ENCRYPTION_KEY = savedKey;
 });
 
-/** One Gauzy tenant connected to the mock Ever Works, with one mapped organization. */
+/** One IRTranscripts tenant connected to the mock Ever Works, with one mapped organization. */
 async function tenant(options = {}) {
 	const t = { tenantId: randomUUID(), organizationId: randomUUID(), userId: randomUUID(), ewOrgId: randomUUID() };
 	await db.getRepository(entities.Tenant).save({ id: t.tenantId, name: 't' });
@@ -384,7 +384,7 @@ async function tenant(options = {}) {
 		new TestEverWorksClientFactory(transport),
 		new EverWorksScopeService(db),
 		new EverWorksNotifier(db),
-		{ defaultApiUrl: null, appUrl: null, gauzyApiUrl: 'https://api.gauzy.example' }
+		{ defaultApiUrl: null, appUrl: null, irtranscriptsApiUrl: 'https://api.gauzy.example' }
 	);
 	const view = await t.connections.connect({
 		apiBaseUrl: 'https://ew.example.test/api',
@@ -448,7 +448,7 @@ function as(t) {
 	caller.organizationId = t.organizationId;
 }
 
-/** A Gauzy team paired with an Ever Works team at `version` (the snapshot is the agreed state). */
+/** A IRTranscripts team paired with an Ever Works team at `version` (the snapshot is the agreed state). */
 async function pairedTeam(t, { name = 'Platform', version = 2 } = {}) {
 	const team = { id: randomUUID(), tenantId: t.tenantId, organizationId: t.organizationId, name, isArchived: false, public: false };
 	await db.getRepository(entities.OrganizationTeam).insert(team);
@@ -459,7 +459,7 @@ async function pairedTeam(t, { name = 'Platform', version = 2 } = {}) {
 		organizationId: t.organizationId,
 		integrationTenantId: t.integrationTenantId,
 		entityType: sync.EverWorksLinkType.TEAM,
-		gauzyId: team.id,
+		irtranscriptsId: team.id,
 		ewId: ewTeam.id,
 		ewVersion: version,
 		snapshot: { name, emoji: null, members: [] },
@@ -520,10 +520,10 @@ async function project(t, name = 'Site') {
 }
 
 /**
- * A Gauzy task paired with an Ever Works task (the snapshot is the agreed state of both sides, so only what
+ * A IRTranscripts task paired with an Ever Works task (the snapshot is the agreed state of both sides, so only what
  * the test changes afterwards is a difference).
  */
-async function pairedTask(t, tasks, { title, projectId, gauzyStatus, everWorksStatus }) {
+async function pairedTask(t, tasks, { title, projectId, irtranscriptsStatus, everWorksStatus }) {
 	const ewTask = t.mock.addTask(t.ewOrgId, { title, status: everWorksStatus });
 	const id = randomUUID();
 	await db.getRepository(entities.Task).insert({
@@ -532,8 +532,8 @@ async function pairedTask(t, tasks, { title, projectId, gauzyStatus, everWorksSt
 		organizationId: t.organizationId,
 		title,
 		projectId,
-		status: gauzyStatus.value,
-		taskStatusId: gauzyStatus.id
+		status: irtranscriptsStatus.value,
+		taskStatusId: irtranscriptsStatus.id
 	});
 	const row = await tasks.store.load(t.tenantId, id);
 	await t.links.record({
@@ -541,10 +541,10 @@ async function pairedTask(t, tasks, { title, projectId, gauzyStatus, everWorksSt
 		organizationId: t.organizationId,
 		integrationTenantId: t.integrationTenantId,
 		entityType: sync.EverWorksLinkType.TASK,
-		gauzyId: id,
+		irtranscriptsId: id,
 		ewId: ewTask.id,
 		ewVersion: ewTask.version,
-		snapshot: { g: { ...gauzySideOf(row), watcherIds: [], blockedBy: [], relations: [] }, e: everWorksSideOf(ewTask) },
+		snapshot: { g: { ...irtranscriptsSideOf(row), watcherIds: [], blockedBy: [], relations: [] }, e: everWorksSideOf(ewTask) },
 		ewOnly: {},
 		direction: 'inbound'
 	});
@@ -670,7 +670,7 @@ describe('boundary', () => {
 		const capture = new EverWorksTeamCapture(a.queue);
 		capture.onModuleInit();
 		try {
-			// An Ever Works team created after the mapping is created in Gauzy by the sync…
+			// An Ever Works team created after the mapping is created in IRTranscripts by the sync…
 			await a.deliver(a.envelope({ type: 'team.created', aggregate: { type: 'team', id: 'ew-new', version: 1 }, data: { id: 'ew-new', name: 'Design', members: [] } }));
 			await a.applier.drain(a.connection, 50);
 			await settle();
@@ -683,7 +683,7 @@ describe('boundary', () => {
 			await settle();
 			assert.equal(await db.getRepository(sync.EverWorksOutboundChange).count({ where: { integrationTenantId: a.integrationTenantId } }), 1);
 			// Our own origin (loop guard 3).
-			const own = a.envelope({ origin: { tag: `gauzy:${a.connection.id}` } });
+			const own = a.envelope({ origin: { tag: `irtranscripts:${a.connection.id}` } });
 			await a.deliver(own);
 			await a.applier.drain(a.connection, 50);
 			const row = await db.getRepository(sync.EverWorksInboundEvent).findOneByOrFail({ eventId: own.id });
@@ -696,19 +696,19 @@ describe('boundary', () => {
 
 	test('412 merge: a push against a newer Ever Works version merges and goes through once', async () => {
 		const { team, ewTeam } = await pairedTeam(a, { version: 2 });
-		// Ever Works moved on (another field), Gauzy renamed the team.
+		// Ever Works moved on (another field), IRTranscripts renamed the team.
 		ewTeam.version = 3;
 		ewTeam.description = 'Changed in Ever Works';
 		await db.getRepository(entities.OrganizationTeam).update({ id: team.id }, { name: 'Platform Core' });
-		await a.queue.enqueue({ tenantId: a.tenantId, organizationId: a.organizationId, entityType: sync.EverWorksLinkType.TEAM, gauzyId: team.id });
+		await a.queue.enqueue({ tenantId: a.tenantId, organizationId: a.organizationId, entityType: sync.EverWorksLinkType.TEAM, irtranscriptsId: team.id });
 		await a.pusher.drain(a.connection, 10, new Date(Date.now() + 5_000));
 		assert.equal(ewTeam.name, 'Platform Core');
 		assert.equal(ewTeam.description, 'Changed in Ever Works');
 		assert.equal(ewTeam.version, 4);
-		const link = await a.links.byGauzy(a.integrationTenantId, sync.EverWorksLinkType.TEAM, team.id);
+		const link = await a.links.byIRTranscripts(a.integrationTenantId, sync.EverWorksLinkType.TEAM, team.id);
 		assert.equal(link.ewVersion, 4);
 		assert.equal((await db.getRepository(entities.OrganizationTeam).findOneByOrFail({ id: team.id })).name, 'Platform Core');
-		const change = await db.getRepository(sync.EverWorksOutboundChange).findOneByOrFail({ gauzyId: team.id });
+		const change = await db.getRepository(sync.EverWorksOutboundChange).findOneByOrFail({ irtranscriptsId: team.id });
 		assert.equal(change.status, sync.EverWorksOutboundStatus.PUSHED);
 	});
 
@@ -741,9 +741,9 @@ describe('boundary', () => {
 		assert.deepEqual(teamScopeFor(['g1'], linked), { scope: { visibility: 'team', teamIds: ['ew1'] } });
 		assert.deepEqual(teamScopeFor([], linked), { scope: { visibility: 'organization', teamIds: [] } });
 		assert.deepEqual(teamScopeFor(['g1', 'g2'], linked), { waitingFor: 'g2' });
-		assert.deepEqual(gauzyTeamsFor(['ew1', 'ew9'], new Map([['ew1', 'g1']])), { teamIds: ['g1'], unmapped: ['ew9'] });
+		assert.deepEqual(irtranscriptsTeamsFor(['ew1', 'ew9'], new Map([['ew1', 'g1']])), { teamIds: ['g1'], unmapped: ['ew9'] });
 		assert.equal(isSyncedVisibility('private'), false);
-		// An agent that turns private stops syncing: its link is unlinked, its Gauzy record kept.
+		// An agent that turns private stops syncing: its link is unlinked, its IRTranscripts record kept.
 		const agents = new EverWorksAgentsService(db, a.contexts, a.connections, a.links, { get: () => undefined }, a.store);
 		const employeeId = randomUUID();
 		await a.links.record({
@@ -751,7 +751,7 @@ describe('boundary', () => {
 			organizationId: a.organizationId,
 			integrationTenantId: a.integrationTenantId,
 			entityType: sync.EverWorksLinkType.AGENT,
-			gauzyId: employeeId,
+			irtranscriptsId: employeeId,
 			ewId: 'ew-agent-1',
 			ewVersion: 1,
 			direction: 'inbound'
@@ -763,24 +763,24 @@ describe('boundary', () => {
 		assert.equal(link.state, sync.EverWorksLinkState.UNLINKED);
 	});
 
-	test('transition revert: a 409 transition_blocked puts Ever Works’ status back into the Gauzy task, with a comment', async () => {
+	test('transition revert: a 409 transition_blocked puts Ever Works’ status back into the IRTranscripts task, with a comment', async () => {
 		const tasks = taskSync(a);
 		const statuses = await taskStatuses(a);
 		const site = await project(a);
-		const { id, ewTask } = await pairedTask(a, tasks, { title: 'Ship the release', projectId: site.id, gauzyStatus: statuses.inProgress, everWorksStatus: 'in_progress' });
+		const { id, ewTask } = await pairedTask(a, tasks, { title: 'Ship the release', projectId: site.id, irtranscriptsStatus: statuses.inProgress, everWorksStatus: 'in_progress' });
 		// Ever Works' gates refuse "done" while a blocker is open.
 		a.mock.transitionGates.set(ewTask.id, { blocked: ['done'], blockers: [{ slug: 'T-43', title: 'Security review' }] });
-		// A person moves the Gauzy task to done.
+		// A person moves the IRTranscripts task to done.
 		await db.getRepository(entities.Task).update({ id }, { status: 'done', taskStatusId: statuses.done.id });
 		const push = async () => {
-			await a.queue.enqueue({ tenantId: a.tenantId, organizationId: a.organizationId, entityType: sync.EverWorksLinkType.TASK, gauzyId: id });
+			await a.queue.enqueue({ tenantId: a.tenantId, organizationId: a.organizationId, entityType: sync.EverWorksLinkType.TASK, irtranscriptsId: id });
 			await a.pusher.drain(a.connection, 10, new Date(Date.now() + 5_000));
 		};
 		await push();
 		const transitions = () => a.mock.requests.filter((request) => request.method === 'POST' && request.path === `/tasks/${ewTask.id}/transition`);
 		assert.equal(transitions().length, 1);
 		assert.deepEqual(transitions()[0].body, { to: 'done', mode: 'sync' });
-		// Ever Works kept its status; Gauzy took it back (the status row of the task's scope)…
+		// Ever Works kept its status; IRTranscripts took it back (the status row of the task's scope)…
 		assert.equal(a.mock.tasks.get(ewTask.id).status, 'in_progress');
 		const reverted = await db.getRepository(entities.Task).findOneByOrFail({ id });
 		assert.equal(reverted.status, 'in-progress');
@@ -796,26 +796,26 @@ describe('boundary', () => {
 		// Stored as the platform stores it (0 = System, through ActorTypeTransformer).
 		assert.deepEqual(await db.query('SELECT "actorType" FROM "comment" WHERE "entityId" = ?', [id]), [{ actorType: 0 }]);
 		assert.match(comments[0].comment, /Ever Works kept the status &quot;in_progress&quot; instead of &quot;done&quot;: blocked by T-43/);
-		const logged = await db.getRepository(sync.EverWorksSyncLog).findBy({ gauzyId: id, action: 'conflict:resolved-by-ew' });
+		const logged = await db.getRepository(sync.EverWorksSyncLog).findBy({ irtranscriptsId: id, action: 'conflict:resolved-by-ew' });
 		assert.equal(logged.length, 1);
 		assert.equal(logged[0].status, 'conflict');
-		assert.equal((await db.getRepository(sync.EverWorksOutboundChange).findOneByOrFail({ gauzyId: id })).status, sync.EverWorksOutboundStatus.PUSHED);
+		assert.equal((await db.getRepository(sync.EverWorksOutboundChange).findOneByOrFail({ irtranscriptsId: id })).status, sync.EverWorksOutboundStatus.PUSHED);
 		// The reverted status is the agreed state now: pushed again, nothing goes out (no flapping).
 		await push();
 		assert.equal(transitions().length, 1);
-		const link = await a.links.byGauzy(a.integrationTenantId, sync.EverWorksLinkType.TASK, id);
+		const link = await a.links.byIRTranscripts(a.integrationTenantId, sync.EverWorksLinkType.TASK, id);
 		assert.equal(JSON.parse(link.snapshot).g.status, 'in-progress');
 		assert.equal(link.state, sync.EverWorksLinkState.OK);
 	});
 
-	test('orphan delete: a linked task gone from Gauzy without a captured delete is swept and its delete policy pushed', async () => {
+	test('orphan delete: a linked task gone from IRTranscripts without a captured delete is swept and its delete policy pushed', async () => {
 		const tasks = taskSync(a);
 		const statuses = await taskStatuses(a);
 		const site = await project(a);
-		const kept = await pairedTask(a, tasks, { title: 'Kept', projectId: site.id, gauzyStatus: statuses.open, everWorksStatus: 'todo' });
-		const gone = await pairedTask(a, tasks, { title: 'Gone', projectId: site.id, gauzyStatus: statuses.open, everWorksStatus: 'todo' });
+		const kept = await pairedTask(a, tasks, { title: 'Kept', projectId: site.id, irtranscriptsStatus: statuses.open, everWorksStatus: 'todo' });
+		const gone = await pairedTask(a, tasks, { title: 'Gone', projectId: site.id, irtranscriptsStatus: statuses.open, everWorksStatus: 'todo' });
 		const changes = db.getRepository(sync.EverWorksOutboundChange);
-		const link = (id) => a.links.byGauzy(a.integrationTenantId, sync.EverWorksLinkType.TASK, id);
+		const link = (id) => a.links.byIRTranscripts(a.integrationTenantId, sync.EverWorksLinkType.TASK, id);
 		// A raw (bulk) delete: no TaskEvent, nothing captured.
 		await db.getRepository(entities.Task).delete({ id: gone.id });
 		assert.equal(await changes.count({ where: { integrationTenantId: a.integrationTenantId } }), 0);
@@ -824,18 +824,18 @@ describe('boundary', () => {
 		// The sweep marks the link orphaned and queues the delete; the task that still exists is left alone.
 		const queued = await changes.findBy({ integrationTenantId: a.integrationTenantId });
 		assert.deepEqual(
-			queued.map((row) => [row.gauzyId, row.op, row.status]),
+			queued.map((row) => [row.irtranscriptsId, row.op, row.status]),
 			[[gone.id, 'delete', sync.EverWorksOutboundStatus.PENDING]]
 		);
 		assert.equal((await link(gone.id)).state, sync.EverWorksLinkState.ORPHANED);
 		assert.equal((await link(kept.id)).state, sync.EverWorksLinkState.OK);
 		// The push applies the delete policy: Ever Works cancels the task (nothing is deleted there), with a comment.
 		await a.pusher.drain(a.connection, 10, new Date(Date.now() + 5_000));
-		assert.equal((await changes.findOneByOrFail({ gauzyId: gone.id })).status, sync.EverWorksOutboundStatus.PUSHED);
+		assert.equal((await changes.findOneByOrFail({ irtranscriptsId: gone.id })).status, sync.EverWorksOutboundStatus.PUSHED);
 		assert.equal(a.mock.tasks.get(gone.ewTask.id).status, 'cancelled');
 		const notes = [...a.mock.comments.values()].filter((comment) => comment.taskId === gone.ewTask.id);
 		assert.equal(notes.length, 1);
-		assert.match(notes[0].body, /deleted in Ever Gauzy/);
+		assert.match(notes[0].body, /deleted in Ever IRTranscripts/);
 		assert.equal((await link(gone.id)).state, sync.EverWorksLinkState.UNLINKED);
 		assert.equal(a.mock.tasks.get(kept.ewTask.id).status, 'todo');
 		// Swept again: nothing new is queued (the link no longer syncs).

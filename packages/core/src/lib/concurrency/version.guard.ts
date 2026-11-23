@@ -1,6 +1,6 @@
 import { ExecutionContext, Injectable, Logger, NotFoundException, CanActivate } from '@nestjs/common';
 import { ModuleRef, Reflector } from '@nestjs/core';
-import { IdempotencyStatus, type ID } from '@gauzy/contracts';
+import { IdempotencyStatus, type ID } from '@irtranscripts/contracts';
 import { executionRequest, readRequestHeader } from '../core/context/execution-context.util';
 import { ApiErrorCode } from '../core/errors/api-error-codes';
 import { ApiException } from '../core/errors/api-exception';

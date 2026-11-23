@@ -2,7 +2,7 @@ import { Directive, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { combineLatest, of, Subject } from 'rxjs';
 import { catchError, distinctUntilChanged, filter, map, startWith, switchMap, tap } from 'rxjs/operators';
-import { IDashboardWidgetContext } from '@gauzy/ui-core/core';
+import { IDashboardWidgetContext } from '@irtranscripts/ui-core/core';
 import { BaseDashboardWidgetComponent } from '../../widget-host/base-dashboard-widget.component';
 import { IProjectManagementSnapshot } from './project-management-dashboard.types';
 import { ProjectManagementTasksService } from './project-management-tasks.service';

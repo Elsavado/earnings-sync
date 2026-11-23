@@ -2,8 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { LanguagesEnum, NullableString } from '@gauzy/contracts';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
+import { LanguagesEnum, NullableString } from '@irtranscripts/contracts';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
 
 /**
  * I18nService provides a wrapper around @ngx-translate's TranslateService

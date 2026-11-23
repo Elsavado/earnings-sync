@@ -1,5 +1,5 @@
-@use 'gauzy/_gauzy-cards' as *;
-@use 'gauzy/_gauzy-overrides' as ga-overrides;
+@use 'irtranscripts/_irtranscripts-cards' as *;
+@use 'irtranscripts/_irtranscripts-overrides' as ga-overrides;
 
 .register-btn {
   margin: 20px;
@@ -60,13 +60,13 @@
   @include card_overrides(overlay, calc($default-card-height + 1.5rem), $default-radius);
   .card,
   .card-body {
-    background: var(--gauzy-card-2);
+    background: var(--irtranscripts-card-2);
   }
-  @include ga-overrides.input-appearance(42px, var(--gauzy-card-1));
+  @include ga-overrides.input-appearance(42px, var(--irtranscripts-card-1));
 }
 
 // Every control on this screen at the app's 2rem / 12px set, the size the rest of
-// the Sales forms use. Fallbacks on the custom properties: `--gauzy-*` is
+// the Sales forms use. Fallbacks on the custom properties: `--irtranscripts-*` is
 // undefined in material-light / material-dark, where a `var()` without one is
 // dropped.
 :host {
@@ -74,12 +74,12 @@
     font-size: 12px;
     font-weight: 600;
     line-height: 1rem;
-    color: var(--gauzy-text-color-2, rgba(126, 126, 143, 1));
+    color: var(--irtranscripts-text-color-2, rgba(126, 126, 143, 1));
   }
 
   input[nbInput] {
     height: 2rem;
-    // `!important` against the shared `dialog()` mixin (`gauzy/_gauzy-dialogs`),
+    // `!important` against the shared `dialog()` mixin (`irtranscripts/_irtranscripts-dialogs`),
     // which pins every input on the page to a 2.375rem `min-height` with
     // `!important` of its own.
     min-height: 2rem !important;

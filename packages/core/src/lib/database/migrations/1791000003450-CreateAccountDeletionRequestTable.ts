@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
-import { EmailTemplateEnum } from '@gauzy/contracts';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
+import { EmailTemplateEnum } from '@irtranscripts/contracts';
 import { EmailTemplateUtils } from '../../email-template/utils';
 
 /** The table this migration creates. */
@@ -161,7 +161,7 @@ export class CreateAccountDeletionRequestTable1791000003450 implements Migration
 	public async mysqlUpQueryRunner(queryRunner: QueryRunner): Promise<any> {
 		// MySQL has no transactional DDL and no migration-run lock: two processes booting together would both see
 		// the table missing. A named lock makes the check and the DDL one critical section.
-		const lockName = `gauzy:migration:${this.name}`;
+		const lockName = `irtranscripts:migration:${this.name}`;
 		const [row] = await queryRunner.query(`SELECT GET_LOCK(?, 120) AS \`acquired\``, [lockName]);
 		if (Number(row?.acquired) !== 1) {
 			throw new Error(`${this.name}: could not acquire the MySQL migration lock ${lockName}.`);

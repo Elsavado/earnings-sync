@@ -1,5 +1,5 @@
 /**
- * Public API of @gauzy/plugin-ever-instance: the identity of this installation.
+ * Public API of @irtranscripts/plugin-ever-instance: the identity of this installation.
  */
 export * from './lib/entities/ever-instance.entity';
 export * from './lib/ever-instance-key';

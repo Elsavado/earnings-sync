@@ -1,7 +1,7 @@
 import { Args, Context, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { BadRequestException, UseGuards } from '@nestjs/common';
 import { FindOptionsWhere } from 'typeorm';
-import { CommerceCheckoutSessionStatus, IPagination } from '@gauzy/contracts';
+import { CommerceCheckoutSessionStatus, IPagination } from '@irtranscripts/contracts';
 import {
 	FEATURE_GRAPHQL,
 	FeatureFlagGuard,
@@ -14,8 +14,8 @@ import {
 	connectionFromOffsetPage,
 	resolveConnectionWindow,
 	versionExpectationOf
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { CommerceCartService } from '../commerce-cart/commerce-cart.service';
 import { CommerceCheckoutSession } from '../commerce-checkout-session/commerce-checkout-session.entity';
 import { CommerceCheckoutSessionService } from '../commerce-checkout-session/commerce-checkout-session.service';

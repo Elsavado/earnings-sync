@@ -1,5 +1,5 @@
 import { ForbiddenException } from '@nestjs/common';
-import { ID, RolesEnum } from '@gauzy/contracts';
+import { ID, RolesEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../core/context';
 
 /**

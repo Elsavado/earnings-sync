@@ -140,14 +140,14 @@ jobs:
         run: yarn start:api:forever
 
       - name: Run UI in background
-        run: yarn start:gauzy:forever
+        run: yarn start:irtranscripts:forever
 
       - name: Install Cypress Package
         run: npm install -g cypress@8.3.1
 
       - name: Install Cypress for our e2e tests
         run: |
-          cd apps/gauzy-e2e
+          cd apps/irtranscripts-e2e
           yarn cypress install
 
       - name: Cypress info
@@ -186,8 +186,8 @@ jobs:
 
           group: '1 - all e2e tests'
 
-          # Cypress tests and config file are in "apps/gauzy-e2e" folder
-          working-directory: 'apps/gauzy-e2e'
+          # Cypress tests and config file are in "apps/irtranscripts-e2e" folder
+          working-directory: 'apps/irtranscripts-e2e'
 
           # We wait till both API and UI runs completely here
           wait-on: 'http://localhost:3000/api,http://localhost:4200'

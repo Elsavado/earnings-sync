@@ -1,4 +1,4 @@
-import { ID, IDeleteEntity as IDeleteCamshot } from '@gauzy/contracts';
+import { ID, IDeleteEntity as IDeleteCamshot } from '@irtranscripts/contracts';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsOptional, IsBoolean, IsUUID } from 'class-validator';

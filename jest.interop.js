@@ -6,7 +6,7 @@
  * `moment` is a CommonJS function (`module.exports = moment`, no `default`, no `__esModule`), and the
  * code imports it two ways:
  *   - `import moment from 'moment'`       — ui-core (43 files), public-layout-ui, the React UI plugins;
- *   - `import * as moment from 'moment'`  — core, desktop-lib, desktop-ui-lib, apps/gauzy and others.
+ *   - `import * as moment from 'moment'`  — core, desktop-lib, desktop-ui-lib, apps/irtranscripts and others.
  * Webpack / esbuild accept both. The TypeScript CommonJS emit Jest runs cannot accept both under one
  * `esModuleInterop` setting:
  *   - `esModuleInterop: false` (the root tsconfig) compiles the default import to `moment_1.default`,
@@ -15,7 +15,7 @@
  *   - `esModuleInterop: true` fixes that, but compiles the namespace import through `__importStar`,
  *     which copies the module's properties into a plain object — so `moment()` stops being callable.
  * `randomcolor` has the same shape and is namespace-imported and called (ui-core's tags colour input,
- * apps/gauzy's weekly report), which breaks in exactly the projects that set `esModuleInterop: true`.
+ * apps/irtranscripts's weekly report), which breaks in exactly the projects that set `esModuleInterop: true`.
  *
  * Giving each loaded module `default` (itself) and `__esModule` makes every combination resolve to the
  * function itself, exactly as the bundlers do. `moment-timezone` returns the same object as `moment`.

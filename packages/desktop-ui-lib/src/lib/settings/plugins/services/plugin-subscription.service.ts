@@ -12,8 +12,8 @@ import {
 	PluginBillingPeriod,
 	PluginSubscriptionStatus,
 	PluginSubscriptionType
-} from '@gauzy/contracts';
-import { toParams, API_PREFIX } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { toParams, API_PREFIX } from '@irtranscripts/ui-core/common';
 import { map, Observable, of } from 'rxjs';
 
 // Re-export all types for backward compatibility with existing code
@@ -34,7 +34,7 @@ export {
 	PluginScope,
 	PluginSubscriptionStatus,
 	PluginSubscriptionType
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 @Injectable({
 	providedIn: 'root'

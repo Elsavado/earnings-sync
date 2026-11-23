@@ -12,8 +12,8 @@ import {
 	IPagination,
 	IUser,
 	IUserOrganization
-} from '@gauzy/contracts';
-import { API_PREFIX, toParams } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { API_PREFIX, toParams } from '@irtranscripts/ui-core/common';
 
 /** A person, team or agent a mailbox setting can name. */
 export interface IInboxDirectoryEntry {
@@ -41,7 +41,7 @@ function byName(a: IInboxDirectoryEntry, b: IInboxDirectoryEntry): number {
  * the owner of a new mailbox (an employee or a team), the members of a shared one (users of the organization), and
  * the Ever Works agent a mailbox hands its mail to (G-P4-6).
  *
- * Read through Gauzy's own routes (`/api/user-organization`, `/api/employee`, `/api/organization-team`), so each list
+ * Read through IRTranscripts's own routes (`/api/user-organization`, `/api/employee`, `/api/organization-team`), so each list
  * needs the permission its route needs; a page shows what it could read and says when a list is not available.
  */
 @Injectable({ providedIn: 'root' })
@@ -100,7 +100,7 @@ export class InboxDirectoryService {
 
 	/**
 	 * The organization's Ever Works agents: agent employees whose agent profile comes from Ever Works (the ones the
-	 * integration pairs). The value a mailbox stores (`settings.everWorksAgentId`) is the agent employee's Gauzy id,
+	 * integration pairs). The value a mailbox stores (`settings.everWorksAgentId`) is the agent employee's IRTranscripts id,
 	 * which the integration resolves to the Ever Works agent.
 	 */
 	everWorksAgents(organizationId: ID, tenantId: ID): Observable<IInboxDirectoryEntry[]> {

@@ -1,7 +1,7 @@
-# @gauzy/plugin-ai-provider-openai-compatible
+# @irtranscripts/plugin-ai-provider-openai-compatible
 
-Generic **OpenAI-compatible endpoint** provider plugin for the Ever Gauzy AI
-chat engine ([`@gauzy/plugin-ai-chat`](../ai-chat)): point it at any server or
+Generic **OpenAI-compatible endpoint** provider plugin for the Ever IRTranscripts AI
+chat engine ([`@irtranscripts/plugin-ai-chat`](../ai-chat)): point it at any server or
 gateway that speaks the OpenAI REST API — [vLLM](https://docs.vllm.ai),
 [LM Studio](https://lmstudio.ai), [Ollama](https://ollama.com) (`/v1`),
 [LiteLLM](https://docs.litellm.ai), text-generation-webui, llama.cpp's

@@ -44,9 +44,9 @@ export const linkView = (link: LinkRecord): LinkView => ({
 });
 
 /**
- * Tenant links: one Gauzy organization ↔ one Ever organization. An administrator pastes a link code
+ * Tenant links: one IRTranscripts organization ↔ one Ever organization. An administrator pastes a link code
  * minted in app.ever.co (`POST /v1/instances/me/tenant-links`); the link's entitlement document is
- * verified before anything is stored. Gauzy's own record of the link is an `integration_tenant` row
+ * verified before anything is stored. IRTranscripts's own record of the link is an `integration_tenant` row
  * named `Ever_Connect`; removing the link archives it.
  */
 @Injectable()
@@ -168,7 +168,7 @@ export class EverConnectLinkService {
 	): Promise<LinkView> {
 		const handle = verified.claims.ever.handle ?? null;
 		// The link row first: its unique live key refuses a second live link for this organization
-		// (two requests at once). Then Gauzy's own record of it; when that cannot be written, the link
+		// (two requests at once). Then IRTranscripts's own record of it; when that cannot be written, the link
 		// row goes too.
 		const link = await this.store.insertLink({
 			tenantId: owner.tenantId,
@@ -218,7 +218,7 @@ export class EverConnectLinkService {
 	}
 
 	/**
-	 * Removes the link of an organization (`integrationTenantId` is its Gauzy record): Ever Platform is
+	 * Removes the link of an organization (`integrationTenantId` is its IRTranscripts record): Ever Platform is
 	 * told when it can be reached; here the link is archived and its integrations switched off anyway.
 	 */
 	async unlink(input: {

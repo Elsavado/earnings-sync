@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { NbLayoutDirection, NbLayoutDirectionService } from '@nebular/theme';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguagesEnum } from '@gauzy/contracts';
+import { LanguagesEnum } from '@irtranscripts/contracts';
 import { ElectronService } from '../electron/services';
 
 @UntilDestroy({ checkProperties: true })

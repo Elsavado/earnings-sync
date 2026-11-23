@@ -1,7 +1,7 @@
 // Structural + content styles for ga-rich-text-editor. Everything resolves Nebular/
-// Gauzy CSS custom properties so light/dark theming falls out of the active
-// .nb-theme-gauzy-* variable values (05-editor-spec.md §3.9). The global
-// `rich-text-editor()` mixin in static/styles/gauzy/_rich-text-editor.scss mirrors
+// IRTranscripts CSS custom properties so light/dark theming falls out of the active
+// .nb-theme-irtranscripts-* variable values (05-editor-spec.md §3.9). The global
+// `rich-text-editor()` mixin in static/styles/irtranscripts/_rich-text-editor.scss mirrors
 // this chrome for surfaces styled from the global sheets; the component stays
 // self-contained so the Electron apps work without them.
 
@@ -13,7 +13,7 @@
 .rich-text-editor {
 	display: flex;
 	flex-direction: column;
-	border: 1px solid var(--gauzy-border-default-color, var(--border-basic-color-3));
+	border: 1px solid var(--irtranscripts-border-default-color, var(--border-basic-color-3));
 	border-radius: var(--border-radius);
 	background: var(--background-basic-color-1);
 	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
@@ -50,7 +50,7 @@
 	justify-content: flex-end;
 	gap: 0.75rem;
 	padding: 0.375rem 1rem;
-	border-top: 1px solid var(--gauzy-border-default-color, var(--border-basic-color-3));
+	border-top: 1px solid var(--irtranscripts-border-default-color, var(--border-basic-color-3));
 }
 
 .rich-text-editor__counter {

@@ -11,15 +11,15 @@ import {
 	DocumentVisibilityEnum,
 	FileStorageProviderEnum,
 	ID
-} from '@gauzy/contracts';
-import { EventBus, FileStorage, readStorageFileAsBuffer } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { EventBus, FileStorage, readStorageFileAsBuffer } from '@irtranscripts/core';
 import { Document } from '../entities/document.entity';
 import { TypeOrmDocumentRepository } from '../repositories/type-orm-document.repository';
 import { DocumentProcessingService } from '../services/document-processing.service';
 import { canonicalExtension, sniffFile } from '../services/file-sniffer';
 
-/** The `@gauzy/plugin-ai-chat` surface this subscriber feature-detects at runtime. */
-type AiChatPackage = typeof import('@gauzy/plugin-ai-chat');
+/** The `@irtranscripts/plugin-ai-chat` surface this subscriber feature-detects at runtime. */
+type AiChatPackage = typeof import('@irtranscripts/plugin-ai-chat');
 
 /**
  * The event class name this subscriber binds to when the chat plugin exports it
@@ -49,7 +49,7 @@ export interface IAiChatAttachmentSavedPayload {
 /**
  * Chat capture (`07-ai-knowledge.md` §17.1).
  *
- * `@gauzy/plugin-ai-chat` is expected to publish `AiChatAttachmentSavedEvent` on the core
+ * `@irtranscripts/plugin-ai-chat` is expected to publish `AiChatAttachmentSavedEvent` on the core
  * RxJS event bus when a user attaches a file to a conversation. This plugin subscribes and
  * turns that file into an ordinary `Document { kind: FILE, source: CHAT }` that then rides
  * the standard pipeline unchanged.
@@ -93,7 +93,7 @@ export class ChatCaptureSubscriber implements OnModuleInit, OnModuleDestroy {
 		const eventClass = this.resolveAttachmentEventClass();
 		if (!eventClass) {
 			this.logger.debug(
-				`${AI_CHAT_ATTACHMENT_EVENT} is not exported by @gauzy/plugin-ai-chat — ` +
+				`${AI_CHAT_ATTACHMENT_EVENT} is not exported by @irtranscripts/plugin-ai-chat — ` +
 					'chat capture is registered as a no-op until the chat plugin emits it.'
 			);
 			return;
@@ -209,11 +209,11 @@ export class ChatCaptureSubscriber implements OnModuleInit, OnModuleDestroy {
 	private resolveAttachmentEventClass(): any | undefined {
 		try {
 			// eslint-disable-next-line @typescript-eslint/no-var-requires
-			const aiChat: Partial<AiChatPackage> & Record<string, any> = require('@gauzy/plugin-ai-chat');
+			const aiChat: Partial<AiChatPackage> & Record<string, any> = require('@irtranscripts/plugin-ai-chat');
 			const candidate = aiChat?.[AI_CHAT_ATTACHMENT_EVENT];
 			return typeof candidate === 'function' ? candidate : undefined;
 		} catch (error) {
-			this.logger.debug(`@gauzy/plugin-ai-chat could not be loaded: ${(error as Error).message}`);
+			this.logger.debug(`@irtranscripts/plugin-ai-chat could not be loaded: ${(error as Error).message}`);
 			return undefined;
 		}
 	}

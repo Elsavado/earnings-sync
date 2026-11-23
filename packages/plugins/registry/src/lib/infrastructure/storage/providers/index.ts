@@ -1,1 +1,1 @@
-export * from './gauzy-storage.provider';
+export * from './irtranscripts-storage.provider';

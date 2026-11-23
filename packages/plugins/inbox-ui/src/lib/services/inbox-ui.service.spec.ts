@@ -1,6 +1,6 @@
 import { HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { InboxTabEnum } from '@gauzy/contracts';
+import { InboxTabEnum } from '@irtranscripts/contracts';
 import { InboxNotificationsService, InboxUiService } from './inbox-ui.service';
 
 /** The routes the page and the badge call (the root test defaults provide the testing HttpClient). */

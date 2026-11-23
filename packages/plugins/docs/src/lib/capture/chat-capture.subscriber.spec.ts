@@ -8,9 +8,9 @@ const mockProvider = {
 	getFile: jest.fn(async () => Buffer.from('%PDF-1.4 attachment')),
 	deleteFile: jest.fn()
 };
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	// The real storage read helper (dependency-free), so the specs read what the providers really return.
-	...jest.requireActual('@gauzy/core/src/lib/core/file-storage/helpers/stored-file-content'),
+	...jest.requireActual('@irtranscripts/core/src/lib/core/file-storage/helpers/stored-file-content'),
 	EventBus: class EventBus {},
 	FileStorage: class FileStorage {
 		getProvider() {
@@ -28,7 +28,7 @@ jest.mock('../services/file-sniffer', () => ({
 
 import { createHash } from 'crypto';
 import { Readable } from 'stream';
-import { DocumentSourceEnum, DocumentVisibilityEnum } from '@gauzy/contracts';
+import { DocumentSourceEnum, DocumentVisibilityEnum } from '@irtranscripts/contracts';
 import { ChatCaptureSubscriber } from './chat-capture.subscriber';
 
 describe('ChatCaptureSubscriber.captureAttachment', () => {

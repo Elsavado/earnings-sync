@@ -1,6 +1,6 @@
 import { ZObject, Bundle } from 'zapier-platform-core';
 
-const appName = process.env.APP_NAME || 'Gauzy';
+const appName = process.env.APP_NAME || 'IRTranscripts';
 
 const perform = async (z: ZObject, bundle: Bundle) => {
   try {

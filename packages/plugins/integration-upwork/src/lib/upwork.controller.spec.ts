@@ -31,11 +31,11 @@ const SECRETS = {
 	consumerSecret: 'upwork-consumer-secret-DDDD'
 };
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	environment: { upwork: { callbackUrl: 'http://localhost/callback' }, defaultCurrency: 'USD' }
 }));
 
-jest.mock('@gauzy/plugin-job-proposal', () => ({ ProposalCreateCommand: class {} }));
+jest.mock('@irtranscripts/plugin-job-proposal', () => ({ ProposalCreateCommand: class {} }));
 
 // The transaction service pulls in the ESM-only `uuid` build; the controller needs it as a DI token only.
 jest.mock('./upwork-transaction.service', () => ({ UpworkTransactionService: class {} }));
@@ -107,7 +107,7 @@ jest.mock('upwork-api/lib/routers/snapshot.js', () => ({ Snapshot: class {} }));
 jest.mock('upwork-api/lib/routers/auth.js', () => ({ Auth: class {} }));
 jest.mock('upwork-api/lib/routers/organization/users.js', () => ({ Users: class {} }));
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** Minimal stand-in for a CQRS command that carries its input for assertions. */
 	class Command {
 		/** Every constructor argument, for commands that take more than one. */
@@ -171,7 +171,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 import * as UpworkApi from 'upwork-api';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	IntegrationSettingCreateCommand,
 	IntegrationSettingGetCommand,
@@ -179,7 +179,7 @@ import {
 	IntegrationTenantGetCommand,
 	IntegrationTenantUpdateOrCreateCommand,
 	RequestContext
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { UpworkController } from './upwork.controller';
 import { UpworkService } from './upwork.service';
 
@@ -931,7 +931,7 @@ describe('UpworkService.getReportListByIntegration — date range', () => {
 		const stub: any = {
 			_resolveScope: jest.fn(async () => ({ organizationId: ORGANIZATION_ID, tenantId: CURRENT_TENANT_ID })),
 			_integrationMapService: {
-				findAll: jest.fn(async () => ({ items: [{ gauzyId: 'income-1' }], total: 1 }))
+				findAll: jest.fn(async () => ({ items: [{ irtranscriptsId: 'income-1' }], total: 1 }))
 			},
 			_incomeService: { findAll: findAll() },
 			_expenseService: { findAll: findAll() }

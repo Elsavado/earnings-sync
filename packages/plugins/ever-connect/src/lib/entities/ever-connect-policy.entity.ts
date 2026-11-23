@@ -1,6 +1,6 @@
 import { PrimaryKey } from '@mikro-orm/core';
 import { PrimaryColumn } from 'typeorm';
-import { MultiORMColumn, MultiORMEntity, SkipExport } from '@gauzy/core';
+import { MultiORMColumn, MultiORMEntity, SkipExport } from '@irtranscripts/core';
 
 /**
  * The operator's instance policy: one row per integration the operator allowed or denied in the

@@ -19,7 +19,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { WarehouseProductVariant } from '@gauzy/core';
+import { WarehouseProductVariant } from '@irtranscripts/core';
 import { InventoryOrmConnection } from './inventory.connection';
 import { StockMovement } from './stock-movement/stock-movement.entity';
 import { StockLevelModule } from './stock-level/stock-level.module';

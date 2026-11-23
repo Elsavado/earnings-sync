@@ -1,14 +1,14 @@
-# @gauzy/ui-config
+# @irtranscripts/ui-config
 
 This library was generated with [Nx](https://nx.dev).
 
 ## Features
 
-- **Environment Settings:** Provides environment settings and configurations to be shared across various Angular applications within the Gauzy ecosystem.
+- **Environment Settings:** Provides environment settings and configurations to be shared across various Angular applications within the IRTranscripts ecosystem.
 
 ## Getting Started
 
-The `@gauzy/ui-config` library is generated with [Nx](https://nx.dev) and is intended to be used within the Gauzy ecosystem. Before installing, make sure you have a Gauzy workspace set up and that all necessary dependencies are in place.
+The `@irtranscripts/ui-config` library is generated with [Nx](https://nx.dev) and is intended to be used within the IRTranscripts ecosystem. Before installing, make sure you have a IRTranscripts workspace set up and that all necessary dependencies are in place.
 
 ## Table of Contents
 
@@ -28,10 +28,10 @@ After building your library with `yarn nx build ui-config`, go to the dist folde
 
 ## Installation
 
-To install the `@gauzy/ui-config` library, run the following command in your Angular project:
+To install the `@irtranscripts/ui-config` library, run the following command in your Angular project:
 
 ```bash
-npm install @gauzy/ui-auth
+npm install @irtranscripts/ui-auth
 # or
-yarn add @gauzy/ui-auth
+yarn add @irtranscripts/ui-auth
 ```

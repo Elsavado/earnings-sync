@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { IOrganization, PermissionsEnum } from '@gauzy/contracts';
+import { IOrganization, PermissionsEnum } from '@irtranscripts/contracts';
 import { Store } from '../services';
 
 @Injectable()

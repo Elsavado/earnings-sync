@@ -5,9 +5,9 @@ import { Observable, of, firstValueFrom, filter, catchError, finalize, switchMap
 import { NbDialogService } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ID, IHubstaffOrganization, IHubstaffProject, IOrganization } from '@gauzy/contracts';
-import { ErrorHandlingService, HubstaffService, Store, ToastrService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { ID, IHubstaffOrganization, IHubstaffProject, IOrganization } from '@irtranscripts/contracts';
+import { ErrorHandlingService, HubstaffService, Store, ToastrService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { SettingsDialogComponent } from '../settings-dialog/settings-dialog.component';
 
 @UntilDestroy({ checkProperties: true })

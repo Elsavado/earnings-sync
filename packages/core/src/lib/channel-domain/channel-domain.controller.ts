@@ -13,7 +13,7 @@ import {
 	UsePipes
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { IChannelDomain, ID, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { IChannelDomain, ID, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { paginateRows, resolveRestPage } from '../api/graphql-connection';
 import { CrudController } from '../core/crud';
 import { UUIDValidationPipe, UseValidationPipe, AbstractValidationPipe } from '../shared/pipes';

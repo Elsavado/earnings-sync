@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 
 interface OAuthRequestInfo {
 	clientId: string;
@@ -47,7 +47,7 @@ export class OAuthAuthorizeComponent implements OnInit {
 	private loadRequestInfo(): void {
 		this.http
 			.get<OAuthRequestInfo>(
-				`${API_PREFIX}/integration/ever-gauzy/oauth/authorize/request/${this.requestId}`
+				`${API_PREFIX}/integration/ever-irtranscripts/oauth/authorize/request/${this.requestId}`
 			)
 			.subscribe({
 				next: (info) => {
@@ -76,7 +76,7 @@ export class OAuthAuthorizeComponent implements OnInit {
 		this.approving = true;
 		this.http
 			.post<{ redirect_url: string }>(
-				`${API_PREFIX}/integration/ever-gauzy/oauth/authorize`,
+				`${API_PREFIX}/integration/ever-irtranscripts/oauth/authorize`,
 				{ request_id: this.requestId }
 			)
 			.subscribe({

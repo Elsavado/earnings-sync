@@ -1,20 +1,20 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ICountsStatistics, IGetCountsStatistics, ITimeLogFilters, PermissionsEnum } from '@gauzy/contracts';
+import { ICountsStatistics, IGetCountsStatistics, ITimeLogFilters, PermissionsEnum } from '@irtranscripts/contracts';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { pick } from 'underscore';
 import { debounceTime, filter, tap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 import moment from 'moment';
 import { TranslateService } from '@ngx-translate/core';
-import { distinctUntilChange, isEmpty } from '@gauzy/ui-core/common';
+import { distinctUntilChange, isEmpty } from '@irtranscripts/ui-core/common';
 import {
 	DateRangePickerBuilderService,
 	EmployeesService,
 	OrganizationProjectsService,
 	Store,
 	TimesheetStatisticsService
-} from '@gauzy/ui-core/core';
-import { BaseSelectorFilterComponent, TimeZoneService } from '../../../timesheet/gauzy-filters';
+} from '@irtranscripts/ui-core/core';
+import { BaseSelectorFilterComponent, TimeZoneService } from '../../../timesheet/irtranscripts-filters';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

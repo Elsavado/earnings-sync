@@ -1,7 +1,7 @@
 import { createHash } from 'crypto';
 import { BadRequestException } from '@nestjs/common';
 import { FindOperator } from 'typeorm';
-import { Money, RequestContext } from '@gauzy/core';
+import { Money, RequestContext } from '@irtranscripts/core';
 import { GiftCardService } from './gift-card.service';
 import { GiftCardTransactionService } from '../gift-card-transaction/gift-card-transaction.service';
 import { keyGiftCardPinDigest } from './gift-card-pin';

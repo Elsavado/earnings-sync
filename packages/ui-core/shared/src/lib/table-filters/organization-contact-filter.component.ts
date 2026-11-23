@@ -1,6 +1,6 @@
 import { Component, OnChanges, type SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { DefaultFilter } from 'angular2-smart-table';
-import { IOrganizationContact } from '@gauzy/contracts';
+import { IOrganizationContact } from '@irtranscripts/contracts';
 
 @Component({
     selector: 'ga-contact-select-filter',

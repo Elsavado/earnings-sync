@@ -8,10 +8,10 @@ import {
 	ITask,
 	ITimeSlot,
 	IOrganizationProject,
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsString, IsEnum, IsOptional, IsNumber, IsDateString, IsUUID } from 'class-validator';
-import { isBetterSqlite3, isMySQL, isSqlite } from '@gauzy/config';
+import { isBetterSqlite3, isMySQL, isSqlite } from '@irtranscripts/config';
 import {
 	Employee,
 	OrganizationProject,

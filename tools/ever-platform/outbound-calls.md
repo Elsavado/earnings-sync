@@ -1,13 +1,13 @@
 <!-- markdownlint-disable MD013 MD043 -->
 
-# What Ever Gauzy sends to Ever Platform
+# What Ever IRTranscripts sends to Ever Platform
 
-Ever Gauzy has two optional modules that talk to Ever Platform: the **anonymous usage statistics**
-([`@gauzy/plugin-ever-stats`](../../packages/plugins/ever-stats/README.md)) and the **connection**
-([`@gauzy/plugin-ever-connect`](../../packages/plugins/ever-connect/README.md)). This page lists every
-call either of them can make. Nothing else in Gauzy calls Ever Platform.
+Ever IRTranscripts has two optional modules that talk to Ever Platform: the **anonymous usage statistics**
+([`@irtranscripts/plugin-ever-stats`](../../packages/plugins/ever-stats/README.md)) and the **connection**
+([`@irtranscripts/plugin-ever-connect`](../../packages/plugins/ever-connect/README.md)). This page lists every
+call either of them can make. Nothing else in IRTranscripts calls Ever Platform.
 
-This page is published at [docs.gauzy.co](https://docs.gauzy.co/ever-platform/outbound-calls/) from
+This page is published at [docs.irtranscripts.com](https://docs.irtranscripts.com/ever-platform/outbound-calls/) from
 [`ever-co/ever-gauzy-docs`](https://github.com/ever-co/ever-gauzy-docs). The copy in
 `ever-co/ever-gauzy` (`tools/ever-platform/outbound-calls.md`) is the one CI checks against the
 pinned contract; a change to it is copied to the published page.
@@ -29,8 +29,8 @@ operator made. A call that is listed but whose trigger never happens is never ma
 
 The table is generated from the outbound-call rows of the Ever Platform contract, at the exact version
 the modules pin; a check in CI fails when the table, the modules' READMEs or the egress audit drift
-from it. The row number is the contract's. Where Gauzy calls on a schedule of its own (row 8), the
-"When" and "How often" columns give Gauzy's.
+from it. The row number is the contract's. Where IRTranscripts calls on a schedule of its own (row 8), the
+"When" and "How often" columns give IRTranscripts's.
 
 <!-- generated:version (node tools/ever-platform/outbound-calls.mjs --write, from the pinned contract; do not edit by hand) -->
 
@@ -62,13 +62,13 @@ Every request goes to `EVER_PLATFORM_API_URL` (the statistics: `EVER_STATS_API_U
 `https://api.ever.co` by default. No request carries a person's name or e-mail address. The module
 READMEs say in detail what each request carries and when.
 
-## Calls of the contract that Gauzy does not make
+## Calls of the contract that IRTranscripts does not make
 
-The contract describes more calls for Gauzy than this release makes. These are never made:
+The contract describes more calls for IRTranscripts than this release makes. These are never made:
 
 <!-- generated:not-made (node tools/ever-platform/outbound-calls.mjs --write, from the pinned contract; do not edit by hand) -->
 
-| # | Calls | Why Gauzy does not make them |
+| # | Calls | Why IRTranscripts does not make them |
 | --- | --- | --- |
 | 2 | Legal texts | not built in this release |
 | 14 | Ever ID sign-in client | not served by version 1 of the Ever Platform API |
@@ -87,7 +87,7 @@ The contract describes more calls for Gauzy than this release makes. These are n
 
 ## Older features that call Ever servers
 
-None of Gauzy's other features calls an Ever server by default. The egress audit (below) checks it
+None of IRTranscripts's other features calls an Ever server by default. The egress audit (below) checks it
 on every published build, with both modules off: no Ever host is looked up or requested by the API or
 by the web app.
 
@@ -114,8 +114,8 @@ other modes and the route-list check):
 ```sh
 npm ci --prefix tools/egress-audit --ignore-scripts
 : > /tmp/api-empty.env
-GAUZY_AUDIT_SECRET=$(openssl rand -hex 32) GAUZY_AUDIT_DOTENV=/tmp/api-empty.env \
-  GAUZY_API_IMAGE=ghcr.io/ever-co/gauzy-api-demo:latest GAUZY_WEBAPP_IMAGE=ghcr.io/ever-co/gauzy-webapp-demo:latest \
+IRTRANSCRIPTS_AUDIT_SECRET=$(openssl rand -hex 32) IRTRANSCRIPTS_AUDIT_DOTENV=/tmp/api-empty.env \
+  IRTRANSCRIPTS_API_IMAGE=ghcr.io/ever-co/gauzy-api-demo:latest IRTRANSCRIPTS_WEBAPP_IMAGE=ghcr.io/ever-co/gauzy-webapp-demo:latest \
   node tools/egress-audit/node_modules/@ever-co/connect-tools/dist/egress-audit/run.mjs \
   --config tools/egress-audit/egress-audit.config.json --mode off
 ```

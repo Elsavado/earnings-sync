@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { CronExpression } from '@nestjs/schedule';
-import { ScheduledJob } from '@gauzy/scheduler';
+import { ScheduledJob } from '@irtranscripts/scheduler';
 import { WEBHOOK_QUEUE_NAME, WEBHOOK_RETRY_JOB, WEBHOOK_RETRY_SCHEDULE } from './webhook-constant';
 
 /**

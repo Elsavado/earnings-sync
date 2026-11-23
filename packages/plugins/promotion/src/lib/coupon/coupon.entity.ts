@@ -9,8 +9,8 @@ import {
 	MultiORMManyToOne,
 	MultiORMOneToMany,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
-import { ID } from '@gauzy/contracts';
+} from '@irtranscripts/core';
+import { ID } from '@irtranscripts/contracts';
 import { MikroOrmCouponRepository } from './repository/mikro-orm-coupon.repository';
 import { ICoupon, IPromotion, IPromotionUsage } from '../promotion.types';
 import { Promotion } from '../promotion/promotion.entity';

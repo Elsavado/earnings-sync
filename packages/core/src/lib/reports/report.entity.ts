@@ -4,7 +4,7 @@ import {
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsNotEmpty, IsUUID } from 'class-validator';
-import { IReport, IReportCategory, IReportOrganization } from '@gauzy/contracts';
+import { IReport, IReportCategory, IReportOrganization } from '@irtranscripts/contracts';
 import { BaseEntity } from '../core/entities/internal';
 import { ReportCategory } from './report-category.entity';
 import { ReportOrganization } from './report-organization.entity';

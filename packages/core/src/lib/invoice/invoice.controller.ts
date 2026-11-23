@@ -19,7 +19,7 @@ import { DeleteResult, FindOptionsWhere } from 'typeorm';
 import { Response } from 'express';
 import { CommandBus } from '@nestjs/cqrs';
 import { I18nLang } from 'nestjs-i18n';
-import { PermissionsEnum, IInvoice, LanguagesEnum, IPagination } from '@gauzy/contracts';
+import { PermissionsEnum, IInvoice, LanguagesEnum, IPagination } from '@irtranscripts/contracts';
 import { CrudController, FindOptionsQueryDTO, BaseQueryDTO } from './../core/crud';
 import { Invoice } from './invoice.entity';
 import { IInvoiceStatistics, InvoiceService } from './invoice.service';

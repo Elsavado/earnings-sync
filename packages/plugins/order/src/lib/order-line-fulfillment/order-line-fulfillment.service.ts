@@ -1,6 +1,6 @@
 import { BadRequestException, ConflictException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { FindOptionsWhere } from 'typeorm';
-import { CurrencyCode, DecimalString, ID } from '@gauzy/contracts';
+import { CurrencyCode, DecimalString, ID } from '@irtranscripts/contracts';
 import {
 	Money,
 	MultiORMEnum,
@@ -15,7 +15,7 @@ import {
 	readAffectedRows,
 	toPositionalStatement,
 	toUnitsAtScale
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { IOrderLineFulfillment, IOrderLineReceiptMove } from '../order.types';
 import { Order } from '../order/order.entity';
 import { MikroOrmOrderRepository } from '../order/repository/mikro-orm-order.repository';

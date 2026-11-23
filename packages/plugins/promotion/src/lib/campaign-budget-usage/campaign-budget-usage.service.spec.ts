@@ -1,4 +1,4 @@
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { CampaignBudgetUsageService } from './campaign-budget-usage.service';
 
 /**

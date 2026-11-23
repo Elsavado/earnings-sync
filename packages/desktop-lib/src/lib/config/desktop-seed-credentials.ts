@@ -11,7 +11,7 @@ export type DesktopSeedAccountKey = 'superAdmin' | 'admin' | 'employee';
  */
 export interface DesktopSeedAccount {
 	readonly key: DesktopSeedAccountKey;
-	/** Read by `environment.demoCredentialConfig` in `@gauzy/config`, then hashed by the seed. */
+	/** Read by `environment.demoCredentialConfig` in `@irtranscripts/config`, then hashed by the seed. */
 	readonly passwordEnv: string;
 	/** Read the same way; when it is unset the API uses its default email. */
 	readonly emailEnv: string;

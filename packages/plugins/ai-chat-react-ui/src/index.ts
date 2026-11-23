@@ -1,8 +1,8 @@
 /*
- * Public API Surface of @gauzy/plugin-ai-chat-react-ui
+ * Public API Surface of @irtranscripts/plugin-ai-chat-react-ui
  *
  * This package provides an inline collapsible AI Chat widget built with
- * the Vercel AI SDK (@ai-sdk/react), designed for the Gauzy left sidebar.
+ * the Vercel AI SDK (@ai-sdk/react), designed for the IRTranscripts left sidebar.
  *
  * Loosely coupled — registration flows through `plugin-ui.config.ts` via
  * `defineDeclarativePlugin`. No direct component imports needed in the host app.

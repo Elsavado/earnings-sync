@@ -1,7 +1,7 @@
 import { JoinColumn, RelationId } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsDateString, IsEnum, IsOptional, IsString, IsUUID, Length } from 'class-validator';
-import { CurrencyCode, DecimalString, ID } from '@gauzy/contracts';
+import { CurrencyCode, DecimalString, ID } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	ColumnNumericTransformerPipe,
@@ -11,7 +11,7 @@ import {
 	MultiORMManyToOne,
 	ProductVariant,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { PriceBaseSource, PriceComputeMode, PriceStatus } from '../pricing.types';
 import { PriceList } from '../price-list/price-list.entity';
 import { MikroOrmProductPriceRepository } from './repository/mikro-orm-product-price.repository';

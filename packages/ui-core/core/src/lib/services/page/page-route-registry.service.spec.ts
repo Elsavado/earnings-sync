@@ -51,7 +51,7 @@ describe('PageRouteRegistryService — navigation-target contract', () => {
 	});
 
 	it('emits NO guard keys on a redirect route (Angular rejects redirectTo + canActivate, even `[]`)', () => {
-		// demo.gauzy.co 2026-08-17: `canActivate: []` is truthy, and the dev-mode router
+		// demo.irtranscripts.com 2026-08-17: `canActivate: []` is truthy, and the dev-mode router
 		// validator throws NG04014 "redirectTo and canActivate cannot be used together" while the
 		// lazy parent config loads — a blank app for every user of a development-configuration
 		// bundle. Guards must be attached only when there is at least one.

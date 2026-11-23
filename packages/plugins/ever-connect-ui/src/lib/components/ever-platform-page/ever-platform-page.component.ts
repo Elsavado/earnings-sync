@@ -14,8 +14,8 @@ import {
 import { TranslatePipe } from '@ngx-translate/core';
 import { distinctUntilChanged, forkJoin, Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
 import { ApprovalDecision, PendingApprovalsComponent } from '../pending-approvals/pending-approvals.component';
 import {
 	EverConnectAuditRow,

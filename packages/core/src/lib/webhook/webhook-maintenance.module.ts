@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { SchedulerModule } from '@gauzy/scheduler';
+import { SchedulerModule } from '@irtranscripts/scheduler';
 import { WebhookModule } from './webhook.module';
 import { WebhookRetryScheduler } from './webhook-retry.scheduler';
 import { WebhookRetryWorker } from './webhook-retry.worker';

@@ -1,4 +1,4 @@
-import { ID, IPlugin } from '@gauzy/contracts';
+import { ID, IPlugin } from '@irtranscripts/contracts';
 import { createAction, props } from '@ngneat/effects';
 import {
     BulkAssignPluginUsersRequest,

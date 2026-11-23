@@ -15,8 +15,8 @@ import {
 	IOrganization,
 	ITag,
 	ID
-} from '@gauzy/contracts';
-import { isMySQL } from '@gauzy/config';
+} from '@irtranscripts/contracts';
+import { isMySQL } from '@irtranscripts/config';
 import { ColumnNumericTransformerPipe } from './../shared/pipes';
 import {
 	InvoiceEstimateHistory,

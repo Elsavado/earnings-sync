@@ -19,7 +19,7 @@
  * Deliberately NOT here: feature services and stores (a spec that needs one should say so), and
  * `NO_ERRORS_SCHEMA` (the zone test env errors on unknown elements, and that stays on). Keep the
  * imports to third-party modules and leaf workspace modules: this file loads BEFORE each spec, so
- * importing e.g. `@gauzy/ui-core/core` here would cache the real modules that a spec later replaces
+ * importing e.g. `@irtranscripts/ui-core/core` here would cache the real modules that a spec later replaces
  * with `jest.mock(...)` (chat-sidebar.service.spec does), and the mock would silently not apply.
  */
 import { provideHttpClient } from '@angular/common/http';
@@ -39,8 +39,8 @@ import {
 } from '@nebular/theme';
 import { provideTranslateService, TranslatePipe } from '@ngx-translate/core';
 import { NgxPermissionsModule } from 'ngx-permissions';
-import { environment, GAUZY_ENV } from '@gauzy/ui-config';
-import { TablerIconsModule } from '@gauzy/ui-core/icons';
+import { environment, IRTRANSCRIPTS_ENV } from '@irtranscripts/ui-config';
+import { TablerIconsModule } from '@irtranscripts/ui-core/icons';
 
 // jsdom implements no `matchMedia`; Nebular's layout/breakpoint services and several components call
 // it. Browsers always have it. An inert stand-in that matches nothing (a spec that cares can replace it).
@@ -95,7 +95,7 @@ beforeEach(() => {
 			provideRouter([]),
 			provideNoopAnimations(),
 			{ provide: NbDialogRef, useValue: dialogRefStub },
-			{ provide: GAUZY_ENV, useValue: environment }
+			{ provide: IRTRANSCRIPTS_ENV, useValue: environment }
 		]
 	});
 });

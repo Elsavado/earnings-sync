@@ -1,7 +1,7 @@
 /**
  * The kernel's conditional write, doubled for the suites that mock the package barrel.
  *
- * This module is a double and is used only where `@gauzy/core` is replaced at the module boundary.
+ * This module is a double and is used only where `@irtranscripts/core` is replaced at the module boundary.
  * The specs of this package replace the whole barrel, because the barrel boots the application graph
  * and its nested `uuid` is ESM-only under jest; a factory that replaces a module has to answer for
  * every name the code under test imports from it, and `commitVersionedUpdate` is one of those names.

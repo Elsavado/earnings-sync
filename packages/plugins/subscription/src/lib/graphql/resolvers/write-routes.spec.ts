@@ -38,14 +38,14 @@
  * ones.
  */
 
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import {
 	IDEMPOTENT_METADATA_KEY,
 	PermissionGuard,
 	TenantPermissionGuard,
 	VERSIONED_METADATA_KEY,
 	VERSION_EXPECTATION_PROPERTY
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import {
 	FieldDefinitionNode,
 	ObjectTypeDefinitionNode,

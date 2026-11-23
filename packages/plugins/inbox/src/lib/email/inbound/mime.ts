@@ -180,7 +180,7 @@ export function referencesOf(value: unknown): string[] {
 
 /** A message id derived from the content, for a message that carries none (so a retry still deduplicates). */
 export function derivedMessageId(content: Buffer | string): string {
-	return `<${createHash('sha256').update(content).digest('hex').slice(0, 40)}@inbox.gauzy.invalid>`;
+	return `<${createHash('sha256').update(content).digest('hex').slice(0, 40)}@inbox.irtranscripts.invalid>`;
 }
 
 /**
@@ -272,7 +272,7 @@ export function serializeParsedMessage(message: ParsedInboundEmail): Buffer {
 	const { raw: _raw, attachments, ...rest } = message;
 	return Buffer.from(
 		JSON.stringify({
-			format: 'gauzy-inbox-message/1',
+			format: 'irtranscripts-inbox-message/1',
 			...rest,
 			attachments: attachments.map(({ content, ...attachment }) => ({
 				...attachment,
@@ -286,7 +286,7 @@ export function serializeParsedMessage(message: ParsedInboundEmail): Buffer {
 /** Reads a `.json` raw form back into the normalized message. Throws on anything else. */
 export function deserializeParsedMessage(buffer: Buffer): ParsedInboundEmail {
 	const data = JSON.parse(buffer.toString('utf8')) as Record<string, unknown>;
-	if (data['format'] !== 'gauzy-inbox-message/1') {
+	if (data['format'] !== 'irtranscripts-inbox-message/1') {
 		throw new Error('The stored message is not in a format this version reads.');
 	}
 	const date = (value: unknown) => (typeof value === 'string' || value instanceof Date ? new Date(value) : undefined);

@@ -8,7 +8,7 @@
  */
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	deliverPayloadAsIs,
 	EventBus,
@@ -24,8 +24,8 @@ import {
 	connectionFromOffsetPage,
 	resolveConnectionWindow,
 	tenantScopedEventStream
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { InventoryPermission } from './../inventory.permissions';
 import { StockLevelService } from './../stock-level/stock-level.service';
 import { InventoryLevelChangedEvent, InventoryLevelLowEvent, InventoryLevelOutOfStockEvent } from './../events';

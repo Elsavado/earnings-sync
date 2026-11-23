@@ -1,5 +1,5 @@
 import { Router } from "@angular/router";
-import { environment } from "@gauzy/ui-config";
+import { environment } from "@irtranscripts/ui-config";
 import { Store } from "./services/store";
 import { ServerConnectionService } from "./services/server-connection";
 

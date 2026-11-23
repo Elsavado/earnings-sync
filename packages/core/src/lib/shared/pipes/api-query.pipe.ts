@@ -1,5 +1,5 @@
 import { ArgumentMetadata, Injectable, Optional, PipeTransform } from '@nestjs/common';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { ApiQuery, ApiQueryError, isApiQueryError, validateQueryStringLength } from '../../api/query-ast';
 import { toApiQuery } from '../../api/query-parser';
 import { ApiException } from '../../core/errors/api-exception';

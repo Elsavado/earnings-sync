@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { QueueJobHandler, QueueWorker, QueueWorkerHost } from '@gauzy/scheduler';
+import { QueueJobHandler, QueueWorker, QueueWorkerHost } from '@irtranscripts/scheduler';
 import { Job } from 'bullmq';
 import {
 	IDEMPOTENCY_CLEANUP_BATCH_SIZE,

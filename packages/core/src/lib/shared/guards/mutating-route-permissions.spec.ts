@@ -17,8 +17,8 @@ import * as ts from 'typescript';
 import { ExecutionContext, RequestMethod } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { GUARDS_METADATA, METHOD_METADATA, PATH_METADATA } from '@nestjs/common/constants';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { CrudController } from '../../core/crud';
 import { OrganizationContactController } from '../../organization-contact/organization-contact.controller';
 import { OrganizationDepartmentController } from '../../organization-department/organization-department.controller';
@@ -175,7 +175,7 @@ function expectFullyGated(controller: Function, expected: PermissionsEnum[], exe
 
 describe('OrganizationDepartmentController', () => {
 	// The departments page hides add/edit/delete behind ALL_ORG_EDIT
-	// (apps/gauzy/.../departments.component.html); PUT 'employee' — which rewrites the same
+	// (apps/irtranscripts/.../departments.component.html); PUT 'employee' — which rewrites the same
 	// `members[]` relation PUT ':id' rewrites — requires ORG_EMPLOYEES_EDIT. `checkRolePermission`
 	// uses `IN (:...permissions)`, so the pair is OR semantics and both admin flows keep working.
 	const expected = [PermissionsEnum.ALL_ORG_EDIT, PermissionsEnum.ORG_EMPLOYEES_EDIT];

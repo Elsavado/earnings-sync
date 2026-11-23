@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { EntityManager, Not, Repository } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { EventOutboxService, MultiORMEnum, RequestContext } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { EventOutboxService, MultiORMEnum, RequestContext } from '@irtranscripts/core';
 import { Entitlement } from '../entitlement/entitlement.entity';
 import { EntitlementKey } from './entitlement-key.entity';
 import { EntitlementActivation } from '../entitlement-activation/entitlement-activation.entity';

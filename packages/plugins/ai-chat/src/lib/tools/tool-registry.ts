@@ -85,7 +85,7 @@ export type AiChatToolFactory = (
  * AiChatToolRegistry
  *
  * Process-wide registry of chat-tool contributions from OTHER plugins
- * (e.g. `@gauzy/plugin-docs` contributes `docs_search` / `docs_read`).
+ * (e.g. `@irtranscripts/plugin-docs` contributes `docs_search` / `docs_read`).
  *
  * Mirrors {@link AiProviderRegistry}: a static registry (not Nest DI) so contributing plugins
  * do not need to import the chat module's Nest graph — they call

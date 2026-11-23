@@ -1,7 +1,7 @@
 import '../core/entities/internal';
 
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
-import { IntegrationEnum } from '@gauzy/contracts';
+import { IntegrationEnum } from '@irtranscripts/contracts';
 import { IntegrationSettingService } from './integration-setting.service';
 import { IntegrationSettingController } from './integration-setting.controller';
 import { isUserEditableIntegrationSetting, userEditableIntegrationSettings } from './integration-setting.utils';
@@ -16,7 +16,7 @@ import { isUserEditableIntegrationSetting, userEditableIntegrationSettings } fro
  * the victim's private repositories through their own integration.
  *
  * The route now updates only `settingsValue`, and only for settings on a per-provider allowlist
- * (the Gauzy AI keys the settings card edits). Every "fix" case is paired with a CONTROL that runs
+ * (the IRTranscripts AI keys the settings card edits). Every "fix" case is paired with a CONTROL that runs
  * the pre-fix controller body against the same row.
  */
 describe('PUT /integration-setting/:id (GHSA-4rwq-65wh-45h4)', () => {
@@ -78,7 +78,7 @@ describe('PUT /integration-setting/:id (GHSA-4rwq-65wh-45h4)', () => {
 		[IntegrationEnum.MakeCom, 'make_organization_id'],
 		[IntegrationEnum.ACTIVE_PIECES, 'project_id'],
 		[IntegrationEnum.PLANE, 'plane_mode'],
-		// A Gauzy AI key name on ANOTHER provider's row is not editable either.
+		// A IRTranscripts AI key name on ANOTHER provider's row is not editable either.
 		[IntegrationEnum.GITHUB, 'apiKey']
 	])('%s / %s (server-managed)', (provider, settingsName) => {
 		it('is refused, and nothing is written', async () => {
@@ -100,10 +100,10 @@ describe('PUT /integration-setting/:id (GHSA-4rwq-65wh-45h4)', () => {
 	});
 
 	describe.each(['apiKey', 'apiSecret', 'openAiSecretKey', 'openAiOrganizationId'])(
-		'Gauzy AI / %s (edited by the AI settings card)',
+		'IRTranscripts AI / %s (edited by the AI settings card)',
 		(settingsName) => {
 			it('is updated, and only its value is written', async () => {
-				stubRow(row(IntegrationEnum.GAUZY_AI, settingsName));
+				stubRow(row(IntegrationEnum.IRTRANSCRIPTS_AI, settingsName));
 
 				// Exactly the payload integration-setting-card.component.ts sends.
 				await controller.update(ROW_ID, {
@@ -120,7 +120,7 @@ describe('PUT /integration-setting/:id (GHSA-4rwq-65wh-45h4)', () => {
 	);
 
 	it('pins organizationId, settingsName and integrationId (the body cannot move or rename the row)', async () => {
-		stubRow(row(IntegrationEnum.GAUZY_AI, 'apiKey'));
+		stubRow(row(IntegrationEnum.IRTRANSCRIPTS_AI, 'apiKey'));
 		const body = {
 			settingsValue: 'new-key',
 			organizationId: OTHER_ORGANIZATION_ID,
@@ -148,7 +148,7 @@ describe('PUT /integration-setting/:id (GHSA-4rwq-65wh-45h4)', () => {
 	});
 
 	it('refuses a row whose integration could not be loaded', async () => {
-		stubRow({ ...row(IntegrationEnum.GAUZY_AI, 'apiKey'), integration: null } as any);
+		stubRow({ ...row(IntegrationEnum.IRTRANSCRIPTS_AI, 'apiKey'), integration: null } as any);
 
 		await expect(controller.update(ROW_ID, { settingsValue: 'x' } as any)).rejects.toBeInstanceOf(ForbiddenException);
 		expect(create).not.toHaveBeenCalled();
@@ -156,20 +156,20 @@ describe('PUT /integration-setting/:id (GHSA-4rwq-65wh-45h4)', () => {
 });
 
 describe('isUserEditableIntegrationSetting', () => {
-	it('allows exactly the Gauzy AI keys', () => {
+	it('allows exactly the IRTranscripts AI keys', () => {
 		expect(userEditableIntegrationSettings).toEqual({
-			[IntegrationEnum.GAUZY_AI]: ['apiKey', 'apiSecret', 'openAiSecretKey', 'openAiOrganizationId']
+			[IntegrationEnum.IRTRANSCRIPTS_AI]: ['apiKey', 'apiSecret', 'openAiSecretKey', 'openAiOrganizationId']
 		});
-		expect(isUserEditableIntegrationSetting(IntegrationEnum.GAUZY_AI, 'apiKey')).toBe(true);
-		expect(isUserEditableIntegrationSetting(IntegrationEnum.GAUZY_AI, 'installation_id')).toBe(false);
+		expect(isUserEditableIntegrationSetting(IntegrationEnum.IRTRANSCRIPTS_AI, 'apiKey')).toBe(true);
+		expect(isUserEditableIntegrationSetting(IntegrationEnum.IRTRANSCRIPTS_AI, 'installation_id')).toBe(false);
 	});
 
 	it('is not fooled by prototype keys or missing values', () => {
 		expect(isUserEditableIntegrationSetting('__proto__', 'apiKey')).toBe(false);
 		expect(isUserEditableIntegrationSetting('constructor', 'apiKey')).toBe(false);
-		expect(isUserEditableIntegrationSetting(IntegrationEnum.GAUZY_AI, 'constructor')).toBe(false);
+		expect(isUserEditableIntegrationSetting(IntegrationEnum.IRTRANSCRIPTS_AI, 'constructor')).toBe(false);
 		expect(isUserEditableIntegrationSetting(undefined, 'apiKey')).toBe(false);
 		expect(isUserEditableIntegrationSetting(null, 'apiKey')).toBe(false);
-		expect(isUserEditableIntegrationSetting(IntegrationEnum.GAUZY_AI, '')).toBe(false);
+		expect(isUserEditableIntegrationSetting(IntegrationEnum.IRTRANSCRIPTS_AI, '')).toBe(false);
 	});
 });

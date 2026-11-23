@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/plugin-cart
+ * Public API Surface of @irtranscripts/plugin-cart
  */
 export * from './lib/cart.plugin';
 export * from './lib/cart.module';

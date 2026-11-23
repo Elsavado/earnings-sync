@@ -1,6 +1,6 @@
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { MiddlewareConsumer, NestModule } from '@nestjs/common';
-import { GauzyCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@gauzy/plugin';
+import { IRTranscriptsCorePlugin as Plugin, IOnPluginBootstrap, IOnPluginDestroy } from '@irtranscripts/plugin';
 import { PosthogModule } from './posthog.module';
 import { parsePosthogOptions, PosthogModuleOptions } from './posthog.interfaces';
 import { PosthogEventInterceptor } from './posthog-event.interceptor';

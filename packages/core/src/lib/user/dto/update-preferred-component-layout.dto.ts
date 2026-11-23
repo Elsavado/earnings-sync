@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty } from 'class-validator';
-import { ComponentLayoutStyleEnum, IUserUpdateInput } from '@gauzy/contracts';
+import { ComponentLayoutStyleEnum, IUserUpdateInput } from '@irtranscripts/contracts';
 
 export class UpdatePreferredComponentLayoutDTO implements IUserUpdateInput {
 	@ApiProperty({ type: () => String, enum: ComponentLayoutStyleEnum })

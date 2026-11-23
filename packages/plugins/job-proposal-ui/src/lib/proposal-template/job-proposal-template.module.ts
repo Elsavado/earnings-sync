@@ -7,9 +7,9 @@ import {
 	IOnPluginUiDestroy,
 	PluginUiDefinition,
 	PLUGIN_DEFINITION
-} from '@gauzy/plugin-ui';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { LoggerService, NavMenuBuilderService, PageRouteRegistryService, Store } from '@gauzy/ui-core/core';
+} from '@irtranscripts/plugin-ui';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { LoggerService, NavMenuBuilderService, PageRouteRegistryService, Store } from '@irtranscripts/ui-core/core';
 import {
 	SmartDataViewLayoutModule,
 	EmployeeMultiSelectModule,
@@ -18,7 +18,7 @@ import {
 	RichTextEditorModule,
 	SharedModule,
 	StatusBadgeModule
-} from '@gauzy/ui-core/shared';
+} from '@irtranscripts/ui-core/shared';
 import { getJobProposalTemplateRoutes, JOB_PROPOSAL_TEMPLATE_PAGE_LINK } from './job-proposal-template.routes';
 import { ProposalTemplateListComponent } from './components/proposal-template-list/proposal-template-list.component';
 import { ProposalTemplateFormComponent } from './components/proposal-template-form/proposal-template-form.component';

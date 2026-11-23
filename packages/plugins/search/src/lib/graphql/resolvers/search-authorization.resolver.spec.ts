@@ -1,6 +1,6 @@
 /**
- * The module boundaries are doubled for the reason this package's service specs state: `@gauzy/core`
- * boots the whole application graph from its barrel and `@gauzy/config` reads the environment at import
+ * The module boundaries are doubled for the reason this package's service specs state: `@irtranscripts/core`
+ * boots the whole application graph from its barrel and `@irtranscripts/config` reads the environment at import
  * time, neither of which a resolver needs.
  *
  * The three guard classes and the `Permissions` decorator are the real production *shapes* — the
@@ -8,15 +8,15 @@
  * guard classes `@UseGuards` was given — so a guard dropped from the chain, or reordered, fails here
  * rather than at the first request that reaches the endpoint.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { SetMetadata } = require('@nestjs/common');
-	const { PERMISSIONS_METADATA } = require('@gauzy/constants');
+	const { PERMISSIONS_METADATA } = require('@irtranscripts/constants');
 
 	class BaseEntity {}
 
 	return {
 		// The shared GraphQL gate, the declaring module's own value, so the assertions compare against it.
-		FEATURE_GRAPHQL: jest.requireActual('@gauzy/core/src/lib/feature/graphql-feature.code').FEATURE_GRAPHQL,
+		FEATURE_GRAPHQL: jest.requireActual('@irtranscripts/core/src/lib/feature/graphql-feature.code').FEATURE_GRAPHQL,
 		BaseEntity,
 		TenantBaseEntity: BaseEntity,
 		TenantOrganizationBaseEntity: BaseEntity,
@@ -31,15 +31,15 @@ jest.mock('@gauzy/core', () => {
 		// The connection helpers the two converted list fields page and answer with, taken from the
 		// kernel: a double that left them undefined would have the suite fail with "not a function" the
 		// moment a case reached one of those fields, rather than tell it anything about the page.
-		connectionFromOffsetPage: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		connectionFromOffsetPage: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.connectionFromOffsetPage,
-		resolveConnectionWindow: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		resolveConnectionWindow: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.resolveConnectionWindow,
-		paginateRows: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection').paginateRows
+		paginateRows: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection').paginateRows
 	};
 });
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	DatabaseTypeEnum: {
 		mongodb: 'mongodb',
 		sqlite: 'sqlite',
@@ -62,9 +62,9 @@ jest.mock('../../services/search-reindex.service', () => ({
 	SearchReindexService: class SearchReindexService {}
 }));
 
-import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@gauzy/constants';
-import { featureFlagsOf } from '@gauzy/common';
-import { FEATURE_GRAPHQL, FeatureFlagGuard, PermissionGuard, TenantPermissionGuard } from '@gauzy/core';
+import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { featureFlagsOf } from '@irtranscripts/common';
+import { FEATURE_GRAPHQL, FeatureFlagGuard, PermissionGuard, TenantPermissionGuard } from '@irtranscripts/core';
 import { SearchPermissions } from '../../search.permissions';
 import { SearchIndexDefinitionResolver } from './search-index-definition.resolver';
 import { SearchResolver } from './search.resolver';

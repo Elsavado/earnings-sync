@@ -2,7 +2,7 @@ import { Inject, Injectable, Logger, OnApplicationBootstrap, OnApplicationShutdo
 import { hostname } from 'node:os';
 import { randomBytes } from 'node:crypto';
 import { DataSource, IsNull, LessThan } from 'typeorm';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { EverWorksConnection, EverWorksConnectionStatus } from '../connection/ever-works-connection.entity';
 import { isEverWorksEnabled } from '../ever-works-enabled';
 import { EVER_WORKS_ENV } from '../ever-works.tokens';
@@ -53,14 +53,14 @@ export const SYNC_RENEW_MS = 30_000;
  * Off with the plugin (`EVER_WORKS_ENABLED` not `true`), and also with `EVER_WORKS_SYNC_LOOP=off` (for a
  * process that should only serve the API). Nothing is sent while no connection exists.
  *
- * The loop runs only in a process that can make the sync's Gauzy writes (`ever-works-process.ts`): every
+ * The loop runs only in a process that can make the sync's IRTranscripts writes (`ever-works-process.ts`): every
  * write opens a tenant-scoped request context of its own, in any process, and dispatches to the platform's
  * task, project and employee services. A process that does not host those (the worker today: its module
  * graph is the documents pipeline and the commerce sweeps) stays out on its own and says so once, so the
  * lease is never held by a process that could only defer the writes; a process that serves the API runs it.
  *
  * **Lease fence** (`ever-works-lease-fence.ts`): every handler, push and sweep runs fenced on the lease, so
- * each of its Gauzy writes checks in its own transaction that this process still holds it — a unit that
+ * each of its IRTranscripts writes checks in its own transaction that this process still holds it — a unit that
  * outlived the lease writes nothing once another process has claimed it.
  */
 @Injectable()
@@ -99,7 +99,7 @@ export class EverWorksSyncLoop implements OnApplicationBootstrap, OnApplicationS
 
 	/**
 	 * Whether this process runs the loop: the plugin is on, `EVER_WORKS_SYNC_LOOP` is not `off`, and the
-	 * process hosts the platform services the sync's Gauzy writes dispatch to. Where it runs, the process
+	 * process hosts the platform services the sync's IRTranscripts writes dispatch to. Where it runs, the process
 	 * is also given a request context store if it has none yet, so each write's tenant-scoped context opens.
 	 */
 	start(): boolean {
@@ -107,7 +107,7 @@ export class EverWorksSyncLoop implements OnApplicationBootstrap, OnApplicationS
 		const missing = this.capability?.missingWriteServices() ?? [];
 		if (missing.length) {
 			this.logger.warn(
-				`This process does not host ${missing.join(', ')}, which the sync's Gauzy writes go through, so it stays out of the sync loop; a process that serves the API runs it (EVER_WORKS_SYNC_LOOP=off here silences this).`
+				`This process does not host ${missing.join(', ')}, which the sync's IRTranscripts writes go through, so it stays out of the sync loop; a process that serves the API runs it (EVER_WORKS_SYNC_LOOP=off here silences this).`
 			);
 			return false;
 		}
@@ -168,7 +168,7 @@ export class EverWorksSyncLoop implements OnApplicationBootstrap, OnApplicationS
 		// Renews the lease every SYNC_RENEW_MS while working; false once another process holds it. A cached
 		// `true` is safe: the lease was just extended by SYNC_LEASE_MS (5 min, ten renewals), and another
 		// process can claim it only once it has run out. Every write is fenced as well: the feed cursor and
-		// the inbound outcomes on `leaseOwner`, the outbound results on their claim, and every Gauzy write of
+		// the inbound outcomes on `leaseOwner`, the outbound results on their claim, and every IRTranscripts write of
 		// a handler, a push or a sweep by the lease fence (checked in the write's own transaction).
 		const stillOwner = async (): Promise<boolean> => {
 			if (Date.now() - renewedAt < SYNC_RENEW_MS) return true;

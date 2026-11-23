@@ -1,3 +1,3 @@
-# Changelog for @gauzy/plugin-knowledge-base
+# Changelog for @irtranscripts/plugin-knowledge-base
 
 ## [Unreleased]

@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, Logger, NotFoundException, OnApplicationBootstrap } from '@nestjs/common';
 import { FindOptionsWhere, IsNull } from 'typeorm';
-import { ID, ISearchIndexField, ISearchIndexRegistration, JsonData, SearchFieldKind } from '@gauzy/contracts';
+import { ID, ISearchIndexField, ISearchIndexRegistration, JsonData, SearchFieldKind } from '@irtranscripts/contracts';
 import {
 	CrudService,
 	MikroOrmSearchIndexDefinitionRepository,
@@ -8,7 +8,7 @@ import {
 	SearchIndexDefinition,
 	TypeOrmSearchIndexDefinitionRepository,
 	isUniqueViolation
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { SearchIndexRegistry } from '../registry/search-index.registry';
 import { SEARCH_INDEX_DEFINITIONS } from '../definitions';
 

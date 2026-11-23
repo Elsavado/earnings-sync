@@ -1,13 +1,13 @@
 {
-	"name": "@gauzy/mcp",
+	"name": "@irtranscripts/mcp",
 	"version": "0.1.0",
-	"description": "Ever Gauzy MCP Server - Standalone Model Context Protocol Server",
+	"description": "Ever IRTranscripts MCP Server - Standalone Model Context Protocol Server",
 	"author": {
 		"name": "Ever Co. LTD",
 		"email": "ever@ever.co",
 		"url": "https://ever.co"
 	},
-	"homepage": "https://gauzy.co",
+	"homepage": "https://irtranscripts.com",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/ever-co/ever-gauzy.git"
@@ -26,7 +26,7 @@
 		"test": "node build/index.js --test"
 	},
 	"dependencies": {
-		"@gauzy/mcp-server": "^0.1.0",
+		"@irtranscripts/mcp-server": "^0.1.0",
 		"@modelcontextprotocol/sdk": "^1.32.1",
 		"electron-log": "^5.4.4"
 	},

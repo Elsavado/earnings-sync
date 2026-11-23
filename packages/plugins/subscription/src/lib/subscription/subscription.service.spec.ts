@@ -1,5 +1,5 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a subscription lifecycle needs and none of which is
  * available outside a running application. The seam is therefore doubled at the module boundary,
  * exactly as the catalogue and inventory packages' service specs do, and **the services under test are
@@ -15,7 +15,7 @@
 /** The platform's cross-tenant reference check, which reads a real database: recorded, and answered per test. */
 const mockAssertReferences = jest.fn(async (..._args: unknown[]) => undefined);
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
@@ -150,21 +150,21 @@ jest.mock('@gauzy/core', () => {
 		// The conditional write, and the refusals it raises, are the platform's own: the assertions are
 		// about the statement the service issues, and a stub would only assert that the service calls the
 		// stub.
-		commitVersionedUpdate: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		commitVersionedUpdate: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.commitVersionedUpdate,
-		versionExpectationOf: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		versionExpectationOf: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.versionExpectationOf,
 		// The comparison an edit makes against the version it read its metadata at, the kernel's own.
-		matchesExpectation: jest.requireActual('@gauzy/core/src/lib/concurrency/version.util').matchesExpectation,
-		parseEntityVersion: jest.requireActual('@gauzy/core/src/lib/concurrency/version.util').parseEntityVersion,
-		ApiException: jest.requireActual('@gauzy/core/src/lib/core/errors/api-exception').ApiException,
-		ApiErrorCode: jest.requireActual('@gauzy/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		matchesExpectation: jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util').matchesExpectation,
+		parseEntityVersion: jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util').parseEntityVersion,
+		ApiException: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-exception').ApiException,
+		ApiErrorCode: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		// The exact-decimal primitives the proration reads. The real ones, for the same reason `Money`
 		// is real here: a proration that rounded differently from the platform would be asserted
 		// against a rounding this suite invented rather than the one the money layer performs.
-		...jest.requireActual('@gauzy/core/src/lib/money/decimal'),
-		isUniqueViolation: jest.requireActual('@gauzy/core/src/lib/core/errors/unique-violation').isUniqueViolation,
+		...jest.requireActual('@irtranscripts/core/src/lib/money/decimal'),
+		isUniqueViolation: jest.requireActual('@irtranscripts/core/src/lib/core/errors/unique-violation').isUniqueViolation,
 		SequenceService: class SequenceService {},
 		assertPlainReferencesNotForeign: (...args: unknown[]) => mockAssertReferences(...args),
 		RequestContext: {
@@ -183,7 +183,7 @@ jest.mock('@gauzy/core', () => {
  * the end of this file); the service it writes through is the one module of that package replaced, because
  * it reaches the entitlement tables, and the contract is what the consumer decides from the payload.
  */
-jest.mock('@gauzy/plugin-entitlement/src/lib/entitlement/entitlement.service', () => ({
+jest.mock('@irtranscripts/plugin-entitlement/src/lib/entitlement/entitlement.service', () => ({
 	EntitlementService: class EntitlementService {}
 }));
 
@@ -193,8 +193,8 @@ import {
 	AdjustmentOwnerType,
 	AdjustmentType,
 	IdempotencyOutcome
-} from '@gauzy/contracts';
-import { ApiErrorCode, ApiException, IVersionExpectation, RequestContext } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { ApiErrorCode, ApiException, IVersionExpectation, RequestContext } from '@irtranscripts/core';
 import {
 	SubscriptionBillingPeriod,
 	SubscriptionBillingStatus,
@@ -3226,7 +3226,7 @@ describe('SubscriptionService → EntitlementGrantConsumer — the cancellation 
 	 */
 	async function deliver(appended: Row): Promise<unknown[][]> {
 		const { EntitlementGrantConsumer } = jest.requireActual(
-			'@gauzy/plugin-entitlement/src/lib/events/entitlement-grant.consumer'
+			'@irtranscripts/plugin-entitlement/src/lib/events/entitlement-grant.consumer'
 		);
 		const revoked: unknown[][] = [];
 		const entitlementService = {

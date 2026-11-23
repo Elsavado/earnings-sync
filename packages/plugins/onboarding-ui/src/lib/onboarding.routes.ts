@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { OnboardingResolver, PageRouteRegistryService } from '@gauzy/ui-core/core';
+import { OnboardingResolver, PageRouteRegistryService } from '@irtranscripts/ui-core/core';
 import { OnboardingComponent } from './components/onboarding.component';
 import { TenantOnboardingComponent } from './components/tenant-onboarding/tenant-onboarding.component';
 import { OnboardingCompleteComponent } from './components/onboarding-complete/onboarding-complete.component';

@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { ValueTransformer } from 'typeorm';
-import { isNotNullOrUndefined } from '@gauzy/utils';
+import { isNotNullOrUndefined } from '@irtranscripts/utils';
 
 /**
  * Rounds half away from zero, as Postgres `numeric` and MySQL `decimal` do, without binary

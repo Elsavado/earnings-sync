@@ -1,5 +1,5 @@
-// `@gauzy/core` and the registry's barrels drag in the entity graph; the route's decorators are what is checked.
-jest.mock('@gauzy/core', () => ({
+// `@irtranscripts/core` and the registry's barrels drag in the entity graph; the route's decorators are what is checked.
+jest.mock('@irtranscripts/core', () => ({
 	PermissionGuard: class PermissionGuard {},
 	Permissions: () => () => undefined,
 	RequestContext: {},

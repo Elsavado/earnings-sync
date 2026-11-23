@@ -1,6 +1,6 @@
 import '../core/entities/internal';
 
-import { BaseEntityEnum, EntitySubscriptionTypeEnum } from '@gauzy/contracts';
+import { BaseEntityEnum, EntitySubscriptionTypeEnum } from '@irtranscripts/contracts';
 import { OrganizationProjectService } from './organization-project.service';
 
 /**

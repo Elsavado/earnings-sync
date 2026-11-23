@@ -1,6 +1,6 @@
 import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { IDailyActivity } from '@gauzy/contracts';
+import { IDailyActivity } from '@irtranscripts/contracts';
 import { NbCardModule, NbSpinnerModule } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslatePipe } from '@ngx-translate/core';

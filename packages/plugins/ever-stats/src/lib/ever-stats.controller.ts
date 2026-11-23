@@ -1,7 +1,7 @@
 import { BadRequestException, Body, Controller, Get, Header, HttpCode, HttpStatus, NotFoundException, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { RolesEnum } from '@gauzy/contracts';
-import { RoleGuard, Roles } from '@gauzy/core';
+import { RolesEnum } from '@irtranscripts/contracts';
+import { RoleGuard, Roles } from '@irtranscripts/core';
 import { EverStatsOperatorGuard } from './guards/ever-stats-operator.guard';
 import { EverStatsLastPayload, EverStatsPreview, EverStatsService, EverStatsStatus } from './ever-stats.service';
 import { SlotResult } from './ever-stats-scheduler.service';

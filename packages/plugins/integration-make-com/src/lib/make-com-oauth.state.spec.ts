@@ -1,5 +1,5 @@
-// Only what the OAuth service and its controller use: keep the rest of @gauzy/core (database, seeds) out of this test
-jest.mock('@gauzy/core', () => {
+// Only what the OAuth service and its controller use: keep the rest of @irtranscripts/core (database, seeds) out of this test
+jest.mock('@irtranscripts/core', () => {
 	const { SetMetadata } = jest.requireActual('@nestjs/common');
 	return {
 		IntegrationService: class IntegrationService {},
@@ -14,16 +14,16 @@ jest.mock('@gauzy/core', () => {
 		Permissions: (...permissions: string[]) => SetMetadata('permissions', permissions)
 	};
 });
-jest.mock('@gauzy/common', () => {
+jest.mock('@irtranscripts/common', () => {
 	const { SetMetadata } = jest.requireActual('@nestjs/common');
 	return { Public: () => SetMetadata('public', true) };
 });
-jest.mock('@gauzy/config', () => ({ ConfigService: class ConfigService {} }));
+jest.mock('@irtranscripts/config', () => ({ ConfigService: class ConfigService {} }));
 jest.mock('./make-com.service', () => ({ MakeComService: class MakeComService {} }));
 
 import { BadRequestException, UnauthorizedException } from '@nestjs/common';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PermissionGuard, RequestContext, TenantPermissionGuard } from '@gauzy/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PermissionGuard, RequestContext, TenantPermissionGuard } from '@irtranscripts/core';
 import { MakeComOAuthService } from './make-com-oauth.service';
 import { MakeComAuthorizationController } from './make-com-authorization.controller';
 

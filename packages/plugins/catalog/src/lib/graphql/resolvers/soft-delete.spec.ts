@@ -22,7 +22,7 @@
  * which exist only to state the permission the inherited routes leave unstated — the eight resolvers are
  * the real ones, `CrudController` behind them is the kernel's own, and the document the fields are read
  * out of is the real one. That is a deliberate departure from this package's other suites, which double
- * `@gauzy/core` at the module boundary to avoid booting the application graph: a double here would replace
+ * `@irtranscripts/core` at the module boundary to avoid booting the application graph: a double here would replace
  * the very route bodies the fields are compared against, and the permission metadata this suite reads is
  * written by the kernel's own `@Permissions` decorator. The cost is that this one suite loads the barrel
  * the rest of the package mocks; the service is the seam the parity requirement is about, and one stub is
@@ -30,8 +30,8 @@
  */
 
 import { FieldDefinitionNode, ObjectTypeDefinitionNode, ObjectTypeExtensionNode, TypeNode } from 'graphql';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionGuard, TenantPermissionGuard } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionGuard, TenantPermissionGuard } from '@irtranscripts/core';
 import { CATALOG_PERMISSION_VALUES, catalogPermission } from '../../catalog.permissions';
 import { CollectionController } from '../../collection/collection.controller';
 import { CollectionChannelController } from '../../collection-channel/collection-channel.controller';

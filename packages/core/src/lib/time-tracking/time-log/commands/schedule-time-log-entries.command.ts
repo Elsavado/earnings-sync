@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 export class ScheduleTimeLogEntriesCommand implements ICommand {
 	static readonly type = 'Adjust [TimeLog] Entries';

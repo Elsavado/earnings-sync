@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Equal, In, IsNull, Or } from 'typeorm';
-import { ID, PermissionsEnum } from '@gauzy/contracts';
-import { isNotEmpty } from '@gauzy/utils';
+import { ID, PermissionsEnum } from '@irtranscripts/contracts';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { RequestContext } from '../core/context';
 import { TypeOrmOrganizationTeamEmployeeRepository } from '../organization-team-employee/repository/type-orm-organization-team-employee.repository';
 import { TypeOrmOrganizationProjectEmployeeRepository } from '../organization-project/repository/type-orm-organization-project-employee.repository';

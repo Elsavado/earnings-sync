@@ -1,6 +1,6 @@
 // The dialect the row lock depends on is stated per case; every other case keeps the configured one.
-jest.mock('@gauzy/config', () => {
-	const actual = jest.requireActual('@gauzy/config');
+jest.mock('@irtranscripts/config', () => {
+	const actual = jest.requireActual('@irtranscripts/config');
 
 	return {
 		...actual,
@@ -20,8 +20,8 @@ import {
 	Type
 } from '@mikro-orm/core';
 import { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
-import * as gauzyConfig from '@gauzy/config';
-import { ID, SequenceResetPolicy } from '@gauzy/contracts';
+import * as irtranscriptsConfig from '@irtranscripts/config';
+import { ID, SequenceResetPolicy } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context/request-context';
 import { MikroOrmBaseEntityRepository } from '../core/repository/mikro-orm-base-entity.repository';
 import { MultiORMEnum } from '../core/utils';
@@ -53,9 +53,9 @@ import { SequenceService } from './sequence.service';
 
 type Row = Record<string, any>;
 
-const isPostgresMock = gauzyConfig.isPostgres as unknown as jest.Mock;
-const isMySQLMock = gauzyConfig.isMySQL as unknown as jest.Mock;
-const actualConfig = jest.requireActual('@gauzy/config') as typeof gauzyConfig;
+const isPostgresMock = irtranscriptsConfig.isPostgres as unknown as jest.Mock;
+const isMySQLMock = irtranscriptsConfig.isMySQL as unknown as jest.Mock;
+const actualConfig = jest.requireActual('@irtranscripts/config') as typeof irtranscriptsConfig;
 
 const CHANNEL = '6b1e0f2a-0000-4000-8000-00000000000b';
 const OTHER_CHANNEL = '6b1e0f2a-0000-4000-8000-00000000000c';
@@ -211,7 +211,7 @@ async function typeOrmSeriesStore(): Promise<ISeriesStore> {
 		entities: [TypeOrmSequence],
 		synchronize: false,
 		logging: false,
-		invalidWhereValuesBehavior: gauzyConfig.TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR
+		invalidWhereValuesBehavior: irtranscriptsConfig.TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR
 	});
 
 	await dataSource.initialize();

@@ -1,4 +1,4 @@
-# Ever Gauzy MCP AUTH
+# Ever IRTranscripts MCP AUTH
 
 # Variables
 ARG MCP_AUTH_PORT=3003
@@ -14,7 +14,7 @@ ARG REDIS_PORT
 ARG REDIS_USER
 ARG REDIS_TLS
 
-# Database Configuration (same as Gauzy API)
+# Database Configuration (same as IRTranscripts API)
 ARG DB_URI
 ARG DB_HOST
 ARG DB_NAME
@@ -60,11 +60,11 @@ RUN set -- --fetch-retries=5 --fetch-retry-mintimeout=20000 --fetch-retry-maxtim
     && npm install yarn -g --force "$@" \
     && npm install --quiet ts-node@10.9.2 -g "$@"
 
-RUN mkdir /srv/gauzy-mcp-auth && chown -R node:node /srv/gauzy-mcp-auth
+RUN mkdir /srv/irtranscripts-mcp-auth && chown -R node:node /srv/irtranscripts-mcp-auth
 
 USER node:node
 
-WORKDIR /srv/gauzy-mcp-auth
+WORKDIR /srv/irtranscripts-mcp-auth
 
 COPY --chown=node:node apps/mcp-auth/package.json ./apps/mcp-auth/
 COPY --chown=node:node packages/auth/package.json ./packages/auth/
@@ -126,7 +126,7 @@ COPY --chown=node:node packages/scheduler ./packages/scheduler/
 # BUILD
 FROM dependencies AS build
 
-WORKDIR /srv/gauzy-mcp-auth
+WORKDIR /srv/irtranscripts-mcp-auth
 
 # Copy the node_modules from the dependencies stage
 COPY --chown=node:node tsconfig.base.json tsconfig.json ./
@@ -146,7 +146,7 @@ ENV NODE_OPTIONS=${NODE_OPTIONS:-"--max-old-space-size=30000"}
 ENV NODE_ENV=production
 ENV IS_DOCKER=true
 
-RUN rm -rf /srv/gauzy-mcp-auth/dist
+RUN rm -rf /srv/irtranscripts-mcp-auth/dist
 
 RUN yarn build:mcp-auth:prod
 
@@ -166,13 +166,13 @@ RUN set -- --fetch-retries=5 --fetch-retry-mintimeout=20000 --fetch-retry-maxtim
     && npm install --quiet ts-node@10.9.2 -g "$@"
 
 # Create working directory with correct ownership so node user can create symlinks
-RUN mkdir -p /srv/gauzy-mcp-auth && chown node:node /srv/gauzy-mcp-auth
+RUN mkdir -p /srv/irtranscripts-mcp-auth && chown node:node /srv/irtranscripts-mcp-auth
 
 USER node:node
 
-WORKDIR /srv/gauzy-mcp-auth
+WORKDIR /srv/irtranscripts-mcp-auth
 
-COPY --chown=node:node --from=build /srv/gauzy-mcp-auth/dist .
+COPY --chown=node:node --from=build /srv/irtranscripts-mcp-auth/dist .
 
 # Create dist -> . symlink so ../../../dist/ paths in package.json resolve correctly in Docker
 RUN ln -s . dist
@@ -215,7 +215,7 @@ RUN --mount=type=secret,id=VERDACCIO_TOKEN,uid=1000 \
 # PROD
 FROM proddependencies AS production
 
-WORKDIR /srv/gauzy-mcp-auth
+WORKDIR /srv/irtranscripts-mcp-auth
 
 RUN yarn cache clean
 
@@ -235,7 +235,7 @@ ENV REDIS_PORT=${REDIS_PORT}
 ENV REDIS_USER=${REDIS_USER}
 ENV REDIS_TLS=${REDIS_TLS:-false}
 
-# Database Configuration (same as Gauzy API)
+# Database Configuration (same as IRTranscripts API)
 ENV DB_URI=${DB_URI}
 ENV DB_HOST=${DB_HOST:-db}
 ENV DB_NAME=${DB_NAME:-postgres}

@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { IResourceLinkCreateInput } from '@gauzy/contracts';
+import { IResourceLinkCreateInput } from '@irtranscripts/contracts';
 
 export class ResourceLinkCreateCommand implements ICommand {
 	static readonly type = '[Resource Link] Create';

@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 import { DataSource } from 'typeorm';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { DEFAULT_ROLE_PERMISSIONS } from '../role-permission/default-role-permissions';
 import { CoreRolePermissionsReload1791000000500 } from './migrations/1791000000500-CoreRolePermissionsReload';
 import { GrantChangeSelectedOrganizationPermission1791000000861 } from './migrations/1791000000861-GrantChangeSelectedOrganizationPermission';
@@ -123,7 +123,7 @@ describe('GrantChangeSelectedOrganizationPermission1791000000861 — managers an
 	beforeEach(async () => {
 		dbPath = path.join(
 			os.tmpdir(),
-			`gauzy-change-selected-organization-${process.pid}-${Date.now()}-${Math.random()}.sqlite3`
+			`irtranscripts-change-selected-organization-${process.pid}-${Date.now()}-${Math.random()}.sqlite3`
 		);
 		dataSource = new DataSource({
 			type: 'better-sqlite3',

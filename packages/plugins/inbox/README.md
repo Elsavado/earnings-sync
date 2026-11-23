@@ -2,7 +2,7 @@
 {
   "MD043": {
     "headings": [
-      "# @gauzy/plugin-inbox",
+      "# @irtranscripts/plugin-inbox",
       "## Switch",
       "## Tables (migrations for PostgreSQL, MySQL and SQLite)",
       "## API (`/api/inbox/items`, `INBOX_VIEW`)",
@@ -14,33 +14,33 @@
 }
 -->
 
-# @gauzy/plugin-inbox
+# @irtranscripts/plugin-inbox
 
-The Gauzy **Inbox** brings together everything addressed to a user:
+The IRTranscripts **Inbox** brings together everything addressed to a user:
 questions, approvals, escalations and notices, and later email. Each user has
-their own read, archive and snooze state. It is a general Gauzy feature and
+their own read, archive and snooze state. It is a general IRTranscripts feature and
 works without Ever Works. The Ever Works integration _feeds_ the Inbox and
 acts on its replies through a source-handler registry, so this plugin never
 depends on the integration.
 
-Plan: `04-inbox-and-email.md` §2–4 (G-P3-1) of the Gauzy ↔ Ever Works
+Plan: `04-inbox-and-email.md` §2–4 (G-P3-1) of the IRTranscripts ↔ Ever Works
 integration plan (`ever-co/homelab`, `docs/superpowers/specs/`).
 
 ## Switch
 
 **Off by default.** The API loads the plugin only when
-`GAUZY_INBOX_ENABLED=true` (exactly). When it is off, the plugin is not loaded
+`IRTRANSCRIPTS_INBOX_ENABLED=true` (exactly). When it is off, the plugin is not loaded
 at all: no route, no table (its migrations are not registered) and no role
 grant. Any other value also keeps it off, and is logged once.
 
 Mailboxes, inbound email and the email provider plugins are a second
 plugin of this package, `InboxEmailPlugin`, off unless
-`GAUZY_INBOX_EMAIL_ENABLED=true` as well: see [EMAIL.md](./EMAIL.md).
+`IRTRANSCRIPTS_INBOX_EMAIL_ENABLED=true` as well: see [EMAIL.md](./EMAIL.md).
 
 ## Tables (migrations for PostgreSQL, MySQL and SQLite)
 
 - **`inbox_item`:** `kind` (QUESTION, APPROVAL, ESCALATION, NOTICE, EMAIL),
-  `source` (EVER_WORKS, EMAIL, GAUZY, SYSTEM, or a handler's own), `status`
+  `source` (EVER_WORKS, EMAIL, IRTRANSCRIPTS, SYSTEM, or a handler's own), `status`
   (OPEN, ANSWERED, RESOLVED, CANCELLED), `title`, `body`, `bodyFormat`,
   `options` (JSON), `requireReason`, `response` (JSON), `priority`, `dueAt`,
   the links (`entity` + `entityId`, `taskId`, `projectId`, `agentEmployeeId`;
@@ -125,7 +125,7 @@ default plugin list, does not carry them).
 
 ## Feeding the Inbox from another plugin
 
-`@gauzy/contracts` exports the interfaces (`IInboxSourceHandler`,
+`@irtranscripts/contracts` exports the interfaces (`IInboxSourceHandler`,
 `IInboxItemWriter`) and two injection tokens. When the Inbox is loaded, its
 module is global and provides both tokens. When the Inbox is off they are
 absent, so inject them optionally:
@@ -160,7 +160,7 @@ await this.inbox?.upsertExternal({
   value, so an answered item stays answered.
 - The organization of an item must be one of its tenant's (`400` otherwise).
 - Platform notices use `create({ …, source: 'SYSTEM', recipients })`. Items
-  from `GAUZY` and `SYSTEM` need no handler: their replies stay in Gauzy.
+  from `IRTRANSCRIPTS` and `SYSTEM` need no handler: their replies stay in IRTranscripts.
 - EMAIL items (P4) also state `mailboxId` and `emailId`.
 
 The writer (`create`, `upsertExternal`), the recipient model and the

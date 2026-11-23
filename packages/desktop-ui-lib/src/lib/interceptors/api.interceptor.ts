@@ -1,14 +1,14 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, type HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { API_PREFIX, GAUZY_ENV } from './../constants/app.constants';
+import { API_PREFIX, IRTRANSCRIPTS_ENV } from './../constants/app.constants';
 import { Store } from '../services';
 
 @Injectable()
 export class APIInterceptor implements HttpInterceptor {
 	constructor(
 		private readonly _store: Store,
-		@Inject(GAUZY_ENV)
+		@Inject(IRTRANSCRIPTS_ENV)
 		private readonly environment: any
 	) {}
 

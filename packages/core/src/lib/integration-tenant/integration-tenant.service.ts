@@ -9,7 +9,7 @@ import {
 	IIntegrationTenantFindInput,
 	IPagination,
 	IntegrationEntity
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context/request-context';
 import { TenantAwareCrudService } from '../core/crud/tenant-aware-crud.service';
 import { IntegrationTenant } from './integration-tenant.entity';

@@ -18,7 +18,7 @@ import {
 	EverConnectKeyUnreadableError,
 	EverInstanceKeyError,
 	EverInstanceService
-} from '@gauzy/plugin-ever-instance';
+} from '@irtranscripts/plugin-ever-instance';
 import { ActorLabel, EverConnectAuditService } from './ever-connect-audit.service';
 import type { EverConnectConfig } from './ever-connect-config';
 import {

@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { DocumentService } from '../../services/document.service';
 import { DocumentTreeService } from '../../services/document-tree.service';
 import { ReorderDocumentsCommand } from '../reorder-documents.command';

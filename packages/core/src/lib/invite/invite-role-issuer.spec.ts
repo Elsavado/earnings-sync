@@ -1,4 +1,4 @@
-import { canInviteWithRole, RolesEnum } from '@gauzy/contracts';
+import { canInviteWithRole, RolesEnum } from '@irtranscripts/contracts';
 import { mayIssueInviteRole, withholdTokensNotIssuable } from './invite-role-issuer';
 
 /**

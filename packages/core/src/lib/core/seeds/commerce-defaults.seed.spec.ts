@@ -1,6 +1,6 @@
 // The series lock is a Postgres/MySQL decision; the fixture is SQLite, so neither dialect is configured.
-jest.mock('@gauzy/config', () => {
-	const actual = jest.requireActual('@gauzy/config');
+jest.mock('@irtranscripts/config', () => {
+	const actual = jest.requireActual('@irtranscripts/config');
 
 	return { ...actual, isPostgres: () => false, isMySQL: () => false };
 });
@@ -10,7 +10,7 @@ import { CommandBus, CqrsModule } from '@nestjs/cqrs';
 import { getDataSourceToken } from '@nestjs/typeorm';
 import { NotFoundException } from '@nestjs/common';
 import { DataSource, EntitySchema } from 'typeorm';
-import { SequenceResetPolicy } from '@gauzy/contracts';
+import { SequenceResetPolicy } from '@irtranscripts/contracts';
 import { RequestContext } from '../context/request-context';
 import { MultiORMEnum } from '../utils';
 import { ActivityLogService } from '../../activity-log/activity-log.service';

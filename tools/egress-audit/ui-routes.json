@@ -1,10 +1,10 @@
 {
   "framework": "angular",
-  "entry": "apps/gauzy/src/app/app.routes.ts",
+  "entry": "apps/irtranscripts/src/app/app.routes.ts",
   "routes": [
     {
       "path": "/",
-      "file": "apps/gauzy/src/app/app.routes.ts:51",
+      "file": "apps/irtranscripts/src/app/app.routes.ts:51",
       "redirect_to": "pages",
       "source": "router"
     },
@@ -71,19 +71,19 @@
       "path": "/auth/ever-id",
       "file": "packages/plugins/auth-zitadel-ui/src/lib/auth-zitadel-ui.plugin.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/auth/ever-id/confirm",
       "file": "packages/plugins/auth-zitadel-ui/src/lib/auth-zitadel-ui.plugin.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/auth/ever-id/signup",
       "file": "packages/plugins/auth-zitadel-ui/src/lib/auth-zitadel-ui.plugin.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/auth/login",
@@ -97,13 +97,13 @@
       "path": "/auth/login-magic",
       "file": "packages/ui-auth/src/lib/auth.module.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/auth/login-workspace",
       "file": "packages/ui-auth/src/lib/auth.module.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/auth/logout",
@@ -114,7 +114,7 @@
       "path": "/auth/magic-sign-in",
       "file": "packages/ui-auth/src/lib/auth.module.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/auth/oauth-authorize",
@@ -183,7 +183,7 @@
     },
     {
       "path": "/pages",
-      "file": "apps/gauzy/src/app/pages/pages.routes.ts:65",
+      "file": "apps/irtranscripts/src/app/pages/pages.routes.ts:65",
       "redirect_to": "dashboard",
       "source": "router"
     },
@@ -194,28 +194,28 @@
     },
     {
       "path": "/pages/about",
-      "file": "apps/gauzy/src/app/pages/about/about-routing.module.ts:6",
+      "file": "apps/irtranscripts/src/app/pages/about/about-routing.module.ts:6",
       "source": "router"
     },
     {
       "path": "/pages/accounting",
-      "file": "apps/gauzy/src/app/pages/pages.routes.ts:82",
+      "file": "apps/irtranscripts/src/app/pages/pages.routes.ts:82",
       "redirect_to": "invoices",
       "source": "router"
     },
     {
       "path": "/pages/accounting/expense-recurring",
-      "file": "apps/gauzy/src/app/pages/expense-recurring/expense-recurring-routing.module.ts:9",
+      "file": "apps/irtranscripts/src/app/pages/expense-recurring/expense-recurring-routing.module.ts:9",
       "source": "router"
     },
     {
       "path": "/pages/accounting/expense-recurring/view/:id",
-      "file": "apps/gauzy/src/app/pages/expense-recurring/expense-recurring-routing.module.ts:23",
+      "file": "apps/irtranscripts/src/app/pages/expense-recurring/expense-recurring-routing.module.ts:23",
       "source": "router"
     },
     {
       "path": "/pages/accounting/expenses",
-      "file": "apps/gauzy/src/app/pages/expenses/expenses-routing.module.ts:15",
+      "file": "apps/irtranscripts/src/app/pages/expenses/expenses-routing.module.ts:15",
       "guards": [
         "PermissionsGuard"
       ],
@@ -223,12 +223,12 @@
     },
     {
       "path": "/pages/accounting/expenses/categories",
-      "file": "apps/gauzy/src/app/pages/expenses/expenses-routing.module.ts:26",
+      "file": "apps/irtranscripts/src/app/pages/expenses/expenses-routing.module.ts:26",
       "source": "router"
     },
     {
       "path": "/pages/accounting/expenses/view/:id",
-      "file": "apps/gauzy/src/app/pages/expenses/expenses-routing.module.ts:37",
+      "file": "apps/irtranscripts/src/app/pages/expenses/expenses-routing.module.ts:37",
       "guards": [
         "PermissionsGuard"
       ],
@@ -236,7 +236,7 @@
     },
     {
       "path": "/pages/accounting/income",
-      "file": "apps/gauzy/src/app/pages/income/income-routing.module.ts:14",
+      "file": "apps/irtranscripts/src/app/pages/income/income-routing.module.ts:14",
       "guards": [
         "PermissionsGuard"
       ],
@@ -244,7 +244,7 @@
     },
     {
       "path": "/pages/accounting/income/view/:id",
-      "file": "apps/gauzy/src/app/pages/income/income-routing.module.ts:25",
+      "file": "apps/irtranscripts/src/app/pages/income/income-routing.module.ts:25",
       "guards": [
         "PermissionsGuard"
       ],
@@ -252,7 +252,7 @@
     },
     {
       "path": "/pages/accounting/invoices",
-      "file": "apps/gauzy/src/app/pages/invoices/invoices-routing.module.ts:23",
+      "file": "apps/irtranscripts/src/app/pages/invoices/invoices-routing.module.ts:23",
       "guards": [
         "PermissionsGuard"
       ],
@@ -260,7 +260,7 @@
     },
     {
       "path": "/pages/accounting/invoices/add",
-      "file": "apps/gauzy/src/app/pages/invoices/invoices-routing.module.ts:37",
+      "file": "apps/irtranscripts/src/app/pages/invoices/invoices-routing.module.ts:37",
       "guards": [
         "PermissionsGuard"
       ],
@@ -268,7 +268,7 @@
     },
     {
       "path": "/pages/accounting/invoices/edit/:id",
-      "file": "apps/gauzy/src/app/pages/invoices/invoices-routing.module.ts:48",
+      "file": "apps/irtranscripts/src/app/pages/invoices/invoices-routing.module.ts:48",
       "guards": [
         "PermissionsGuard"
       ],
@@ -276,32 +276,32 @@
     },
     {
       "path": "/pages/accounting/invoices/estimates",
-      "file": "apps/gauzy/src/app/pages/invoices/invoices-routing.module.ts:95",
+      "file": "apps/irtranscripts/src/app/pages/invoices/invoices-routing.module.ts:95",
       "source": "router"
     },
     {
       "path": "/pages/accounting/invoices/estimates/add",
-      "file": "apps/gauzy/src/app/pages/invoices/invoices-routing.module.ts:108",
+      "file": "apps/irtranscripts/src/app/pages/invoices/invoices-routing.module.ts:108",
       "source": "router"
     },
     {
       "path": "/pages/accounting/invoices/estimates/edit/:id",
-      "file": "apps/gauzy/src/app/pages/invoices/invoices-routing.module.ts:124",
+      "file": "apps/irtranscripts/src/app/pages/invoices/invoices-routing.module.ts:124",
       "source": "router"
     },
     {
       "path": "/pages/accounting/invoices/estimates/view/:id",
-      "file": "apps/gauzy/src/app/pages/invoices/invoices-routing.module.ts:134",
+      "file": "apps/irtranscripts/src/app/pages/invoices/invoices-routing.module.ts:134",
       "source": "router"
     },
     {
       "path": "/pages/accounting/invoices/payments/:id",
-      "file": "apps/gauzy/src/app/pages/invoices/invoices-routing.module.ts:167",
+      "file": "apps/irtranscripts/src/app/pages/invoices/invoices-routing.module.ts:167",
       "source": "router"
     },
     {
       "path": "/pages/accounting/invoices/received-estimates",
-      "file": "apps/gauzy/src/app/pages/invoices/invoices-routing.module.ts:153",
+      "file": "apps/irtranscripts/src/app/pages/invoices/invoices-routing.module.ts:153",
       "guards": [
         "PermissionsGuard"
       ],
@@ -309,7 +309,7 @@
     },
     {
       "path": "/pages/accounting/invoices/received-invoices",
-      "file": "apps/gauzy/src/app/pages/invoices/invoices-routing.module.ts:59",
+      "file": "apps/irtranscripts/src/app/pages/invoices/invoices-routing.module.ts:59",
       "guards": [
         "PermissionsGuard"
       ],
@@ -322,7 +322,7 @@
     },
     {
       "path": "/pages/accounting/invoices/view/:id",
-      "file": "apps/gauzy/src/app/pages/invoices/invoices-routing.module.ts:73",
+      "file": "apps/irtranscripts/src/app/pages/invoices/invoices-routing.module.ts:73",
       "guards": [
         "PermissionsGuard"
       ],
@@ -330,7 +330,7 @@
     },
     {
       "path": "/pages/accounting/payments",
-      "file": "apps/gauzy/src/app/pages/payments/payments-routing.module.ts:11",
+      "file": "apps/irtranscripts/src/app/pages/payments/payments-routing.module.ts:11",
       "guards": [
         "PermissionsGuard"
       ],
@@ -338,7 +338,7 @@
     },
     {
       "path": "/pages/accounting/payments/view/:id",
-      "file": "apps/gauzy/src/app/pages/payments/payments-routing.module.ts:29",
+      "file": "apps/irtranscripts/src/app/pages/payments/payments-routing.module.ts:29",
       "guards": [
         "PermissionsGuard"
       ],
@@ -346,12 +346,12 @@
     },
     {
       "path": "/pages/auth/profile",
-      "file": "apps/gauzy/src/app/pages/auth/auth-routing.module.ts:6",
+      "file": "apps/irtranscripts/src/app/pages/auth/auth-routing.module.ts:6",
       "source": "router"
     },
     {
       "path": "/pages/candidates",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:27",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:27",
       "guards": [
         "PermissionsGuard"
       ],
@@ -359,7 +359,7 @@
     },
     {
       "path": "/pages/candidates/edit/:id",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:41",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:41",
       "guards": [
         "PermissionsGuard"
       ],
@@ -367,89 +367,89 @@
     },
     {
       "path": "/pages/candidates/edit/:id/profile",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:63",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:63",
       "redirect_to": "account",
       "source": "router"
     },
     {
       "path": "/pages/candidates/edit/:id/profile/account",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:68",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:68",
       "source": "router"
     },
     {
       "path": "/pages/candidates/edit/:id/profile/documents",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:116",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:116",
       "source": "router"
     },
     {
       "path": "/pages/candidates/edit/:id/profile/employment",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:176",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:176",
       "source": "router"
     },
     {
       "path": "/pages/candidates/edit/:id/profile/experience",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:104",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:104",
       "source": "router"
     },
     {
       "path": "/pages/candidates/edit/:id/profile/feedbacks",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:128",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:128",
       "source": "router"
     },
     {
       "path": "/pages/candidates/edit/:id/profile/hiring",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:164",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:164",
       "source": "router"
     },
     {
       "path": "/pages/candidates/edit/:id/profile/history",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:140",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:140",
       "source": "router"
     },
     {
       "path": "/pages/candidates/edit/:id/profile/interview",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:188",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:188",
       "source": "router"
     },
     {
       "path": "/pages/candidates/edit/:id/profile/location",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:152",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:152",
       "source": "router"
     },
     {
       "path": "/pages/candidates/edit/:id/profile/rates",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:80",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:80",
       "source": "router"
     },
     {
       "path": "/pages/candidates/edit/:id/profile/tasks",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:92",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:92",
       "source": "router"
     },
     {
       "path": "/pages/candidates/interviews",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:226",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:226",
       "redirect_to": "calendar",
       "source": "router"
     },
     {
       "path": "/pages/candidates/interviews/calendar",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:231",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:231",
       "source": "router"
     },
     {
       "path": "/pages/candidates/interviews/criterion",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:255",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:255",
       "source": "router"
     },
     {
       "path": "/pages/candidates/interviews/interview_panel",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:243",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:243",
       "source": "router"
     },
     {
       "path": "/pages/candidates/invites",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:202",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:202",
       "guards": [
         "InviteGuard"
       ],
@@ -457,7 +457,7 @@
     },
     {
       "path": "/pages/candidates/statistic",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:269",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:269",
       "guards": [
         "PermissionsGuard"
       ],
@@ -465,13 +465,13 @@
     },
     {
       "path": "/pages/contacts",
-      "file": "apps/gauzy/src/app/pages/contacts/contacts-routing.module.ts:15",
+      "file": "apps/irtranscripts/src/app/pages/contacts/contacts-routing.module.ts:15",
       "redirect_to": "customers",
       "source": "router"
     },
     {
       "path": "/pages/contacts/clients",
-      "file": "apps/gauzy/src/app/pages/contacts/contacts-routing.module.ts:32",
+      "file": "apps/irtranscripts/src/app/pages/contacts/contacts-routing.module.ts:32",
       "guards": [
         "PermissionsGuard"
       ],
@@ -479,7 +479,7 @@
     },
     {
       "path": "/pages/contacts/customers",
-      "file": "apps/gauzy/src/app/pages/contacts/contacts-routing.module.ts:45",
+      "file": "apps/irtranscripts/src/app/pages/contacts/contacts-routing.module.ts:45",
       "guards": [
         "PermissionsGuard"
       ],
@@ -487,7 +487,7 @@
     },
     {
       "path": "/pages/contacts/leads",
-      "file": "apps/gauzy/src/app/pages/contacts/contacts-routing.module.ts:58",
+      "file": "apps/irtranscripts/src/app/pages/contacts/contacts-routing.module.ts:58",
       "guards": [
         "PermissionsGuard"
       ],
@@ -495,7 +495,7 @@
     },
     {
       "path": "/pages/contacts/view/:id",
-      "file": "apps/gauzy/src/app/pages/contacts/contact-view/contact-view-routing.module.ts:13",
+      "file": "apps/irtranscripts/src/app/pages/contacts/contact-view/contact-view-routing.module.ts:13",
       "source": "router"
     },
     {
@@ -505,7 +505,7 @@
     },
     {
       "path": "/pages/dashboard",
-      "file": "apps/gauzy/src/app/pages/dashboard/dashboard.routes.ts:37",
+      "file": "apps/irtranscripts/src/app/pages/dashboard/dashboard.routes.ts:37",
       "guards": [
         "defaultDashboardGuard"
       ],
@@ -513,7 +513,7 @@
     },
     {
       "path": "/pages/dashboard/accounting",
-      "file": "apps/gauzy/src/app/pages/dashboard/dashboard.routes.ts:72",
+      "file": "apps/irtranscripts/src/app/pages/dashboard/dashboard.routes.ts:72",
       "guards": [
         "standardDashboardGuard"
       ],
@@ -521,7 +521,7 @@
     },
     {
       "path": "/pages/dashboard/custom/:id",
-      "file": "apps/gauzy/src/app/pages/dashboard/dashboard.routes.ts:51",
+      "file": "apps/irtranscripts/src/app/pages/dashboard/dashboard.routes.ts:51",
       "guards": [
         "customDashboardGuard"
       ],
@@ -531,11 +531,11 @@
       "path": "/pages/dashboard/dashboard-time-track",
       "file": "packages/plugins/dashboard-time-track-react-ui/src/lib/dashboard-time-track-react-ui.routes.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/dashboard/hr",
-      "file": "apps/gauzy/src/app/pages/dashboard/dashboard.routes.ts:89",
+      "file": "apps/irtranscripts/src/app/pages/dashboard/dashboard.routes.ts:89",
       "guards": [
         "standardDashboardGuard"
       ],
@@ -543,7 +543,7 @@
     },
     {
       "path": "/pages/dashboard/project-management",
-      "file": "apps/gauzy/src/app/pages/dashboard/dashboard.routes.ts:107",
+      "file": "apps/irtranscripts/src/app/pages/dashboard/dashboard.routes.ts:107",
       "guards": [
         "PermissionsGuard",
         "standardDashboardGuard"
@@ -552,12 +552,12 @@
     },
     {
       "path": "/pages/dashboard/switching",
-      "file": "apps/gauzy/src/app/pages/dashboard/dashboard.routes.ts:45",
+      "file": "apps/irtranscripts/src/app/pages/dashboard/dashboard.routes.ts:45",
       "source": "router"
     },
     {
       "path": "/pages/dashboard/teams",
-      "file": "apps/gauzy/src/app/pages/dashboard/dashboard.routes.ts:124",
+      "file": "apps/irtranscripts/src/app/pages/dashboard/dashboard.routes.ts:124",
       "guards": [
         "PermissionsGuard",
         "standardDashboardGuard"
@@ -568,17 +568,17 @@
       "path": "/pages/dashboard/time-tracking",
       "file": "packages/plugins/dashboard-time-track-angular-ui/src/lib/dashboard-time-track-angular-ui.constants.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/documents",
       "file": "packages/plugins/docs-ui/src/lib/docs-ui.plugin.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/employees",
-      "file": "apps/gauzy/src/app/pages/employees/employees-routing.module.ts:32",
+      "file": "apps/irtranscripts/src/app/pages/employees/employees-routing.module.ts:32",
       "guards": [
         "PermissionsGuard"
       ],
@@ -586,58 +586,58 @@
     },
     {
       "path": "/pages/employees/activity",
-      "file": "apps/gauzy/src/app/pages/employees/activity/activity.routes.ts:21",
+      "file": "apps/irtranscripts/src/app/pages/employees/activity/activity.routes.ts:21",
       "redirect_to": "time-activities",
       "source": "router"
     },
     {
       "path": "/pages/employees/activity/apps",
-      "file": "apps/gauzy/src/app/pages/employees/activity/activity.module.ts",
+      "file": "apps/irtranscripts/src/app/pages/employees/activity/activity.module.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/employees/activity/screenshots",
-      "file": "apps/gauzy/src/app/pages/employees/activity/activity.module.ts",
+      "file": "apps/irtranscripts/src/app/pages/employees/activity/activity.module.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/employees/activity/time-activities",
-      "file": "apps/gauzy/src/app/pages/employees/activity/activity.module.ts",
+      "file": "apps/irtranscripts/src/app/pages/employees/activity/activity.module.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/employees/activity/urls",
-      "file": "apps/gauzy/src/app/pages/employees/activity/activity.module.ts",
+      "file": "apps/irtranscripts/src/app/pages/employees/activity/activity.module.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/employees/activity/videos",
-      "file": "apps/gauzy/src/app/pages/employees/activity/activity.module.ts",
+      "file": "apps/irtranscripts/src/app/pages/employees/activity/activity.module.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/employees/appointments",
-      "file": "apps/gauzy/src/app/pages/employees/appointment/appointment-routing.module.ts:6",
+      "file": "apps/irtranscripts/src/app/pages/employees/appointment/appointment-routing.module.ts:6",
       "source": "router"
     },
     {
       "path": "/pages/employees/appointments/manage/:employeeId",
-      "file": "apps/gauzy/src/app/pages/employees/appointment/appointment-routing.module.ts:10",
+      "file": "apps/irtranscripts/src/app/pages/employees/appointment/appointment-routing.module.ts:10",
       "source": "router"
     },
     {
       "path": "/pages/employees/appointments/manage/:employeeId/:appointmentId",
-      "file": "apps/gauzy/src/app/pages/employees/appointment/appointment-routing.module.ts:14",
+      "file": "apps/irtranscripts/src/app/pages/employees/appointment/appointment-routing.module.ts:14",
       "source": "router"
     },
     {
       "path": "/pages/employees/approvals",
-      "file": "apps/gauzy/src/app/pages/approvals/approvals-routing.module.ts:10",
+      "file": "apps/irtranscripts/src/app/pages/approvals/approvals-routing.module.ts:10",
       "guards": [
         "PermissionsGuard"
       ],
@@ -645,7 +645,7 @@
     },
     {
       "path": "/pages/employees/approvals/view/:id",
-      "file": "apps/gauzy/src/app/pages/approvals/approvals-routing.module.ts:21",
+      "file": "apps/irtranscripts/src/app/pages/approvals/approvals-routing.module.ts:21",
       "guards": [
         "PermissionsGuard"
       ],
@@ -653,7 +653,7 @@
     },
     {
       "path": "/pages/employees/candidates",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:27",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:27",
       "guards": [
         "PermissionsGuard"
       ],
@@ -661,7 +661,7 @@
     },
     {
       "path": "/pages/employees/candidates/edit/:id",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:41",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:41",
       "guards": [
         "PermissionsGuard"
       ],
@@ -669,89 +669,89 @@
     },
     {
       "path": "/pages/employees/candidates/edit/:id/profile",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:63",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:63",
       "redirect_to": "account",
       "source": "router"
     },
     {
       "path": "/pages/employees/candidates/edit/:id/profile/account",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:68",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:68",
       "source": "router"
     },
     {
       "path": "/pages/employees/candidates/edit/:id/profile/documents",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:116",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:116",
       "source": "router"
     },
     {
       "path": "/pages/employees/candidates/edit/:id/profile/employment",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:176",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:176",
       "source": "router"
     },
     {
       "path": "/pages/employees/candidates/edit/:id/profile/experience",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:104",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:104",
       "source": "router"
     },
     {
       "path": "/pages/employees/candidates/edit/:id/profile/feedbacks",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:128",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:128",
       "source": "router"
     },
     {
       "path": "/pages/employees/candidates/edit/:id/profile/hiring",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:164",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:164",
       "source": "router"
     },
     {
       "path": "/pages/employees/candidates/edit/:id/profile/history",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:140",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:140",
       "source": "router"
     },
     {
       "path": "/pages/employees/candidates/edit/:id/profile/interview",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:188",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:188",
       "source": "router"
     },
     {
       "path": "/pages/employees/candidates/edit/:id/profile/location",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:152",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:152",
       "source": "router"
     },
     {
       "path": "/pages/employees/candidates/edit/:id/profile/rates",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:80",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:80",
       "source": "router"
     },
     {
       "path": "/pages/employees/candidates/edit/:id/profile/tasks",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:92",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:92",
       "source": "router"
     },
     {
       "path": "/pages/employees/candidates/interviews",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:226",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:226",
       "redirect_to": "calendar",
       "source": "router"
     },
     {
       "path": "/pages/employees/candidates/interviews/calendar",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:231",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:231",
       "source": "router"
     },
     {
       "path": "/pages/employees/candidates/interviews/criterion",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:255",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:255",
       "source": "router"
     },
     {
       "path": "/pages/employees/candidates/interviews/interview_panel",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:243",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:243",
       "source": "router"
     },
     {
       "path": "/pages/employees/candidates/invites",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:202",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:202",
       "guards": [
         "InviteGuard"
       ],
@@ -759,7 +759,7 @@
     },
     {
       "path": "/pages/employees/candidates/statistic",
-      "file": "apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts:269",
+      "file": "apps/irtranscripts/src/app/pages/candidates/candidates-routing.module.ts:269",
       "guards": [
         "PermissionsGuard"
       ],
@@ -767,48 +767,48 @@
     },
     {
       "path": "/pages/employees/edit/:id",
-      "file": "apps/gauzy/src/app/pages/employees/employees-routing.module.ts:86",
+      "file": "apps/irtranscripts/src/app/pages/employees/employees-routing.module.ts:86",
       "redirect_to": "account",
       "source": "router"
     },
     {
       "path": "/pages/employees/edit/:id/account",
-      "file": "apps/gauzy/src/app/pages/employees/employees-routing.module.ts:91",
+      "file": "apps/irtranscripts/src/app/pages/employees/employees-routing.module.ts:91",
       "source": "router"
     },
     {
       "path": "/pages/employees/edit/:id/contacts",
-      "file": "apps/gauzy/src/app/pages/employees/employees-routing.module.ts:120",
+      "file": "apps/irtranscripts/src/app/pages/employees/employees-routing.module.ts:120",
       "source": "router"
     },
     {
       "path": "/pages/employees/edit/:id/documents",
-      "file": "apps/gauzy/src/app/pages/employees/employees-routing.module.ts:145",
+      "file": "apps/irtranscripts/src/app/pages/employees/employees-routing.module.ts:145",
       "source": "router"
     },
     {
       "path": "/pages/employees/edit/:id/employment",
-      "file": "apps/gauzy/src/app/pages/employees/employees-routing.module.ts:135",
+      "file": "apps/irtranscripts/src/app/pages/employees/employees-routing.module.ts:135",
       "source": "router"
     },
     {
       "path": "/pages/employees/edit/:id/hiring",
-      "file": "apps/gauzy/src/app/pages/employees/employees-routing.module.ts:130",
+      "file": "apps/irtranscripts/src/app/pages/employees/employees-routing.module.ts:130",
       "source": "router"
     },
     {
       "path": "/pages/employees/edit/:id/location",
-      "file": "apps/gauzy/src/app/pages/employees/employees-routing.module.ts:125",
+      "file": "apps/irtranscripts/src/app/pages/employees/employees-routing.module.ts:125",
       "source": "router"
     },
     {
       "path": "/pages/employees/edit/:id/networks",
-      "file": "apps/gauzy/src/app/pages/employees/employees-routing.module.ts:96",
+      "file": "apps/irtranscripts/src/app/pages/employees/employees-routing.module.ts:96",
       "source": "router"
     },
     {
       "path": "/pages/employees/edit/:id/projects",
-      "file": "apps/gauzy/src/app/pages/employees/employees-routing.module.ts:106",
+      "file": "apps/irtranscripts/src/app/pages/employees/employees-routing.module.ts:106",
       "guards": [
         "PermissionsGuard"
       ],
@@ -816,17 +816,17 @@
     },
     {
       "path": "/pages/employees/edit/:id/rates",
-      "file": "apps/gauzy/src/app/pages/employees/employees-routing.module.ts:101",
+      "file": "apps/irtranscripts/src/app/pages/employees/employees-routing.module.ts:101",
       "source": "router"
     },
     {
       "path": "/pages/employees/edit/:id/settings",
-      "file": "apps/gauzy/src/app/pages/employees/employees-routing.module.ts:140",
+      "file": "apps/irtranscripts/src/app/pages/employees/employees-routing.module.ts:140",
       "source": "router"
     },
     {
       "path": "/pages/employees/employee-level",
-      "file": "apps/gauzy/src/app/pages/employee-levels/employee-level-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/employee-levels/employee-level-routing.module.ts:8",
       "guards": [
         "PermissionsGuard"
       ],
@@ -834,12 +834,12 @@
     },
     {
       "path": "/pages/employees/event-types",
-      "file": "apps/gauzy/src/app/pages/employees/event-types/event-type.routing.module.ts:5",
+      "file": "apps/irtranscripts/src/app/pages/employees/event-types/event-type.routing.module.ts:5",
       "source": "router"
     },
     {
       "path": "/pages/employees/invites",
-      "file": "apps/gauzy/src/app/pages/employees/employees-routing.module.ts:156",
+      "file": "apps/irtranscripts/src/app/pages/employees/employees-routing.module.ts:156",
       "guards": [
         "InviteGuard"
       ],
@@ -847,7 +847,7 @@
     },
     {
       "path": "/pages/employees/positions",
-      "file": "apps/gauzy/src/app/pages/positions/positions-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/positions/positions-routing.module.ts:8",
       "guards": [
         "PermissionsGuard"
       ],
@@ -855,33 +855,33 @@
     },
     {
       "path": "/pages/employees/recurring-expenses",
-      "file": "apps/gauzy/src/app/pages/recurring-expense-employee/recurring-expense-employee-routing.module.ts:9",
+      "file": "apps/irtranscripts/src/app/pages/recurring-expense-employee/recurring-expense-employee-routing.module.ts:9",
       "source": "router"
     },
     {
       "path": "/pages/employees/recurring-expenses/view/:id",
-      "file": "apps/gauzy/src/app/pages/recurring-expense-employee/recurring-expense-employee-routing.module.ts:22",
+      "file": "apps/irtranscripts/src/app/pages/recurring-expense-employee/recurring-expense-employee-routing.module.ts:22",
       "source": "router"
     },
     {
       "path": "/pages/employees/schedules",
-      "file": "apps/gauzy/src/app/pages/employees/schedules/availability-slots/availability-slots.routing.module.ts:6",
+      "file": "apps/irtranscripts/src/app/pages/employees/schedules/availability-slots/availability-slots.routing.module.ts:6",
       "redirect_to": "recurring-availability",
       "source": "router"
     },
     {
       "path": "/pages/employees/schedules/date-specific-availability",
-      "file": "apps/gauzy/src/app/pages/employees/schedules/availability-slots/availability-slots.routing.module.ts:11",
+      "file": "apps/irtranscripts/src/app/pages/employees/schedules/availability-slots/availability-slots.routing.module.ts:11",
       "source": "router"
     },
     {
       "path": "/pages/employees/schedules/recurring-availability",
-      "file": "apps/gauzy/src/app/pages/employees/schedules/availability-slots/availability-slots.routing.module.ts:18",
+      "file": "apps/irtranscripts/src/app/pages/employees/schedules/availability-slots/availability-slots.routing.module.ts:18",
       "source": "router"
     },
     {
       "path": "/pages/employees/time-off",
-      "file": "apps/gauzy/src/app/pages/time-off/time-off.routes.ts:12",
+      "file": "apps/irtranscripts/src/app/pages/time-off/time-off.routes.ts:12",
       "guards": [
         "PermissionsGuard"
       ],
@@ -889,7 +889,7 @@
     },
     {
       "path": "/pages/employees/time-off/settings",
-      "file": "apps/gauzy/src/app/pages/time-off/time-off.routes.ts:30",
+      "file": "apps/irtranscripts/src/app/pages/time-off/time-off.routes.ts:30",
       "guards": [
         "PermissionsGuard"
       ],
@@ -897,13 +897,13 @@
     },
     {
       "path": "/pages/employees/timesheets",
-      "file": "apps/gauzy/src/app/pages/employees/timesheet/timesheet.routes.ts:17",
+      "file": "apps/irtranscripts/src/app/pages/employees/timesheet/timesheet.routes.ts:17",
       "redirect_to": "daily",
       "source": "router"
     },
     {
       "path": "/pages/employees/timesheets/:id",
-      "file": "apps/gauzy/src/app/pages/employees/timesheet/view/view.routes.ts:14",
+      "file": "apps/irtranscripts/src/app/pages/employees/timesheet/view/view.routes.ts:14",
       "guards": [
         "PermissionsGuard"
       ],
@@ -911,7 +911,7 @@
     },
     {
       "path": "/pages/employees/timesheets/approvals",
-      "file": "apps/gauzy/src/app/pages/employees/timesheet/approvals/approvals-routing.module.ts:9",
+      "file": "apps/irtranscripts/src/app/pages/employees/timesheet/approvals/approvals-routing.module.ts:9",
       "guards": [
         "PermissionsGuard"
       ],
@@ -919,22 +919,22 @@
     },
     {
       "path": "/pages/employees/timesheets/calendar",
-      "file": "apps/gauzy/src/app/pages/employees/timesheet/calendar/calendar-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/employees/timesheet/calendar/calendar-routing.module.ts:8",
       "source": "router"
     },
     {
       "path": "/pages/employees/timesheets/daily",
-      "file": "apps/gauzy/src/app/pages/employees/timesheet/daily/daily-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/employees/timesheet/daily/daily-routing.module.ts:8",
       "source": "router"
     },
     {
       "path": "/pages/employees/timesheets/weekly",
-      "file": "apps/gauzy/src/app/pages/employees/timesheet/weekly/weekly-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/employees/timesheet/weekly/weekly-routing.module.ts:8",
       "source": "router"
     },
     {
       "path": "/pages/employees/view/:id",
-      "file": "apps/gauzy/src/app/pages/employees/employees-routing.module.ts:53",
+      "file": "apps/irtranscripts/src/app/pages/employees/employees-routing.module.ts:53",
       "guards": [
         "PermissionsGuard"
       ],
@@ -942,12 +942,12 @@
     },
     {
       "path": "/pages/goals",
-      "file": "apps/gauzy/src/app/pages/goals/goals-routing.module.ts:6",
+      "file": "apps/irtranscripts/src/app/pages/goals/goals-routing.module.ts:6",
       "source": "router"
     },
     {
       "path": "/pages/goals/initiatives",
-      "file": "apps/gauzy/src/app/pages/goals/initiatives/initiatives-routing.module.ts:16",
+      "file": "apps/irtranscripts/src/app/pages/goals/initiatives/initiatives-routing.module.ts:16",
       "guards": [
         "PermissionsGuard"
       ],
@@ -955,7 +955,7 @@
     },
     {
       "path": "/pages/goals/initiatives/:id",
-      "file": "apps/gauzy/src/app/pages/goals/initiatives/initiatives-routing.module.ts:22",
+      "file": "apps/irtranscripts/src/app/pages/goals/initiatives/initiatives-routing.module.ts:22",
       "guards": [
         "PermissionsGuard"
       ],
@@ -968,165 +968,165 @@
     },
     {
       "path": "/pages/goals/settings",
-      "file": "apps/gauzy/src/app/pages/goal-settings/goal-settings-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/goal-settings/goal-settings-routing.module.ts:8",
       "source": "router"
     },
     {
       "path": "/pages/goals/settings/kpi/:id",
-      "file": "apps/gauzy/src/app/pages/goal-settings/goal-settings-routing.module.ts:10",
+      "file": "apps/irtranscripts/src/app/pages/goal-settings/goal-settings-routing.module.ts:10",
       "source": "router"
     },
     {
       "path": "/pages/goals/settings/time-frame/:id",
-      "file": "apps/gauzy/src/app/pages/goal-settings/goal-settings-routing.module.ts:15",
+      "file": "apps/irtranscripts/src/app/pages/goal-settings/goal-settings-routing.module.ts:15",
       "source": "router"
     },
     {
       "path": "/pages/help",
-      "file": "apps/gauzy/src/app/pages/help/help-routing.module.ts:6",
+      "file": "apps/irtranscripts/src/app/pages/help/help-routing.module.ts:6",
       "source": "router"
     },
     {
       "path": "/pages/inbox",
       "file": "packages/plugins/inbox-ui/src/lib/inbox-ui.plugin.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/inbox/mailbox",
       "file": "packages/plugins/inbox-ui/src/lib/inbox-ui.plugin.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/integrations",
-      "file": "apps/gauzy/src/app/pages/integrations/integrations.routes.ts:18",
+      "file": "apps/irtranscripts/src/app/pages/integrations/integrations.routes.ts:18",
       "source": "router"
     },
     {
       "path": "/pages/integrations/activepieces",
-      "file": "apps/gauzy/src/app/pages/integrations/integrations.module.ts",
+      "file": "apps/irtranscripts/src/app/pages/integrations/integrations.module.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/integrations/ever-async",
       "file": "packages/plugins/integration-ever-async-ui/src/lib/integration-ever-async.routes.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/integrations/ever-connect",
       "file": "packages/plugins/ever-connect-ui/src/lib/ever-connect-ui.plugin.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/integrations/ever-connect/:integrationTenantId",
       "file": "packages/plugins/ever-connect-ui/src/lib/ever-connect-ui.plugin.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/integrations/ever-works",
       "file": "packages/plugins/integration-ever-works-ui/src/lib/integration-ever-works-ui.plugin.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/integrations/ever-works/:integrationTenantId",
       "file": "packages/plugins/integration-ever-works-ui/src/lib/integration-ever-works-ui.plugin.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
-      "path": "/pages/integrations/gauzy-ai",
-      "file": "apps/gauzy/src/app/pages/integrations/integrations.module.ts",
+      "path": "/pages/integrations/irtranscripts-ai",
+      "file": "apps/irtranscripts/src/app/pages/integrations/integrations.module.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/integrations/github",
-      "file": "apps/gauzy/src/app/pages/integrations/integrations.module.ts",
+      "file": "apps/irtranscripts/src/app/pages/integrations/integrations.module.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/integrations/hubstaff",
-      "file": "apps/gauzy/src/app/pages/integrations/integrations.module.ts",
+      "file": "apps/irtranscripts/src/app/pages/integrations/integrations.module.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/integrations/makecom",
-      "file": "apps/gauzy/src/app/pages/integrations/integrations.module.ts",
+      "file": "apps/irtranscripts/src/app/pages/integrations/integrations.module.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/integrations/new",
-      "file": "apps/gauzy/src/app/pages/integrations/integrations.routes.ts:31",
+      "file": "apps/irtranscripts/src/app/pages/integrations/integrations.routes.ts:31",
       "source": "router"
     },
     {
       "path": "/pages/integrations/plane",
       "file": "packages/plugins/integration-plane-ui/src/lib/integration-plane.routes.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/integrations/plugins",
-      "file": "apps/gauzy/src/app/pages/integrations/integrations.module.ts",
+      "file": "apps/irtranscripts/src/app/pages/integrations/integrations.module.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/integrations/sim",
-      "file": "apps/gauzy/src/app/pages/integrations/integrations.module.ts",
+      "file": "apps/irtranscripts/src/app/pages/integrations/integrations.module.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/integrations/upwork",
       "file": "packages/plugins/integration-upwork-ui/src/lib/integration-upwork.routes.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/integrations/zapier",
-      "file": "apps/gauzy/src/app/pages/integrations/integrations.module.ts",
+      "file": "apps/irtranscripts/src/app/pages/integrations/integrations.module.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/jobs",
       "file": "packages/plugins/jobs-ui/src/lib/job.routes.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/jobs/employee",
       "file": "packages/plugins/job-employee-ui/src/lib/job-employee.routes.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/jobs/matching",
       "file": "packages/plugins/job-matching-ui/src/lib/job-matching.routes.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/jobs/proposal-template",
       "file": "packages/plugins/job-proposal-ui/src/lib/proposal-template/job-proposal-template.routes.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/jobs/search",
       "file": "packages/plugins/job-search-ui/src/lib/job-search.routes.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/legal",
@@ -1156,7 +1156,7 @@
     },
     {
       "path": "/pages/organization/approval-policy",
-      "file": "apps/gauzy/src/app/pages/approval-policy/approval-policy-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/approval-policy/approval-policy-routing.module.ts:8",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1164,7 +1164,7 @@
     },
     {
       "path": "/pages/organization/departments",
-      "file": "apps/gauzy/src/app/pages/departments/departments-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/departments/departments-routing.module.ts:8",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1172,7 +1172,7 @@
     },
     {
       "path": "/pages/organization/documents",
-      "file": "apps/gauzy/src/app/pages/documents/documents-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/documents/documents-routing.module.ts:8",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1180,7 +1180,7 @@
     },
     {
       "path": "/pages/organization/employment-types",
-      "file": "apps/gauzy/src/app/pages/employment-types/employment-types-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/employment-types/employment-types-routing.module.ts:8",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1188,7 +1188,7 @@
     },
     {
       "path": "/pages/organization/equipment",
-      "file": "apps/gauzy/src/app/pages/equipment/equipment-routing.module.ts:10",
+      "file": "apps/irtranscripts/src/app/pages/equipment/equipment-routing.module.ts:10",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1196,7 +1196,7 @@
     },
     {
       "path": "/pages/organization/equipment-sharing",
-      "file": "apps/gauzy/src/app/pages/equipment-sharing/equipment-sharing-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/equipment-sharing/equipment-sharing-routing.module.ts:8",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1204,7 +1204,7 @@
     },
     {
       "path": "/pages/organization/equipment-sharing-policy",
-      "file": "apps/gauzy/src/app/pages/equipment-sharing-policy/equipment-sharing-policy.routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/equipment-sharing-policy/equipment-sharing-policy.routing.module.ts:8",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1212,7 +1212,7 @@
     },
     {
       "path": "/pages/organization/equipment/view/:id",
-      "file": "apps/gauzy/src/app/pages/equipment/equipment-routing.module.ts:21",
+      "file": "apps/irtranscripts/src/app/pages/equipment/equipment-routing.module.ts:21",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1220,67 +1220,67 @@
     },
     {
       "path": "/pages/organization/expense-recurring",
-      "file": "apps/gauzy/src/app/pages/expense-recurring/expense-recurring-routing.module.ts:9",
+      "file": "apps/irtranscripts/src/app/pages/expense-recurring/expense-recurring-routing.module.ts:9",
       "source": "router"
     },
     {
       "path": "/pages/organization/expense-recurring/view/:id",
-      "file": "apps/gauzy/src/app/pages/expense-recurring/expense-recurring-routing.module.ts:23",
+      "file": "apps/irtranscripts/src/app/pages/expense-recurring/expense-recurring-routing.module.ts:23",
       "source": "router"
     },
     {
       "path": "/pages/organization/help-center",
-      "file": "apps/gauzy/src/app/pages/help-center/help-center-routing.module.ts:6",
+      "file": "apps/irtranscripts/src/app/pages/help-center/help-center-routing.module.ts:6",
       "source": "router"
     },
     {
       "path": "/pages/organization/inventory",
-      "file": "apps/gauzy/src/app/pages/inventory/inventory-routing.module.ts:25",
+      "file": "apps/irtranscripts/src/app/pages/inventory/inventory-routing.module.ts:25",
       "source": "router"
     },
     {
       "path": "/pages/organization/inventory/:itemId/variants/:itemVariantId",
-      "file": "apps/gauzy/src/app/pages/inventory/inventory-routing.module.ts:69",
+      "file": "apps/irtranscripts/src/app/pages/inventory/inventory-routing.module.ts:69",
       "source": "router"
     },
     {
       "path": "/pages/organization/inventory/create",
-      "file": "apps/gauzy/src/app/pages/inventory/inventory-routing.module.ts:36",
+      "file": "apps/irtranscripts/src/app/pages/inventory/inventory-routing.module.ts:36",
       "source": "router"
     },
     {
       "path": "/pages/organization/inventory/edit/:id",
-      "file": "apps/gauzy/src/app/pages/inventory/inventory-routing.module.ts:47",
+      "file": "apps/irtranscripts/src/app/pages/inventory/inventory-routing.module.ts:47",
       "source": "router"
     },
     {
       "path": "/pages/organization/inventory/merchants",
-      "file": "apps/gauzy/src/app/pages/inventory/inventory-routing.module.ts:98",
+      "file": "apps/irtranscripts/src/app/pages/inventory/inventory-routing.module.ts:98",
       "source": "router"
     },
     {
       "path": "/pages/organization/inventory/product-categories",
-      "file": "apps/gauzy/src/app/pages/inventory/inventory-routing.module.ts:87",
+      "file": "apps/irtranscripts/src/app/pages/inventory/inventory-routing.module.ts:87",
       "source": "router"
     },
     {
       "path": "/pages/organization/inventory/product-types",
-      "file": "apps/gauzy/src/app/pages/inventory/inventory-routing.module.ts:82",
+      "file": "apps/irtranscripts/src/app/pages/inventory/inventory-routing.module.ts:82",
       "source": "router"
     },
     {
       "path": "/pages/organization/inventory/view/:id",
-      "file": "apps/gauzy/src/app/pages/inventory/inventory-routing.module.ts:58",
+      "file": "apps/irtranscripts/src/app/pages/inventory/inventory-routing.module.ts:58",
       "source": "router"
     },
     {
       "path": "/pages/organization/inventory/warehouses",
-      "file": "apps/gauzy/src/app/pages/inventory/inventory-routing.module.ts:94",
+      "file": "apps/irtranscripts/src/app/pages/inventory/inventory-routing.module.ts:94",
       "source": "router"
     },
     {
       "path": "/pages/organization/projects",
-      "file": "apps/gauzy/src/app/pages/projects/projects-routing.module.ts:18",
+      "file": "apps/irtranscripts/src/app/pages/projects/projects-routing.module.ts:18",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1288,7 +1288,7 @@
     },
     {
       "path": "/pages/organization/projects/:id/edit",
-      "file": "apps/gauzy/src/app/pages/projects/projects-routing.module.ts:80",
+      "file": "apps/irtranscripts/src/app/pages/projects/projects-routing.module.ts:80",
       "guards": [
         "ProjectManagerOrPermissionGuard"
       ],
@@ -1296,7 +1296,7 @@
     },
     {
       "path": "/pages/organization/projects/create",
-      "file": "apps/gauzy/src/app/pages/projects/projects-routing.module.ts:29",
+      "file": "apps/irtranscripts/src/app/pages/projects/projects-routing.module.ts:29",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1304,7 +1304,7 @@
     },
     {
       "path": "/pages/organization/projects/view/:id",
-      "file": "apps/gauzy/src/app/pages/projects/projects-routing.module.ts:46",
+      "file": "apps/irtranscripts/src/app/pages/projects/projects-routing.module.ts:46",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1312,7 +1312,7 @@
     },
     {
       "path": "/pages/organization/tags",
-      "file": "apps/gauzy/src/app/pages/tags/tags-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/tags/tags-routing.module.ts:8",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1320,7 +1320,7 @@
     },
     {
       "path": "/pages/organization/teams",
-      "file": "apps/gauzy/src/app/pages/teams/teams-routing.module.ts:9",
+      "file": "apps/irtranscripts/src/app/pages/teams/teams-routing.module.ts:9",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1328,7 +1328,7 @@
     },
     {
       "path": "/pages/organization/teams/view/:id",
-      "file": "apps/gauzy/src/app/pages/teams/teams-routing.module.ts:20",
+      "file": "apps/irtranscripts/src/app/pages/teams/teams-routing.module.ts:20",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1336,7 +1336,7 @@
     },
     {
       "path": "/pages/organization/vendors",
-      "file": "apps/gauzy/src/app/pages/vendors/vendors-routing.module.ts:10",
+      "file": "apps/irtranscripts/src/app/pages/vendors/vendors-routing.module.ts:10",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1344,7 +1344,7 @@
     },
     {
       "path": "/pages/organization/vendors/view/:id",
-      "file": "apps/gauzy/src/app/pages/vendors/vendors-routing.module.ts:21",
+      "file": "apps/irtranscripts/src/app/pages/vendors/vendors-routing.module.ts:21",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1352,7 +1352,7 @@
     },
     {
       "path": "/pages/organizations",
-      "file": "apps/gauzy/src/app/pages/organizations/organizations-routing.module.ts:12",
+      "file": "apps/irtranscripts/src/app/pages/organizations/organizations-routing.module.ts:12",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1360,30 +1360,30 @@
     },
     {
       "path": "/pages/organizations/edit/:id",
-      "file": "apps/gauzy/src/app/pages/organizations/edit-organization/edit-organization-routing.module.ts:36",
+      "file": "apps/irtranscripts/src/app/pages/organizations/edit-organization/edit-organization-routing.module.ts:36",
       "redirect_to": "main",
       "source": "router"
     },
     {
       "path": "/pages/organizations/edit/:id/location",
-      "file": "apps/gauzy/src/app/pages/organizations/edit-organization/edit-organization-routing.module.ts:54",
+      "file": "apps/irtranscripts/src/app/pages/organizations/edit-organization/edit-organization-routing.module.ts:54",
       "source": "router"
     },
     {
       "path": "/pages/organizations/edit/:id/main",
-      "file": "apps/gauzy/src/app/pages/organizations/edit-organization/edit-organization-routing.module.ts:41",
+      "file": "apps/irtranscripts/src/app/pages/organizations/edit-organization/edit-organization-routing.module.ts:41",
       "source": "router"
     },
     {
       "path": "/pages/organizations/edit/:id/settings",
-      "file": "apps/gauzy/src/app/pages/organizations/edit-organization/edit-organization-routing.module.ts:67",
+      "file": "apps/irtranscripts/src/app/pages/organizations/edit-organization/edit-organization-routing.module.ts:67",
       "source": "router"
     },
     {
       "path": "/pages/playground",
       "file": "packages/plugins/ai-chat-react-ui/src/lib/playground.routes.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/projects",
@@ -1392,7 +1392,7 @@
     },
     {
       "path": "/pages/reports",
-      "file": "apps/gauzy/src/app/pages/pages.routes.ts:509",
+      "file": "apps/irtranscripts/src/app/pages/pages.routes.ts:509",
       "redirect_to": "all",
       "source": "router"
     },
@@ -1403,67 +1403,67 @@
     },
     {
       "path": "/pages/reports/all",
-      "file": "apps/gauzy/src/app/pages/reports/all-report/all-report-routing.module.ts:6",
+      "file": "apps/irtranscripts/src/app/pages/reports/all-report/all-report-routing.module.ts:6",
       "source": "router"
     },
     {
       "path": "/pages/reports/amounts-owed",
-      "file": "apps/gauzy/src/app/pages/reports/amounts-owed-report/amounts-owed-report-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/reports/amounts-owed-report/amounts-owed-report-routing.module.ts:8",
       "source": "router"
     },
     {
       "path": "/pages/reports/apps-urls",
-      "file": "apps/gauzy/src/app/pages/reports/apps-urls-report/apps-urls-report-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/reports/apps-urls-report/apps-urls-report-routing.module.ts:8",
       "source": "router"
     },
     {
       "path": "/pages/reports/client-budgets",
-      "file": "apps/gauzy/src/app/pages/reports/client-budgets-report/client-budgets-report-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/reports/client-budgets-report/client-budgets-report-routing.module.ts:8",
       "source": "router"
     },
     {
       "path": "/pages/reports/daily-limits",
-      "file": "apps/gauzy/src/app/pages/reports/time-limit-report/time-limit-report-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/reports/time-limit-report/time-limit-report-routing.module.ts:8",
       "source": "router"
     },
     {
       "path": "/pages/reports/expense",
-      "file": "apps/gauzy/src/app/pages/reports/expenses-report/expenses-report-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/reports/expenses-report/expenses-report-routing.module.ts:8",
       "source": "router"
     },
     {
       "path": "/pages/reports/manual-time-edits",
-      "file": "apps/gauzy/src/app/pages/reports/manual-time/manual-time-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/reports/manual-time/manual-time-routing.module.ts:8",
       "source": "router"
     },
     {
       "path": "/pages/reports/payments",
-      "file": "apps/gauzy/src/app/pages/reports/payment-report/payment-report-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/reports/payment-report/payment-report-routing.module.ts:8",
       "source": "router"
     },
     {
       "path": "/pages/reports/project-budgets",
-      "file": "apps/gauzy/src/app/pages/reports/project-budgets-report/project-budgets-report-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/reports/project-budgets-report/project-budgets-report-routing.module.ts:8",
       "source": "router"
     },
     {
       "path": "/pages/reports/time-activity",
-      "file": "apps/gauzy/src/app/pages/reports/time-reports/time-reports-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/reports/time-reports/time-reports-routing.module.ts:8",
       "source": "router"
     },
     {
       "path": "/pages/reports/weekly",
-      "file": "apps/gauzy/src/app/pages/reports/weekly-time-reports/weekly-time-reports-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/reports/weekly-time-reports/weekly-time-reports-routing.module.ts:8",
       "source": "router"
     },
     {
       "path": "/pages/reports/weekly-limits",
-      "file": "apps/gauzy/src/app/pages/reports/time-limit-report/time-limit-report-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/reports/time-limit-report/time-limit-report-routing.module.ts:8",
       "source": "router"
     },
     {
       "path": "/pages/sales",
-      "file": "apps/gauzy/src/app/pages/pages.routes.ts:173",
+      "file": "apps/irtranscripts/src/app/pages/pages.routes.ts:173",
       "redirect_to": "invoices",
       "source": "router"
     },
@@ -1474,7 +1474,7 @@
     },
     {
       "path": "/pages/sales/invoices",
-      "file": "apps/gauzy/src/app/pages/invoices/invoices-routing.module.ts:23",
+      "file": "apps/irtranscripts/src/app/pages/invoices/invoices-routing.module.ts:23",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1482,7 +1482,7 @@
     },
     {
       "path": "/pages/sales/invoices/add",
-      "file": "apps/gauzy/src/app/pages/invoices/invoices-routing.module.ts:37",
+      "file": "apps/irtranscripts/src/app/pages/invoices/invoices-routing.module.ts:37",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1490,7 +1490,7 @@
     },
     {
       "path": "/pages/sales/invoices/edit/:id",
-      "file": "apps/gauzy/src/app/pages/invoices/invoices-routing.module.ts:48",
+      "file": "apps/irtranscripts/src/app/pages/invoices/invoices-routing.module.ts:48",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1498,32 +1498,32 @@
     },
     {
       "path": "/pages/sales/invoices/estimates",
-      "file": "apps/gauzy/src/app/pages/invoices/invoices-routing.module.ts:95",
+      "file": "apps/irtranscripts/src/app/pages/invoices/invoices-routing.module.ts:95",
       "source": "router"
     },
     {
       "path": "/pages/sales/invoices/estimates/add",
-      "file": "apps/gauzy/src/app/pages/invoices/invoices-routing.module.ts:108",
+      "file": "apps/irtranscripts/src/app/pages/invoices/invoices-routing.module.ts:108",
       "source": "router"
     },
     {
       "path": "/pages/sales/invoices/estimates/edit/:id",
-      "file": "apps/gauzy/src/app/pages/invoices/invoices-routing.module.ts:124",
+      "file": "apps/irtranscripts/src/app/pages/invoices/invoices-routing.module.ts:124",
       "source": "router"
     },
     {
       "path": "/pages/sales/invoices/estimates/view/:id",
-      "file": "apps/gauzy/src/app/pages/invoices/invoices-routing.module.ts:134",
+      "file": "apps/irtranscripts/src/app/pages/invoices/invoices-routing.module.ts:134",
       "source": "router"
     },
     {
       "path": "/pages/sales/invoices/payments/:id",
-      "file": "apps/gauzy/src/app/pages/invoices/invoices-routing.module.ts:167",
+      "file": "apps/irtranscripts/src/app/pages/invoices/invoices-routing.module.ts:167",
       "source": "router"
     },
     {
       "path": "/pages/sales/invoices/received-estimates",
-      "file": "apps/gauzy/src/app/pages/invoices/invoices-routing.module.ts:153",
+      "file": "apps/irtranscripts/src/app/pages/invoices/invoices-routing.module.ts:153",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1531,7 +1531,7 @@
     },
     {
       "path": "/pages/sales/invoices/received-invoices",
-      "file": "apps/gauzy/src/app/pages/invoices/invoices-routing.module.ts:59",
+      "file": "apps/irtranscripts/src/app/pages/invoices/invoices-routing.module.ts:59",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1544,7 +1544,7 @@
     },
     {
       "path": "/pages/sales/invoices/view/:id",
-      "file": "apps/gauzy/src/app/pages/invoices/invoices-routing.module.ts:73",
+      "file": "apps/irtranscripts/src/app/pages/invoices/invoices-routing.module.ts:73",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1552,7 +1552,7 @@
     },
     {
       "path": "/pages/sales/payments",
-      "file": "apps/gauzy/src/app/pages/payments/payments-routing.module.ts:11",
+      "file": "apps/irtranscripts/src/app/pages/payments/payments-routing.module.ts:11",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1560,7 +1560,7 @@
     },
     {
       "path": "/pages/sales/payments/view/:id",
-      "file": "apps/gauzy/src/app/pages/payments/payments-routing.module.ts:29",
+      "file": "apps/irtranscripts/src/app/pages/payments/payments-routing.module.ts:29",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1568,7 +1568,7 @@
     },
     {
       "path": "/pages/sales/pipelines",
-      "file": "apps/gauzy/src/app/pages/pipelines/pipelines.routing.ts:12",
+      "file": "apps/irtranscripts/src/app/pages/pipelines/pipelines.routing.ts:12",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1576,7 +1576,7 @@
     },
     {
       "path": "/pages/sales/pipelines/:pipelineId/deals",
-      "file": "apps/gauzy/src/app/pages/pipelines/pipelines.routing.ts:23",
+      "file": "apps/irtranscripts/src/app/pages/pipelines/pipelines.routing.ts:23",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1584,7 +1584,7 @@
     },
     {
       "path": "/pages/sales/pipelines/:pipelineId/deals/:dealId/edit",
-      "file": "apps/gauzy/src/app/pages/pipelines/pipelines.routing.ts:47",
+      "file": "apps/irtranscripts/src/app/pages/pipelines/pipelines.routing.ts:47",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1592,7 +1592,7 @@
     },
     {
       "path": "/pages/sales/pipelines/:pipelineId/deals/create",
-      "file": "apps/gauzy/src/app/pages/pipelines/pipelines.routing.ts:35",
+      "file": "apps/irtranscripts/src/app/pages/pipelines/pipelines.routing.ts:35",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1602,28 +1602,28 @@
       "path": "/pages/sales/proposals",
       "file": "packages/plugins/job-proposal-ui/src/lib/proposal/job-proposal-plugin.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/settings",
-      "file": "apps/gauzy/src/app/pages/settings/settings.routes.ts:27",
+      "file": "apps/irtranscripts/src/app/pages/settings/settings.routes.ts:27",
       "redirect_to": "general",
       "source": "router"
     },
     {
       "path": "/pages/settings/accounting-templates",
-      "file": "apps/gauzy/src/app/pages/settings/settings.routes.ts:72",
+      "file": "apps/irtranscripts/src/app/pages/settings/settings.routes.ts:72",
       "source": "router"
     },
     {
       "path": "/pages/settings/ai",
       "file": "packages/plugins/ai-chat-react-ui/src/lib/settings/ai-chat-settings.routes.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/settings/billing",
-      "file": "apps/gauzy/src/app/pages/settings/billing/billing-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/settings/billing/billing-routing.module.ts:8",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1633,27 +1633,27 @@
       "path": "/pages/settings/connected-identities",
       "file": "packages/plugins/auth-zitadel-ui/src/lib/auth-zitadel-ui.plugin.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/settings/custom-smtp",
-      "file": "apps/gauzy/src/app/pages/settings/custom-smtp/custom-smtp-routing.module.ts:20",
+      "file": "apps/irtranscripts/src/app/pages/settings/custom-smtp/custom-smtp-routing.module.ts:20",
       "redirect_to": "tenant",
       "source": "router"
     },
     {
       "path": "/pages/settings/custom-smtp/organization",
-      "file": "apps/gauzy/src/app/pages/settings/custom-smtp/custom-smtp-routing.module.ts:38",
+      "file": "apps/irtranscripts/src/app/pages/settings/custom-smtp/custom-smtp-routing.module.ts:38",
       "source": "router"
     },
     {
       "path": "/pages/settings/custom-smtp/tenant",
-      "file": "apps/gauzy/src/app/pages/settings/custom-smtp/custom-smtp-routing.module.ts:25",
+      "file": "apps/irtranscripts/src/app/pages/settings/custom-smtp/custom-smtp-routing.module.ts:25",
       "source": "router"
     },
     {
       "path": "/pages/settings/danger-zone",
-      "file": "apps/gauzy/src/app/pages/settings/settings.routes.ts:143",
+      "file": "apps/irtranscripts/src/app/pages/settings/settings.routes.ts:143",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1663,17 +1663,17 @@
       "path": "/pages/settings/documents",
       "file": "packages/plugins/docs-ui/src/lib/docs-ui.plugin.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/settings/documents-inbound",
       "file": "packages/plugins/docs-ui/src/lib/docs-ui.plugin.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/settings/email-history",
-      "file": "apps/gauzy/src/app/pages/settings/settings.routes.ts:50",
+      "file": "apps/irtranscripts/src/app/pages/settings/settings.routes.ts:50",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1681,28 +1681,28 @@
     },
     {
       "path": "/pages/settings/email-templates",
-      "file": "apps/gauzy/src/app/pages/settings/settings.routes.ts:67",
+      "file": "apps/irtranscripts/src/app/pages/settings/settings.routes.ts:67",
       "source": "router"
     },
     {
       "path": "/pages/settings/features",
-      "file": "apps/gauzy/src/app/pages/settings/feature/feature-routing.module.ts:24",
+      "file": "apps/irtranscripts/src/app/pages/settings/feature/feature-routing.module.ts:24",
       "redirect_to": "tenant",
       "source": "router"
     },
     {
       "path": "/pages/settings/features/organization",
-      "file": "apps/gauzy/src/app/pages/settings/feature/feature-routing.module.ts:42",
+      "file": "apps/irtranscripts/src/app/pages/settings/feature/feature-routing.module.ts:42",
       "source": "router"
     },
     {
       "path": "/pages/settings/features/tenant",
-      "file": "apps/gauzy/src/app/pages/settings/feature/feature-routing.module.ts:29",
+      "file": "apps/irtranscripts/src/app/pages/settings/feature/feature-routing.module.ts:29",
       "source": "router"
     },
     {
       "path": "/pages/settings/file-storage",
-      "file": "apps/gauzy/src/app/pages/settings/file-storage/file-storage-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/settings/file-storage/file-storage-routing.module.ts:8",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1710,12 +1710,12 @@
     },
     {
       "path": "/pages/settings/general",
-      "file": "apps/gauzy/src/app/pages/settings/general-setting/general-setting-routing.module.ts:6",
+      "file": "apps/irtranscripts/src/app/pages/settings/general-setting/general-setting-routing.module.ts:6",
       "source": "router"
     },
     {
       "path": "/pages/settings/import-export",
-      "file": "apps/gauzy/src/app/pages/import-export/import-export-routing.module.ts:9",
+      "file": "apps/irtranscripts/src/app/pages/import-export/import-export-routing.module.ts:9",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1723,7 +1723,7 @@
     },
     {
       "path": "/pages/settings/import-export/export",
-      "file": "apps/gauzy/src/app/pages/import-export/export/export-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/import-export/export/export-routing.module.ts:8",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1731,7 +1731,7 @@
     },
     {
       "path": "/pages/settings/import-export/external-redirect",
-      "file": "apps/gauzy/src/app/pages/import-export/import-export-routing.module.ts:28",
+      "file": "apps/irtranscripts/src/app/pages/import-export/import-export-routing.module.ts:28",
       "guards": [
         "ExternalRedirectGuard"
       ],
@@ -1739,7 +1739,7 @@
     },
     {
       "path": "/pages/settings/import-export/import",
-      "file": "apps/gauzy/src/app/pages/import-export/import/import-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/import-export/import/import-routing.module.ts:8",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1749,22 +1749,22 @@
       "path": "/pages/settings/inbox-mailboxes",
       "file": "packages/plugins/inbox-ui/src/lib/inbox-ui.plugin.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/settings/inbox-providers",
       "file": "packages/plugins/inbox-ui/src/lib/inbox-ui.plugin.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/settings/monitoring",
-      "file": "apps/gauzy/src/app/pages/settings/monitoring/monitoring.module.ts:19",
+      "file": "apps/irtranscripts/src/app/pages/settings/monitoring/monitoring.module.ts:19",
       "source": "router"
     },
     {
       "path": "/pages/settings/oauth-clients",
-      "file": "apps/gauzy/src/app/pages/settings/oauth-clients/oauth-clients-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/settings/oauth-clients/oauth-clients-routing.module.ts:8",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1772,7 +1772,7 @@
     },
     {
       "path": "/pages/settings/roles-permissions",
-      "file": "apps/gauzy/src/app/pages/settings/roles-permissions/roles-permissions-routing.module.ts:8",
+      "file": "apps/irtranscripts/src/app/pages/settings/roles-permissions/roles-permissions-routing.module.ts:8",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1780,7 +1780,7 @@
     },
     {
       "path": "/pages/settings/sms-gateway",
-      "file": "apps/gauzy/src/app/pages/settings/settings.routes.ts:97",
+      "file": "apps/irtranscripts/src/app/pages/settings/settings.routes.ts:97",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1790,27 +1790,27 @@
       "path": "/pages/settings/usage-statistics",
       "file": "packages/plugins/ever-stats-ui/src/lib/ever-stats-ui.plugin.ts",
       "source": "manual",
-      "note": "registered at run time by a UI plugin of apps/gauzy/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
+      "note": "registered at run time by a UI plugin of apps/irtranscripts/src/plugin-ui.config.ts or a page module (the generator lists the registry call as a note)"
     },
     {
       "path": "/pages/tasks",
-      "file": "apps/gauzy/src/app/pages/tasks/tasks-routing.module.ts:13",
+      "file": "apps/irtranscripts/src/app/pages/tasks/tasks-routing.module.ts:13",
       "redirect_to": "dashboard",
       "source": "router"
     },
     {
       "path": "/pages/tasks/dashboard",
-      "file": "apps/gauzy/src/app/pages/tasks/tasks-routing.module.ts:18",
+      "file": "apps/irtranscripts/src/app/pages/tasks/tasks-routing.module.ts:18",
       "source": "router"
     },
     {
       "path": "/pages/tasks/me",
-      "file": "apps/gauzy/src/app/pages/tasks/tasks-routing.module.ts:26",
+      "file": "apps/irtranscripts/src/app/pages/tasks/tasks-routing.module.ts:26",
       "source": "router"
     },
     {
       "path": "/pages/tasks/settings/:id",
-      "file": "apps/gauzy/src/app/pages/tasks/tasks-routing.module.ts:44",
+      "file": "apps/irtranscripts/src/app/pages/tasks/tasks-routing.module.ts:44",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1818,12 +1818,12 @@
     },
     {
       "path": "/pages/tasks/team",
-      "file": "apps/gauzy/src/app/pages/tasks/tasks-routing.module.ts:22",
+      "file": "apps/irtranscripts/src/app/pages/tasks/tasks-routing.module.ts:22",
       "source": "router"
     },
     {
       "path": "/pages/tasks/view/:id",
-      "file": "apps/gauzy/src/app/pages/tasks/tasks-routing.module.ts:30",
+      "file": "apps/irtranscripts/src/app/pages/tasks/tasks-routing.module.ts:30",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1831,7 +1831,7 @@
     },
     {
       "path": "/pages/users",
-      "file": "apps/gauzy/src/app/pages/users/users-routing.module.ts:16",
+      "file": "apps/irtranscripts/src/app/pages/users/users-routing.module.ts:16",
       "guards": [
         "PermissionsGuard"
       ],
@@ -1839,32 +1839,32 @@
     },
     {
       "path": "/pages/users/edit/:id",
-      "file": "apps/gauzy/src/app/pages/users/users-routing.module.ts:38",
+      "file": "apps/irtranscripts/src/app/pages/users/users-routing.module.ts:38",
       "source": "router"
     },
     {
       "path": "/pages/users/edit/:id/location",
-      "file": "apps/gauzy/src/app/pages/organizations/edit-organization/edit-organization-routing.module.ts:54",
+      "file": "apps/irtranscripts/src/app/pages/organizations/edit-organization/edit-organization-routing.module.ts:54",
       "source": "router"
     },
     {
       "path": "/pages/users/edit/:id/main",
-      "file": "apps/gauzy/src/app/pages/organizations/edit-organization/edit-organization-routing.module.ts:41",
+      "file": "apps/irtranscripts/src/app/pages/organizations/edit-organization/edit-organization-routing.module.ts:41",
       "source": "router"
     },
     {
       "path": "/pages/users/edit/:id/organizations",
-      "file": "apps/gauzy/src/app/pages/users/users-routing.module.ts:50",
+      "file": "apps/irtranscripts/src/app/pages/users/users-routing.module.ts:50",
       "source": "router"
     },
     {
       "path": "/pages/users/edit/:id/settings",
-      "file": "apps/gauzy/src/app/pages/organizations/edit-organization/edit-organization-routing.module.ts:67",
+      "file": "apps/irtranscripts/src/app/pages/organizations/edit-organization/edit-organization-routing.module.ts:67",
       "source": "router"
     },
     {
       "path": "/pages/users/invites",
-      "file": "apps/gauzy/src/app/pages/users/users-routing.module.ts:64",
+      "file": "apps/irtranscripts/src/app/pages/users/users-routing.module.ts:64",
       "guards": [
         "InviteGuard"
       ],
@@ -1953,21 +1953,21 @@
     }
   ],
   "notes": [
-    "apps/gauzy/src/app/app.routes.ts:56: the wildcard route under / is not walked",
-    "apps/gauzy/src/app/pages/dashboard/dashboard.routes.ts:148: routes built at run time (_pageRouteRegistryService.getPageLocationRoutes('dashboard-sections')): add the routes it adds as manual entries",
-    "apps/gauzy/src/app/pages/employees/activity/activity.routes.ts:26: routes built at run time (_pageRouteRegistryService.getPageLocationRoutes('time-activity-sections')): add the routes it adds as manual entries",
-    "apps/gauzy/src/app/pages/employees/timesheet/timesheet.routes.ts:38: routes built at run time (_pageRouteRegistryService.getPageLocationRoutes('timesheet-sections')): add the routes it adds as manual entries",
-    "apps/gauzy/src/app/pages/integrations/integrations.routes.ts:46: routes built at run time (_pageRouteRegistryService.getPageLocationRoutes('integrations-sections')): add the routes it adds as manual entries",
-    "apps/gauzy/src/app/pages/pages.routes.ts:126: routes built at run time (_pageRouteRegistryService.getPageLocationRoutes('accounting-sections')): add the routes it adds as manual entries",
-    "apps/gauzy/src/app/pages/pages.routes.ts:201: routes built at run time (_pageRouteRegistryService.getPageLocationRoutes('sales-sections')): add the routes it adds as manual entries",
-    "apps/gauzy/src/app/pages/pages.routes.ts:306: the wildcard route under /pages is not walked",
-    "apps/gauzy/src/app/pages/pages.routes.ts:372: routes built at run time (_pageRouteRegistryService.getPageLocationRoutes('employees-sections')): add the routes it adds as manual entries",
-    "apps/gauzy/src/app/pages/pages.routes.ts:462: routes built at run time (_pageRouteRegistryService.getPageLocationRoutes('organization-sections')): add the routes it adds as manual entries",
-    "apps/gauzy/src/app/pages/pages.routes.ts:497: routes built at run time (_pageRouteRegistryService.getPageLocationRoutes('goals-sections')): add the routes it adds as manual entries",
-    "apps/gauzy/src/app/pages/pages.routes.ts:49: routes built at run time (_pageRouteRegistryService.getPageLocationRoutes('page-sections')): add the routes it adds as manual entries",
-    "apps/gauzy/src/app/pages/pages.routes.ts:589: routes built at run time (_pageRouteRegistryService.getPageLocationRoutes('reports-sections')): add the routes it adds as manual entries",
-    "apps/gauzy/src/app/pages/pages.routes.ts:590: the wildcard route under /pages/reports is not walked",
-    "apps/gauzy/src/app/pages/settings/settings.routes.ts:162: routes built at run time (_pageRouteRegistryService.getPageLocationRoutes('settings-sections')): add the routes it adds as manual entries",
+    "apps/irtranscripts/src/app/app.routes.ts:56: the wildcard route under / is not walked",
+    "apps/irtranscripts/src/app/pages/dashboard/dashboard.routes.ts:148: routes built at run time (_pageRouteRegistryService.getPageLocationRoutes('dashboard-sections')): add the routes it adds as manual entries",
+    "apps/irtranscripts/src/app/pages/employees/activity/activity.routes.ts:26: routes built at run time (_pageRouteRegistryService.getPageLocationRoutes('time-activity-sections')): add the routes it adds as manual entries",
+    "apps/irtranscripts/src/app/pages/employees/timesheet/timesheet.routes.ts:38: routes built at run time (_pageRouteRegistryService.getPageLocationRoutes('timesheet-sections')): add the routes it adds as manual entries",
+    "apps/irtranscripts/src/app/pages/integrations/integrations.routes.ts:46: routes built at run time (_pageRouteRegistryService.getPageLocationRoutes('integrations-sections')): add the routes it adds as manual entries",
+    "apps/irtranscripts/src/app/pages/pages.routes.ts:126: routes built at run time (_pageRouteRegistryService.getPageLocationRoutes('accounting-sections')): add the routes it adds as manual entries",
+    "apps/irtranscripts/src/app/pages/pages.routes.ts:201: routes built at run time (_pageRouteRegistryService.getPageLocationRoutes('sales-sections')): add the routes it adds as manual entries",
+    "apps/irtranscripts/src/app/pages/pages.routes.ts:306: the wildcard route under /pages is not walked",
+    "apps/irtranscripts/src/app/pages/pages.routes.ts:372: routes built at run time (_pageRouteRegistryService.getPageLocationRoutes('employees-sections')): add the routes it adds as manual entries",
+    "apps/irtranscripts/src/app/pages/pages.routes.ts:462: routes built at run time (_pageRouteRegistryService.getPageLocationRoutes('organization-sections')): add the routes it adds as manual entries",
+    "apps/irtranscripts/src/app/pages/pages.routes.ts:497: routes built at run time (_pageRouteRegistryService.getPageLocationRoutes('goals-sections')): add the routes it adds as manual entries",
+    "apps/irtranscripts/src/app/pages/pages.routes.ts:49: routes built at run time (_pageRouteRegistryService.getPageLocationRoutes('page-sections')): add the routes it adds as manual entries",
+    "apps/irtranscripts/src/app/pages/pages.routes.ts:589: routes built at run time (_pageRouteRegistryService.getPageLocationRoutes('reports-sections')): add the routes it adds as manual entries",
+    "apps/irtranscripts/src/app/pages/pages.routes.ts:590: the wildcard route under /pages/reports is not walked",
+    "apps/irtranscripts/src/app/pages/settings/settings.routes.ts:162: routes built at run time (_pageRouteRegistryService.getPageLocationRoutes('settings-sections')): add the routes it adds as manual entries",
     "packages/plugins/public-layout-ui/src/lib/public-layout.routes.ts:128: the wildcard route under /share is not walked",
     "packages/ui-auth/src/lib/auth.routes.ts:98: routes built at run time (_pageRouteRegistryService.getPageLocationRoutes('auth-sections')): add the routes it adds as manual entries"
   ]

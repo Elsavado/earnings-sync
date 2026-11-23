@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store, StoreConfig } from '@datorama/akita';
-import { ID, IPluginSource, PluginOSArch, PluginOSType } from '@gauzy/contracts';
+import { ID, IPluginSource, PluginOSArch, PluginOSType } from '@irtranscripts/contracts';
 
 export interface IPluginSourceState {
 	sources: IPluginSource[];

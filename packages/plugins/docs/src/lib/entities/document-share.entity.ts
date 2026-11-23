@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsOptional, IsUUID } from 'class-validator';
 import { JoinColumn, RelationId } from 'typeorm';
-import { DocumentShareAccessEnum, ID, IDocument, IDocumentShare, IEmployee, IOrganizationTeam } from '@gauzy/contracts';
+import { DocumentShareAccessEnum, ID, IDocument, IDocumentShare, IEmployee, IOrganizationTeam } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	Employee,
@@ -10,7 +10,7 @@ import {
 	MultiORMManyToOne,
 	OrganizationTeam,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { MikroOrmDocumentShareRepository } from '../repositories/mikro-orm-document-share.repository';
 import { Document } from './document.entity';
 

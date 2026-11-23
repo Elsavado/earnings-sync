@@ -13,8 +13,8 @@ import {
 	UsePipes
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ID, IPagination } from '@gauzy/contracts';
-import { FeatureFlag } from '@gauzy/common';
+import { ID, IPagination } from '@irtranscripts/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
 import {
 	AbstractValidationPipe,
 	BaseQueryDTO,
@@ -27,7 +27,7 @@ import {
 	TenantPermissionGuard,
 	UUIDValidationPipe,
 	UseValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { EntitlementActivation } from './entitlement-activation.entity';
 import { Entitlement } from '../entitlement/entitlement.entity';
 import { EntitlementActivationService } from './entitlement-activation.service';

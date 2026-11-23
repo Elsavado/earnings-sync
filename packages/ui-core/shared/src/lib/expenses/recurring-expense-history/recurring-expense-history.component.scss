@@ -15,12 +15,12 @@
     // Was `row.head`, an element selector for a `<row>` tag. The template marks
     // the column headings with `<div class="row head">`, so the rule matched
     // nothing and the headings rendered as ordinary bold text. The colour
-    // carries a fallback because `gauzy-text-color-2` is not registered by
+    // carries a fallback because `irtranscripts-text-color-2` is not registered by
     // material-light / material-dark.
     .row.head {
       b {
         font-weight: 600;
-        color: var(--gauzy-text-color-2, rgba(126, 126, 143, 1));
+        color: var(--irtranscripts-text-color-2, rgba(126, 126, 143, 1));
       }
     }
 
@@ -32,7 +32,7 @@
     .row hr {
       flex: 0 0 100%;
       margin: 0.5rem 0 0;
-      border-top-color: var(--gauzy-overlay-border-color, rgba(126, 126, 143, 0.18));
+      border-top-color: var(--irtranscripts-overlay-border-color, rgba(126, 126, 143, 0.18));
     }
 
     h6 {
@@ -41,7 +41,7 @@
       line-height: 17px;
       letter-spacing: 0em;
       text-align: left;
-      color: var(--gauzy-text-color-1, var(--text-basic-color));
+      color: var(--irtranscripts-text-color-1, var(--text-basic-color));
     }
   }
 

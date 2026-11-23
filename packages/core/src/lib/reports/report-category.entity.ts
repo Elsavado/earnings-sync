@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsNotEmpty } from 'class-validator';
-import { IReport, IReportCategory } from '@gauzy/contracts';
+import { IReport, IReportCategory } from '@irtranscripts/contracts';
 import { BaseEntity, Report } from '../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMOneToMany } from './../core/decorators/entity';
 import { MikroOrmReportCategoryRepository } from './repository/mikro-orm-report-category.repository';

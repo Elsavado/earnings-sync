@@ -7,13 +7,13 @@
  * A reorder accepted a hidden sibling's id where it refused any other id, which told the caller the sibling exists.
  * The request paths now hand in the read filter; with it, a hidden descendant is neither changed nor named.
  */
-jest.mock('@gauzy/config', () => ({ isSqlite: () => false, isBetterSqlite3: () => false }));
+jest.mock('@irtranscripts/config', () => ({ isSqlite: () => false, isBetterSqlite3: () => false }));
 jest.mock('../entities/document.entity', () => ({ Document: class {} }));
 jest.mock('../repositories/type-orm-document.repository', () => ({ TypeOrmDocumentRepository: class {} }));
 
 import { BadRequestException, ConflictException } from '@nestjs/common';
 import { FindOperator } from 'typeorm';
-import { DocumentKindEnum, ID } from '@gauzy/contracts';
+import { DocumentKindEnum, ID } from '@irtranscripts/contracts';
 import { DOCS_REORDER_MIXED_PARENTS, DOCS_SUBTREE_NOT_ARCHIVED } from '../docs.constants';
 import { DocumentTreeService } from './document-tree.service';
 

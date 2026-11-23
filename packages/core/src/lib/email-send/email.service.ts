@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 import { IsNull, MoreThanOrEqual } from 'typeorm';
-import { IAppIntegrationConfig } from '@gauzy/common';
+import { IAppIntegrationConfig } from '@irtranscripts/common';
 import {
 	IInviteEmployeeModel,
 	IInviteUserModel,
@@ -21,9 +21,9 @@ import {
 	EmailStatusEnum,
 	ITenant,
 	ID
-} from '@gauzy/contracts';
-import { environment as env } from '@gauzy/config';
-import { deepMerge } from '@gauzy/utils';
+} from '@irtranscripts/contracts';
+import { environment as env } from '@irtranscripts/config';
+import { deepMerge } from '@irtranscripts/utils';
 import { allowedEmailBaseUrl, warnRejectedEmailLink, withAllowedEmailLinks } from '../auth/email-link-origin';
 import { RequestContext } from '../core/context';
 import { EmailSendService } from './../email-send/email-send.service';
@@ -364,7 +364,7 @@ export class EmailService {
 
 		// Define the email send options.
 		const sendOptions = {
-			template: EmailTemplateEnum.INVITE_GAUZY_TEAMS,
+			template: EmailTemplateEnum.INVITE_IRTRANSCRIPTS_TEAMS,
 			message: {
 				to: email
 			},
@@ -1372,7 +1372,7 @@ export class EmailService {
 		// 	}
 		// });
 		const info = await transporter.sendMail({
-			from: 'Gauzy',
+			from: 'IRTranscripts',
 			to: user.email,
 			subject: 'Forgotten Password',
 			text: 'Forgot Password',

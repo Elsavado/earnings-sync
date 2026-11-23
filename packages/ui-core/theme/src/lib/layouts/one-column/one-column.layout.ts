@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { NbLayoutComponent, NbLayoutDirectionService, NbSidebarService } from '@nebular/theme';
-import { ChatSidebarService, LayoutService, NavigationBuilderService, Store } from '@gauzy/ui-core/core';
+import { ChatSidebarService, LayoutService, NavigationBuilderService, Store } from '@irtranscripts/ui-core/core';
 import { WindowModeBlockScrollService } from '../../services/window-mode-block-scroll.service';
 import { DEFAULT_SIDEBARS } from '../../components/theme-sidebar/default-sidebars';
 import { ThemeLanguageSelectorService } from '../../components/theme-sidebar/theme-settings/components/theme-language-selector/theme-language-selector.service';
@@ -47,7 +47,7 @@ export class OneColumnLayoutComponent {
 	/** User signal for template — derived from store observable. */
 	readonly user = toSignal(this.store.user$);
 
-	/** User observable — kept for child component compatibility (gauzy-user, gauzy-user-menu). */
+	/** User observable — kept for child component compatibility (irtranscripts-user, irtranscripts-user-menu). */
 	readonly user$ = this.store.user$;
 
 	/**
@@ -312,7 +312,7 @@ export class OneColumnLayoutComponent {
 	 *
 	 * This used to expand a compacted sidebar whenever the switcher opened, so clicking it
 	 * from the collapsed rail threw the whole menu open. The switcher's panel is absolutely
-	 * positioned over the rail (see `gauzy-workspace-menu` in the scss), so it opens fine
+	 * positioned over the rail (see `irtranscripts-workspace-menu` in the scss), so it opens fine
 	 * without the sidebar changing state.
 	 */
 	onCollapse(event: boolean): void {

@@ -1,5 +1,5 @@
 import { registerAs } from '@nestjs/config';
-import { IKeycloakConfig } from '@gauzy/common';
+import { IKeycloakConfig } from '@irtranscripts/common';
 
 /**
  * Register Keycloak OAuth configuration using @nestjs/config

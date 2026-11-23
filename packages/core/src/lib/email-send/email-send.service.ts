@@ -8,9 +8,9 @@ import {
 } from '@nestjs/common';
 import { IsNull } from 'typeorm';
 import * as Email from 'email-templates';
-import { ISMTPConfig } from '@gauzy/common';
-import { ID, IBasePerTenantAndOrganizationEntityModel, IVerifySMTPTransport } from '@gauzy/contracts';
-import { isEmpty } from '@gauzy/utils';
+import { ISMTPConfig } from '@irtranscripts/common';
+import { ID, IBasePerTenantAndOrganizationEntityModel, IVerifySMTPTransport } from '@irtranscripts/contracts';
+import { isEmpty } from '@irtranscripts/utils';
 import { CustomSmtp } from './../core/entities/internal';
 import { RequestContext } from './../core/context';
 import { CustomSmtpService } from './../custom-smtp/custom-smtp.service';
@@ -24,7 +24,7 @@ import {
 } from './email-transport.registry';
 
 /** The sender when neither the transport nor `MAIL_FROM_ADDRESS` names one (one literal: the egress baseline counts it). */
-const DEFAULT_FROM_ADDRESS = 'noreply@gauzy.co';
+const DEFAULT_FROM_ADDRESS = 'noreply@irtranscripts.com';
 
 /** An address as nodemailer takes it. */
 export type OutboundEmailAddress = string | { name?: string; address: string };

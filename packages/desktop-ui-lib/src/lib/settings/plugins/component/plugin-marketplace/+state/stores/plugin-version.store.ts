@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store, StoreConfig } from '@datorama/akita';
-import { ID, IPluginVersion } from '@gauzy/contracts';
+import { ID, IPluginVersion } from '@irtranscripts/contracts';
 
 export interface IPluginVersionState {
 	creating: Record<string, boolean>;

@@ -1,12 +1,12 @@
 import * as chalk from 'chalk';
-import { IOnPluginBootstrap, IOnPluginDestroy } from '@gauzy/plugin';
+import { IOnPluginBootstrap, IOnPluginDestroy } from '@irtranscripts/plugin';
 import { AiProviderRegistry } from './provider-registry';
 import { IAiChatProviderDefinition } from './provider.types';
 
 /**
  * BaseAiProviderPlugin
  *
- * Shared lifecycle for `@gauzy/plugin-ai-provider-*` plugins: registers the
+ * Shared lifecycle for `@irtranscripts/plugin-ai-provider-*` plugins: registers the
  * plugin's {@link IAiChatProviderDefinition} with the {@link AiProviderRegistry}
  * on bootstrap and removes it on destroy.
  *

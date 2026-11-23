@@ -1,5 +1,5 @@
-import { IEstimateEmail } from '@gauzy/contracts';
-import { isMySQL } from '@gauzy/config';
+import { IEstimateEmail } from '@irtranscripts/contracts';
+import { isMySQL } from '@irtranscripts/config';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 import { TenantOrganizationBaseEntity } from '../core/entities/internal';

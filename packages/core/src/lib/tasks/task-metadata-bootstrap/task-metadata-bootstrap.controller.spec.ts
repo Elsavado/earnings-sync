@@ -34,8 +34,8 @@ import {
 	ROUTE_ARGS_METADATA
 } from '@nestjs/common/constants';
 import { RouteParamtypes } from '@nestjs/common/enums/route-paramtypes.enum';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { ITaskMetadataBootstrapResponse } from '@gauzy/contracts';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { ITaskMetadataBootstrapResponse } from '@irtranscripts/contracts';
 import { TenantPermissionGuard } from '../../shared/guards';
 import { TaskMetadataBootstrapQueryDTO } from './dto';
 import { TaskMetadataBootstrapController } from './task-metadata-bootstrap.controller';

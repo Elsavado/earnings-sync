@@ -14,7 +14,7 @@ import { allowsPrivateNetworkEndpoints, isRefusedAddress, refusalForEndpointHost
  * smuggled past a check that reads only the outer form.
  */
 afterEach(() => {
-	delete process.env.GAUZY_WEBHOOK_ALLOW_PRIVATE_NETWORK;
+	delete process.env.IRTRANSCRIPTS_WEBHOOK_ALLOW_PRIVATE_NETWORK;
 });
 
 /** The refusal for one endpoint, or undefined. */
@@ -111,13 +111,13 @@ describe('the hosts a webhook endpoint may name', () => {
 	it('can be turned off by an installation that means to post inside its own network', () => {
 		expect(allowsPrivateNetworkEndpoints()).toBe(false);
 
-		process.env.GAUZY_WEBHOOK_ALLOW_PRIVATE_NETWORK = 'true';
+		process.env.IRTRANSCRIPTS_WEBHOOK_ALLOW_PRIVATE_NETWORK = 'true';
 
 		expect(allowsPrivateNetworkEndpoints()).toBe(true);
 		expect(refusalFor('https://10.0.0.5/hook')).toBeUndefined();
 		// Control: the opt-out is the exact string, so a deployment that sets it to anything else —
 		// `1`, `yes`, an empty value — keeps the safe default rather than silently disabling the rule.
-		process.env.GAUZY_WEBHOOK_ALLOW_PRIVATE_NETWORK = '1';
+		process.env.IRTRANSCRIPTS_WEBHOOK_ALLOW_PRIVATE_NETWORK = '1';
 		expect(allowsPrivateNetworkEndpoints()).toBe(false);
 		expect(refusalFor('https://10.0.0.5/hook')).toMatch(/private, loopback or link-local/);
 	});

@@ -9,7 +9,7 @@ export const PAGE_SECTIONS_LOCATION: PageRouteLocationId = 'page-sections';
 /**
  * Top-level page paths reserved by core pages routing.
  * Plugins cannot register section routes for these paths; attempting to do so will throw.
- * Keep in sync with getPagesRoutes() in apps/gauzy/.../pages.routes.ts.
+ * Keep in sync with getPagesRoutes() in apps/irtranscripts/.../pages.routes.ts.
  *
  * Core route helpers → reserved paths:
  * - getDashboardRoute     → dashboard
@@ -231,7 +231,7 @@ export class PageRouteRegistryService implements IPageRouteRegistry {
 			// value, and Angular's dev-mode `validateConfig` rejects ANY guard on a redirect route
 			// (`redirectTo and canActivate cannot be used together`, NG04014) — which is thrown
 			// while the lazy parent config loads and blanks the whole app in `nx serve` and in
-			// development-configuration bundles such as demo.gauzy.co.
+			// development-configuration bundles such as demo.irtranscripts.com.
 			if (config.canActivate?.length) {
 				route.canActivate = config.canActivate;
 			}

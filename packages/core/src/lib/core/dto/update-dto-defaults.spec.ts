@@ -9,7 +9,7 @@ import { UpdateOrganizationProjectDTO } from '../../organization-project/dto/upd
 import { UpdateOrganizationSprintDTO } from '../../organization-sprint/dto/update-organization-sprint.dto';
 import { UpdateOrganizationTeamDTO } from '../../organization-team/dto/update-organization-team.dto';
 import { UpdateTimesheetStatusDTO } from '../../time-tracking/timesheet/dto/query/update-timesheet-status.dto';
-import { WithoutInitializers } from '@gauzy/common';
+import { WithoutInitializers } from '@irtranscripts/common';
 
 /**
  * `WithoutInitializers` (review R3-04): an update body built from a DTO with field defaults starts empty, and keeps

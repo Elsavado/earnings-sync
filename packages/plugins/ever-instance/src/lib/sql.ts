@@ -3,8 +3,8 @@ import { DataSource } from 'typeorm';
 
 /**
  * Small helpers for the hand-written SQL of the Ever Platform modules, which run on every database
- * Gauzy supports (Postgres, MySQL, SQLite) and on either ORM: they read and write their own tables
- * through TypeORM's data source, which Gauzy always opens.
+ * IRTranscripts supports (Postgres, MySQL, SQLite) and on either ORM: they read and write their own tables
+ * through TypeORM's data source, which IRTranscripts always opens.
  */
 export type SqlDialect = 'postgres' | 'mysql' | 'sqlite';
 

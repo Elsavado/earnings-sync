@@ -1,15 +1,15 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { Subject, Subscription } from 'rxjs';
 import { DataSource, EventSubscriber } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { BaseEntityEventSubscriber, Goal, OrganizationStrategicInitiative, RequestContext } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { BaseEntityEventSubscriber, Goal, OrganizationStrategicInitiative, RequestContext } from '@irtranscripts/core';
 import { EverWorksLinkType } from '../sync/entities/ever-works-sync.entities';
 import { EverWorksSyncContext } from '../sync/ever-works-sync.context';
 import { EverWorksOutboundQueue } from '../sync/outbound/ever-works-outbound.queue';
 import { runDetached } from '../sync/outbound/ever-works-detached';
 
 /**
- * A Gauzy strategic initiative changed, or a goal moved onto it. The row as the ORM handed it to the
+ * A IRTranscripts strategic initiative changed, or a goal moved onto it. The row as the ORM handed it to the
  * subscriber: a partial update saves only the fields sent (maybe no tenant or organization), so the
  * capture reads what is missing from the saved row.
  */
@@ -76,7 +76,7 @@ export class EverWorksInitiativeSubscriber extends BaseEntityEventSubscriber<Org
 
 /**
  * A goal saved with an initiative: that initiative's mission gets the goal (the initiative it left, if
- * any, is found by the initiative sweep, which compares the goals Gauzy shows on each paired initiative).
+ * any, is found by the initiative sweep, which compares the goals IRTranscripts shows on each paired initiative).
  */
 @EventSubscriber()
 export class EverWorksInitiativeGoalSubscriber extends BaseEntityEventSubscriber<Goal> {
@@ -133,7 +133,7 @@ export class EverWorksInitiativeCapture implements OnModuleInit, OnModuleDestroy
 			tenantId,
 			organizationId,
 			entityType: EverWorksLinkType.INITIATIVE_MISSION,
-			gauzyId: change.initiativeId,
+			irtranscriptsId: change.initiativeId,
 			op: change.deleted ? 'delete' : 'upsert',
 			actorUserId: change.actorUserId
 		});

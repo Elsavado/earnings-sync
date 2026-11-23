@@ -16,13 +16,13 @@ export interface ILegalDocument {
 	/** Document id, e.g. `tos`. */
 	readonly document: LegalDocumentSlug;
 
-	/** Product the document was rendered for, e.g. `gauzy`. */
+	/** Product the document was rendered for, e.g. `irtranscripts`. */
 	readonly product: string;
 
-	/** Human readable product name, e.g. `Ever Gauzy`. */
+	/** Human readable product name, e.g. `Ever IRTranscripts`. */
 	readonly productName: string;
 
-	/** Canonical domain the document refers to, e.g. `gauzy.co`. */
+	/** Canonical domain the document refers to, e.g. `irtranscripts.com`. */
 	readonly domain: string;
 
 	/** Legal entity the document is published by. */

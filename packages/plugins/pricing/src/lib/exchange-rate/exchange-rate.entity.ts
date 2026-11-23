@@ -1,13 +1,13 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsDateString, IsOptional, IsString, Length, MaxLength } from 'class-validator';
-import { CurrencyCode, DecimalString } from '@gauzy/contracts';
+import { CurrencyCode, DecimalString } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	ColumnNumericTransformerPipe,
 	MultiORMColumn,
 	MultiORMEntity,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { MikroOrmExchangeRateRepository } from './repository/mikro-orm-exchange-rate.repository';
 
 /**

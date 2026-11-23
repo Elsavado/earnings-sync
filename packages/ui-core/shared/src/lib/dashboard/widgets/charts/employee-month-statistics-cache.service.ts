@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { defer, from, Observable, Subject, throwError } from 'rxjs';
 import { catchError, shareReplay, startWith, switchMap } from 'rxjs/operators';
-import { ID, IMonthAggregatedEmployeeStatistics, IMonthAggregatedEmployeeStatisticsFindInput } from '@gauzy/contracts';
-import { toUTC } from '@gauzy/ui-core/common';
-import { EmployeeStatisticsService, IDashboardWidgetContext, STATISTICS_CACHE_TTL_MS } from '@gauzy/ui-core/core';
+import { ID, IMonthAggregatedEmployeeStatistics, IMonthAggregatedEmployeeStatisticsFindInput } from '@irtranscripts/contracts';
+import { toUTC } from '@irtranscripts/ui-core/common';
+import { EmployeeStatisticsService, IDashboardWidgetContext, STATISTICS_CACHE_TTL_MS } from '@irtranscripts/ui-core/core';
 
 /**
  * Window in which repeated invalidations of the same scope collapse into one.

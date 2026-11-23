@@ -1,0 +1,28 @@
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NbButtonModule, NbCardModule, NbIconModule, NbPopoverModule, NbSelectModule } from '@nebular/theme';
+import { TranslatePipe } from '@ngx-translate/core';
+import { TimesheetFilterService } from '../../../services/timesheet';
+import { PipeModule } from './../../../../time-tracker/pipes/pipe.module';
+import { IRTranscriptsFiltersComponent } from './irtranscripts-filters.component';
+
+@NgModule({
+    exports: [IRTranscriptsFiltersComponent],
+    imports: [
+        CommonModule,
+        FormsModule,
+        NbButtonModule,
+        NbCardModule,
+        NbIconModule,
+        NbPopoverModule,
+        NbSelectModule,
+        NgxSliderModule,
+        TranslatePipe,
+        PipeModule,
+        IRTranscriptsFiltersComponent
+    ],
+    providers: [TimesheetFilterService]
+})
+export class IRTranscriptsFiltersModule {}

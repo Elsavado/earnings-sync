@@ -8,8 +8,8 @@ import {
 	MultiORMEntity,
 	MultiORMOneToMany,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
-import { DecimalString, ID } from '@gauzy/contracts';
+} from '@irtranscripts/core';
+import { DecimalString, ID } from '@irtranscripts/contracts';
 import { MikroOrmPaymentCollectionRepository } from './repository/mikro-orm-payment-collection.repository';
 import { IPaymentCollection, IPaymentSession, PaymentCollectionStatus } from '../payment.types';
 import { PaymentSession } from '../payment-session/payment-session.entity';

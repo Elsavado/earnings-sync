@@ -8,15 +8,15 @@ import {
 } from './desktop-listen-host';
 
 /**
- * Owner decision 8 (2026-10-22): the API that Gauzy Desktop and the Desktop Timer run locally listens
- * on 127.0.0.1 only; Gauzy Server (and Gauzy API Server) keep listening on the network, as an explicit
+ * Owner decision 8 (2026-10-22): the API that IRTranscripts Desktop and the Desktop Timer run locally listens
+ * on 127.0.0.1 only; IRTranscripts Server (and IRTranscripts API Server) keep listening on the network, as an explicit
  * setting that existing installs find switched on.
  *
- * Before, every launcher passed API_HOST=0.0.0.0, so the integrated server of a Gauzy Desktop install,
+ * Before, every launcher passed API_HOST=0.0.0.0, so the integrated server of a IRTranscripts Desktop install,
  * seeded with `admin@ever.co` / `admin`, accepted sign-ins from anyone on the same network.
  */
 describe('resolveDesktopListenHost', () => {
-	describe('Gauzy Desktop integrated server (no LAN access allowed)', () => {
+	describe('IRTranscripts Desktop integrated server (no LAN access allowed)', () => {
 		it('listens on the loopback address', () => {
 			expect(resolveDesktopListenHost(undefined, false)).toBe(DESKTOP_LOOPBACK_HOST);
 			expect(DESKTOP_LOOPBACK_HOST).toBe('127.0.0.1');
@@ -27,7 +27,7 @@ describe('resolveDesktopListenHost', () => {
 		});
 	});
 
-	describe('Gauzy Server and Gauzy API Server (LAN access allowed)', () => {
+	describe('IRTranscripts Server and IRTranscripts API Server (LAN access allowed)', () => {
 		it('CONTROL: an install from before the setting keeps listening on every interface', () => {
 			expect(resolveDesktopListenHost({}, true)).toBe(DESKTOP_ALL_INTERFACES_HOST);
 			expect(resolveDesktopListenHost(undefined, true)).toBe('0.0.0.0');

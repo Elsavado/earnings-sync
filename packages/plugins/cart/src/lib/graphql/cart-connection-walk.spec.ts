@@ -12,13 +12,13 @@
  * arrangement on each read, the freedom a real store has, so a walk only answers every row once when the
  * order the resolver states is closed by the row's identity.
  *
- * `@gauzy/core` is the real barrel here, unlike this directory's other suites, for the reason
+ * `@irtranscripts/core` is the real barrel here, unlike this directory's other suites, for the reason
  * `pricing/src/lib/graphql/pagination.spec.ts` gives: the kernel's `findAll` and its MikroORM option parser
  * are the code the order has to survive, and a double of them would assert this file's opinion of them
  * rather than the platform's behaviour. Only the two repositories each service holds are doubled.
  */
 
-import { MultiORMEnum, RequestContext } from '@gauzy/core';
+import { MultiORMEnum, RequestContext } from '@irtranscripts/core';
 import { CommerceCartService } from '../commerce-cart/commerce-cart.service';
 import { CommerceCheckoutSessionService } from '../commerce-checkout-session/commerce-checkout-session.service';
 import { CommerceCartResolver } from './commerce-cart.resolver';

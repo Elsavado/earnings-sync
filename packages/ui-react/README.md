@@ -1,29 +1,29 @@
-# @gauzy/ui-react
+# @irtranscripts/ui-react
 
-React-to-Angular bridge for Gauzy UI plugins. Renders React 19 components inside Angular with full access to Angular services via the dependency injection system.
+React-to-Angular bridge for IRTranscripts UI plugins. Renders React 19 components inside Angular with full access to Angular services via the dependency injection system.
 
 ## Overview
 
-This package provides the glue layer between Angular and React. It is intentionally separate from `@gauzy/plugin-ui` (the core plugin infrastructure) so that `plugin-ui` remains a pure-Angular package with no React peer dependency.
+This package provides the glue layer between Angular and React. It is intentionally separate from `@irtranscripts/plugin-ui` (the core plugin infrastructure) so that `plugin-ui` remains a pure-Angular package with no React peer dependency.
 
 ```
-@gauzy/plugin-ui          (core, Angular-only)
+@irtranscripts/plugin-ui          (core, Angular-only)
        │
-       └── @gauzy/ui-react   (React bridge)
+       └── @irtranscripts/ui-react   (React bridge)
                   │
-                  └── @gauzy/plugin-dashboard-time-track-react-ui   (example React dashboard plugin)
+                  └── @irtranscripts/plugin-dashboard-time-track-react-ui   (example React dashboard plugin)
 ```
 
 ## Installation
 
 ```bash
-yarn add @gauzy/ui-react
+yarn add @irtranscripts/ui-react
 ```
 
 ## Peer Dependencies
 
 - `@angular/core` ≥ 21
-- `@gauzy/plugin-ui` (workspace peer)
+- `@irtranscripts/plugin-ui` (workspace peer)
 - `react` ≥ 19
 - `react-dom` ≥ 19
 - `rxjs` ≥ 7
@@ -78,7 +78,7 @@ loadKanban = () => import('./kanban/KanbanBoard').then((m) => m);
 Access Angular services from inside any React component rendered via the bridge.
 
 ```tsx
-import { useInjector } from '@gauzy/ui-react';
+import { useInjector } from '@irtranscripts/ui-react';
 import { Router } from '@angular/router';
 
 function MyWidget() {
@@ -100,7 +100,7 @@ const http = injector.get(HttpClient);
 Inter-plugin event bus from React. Subscribe and emit events across plugins.
 
 ```tsx
-import { usePluginEvents } from '@gauzy/ui-react';
+import { usePluginEvents } from '@irtranscripts/ui-react';
 
 function MyWidget() {
 	const events = usePluginEvents('my-plugin');
@@ -121,7 +121,7 @@ function MyWidget() {
 Single-event subscription with automatic cleanup on unmount.
 
 ```tsx
-import { usePluginEvent } from '@gauzy/ui-react';
+import { usePluginEvent } from '@irtranscripts/ui-react';
 
 function MyWidget() {
 	usePluginEvent('time-tracked', (event) => {
@@ -137,7 +137,7 @@ function MyWidget() {
 Access the full bridge context (injector + any extra values passed via the `context` input).
 
 ```tsx
-import { useBridgeContext } from '@gauzy/ui-react';
+import { useBridgeContext } from '@irtranscripts/ui-react';
 
 function MyWidget() {
 	const { injector, theme } = useBridgeContext();
@@ -151,10 +151,10 @@ function MyWidget() {
 
 ### `ReactBridge`
 
-Low-level class implementing `UiBridge` from `@gauzy/plugin-ui`. Use it when you need direct control over mounting/unmounting.
+Low-level class implementing `UiBridge` from `@irtranscripts/plugin-ui`. Use it when you need direct control over mounting/unmounting.
 
 ```ts
-import { ReactBridge } from '@gauzy/ui-react';
+import { ReactBridge } from '@irtranscripts/ui-react';
 
 const bridge = new ReactBridge();
 
@@ -176,7 +176,7 @@ result.updateProps?.({ title: 'Updated' });
 Environment provider — registers `ReactBridge` in Angular DI.
 
 ```ts
-import { provideReactBridge, REACT_BRIDGE } from '@gauzy/ui-react';
+import { provideReactBridge, REACT_BRIDGE } from '@irtranscripts/ui-react';
 
 // In app.config.ts or AppModule providers:
 provideReactBridge();
@@ -192,7 +192,7 @@ const bridge = inject(REACT_BRIDGE);
 Use `defineReactExtension()` to register a React component as a plugin extension slot contribution.
 
 ```ts
-import { defineReactExtension } from '@gauzy/ui-react';
+import { defineReactExtension } from '@irtranscripts/ui-react';
 import { MyWidget } from './MyWidget';
 
 export const myExtension = defineReactExtension({
@@ -207,7 +207,7 @@ export const myExtension = defineReactExtension({
 Then add it to a plugin definition:
 
 ```ts
-import { defineDeclarativePlugin } from '@gauzy/plugin-ui';
+import { defineDeclarativePlugin } from '@irtranscripts/plugin-ui';
 
 export const MyPlugin = defineDeclarativePlugin('my-plugin', {
 	extensions: [myExtension]

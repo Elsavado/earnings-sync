@@ -1,4 +1,4 @@
-import { ID, IRuleCreateInput, JsonData } from '@gauzy/contracts';
+import { ID, IRuleCreateInput, JsonData } from '@irtranscripts/contracts';
 import {
 	EntitlementActivationStatus,
 	EntitlementKeyStatus,

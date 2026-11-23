@@ -5,7 +5,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { DataSource, In, Like } from 'typeorm';
 import { isUUID } from 'class-validator';
 import { catchError, firstValueFrom, map } from 'rxjs';
-import { ConfigService, environment } from '@gauzy/config';
+import { ConfigService, environment } from '@irtranscripts/config';
 import {
 	IIntegrationTenant,
 	IntegrationEnum,
@@ -13,7 +13,7 @@ import {
 	IIntegrationSetting,
 	IIntegrationEntitySetting,
 	ID
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	IntegrationSettingService,
 	IntegrationService,
@@ -26,7 +26,7 @@ import {
 	isAccessTokenPayload,
 	JWT_ALGORITHMS,
 	assertCurrentUserBelongsToOrganization
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { ZAPIER_API_URL, ZAPIER_BASE_URL, ZAPIER_TOKEN_EXPIRATION_TIME, ZAPIER_OAUTH_SCOPES } from './zapier.config';
 import {
 	IIntegrationFilter,
@@ -34,7 +34,7 @@ import {
 	IZapierEndpoint,
 	IZapierIntegrationSettings
 } from './zapier.types';
-import { IZapierCreateZapInput, IZapierZap, IZapierZapTemplate } from '@gauzy/contracts';
+import { IZapierCreateZapInput, IZapierZap, IZapierZapTemplate } from '@irtranscripts/contracts';
 import { randomBytes } from 'node:crypto';
 import { verify } from 'jsonwebtoken';
 
@@ -98,7 +98,7 @@ export class ZapierService {
 				throw new NotFoundException(`No settings found for integration ID ${integrationId}`);
 			}
 
-			// Extract the Gauzy-issued OAuth refresh token
+			// Extract the IRTranscripts-issued OAuth refresh token
 			const refresh_token = settings.find((s) => s.settingsName === 'oauth_refresh_token')?.settingsValue;
 
 			if (!refresh_token) {
@@ -465,7 +465,7 @@ export class ZapierService {
 		// Validate that server-side OAuth credentials are configured (do NOT persist them to tenant)
 		const zapierConfig = this.config.get('zapier');
 		if (!zapierConfig?.clientId || !zapierConfig?.clientSecret) {
-			throw new BadRequestException('Zapier OAuth credentials are not configured on the server. Please set GAUZY_ZAPIER_CLIENT_ID and GAUZY_ZAPIER_CLIENT_SECRET environment variables.');
+			throw new BadRequestException('Zapier OAuth credentials are not configured on the server. Please set IRTRANSCRIPTS_ZAPIER_CLIENT_ID and IRTRANSCRIPTS_ZAPIER_CLIENT_SECRET environment variables.');
 		}
 
 		// Find or create the base integration
@@ -617,7 +617,7 @@ export class ZapierService {
 					)
 			);
 
-			// Store the tokens — delete ALL old token settings (Zapier + Gauzy OAuth) first, then save new ones
+			// Store the tokens — delete ALL old token settings (Zapier + IRTranscripts OAuth) first, then save new ones
 			const existingSetting = settings[0];
 			const allTokenSettingNames = [
 				'zapier_access_token',
@@ -773,7 +773,7 @@ export class ZapierService {
 		const clientId = this.config.get('zapier')?.clientId;
 		if (!clientId) {
 			throw new BadRequestException(
-				'Zapier client_id is not configured on the server. Please set GAUZY_ZAPIER_CLIENT_ID.'
+				'Zapier client_id is not configured on the server. Please set IRTRANSCRIPTS_ZAPIER_CLIENT_ID.'
 			);
 		}
 
@@ -822,7 +822,7 @@ export class ZapierService {
 	 * @throws NotFoundException if the token is invalid or no Zapier integration is found.
 	 */
 	async findIntegrationByToken(token: string): Promise<IIntegrationTenant> {
-		// 1) Lookup the Gauzy-issued OAuth access token (separate from Zapier API tokens).
+		// 1) Lookup the IRTranscripts-issued OAuth access token (separate from Zapier API tokens).
 		//    Use the repository directly to bypass tenant-aware scoping, because this
 		//    method is called from @Public() endpoints where no user is in the request context.
 		const setting = await this._integrationSettingService.typeOrmIntegrationSettingRepository.findOne({
@@ -972,11 +972,11 @@ export class ZapierService {
 	}
 
 	/**
-	 * Resolve the tenant integration by searching for a Gauzy-issued authorization code.
+	 * Resolve the tenant integration by searching for a IRTranscripts-issued authorization code.
 	 * Auth codes are stored per-integration with tenantId, so this reliably maps
 	 * the code to the correct tenant regardless of shared global client_id.
 	 *
-	 * @param code - The Gauzy-issued authorization code
+	 * @param code - The IRTranscripts-issued authorization code
 	 * @returns The matching IIntegrationTenant
 	 * @throws NotFoundException if the code is invalid or expired
 	 */
@@ -1027,15 +1027,15 @@ export class ZapierService {
 	}
 
 	/**
-	 * Resolve the tenant integration by searching for a Gauzy-issued refresh token.
+	 * Resolve the tenant integration by searching for a IRTranscripts-issued refresh token.
 	 * Refresh tokens are stored per-integration with tenantId, so this reliably maps
 	 * the token to the correct tenant regardless of shared global client_id.
 	 *
-	 * @param refreshToken - The Gauzy-issued refresh token
+	 * @param refreshToken - The IRTranscripts-issued refresh token
 	 * @returns The matching IIntegrationTenant
 	 * @throws NotFoundException if the token is invalid
 	 */
-	async findIntegrationByGauzyRefreshToken(refreshToken: string): Promise<IIntegrationTenant> {
+	async findIntegrationByIRTranscriptsRefreshToken(refreshToken: string): Promise<IIntegrationTenant> {
 		// Search for oauth_refresh_token settings by value across all tenants
 		const tokenSettings = await this._integrationSettingService.find({
 			where: {
@@ -1108,7 +1108,7 @@ export class ZapierService {
 		const tenantId = existingSettings[0]?.tenantId;
 		const organizationId = existingSettings[0]?.organizationId;
 
-		// Prepare Gauzy-issued OAuth token settings (distinct from Zapier API tokens)
+		// Prepare IRTranscripts-issued OAuth token settings (distinct from Zapier API tokens)
 		const tokenSettings = [
 			{
 				settingsName: 'oauth_access_token',
@@ -1126,7 +1126,7 @@ export class ZapierService {
 			}
 		];
 
-		// Delete only Gauzy OAuth token settings before saving new ones (preserve Zapier API tokens)
+		// Delete only IRTranscripts OAuth token settings before saving new ones (preserve Zapier API tokens)
 		const oauthTokenSettingNames = [
 			'oauth_access_token',
 			'oauth_refresh_token'
@@ -1181,7 +1181,7 @@ export class ZapierService {
 				throw new NotFoundException(`No settings found for integration ID ${integrationId}`);
 			}
 
-			// Verify the Gauzy-issued OAuth refresh token matches
+			// Verify the IRTranscripts-issued OAuth refresh token matches
 			const storedRefreshToken = settings.find((s) => s.settingsName === 'oauth_refresh_token')?.settingsValue;
 			if (!storedRefreshToken || storedRefreshToken !== refreshToken) {
 				throw new BadRequestException('Invalid refresh token');

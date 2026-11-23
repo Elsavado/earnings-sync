@@ -1,1 +1,1 @@
-# Ever Gauzy CLI
+# Ever IRTranscripts CLI

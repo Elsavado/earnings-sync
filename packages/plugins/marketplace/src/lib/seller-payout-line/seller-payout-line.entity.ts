@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional, IsString, MaxLength } from 'class-validator';
 import { JoinColumn, RelationId } from 'typeorm';
-import { CurrencyCode, DecimalString, ID, ISellerPayoutLine, JsonData } from '@gauzy/contracts';
+import { CurrencyCode, DecimalString, ID, ISellerPayoutLine, JsonData } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	JsonColumn,
@@ -9,7 +9,7 @@ import {
 	MultiORMEntity,
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { MikroOrmSellerPayoutLineRepository } from './repository/mikro-orm-seller-payout-line.repository';
 import { SellerPayout } from '../seller-payout/seller-payout.entity';
 import { SellerTransaction } from '../seller-transaction/seller-transaction.entity';

@@ -6,8 +6,8 @@ import {
 	ID,
 	IPagination,
 	SellerSettlementStatus
-} from '@gauzy/contracts';
-import { EventOutboxService, Money, RequestContext, compareDecimalStrings } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { EventOutboxService, Money, RequestContext, compareDecimalStrings } from '@irtranscripts/core';
 import { SellerSettlement } from './seller-settlement.entity';
 import { MikroOrmSellerSettlementRepository } from './repository/mikro-orm-seller-settlement.repository';
 import { TypeOrmSellerSettlementRepository } from './repository/type-orm-seller-settlement.repository';

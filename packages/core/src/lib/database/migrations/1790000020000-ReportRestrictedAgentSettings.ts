@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
-import { isEEAOrUKRegion } from '@gauzy/contracts';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
+import { isEEAOrUKRegion } from '@irtranscripts/contracts';
 
 /**
  * Issue #9873 — report, do not change.

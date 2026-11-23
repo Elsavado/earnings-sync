@@ -1,15 +1,15 @@
 /**
  * G-P2-1 Goals ↔ Goal + KeyResults: the pure mappers (plan 01 §6) — the time-frame resolver, weight
- * buckets, the key results an Ever Works goal makes, the Ever Works goal a Gauzy goal makes (never a
+ * buckets, the key results an Ever Works goal makes, the Ever Works goal a IRTranscripts goal makes (never a
  * status), and the push plan against the last sync.
  */
-import { KeyResultDeadlineEnum, KeyResultTypeEnum, KeyResultWeightEnum } from '@gauzy/contracts';
+import { KeyResultDeadlineEnum, KeyResultTypeEnum, KeyResultWeightEnum } from '@irtranscripts/contracts';
 import {
 	bucketWeight,
 	criteriaWritable,
-	mergeGauzyGoal,
+	mergeIRTranscriptsGoal,
 	everWorksGoalShared,
-	gauzyGoalToEverWorks,
+	irtranscriptsGoalToEverWorks,
 	goalCreateBody,
 	goalPushPlan,
 	isCurrencyUnit,
@@ -138,7 +138,7 @@ describe('key results of an Ever Works goal', () => {
 	});
 });
 
-describe('the Ever Works goal of a Gauzy goal', () => {
+describe('the Ever Works goal of a IRTranscripts goal', () => {
 	const kr = (id: string, type: string, extra: Record<string, unknown> = {}) => ({
 		id,
 		name: `KR ${id}`,
@@ -153,7 +153,7 @@ describe('the Ever Works goal of a Gauzy goal', () => {
 	});
 
 	it('one numeric key result → a metric goal on its own target; True/False ones → the Definition of Done', () => {
-		const shared = gauzyGoalToEverWorks(
+		const shared = irtranscriptsGoalToEverWorks(
 			{ name: 'Close deals', description: 'Q4' },
 			'2026-12-31T23:59:59.999Z',
 			[kr('a', 'Numerical', { initialValue: 2 }), kr('b', 'True/False', { update: 1 })],
@@ -173,7 +173,7 @@ describe('the Ever Works goal of a Gauzy goal', () => {
 	});
 
 	it('several numeric key results → weighted criteria (linked ones keep their Ever Works id); none → a delivery goal', () => {
-		const shared = gauzyGoalToEverWorks(
+		const shared = irtranscriptsGoalToEverWorks(
 			{ name: 'Grow' },
 			null,
 			[
@@ -186,18 +186,18 @@ describe('the Ever Works goal of a Gauzy goal', () => {
 			{ id: 'a', name: 'KR a', weight: 4, target: 10, direction: 'gte', unit: 'deals' },
 			{ id: 'kr-churn', name: 'KR b', weight: 1, target: 2, direction: 'lte', unit: 'deals' }
 		]);
-		expect(gauzyGoalToEverWorks({ name: 'Ship' }, null, [kr('c', 'True/False')], [])).toMatchObject({
+		expect(irtranscriptsGoalToEverWorks({ name: 'Ship' }, null, [kr('c', 'True/False')], [])).toMatchObject({
 			goalKind: 'delivery',
 			targetValue: null,
 			dodCriteria: [{ id: 'c', status: 'open' }]
 		});
 		// Nothing Ever Works could hold yet: no numeric and no True/False key result.
-		expect(gauzyGoalToEverWorks({ name: 'Empty' }, null, [kr('t', 'Task')], [])).toBeNull();
+		expect(irtranscriptsGoalToEverWorks({ name: 'Empty' }, null, [kr('t', 'Task')], [])).toBeNull();
 		// The kind is fixed once the goal exists in Ever Works.
-		expect(gauzyGoalToEverWorks({ name: 'Grow' }, null, [kr('d', 'True/False')], [], 'metric')).toBeNull();
+		expect(irtranscriptsGoalToEverWorks({ name: 'Grow' }, null, [kr('d', 'True/False')], [], 'metric')).toBeNull();
 	});
 
-	it('a linked goal keeps Ever Works\u2019 items and changes only what a person changed in Gauzy', () => {
+	it('a linked goal keeps Ever Works\u2019 items and changes only what a person changed in IRTranscripts', () => {
 		const before = everWorksGoalShared({
 			id: 'g1',
 			title: 'Grow',
@@ -211,7 +211,7 @@ describe('the Ever Works goal of a Gauzy goal', () => {
 			],
 			dodCriteria: [{ id: 'launch', text: 'Launch', status: 'waived', evidence: 'skipped by the board' }]
 		});
-		// What the import wrote to Gauzy (rounded, bucketed), and the key result links' snapshots of it.
+		// What the import wrote to IRTranscripts (rounded, bucketed), and the key result links' snapshots of it.
 		const churn = {
 			id: 'k1',
 			name: 'Churn',
@@ -241,13 +241,13 @@ describe('the Ever Works goal of a Gauzy goal', () => {
 			{ ...churn, snapshot: snapshotOf(churn) },
 			{ ...launch, snapshot: snapshotOf(launch) }
 		];
-		const unchanged = mergeGauzyGoal({ name: 'Grow' }, null, rows, [], before);
-		// Nothing changed in Gauzy: Ever Works' exact target, weight, direction, window and evidence stay.
+		const unchanged = mergeIRTranscriptsGoal({ name: 'Grow' }, null, rows, [], before);
+		// Nothing changed in IRTranscripts: Ever Works' exact target, weight, direction, window and evidence stay.
 		expect(unchanged?.criteria).toEqual(before.criteria);
 		expect(unchanged?.dodCriteria).toEqual(before.dodCriteria);
 		expect(goalPushPlan(unchanged!, before)).toEqual({ patch: null, criteria: false, dod: false });
 		// A rename changes the name only; unchecking the item reopens it; a deleted key result leaves.
-		const edited = mergeGauzyGoal(
+		const edited = mergeIRTranscriptsGoal(
 			{ name: 'Grow' },
 			null,
 			[
@@ -259,7 +259,7 @@ describe('the Ever Works goal of a Gauzy goal', () => {
 		);
 		expect(edited?.criteria).toEqual([{ ...before.criteria[0], name: 'Monthly churn' }]);
 		expect(edited?.dodCriteria).toEqual([{ ...before.dodCriteria[0], status: 'open' }]);
-		expect(mergeGauzyGoal({ name: 'Grow' }, null, [rows[0]], [], before)?.dodCriteria).toEqual([]);
+		expect(mergeIRTranscriptsGoal({ name: 'Grow' }, null, [rows[0]], [], before)?.dodCriteria).toEqual([]);
 	});
 
 	it('criteria reading a provider are not writable by the integration', () => {
@@ -290,7 +290,7 @@ describe('the Ever Works goal of a Gauzy goal', () => {
 		).toBe(false);
 	});
 
-	it('values Gauzy stores in integer columns are rounded', () => {
+	it('values IRTranscripts stores in integer columns are rounded', () => {
 		const [metric] = keyResultsOfGoal({
 			id: 'g1',
 			title: 'Churn',
@@ -304,8 +304,8 @@ describe('the Ever Works goal of a Gauzy goal', () => {
 	});
 
 	it('the create body never carries a status (always a draft) and reads the external metric source', () => {
-		const shared = gauzyGoalToEverWorks({ name: 'Grow' }, null, [kr('a', 'Numerical')], []);
-		const body = goalCreateBody(shared!, { source: 'gauzy', externalId: 'goal-1' });
+		const shared = irtranscriptsGoalToEverWorks({ name: 'Grow' }, null, [kr('a', 'Numerical')], []);
+		const body = goalCreateBody(shared!, { source: 'irtranscripts', externalId: 'goal-1' });
 		expect(body).not.toHaveProperty('status');
 		expect(body).not.toHaveProperty('outcome');
 		expect(body).toMatchObject({
@@ -318,7 +318,7 @@ describe('the Ever Works goal of a Gauzy goal', () => {
 	});
 
 	it('the push plan sends only what differs from the last sync: a PATCH, the criteria, the Definition of Done', () => {
-		const now = gauzyGoalToEverWorks(
+		const now = irtranscriptsGoalToEverWorks(
 			{ name: 'Grow' },
 			null,
 			[kr('a', 'Numerical'), kr('b', 'Numerical'), kr('c', 'True/False')],

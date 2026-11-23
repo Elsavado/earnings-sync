@@ -1,10 +1,10 @@
 /**
  * Two module boundaries are doubled here, and the reason is the same for both.
  *
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a GraphQL resolver needs and none of which is available
  * outside a running application; its nested `uuid` is ESM-only, so reading one entity would fail under
- * jest. `@gauzy/config` reads the process environment at import time. Both are therefore doubled at the
+ * jest. `@irtranscripts/config` reads the process environment at import time. Both are therefore doubled at the
  * module boundary, and **the surfaces under test are the real ones**: the four controllers and the four
  * resolvers, bound to a stubbed service so what each of them delegates to is asserted rather than
  * inferred.
@@ -13,12 +13,12 @@
  * constants, so the assertions below are made against the metadata a guard actually reads rather than
  * against the decorator's prose.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { SetMetadata } = require('@nestjs/common');
-	const { PERMISSIONS_METADATA } = require('@gauzy/constants');
+	const { PERMISSIONS_METADATA } = require('@irtranscripts/constants');
 	// Read through `requireActual`, which bypasses this factory: the connection contract and the decimal
 	// arithmetic are the kernel's, and a double would measure this file rather than the platform.
-	const connection = jest.requireActual('@gauzy/core/src/lib/api/graphql-connection');
+	const connection = jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
@@ -37,7 +37,7 @@ jest.mock('@gauzy/core', () => {
 	}
 
 	return {
-		...jest.requireActual('@gauzy/core/src/lib/money/decimal'),
+		...jest.requireActual('@irtranscripts/core/src/lib/money/decimal'),
 		TenantAwareCrudService,
 		BaseEntity,
 		TenantBaseEntity: BaseEntity,
@@ -107,7 +107,7 @@ jest.mock('@gauzy/core', () => {
 });
 
 jest.mock(
-	'@gauzy/config',
+	'@irtranscripts/config',
 	() => ({
 		DatabaseTypeEnum: {
 			mongodb: 'mongodb',
@@ -120,8 +120,8 @@ jest.mock(
 );
 
 import { print } from 'graphql';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionGuard, TenantPermissionGuard } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionGuard, TenantPermissionGuard } from '@irtranscripts/core';
 import { InventoryPermission } from '../inventory.permissions';
 import { StockAdjustmentController } from '../stock-adjustment/stock-adjustment.controller';
 import { StockAlertController } from '../stock-alert/stock-alert.controller';

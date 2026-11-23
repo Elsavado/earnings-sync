@@ -5,7 +5,7 @@ import {
 	IDashboardTab,
 	IDashboardWidgetPlacement,
 	JsonData
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 /** Number of columns on a dashboard canvas. */
 export const DASHBOARD_GRID_COLUMNS = 12;

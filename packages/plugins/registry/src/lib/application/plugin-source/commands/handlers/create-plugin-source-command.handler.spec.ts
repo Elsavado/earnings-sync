@@ -7,7 +7,7 @@
  */
 const mockContext = { tenantId: 'tenant-a' as string | null };
 
-jest.mock('@gauzy/core', () => ({ RequestContext: { currentTenantId: () => mockContext.tenantId } }));
+jest.mock('@irtranscripts/core', () => ({ RequestContext: { currentTenantId: () => mockContext.tenantId } }));
 jest.mock('../../../../domain', () => ({
 	PluginSource: class PluginSource {},
 	PluginSourceService: class PluginSourceService {},

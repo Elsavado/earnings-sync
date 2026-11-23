@@ -1,6 +1,6 @@
-<div gauzyOutside (clickOutside)="onClickOutside($event)" class="account-panel">
+<div irtranscriptsOutside (clickOutside)="onClickOutside($event)" class="account-panel">
 	<header class="panel-header">
-		<gauzy-user showIdentity="true" [user$]="user$" (clicked)="onClick()"></gauzy-user>
+		<irtranscripts-user showIdentity="true" [user$]="user$" (clicked)="onClick()"></irtranscripts-user>
 		<button type="button" class="panel-close" [attr.aria-label]="'BUTTONS.CLOSE' | translate" (click)="onClick()">
 			<nb-icon icon="close-outline"></nb-icon>
 		</button>
@@ -36,7 +36,7 @@
 		<span class="panel-overline">{{ 'USER_MENU.PREFERENCES' | translate }}</span>
 
 		<div class="control-row">
-			<gauzy-switch-theme class="theme"></gauzy-switch-theme>
+			<irtranscripts-switch-theme class="theme"></irtranscripts-switch-theme>
 		</div>
 		<div class="control-row">
 			<ngx-theme-selector-container class="theme"></ngx-theme-selector-container>

@@ -13,7 +13,7 @@ export interface CreateCategoryDialogData {
 
 @UntilDestroy({ checkProperties: true })
 @Component({
-    selector: 'gauzy-create-category-dialog',
+    selector: 'irtranscripts-create-category-dialog',
     templateUrl: './create-category-dialog.component.html',
     styleUrls: ['./create-category-dialog.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

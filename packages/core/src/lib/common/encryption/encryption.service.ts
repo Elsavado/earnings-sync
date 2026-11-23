@@ -1,4 +1,4 @@
-import { generateEncryptionKey } from '@gauzy/utils';
+import { generateEncryptionKey } from '@irtranscripts/utils';
 import { Injectable } from '@nestjs/common';
 import { createCipheriv, createDecipheriv, randomBytes } from 'crypto';
 

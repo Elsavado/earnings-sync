@@ -14,8 +14,8 @@ export class DesktopIconGenerator
 	implements IDesktopIconGenerator {
 	constructor() {
 		super();
-		this.imageUrl = env.GAUZY_DESKTOP_LOGO_512X512;
-		this.trayIconImageUrl = env.GAUZY_DESKTOP_TRAY_ICON;
+		this.imageUrl = env.IRTRANSCRIPTS_DESKTOP_LOGO_512X512;
+		this.trayIconImageUrl = env.IRTRANSCRIPTS_DESKTOP_TRAY_ICON;
 		this.destination = path.join('apps', this.desktop, 'src', 'icons');
 	}
 
@@ -38,7 +38,7 @@ export class DesktopIconGenerator
 					);
 					reject(error);
 				} else {
-					DesktopEnvironmentManager.environment.GAUZY_DESKTOP_LOGO_512X512 =
+					DesktopEnvironmentManager.environment.IRTRANSCRIPTS_DESKTOP_LOGO_512X512 =
 						'./assets/icons/desktop_logo_512x512.png';
 					console.log(
 						'✔ desktop logo 512x512 icons generated successfully.'

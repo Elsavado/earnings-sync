@@ -5,7 +5,7 @@ export * from './error-client.service';
 export * from './error-handler.service';
 export * from './error-mapping.service';
 export * from './error-server.service';
-export * from './gauzy-storage.service';
+export * from './irtranscripts-storage.service';
 export * from './image-cache.service';
 export * from './language-cache.service';
 export * from './native-notification.service';

@@ -1,7 +1,7 @@
 // cspell:ignore dmarc
-// The platform signature helpers are the real ones; the rest of `@gauzy/core` (whose barrel boots the application)
+// The platform signature helpers are the real ones; the rest of `@irtranscripts/core` (whose barrel boots the application)
 // is not needed here.
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	EVER_REDIS_CLIENT: 'EVER_REDIS_CLIENT',
 	...jest.requireActual('../../../../../../../core/src/lib/webhook/webhook-signature')
 }));
@@ -135,7 +135,7 @@ describe('GenericWebhookProvider', () => {
 			expect(messages[0]?.references).toEqual(['<m-0@acme.test>']);
 			expect(messages[0]?.attachments[0]?.filename).toBe('b.txt');
 			// No Message-ID: one derived from the content, the same on a retry.
-			expect(messages[1]?.messageId).toMatch(/^<[0-9a-f]{40}@inbox\.gauzy\.invalid>$/);
+			expect(messages[1]?.messageId).toMatch(/^<[0-9a-f]{40}@inbox\.irtranscripts\.invalid>$/);
 			const [again] = await provider.parse(
 				request({ from: 'bob@acme.test', to: 'support.ever@inbox.example.test', subject: 'Second' })
 			);

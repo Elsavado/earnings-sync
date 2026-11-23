@@ -43,8 +43,8 @@
  * the document are the real ones.
  */
 
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionGuard, TenantPermissionGuard } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionGuard, TenantPermissionGuard } from '@irtranscripts/core';
 import {
 	FieldDefinitionNode,
 	ObjectTypeDefinitionNode,

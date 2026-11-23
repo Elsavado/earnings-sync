@@ -10,12 +10,12 @@ import {
 	InternalServerErrorException
 } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { ConfigService } from '@gauzy/config';
+import { ConfigService } from '@irtranscripts/config';
 import { firstValueFrom, catchError, throwError } from 'rxjs';
 import { AxiosError } from 'axios';
 import { IsNull } from 'typeorm';
-import { IntegrationEnum } from '@gauzy/contracts';
-import { IntegrationService, IntegrationSettingService, IntegrationTenantService, RequestContext } from '@gauzy/core';
+import { IntegrationEnum } from '@irtranscripts/contracts';
+import { IntegrationService, IntegrationSettingService, IntegrationTenantService, RequestContext } from '@irtranscripts/core';
 import {
 	IActivepiecesConnection,
 	IActivepiecesConnectionRequest,
@@ -28,7 +28,7 @@ import {
 	ActivepiecesConnectionScope,
 	ICreateActivepiecesIntegrationInput,
 	IActivepiecesErrorResponse
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { ACTIVEPIECES_CONNECTIONS_URL, ACTIVEPIECES_PIECE_NAME } from './activepieces.config';
 import { ActivepiecesCredentialsService, IActivepiecesCredential } from './activepieces-credentials.service';
 
@@ -160,10 +160,10 @@ export class ActivepiecesService {
 			}
 
 			// Create external ID for the connection (unique identifier for this tenant)
-			const externalId = `gauzy-tenant-${tenantId}${organizationId ? `-org-${organizationId}` : ''}`;
+			const externalId = `irtranscripts-tenant-${tenantId}${organizationId ? `-org-${organizationId}` : ''}`;
 
 			// Create display name for the connection
-			const displayName = input.connectionName || `Ever Gauzy - ${tenantId}`;
+			const displayName = input.connectionName || `Ever IRTranscripts - ${tenantId}`;
 
 			// The credential of the row the connection is saved on, so creating, reading and deleting the connection use
 			// the same one. When that row holds no key, the key of any tenant row; otherwise the tenant's own project
@@ -186,7 +186,7 @@ export class ActivepiecesService {
 					tenantId,
 					organizationId: organizationId || 'default',
 					createdAt: new Date().toISOString(),
-					gauzyVersion: '1.0.0'
+					irtranscriptsVersion: '1.0.0'
 				},
 				type: ActivepiecesConnectionType.SECRET_TEXT,
 				value: {
@@ -500,7 +500,7 @@ export class ActivepiecesService {
 	 * Get API key for Activepieces API calls.
 	 *
 	 * The tenant's own key, or its project token. It used to fall back to the installation's key
-	 * (`GAUZY_ACTIVEPIECES_API_KEY`), which reaches every project of the operator's Activepieces platform, so a tenant
+	 * (`IRTRANSCRIPTS_ACTIVEPIECES_API_KEY`), which reaches every project of the operator's Activepieces platform, so a tenant
 	 * without a key of its own acted on any other tenant's projects. The installation's key is never handed out for a
 	 * tenant: a caller that may run under it uses {@link resolveCredential}, and names the credential's project.
 	 *

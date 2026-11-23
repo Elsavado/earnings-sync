@@ -5,7 +5,7 @@
  * show it) and `check-import-boundary.mjs` (the CI gate, which needs no workspace install).
  *
  * - Only the modules themselves and the two plugin lists (the API's and the web app's) import a
- *   module (`@gauzy/plugin-ever-*`), and only through its public entry point: no core code depends
+ *   module (`@irtranscripts/plugin-ever-*`), and only through its public entry point: no core code depends
  *   on a module, so switching one off removes it whole.
  * - The statistics never import the connection or an analytics plugin; the instance identity makes
  *   no request and depends on neither module; the connection and the Ever ID sign-in plugin never
@@ -22,12 +22,12 @@ const REPO_ROOT = path.resolve(__dirname, '..', '..');
 /** The module packages (`packages/plugins/<name>`) and their package names. */
 const MODULES = ['ever-connect', 'ever-connect-ui', 'ever-stats', 'ever-stats-ui', 'ever-instance'];
 const SERVER_MODULES = ['ever-connect', 'ever-stats', 'ever-instance'];
-const pkg = (name) => `@gauzy/plugin-${name}`;
+const pkg = (name) => `@irtranscripts/plugin-${name}`;
 
 /** The plugin lists: the only files outside the modules that import them. */
-const PLUGIN_LISTS = ['apps/api/src/plugins.ts', 'apps/gauzy/src/plugin-ui.config.ts'];
+const PLUGIN_LISTS = ['apps/api/src/plugins.ts', 'apps/irtranscripts/src/plugin-ui.config.ts'];
 
-const ANALYTICS = ['@gauzy/plugin-jitsu-analytics', '@gauzy/plugin-posthog'];
+const ANALYTICS = ['@irtranscripts/plugin-jitsu-analytics', '@irtranscripts/plugin-posthog'];
 const HTTP_CLIENTS = ['@nestjs/axios', 'axios', 'undici'];
 
 /** The package directory a repository path is in (`packages/plugins/<name>`), or null. */
@@ -42,7 +42,7 @@ const anyOf = (specifier, names) => names.find((name) => isPackage(specifier, na
 
 /** The Ever Platform module a specifier names (`ever-connect`), or null. */
 function moduleOf(specifier) {
-	const match = /^@gauzy\/plugin-(ever-[a-z0-9-]+)(\/.*)?$/.exec(specifier);
+	const match = /^@irtranscripts\/plugin-(ever-[a-z0-9-]+)(\/.*)?$/.exec(specifier);
 	return match && MODULES.includes(match[1]) ? match[1] : null;
 }
 
@@ -71,7 +71,7 @@ function violation(file, specifier) {
 		const hit = anyOf(specifier, [pkg('ever-connect'), pkg('ever-stats'), ...ANALYTICS, ...HTTP_CLIENTS]);
 		if (hit) return `${hit}: the instance identity makes no request and depends on neither module`;
 	}
-	if (from === 'ever-connect' && /^@gauzy\/plugin-auth-zitadel/.test(specifier)) {
+	if (from === 'ever-connect' && /^@irtranscripts\/plugin-auth-zitadel/.test(specifier)) {
 		return `${specifier}: the connection and the Ever ID sign-in plugin never import each other`;
 	}
 	if (from && from.startsWith('auth-zitadel') && isPackage(specifier, pkg('ever-connect'))) {

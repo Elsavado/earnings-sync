@@ -5,7 +5,7 @@ import { NbBadgeModule, NbSelectModule } from '@nebular/theme';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageSelectorComponent } from './language-selector.component';
-import { LanguagesService } from '@gauzy/ui-core/core';
+import { LanguagesService } from '@irtranscripts/ui-core/core';
 
 @NgModule({
 	imports: [CommonModule, NbSelectModule, NbBadgeModule, FormsModule, NgSelectModule, TranslatePipe],

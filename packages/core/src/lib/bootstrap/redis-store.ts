@@ -1,7 +1,7 @@
 import * as expressSession from 'express-session';
 import { createClient } from 'redis';
 import { RedisStore } from 'connect-redis';
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 import { redactUrlCredentials, redactUrlErrorInput } from '../core/util/redact-credentials';
 import { resolveSessionStoreTimeout, withSessionStoreDeadline } from './session-store-deadline';
 
@@ -143,7 +143,7 @@ export async function configureRedisSession(app: any): Promise<void> {
 			const redisStore = withSessionStoreDeadline(
 				new RedisStore({
 					client: redisClient,
-					prefix: environment.production ? 'gauzyprodsess:' : 'gauzydevsess:'
+					prefix: environment.production ? 'irtranscriptsprodsess:' : 'irtranscriptsdevsess:'
 				}),
 				resolveSessionStoreTimeout(process.env.REDIS_SESSION_TIMEOUT_MS)
 			);

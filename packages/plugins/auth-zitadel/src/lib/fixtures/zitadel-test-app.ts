@@ -1,6 +1,6 @@
 /**
  * Test-only harness: the plugin's controller and services on a real HTTP server, talking to a real
- * mock OpenID Provider, with in-memory stand-ins for the database and Gauzy's own services.
+ * mock OpenID Provider, with in-memory stand-ins for the database and IRTranscripts's own services.
  * Excluded from the library build.
  */
 import { randomBytes } from 'node:crypto';
@@ -8,8 +8,8 @@ import { createServer } from 'node:net';
 import { INestApplication } from '@nestjs/common';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Test } from '@nestjs/testing';
-import { OidcModule } from '@gauzy/auth';
-import { EVER_REDIS_CLIENT, EventBus } from '@gauzy/core';
+import { OidcModule } from '@irtranscripts/auth';
+import { EVER_REDIS_CLIENT, EventBus } from '@irtranscripts/core';
 import { AuthZitadelController } from '../auth-zitadel.controller';
 import { AuthZitadelSettings, parseZitadelSettings } from '../auth-zitadel.config';
 import { AUTH_ZITADEL_SETTINGS } from '../auth-zitadel.tokens';
@@ -17,8 +17,8 @@ import { ZitadelConfiguredGuard } from '../guards/zitadel-configured.guard';
 import { ZitadelHandoffThrottleGuard } from '../guards/zitadel-handoff-throttle.guard';
 import { ZitadelRetryAfterInterceptor } from '../http/zitadel-retry';
 import { EVER_CONNECT_CONFIG, EverConnectConfigPort } from '../ports/ever-connect-config.port';
-import { ITermsAcceptanceDocument } from '@gauzy/contracts';
-import { GAUZY_AUTH } from '../ports/gauzy-auth.port';
+import { ITermsAcceptanceDocument } from '@irtranscripts/contracts';
+import { IRTRANSCRIPTS_AUTH } from '../ports/irtranscripts-auth.port';
 import { TERMS_DOCUMENTS, TermsDocumentsPort } from '../ports/terms-documents.port';
 import { ZitadelAccountService } from '../services/zitadel-account.service';
 import { ZitadelBackchannelService } from '../services/zitadel-backchannel.service';
@@ -34,10 +34,10 @@ import { ZitadelStoreService } from '../services/zitadel-store.service';
 import { ZitadelSubscriptionGateService } from '../services/zitadel-subscription-gate.service';
 import { ZitadelTokenSigninService } from '../services/zitadel-token-signin.service';
 import { ZitadelWorkspaceService } from '../services/zitadel-workspace.service';
-import { FakeGauzyAuth, FakeSubscriptionGate, InMemoryAccounts, InMemoryCache, InMemorySessions } from './in-memory-accounts';
+import { FakeIRTranscriptsAuth, FakeSubscriptionGate, InMemoryAccounts, InMemoryCache, InMemorySessions } from './in-memory-accounts';
 import { MockOidcIssuer } from './mock-oidc-issuer';
 
-export const TEST_CLIENT_ID = 'gauzy-web-test';
+export const TEST_CLIENT_ID = 'irtranscripts-web-test';
 export const TEST_CLIENT_BASE_URL = 'http://client.example.test';
 
 export interface ZitadelTestApp {
@@ -46,7 +46,7 @@ export interface ZitadelTestApp {
 	issuer: MockOidcIssuer;
 	settings: AuthZitadelSettings;
 	accounts: InMemoryAccounts;
-	gauzyAuth: FakeGauzyAuth;
+	irtranscriptsAuth: FakeIRTranscriptsAuth;
 	gate: FakeSubscriptionGate;
 	sessions: InMemorySessions;
 	cache: InMemoryCache;
@@ -57,7 +57,7 @@ export interface ZitadelTestApp {
 	close(): Promise<void>;
 }
 
-/** Gauzy's required legal documents, settable per test (none by default). */
+/** IRTranscripts's required legal documents, settable per test (none by default). */
 export class FakeTermsDocuments implements TermsDocumentsPort {
 	required: ITermsAcceptanceDocument[] = [];
 	/** The locale of every request. */
@@ -130,7 +130,7 @@ async function startApp(
 	});
 
 	const accounts = new InMemoryAccounts();
-	const gauzyAuth = new FakeGauzyAuth(accounts);
+	const irtranscriptsAuth = new FakeIRTranscriptsAuth(accounts);
 	const gate = new FakeSubscriptionGate();
 	const sessions = new InMemorySessions();
 	const cache = new InMemoryCache();
@@ -147,7 +147,7 @@ async function startApp(
 			{ provide: ZitadelAccountService, useValue: accounts },
 			{ provide: ZitadelSessionService, useValue: sessions },
 			{ provide: ZitadelSubscriptionGateService, useValue: gate },
-			{ provide: GAUZY_AUTH, useValue: gauzyAuth },
+			{ provide: IRTRANSCRIPTS_AUTH, useValue: irtranscriptsAuth },
 			{ provide: TERMS_DOCUMENTS, useValue: terms },
 			{ provide: EventBus, useValue: { publish: async (event: unknown) => published.push(event) } },
 			...(options.everConnect ? [{ provide: EVER_CONNECT_CONFIG, useValue: options.everConnect }] : []),
@@ -183,7 +183,7 @@ async function startApp(
 		issuer,
 		settings,
 		accounts,
-		gauzyAuth,
+		irtranscriptsAuth,
 		gate,
 		sessions,
 		cache,

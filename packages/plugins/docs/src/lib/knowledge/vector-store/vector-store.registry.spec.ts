@@ -3,7 +3,7 @@ import { IDocumentVectorStore } from './vector-store.interface';
 
 /**
  * Registry resolution tests: registration order, availability gating, and the
- * `GAUZY_DOCS_VECTOR_STORE` environment pin.
+ * `IRTRANSCRIPTS_DOCS_VECTOR_STORE` environment pin.
  */
 describe('DocumentVectorStoreRegistry', () => {
 	const makeStore = (id: string, available: boolean): IDocumentVectorStore => ({
@@ -16,7 +16,7 @@ describe('DocumentVectorStoreRegistry', () => {
 
 	afterEach(() => {
 		DocumentVectorStoreRegistry.clear();
-		delete process.env['GAUZY_DOCS_VECTOR_STORE'];
+		delete process.env['IRTRANSCRIPTS_DOCS_VECTOR_STORE'];
 	});
 
 	it('resolves the first available store in registration order', async () => {
@@ -37,10 +37,10 @@ describe('DocumentVectorStoreRegistry', () => {
 		expect(resolved?.id).toBe('pgvector');
 	});
 
-	it('honors the GAUZY_DOCS_VECTOR_STORE pin when the pinned store is available', async () => {
+	it('honors the IRTRANSCRIPTS_DOCS_VECTOR_STORE pin when the pinned store is available', async () => {
 		DocumentVectorStoreRegistry.register(makeStore('pgvector', true));
 		DocumentVectorStoreRegistry.register(makeStore('custom', true));
-		process.env['GAUZY_DOCS_VECTOR_STORE'] = 'custom';
+		process.env['IRTRANSCRIPTS_DOCS_VECTOR_STORE'] = 'custom';
 
 		const resolved = await DocumentVectorStoreRegistry.resolve();
 		expect(resolved?.id).toBe('custom');
@@ -49,10 +49,10 @@ describe('DocumentVectorStoreRegistry', () => {
 	it('falls through an unavailable or unregistered pin', async () => {
 		DocumentVectorStoreRegistry.register(makeStore('pgvector', false));
 		DocumentVectorStoreRegistry.register(makeStore('lexical', true));
-		process.env['GAUZY_DOCS_VECTOR_STORE'] = 'pgvector';
+		process.env['IRTRANSCRIPTS_DOCS_VECTOR_STORE'] = 'pgvector';
 		expect((await DocumentVectorStoreRegistry.resolve())?.id).toBe('lexical');
 
-		process.env['GAUZY_DOCS_VECTOR_STORE'] = 'does-not-exist';
+		process.env['IRTRANSCRIPTS_DOCS_VECTOR_STORE'] = 'does-not-exist';
 		expect((await DocumentVectorStoreRegistry.resolve())?.id).toBe('lexical');
 	});
 

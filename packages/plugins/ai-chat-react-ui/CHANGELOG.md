@@ -1,3 +1,3 @@
-# Changelog for @gauzy/plugin-ai-chat-react-ui
+# Changelog for @irtranscripts/plugin-ai-chat-react-ui
 
 ## [Unreleased]

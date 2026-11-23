@@ -31,7 +31,7 @@ export const PDF_OCR_UNAVAILABLE_MESSAGE =
  * reconstructed (raw text).
  *
  * Scanned PDFs (average < 50 meaningful chars/page) — and any run carrying `forceOcr` —
- * route to provider-vision OCR, which is env-gated (`GAUZY_DOCS_OCR_ENABLED`) and returns
+ * route to provider-vision OCR, which is env-gated (`IRTRANSCRIPTS_DOCS_OCR_ENABLED`) and returns
  * `null` whenever it cannot run; that `null` reproduces the pre-OCR permanent error exactly.
  * Corrupt or password-protected files are a permanent error.
  */

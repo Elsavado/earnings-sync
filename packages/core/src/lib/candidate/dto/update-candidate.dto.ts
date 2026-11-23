@@ -1,5 +1,5 @@
 import { IntersectionType, PickType } from '@nestjs/swagger';
-import { ICandidateUpdateInput } from '@gauzy/contracts';
+import { ICandidateUpdateInput } from '@irtranscripts/contracts';
 import { UpdateProfileDTO } from './../../employee/dto';
 import { Candidate } from '../candidate.entity';
 

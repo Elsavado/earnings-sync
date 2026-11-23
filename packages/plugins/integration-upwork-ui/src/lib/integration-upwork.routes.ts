@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PageRouteRegistryConfig, PermissionsGuard } from '@gauzy/ui-core/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PageRouteRegistryConfig, PermissionsGuard } from '@irtranscripts/ui-core/core';
 import { UpworkComponent } from './components/upwork/upwork.component';
 import { UpworkAuthorizeComponent } from './components/upwork-authorize/upwork-authorize.component';
 import { TransactionsComponent } from './components/transactions/transactions.component';
@@ -93,7 +93,7 @@ export function getUpworkRoutes(): Route[] {
 				},
 				{
 					path: ':id/settings',
-					loadChildren: () => import('@gauzy/ui-core/shared').then((m) => m.WorkInProgressModule)
+					loadChildren: () => import('@irtranscripts/ui-core/shared').then((m) => m.WorkInProgressModule)
 				}
 			]
 		}

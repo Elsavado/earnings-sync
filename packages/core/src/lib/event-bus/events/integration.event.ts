@@ -1,4 +1,4 @@
-import { IIntegrationTenantCreateInput, IIntegrationTenantUpdateInput } from '@gauzy/contracts';
+import { IIntegrationTenantCreateInput, IIntegrationTenantUpdateInput } from '@irtranscripts/contracts';
 import { RequestContext } from '../../core/context';
 import { IntegrationTenant } from '../../core/entities/internal';
 import { BaseEntityEvent, BaseEntityEventType } from '../base-entity-event';

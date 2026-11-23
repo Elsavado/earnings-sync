@@ -10,7 +10,7 @@ import { QueryBuilder } from 'typeorm/query-builder/QueryBuilder';
  * Measured with a CPU profile of the API under load: about half of the API's CPU was spent inside TypeORM, a fifth
  * of it in its relation-id loader.
  *
- * 1. **Relation ids that duplicate a column are not re-derived on reads.** Every Gauzy entity inherits five
+ * 1. **Relation ids that duplicate a column are not re-derived on reads.** Every IRTranscripts entity inherits five
  *    `@RelationId` properties — `createdByUserId`, `updatedByUserId`, `deletedByUserId`, `tenantId`,
  *    `organizationId` — that are ALSO plain columns on the very foreign key the relation uses
  *    (`@MultiORMColumn({ relationId: true })`). TypeORM hydrates the column from the row, and then, for every

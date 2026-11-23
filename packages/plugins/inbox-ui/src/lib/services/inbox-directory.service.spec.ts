@@ -44,7 +44,7 @@ describe('InboxDirectoryService', () => {
 		expect(list.request.params.get('kind')).toBe('agent');
 		list.flush({ items: [{ id: 'a1', user: { firstName: 'Reviewer' } }, { id: 'a2' }, { id: 'a3' }], total: 3 });
 		http.expectOne('/api/employee/a1/agent-profile').flush({ source: 'ever_works', title: 'Code reviewer' });
-		http.expectOne('/api/employee/a2/agent-profile').flush({ source: 'gauzy_ai' });
+		http.expectOne('/api/employee/a2/agent-profile').flush({ source: 'irtranscripts_ai' });
 		http.expectOne('/api/employee/a3/agent-profile').flush({}, { status: 404, statusText: 'Not Found' });
 		expect(agents).toEqual([{ id: 'a1', name: 'Code reviewer', detail: null }]);
 	});

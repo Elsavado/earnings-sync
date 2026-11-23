@@ -41,7 +41,7 @@ jest.mock('../versions/version.service', () => {
 });
 
 import { BadRequestException, ForbiddenException } from '@nestjs/common';
-import { ConfigService, DatabaseTypeEnum } from '@gauzy/config';
+import { ConfigService, DatabaseTypeEnum } from '@irtranscripts/config';
 import {
 	IIssueType,
 	IPagination,
@@ -54,7 +54,7 @@ import {
 	ITaskVersion,
 	TASK_METADATA_SECTIONS,
 	TaskMetadataSection
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { RequestContext } from '../../core/context';
 import { TagService } from '../../tags/tag.service';
 import { IssueTypeService } from '../issue-type/issue-type.service';

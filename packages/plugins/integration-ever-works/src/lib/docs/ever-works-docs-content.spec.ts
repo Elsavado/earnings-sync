@@ -1,6 +1,6 @@
 // cspell:ignore wikilink wikilinks unfiled
 /**
- * Document bodies between Ever Works (Markdown with `[[path]]` wikilinks) and Gauzy Docs (TipTap JSON +
+ * Document bodies between Ever Works (Markdown with `[[path]]` wikilinks) and IRTranscripts Docs (TipTap JSON +
  * HTML render cache), plan 05 §2 (G-P3-4). Pure functions: no mocks.
  */
 import {
@@ -52,7 +52,7 @@ const SAMPLE = [
 	'![logo](https://example.com/logo.png)'
 ].join('\n');
 
-describe('Ever Works Markdown → Gauzy Docs page', () => {
+describe('Ever Works Markdown → IRTranscripts Docs page', () => {
 	it('builds the editor schema: headings, marks, lists, task lists, quotes, rules, code, tables, breaks, images', () => {
 		const { contentJson } = markdownToDocument(SAMPLE);
 		const blocks = contentJson.content ?? [];
@@ -145,7 +145,7 @@ describe('Ever Works Markdown → Gauzy Docs page', () => {
 	});
 });
 
-describe('Gauzy Docs page → Ever Works Markdown', () => {
+describe('IRTranscripts Docs page → Ever Works Markdown', () => {
 	it('converts back to the same Markdown once normalised (stable: a second pass changes nothing)', () => {
 		const once = documentToMarkdown(markdownToDocument(SAMPLE).contentJson);
 		expect(documentToMarkdown(markdownToDocument(once).contentJson)).toBe(once);

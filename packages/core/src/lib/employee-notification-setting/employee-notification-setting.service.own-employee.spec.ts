@@ -3,7 +3,7 @@ import '../core/entities/internal';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { ForbiddenException } from '@nestjs/common';
 import { In } from 'typeorm';
-import { IUser, PermissionsEnum } from '@gauzy/contracts';
+import { IUser, PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { CrudService } from '../core/crud/crud.service';
 import { asTenantUser, createTenantFixture, ITenantFixture } from '../core/testing/tenant-isolation/tenant-isolation.fixtures';

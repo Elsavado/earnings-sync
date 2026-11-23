@@ -1,6 +1,6 @@
 import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { EntityManager, FindOptionsWhere, Repository } from 'typeorm';
-import { ID, IPagination, OfferingStatus, SellerStatus } from '@gauzy/contracts';
+import { ID, IPagination, OfferingStatus, SellerStatus } from '@irtranscripts/contracts';
 import {
 	ApiErrorCode,
 	ApiException,
@@ -9,8 +9,8 @@ import {
 	RequestContext,
 	isUniqueViolation,
 	operationOf
-} from '@gauzy/core';
-import type { BulkItemRequest } from '@gauzy/core';
+} from '@irtranscripts/core';
+import type { BulkItemRequest } from '@irtranscripts/core';
 import { SellerOffering } from './seller-offering.entity';
 import {
 	IBulkSellerOfferingItem,

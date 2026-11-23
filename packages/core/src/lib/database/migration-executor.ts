@@ -2,9 +2,9 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 import { camelCase } from 'typeorm/util/StringUtils';
 import * as chalk from 'chalk';
 import * as path from 'path';
-import { ApplicationPluginConfig } from '@gauzy/common';
-import { DatabaseTypeEnum } from '@gauzy/config';
-import { isNotEmpty } from '@gauzy/utils';
+import { ApplicationPluginConfig } from '@irtranscripts/common';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { registerPluginConfig } from '../bootstrap';
 import { serializeEmbeddedTransactions } from './embedded-transaction-queue';
 import { pruneTypeOrmSkeletonMetadata } from './typeorm-skeleton-metadata';
@@ -291,7 +291,7 @@ function getTemplate(
 ): string {
 	return `import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 export class ${camelCase(name, true)}${timestamp} implements MigrationInterface {
     name = '${camelCase(name, true)}${timestamp}';

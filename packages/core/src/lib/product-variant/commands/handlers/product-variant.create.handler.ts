@@ -1,5 +1,5 @@
 import { ICommandHandler, CommandHandler } from '@nestjs/cqrs';
-import { IVariantCreateInput } from '@gauzy/contracts';
+import { IVariantCreateInput } from '@irtranscripts/contracts';
 import { ProductVariant } from '../../product-variant.entity';
 import { ProductVariantCreateCommand } from '../product-variant.create.command';
 import { ProductVariantService } from '../../product-variant.service';

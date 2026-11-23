@@ -1,8 +1,8 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, Optional } from '@nestjs/common';
 import { FindOptionsWhere, ObjectLiteral, Repository, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { ID } from '@gauzy/contracts';
-import { EventOutboxService, RequestContext, SequenceService } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { EventOutboxService, RequestContext, SequenceService } from '@irtranscripts/core';
 import { PickListLineService } from '../pick-list-line/pick-list-line.service';
 import { PickListLine } from '../pick-list-line/pick-list-line.entity';
 import { PickWaveService } from '../pick-wave/pick-wave.service';

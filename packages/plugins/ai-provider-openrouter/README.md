@@ -1,7 +1,7 @@
-# @gauzy/plugin-ai-provider-openrouter
+# @irtranscripts/plugin-ai-provider-openrouter
 
-OpenRouter provider plugin for the Ever Gauzy AI chat engine
-([`@gauzy/plugin-ai-chat`](../ai-chat)). On bootstrap it registers the
+OpenRouter provider plugin for the Ever IRTranscripts AI chat engine
+([`@irtranscripts/plugin-ai-chat`](../ai-chat)). On bootstrap it registers the
 `openrouter` provider with the chat engine's `AiProviderRegistry`; models are
 created lazily through the ESM-only
 [`@openrouter/ai-sdk-provider`](https://www.npmjs.com/package/@openrouter/ai-sdk-provider)
@@ -9,7 +9,7 @@ package. OpenRouter routes a single API key to hundreds of upstream models.
 
 > Note: `@openrouter/ai-sdk-provider@2.x` declares a peer dependency on
 > `ai@^6`, but the models it produces implement the `LanguageModelV3` spec,
-> which is accepted by the `ai@7` engine used by `@gauzy/plugin-ai-chat`.
+> which is accepted by the `ai@7` engine used by `@irtranscripts/plugin-ai-chat`.
 > No `ai@7`-native OpenRouter release exists yet.
 
 ## Environment variables

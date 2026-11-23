@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { ID } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { PromotionAction } from './promotion-action.entity';
 import { TypeOrmPromotionActionRepository } from './repository/type-orm-promotion-action.repository';
 import { MikroOrmPromotionActionRepository } from './repository/mikro-orm-promotion-action.repository';

@@ -1,7 +1,7 @@
 /**
  * Authorization types for MCP Server
  *
- * These types are defined locally to avoid importing from @gauzy/auth,
+ * These types are defined locally to avoid importing from @irtranscripts/auth,
  * which causes TypeScript compilation performance issues due to its complex
  * dependency chain in the monorepo.
  */
@@ -46,7 +46,7 @@ export interface AuthorizationConfig {
 export const MAX_TOKEN_CACHE_TTL_SECONDS = 60;
 
 /** The audience mcp-auth puts in its tokens when MCP_AUTH_JWT_AUDIENCE is not set */
-const DEFAULT_TOKEN_AUDIENCE = 'gauzy-mcp-api';
+const DEFAULT_TOKEN_AUDIENCE = 'irtranscripts-mcp-api';
 
 /** How many introspection answers are kept at most */
 const MAX_CACHED_TOKENS = 10000;
@@ -91,7 +91,7 @@ export interface TokenValidationResult {
  * manifests and the README always named; the server used to read `MCP_AUTHORIZATION_ENABLED` instead, off by
  * default). With it on, every HTTP and WebSocket caller presents a token that mcp-auth's introspection endpoint
  * answers as active, except a caller on this machine that presents none: the loopback desktop mode, where such a
- * caller acts as the GAUZY_AUTO_LOGIN account (see `isLocalCaller`).
+ * caller acts as the IRTRANSCRIPTS_AUTO_LOGIN account (see `isLocalCaller`).
  *
  * @param env The environment to read (the process environment by default).
  */
@@ -143,7 +143,7 @@ export function logAuthorizationSetup(
 	if (!config.enabled) {
 		log.warn(
 			'⚠️  MCP_AUTH_ENABLED=false: OAuth bearer tokens are not checked. Callers authenticate with the login ' +
-				'tool, and only a caller on this machine may use the GAUZY_AUTO_LOGIN account.'
+				'tool, and only a caller on this machine may use the IRTRANSCRIPTS_AUTO_LOGIN account.'
 		);
 		return;
 	}

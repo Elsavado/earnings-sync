@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/swagger';
-import { IOrganizationStrategicInitiativeUpdateInput } from '@gauzy/contracts';
+import { IOrganizationStrategicInitiativeUpdateInput } from '@irtranscripts/contracts';
 import { CreateOrganizationStrategicInitiativeDTO } from './create-organization-strategic-initiative.dto';
 
 /**

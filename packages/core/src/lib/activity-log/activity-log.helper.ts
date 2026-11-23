@@ -1,4 +1,4 @@
-import { ActionTypeEnum, BaseEntityEnum, IActivityLogUpdatedValues } from '@gauzy/contracts';
+import { ActionTypeEnum, BaseEntityEnum, IActivityLogUpdatedValues } from '@irtranscripts/contracts';
 
 const ActivityTemplates = {
 	[ActionTypeEnum.Created]: `{action} a new {entity} called "{entityName}"`,

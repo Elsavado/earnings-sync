@@ -1,10 +1,10 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
-import { BaseEntityEnum, IFavorite, IOrganization } from '@gauzy/contracts';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { GenericFavoriteService, Store } from '@gauzy/ui-core/core';
-import { ToastrService } from '@gauzy/ui-core/core';
+import { BaseEntityEnum, IFavorite, IOrganization } from '@irtranscripts/contracts';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { GenericFavoriteService, Store } from '@irtranscripts/ui-core/core';
+import { ToastrService } from '@irtranscripts/ui-core/core';
 import { filter, tap } from 'rxjs/operators';
 
 @UntilDestroy({ checkProperties: true })

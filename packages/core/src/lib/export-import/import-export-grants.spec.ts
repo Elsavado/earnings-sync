@@ -21,8 +21,8 @@ jest.mock('../core/file-storage', () => ({
 }));
 jest.mock('./import-history', () => ({ ImportHistoryCreateCommand: class ImportHistoryCreateCommand {} }));
 
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { ExportController } from './export/export.controller';
 import { ImportController } from './import/import.controller';
 import { ImportHistoryController } from './import-history/import-history.controller';

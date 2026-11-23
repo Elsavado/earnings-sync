@@ -8,9 +8,9 @@ import {
 	ICommentUpdateInput,
 	ID,
 	IPagination
-} from '@gauzy/contracts';
-import { API_PREFIX, toParams } from '@gauzy/ui-core/common';
-import { Store } from '@gauzy/ui-core/core';
+} from '@irtranscripts/contracts';
+import { API_PREFIX, toParams } from '@irtranscripts/ui-core/common';
+import { Store } from '@irtranscripts/ui-core/core';
 
 /** Author identity + the user block behind it — everything a comment row renders. */
 const COMMENT_RELATIONS = ['employee', 'employee.user'];

@@ -14,8 +14,8 @@ import {
 	Property
 } from '@mikro-orm/core';
 import { SoftDeletable, SoftDeleteHandler } from 'mikro-orm-soft-delete';
-import { PermissionsEnum, RolesEnum } from '@gauzy/contracts';
-import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@gauzy/config';
+import { PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
+import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@irtranscripts/config';
 import { RequestContext } from '../core/context';
 import { CrudService } from '../core/crud/crud.service';
 import { MikroOrmBaseEntityRepository } from '../core/repository/mikro-orm-base-entity.repository';

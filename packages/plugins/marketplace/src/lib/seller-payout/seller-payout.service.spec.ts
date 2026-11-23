@@ -1,13 +1,13 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a payout run needs and none of which is available
  * outside a running application. The seam is therefore doubled at the module boundary and **the
  * service under test is the real one**, together with the real money helper its reserve and its paid
  * amount are computed through: every assertion below is about an amount.
  *
- * `@gauzy/config` is read at import time by other packages of the workspace, so it is doubled too.
+ * `@irtranscripts/config` is read at import time by other packages of the workspace, so it is doubled too.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
@@ -76,11 +76,11 @@ jest.mock('@gauzy/core', () => {
 		BaseEvent: class {},
 		EventBus: class {},
 		EventOutboxService: class {},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		// The decimal comparison the commission bands and the settlement's discrepancy are decided by is
 		// the kernel's own, so the double hands over the real one: a comparison doubled here would agree
 		// with the service about arithmetic the platform never performs.
-		compareDecimalStrings: jest.requireActual('@gauzy/core/src/lib/money/decimal').compareDecimalStrings,
+		compareDecimalStrings: jest.requireActual('@irtranscripts/core/src/lib/money/decimal').compareDecimalStrings,
 		isUniqueViolation: (error: any) => Boolean(error?.code === '23505'),
 		Merchant: class {},
 		OrganizationContact: class {},
@@ -99,7 +99,7 @@ jest.mock('@gauzy/core', () => {
 	};
 });
 
-jest.mock('@gauzy/config', () => ({
+jest.mock('@irtranscripts/config', () => ({
 	DatabaseTypeEnum: {
 		mongodb: 'mongodb',
 		sqlite: 'sqlite',
@@ -117,8 +117,8 @@ import {
 	SellerStatus,
 	SellerTransactionStatus,
 	SellerVerificationStatus
-} from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { Seller } from '../seller/seller.entity';
 import { SellerPayoutLine } from '../seller-payout-line/seller-payout-line.entity';
 import { SellerTransaction } from '../seller-transaction/seller-transaction.entity';

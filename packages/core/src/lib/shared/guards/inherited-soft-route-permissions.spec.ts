@@ -6,8 +6,8 @@
 import 'reflect-metadata';
 import '../../core/entities/internal';
 import { GUARDS_METADATA } from '@nestjs/common/constants';
-import { PERMISSIONS_METADATA, ROLES_METADATA } from '@gauzy/constants';
-import { PermissionsEnum, RolesEnum } from '@gauzy/contracts';
+import { PERMISSIONS_METADATA, ROLES_METADATA } from '@irtranscripts/constants';
+import { PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
 import { CandidatePersonalQualitiesController } from '../../candidate-personal-qualities/candidate-personal-qualities.controller';
 import { CandidateTechnologiesController } from '../../candidate-technologies/candidate-technologies.controller';
 import { IssueTypeController } from '../../tasks/issue-type/issue-type.controller';

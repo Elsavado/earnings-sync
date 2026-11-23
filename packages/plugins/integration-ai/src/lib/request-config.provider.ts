@@ -1,6 +1,6 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { Inject, Injectable } from '@nestjs/common';
-import { GAUZY_AI_CONFIG_TOKEN } from '@gauzy/constants';
+import { IRTRANSCRIPTS_AI_CONFIG_TOKEN } from '@irtranscripts/constants';
 import { IConfigurationOptions } from './configuration.interface';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class RequestConfigProvider {
 	private readonly storage = new AsyncLocalStorage<IConfigurationOptions>();
 
 	constructor(
-		@Inject(GAUZY_AI_CONFIG_TOKEN)
+		@Inject(IRTRANSCRIPTS_AI_CONFIG_TOKEN)
 		protected readonly options: IConfigurationOptions
 	) {
 		this.setDefaultConfig(options);

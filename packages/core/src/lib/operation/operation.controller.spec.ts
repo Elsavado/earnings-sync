@@ -6,8 +6,8 @@
 import '../core/entities/internal';
 
 import { ConflictException, HttpException, NotFoundException } from '@nestjs/common';
-import { OperationStatus, OperationStepStatus, PermissionsEnum } from '@gauzy/contracts';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
+import { OperationStatus, OperationStepStatus, PermissionsEnum } from '@irtranscripts/contracts';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { OperationController, IOperationDetail } from './operation.controller';
 

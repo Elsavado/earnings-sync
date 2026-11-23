@@ -9,8 +9,8 @@ import { DataSource, EntitySchema as TypeOrmEntitySchema, FindOperator, In } fro
 import { EntityCaseNamingStrategy, EntitySchema as MikroOrmEntitySchema, MikroORM } from '@mikro-orm/core';
 import { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
 import { SOFT_DELETABLE_FILTER } from 'mikro-orm-soft-delete';
-import { InvitationTypeEnum, PermissionsEnum, RolesEnum } from '@gauzy/contracts';
-import { MIKRO_ORM_AUTO_JOIN_REFS_FOR_FILTERS, TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@gauzy/config';
+import { InvitationTypeEnum, PermissionsEnum, RolesEnum } from '@irtranscripts/contracts';
+import { MIKRO_ORM_AUTO_JOIN_REFS_FOR_FILTERS, TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@irtranscripts/config';
 import { RequestContext } from '../core/context';
 import { TenantAwareCrudService } from '../core/crud';
 import { CrudService } from '../core/crud/crud.service';
@@ -280,7 +280,7 @@ describe('InviteService - the invitations of a team are handled by its managers'
 		const service: InviteService = Object.create(InviteService.prototype);
 		Object.assign(service, {
 			logger: { warn: jest.fn(), error: jest.fn(), log: jest.fn() },
-			configService: { get: () => 'https://app.gauzy.co' },
+			configService: { get: () => 'https://app.irtranscripts.com' },
 			emailService,
 			organizationTeamService: { find: findTeams },
 			userService: { findOneByIdString: jest.fn(async () => inviter) },

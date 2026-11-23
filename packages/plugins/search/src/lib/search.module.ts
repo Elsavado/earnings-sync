@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { EventOutboxModule, FeatureModule, RolePermissionModule, SearchModule } from '@gauzy/core';
+import { EventOutboxModule, FeatureModule, RolePermissionModule, SearchModule } from '@irtranscripts/core';
 import { SearchController } from './search.controller';
 import { SearchIndexConsumer } from './search-index.consumer';
 import { DatabaseSearchProvider } from './providers/database-search.provider';

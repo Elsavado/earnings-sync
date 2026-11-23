@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { DeepPartial } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { ProductVariant, RequestContext, Tag } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { ProductVariant, RequestContext, Tag } from '@irtranscripts/core';
 import { assertAllInCallerScope, assertInCallerScope, callerScope } from '../catalog.scope';
 import { TagProductVariant } from './tag-product-variant.entity';
 import { MikroOrmTagProductVariantRepository } from './repository/mikro-orm-tag-product-variant.repository';

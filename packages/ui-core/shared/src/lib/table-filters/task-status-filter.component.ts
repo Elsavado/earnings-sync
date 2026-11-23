@@ -1,6 +1,6 @@
 import { Component, OnChanges, type SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { DefaultFilter } from 'angular2-smart-table';
-import { ITaskStatus } from '@gauzy/contracts';
+import { ITaskStatus } from '@irtranscripts/contracts';
 
 @Component({
     selector: 'ga-task-status-select-filter',

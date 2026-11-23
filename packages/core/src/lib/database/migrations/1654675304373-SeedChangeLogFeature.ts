@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
 import { v4 as uuidV4 } from 'uuid';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 export class SeedChangeLogFeature1654675304373 implements MigrationInterface {
 	name = 'SeedChangeLogFeature1654675304373';
@@ -61,7 +61,7 @@ export class SeedChangeLogFeature1654675304373 implements MigrationInterface {
 				title: 'New CRM',
 				date,
 				isFeature: 1,
-				content: 'Now you can read latest features changelog directly in Gauzy',
+				content: 'Now you can read latest features changelog directly in IRTranscripts',
 				learnMoreUrl: '',
 				imageUrl: 'assets/images/features/macbook-2.png'
 			},
@@ -112,7 +112,7 @@ export class SeedChangeLogFeature1654675304373 implements MigrationInterface {
 				title: 'New CRM',
 				date,
 				isFeature: true,
-				content: 'Now you can read latest features changelog directly in Gauzy',
+				content: 'Now you can read latest features changelog directly in IRTranscripts',
 				learnMoreUrl: '',
 				imageUrl: 'assets/images/features/macbook-2.png'
 			},

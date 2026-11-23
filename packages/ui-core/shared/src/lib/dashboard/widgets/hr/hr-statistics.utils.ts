@@ -1,7 +1,7 @@
-import { ID, IMonthAggregatedEmployeeStatistics } from '@gauzy/contracts';
+import { ID, IMonthAggregatedEmployeeStatistics } from '@irtranscripts/contracts';
 // Type-only import: keeps this module free of a runtime dependency on
-// `@gauzy/ui-core/core`, so it stays trivially unit-testable.
-import type { IDashboardWidgetContext } from '@gauzy/ui-core/core';
+// `@irtranscripts/ui-core/core`, so it stays trivially unit-testable.
+import type { IDashboardWidgetContext } from '@irtranscripts/ui-core/core';
 
 /**
  * Theme tokens standing in for the hard-coded hexes of the legacy Human

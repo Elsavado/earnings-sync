@@ -1,10 +1,10 @@
 import { DataSource } from 'typeorm';
-import { dialectOf, placeholder, quote, runSql, SqlDialect, toBool, toNumber } from '@gauzy/plugin-ever-instance';
+import { dialectOf, placeholder, quote, runSql, SqlDialect, toBool, toNumber } from '@irtranscripts/plugin-ever-instance';
 
 /**
  * Small, dialect-aware statements over the plugin's own tables (Postgres, MySQL, SQLite; either
  * ORM): the plugin reads and writes them through TypeORM's data source with hand-written SQL, the
- * way the instance identity does, so the same code runs on every database Gauzy supports.
+ * way the instance identity does, so the same code runs on every database IRTranscripts supports.
  */
 export type Row = Record<string, unknown>;
 export type Where = Record<string, unknown>;

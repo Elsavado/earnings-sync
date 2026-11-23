@@ -1,7 +1,7 @@
 import { ApiTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
 import { Controller, HttpStatus, Get, Query, UseGuards, HttpCode, Post, Body, Param, Put, Delete, UsePipes } from '@nestjs/common';
 import { FindOptionsWhere, UpdateResult } from 'typeorm';
-import { ID, IPagination, ITagType, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IPagination, ITagType, PermissionsEnum } from '@irtranscripts/contracts';
 import { CrudController, BaseQueryDTO } from '../core/crud';
 import { PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { TagType } from './tag-type.entity';

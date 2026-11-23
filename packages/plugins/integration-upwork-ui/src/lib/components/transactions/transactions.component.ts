@@ -2,9 +2,9 @@ import { Component, OnInit, inject, ChangeDetectionStrategy, signal, type Writab
 import { filter, tap, finalize } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { IOrganization } from '@gauzy/contracts';
-import { ErrorHandlingService, Store, ToastrService, UpworkService } from '@gauzy/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { IOrganization } from '@irtranscripts/contracts';
+import { ErrorHandlingService, Store, ToastrService, UpworkService } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy()
 @Component({

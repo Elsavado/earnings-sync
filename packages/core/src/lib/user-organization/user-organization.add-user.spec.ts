@@ -1,7 +1,7 @@
 // Prime the entity graph first, as the other suites in this folder do.
 import '../core/entities/internal';
 
-import { IUser, RolesEnum } from '@gauzy/contracts';
+import { IUser, RolesEnum } from '@irtranscripts/contracts';
 import { UserOrganizationService } from './user-organization.services';
 
 /**

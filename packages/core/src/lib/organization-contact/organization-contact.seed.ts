@@ -9,7 +9,7 @@ import {
 	ITag,
 	ITenant,
 	OrganizationContactBudgetTypeEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import * as _ from 'underscore';
 import { getDummyImage } from '../core/utils';
 import { Organization, OrganizationContact, Tag } from './../core/entities/internal';

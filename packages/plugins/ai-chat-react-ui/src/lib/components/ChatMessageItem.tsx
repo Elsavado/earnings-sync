@@ -106,7 +106,7 @@ export interface ChatMessageItemProps {
  * - tool parts (`tool-*` / `dynamic-tool`) → compact ToolCallCard chips with
  *   live state, expandable details and Approve/Reject when the tool awaits
  *   the user's approval.
- * - `data-docs-citations` parts (contributed by @gauzy/plugin-docs) → clickable
+ * - `data-docs-citations` parts (contributed by @irtranscripts/plugin-docs) → clickable
  *   source chips deep-linking into the Documents hub.
  * Other part kinds (step markers, reasoning) are not rendered in the
  * compact sidebar view.

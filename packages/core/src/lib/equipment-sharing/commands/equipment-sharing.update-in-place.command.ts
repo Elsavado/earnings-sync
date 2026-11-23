@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { ID, IEquipmentSharingUpdateInPlaceInput } from '@gauzy/contracts';
+import { ID, IEquipmentSharingUpdateInPlaceInput } from '@irtranscripts/contracts';
 
 /**
  * Edits an equipment sharing in place, at the version the edit is based on (`PUT /equipment-sharing/:id/in-place`,

@@ -1,7 +1,7 @@
 import { JoinTable } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsNotEmpty } from 'class-validator';
-import { IEmployeeLevel, ITag } from '@gauzy/contracts';
+import { IEmployeeLevel, ITag } from '@irtranscripts/contracts';
 import { Tag, TenantOrganizationBaseEntity } from '../core/entities/internal';
 import { MultiORMColumn, MultiORMEntity, MultiORMManyToMany } from './../core/decorators/entity';
 import { MikroOrmEmployeeLevelRepository } from './repository/mikro-orm-employee-level.repository';

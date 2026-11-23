@@ -1,4 +1,4 @@
 /**
- * Injection token for Gauzy AI configuration.
+ * Injection token for IRTranscripts AI configuration.
  */
-export const GAUZY_AI_CONFIG_TOKEN = 'GAUZY_AI_CONFIG_TOKEN';
+export const IRTRANSCRIPTS_AI_CONFIG_TOKEN = 'IRTRANSCRIPTS_AI_CONFIG_TOKEN';

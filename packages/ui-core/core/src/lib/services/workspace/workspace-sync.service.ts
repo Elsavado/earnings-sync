@@ -14,7 +14,7 @@ import {
 	providedIn: 'root'
 })
 export class WorkspaceSyncService implements OnDestroy {
-	private readonly CHANNEL_NAME = 'gauzy-workspace-sync';
+	private readonly CHANNEL_NAME = 'irtranscripts-workspace-sync';
 	private broadcastChannel: BroadcastChannel | null = null;
 	private tabIdCache: string | null = null;
 
@@ -153,10 +153,10 @@ public broadcastWorkspaceOperation(
 		}
 		try {
 			if (typeof sessionStorage !== 'undefined') {
-				let tabId = sessionStorage.getItem('gauzy-tab-id');
+				let tabId = sessionStorage.getItem('irtranscripts-tab-id');
 				if (!tabId) {
 					tabId = this.generateTabId();
-					sessionStorage.setItem('gauzy-tab-id', tabId);
+					sessionStorage.setItem('irtranscripts-tab-id', tabId);
 				}
 				this.tabIdCache = tabId;
 				return tabId;

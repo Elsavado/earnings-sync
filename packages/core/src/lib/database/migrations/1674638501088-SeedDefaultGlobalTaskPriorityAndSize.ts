@@ -3,7 +3,7 @@ import * as chalk from 'chalk';
 import { v4 as uuidV4 } from 'uuid';
 import { DEFAULT_GLOBAL_PRIORITIES } from '../../tasks/priorities/default-global-priorities';
 import { DEFAULT_GLOBAL_SIZES } from '../../tasks/sizes/default-global-sizes';
-import { DatabaseTypeEnum } from "@gauzy/config";
+import { DatabaseTypeEnum } from "@irtranscripts/config";
 
 export class SeedDefaultGlobalTaskPriorityAndSize1674638501088 implements MigrationInterface {
 	name = 'SeedDefaultGlobalTaskPriorityAndSize1674638501088';

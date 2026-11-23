@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common';
-import { Public } from '@gauzy/common';
+import { Public } from '@irtranscripts/common';
 import type { Context as ProbotContext } from 'probot';
 import { Hook } from '../probot/hook.decorator';
 import { GithubHooksService } from './github.hooks.service';

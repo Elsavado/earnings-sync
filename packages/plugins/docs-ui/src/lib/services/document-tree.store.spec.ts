@@ -1,8 +1,8 @@
 /** See `documents.service.spec.ts` — the store reaches `DocumentsService`, which imports this barrel. */
-jest.mock('@gauzy/ui-core/core', () => ({ Store: class Store {} }));
+jest.mock('@irtranscripts/ui-core/core', () => ({ Store: class Store {} }));
 
 import { firstValueFrom, of } from 'rxjs';
-import { DocumentKindEnum, ID, IDocument, IPagination } from '@gauzy/contracts';
+import { DocumentKindEnum, ID, IDocument, IPagination } from '@irtranscripts/contracts';
 import { IDocumentFindInput } from '../models/docs-api.model';
 import { DocumentTreeStore } from './document-tree.store';
 import { DocumentsService } from './documents.service';

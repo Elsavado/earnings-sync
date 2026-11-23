@@ -1,4 +1,4 @@
-import { TaskStatusEnum, TaskStatusWorkFlow } from '@gauzy/contracts';
+import { TaskStatusEnum, TaskStatusWorkFlow } from '@irtranscripts/contracts';
 
 /**
  * Default task statuses

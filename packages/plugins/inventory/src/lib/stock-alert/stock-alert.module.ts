@@ -6,7 +6,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { RolePermissionModule } from '@gauzy/core';
+import { RolePermissionModule } from '@irtranscripts/core';
 import { StockAlert } from './stock-alert.entity';
 import { StockAlertController } from './stock-alert.controller';
 import { StockAlertService } from './stock-alert.service';

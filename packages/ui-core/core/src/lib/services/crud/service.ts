@@ -1,4 +1,4 @@
-import { BaseEntityModel } from '@gauzy/contracts';
+import { BaseEntityModel } from '@irtranscripts/contracts';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 

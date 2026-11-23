@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { CronExpression } from '@nestjs/schedule';
-import { ScheduledJob } from '@gauzy/scheduler';
+import { ScheduledJob } from '@irtranscripts/scheduler';
 import {
 	EVENT_OUTBOX_DISPATCH_JOB,
 	EVENT_OUTBOX_DISPATCH_SCHEDULE,

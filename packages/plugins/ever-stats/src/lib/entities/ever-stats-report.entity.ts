@@ -1,6 +1,6 @@
 import { PrimaryKey } from '@mikro-orm/core';
 import { PrimaryColumn } from 'typeorm';
-import { ColumnIndex, MultiORMColumn, MultiORMEntity, SkipExport } from '@gauzy/core';
+import { ColumnIndex, MultiORMColumn, MultiORMEntity, SkipExport } from '@irtranscripts/core';
 
 /**
  * One report this installation built: the exact bytes it signed and sent (`payload`, stored as text so
@@ -13,7 +13,7 @@ import { ColumnIndex, MultiORMColumn, MultiORMEntity, SkipExport } from '@gauzy/
 @ColumnIndex('IDX_ever_stats_report_created_at', ['createdAt'])
 @MultiORMEntity('ever_stats_report')
 export class EverStatsReport {
-	// Both ORMs get the primary key whichever one is active (Gauzy initializes both).
+	// Both ORMs get the primary key whichever one is active (IRTranscripts initializes both).
 	@PrimaryKey({ type: 'varchar', length: 36 })
 	@PrimaryColumn({ type: 'varchar', length: 36 })
 	id: string;

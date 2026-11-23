@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { AdjustmentModule, TaxLineModule, RolePermissionModule } from '@gauzy/core';
+import { AdjustmentModule, TaxLineModule, RolePermissionModule } from '@irtranscripts/core';
 import { ALL_CART_ENTITIES } from './entities';
 import { CommerceCartController } from './commerce-cart/commerce-cart.controller';
 import { CommerceCartService } from './commerce-cart/commerce-cart.service';

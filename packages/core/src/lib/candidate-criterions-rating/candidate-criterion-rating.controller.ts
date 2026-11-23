@@ -1,7 +1,7 @@
 import { HttpStatus, Get, Query, UseGuards, Post, Controller, Body, Delete, Put, Param } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CommandBus } from '@nestjs/cqrs';
-import { ICandidateCriterionsRating, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ICandidateCriterionsRating, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { CrudController, BaseQueryDTO } from './../core/crud';
 import { CandidateCriterionsRatingService } from './candidate-criterion-rating.service';
 import { CandidateCriterionsRating } from './candidate-criterion-rating.entity';

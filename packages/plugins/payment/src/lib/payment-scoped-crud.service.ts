@@ -1,6 +1,6 @@
 import { DeleteResult, FindOptionsWhere, SaveOptions } from 'typeorm';
-import { ID } from '@gauzy/contracts';
-import { assertCriteriaHasPredicate, BaseEntity, CrudService, LegacyFindOneOptions, RequestContext } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { assertCriteriaHasPredicate, BaseEntity, CrudService, LegacyFindOneOptions, RequestContext } from '@irtranscripts/core';
 
 /**
  * The CRUD base of the payment services that keep their own tables: the provider registry, the

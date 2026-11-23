@@ -6,8 +6,8 @@ import {
 	DocumentReviewReasonEnum,
 	DocumentReviewStatusEnum,
 	DocumentStatusEnum
-} from '@gauzy/contracts';
-import { ScheduledJob } from '@gauzy/scheduler';
+} from '@irtranscripts/contracts';
+import { ScheduledJob } from '@irtranscripts/scheduler';
 import { getDocsConfig } from '../../docs.config';
 import {
 	DOCS_RECOVERY_FAILED_AFTER_HOURS,
@@ -194,7 +194,7 @@ export class DocsRecoveryService {
 	 * Embedding-model drift detection (§8.4): compares the deployment's expected embedding
 	 * model against `SELECT DISTINCT embeddingModel FROM document_index_state` and logs a
 	 * summary when they diverge. Auto re-index is OFF by default
-	 * (`GAUZY_DOCS_AUTO_REINDEX_ON_MODEL_CHANGE`) — a model flip on a large installation
+	 * (`IRTRANSCRIPTS_DOCS_AUTO_REINDEX_ON_MODEL_CHANGE`) — a model flip on a large installation
 	 * is deliberate, budgeted work. When enabled, mismatched rows are re-enqueued from
 	 * `docs.chunk` at low priority (bounded per sweep; `reason: 'model-changed'`).
 	 *

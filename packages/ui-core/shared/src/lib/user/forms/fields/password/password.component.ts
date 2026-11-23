@@ -15,9 +15,9 @@ import { AbstractControl, ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR }
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs/operators';
-import { distinctUntilChange, isEmpty } from '@gauzy/ui-core/common';
+import { distinctUntilChange, isEmpty } from '@irtranscripts/ui-core/common';
 import { NbComponentSize } from '@nebular/theme';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

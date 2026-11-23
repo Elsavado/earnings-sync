@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NbAuthModule } from '@nebular/auth';
-import { environment } from '@gauzy/ui-config';
+import { environment } from '@irtranscripts/ui-config';
 import { AuthGuard } from './auth.guard';
 import { NoAuthGuard } from './no-auth.guard';
 import { AuthService, AuthStrategy, ElectronService, Store } from '../services';

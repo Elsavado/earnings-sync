@@ -12,8 +12,8 @@ import {
 	IPayment,
 	LanguagesEnum,
 	PaymentStats
-} from '@gauzy/contracts';
-import { isNotEmpty } from '@gauzy/utils';
+} from '@irtranscripts/contracts';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { Payment } from './payment.entity';
 import { BaseQueryDTO, TenantAwareCrudService } from './../core/crud';
 import { RequestContext } from '../core/context';

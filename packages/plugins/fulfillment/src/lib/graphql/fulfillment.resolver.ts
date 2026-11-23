@@ -1,7 +1,7 @@
 import { Args, Context, ID, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { BadRequestException, UseGuards } from '@nestjs/common';
 import { FindOptionsWhere } from 'typeorm';
-import { IPagination } from '@gauzy/contracts';
+import { IPagination } from '@irtranscripts/contracts';
 import {
 	FEATURE_GRAPHQL,
 	FeatureFlagGuard,
@@ -14,8 +14,8 @@ import {
 	connectionFromOffsetPage,
 	resolveConnectionWindow,
 	versionExpectationOf
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { Fulfillment } from '../fulfillment/fulfillment.entity';
 import { FulfillmentService } from '../fulfillment/fulfillment.service';
 import { FulfillmentLine } from '../fulfillment-line/fulfillment-line.entity';

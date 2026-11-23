@@ -1,6 +1,6 @@
 import { ApiPropertyOptional, IntersectionType, OmitType } from '@nestjs/swagger';
 import { IsArray, IsOptional, IsUUID } from 'class-validator';
-import { ID, IOrganizationStrategicInitiativeCreateInput } from '@gauzy/contracts';
+import { ID, IOrganizationStrategicInitiativeCreateInput } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../core/dto';
 import { OrganizationStrategicInitiative } from '../organization-strategic-initiative.entity';
 

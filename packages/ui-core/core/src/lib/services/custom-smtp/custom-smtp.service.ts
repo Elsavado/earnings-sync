@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ICustomSmtp, ICustomSmtpFindInput } from '@gauzy/contracts';
-import { toParams } from '@gauzy/ui-core/common';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { ICustomSmtp, ICustomSmtpFindInput } from '@irtranscripts/contracts';
+import { toParams } from '@irtranscripts/ui-core/common';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()

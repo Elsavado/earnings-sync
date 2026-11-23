@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
-import { PermissionsEnum } from '@gauzy/contracts';
-import { PageRouteRegistryConfig, PageRouteRegistryService, PermissionsGuard } from '@gauzy/ui-core/core';
-import { DateRangePickerResolver } from '@gauzy/ui-core/shared';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { PageRouteRegistryConfig, PageRouteRegistryService, PermissionsGuard } from '@irtranscripts/ui-core/core';
+import { DateRangePickerResolver } from '@irtranscripts/ui-core/shared';
 import {
 	ProposalComponent,
 	ProposalDetailsComponent,

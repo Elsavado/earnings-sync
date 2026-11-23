@@ -14,7 +14,7 @@ import { InboxEmailSettingsService } from './inbox-email-settings.service';
  * Whether this installation's API serves the Inbox **email** features (mailboxes, provider accounts) to the signed-in
  * user. Asked only where the Inbox itself is served (the same check the nav entry and the badge use,
  * {@link InboxAvailabilityService}), once per user: the `GET /api/inbox/mailboxes/mine` route, which the API has only
- * when `GAUZY_INBOX_EMAIL_ENABLED=true` loads the email features on top of the Inbox. A 404 there (the default) keeps
+ * when `IRTRANSCRIPTS_INBOX_EMAIL_ENABLED=true` loads the email features on top of the Inbox. A 404 there (the default) keeps
  * the Settings → Inbox entries and the "My mailbox" link away; 401 / 403 are final as well; a temporary failure is
  * retried like the Inbox check.
  */

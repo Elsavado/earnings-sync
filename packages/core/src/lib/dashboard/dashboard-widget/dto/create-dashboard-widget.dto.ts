@@ -1,5 +1,5 @@
 import { IntersectionType } from '@nestjs/swagger';
-import { IDashboardWidgetCreateInput } from '@gauzy/contracts';
+import { IDashboardWidgetCreateInput } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from '../../../core/dto';
 import { DashboardWidget } from '../dashboard-widget.entity';
 

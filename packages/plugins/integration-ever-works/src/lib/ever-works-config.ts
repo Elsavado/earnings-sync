@@ -1,4 +1,4 @@
-import { getUnsafeOutboundUrlReason } from '@gauzy/utils';
+import { getUnsafeOutboundUrlReason } from '@irtranscripts/utils';
 import { isEverWorksLoopbackUrl, readEverWorksAllowLoopback } from './client/ever-works-loopback';
 
 /** What the operator configured for the Ever Works integration (all optional). */
@@ -15,10 +15,10 @@ export interface EverWorksConfig {
 	 */
 	appUrl: string | null;
 	/**
-	 * The public HTTPS address of this Gauzy API (`API_BASE_URL`), where Ever Works delivers webhooks.
+	 * The public HTTPS address of this IRTranscripts API (`API_BASE_URL`), where Ever Works delivers webhooks.
 	 * `null` when unset or not HTTPS: the change feed keeps syncing without webhooks.
 	 */
-	gauzyApiUrl: string | null;
+	irtranscriptsApiUrl: string | null;
 	/**
 	 * `EVER_WORKS_ALLOW_LOOPBACK=true` in a development or test process: an Ever Works API and an `API_BASE_URL` on
 	 * a loopback address (`localhost`, `127.0.0.1`, `[::1]`, HTTP or HTTPS) are accepted, for a local run of the pair.
@@ -66,7 +66,7 @@ export function readEverWorksConfig(
 		appUrl: normaliseEverWorksBaseUrl(env['EVER_WORKS_APP_URL'], 'EVER_WORKS_APP_URL', warn, { allowLoopback }),
 		// Not a warning when unusable: a local or private API simply receives no webhooks (unless the loopback
 		// switch is on, which admits a loopback address for a local run of the pair).
-		gauzyApiUrl: normaliseEverWorksBaseUrl(env['API_BASE_URL'], 'API_BASE_URL', () => undefined, { allowLoopback }),
+		irtranscriptsApiUrl: normaliseEverWorksBaseUrl(env['API_BASE_URL'], 'API_BASE_URL', () => undefined, { allowLoopback }),
 		allowLoopback
 	};
 }

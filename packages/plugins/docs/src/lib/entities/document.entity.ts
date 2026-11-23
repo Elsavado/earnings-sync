@@ -15,7 +15,7 @@ import {
 	Min
 } from 'class-validator';
 import { JoinColumn, JoinTable, RelationId } from 'typeorm';
-import { isMySQL, isPostgres } from '@gauzy/config';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
 import {
 	DocumentKindEnum,
 	DocumentKnowledgeStatusEnum,
@@ -34,7 +34,7 @@ import {
 	IEmployee,
 	ITag,
 	JsonData
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	ColumnNumericTransformerPipe,
@@ -47,7 +47,7 @@ import {
 	Tag,
 	TenantOrganizationBaseEntity,
 	VirtualMultiOrmColumn
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { MikroOrmDocumentRepository } from '../repositories/mikro-orm-document.repository';
 import { binaryColumnType, floatColumnType, jsonColumnType } from './column-types';
 import { DocumentCategory } from './document-category.entity';

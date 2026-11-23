@@ -6,7 +6,7 @@ import {
 	IEmployeeNotificationCreateInput,
 	IMarkAllAsReadResponse,
 	IPagination
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { CrudController, BaseQueryDTO } from '../core/crud';
 import { Permissions } from '../shared/decorators';
 import { PermissionGuard, TenantPermissionGuard } from '../shared/guards';

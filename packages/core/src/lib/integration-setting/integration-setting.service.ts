@@ -1,5 +1,5 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { ID, IIntegrationSetting, IIntegrationSettingUpdateInput } from '@gauzy/contracts';
+import { ID, IIntegrationSetting, IIntegrationSettingUpdateInput } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context/request-context';
 import { TenantAwareCrudService } from './../core/crud';
 import { IntegrationSetting } from './integration-setting.entity';

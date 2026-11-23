@@ -7,7 +7,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { uniq } from 'underscore';
-import { SyncTags } from '@gauzy/constants';
+import { SyncTags } from '@irtranscripts/constants';
 import {
 	IOrganization,
 	IOrganizationContact,
@@ -30,7 +30,7 @@ import {
 	IOrganizationProjectEmployee,
 	ID,
 	RolesEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 /** The form's sections, in the order the tab bar shows them. */
 export type ProjectFormTab =
@@ -50,8 +50,8 @@ interface IProjectFormTab {
 	label: string;
 	icon: string;
 }
-import { environment } from '@gauzy/ui-config';
-import { DUMMY_PROFILE_IMAGE, distinctUntilChange } from '@gauzy/ui-core/common';
+import { environment } from '@irtranscripts/ui-config';
+import { DUMMY_PROFILE_IMAGE, distinctUntilChange } from '@irtranscripts/ui-core/common';
 import {
 	GithubService,
 	OrganizationContactService,
@@ -61,9 +61,9 @@ import {
 	ErrorHandlingService,
 	ToastrService,
 	Store
-} from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { patterns } from '@gauzy/constants';
+} from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { patterns } from '@irtranscripts/constants';
 import { FormHelpers } from '../../forms/helpers';
 import { ProjectModuleMutationComponent } from '../../project-module/project-module-mutation/project-module-mutation.component';
 
@@ -740,7 +740,7 @@ export class ProjectMutationComponent extends TranslationBaseComponent implement
 							organizationId,
 							tenantId,
 							customFields: { repositoryId },
-							...(!this.projectSettingForm.get('syncTag').value ? { syncTag: SyncTags.GAUZY } : {})
+							...(!this.projectSettingForm.get('syncTag').value ? { syncTag: SyncTags.IRTRANSCRIPTS } : {})
 						});
 					}),
 					tap(() => {

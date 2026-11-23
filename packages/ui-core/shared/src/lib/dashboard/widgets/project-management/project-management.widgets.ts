@@ -1,5 +1,5 @@
-import { PermissionsEnum } from '@gauzy/contracts';
-import { WidgetRegistryConfig } from '@gauzy/ui-core/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { WidgetRegistryConfig } from '@irtranscripts/ui-core/core';
 
 /**
  * Namespaced widget ids for the Project Management dashboard.

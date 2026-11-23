@@ -9,13 +9,13 @@ import {
 	IAiProviderCredentialUpdateInput,
 	ID,
 	IPagination
-} from '@gauzy/contracts';
-import { environment } from '@gauzy/ui-config';
+} from '@irtranscripts/contracts';
+import { environment } from '@irtranscripts/ui-config';
 
 /**
  * AiChatSettingsService
  *
- * Thin HttpClient wrapper around the `@gauzy/plugin-ai-chat` backend endpoints
+ * Thin HttpClient wrapper around the `@irtranscripts/plugin-ai-chat` backend endpoints
  * used by the per-tenant "AI Providers" (BYOK) settings page:
  *
  * - `GET    /api/ai-chat/config`           — registered providers + configuration status

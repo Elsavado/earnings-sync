@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { SeedDataService } from '@gauzy/core';
+import { SeedDataService } from '@irtranscripts/core';
 import { createChangelog } from './changelog.seed';
 
 /**

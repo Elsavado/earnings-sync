@@ -1,3 +1,3 @@
-# Changelog for @gauzy/plugin-product-reviews
+# Changelog for @irtranscripts/plugin-product-reviews
 
 ## [Unreleased]

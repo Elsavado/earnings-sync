@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult, FindOneOptions, UpdateResult } from 'typeorm';
-import { ITimeLog, PermissionsEnum, ID, IManualTimeInput } from '@gauzy/contracts';
+import { ITimeLog, PermissionsEnum, ID, IManualTimeInput } from '@irtranscripts/contracts';
 import {
 	BulkExecutor,
 	BulkOperation,

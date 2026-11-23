@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { IEmployee, IEmployeeNotificationSetting, IOrganization, ITenant } from '@gauzy/contracts';
+import { IEmployee, IEmployeeNotificationSetting, IOrganization, ITenant } from '@irtranscripts/contracts';
 import { EmployeeNotificationSetting } from './employee-notification-setting.entity';
 
 /**

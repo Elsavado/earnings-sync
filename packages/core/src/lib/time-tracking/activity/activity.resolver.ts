@@ -8,8 +8,8 @@ import 'reflect-metadata';
 
 import { UseGuards } from '@nestjs/common';
 import { Args, ID, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { FeatureFlag } from '@gauzy/common';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
+import { FeatureFlag } from '@irtranscripts/common';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import {
 	IActivity,
 	IBulkActivitiesInput,
@@ -18,7 +18,7 @@ import {
 	IGetActivitiesInput,
 	PermissionsEnum,
 	ReportGroupFilterEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	ConnectionFilter,
 	ConnectionPageRequest,

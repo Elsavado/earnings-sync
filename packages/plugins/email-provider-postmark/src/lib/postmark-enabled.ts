@@ -4,7 +4,7 @@
  * which never repeats the value.
  *
  * Kept free of imports: `apps/api/src/plugins.ts` calls it while it builds its plugin list. The plugin only does
- * something where the Inbox email features are on too (`GAUZY_INBOX_EMAIL_ENABLED=true`): it registers with their
+ * something where the Inbox email features are on too (`IRTRANSCRIPTS_INBOX_EMAIL_ENABLED=true`): it registers with their
  * provider registry.
  */
 export function isPostmarkEnabled(

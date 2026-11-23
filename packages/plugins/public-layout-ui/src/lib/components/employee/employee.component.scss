@@ -6,7 +6,7 @@
  * One page, read top-down like a public profile: a cover band with the avatar
  * overlapping it, the name with the organization and status, a strip of the
  * figures the employee chose to publish, then About / Skills / Awards beside an
- * Organization card. Paints only with the shared gauzy-* and theme tokens, so
+ * Organization card. Paints only with the shared irtranscripts-* and theme tokens, so
  * the light and dark themes both follow.
  */
 
@@ -18,8 +18,8 @@ $gap-xs: 0.25rem;
 
 $avatar: 6rem;
 $cover-height: 7rem;
-$hairline: 1px solid var(--gauzy-border-default-color);
-$radius: var(--gauzy-radius-sm, 0.5rem);
+$hairline: 1px solid var(--irtranscripts-border-default-color);
+$radius: var(--irtranscripts-radius-sm, 0.5rem);
 
 :host {
 	display: block;
@@ -50,8 +50,8 @@ nb-card-body.profile-body {
 .profile-header {
 	position: relative;
 	border-radius: $radius;
-	background-color: var(--gauzy-card-1);
-	box-shadow: inset 0 0 0 1px var(--gauzy-border-default-color);
+	background-color: var(--irtranscripts-card-1);
+	box-shadow: inset 0 0 0 1px var(--irtranscripts-border-default-color);
 	overflow: hidden;
 }
 
@@ -85,9 +85,9 @@ nb-card-body.profile-body {
 	width: $avatar;
 	height: $avatar;
 	border-radius: 50%;
-	background-color: var(--gauzy-active-tint);
+	background-color: var(--irtranscripts-active-tint);
 	// A ring in the card colour separates the photo from the cover behind it.
-	box-shadow: 0 0 0 4px var(--gauzy-card-1);
+	box-shadow: 0 0 0 4px var(--irtranscripts-card-1);
 
 	// The photo is rounded itself rather than clipped by the avatar: an
 	// `overflow: hidden` here also cut the camera badge on the edge in half.
@@ -103,7 +103,7 @@ nb-card-body.profile-body {
 	font-size: 1.75rem;
 	font-weight: 600;
 	letter-spacing: 0.02em;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 }
 
 // Editors: the uploader's file input covers the whole avatar, invisibly.
@@ -143,7 +143,7 @@ nb-card-body.profile-body {
 	height: 1.75rem;
 	border-radius: 50%;
 	background-color: nb-theme(color-primary-500);
-	box-shadow: 0 0 0 2px var(--gauzy-card-1);
+	box-shadow: 0 0 0 2px var(--irtranscripts-card-1);
 	color: #fff;
 	pointer-events: none;
 
@@ -178,7 +178,7 @@ nb-card-body.profile-body {
 	font-weight: 600;
 	line-height: 1.75rem;
 	letter-spacing: -0.01em;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 	overflow-wrap: anywhere;
 }
 
@@ -189,7 +189,7 @@ nb-card-body.profile-body {
 	gap: $gap-sm;
 	font-size: 0.8125rem;
 	line-height: 1.25rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 }
 
 .meta-org {
@@ -197,13 +197,13 @@ nb-card-body.profile-body {
 	align-items: center;
 	gap: 0.375rem;
 	font-weight: 500;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 
 	nb-icon {
 		width: 1rem;
 		height: 1rem;
 		font-size: 1rem;
-		color: var(--gauzy-text-color-2);
+		color: var(--irtranscripts-text-color-2);
 	}
 }
 
@@ -220,15 +220,15 @@ nb-card-body.profile-body {
 	gap: 0.3125rem;
 	padding: 0.0625rem 0.5rem;
 	border-radius: 999px;
-	box-shadow: inset 0 0 0 1px var(--gauzy-border-default-color);
+	box-shadow: inset 0 0 0 1px var(--irtranscripts-border-default-color);
 	font-size: 0.75rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 
 	&.is-active {
-		color: var(--gauzy-chart-revenue);
+		color: var(--irtranscripts-chart-revenue);
 
 		.status-dot {
-			background-color: var(--gauzy-chart-revenue);
+			background-color: var(--irtranscripts-chart-revenue);
 		}
 	}
 }
@@ -237,7 +237,7 @@ nb-card-body.profile-body {
 	width: 0.4375rem;
 	height: 0.4375rem;
 	border-radius: 50%;
-	background-color: var(--gauzy-text-color-2);
+	background-color: var(--irtranscripts-text-color-2);
 }
 
 .chip {
@@ -245,9 +245,9 @@ nb-card-body.profile-body {
 	align-items: center;
 	padding: 0.0625rem 0.5rem;
 	border-radius: 999px;
-	background-color: var(--gauzy-hover-tint);
+	background-color: var(--irtranscripts-hover-tint);
 	font-size: 0.75rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 }
 
 .actions {
@@ -270,14 +270,14 @@ nb-card-body.profile-body {
 		min-width: 0;
 		padding: $gap-md $gap-xl;
 		// Leading hairline; the first of each row falls outside and is clipped.
-		box-shadow: -1px 0 0 0 var(--gauzy-border-default-color);
+		box-shadow: -1px 0 0 0 var(--irtranscripts-border-default-color);
 	}
 
 	dt {
 		margin: 0;
 		font-size: 0.75rem;
 		line-height: 1rem;
-		color: var(--gauzy-text-color-2);
+		color: var(--irtranscripts-text-color-2);
 	}
 
 	dd {
@@ -285,7 +285,7 @@ nb-card-body.profile-body {
 		font-size: 0.9375rem;
 		font-weight: 600;
 		line-height: 1.375rem;
-		color: var(--gauzy-text-color-1);
+		color: var(--irtranscripts-text-color-1);
 		font-variant-numeric: tabular-nums;
 	}
 
@@ -293,7 +293,7 @@ nb-card-body.profile-body {
 		margin-inline-start: 0.125rem;
 		font-size: 0.75rem;
 		font-weight: 400;
-		color: var(--gauzy-text-color-2);
+		color: var(--irtranscripts-text-color-2);
 	}
 }
 
@@ -321,8 +321,8 @@ nb-card-body.profile-body {
 .panel {
 	padding: $gap-lg $gap-xl $gap-xl;
 	border-radius: $radius;
-	background-color: var(--gauzy-card-1);
-	box-shadow: inset 0 0 0 1px var(--gauzy-border-default-color);
+	background-color: var(--irtranscripts-card-1);
+	box-shadow: inset 0 0 0 1px var(--irtranscripts-border-default-color);
 }
 
 .panel-title {
@@ -333,13 +333,13 @@ nb-card-body.profile-body {
 	font-size: 0.9375rem;
 	font-weight: 600;
 	line-height: 1.375rem;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 
 	nb-icon {
 		width: 1.125rem;
 		height: 1.125rem;
 		font-size: 1.125rem;
-		color: var(--gauzy-text-color-2);
+		color: var(--irtranscripts-text-color-2);
 	}
 }
 
@@ -351,17 +351,17 @@ nb-card-body.profile-body {
 	height: 1.25rem;
 	padding: 0 0.375rem;
 	border-radius: 999px;
-	background-color: var(--gauzy-hover-tint);
+	background-color: var(--irtranscripts-hover-tint);
 	font-size: 0.75rem;
 	font-weight: 500;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 }
 
 .about {
 	margin: 0;
 	font-size: 0.875rem;
 	line-height: 1.5rem;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 	white-space: pre-line;
 	overflow-wrap: anywhere;
 }
@@ -371,7 +371,7 @@ nb-card-body.profile-body {
 	font-size: 0.8125rem;
 	font-style: italic;
 	line-height: 1.25rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 }
 
 .skills {
@@ -390,10 +390,10 @@ nb-card-body.profile-body {
 	gap: 0.375rem;
 	padding: 0.25rem 0.75rem;
 	border-radius: 999px;
-	box-shadow: inset 0 0 0 1px var(--gauzy-border-default-color);
+	box-shadow: inset 0 0 0 1px var(--irtranscripts-border-default-color);
 	font-size: 0.8125rem;
 	line-height: 1.25rem;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 }
 
 .swatch {
@@ -401,7 +401,7 @@ nb-card-body.profile-body {
 	width: 0.5rem;
 	height: 0.5rem;
 	border-radius: 50%;
-	background-color: var(--gauzy-text-color-2);
+	background-color: var(--irtranscripts-text-color-2);
 }
 
 .awards {
@@ -446,13 +446,13 @@ nb-card-body.profile-body {
 	min-width: 0;
 	font-size: 0.875rem;
 	line-height: 1.25rem;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 }
 
 .award-year {
 	flex: 0 0 auto;
 	font-size: 0.8125rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 	font-variant-numeric: tabular-nums;
 }
 
@@ -473,8 +473,8 @@ nb-card-body.profile-body {
 	height: 2.75rem;
 	border-radius: $radius;
 	overflow: hidden;
-	background-color: var(--gauzy-active-tint);
-	color: var(--gauzy-text-color-2);
+	background-color: var(--irtranscripts-active-tint);
+	color: var(--irtranscripts-text-color-2);
 
 	img {
 		width: 100%;
@@ -487,7 +487,7 @@ nb-card-body.profile-body {
 	font-size: 0.9375rem;
 	font-weight: 600;
 	line-height: 1.375rem;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
 	overflow-wrap: anywhere;
 }
 
@@ -495,7 +495,7 @@ nb-card-body.profile-body {
 	margin: $gap-md 0 0;
 	font-size: 0.8125rem;
 	line-height: 1.375rem;
-	color: var(--gauzy-text-color-2);
+	color: var(--irtranscripts-text-color-2);
 }
 
 .org-link {

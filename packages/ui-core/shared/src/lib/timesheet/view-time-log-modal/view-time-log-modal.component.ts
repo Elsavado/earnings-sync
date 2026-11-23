@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 import { filter, tap } from 'rxjs/operators';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ITimeLog, PermissionsEnum, IOrganization, TimeLogSourceEnum } from '@gauzy/contracts';
-import { TimeLogsLabel } from '@gauzy/ui-core/common';
-import { Store, TimeTrackerService, TimesheetService } from '@gauzy/ui-core/core';
+import { ITimeLog, PermissionsEnum, IOrganization, TimeLogSourceEnum } from '@irtranscripts/contracts';
+import { TimeLogsLabel } from '@irtranscripts/ui-core/common';
+import { Store, TimeTrackerService, TimesheetService } from '@irtranscripts/ui-core/core';
 import { EditTimeLogModalComponent } from './../edit-time-log-modal';
 
 @UntilDestroy({ checkProperties: true })

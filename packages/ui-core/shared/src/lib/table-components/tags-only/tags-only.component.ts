@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { ComponentLayoutStyleEnum } from '@gauzy/contracts';
+import { ComponentLayoutStyleEnum } from '@irtranscripts/contracts';
 import { NotesWithTagsComponent } from '../notes-with-tags/notes-with-tags.component';
 
 @Component({

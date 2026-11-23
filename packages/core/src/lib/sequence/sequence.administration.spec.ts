@@ -1,5 +1,5 @@
-jest.mock('@gauzy/config', () => {
-	const actual = jest.requireActual('@gauzy/config');
+jest.mock('@irtranscripts/config', () => {
+	const actual = jest.requireActual('@irtranscripts/config');
 
 	// The dialect is decided once at boot from the environment; here it is decided per case so the
 	// row-locked path and the embedded path are both exercised by this suite.
@@ -50,7 +50,7 @@ jest.mock('../core/context/request-context', () => ({
 
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { FindOperator, PessimisticLockTransactionRequiredError } from 'typeorm';
-import { SequenceResetPolicy } from '@gauzy/contracts';
+import { SequenceResetPolicy } from '@irtranscripts/contracts';
 import { SequenceService } from './sequence.service';
 import { TypeOrmSequenceRepository } from './repository/type-orm-sequence.repository';
 

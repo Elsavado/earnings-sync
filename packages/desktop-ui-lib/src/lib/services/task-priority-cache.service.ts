@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { StorageService, Store } from '../services';
-import { ITaskPriority } from '@gauzy/contracts';
+import { ITaskPriority } from '@irtranscripts/contracts';
 import { AbstractCacheService } from './abstract-cache.service';
 
 @Injectable({

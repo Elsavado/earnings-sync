@@ -1,5 +1,5 @@
 import '../core/entities/internal';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { ManagedEmployeeService, NO_ACCESSIBLE_EMPLOYEE_ID } from './managed-employee.service';
 

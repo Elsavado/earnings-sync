@@ -1,4 +1,4 @@
-import { DocumentShareAccessEnum, DocumentVisibilityEnum } from '@gauzy/contracts';
+import { DocumentShareAccessEnum, DocumentVisibilityEnum } from '@irtranscripts/contracts';
 import {
 	IDocumentAccessRow,
 	IDocumentAccessSubject,

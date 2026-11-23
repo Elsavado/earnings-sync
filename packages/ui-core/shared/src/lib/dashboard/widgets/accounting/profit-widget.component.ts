@@ -8,7 +8,7 @@ import { BaseAccountingWidgetComponent } from './base-accounting-widget.componen
  * Mirrors the third `<ga-single-statistic>` of the Accounting dashboard page,
  * including the way its colour follows the sign. That page paints a loss in a
  * hard-coded orange; this widget reuses the theme's danger colour instead, so
- * the figure stays legible in all eight Gauzy themes (and in dark mode) rather
+ * the figure stays legible in all eight IRTranscripts themes (and in dark mode) rather
  * than being pinned to one hex value.
  */
 @Component({

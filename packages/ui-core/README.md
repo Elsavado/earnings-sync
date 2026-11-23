@@ -1,6 +1,6 @@
-# @gauzy/ui-core
+# @irtranscripts/ui-core
 
-The `@gauzy/ui-core` library is generated with [Nx](https://nx.dev) and is intended to be used within the Gauzy ecosystem. Before installing, make sure you have a Gauzy workspace set up and that all necessary dependencies are in place.
+The `@irtranscripts/ui-core` library is generated with [Nx](https://nx.dev) and is intended to be used within the IRTranscripts ecosystem. Before installing, make sure you have a IRTranscripts workspace set up and that all necessary dependencies are in place.
 
 ## Getting Started
 
@@ -11,7 +11,7 @@ The `@gauzy/ui-core` library is generated with [Nx](https://nx.dev) and is inten
 
 ## Code scaffolding
 
-Run `yarn nx g @gauzy/ui-core:component my-component --project=ui-core` to generate a new component. You can also use `nx g @gauzy/ui-core:directive|pipe|service|guard|interface|enum|module`.
+Run `yarn nx g @irtranscripts/ui-core:component my-component --project=ui-core` to generate a new component. You can also use `nx g @irtranscripts/ui-core:directive|pipe|service|guard|interface|enum|module`.
 
 ## Build
 
@@ -27,9 +27,9 @@ After building your library with `yarn nx build ui-core`, go to the dist folder 
 
 ## Installation
 
-To install the `@gauzy/ui-core` library, run the following command in your Angular project:
+To install the `@irtranscripts/ui-core` library, run the following command in your Angular project:
 
 ```bash
-npm install @gauzy/ui-core
+npm install @irtranscripts/ui-core
 # or
-yarn add @gauzy/ui-core
+yarn add @irtranscripts/ui-core

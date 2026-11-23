@@ -6,7 +6,7 @@ import { NbBadgeModule, NbIconModule } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
 import { EMPTY, merge, Subject, timer } from 'rxjs';
 import { catchError, filter, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { IInboxItemCounts } from '@gauzy/contracts';
+import { IInboxItemCounts } from '@irtranscripts/contracts';
 import { INBOX_BADGE_POLL_MS, INBOX_LINK } from '../../inbox-ui.constants';
 import { InboxUiService } from '../../services/inbox-ui.service';
 

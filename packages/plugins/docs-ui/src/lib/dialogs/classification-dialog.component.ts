@@ -2,8 +2,8 @@ import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core
 import { NbDialogRef } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
 import { catchError, of } from 'rxjs';
-import { DocumentVisibilityEnum, ID, IDocumentCategory, ITag } from '@gauzy/contracts';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { DocumentVisibilityEnum, ID, IDocumentCategory, ITag } from '@irtranscripts/contracts';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { IDocumentUploadOptions } from '../models/docs-api.model';
 import { DocumentsService } from '../services/documents.service';
 

@@ -1,13 +1,13 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 /**
  * Migration: create the `oauth_clients` table.
  *
  * What changed from the single-app version:
  * Previously there was no DB table — the one OAuth client was stored as
- * `GAUZY_OAUTH_APP_*` env vars. This migration introduces a real registry
+ * `IRTRANSCRIPTS_OAUTH_APP_*` env vars. This migration introduces a real registry
  * so multiple third-party apps (Activepieces, n8n, Make.com, …) can each
  * have isolated credentials, redirect URIs, and scopes.
  *

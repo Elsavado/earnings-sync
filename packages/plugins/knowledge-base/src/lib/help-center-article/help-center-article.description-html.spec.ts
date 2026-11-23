@@ -1,10 +1,10 @@
 /**
- * `@gauzy/core` is a barrel over the whole server core, so the same stubs as
+ * `@irtranscripts/core` is a barrel over the whole server core, so the same stubs as
  * `help-center-article.service.spec.ts` stand in for the two shapes this service uses. The allowlist
  * itself is covered by `packages/core/src/lib/core/html-sanitizer/rich-html-sanitizer.spec.ts`; what is
  * under test here is that EVERY write path of `descriptionHtml` goes through it.
  */
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	TenantAwareCrudService: class TenantAwareCrudService {
 		constructor(
 			public readonly typeOrmRepository: any,
@@ -49,8 +49,8 @@ jest.mock('./repository/mikro-orm-help-center-article.repository', () => ({
 	MikroOrmHelpCenterArticleRepository: class MikroOrmHelpCenterArticleRepository {}
 }));
 
-import { ID } from '@gauzy/contracts';
-import { sanitizeRichHtml } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { sanitizeRichHtml } from '@irtranscripts/core';
 import { HelpCenterArticleService } from './help-center-article.service';
 
 const ARTICLE_ID = 'aaaaaaaa-1111-4111-8111-111111111111' as ID;

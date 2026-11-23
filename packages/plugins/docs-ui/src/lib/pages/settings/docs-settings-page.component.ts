@@ -18,11 +18,11 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { catchError, filter, firstValueFrom, of, tap } from 'rxjs';
-import { DocumentVisibilityEnum, ID, IDocumentCategory, PermissionsEnum } from '@gauzy/contracts';
-import { distinctUntilChange } from '@gauzy/ui-core/common';
-import { Store, ToastrService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { DeleteConfirmationComponent } from '@gauzy/ui-core/shared';
+import { DocumentVisibilityEnum, ID, IDocumentCategory, PermissionsEnum } from '@irtranscripts/contracts';
+import { distinctUntilChange } from '@irtranscripts/ui-core/common';
+import { Store, ToastrService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { DeleteConfirmationComponent } from '@irtranscripts/ui-core/shared';
 import { CategoryDialogComponent, IDocsCategoryDialogResult } from '../../dialogs/category-dialog.component';
 import { CategoryMergeDialogComponent } from '../../dialogs/category-merge-dialog.component';
 import {

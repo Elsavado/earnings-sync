@@ -1,4 +1,4 @@
-import { PluginSettingDataType } from '@gauzy/contracts';
+import { PluginSettingDataType } from '@irtranscripts/contracts';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 

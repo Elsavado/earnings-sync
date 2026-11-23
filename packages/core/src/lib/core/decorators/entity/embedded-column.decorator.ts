@@ -1,7 +1,7 @@
 import { Column } from 'typeorm';
 import { ColumnEmbeddedOptions as TypeOrmEmbeddedOptions } from 'typeorm/decorator/options/ColumnEmbeddedOptions';
 import { Embedded, EmbeddedOptions as MikroOrmEmbeddedOptions } from '@mikro-orm/core';
-import { Type } from '@gauzy/common';
+import { Type } from '@irtranscripts/common';
 import { filterOptions } from './entity.helper';
 
 /**

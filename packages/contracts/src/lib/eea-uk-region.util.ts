@@ -93,7 +93,7 @@ export const EEA_UK_TIMEZONES: ReadonlySet<string> = new Set([
 ]);
 
 /**
- * Where a worker (or the organization employing them) is, as far as Gauzy knows it.
+ * Where a worker (or the organization employing them) is, as far as IRTranscripts knows it.
  */
 export interface IAgentRestrictionLocation {
 	regionCode?: string;

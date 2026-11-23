@@ -1,5 +1,5 @@
 import moment from 'moment-timezone';
-import { IDateRangePicker, IOrganization } from '@gauzy/contracts';
+import { IDateRangePicker, IOrganization } from '@irtranscripts/contracts';
 
 /**
  * Coarse shape of the selected date range — a mirror of the Angular `RangePeriod` enum in

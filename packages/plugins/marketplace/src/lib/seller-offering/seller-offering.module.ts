@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { BulkExecutor, EventOutboxModule, FeatureModule, FieldVisibility, RolePermissionModule } from '@gauzy/core';
+import { BulkExecutor, EventOutboxModule, FeatureModule, FieldVisibility, RolePermissionModule } from '@irtranscripts/core';
 import { SellerOffering } from './seller-offering.entity';
 import { SellerOfferingController } from './seller-offering.controller';
 import { SellerOfferingService } from './seller-offering.service';

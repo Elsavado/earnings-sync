@@ -1,5 +1,5 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import { CurrencyCode, DecimalString, ID } from '@gauzy/contracts';
+import { CurrencyCode, DecimalString, ID } from '@irtranscripts/contracts';
 import {
 	Money,
 	Organization,
@@ -7,7 +7,7 @@ import {
 	ProductVariant,
 	ProductVariantPrice,
 	RequestContext
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import {
 	IVendorProductTerm,
 	IVendorProductTermInput,

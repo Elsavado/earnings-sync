@@ -4,42 +4,42 @@
  * each of them.
  *
  * **Each stub carries the `dependsOn` its real plugin declares**, because the list is passed through
- * `resolvePluginLoadOrder` — the real one, from `@gauzy/plugin` — and a stub that declared nothing would
+ * `resolvePluginLoadOrder` — the real one, from `@irtranscripts/plugin` — and a stub that declared nothing would
  * let this suite pass with a prerequisite missing. The declarations are copied from the plugin classes
  * (`order.plugin.ts`, `cart.plugin.ts`, `inventory.plugin.ts`); `worker-composition.spec.ts` checks the
  * same list against the real classes and their real module graphs.
  */
-jest.mock('@gauzy/plugin-docs', () => ({ DocsPlugin: class DocsPlugin {} }));
+jest.mock('@irtranscripts/plugin-docs', () => ({ DocsPlugin: class DocsPlugin {} }));
 // The Ever Works integration keeps its real switch (the function the list calls), with a stub class.
-jest.mock('@gauzy/plugin-integration-ever-works', () => ({
+jest.mock('@irtranscripts/plugin-integration-ever-works', () => ({
 	IntegrationEverWorksPlugin: class IntegrationEverWorksPlugin {},
 	isEverWorksEnabled: jest.requireActual('../../../packages/plugins/integration-ever-works/src/lib/ever-works-enabled')
 		.isEverWorksEnabled
 }));
 // The Inbox, likewise: its real switch, a stub class.
-jest.mock('@gauzy/plugin-inbox', () => ({
+jest.mock('@irtranscripts/plugin-inbox', () => ({
 	InboxPlugin: class InboxPlugin {},
 	isInboxEnabled: jest.requireActual('../../../packages/plugins/inbox/src/lib/inbox-enabled').isInboxEnabled
 }));
-jest.mock('@gauzy/plugin-catalog', () => ({ CatalogPlugin: class CatalogPlugin {} }));
-jest.mock('@gauzy/plugin-pricing', () => ({ PricingPlugin: class PricingPlugin {} }));
-jest.mock('@gauzy/plugin-tax', () => ({ TaxPlugin: class TaxPlugin {} }));
-jest.mock('@gauzy/plugin-inventory', () => {
+jest.mock('@irtranscripts/plugin-catalog', () => ({ CatalogPlugin: class CatalogPlugin {} }));
+jest.mock('@irtranscripts/plugin-pricing', () => ({ PricingPlugin: class PricingPlugin {} }));
+jest.mock('@irtranscripts/plugin-tax', () => ({ TaxPlugin: class TaxPlugin {} }));
+jest.mock('@irtranscripts/plugin-inventory', () => {
 	class InventoryPlugin {}
-	Reflect.defineMetadata('dependsOn', ['@gauzy/plugin-catalog'], InventoryPlugin);
+	Reflect.defineMetadata('dependsOn', ['@irtranscripts/plugin-catalog'], InventoryPlugin);
 	return { InventoryPlugin };
 });
-jest.mock('@gauzy/plugin-cart', () => {
-	const { CatalogPlugin } = jest.requireMock('@gauzy/plugin-catalog');
-	const { PricingPlugin } = jest.requireMock('@gauzy/plugin-pricing');
-	const { InventoryPlugin } = jest.requireMock('@gauzy/plugin-inventory');
+jest.mock('@irtranscripts/plugin-cart', () => {
+	const { CatalogPlugin } = jest.requireMock('@irtranscripts/plugin-catalog');
+	const { PricingPlugin } = jest.requireMock('@irtranscripts/plugin-pricing');
+	const { InventoryPlugin } = jest.requireMock('@irtranscripts/plugin-inventory');
 	class CartPlugin {}
 	Reflect.defineMetadata('dependsOn', [CatalogPlugin, PricingPlugin, InventoryPlugin], CartPlugin);
 	return { CartPlugin };
 });
-jest.mock('@gauzy/plugin-order', () => {
-	const { PricingPlugin } = jest.requireMock('@gauzy/plugin-pricing');
-	const { TaxPlugin } = jest.requireMock('@gauzy/plugin-tax');
+jest.mock('@irtranscripts/plugin-order', () => {
+	const { PricingPlugin } = jest.requireMock('@irtranscripts/plugin-pricing');
+	const { TaxPlugin } = jest.requireMock('@irtranscripts/plugin-tax');
 	class OrderPlugin {}
 	Reflect.defineMetadata('dependsOn', [PricingPlugin, TaxPlugin], OrderPlugin);
 	return { OrderPlugin };
@@ -47,15 +47,15 @@ jest.mock('@gauzy/plugin-order', () => {
 
 // `Reflect.defineMetadata` in the stubs above needs the polyfill before any of them is evaluated.
 import 'reflect-metadata';
-import { resolvePluginLoadOrder } from '@gauzy/plugin';
-import { CartPlugin } from '@gauzy/plugin-cart';
-import { CatalogPlugin } from '@gauzy/plugin-catalog';
-import { DocsPlugin } from '@gauzy/plugin-docs';
-import { IntegrationEverWorksPlugin } from '@gauzy/plugin-integration-ever-works';
-import { InventoryPlugin } from '@gauzy/plugin-inventory';
-import { OrderPlugin } from '@gauzy/plugin-order';
-import { PricingPlugin } from '@gauzy/plugin-pricing';
-import { TaxPlugin } from '@gauzy/plugin-tax';
+import { resolvePluginLoadOrder } from '@irtranscripts/plugin';
+import { CartPlugin } from '@irtranscripts/plugin-cart';
+import { CatalogPlugin } from '@irtranscripts/plugin-catalog';
+import { DocsPlugin } from '@irtranscripts/plugin-docs';
+import { IntegrationEverWorksPlugin } from '@irtranscripts/plugin-integration-ever-works';
+import { InventoryPlugin } from '@irtranscripts/plugin-inventory';
+import { OrderPlugin } from '@irtranscripts/plugin-order';
+import { PricingPlugin } from '@irtranscripts/plugin-pricing';
+import { TaxPlugin } from '@irtranscripts/plugin-tax';
 import { plugins } from './plugins';
 
 /** Where a plugin sits in the list the worker registers. */
@@ -171,11 +171,11 @@ describe('worker plugins', () => {
 	describe('the Inbox, hosted only with the Ever Works integration', () => {
 		/** The list with both switches as stated (the module is evaluated afresh). */
 		function listWith(everWorks: string | undefined, inbox: string | undefined): unknown[] {
-			const saved = { EVER_WORKS_ENABLED: process.env['EVER_WORKS_ENABLED'], GAUZY_INBOX_ENABLED: process.env['GAUZY_INBOX_ENABLED'] };
+			const saved = { EVER_WORKS_ENABLED: process.env['EVER_WORKS_ENABLED'], IRTRANSCRIPTS_INBOX_ENABLED: process.env['IRTRANSCRIPTS_INBOX_ENABLED'] };
 			const set = (key: keyof typeof saved, value: string | undefined) =>
 				value === undefined ? delete process.env[key] : (process.env[key] = value);
 			set('EVER_WORKS_ENABLED', everWorks);
-			set('GAUZY_INBOX_ENABLED', inbox);
+			set('IRTRANSCRIPTS_INBOX_ENABLED', inbox);
 			const warn = jest.spyOn(console, 'warn').mockImplementation(() => undefined);
 			try {
 				let list: unknown[] = [];
@@ -187,7 +187,7 @@ describe('worker plugins', () => {
 			} finally {
 				warn.mockRestore();
 				set('EVER_WORKS_ENABLED', saved.EVER_WORKS_ENABLED);
-				set('GAUZY_INBOX_ENABLED', saved.GAUZY_INBOX_ENABLED);
+				set('IRTRANSCRIPTS_INBOX_ENABLED', saved.IRTRANSCRIPTS_INBOX_ENABLED);
 			}
 		}
 

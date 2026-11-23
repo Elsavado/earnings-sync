@@ -1,32 +1,32 @@
 # Kubernetes
 
-Let's assume current k8s kube config file saved as `k8s-gauzy-kubeconfig.yaml`
+Let's assume current k8s kube config file saved as `k8s-irtranscripts-kubeconfig.yaml`
 
 ## Verify connectivity
 
-kubectl --kubeconfig="k8s-gauzy-kubeconfig.yaml" get nodes
+kubectl --kubeconfig="k8s-irtranscripts-kubeconfig.yaml" get nodes
 
 ## Deploy
 
 -   To Deploy
 
-`kubectl --kubeconfig="k8s-gauzy-kubeconfig.yaml" --context do-sfo2-k8s-gauzy apply -f k8s-manifest.yaml`
+`kubectl --kubeconfig="k8s-irtranscripts-kubeconfig.yaml" --context do-sfo2-k8s-irtranscripts apply -f k8s-manifest.yaml`
 
-Note: it assume we have context called `do-sfo2-k8s-gauzy` defined already
+Note: it assume we have context called `do-sfo2-k8s-irtranscripts` defined already
 
 -   To Describe Deployment
 
-`kubectl describe deployment --kubeconfig="k8s-gauzy-kubeconfig.yaml"`
+`kubectl describe deployment --kubeconfig="k8s-irtranscripts-kubeconfig.yaml"`
 
 -   To Redeploy (if use latest docker images versions)
 
-`kubectl --kubeconfig="k8s-gauzy-kubeconfig.yaml" --context do-sfo2-k8s-gauzy rollout restart -f k8s-manifest.yaml`
+`kubectl --kubeconfig="k8s-irtranscripts-kubeconfig.yaml" --context do-sfo2-k8s-irtranscripts rollout restart -f k8s-manifest.yaml`
 
 ## Monitoring
 
 See <https://marketplace.digitalocean.com/apps/kubernetes-monitoring-stack>
 
-`kubectl --kubeconfig="k8s-gauzy-kubeconfig.yaml" port-forward svc/kube-prometheus-stack-grafana 8090:80 -n kube-prometheus-stack`
+`kubectl --kubeconfig="k8s-irtranscripts-kubeconfig.yaml" port-forward svc/kube-prometheus-stack-grafana 8090:80 -n kube-prometheus-stack`
 
 Your Grafana instance will now be available at <http://localhost:8090>.
 
@@ -37,7 +37,7 @@ Password: prom-operator
 
 Note: change password after login!
 
-`kubectl --kubeconfig="k8s-gauzy-kubeconfig.yaml" port-forward svc/kube-prometheus-stack-prometheus 9090 -n kube-prometheus-stack`
+`kubectl --kubeconfig="k8s-irtranscripts-kubeconfig.yaml" port-forward svc/kube-prometheus-stack-prometheus 9090 -n kube-prometheus-stack`
 
 Your Prometheus instance will now be available at <http://localhost:9090>.
 

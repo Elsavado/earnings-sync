@@ -1,6 +1,6 @@
 import { IntersectionType, PickType } from '@nestjs/swagger';
 import { User } from '../../core/entities/internal';
-import { ILastOrganization, ILastTeam, IUserCodeInput, IUserEmailInput, IUserTokenInput } from '@gauzy/contracts';
+import { ILastOrganization, ILastTeam, IUserCodeInput, IUserEmailInput, IUserTokenInput } from '@irtranscripts/contracts';
 import { UserCodeDTO, UserEmailDTO, UserTokenDTO } from '../../user/dto';
 import { IncludeTeamsDTO } from '../../user/dto/include-teams.dto';
 

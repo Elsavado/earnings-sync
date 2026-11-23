@@ -30,7 +30,7 @@ const MYSQL_TEXT_BYTES = 65_535;
  *   `text` holds, rather than failing half-way.
  * - Postgres and SQLite: nothing to do. Their `text` has no such limit; both branches are explicit no-ops.
  *
- * Registered only where `GAUZY_INBOX_ENABLED=true` and `GAUZY_INBOX_EMAIL_ENABLED=true` load the Inbox email plugin.
+ * Registered only where `IRTRANSCRIPTS_INBOX_ENABLED=true` and `IRTRANSCRIPTS_INBOX_EMAIL_ENABLED=true` load the Inbox email plugin.
  */
 export class AlterInboxEmailJsonColumnsLongText1791000003200 implements MigrationInterface {
 	name = 'AlterInboxEmailJsonColumnsLongText1791000003200';

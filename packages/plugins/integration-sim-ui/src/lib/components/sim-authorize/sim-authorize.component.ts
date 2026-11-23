@@ -5,9 +5,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
 import { filter, tap, take } from 'rxjs';
-import { IntegrationEnum, IIntegrationTenant, IOrganization } from '@gauzy/contracts';
-import { IntegrationsService, SimService, Store } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { IntegrationEnum, IIntegrationTenant, IOrganization } from '@irtranscripts/contracts';
+import { IntegrationsService, SimService, Store } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 const INTEGRATION_SIM_PAGE_LINK = '/pages/integrations/sim';
 
 @UntilDestroy({ checkProperties: true })

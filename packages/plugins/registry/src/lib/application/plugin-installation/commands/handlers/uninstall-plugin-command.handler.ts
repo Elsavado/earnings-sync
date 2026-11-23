@@ -1,5 +1,5 @@
-import { PluginInstallationStatus } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { PluginInstallationStatus } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { PluginInstallationService } from '../../../../domain';
 import { UninstallPluginCommand } from '../uninstall-plugin.command';

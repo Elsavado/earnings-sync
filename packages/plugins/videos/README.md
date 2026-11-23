@@ -1,4 +1,4 @@
-# @gauzy/plugin-videos
+# @irtranscripts/plugin-videos
 
 This library was generated with [Nx](https://nx.dev). This plugin provides functionality to upload and manage videos.
 
@@ -26,7 +26,7 @@ After building your library with `yarn nx build plugin-videos`, go to the dist f
 Install the Videos plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-videos
+npm install @irtranscripts/plugin-videos
 # or
-yarn add @gauzy/plugin-videos
+yarn add @irtranscripts/plugin-videos
 ```

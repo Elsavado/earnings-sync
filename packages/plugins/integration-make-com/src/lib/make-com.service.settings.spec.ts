@@ -1,6 +1,6 @@
-// `@gauzy/core`'s barrel drags in the whole entity graph; the service only needs stand-ins for its
+// `@irtranscripts/core`'s barrel drags in the whole entity graph; the service only needs stand-ins for its
 // DI classes and the current tenant from the request context.
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	class Stub {}
 	return {
 		IntegrationSettingService: Stub,

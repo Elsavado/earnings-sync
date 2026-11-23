@@ -1,5 +1,5 @@
-import { GithubRepositoryStatusEnum } from '@gauzy/contracts';
-import { IntegrationMapSyncIssueCommand } from '@gauzy/core';
+import { GithubRepositoryStatusEnum } from '@irtranscripts/contracts';
+import { IntegrationMapSyncIssueCommand } from '@irtranscripts/core';
 import { GithubSyncService } from './github-sync.service';
 
 /**

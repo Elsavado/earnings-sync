@@ -1,6 +1,6 @@
 import { validateSync } from 'class-validator';
 import { getMetadataArgsStorage } from 'typeorm';
-import { SearchFieldKind } from '@gauzy/contracts';
+import { SearchFieldKind } from '@irtranscripts/contracts';
 import { SearchIndexDefinition } from './search-index-definition.entity';
 
 /**

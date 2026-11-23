@@ -1,10 +1,10 @@
 /**
- * G-P4-6 agent email bridge, Gauzy → Ever Works (plan 04 §6, CR-11) against in-memory stand-ins and the mock Ever Works
+ * G-P4-6 agent email bridge, IRTranscripts → Ever Works (plan 04 §6, CR-11) against in-memory stand-ins and the mock Ever Works
  * API (real client): a mailbox routed to an agent queues each delivered message; the push hands it to the agent once
  * (`POST /email/inbound`, idempotent per message) and links it; a key without `email:write`, an agent not paired here
  * and a message without a sender are refused and logged; Ever Works' own refusal (no inbound assignment) is terminal.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	const entity = (name: string) => ({ [name]: class {} })[name];
 	return {
@@ -32,10 +32,10 @@ jest.mock('@gauzy/core', () => {
 		)
 	};
 });
-jest.mock('@gauzy/common', () => ({ Public: () => () => undefined }));
+jest.mock('@irtranscripts/common', () => ({ Public: () => () => undefined }));
 
 import 'reflect-metadata';
-import { IInboxEmailHandoff } from '@gauzy/contracts';
+import { IInboxEmailHandoff } from '@irtranscripts/contracts';
 import { EverWorksApiError, EverWorksClient } from '../client/ever-works-client';
 import { EverWorksLinkState, EverWorksLinkType } from '../sync/entities/ever-works-sync.entities';
 import { MockEverWorksEmail } from '../testing/mock-ever-works.email';
@@ -104,16 +104,16 @@ function setup(options: { scopes?: string[]; stored?: IInboxEmailHandoff | null;
 		{
 			integrationTenantId: 'm1',
 			entityType: EverWorksLinkType.AGENT,
-			gauzyId: 'g-agent-employee-1',
+			irtranscriptsId: 'g-agent-employee-1',
 			ewId: 'ew-agent-1',
 			state: 'ok'
 		}
 	];
-	const find = (type: string, field: 'ewId' | 'gauzyId', value: string) =>
+	const find = (type: string, field: 'ewId' | 'irtranscriptsId', value: string) =>
 		links.find((l) => l['integrationTenantId'] === 'm1' && l['entityType'] === type && l[field] === value) ?? null;
 	const linkService = {
 		byEw: async (_m: string, type: string, ewId: string) => find(type, 'ewId', ewId),
-		byGauzy: async (_m: string, type: string, gauzyId: string) => find(type, 'gauzyId', gauzyId),
+		byIRTranscripts: async (_m: string, type: string, irtranscriptsId: string) => find(type, 'irtranscriptsId', irtranscriptsId),
 		record: jest.fn(async (input: Row) => {
 			links.push({ ...input, state: 'ok' });
 			return input;
@@ -132,7 +132,7 @@ function setup(options: { scopes?: string[]; stored?: IInboxEmailHandoff | null;
 	const dataSource = {
 		getRepository: () => ({
 			find: async ({ where }: { where: Row }) =>
-				changes.filter((row) => (where['gauzyId'] as { value: string[] }).value.includes(row['gauzyId']))
+				changes.filter((row) => (where['irtranscriptsId'] as { value: string[] }).value.includes(row['irtranscriptsId']))
 		})
 	};
 	const service = new EverWorksAgentEmailService(
@@ -144,12 +144,12 @@ function setup(options: { scopes?: string[]; stored?: IInboxEmailHandoff | null;
 		log as never,
 		(options.handoffs === false ? undefined : registry) as never
 	);
-	const change = { id: 'ch1', tenantId: 't1', organizationId: 'o1', gauzyId: EMAIL_ID, op: 'upsert' } as never;
+	const change = { id: 'ch1', tenantId: 't1', organizationId: 'o1', irtranscriptsId: EMAIL_ID, op: 'upsert' } as never;
 	const pushContext = { connection: { id: 'c1' }, mapping: { id: 'm1' } } as never;
 	return { service, mock, email, links, linkService, queue, log, registry, change, pushContext, changes };
 }
 
-describe('EverWorksAgentEmailService — a Gauzy mailbox routed to an Ever Works agent', () => {
+describe('EverWorksAgentEmailService — a IRTranscripts mailbox routed to an Ever Works agent', () => {
 	it('registers its hand-off listener with the Inbox email features, and only when they are loaded', () => {
 		const loaded = setup();
 		loaded.service.onModuleInit();
@@ -174,7 +174,7 @@ describe('EverWorksAgentEmailService — a Gauzy mailbox routed to an Ever Works
 			tenantId: 't1',
 			organizationId: 'o1',
 			entityType: EverWorksLinkType.AGENT_EMAIL,
-			gauzyId: EMAIL_ID
+			irtranscriptsId: EMAIL_ID
 		});
 		await service.delivered({
 			tenantId: 't1',
@@ -210,7 +210,7 @@ describe('EverWorksAgentEmailService — a Gauzy mailbox routed to an Ever Works
 			}
 		});
 		const link = links.find((l) => l['entityType'] === EverWorksLinkType.AGENT_EMAIL);
-		expect(link).toMatchObject({ gauzyId: EMAIL_ID, ewId: [...email.messages.keys()][0], direction: 'outbound' });
+		expect(link).toMatchObject({ irtranscriptsId: EMAIL_ID, ewId: [...email.messages.keys()][0], direction: 'outbound' });
 		expect(link?.['snapshot']).toMatchObject({ agentId: 'ew-agent-1', dispatch: { mode: 'task-spawn' } });
 		expect(log.write).toHaveBeenCalledWith(expect.objectContaining({ action: 'agent_email', status: 'ok' }));
 		// A second push of the same message (a re-queued change) sends nothing.
@@ -221,7 +221,7 @@ describe('EverWorksAgentEmailService — a Gauzy mailbox routed to an Ever Works
 		expect(email.received).toHaveLength(1);
 	});
 
-	it('the mailbox may name the agent by its agent employee in Gauzy', async () => {
+	it('the mailbox may name the agent by its agent employee in IRTranscripts', async () => {
 		const { service, email, change, pushContext } = setup({
 			stored: message({ mailboxSettings: { everWorksAgentId: 'g-agent-employee-1' } })
 		});
@@ -292,11 +292,11 @@ describe('EverWorksAgentEmailService — a Gauzy mailbox routed to an Ever Works
 			notice('not-routed', {}),
 			{ ...notice('other-org'), organizationId: 'o9' }
 		]);
-		changes.push({ gauzyId: 'queued' });
+		changes.push({ irtranscriptsId: 'queued' });
 		links.push({
 			integrationTenantId: 'm1',
 			entityType: EverWorksLinkType.AGENT_EMAIL,
-			gauzyId: 'handed-off',
+			irtranscriptsId: 'handed-off',
 			ewId: 'ew-mail-9',
 			state: 'ok'
 		});
@@ -304,7 +304,7 @@ describe('EverWorksAgentEmailService — a Gauzy mailbox routed to an Ever Works
 		expect(registry.deliveredSince).toHaveBeenCalledWith('t1', expect.any(Date), 500);
 		expect(queue.enqueue).toHaveBeenCalledTimes(1);
 		expect(queue.enqueue).toHaveBeenCalledWith(
-			expect.objectContaining({ gauzyId: 'missed', entityType: EverWorksLinkType.AGENT_EMAIL })
+			expect.objectContaining({ irtranscriptsId: 'missed', entityType: EverWorksLinkType.AGENT_EMAIL })
 		);
 	});
 

@@ -1,9 +1,9 @@
 /**
  * Two module boundaries are doubled here, for the same reason and in the same way.
  *
- * `@gauzy/core` boots the whole application graph from its barrel — configuration, the ORM, the job
+ * `@irtranscripts/core` boots the whole application graph from its barrel — configuration, the ORM, the job
  * registry, the module scanner — none of which a totals writer needs and none of which is available
- * outside a running application. `@gauzy/plugin-cart`'s barrel is worse: it re-exports the cart
+ * outside a running application. `@irtranscripts/plugin-cart`'s barrel is worse: it re-exports the cart
  * plugin class, which imports the catalogue plugin, which imports the rest of the marketplace, so
  * reading one totals function would load every package on the platform.
  *
@@ -11,8 +11,8 @@
  * specs do, and the *things under test are the real ones*: the order totals service, and the
  * `TotalsCalculator` it delegates the chain to.
  */
-jest.mock('@gauzy/plugin-cart', () => ({
-	TotalsCalculator: jest.requireActual('@gauzy/plugin-cart/src/lib/totals/totals-calculator').TotalsCalculator
+jest.mock('@irtranscripts/plugin-cart', () => ({
+	TotalsCalculator: jest.requireActual('@irtranscripts/plugin-cart/src/lib/totals/totals-calculator').TotalsCalculator
 }));
 
 /**
@@ -25,7 +25,7 @@ jest.mock('@gauzy/plugin-cart', () => ({
  * about one cron entry, so the double keeps a ledger instead and the test reads it back through
  * `jest.requireMock`, which is the one way to reach a factory's own scope from a test body.
  */
-jest.mock('@gauzy/scheduler', () => {
+jest.mock('@irtranscripts/scheduler', () => {
 	const scheduled: Array<{ key: string; options: Record<string, any> }> = [];
 	const decorator = (options: Record<string, any>) => (_target: unknown, key: string, descriptor: unknown) => {
 		scheduled.push({ key, options });
@@ -36,7 +36,7 @@ jest.mock('@gauzy/scheduler', () => {
 	return { __scheduled: scheduled, ScheduledJob: decorator };
 });
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
@@ -44,10 +44,10 @@ jest.mock('@gauzy/core', () => {
 
 	return {
 		// The statement helpers are pure and dialect-driven; loading the real module here would pull
-		// `@gauzy/config` and the request context into a suite that doubles the barrel on purpose.
+		// `@irtranscripts/config` and the request context into a suite that doubles the barrel on purpose.
 		quoteIdentifier: (identifier: string) => `"${identifier}"`,
 		prepareSQLQuery: (query: string) => query,
-		...jest.requireActual('@gauzy/core/src/lib/money/decimal'),
+		...jest.requireActual('@irtranscripts/core/src/lib/money/decimal'),
 		BaseEntity,
 		TenantBaseEntity: BaseEntity,
 		TenantOrganizationBaseEntity: BaseEntity,
@@ -62,14 +62,14 @@ jest.mock('@gauzy/core', () => {
 		Idempotent: decorator,
 		Versioned: decorator,
 		VersionedColumn: decorator,
-		commitVersionedUpdate: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		commitVersionedUpdate: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.commitVersionedUpdate,
-		versionExpectationOf: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		versionExpectationOf: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.versionExpectationOf,
 		// The refusal the conditional write raises, from the module it raises it from: a wildcard write that
 		// lost the version race is told apart from every other failure by exactly this class and its code.
-		ApiException: jest.requireActual('@gauzy/core/src/lib/core/errors/api-exception').ApiException,
-		ApiErrorCode: jest.requireActual('@gauzy/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
+		ApiException: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-exception').ApiException,
+		ApiErrorCode: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
 		ColumnNumericTransformerPipe: class {
 			to(value: unknown) {
 				return value;
@@ -78,7 +78,7 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		RequestContext: {
 			currentUser: () => null,
 			currentUserId: () => null,
@@ -113,9 +113,9 @@ jest.mock('@gauzy/core', () => {
 		// The exact decimal primitives are pulled through the seam rather than restated: the sums this
 		// service feeds the state machine are the subject of several cases below, and arithmetic
 		// re-implemented here would make them assert the double.
-		addDecimalStrings: jest.requireActual('@gauzy/core/src/lib/money/decimal').addDecimalStrings,
-		compareDecimalStrings: jest.requireActual('@gauzy/core/src/lib/money/decimal').compareDecimalStrings,
-		subtractDecimalStrings: jest.requireActual('@gauzy/core/src/lib/money/decimal').subtractDecimalStrings
+		addDecimalStrings: jest.requireActual('@irtranscripts/core/src/lib/money/decimal').addDecimalStrings,
+		compareDecimalStrings: jest.requireActual('@irtranscripts/core/src/lib/money/decimal').compareDecimalStrings,
+		subtractDecimalStrings: jest.requireActual('@irtranscripts/core/src/lib/money/decimal').subtractDecimalStrings
 	};
 });
 
@@ -126,7 +126,7 @@ import {
 	OrderStatus,
 	OrderTransactionType,
 	TaxLineOwnerType
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { Logger } from '@nestjs/common';
 import { CronExpression } from '@nestjs/schedule';
 import { FindOperator } from 'typeorm';
@@ -1597,7 +1597,7 @@ describe('OrderTotalsService — the outbox row, through the configured ORM', ()
  */
 describe('OrderTotalsReconciliationScheduler — the schedule and the run', () => {
 	it('is scheduled nightly, on the method that runs the pass, with overlap prevented', () => {
-		const { __scheduled } = jest.requireMock('@gauzy/scheduler') as {
+		const { __scheduled } = jest.requireMock('@irtranscripts/scheduler') as {
 			__scheduled: Array<{ key: string; options: Record<string, any> }>;
 		};
 		const entry = __scheduled.find((job) => job.options.name === ORDER_TOTALS_RECONCILIATION_SCHEDULE);
@@ -1741,7 +1741,7 @@ describe('OrderTotalsService — the re-derivation inside the caller’s transac
 	// Required here rather than imported above: the classes are the decorated entities, and the schemas below
 	// target them so a repository resolved by class is the one the store maps.
 	const { DataSource, EntitySchema } = jest.requireActual('typeorm');
-	const { Adjustment, TaxLine } = jest.requireMock('@gauzy/core');
+	const { Adjustment, TaxLine } = jest.requireMock('@irtranscripts/core');
 	const { Order } = require('../order/order.entity');
 	const { OrderLine } = require('../order-line/order-line.entity');
 	const { OrderShippingMethod } = require('../order-shipping-method/order-shipping-method.entity');

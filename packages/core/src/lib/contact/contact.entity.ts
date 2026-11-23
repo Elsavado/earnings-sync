@@ -5,7 +5,7 @@ import {
 	IContact,
 	IEmployee,
 	IOrganizationContact
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	Candidate,
 	Employee,

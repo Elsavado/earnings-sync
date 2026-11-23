@@ -1,13 +1,13 @@
 {
-	"name": "@gauzy/server-api",
+	"name": "@irtranscripts/server-api",
 	"version": "0.1.0",
-	"description": "Ever Gauzy API Server",
+	"description": "Ever IRTranscripts API Server",
 	"author": {
 		"name": "Ever Co. LTD",
 		"email": "ever@ever.co",
 		"url": "https://ever.co"
 	},
-	"homepage": "https://gauzy.co",
+	"homepage": "https://irtranscripts.com",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/ever-co/ever-gauzy.git"
@@ -18,8 +18,8 @@
 	"license": "AGPL-3.0",
 	"private": true,
 	"scripts": {
-		"build": "yarn nx build gauzy-api-server --configuration=development",
-		"build:prod": "yarn nx build gauzy-api-server --configuration=production"
+		"build": "yarn nx build irtranscripts-api-server --configuration=development",
+		"build:prod": "yarn nx build irtranscripts-api-server --configuration=production"
 	},
 	"devDependencies": {
 		"@electron/rebuild": "^4.2.1",

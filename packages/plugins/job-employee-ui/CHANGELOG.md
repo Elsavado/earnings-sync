@@ -1,3 +1,3 @@
-# Changelog for @gauzy/plugin-job-employee-ui
+# Changelog for @irtranscripts/plugin-job-employee-ui
 
 ## [Unreleased]

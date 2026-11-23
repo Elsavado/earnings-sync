@@ -1,4 +1,4 @@
-# @gauzy/plugin-fulfillment
+# @irtranscripts/plugin-fulfillment
 
 How a sold thing gets to the buyer: the shipping configuration, and the
 shipments themselves.
@@ -69,7 +69,7 @@ never sends a key is unaffected.
 
 ## Dependencies
 
-`@gauzy/plugin-order` (a fulfilment is against an order, and it maintains that
-order's line counters) and `@gauzy/plugin-inventory` (reservations are consumed
+`@irtranscripts/plugin-order` (a fulfilment is against an order, and it maintains that
+order's line counters) and `@irtranscripts/plugin-inventory` (reservations are consumed
 and stock movements written through it). It also adds the foreign keys its own
 set is responsible for: the cart's and the order's chosen shipping option.

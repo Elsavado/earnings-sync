@@ -4,7 +4,7 @@ import {
 	ICandidateUpdateInput,
 	ICandidateInterview,
 	IUserUpdateInput
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 

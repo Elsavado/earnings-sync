@@ -1,7 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { OrganizationSprintCreateCommand } from '../organization-sprint.create.command';
 import { OrganizationSprintService } from '../../organization-sprint.service';
-import { IOrganizationSprint } from '@gauzy/contracts';
+import { IOrganizationSprint } from '@irtranscripts/contracts';
 
 @CommandHandler(OrganizationSprintCreateCommand)
 export class OrganizationSprintCreateHandler implements ICommandHandler<OrganizationSprintCreateCommand> {

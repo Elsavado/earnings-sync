@@ -7,7 +7,7 @@
  * by packages/plugins/legal-ui/scripts/sync-legal-content.mjs, never by hand: the publisher's prose,
  * with its own addresses and links in it, rendered without a request. A re-sync of the corpus can add
  * a link (the DPIA Support Pack of @ever-co/legal 0.5.0 links the Data Processing Addendum, the
- * Privacy Policy, the sub-processor list and the Security page on gauzy.co), and the static scan
+ * Privacy Policy, the sub-processor list and the Security page on irtranscripts.com), and the static scan
  * exempts the same files for the same reason (`ALLOWED` in static-hostnames.mjs). The workflow runs
  * this only when the harness's check-baseline-shrink reports growth (exit 1):
  *
@@ -63,7 +63,7 @@ export function decodeAttribute(value) {
 const WS = '[\\t\\n\\f\\r ]';
 
 /**
- * A URL as the browser leg records it: resolved (`https://gauzy.co` -> `https://gauzy.co/`), then the
+ * A URL as the browser leg records it: resolved (`https://irtranscripts.com` -> `https://irtranscripts.com/`), then the
  * harness's `redactUrl` (query values, the fragment and user info dropped); null when it is not an
  * absolute http(s) URL.
  */

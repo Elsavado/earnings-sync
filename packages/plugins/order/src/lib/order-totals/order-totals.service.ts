@@ -13,7 +13,7 @@ import {
 	OrderTransactionType,
 	OrderPaymentStatus,
 	TaxLineOwnerType
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	Adjustment,
 	AdjustmentService,
@@ -29,8 +29,8 @@ import {
 	compareDecimalStrings,
 	normalizeDecimalString,
 	subtractDecimalStrings
-} from '@gauzy/core';
-import { ITotalsAdjustment, ITotalsContext, ITotalsSnapshot, ITotalsTaxLine, TotalsCalculator } from '@gauzy/plugin-cart';
+} from '@irtranscripts/core';
+import { ITotalsAdjustment, ITotalsContext, ITotalsSnapshot, ITotalsTaxLine, TotalsCalculator } from '@irtranscripts/plugin-cart';
 import { Order } from '../order/order.entity';
 import {
 	ANY_ORDER_VERSION,

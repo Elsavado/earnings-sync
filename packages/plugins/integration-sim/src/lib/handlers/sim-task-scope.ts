@@ -1,4 +1,4 @@
-import { isTaskSyncAllowed } from '@gauzy/contracts';
+import { isTaskSyncAllowed } from '@irtranscripts/contracts';
 
 /** Deeper than this, an object is dropped rather than sent: a payload Sim gets is never walked only in part. */
 const MAX_DEPTH = 12;

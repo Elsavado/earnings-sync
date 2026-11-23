@@ -1,5 +1,5 @@
-import { ID } from '@gauzy/contracts';
-import { BaseQueryDTO } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { BaseQueryDTO } from '@irtranscripts/core';
 import { ApiPropertyOptional, OmitType } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsArray, IsISO8601, IsOptional, IsString, IsUUID } from 'class-validator';

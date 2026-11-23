@@ -12,8 +12,8 @@ import {
 import { NbButtonModule, NbCardModule, NbIconModule, NbSpinnerModule } from '@nebular/theme';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
-import { ID, IDocument, IDocumentVersion } from '@gauzy/contracts';
-import { ToastrService } from '@gauzy/ui-core/core';
+import { ID, IDocument, IDocumentVersion } from '@irtranscripts/contracts';
+import { ToastrService } from '@irtranscripts/ui-core/core';
 import { DocumentsService } from '../../services/documents.service';
 import { DocumentStaticViewComponent } from '../read-only/document-static-view.component';
 

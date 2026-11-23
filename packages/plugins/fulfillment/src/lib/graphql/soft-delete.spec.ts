@@ -28,21 +28,21 @@
  * second and `ShippingOptionResolver` holds the profile service second, so a case that assumed the first
  * slot would drive the wrong stub and pass on it.
  *
- * `@gauzy/core` is **not** doubled here, unlike the two sibling specs of this directory. Those substitute
+ * `@irtranscripts/core` is **not** doubled here, unlike the two sibling specs of this directory. Those substitute
  * it because they exercise the connection helpers and read nothing back from it; this suite reads the
- * permission metadata `@gauzy/core`'s own `Permissions` decorator writes, and a no-op double would leave
+ * permission metadata `@irtranscripts/core`'s own `Permissions` decorator writes, and a no-op double would leave
  * both surfaces unstated so that every comparison below passed on two `undefined`s. The barrel loads under
  * this package's `transformIgnorePatterns`, which is why the sibling plugin packages state that exception.
  * The order package is doubled because the fulfilment service reaches it for one collaborator no field of
  * the pair reads — the same substitution, for the same reason, that this package's service spec makes.
  */
 
-jest.mock('@gauzy/plugin-order', () => ({ OrderLineService: class OrderLineService {} }));
+jest.mock('@irtranscripts/plugin-order', () => ({ OrderLineService: class OrderLineService {} }));
 
 import { FieldDefinitionNode, ObjectTypeDefinitionNode, ObjectTypeExtensionNode, TypeNode } from 'graphql';
-import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionGuard, TenantPermissionGuard } from '@gauzy/core';
-import { FEATURE_GRAPHQL } from '@gauzy/core/src/lib/feature/graphql-feature.code';
+import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionGuard, TenantPermissionGuard } from '@irtranscripts/core';
+import { FEATURE_GRAPHQL } from '@irtranscripts/core/src/lib/feature/graphql-feature.code';
 import { FULFILLMENT_PERMISSIONS } from '../fulfillment.permissions';
 import { FulfillmentController } from '../fulfillment/fulfillment.controller';
 import { FulfillmentLineController } from '../fulfillment-line/fulfillment-line.controller';

@@ -1,4 +1,4 @@
-import { DecimalString, RoundingMode } from '@gauzy/contracts';
+import { DecimalString, RoundingMode } from '@irtranscripts/contracts';
 import { Money } from './money';
 import { MoneyService } from './money.service';
 import { DEFAULT_ROUNDING_STRATEGY_KEY, RoundingStrategy, roundingStrategies } from './rounding';

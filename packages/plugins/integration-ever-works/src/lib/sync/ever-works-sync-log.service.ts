@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 import { DataSource, LessThan, Not } from 'typeorm';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { EverWorksSyncLog } from './entities/ever-works-sync.entities';
 
 /** One sync log entry (plan 03 §C.1). */
@@ -12,7 +12,7 @@ export interface EverWorksSyncLogInput {
 	connectionId?: ID | null;
 	direction: 'inbound' | 'outbound' | 'system';
 	entityType?: string | null;
-	gauzyId?: ID | null;
+	irtranscriptsId?: ID | null;
 	ewId?: string | null;
 	action: string;
 	status: 'ok' | 'skipped' | 'conflict' | 'error';
@@ -42,7 +42,7 @@ export class EverWorksSyncLogService {
 			connectionId: input.connectionId ?? null,
 			direction: input.direction,
 			entityType: input.entityType ?? null,
-			gauzyId: input.gauzyId ?? null,
+			irtranscriptsId: input.irtranscriptsId ?? null,
 			ewId: input.ewId ?? null,
 			action: input.action.slice(0, 64),
 			status: input.status,

@@ -20,8 +20,8 @@ import {
 	AppError,
 	TranslateService,
 	DesktopDialog
-} from '@gauzy/desktop-lib';
-import { logger as log } from '@gauzy/desktop-core';
+} from '@irtranscripts/desktop-lib';
+import { logger as log } from '@irtranscripts/desktop-core';
 
 const appRootPath: string = path.join(__dirname, '../..');
 

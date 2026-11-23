@@ -1,1 +1,1 @@
-export * from './gauzy-cloud.service';
+export * from './irtranscripts-cloud.service';

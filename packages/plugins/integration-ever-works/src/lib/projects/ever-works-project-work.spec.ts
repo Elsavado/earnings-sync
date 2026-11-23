@@ -1,9 +1,9 @@
 /**
- * G-P2-5 "Create in Ever Works" for a Gauzy project: the create body (a repo-less `project` work,
+ * G-P2-5 "Create in Ever Works" for a IRTranscripts project: the create body (a repo-less `project` work,
  * D11 scope, `externalRef`), and the Projects-tab flow against the mock Ever Works API through the
  * real client (opt-in per project, teams first, act-as, Ever Works' switch off, no second work).
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	const entity = (name: string) => ({ [name]: class {} })[name];
 	return {
@@ -38,10 +38,10 @@ jest.mock('@gauzy/core', () => {
 		}
 	};
 });
-jest.mock('@gauzy/common', () => ({ Public: () => () => undefined }));
+jest.mock('@irtranscripts/common', () => ({ Public: () => () => undefined }));
 
 import 'reflect-metadata';
-import { Employee, OrganizationProject, RequestContext } from '@gauzy/core';
+import { Employee, OrganizationProject, RequestContext } from '@irtranscripts/core';
 import { EverWorksClient } from '../client/ever-works-client';
 import { EverWorksLinkState, EverWorksLinkType } from '../sync/entities/ever-works-sync.entities';
 import { MockEverWorksServer } from '../testing/mock-ever-works.server';
@@ -76,7 +76,7 @@ describe('project → work create body', () => {
 			website: 'https://portal.example.test',
 			teamIds: [],
 			visibility: 'organization',
-			externalRef: { source: 'gauzy', installationId: 'c1', externalId: 'p1' }
+			externalRef: { source: 'irtranscripts', installationId: 'c1', externalId: 'p1' }
 		});
 	});
 
@@ -142,8 +142,8 @@ function setup(options: { enabled?: boolean; works?: string; projectWorksEnabled
 	const linkService = {
 		byEw: async (m: string, type: string, ewId: string) =>
 			links.find((l) => l['integrationTenantId'] === m && l['entityType'] === type && l['ewId'] === ewId) ?? null,
-		byGauzy: async (m: string, type: string, gauzyId: string) =>
-			links.find((l) => l['integrationTenantId'] === m && l['entityType'] === type && l['gauzyId'] === gauzyId) ??
+		byIRTranscripts: async (m: string, type: string, irtranscriptsId: string) =>
+			links.find((l) => l['integrationTenantId'] === m && l['entityType'] === type && l['irtranscriptsId'] === irtranscriptsId) ??
 			null,
 		list: async (m: string, type: string) =>
 			links.filter((l) => l['integrationTenantId'] === m && l['entityType'] === type),
@@ -152,10 +152,10 @@ function setup(options: { enabled?: boolean; works?: string; projectWorksEnabled
 			const existing = links.find(
 				(l) =>
 					l['entityType'] === input['entityType'] &&
-					(l['ewId'] === input['ewId'] || l['gauzyId'] === input['gauzyId'])
+					(l['ewId'] === input['ewId'] || l['irtranscriptsId'] === input['irtranscriptsId'])
 			);
 			const values = {
-				gauzyId: input['gauzyId'],
+				irtranscriptsId: input['irtranscriptsId'],
 				ewId: input['ewId'],
 				ewVersion: input['ewVersion'] ?? null,
 				snapshot: JSON.stringify(input['snapshot']),
@@ -175,12 +175,12 @@ function setup(options: { enabled?: boolean; works?: string; projectWorksEnabled
 		remove: async (link: Record<string, any>) => void links.splice(links.indexOf(link), 1),
 		unlink: async (link: Record<string, any>) => void (link['state'] = EverWorksLinkState.UNLINKED)
 	};
-	const addLink = (entityType: EverWorksLinkType, gauzyId: string, ewId: string) =>
+	const addLink = (entityType: EverWorksLinkType, irtranscriptsId: string, ewId: string) =>
 		links.push({
 			id: `x-${ewId}`,
 			integrationTenantId: 'm1',
 			entityType,
-			gauzyId,
+			irtranscriptsId,
 			ewId,
 			ewVersion: null,
 			snapshot: null,
@@ -252,13 +252,13 @@ describe('EverWorksProjectsService — create in Ever Works (G-P2-5)', () => {
 			name: 'Portal',
 			visibility: 'organization',
 			teamIds: [],
-			externalRef: { source: 'gauzy', externalId: 'p1' }
+			externalRef: { source: 'irtranscripts', externalId: 'p1' }
 		});
 		expect(post.headers['idempotency-key']).toMatch(/^[0-9a-f]{64}$/);
-		expect(post.headers['x-sync-origin']).toBe('gauzy:c1');
+		expect(post.headers['x-sync-origin']).toBe('irtranscripts:c1');
 		expect(post.headers['x-act-as-user']).toBeUndefined();
 		const link = links.find((l) => l['entityType'] === EverWorksLinkType.PROJECT_WORK);
-		expect(link).toMatchObject({ gauzyId: 'p1', lastDirection: 'outbound', ewVersion: 1 });
+		expect(link).toMatchObject({ irtranscriptsId: 'p1', lastDirection: 'outbound', ewVersion: 1 });
 		expect(works.works.get(link?.['ewId'])?.['kind']).toBe('project');
 		expect(view.works.find((row) => row.ewWorkId === link?.['ewId'])?.linkedProjectId).toBe('p1');
 		await expect(service.decide('m1' as never, { createInEverWorks: ['p1' as never] })).rejects.toThrow(
@@ -314,7 +314,7 @@ describe('EverWorksProjectsService — create in Ever Works (G-P2-5)', () => {
 		expect(fallback.headers['idempotency-key']).not.toBe(refused.headers['idempotency-key']);
 		const workLinks = links.filter((l) => l['entityType'] === EverWorksLinkType.PROJECT_WORK);
 		expect(workLinks).toHaveLength(1);
-		expect(workLinks[0]['gauzyId']).toBe('p1');
+		expect(workLinks[0]['irtranscriptsId']).toBe('p1');
 	});
 
 	it('an Ever Works outage after the creates still returns their results (the view falls back to the first list)', async () => {
@@ -329,7 +329,7 @@ describe('EverWorksProjectsService — create in Ever Works (G-P2-5)', () => {
 		});
 		const view = await service.decide('m1' as never, { createInEverWorks: ['p1'] as never });
 		const link = links.find((l) => l['entityType'] === EverWorksLinkType.PROJECT_WORK);
-		expect(link?.['gauzyId']).toBe('p1');
+		expect(link?.['irtranscriptsId']).toBe('p1');
 		expect(view.works.find((row) => row.ewWorkId === link?.['ewId'])?.linkedProjectId).toBe('p1');
 		expect(view.unmatchedProjects.map((p) => p.projectId)).not.toContain('p1');
 	});
@@ -346,7 +346,7 @@ describe('EverWorksProjectsService — create in Ever Works (G-P2-5)', () => {
 		const again = await service.decide('m1' as never, { createInEverWorks: ['p1'] as never });
 		expect(again.failures).toBeUndefined();
 		expect(postsOf(mock)).toHaveLength(2);
-		expect(links.find((l) => l['entityType'] === EverWorksLinkType.PROJECT_WORK)?.['gauzyId']).toBe('p1');
+		expect(links.find((l) => l['entityType'] === EverWorksLinkType.PROJECT_WORK)?.['irtranscriptsId']).toBe('p1');
 	});
 
 	it('follows the mapping switch and the works direction, and only takes active projects of the organization', async () => {
@@ -368,7 +368,7 @@ describe('EverWorksProjectsService — create in Ever Works (G-P2-5)', () => {
 		expect(postsOf(mock)).toHaveLength(0);
 	});
 
-	it('create in Ever Works, remove the pair, create again: a new work, the first one keeps no Gauzy link (#11054 review)', async () => {
+	it('create in Ever Works, remove the pair, create again: a new work, the first one keeps no IRTranscripts link (#11054 review)', async () => {
 		const { service, mock, works, links, projects } = setup();
 		projects.push({ id: 'p1', organizationId: 'o1', name: 'Portal' });
 		await service.decide('m1' as never, { createInEverWorks: ['p1'] as never });
@@ -396,14 +396,14 @@ describe('EverWorksProjectsService — create in Ever Works (G-P2-5)', () => {
 		works.addWork(ewOrg.id, {
 			id: 'ew-work-old',
 			kind: 'project',
-			externalLinks: [{ source: 'gauzy', installationId: 'c1', externalId: 'p1', externalUrl: null }]
+			externalLinks: [{ source: 'irtranscripts', installationId: 'c1', externalId: 'p1', externalUrl: null }]
 		});
 		addLink(EverWorksLinkType.PROJECT_WORK, 'p-other', 'ew-work-old');
 		const view = await service.decide('m1' as never, { createInEverWorks: ['p1'] as never });
 		expect(view.failures?.[0]).toMatchObject({
 			projectId: 'p1',
-			message: expect.stringContaining('paired with another Gauzy project')
+			message: expect.stringContaining('paired with another IRTranscripts project')
 		});
-		expect(links.find((l) => l['ewId'] === 'ew-work-old')?.['gauzyId']).toBe('p-other');
+		expect(links.find((l) => l['ewId'] === 'ew-work-old')?.['irtranscriptsId']).toBe('p-other');
 	});
 });

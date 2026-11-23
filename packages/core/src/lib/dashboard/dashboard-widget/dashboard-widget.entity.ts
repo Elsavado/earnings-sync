@@ -3,7 +3,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { EntityRepositoryType } from '@mikro-orm/core';
 import { JoinColumn, RelationId } from 'typeorm';
 import { IsOptional, IsString, IsNumber, IsBoolean, IsUUID, IsNotEmpty } from 'class-validator';
-import { isMySQL, isPostgres } from '@gauzy/config';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
 import {
 	ID,
 	IDashboardWidget,
@@ -12,7 +12,7 @@ import {
 	IOrganizationTeam,
 	IEmployee,
 	IOrganizationProject
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	Dashboard,
 	OrganizationTeam,

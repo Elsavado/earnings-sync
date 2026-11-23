@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ReportDayData } from '@gauzy/contracts';
+import { ReportDayData } from '@irtranscripts/contracts';
 import { map, tap } from 'rxjs';
 import { MonthlyRecapService } from '../../+state/monthly.service';
 import { updateMonthWeeks, weekDateRange } from '../../../shared/features/date-range-picker';

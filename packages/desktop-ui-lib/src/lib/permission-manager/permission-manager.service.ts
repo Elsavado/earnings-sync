@@ -11,7 +11,7 @@ import {
 	tap
 } from 'rxjs';
 import { ElectronService } from '../electron/services';
-import { IOSInfo } from '@gauzy/contracts';
+import { IOSInfo } from '@irtranscripts/contracts';
 
 type PermissionStatus = 'granted' | 'denied' | 'not-determined' | 'restricted' | 'unknown';
 

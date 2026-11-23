@@ -1,6 +1,6 @@
 import { Inject, Injectable, Optional } from '@nestjs/common';
 import { DataSource } from 'typeorm';
-import { RolesEnum } from '@gauzy/contracts';
+import { RolesEnum } from '@irtranscripts/contracts';
 import { EVER_INSTANCE_ENV, EverInstanceService } from './ever-instance.service';
 import { parseInstallSource } from './install-source';
 import { boolLiteral, dialectOf, placeholder, quote, runSql, SqlDialect, toBool, toNumber } from './sql';
@@ -11,7 +11,7 @@ export interface EverOperatorCandidate {
 	email?: string | null;
 	/**
 	 * Set on the request user by `JwtStrategy` when the request is authenticated by a third-party OAuth-app token
-	 * (`@gauzy/core`'s `auth/oauth-app-scope.ts`): such a token is never the operator.
+	 * (`@irtranscripts/core`'s `auth/oauth-app-scope.ts`): such a token is never the operator.
 	 */
 	oauthApp?: unknown;
 }
@@ -29,7 +29,7 @@ interface StoredUser {
 /**
  * Who operates this installation.
  *
- * In Gauzy a super admin is an administrator of one tenant, anyone can register a tenant, and an
+ * In IRTranscripts a super admin is an administrator of one tenant, anyone can register a tenant, and an
  * e-mail address is neither unique, nor proven at registration, nor proven again when a user changes
  * it. So neither "super admin" nor "has this address" identifies the person who runs the server. The
  * operator is a super admin (now, in the database: not deleted, active, not archived) who is also:

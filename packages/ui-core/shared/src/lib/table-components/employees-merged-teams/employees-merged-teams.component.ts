@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { IEmployee } from '@gauzy/contracts';
+import { IEmployee } from '@irtranscripts/contracts';
 
 @Component({
     selector: 'ngx-employees-merged-teams',

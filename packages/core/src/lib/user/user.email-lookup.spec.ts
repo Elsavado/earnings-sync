@@ -8,7 +8,7 @@
  * LOAD with `IsEmployeeBelongsToOrganization is not a function`.
  */
 import '../core/entities/internal';
-import { IUser } from '@gauzy/contracts';
+import { IUser } from '@irtranscripts/contracts';
 import { MultiORMEnum } from '../core/utils';
 import { RequestContext } from '../core/context';
 import { UserService } from './user.service';

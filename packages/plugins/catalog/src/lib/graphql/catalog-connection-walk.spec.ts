@@ -15,13 +15,13 @@
  *   changes plan or an `UPDATE` moves a tuple — so a walk only answers every row once when the order the
  *   resolver states is closed by the row's identity.
  *
- * `@gauzy/core` is the real barrel here, unlike `catalog-connections.spec.ts` beside it, for the reason
+ * `@irtranscripts/core` is the real barrel here, unlike `catalog-connections.spec.ts` beside it, for the reason
  * `resolvers/soft-delete.spec.ts` gives: the kernel's `findAll` and its MikroORM option parser are the code
  * under test, and a double of them would assert this file's opinion rather than the platform's behaviour.
  * Only the two repositories are doubled.
  */
 
-import { MultiORMEnum, RequestContext } from '@gauzy/core';
+import { MultiORMEnum, RequestContext } from '@irtranscripts/core';
 import { CollectionService } from '../collection/collection.service';
 import { CollectionResolver } from './resolvers/collection.resolver';
 

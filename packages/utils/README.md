@@ -1,19 +1,19 @@
-# @gauzy/utils
+# @irtranscripts/utils
 
 This library was generated with [Nx](https://nx.dev).
 
 ## Description
 
-`@gauzy/utils` is a collection of common utility functions for streamlined development in JavaScript and TypeScript. It is designed for use across various frameworks, including Angular, NestJS, or any TypeScript-based environment.
+`@irtranscripts/utils` is a collection of common utility functions for streamlined development in JavaScript and TypeScript. It is designed for use across various frameworks, including Angular, NestJS, or any TypeScript-based environment.
 
 ## Installation
 
 Install the package via npm or yarn:
 
 ```bash
-npm install @gauzy/utils
+npm install @irtranscripts/utils
 # or
-yarn add @gauzy/utils
+yarn add @irtranscripts/utils
 ```
 
 ## Build

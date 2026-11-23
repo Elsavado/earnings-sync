@@ -1,6 +1,6 @@
-# @gauzy/plugin-search
+# @irtranscripts/plugin-search
 
-Global search for the Ever Gauzy platform: one index over every domain, the
+Global search for the Ever IRTranscripts platform: one index over every domain, the
 providers that answer a query, and the endpoints that read it.
 
 ## What this package owns, and what it does not

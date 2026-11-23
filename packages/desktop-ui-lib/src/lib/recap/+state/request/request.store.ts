@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store, StoreConfig } from '@datorama/akita';
-import { ITimeLogFilters, TimeLogSourceEnum } from '@gauzy/contracts';
+import { ITimeLogFilters, TimeLogSourceEnum } from '@irtranscripts/contracts';
 import { moment } from '../../shared/features/date-range-picker';
 
 export type IRequestState = ITimeLogFilters;

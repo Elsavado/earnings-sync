@@ -3,7 +3,7 @@ import { assertContentSearchQueryLength } from './content-search.guard';
 
 /**
  * The content-search minimum is a **cross-package contract**: the server rejects a shorter
- * query, and `@gauzy/plugin-docs-ui` gates its Content toggle + tooltip on the same number
+ * query, and `@irtranscripts/plugin-docs-ui` gates its Content toggle + tooltip on the same number
  * (`DOCUMENT_CONTENT_SEARCH_MIN_CHARS`). They disagreed once — the client advertised 2 while
  * this guard demanded 3, so a 2-character content search silently fell back to a name search
  * (and any client that did send it got a 400). Pinning the number here makes a one-sided

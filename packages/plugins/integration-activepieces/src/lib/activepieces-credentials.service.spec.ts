@@ -7,18 +7,18 @@
  */
 const mockCurrentTenantId = jest.fn();
 
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	RequestContext: { currentTenantId: () => mockCurrentTenantId() },
 	IntegrationService: class {},
 	IntegrationSettingService: class {},
 	IntegrationTenantService: class {}
 }));
-jest.mock('@gauzy/config', () => ({ ConfigService: class {} }));
+jest.mock('@irtranscripts/config', () => ({ ConfigService: class {} }));
 
 import { BadGatewayException, BadRequestException, ForbiddenException, Logger, NotFoundException } from '@nestjs/common';
 import { createVerify, generateKeyPairSync } from 'crypto';
 import { of } from 'rxjs';
-import { ActivepiecesConnectionMode, ActivepiecesSettingName } from '@gauzy/contracts';
+import { ActivepiecesConnectionMode, ActivepiecesSettingName } from '@irtranscripts/contracts';
 import { ACTIVEPIECES_MANAGED_AUTHN_URL, ACTIVEPIECES_PROJECTS_URL } from './activepieces.config';
 import { ActivepiecesCredentialsService, IActivepiecesCredential } from './activepieces-credentials.service';
 
@@ -89,8 +89,8 @@ describe('ActivepiecesCredentialsService', () => {
 						? {
 								data: [
 									// Another tenant's project is never taken, whatever Activepieces answers
-									{ id: 'proj-b', externalId: 'gauzy-tenant-tenant-b', created: '2026-01-01' },
-									{ id: 'proj-a', externalId: 'gauzy-tenant-tenant-a', created: '2026-02-01' }
+									{ id: 'proj-b', externalId: 'irtranscripts-tenant-tenant-b', created: '2026-01-01' },
+									{ id: 'proj-a', externalId: 'irtranscripts-tenant-tenant-a', created: '2026-02-01' }
 								]
 						  }
 						: undefined
@@ -108,7 +108,7 @@ describe('ActivepiecesCredentialsService', () => {
 				expect.objectContaining({
 					method: 'get',
 					url: ACTIVEPIECES_PROJECTS_URL,
-					params: expect.objectContaining({ externalId: 'gauzy-tenant-tenant-a' }),
+					params: expect.objectContaining({ externalId: 'irtranscripts-tenant-tenant-a' }),
 					headers: expect.objectContaining({ Authorization: 'Bearer platform-key' })
 				})
 			);
@@ -135,7 +135,7 @@ describe('ActivepiecesCredentialsService', () => {
 			expect(second.projectId).toBe('proj-new');
 			const creations = http.request.mock.calls.filter(([config]: any[]) => config.method === 'post');
 			expect(creations).toHaveLength(1);
-			expect(creations[0][0].data).toEqual(expect.objectContaining({ externalId: 'gauzy-tenant-tenant-a' }));
+			expect(creations[0][0].data).toEqual(expect.objectContaining({ externalId: 'irtranscripts-tenant-tenant-a' }));
 			// Found none, created one, then reused from the cache
 			expect(http.request).toHaveBeenCalledTimes(2);
 		});
@@ -153,7 +153,7 @@ describe('ActivepiecesCredentialsService', () => {
 						lists++;
 						// None at first; after the failed create, the other server's project holds the external id
 						return of({
-							data: { data: lists === 1 ? [] : [{ id: 'proj-other', externalId: 'gauzy-tenant-tenant-a' }] }
+							data: { data: lists === 1 ? [] : [{ id: 'proj-other', externalId: 'irtranscripts-tenant-tenant-a' }] }
 						}) as any;
 					}
 					if (config.method === 'post' && config.url === ACTIVEPIECES_PROJECTS_URL) {
@@ -185,12 +185,12 @@ describe('ActivepiecesCredentialsService', () => {
 
 		it('names its project with the configured prefix', async () => {
 			const { service, http } = setup({
-				config: { apiKey: 'platform-key', projectExternalIdPrefix: 'stage-gauzy-' },
-				respond: () => ({ data: [{ id: 'proj-s', externalId: 'stage-gauzy-tenant-a' }] })
+				config: { apiKey: 'platform-key', projectExternalIdPrefix: 'stage-irtranscripts-' },
+				respond: () => ({ data: [{ id: 'proj-s', externalId: 'stage-irtranscripts-tenant-a' }] })
 			});
 
 			expect((await service.resolve()).projectId).toBe('proj-s');
-			expect(http.request.mock.calls[0][0].params.externalId).toBe('stage-gauzy-tenant-a');
+			expect(http.request.mock.calls[0][0].params.externalId).toBe('stage-irtranscripts-tenant-a');
 		});
 
 		it('is not connected when the operator turned tenant projects off, and is not told about the installation key', async () => {
@@ -199,7 +199,7 @@ describe('ActivepiecesCredentialsService', () => {
 			const refusal = await service.resolve().catch((error) => error);
 
 			expect(refusal).toBeInstanceOf(BadRequestException);
-			expect(refusal.message).not.toContain('GAUZY_ACTIVEPIECES_API_KEY');
+			expect(refusal.message).not.toContain('IRTRANSCRIPTS_ACTIVEPIECES_API_KEY');
 			expect(http.request).not.toHaveBeenCalled();
 		});
 
@@ -239,7 +239,7 @@ describe('ActivepiecesCredentialsService', () => {
 						[ActivepiecesSettingName.CONNECTION_MODE]: ActivepiecesConnectionMode.PLATFORM_PROJECT
 					})
 				],
-				respond: () => ({ data: [{ id: 'proj-a', externalId: 'gauzy-tenant-tenant-a' }] })
+				respond: () => ({ data: [{ id: 'proj-a', externalId: 'irtranscripts-tenant-tenant-a' }] })
 			});
 
 			const credential = await service.resolve();
@@ -255,7 +255,7 @@ describe('ActivepiecesCredentialsService', () => {
 					row('it-a', { [ActivepiecesSettingName.CONNECTION_MODE]: ActivepiecesConnectionMode.PLATFORM_PROJECT }, 'org-a'),
 					row('it-b', { [ActivepiecesSettingName.API_KEY]: 'org-b-key' }, 'org-b')
 				],
-				respond: () => ({ data: [{ id: 'proj-a', externalId: 'gauzy-tenant-tenant-a' }] })
+				respond: () => ({ data: [{ id: 'proj-a', externalId: 'irtranscripts-tenant-tenant-a' }] })
 			});
 
 			const organizationB = await service.resolve({ organizationId: 'org-b' });
@@ -301,7 +301,7 @@ describe('ActivepiecesCredentialsService', () => {
 			const { service, integrationSettingService } = setup({
 				config: { apiKey: 'platform-key' },
 				rows: [row('it-1', {})],
-				respond: () => ({ data: [{ id: 'proj-a', externalId: 'gauzy-tenant-tenant-a' }] })
+				respond: () => ({ data: [{ id: 'proj-a', externalId: 'irtranscripts-tenant-tenant-a' }] })
 			});
 
 			await service.resolve();
@@ -357,8 +357,8 @@ describe('ActivepiecesCredentialsService', () => {
 			expect(decode(header)).toEqual({ alg: 'RS256', typ: 'JWT', kid: 'signing-key-1' });
 			expect(decode(claims)).toEqual(
 				expect.objectContaining({
-					externalUserId: 'gauzy-tenant-tenant-a',
-					externalProjectId: 'gauzy-tenant-tenant-a',
+					externalUserId: 'irtranscripts-tenant-tenant-a',
+					externalProjectId: 'irtranscripts-tenant-tenant-a',
 					exp: Math.floor(now / 1000) + 300
 				})
 			);

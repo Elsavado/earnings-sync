@@ -31,11 +31,11 @@ const TABLES: Record<string, { prefix: string; columns: Column[]; indexes: Index
 		columns: [
 			['integrationTenantId', varchar(36), true],
 			['entityType', varchar(32), true],
-			['gauzyId', varchar(36), true],
+			['irtranscriptsId', varchar(36), true],
 			['ewId', varchar(64), true],
 			['ewVersion', int],
 			['ewUpdatedAt', ts],
-			['gauzyUpdatedAt', ts],
+			['irtranscriptsUpdatedAt', ts],
 			['snapshot', longText],
 			['ewOnly', longText],
 			['lastDirection', varchar(16)],
@@ -47,7 +47,7 @@ const TABLES: Record<string, { prefix: string; columns: Column[]; indexes: Index
 			{ name: 'IDX_ever_works_entity_link_integration', columns: ['integrationTenantId'] },
 			{ name: 'IDX_ever_works_entity_link_state', columns: ['state'] },
 			{ name: 'UQ_ever_works_entity_link_ew', columns: ['integrationTenantId', 'entityType', 'ewId'], unique: true },
-			{ name: 'UQ_ever_works_entity_link_gauzy', columns: ['integrationTenantId', 'entityType', 'gauzyId'], unique: true }
+			{ name: 'UQ_ever_works_entity_link_irtranscripts', columns: ['integrationTenantId', 'entityType', 'irtranscriptsId'], unique: true }
 		]
 	},
 	ever_works_inbound_event: {
@@ -81,7 +81,7 @@ const TABLES: Record<string, { prefix: string; columns: Column[]; indexes: Index
 		columns: [
 			['integrationTenantId', varchar(36), true],
 			['entityType', varchar(32), true],
-			['gauzyId', varchar(36), true],
+			['irtranscriptsId', varchar(36), true],
 			['op', varchar(8), true, 'upsert'],
 			['changedFieldsHint', text],
 			['actorUserId', varchar(36)],
@@ -96,7 +96,7 @@ const TABLES: Record<string, { prefix: string; columns: Column[]; indexes: Index
 			{
 				// Coalescing: one pending change per record (MySQL keeps it with the service's row lock).
 				name: 'UQ_ever_works_outbound_change_pending',
-				columns: ['integrationTenantId', 'entityType', 'gauzyId'],
+				columns: ['integrationTenantId', 'entityType', 'irtranscriptsId'],
 				unique: true,
 				where: { postgres: `"status" = 'pending'`, sqlite: `"status" = 'pending'` }
 			}
@@ -109,7 +109,7 @@ const TABLES: Record<string, { prefix: string; columns: Column[]; indexes: Index
 			['connectionId', varchar(36)],
 			['direction', varchar(16), true],
 			['entityType', varchar(32)],
-			['gauzyId', varchar(36)],
+			['irtranscriptsId', varchar(36)],
 			['ewId', varchar(64)],
 			['action', varchar(64), true],
 			['status', varchar(16), true],

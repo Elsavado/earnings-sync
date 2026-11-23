@@ -1,9 +1,9 @@
-import { EventOutboxModule, GraphqlSubscriptionModule, RolePermissionModule } from '@gauzy/core';
+import { EventOutboxModule, GraphqlSubscriptionModule, RolePermissionModule } from '@irtranscripts/core';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { ALL_FULFILLMENT_ENTITIES } from './entities';
-import { OrderModule } from '@gauzy/plugin-order';
+import { OrderModule } from '@irtranscripts/plugin-order';
 import { FulfillmentController } from './fulfillment/fulfillment.controller';
 import { FulfillmentService } from './fulfillment/fulfillment.service';
 import { TypeOrmFulfillmentRepository } from './fulfillment/repository/type-orm-fulfillment.repository';

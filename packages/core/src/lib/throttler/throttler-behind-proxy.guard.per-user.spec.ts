@@ -5,8 +5,8 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { sign } from 'jsonwebtoken';
 import { createHmac } from 'node:crypto';
 import * as request from 'supertest';
-import { environment } from '@gauzy/config';
-import { Public } from '@gauzy/common';
+import { environment } from '@irtranscripts/config';
+import { Public } from '@irtranscripts/common';
 import { ACCESS_TOKEN_TYPE } from '../access-token/type.token';
 import { ThrottlerBehindProxyGuard } from './throttler-behind-proxy.guard';
 import {

@@ -2,7 +2,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { ErrorHandlingService } from '../notification/error-handling.service';
 import { Store } from '../store/store.service';
 import { PermissionsService } from './permissions.service';

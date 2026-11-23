@@ -472,12 +472,12 @@ function load(file) {
 	return entry;
 }
 
-/** `@gauzy/*` package name -> its entry file, from the root tsconfig's paths. */
+/** `@irtranscripts/*` package name -> its entry file, from the root tsconfig's paths. */
 const PATHS = (() => {
 	const map = new Map();
 	try {
 		const text = readFileSync(join(ROOT, 'tsconfig.json'), 'utf8');
-		const re = /"(@gauzy\/[^"]+)"\s*:\s*\[\s*"([^"]+)"/g;
+		const re = /"(@irtranscripts\/[^"]+)"\s*:\s*\[\s*"([^"]+)"/g;
 		let match;
 		while ((match = re.exec(text)) !== null) map.set(match[1], join(ROOT, match[2]));
 	} catch {
@@ -957,7 +957,7 @@ if (offending.length > 0 || staleExemptions.length > 0 || unchecked.length > 0 |
 	console.error('');
 	console.error(
 		'Build an update body as `WithoutInitializers(PartialType(CreateXDTO))` (packages/common/src/lib/dto/' +
-			'without-initializers.ts, exported from @gauzy/common) - or wrap whatever mapped type or DTO it extends - and' +
+			'without-initializers.ts, exported from @irtranscripts/common) - or wrap whatever mapped type or DTO it extends - and' +
 			' declare no initializer on the update class itself.'
 	);
 	process.exit(1);

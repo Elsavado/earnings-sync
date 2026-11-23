@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { environment } from '../environments/environment';
-import { LocalStore } from '@gauzy/desktop-lib';
+import { LocalStore } from '@irtranscripts/desktop-lib';
 import { screen } from 'electron';
 import { CONSTANT } from '../constant';
 import { organizationScreenshotPeriod, TOrganizationScreenshotSetting } from './screenshot-interval';

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SettingsComponent } from './settings.component';
-import { environment } from '@gauzy/ui-config';
-import { GAUZY_ENV } from '../constants';
+import { environment } from '@irtranscripts/ui-config';
+import { IRTRANSCRIPTS_ENV } from '../constants';
 import { FormsModule } from '@angular/forms';
 import { LanguageSelectorComponent } from '../language/language-selector.component';
 describe('SettingsComponent', () => {
@@ -10,9 +10,9 @@ describe('SettingsComponent', () => {
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
 			imports: [SettingsComponent],
-			// The desktop apps provide this library's GAUZY_ENV token as the web environment plus their own
+			// The desktop apps provide this library's IRTRANSCRIPTS_ENV token as the web environment plus their own
 			// flags (apps/desktop/src/main.ts). The web environment is enough for a render.
-			providers: [{ provide: GAUZY_ENV, useValue: environment }]
+			providers: [{ provide: IRTRANSCRIPTS_ENV, useValue: environment }]
 		})
 			// LanguageSelectorComponent (rendered inside settings) binds `[(ngModel)]` on its nb-select but does
 			// not import FormsModule, so the zone test env rejects the template. The binding is dead in the app

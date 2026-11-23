@@ -1,4 +1,4 @@
-import { ID, PluginSubscriptionType } from '@gauzy/contracts';
+import { ID, PluginSubscriptionType } from '@irtranscripts/contracts';
 import { IQuery } from '@nestjs/cqrs';
 
 export class GetActivePluginPlansQuery implements IQuery {

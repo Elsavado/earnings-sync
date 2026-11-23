@@ -1,4 +1,4 @@
-import { IJobPreset } from '@gauzy/contracts';
+import { IJobPreset } from '@irtranscripts/contracts';
 import { ICommand } from '@nestjs/cqrs';
 
 export class CreateJobPresetCommand implements ICommand {

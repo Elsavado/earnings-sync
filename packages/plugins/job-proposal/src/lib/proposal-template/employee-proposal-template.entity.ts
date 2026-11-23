@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { RelationId } from 'typeorm';
-import { ID, IEmployee, IEmployeeProposalTemplate } from '@gauzy/contracts';
+import { ID, IEmployee, IEmployeeProposalTemplate } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	Employee,
@@ -8,7 +8,7 @@ import {
 	MultiORMEntity,
 	MultiORMManyToOne,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { MikroOrmEmployeeProposalTemplateRepository } from './repository/mikro-orm-employee-proposal-template.repository';
 
 @MultiORMEntity('employee_proposal_template', { mikroOrmRepository: () => MikroOrmEmployeeProposalTemplateRepository })

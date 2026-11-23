@@ -1,6 +1,6 @@
-// The registry's domain and shared barrels drag in the entity graph through `@gauzy/core`. The handler only
+// The registry's domain and shared barrels drag in the entity graph through `@irtranscripts/core`. The handler only
 // needs the ORM enum, the LIKE operator (as resolved on a non-PostgreSQL database) and the sort allowlists.
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	LIKE_OPERATOR: 'LIKE',
 	MultiORMEnum: { TypeORM: 'typeorm', MikroORM: 'mikro-orm' }
 }));

@@ -1,5 +1,5 @@
-import { ID } from '@gauzy/contracts';
-import { PermissionGuard, RequestContext, TenantPermissionGuard } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { PermissionGuard, RequestContext, TenantPermissionGuard } from '@irtranscripts/core';
 import { Controller, Get, HttpStatus, ParseUUIDPipe, Query, UseGuards } from '@nestjs/common';
 import { QueryBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';

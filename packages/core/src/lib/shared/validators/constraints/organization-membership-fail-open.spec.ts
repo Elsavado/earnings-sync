@@ -80,7 +80,7 @@ describe('OrganizationBelongsToUserConstraint', () => {
 
 	/** `validate()` exactly as it stood before the fix, over the same repository double. */
 	const legacyValidate = async (value: any): Promise<boolean> => {
-		// `isEmpty` from @gauzy/utils treats `{}`, `{ id: null }` and `{ id: '' }` as empty.
+		// `isEmpty` from @irtranscripts/utils treats `{}`, `{ id: null }` and `{ id: '' }` as empty.
 		const isEmptyValue =
 			value === null ||
 			value === undefined ||

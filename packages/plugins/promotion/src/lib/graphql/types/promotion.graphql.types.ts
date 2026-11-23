@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { ID, IPagination, IOperation, DecimalString } from '@gauzy/contracts';
+import { ID, IPagination, IOperation, DecimalString } from '@irtranscripts/contracts';
 import {
 	CampaignBudgetType,
 	CampaignStatus,

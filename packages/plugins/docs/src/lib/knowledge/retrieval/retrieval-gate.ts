@@ -2,7 +2,7 @@ import {
 	DocumentKnowledgeStatusEnum,
 	DocumentReviewReasonEnum,
 	DocumentReviewStatusEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 
 /**
  * The review circuit breaker and retrievability predicates (§12/§9.2 of the AI-knowledge

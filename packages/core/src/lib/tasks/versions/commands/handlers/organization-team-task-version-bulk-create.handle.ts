@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { ITaskVersion } from '@gauzy/contracts';
+import { ITaskVersion } from '@irtranscripts/contracts';
 import { OrganizationTeamTaskVersionBulkCreateCommand } from '../organization-team-task-version-bulk-create.command';
 import { TaskVersionService } from '../../version.service';
 

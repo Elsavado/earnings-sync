@@ -3,7 +3,7 @@ import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, environment } from '@gauzy/config';
+import { ConfigModule, environment } from '@irtranscripts/config';
 import {
 	IntegrationEntitySettingModule,
 	IntegrationMapModule,
@@ -13,7 +13,7 @@ import {
 	RolePermissionModule,
 	TimerModule,
 	UserModule
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { ZapierService } from './zapier.service';
 import { ZapierController } from './zapier.controller';
 import { ZapierAuthorizationController } from './zapier-authorization.controller';

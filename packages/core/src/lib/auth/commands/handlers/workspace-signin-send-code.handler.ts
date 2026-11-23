@@ -1,6 +1,6 @@
 import { HttpStatus } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { LanguagesEnum } from '@gauzy/contracts';
+import { LanguagesEnum } from '@irtranscripts/contracts';
 import { WorkspaceSigninSendCodeCommand } from '../workspace-signin-send-code.command';
 import { AuthService } from '../../auth.service';
 

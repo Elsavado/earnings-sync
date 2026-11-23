@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { IChangelog } from "@gauzy/contracts";
+import { IChangelog } from "@irtranscripts/contracts";
 
 @Component({
     selector: 'ngx-register-side-single-feature',

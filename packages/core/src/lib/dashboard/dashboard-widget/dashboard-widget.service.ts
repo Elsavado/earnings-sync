@@ -8,7 +8,7 @@ import {
 	IDashboardWidgetCreateInput,
 	IDashboardWidgetUpdateInput,
 	ID
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from '../../core/crud';
 import { RequestContext } from '../../core/context';
 import { DashboardWidget } from './dashboard-widget.entity';

@@ -116,7 +116,7 @@ export class BillingService {
 		return this.stripeSubscriptionService.mode;
 	}
 
-	/** The Ever product this deployment bills for (`BILLING_PRODUCT`, default `gauzy`). */
+	/** The Ever product this deployment bills for (`BILLING_PRODUCT`, default `irtranscripts`). */
 	get product(): string | null {
 		return this.stripeSubscriptionService.billingProduct;
 	}
@@ -163,7 +163,7 @@ export class BillingService {
 	/**
 	 * Plans this tenant could switch to, taken from the prices actually present in Stripe.
 	 *
-	 * `productKey` narrows the list to one Ever product (e.g. `gauzy`), since a Gauzy tenant should
+	 * `productKey` narrows the list to one Ever product (e.g. `irtranscripts`), since a IRTranscripts tenant should
 	 * not be offered Ever Demand's tiers.
 	 */
 	async listPlans(productKey: string, hosting = 'cloud'): Promise<BillingPlan[]> {
@@ -213,7 +213,7 @@ export class BillingService {
 		hosting = 'cloud'
 	): Promise<BillingSubscription> {
 		// The catalog is shared by every Ever product, so a lookup key from another one is perfectly
-		// valid in Stripe and would otherwise be accepted here — moving a Gauzy tenant onto, say,
+		// valid in Stripe and would otherwise be accepted here — moving a IRTranscripts tenant onto, say,
 		// Ever Demand's pricing. `listPlans` already narrows what the UI offers; this refuses anything
 		// outside that set regardless of what the client sends.
 		const allowedPrefix = `ever_${productKey}_${hosting}_`;
@@ -225,7 +225,7 @@ export class BillingService {
 
 		// The CURRENT subscription must be this product's too, not only the target. Otherwise a tenant
 		// linked to a customer who holds a Teams or Works subscription could re-price that subscription
-		// onto a Gauzy price and bill the proration to someone else's card. findCurrentSubscription
+		// onto a IRTranscripts price and bill the proration to someone else's card. findCurrentSubscription
 		// already filters on the deployment's product; this says the same for the product the caller
 		// asked about, so the two can never disagree silently.
 		if (!subscriptionIsForProduct(subscription, productKey)) {
@@ -431,8 +431,8 @@ export class BillingService {
 		);
 
 		// Only this deployment's product. The Stripe account is shared by every Ever product, so one
-		// customer can hold, say, a Teams subscription beside a Gauzy one — and the Gauzy billing page
-		// must neither show that as the Gauzy plan nor cancel or re-price it.
+		// customer can hold, say, a Teams subscription beside a IRTranscripts one — and the IRTranscripts billing page
+		// must neither show that as the IRTranscripts plan nor cancel or re-price it.
 		const product = this.product;
 		const live = subscriptions.filter((s) => LIVE_STATUSES.has(s.status) && subscriptionIsForProduct(s, product));
 		if (!live.length) return null;

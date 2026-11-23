@@ -19,7 +19,7 @@
         size="small"
         (click)="testConnection()"
         [disabled]="!canEdit || (isLoading$ | async)"
-        *gauzySpinnerButton="isLoading$ | async"
+        *irtranscriptsSpinnerButton="isLoading$ | async"
         nbTooltip="Test connection with current settings">
         <nb-icon icon="flash-outline"></nb-icon>
         Test
@@ -408,7 +408,7 @@
                                 nbButton
                                 status="primary"
                                 [disabled]="!settingsForm.valid || !settingsForm.dirty || (isSaving$ | async)"
-                                *gauzySpinnerButton="isSaving$ | async">
+                                *irtranscriptsSpinnerButton="isSaving$ | async">
                                 Save Settings
                               </button>
                             </div>

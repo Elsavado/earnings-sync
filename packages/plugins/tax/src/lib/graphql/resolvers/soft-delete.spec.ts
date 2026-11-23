@@ -24,14 +24,14 @@
  * visible without a database behind it.
  *
  * This package reaches the kernel's real barrel already — `RequestContext` and `Money` are imported
- * from it by the service specs — so the reason the sibling packages give for doubling `@gauzy/core`
+ * from it by the service specs — so the reason the sibling packages give for doubling `@irtranscripts/core`
  * (the ESM-only `uuid` nested in the request context) does not apply here: `transformIgnorePatterns`
  * in this package's jest config transforms it instead.
  */
 
 import { FieldDefinitionNode, ObjectTypeDefinitionNode, ObjectTypeExtensionNode, TypeNode } from 'graphql';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionGuard, TenantPermissionGuard } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionGuard, TenantPermissionGuard } from '@irtranscripts/core';
 import { TAX_PERMISSION_VALUES, taxPermission } from '../../tax.permissions';
 import { TaxCategoryController } from '../../tax-category/tax-category.controller';
 import { TaxRateController } from '../../tax-rate/tax-rate.controller';

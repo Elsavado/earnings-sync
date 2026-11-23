@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { ID, IInvoiceItem, IInvoiceItemCreateInput } from '@gauzy/contracts';
+import { ID, IInvoiceItem, IInvoiceItemCreateInput } from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from './../core/crud';
 import { InvoiceItem } from './invoice-item.entity';
 import { MikroOrmInvoiceItemRepository } from './repository/mikro-orm-invoice-item.repository';

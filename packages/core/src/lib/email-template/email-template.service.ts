@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Brackets, IsNull, SaveOptions, SelectQueryBuilder, WhereExpressionBuilder } from 'typeorm';
 import { SOFT_DELETABLE_FILTER } from 'mikro-orm-soft-delete';
-import { EmailTemplateEnum, ID, IEmailTemplate, IPagination, LanguagesEnum } from '@gauzy/contracts';
-import { isEmpty, isNotEmpty, parseToBoolean } from '@gauzy/utils';
+import { EmailTemplateEnum, ID, IEmailTemplate, IPagination, LanguagesEnum } from '@irtranscripts/contracts';
+import { isEmpty, isNotEmpty, parseToBoolean } from '@irtranscripts/utils';
 import { EmailTemplate } from './email-template.entity';
 import { CrudService, BaseQueryDTO } from './../core/crud';
 import { IFindManyOptions, IFindOneOptions } from './../core/crud/icrud.service';

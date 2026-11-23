@@ -5,7 +5,7 @@
  * `StockLevelService.applyMovement`, inside one transaction, together with the level row update and
  * the append-only ledger row that records the resulting quantity.
  */
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { StockMovementType, StockMovementReferenceType } from './../inventory.enums';
 
 /**

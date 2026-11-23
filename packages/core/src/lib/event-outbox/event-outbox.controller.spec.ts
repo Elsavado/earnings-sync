@@ -28,8 +28,8 @@ jest.mock('../shared/guards', () => ({
 	FeatureFlagGuard: class FeatureFlagGuard {}
 }));
 
-jest.mock('@gauzy/config', () => ({
-	...jest.requireActual('@gauzy/config'),
+jest.mock('@irtranscripts/config', () => ({
+	...jest.requireActual('@irtranscripts/config'),
 	isPostgres: () => true,
 	isMySQL: () => false
 }));
@@ -47,8 +47,8 @@ import '../core/entities/internal';
 
 import { HttpException, NotFoundException, RequestMethod } from '@nestjs/common';
 import { METHOD_METADATA, PATH_METADATA } from '@nestjs/common/constants';
-import { EventOutboxStatus, PermissionsEnum } from '@gauzy/contracts';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
+import { EventOutboxStatus, PermissionsEnum } from '@irtranscripts/contracts';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { EventDeliveryController } from './event-delivery.controller';
 import { EventOutboxController } from './event-outbox.controller';

@@ -2,7 +2,7 @@
  * ESM interop for the CommonJS-compiled API.
  *
  * The Vercel AI SDK v7 family (`ai`, `@ai-sdk/*`, provider packages) is
- * ESM-only. This package compiles to CommonJS (like the rest of the Gauzy
+ * ESM-only. This package compiles to CommonJS (like the rest of the IRTranscripts
  * backend), so a plain `import` would be emitted as `require()`.
  *
  * On the platform's required Node.js (>= 22.12), `require(esm)` works
@@ -11,7 +11,7 @@
  * true dynamic `import()`, built via the Function constructor so TypeScript
  * does not rewrite it to `require()`.
  *
- * Provider plugins (`@gauzy/plugin-ai-provider-*`) reuse this helper for
+ * Provider plugins (`@irtranscripts/plugin-ai-provider-*`) reuse this helper for
  * their own ESM-only provider packages.
  */
 

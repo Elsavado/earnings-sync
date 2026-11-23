@@ -7,7 +7,7 @@
  * file into `dist/apps/<x>`, which is what `electron-builder --project dist/apps/<x>` reads. When the stamp does
  * not reach dist (e.g. pack runs after the copy), electron-builder silently falls back to its default `latest`
  * channel and publishes `latest.yml` / `latest-linux*.yml`, while installed apps only ever request
- * `latest-${process.arch}` (desktop-lib update-strategy), so they stop auto-updating. Gauzy Server shipped like
+ * `latest-${process.arch}` (desktop-lib update-strategy), so they stop auto-updating. IRTranscripts Server shipped like
  * that from v107 to v111.44.45 and nobody noticed for 4.5 months.
  *
  * Usage (from the repository root, right before `yarn electron-builder ... --project <dir>`):

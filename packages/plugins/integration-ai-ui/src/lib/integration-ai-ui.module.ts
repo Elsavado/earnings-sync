@@ -10,7 +10,7 @@ import {
 } from '@nebular/theme';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { TranslatePipe } from '@ngx-translate/core';
-import { SharedModule, WorkInProgressModule } from '@gauzy/ui-core/shared';
+import { SharedModule, WorkInProgressModule } from '@irtranscripts/ui-core/shared';
 import { IntegrationAiRoutes } from './integration-ai.routes';
 import { IntegrationAILayoutComponent } from './integration-ai.layout.component';
 import { IntegrationAIAuthorizationComponent } from './components/authorization/authorization.component';

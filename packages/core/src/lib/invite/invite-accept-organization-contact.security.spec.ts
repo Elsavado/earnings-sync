@@ -6,7 +6,7 @@
 import '../core/entities/internal';
 import { ValidationPipe } from '@nestjs/common';
 import { PIPES_METADATA } from '@nestjs/common/constants';
-import { CurrenciesEnum, RolesEnum } from '@gauzy/contracts';
+import { CurrenciesEnum, RolesEnum } from '@irtranscripts/contracts';
 import { AcceptOrganizationContactInviteDTO } from './dto';
 import { InviteController } from './invite.controller';
 import {

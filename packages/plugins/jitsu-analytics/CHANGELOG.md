@@ -1,3 +1,3 @@
-# Changelog for @gauzy/plugin-jitsu-analytics
+# Changelog for @irtranscripts/plugin-jitsu-analytics
 
 ## [Unreleased]

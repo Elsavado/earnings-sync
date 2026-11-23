@@ -1,4 +1,4 @@
-import { ID, ITimeLog, ITimerStatus } from '@gauzy/contracts';
+import { ID, ITimeLog, ITimerStatus } from '@irtranscripts/contracts';
 
 /**
  * Union type for all possible timer event data types

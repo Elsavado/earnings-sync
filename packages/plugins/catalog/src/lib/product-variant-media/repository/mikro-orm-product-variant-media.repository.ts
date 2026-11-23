@@ -1,4 +1,4 @@
-﻿import { MikroOrmBaseEntityRepository } from '@gauzy/core';
+﻿import { MikroOrmBaseEntityRepository } from '@irtranscripts/core';
 import { ProductVariantMedia } from '../product-variant-media.entity';
 
 /**

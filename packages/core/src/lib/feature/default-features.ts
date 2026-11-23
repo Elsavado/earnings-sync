@@ -1,8 +1,8 @@
-import { gauzyToggleFeatures } from '@gauzy/config';
-import { FeatureEnum, IFeatureCreateInput } from '@gauzy/contracts';
+import { irtranscriptsToggleFeatures } from '@irtranscripts/config';
+import { FeatureEnum, IFeatureCreateInput } from '@irtranscripts/contracts';
 import { COMMERCE_CATALOGUE } from './commerce-feature-catalogue';
 
-const features = gauzyToggleFeatures;
+const features = irtranscriptsToggleFeatures;
 
 /**
  * The commerce catalogue, in the shape the fresh-install seed reads.
@@ -378,7 +378,7 @@ export const DEFAULT_FEATURES: IFeatureCreateInput[] = [
 			{
 				name: 'Help Center',
 				code: FeatureEnum.FEATURE_ORGANIZATION_HELP_CENTER,
-				description: 'Find out more about how to use Gauzy',
+				description: 'Find out more about how to use IRTranscripts',
 				image: 'help.png',
 				link: 'help',
 				isEnabled: features.FEATURE_ORGANIZATION_HELP_CENTER,

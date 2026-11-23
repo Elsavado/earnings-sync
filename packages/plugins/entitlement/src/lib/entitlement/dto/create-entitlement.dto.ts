@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsEmail, IsEnum, IsInt, IsOptional, IsUUID, Min } from 'class-validator';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { EntitlementKind } from '../../entitlement.enums';
 import { EntitlementDTO } from './entitlement.dto';
 

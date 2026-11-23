@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { JoinColumn, RelationId } from 'typeorm';
 import { IsEnum, IsOptional, IsUUID } from 'class-validator';
-import { ID, ITask, ITaskLinkedIssue, TaskRelatedIssuesRelationEnum } from '@gauzy/contracts';
+import { ID, ITask, ITaskLinkedIssue, TaskRelatedIssuesRelationEnum } from '@irtranscripts/contracts';
 import { Task } from './../task.entity';
 import { TenantOrganizationBaseEntity } from './../../core/entities/internal';
 import { ColumnIndex, MultiORMColumn, MultiORMEntity, MultiORMManyToOne } from './../../core/decorators/entity';

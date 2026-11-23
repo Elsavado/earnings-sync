@@ -1,6 +1,6 @@
-// `@gauzy/core` drags in the entity graph; the handler only reads the caller from the request context.
+// `@irtranscripts/core` drags in the entity graph; the handler only reads the caller from the request context.
 const mockContext = { userId: 'user-a', tenantId: 'tenant-a' as string | null };
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	RequestContext: {
 		currentUserId: () => mockContext.userId,
 		currentTenantId: () => mockContext.tenantId

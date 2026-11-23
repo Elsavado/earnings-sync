@@ -1,7 +1,7 @@
 import '../core/entities/internal';
 
 import { SOFT_DELETABLE_FILTER } from 'mikro-orm-soft-delete';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context';
 import { CrudService } from '../core/crud/crud.service';
 import { MultiORMEnum } from '../core/utils';

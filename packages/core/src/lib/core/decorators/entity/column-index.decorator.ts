@@ -1,6 +1,6 @@
 import { Index as TypeOrmIndex, IndexOptions as TypeOrmIndexOptions } from 'typeorm';
 import { Index as MikroOrmIndex, IndexOptions as MikroOrmIndexOptions, Unique as MikroUnique } from '@mikro-orm/core';
-import { isPlainObject } from '@gauzy/utils';
+import { isPlainObject } from '@irtranscripts/utils';
 import { MultiORMEnum, getORMType } from '../../utils';
 
 // Extend your TypeOrmIndexOptions to include MikroOrm options as well

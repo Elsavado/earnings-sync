@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { PluginService, PluginSubscriptionPlanService } from '../../../../domain';
 import { IPluginSubscriptionPlan } from '../../../../shared';
 import { UpdatePluginSubscriptionPlanCommand } from '../update-plugin-subscription-plan.command';

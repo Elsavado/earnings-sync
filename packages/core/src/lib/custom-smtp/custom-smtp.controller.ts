@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Query, UseGuards, UsePipes } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ISMTPConfig } from '@gauzy/common';
-import { ICustomSmtp, ID, PermissionsEnum } from '@gauzy/contracts';
+import { ISMTPConfig } from '@irtranscripts/common';
+import { ICustomSmtp, ID, PermissionsEnum } from '@irtranscripts/contracts';
 import { Permissions } from './../shared/decorators';
 import { AbstractValidationPipe, UUIDValidationPipe, UseValidationPipe } from './../shared/pipes';
 import { PermissionGuard, TenantPermissionGuard } from './../shared/guards';

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { PluginSettingsRegistryService } from '@gauzy/plugin-ui';
+import { PluginSettingsRegistryService } from '@irtranscripts/plugin-ui';
 import { useInjector } from './use-injector';
 import { useObservable } from './use-observable';
 

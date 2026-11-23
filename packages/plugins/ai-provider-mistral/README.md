@@ -1,7 +1,7 @@
-# @gauzy/plugin-ai-provider-mistral
+# @irtranscripts/plugin-ai-provider-mistral
 
-Mistral AI provider plugin for the Ever Gauzy AI chat engine
-([`@gauzy/plugin-ai-chat`](../ai-chat)). On bootstrap it registers the
+Mistral AI provider plugin for the Ever IRTranscripts AI chat engine
+([`@irtranscripts/plugin-ai-chat`](../ai-chat)). On bootstrap it registers the
 `mistral` provider with the chat engine's `AiProviderRegistry`. Chat models are
 created lazily through the ESM-only
 [`@ai-sdk/openai-compatible`](https://www.npmjs.com/package/@ai-sdk/openai-compatible)

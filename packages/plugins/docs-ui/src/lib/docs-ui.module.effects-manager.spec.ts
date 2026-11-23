@@ -7,7 +7,7 @@ import { join } from 'path';
  * `@ngneat/effects-ng`'s `provideEffectsManager()` is documented "Must be called at the root
  * level": it runs `initEffects()`, which creates the effects manager and subscribes it to the
  * GLOBAL `actions` stream. The app root already provides it
- * (apps/gauzy/src/app/bootstrap.module.ts). When `DocsUiModule` — a LAZY-loaded module — provided
+ * (apps/irtranscripts/src/app/bootstrap.module.ts). When `DocsUiModule` — a LAZY-loaded module — provided
  * it a SECOND time, first navigation to the hub stood up a second manager on the same global
  * stream and re-entered synchronously, pegging the main thread. The route wedged BEFORE any HTTP
  * (before the guards' `/api/auth/permissions` call), so every unit test passed while the feature

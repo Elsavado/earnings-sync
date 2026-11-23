@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BaseEntityEnum, IFavorite, IFavoriteCreateInput, PermissionsEnum, IOrganization } from '@gauzy/contracts';
+import { BaseEntityEnum, IFavorite, IFavoriteCreateInput, PermissionsEnum, IOrganization } from '@irtranscripts/contracts';
 import { Store } from '../store/store.service';
 import { FavoriteService } from './favorite.service';
 import { FavoriteStoreService } from './favorite-store.service';

@@ -1,7 +1,7 @@
 {
-	"name": "@gauzy/desktop-activity",
+	"name": "@irtranscripts/desktop-activity",
 	"version": "0.1.0",
-	"description": "Ever Gauzy Platform desktop activity",
+	"description": "Ever IRTranscripts Platform desktop activity",
 	"author": {
 		"name": "Ever Co. LTD",
 		"email": "ever@ever.co",
@@ -47,7 +47,7 @@
 		"electron",
 		"desktop",
 		"desktop-activity",
-		"ever-gauzy",
+		"ever-irtranscripts",
 		"typescript",
 		"sqlite",
 		"knex",

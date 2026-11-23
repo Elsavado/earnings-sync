@@ -1,5 +1,5 @@
-import { PermissionsEnum } from '@gauzy/contracts';
-import { defineDeclarativePlugin, IPluginI18nService, PluginRouteInput } from '@gauzy/plugin-ui';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { defineDeclarativePlugin, IPluginI18nService, PluginRouteInput } from '@irtranscripts/plugin-ui';
 import {
 	DASHBOARD_TIME_TRACK_PATH,
 	DASHBOARD_TIME_TRACK_ROUTE,
@@ -10,13 +10,13 @@ import en from '../i18n/en.json';
 /**
  * React UI Plugin Definition — the React flavour of the Time Tracking dashboard.
  *
- * Renders the SAME dashboard as `@gauzy/plugin-dashboard-time-track-angular-ui` — title with
+ * Renders the SAME dashboard as `@irtranscripts/plugin-dashboard-time-track-angular-ui` — title with
  * period prefix and breadcrumb, timezone / time-format selector, "Manage widgets" popover with
  * Undo, Auto Refresh + Refresh, the six counter widgets (Members worked, Projects worked, Today's
  * Activity, Worked today, Worked this week, Weekly Activity) and the six windows (Recent
  * Activities with the screenshot carousel and gallery, Manual Time, Tasks, Projects, Apps & URLs,
  * Members), each with its ⋮ Collapse / Expand / Move / Delete menu and drag & drop reordering —
- * built with React 19 through the `@gauzy/ui-react` bridge. Data, layout persistence
+ * built with React 19 through the `@irtranscripts/ui-react` bridge. Data, layout persistence
  * (`Store.widgets` / `Store.windows`), permissions, dialogs and navigation reuse the Angular
  * services via the injector, so a tenant can flip between the two flavours (Settings → General →
  * "Preferred UI") without losing state.
@@ -41,7 +41,7 @@ import en from '../i18n/en.json';
  *
  * Add to your plugin config:
  * ```typescript
- * import { DashboardTimeTrackReactUiPlugin } from '@gauzy/plugin-dashboard-time-track-react-ui';
+ * import { DashboardTimeTrackReactUiPlugin } from '@irtranscripts/plugin-dashboard-time-track-react-ui';
  *
  * export const PLUGIN_UI_CONFIG: PluginUiConfig = {
  *   plugins: [DashboardTimeTrackReactUiPlugin]

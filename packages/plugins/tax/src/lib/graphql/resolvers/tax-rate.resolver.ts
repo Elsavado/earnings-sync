@@ -1,9 +1,9 @@
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { NotFoundException, UseGuards } from '@nestjs/common';
 import { FindManyOptions, FindOptionsWhere, In } from 'typeorm';
-import { DecimalString, ID } from '@gauzy/contracts';
-import { FEATURE_GRAPHQL, FeatureFlagGuard, PermissionGuard, Permissions, TenantPermissionGuard } from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+import { DecimalString, ID } from '@irtranscripts/contracts';
+import { FEATURE_GRAPHQL, FeatureFlagGuard, PermissionGuard, Permissions, TenantPermissionGuard } from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { TAX_PERMISSION_VALUES, taxPermission } from '../../tax.permissions';
 import { IResolvedTaxRate, TaxCalculationResult, TaxWriteInput } from '../../tax.types';
 import { TaxRatePart } from '../../tax-rate-part/tax-rate-part.entity';

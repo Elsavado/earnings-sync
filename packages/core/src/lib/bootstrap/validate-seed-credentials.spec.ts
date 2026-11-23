@@ -1,4 +1,4 @@
-import { environment } from '@gauzy/config';
+import { environment } from '@irtranscripts/config';
 import { validateSeedCredentials } from './validate-secrets';
 
 /**
@@ -45,7 +45,7 @@ describe('validateSeedCredentials', () => {
 			delete process.env[key];
 		}
 
-		// `environment` was frozen from the ambient process env when @gauzy/config was first
+		// `environment` was frozen from the ambient process env when @irtranscripts/config was first
 		// imported, so pin it to the SHIPPED DEFAULTS here: without this, a developer machine that
 		// happens to carry a .env would make "unset" mean something different for them than for CI.
 		savedCredentials = { ...(environment.demoCredentialConfig as Record<string, string>) };
@@ -83,7 +83,7 @@ describe('validateSeedCredentials', () => {
 
 	/**
 	 * Sets one seed password the way a deployment does: in the environment AND in the config object the
-	 * seeder reads it from (which @gauzy/config fills from the environment once, at import).
+	 * seeder reads it from (which @irtranscripts/config fills from the environment once, at import).
 	 */
 	const setSeedPassword = (key: keyof typeof CONFIG_FIELD, value: string) => {
 		process.env[key] = value;
@@ -191,7 +191,7 @@ describe('validateSeedCredentials', () => {
 		process.env.DEMO = 'true';
 
 		expect(() => validateSeedCredentials()).not.toThrow();
-		// Still announced: demo.gauzy.co publishes these credentials on purpose, but the operator of a
+		// Still announced: demo.irtranscripts.com publishes these credentials on purpose, but the operator of a
 		// copy of that stack should see them called out.
 		expect(error).toHaveBeenCalled();
 	});
@@ -204,7 +204,7 @@ describe('validateSeedCredentials', () => {
 
 		it('refuses a desktop seed that would use the published passwords', () => {
 			// What a launcher from before the per-install passwords produced: nothing set, so the
-			// Super Admin of a Gauzy Server reachable from the LAN was `admin@ever.co` / `admin`.
+			// Super Admin of a IRTranscripts Server reachable from the LAN was `admin@ever.co` / `admin`.
 			expect(() => validateSeedCredentials()).toThrow(/Refusing to seed/);
 			expect(() => validateSeedCredentials()).toThrow(/DEMO_SUPER_ADMIN_PASSWORD/);
 		});

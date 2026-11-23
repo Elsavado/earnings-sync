@@ -1,4 +1,4 @@
-import { IInvoice, IInvoiceEstimateHistory } from '@gauzy/contracts';
+import { IInvoice, IInvoiceEstimateHistory } from '@irtranscripts/contracts';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, IsString } from 'class-validator';
 import {

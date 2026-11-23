@@ -19,7 +19,7 @@ import moment from 'moment';
 import timezone from 'moment-timezone';
 import { TranslateService } from '@ngx-translate/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { IEmployee, IEmployeeAppointment, IAvailabilitySlot, ID, EmployeeAppointmentStatus } from '@gauzy/contracts';
+import { IEmployee, IEmployeeAppointment, IAvailabilitySlot, ID, EmployeeAppointmentStatus } from '@irtranscripts/contracts';
 import {
 	AppointmentEmployeesService,
 	AvailabilitySlotsService,
@@ -27,8 +27,8 @@ import {
 	EmployeesService,
 	Store,
 	ToastrService
-} from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+} from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 import { EmployeeScheduleComponent } from '../employee-schedules/employee-schedule.component';
 import { EmployeeSelectComponent } from '../../employee/employee-multi-select/employee-multi-select.component';
 import { AlertModalComponent } from '../../components/alert-modal/alert-modal.component';

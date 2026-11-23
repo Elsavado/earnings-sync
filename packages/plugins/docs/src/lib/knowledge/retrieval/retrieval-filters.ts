@@ -4,8 +4,8 @@ import {
 	DocumentReviewReasonEnum,
 	DocumentReviewStatusEnum,
 	DocumentVisibilityEnum
-} from '@gauzy/contracts';
-import { prepareSQLQuery as p } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { prepareSQLQuery as p } from '@irtranscripts/core';
 import { DocumentChunk } from '../../entities/document-chunk.entity';
 import { Document } from '../../entities/document.entity';
 import { buildShareGrantExistsSql } from '../../services/document-access.sql';

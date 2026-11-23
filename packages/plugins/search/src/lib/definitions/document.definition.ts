@@ -1,4 +1,4 @@
-import { DocumentVisibilityEnum, ISearchIndexRegistration, PermissionsEnum, SearchFieldKind } from '@gauzy/contracts';
+import { DocumentVisibilityEnum, ISearchIndexRegistration, PermissionsEnum, SearchFieldKind } from '@irtranscripts/contracts';
 
 /**
  * The document declaration.

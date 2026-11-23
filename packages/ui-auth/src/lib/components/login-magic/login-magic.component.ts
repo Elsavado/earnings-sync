@@ -5,9 +5,9 @@ import { EMPTY, Subscription, finalize, firstValueFrom, interval } from 'rxjs';
 import { catchError, filter, tap } from 'rxjs/operators';
 import { NbAuthService, NbLoginComponent, NB_AUTH_OPTIONS } from '@nebular/auth';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { environment } from '@gauzy/ui-config';
-import { ALPHA_NUMERIC_CODE_LENGTH, patterns } from '@gauzy/constants';
-import { AuthService, ErrorHandlingService } from '@gauzy/ui-core/core';
+import { environment } from '@irtranscripts/ui-config';
+import { ALPHA_NUMERIC_CODE_LENGTH, patterns } from '@irtranscripts/constants';
+import { AuthService, ErrorHandlingService } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

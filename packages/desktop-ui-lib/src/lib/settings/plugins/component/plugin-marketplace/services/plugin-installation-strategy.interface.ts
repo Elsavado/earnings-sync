@@ -1,4 +1,4 @@
-import { IPlugin } from '@gauzy/contracts';
+import { IPlugin } from '@irtranscripts/contracts';
 import { Observable } from 'rxjs';
 
 /**

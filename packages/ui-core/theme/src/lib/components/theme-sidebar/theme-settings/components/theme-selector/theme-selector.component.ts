@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Store } from '@gauzy/ui-core/core';
+import { Store } from '@irtranscripts/ui-core/core';
 import { NbThemeService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BehaviorSubject, map, Observable } from 'rxjs';
@@ -8,15 +8,15 @@ import {
 	COSMIC_THEME,
 	DARK_THEME,
 	DEFAULT_THEME,
-	GAUZY_DARK,
-	GAUZY_LIGHT,
+	IRTRANSCRIPTS_DARK,
+	IRTRANSCRIPTS_LIGHT,
 	MATERIAL_DARK_THEME,
 	MATERIAL_LIGHT_THEME
 } from '../../../../../themes';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
-    selector: 'gauzy-theme-selector',
+    selector: 'irtranscripts-theme-selector',
     templateUrl: './theme-selector.component.html',
     styleUrls: ['./theme-selector.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
@@ -26,14 +26,14 @@ export class ThemeSelectorComponent implements OnInit {
 	_themes = [
 		{
 			light: {
-				value: GAUZY_LIGHT.name,
-				name: 'SETTINGS_MENU.GAUZY_LIGHT',
-				imageUrl: 'assets/images/themes/gauzy_light.png'
+				value: IRTRANSCRIPTS_LIGHT.name,
+				name: 'SETTINGS_MENU.IRTRANSCRIPTS_LIGHT',
+				imageUrl: 'assets/images/themes/irtranscripts_light.png'
 			},
 			dark: {
-				value: GAUZY_DARK.name,
-				name: 'SETTINGS_MENU.GAUZY_DARK',
-				imageUrl: 'assets/images/themes/gauzy_dark.png'
+				value: IRTRANSCRIPTS_DARK.name,
+				name: 'SETTINGS_MENU.IRTRANSCRIPTS_DARK',
+				imageUrl: 'assets/images/themes/irtranscripts_dark.png'
 			}
 		},
 		{
@@ -77,7 +77,7 @@ export class ThemeSelectorComponent implements OnInit {
 	switch: Observable<boolean> = new Observable<boolean>();
 	switch$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-	currentTheme = GAUZY_LIGHT.name;
+	currentTheme = IRTRANSCRIPTS_LIGHT.name;
 
 	currentTheme$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 

@@ -2,7 +2,7 @@ import { ActivityWatchEventTableList, IActivityWatchEventService } from '../i-ac
 import { IDatabaseProvider, IDesktopEvent } from '../../../interfaces';
 import { ProviderFactory } from '../../../offline';
 import { Knex } from 'knex';
-import { ActivityWatchEventType } from '@gauzy/contracts';
+import { ActivityWatchEventType } from '@irtranscripts/contracts';
 
 export class ActivityWatchDAO implements IActivityWatchEventService {
 	protected readonly provider: IDatabaseProvider;

@@ -15,15 +15,15 @@ import {
 	IProjectsStatistics,
 	ITasksStatistics,
 	ITimeSlotStatistics
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	EmployeesService,
 	OrganizationProjectsService,
 	TimesheetStatisticsService,
 	ToastrService
-} from '@gauzy/ui-core/core';
-import { GalleryService } from '@gauzy/ui-core/shared';
-import { useInjector, useTypedEvent } from '@gauzy/ui-react';
+} from '@irtranscripts/ui-core/core';
+import { GalleryService } from '@irtranscripts/ui-core/shared';
+import { useInjector, useTypedEvent } from '@irtranscripts/ui-react';
 import { DashboardRefreshedEvent } from '../dashboard-time-track-react-ui.events';
 import { collectGalleryItems, normalizeMemberWeekHours, Windows, withDurationPercentage } from '../utils';
 import { type TimeTrackingSelection } from './use-time-tracking-context';

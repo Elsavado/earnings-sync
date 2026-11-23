@@ -12,14 +12,14 @@ import { BehaviorSubject, Observable, Subscription, tap } from 'rxjs';
 import { LanguageElectronService } from '../language/language-electron.service';
 import { AlwaysOnService, AlwaysOnStateEnum, ITimeCounter, ITimerStatus } from './always-on.service';
 import { faPlay, faPause, faStopwatch, faBars, faDollar } from '@fortawesome/free-solid-svg-icons';
-import { GAUZY_ENV } from '../constants';
+import { IRTRANSCRIPTS_ENV } from '../constants';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
-	selector: 'gauzy-always-on',
+	selector: 'irtranscripts-always-on',
 	templateUrl: './always-on.component.html',
 	styleUrls: ['./always-on.component.scss'],
 	changeDetection: ChangeDetectionStrategy.Eager,
@@ -63,7 +63,7 @@ export class AlwaysOnComponent implements OnInit, OnDestroy {
 		private _iconLibraries: NbIconLibraries,
 		private _languageElectronService: LanguageElectronService,
 		private _ngZone: NgZone,
-		@Inject(GAUZY_ENV)
+		@Inject(IRTRANSCRIPTS_ENV)
 		private readonly _environment: Record<string, any>,
 		private renderer: Renderer2
 	) {

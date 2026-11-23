@@ -1,5 +1,5 @@
 import { HttpStatus } from '@nestjs/common';
-import { ID, RequestApprovalStatusTypesEnum } from '@gauzy/contracts';
+import { ID, RequestApprovalStatusTypesEnum } from '@irtranscripts/contracts';
 import { ApiErrorCode } from '../core/errors/api-error-codes';
 import { ApiException } from '../core/errors/api-exception';
 import { ISharingMembers, ISharingReferences, withReferencesAsIds } from './reference-scope.helper';

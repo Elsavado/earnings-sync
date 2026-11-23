@@ -10,8 +10,8 @@ import {
 	JsonData,
 	LanguagesEnum,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
 import {
 	ConnectionFilter,
 	ConnectionPageRequest,

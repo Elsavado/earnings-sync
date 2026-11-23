@@ -9,10 +9,10 @@ import {
 	IMonthAggregatedEmployeeStatistics,
 	IEmployeeStatisticsHistoryFindInput,
 	IEmployeeStatisticsHistory
-} from '@gauzy/contracts';
-import { toParams } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { toParams } from '@irtranscripts/ui-core/common';
 import { firstValueFrom } from 'rxjs';
-import { API_PREFIX } from '@gauzy/ui-core/common';
+import { API_PREFIX } from '@irtranscripts/ui-core/common';
 
 @Injectable({
 	providedIn: 'root'

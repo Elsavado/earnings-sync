@@ -6,7 +6,7 @@ import {
 	IContactGroupCreateInput,
 	IContactGroupFindInput,
 	IContactGroupUpdateInput
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { FindOptionsWhere, SaveOptions, UpdateResult } from 'typeorm';
 // Type-only, so the two type modules are not part of this service's runtime graph: the removal
 // overrides below narrow the signatures the CRUD base declares, and a test that doubles the base

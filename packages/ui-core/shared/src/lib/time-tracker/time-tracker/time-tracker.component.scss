@@ -1,4 +1,4 @@
-@use 'gauzy/_gauzy-overrides' as *;
+@use 'irtranscripts/_irtranscripts-overrides' as *;
 
 // One vertical rhythm for the whole panel, so a field, the title row and the
 // footer cluster cannot each pick their own gap.
@@ -28,7 +28,7 @@ $session-line: 1.625rem;
 // popup is navbar chrome and should not read as a dialog.
 $card-width: 328px;
 // `nb-card-body`'s own inset — the `card-padding: 1rem` token in
-// `_gauzy-theme-maps.scss`. Named so the scroll box can reach back across it.
+// `_irtranscripts-theme-maps.scss`. Named so the scroll box can reach back across it.
 $body-padding: 16px;
 // `.timer-card`'s own padding plus `nb-card-body`'s: where a child's static
 // position starts.
@@ -148,7 +148,7 @@ $body-inset: 20px + $body-padding;
     flex: 0 0 auto;
     padding: 2px;
     border-radius: var(--border-radius);
-    background-color: var(--gauzy-sidebar-background-4);
+    background-color: var(--irtranscripts-sidebar-background-4);
     box-shadow: $control-hairline;
 
     // `span` is the tooltip host the disabled manual button needs (a disabled
@@ -189,7 +189,7 @@ $body-inset: 20px + $body-padding;
         // two active options. This is the muted token the form labels use: an
         // unselected option drops back to label weight and the filled half is
         // the only thing that reads as chosen.
-        color: var(--gauzy-text-color-2);
+        color: var(--irtranscripts-text-color-2);
 
         nb-icon,
         svg {
@@ -299,7 +299,7 @@ $body-inset: 20px + $body-padding;
         // muted tier — its own name for exactly this tier, the one the form
         // labels in this panel already use — demotes it a step and lets the
         // session time lead.
-        color: var(--gauzy-text-color-2);
+        color: var(--irtranscripts-text-color-2);
       }
       .current-session {
         font-weight: 400;
@@ -383,7 +383,7 @@ $body-inset: 20px + $body-padding;
       background: transparent;
     }
     &::-webkit-scrollbar-thumb {
-      background: var(--gauzy-scrollbar);
+      background: var(--irtranscripts-scrollbar);
       border-radius: 1rem;
     }
     scrollbar-width: thin;
@@ -552,7 +552,7 @@ $body-inset: 20px + $body-padding;
     font-family: inherit;
     border-radius: var(--border-radius);
     // The same hairline `ng-select-overrides()` gives the selectors, instead of
-    // the `--gauzy-shadow` drop shadow the picker still draws — the edge the
+    // the `--irtranscripts-shadow` drop shadow the picker still draws — the edge the
     // design system replaced precisely because it disappears on a dark canvas
     // and smudges on a light one.
     box-shadow: $control-hairline;
@@ -586,7 +586,7 @@ $body-inset: 20px + $body-padding;
     padding: 0 20px;
     // Was also `box-shadow: 0px 10px 13px -7px #25b869` — a green glow cast
     // under a solid green block. `status="success"` buttons are now
-    // outline/text (see `$gauzy-action-accents-*` in
+    // outline/text (see `$irtranscripts-action-accents-*` in
     // `packages/ui-core/static/styles/themes.scss`), and a coloured glow under
     // a transparent button reads as a smudge sitting below it, not elevation.
     font-size: 14px;
@@ -629,7 +629,7 @@ h6 {
 }
 
 :host {
-  @include dialog(var(--gauzy-card-1), var(--gauzy-sidebar-background-4));
+  @include dialog(var(--irtranscripts-card-1), var(--irtranscripts-sidebar-background-4));
 }
 
 nb-card-footer{

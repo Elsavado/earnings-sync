@@ -1,4 +1,4 @@
-import { ID, IOrganizationDepartmentCreateInput } from '@gauzy/contracts';
+import { ID, IOrganizationDepartmentCreateInput } from '@irtranscripts/contracts';
 import { ICommand } from '@nestjs/cqrs';
 
 export class OrganizationDepartmentUpdateCommand implements ICommand {

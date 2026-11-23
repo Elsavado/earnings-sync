@@ -8,5 +8,5 @@ export * from './lib/graphql/inbox.resolver';
 export * from './lib/graphql/inbox.schema';
 export * from './lib/entities/inbox-item.entity';
 export * from './lib/entities/inbox-item-recipient.entity';
-// The Inbox email features (plan 04 §5, Phase 4): off unless GAUZY_INBOX_EMAIL_ENABLED=true as well.
+// The Inbox email features (plan 04 §5, Phase 4): off unless IRTRANSCRIPTS_INBOX_EMAIL_ENABLED=true as well.
 export * from './lib/email';

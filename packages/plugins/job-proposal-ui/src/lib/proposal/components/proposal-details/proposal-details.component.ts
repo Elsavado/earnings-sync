@@ -3,8 +3,8 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { debounceTime, filter, tap } from 'rxjs/operators';
-import { BaseEntityEnum, IEmployee, IProposal, ITag, IUser, ProposalStatusEnum } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
+import { BaseEntityEnum, IEmployee, IProposal, ITag, IUser, ProposalStatusEnum } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -44,7 +44,7 @@ export class ProposalDetailsComponent implements AfterViewInit, OnInit, OnDestro
 		// Translucent tags show the card behind them, so the card color is part of
 		// the key: a theme switch changes it and the text color is measured again.
 		const card =
-			getComputedStyle(this.elementRef.nativeElement).getPropertyValue('--gauzy-card-1').trim() || '#fff';
+			getComputedStyle(this.elementRef.nativeElement).getPropertyValue('--irtranscripts-card-1').trim() || '#fff';
 		const color = tag.color || '';
 		const key = `${card}|${color}`;
 		if (!this.tagTextColors.has(key)) {

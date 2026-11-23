@@ -1,5 +1,5 @@
-@use 'gauzy/_gauzy-dialogs' as *;
-@use 'gauzy/_gauzy-table' as *;
+@use 'irtranscripts/_irtranscripts-dialogs' as *;
+@use 'irtranscripts/_irtranscripts-table' as *;
 
 // One size for every control in this form — the 2rem / 12px the timesheet filter
 // bar uses — so the date, time, selector, text and reason fields read as one set.
@@ -11,7 +11,7 @@ $gap: 0.75rem;
 :host {
   nb-card {
     width: 645px;
-    background-color: nb-theme(gauzy-card-1);
+    background-color: nb-theme(irtranscripts-card-1);
   }
 
   // Title and close share one line, so the header is one row tall.
@@ -38,7 +38,7 @@ $gap: 0.75rem;
     font-weight: 600;
     line-height: 15px;
     letter-spacing: 0em;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
   }
 
   // Quarters, so halves (span 2) and the time row's four fields share edges.
@@ -213,7 +213,7 @@ $gap: 0.75rem;
 
   .custom-card {
     margin: 0;
-    background-color: nb-theme(gauzy-card-2);
+    background-color: nb-theme(irtranscripts-card-2);
 
     .custom-card-body {
       max-height: unset;

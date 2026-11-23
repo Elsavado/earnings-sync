@@ -1,9 +1,9 @@
 import { useCallback, useMemo, type CSSProperties } from 'react';
 import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport } from 'ai';
-import { useInjector } from '@gauzy/ui-react';
-import { Store } from '@gauzy/ui-core/core';
-import { environment } from '@gauzy/ui-config';
+import { useInjector } from '@irtranscripts/ui-react';
+import { Store } from '@irtranscripts/ui-core/core';
+import { environment } from '@irtranscripts/ui-config';
 import { playgroundTheme as t } from '../../playground-theme';
 import { chatMarkdownCss } from '../../chat-markdown-css';
 import { PlaygroundChatPanel } from './PlaygroundChatPanel';
@@ -12,7 +12,7 @@ import { PlaygroundChatPanel } from './PlaygroundChatPanel';
  * PlaygroundChatSidebar — standalone chat-only panel designed to render
  * inside a collapsible right sidebar (`nb-sidebar`). No settings panel.
  *
- * Wired to the Gauzy backend via the Vercel AI SDK (`useChat` from
+ * Wired to the IRTranscripts backend via the Vercel AI SDK (`useChat` from
  * @ai-sdk/react v4 / AI SDK 7): streams from `POST /api/ai-chat` with
  * the user's own JWT, using the tenant's default provider/model.
  * Includes a compact header with title and "New Chat" button.

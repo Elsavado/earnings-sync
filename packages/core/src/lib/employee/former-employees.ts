@@ -1,4 +1,4 @@
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 
 /**
  * Employees whose work ended — "End Work" deactivates and archives them (`EmployeeSubscriber`) — keep their

@@ -13,8 +13,8 @@ export class ReadWriteFile implements IReadWriteFile {
 			return;
 		}
 		try {
-			console.log(`Reading file ${this._path.gauzyUi}`);
-			return readFileSync(this._path.gauzyUi, 'utf8');
+			console.log(`Reading file ${this._path.irtranscriptsUi}`);
+			return readFileSync(this._path.irtranscriptsUi, 'utf8');
 		} catch (e) {
 			console.error('Cannot read file');
 		}
@@ -36,8 +36,8 @@ export class ReadWriteFile implements IReadWriteFile {
 		}
 
 		try {
-			console.log(`Writing file ${this._path.gauzyUi}`);
-			writeFileSync(this._path.gauzyUi, fileContent);
+			console.log(`Writing file ${this._path.irtranscriptsUi}`);
+			writeFileSync(this._path.irtranscriptsUi, fileContent);
 		} catch (error) {
 			console.log('Cannot change html file', error);
 		}

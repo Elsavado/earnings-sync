@@ -1,4 +1,4 @@
-# @gauzy/plugin-integration-github-ui
+# @irtranscripts/plugin-integration-github-ui
 
 This library was generated with [Nx](https://nx.dev).
 
@@ -19,7 +19,7 @@ After building your library with `yarn nx build plugin-integration-github-ui`, g
 Install the Integration Github UI Plugin using your preferred package manager:
 
 ```bash
-npm install @gauzy/plugin-integration-github-ui
+npm install @irtranscripts/plugin-integration-github-ui
 # or
-yarn add @gauzy/plugin-integration-github-ui
+yarn add @irtranscripts/plugin-integration-github-ui
 ```

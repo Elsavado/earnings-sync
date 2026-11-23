@@ -1,7 +1,7 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
-import { IEmployee, ISelectedEmployee } from '@gauzy/contracts';
-import { Store } from '@gauzy/ui-core/core';
+import { IEmployee, ISelectedEmployee } from '@irtranscripts/contracts';
+import { Store } from '@irtranscripts/ui-core/core';
 import { IPersonListItem } from '../people-list/people-list.component';
 
 /**

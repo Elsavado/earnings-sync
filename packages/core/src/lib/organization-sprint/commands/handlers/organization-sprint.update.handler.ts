@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IOrganizationSprint } from '@gauzy/contracts';
+import { IOrganizationSprint } from '@irtranscripts/contracts';
 import { OrganizationSprintService } from '../../organization-sprint.service';
 import { OrganizationSprintUpdateCommand } from '../organization-sprint.update.command';
 

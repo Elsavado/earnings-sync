@@ -6,7 +6,7 @@
  * whatever its code made of the refusal. Writes outside a fence and writes of the lease row are never
  * checked; a unit that keeps writing renews its lease, but never takes one over.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	return {
 		ColumnIndex: decorator,
@@ -76,7 +76,7 @@ describe('Ever Works lease fence on SQLite', () => {
 	/** The lease row as the loop's claim leaves it: `owner` holds it until `inMs` from now. */
 	const hold = (owner: string | null, inMs = EVER_WORKS_SYNC_LEASE_MS) =>
 		leases().update({ id: C } as never, { leaseOwner: owner, leaseUntil: owner ? new Date(Date.now() + inMs) : null } as never);
-	// A sync log row stands for any Gauzy write (the fence is the same for every entity).
+	// A sync log row stands for any IRTranscripts write (the fence is the same for every entity).
 	const row = (message: string) => ({ id: randomUUID(), direction: 'inbound', action: 'apply', status: 'ok', message }) as never;
 	const lease = (owner: string): EverWorksLease => everWorksLease(dataSource, C, owner);
 	const count = () => logs().count();
@@ -85,7 +85,7 @@ describe('Ever Works lease fence on SQLite', () => {
 		dir = mkdtempSync(join(tmpdir(), 'ever-works-lease-fence-'));
 		dataSource = new DataSource({
 			type: 'better-sqlite3',
-			database: join(dir, 'gauzy.sqlite'),
+			database: join(dir, 'irtranscripts.sqlite'),
 			entities: schemas,
 			subscribers: [EverWorksLeaseFenceSubscriber],
 			synchronize: true

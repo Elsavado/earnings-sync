@@ -1,5 +1,5 @@
 export interface IPathWindow {
-	gauzyUi: string;
+	irtranscriptsUi: string;
 	ui: string;
 	dir: string;
 	timeTrackerUi: string;

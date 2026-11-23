@@ -3,7 +3,7 @@ import { PrimaryKey } from '@mikro-orm/core';
 import { PrimaryColumn } from 'typeorm';
 import { termsAcceptanceEntitySchema } from 'terms-acceptance/typeorm';
 import type { TermsAcceptanceEntity as ITermsAcceptanceRow } from 'terms-acceptance/typeorm';
-import { isMySQL, isPostgres } from '@gauzy/config';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
 import { ColumnIndex, JsonColumn, MultiORMColumn, MultiORMEntity } from '../core/decorators/entity';
 import { MikroOrmTermsAcceptanceRepository } from './repository/mikro-orm-terms-acceptance.repository';
 
@@ -106,7 +106,7 @@ export class TermsAcceptance implements ITermsAcceptanceRow {
 	@MultiORMColumn({ name: 'tenant_id', type: String, length: len('tenantId', 255), nullable: true })
 	tenantId: string | null;
 
-	/** Stable document id, `<document>:<product>` — e.g. `tos:gauzy`. */
+	/** Stable document id, `<document>:<product>` — e.g. `tos:irtranscripts`. */
 	@ApiProperty({ type: () => String })
 	@ColumnIndex()
 	@MultiORMColumn({ name: 'document_id', type: String, length: len('documentId', 255) })

@@ -8,7 +8,7 @@ describe('NgxLoginMagicComponent', () => {
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
 			// Declared in NgxAuthModule (not standalone): import it for the template's real scope
-			// (ngx-gauzy-logo, Nebular forms, ...). NbAuthService comes from NbAuthModule.forRoot(), which the
+			// (ngx-irtranscripts-logo, Nebular forms, ...). NbAuthService comes from NbAuthModule.forRoot(), which the
 			// app's root module calls.
 			imports: [NgxAuthModule, NbAuthModule.forRoot()]
 		}).compileComponents();

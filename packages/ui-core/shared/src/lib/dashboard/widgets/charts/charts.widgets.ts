@@ -1,9 +1,9 @@
-import { PermissionsEnum } from '@gauzy/contracts';
-import { WidgetRegistryConfig } from '@gauzy/ui-core/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { WidgetRegistryConfig } from '@irtranscripts/ui-core/core';
 // The DEPENDENCY-FREE constants module, never `employee-chart.utils`. This file
 // is reachable from the root bootstrap through `provideCoreDashboardWidgets()`,
 // so whatever it imports lands in the INITIAL bundle: importing the utils here
-// would drag the Chart.js dataset builders (and `@gauzy/ui-config`) in eagerly
+// would drag the Chart.js dataset builders (and `@irtranscripts/ui-config`) in eagerly
 // and undo the `loadComponent` lazy imports below.
 import {
 	EMPLOYEE_CHART_KINDS,

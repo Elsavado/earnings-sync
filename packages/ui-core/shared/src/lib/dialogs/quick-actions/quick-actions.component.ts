@@ -1,9 +1,9 @@
 import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NbDialogRef, NbIconLibraries, NbMenuItem, NbMenuService } from '@nebular/theme';
-import { TimeLogType } from '@gauzy/contracts';
+import { TimeLogType } from '@irtranscripts/contracts';
 import { TranslateService } from '@ngx-translate/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { TimeTrackerService } from '@gauzy/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { TimeTrackerService } from '@irtranscripts/ui-core/core';
 
 type GroupType = {
 	groupTitle: string;
@@ -84,7 +84,7 @@ const quickActionsCollection = {
 		'QUICK_ACTIONS_MENU.VIEW_APPOINTMENTS',
 		'QUICK_ACTIONS_MENU.VIEW_TIME_ACTIVITY'
 	],
-	// Documents hub (`@gauzy/plugin-docs-ui`, `01-ux-spec.md` §1). The labels live in
+	// Documents hub (`@irtranscripts/plugin-docs-ui`, `01-ux-spec.md` §1). The labels live in
 	// CORE i18n rather than the plugin's `DOCS` namespace on purpose: grouping matches
 	// on the *translated* title, and the plugin merges its namespace on plugin bootstrap
 	// — a menu built before that merge would group by the raw key and show it as the label.

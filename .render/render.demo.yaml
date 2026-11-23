@@ -4,7 +4,7 @@ services:
       image:
           url: ghcr.io/ever-co/gauzy-api-demo:latest
       plan: pro
-      name: ever-gauzy-api
+      name: ever-irtranscripts-api
       envVars:
           - key: API_HOST
             value: 0.0.0.0
@@ -19,7 +19,7 @@ services:
           - key: LOG_LEVEL
             value: info
           # Your own Sentry DSN: Render asks for it when the Blueprint is created (leave it empty to disable
-          # Sentry). A DSN shipped here would send every install's errors to the Ever Gauzy project.
+          # Sentry). A DSN shipped here would send every install's errors to the Ever IRTranscripts project.
           - key: SENTRY_DSN
             sync: false
           - key: SENTRY_HTTP_TRACING_ENABLED
@@ -43,7 +43,7 @@ services:
       healthCheckPath: /api/health
 
     - type: web
-      name: ever-gauzy-webapp
+      name: ever-irtranscripts-webapp
       runtime: image
       plan: standard
       image:
@@ -56,7 +56,7 @@ services:
           - key: CLOUDINARY_API_KEY
             value: 256868982483961
           # Your own Sentry DSN: Render asks for it when the Blueprint is created (leave it empty to disable
-          # Sentry). A DSN shipped here would send every install's errors to the Ever Gauzy project.
+          # Sentry). A DSN shipped here would send every install's errors to the Ever IRTranscripts project.
           - key: SENTRY_DSN
             sync: false
           - key: CLOUDINARY_CLOUD_NAME

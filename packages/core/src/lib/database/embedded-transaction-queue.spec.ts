@@ -79,7 +79,7 @@ async function settle<T>(promise: Promise<T>): Promise<{ value?: T; error?: Erro
 
 /** A database file of its own for one test, and the rows committed to it. */
 class DatabaseFile {
-	private readonly directory = mkdtempSync(join(tmpdir(), 'gauzy-transaction-queue-'));
+	private readonly directory = mkdtempSync(join(tmpdir(), 'irtranscripts-transaction-queue-'));
 	readonly path = join(this.directory, 'queue.sqlite3');
 
 	/**
@@ -884,7 +884,7 @@ describe('serializeEmbeddedTransactions — work a transaction leaves running, T
 	}
 
 	it("queues a transaction started from inside a write that reaches the connection during the write's commit (the local e2e wedge)", async () => {
-		// Found by the first local Gauzy <-> Ever Works run: a capture an entity subscriber started inside a comment's
+		// Found by the first local IRTranscripts <-> Ever Works run: a capture an entity subscriber started inside a comment's
 		// save, and left running, opened the outbound queue's transaction while the save's COMMIT was in flight. Its
 		// context still carried the save's claim, which still held the connection, so it was taken for a nested
 		// transaction: its SAVEPOINT began a transaction of its own after the COMMIT, the claim was never given back,

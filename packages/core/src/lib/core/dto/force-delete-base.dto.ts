@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, TransformFnParams } from 'class-transformer';
 import { IsOptional, IsBoolean } from 'class-validator';
-import { parseToBoolean } from '@gauzy/utils';
+import { parseToBoolean } from '@irtranscripts/utils';
 // The file, not the `shared/dto` barrel: that barrel's first module (`count-query.dto`) imports
 // `core/dto`, so going through it here closes a cycle and `DeleteQueryDTO` reads as undefined.
 import { DeleteQueryDTO } from '../../shared/dto/delete-query.dto';

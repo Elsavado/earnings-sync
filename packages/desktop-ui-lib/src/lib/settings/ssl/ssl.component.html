@@ -90,7 +90,7 @@
             <div class="col-5">
               <button nbButton status="basic" class="check-db" (click)="checkSsl()">
                 <nb-icon
-                  *gauzySpinnerButton="isCheckSsl$ | async"
+                  *irtranscriptsSpinnerButton="isCheckSsl$ | async"
                   [status]="(isValid$ | async)?.status ? 'success' : 'danger'"
                   [icon]="(isValid$ | async)?.status ? 'checkmark-circle-2-outline' : 'close-circle-outline'"
                 ></nb-icon>

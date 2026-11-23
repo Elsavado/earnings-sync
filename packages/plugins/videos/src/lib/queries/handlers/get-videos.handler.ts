@@ -1,5 +1,5 @@
-import { IPagination, PermissionsEnum } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { IPagination, PermissionsEnum } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import * as moment from 'moment-timezone';
 import { Between, In } from 'typeorm';

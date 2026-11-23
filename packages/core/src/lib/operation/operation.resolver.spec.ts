@@ -18,8 +18,8 @@ import {
 	OperationStatus,
 	OperationStepStatus,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@gauzy/constants';
+} from '@irtranscripts/contracts';
+import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { CursorCodec } from '../api/cursor';
 import { FeatureModule } from '../feature/feature.module';
 import { createGraphqlRequestContext } from '../graphql/graphql-context';

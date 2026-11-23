@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject, input, signal } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ComponentLayoutStyleEnum } from '@gauzy/contracts';
-import { ComponentEnum } from '@gauzy/ui-core/common';
-import { Store } from '@gauzy/ui-core/core';
+import { ComponentLayoutStyleEnum } from '@irtranscripts/contracts';
+import { ComponentEnum } from '@irtranscripts/ui-core/common';
+import { Store } from '@irtranscripts/ui-core/core';
 
 @UntilDestroy()
 @Component({

@@ -1,4 +1,4 @@
-import { IOrganizationTeamStoreState } from '@gauzy/contracts';
+import { IOrganizationTeamStoreState } from '@irtranscripts/contracts';
 import { Injectable } from '@angular/core';
 import { Query, Store as AkitaStore, StoreConfig } from '@datorama/akita';
 

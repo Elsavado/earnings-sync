@@ -145,9 +145,9 @@ async function observe(): Promise<IObserved> {
 			const { MikroORM, EntityCaseNamingStrategy } = require('@mikro-orm/core');
 			const { BetterSqliteDriver } = require('@mikro-orm/better-sqlite');
 			const { SoftDeleteHandler } = require('mikro-orm-soft-delete');
-			const { MIKRO_ORM_AUTO_JOIN_REFS_FOR_FILTERS, TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } = require('@gauzy/config');
-			const { coreEntities, CrudService, RequestContext, Tenant } = require('@gauzy/core');
-			const { getSubscribersFromPlugins } = require('@gauzy/plugin');
+			const { MIKRO_ORM_AUTO_JOIN_REFS_FOR_FILTERS, TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } = require('@irtranscripts/config');
+			const { coreEntities, CrudService, RequestContext, Tenant } = require('@irtranscripts/core');
+			const { getSubscribersFromPlugins } = require('@irtranscripts/plugin');
 			// The package as the platform loads it, so its modules are evaluated in their own order.
 			const registry = require('../../../index');
 			const { CancelPluginSubscriptionCommandHandler } = require(

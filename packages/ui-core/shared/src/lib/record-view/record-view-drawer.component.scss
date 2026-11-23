@@ -4,8 +4,8 @@
 // container — hairline + soft shadow — wrapping flat content. The alpha-neutral
 // fallbacks darken a light surface and lighten a dark one, so no per-theme
 // branch is needed.
-$overlay-hairline: var(--gauzy-overlay-border-color, rgba(126, 126, 143, 0.18));
-$overlay-shadow: #{'var(--gauzy-overlay-shadow, 0 4px 12px -2px rgba(0, 0, 0, 0.14), 0 2px 6px -2px rgba(0, 0, 0, 0.08))'};
+$overlay-hairline: var(--irtranscripts-overlay-border-color, rgba(126, 126, 143, 0.18));
+$overlay-shadow: #{'var(--irtranscripts-overlay-shadow, 0 4px 12px -2px rgba(0, 0, 0, 0.14), 0 2px 6px -2px rgba(0, 0, 0, 0.08))'};
 
 // One layer above the sidebars (1041/1042 in the one-column layout) so the
 // drawer is never half-covered by the nav rail it was opened over.

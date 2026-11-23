@@ -24,7 +24,7 @@
  * about: one stub is what makes "the same method with the same identifier" visible without a database
  * behind it, and every resource of this domain is written through one service of its own.
  *
- * `@gauzy/core`'s barrel is doubled at the module boundary for the reason the package's other suites
+ * `@irtranscripts/core`'s barrel is doubled at the module boundary for the reason the package's other suites
  * state — it boots the whole application graph, which no declaration here needs. The two pieces of it
  * this suite actually compares are the kernel's own: `@Permissions` is required from its own module,
  * because the metadata it writes is what "states the route's permission" means and a double that wrote
@@ -42,11 +42,11 @@
  * through the change a caller raises and confirms; the table below states the eight that were genuinely
  * unserved, and the comment above it states where the other twenty-eight are answered.
  */
-jest.mock('@gauzy/plugin-cart', () => ({
-	TotalsCalculator: jest.requireActual('@gauzy/plugin-cart/src/lib/totals/totals-calculator').TotalsCalculator
+jest.mock('@irtranscripts/plugin-cart', () => ({
+	TotalsCalculator: jest.requireActual('@irtranscripts/plugin-cart/src/lib/totals/totals-calculator').TotalsCalculator
 }));
 
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
 
@@ -54,7 +54,7 @@ jest.mock('@gauzy/core', () => {
 
 	return {
 		// The statement helpers are pure and dialect-driven; loading the real module here would pull
-		// `@gauzy/config` and the request context into a suite that doubles the barrel on purpose.
+		// `@irtranscripts/config` and the request context into a suite that doubles the barrel on purpose.
 		quoteIdentifier: (identifier: string) => `"${identifier}"`,
 		prepareSQLQuery: (query: string) => query,
 		BaseEntity,
@@ -94,32 +94,32 @@ jest.mock('@gauzy/core', () => {
 		JsonColumn: decorator,
 		// The permission decorator is the kernel's own: what this suite compares between a route and the
 		// field that mirrors it is the metadata it writes.
-		Permissions: jest.requireActual('@gauzy/core/src/lib/shared/decorators/permissions.decorator').Permissions,
+		Permissions: jest.requireActual('@irtranscripts/core/src/lib/shared/decorators/permissions.decorator').Permissions,
 		UseValidationPipe: decorator,
 		PermissionGuard: class {},
 		TenantPermissionGuard: class {},
 		// Every resolver class carries the platform's feature guard, so the double provides the class
 		// the resolver imports: an undefined guard handed to the real `@UseGuards` fails the suite.
 		FeatureFlagGuard: class {},
-		Idempotent: jest.requireActual('@gauzy/core/src/lib/idempotency/idempotent.decorator').Idempotent,
+		Idempotent: jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotent.decorator').Idempotent,
 		// Rebuilt rather than required: the real decorator imports the version guard, the interceptor behind
 		// it and the idempotency service behind that, which reaches the entity graph. What the declarations
 		// under test read is the metadata it writes, so that is what the double writes.
 		Versioned: (options: any = {}) =>
 			require('@nestjs/common').SetMetadata(
-				jest.requireActual('@gauzy/core/src/lib/concurrency/version.util').VERSIONED_METADATA_KEY,
+				jest.requireActual('@irtranscripts/core/src/lib/concurrency/version.util').VERSIONED_METADATA_KEY,
 				options
 			),
 		VersionedColumn: decorator,
-		commitVersionedUpdate: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		commitVersionedUpdate: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.commitVersionedUpdate,
-		versionExpectationOf: jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write')
+		versionExpectationOf: jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write')
 			.versionExpectationOf,
-		connectionFromOffsetPage: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		connectionFromOffsetPage: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.connectionFromOffsetPage,
-		resolveConnectionWindow: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection')
+		resolveConnectionWindow: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection')
 			.resolveConnectionWindow,
-		paginateRows: jest.requireActual('@gauzy/core/src/lib/api/graphql-connection').paginateRows,
+		paginateRows: jest.requireActual('@irtranscripts/core/src/lib/api/graphql-connection').paginateRows,
 		ColumnNumericTransformerPipe: class {
 			to(value: unknown) {
 				return value;
@@ -138,7 +138,7 @@ jest.mock('@gauzy/core', () => {
 				return value;
 			}
 		},
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		RequestContext: {
 			currentUser: () => null,
 			currentUserId: () => null,
@@ -157,8 +157,8 @@ import { FieldDefinitionNode, ObjectTypeDefinitionNode, ObjectTypeExtensionNode,
 import { BadRequestException, NotFoundException, RequestMethod } from '@nestjs/common';
 import { HTTP_CODE_METADATA, METHOD_METADATA, PATH_METADATA } from '@nestjs/common/constants';
 import { Reflector } from '@nestjs/core';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
-import { PermissionGuard, TenantPermissionGuard } from '@gauzy/core';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
+import { PermissionGuard, TenantPermissionGuard } from '@irtranscripts/core';
 import { ORDER_PERMISSIONS } from '../order.permissions';
 import { OrderController } from '../order/order.controller';
 import { OrderAddressController } from '../order-address/order-address.controller';
@@ -209,9 +209,9 @@ const UPDATED = { id: ID, note: 'Bulk order' };
  * field compared against it, and a route that states neither is asserted to be mirrored by a field that
  * states neither.
  */
-const { IDEMPOTENT_METADATA_KEY } = jest.requireActual('@gauzy/core/src/lib/idempotency/idempotency.policy');
+const { IDEMPOTENT_METADATA_KEY } = jest.requireActual('@irtranscripts/core/src/lib/idempotency/idempotency.policy');
 const { VERSIONED_METADATA_KEY, VERSION_EXPECTATION_PROPERTY } = jest.requireActual(
-	'@gauzy/core/src/lib/concurrency/version.util'
+	'@irtranscripts/core/src/lib/concurrency/version.util'
 );
 
 const reflector = new Reflector();

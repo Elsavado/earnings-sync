@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import { v4 as uuidV4 } from 'uuid';
 import * as chalk from 'chalk';
-import { DatabaseTypeEnum } from '@gauzy/config';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { prepareSQLQuery as p } from '../database.helper';
 import { replacePlaceholders } from '../../core/utils';
 

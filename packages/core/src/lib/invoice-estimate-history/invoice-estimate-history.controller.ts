@@ -14,7 +14,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { DeepPartial, FindOptionsWhere } from 'typeorm';
-import { PermissionsEnum, IInvoiceEstimateHistory, IPagination, ID } from '@gauzy/contracts';
+import { PermissionsEnum, IInvoiceEstimateHistory, IPagination, ID } from '@irtranscripts/contracts';
 import { CrudController, BaseQueryDTO } from './../core/crud';
 import { Permissions } from './../shared/decorators';
 import { PermissionGuard, TenantPermissionGuard } from './../shared/guards';

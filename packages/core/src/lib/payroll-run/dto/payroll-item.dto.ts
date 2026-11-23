@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional, IntersectionType, PartialType, PickType } from '@nestjs/swagger';
 import { Transform, TransformFnParams } from 'class-transformer';
 import { IsEnum, IsInt, IsNotEmpty, IsOptional, IsUUID, Max, Min } from 'class-validator';
-import { ID, IPayrollItemFindInput, PayrollItemCategoryEnum, PayrollItemTypeEnum } from '@gauzy/contracts';
+import { ID, IPayrollItemFindInput, PayrollItemCategoryEnum, PayrollItemTypeEnum } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from './../../core/dto';
 import { IsOrganizationBelongsToUser } from './../../shared/validators';
 import { CreatePayrollItemDTO } from './create-payroll-item.dto';

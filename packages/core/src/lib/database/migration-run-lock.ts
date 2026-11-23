@@ -1,5 +1,5 @@
 import { DataSource, Migration, MigrationExecutor, QueryRunner } from 'typeorm';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 /**
  * The Postgres advisory lock held around a whole migration run (two fixed 32-bit keys). The two-key
@@ -79,7 +79,7 @@ async function discardSession(queryRunner: QueryRunner): Promise<void> {
 /**
  * A `DataSource` whose migration runs are one-at-a-time across processes on Postgres.
  *
- * The Gauzy API and the Teams API run the same image against one database, and both run the pending
+ * The IRTranscripts API and the Teams API run the same image against one database, and both run the pending
  * migrations when they boot (`migrationsRun`). TypeORM reads the executed migrations, runs the missing
  * ones and records each — and nothing stopped the second process from reading that list before the
  * first had written to it. Each migration then ran twice (harmlessly: they are idempotent, and the
@@ -87,7 +87,7 @@ async function discardSession(queryRunner: QueryRunner): Promise<void> {
  * per migration in `migrations`. Holding one lock around the whole run makes the second process wait,
  * then read a list that already holds the first one's rows: it finds nothing pending.
  *
- * Used for every Gauzy data source that runs migrations: the application's (`DatabaseModule`), the
+ * Used for every IRTranscripts data source that runs migrations: the application's (`DatabaseModule`), the
  * migration CLI and the seeder. SQLite and MySQL run exactly as before.
  */
 export class MigrationLockingDataSource extends DataSource {

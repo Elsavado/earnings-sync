@@ -16,7 +16,7 @@
 /** Same shape the API validates: `cs_live_` / `cs_test_` followed by Stripe's base62 id. */
 export const CHECKOUT_SESSION_ID_PATTERN = /^cs_(live|test)_[A-Za-z0-9]{8,255}$/;
 
-const STORAGE_KEY = 'gauzy.stripeCheckoutSessionId';
+const STORAGE_KEY = 'irtranscripts.stripeCheckoutSessionId';
 
 /** Whether `value` is shaped like a Stripe Checkout Session id. */
 export function isCheckoutSessionId(value: unknown): value is string {

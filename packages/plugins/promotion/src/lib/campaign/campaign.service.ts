@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { ID, IPagination } from '@gauzy/contracts';
-import { RequestContext } from '@gauzy/core';
+import { ID, IPagination } from '@irtranscripts/contracts';
+import { RequestContext } from '@irtranscripts/core';
 import { Campaign } from './campaign.entity';
 import { TypeOrmCampaignRepository } from './repository/type-orm-campaign.repository';
 import { MikroOrmCampaignRepository } from './repository/mikro-orm-campaign.repository';

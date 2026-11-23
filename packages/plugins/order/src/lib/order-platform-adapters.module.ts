@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { InvoiceModule, RequestApprovalModule } from '@gauzy/core';
+import { InvoiceModule, RequestApprovalModule } from '@irtranscripts/core';
 import { OrderApprovalAdapter } from './order-approval/order-approval.adapter';
 import { OrderInvoicingAdapter } from './order-invoicing/order-invoicing.adapter';
 

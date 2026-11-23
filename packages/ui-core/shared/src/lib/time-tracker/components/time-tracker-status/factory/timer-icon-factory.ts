@@ -1,5 +1,5 @@
-import { TimeLogSourceEnum } from '@gauzy/contracts';
-import { ITimerIcon } from '@gauzy/ui-core/core';
+import { TimeLogSourceEnum } from '@irtranscripts/contracts';
+import { ITimerIcon } from '@irtranscripts/ui-core/core';
 import {
 	BrowserExtensionTimerIcon,
 	DesktopTimerIcon,

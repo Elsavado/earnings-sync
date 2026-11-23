@@ -1,5 +1,5 @@
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-import { ID, IPagination } from '@gauzy/contracts';
+import { ID, IPagination } from '@irtranscripts/contracts';
 import { TenantAwareCrudService } from './../../core/crud';
 import { RequestContext } from './../../core/context';
 import { FileStorage } from './../../core/file-storage';

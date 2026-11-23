@@ -1,9 +1,9 @@
 import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { IsNull } from 'typeorm';
 import * as Handlebars from 'handlebars';
-import { IEmailTemplate, IVerifySMTPTransport, LanguagesEnum } from '@gauzy/contracts';
-import { ISMTPConfig } from '@gauzy/common';
-import { isEmpty } from '@gauzy/utils';
+import { IEmailTemplate, IVerifySMTPTransport, LanguagesEnum } from '@irtranscripts/contracts';
+import { ISMTPConfig } from '@irtranscripts/common';
+import { isEmpty } from '@irtranscripts/utils';
 import { CustomSmtp } from '../core/entities/internal';
 import { SMTPUtils } from './utils';
 import { TypeOrmEmailTemplateRepository } from './../email-template/repository/type-orm-email-template.repository';

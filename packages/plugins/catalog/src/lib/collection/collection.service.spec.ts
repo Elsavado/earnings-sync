@@ -1,5 +1,5 @@
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — the configuration, the ORM, the
+ * `@irtranscripts/core` boots the whole application graph from its barrel — the configuration, the ORM, the
  * job registry, the module scanner — none of which a collection service needs and none of which is
  * available outside a running application. The seam is therefore doubled at the module boundary,
  * exactly as the order and cart packages' service specs do, and **the service under test is the real
@@ -10,7 +10,7 @@
  * the saved row, and `update` answers with TypeORM's `UpdateResult` — which is what the platform's
  * own `update` returns for the TypeORM branch, and what the case at the bottom of this file pins.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
@@ -130,7 +130,7 @@ jest.mock('@gauzy/core', () => {
 
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { FindOperator } from 'typeorm';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { CollectionType, PublicationStatus } from '../catalog.types';
 import { Collection } from './collection.entity';
 import { ProductRelationService } from '../product-relation/product-relation.service';

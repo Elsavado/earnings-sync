@@ -1,6 +1,6 @@
 import { Injectable, Logger, OnApplicationBootstrap } from '@nestjs/common';
-import { EventConsumerKind, EventConsumerOrdering, IEventConsumer, IEventConsumerContext, IEventEnvelope } from '@gauzy/contracts';
-import { EventConsumerRegistry } from '@gauzy/core';
+import { EventConsumerKind, EventConsumerOrdering, IEventConsumer, IEventConsumerContext, IEventEnvelope } from '@irtranscripts/contracts';
+import { EventConsumerRegistry } from '@irtranscripts/core';
 import { SEARCH_INDEX_DEFINITIONS } from './definitions';
 import { SearchIndexRegistry } from './registry/search-index.registry';
 import { SearchIndexerService } from './services/search-indexer.service';

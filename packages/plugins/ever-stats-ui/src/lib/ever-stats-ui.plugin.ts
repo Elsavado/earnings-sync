@@ -1,5 +1,5 @@
-import { PermissionsEnum } from '@gauzy/contracts';
-import { defineDeclarativePlugin, PluginNavItemInput, PluginRouteInput } from '@gauzy/plugin-ui';
+import { PermissionsEnum } from '@irtranscripts/contracts';
+import { defineDeclarativePlugin, PluginNavItemInput, PluginRouteInput } from '@irtranscripts/plugin-ui';
 import en from '../i18n/en.json';
 
 /** Path of the settings page, relative to `/pages/settings`. */
@@ -29,7 +29,7 @@ export const USAGE_STATISTICS_ROUTE: PluginRouteInput = {
 };
 
 /**
- * Anonymous usage statistics UI plugin (`@gauzy/plugin-ever-stats-ui`): Settings > Anonymous usage
+ * Anonymous usage statistics UI plugin (`@irtranscripts/plugin-ever-stats-ui`): Settings > Anonymous usage
  * statistics. The menu entry is shown to tenant administrators; the page itself shows the controls
  * only to the operator of the installation.
  */

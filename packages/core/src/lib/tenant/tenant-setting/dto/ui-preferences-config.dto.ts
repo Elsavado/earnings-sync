@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsOptional } from 'class-validator';
-import { ITenantUiPreferencesUpdateInput, PreferredUiEnum } from '@gauzy/contracts';
+import { ITenantUiPreferencesUpdateInput, PreferredUiEnum } from '@irtranscripts/contracts';
 
 /**
  * Tenant-wide UI preferences — the validation DTO of `PUT /tenant-ui-preferences`.

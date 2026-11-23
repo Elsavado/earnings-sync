@@ -3,7 +3,7 @@ import { distinctUntilChanged, filter, map, Observable, scan } from 'rxjs';
 /**
  * `?view=full` on `/pages/documents/page/:id` — how a sidebar favorite opens a document page: "at max
  * width, keeping only the narrow ALL DOCUMENTS tree on the left" (owner, 2026-10-13, handover §4.P). The
- * favorite link builder (`ENTITY_LINKS` in `@gauzy/ui-core/core`) writes the same value; normal Documents
+ * favorite link builder (`ENTITY_LINKS` in `@irtranscripts/ui-core/core`) writes the same value; normal Documents
  * navigation carries no `view` and keeps the editor's defaults.
  */
 export const DOCS_PAGE_FULL_VIEW = 'full';

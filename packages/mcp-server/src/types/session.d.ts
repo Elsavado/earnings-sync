@@ -1,7 +1,7 @@
 /**
  * Session type extensions for Express session
  *
- * Note: Using a simplified user type here to avoid importing from @gauzy/auth
+ * Note: Using a simplified user type here to avoid importing from @irtranscripts/auth
  * which can cause circular dependency issues during build.
  */
 

@@ -3,7 +3,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { EntityRepositoryType } from '@mikro-orm/core';
 import { Exclude } from 'class-transformer';
 import { IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
-import { ITenantApiKey } from '@gauzy/contracts';
+import { ITenantApiKey } from '@irtranscripts/contracts';
 import { IsSecret } from '../core/decorators/is-secret';
 import { TenantBaseEntity } from '../core/entities/internal';
 import { MultiORMColumn, MultiORMEntity } from '../core/decorators/entity';

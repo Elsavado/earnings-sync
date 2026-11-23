@@ -1,6 +1,6 @@
 import { ICommandHandler, CommandHandler } from '@nestjs/cqrs';
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { StatusTypesMapRequestApprovalEnum, RequestApprovalStatusTypesEnum } from '@gauzy/contracts';
+import { StatusTypesMapRequestApprovalEnum, RequestApprovalStatusTypesEnum } from '@irtranscripts/contracts';
 import { TimeOffRequest } from '../../time-off-request.entity';
 import { TimeOffUpdateCommand } from '../time-off.update.command';
 import { RequestApprovalService } from '../../../request-approval/request-approval.service';

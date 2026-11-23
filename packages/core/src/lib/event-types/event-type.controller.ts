@@ -1,4 +1,4 @@
-import { ID, IEventType, IEventTypeCreateInput, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IEventType, IEventTypeCreateInput, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	Body,
 	Controller,

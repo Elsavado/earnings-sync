@@ -1,5 +1,5 @@
 name: Question
-description: Ask how to set up, configure or use Gauzy
+description: Ask how to set up, configure or use IRTranscripts
 title: "[Question] "
 labels: ["type: question :question:"]
 body:

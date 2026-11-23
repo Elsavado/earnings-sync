@@ -1,5 +1,5 @@
 /*
- * Boot skeleton for `#nb-global-spinner` in `apps/gauzy/src/index.html`. It is
+ * Boot skeleton for `#nb-global-spinner` in `apps/irtranscripts/src/index.html`. It is
  * painted before Angular boots, so Nebular's `.nb-theme-*` class is not on
  * `<body>` yet and none of the theme variables resolve. The surfaces here
  * therefore have to be literals, keyed off the `data-skeleton-theme` attribute
@@ -7,18 +7,18 @@
  * name.
  *
  * Because they are literals they DRIFT: these values were the pre-dark-canvas
- * palette, so `gauzy-dark` booted into a rgb(32, 32, 35) app that then repainted
- * itself to rgb(9, 9, 11). Anything changed in the `gauzy-light` / `gauzy-dark`
+ * palette, so `irtranscripts-dark` booted into a rgb(32, 32, 35) app that then repainted
+ * itself to rgb(9, 9, 11). Anything changed in the `irtranscripts-light` / `irtranscripts-dark`
  * maps in `themes.scss` has to be mirrored here and in
  * `dashboard-skeleton.component.scss`.
  *
  * Three surfaces, matching the three the loaded app actually has:
  *   --skeleton-canvas      `layout-background-color`   the page behind everything
- *   --skeleton-bg          `gauzy-card-1`              panels / cards / controls
- *   --skeleton-sidebar-bg  `gauzy-sidebar-background-2` the menu rail
+ *   --skeleton-bg          `irtranscripts-card-1`              panels / cards / controls
+ *   --skeleton-sidebar-bg  `irtranscripts-sidebar-background-2` the menu rail
  */
 body {
-  /* === GAUZY LIGHT (default) === */
+  /* === IRTRANSCRIPTS LIGHT (default) === */
   --skeleton-canvas: #ffffff;
   --skeleton-bg: rgb(255, 255, 255);
   --skeleton-sidebar-bg: rgba(251, 251, 251, 1);
@@ -36,8 +36,8 @@ body {
   --skeleton-shimmer: rgba(126, 126, 143, 0.28);
 }
 
-/* === GAUZY DARK === */
-body[data-skeleton-theme='gauzy-dark'] {
+/* === IRTRANSCRIPTS DARK === */
+body[data-skeleton-theme='irtranscripts-dark'] {
   --skeleton-canvas: rgb(9, 9, 11);
   --skeleton-bg: rgb(18, 18, 20);
   --skeleton-sidebar-bg: rgb(12, 12, 14);
@@ -136,7 +136,7 @@ body[data-skeleton-theme='material-dark'] {
   z-index: var(--z-index-overlay, 1003);
   display: flex;
   /*
-   * The page CANVAS, not the panel colour. Only the two gauzy themes declare
+   * The page CANVAS, not the panel colour. Only the two irtranscripts themes declare
    * `--skeleton-canvas`; for the rest the fallback keeps the previous value.
    */
   background: var(--skeleton-canvas, var(--skeleton-bg, #fff));

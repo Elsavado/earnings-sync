@@ -6,7 +6,7 @@
 .platform-section {
   margin-bottom: 2rem;
   padding: 1.5rem;
-  background: var(--gauzy-card-2);
+  background: var(--irtranscripts-card-2);
   border-radius: calc(var(--border-radius) * 1.5);
   border: 1px solid var(--border-basic-color-3);
 
@@ -26,7 +26,7 @@
       margin: 0;
       font-size: 1rem;
       font-weight: 600;
-      color: var(--gauzy-text-color-1);
+      color: var(--irtranscripts-text-color-1);
     }
   }
 }
@@ -48,7 +48,7 @@
       align-items: center;
       gap: 0.5rem;
       font-weight: 500;
-      color: var(--gauzy-text-color-1);
+      color: var(--irtranscripts-text-color-1);
       margin-bottom: 0.5rem;
 
       .label-icon {
@@ -143,13 +143,13 @@
     align-items: center;
     justify-content: center;
     padding: 3rem 2rem;
-    background: var(--gauzy-card-2);
+    background: var(--irtranscripts-card-2);
     border-radius: calc(var(--border-radius) * 1.5);
     border: 2px dashed var(--border-basic-color-3);
     text-align: center;
 
     .no-data-message {
-      color: var(--gauzy-text-color-2);
+      color: var(--irtranscripts-text-color-2);
       font-size: 0.9375rem;
     }
   }

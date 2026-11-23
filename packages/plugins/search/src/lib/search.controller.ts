@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { FeatureFlag } from '@gauzy/common';
-import { ID, ISearchIndexStatus, ISearchReindexResult, ISearchSuggestion } from '@gauzy/contracts';
+import { FeatureFlag } from '@irtranscripts/common';
+import { ID, ISearchIndexStatus, ISearchReindexResult, ISearchSuggestion } from '@irtranscripts/contracts';
 import {
 	FeatureFlagGuard,
 	PermissionGuard,
@@ -10,7 +10,7 @@ import {
 	TenantPermissionGuard,
 	UUIDValidationPipe,
 	UseValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { SearchFeatures } from './search.features';
 import { SearchPermissions } from './search.permissions';
 import { SearchService } from './services/search.service';

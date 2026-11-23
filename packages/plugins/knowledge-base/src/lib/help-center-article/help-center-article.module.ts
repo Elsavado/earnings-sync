@@ -2,7 +2,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { RolePermissionModule } from '@gauzy/core';
+import { RolePermissionModule } from '@irtranscripts/core';
 import { HelpCenterArticle } from './help-center-article.entity';
 import { HelpCenterArticleVersion } from './help-center-article-version.entity';
 import { HelpCenterArticleService } from './help-center-article.service';

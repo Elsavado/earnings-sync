@@ -43,21 +43,21 @@ const RequestContext = {
 };
 const originalLoad = Module._load;
 Module._load = function (name, parent, isMain) {
-	if (name === '@gauzy/constants') return require('../packages/constants/src/lib/reflect-metadata.ts');
-	if (name === '@gauzy/common') return require('../packages/common/src/lib/decorators/public.decorator.ts');
-	if (name === '@gauzy/core')
+	if (name === '@irtranscripts/constants') return require('../packages/constants/src/lib/reflect-metadata.ts');
+	if (name === '@irtranscripts/common') return require('../packages/common/src/lib/decorators/public.decorator.ts');
+	if (name === '@irtranscripts/core')
 		return {
 			...entities,
 			RequestContext,
 			createSsrfSafeHttpsAgent: () => new (require('node:https').Agent)(),
 			Public: () => SetMetadata('isPublic', true)
 		};
-	if (name === '@gauzy/contracts')
+	if (name === '@irtranscripts/contracts')
 		return {
 			IntegrationEnum: { EVER_ASYNC: 'Ever_Async' },
 			IntegrationTypeEnum: { ALL_INTEGRATIONS: 'All Integrations', PROJECT_MANAGEMENT: 'Project Management' }
 		};
-	if (name === '@gauzy/utils') return require('../packages/utils/src/lib/ssrf-url.ts');
+	if (name === '@irtranscripts/utils') return require('../packages/utils/src/lib/ssrf-url.ts');
 	return originalLoad.call(this, name, parent, isMain);
 };
 const {
@@ -135,14 +135,14 @@ const schemas = [
 let db, service, employeeId, projectId, foreignProjectId, foreignEmployeeId, taskId;
 const requests = [];
 before(async () => {
-	const testUrl = process.env.GAUZY_ASYNC_TEST_DATABASE_URL;
+	const testUrl = process.env.IRTRANSCRIPTS_ASYNC_TEST_DATABASE_URL;
 	if (testUrl) {
 		const target = new URL(testUrl);
 		if (!['localhost', '127.0.0.1', '[::1]'].includes(target.hostname) || !target.pathname.endsWith('_test')) {
 			throw new Error('Postgres integration tests require a loopback fixture database ending in _test.');
 		}
 	}
-	const testSchema = 'gauzy_async_' + randomUUID().replaceAll('-', '');
+	const testSchema = 'irtranscripts_async_' + randomUUID().replaceAll('-', '');
 	db = await new DataSource(
 		testUrl
 			? { type: 'postgres', url: testUrl, schema: testSchema, entities: schemas }

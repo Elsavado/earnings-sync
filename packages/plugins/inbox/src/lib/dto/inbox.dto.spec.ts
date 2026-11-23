@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
-import { InboxItemKindEnum, InboxTabEnum } from '@gauzy/contracts';
+import { InboxItemKindEnum, InboxTabEnum } from '@irtranscripts/contracts';
 import { InboxMarkAllReadDTO } from './inbox.dto';
 
 /** `POST /inbox/items/mark-all-read` takes the list's own filters, validated as the list validates them (review F65). */

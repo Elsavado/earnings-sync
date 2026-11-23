@@ -7,7 +7,7 @@ import {
 	EmitOptions,
 	SubscribeOptions,
 	PluginEventBusService
-} from '@gauzy/plugin-ui';
+} from '@irtranscripts/plugin-ui';
 
 /**
  * Hook return type for usePluginEvents.

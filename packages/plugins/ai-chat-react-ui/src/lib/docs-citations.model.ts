@@ -8,7 +8,7 @@
  */
 
 /**
- * The custom data part `@gauzy/plugin-docs` writes onto the chat stream after a `docs_search`
+ * The custom data part `@irtranscripts/plugin-docs` writes onto the chat stream after a `docs_search`
  * (`DOCS_CITATIONS_DATA_PART` in that plugin — the two strings are one contract).
  *
  * 🛑 Deliberately NOT imported from the docs plugin: this is a browser bundle and that package is

@@ -1,8 +1,8 @@
 import { UseGuards } from '@nestjs/common';
 import { QueryBus } from '@nestjs/cqrs';
 import { Args, ID, Query, Resolver } from '@nestjs/graphql';
-import { FeatureFlag, Public } from '@gauzy/common';
-import { ID as Id, IInvoice } from '@gauzy/contracts';
+import { FeatureFlag, Public } from '@irtranscripts/common';
+import { ID as Id, IInvoice } from '@irtranscripts/contracts';
 import { FEATURE_GRAPHQL } from '../../feature/graphql-feature.code';
 import { FeatureFlagGuard } from '../../shared/guards';
 import { FindPublicInvoiceQuery } from './queries';

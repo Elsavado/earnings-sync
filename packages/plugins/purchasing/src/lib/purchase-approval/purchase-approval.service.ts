@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { ApprovalPolicyTypesStringEnum, DecimalString } from '@gauzy/contracts';
+import { ApprovalPolicyTypesStringEnum, DecimalString } from '@irtranscripts/contracts';
 import {
 	RequestApprovalService,
 	RequestContext,
@@ -8,7 +8,7 @@ import {
 	isValidDecimalString,
 	normalizeDecimalString,
 	toUnitsAtScale
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { IPurchaseApprovalRequest, IPurchaseApprovalResult } from '../purchasing.types';
 
 /**

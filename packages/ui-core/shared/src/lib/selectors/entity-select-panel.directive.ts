@@ -22,7 +22,7 @@ export const ENTITY_SELECT_PANEL_POSITIONS: ConnectedPosition[] = [
 export const ENTITY_SELECT_PANEL_VIEWPORT_MARGIN = 16;
 
 /** Marks a position strategy this directive has already taught the end-aligned fallbacks. */
-const AUGMENTED = Symbol('gauzyEntitySelectPositions');
+const AUGMENTED = Symbol('irtranscriptsEntitySelectPositions');
 
 /**
  * Every start-aligned position followed by its end-aligned twin, in the order given — so ng-select's
@@ -44,7 +44,7 @@ export function withEndAlignedFallbacks(positions: readonly ConnectedPosition[])
  *
  * Since ng-select 24 the panel lives in a CDK overlay pane that ng-select sizes to the trigger's
  * width on every open and on every trigger resize. The pane's WIDTH is therefore taken over in
- * CSS (`_overrides.scss`, `.cdk-overlay-pane:has(> .ng-dropdown-panel.gauzy-entity-select)`:
+ * CSS (`_overrides.scss`, `.cdk-overlay-pane:has(> .ng-dropdown-panel.irtranscripts-entity-select)`:
  * `max-content`, capped at `min(32rem, 100vw − 2rem)`), because an `!important` rule is the only
  * thing ng-select's repeated `updateSize({ width })` cannot undo, and its floor (the trigger's
  * width) comes from `NgSelectPanelSizingService`. What neither can do is move the panel: the CDK
@@ -62,7 +62,7 @@ export function withEndAlignedFallbacks(positions: readonly ConnectedPosition[])
  * If a future ng-select drops it, this directive does nothing and the CSS still widens the panel.
  */
 @Directive({
-	selector: 'ng-select.gauzy-entity-select',
+	selector: 'ng-select.irtranscripts-entity-select',
 	standalone: true
 })
 export class EntitySelectPanelDirective {

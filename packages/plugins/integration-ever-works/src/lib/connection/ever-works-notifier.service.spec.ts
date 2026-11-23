@@ -2,7 +2,7 @@
  * The integration's notices (G-P3-5): an Inbox NOTICE (`source = SYSTEM`, one per connection, kind and admin) where
  * the Inbox is loaded, otherwise the employee-notification fallback; a dead letter goes to the Inbox only.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const entity = (name: string) => ({ [name]: class {} })[name];
 	return {
 		Employee: entity('Employee'),
@@ -18,8 +18,8 @@ import {
 	InboxItemKindEnum,
 	InboxItemPriorityEnum,
 	InboxItemSourceEnum
-} from '@gauzy/contracts';
-import { Employee, EmployeeNotification, IntegrationTenant } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { Employee, EmployeeNotification, IntegrationTenant } from '@irtranscripts/core';
 import type { DataSource } from 'typeorm';
 import type { EverWorksConnection } from './ever-works-connection.entity';
 import { EVER_WORKS_NOTICE_SOURCE, EverWorksNotifier } from './ever-works-notifier.service';

@@ -12,8 +12,8 @@ let resolvedSettings: Record<string, unknown> | undefined;
 
 jest.mock('@sentry/node', () => ({ captureException: (...args: unknown[]) => captureException(...args) }));
 jest.mock('@sentry/core', () => ({ httpRequestToRequestData: jest.fn() }));
-// The interceptor and SentryService read the current request's tenant settings from @gauzy/core.
-jest.mock('@gauzy/core', () => ({
+// The interceptor and SentryService read the current request's tenant settings from @irtranscripts/core.
+jest.mock('@irtranscripts/core', () => ({
 	RequestContext: { currentRequest: () => (resolvedSettings ? { resolvedSettings } : undefined) }
 }));
 

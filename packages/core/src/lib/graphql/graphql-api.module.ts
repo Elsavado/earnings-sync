@@ -1,6 +1,6 @@
 import { DynamicModule, Module, Type } from '@nestjs/common';
-import { getConfig } from '@gauzy/config';
-import { getDynamicPluginsModules, getResolversFromPlugins } from '@gauzy/plugin';
+import { getConfig } from '@irtranscripts/config';
+import { getDynamicPluginsModules, getResolversFromPlugins } from '@irtranscripts/plugin';
 import { CORE_SCALARS } from './scalars';
 import { RoleEntityResolver } from './../role/role-entity.resolver';
 import { RoleModule } from './../role/role.module';

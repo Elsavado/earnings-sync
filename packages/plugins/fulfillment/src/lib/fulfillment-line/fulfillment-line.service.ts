@@ -1,11 +1,11 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { DeepPartial, DeleteResult, FindOptionsWhere, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { FulfillmentLine } from './fulfillment-line.entity';
 import { TypeOrmFulfillmentLineRepository } from './repository/type-orm-fulfillment-line.repository';
 import { MikroOrmFulfillmentLineRepository } from './repository/mikro-orm-fulfillment-line.repository';
-import { RequestContext, assertPlainReferencesNotForeign, compareDecimalStrings } from '@gauzy/core';
+import { RequestContext, assertPlainReferencesNotForeign, compareDecimalStrings } from '@irtranscripts/core';
 import { Quantity, isPositiveQuantity, toQuantityText } from '../fulfillment.quantity';
 import { FULFILLMENT_LINE_REFERENCES } from '../fulfillment.references';
 import { isCountedShipment, removalCriteria } from '../fulfillment.removal';

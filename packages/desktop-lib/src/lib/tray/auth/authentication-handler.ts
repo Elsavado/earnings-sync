@@ -1,5 +1,5 @@
-import { RegisteredWindow } from '@gauzy/desktop-core';
-import { getApiBaseUrl } from '@gauzy/desktop-window';
+import { RegisteredWindow } from '@irtranscripts/desktop-core';
+import { getApiBaseUrl } from '@irtranscripts/desktop-window';
 import { User } from '../../offline';
 import { IConfigStore, IUserRepository, IWindowService } from '../interfaces';
 import { AppWindowManager } from '../../app-window-manager';

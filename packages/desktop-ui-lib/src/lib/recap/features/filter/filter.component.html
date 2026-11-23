@@ -1,9 +1,9 @@
-<button nbButton [nbPopover]="gauzyFilter" size="small" nbPopoverTrigger="click" status="basic">
+<button nbButton [nbPopover]="irtranscriptsFilter" size="small" nbPopoverTrigger="click" status="basic">
 	<nb-icon icon="more-horizontal-outline"></nb-icon>
 </button>
 
-<ng-template #gauzyFilter>
-	<ngx-gauzy-filters class="vertical" [filters]="filters$ | async" [hasTimeZoneFilter]="false" [saveFilters]="false"
-		(filtersChange)="filtersChange($event)"></ngx-gauzy-filters>
+<ng-template #irtranscriptsFilter>
+	<ngx-irtranscripts-filters class="vertical" [filters]="filters$ | async" [hasTimeZoneFilter]="false" [saveFilters]="false"
+		(filtersChange)="filtersChange($event)"></ngx-irtranscripts-filters>
 	<ngx-auto-refresh></ngx-auto-refresh>
 </ng-template>

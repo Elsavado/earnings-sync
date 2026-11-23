@@ -8,7 +8,7 @@ import {
 	RuleOwnerType,
 	RuleScope,
 	RuleValueType
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { evaluateRuleSet, matchesRule, resolveAttributePath, ruleSetMatches } from './rule.evaluator';
 import { RULE_MAX_MATCH_INPUT } from './rule.pattern-safety';
 

@@ -1,4 +1,4 @@
-import { DocumentKindEnum } from '@gauzy/contracts';
+import { DocumentKindEnum } from '@irtranscripts/contracts';
 import { Document } from '../../entities/document.entity';
 import { createTurndown } from '../extraction/html.extractor';
 import { normalizeMarkdown } from '../extraction/extractor.interface';

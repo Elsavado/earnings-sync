@@ -1,4 +1,4 @@
-import { IEmailProviderConfigSchema, IInboxProviderAccount } from '@gauzy/contracts';
+import { IEmailProviderConfigSchema, IInboxProviderAccount } from '@irtranscripts/contracts';
 import {
 	initialProviderConfigState,
 	PROVIDER_CONFIG_ERROR_KEYS,

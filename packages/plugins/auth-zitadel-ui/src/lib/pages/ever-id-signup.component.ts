@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NbAlertModule, NbButtonModule, NbCheckboxModule, NbInputModule } from '@nebular/theme';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { ITermsAcceptanceDocument, IWorkspaceResponse } from '@gauzy/contracts';
-import { AuthService } from '@gauzy/ui-core/core';
+import { ITermsAcceptanceDocument, IWorkspaceResponse } from '@irtranscripts/contracts';
+import { AuthService } from '@irtranscripts/ui-core/core';
 import { EverIdWorkspacesComponent } from '../components/ever-id-workspaces.component';
 import { AuthZitadelUiService, EverIdSignupDetails, EverIdWorkspaceResponse } from '../services/auth-zitadel-ui.service';
 import { EverIdSignInService } from '../services/ever-id-sign-in.service';
@@ -20,11 +20,11 @@ function retryDelayMs(failure: { error?: { retryAfter?: unknown } } | null | und
 }
 
 /**
- * `#/auth/ever-id/signup?handoff=…` (Ever Cloud only): "Create a Gauzy workspace with this Ever ID".
+ * `#/auth/ever-id/signup?handoff=…` (Ever Cloud only): "Create a IRTranscripts workspace with this Ever ID".
  *
  * Shows the verified name and e-mail (fetched with the one-time key; nothing personal is in the URL)
- * and creates the account only when the person ticks the confirmation and presses the button. Gauzy's
- * own register path runs on the server, behind Gauzy's own subscription gate: without a subscription
+ * and creates the account only when the person ticks the confirmation and presses the button. IRTranscripts's
+ * own register path runs on the server, behind IRTranscripts's own subscription gate: without a subscription
  * the page links to checkout, and the sign-up finishes the next time the person signs in with Ever ID.
  */
 @Component({
@@ -204,7 +204,7 @@ export class EverIdSignupComponent implements OnInit {
 		this.loadDetails();
 	}
 
-	/** Loads the documents Gauzy currently requires (again, after a failure). */
+	/** Loads the documents IRTranscripts currently requires (again, after a failure). */
 	loadTerms(): void {
 		this.termsUnavailable = false;
 		this.authService

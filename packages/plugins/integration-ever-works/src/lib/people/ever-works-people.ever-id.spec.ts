@@ -1,11 +1,11 @@
 /**
- * Ever ID matching on the People tab (G-P1-6, plan 01 §3 step 1, decision D5): when an Ever Works member and a Gauzy
- * person carry the same Ever ID (Ever Works `everIdSubjects` ↔ Gauzy `zitadel_account`), they are paired
+ * Ever ID matching on the People tab (G-P1-6, plan 01 §3 step 1, decision D5): when an Ever Works member and a IRTranscripts
+ * person carry the same Ever ID (Ever Works `everIdSubjects` ↔ IRTranscripts `zitadel_account`), they are paired
  * automatically; otherwise a verified e-mail is a suggestion and the admin confirms (as before). Every pairing keeps
  * how it was made (`matchedBy`: ever_id / verified_email / manual), and an admin who undoes an Ever ID pairing is not
  * overruled: that member is only suggested from then on.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const decorator = () => () => undefined;
 	const entity = (name: string) => ({ [name]: class {} })[name];
 	return {
@@ -28,10 +28,10 @@ jest.mock('@gauzy/core', () => {
 		RequestContext: { currentTenantId: () => null, currentUserId: () => null, currentOrganizationId: () => null, hasPermission: () => true }
 	};
 });
-jest.mock('@gauzy/common', () => ({ Public: () => () => undefined }));
+jest.mock('@irtranscripts/common', () => ({ Public: () => () => undefined }));
 
 import 'reflect-metadata';
-import { Employee, IntegrationSetting, Invite } from '@gauzy/core';
+import { Employee, IntegrationSetting, Invite } from '@irtranscripts/core';
 import { EverWorksSettingName } from '../ever-works-setting.enum';
 import { EverWorksInboundEvent, EverWorksLinkType } from '../sync/entities/ever-works-sync.entities';
 import { EVER_ID_ACCOUNT_TABLE, everIdKey, everIdMatches } from './ever-works-ever-id';
@@ -138,7 +138,7 @@ describe('everIdMatches', () => {
 interface LinkRow {
 	id: string;
 	ewId: string;
-	gauzyId: string;
+	irtranscriptsId: string;
 	ewOnly: string | null;
 	state: string;
 }
@@ -146,7 +146,7 @@ interface LinkRow {
 function setup(
 	options: {
 		members?: EverWorksMember[];
-		links?: Array<{ ewId: string; gauzyId: string; matchedBy?: string }>;
+		links?: Array<{ ewId: string; irtranscriptsId: string; matchedBy?: string }>;
 		accounts?: Array<{ issuer: string; subject: string; userId: string }>;
 		accountsMissing?: boolean;
 		declined?: string[];
@@ -156,7 +156,7 @@ function setup(
 	const links: LinkRow[] = (options.links ?? []).map((l, i) => ({
 		id: `link-${i}`,
 		ewId: l.ewId,
-		gauzyId: l.gauzyId,
+		irtranscriptsId: l.irtranscriptsId,
 		ewOnly: l.matchedBy ? JSON.stringify({ matchedBy: l.matchedBy }) : null,
 		state: 'ok'
 	}));
@@ -234,9 +234,9 @@ function setup(
 	const linkService = {
 		list: jest.fn(async () => [...links]),
 		byEw: jest.fn(async (_m: string, _t: string, ewId: string) => links.find((l) => l.ewId === ewId) ?? null),
-		byGauzy: jest.fn(async (_m: string, _t: string, gauzyId: string) => links.find((l) => l.gauzyId === gauzyId) ?? null),
-		record: jest.fn(async (input: { ewId: string; gauzyId: string; ewOnly?: Record<string, unknown> }) => {
-			links.push({ id: `link-${links.length}`, ewId: input.ewId, gauzyId: input.gauzyId, ewOnly: input.ewOnly ? JSON.stringify(input.ewOnly) : null, state: 'ok' });
+		byIRTranscripts: jest.fn(async (_m: string, _t: string, irtranscriptsId: string) => links.find((l) => l.irtranscriptsId === irtranscriptsId) ?? null),
+		record: jest.fn(async (input: { ewId: string; irtranscriptsId: string; ewOnly?: Record<string, unknown> }) => {
+			links.push({ id: `link-${links.length}`, ewId: input.ewId, irtranscriptsId: input.irtranscriptsId, ewOnly: input.ewOnly ? JSON.stringify(input.ewOnly) : null, state: 'ok' });
 		}),
 		remove: jest.fn(async (link: LinkRow) => {
 			links.splice(links.indexOf(link), 1);
@@ -261,7 +261,7 @@ describe('EverWorksPeopleService — Ever ID matching', () => {
 		expect(queried).toEqual([EVER_ID_ACCOUNT_TABLE]);
 		expect(linkService.record).toHaveBeenCalledTimes(1);
 		expect(linkService.record.mock.calls[0][0]).toEqual(
-			expect.objectContaining({ entityType: EverWorksLinkType.MEMBER, ewId: 'U-ada', gauzyId: 'E-ada', ewOnly: expect.objectContaining({ matchedBy: 'ever_id' }) })
+			expect.objectContaining({ entityType: EverWorksLinkType.MEMBER, ewId: 'U-ada', irtranscriptsId: 'E-ada', ewOnly: expect.objectContaining({ matchedBy: 'ever_id' }) })
 		);
 		const row = view.members.find((m) => m.ewUserId === 'U-ada');
 		expect(row).toEqual(expect.objectContaining({ linkedEmployeeId: 'E-ada', matchedBy: 'ever_id', suggestion: null }));
@@ -271,18 +271,18 @@ describe('EverWorksPeopleService — Ever ID matching', () => {
 	it('prefers the Ever ID person over a verified-email suggestion of another person', async () => {
 		const { service, linkService } = setup({ members: [ada({ email: 'bob@example.test' })], accounts: [adaAccount] });
 		await service.people('m1' as never);
-		expect(linkService.record.mock.calls[0][0]).toEqual(expect.objectContaining({ ewId: 'U-ada', gauzyId: 'E-ada' }));
+		expect(linkService.record.mock.calls[0][0]).toEqual(expect.objectContaining({ ewId: 'U-ada', irtranscriptsId: 'E-ada' }));
 	});
 
 	it('never re-pairs a member or a person that is already paired', async () => {
-		for (const links of [[{ ewId: 'U-ada', gauzyId: 'E-bob' }], [{ ewId: 'U-other', gauzyId: 'E-ada' }]]) {
+		for (const links of [[{ ewId: 'U-ada', irtranscriptsId: 'E-bob' }], [{ ewId: 'U-other', irtranscriptsId: 'E-ada' }]]) {
 			const { service, linkService } = setup({ members: [ada(), member('U-other')], accounts: [adaAccount], links });
 			await service.people('m1' as never);
 			expect(linkService.record).not.toHaveBeenCalled();
 		}
 	});
 
-	it('falls back to the verified-email suggestion when Gauzy has no Ever ID data (no zitadel_account table)', async () => {
+	it('falls back to the verified-email suggestion when IRTranscripts has no Ever ID data (no zitadel_account table)', async () => {
 		const { service, linkService } = setup({ members: [ada({ email: 'ada@example.test' })], accountsMissing: true });
 		const view = await service.people('m1' as never);
 		expect(linkService.record).not.toHaveBeenCalled();
@@ -296,7 +296,7 @@ describe('EverWorksPeopleService — Ever ID matching', () => {
 	});
 
 	it('keeps an admin undoing an Ever ID pairing: the member is declined, then only suggested (reason ever_id)', async () => {
-		const { service, links, declined } = setup({ members: [ada({ email: 'nobody@example.test' })], accounts: [adaAccount], links: [{ ewId: 'U-ada', gauzyId: 'E-ada', matchedBy: 'ever_id' }] });
+		const { service, links, declined } = setup({ members: [ada({ email: 'nobody@example.test' })], accounts: [adaAccount], links: [{ ewId: 'U-ada', irtranscriptsId: 'E-ada', matchedBy: 'ever_id' }] });
 		await service.decide('m1' as never, { unlinks: ['U-ada'] });
 		expect(links).toHaveLength(0);
 		expect(declined()).toEqual(['U-ada']);
@@ -310,7 +310,7 @@ describe('EverWorksPeopleService — Ever ID matching', () => {
 		const { service, links, declined } = setup({ members: [ada()], accounts: [adaAccount], declined: ['U-ada'] });
 		await service.decide('m1' as never, { acceptSuggestions: true });
 		expect(declined()).toEqual([]);
-		expect(links).toEqual([expect.objectContaining({ ewId: 'U-ada', gauzyId: 'E-ada' })]);
+		expect(links).toEqual([expect.objectContaining({ ewId: 'U-ada', irtranscriptsId: 'E-ada' })]);
 		expect(JSON.parse(links[0].ewOnly as string)).toEqual(expect.objectContaining({ matchedBy: 'ever_id' }));
 	});
 
@@ -318,14 +318,14 @@ describe('EverWorksPeopleService — Ever ID matching', () => {
 		const { service, links } = setup({ members: [member('U-ada', { email: 'ada@example.test' }), member('U-bob', { email: 'bob@example.test' })] });
 		// Ada is suggested E-ada, Bob E-bob; the admin pairs Bob with E-ada by hand and accepts the rest.
 		await service.decide('m1' as never, { links: [{ ewUserId: 'U-bob', employeeId: 'E-ada' as never }], acceptSuggestions: true });
-		expect(links.map((l) => [l.ewId, l.gauzyId])).toEqual([['U-bob', 'E-ada']]);
+		expect(links.map((l) => [l.ewId, l.irtranscriptsId])).toEqual([['U-bob', 'E-ada']]);
 	});
 
 	it('a person suggested for two members goes to the one an explicit link leaves open (#11076 review)', async () => {
 		const { service, links } = setup({ members: [member('U-ada', { email: 'ada@example.test' }), member('U-ann', { email: 'ada@example.test' })] });
 		// Both are suggested E-ada; the admin pairs Ada with E-bob by hand, so Ann is the only one left for E-ada.
 		await service.decide('m1' as never, { links: [{ ewUserId: 'U-ada', employeeId: 'E-bob' as never }], acceptSuggestions: true });
-		expect(links.map((l) => [l.ewId, l.gauzyId]).sort()).toEqual([
+		expect(links.map((l) => [l.ewId, l.irtranscriptsId]).sort()).toEqual([
 			['U-ada', 'E-bob'],
 			['U-ann', 'E-ada']
 		]);
@@ -374,9 +374,9 @@ describe('EverWorksPeopleService — Ever ID matching', () => {
 		const { service } = setup({
 			members: [member('U-ada'), member('U-bob'), member('U-cy')],
 			links: [
-				{ ewId: 'U-ada', gauzyId: 'E-ada', matchedBy: 'ever_id' },
-				{ ewId: 'U-bob', gauzyId: 'E-bob', matchedBy: 'verified_email' },
-				{ ewId: 'U-cy', gauzyId: 'E-cy' }
+				{ ewId: 'U-ada', irtranscriptsId: 'E-ada', matchedBy: 'ever_id' },
+				{ ewId: 'U-bob', irtranscriptsId: 'E-bob', matchedBy: 'verified_email' },
+				{ ewId: 'U-cy', irtranscriptsId: 'E-cy' }
 			]
 		});
 		const view = await service.people('m1' as never);

@@ -1,8 +1,8 @@
 import { DataSource } from 'typeorm';
 import * as path from 'path';
-import { environment as env, getConfig } from '@gauzy/config';
-import { ApplicationPluginConfig } from '@gauzy/common';
-import { FileStorageProviderEnum, ITenant } from '@gauzy/contracts';
+import { environment as env, getConfig } from '@irtranscripts/config';
+import { ApplicationPluginConfig } from '@irtranscripts/common';
+import { FileStorageProviderEnum, ITenant } from '@irtranscripts/contracts';
 import { ImageAsset } from './../core/entities/internal';
 import { FileStorage } from './../core/file-storage';
 import { copyAssets, getImageDimensions } from './../core/seeds/utils';
@@ -20,7 +20,7 @@ export interface ISeededUserAvatar {
  * Turns a seeded `imageUrl` (`assets/images/avatars/<file>`) into a real ImageAsset.
  *
  * The avatars that ship with the seed used to be written into `User.imageUrl` verbatim. That value
- * only resolves inside the Angular Gauzy app, which serves those files itself under `<base href="/">`;
+ * only resolves inside the Angular IRTranscripts app, which serves those files itself under `<base href="/">`;
  * for Ever Teams (Next.js) and every other client it resolved against the current route and 404'd.
  * Copying the file into the API's public assets and storing an ImageAsset puts seeded avatars through
  * exactly the same path as an avatar a user uploads, so every client gets a resolvable absolute URL.
@@ -48,7 +48,7 @@ export const createSeededUserAvatar = async (
 			? path.resolve(process.cwd(), 'apps/api/public')
 			: path.resolve(__dirname, '../../../apps/api/public');
 		const assetPublicPath = env.isElectron
-			? path.resolve(env.gauzyUserPath, 'public')
+			? path.resolve(env.irtranscriptsUserPath, 'public')
 			: config.assetOptions?.assetPublicPath || publicDir;
 
 		const { height, width, size } = await getImageDimensions(path.join(assetPublicPath, storagePath));

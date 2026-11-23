@@ -1,6 +1,6 @@
 import { Injectable, BadRequestException, HttpException } from '@nestjs/common';
-import { ID, IPagination, IProductTypeTranslatable, LanguagesEnum } from '@gauzy/contracts';
-import { isNotEmpty } from '@gauzy/utils';
+import { ID, IPagination, IProductTypeTranslatable, LanguagesEnum } from '@irtranscripts/contracts';
+import { isNotEmpty } from '@irtranscripts/utils';
 import { BaseQueryDTO, TenantAwareCrudService } from './../core/crud';
 import { MultiORMEnum } from './../core/utils';
 import { RequestContext } from './../core/context';

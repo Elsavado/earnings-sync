@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { of, Subject, throwError } from 'rxjs';
-import { AuthService } from '@gauzy/ui-core/core';
+import { AuthService } from '@irtranscripts/ui-core/core';
 import { AuthZitadelUiService } from '../services/auth-zitadel-ui.service';
 import { EverIdSignInService } from '../services/ever-id-sign-in.service';
 import { EverIdSignupComponent } from './ever-id-signup.component';
@@ -34,7 +34,7 @@ describe('EverIdSignupComponent', () => {
 		api.signupDetails.mockReset();
 		api.signup.mockReset();
 		api.signupDetails.mockReturnValue(of({ email: 'new.person@example.test', firstName: 'New', lastName: 'Person' }));
-		terms.getRequiredTermsDocuments.mockReturnValue(of([{ documentId: 'tos:gauzy', version: '1', sha256: 'a'.repeat(64), locale: 'en' }]));
+		terms.getRequiredTermsDocuments.mockReturnValue(of([{ documentId: 'tos:irtranscripts', version: '1', sha256: 'a'.repeat(64), locale: 'en' }]));
 	});
 
 	it('prefills the verified details fetched with the one-time key', () => {
@@ -61,7 +61,7 @@ describe('EverIdSignupComponent', () => {
 		component.submit();
 		const body = api.signup.mock.calls[0][0];
 		expect(body).toEqual(expect.objectContaining({ handoff: 'k'.repeat(43), confirm: true, firstName: 'New', lastName: 'Person' }));
-		expect(body.terms).toEqual([{ documentId: 'tos:gauzy', version: '1', sha256: 'a'.repeat(64), locale: 'en' }]);
+		expect(body.terms).toEqual([{ documentId: 'tos:irtranscripts', version: '1', sha256: 'a'.repeat(64), locale: 'en' }]);
 		expect(JSON.stringify(body)).not.toContain('@');
 		expect(signIn.signIn).toHaveBeenCalled();
 	});
@@ -107,7 +107,7 @@ describe('EverIdSignupComponent', () => {
 
 	it('uses the documents the API lists with the details, with their absolute links', () => {
 		const document = {
-			documentId: 'tos:gauzy',
+			documentId: 'tos:irtranscripts',
 			version: '1',
 			sha256: 'a'.repeat(64),
 			locale: 'en',

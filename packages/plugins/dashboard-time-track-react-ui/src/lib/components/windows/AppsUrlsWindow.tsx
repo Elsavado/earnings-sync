@@ -1,7 +1,7 @@
 import '../nebular-jsx';
-import { IActivitiesStatistics } from '@gauzy/contracts';
-import { useTranslation } from '@gauzy/ui-react';
-import { ProgressBar, progressStatus } from '@gauzy/ui-react-components';
+import { IActivitiesStatistics } from '@irtranscripts/contracts';
+import { useTranslation } from '@irtranscripts/ui-react';
+import { ProgressBar, progressStatus } from '@irtranscripts/ui-react-components';
 import { durationFormat } from '../../utils/format.utils';
 import { NbButton } from '../NbButton';
 import { WindowCard } from './WindowCard';

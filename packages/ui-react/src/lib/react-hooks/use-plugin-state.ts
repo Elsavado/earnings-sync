@@ -1,5 +1,5 @@
 import { useMemo, useCallback } from 'react';
-import { PluginStateService } from '@gauzy/plugin-ui';
+import { PluginStateService } from '@irtranscripts/plugin-ui';
 import { useInjector } from './use-injector';
 import { useObservable } from './use-observable';
 

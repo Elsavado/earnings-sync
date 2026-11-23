@@ -24,8 +24,8 @@ import {
 	InboxProviderAccountScopeEnum,
 	InboxProviderAccountStatusEnum,
 	PermissionsEnum
-} from '@gauzy/contracts';
-import { describeEmailSendError, RequestContext } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { describeEmailSendError, RequestContext } from '@irtranscripts/core';
 import { InboxNamedLocks } from '../database/named-locks';
 import { InboxProviderAccount } from '../entities/inbox-provider-account.entity';
 import { INBOX_SECRET_BOX, inboundWebhookUrl, PROVIDER_ACCOUNT_ERROR_MAX } from '../inbox-email.constants';
@@ -278,7 +278,7 @@ export class InboxProviderAccountService {
 	}
 
 	/**
-	 * Removes an account (Settings → Inbox → Providers, "Delete"). Soft, as everywhere in Gauzy: the row stays, marked
+	 * Removes an account (Settings → Inbox → Providers, "Delete"). Soft, as everywhere in IRTranscripts: the row stays, marked
 	 * deleted, disabled and no longer the scope's outbound default, so nothing is received or sent through it and it
 	 * leaves every list. Refused (409) while a mailbox still receives through it: those mailboxes are pointed at another
 	 * account first. A tenant-wide account also needs `ALL_ORG_EDIT`.
@@ -549,8 +549,8 @@ export class InboxProviderAccountService {
 	private async lockScope(manager: EntityManager, row: InboxProviderAccount): Promise<void> {
 		const scopeKey =
 			row.scope === InboxProviderAccountScopeEnum.TENANT
-				? `gauzy-inbox:outbound:${row.tenantId}`
-				: `gauzy-inbox:outbound:${row.tenantId}:${row.organizationId}`;
+				? `irtranscripts-inbox:outbound:${row.tenantId}`
+				: `irtranscripts-inbox:outbound:${row.tenantId}:${row.organizationId}`;
 		if (this.dialect === 'postgres') {
 			await manager.query('SELECT pg_advisory_xact_lock(hashtext($1))', [scopeKey]);
 		} else if (this.dialect === 'mysql' || this.dialect === 'mariadb') {

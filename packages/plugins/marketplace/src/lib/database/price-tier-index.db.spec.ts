@@ -12,15 +12,15 @@
  * TypeORM query runner, and the rows below are what `assertTierIsFree` refuses in the service; the index is what
  * backs it against two concurrent or bulk writes.
  */
-jest.mock('@gauzy/config', () => jest.requireActual('@gauzy/config/src/lib/database-helpers'));
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/config', () => jest.requireActual('@irtranscripts/config/src/lib/database-helpers'));
+jest.mock('@irtranscripts/core', () => ({
 	// Only the PostgreSQL and MySQL branches state constraints; the embedded branch never calls it.
 	addCheckConstraint: async () => undefined
 }));
 
 import 'reflect-metadata';
 import { DataSource, MigrationInterface, QueryRunner } from 'typeorm';
-import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@gauzy/config';
+import { TYPEORM_INVALID_WHERE_VALUES_BEHAVIOR } from '@irtranscripts/config';
 import { CreatePricingTables1791000000120 } from '../../../../pricing/src/lib/database/migrations/1791000000120-CreatePricingTables';
 import { AddPriceListForeignKeys1791000000130 } from '../../../../pricing/src/lib/database/migrations/1791000000130-AddPriceListForeignKeys';
 import { AddPriceComputationColumns1791000000135 } from '../../../../pricing/src/lib/database/migrations/1791000000135-AddPriceComputationColumns';

@@ -1,7 +1,7 @@
 import { ExportRedacted } from '../export-import/export-redact.decorator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsArray, IsDateString, IsInt, IsOptional, IsString, IsUrl, IsUUID, Min } from 'class-validator';
-import { ID, IWebhookSubscription, JsonData } from '@gauzy/contracts';
+import { ID, IWebhookSubscription, JsonData } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseEntity } from '../core/entities/internal';
 import {
 	ColumnIndex,

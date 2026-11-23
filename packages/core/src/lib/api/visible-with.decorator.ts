@@ -3,8 +3,8 @@
 // compiles this module on its own.
 import 'reflect-metadata';
 
-import { VISIBLE_WITH_FIELDS_METADATA, VISIBLE_WITH_METADATA } from '@gauzy/constants';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { VISIBLE_WITH_FIELDS_METADATA, VISIBLE_WITH_METADATA } from '@irtranscripts/constants';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { VisibleWithField } from './visibility-metadata';
 
 /**

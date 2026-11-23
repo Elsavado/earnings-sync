@@ -163,7 +163,7 @@ export async function isPublicOnGitHub(repo, fetchImpl = fetch, waitMs = 2000) {
 		// eslint-disable-next-line no-await-in-loop
 		const response = await fetchImpl(`https://github.com/${OWNER}/${encodeURIComponent(repo)}`, {
 			method: 'HEAD',
-			headers: { 'user-agent': 'ever-gauzy-private-deps-check' },
+			headers: { 'user-agent': 'ever-irtranscripts-private-deps-check' },
 			redirect: 'follow'
 		});
 		if (response.status === 200) return true;

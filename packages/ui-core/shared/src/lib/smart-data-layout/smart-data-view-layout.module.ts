@@ -4,7 +4,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { Angular2SmartTableModule } from 'angular2-smart-table';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { SharedModule } from '../shared.module';
-import { GauzyButtonActionModule } from '../gauzy-button-action/gauzy-button-action.module';
+import { IRTranscriptsButtonActionModule } from '../irtranscripts-button-action/irtranscripts-button-action.module';
 import { NoDataMessageModule } from './no-data-message/no-data-message.module';
 import { PaginationComponent } from './pagination/pagination.component';
 import { PaginationV2Component } from './pagination/pagination-v2/pagination-v2.component';
@@ -29,10 +29,10 @@ const DIRECTIVES = [SmartTableSettlingDirective, SmartTableFilterToggleDirective
 		NgxPermissionsModule.forChild(),
 		Angular2SmartTableModule,
 		SharedModule,
-		GauzyButtonActionModule,
+		IRTranscriptsButtonActionModule,
 		NoDataMessageModule
 	],
-	exports: [Angular2SmartTableModule, GauzyButtonActionModule, NoDataMessageModule, ...COMPONENTS, ...DIRECTIVES],
+	exports: [Angular2SmartTableModule, IRTranscriptsButtonActionModule, NoDataMessageModule, ...COMPONENTS, ...DIRECTIVES],
 	providers: []
 })
 export class SmartDataViewLayoutModule {}

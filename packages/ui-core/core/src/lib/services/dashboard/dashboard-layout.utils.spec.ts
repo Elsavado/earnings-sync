@@ -1,4 +1,4 @@
-import { IDashboardWidgetPlacement } from '@gauzy/contracts';
+import { IDashboardWidgetPlacement } from '@irtranscripts/contracts';
 import {
 	addPlacement,
 	clampPlacement,

@@ -5,18 +5,18 @@
  */
 const mockCurrentTenantId = jest.fn();
 
-jest.mock('@gauzy/core', () => ({
+jest.mock('@irtranscripts/core', () => ({
 	RequestContext: { currentTenantId: () => mockCurrentTenantId() },
 	IntegrationService: class {},
 	IntegrationSettingService: class {},
 	IntegrationTenantService: class {},
 	TenantOrganizationBaseDTO: class {}
 }));
-jest.mock('@gauzy/config', () => ({ ConfigService: class {} }));
+jest.mock('@irtranscripts/config', () => ({ ConfigService: class {} }));
 
 import { HttpException, Logger } from '@nestjs/common';
 import { of } from 'rxjs';
-import { ActivepiecesConnectionMode, ActivepiecesSettingName } from '@gauzy/contracts';
+import { ActivepiecesConnectionMode, ActivepiecesSettingName } from '@irtranscripts/contracts';
 import { ACTIVEPIECES_CONNECTIONS_URL, ACTIVEPIECES_MCP_SERVERS_URL } from './activepieces.config';
 import { ActivepiecesCredentialsService, IActivepiecesCredential } from './activepieces-credentials.service';
 import { ActivepiecesMcpService } from './activepieces-mcp.service';
@@ -45,7 +45,7 @@ function credentialsFor(credential: IActivepiecesCredential, mcpApi: 'v2' | 'leg
 		signingKeyId: '',
 		signingPrivateKey: '',
 		tenantProjectsEnabled: true,
-		externalIdPrefix: 'gauzy-tenant-',
+		externalIdPrefix: 'irtranscripts-tenant-',
 		mcpApi
 	});
 	return credentials;
@@ -144,14 +144,14 @@ describe('Activepieces — a tenant pinned to its own project', () => {
 		it('creates a connection in the tenant project when the client names none', async () => {
 			const { service, http } = connectionService({ id: 'conn-a', projectIds: ['proj-a'] });
 
-			await service.upsertConnection({ accessToken: 'gauzy-token' } as any);
+			await service.upsertConnection({ accessToken: 'irtranscripts-token' } as any);
 
 			expect((http.post.mock.calls[0] as any[])[1]).toEqual(expect.objectContaining({ projectId: 'proj-a' }));
 			expect((http.post.mock.calls[0] as any[])[2].headers.Authorization).toBe('Bearer platform-key');
 		});
 	});
 
-	// The legacy MCP routes (`GAUZY_ACTIVEPIECES_MCP_API=legacy`), under a project token: MCP accepts only user
+	// The legacy MCP routes (`IRTRANSCRIPTS_ACTIVEPIECES_MCP_API=legacy`), under a project token: MCP accepts only user
 	// tokens, so the installation's key (`platform_project`) never reaches them (see activepieces-mcp.v2.spec.ts).
 	describe('MCP servers (legacy routes)', () => {
 		function mcpService(server: { id: string; projectId: string }) {
@@ -162,8 +162,8 @@ describe('Activepieces — a tenant pinned to its own project', () => {
 							config.method === 'get' && config.url === ACTIVEPIECES_MCP_SERVERS_URL
 								? {
 										data: [
-											{ id: 'mcp-a', name: 'gauzy', projectId: 'proj-a' },
-											{ id: 'mcp-b', name: 'gauzy', projectId: 'proj-b' }
+											{ id: 'mcp-a', name: 'irtranscripts', projectId: 'proj-a' },
+											{ id: 'mcp-b', name: 'irtranscripts', projectId: 'proj-b' }
 										],
 										next: null,
 										previous: null

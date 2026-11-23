@@ -1,5 +1,5 @@
 import { IntersectionType, PickType } from '@nestjs/swagger';
-import { IReactionCreateInput } from '@gauzy/contracts';
+import { IReactionCreateInput } from '@irtranscripts/contracts';
 import { TenantOrganizationBaseDTO } from './../../core/dto';
 import { Reaction } from '../reaction.entity';
 

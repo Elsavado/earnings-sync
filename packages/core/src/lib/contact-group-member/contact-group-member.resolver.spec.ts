@@ -10,8 +10,8 @@ import { join } from 'node:path';
 import { BadRequestException, ExecutionContext, HttpException, NotFoundException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { buildSchema } from 'graphql';
-import { ContactGroupSource, ContactGroupType, PermissionsEnum } from '@gauzy/contracts';
-import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@gauzy/constants';
+import { ContactGroupSource, ContactGroupType, PermissionsEnum } from '@irtranscripts/contracts';
+import { FEATURE_METADATA, PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import { FeatureFlagGuard, PermissionGuard, TenantPermissionGuard } from '../shared/guards';
 import { ContactGroupMemberResolver } from './contact-group-member.resolver';
 

@@ -1,4 +1,4 @@
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { ApiErrorCode } from '../core/errors/api-error-codes';
 import { ApiException } from '../core/errors/api-exception';
 import { BulkExecutor } from './bulk-executor.service';
@@ -259,12 +259,12 @@ describe('BulkExecutor', () => {
 		// the item after it is applied against a live transaction rather than an aborted one. The names
 		// carry the item index and nothing a caller supplied.
 		expect(manager.statements).toEqual([
-			'SAVEPOINT gauzy_bulk_item_0',
-			'RELEASE SAVEPOINT gauzy_bulk_item_0',
-			'SAVEPOINT gauzy_bulk_item_1',
-			'ROLLBACK TO SAVEPOINT gauzy_bulk_item_1',
-			'SAVEPOINT gauzy_bulk_item_2',
-			'RELEASE SAVEPOINT gauzy_bulk_item_2'
+			'SAVEPOINT irtranscripts_bulk_item_0',
+			'RELEASE SAVEPOINT irtranscripts_bulk_item_0',
+			'SAVEPOINT irtranscripts_bulk_item_1',
+			'ROLLBACK TO SAVEPOINT irtranscripts_bulk_item_1',
+			'SAVEPOINT irtranscripts_bulk_item_2',
+			'RELEASE SAVEPOINT irtranscripts_bulk_item_2'
 		]);
 	});
 
@@ -330,7 +330,7 @@ describe('BulkExecutor', () => {
 		);
 
 		expect(result.succeededCount).toBe(1);
-		expect(executed).toEqual(['run:SAVEPOINT gauzy_bulk_item_0', 'run:RELEASE SAVEPOINT gauzy_bulk_item_0']);
+		expect(executed).toEqual(['run:SAVEPOINT irtranscripts_bulk_item_0', 'run:RELEASE SAVEPOINT irtranscripts_bulk_item_0']);
 		expect(outside).toEqual([]);
 	});
 
@@ -361,7 +361,7 @@ describe('BulkExecutor', () => {
 			queryRunner: { isTransactionActive: true },
 			query: async (sql: string) => {
 				if (/^ROLLBACK TO SAVEPOINT /.test(sql)) {
-					throw new Error('SAVEPOINT gauzy_bulk_item_0 does not exist');
+					throw new Error('SAVEPOINT irtranscripts_bulk_item_0 does not exist');
 				}
 			}
 		};

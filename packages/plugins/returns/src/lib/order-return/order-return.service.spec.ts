@@ -8,7 +8,7 @@
 const mockOrm = { type: 'typeorm' };
 
 /**
- * `@gauzy/core` boots the whole application graph from its barrel — the configuration, the ORM, the
+ * `@irtranscripts/core` boots the whole application graph from its barrel — the configuration, the ORM, the
  * job registry, the module scanner — none of which a return service needs and none of which is
  * available outside a running application. The seam is therefore doubled at the module boundary,
  * exactly as the catalogue and inventory packages' service specs do, and **the services under test
@@ -19,13 +19,13 @@ const mockOrm = { type: 'typeorm' };
  * substituted. The platform's `Money` is the real one, because the amounts this suite asserts are the
  * amounts a customer is paid and a double would make the rounding cases say nothing.
  */
-jest.mock('@gauzy/core', () => {
+jest.mock('@irtranscripts/core', () => {
 	const { NotFoundException } = require('@nestjs/common');
 
 	// The kernel's conditional write is the real one. The subject of the optimistic-concurrency cases
 	// below is what `commitVersionedUpdate` does with a version that moved on, and a re-implementation
 	// here would assert the double rather than the platform.
-	const versionedWrite = jest.requireActual('@gauzy/core/src/lib/concurrency/versioned-write');
+	const versionedWrite = jest.requireActual('@irtranscripts/core/src/lib/concurrency/versioned-write');
 
 	/** A no-op decorator factory: the entities are declared but never mapped onto a database here. */
 	const decorator = () => () => undefined;
@@ -155,14 +155,14 @@ jest.mock('@gauzy/core', () => {
 		versionExpectationOf: versionedWrite.versionExpectationOf,
 		// Added when the retirement of a live return grew its own refusal: a removal whose predicated statement
 		// matched no row is the platform's conflict, raised with the platform's class and code.
-		ApiException: jest.requireActual('@gauzy/core/src/lib/core/errors/api-exception').ApiException,
-		ApiErrorCode: jest.requireActual('@gauzy/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
+		ApiException: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-exception').ApiException,
+		ApiErrorCode: jest.requireActual('@irtranscripts/core/src/lib/core/errors/api-error-codes').ApiErrorCode,
 		MultiORMEnum: { TypeORM: 'typeorm', MikroORM: 'mikro-orm' },
-		Money: jest.requireActual('@gauzy/core/src/lib/money/money').Money,
+		Money: jest.requireActual('@irtranscripts/core/src/lib/money/money').Money,
 		// Added when the receipt grew its order-line counter move: the line service now subtracts two
 		// exact decimals to state the delta, and a double that omits the helper makes the code under
 		// test call nothing — which fails the suite for a reason that is not its own.
-		subtractDecimalStrings: jest.requireActual('@gauzy/core/src/lib/money/decimal').subtractDecimalStrings,
+		subtractDecimalStrings: jest.requireActual('@irtranscripts/core/src/lib/money/decimal').subtractDecimalStrings,
 		SequenceService: class SequenceService {},
 		EventOutboxService: class EventOutboxService {},
 		TenantSettingService: class TenantSettingService {},
@@ -189,7 +189,7 @@ jest.mock('@gauzy/core', () => {
 
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { FindOperator } from 'typeorm';
-import { RequestContext } from '@gauzy/core';
+import { RequestContext } from '@irtranscripts/core';
 import { OrderReturnStatus, RETURNS_TOTALS_REASON, StockMovementKind } from '../returns.types';
 import { OrderReturnLineService } from '../order-return-line/order-return-line.service';
 import { OrderReturnService } from './order-return.service';

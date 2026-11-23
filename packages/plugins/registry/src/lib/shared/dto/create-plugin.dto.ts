@@ -1,4 +1,4 @@
-import { PluginStatus, PluginType } from '@gauzy/contracts';
+import { PluginStatus, PluginType } from '@irtranscripts/contracts';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import {

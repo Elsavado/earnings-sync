@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { IOrganization, IProject } from '@gauzy/contracts';
+import { IOrganization, IProject } from '@irtranscripts/contracts';
 
 @Component({
-    selector: 'gauzy-project-organization',
+    selector: 'irtranscripts-project-organization',
     templateUrl: './project-organization.component.html',
     styleUrls: ['./project-organization.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,

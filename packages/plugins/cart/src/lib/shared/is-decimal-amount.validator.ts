@@ -1,6 +1,6 @@
 import { ValidationOptions, registerDecorator } from 'class-validator';
-import { DecimalString } from '@gauzy/contracts';
-import { isValidDecimalString, normalizeDecimalString } from '@gauzy/core';
+import { DecimalString } from '@irtranscripts/contracts';
+import { isValidDecimalString, normalizeDecimalString } from '@irtranscripts/core';
 
 /**
  * A money value as a request may state it.

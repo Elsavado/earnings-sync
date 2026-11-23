@@ -1,6 +1,6 @@
 // cspell:ignore inlines mjmlconfig
 /**
- * The ONE place in @gauzy/core that is allowed to call the MJML compiler (an ESLint
+ * The ONE place in @irtranscripts/core that is allowed to call the MJML compiler (an ESLint
  * `no-restricted-imports` rule in packages/core/eslint.config.js enforces it).
  *
  * Why a wrapper: with its defaults, mjml resolves `<mj-include path="..." type="mjml|html|css">`

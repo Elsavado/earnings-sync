@@ -1,6 +1,6 @@
 import { IntersectionType } from '@nestjs/swagger';
-import { TenantOrganizationBaseDTO } from '@gauzy/core';
-import { IJobPreset } from '@gauzy/contracts';
+import { TenantOrganizationBaseDTO } from '@irtranscripts/core';
+import { IJobPreset } from '@irtranscripts/contracts';
 
 /**
  * Data Transfer Object for creating job presets.

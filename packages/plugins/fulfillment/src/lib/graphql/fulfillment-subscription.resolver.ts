@@ -11,9 +11,9 @@ import {
 	TenantPermissionGuard,
 	deliverPayloadAsIs,
 	tenantScopedTopicStream
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
-import { FulfillmentStatusDetail } from '@gauzy/contracts';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
+import { FulfillmentStatusDetail } from '@irtranscripts/contracts';
 import { Fulfillment } from '../fulfillment/fulfillment.entity';
 import { FulfillmentService } from '../fulfillment/fulfillment.service';
 import { FULFILLMENT_PERMISSIONS } from '../fulfillment.permissions';

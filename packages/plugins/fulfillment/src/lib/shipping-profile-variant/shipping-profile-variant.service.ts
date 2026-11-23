@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { DeepPartial, FindOptionsWhere, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { ID } from '@gauzy/contracts';
-import { RequestContext, assertPlainReferencesNotForeign } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { RequestContext, assertPlainReferencesNotForeign } from '@irtranscripts/core';
 import { SHIPPING_PROFILE_VARIANT_REFERENCES } from '../fulfillment.references';
 import { ShippingProfileVariant } from './shipping-profile-variant.entity';
 import { TypeOrmShippingProfileVariantRepository } from './repository/type-orm-shipping-profile-variant.repository';

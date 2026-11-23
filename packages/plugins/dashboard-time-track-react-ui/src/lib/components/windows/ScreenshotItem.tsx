@@ -1,12 +1,12 @@
 import { useCallback, useMemo, useState, type MouseEvent } from 'react';
 import { NbDialogService } from '@nebular/theme';
 import { filter, take } from 'rxjs/operators';
-import { ID, IOrganization, IScreenshot, ITimeLog, ITimeSlot, TimeFormatEnum } from '@gauzy/contracts';
-import { DEFAULT_SVG } from '@gauzy/ui-core/common';
-import { ErrorHandlingService, TimesheetService, ToastrService } from '@gauzy/ui-core/core';
-import { ConfirmComponent, GalleryComponent, GalleryService, ViewScreenshotsModalComponent } from '@gauzy/ui-core/shared';
-import { useInjector, useTranslation } from '@gauzy/ui-react';
-import { ProgressBar, progressStatus } from '@gauzy/ui-react-components';
+import { ID, IOrganization, IScreenshot, ITimeLog, ITimeSlot, TimeFormatEnum } from '@irtranscripts/contracts';
+import { DEFAULT_SVG } from '@irtranscripts/ui-core/common';
+import { ErrorHandlingService, TimesheetService, ToastrService } from '@irtranscripts/ui-core/core';
+import { ConfirmComponent, GalleryComponent, GalleryService, ViewScreenshotsModalComponent } from '@irtranscripts/ui-core/shared';
+import { useInjector, useTranslation } from '@irtranscripts/ui-react';
+import { ProgressBar, progressStatus } from '@irtranscripts/ui-react-components';
 import { dateFormat, durationMinutesLabel, timeFormat as formatTime, utcToTimezone } from '../../utils/format.utils';
 import { NbButton } from '../NbButton';
 import { NbIcon } from '../NbIcon';
@@ -201,7 +201,7 @@ export function ScreenshotItem({ timeSlot, timeZone, timeFormat, employeeId, org
 						value={percentage}
 						status={progressStatus(percentage)}
 						height="5px"
-						style={{ background: 'var(--gauzy-card-2)' }}
+						style={{ background: 'var(--irtranscripts-card-2)' }}
 					/>
 					<div className="gz-rtt-activity-count gz-rtt-hour-label">
 						{percentage}% of {durationMinutesLabel(slot.duration)} {t('ACTIVITY.MINUTES')}

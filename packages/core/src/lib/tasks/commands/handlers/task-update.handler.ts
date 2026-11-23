@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { HttpException, HttpStatus, Logger } from '@nestjs/common';
-import { ID, ITask, ITaskUpdateInput } from '@gauzy/contracts';
+import { ID, ITask, ITaskUpdateInput } from '@irtranscripts/contracts';
 import { TaskEvent } from '../../../event-bus/events';
 import { EventBus } from '../../../event-bus/event-bus';
 import { BaseEntityEventTypeEnum } from '../../../event-bus/base-entity-event';

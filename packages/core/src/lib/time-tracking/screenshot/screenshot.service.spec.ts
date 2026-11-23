@@ -6,7 +6,7 @@
 import '../../core/entities/internal';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ForbiddenException } from '@nestjs/common';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../../core/context';
 import { MultiORMEnum } from '../../core/utils';
 import { TypeOrmScreenshotRepository } from './repository/type-orm-screenshot.repository';

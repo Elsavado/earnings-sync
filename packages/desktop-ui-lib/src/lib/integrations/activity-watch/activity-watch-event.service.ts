@@ -9,8 +9,8 @@ import {
 	IActivityWatchWebEvent,
 	IActivityWatchWindowEvent,
 	IDateRange
-} from '@gauzy/contracts';
-import { toParams } from '@gauzy/ui-core/common';
+} from '@irtranscripts/contracts';
+import { toParams } from '@irtranscripts/ui-core/common';
 import { ActivityWatchUtil } from './activity-watch.util';
 
 type BucketType = keyof ReturnType<(typeof ActivityWatchUtil)['parseBuckets']>;

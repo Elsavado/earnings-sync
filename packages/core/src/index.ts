@@ -1,5 +1,5 @@
 /**
- * Public API Surface of @gauzy/core
+ * Public API Surface of @irtranscripts/core
  */
 export { bootstrap, registerPluginConfig } from './lib/bootstrap';
 export * from './lib/core';
@@ -114,9 +114,9 @@ export { FeatureModule } from './lib/feature/feature.module';
 export { FeatureService } from './lib/feature/feature.service';
 export { FeatureOrganizationService } from './lib/feature/feature-organization.service';
 // The code every `@Resolver` states as `@FeatureFlag(FEATURE_GRAPHQL)`, the plugin resolvers included. It is
-// public API so a package reaches it through `@gauzy/core` rather than through a path into this package's
-// sources (`@gauzy/core/src/lib/feature/...`), which only the workspace's own layout resolves. The module
-// imports `@gauzy/contracts` and nothing else, so exporting it here adds no edge to the kernel's graph.
+// public API so a package reaches it through `@irtranscripts/core` rather than through a path into this package's
+// sources (`@irtranscripts/core/src/lib/feature/...`), which only the workspace's own layout resolves. The module
+// imports `@irtranscripts/contracts` and nothing else, so exporting it here adds no edge to the kernel's graph.
 export { FEATURE_GRAPHQL } from './lib/feature/graphql-feature.code';
 // The kernel's `Decimal` scalar, so a package's code-first `@Field()` can name the type its SDL serves instead of
 // restating an amount as a `Float` (tools/scripts/money-type-check.mjs). The module imports the decimal kernel and
@@ -141,7 +141,7 @@ export { InvoiceService } from './lib/invoice/invoice.service';
 export * from './lib/tenant';
 export { UserModule, UserService } from './lib/user';
 // The command that invites people through the platform's own invite flow (its e-mail, its role rules, its accept
-// path), for a package that invites someone it found elsewhere: the Ever Works integration's "invite to Gauzy".
+// path), for a package that invites someone it found elsewhere: the Ever Works integration's "invite to IRTranscripts".
 export { InviteBulkCreateCommand } from './lib/invite/commands/invite.bulk.create.command';
 // The membership check a REST DTO makes through `@IsOrganizationBelongsToUser()`, for a package that resolves the
 // organization from a stored record rather than from the request (an integration ID, for instance).
@@ -392,12 +392,12 @@ export * from './lib/job-execution';
 export * from './lib/job-dead-letter';
 export * from './lib/auth/purpose-token';
 // The authentication module and service as DI tokens, for sign-in plugins that hand a verified
-// identity to Gauzy's own e-mail code, register path and social sign-in instead of re-implementing
+// identity to IRTranscripts's own e-mail code, register path and social sign-in instead of re-implementing
 // them (the Keycloak and Ever ID sign-in plugins), and the terms acceptance module and service, so a
 // plugin's sign-up requires exactly the documents the register form requires.
 export { AuthModule } from './lib/auth/auth.module';
 export { AuthService } from './lib/auth/auth.service';
-// The per-account login failure counter, for the MCP OAuth server (apps/mcp-auth), which checks Gauzy
+// The per-account login failure counter, for the MCP OAuth server (apps/mcp-auth), which checks IRTranscripts
 // passwords against the same database and must give a guesser no more attempts than the API's login does.
 export { LoginAttemptModule } from './lib/auth/login-attempt.module';
 export { LoginAttemptService, LoginAttemptScope } from './lib/auth/login-attempt.service';

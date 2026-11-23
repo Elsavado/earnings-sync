@@ -20,12 +20,12 @@ describe('parseRawDocumentId', () => {
 	});
 
 	it('reads the id out of an absolute raw-stream URL and one carrying a query', () => {
-		expect(parseRawDocumentId(`https://app.gauzy.co${RAW}`)).toBe(DOCUMENT_ID);
+		expect(parseRawDocumentId(`https://app.irtranscripts.com${RAW}`)).toBe(DOCUMENT_ID);
 		expect(parseRawDocumentId(`${RAW}?v=2`)).toBe(DOCUMENT_ID);
 	});
 
 	it('tolerates a deployment that mounts the API under another prefix', () => {
-		expect(parseRawDocumentId(`/gauzy/api/v2/plugins/docs/documents/${DOCUMENT_ID}/raw`)).toBe(DOCUMENT_ID);
+		expect(parseRawDocumentId(`/irtranscripts/api/v2/plugins/docs/documents/${DOCUMENT_ID}/raw`)).toBe(DOCUMENT_ID);
 	});
 
 	it.each([

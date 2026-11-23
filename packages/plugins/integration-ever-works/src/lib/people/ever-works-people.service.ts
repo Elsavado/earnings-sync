@@ -20,8 +20,8 @@ import {
 	InviteStatusEnum,
 	PermissionsEnum,
 	RolesEnum
-} from '@gauzy/contracts';
-import { Employee, IntegrationSetting, Invite, InviteBulkCreateCommand, isUniqueViolation, RequestContext, Role } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { Employee, IntegrationSetting, Invite, InviteBulkCreateCommand, isUniqueViolation, RequestContext, Role } from '@irtranscripts/core';
 import { EverWorksApiError, EverWorksClient, EverWorksNetworkError } from '../client/ever-works-client';
 import { EverWorksListPage } from '../client/ever-works-client.types';
 import { EverWorksConnectionService } from '../connection/ever-works-connection.service';
@@ -29,7 +29,7 @@ import { EverWorksSettingName } from '../ever-works-setting.enum';
 import { EverWorksMappingContext, EverWorksMappingContextService } from '../mapping/ever-works-mapping-context.service';
 import { EVER_WORKS_INBOX_AGGREGATE } from '../inbox/ever-works-inbox.service';
 import { EverWorksEntityLink, EverWorksInboundEvent, EverWorksInboundStatus, EverWorksLinkType } from '../sync/entities/ever-works-sync.entities';
-import { everWorksUserOfGauzyUser } from '../sync/ever-works-actor';
+import { everWorksUserOfIRTranscriptsUser } from '../sync/ever-works-actor';
 import { EverWorksLinkService } from '../sync/links/ever-works-link.service';
 import { DEFERRED_INBOX_SCAN, EverWorksDeferredInboxRow, deferredInboxOf, requeueDeferredInbox } from './ever-works-deferred-inbox';
 import { EVER_ID_ACCOUNT_TABLE, EverIdIdentity, EverWorksMatchSource, everIdKey, everIdMatches } from './ever-works-ever-id';
@@ -59,7 +59,7 @@ export interface EverWorksPersonRow {
 	emailVerified: boolean;
 	role: string;
 	isActive: boolean;
-	/** The Gauzy employee it is linked to, or `null`. */
+	/** The IRTranscripts employee it is linked to, or `null`. */
 	linkedEmployeeId: ID | null;
 	/** How the pairing was made (`null` while unpaired); a pairing older than this record reads `manual`. */
 	matchedBy: EverWorksMatchSource | null;
@@ -68,13 +68,13 @@ export interface EverWorksPersonRow {
 	 * an admin undid), else a verified e-mail. Never applied silently.
 	 */
 	suggestion: { employeeId: ID; reason: 'ever_id' | 'verified_email' } | null;
-	/** A Gauzy invitation still pending for the member's e-mail ("invite to Gauzy"), or `null`. */
-	gauzyInvite: { inviteId: ID; expireDate: Date | null } | null;
+	/** A IRTranscripts invitation still pending for the member's e-mail ("invite to IRTranscripts"), or `null`. */
+	irtranscriptsInvite: { inviteId: ID; expireDate: Date | null } | null;
 }
 
 export interface EverWorksPeopleView {
 	members: EverWorksPersonRow[];
-	/** Gauzy people of the organization linked to no Ever Works member. */
+	/** IRTranscripts people of the organization linked to no Ever Works member. */
 	unmatchedEmployees: Array<{ employeeId: ID; name: string; email: string | null }>;
 	/**
 	 * Ever Works inbox items addressed to members not paired yet: not delivered, they wait (deferred) until the
@@ -90,16 +90,16 @@ const INVITE_LOCK_WAIT_MS = 30_000;
 const INVITE_LOCK_POLL_MS = 200;
 
 /**
- * "Invite to Gauzy": the Ever Works member to invite and, optionally, the role (the tenant's Employee role, the only
+ * "Invite to IRTranscripts": the Ever Works member to invite and, optionally, the role (the tenant's Employee role, the only
  * one whose acceptance creates an employee the People tab can pair).
  */
-export interface EverWorksInviteToGauzyInput {
+export interface EverWorksInviteToIRTranscriptsInput {
 	ewUserId: string;
 	roleId?: ID;
 }
 
-/** What "invite to Gauzy" did: a new invitation was sent, or one still pending for that e-mail is answered again. */
-export interface EverWorksInviteToGauzyResult {
+/** What "invite to IRTranscripts" did: a new invitation was sent, or one still pending for that e-mail is answered again. */
+export interface EverWorksInviteToIRTranscriptsResult {
 	status: 'invited' | 'pending';
 	inviteId: ID;
 	email: string;
@@ -107,7 +107,7 @@ export interface EverWorksInviteToGauzyResult {
 	expireDate: Date | null;
 }
 
-/** "Invite to Ever Works": the Gauzy person to invite. */
+/** "Invite to Ever Works": the IRTranscripts person to invite. */
 export interface EverWorksInviteToEverWorksInput {
 	employeeId: ID;
 }
@@ -138,19 +138,19 @@ export interface EverWorksPeopleDecision {
 }
 
 /**
- * People matching (plan 01 §3, G-P1-6): Ever Works organization members ↔ Gauzy employees, linked as
+ * People matching (plan 01 §3, G-P1-6): Ever Works organization members ↔ IRTranscripts employees, linked as
  * `MEMBER` (EW user id ↔ G employee id).
  *
  * - **Ever ID** (first): a member whose Ever ID (`everIdSubjects`, Ever Works `external_identities`) is the Ever ID
- *   of exactly one Gauzy person (`zitadel_account`, written by the Ever ID sign-in plugin only once the person
+ *   of exactly one IRTranscripts person (`zitadel_account`, written by the Ever ID sign-in plugin only once the person
  *   proved both sides) is **paired automatically** when the People tab is read (plan 01 §3 step 1, D5). An admin
  *   who undoes such a pairing is not overruled: the member is declined (`PEOPLE_EVER_ID_DECLINED`) and only suggested
  *   from then on, until an admin pairs them again. Without Ever ID data on either side, nothing happens here.
- * - **Verified email**: an exact, case-insensitive match of a verified Ever Works email with a Gauzy
+ * - **Verified email**: an exact, case-insensitive match of a verified Ever Works email with a IRTranscripts
  *   person's email is a **suggestion**; the admin confirms it (one by one or "accept all").
  * - Every pairing records how it was made (`matchedBy`: `ever_id`, `verified_email` or `manual`).
- * - **No match**: the admin links by hand, invites the member to Gauzy (the platform's own employee invitation;
- *   accepting it is the invitee's step, and pairing stays the admin's), invites a Gauzy person to Ever Works (the
+ * - **No match**: the admin links by hand, invites the member to IRTranscripts (the platform's own employee invitation;
+ *   accepting it is the invitee's step, and pairing stays the admin's), invites a IRTranscripts person to Ever Works (the
  *   Ever Works organization invitation, `POST /members/invite`), or leaves them unmapped. Agents are never people.
  *
  * Nothing but an Ever ID match is linked without the admin, and nothing is deleted: unlinking only removes the
@@ -242,7 +242,7 @@ export class EverWorksPeopleService {
 				// A pairing replaces the previous one of either side.
 				for (const stale of [
 					await this.links.byEw(context.integrationTenantId, EverWorksLinkType.MEMBER, pair.ewUserId, manager),
-					await this.links.byGauzy(context.integrationTenantId, EverWorksLinkType.MEMBER, pair.employeeId, manager)
+					await this.links.byIRTranscripts(context.integrationTenantId, EverWorksLinkType.MEMBER, pair.employeeId, manager)
 				]) {
 					if (stale) await this.links.remove(stale, manager);
 				}
@@ -256,7 +256,7 @@ export class EverWorksPeopleService {
 						organizationId: context.organizationId,
 						integrationTenantId: context.integrationTenantId,
 						entityType: EverWorksLinkType.MEMBER,
-						gauzyId: pair.employeeId,
+						irtranscriptsId: pair.employeeId,
 						ewId: pair.ewUserId,
 						ewUpdatedAt: member.updatedAt,
 						snapshot: { email: member.email, username: member.username },
@@ -310,7 +310,7 @@ export class EverWorksPeopleService {
 			const unpaired = withEverId(new Set(links.map((l) => l.ewId)));
 			const declined = await this.declinedEverId(context);
 			const exclude = new Set([...declined, ...unpaired.filter((m) => m.isActive === false).map((m) => m.userId)]);
-			const matches = await this.everIdMatchesOf(context, unpaired, new Set(links.map((l) => l.gauzyId as ID)), exclude);
+			const matches = await this.everIdMatchesOf(context, unpaired, new Set(links.map((l) => l.irtranscriptsId as ID)), exclude);
 			const byUser = new Map(unpaired.map((m) => [m.userId, m]));
 			const done = new Set<string>();
 			for (const [ewUserId, employeeId] of matches) {
@@ -337,7 +337,7 @@ export class EverWorksPeopleService {
 			const linked = await this.dataSource.transaction(async (manager) => {
 				if (
 					(await this.links.byEw(context.integrationTenantId, EverWorksLinkType.MEMBER, ewUserId, manager)) ||
-					(await this.links.byGauzy(context.integrationTenantId, EverWorksLinkType.MEMBER, employeeId, manager))
+					(await this.links.byIRTranscripts(context.integrationTenantId, EverWorksLinkType.MEMBER, employeeId, manager))
 				) {
 					return false;
 				}
@@ -347,7 +347,7 @@ export class EverWorksPeopleService {
 						organizationId: context.organizationId,
 						integrationTenantId: context.integrationTenantId,
 						entityType: EverWorksLinkType.MEMBER,
-						gauzyId: employeeId,
+						irtranscriptsId: employeeId,
 						ewId: ewUserId,
 						ewUpdatedAt: member.updatedAt,
 						snapshot: { email: member.email, username: member.username },
@@ -367,7 +367,7 @@ export class EverWorksPeopleService {
 
 	/**
 	 * The Ever ID matches of these members among the people of the organization not in `pairedPeople` (see
-	 * {@link everIdMatches}); empty when no member carries an Ever ID or Gauzy has no Ever ID links.
+	 * {@link everIdMatches}); empty when no member carries an Ever ID or IRTranscripts has no Ever ID links.
 	 */
 	private async everIdMatchesOf(
 		context: EverWorksMappingContext,
@@ -387,7 +387,7 @@ export class EverWorksPeopleService {
 	}
 
 	/**
-	 * The tenant's Gauzy users of these Ever ID identities, by {@link everIdKey}, from the Ever ID sign-in links
+	 * The tenant's IRTranscripts users of these Ever ID identities, by {@link everIdKey}, from the Ever ID sign-in links
 	 * (`zitadel_account`, read as a plain table: the sign-in plugin need not be loaded). Empty when the table cannot be
 	 * read: then there is no Ever ID data to match on.
 	 */
@@ -452,14 +452,14 @@ export class EverWorksPeopleService {
 	}
 
 	/**
-	 * `POST /mappings/:id/people/invite-to-gauzy`: invites an Ever Works member who has no Gauzy person yet as an
+	 * `POST /mappings/:id/people/invite-to-irtranscripts`: invites an Ever Works member who has no IRTranscripts person yet as an
 	 * employee of the mapped organization, through the platform's own invite flow (`InviteBulkCreateCommand`: its
 	 * e-mail, its rules on who may invite, and its accept path). Needs the invite permission on top of the
 	 * integration's.
 	 *
 	 * The invitation is for the tenant's Employee role: the accept path creates an employee only for that role (any
 	 * other joins as a user with no employee, whom the People tab could never pair), so `roleId` may name only it;
-	 * the admin changes the role in Gauzy once the person has joined.
+	 * the admin changes the role in IRTranscripts once the person has joined.
 	 *
 	 * Only a verified Ever Works e-mail is invited, so the invitation reaches the member and not whoever else typed
 	 * that address. A member already paired, or whose e-mail a person of the organization already has (pair them
@@ -468,15 +468,15 @@ export class EverWorksPeopleService {
 	 * MySQL), so two clicks or two admins send one invitation. Nothing is accepted or paired here: once the invitee
 	 * joins, the verified e-mail suggests the pairing.
 	 */
-	async inviteToGauzy(integrationTenantId: ID, input: EverWorksInviteToGauzyInput, organizationId?: ID): Promise<EverWorksInviteToGauzyResult> {
+	async inviteToIRTranscripts(integrationTenantId: ID, input: EverWorksInviteToIRTranscriptsInput, organizationId?: ID): Promise<EverWorksInviteToIRTranscriptsResult> {
 		if (!RequestContext.hasPermission(PermissionsEnum.ORG_INVITE_EDIT)) {
-			throw new ForbiddenException('Inviting people to Gauzy needs the permission to edit invites.');
+			throw new ForbiddenException('Inviting people to IRTranscripts needs the permission to edit invites.');
 		}
 		const context = await this.contexts.forRequest(integrationTenantId, organizationId);
 		const member = (await this.members(context)).find((m) => m.userId === input.ewUserId);
 		if (!member) throw new BadRequestException(`${input.ewUserId} is not a member of the mapped Ever Works organization.`);
 		if (await this.links.byEw(context.integrationTenantId, EverWorksLinkType.MEMBER, member.userId)) {
-			throw new ConflictException('This member is already paired with a Gauzy person.');
+			throw new ConflictException('This member is already paired with a IRTranscripts person.');
 		}
 		if (member.isActive === false) throw new BadRequestException('This member is deactivated in Ever Works.');
 		if (!member.email || !member.emailVerified) {
@@ -485,7 +485,7 @@ export class EverWorksPeopleService {
 		const email = member.email;
 		const key = email.toLowerCase();
 		const roleId = await this.employeeRoleId(context, input.roleId);
-		return this.withClaim(`ever-works:invite-gauzy:${context.tenantId}:${context.organizationId}:${key}`, async () => {
+		return this.withClaim(`ever-works:invite-irtranscripts:${context.tenantId}:${context.organizationId}:${key}`, async () => {
 			for (const [employeeId, person] of await this.people$(context)) {
 				if (person.email?.toLowerCase() === key) {
 					throw new ConflictException(`A person of this organization already has this e-mail (${employeeId}): pair them instead.`);
@@ -494,7 +494,7 @@ export class EverWorksPeopleService {
 			const pending = (await this.pendingInvites(context, [email])).get(key);
 			if (pending) {
 				if (pending.roleId && pending.roleId !== roleId) {
-					throw new ConflictException("An invitation for another role is still pending for this e-mail: revoke it on Gauzy's Invites page first.");
+					throw new ConflictException("An invitation for another role is still pending for this e-mail: revoke it on IRTranscripts's Invites page first.");
 				}
 				return { status: 'pending', inviteId: pending.id as ID, email: pending.email, roleId, expireDate: pending.expireDate ?? null };
 			}
@@ -512,16 +512,16 @@ export class EverWorksPeopleService {
 			} as unknown as ICreateEmailInvitesInput;
 			const output: ICreateEmailInvitesOutput = await this.commandBus.execute(new InviteBulkCreateCommand(invite, RequestContext.getLanguageCode()));
 			const created = output?.items?.[0];
-			if (!created) throw new ConflictException('Gauzy did not issue an invitation for this e-mail.');
+			if (!created) throw new ConflictException('IRTranscripts did not issue an invitation for this e-mail.');
 			return { status: 'invited', inviteId: created.id as ID, email: created.email, roleId, expireDate: created.expireDate ?? null };
 		});
 	}
 
 	/**
-	 * `POST /mappings/:id/people/invite-to-ever-works`: invites a Gauzy person who has no Ever Works member yet into
+	 * `POST /mappings/:id/people/invite-to-ever-works`: invites a IRTranscripts person who has no Ever Works member yet into
 	 * the mapped Ever Works organization through the integration API (`POST /members/invite`, contract v1-draft.15):
 	 * Ever Works' own invitation e-mail, as the admin's paired Ever Works user (else as the key's owner), role
-	 * `member`. Needs the invite permission on top of the integration's, like "invite to Gauzy".
+	 * `member`. Needs the invite permission on top of the integration's, like "invite to IRTranscripts".
 	 *
 	 * Refused: an agent or anyone who is not an active person of the organization, a person without an e-mail, one
 	 * already paired, or one whose e-mail a member of the Ever Works organization already has (pair them instead).
@@ -535,7 +535,7 @@ export class EverWorksPeopleService {
 		const context = await this.contexts.forRequest(integrationTenantId, organizationId);
 		const person = (await this.people$(context, [input.employeeId])).get(input.employeeId);
 		if (!person) throw new BadRequestException(`${input.employeeId} is not an active person of this organization.`);
-		if (await this.links.byGauzy(context.integrationTenantId, EverWorksLinkType.MEMBER, input.employeeId)) {
+		if (await this.links.byIRTranscripts(context.integrationTenantId, EverWorksLinkType.MEMBER, input.employeeId)) {
 			throw new ConflictException('This person is already paired with an Ever Works member.');
 		}
 		if (!person.email) throw new BadRequestException('This person has no e-mail to invite.');
@@ -547,7 +547,7 @@ export class EverWorksPeopleService {
 		if (same) {
 			throw new ConflictException(`A member of the Ever Works organization already has this e-mail (${same.userId}): pair them instead.`);
 		}
-		const actAsUserId = await everWorksUserOfGauzyUser(this.dataSource, this.links, context, RequestContext.currentUserId() as ID | null);
+		const actAsUserId = await everWorksUserOfIRTranscriptsUser(this.dataSource, this.links, context, RequestContext.currentUserId() as ID | null);
 		const client: EverWorksClient = this.connections.client(context.connection, context.everWorksOrganizationSlug);
 		let result: EverWorksMemberInviteResult;
 		try {
@@ -569,7 +569,7 @@ export class EverWorksPeopleService {
 
 	/**
 	 * An Ever Works failure of "invite to Ever Works" as an HTTP answer the People tab can read (like the connection
-	 * routes): never a 500, and never a 401 (that would read as the Gauzy session ending).
+	 * routes): never a 500, and never a 401 (that would read as the IRTranscripts session ending).
 	 */
 	private inviteError(error: unknown): unknown {
 		if (error instanceof HttpException) return error;
@@ -588,7 +588,7 @@ export class EverWorksPeopleService {
 	}
 
 	/**
-	 * The tenant's Employee role, the one "invite to Gauzy" invites with (see `inviteToGauzy`). A `roleId` naming any
+	 * The tenant's Employee role, the one "invite to IRTranscripts" invites with (see `inviteToIRTranscripts`). A `roleId` naming any
 	 * other role answers 400.
 	 */
 	private async employeeRoleId(context: EverWorksMappingContext, roleId?: ID): Promise<ID> {
@@ -599,14 +599,14 @@ export class EverWorksPeopleService {
 		if (!role?.id) throw new BadRequestException('This tenant has no Employee role to invite with.');
 		if (roleId && roleId !== role.id) {
 			throw new BadRequestException(
-				'Only the Employee role makes a Gauzy person the People tab can pair (another role joins without an employee); change the role in Gauzy once they have joined.'
+				'Only the Employee role makes a IRTranscripts person the People tab can pair (another role joins without an employee); change the role in IRTranscripts once they have joined.'
 			);
 		}
 		return role.id as ID;
 	}
 
 	/**
-	 * The Gauzy invitations still pending (invited, not expired) in the mapped organization for these e-mails, by
+	 * The IRTranscripts invitations still pending (invited, not expired) in the mapped organization for these e-mails, by
 	 * lower-cased e-mail (the newest one of each).
 	 */
 	private async pendingInvites(context: EverWorksMappingContext, emails: ReadonlyArray<string | null>): Promise<Map<string, Invite>> {
@@ -721,9 +721,9 @@ export class EverWorksPeopleService {
 
 	private async view(context: EverWorksMappingContext, members: EverWorksMember[]): Promise<EverWorksPeopleView> {
 		const links = await this.links.list(context.integrationTenantId, EverWorksLinkType.MEMBER);
-		const linkByUser = new Map(links.map((l) => [l.ewId, l.gauzyId as ID]));
+		const linkByUser = new Map(links.map((l) => [l.ewId, l.irtranscriptsId as ID]));
 		const sourceByUser = new Map(links.map((l) => [l.ewId, matchedByOf(l)]));
-		const linkedEmployees = new Set(links.map((l) => l.gauzyId));
+		const linkedEmployees = new Set(links.map((l) => l.irtranscriptsId));
 		const people = await this.people$(context);
 		// The Ever ID suggestions: what the automatic pairing left (an admin declined it); a match comes first.
 		const unpairedWithEverId = members.filter((m) => !linkByUser.has(m.userId) && m.everIdSubjects?.length);
@@ -754,7 +754,7 @@ export class EverWorksPeopleService {
 					: match && !linkedEmployees.has(match)
 						? { employeeId: match, reason: 'verified_email' }
 						: null,
-				gauzyInvite: invite ? { inviteId: invite.id as ID, expireDate: invite.expireDate ?? null } : null
+				irtranscriptsInvite: invite ? { inviteId: invite.id as ID, expireDate: invite.expireDate ?? null } : null
 			};
 		});
 		return {

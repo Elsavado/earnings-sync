@@ -11,7 +11,7 @@ import {
 	IMakeComTemplate,
 	IMakeComSetupStatus,
 	MakeComZone
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { MakeComService } from './make-com.service';
 
 @Injectable({

@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { DeepPartial, FindOptionsWhere, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { ID } from '@gauzy/contracts';
-import { RequestContext, assertPlainReferencesNotForeign } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { RequestContext, assertPlainReferencesNotForeign } from '@irtranscripts/core';
 import { CART_SHIPPING_METHOD_REFERENCES } from '../cart.references';
 import { CommerceCartShippingMethod } from './commerce-cart-shipping-method.entity';
 import { TypeOrmCommerceCartShippingMethodRepository } from './repository/type-orm-commerce-cart-shipping-method.repository';

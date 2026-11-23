@@ -26,7 +26,7 @@ describe('compileMjml (GHSA-48h9-vwf5-h8m7)', () => {
 	const files: Record<'html' | 'css' | 'mjml', string> = { html: '', css: '', mjml: '' };
 
 	beforeAll(() => {
-		dir = fs.mkdtempSync(path.join(os.tmpdir(), 'gauzy-mjml-include-'));
+		dir = fs.mkdtempSync(path.join(os.tmpdir(), 'irtranscripts-mjml-include-'));
 		files.html = path.join(dir, 'secret.html');
 		files.css = path.join(dir, 'secret.css');
 		files.mjml = path.join(dir, 'secret.mjml');

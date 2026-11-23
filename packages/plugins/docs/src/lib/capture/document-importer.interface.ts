@@ -1,5 +1,5 @@
 import { Logger } from '@nestjs/common';
-import { DocumentKindEnum, DocumentSourceEnum, DocumentVisibilityEnum, ID, JsonData } from '@gauzy/contracts';
+import { DocumentKindEnum, DocumentSourceEnum, DocumentVisibilityEnum, ID, JsonData } from '@irtranscripts/contracts';
 
 /**
  * The integration-importer seam of `07-ai-knowledge.md` §17.3.

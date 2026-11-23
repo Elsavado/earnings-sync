@@ -6,8 +6,8 @@ import {
 	OrderPaymentStatus,
 	OrderStatus,
 	OrderTransactionType
-} from '@gauzy/contracts';
-import { ApiErrorCode, ApiException } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { ApiErrorCode, ApiException } from '@irtranscripts/core';
 
 /**
  * The state filters the order schema accepts, read into the enumerations the columns carry.

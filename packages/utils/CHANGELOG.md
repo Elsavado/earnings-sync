@@ -1,3 +1,3 @@
-# Changelog for @gauzy/utils
+# Changelog for @irtranscripts/utils
 
 ## [Unreleased]

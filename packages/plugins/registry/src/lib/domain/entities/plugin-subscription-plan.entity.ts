@@ -1,11 +1,11 @@
-import { isMySQL, isPostgres } from '@gauzy/config';
+import { isMySQL, isPostgres } from '@irtranscripts/config';
 import {
 	CurrenciesEnum,
 	IUser,
 	PluginBillingPeriod,
 	PluginSubscriptionType
-} from '@gauzy/contracts';
-import { BaseEntity, MultiORMColumn, MultiORMEntity, MultiORMManyToOne, MultiORMOneToMany, User } from '@gauzy/core';
+} from '@irtranscripts/contracts';
+import { BaseEntity, MultiORMColumn, MultiORMEntity, MultiORMManyToOne, MultiORMOneToMany, User } from '@irtranscripts/core';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
 	IsArray,

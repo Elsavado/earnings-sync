@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { DocumentSourceEnum, IDocument } from '@gauzy/contracts';
+import { DocumentSourceEnum, IDocument } from '@irtranscripts/contracts';
 
 const SOURCE_ICONS: Record<DocumentSourceEnum, string> = {
 	[DocumentSourceEnum.UPLOAD]: 'upload-outline',
@@ -27,7 +27,7 @@ const SOURCE_ICONS: Record<DocumentSourceEnum, string> = {
 				align-items: center;
 				gap: 0.25rem;
 				max-width: 100%;
-				height: var(--gauzy-table-badge-height, 1.25rem);
+				height: var(--irtranscripts-table-badge-height, 1.25rem);
 				font-size: var(--docs-meta-size, 0.75rem);
 				line-height: 1;
 				color: var(--docs-text-muted, var(--text-hint-color));

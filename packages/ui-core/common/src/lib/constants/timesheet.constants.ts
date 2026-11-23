@@ -1,4 +1,4 @@
-import { TimeLogType } from '@gauzy/contracts';
+import { TimeLogType } from '@irtranscripts/contracts';
 
 /**
  * TimeLogsLabel

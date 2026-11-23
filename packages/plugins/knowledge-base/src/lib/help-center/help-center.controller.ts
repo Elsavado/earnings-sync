@@ -1,4 +1,4 @@
-import { ID, IHelpCenter, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IHelpCenter, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import {
 	Body,
@@ -26,7 +26,7 @@ import {
 	TenantOrganizationBaseDTO,
 	TenantPermissionGuard,
 	UUIDValidationPipe
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { HelpCenterService } from './help-center.service';
 import { HelpCenter } from './help-center.entity';
 import { HelpCenterUpdateCommand, KnowledgeBaseBulkDeleteCommand } from './commands';

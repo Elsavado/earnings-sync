@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as chalk from 'chalk';
 import { v4 as uuidV4 } from 'uuid';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 
 /** [icon, title, isoDate, isFeature, content, learnMoreUrl, imageUrl] */
 type ChangelogRow = readonly [string, string, string, boolean, string, string, string];
@@ -13,7 +13,7 @@ type ChangelogRow = readonly [string, string, string, boolean, string, string, s
  * cards all read from the `changelog` table, but existing databases still carry
  * the rows seeded in Dec-2021 ("New CRM", "Most popular in 20 countries", ...).
  * Fresh installs get the new content from `initial-changelog-template.ts` in
- * `@gauzy/plugin-changelog` — this migration carries a frozen snapshot of that
+ * `@irtranscripts/plugin-changelog` — this migration carries a frozen snapshot of that
  * template for databases seeded before it changed. Deliberately compact tuples
  * rather than a copy of the template's object literals: the migration must
  * stay frozen while the template evolves, and the shape keeps copy-paste
@@ -24,19 +24,19 @@ export class RefreshChangelogContent1790000005000 implements MigrationInterface 
 
 	private readonly entries: readonly ChangelogRow[] = [
 		// prettier-ignore
-		['message-circle-outline', 'Meet your AI Assistant', '2026-08-05T00:00:00.000Z', false, 'Chat with an AI agent that knows your workspace: it can navigate pages, read data, fill forms and answer questions — with voice dictation and file attachments built in.', 'https://docs.gauzy.co/features/ai-agent-chat', ''],
+		['message-circle-outline', 'Meet your AI Assistant', '2026-08-05T00:00:00.000Z', false, 'Chat with an AI agent that knows your workspace: it can navigate pages, read data, fill forms and answer questions — with voice dictation and file attachments built in.', 'https://docs.irtranscripts.com/features/ai-agent-chat', ''],
 		// prettier-ignore
-		['file-text-outline', 'Documents hub', '2026-08-01T00:00:00.000Z', false, 'Upload, organize and share company files and wiki pages — and attach any document to the AI chat to discuss it.', 'https://docs.gauzy.co/features/documents/overview', ''],
+		['file-text-outline', 'Documents hub', '2026-08-01T00:00:00.000Z', false, 'Upload, organize and share company files and wiki pages — and attach any document to the AI chat to discuss it.', 'https://docs.irtranscripts.com/features/documents/overview', ''],
 		// prettier-ignore
-		['grid-outline', 'Custom dashboards', '2026-07-20T00:00:00.000Z', false, 'Build your own dashboards: drag & drop widgets from the palette, configure each one, and switch between named layouts.', 'https://docs.gauzy.co/features/dashboard-widgets', ''],
+		['grid-outline', 'Custom dashboards', '2026-07-20T00:00:00.000Z', false, 'Build your own dashboards: drag & drop widgets from the palette, configure each one, and switch between named layouts.', 'https://docs.irtranscripts.com/features/dashboard-widgets', ''],
 		// prettier-ignore
-		['color-palette-outline', 'A faster, cleaner interface', '2026-07-10T00:00:00.000Z', false, 'Redesigned navigation, denser tables, refreshed dark themes and a full-height AI chat column across the whole app.', 'https://gauzy.co/', ''],
+		['color-palette-outline', 'A faster, cleaner interface', '2026-07-10T00:00:00.000Z', false, 'Redesigned navigation, denser tables, refreshed dark themes and a full-height AI chat column across the whole app.', 'https://irtranscripts.com/', ''],
 		// prettier-ignore
-		['message-circle-outline', 'AI at work', '2026-08-05T00:00:00.000Z', true, 'An embedded AI assistant that knows your workspace: chat, dictate, attach documents and let it do the clicking for you.', 'https://docs.gauzy.co/features/ai-agent-chat', 'assets/images/features/macbook-2.png'],
+		['message-circle-outline', 'AI at work', '2026-08-05T00:00:00.000Z', true, 'An embedded AI assistant that knows your workspace: chat, dictate, attach documents and let it do the clicking for you.', 'https://docs.irtranscripts.com/features/ai-agent-chat', 'assets/images/features/macbook-2.png'],
 		// prettier-ignore
-		['briefcase-outline', 'Everything your business needs', '2026-07-01T00:00:00.000Z', true, 'ERP, CRM, HRM, ATS and project management with integrated time tracking — one open platform.', 'https://gauzy.co/', 'assets/images/features/macbook-1.png'],
+		['briefcase-outline', 'Everything your business needs', '2026-07-01T00:00:00.000Z', true, 'ERP, CRM, HRM, ATS and project management with integrated time tracking — one open platform.', 'https://irtranscripts.com/', 'assets/images/features/macbook-1.png'],
 		// prettier-ignore
-		['flash-outline', 'Open source, your way', '2026-07-01T00:00:00.000Z', true, 'AGPL-licensed and free to self-host, with documentation covering every feature.', 'https://docs.gauzy.co/', '']
+		['flash-outline', 'Open source, your way', '2026-07-01T00:00:00.000Z', true, 'AGPL-licensed and free to self-host, with documentation covering every feature.', 'https://docs.irtranscripts.com/', '']
 	];
 
 	/**
@@ -46,7 +46,7 @@ export class RefreshChangelogContent1790000005000 implements MigrationInterface 
 	 */
 	// prettier-ignore
 	private readonly seededTitles = [
-		'See new features', 'Ready to give Gauzy a try?', 'Visit our website for more information.',
+		'See new features', 'Ready to give IRTranscripts a try?', 'Visit our website for more information.',
 		'New CRM', 'Most popular in 20 countries', 'Visit our website'
 	];
 

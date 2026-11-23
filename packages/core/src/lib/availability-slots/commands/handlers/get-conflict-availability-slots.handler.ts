@@ -1,10 +1,10 @@
 import { ICommandHandler, CommandHandler } from '@nestjs/cqrs';
 import * as moment from 'moment';
-import { ConfigService } from '@gauzy/config';
-import { IAvailabilitySlot } from '@gauzy/contracts';
+import { ConfigService } from '@irtranscripts/config';
+import { IAvailabilitySlot } from '@irtranscripts/contracts';
 import { GetConflictAvailabilitySlotsCommand } from '../get-conflict-availability-slots.command';
 import { RequestContext } from './../../../core/context';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 import { prepareSQLQuery as p } from './../../../database/database.helper';
 import { TypeOrmAvailabilitySlotRepository } from '../../repository/type-orm-availability-slot.repository';
 import { MikroOrmAvailabilitySlotRepository } from '../../repository/mikro-orm-availability-slot.repository';

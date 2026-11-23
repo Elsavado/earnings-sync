@@ -1,8 +1,8 @@
 import { randomBytes } from "crypto";
 import { BadRequestException, ForbiddenException } from "@nestjs/common";
 import { EntityMetadata, FindOptionsRelations, FindOptionsSelect } from "typeorm";
-import { isEmpty, isNotEmpty } from "@gauzy/utils";
-import { ID, IShareRule } from "@gauzy/contracts";
+import { isEmpty, isNotEmpty } from "@irtranscripts/utils";
+import { ID, IShareRule } from "@irtranscripts/contracts";
 
 /**
  * Field names that must never be exposed through a shared-entity link, regardless of the

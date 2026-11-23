@@ -3,7 +3,7 @@ import { normaliseEverWorksBaseUrl, readEverWorksConfig } from './ever-works-con
 describe('readEverWorksConfig', () => {
 	it('is empty by default (no URL is offered, nothing is called)', () => {
 		const warn = jest.fn();
-		expect(readEverWorksConfig({}, warn)).toEqual({ defaultApiUrl: null, appUrl: null, gauzyApiUrl: null, allowLoopback: false });
+		expect(readEverWorksConfig({}, warn)).toEqual({ defaultApiUrl: null, appUrl: null, irtranscriptsApiUrl: null, allowLoopback: false });
 		expect(warn).not.toHaveBeenCalled();
 	});
 
@@ -13,13 +13,13 @@ describe('readEverWorksConfig', () => {
 				EVER_WORKS_API_URL: 'https://api.example.test/api/',
 				EVER_WORKS_APP_URL: 'https://app.example.test'
 			})
-		).toEqual({ defaultApiUrl: 'https://api.example.test/api', appUrl: 'https://app.example.test', gauzyApiUrl: null, allowLoopback: false });
+		).toEqual({ defaultApiUrl: 'https://api.example.test/api', appUrl: 'https://app.example.test', irtranscriptsApiUrl: null, allowLoopback: false });
 	});
 
 	it('takes the public API address for webhooks from API_BASE_URL, silently ignoring a local one', () => {
 		const warn = jest.fn();
-		expect(readEverWorksConfig({ API_BASE_URL: 'https://api.gauzy.example/' }, warn).gauzyApiUrl).toBe('https://api.gauzy.example');
-		expect(readEverWorksConfig({ API_BASE_URL: 'http://localhost:3000' }, warn).gauzyApiUrl).toBeNull();
+		expect(readEverWorksConfig({ API_BASE_URL: 'https://api.gauzy.example/' }, warn).irtranscriptsApiUrl).toBe('https://api.gauzy.example');
+		expect(readEverWorksConfig({ API_BASE_URL: 'http://localhost:3000' }, warn).irtranscriptsApiUrl).toBeNull();
 		expect(warn).not.toHaveBeenCalled();
 	});
 
@@ -45,9 +45,9 @@ describe('readEverWorksConfig', () => {
 
 		it('admits loopback addresses over HTTP in a development process', () => {
 			const config = readEverWorksConfig({ ...local, NODE_ENV: 'development', EVER_WORKS_ALLOW_LOOPBACK: 'true' });
-			expect(config).toMatchObject({ allowLoopback: true, defaultApiUrl: 'http://127.0.0.1:3100/api', gauzyApiUrl: 'http://127.0.0.1:3000' });
+			expect(config).toMatchObject({ allowLoopback: true, defaultApiUrl: 'http://127.0.0.1:3100/api', irtranscriptsApiUrl: 'http://127.0.0.1:3000' });
 			const test = readEverWorksConfig({ API_BASE_URL: 'http://localhost:3000/', NODE_ENV: 'test', EVER_WORKS_ALLOW_LOOPBACK: 'true' });
-			expect(test.gauzyApiUrl).toBe('http://localhost:3000');
+			expect(test.irtranscriptsApiUrl).toBe('http://localhost:3000');
 		});
 
 		it.each([
@@ -57,7 +57,7 @@ describe('readEverWorksConfig', () => {
 		])('is ignored (with a warning) in %s', (_name, env) => {
 			const warn = jest.fn();
 			const config = readEverWorksConfig({ ...local, ...env }, warn);
-			expect(config).toMatchObject({ allowLoopback: false, gauzyApiUrl: null, defaultApiUrl: null });
+			expect(config).toMatchObject({ allowLoopback: false, irtranscriptsApiUrl: null, defaultApiUrl: null });
 			expect(warn.mock.calls.some(([message]) => String(message).includes('EVER_WORKS_ALLOW_LOOPBACK'))).toBe(true);
 		});
 
@@ -69,7 +69,7 @@ describe('readEverWorksConfig', () => {
 			['loopback with credentials', 'http://user:pass@127.0.0.1:3000']
 		])('still refuses %s with the switch on', (_name, value) => {
 			const config = readEverWorksConfig({ API_BASE_URL: value, NODE_ENV: 'development', EVER_WORKS_ALLOW_LOOPBACK: 'true' });
-			expect(config.gauzyApiUrl).toBeNull();
+			expect(config.irtranscriptsApiUrl).toBeNull();
 		});
 	});
 

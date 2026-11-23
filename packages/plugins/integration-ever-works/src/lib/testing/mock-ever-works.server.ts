@@ -91,7 +91,7 @@ export interface MockEverWorksRouteContext {
 /** A resource route of the mock: the answer, or `null` when the request is not its route. */
 export type MockEverWorksExtension = (context: MockEverWorksRouteContext) => EverWorksHttpResponse | null;
 
-/** The "Ever Gauzy" preset (02 §3: every scope but org:write and email:write), the default of a new key. */
+/** The "Ever IRTranscripts" preset (02 §3: every scope but org:write and email:write), the default of a new key. */
 export const MOCK_PRESET_SCOPES = [
 	'org:read',
 	'members:read',
@@ -145,7 +145,7 @@ export class MockEverWorksServer {
 	readonly extensions: MockEverWorksExtension[] = [];
 	apiVersion = '1';
 	limits = { readsPerMin: 3000, writesPerMin: 600 };
-	/** Delivers a webhook POST; default: nothing is sent (`status: null`). Tests set it to call Gauzy. */
+	/** Delivers a webhook POST; default: nothing is sent (`status: null`). Tests set it to call IRTranscripts. */
 	deliver: (url: string, headers: Record<string, string>, body: string) => Promise<number | null> = async () => null;
 	private seq = 0;
 	private readonly idempotent = new Map<string, EverWorksHttpResponse>();
@@ -163,11 +163,11 @@ export class MockEverWorksServer {
 		this.keys.set(key, {
 			key,
 			keyId: options.keyId ?? randomUUID(),
-			keyName: options.keyName ?? 'Ever Gauzy — test',
+			keyName: options.keyName ?? 'Ever IRTranscripts — test',
 			scopes: options.scopes ?? [...MOCK_PRESET_SCOPES],
 			organizations: options.organizations ?? [{ id: randomUUID(), slug: 'acme', displayName: 'Acme Inc.' }],
 			revoked: false,
-			integrationKind: options.integrationKind ?? 'ever-gauzy'
+			integrationKind: options.integrationKind ?? 'ever-irtranscripts'
 		});
 		return key;
 	}
@@ -479,9 +479,9 @@ export class MockEverWorksServer {
 		);
 	}
 
-	/** An `ever-gauzy` key links as `gauzy` (contract v1, CR-1). */
+	/** An `ever-irtranscripts` key links as `irtranscripts` (contract v1, CR-1). */
 	static linkSource(key: Pick<MockEverWorksKey, 'integrationKind'>): string {
-		return key.integrationKind === 'ever-gauzy' ? 'gauzy' : key.integrationKind || 'generic';
+		return key.integrationKind === 'ever-irtranscripts' ? 'irtranscripts' : key.integrationKind || 'generic';
 	}
 
 	/** The task DTO as served: `externalLinks` filtered to the caller's source. */
@@ -550,7 +550,7 @@ export class MockEverWorksServer {
 			const ref = input['externalRef'] as { source?: string; installationId?: string | null; externalId?: string; externalUrl?: string | null } | undefined;
 			const source = MockEverWorksServer.linkSource(key);
 			if (ref && ref.source !== source) return MockEverWorksServer.error(400, 'validation_failed', `externalRef.source must be "${source}", the source of this key`);
-			const installationId = ref?.installationId ?? ((headers['x-sync-origin'] ?? '').replace(/^gauzy:/, '') || null);
+			const installationId = ref?.installationId ?? ((headers['x-sync-origin'] ?? '').replace(/^irtranscripts:/, '') || null);
 			const existing = ref
 				? this.links.find((link) => link.entityType === 'task' && link.source === source && link.installationId === installationId && link.externalId === ref.externalId)
 				: undefined;

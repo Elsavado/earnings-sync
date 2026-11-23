@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
-import { ID, IOrganization } from '@gauzy/contracts';
-import { isEmpty } from '@gauzy/utils';
+import { ID, IOrganization } from '@irtranscripts/contracts';
+import { isEmpty } from '@irtranscripts/utils';
 import { RequestContext } from '../../../core/context';
 import { TENANT_ADMIN_ROLES } from '../../../core/crud/organization-boundary';
 import { MultiORM, MultiORMEnum, getORMType } from '../../../core/utils';

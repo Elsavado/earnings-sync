@@ -6,7 +6,7 @@ import {
 	getORMType,
 	prepareSQLQuery,
 	toPositionalStatement
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 
 /**
  * The relational connection this package's read seams answer from, over whichever ORM is configured.

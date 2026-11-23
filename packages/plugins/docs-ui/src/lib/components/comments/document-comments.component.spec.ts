@@ -1,16 +1,16 @@
 /**
  * The component is exercised by instantiating it directly — the package's
  * established test shape (`documents.service.spec.ts`, `document-tree.store.spec.ts`).
- * Both `@gauzy/ui-core` barrels are stubbed: `core` drags Akita's untranspiled
+ * Both `@irtranscripts/ui-core` barrels are stubbed: `core` drags Akita's untranspiled
  * ESM into the CommonJS runtime, and `i18n` only contributes the translation base
  * class, whose single job here is `getTranslation()`.
  */
-jest.mock('@gauzy/ui-core/core', () => ({
+jest.mock('@irtranscripts/ui-core/core', () => ({
 	EmployeesService: class EmployeesService {},
 	Store: class Store {},
 	ToastrService: class ToastrService {}
 }));
-jest.mock('@gauzy/ui-core/i18n', () => ({
+jest.mock('@irtranscripts/ui-core/i18n', () => ({
 	TranslationBaseComponent: class TranslationBaseComponent {
 		constructor(public readonly translateService: unknown) {}
 		getTranslation(key: string): string {
@@ -20,7 +20,7 @@ jest.mock('@gauzy/ui-core/i18n', () => ({
 }));
 
 import { of, throwError } from 'rxjs';
-import { BaseEntityEnum, IComment, ID, PermissionsEnum } from '@gauzy/contracts';
+import { BaseEntityEnum, IComment, ID, PermissionsEnum } from '@irtranscripts/contracts';
 import { DocumentCommentsComponent } from './document-comments.component';
 
 const DOCUMENT_ID = 'cccccccc-1111-4111-8111-111111111111' as ID;

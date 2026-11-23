@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { IdempotencyOutcome } from '@gauzy/contracts';
+import { IdempotencyOutcome } from '@irtranscripts/contracts';
 import {
 	IDEMPOTENCY_KEY_HEADER,
 	IDEMPOTENCY_REPLAYED_HEADER,

@@ -4,7 +4,7 @@ import { Agent as HttpAgent } from 'node:http';
 import { Agent as HttpsAgent } from 'node:https';
 import type { LookupFunction } from 'node:net';
 import axios, { AxiosInstance } from 'axios';
-import { createSsrfSafeHttpsAgent } from '@gauzy/core';
+import { createSsrfSafeHttpsAgent } from '@irtranscripts/core';
 import { isEverWorksLoopbackUrl } from './ever-works-loopback';
 
 /** One HTTP exchange with Ever Works, independent of the HTTP library. */

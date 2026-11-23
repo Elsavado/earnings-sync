@@ -1,9 +1,9 @@
 /**
- * Same stubs as the panel spec: the `@gauzy/ui-core` barrels pull Akita's untranspiled
+ * Same stubs as the panel spec: the `@irtranscripts/ui-core` barrels pull Akita's untranspiled
  * ESM into the CommonJS test runtime, and the dialog only needs the base class and
  * the Store's organization. Constructed directly — no `TestBed`.
  */
-jest.mock('@gauzy/ui-core/i18n', () => ({
+jest.mock('@irtranscripts/ui-core/i18n', () => ({
 	TranslationBaseComponent: class {
 		constructor(public readonly translateService: unknown) {}
 		getTranslation(key: string): string {
@@ -11,10 +11,10 @@ jest.mock('@gauzy/ui-core/i18n', () => ({
 		}
 	}
 }));
-jest.mock('@gauzy/ui-core/core', () => ({ Store: class Store {}, ToastrService: class ToastrService {} }));
+jest.mock('@irtranscripts/ui-core/core', () => ({ Store: class Store {}, ToastrService: class ToastrService {} }));
 
 import { of, throwError } from 'rxjs';
-import { BaseEntityEnum, DocumentKindEnum, ID, IDocument, IDocumentLink } from '@gauzy/contracts';
+import { BaseEntityEnum, DocumentKindEnum, ID, IDocument, IDocumentLink } from '@irtranscripts/contracts';
 import { DocumentAttachDialogComponent } from './document-attach-dialog.component';
 
 const ENTITY_ID = 'dddddddd-1111-4111-8111-111111111111' as ID;

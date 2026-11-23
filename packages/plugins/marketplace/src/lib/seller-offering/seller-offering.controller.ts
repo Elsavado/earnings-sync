@@ -14,7 +14,7 @@ import {
 	UsePipes
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ID, IPagination, PermissionsEnum } from '@gauzy/contracts';
+import { ID, IPagination, PermissionsEnum } from '@irtranscripts/contracts';
 import {
 	AbstractValidationPipe,
 	ApiErrorCode,
@@ -35,10 +35,10 @@ import {
 	UUIDValidationPipe,
 	UseValidationPipe,
 	bulkOptionsOf
-} from '@gauzy/core';
-import { FeatureFlag } from '@gauzy/common';
+} from '@irtranscripts/core';
+import { FeatureFlag } from '@irtranscripts/common';
 import { MarketplaceFeatures } from '../marketplace.features';
-import type { BulkItemRequest } from '@gauzy/core';
+import type { BulkItemRequest } from '@irtranscripts/core';
 import { SellerOffering } from './seller-offering.entity';
 import { SellerOfferingService } from './seller-offering.service';
 import { CreateSellerOfferingDTO, UpdateSellerOfferingDTO } from './dto';

@@ -2,7 +2,7 @@
 import '../../../../core/entities/internal';
 
 import { DataSource } from 'typeorm';
-import { DatabaseTypeEnum } from '@gauzy/config';
+import { DatabaseTypeEnum } from '@irtranscripts/config';
 import { overlapCondition } from './get-conflict-time-log.handler';
 
 /**

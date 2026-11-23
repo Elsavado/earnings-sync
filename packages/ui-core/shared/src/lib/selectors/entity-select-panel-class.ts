@@ -1,7 +1,7 @@
 /**
  * The marker class every entity selector's dropdown panel carries.
  */
-const ENTITY_SELECT_CLASS = 'gauzy-entity-select';
+const ENTITY_SELECT_CLASS = 'irtranscripts-entity-select';
 
 /**
  * Build the class list ng-select puts on an APPENDED dropdown panel.

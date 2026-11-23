@@ -9,7 +9,7 @@ import {
 	ITimeOffBalanceCarryForwardInput,
 	ITimeOffBalanceFindInput,
 	PermissionsEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { RequestContext } from './../core/context';
 import { TenantAwareCrudService } from './../core/crud';
 import { Employee, TimeOffPolicy } from './../core/entities/internal';

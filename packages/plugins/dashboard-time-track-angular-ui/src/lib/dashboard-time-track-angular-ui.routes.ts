@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
-import { BookmarkQueryParamsResolver } from '@gauzy/ui-core/core';
-import { DateRangePickerResolver } from '@gauzy/ui-core/shared';
+import { BookmarkQueryParamsResolver } from '@irtranscripts/ui-core/core';
+import { DateRangePickerResolver } from '@irtranscripts/ui-core/shared';
 import { TimeTrackingComponent } from './components/time-tracking/time-tracking.component';
 
 /**

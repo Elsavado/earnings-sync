@@ -8,7 +8,7 @@ import {
 	IOrganizationTeamJoinRequest,
 	IUser,
 	OrganizationTeamJoinRequestStatusEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { OrganizationTeam, TenantOrganizationBaseEntity, User } from '../core/entities/internal';
 import {
 	ColumnIndex,

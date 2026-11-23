@@ -5,7 +5,7 @@
 import { DataSource } from 'typeorm';
 import { faker } from '@faker-js/faker';
 import * as moment from 'moment';
-import { hashPassword } from '@gauzy/utils';
+import { hashPassword } from '@irtranscripts/utils';
 import {
 	IDefaultUser,
 	RolesEnum,
@@ -15,7 +15,7 @@ import {
 	ITenant,
 	IUser,
 	ComponentLayoutStyleEnum
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { getEmailWithPostfix } from '../core/seeds/utils';
 import { User } from './user.entity';
 import { getUserDummyImage } from '../core/utils';

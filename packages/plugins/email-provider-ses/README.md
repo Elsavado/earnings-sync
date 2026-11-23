@@ -1,8 +1,8 @@
 <!-- cspell:ignore DMARC SESv2 -->
 
-# @gauzy/plugin-email-provider-ses
+# @irtranscripts/plugin-email-provider-ses
 
-[Amazon SES](https://aws.amazon.com/ses/) as an email provider of the Gauzy Inbox. It receives with an SES receipt rule
+[Amazon SES](https://aws.amazon.com/ses/) as an email provider of the IRTranscripts Inbox. It receives with an SES receipt rule
 and sends through the SESv2 API. It is a copy of the Resend reference plugin (plan 04 §5.2, G-P4-7) and has no AWS
 SDK dependency: requests are signed with SigV4 by the plugin itself.
 
@@ -10,7 +10,7 @@ SDK dependency: requests are signed with SigV4 by the plugin itself.
 
 **Off by default.** The API lists the plugin only when `EMAIL_PROVIDER_SES_ENABLED=true` (exactly). Any other value
 keeps it off and is logged once. The plugin registers with the Inbox email provider registry, so it does something
-only where `GAUZY_INBOX_ENABLED=true` and `GAUZY_INBOX_EMAIL_ENABLED=true` too. It adds no table, no route and no
+only where `IRTRANSCRIPTS_INBOX_ENABLED=true` and `IRTRANSCRIPTS_INBOX_EMAIL_ENABLED=true` too. It adds no table, no route and no
 migration.
 
 ## Set up
@@ -41,12 +41,12 @@ migration.
 
 - **Inbound.** SNS posts `text/plain` JSON, which the Inbox's webhook route keeps raw for the plugin. A "Received"
   notification carries the raw message (SNS action), or names the S3 object (S3 action). For an S3 action, the
-  message is fetched with SigV4, only from the account's bucket and capped at `GAUZY_INBOX_MAX_MESSAGE_BYTES`. The
+  message is fetched with SigV4, only from the account's bucket and capped at `IRTRANSCRIPTS_INBOX_MAX_MESSAGE_BYTES`. The
   message is then parsed as MIME:
     - `receipt.recipients` give the envelope;
     - SES's own SPF, DKIM and **DMARC** verdicts are trusted, so a sender allowlist works with SES;
     - a FAIL spam verdict scores the message as spam; a FAIL virus verdict holds it in the quarantine whatever
-      `GAUZY_INBOX_SPAM_QUARANTINE_SCORE` is.
+      `IRTRANSCRIPTS_INBOX_SPAM_QUARANTINE_SCORE` is.
 - **Outbound.** A nodemailer transport sends the raw message (Bcc only in the envelope) through
   `POST /v2/email/outbound-emails`. The message id comes from SES.
 

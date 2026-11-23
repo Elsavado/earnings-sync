@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { RolePermissionModule } from '@gauzy/core';
+import { RolePermissionModule } from '@irtranscripts/core';
 import { resolvers } from './graphql/resolvers';
 import { TaxCategoryController } from './tax-category/tax-category.controller';
 import { TaxCategory } from './tax-category/tax-category.entity';

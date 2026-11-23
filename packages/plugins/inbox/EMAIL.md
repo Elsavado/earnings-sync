@@ -1,14 +1,14 @@
 <!-- cspell:ignore dmarc softfail -->
 
-# Inbox email (`@gauzy/plugin-inbox`, Phase 4)
+# Inbox email (`@irtranscripts/plugin-inbox`, Phase 4)
 
-Mailboxes, inbound email and the email provider plugins of the Gauzy Inbox. Plan: `ever-co/homelab`
-`docs/superpowers/specs/2026-10-15-gauzy-ever-works-integration/04-inbox-and-email.md` §5 (G-P4-1 … G-P4-7).
+Mailboxes, inbound email and the email provider plugins of the IRTranscripts Inbox. Plan: `ever-co/homelab`
+`docs/superpowers/specs/2026-10-15-irtranscripts-ever-works-integration/04-inbox-and-email.md` §5 (G-P4-1 … G-P4-7).
 
 ## Switch
 
-**Off by default.** The API lists `InboxEmailPlugin` only when `GAUZY_INBOX_ENABLED=true` **and**
-`GAUZY_INBOX_EMAIL_ENABLED=true` (exactly), after `InboxPlugin`. When it is off nothing of it is loaded: no route, no
+**Off by default.** The API lists `InboxEmailPlugin` only when `IRTRANSCRIPTS_INBOX_ENABLED=true` **and**
+`IRTRANSCRIPTS_INBOX_EMAIL_ENABLED=true` (exactly), after `InboxPlugin`. When it is off nothing of it is loaded: no route, no
 table (its migrations are not registered), no transport. Every email then goes out over SMTP (the organization's Custom
 SMTP, the tenant's, then `MAIL_*`) exactly as before. Any other value also keeps it off, and is logged once.
 
@@ -18,7 +18,7 @@ derived from a non-default `JWT_SECRET` is used; with neither, no account can be
 ## Provider plugins
 
 Every provider is a plugin that registers an `IEmailProviderPlugin` with the `EmailProviderRegistry` at bootstrap,
-through the `INBOX_EMAIL_PROVIDER_REGISTRY` token (`@gauzy/contracts`). The token is absent when the Inbox email features
+through the `INBOX_EMAIL_PROVIDER_REGISTRY` token (`@irtranscripts/contracts`). The token is absent when the Inbox email features
 are off, so inject it optionally:
 
 ```ts
@@ -43,7 +43,7 @@ onModuleInit() {
 - `inbound.verify` throws when a request is not proven to come from the provider for that account (401). There is no
   "accept unsigned" mode.
 - `createTransport` answers a nodemailer transport (a custom transport `{ name, version, send(mail, callback) }`). The
-  Inbox registers it with the core transport seam (`EmailTransportRegistry`, `@gauzy/core`).
+  Inbox registers it with the core transport seam (`EmailTransportRegistry`, `@irtranscripts/core`).
 
 ## Provider accounts (`INBOX_MAILBOX_MANAGE`, members of the organization)
 
@@ -85,7 +85,7 @@ Making an account the outbound default is `updateInboxProviderAccount(id, { isDe
 
 ## Outbound: the transport seam
 
-`InboxEmailTransportResolver` supplies `@gauzy/core`'s `EmailTransportRegistry`, in the order of plan 04 §5.5:
+`InboxEmailTransportResolver` supplies `@irtranscripts/core`'s `EmailTransportRegistry`, in the order of plan 04 §5.5:
 
 1. the account the sender names (an Inbox reply: the provider account of its mailbox);
 2. the organization's default outbound account;
@@ -101,12 +101,12 @@ deployment, and one namespace with the Docs capture addresses (each side checks 
 `INBOUND_ADDRESS_NAMESPACE` token, and both check and save under the address's claim: a lock per address, across the
 replicas, so two requests for one address never both succeed).
 
-- **Platform addresses** on `GAUZY_INBOX_DOMAIN` (one domain for every tenant; each environment its own), the
+- **Platform addresses** on `IRTRANSCRIPTS_INBOX_DOMAIN` (one domain for every tenant; each environment its own), the
   organization in the local part: `<first>.<last>.<orgSlug>` for an employee, `<name>.<orgSlug>` for the organization
   (several), `<team>.<orgSlug>` for a team. A collision gets a numeric suffix on the name; a chosen name that is taken is
   refused. They receive through the platform route.
 - **Custom domains**: any `x@acme.com`, received through a provider account of the organization (or the tenant), once
-  the domain is proven by a DNS TXT record at `_gauzy-inbox.<domain>` (`POST /:id/verify`; a verified domain whose record
+  the domain is proven by a DNS TXT record at `_irtranscripts-inbox.<domain>` (`POST /:id/verify`; a verified domain whose record
   disappears fails). Each mailbox has its own value (several TXT values can sit at that name), and a check changes only
   that mailbox. The platform's own domains are reserved.
 - **Forwarding**: a platform address the user forwards an existing mailbox to; no DNS change (`forwardFrom` is kept for
@@ -135,8 +135,8 @@ replicas, so two requests for one address never both succeed).
 
 Management also needs an active membership of the organization; the tenant is always the caller's. `GET /:id/verification`
 answers a custom-domain mailbox's TXT record and its last status without a DNS lookup (`POST /:id/verify` looks it up);
-the settings answer `platformDomain` too (`GAUZY_INBOX_DOMAIN`, or `null`). The Settings → Inbox pages of
-`@gauzy/plugin-inbox-ui` are built on these routes.
+the settings answer `platformDomain` too (`IRTRANSCRIPTS_INBOX_DOMAIN`, or `null`). The Settings → Inbox pages of
+`@irtranscripts/plugin-inbox-ui` are built on these routes.
 
 GraphQL twins (`InboxMailboxResolver`, served only with the plugin; same service methods, DTO rules, guards and
 permissions; the class default is `INBOX_MAILBOX_MANAGE`). A mailbox never answers its relay secret's digest or its
@@ -165,26 +165,26 @@ There is no mailbox delete route (a mailbox is switched off with `isActive: fals
 
 `POST /api/inbox/inbound/:providerId/:accountId` is `@Public()`: the provider account's own secret proves each request
 (`provider.inbound.verify`; there is no unsigned mode), with a per-client-address rate limit
-(`GAUZY_INBOX_INBOUND_REQUESTS_PER_MINUTE`, default 600). The platform route `/api/inbox/inbound/generic/platform` is
-proven with `GAUZY_INBOX_PLATFORM_SECRET` (at least 24 characters; unset, the route answers 404); the Cloudflare Email
-Worker of the platform domain (`GAUZY_INBOX_DOMAIN`; script and setup in `.deploy/cloudflare/inbox-email-worker/`) posts
+(`IRTRANSCRIPTS_INBOX_INBOUND_REQUESTS_PER_MINUTE`, default 600). The platform route `/api/inbox/inbound/generic/platform` is
+proven with `IRTRANSCRIPTS_INBOX_PLATFORM_SECRET` (at least 24 characters; unset, the route answers 404); the Cloudflare Email
+Worker of the platform domain (`IRTRANSCRIPTS_INBOX_DOMAIN`; script and setup in `.deploy/cloudflare/inbox-email-worker/`) posts
 there. JSON and URL-encoded bodies arrive parsed with their
 raw bytes; a `multipart/form-data` body (a form with files: Mailgun, SendGrid) or a `text/plain` one (SNS) is kept raw
-by the route itself (`InboundRawBodyMiddleware`, up to twice `GAUZY_INBOX_MAX_MESSAGE_BYTES` plus 1 MB; 413 beyond),
+by the route itself (`InboundRawBodyMiddleware`, up to twice `IRTRANSCRIPTS_INBOX_MAX_MESSAGE_BYTES` plus 1 MB; 413 beyond),
 and providers read forms with `readInboundForm`.
 
-1. Unknown provider or account (or a disabled one): 404. Unproven: 401. Over `GAUZY_INBOX_MAX_MESSAGE_BYTES`: 413.
+1. Unknown provider or account (or a disabled one): 404. Unproven: 401. Over `IRTRANSCRIPTS_INBOX_MAX_MESSAGE_BYTES`: 413.
 2. Per message, only the envelope recipients (else `To` / `Cc`) that are active mailboxes **of this account** count: a
    mailbox receives only through the account it points at (the platform route: mailboxes without an account), in the
    account's tenant and, for an organization's account, organization; a custom-domain mailbox only once its domain is
    verified; and only from senders its allowlist admits. The `From` header alone is forgeable: an allowlisted sender
    without a DMARC `pass` from the provider (a relay that reports no verdict, or a failed one) is stored but **held in
-   the quarantine** (`x-gauzy-inbox-hold: unverified-sender`) until a manager releases it. A provider can hold a
-   message the same way whatever its spam verdict (`x-gauzy-inbox-hold: virus` when the provider's virus scan failed).
+   the quarantine** (`x-irtranscripts-inbox-hold: unverified-sender`) until a manager releases it. A provider can hold a
+   message the same way whatever its spam verdict (`x-irtranscripts-inbox-hold: virus` when the provider's virus scan failed).
    The mailbox row decides the tenant, never the payload. Everything else is dropped. A `+tag` is kept in the
    message's headers.
 3. The raw message is stored (`.eml`, or the normalized `.json` when the provider delivers no MIME; FileStorage, or with
-   local storage a private directory, `GAUZY_INBOX_LOCAL_STORAGE_PATH`, never the public asset root), and
+   local storage a private directory, `IRTRANSCRIPTS_INBOX_LOCAL_STORAGE_PATH`, never the public asset root), and
    one `inbox_email` row per mailbox (`RECEIVED`; unique on `(mailboxId, messageId)`, so a retry is a duplicate).
    Email files always use the deployment's storage settings (`FILE_PROVIDER`, `AWS_*` and co.), never a tenant's own
    storage overrides, so the webhook, the worker and a signed-in download read and write the same place.
@@ -193,14 +193,14 @@ and providers read forms with `readInboundForm`.
    fails (a crash in between costs the provider's retry a short wait, never the mail).
 
 The **worker** runs in the API process (a background task right after the webhook, plus a sweep every two minutes for a
-message whose hand-over was lost; `GAUZY_INBOX_EMAIL_WORKER=off` keeps a process out). Each message is claimed with a
+message whose hand-over was lost; `IRTRANSCRIPTS_INBOX_EMAIL_WORKER=off` keeps a process out). Each message is claimed with a
 conditional update, so replicas never process one twice. It parses the stored message again, **sanitizes the HTML on the
 server** (`sanitize-html`: no scripts, handlers, forms, frames, `svg`, style sheets; links open without a referrer;
 remote images are blocked into `data-remote-src`), stores the attachments (SHA-256, at most 100; active content such as
 HTML or SVG is never offered as what it claims; their rows are written with the claimed state in one transaction, so a
 worker another replica took over changes nothing), threads the message (`In-Reply-To` / `References`, else the normalized subject with a
 shared participant within 30 days), decides the spam verdict (authentication failures and the provider's score against
-`GAUZY_INBOX_SPAM_SUSPECT_SCORE` / `GAUZY_INBOX_SPAM_QUARANTINE_SCORE`), and creates the `EMAIL` inbox item
+`IRTRANSCRIPTS_INBOX_SPAM_SUSPECT_SCORE` / `IRTRANSCRIPTS_INBOX_SPAM_QUARANTINE_SCORE`), and creates the `EMAIL` inbox item
 (`source = EMAIL`, linked to the mailbox and the message) for the mailbox's recipients: the employee's user, or the
 members of a shared mailbox (with none: a team's members, or the organization's users whose role grants
 `INBOX_MAILBOX_MANAGE`), counting only users who are still active members of the mailbox's organization. A quarantined

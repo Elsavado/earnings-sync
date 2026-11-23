@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm';
 import { faker } from '@faker-js/faker';
-import { ITenant, IntegrationEnum } from '@gauzy/contracts';
+import { ITenant, IntegrationEnum } from '@irtranscripts/contracts';
 import { IntegrationTenant } from './integration-tenant.entity';
 import { Organization } from './../core/entities/internal';
 

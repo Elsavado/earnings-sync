@@ -1,13 +1,13 @@
 <!-- markdownlint-configure-file
-{"MD043":{"headings":["# @gauzy/plugin-integration-ever-works-ui"]}}
+{"MD043":{"headings":["# @irtranscripts/plugin-integration-ever-works-ui"]}}
 -->
 
-# @gauzy/plugin-integration-ever-works-ui
+# @irtranscripts/plugin-integration-ever-works-ui
 
 **Integrations > Ever Works** (`/pages/integrations/ever-works`, and
 `/pages/integrations/ever-works/:integrationTenantId` for a connected
 organization), the web part of
-[`@gauzy/plugin-integration-ever-works`](../integration-ever-works/README.md).
+[`@irtranscripts/plugin-integration-ever-works`](../integration-ever-works/README.md).
 
 The page asks the API first (`GET /api/integration/ever-works/status`). Where
 the API's Ever Works plugin is not loaded (the default: `EVER_WORKS_ENABLED`
@@ -19,7 +19,7 @@ selected organization's mapping. A mapped organization links to its sync
 settings; any other one gets the **connect wizard** (plan item G-P1-11):
 
 1. **Integration key**: the steps to create an Ever Works integration key, with
-   a link to the Ever Works page that creates one with the "Ever Gauzy" preset
+   a link to the Ever Works page that creates one with the "Ever IRTranscripts" preset
    (only when the operator set `EVER_WORKS_APP_URL`, HTTPS only).
 2. **Connect**: the API URL (prefilled from `EVER_WORKS_API_URL`) and the key,
    **Validate** (the Ever Works tenant, the pinned organizations, the scopes,
@@ -31,11 +31,11 @@ settings; any other one gets the **connect wizard** (plan item G-P1-11):
 4. **Review matches**: People, Agents, Teams, Projects and Initiatives ↔
    Missions. Suggestions are preselected and nothing is paired until saved;
    teams, projects and initiatives can be created on the other side where the
-   mapping allows it (a mission created from Gauzy starts paused; a draft
+   mapping allows it (a mission created from IRTranscripts starts paused; a draft
    initiative waits until it is active). On People, a shared Ever ID pairs by
    itself and each pairing shows how it was made (Ever ID, verified email, by
-   hand); an unpaired member can be invited to Gauzy (Employee role) and an
-   unpaired Gauzy person to Ever Works, each after a confirmation that names
+   hand); an unpaired member can be invited to IRTranscripts (Employee role) and an
+   unpaired IRTranscripts person to Ever Works, each after a confirmation that names
    the organization and role. An invitation pairs nobody.
 5. **Entities and directions**: one direction per synced domain (only the
    directions that domain allows) and whether tasks of projects not paired with
@@ -49,7 +49,7 @@ settings; any other one gets the **connect wizard** (plan item G-P1-11):
 The **sync settings** of a mapping (`/pages/integrations/ever-works/:integrationTenantId`,
 the address the list of connected integrations opens) are in tabs:
 
-- **Overview**: the connection's state, how far Gauzy is behind Ever Works' change
+- **Overview**: the connection's state, how far IRTranscripts is behind Ever Works' change
   feed, the queues both ways (pending, deferred, retrying, stopped), open
   conflicts, the last error, the pairs per record type and the running or last
   sync with its phases (read again every 10 seconds while it runs); Resync,
@@ -73,7 +73,7 @@ The page names no Ever Works address of its own: every address it shows comes
 from the API's configuration or from what the admin typed.
 
 It is a declarative plugin (`defineDeclarativePlugin`) with standalone,
-lazy-loaded routes, registered in `apps/gauzy/src/plugin-ui.config.ts`.
+lazy-loaded routes, registered in `apps/irtranscripts/src/plugin-ui.config.ts`.
 Translations are the plugin's own (`src/i18n/en.json`, namespace `EVER_WORKS`).
 
 ```sh

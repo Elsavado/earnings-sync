@@ -1,4 +1,4 @@
-# Changelog for @gauzy/plugin-dashboard-time-track-react-ui
+# Changelog for @irtranscripts/plugin-dashboard-time-track-react-ui
 
 ## [Unreleased]
 
@@ -7,7 +7,7 @@
 - **Full parity with the Angular Time Tracking dashboard.** The page now renders the same
   header (period-prefixed `ngx-header-title`, timezone / time-format filter, "Manage widgets"
   popover with Undo, Auto Refresh toggle + Refresh), the six counter widgets with
-  `gauzy-counter-point` strips, and the six windows (Recent Activities with screenshot carousel /
+  `irtranscripts-counter-point` strips, and the six windows (Recent Activities with screenshot carousel /
   gallery / info modal / delete, Manual Time, Tasks, Projects, Apps & URLs, Members) — each with
   the ⋮ Collapse / Expand / Move / Delete menu and drag & drop reordering.
 - Widget/window layout (order, hidden, collapsed) is read from and written to `Store.widgets` /

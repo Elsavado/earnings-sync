@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/swagger';
-import { IEmployeeNotificationSettingUpdateInput } from '@gauzy/contracts';
+import { IEmployeeNotificationSettingUpdateInput } from '@irtranscripts/contracts';
 import { CreateEmployeeNotificationSettingDTO } from './create-employee-notification-setting.dto';
 
 /**

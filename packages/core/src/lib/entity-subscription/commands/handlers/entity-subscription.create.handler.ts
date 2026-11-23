@@ -1,4 +1,4 @@
-import { IEntitySubscription } from '@gauzy/contracts';
+import { IEntitySubscription } from '@irtranscripts/contracts';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { EntitySubscriptionCreateCommand } from '../entity-subscription.create.command';
 import { EntitySubscriptionService } from '../../entity-subscription.service';

@@ -12,7 +12,7 @@ import {
 
 /**
  * The app routes with the hash location strategy, but OpenRouter returns the Connect code in the real query
- * string. The old callback (`…/#/pages/settings/ai`) came back as `https://app.gauzy.co/?code=…`, the router never
+ * string. The old callback (`…/#/pages/settings/ai`) came back as `https://app.irtranscripts.com/?code=…`, the router never
  * saw the code, and the flow silently stored nothing.
  */
 describe('AI provider Connect callback', () => {
@@ -27,8 +27,8 @@ describe('AI provider Connect callback', () => {
 	});
 
 	it('hands the provider the document URL, without the hash route', () => {
-		expect(buildConnectCallbackUrl({ origin: 'https://app.gauzy.co', pathname: '/' })).toBe(
-			'https://app.gauzy.co/'
+		expect(buildConnectCallbackUrl({ origin: 'https://app.irtranscripts.com', pathname: '/' })).toBe(
+			'https://app.irtranscripts.com/'
 		);
 	});
 

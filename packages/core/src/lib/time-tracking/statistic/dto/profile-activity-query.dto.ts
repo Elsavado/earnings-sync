@@ -10,7 +10,7 @@ import {
 	ValidatorConstraint,
 	ValidatorConstraintInterface
 } from 'class-validator';
-import { ID, IGetProfileActivity } from '@gauzy/contracts';
+import { ID, IGetProfileActivity } from '@irtranscripts/contracts';
 import { moment } from '../../../core/moment-extend';
 
 const DATE_ONLY_PATTERN = /^\d{4}-\d{2}-\d{2}$/;

@@ -23,7 +23,7 @@ savingSettings = savingSettings$ | async;
 					status="success"
 					(click)="onCreateSetting()"
 					nbTooltip="Create a new setting"
-					*gauzySpinnerButton="saving"
+					*irtranscriptsSpinnerButton="saving"
 				>
 					<nb-icon icon="plus-outline"></nb-icon>
 					<span>New Setting</span>
@@ -35,7 +35,7 @@ savingSettings = savingSettings$ | async;
 					status="warning"
 					(click)="onResetSettings()"
 					nbTooltip="Reset all settings to default values"
-					*gauzySpinnerButton="saving"
+					*irtranscriptsSpinnerButton="saving"
 				>
 					<nb-icon icon="refresh-outline"></nb-icon>
 					<span>Reset</span>
@@ -59,7 +59,7 @@ savingSettings = savingSettings$ | async;
 					</nb-form-field>
 				</div>
 				<div class="category-field">
-					<gauzy-category-selector [categoryId]="$safeNavigationMigration(categoryId?.value)"></gauzy-category-selector>
+					<irtranscripts-category-selector [categoryId]="$safeNavigationMigration(categoryId?.value)"></irtranscripts-category-selector>
 				</div>
 			</div>
 		</form>
@@ -159,7 +159,7 @@ savingSettings = savingSettings$ | async;
 										status="danger"
 										(click)="onDeleteSetting(setting.id, setting.key)"
 										nbTooltip="Delete setting"
-										*gauzySpinnerButton="saving"
+										*irtranscriptsSpinnerButton="saving"
 									>
 										<nb-icon icon="trash-2-outline"></nb-icon>
 									</button>
@@ -171,7 +171,7 @@ savingSettings = savingSettings$ | async;
 										status="success"
 										(click)="onSaveSettingEdit(setting.key)"
 										nbTooltip="Save changes"
-										*gauzySpinnerButton="savingSettings && savingSettings.has(setting.key)"
+										*irtranscriptsSpinnerButton="savingSettings && savingSettings.has(setting.key)"
 									>
 										<nb-icon icon="checkmark-outline"></nb-icon>
 									</button>
@@ -376,7 +376,7 @@ savingSettings = savingSettings$ | async;
 					status="primary"
 					(click)="onSaveSettings()"
 					[disabled]="!hasUnsavedChanges || saving || settingsForm.invalid"
-					*gauzySpinnerButton="saving; text: 'Saving...'"
+					*irtranscriptsSpinnerButton="saving; text: 'Saving...'"
 				>
 					<nb-icon icon="save-outline"></nb-icon>
 					<span>Save All Changes</span>

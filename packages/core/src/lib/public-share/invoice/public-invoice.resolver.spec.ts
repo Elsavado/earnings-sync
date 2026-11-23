@@ -9,7 +9,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { ForbiddenException } from '@nestjs/common';
 import { buildSchema, printSchema } from 'graphql';
-import { FEATURE_METADATA, PERMISSIONS_METADATA, PUBLIC_METHOD_METADATA } from '@gauzy/constants';
+import { FEATURE_METADATA, PERMISSIONS_METADATA, PUBLIC_METHOD_METADATA } from '@irtranscripts/constants';
 import { FeatureFlagGuard, PermissionGuard, TenantPermissionGuard } from '../../shared/guards';
 import { PublicInvoiceController } from './public-invoice.controller';
 import { PublicInvoiceResolver } from './public-invoice.resolver';

@@ -6,9 +6,9 @@ import { NbButtonModule, NbFormFieldModule, NbIconModule, NbInputModule } from '
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslatePipe } from '@ngx-translate/core';
 import { EMPTY, Subscription, catchError, filter, finalize, firstValueFrom, interval, tap } from 'rxjs';
-import { ALPHA_NUMERIC_CODE_LENGTH, patterns } from '@gauzy/constants';
+import { ALPHA_NUMERIC_CODE_LENGTH, patterns } from '@irtranscripts/constants';
 import { AuthService } from '../../../auth';
-import { GAUZY_ENV } from '../../../constants';
+import { IRTRANSCRIPTS_ENV } from '../../../constants';
 import { DebounceClickDirective } from '../../../directives/debounce-click.directive';
 import { SpinnerButtonDirective } from '../../../directives/spinner-button.directive';
 import { ErrorHandlerService } from '../../../services';
@@ -101,7 +101,7 @@ export class NgxLoginMagicComponent extends NbLoginComponent implements OnInit {
 		private readonly _authService: AuthService,
 		private readonly _errorHandlingService: ErrorHandlerService,
 		@Inject(NB_AUTH_OPTIONS) options,
-		@Inject(GAUZY_ENV)
+		@Inject(IRTRANSCRIPTS_ENV)
 		private readonly _environment: any
 	) {
 		super(nbAuthService, options, _cdr, _router);

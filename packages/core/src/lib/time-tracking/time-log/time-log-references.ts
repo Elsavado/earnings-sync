@@ -1,4 +1,4 @@
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import { Repository } from 'typeorm';
 import { assertGraphNotForeign } from '../../core/crud/nested-graph-ownership.helper';
 import { TimeLog } from './time-log.entity';

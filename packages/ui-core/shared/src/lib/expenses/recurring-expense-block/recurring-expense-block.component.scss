@@ -1,7 +1,7 @@
 @use 'var' as *;
 
 // ── One row of a ruled list, not a card ──────────────────────────────────────
-// This component used to draw each expense as a CARD — its own `gauzy-card-1`
+// This component used to draw each expense as a CARD — its own `irtranscripts-card-1`
 // fill, its own radius, an 8px bottom margin and a flat 84px height for four
 // short values, about three table rows' worth. Both pages that render it
 // (Employees > Recurring Expenses and Organization > Recurring Expenses, which
@@ -15,8 +15,8 @@
 // reason nothing here has to be reached with `::ng-deep`. Literals are the
 // CSS-var fallbacks, for any future caller that sets no tokens.
 //
-// The three page-level keys (`--gauzy-recurring-row-inset` and the two
-// `--gauzy-recurring-col*`) are declared in
+// The three page-level keys (`--irtranscripts-recurring-row-inset` and the two
+// `--irtranscripts-recurring-col*`) are declared in
 // `recurring-expense-employee.component.scss`. They exist because the column
 // LABELS live in that template and the VALUES live in this one, and a literal
 // would otherwise have to be written twice, in two files, and kept in step by
@@ -25,10 +25,10 @@
 :host .setting-block {
   border-radius: 0;
   margin-bottom: 0;
-  // Transparent, not `gauzy-card-1`: that is the page surface's own fill, and
+  // Transparent, not `irtranscripts-card-1`: that is the page surface's own fill, and
   // painting it again per row is what made each expense read as a separate card.
   //
-  // `!important` STAYS, and not for the reason the old `gauzy-card-1` carried it.
+  // `!important` STAYS, and not for the reason the old `irtranscripts-card-1` carried it.
   // `nb-overrides()` paints `.setting-block` `background-basic-color-2` with
   // `!important` of its own (_overrides.scss), and that rule is global — no
   // encapsulation attribute to out-rank, and `!important` beats any specificity
@@ -43,15 +43,15 @@
     width: 100%;
     // Was a flat `height: 84px`. The row is as tall as its content plus the cell
     // padding every other list row in the app uses, and no taller.
-    padding-block: var(--gauzy-table-cell-padding-y, 0.1875rem);
-    padding-inline: var(--gauzy-table-cell-padding-x, 0.4375rem);
+    padding-block: var(--irtranscripts-table-cell-padding-y, 0.1875rem);
+    padding-inline: var(--irtranscripts-table-cell-padding-x, 0.4375rem);
     background-color: transparent;
     border-radius: 0;
-    font-size: var(--gauzy-table-font-size, 0.6875rem);
-    line-height: var(--gauzy-table-line-height, 1rem);
+    font-size: var(--irtranscripts-table-font-size, 0.6875rem);
+    line-height: var(--irtranscripts-table-line-height, 1rem);
     // The rule between rows, drawn INSIDE the row's box so nothing moves — the
     // list needs one now that the cards and the gaps between them are gone.
-    box-shadow: inset 0 -1px 0 0 var(--gauzy-overlay-border-color, rgba(126, 126, 143, 0.18));
+    box-shadow: inset 0 -1px 0 0 var(--irtranscripts-overlay-border-color, rgba(126, 126, 143, 0.18));
     // The selection rail, reserved at rest so selecting a row cannot shift it.
     // It was a 6px shadow hung OUTSIDE the card's leading edge, which on a row
     // sitting flush inside a surface would paint over that surface's own ring.
@@ -60,13 +60,13 @@
     // `:hover` and `.active` used to share one fill, so pointing at any row made
     // it look exactly as selected as the row that really was. The two shared
     // density tokens are the app-wide hover / current pair and — unlike
-    // `gauzy-sidebar-background-3` — are registered by all eight themes.
+    // `irtranscripts-sidebar-background-3` — are registered by all eight themes.
     &:hover:not(.active) {
-      background-color: var(--gauzy-hover-tint, rgba(126, 126, 143, 0.12));
+      background-color: var(--irtranscripts-hover-tint, rgba(126, 126, 143, 0.12));
     }
 
     &.active {
-      background-color: var(--gauzy-active-tint, rgba(126, 126, 143, 0.2));
+      background-color: var(--irtranscripts-active-tint, rgba(126, 126, 143, 0.2));
       // The rail that used to hang off `.setting-block.block`, moved onto the
       // edge reserved above. Both classes are driven by the same `selected`
       // input, so this marks exactly the rows the old rule did.
@@ -124,8 +124,8 @@
     // Was 42px — room for a selection rail and for the settings fly-out further
     // down, which are 3px and `display: none` respectively. Shared with the
     // column labels above the list, which is why it is a page-level property.
-    @include nb-ltr(padding-left, var(--gauzy-recurring-row-inset, 0.5rem));
-    @include nb-rtl(padding-right, var(--gauzy-recurring-row-inset, 0.5rem));
+    @include nb-ltr(padding-left, var(--irtranscripts-recurring-row-inset, 0.5rem));
+    @include nb-rtl(padding-right, var(--irtranscripts-recurring-row-inset, 0.5rem));
 
     .expense {
       display: flex;
@@ -137,14 +137,14 @@
       // the labels heading these columns are in the page's template, and cannot
       // be allowed to drift from the values under them.
       .block-item {
-        width: var(--gauzy-recurring-col, 8rem);
+        width: var(--irtranscripts-recurring-col, 8rem);
         display: flex;
         justify-content: flex-start;
         align-items: center;
       }
 
       .block-item-big {
-        width: var(--gauzy-recurring-col-big, 12rem);
+        width: var(--irtranscripts-recurring-col-big, 12rem);
         display: flex;
         justify-content: flex-start;
         align-items: center;
@@ -152,10 +152,10 @@
     }
 
     span {
-      // Fallback: `gauzy-text-color-1` is not registered by material-light /
+      // Fallback: `irtranscripts-text-color-1` is not registered by material-light /
       // material-dark, and without one the declaration is dropped there.
-      color: var(--gauzy-text-color-1, var(--text-basic-color));
-      font-size: var(--gauzy-table-font-size, 0.6875rem);
+      color: var(--irtranscripts-text-color-1, var(--text-basic-color));
+      font-size: var(--irtranscripts-table-font-size, 0.6875rem);
     }
 
     .block-amount {
@@ -166,9 +166,9 @@
       display: flex;
       align-items: center;
       gap: 0.25rem;
-      font-size: var(--gauzy-table-font-size, 0.6875rem);
+      font-size: var(--irtranscripts-table-font-size, 0.6875rem);
       font-weight: 400;
-      line-height: var(--gauzy-table-line-height, 1rem);
+      line-height: var(--irtranscripts-table-line-height, 1rem);
       letter-spacing: 0em;
       cursor: pointer;
 
@@ -176,9 +176,9 @@
       // taller than the line box this row is built around, so the one glyph
       // would have set the height of every row that carries it.
       nb-icon {
-        width: var(--gauzy-table-header-font-size, 0.75rem);
-        height: var(--gauzy-table-header-font-size, 0.75rem);
-        font-size: var(--gauzy-table-header-font-size, 0.75rem);
+        width: var(--irtranscripts-table-header-font-size, 0.75rem);
+        height: var(--irtranscripts-table-header-font-size, 0.75rem);
+        font-size: var(--irtranscripts-table-header-font-size, 0.75rem);
       }
     }
   }

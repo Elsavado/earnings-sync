@@ -50,15 +50,15 @@ jest.mock('../core/context/request-context', () => ({
 	}
 }));
 
-jest.mock('@gauzy/config', () => ({
-	...jest.requireActual('@gauzy/config'),
+jest.mock('@irtranscripts/config', () => ({
+	...jest.requireActual('@irtranscripts/config'),
 	// The suite runs as Postgres so the row lock the membership write takes is the statement a production
 	// deployment issues, rather than the embedded dialect's no-op.
 	isPostgres: () => true,
 	isMySQL: () => false
 }));
 
-import { ContactBuyerRole } from '@gauzy/contracts';
+import { ContactBuyerRole } from '@irtranscripts/contracts';
 import { ContactStatus, PartyKind } from '../core/enums/kernel-extension.enums';
 import { OrganizationContact } from '../core/entities/internal';
 import { ContactBuyer } from './contact-buyer.entity';

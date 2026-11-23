@@ -104,25 +104,25 @@
  * passing on a shared double — which matters here more than usual, because `FulfillmentService` and
  * `FulfillmentLineService` both carry an `update` and a `delete`.
  *
- * `@gauzy/core` is **not** doubled, unlike the two sibling specs of this directory, for the reason
+ * `@irtranscripts/core` is **not** doubled, unlike the two sibling specs of this directory, for the reason
  * `soft-delete.spec.ts` states: this suite reads the permission metadata and the retry metadata the
  * kernel's own decorators write, and a no-op double would leave both surfaces unstated so that every
  * comparison below passed on two `undefined`s. The order package is doubled because the fulfilment service
  * reaches it for a collaborator none of these three fields reads.
  */
 
-jest.mock('@gauzy/plugin-order', () => ({ OrderLineService: class OrderLineService {} }));
+jest.mock('@irtranscripts/plugin-order', () => ({ OrderLineService: class OrderLineService {} }));
 
 import { getMetadataStorage } from 'class-validator';
 import { FieldDefinitionNode, InputObjectTypeDefinitionNode, ObjectTypeDefinitionNode, ObjectTypeExtensionNode, TypeNode } from 'graphql';
-import { PERMISSIONS_METADATA } from '@gauzy/constants';
+import { PERMISSIONS_METADATA } from '@irtranscripts/constants';
 import {
 	IDEMPOTENT_METADATA_KEY,
 	PermissionGuard,
 	TenantPermissionGuard,
 	VERSIONED_METADATA_KEY
-} from '@gauzy/core';
-import { PermissionsEnum } from '@gauzy/contracts';
+} from '@irtranscripts/core';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { FULFILLMENT_PERMISSIONS } from '../fulfillment.permissions';
 import { FulfillmentController } from '../fulfillment/fulfillment.controller';
 import { FulfillmentLineController } from '../fulfillment-line/fulfillment-line.controller';

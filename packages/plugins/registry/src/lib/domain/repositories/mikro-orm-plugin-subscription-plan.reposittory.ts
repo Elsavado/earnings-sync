@@ -1,4 +1,4 @@
-import { MikroOrmBaseEntityRepository } from '@gauzy/core';
+import { MikroOrmBaseEntityRepository } from '@irtranscripts/core';
 import { PluginSubscriptionPlan } from '../entities/plugin-subscription-plan.entity';
 
 export class MikroOrmPluginSubscriptionPlanRepository extends MikroOrmBaseEntityRepository<PluginSubscriptionPlan> {}

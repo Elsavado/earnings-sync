@@ -17,8 +17,8 @@ import {
 	IOnPluginUiDestroy,
 	PluginUiDefinition,
 	PLUGIN_DEFINITION
-} from '@gauzy/plugin-ui';
-import { LoggerService, NavMenuBuilderService, PageRouteRegistryService } from '@gauzy/ui-core/core';
+} from '@irtranscripts/plugin-ui';
+import { LoggerService, NavMenuBuilderService, PageRouteRegistryService } from '@irtranscripts/ui-core/core';
 import { PlaneApiKeyDialogComponent } from './components/api-key-dialog/api-key-dialog.component';
 import { PlaneAuthorizeComponent } from './components/plane-authorize/plane-authorize.component';
 import { PlaneSettingsComponent } from './components/plane-settings/plane-settings.component';

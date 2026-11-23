@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { EntityManager, FindOptionsWhere, Repository, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { ID } from '@gauzy/contracts';
-import { EventBus, EventOutboxService, RequestContext } from '@gauzy/core';
+import { ID } from '@irtranscripts/contracts';
+import { EventBus, EventOutboxService, RequestContext } from '@irtranscripts/core';
 import { Entitlement } from '../entitlement/entitlement.entity';
 import { EntitlementActivation } from './entitlement-activation.entity';
 import { EntitlementKey } from '../entitlement-key/entitlement-key.entity';

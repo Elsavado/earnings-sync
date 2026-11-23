@@ -7,7 +7,7 @@ import {
 	ITaskView,
 	ITaskViewCreateInput,
 	ITaskViewUpdateInput
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import { FavoriteService } from '../../core/decorators';
 import { TenantAwareCrudService } from '../../core/crud';
 import { RequestContext } from '../../core/context';

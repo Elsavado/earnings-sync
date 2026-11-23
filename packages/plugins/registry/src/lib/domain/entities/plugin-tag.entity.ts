@@ -1,5 +1,5 @@
-import { isBetterSqlite3 } from '@gauzy/config';
-import { ID, ITag } from '@gauzy/contracts';
+import { isBetterSqlite3 } from '@irtranscripts/config';
+import { ID, ITag } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	MultiORMColumn,
@@ -7,7 +7,7 @@ import {
 	MultiORMManyToOne,
 	Tag,
 	TenantOrganizationBaseEntity
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsUUID } from 'class-validator';
 import { Index, JoinColumn, Relation, RelationId } from 'typeorm';

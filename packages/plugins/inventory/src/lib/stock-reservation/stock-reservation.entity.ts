@@ -1,7 +1,7 @@
 import { JoinColumn, RelationId } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsDate, IsEnum, IsNumber, IsOptional, IsUUID, Min } from 'class-validator';
-import { ID } from '@gauzy/contracts';
+import { ID } from '@irtranscripts/contracts';
 import {
 	ColumnIndex,
 	MultiORMColumn,
@@ -11,7 +11,7 @@ import {
 	TenantOrganizationBaseEntity,
 	Warehouse,
 	WarehouseProductVariant
-} from '@gauzy/core';
+} from '@irtranscripts/core';
 import { StockReservationReferenceType, StockReservationStatus } from './../inventory.enums';
 import { MikroOrmStockReservationRepository } from './repository/mikro-orm-stock-reservation.repository';
 

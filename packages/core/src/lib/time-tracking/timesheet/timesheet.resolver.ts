@@ -10,7 +10,7 @@ import {
 	IUpdateTimesheetStatusInput,
 	PermissionsEnum,
 	TimesheetStatus
-} from '@gauzy/contracts';
+} from '@irtranscripts/contracts';
 import {
 	ConnectionFilter,
 	ConnectionPageRequest,
@@ -18,7 +18,7 @@ import {
 	GraphqlConnection,
 	buildConnection
 } from '../../api/graphql-connection';
-import { FeatureFlag } from '@gauzy/common';
+import { FeatureFlag } from '@irtranscripts/common';
 import { Permissions } from '../../shared/decorators';
 import { FeatureFlagGuard, PermissionGuard, TenantPermissionGuard } from '../../shared/guards';
 import { FEATURE_GRAPHQL } from '../../feature/graphql-feature.code';

@@ -70,7 +70,7 @@
 		"TO_INVOICE": "Factureren",
 		"PUBLIC_APPOINTMENT_BOOK": "Maak een openbaar afspraak",
 		"SAVE_AS_DRAFT": "Opslaan als concept",
-		"SAVE_AND_SEND_CONTACT": "Opslaan en verzenden naar contactpersoon in Gauzy",
+		"SAVE_AND_SEND_CONTACT": "Opslaan en verzenden naar contactpersoon in IRTranscripts",
 		"SAVE_AND_SEND_EMAIL": "Opslaan en verzenden via e-mail",
 		"EVENT_TYPES": "Soorten evenementen",
 		"SEARCH": "Zoeken",
@@ -660,8 +660,8 @@
 			"ALL_TEAMS": "Alle teams",
 			"UPWORK_API_KEY": "Upwork API-sleutel",
 			"UPWORK_SECRET": "Upwork Geheim",
-			"GAUZY_API_KEY": "Gauzy AI-sleutel",
-			"GAUZY_API_SECRET": "Gauzy AI Geheim",
+			"IRTRANSCRIPTS_API_KEY": "IRTranscripts AI-sleutel",
+			"IRTRANSCRIPTS_API_SECRET": "IRTranscripts AI Geheim",
 			"SELECT_COMPANY": "Bedrijf",
 			"TYPE_SEARCH_REQUEST": "Typ hier uw zoekopdracht...",
 			"SELECT_ICON": "Pictogram",
@@ -811,7 +811,7 @@
 		"TOTAL_INCOME_OR_MONTHLY_INCOME": "Totaal inkomen / Maandelijks inkomen",
 		"PROFITS": "Winsten",
 		"BONUSES_PAID": "Bonussen betaald",
-		"TOTAL_HOURS_WORKED_OVER_GAUZY": "Totaal aantal gewerkte uren over Gauzy",
+		"TOTAL_HOURS_WORKED_OVER_IRTRANSCRIPTS": "Totaal aantal gewerkte uren over IRTranscripts",
 		"MINIMUM_PROJECT_SIZE": "Minimale projectgrootte",
 		"PROJECTS_COUNT": "Aantal projecten",
 		"CLIENTS_COUNT": "Aantal klanten",
@@ -854,7 +854,7 @@
 		"UPWORK": "Upwork",
 		"MAKE_COM": "Make.com",
 		"ZAPIER": "Zapier",
-		"GAUZY_AI": "Gauzy AI",
+		"IRTRANSCRIPTS_AI": "IRTranscripts AI",
 		"ACTIVEPIECES": "Activepieces",
 		"PROPOSALS": "Voorstellen",
 		"TIME_OFF": "Vrije tijd",
@@ -905,12 +905,12 @@
 			"WRONG_FILE_NAME": "Foutieve bestandsnaam!!!",
 			"CORRECT_FILE_NAME": "De bestandsnaam moet zijn: \"archive.zip\"",
 			"DOWNLOAD_TEMPLATES": "Download sjablonen",
-			"MIGRATE_TO_CLOUD": "Migreer naar Ever Gauzy Cloud",
-			"IMPORT_INFO": "Klik op \"Importeren\" om uw gegevens in de Gauzy DB te importeren.",
-			"EXPORT_INFO": "Klik op \"Exporteren\" om gegevens uit de Gauzy DB te exporteren.",
-			"DOWNLOAD_TEMPLATES_INFO": "Klik op \"Download sjablonen\" om het zip-archief met CSV-sjablonen te downloaden voor het formaat van Gauzy-gegevens.",
-			"MIGRATE_TO_CLOUD_INFO": "Klik op \"Migreren naar Ever Gauzy Cloud\" om over te schakelen van een eigen gehoste versie naar de cloud editie.",
-			"MIGRATE_SUCCESSFULLY": "Gauzy Cloudmigratie voor '{{ tenant }}' succesvol!",
+			"MIGRATE_TO_CLOUD": "Migreer naar Ever IRTranscripts Cloud",
+			"IMPORT_INFO": "Klik op \"Importeren\" om uw gegevens in de IRTranscripts DB te importeren.",
+			"EXPORT_INFO": "Klik op \"Exporteren\" om gegevens uit de IRTranscripts DB te exporteren.",
+			"DOWNLOAD_TEMPLATES_INFO": "Klik op \"Download sjablonen\" om het zip-archief met CSV-sjablonen te downloaden voor het formaat van IRTranscripts-gegevens.",
+			"MIGRATE_TO_CLOUD_INFO": "Klik op \"Migreren naar Ever IRTranscripts Cloud\" om over te schakelen van een eigen gehoste versie naar de cloud editie.",
+			"MIGRATE_SUCCESSFULLY": "IRTranscripts Cloudmigratie voor '{{ tenant }}' succesvol!",
 			"ACCOUNTING_TEMPLATE": "Boekhoudsjabloon",
 			"ACTIVITY": "Activiteit",
 			"APPROVAL_POLICY": "Goedkeuringsbeleid",
@@ -1158,7 +1158,7 @@
 		"ACCOUNTING_TEMPLATES": "Boekhoudsjablonen",
 		"FOCUS": "Focus",
 		"APPLICATIONS": "Toepassingen",
-		"OPEN_GA_BROWSER": "Open Gauzy in de browser",
+		"OPEN_GA_BROWSER": "Open IRTranscripts in de browser",
 		"START_SERVER": "Start de server",
 		"STOP_SERVER": "Stop server",
 		"DOCUMENTS": "Documenten",
@@ -1234,8 +1234,8 @@
 		"CORPORATE": "Bedrijfs",
 		"MATERIAL_LIGHT_THEME": "Materiaal Licht",
 		"MATERIAL_DARK_THEME": "Materiaal Donker",
-		"GAUZY_LIGHT": "Gauzy Licht",
-		"GAUZY_DARK": "Gauzy Donker",
+		"IRTRANSCRIPTS_LIGHT": "IRTranscripts Licht",
+		"IRTRANSCRIPTS_DARK": "IRTranscripts Donker",
 		"LANGUAGE": "Taal",
 		"ENGLISH": "Engels",
 		"FRENCH": "Frans",
@@ -1265,7 +1265,7 @@
 	"CHANGELOG_MENU": {
 		"HEADER": "Wat is er nieuw?",
 		"LEARN_MORE_URL": "Meer informatie leren",
-		"GAUZY_FEATURES": "Gauzy functies"
+		"IRTRANSCRIPTS_FEATURES": "IRTranscripts functies"
 	},
 	"REPORT_PAGE": {
 		"MEMBERS_WORKED": "Gewerkte leden",
@@ -1330,7 +1330,7 @@
 			"MANUAL_ACTIVITY": "Geen records gevonden. Selecteer alstublieft een datumbereik, medewerker of project.",
 			"AMOUNT_OWED": "Geen bedrag verschuldigd.",
 			"WEEKLY_TIME_AND_ACTIVITY": "Je hebt nog geen getraceerde tijd en activiteit voor deze dagen.",
-			"DAILY_TIME_AND_ACTIVITY": "Er is nog geen tijd en activiteit bijgehouden voor deze dag. Gebruik alsjeblieft de <a href={{downloadURL}} rel=\"noopener\" target=\"_blank\">Gauzy Desktop Timer App</a>.",
+			"DAILY_TIME_AND_ACTIVITY": "Er is nog geen tijd en activiteit bijgehouden voor deze dag. Gebruik alsjeblieft de <a href={{downloadURL}} rel=\"noopener\" target=\"_blank\">IRTranscripts Desktop Timer App</a>.",
 			"PROJECT_BUDGET": "U heeft geen enkel project gemaakt met een budget.",
 			"CLIENT_BUDGET": "U heeft nog geen klant met een budget aangemaakt."
 		},
@@ -1350,7 +1350,7 @@
 			"DATE_RANGE_PLACEHOLDER": "Kies een datum tussen",
 			"CLIENT_ID": "Hubstaff Klant-ID",
 			"CLIENT_SECRET": "Hubstaff Klant Geheim",
-			"GRANT_PERMISSION": "Hierna word je naar Hubstaff geleid om toestemming te verlenen aan Gauzy.",
+			"GRANT_PERMISSION": "Hierna word je naar Hubstaff geleid om toestemming te verlenen aan IRTranscripts.",
 			"ENTER_CLIENT_SECRET": "Voer de geheime code van de klant in om een toegangstoken te krijgen."
 		},
 		"UPWORK_PAGE": {
@@ -1360,7 +1360,7 @@
 			"SUCCESSFULLY_AUTHORIZED": "Succesvol geautoriseerd",
 			"API_KEY": "Upwork API-sleutel",
 			"SECRET": "Upwork Geheim",
-			"NEXT_STEP_INFO": "Hierna word je meegenomen naar Upwork om toestemming te verlenen aan Gauzy.",
+			"NEXT_STEP_INFO": "Hierna word je meegenomen naar Upwork om toestemming te verlenen aan IRTranscripts.",
 			"CONTRACTS": "Contracten",
 			"SYNCED_CONTRACTS": "Gesynchroniseerde contracten",
 			"SELECT_DATE": "Datum",
@@ -1504,9 +1504,9 @@
 				"SETTINGS": "Instellingen"
 			},
 			"TOOLTIP": {
-				"TRIGGERS": "Triggers zijn gebeurtenissen die plaatsvinden in Gauzy en kunnen worden gebruikt om acties in Zapier te activeren.",
-				"ACTIONS": "Acties zijn gebeurtenissen die plaatsvinden in Zapier en kunnen worden gebruikt om acties in Gauzy te activeren.",
-				"WEBHOOKS": "Webhooks zijn gebeurtenissen die plaatsvinden in Zapier en kunnen worden gebruikt om acties in Gauzy te activeren.",
+				"TRIGGERS": "Triggers zijn gebeurtenissen die plaatsvinden in IRTranscripts en kunnen worden gebruikt om acties in Zapier te activeren.",
+				"ACTIONS": "Acties zijn gebeurtenissen die plaatsvinden in Zapier en kunnen worden gebruikt om acties in IRTranscripts te activeren.",
+				"WEBHOOKS": "Webhooks zijn gebeurtenissen die plaatsvinden in Zapier en kunnen worden gebruikt om acties in IRTranscripts te activeren.",
 				"SETTINGS": "Instellingen zijn de instellingen voor de Zapier-integratie."
 			},
 			"MESSAGE": {
@@ -1523,7 +1523,7 @@
 				"WEBHOOK_URL": "Webhook-URL",
 				"WEBHOOK_URL_PLACEHOLDER": "Voer webhook-URL in",
 				"WEBHOOK_URL_INVALID": "Voer een geldige webhook-URL in",
-				"WEBHOOK_INFO": "Webhook is een URL die wordt gebruikt om gegevens in Gauzy bij te werken op basis van een specifiek gebeurtenis in Zapier.",
+				"WEBHOOK_INFO": "Webhook is een URL die wordt gebruikt om gegevens in IRTranscripts bij te werken op basis van een specifiek gebeurtenis in Zapier.",
 				"SAVE": "Instellingen opslaan"
 			},
 			"ACTIONS": {
@@ -1559,9 +1559,9 @@
 				}
 			}
 		},
-		"GAUZY_AI_PAGE": {
-			"API_KEY": "Gauzy AI-sleutel",
-			"API_SECRET": "Gauzy AI Geheim"
+		"IRTRANSCRIPTS_AI_PAGE": {
+			"API_KEY": "IRTranscripts AI-sleutel",
+			"API_SECRET": "IRTranscripts AI Geheim"
 		},
 		"ACTIVEPIECES_PAGE": {
 			"TITLE": "Activepieces",
@@ -2023,8 +2023,8 @@
 		"KIND_HUMAN": "Personen",
 		"KIND_AGENT": "Agenten",
 		"AGENT_BADGE": "Agent",
-		"MANAGED_BY_EVER_WORKS": "Beheerd door Ever Works: de naam en het profiel van deze agent worden in Ever Works gewijzigd en met Gauzy gesynchroniseerd.",
-		"MANAGED_EXTERNALLY": "Extern beheerd: de naam en het profiel van deze agent worden in het bronsysteem gewijzigd en met Gauzy gesynchroniseerd.",
+		"MANAGED_BY_EVER_WORKS": "Beheerd door Ever Works: de naam en het profiel van deze agent worden in Ever Works gewijzigd en met IRTranscripts gesynchroniseerd.",
+		"MANAGED_EXTERNALLY": "Extern beheerd: de naam en het profiel van deze agent worden in het bronsysteem gewijzigd en met IRTranscripts gesynchroniseerd.",
 		"OPEN_MANAGED_AGENT": "Agentpagina openen",
 		"HEADER": "Beheer medewerkers",
 		"ADD_EMPLOYEE": "Voeg medewerker toe",
@@ -4443,9 +4443,9 @@
 		"REDIRECT_TO_HOME": "U wordt binnenkort doorgestuurd naar de startpagina"
 	},
 	"HELP_PAGE": {
-		"INTRO": "Vind documentatie, krijg antwoorden en bereik het team achter Gauzy.",
+		"INTRO": "Vind documentatie, krijg antwoorden en bereik het team achter IRTranscripts.",
 		"DOCUMENTATION": "Documentatie",
-		"DOCUMENTATION_DESC": "Handleidingen en referentie voor elke Gauzy-functie.",
+		"DOCUMENTATION_DESC": "Handleidingen en referentie voor elke IRTranscripts-functie.",
 		"FAQ": "FAQ",
 		"FAQ_DESC": "Antwoorden op de meest gestelde vragen.",
 		"SUPPORT_CHAT": "Supportchat",
@@ -4454,9 +4454,9 @@
 		"REPORT_ISSUE_DESC": "Bug gevonden? Open een issue op GitHub.",
 		"GITHUB": "GitHub",
 		"GITHUB_DESC": "Broncode, releases en discussies.",
-		"WEBSITE": "Gauzy-website",
-		"WEBSITE_DESC": "Lees meer over het Gauzy-platform.",
-		"ABOUT_LINK": "Over Gauzy",
+		"WEBSITE": "IRTranscripts-website",
+		"WEBSITE_DESC": "Lees meer over het IRTranscripts-platform.",
+		"ABOUT_LINK": "Over IRTranscripts",
 		"ABOUT_LINK_DESC": "Versiedetails, licentie en links.",
 		"HELP": "Help",
 		"KNOWLEDGE_BASE": "Kennisbank",
@@ -4905,7 +4905,7 @@
 	},
 	"ABOUT_PAGE": {
 		"COPYRIGHT": "Copyright © 2019-{{year}}, Ever Co. LTD. Alle rechten voorbehouden.",
-		"DESCRIPTION": "Ever® Gauzy™ is een open platform voor bedrijfsbeheer voor collaboratieve, on-demand en deeleconomieën — ERP, CRM, HRM, ATS en projectmanagement met geïntegreerde tijdregistratie.",
+		"DESCRIPTION": "Ever® IRTranscripts™ is een open platform voor bedrijfsbeheer voor collaboratieve, on-demand en deeleconomieën — ERP, CRM, HRM, ATS en projectmanagement met geïntegreerde tijdregistratie.",
 		"LICENSE": "Open source, uitgebracht onder de licentie",
 		"VERSION_DETAILS": "Versiedetails",
 		"VERSION_MISMATCH": "De webapp en de API zijn gebouwd vanaf verschillende commits — mogelijk is er een deployment bezig.",
@@ -4917,7 +4917,7 @@
 		"ABOUT": "Over",
 		"GITHUB": {
 			"TITLE": "Op GitHub",
-			"DESCRIPTION": "Ever Gauzy wordt open ontwikkeld: volg de releases, meld een probleem of draag bij.",
+			"DESCRIPTION": "Ever IRTranscripts wordt open ontwikkeld: volg de releases, meld een probleem of draag bij.",
 			"RELEASES": "Releases",
 			"ISSUES": "Issues",
 			"PULL_REQUESTS": "Pull requests",
@@ -5385,7 +5385,7 @@
 		"VIEW_TIMESHEET": "Bekijk timesheet",
 		"ADD_TIME": "Voeg tijd toe",
 		"TODAY": "Vandaag",
-		"ALERT_DESKTOP_DOWNLOAD": "Voor meer flexibele tijd- en activiteitenregistratie, gelieve <a href={{downloadURL}} rel=\"noopener\" target=\"_blank\">te downloaden</a> en gebruik te maken van de <a href={{downloadURL}} rel=\"noopener\" target=\"_blank\">Gauzy Desktop Timer App</a>.",
+		"ALERT_DESKTOP_DOWNLOAD": "Voor meer flexibele tijd- en activiteitenregistratie, gelieve <a href={{downloadURL}} rel=\"noopener\" target=\"_blank\">te downloaden</a> en gebruik te maken van de <a href={{downloadURL}} rel=\"noopener\" target=\"_blank\">IRTranscripts Desktop Timer App</a>.",
 		"STATUS": "De tijdsregistratie is al actief in de {{ source }}",
 		"VERSION": "Versie v{{ version }}",
 		"OS": "OS: {{ os }} {{ systemVersion }} ({{ arch }})",
@@ -5393,19 +5393,19 @@
 		"WAIT_FOR": "Wachten op {{ name }} om te beginnen...",
 		"SETUP": {
 			"WELCOME": "Welkom",
-			"TITLE": "Welkom bij Ever® Gauzy™ - Open-Source Business Management Platform (ERP/CRM/HRM)",
-			"LABEL": "De Ever Gauzy Desktop App biedt de volledige functionaliteit van het Gauzy Platform rechtstreeks op uw desktopcomputer of laptop. Daarnaast stelt het u in staat om werktijd bij te houden, activiteiten op te nemen en tracking herinneringen/meldingen te ontvangen.",
-			"TITLE_SERVER": "Ever Gauzy Server Installatie-assistent",
-			"LABEL_SERVER": "De Ever Gauzy Desktop-app biedt de volledige functionaliteit van het Gauzy-platform direct beschikbaar op uw desktopcomputer of laptop. Daarnaast maakt het het mogelijk om werktijden bij te houden, activiteiten op te nemen en meldingen/herinneringen voor tracking te ontvangen.",
+			"TITLE": "Welkom bij Ever® IRTranscripts™ - Open-Source Business Management Platform (ERP/CRM/HRM)",
+			"LABEL": "De Ever IRTranscripts Desktop App biedt de volledige functionaliteit van het IRTranscripts Platform rechtstreeks op uw desktopcomputer of laptop. Daarnaast stelt het u in staat om werktijd bij te houden, activiteiten op te nemen en tracking herinneringen/meldingen te ontvangen.",
+			"TITLE_SERVER": "Ever IRTranscripts Server Installatie-assistent",
+			"LABEL_SERVER": "De Ever IRTranscripts Desktop-app biedt de volledige functionaliteit van het IRTranscripts-platform direct beschikbaar op uw desktopcomputer of laptop. Daarnaast maakt het het mogelijk om werktijden bij te houden, activiteiten op te nemen en meldingen/herinneringen voor tracking te ontvangen.",
 			"FUNCTIONALITIES": "Functionaliteiten",
 			"WHAT_WOULD_LIKE_USE": "Waarmee zou je graag willen werken?",
 			"SELECT_MULTIPLE_OPTIONS": "Je kunt slechts één optie selecteren of beide opties.",
 			"TIME_ACTIVITY_FEATURES": "Tijd- en activiteitstraceringfuncties",
-			"GP_FEATURES": "Ever Gauzy Platformfuncties",
-			"HOW_GONNA_USE_GP": "Hoe ga je het Gauzy platform gebruiken?",
+			"GP_FEATURES": "Ever IRTranscripts Platformfuncties",
+			"HOW_GONNA_USE_GP": "Hoe ga je het IRTranscripts platform gebruiken?",
 			"SELECT_ONE_OPTION": "Je moet slechts één van de onderstaande opties selecteren.",
 			"INTEGRATED": "Geïntegreerd",
-			"INSTALL_GP_LOCAL": "Installeer en voer het Gauzy Platform uit op je lokale computer.",
+			"INSTALL_GP_LOCAL": "Installeer en voer het IRTranscripts Platform uit op je lokale computer.",
 			"CUSTOM_NETWORK": "Aangepast / Netwerk",
 			"SEPARATE_SERVER": "Verbind met een aparte server in uw werknethwerk.",
 			"LIVE": "Leven",
@@ -5415,7 +5415,7 @@
 			"LEGAL_NOTE": "Juridisch: Alle productnamen, merknamen, logo's, handelsmerken en geregistreerde handelsmerken zijn eigendom van hun respectieve eigenaars. Wij hebben geen banden met of goedkeuring, sponsoring of ondersteuning van genoemde derde bedrijven, merken, producten, websites of diensten. De links naar software van derden worden uitsluitend ter beschikking gesteld als gemak en alleen voor informatieve doeleinden; ze vormen geen goedkeuring of goedkeuring van een van de producten, diensten of meningen van het bedrijf, de organisatie of de persoon. We gebruiken respectieve logo's en merknamen alleen om reclame te maken voor het feit dat ons product overeenkomstige producten en technologieën gebruikt of ingebouwde integratie heeft met overeenkomstige diensten.",
 			"SETTING": "Instelling",
 			"READY_FOR_ADVANCED_SETTINGS": "Ben je klaar voor wat geavanceerde instellingen?",
-			"FINAL_STEP_GP": "Dit is de laatste stap waar je tot in de details kunt gaan van jouw Gauzy Platform.",
+			"FINAL_STEP_GP": "Dit is de laatste stap waar je tot in de details kunt gaan van jouw IRTranscripts Platform.",
 			"PORT": "Haven",
 			"PORT_API": "Port API",
 			"UI": "Ui",
@@ -5426,8 +5426,8 @@
 			"USER": "Gebruiker",
 			"PASSWORD": "Wachtwoord",
 			"UI_HOSTNAME": "UI Hostnaam / IP-adres",
-			"TITLE_SERVER_API": "Ever Gauzy API Server-installatiewizard",
-			"LABEL_SERVER_API": "Ever Gauzy API Server Desktop App biedt de volledige functionaliteit van het Gauzy Platform direct beschikbaar op uw desktopcomputer of laptop. Daarnaast kunt u hiermee werktijd bijhouden, activiteiten registreren en trackingherinneringen/meldingen ontvangen.",
+			"TITLE_SERVER_API": "Ever IRTranscripts API Server-installatiewizard",
+			"LABEL_SERVER_API": "Ever IRTranscripts API Server Desktop App biedt de volledige functionaliteit van het IRTranscripts Platform direct beschikbaar op uw desktopcomputer of laptop. Daarnaast kunt u hiermee werktijd bijhouden, activiteiten registreren en trackingherinneringen/meldingen ontvangen.",
 			"UNABLE_TO_CONNECT": "Kan geen verbinding maken met de server. Controleer uw API-host of internetverbinding.",
 			"JWT_SECRET": "JWT-geheim",
 			"JWT_SECRET_PLACEHOLDER": "Voer een geheime sleutel in voor JWT",
@@ -5601,7 +5601,7 @@
 			"ERROR_OCCURRED": "Er is een fout opgetreden",
 			"DB_CLEANUP_TITLE": "De databaseversie is waarschijnlijk verouderd",
 			"DB_CLEANUP_MESSAGE": "Er is een nieuwe versie van de app gedetecteerd. Om compatibiliteitsproblemen te voorkomen, wilt u de lokale database wissen en een nieuwe gebruiken?",
-			"DB_CLEANUP_DETAIL": "Het verwijderen van de database wist lokaal gecachte gegevens. Gegevens die al met de server zijn gesynchroniseerd, blijven veilig in de Gauzy-cloud.",
+			"DB_CLEANUP_DETAIL": "Het verwijderen van de database wist lokaal gecachte gegevens. Gegevens die al met de server zijn gesynchroniseerd, blijven veilig in de IRTranscripts-cloud.",
 			"DB_CLEANUP_REMOVE": "Database Verwijderen",
 			"DB_CLEANUP_KEEP": "Behouden",
 			"DB_CLEANUP_UNSYNCED_TITLE": "Niet-gesynchroniseerde Gegevens Gedetecteerd",
@@ -5613,7 +5613,7 @@
 			"AND_JOIN": "en",
 			"SEED_CREDENTIALS_TITLE": "Uw aanmeldgegevens",
 			"SEED_CREDENTIALS_MESSAGE": "Bewaar deze wachtwoorden nu. Ze worden maar één keer getoond.",
-			"SEED_CREDENTIALS_DETAIL": "Deze installatie heeft haar accounts aangemaakt met willekeurige wachtwoorden in plaats van de gepubliceerde standaardwaarden.\n\n{{ accounts }}\n\nU kunt een wachtwoord later wijzigen op uw profielpagina in Gauzy.",
+			"SEED_CREDENTIALS_DETAIL": "Deze installatie heeft haar accounts aangemaakt met willekeurige wachtwoorden in plaats van de gepubliceerde standaardwaarden.\n\n{{ accounts }}\n\nU kunt een wachtwoord later wijzigen op uw profielpagina in IRTranscripts.",
 			"SEED_CREDENTIALS_COPIED": "Gekopieerd naar het klembord.",
 			"SEED_CREDENTIALS_COPY_FAILED": "Kopiëren naar het klembord is mislukt. Klik nogmaals op Kopiëren of schrijf de wachtwoorden op voordat u bevestigt.",
 			"SEED_CREDENTIALS_SAVED": "Ik heb ze bewaard",
@@ -5623,7 +5623,7 @@
 			"SEED_PASSWORD": "Wachtwoord",
 			"PUBLISHED_PASSWORDS_TITLE": "Standaardwachtwoord nog in gebruik",
 			"PUBLISHED_PASSWORDS_MESSAGE": "Wijzig het standaardwachtwoord van deze accounts.",
-			"PUBLISHED_PASSWORDS_DETAIL": "{{ accounts }} melden zich nog aan met het standaardwachtwoord dat in de Gauzy-documentatie is gepubliceerd. Iedereen die deze server kan bereiken, kan zich daarmee aanmelden. Meld u aan bij Gauzy en wijzig het op de profielpagina."
+			"PUBLISHED_PASSWORDS_DETAIL": "{{ accounts }} melden zich nog aan met het standaardwachtwoord dat in de IRTranscripts-documentatie is gepubliceerd. Iedereen die deze server kan bereiken, kan zich daarmee aanmelden. Meld u aan bij IRTranscripts en wijzig het op de profielpagina."
 		},
 		"NO_LIMIT": "∞ Geen Limiet",
 		"TASK": "Taak",
@@ -5700,7 +5700,7 @@
 		"PERMISSIONS": {
 			"MENU_LABEL": "Systeemmachtigingen",
 			"TITLE": "Systeemmachtigingen",
-			"DESCRIPTION": "Gauzy vereist bepaalde macOS-machtigingen om uw werk nauwkeurig bij te houden. Bekijk en beheer ze hier.",
+			"DESCRIPTION": "IRTranscripts vereist bepaalde macOS-machtigingen om uw werk nauwkeurig bij te houden. Bekijk en beheer ze hier.",
 			"SCREEN_RECORDING": "Schermopname",
 			"SCREEN_RECORDING_DESC": "Vereist om automatisch schermafbeeldingen te maken tijdens uw bijgehouden werksessies.",
 			"STATUS": "Status",
@@ -5718,7 +5718,7 @@
 			"RELAUNCH": "Opnieuw starten",
 			"RELAUNCH_DESC": "Machtiging verleend maar kunt u uw scherm nog steeds niet opnemen? Klik op Opnieuw starten om de wijzigingen toe te passen.",
 			"DIALOG_TITLE": "Machtiging voor schermopname vereist",
-			"DIALOG_DESC": "Gauzy heeft toestemming voor schermopname nodig om schermafbeeldingen te maken tijdens uw werksessie. Verleen toegang om door te gaan.",
+			"DIALOG_DESC": "IRTranscripts heeft toestemming voor schermopname nodig om schermafbeeldingen te maken tijdens uw werksessie. Verleen toegang om door te gaan.",
 			"POLLING_HINT": "Dit dialoogvenster wordt automatisch gesloten zodra de machtiging is verleend.",
 			"START_ANYWAY": "Starten zonder schermafbeelding",
 			"ACCESSIBILITY": "Toegankelijkheid",
@@ -6046,7 +6046,7 @@
 			"email-invoice": "E-mailfactuur",
 			"invite-employee": "Nodig werknemer uit",
 			"invite-user": "Nodig gebruiker uit",
-			"invite-gauzy-teams": "Nodig Gauzy Teams uit.",
+			"invite-irtranscripts-teams": "Nodig IRTranscripts Teams uit.",
 			"appointment-confirmation": "Afspraakbevestiging",
 			"appointment-cancellation": "Afspraak annuleren",
 			"equipment": "Creëer uitrusting",
@@ -6221,7 +6221,7 @@
 			},
 			"SUGGESTED_ENDPOINT": "Endpoint voor deze regio:",
 			"USE_SUGGESTION": "Gebruiken",
-			"SAVE_NOTE": "Bij het opslaan maakt Gauzy met deze inloggegevens de bucket aan in Wasabi. Als Wasabi het verzoek weigert, worden de instellingen niet opgeslagen.",
+			"SAVE_NOTE": "Bij het opslaan maakt IRTranscripts met deze inloggegevens de bucket aan in Wasabi. Als Wasabi het verzoek weigert, worden de instellingen niet opgeslagen.",
 			"LABELS": {
 				"ACCESS_KEY_ID": "Toegangssleutel-ID",
 				"SECRET_ACCESS_KEY": "Geheime toegangssleutel",
@@ -6400,7 +6400,7 @@
 			}
 		}
 	},
-	"GAUZY_MAINTENANCE": "{{ companySite }} @ Onderhoud",
+	"IRTRANSCRIPTS_MAINTENANCE": "{{ companySite }} @ Onderhoud",
 	"LEGAL": {
 		"PRIVACY_POLICY": "Privacybeleid",
 		"TERMS_AND_CONDITIONS": "Algemene Voorwaarden",
@@ -6786,7 +6786,7 @@
 			"SOURCE_TYPES": {
 				"CDN": "CDN",
 				"NPM": "NPM",
-				"GAUZY": "Gauzy"
+				"IRTRANSCRIPTS": "IRTranscripts"
 			},
 			"CDN": {
 				"URL": "CDN-URL",
@@ -6963,7 +6963,7 @@
 	},
 	"OAUTH_CLIENTS": {
 		"TITLE": "OAuth-clients",
-		"SUBTITLE": "Registreer en beheer apps van derden die namens uw gebruikers toegang kunnen aanvragen tot Ever Gauzy.",
+		"SUBTITLE": "Registreer en beheer apps van derden die namens uw gebruikers toegang kunnen aanvragen tot Ever IRTranscripts.",
 		"STATUS": {
 			"ACTIVE": "Actief",
 			"INACTIVE": "Inactief"

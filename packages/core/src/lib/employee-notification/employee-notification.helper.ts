@@ -1,4 +1,4 @@
-import { BaseEntityEnum, NotificationActionTypeEnum } from '@gauzy/contracts';
+import { BaseEntityEnum, NotificationActionTypeEnum } from '@irtranscripts/contracts';
 
 const EmployeeNotificationTemplates = {
 	[NotificationActionTypeEnum.Paid]: `You have been {action}`,

@@ -1,6 +1,6 @@
-# @gauzy/plugin-subscription
+# @irtranscripts/plugin-subscription
 
-Ever Gauzy Platform Subscription Plugin — **plans, subscriptions, subscription
+Ever IRTranscripts Platform Subscription Plugin — **plans, subscriptions, subscription
 items and recurring billing**, all owned by this package and reachable over both
 REST and GraphQL.
 
@@ -44,7 +44,7 @@ to `FAILED` and nothing bills it again until an operator acts.
 
 Every amount is an exact decimal (`numeric(20,6)`) with its own ISO currency
 code beside it, and every calculation runs through the platform money layer
-(`@gauzy/core`, `lib/money`). No amount is ever a floating-point number.
+(`@irtranscripts/core`, `lib/money`). No amount is ever a floating-point number.
 
 ## Boundaries
 

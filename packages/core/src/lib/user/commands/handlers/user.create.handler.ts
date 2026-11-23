@@ -1,6 +1,6 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { ID, IUser, IUserCreateInput } from '@gauzy/contracts';
+import { ID, IUser, IUserCreateInput } from '@irtranscripts/contracts';
 import { UserCreateCommand } from '../user.create.command';
 import { UserService } from '../../user.service';
 import { normalizeRolePayload } from '../../role-assignment.helper';

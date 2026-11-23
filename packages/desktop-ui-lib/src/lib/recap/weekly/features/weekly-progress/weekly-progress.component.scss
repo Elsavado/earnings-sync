@@ -13,7 +13,7 @@
 	justify-content: space-between;
 	border-top: 0.5px solid var(--select-filled-control-disabled-text-color);
 	padding-top: 1rem;
-	color: var(--gauzy-text-color-1);
+	color: var(--irtranscripts-text-color-1);
     font-weight: 500;
 
 	.day,
@@ -27,7 +27,7 @@
     font-weight: 400;
     line-height: 16px;
     letter-spacing: -0.009em;
-    color: var(--gauzy-text-color-2);
+    color: var(--irtranscripts-text-color-2);
 }
 
 .week-wrapper {
@@ -36,6 +36,6 @@
 	gap: 1rem;
 	padding: 14px;
 	border-radius: var(--border-radius);
-	background-color: var(--gauzy-card-3);
+	background-color: var(--irtranscripts-card-3);
 	height: 100%;
 }

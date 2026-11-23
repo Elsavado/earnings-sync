@@ -1,9 +1,9 @@
 // cspell:ignore wikilink wikilinks unfiled
-import { DocumentReviewReasonEnum, DocumentReviewStatusEnum } from '@gauzy/contracts';
+import { DocumentReviewReasonEnum, DocumentReviewStatusEnum } from '@irtranscripts/contracts';
 import { EverWorksKbDocument, EverWorksKbDocumentClass, KB_DOCUMENT_CLASSES, KB_LIMITS } from './ever-works-kb.types';
 
 /**
- * The field map between an Ever Works Knowledge Base document and a Gauzy Docs PAGE (plan 05 §2), as
+ * The field map between an Ever Works Knowledge Base document and a IRTranscripts Docs PAGE (plan 05 §2), as
  * pure functions: placement, paths, review state, metadata and the snapshot the sync compares with.
  */
 
@@ -28,11 +28,11 @@ export const DOCS_TREE = {
 	folder: (folderId: string) => `folder:${folderId}`
 } as const;
 
-/** Where a Gauzy document sits in the synced tree. */
+/** Where a IRTranscripts document sits in the synced tree. */
 export type DocsPlacement =
 	| {
 			area: 'organization';
-			/** The Ever Works library folder of the nearest linked Gauzy folder above it; `null` = Unfiled. */
+			/** The Ever Works library folder of the nearest linked IRTranscripts folder above it; `null` = Unfiled. */
 			ewFolderId: string | null;
 			/** Folder names between the Organization folder and the document (for the path). */
 			segments: string[];
@@ -45,9 +45,9 @@ export interface DocSnapshot {
 	description?: string | null;
 	/** {@link markdownHash} of Ever Works' body at the last sync. */
 	eHash?: string;
-	/** {@link markdownHash} of Gauzy's page (as Markdown) at the last sync. */
+	/** {@link markdownHash} of IRTranscripts's page (as Markdown) at the last sync. */
 	gHash?: string;
-	/** `contentJsonHash` of Gauzy's stored page at the last sync: an edit the Markdown cannot show moves it (review F92). */
+	/** `contentJsonHash` of IRTranscripts's stored page at the last sync: an edit the Markdown cannot show moves it (review F92). */
 	jHash?: string;
 	/** The page sits in another area than its Ever Works document (a move Ever Works cannot make), logged once (review F95). */
 	movedAcross?: boolean;
@@ -79,8 +79,8 @@ export interface FolderSnapshot {
 	ewParentId?: string | null;
 }
 
-/** Gauzy's review state of an Ever Works one (plan 05 §2: proposed → PENDING, accepted → APPROVED). */
-export function gauzyReviewOf(document: Pick<EverWorksKbDocument, 'reviewState' | 'source'>): {
+/** IRTranscripts's review state of an Ever Works one (plan 05 §2: proposed → PENDING, accepted → APPROVED). */
+export function irtranscriptsReviewOf(document: Pick<EverWorksKbDocument, 'reviewState' | 'source'>): {
 	reviewStatus: DocumentReviewStatusEnum;
 	reviewReason: DocumentReviewReasonEnum | null;
 } {
@@ -94,7 +94,7 @@ export function gauzyReviewOf(document: Pick<EverWorksKbDocument, 'reviewState' 
 	return { reviewStatus: DocumentReviewStatusEnum.NONE, reviewReason: null };
 }
 
-/** The `metadata.everWorks` block of a synced page (read-only in Gauzy: class, tags, language, decision, path). */
+/** The `metadata.everWorks` block of a synced page (read-only in IRTranscripts: class, tags, language, decision, path). */
 export function everWorksMetadataOf(document: EverWorksKbDocument): Record<string, unknown> {
 	return {
 		class: document.class,
@@ -137,13 +137,13 @@ function safeParse(value: string): unknown {
 	}
 }
 
-/** The class a Gauzy page is created with in Ever Works: its synced class if valid, else `freeform` (plan 05 §2). */
+/** The class a IRTranscripts page is created with in Ever Works: its synced class if valid, else `freeform` (plan 05 §2). */
 export function everWorksClassOf(metadata: unknown): EverWorksKbDocumentClass {
 	const value = everWorksBlockOf(metadata)['class'];
 	return typeof value === 'string' && (KB_DOCUMENT_CLASSES as readonly string[]).includes(value) ? (value as EverWorksKbDocumentClass) : 'freeform';
 }
 
-/** A path segment from a Gauzy name: lower case, ASCII letters, digits and dashes (`Refund Policy` → `refund-policy`). */
+/** A path segment from a IRTranscripts name: lower case, ASCII letters, digits and dashes (`Refund Policy` → `refund-policy`). */
 export function slugOf(name: string | null | undefined, fallback = 'document'): string {
 	const slug = String(name ?? '')
 		.normalize('NFKD')
@@ -157,7 +157,7 @@ export function slugOf(name: string | null | undefined, fallback = 'document'): 
 }
 
 /**
- * The Ever Works `path` of a Gauzy page (plan 05 §2: derived from the folder chain under the root). An
+ * The Ever Works `path` of a IRTranscripts page (plan 05 §2: derived from the folder chain under the root). An
  * organization document is relative to the library (`support/refund-policy.md`); a Work document starts
  * with its class folder, as Ever Works requires (`freeform/notes/refund-policy.md`). `suffix` makes it
  * unique when the plain path is taken. At most 512 characters (folder segments are dropped first).
@@ -183,8 +183,8 @@ export function cut(text: string | null | undefined, max: number): string {
 	return out;
 }
 
-/** A Gauzy description (500 characters) from an Ever Works one. */
-export function gauzyDescriptionOf(description: string | null | undefined): string | null {
+/** A IRTranscripts description (500 characters) from an Ever Works one. */
+export function irtranscriptsDescriptionOf(description: string | null | undefined): string | null {
 	const value = (description ?? '').trim();
 	return value ? cut(value, 500) : null;
 }

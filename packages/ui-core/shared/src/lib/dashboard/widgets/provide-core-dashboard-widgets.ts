@@ -1,5 +1,5 @@
 import { EnvironmentProviders, inject, provideAppInitializer } from '@angular/core';
-import { WidgetRegistryService } from '@gauzy/ui-core/core';
+import { WidgetRegistryService } from '@irtranscripts/ui-core/core';
 // Import the registration arrays from their own modules, NOT through the folder
 // barrels: the barrels also export the widget component classes, which would
 // drag every widget into the initial bundle and defeat their lazy loading.

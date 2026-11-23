@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import { ITask, TaskStatusEnum } from '@gauzy/contracts';
+import { ITask, TaskStatusEnum } from '@irtranscripts/contracts';
 import { TeamsWidgetStateComponent } from '../teams/teams-widget-state.component';
 import { BaseProjectManagementWidgetComponent } from './base-project-management-widget.component';
 
@@ -15,7 +15,7 @@ import { BaseProjectManagementWidgetComponent } from './base-project-management-
  *   widget says how many of the total it is showing rather than pretending the
  *   page is everything);
  * - the "Add Todo" button, because it opens `MyTaskDialogComponent`, which lives
- *   in the application's pages and cannot be imported from `@gauzy/ui-core`. A
+ *   in the application's pages and cannot be imported from `@irtranscripts/ui-core`. A
  *   button that silently did nothing would be worse than no button.
  */
 @Component({

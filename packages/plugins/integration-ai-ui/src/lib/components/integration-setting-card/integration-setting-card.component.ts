@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
-import { IIntegrationSetting } from '@gauzy/contracts';
-import { IntegrationSettingService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
+import { IIntegrationSetting } from '@irtranscripts/contracts';
+import { IntegrationSettingService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
 
 export enum SettingTitlesEnum {
 	API_KEY = 'apiKey',
@@ -34,24 +34,24 @@ export class IntegrationSettingCardComponent extends TranslationBaseComponent {
 	// Define a mapping object for setting names to titles and information
 	public settingTitles: Record<string, string>[] = [
 		{
-			settingTitle: this.getTranslation('INTEGRATIONS.GAUZY_AI_PAGE.API_KEY'),
+			settingTitle: this.getTranslation('INTEGRATIONS.IRTRANSCRIPTS_AI_PAGE.API_KEY'),
 			settingMatching: SettingTitlesEnum.API_KEY,
-			settingInformation: this.getTranslation('INTEGRATIONS.GAUZY_AI_PAGE.TOOLTIP.API_KEY')
+			settingInformation: this.getTranslation('INTEGRATIONS.IRTRANSCRIPTS_AI_PAGE.TOOLTIP.API_KEY')
 		},
 		{
-			settingTitle: this.getTranslation('INTEGRATIONS.GAUZY_AI_PAGE.API_SECRET'),
+			settingTitle: this.getTranslation('INTEGRATIONS.IRTRANSCRIPTS_AI_PAGE.API_SECRET'),
 			settingMatching: SettingTitlesEnum.API_SECRET,
-			settingInformation: this.getTranslation('INTEGRATIONS.GAUZY_AI_PAGE.TOOLTIP.API_SECRET')
+			settingInformation: this.getTranslation('INTEGRATIONS.IRTRANSCRIPTS_AI_PAGE.TOOLTIP.API_SECRET')
 		},
 		{
-			settingTitle: this.getTranslation('INTEGRATIONS.GAUZY_AI_PAGE.OPEN_AI_API_SECRET_KEY'),
+			settingTitle: this.getTranslation('INTEGRATIONS.IRTRANSCRIPTS_AI_PAGE.OPEN_AI_API_SECRET_KEY'),
 			settingMatching: SettingTitlesEnum.OPEN_AI_API_SECRET_KEY,
-			settingInformation: this.getTranslation('INTEGRATIONS.GAUZY_AI_PAGE.TOOLTIP.OPEN_AI_API_SECRET_KEY')
+			settingInformation: this.getTranslation('INTEGRATIONS.IRTRANSCRIPTS_AI_PAGE.TOOLTIP.OPEN_AI_API_SECRET_KEY')
 		},
 		{
-			settingTitle: this.getTranslation('INTEGRATIONS.GAUZY_AI_PAGE.OPEN_AI_ORGANIZATION_ID'),
+			settingTitle: this.getTranslation('INTEGRATIONS.IRTRANSCRIPTS_AI_PAGE.OPEN_AI_ORGANIZATION_ID'),
 			settingMatching: SettingTitlesEnum.OPEN_AI_ORGANIZATION_ID,
-			settingInformation: this.getTranslation('INTEGRATIONS.GAUZY_AI_PAGE.TOOLTIP.OPEN_AI_ORGANIZATION_ID')
+			settingInformation: this.getTranslation('INTEGRATIONS.IRTRANSCRIPTS_AI_PAGE.TOOLTIP.OPEN_AI_ORGANIZATION_ID')
 		}
 	];
 

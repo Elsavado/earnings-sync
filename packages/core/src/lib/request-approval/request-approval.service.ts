@@ -17,8 +17,8 @@ import {
 	ID,
 	RolesEnum,
 	StatusTypesEnum
-} from '@gauzy/contracts';
-import { isBetterSqlite3, isMySQL, isPostgres, isSqlite } from '@gauzy/config';
+} from '@irtranscripts/contracts';
+import { isBetterSqlite3, isMySQL, isPostgres, isSqlite } from '@irtranscripts/config';
 import { prepareSQLQuery as p } from './../database/database.helper';
 import { RequestContext } from '../core/context';
 import {

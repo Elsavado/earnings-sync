@@ -14,7 +14,7 @@ import {
 } from '@nebular/theme';
 import { TranslatePipe } from '@ngx-translate/core';
 import { NgxPermissionsModule } from 'ngx-permissions';
-import { PageExtensionSlotComponent } from '@gauzy/plugin-ui';
+import { PageExtensionSlotComponent } from '@irtranscripts/plugin-ui';
 import {
 	ActivityItemModule,
 	CounterPointComponent,
@@ -24,7 +24,7 @@ import {
 	TimezoneFilterModule,
 	WidgetLayoutModule,
 	WindowLayoutModule
-} from '@gauzy/ui-core/shared';
+} from '@irtranscripts/ui-core/shared';
 import { TimeTrackingComponent } from './components/time-tracking/time-tracking.component';
 import { createTimeTrackingRoutes } from './dashboard-time-track-angular-ui.routes';
 

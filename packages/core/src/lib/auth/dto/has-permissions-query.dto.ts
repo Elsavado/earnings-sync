@@ -1,4 +1,4 @@
-import { PermissionsEnum } from "@gauzy/contracts";
+import { PermissionsEnum } from "@irtranscripts/contracts";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsArray, IsEnum } from "class-validator";
 

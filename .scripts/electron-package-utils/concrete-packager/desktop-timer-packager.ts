@@ -13,7 +13,7 @@ export class DesktopTimerPackager extends BasePackager {
 			env.DESKTOP_TIMER_APP_DESCRIPTION || pkg.build.productName;
 		pkg.build.linux.executableName =
 			env.DESKTOP_TIMER_APP_NAME || pkg.build.linux.executableName;
-		const protocol = env.DESKTOP_TIMER_APP_PROTOCOL || 'gauzy-timer';
+		const protocol = env.DESKTOP_TIMER_APP_PROTOCOL || 'irtranscripts-timer';
 		return this.registerProtocol(pkg, protocol);
 	}
 }

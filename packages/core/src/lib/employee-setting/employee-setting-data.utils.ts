@@ -1,5 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
-import { EmployeeSettingDataOperationEnum, IEmployeeSettingDataOperation } from '@gauzy/contracts';
+import { EmployeeSettingDataOperationEnum, IEmployeeSettingDataOperation } from '@irtranscripts/contracts';
 
 /** The most operations one data patch may carry. */
 export const MAX_EMPLOYEE_SETTING_DATA_OPERATIONS = 100;

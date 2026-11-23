@@ -1,4 +1,4 @@
-jest.mock('@gauzy/core', () => ({ EVER_REDIS_CLIENT: 'EVER_REDIS_CLIENT' }));
+jest.mock('@irtranscripts/core', () => ({ EVER_REDIS_CLIENT: 'EVER_REDIS_CLIENT' }));
 
 import { INBOUND_PROCESSING_CLAIM_MS, InboundReplayGuard, MAX_LOCAL_ENTRIES } from './replay-guard.service';
 

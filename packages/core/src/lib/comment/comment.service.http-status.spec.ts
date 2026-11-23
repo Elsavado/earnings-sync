@@ -1,7 +1,7 @@
 import '../core/entities/internal';
 
 import { BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
-import { PermissionsEnum } from '@gauzy/contracts';
+import { PermissionsEnum } from '@irtranscripts/contracts';
 import { RequestContext } from '../core/context/request-context';
 import { CommentService } from './comment.service';
 

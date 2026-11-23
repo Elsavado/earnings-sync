@@ -3,7 +3,7 @@ import { RelationId } from 'typeorm';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { EntityRepositoryType } from '@mikro-orm/core';
 import { IsBoolean, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
-import { ID, IOrganizationProject, IOrganizationTeam, ITaskStatus, TaskStatusEnum } from '@gauzy/contracts';
+import { ID, IOrganizationProject, IOrganizationTeam, ITaskStatus, TaskStatusEnum } from '@irtranscripts/contracts';
 import { OrganizationProject, OrganizationTeam, TenantOrganizationBaseEntity } from '../../core/entities/internal';
 import {
 	ColumnIndex,

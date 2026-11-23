@@ -1,6 +1,6 @@
-# @gauzy/contracts
+# @irtranscripts/contracts
 
-This library was generated with [Nx](https://nx.dev). It contains the contracts for the Gauzy platform.
+This library was generated with [Nx](https://nx.dev). It contains the contracts for the IRTranscripts platform.
 
 ## Building
 
@@ -19,7 +19,7 @@ After building your library with `yarn nx build contracts`, go to the dist folde
 To install the Contracts Library, simply run the following command in your terminal:
 
 ```bash
-npm install @gauzy/contracts
+npm install @irtranscripts/contracts
 # or
-yarn add @gauzy/contracts
+yarn add @irtranscripts/contracts
 ```

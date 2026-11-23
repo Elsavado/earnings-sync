@@ -7,10 +7,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { NbDialogService } from '@nebular/theme';
 import moment from 'moment';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { EmployeeAppointmentStatus, ID, IEmployee, IEmployeeAppointment } from '@gauzy/contracts';
-import { EmployeeAppointmentService, EmployeesService, ErrorHandlingService } from '@gauzy/ui-core/core';
-import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
-import { AlertModalComponent } from '@gauzy/ui-core/shared';
+import { EmployeeAppointmentStatus, ID, IEmployee, IEmployeeAppointment } from '@irtranscripts/contracts';
+import { EmployeeAppointmentService, EmployeesService, ErrorHandlingService } from '@irtranscripts/ui-core/core';
+import { TranslationBaseComponent } from '@irtranscripts/ui-core/i18n';
+import { AlertModalComponent } from '@irtranscripts/ui-core/shared';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
