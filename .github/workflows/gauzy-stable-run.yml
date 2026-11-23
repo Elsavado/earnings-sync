@@ -25,9 +25,10 @@ jobs:
           NX_DAEMON: "false"
 
       - name: Build workspace packages into dist/packages (the API copy step needs them)
-        run: node node_modules/nx/dist/bin/nx.js run-many -t build -p api gauzy
+        run: node node_modules/nx/dist/bin/nx.js run-many -t build -p api gauzy --parallel=2
         env:
           NX_DAEMON: "false"
+          NODE_OPTIONS: "--max-old-space-size=8192"
 
       - name: Start API and UI (README "yarn start")
         run: |
