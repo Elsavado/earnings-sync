@@ -29,7 +29,7 @@ export interface EverConnectConfig {
 	/** `EVER_CONNECT_CODE`: a connect code used once at start, or `null`. */
 	connectCode: string | null;
 	/** The products this API serves (`EVER_STATS_SERVES`: `irtranscripts`, `teams`). */
-	serves: Array<'irtranscripts' | 'teams'>;
+	serves: Array<'gauzy' | 'teams'>;
 	/** The IRTranscripts release (`IRTRANSCRIPTS_APP_VERSION`, `major.minor.patch`; `0.0.0` for a source build). */
 	version: string;
 	/**
@@ -133,13 +133,13 @@ function parseCode(raw: string | undefined): string | null {
 	return value ? value : null;
 }
 
-function parseServes(raw: string | undefined): Array<'irtranscripts' | 'teams'> {
+function parseServes(raw: string | undefined): Array<'gauzy' | 'teams'> {
 	if (raw === undefined || raw.trim() === '') {
-		return ['irtranscripts'];
+		return ['gauzy'];
 	}
 	const parts = raw.split(',').map((part) => part.trim());
-	const known = parts.every((part) => part === 'irtranscripts' || part === 'teams') && new Set(parts).size === parts.length;
-	return known ? (['irtranscripts', 'teams'] as const).filter((product) => parts.includes(product)) : ['irtranscripts'];
+	const known = parts.every((part) => part === 'gauzy' || part === 'teams') && new Set(parts).size === parts.length;
+	return known ? (['gauzy', 'teams'] as const).filter((product) => parts.includes(product)) : ['gauzy'];
 }
 
 /** The release from `IRTRANSCRIPTS_APP_VERSION` (`v111.47.0`, `v111.47.0-4-gbb20466`): `major.minor.patch` only. */

@@ -320,7 +320,7 @@ suite('Ever Platform connection against the mock platform', () => {
 		]);
 		expect(body).toMatchObject({
 			code: 'EVC-TEST-0000-0001',
-			product: 'irtranscripts',
+			product: 'gauzy',
 			install_source: 'self-hosted',
 			kind: 'self_hosted',
 			return_origins: ['http://localhost:4200']

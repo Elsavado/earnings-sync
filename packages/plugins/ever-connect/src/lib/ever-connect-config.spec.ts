@@ -35,7 +35,7 @@ describe('readEverConnectConfig', () => {
 			feedMode: 'longpoll',
 			deny: [],
 			connectCode: null,
-			serves: ['irtranscripts'],
+			serves: ['gauzy'],
 			version: '0.0.0',
 			returnOrigin: null,
 			returnUrl: null,
@@ -152,8 +152,8 @@ describe('readEverConnectConfig', () => {
 	});
 
 	it('the paired Teams web app: EVER_STATS_SERVES', () => {
-		expect(readEverConnectConfig({ EVER_STATS_SERVES: 'irtranscripts,teams' }).serves).toEqual(['irtranscripts', 'teams']);
-		expect(readEverConnectConfig({ EVER_STATS_SERVES: 'teams,other' }).serves).toEqual(['irtranscripts']);
+		expect(readEverConnectConfig({ EVER_STATS_SERVES: 'irtranscripts,teams' }).serves).toEqual(['gauzy', 'teams']);
+		expect(readEverConnectConfig({ EVER_STATS_SERVES: 'teams,other' }).serves).toEqual(['gauzy']);
 	});
 
 	it('the connect code is kept as given (checked when it is used)', () => {

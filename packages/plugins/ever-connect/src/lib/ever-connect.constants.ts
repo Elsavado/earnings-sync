@@ -22,7 +22,7 @@ export const DEFAULT_PLATFORM_API_URL = 'https://api.ever.co';
 export const MODULE_VERSION = '0.1.0';
 
 /** The product this installation runs, as Ever Platform names it. */
-export const PRODUCT = 'irtranscripts';
+export const PRODUCT = 'gauzy';
 
 /** The id of the only row of `ever_connect_connection`. */
 export const CONNECTION_ROW_ID = 'self';

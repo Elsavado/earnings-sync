@@ -30,7 +30,7 @@ export const scopeDigest = (scope: unknown): string =>
 describe('integration definitions', () => {
 	it('IRTranscripts offers exactly the SDK keys whose products include irtranscripts', () => {
 		const forIRTranscripts = Object.values(INTEGRATIONS)
-			.filter((definition) => definition.products.includes('irtranscripts'))
+			.filter((definition) => definition.products.includes('gauzy'))
 			.map((definition) => definition.key)
 			.sort();
 		expect(IRTRANSCRIPTS_INTEGRATIONS.map((definition) => definition.key).sort()).toEqual(forIRTranscripts);
