@@ -68,10 +68,7 @@ module.exports = {
 	// Note: Angular's build system may handle caching differently, so this may not have full effect
 	cache: isDev
 		? {
-				type: 'filesystem',
-				buildDependencies: {
-					config: [__filename]
-				}
+				type: 'memory'
 		  }
 		: false,
 	optimization: {
