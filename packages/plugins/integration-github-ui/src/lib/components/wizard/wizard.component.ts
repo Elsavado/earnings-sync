@@ -231,7 +231,7 @@ export class GithubWizardComponent implements AfterViewInit, OnInit, OnDestroy {
 
 			// Construct the external URL for GitHub authorization with the query parameters
 			/** Navigate to the target external URL */
-			const url = `https://github.com/apps/${GAUZY_GITHUB_APP_NAME}/installations/new?${queryParams.toString()}`;
+			const url = `https://github.com/apps/${environment.IRTRANSCRIPTS_GITHUB_APP_NAME}/installations/new?${queryParams.toString()}`;
 			console.log('External Github App Installation URL: %s', url);
 
 			/** Navigate to the external URL with query parameters */

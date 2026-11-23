@@ -48,7 +48,7 @@ export async function createIRTranscriptsWindow(
 		const electronPath = require(`${__dirname}/../../../../node_modules/electron`);
 		require('electron-reload')(__dirname, { electron: electronPath });
 
-		launchPath = `http://localhost:${config.GAUZY_UI_DEFAULT_PORT}`;
+		launchPath = `http://localhost:${config.IRTRANSCRIPTS_UI_DEFAULT_PORT}`;
 		await irtranscriptsWindow.loadURL(launchPath);
 	} else {
 		launchPath = await setLaunchPathAndLoad(irtranscriptsWindow, filePath);
