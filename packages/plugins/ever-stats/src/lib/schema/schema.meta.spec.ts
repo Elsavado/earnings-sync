@@ -45,7 +45,7 @@ describe('ever.stats.v1 schema allow-list rules', () => {
 
 	it('fails when one level is opened (control)', () => {
 		const copy = JSON.parse(JSON.stringify(schema));
-		delete copy.$defs.gauzy.counts.properties.integrations_in_use.additionalProperties;
+		delete copy.$defs.irtranscripts.counts.properties.integrations_in_use.additionalProperties;
 		expect(metaViolations(copy)).toEqual(['#/$defs/irtranscripts/counts/properties/integrations_in_use: object not closed']);
 	});
 
