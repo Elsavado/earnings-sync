@@ -8,7 +8,7 @@ import {
 	mountPlaneProxy,
 	MountPlaneProxyResult,
 	readSessionTokenFromCookieHeader
-} from '@ever-irtranscripts/plugin-integration-plane-api';
+} from '@ever-gauzy/plugin-integration-plane-api';
 import { PlaneIntegrationService } from './plane-integration.service';
 import { PLANE_PROXY_UPSTREAM_URL_ENV, resolvePlaneProxyUpstreamUrl } from './plane-proxy-upstream';
 
@@ -26,7 +26,7 @@ const REQ_TENANT_ID = '__planeResolvedTenantId';
  *
  * Intercepts all `/api/plane/*` requests at the HTTP server level,
  * resolves per-tenant configuration from the database, and delegates
- * to the @ever-irtranscripts/plugin-integration-plane-api proxy.
+ * to the @ever-gauzy/plugin-integration-plane-api proxy.
  *
  * Tenant identification strategy (in priority order):
  *   1. X-TENANT-ID header (IRTranscripts internal calls)

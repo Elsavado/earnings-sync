@@ -4,7 +4,7 @@ jest.mock('@irtranscripts/core', () => {
 	const helpers = jest.requireActual('../../../../core/src/lib/auth/purpose-token');
 	return { isAccessTokenPayload: helpers.isAccessTokenPayload, JWT_ALGORITHMS: helpers.JWT_ALGORITHMS };
 });
-jest.mock('@ever-irtranscripts/plugin-integration-plane-api', () => ({
+jest.mock('@ever-gauzy/plugin-integration-plane-api', () => ({
 	mountPlaneProxy: jest.fn(),
 	readSessionTokenFromCookieHeader: jest.fn()
 }));
@@ -12,7 +12,7 @@ jest.mock('./plane-integration.service', () => ({ PlaneIntegrationService: class
 
 import * as http from 'node:http';
 import type { AddressInfo } from 'node:net';
-import { mountPlaneProxy } from '@ever-irtranscripts/plugin-integration-plane-api';
+import { mountPlaneProxy } from '@ever-gauzy/plugin-integration-plane-api';
 import { PlaneProxyService } from './plane-proxy.service';
 import { PLANE_PROXY_UPSTREAM_URL_ENV, resolvePlaneProxyUpstreamUrl } from './plane-proxy-upstream';
 

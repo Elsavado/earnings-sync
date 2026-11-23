@@ -24,5 +24,5 @@ out through the CDN and back in. To get that behaviour back, set
 `PLANE_PROXY_UPSTREAM_URL` to the public URL.
 
 A proxy run on its own, outside IRTranscripts
-(`@ever-irtranscripts/plugin-integration-plane-api`), is not affected: it still
+(`@ever-gauzy/plugin-integration-plane-api`), is not affected: it still
 calls the IRTranscripts API set in its own `IRTRANSCRIPTS_API_BASE_URL`.
