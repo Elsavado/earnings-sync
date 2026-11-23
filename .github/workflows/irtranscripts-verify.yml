@@ -50,6 +50,14 @@ jobs:
           done
           echo "::error::API or UI did not come up"; tail -n 200 /tmp/start.log; exit 1
 
+      - name: Upload start log (runs even if the wait failed)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: start-log-before-wait
+          path: /tmp/start.log
+          if-no-files-found: ignore
+
       - name: Login with the demo super admin
         run: |
           code=$(curl -s -o /tmp/login.json -w '%{http_code}' -H 'Content-Type: application/json' \
