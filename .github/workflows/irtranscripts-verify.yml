@@ -1,0 +1,67 @@
+name: IR Transcripts verify (demo)
+
+on:
+  push:
+    branches: [irtranscripts-verify]
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    env:
+      DEMO_SUPER_ADMIN_EMAIL: admin@irtranscripts.com
+      DEMO_SUPER_ADMIN_PASSWORD: ${{ secrets.IRT_DEMO_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - name: Install Yarn 1.22
+        run: npm i -g yarn@1.22
+
+      - name: Bootstrap
+        run: yarn bootstrap:ci
+        env:
+          NX_DAEMON: "false"
+
+      - name: Build packages, api and web (dist/packages is needed by the API copy step)
+        run: node node_modules/nx/dist/bin/nx.js run-many -t build -p api irtranscripts --parallel=2
+        env:
+          NX_DAEMON: "false"
+          NODE_OPTIONS: "--max-old-space-size=8192"
+
+      - name: Start API and UI
+        env:
+          NODE_OPTIONS: "--max-old-space-size=8192"
+        run: |
+          nohup yarn start > /tmp/start.log 2>&1 &
+
+      - name: Wait for API and UI
+        run: |
+          for i in $(seq 1 120); do
+            api=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/api/ || true)
+            ui=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:4200/ || true)
+            echo "attempt $i api=$api ui=$ui"
+            if [ "$api" != "000" ] && [ "$ui" = "200" ]; then exit 0; fi
+            sleep 30
+          done
+          echo "::error::API or UI did not come up"; tail -n 200 /tmp/start.log; exit 1
+
+      - name: Login with the demo super admin
+        run: |
+          code=$(curl -s -o /tmp/login.json -w '%{http_code}' -H 'Content-Type: application/json' \
+            -d "{\"email\":\"$DEMO_SUPER_ADMIN_EMAIL\",\"password\":\"$DEMO_SUPER_ADMIN_PASSWORD\"}" \
+            http://localhost:3000/api/auth/login)
+          echo "login HTTP $code"
+          test "$code" = "201" -o "$code" = "200"
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: start-log
+          path: /tmp/start.log
+          if-no-files-found: ignore
