@@ -8,7 +8,7 @@ on:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 240
+    timeout-minutes: 120
     env:
       DEMO_SUPER_ADMIN_EMAIL: admin@irtranscripts.com
       DEMO_SUPER_ADMIN_PASSWORD: ${{ secrets.IRT_DEMO_PASSWORD }}
@@ -33,30 +33,27 @@ jobs:
           NX_DAEMON: "false"
           NODE_OPTIONS: "--max-old-space-size=8192"
 
-      - name: Start API and UI
+      - name: Start the app and wait for it (logs go to a file that is printed on every exit)
         env:
           NODE_OPTIONS: "--max-old-space-size=8192"
         run: |
-          nohup yarn start > /tmp/start.log 2>&1 &
-
-      - name: Wait for API and UI
-        run: |
+          mkdir -p "$RUNNER_TEMP/verify"
+          LOG="$RUNNER_TEMP/verify/start.log"
+          # setsid keeps yarn in its own session so it is not tied to this step's shell
+          setsid yarn start > "$LOG" 2>&1 < /dev/null &
+          echo $! > "$RUNNER_TEMP/verify/start.pid"
+          ok=0
           for i in $(seq 1 120); do
             api=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/api/ || true)
             ui=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:4200/ || true)
             echo "attempt $i api=$api ui=$ui"
-            if [ "$api" != "000" ] && [ "$ui" = "200" ]; then exit 0; fi
+            if [ "$api" != "000" ] && [ "$ui" = "200" ]; then ok=1; break; fi
+            if ! kill -0 "$(cat "$RUNNER_TEMP/verify/start.pid")" 2>/dev/null; then echo "yarn start exited early"; break; fi
             sleep 30
           done
-          echo "::error::API or UI did not come up"; tail -n 200 /tmp/start.log; exit 1
-
-      - name: Upload start log (runs even if the wait failed)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: start-log-before-wait
-          path: /tmp/start.log
-          if-no-files-found: ignore
+          echo "===== last 300 lines of start.log ====="
+          tail -n 300 "$LOG" | sed 's/\x1b\[[0-9;]*m//g'
+          test "$ok" = 1
 
       - name: Login with the demo super admin
         run: |
@@ -66,10 +63,10 @@ jobs:
           echo "login HTTP $code"
           test "$code" = "201" -o "$code" = "200"
 
-      - name: Upload logs
+      - name: Upload start log
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: start-log
-          path: /tmp/start.log
+          path: ${{ runner.temp }}/verify/start.log
           if-no-files-found: ignore
