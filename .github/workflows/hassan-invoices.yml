@@ -1,0 +1,47 @@
+name: hassan invoices (shintiru)
+
+# Builds the invoice set and uploads it to shintiru My Drive folder "hassan/Invoices".
+# Sources: Slovak treasury 2025 register (CSV, natural persons anonymised), Hugging Face feyninc
+# invoices-and-receipts, Hugging Face sparrow-invoice-v1, and generated Bill.com-style invoices to reach 4,000.
+on:
+  push:
+    branches: [shintiru-invoices]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-upload:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install pyarrow reportlab
+      - name: Build invoices
+        env:
+          OUT: out
+          TOTAL_DOCS: '4000'
+        run: python invoices/build.py slovak hf sparrow generated | tee build.log
+      - name: Install rclone
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq rclone >/dev/null && rclone version | head -1
+      - name: Write rclone config
+        env:
+          CONF: ${{ secrets.SHINTIRU_RCLONE_CONF }}
+        run: |
+          mkdir -p ~/.config/rclone
+          printf '%s\n' "$CONF" > ~/.config/rclone/rclone.conf
+      - name: Upload to shintiru hassan/Invoices
+        run: |
+          rclone copy out/Invoices "shintiru:hassan/Invoices" --transfers 8 --checkers 16 --tpslimit 8 --stats 60s --log-level INFO
+          rclone size "shintiru:hassan/Invoices" --json | tee size.json
+      - name: Summary
+        run: |
+          echo '## hassan invoices' >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          cat out/invoices_report.json >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
