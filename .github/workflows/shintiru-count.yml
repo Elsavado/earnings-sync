@@ -1,6 +1,8 @@
 name: shintiru count (read-only)
 
 on:
+  push:
+    branches: [shintiru-count]
   workflow_dispatch:
 
 permissions:
