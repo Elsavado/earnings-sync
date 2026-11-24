@@ -1,0 +1,55 @@
+name: shintiru count (read-only)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  count:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Install rclone
+        run: |
+          curl -fsSL https://rclone.org/install.sh | sudo bash >/dev/null 2>&1 || sudo apt-get install -y rclone
+          rclone version | head -1
+      - name: Write rclone config
+        env:
+          CONF: ${{ secrets.SHINTIRU_RCLONE_CONF }}
+        run: |
+          mkdir -p ~/.config/rclone
+          printf '%s\n' "$CONF" > ~/.config/rclone/rclone.conf
+      - name: List shintiru and count by type (read-only, nothing uploaded)
+        run: |
+          rclone lsjson -R --files-only --fast-list --tpslimit 6 shintiru: > files.json
+          python3 - <<'PY' | tee count.txt
+          import json, collections
+          files = json.load(open('files.json'))
+          by_mime = collections.Counter()
+          by_top = collections.Counter()
+          sheet_like = 0
+          for f in files:
+              m = f.get('MimeType', '')
+              path = f.get('Path', '')
+              by_mime[m] += 1
+              top = path.split('/')[0] if '/' in path else '(root)'
+              by_top[top] += 1
+              name = f.get('Name', '').lower()
+              if m == 'application/vnd.google-apps.spreadsheet' or name.endswith(('.xlsx', '.xls', '.xlsm', '.csv', '.tsv', '.ods')):
+                  sheet_like += 1
+          print('TOTAL FILES', len(files))
+          print('SPREADSHEETS (native Sheets + xlsx/xls/xlsm/csv/tsv/ods)', sheet_like)
+          print('NATIVE GOOGLE SHEETS', by_mime.get('application/vnd.google-apps.spreadsheet', 0))
+          print('--- by top-level folder ---')
+          for k, v in by_top.most_common(25):
+              print(f'{v:>9}  {k}')
+          PY
+          cat count.txt >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: shintiru-count
+          path: |
+            count.txt
+          if-no-files-found: warn
