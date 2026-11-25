@@ -1,0 +1,37 @@
+name: altium library 3D models (shintiru)
+
+# Collects the STEP/STP 3D models of github.com/issus/altium-library (public, no licence stated)
+# into shintiru My Drive "hassan/3D Models/Altium Library". Files already on shintiru with the same name and size are skipped.
+on:
+  push:
+    branches: [altium-models]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - name: Fetch the Altium library (models only, shallow)
+        run: |
+          git clone --depth 1 https://github.com/issus/altium-library.git altium
+          cd altium
+          find . -path ./.git -prune -o -type f \( -iname '*.step' -o -iname '*.stp' \) -print | wc -l
+      - name: Install rclone and write config
+        env:
+          CONF: ${{ secrets.SHINTIRU_RCLONE_CONF }}
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq rclone >/dev/null
+          mkdir -p ~/.config/rclone && printf '%s\n' "$CONF" > ~/.config/rclone/rclone.conf
+      - name: Upload STEP and STP models (skip same name and size)
+        run: |
+          rclone copy altium "shintiru:hassan/3D Models/Altium Library" \
+            --include "STEP/**" --include "*.step" --include "*.stp" --include "*.STEP" --include "*.STP" \
+            --size-only --transfers 8 --checkers 16 --tpslimit 8 --stats 120s --log-level INFO
+          rclone size "shintiru:hassan/3D Models/Altium Library" --json | tee size.json
+      - name: Summary
+        run: |
+          echo '## Altium library 3D models' >> "$GITHUB_STEP_SUMMARY"; echo '```' >> "$GITHUB_STEP_SUMMARY"; cat size.json >> "$GITHUB_STEP_SUMMARY"; echo '```' >> "$GITHUB_STEP_SUMMARY"
