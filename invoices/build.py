@@ -57,7 +57,7 @@ def part1_slovak():
     for row in body:
         if len(row) != len(header):
             continue
-        if row[fo] == "1":  # natural person
+        if row[fo].strip().lower() in ("1", "true"):  # natural person
             for col in ("DodavatelNazov", "ObjednavatelNazov", "DodavatelICO", "ObjednavatelICO"):
                 if col in header:
                     i = header.index(col)

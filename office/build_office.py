@@ -41,7 +41,7 @@ def load_real_rows():
     header, body = rows[0], [r for r in rows[1:] if len(r) == len(rows[0])]
     fo = header.index("DodavatelPriznakFO")
     for r in body:
-        if r[fo] == "1":
+        if r[fo].strip().lower() in ("1", "true"):
             for col in ("DodavatelNazov", "ObjednavatelNazov"):
                 r[header.index(col)] = REDACTED
             for col in ("DodavatelICO", "ObjednavatelICO"):
