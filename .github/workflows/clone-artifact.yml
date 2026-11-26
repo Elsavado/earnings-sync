@@ -1,0 +1,37 @@
+name: clone a private repo as an artifact
+
+# Clones one private Elsavado repo with full history using the GitHub CLI, then uploads it as an artifact.
+# The repo name is read from target.txt on the pushed branch.
+on:
+  push:
+    branches: [clone-artifact]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  clone:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: target.txt
+          sparse-checkout-cone-mode: false
+      - name: Clone with full history (GitHub CLI)
+        env:
+          GH_TOKEN: ${{ secrets.REPO_READ_TOKEN }}
+        run: |
+          R=$(tr -d '[:space:]' < target.txt)
+          echo "cloning $R"
+          gh repo clone "Elsavado/$R" "/tmp/$R" -- --quiet
+          git -C "/tmp/$R" rev-list --count HEAD
+          tar -C /tmp -czf "/tmp/${R}.tar.gz" "$R"
+          ls -la "/tmp/${R}.tar.gz"
+          mkdir -p artifact && mv "/tmp/${R}.tar.gz" artifact/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: repo-clone
+          path: artifact/
+          retention-days: 3
